@@ -11,8 +11,8 @@
 ## Reading: “The Layered Grammar of Graphics”, http://vita.had.co.nz/papers/layered-grammar.pdf 
 
 ## Prerequisites:
-install.packages("tidyverse") # once
-library(tidyverse)            # always
+# install.packages("tidyverse")  # once
+library(tidyverse)               # always
 
 ## Note: Use "::", e.g., 
 ## package::function() 
@@ -118,8 +118,138 @@ ggplot(data = mpg) +
 
 ## 3.3.1 Exercises: ------
 
+# 1. What’s gone wrong with this code? Why are the points not blue?
+
+ggplot(data = mpg) + 
+  geom_point(mapping = aes(x = displ, y = hwy, color = "blue"))
+
+# the color = "blue" argument needs to be outside of aes():
+
+ggplot(data = mpg) + 
+  geom_point(mapping = aes(x = displ, y = hwy), color = "blue")
+
+# 2. Which variables in mpg are categorical? Which variables are continuous? 
+#   (Hint: type ?mpg to read the documentation for the dataset). 
+#   How can you see this information when you run mpg?
+
+?mpg
+mpg
+
+# 3. Map a continuous variable to color, size, and shape. 
+# How do these aesthetics behave differently for categorical vs. continuous variables?
+
+ggplot(data = mpg) + 
+  geom_point(mapping = aes(x = displ, y = hwy, color = displ, size = hwy))
+
+ggplot(data = mpg) + 
+  geom_point(mapping = aes(x = displ, y = hwy, color = displ, shape = hwy)) 
+# => yields Error: A continuous variable can not be mapped to shape
 
 
+# 4. What happens if you map the same variable to multiple aesthetics?
+
+ggplot(data = mpg) + 
+  geom_point(mapping = aes(x = displ, y = hwy, color = displ, size = displ))
+
+
+# 5. What does the stroke aesthetic do? What shapes does it work with? 
+#    (Hint: use ?geom_point)
+
+ggplot(data = mpg) + 
+  geom_point(mapping = aes(x = displ, y = hwy), shape = 21, color = "black", fill = "steelblue4", alpha = 1/3, size = 2, stroke = 2) + 
+  theme_light()
+
+ggplot(data = mpg) + 
+  geom_point(mapping = aes(x = displ, y = hwy), shape = 16, color = "black", fill = "steelblue4", alpha = 1/3, size = 2, stroke = 2) + 
+  theme_light()
+
+
+# 6. What happens if you map an aesthetic to something other than a variable name, 
+#    like aes(colour = displ < 5)?
+
+ggplot(data = mpg) + 
+  geom_point(mapping = aes(x = displ, y = hwy, color = (displ < 5), shape = (displ > 3)), size = 3) + 
+  theme_light()
+
+# Something interesting happens: Classification into 2 truth values.
+
+
+## 3.4 Common problems: ------
+
+# One common problem when creating ggplot2 graphics is to put the + in the wrong place: 
+# it has to come at the end of the line, not the start. 
+
+ggplot(data = mpg)   # won't work:
++ geom_point(mapping = aes(x = displ, y = hwy))
+
+## Hints:
+# - read error messages
+# - try out and play with variants
+# - consult help (via ?function) and manuals
+# - Google error messages 
+
+
+## 3.5 Facets: ------ 
+
+## Facets are 
+## := subplots that display different subsets of the data.
+## - particularly useful for categorical variables
+## - a main reason for using ggplot 
+
+## (1) facet_wrap() wraps a plot into facets by a single variable:
+
+ggplot(data = mpg) + 
+  geom_point(mapping = aes(x = displ, y = hwy)) + 
+  facet_wrap(~ class, nrow = 2)
+
+ggplot(data = mpg) + 
+  geom_point(mapping = aes(x = displ, y = hwy)) + 
+  facet_wrap(~ manufacturer, nrow = 2)
+
+## (2) facet_grid() facets a plot by a combination of 2 variables:
+
+ggplot(data = mpg) + 
+  geom_point(mapping = aes(x = displ, y = hwy)) + 
+  facet_grid(drv ~ cyl) + 
+  theme_light()
+
+## Remove facet in 1 dimension by using "." instead of variable name:
+
+ggplot(data = mpg) + 
+  geom_point(mapping = aes(x = displ, y = hwy)) + 
+  facet_grid(. ~ cyl) + 
+  theme_light()
+
+ggplot(data = mpg) + 
+  geom_point(mapping = aes(x = displ, y = hwy)) + 
+  facet_grid(drv ~ .) + 
+  theme_light()
+
+## What does the following yield? 
+
+ggplot(data = mpg) + 
+  geom_point(mapping = aes(x = displ, y = hwy)) + 
+  # facet_grid(. ~ .) + 
+  theme_light()
+
+
+## 3.5.1 Exercises: ------
+
+# 1. What happens if you facet on a continuous variable?
+
+ggplot(data = mpg) + 
+  geom_point(mapping = aes(x = displ, y = hwy)) + 
+  facet_wrap(~ cty, nrow = 2)
+
+# => interpreted as categorical variable (creating as many facets als levels)
+# Hint: Use Boolean expression to create groups and corresponding binary facets: 
+
+ggplot(data = mpg) + 
+  geom_point(mapping = aes(x = displ, y = hwy, color = (cty > 18))) + 
+  facet_grid(. ~ (cty > 18))
+  
+  
+  
 ## +++ here now +++
 
 
