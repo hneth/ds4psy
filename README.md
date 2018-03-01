@@ -1,12 +1,15 @@
 # ds4psy
 
-**Data science for psychologists**
+#### Data science for psychologists
+
+A course teaching the principles and basic methods of data science to students of psychology and social sciences.
 
 ## Course Coordinates
 
-* [Hansjörg Neth](http://neth.de/), <h.neth@uni.kn>, office D507, [SPDS](https://www.spds.uni-konstanz.de/), [University of Konstanz](https://www.uni-konstanz.de/)
-* Mondays, 13:30--15:00, C511, Summer 2018 (from 2018.04.16 to 2018.07.16)
-* Links at [ZeUS](https://zeus.uni-konstanz.de:443/hioserver/pages/startFlow.xhtml?_flowId=showEvent-flow&unitId=5101&termYear=2018&termTypeValueId=1&navigationPosition=hisinoneLehrorganisation,examEventOverviewOwn) and [Ilias](https://ilias.uni-konstanz.de/ilias/goto_ilias_uni_crs_758039.html)
+* Taught at the [University of Konstanz](https://www.uni-konstanz.de/) by [Hansjörg Neth](http://neth.de/) (<h.neth@uni.kn>,  [SPDS](https://www.spds.uni-konstanz.de/), office D507).
+* Spring/summer 2018: Mondays, 13:30--15:00, C511 (from 2018.04.16 to 2018.07.16) 
+* Links to [ZeUS](https://zeus.uni-konstanz.de:443/hioserver/pages/startFlow.xhtml?_flowId=showEvent-flow&unitId=5101&termYear=2018&termTypeValueId=1&navigationPosition=hisinoneLehrorganisation,examEventOverviewOwn) and [Ilias](https://ilias.uni-konstanz.de/ilias/goto_ilias_uni_crs_758039.html)
+
 
 ## Course Description
 
