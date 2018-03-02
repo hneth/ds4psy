@@ -9,6 +9,9 @@
 
 ## Goal: Visualize data using ggplot2
 ## Reading: “The Layered Grammar of Graphics”, http://vita.had.co.nz/papers/layered-grammar.pdf 
+## See ggplot cheatsheet at https://www.rstudio.com/resources/cheatsheets/ : 
+##     https://github.com/rstudio/cheatsheets/raw/master/data-visualization-2.1.pdf 
+
 
 ## Prerequisites:
 # install.packages("tidyverse")  # once
@@ -248,10 +251,266 @@ ggplot(data = mpg) +
   geom_point(mapping = aes(x = displ, y = hwy, color = (cty > 18))) + 
   facet_grid(. ~ (cty > 18))
   
+
+# 2a. What do the empty cells in plot with facet_grid(drv ~ cyl) mean? 
+
+ggplot(data = mpg) + 
+  geom_point(mapping = aes(x = displ, y = hwy)) + 
+  facet_grid(drv ~ cyl) + 
+  theme_light()
+
+# 2b. How do they relate to this plot?
   
-  
+ggplot(data = mpg) + 
+  geom_point(mapping = aes(x = drv, y = cyl))  
+
+
+# 3. What plots does the following code make? What does . do?
+
+ggplot(data = mpg) + 
+  geom_point(mapping = aes(x = displ, y = hwy)) +
+  facet_grid(drv ~ .)
+
+ggplot(data = mpg) + 
+  geom_point(mapping = aes(x = displ, y = hwy)) +
+  facet_grid(. ~ cyl)
+
+
+# 4. Take the first faceted plot in this section:
+
+ggplot(data = mpg) + 
+  geom_point(mapping = aes(x = displ, y = hwy)) + 
+  facet_wrap(~ class, nrow = 2)
+
+# - What are the advantages to using faceting instead of the colour aesthetic? 
+
+ggplot(data = mpg) + 
+  geom_point(mapping = aes(x = displ, y = hwy, color = class))
+
+# - What are the disadvantages? 
+# - How might the balance change if you had a larger dataset?
+
+# 5. Read ?facet_wrap.
+
+?facet_wrap
+
+# - What does nrow do? What does ncol do? 
+# - What other options control the layout of the individual panels? 
+# - Why doesn’t facet_grid() have nrow and ncol argument?
+
+# 6. When using facet_grid() you should usually put the variable 
+#    with more unique levels in the columns. Why?
+
+ggplot(data = mpg) + 
+  geom_point(mapping = aes(x = displ, y = hwy)) + 
+  facet_grid(drv ~ cyl) +   # (3 rows ~ 4 cols)
+  theme_light()
+
+ggplot(data = mpg) + 
+  geom_point(mapping = aes(x = displ, y = hwy)) + 
+  facet_grid(cyl ~ drv) +   # (4 rows ~ 3 cols)
+  theme_light()
+
+
+
+## 3.6 Geometric objects: ------
+
+## Same plot with different geoms:
+
+# (1) Scatterplots using point geom:
+ggplot(data = mpg) + 
+  geom_point(mapping = aes(x = displ, y = hwy))
+
+# (2) Fitted line plot using smooth geom:
+ggplot(data = mpg) + 
+  geom_smooth(mapping = aes(x = displ, y = hwy))
+
+# (3) Combining both:
+ggplot(data = mpg) + 
+  geom_smooth(mapping = aes(x = displ, y = hwy)) + 
+  geom_point(mapping = aes(x = displ, y = hwy))   
+
+# Note: Order determines which geoms are plotted above/below which others.
+
+## Grouping variable levels with group vs. aesthetics: ------
+
+## Grouping by group: 
+ggplot(data = mpg) + 
+  geom_smooth(mapping = aes(x = displ, y = hwy, group = drv)) # => 3 lines, but no corresponding legend.
+
+# Grouping smooth lines (by linetype and color):
+ggplot(data = mpg) + 
+  geom_smooth(mapping = aes(x = displ, y = hwy, linetype = drv, color = drv)) # => 3 more distinct lines + legend.
+
+# Combining multiple geoms:
+ggplot(data = mpg) + 
+  geom_smooth(mapping = aes(x = displ, y = hwy, linetype = drv, color = drv)) + 
+  geom_point(mapping = aes(x = displ, y = hwy, linetype = drv, color = drv))
+
+
+## Geoms: ------
+
+# - ggplot2 provides over 30 geoms, and extension packages provide even more 
+#   (see https://www.ggplot2-exts.org for a sampling). 
+# - The best way to get a comprehensive overview is the ggplot2 cheatsheet, 
+#   which you can find at http://rstudio.com/cheatsheets. 
+# - To learn more about any single geom, use help: 
+
+?geom_smooth
+
+?geom_path
+
+# Check out example: 
+c <- ggplot(economics, aes(x = date, y = pop))
+c + geom_line(arrow = arrow())
+c + geom_line(
+  arrow = arrow(angle = 15, ends = "both", type = "closed")
+  )
+
+
+## Grouping with group vs. aesthetics: ------
+
+# Many geoms, like geom_smooth(), use a single geometric object to display multiple rows of data. 
+# For these geoms, you can set the group aesthetic to a categorical variable to draw multiple objects. 
+# ggplot2 will draw a separate object for each unique value of the grouping variable: 
+
+ggplot(data = mpg) +
+  geom_smooth(mapping = aes(x = displ, y = hwy, group = drv))
+
+# In practice, ggplot2 will automatically group the data for these geoms 
+# whenever you map an aesthetic to a discrete variable (as in the linetype example). 
+# It is convenient to rely on this feature because the group aesthetic by itself 
+# does not add a legend or distinguishing features to the geoms: 
+
+ggplot(data = mpg) +
+  geom_smooth(mapping = aes(x = displ, y = hwy, color = drv), show.legend = FALSE)
+
+## Note: Setting `show.legend = FALSE` creates (almost) the same plot as above (with group = drv).
+
+
+## Multiple geoms in 1 plot: Local vs. global mappings ------
+
+## To display multiple geoms in the same plot, add multiple geom functions to ggplot():
+
+ggplot(data = mpg) + 
+  geom_point(mapping = aes(x = displ, y = hwy)) +
+  geom_smooth(mapping = aes(x = displ, y = hwy))
+
+## This, however, introduces some duplication in our code. 
+## Imagine if you wanted to change the y-axis to display cty instead of hwy. 
+## You’d need to change the variable in two places, and you might forget to update one. 
+## You can avoid this type of repetition by passing a set of mappings to ggplot(). 
+## ggplot2 will treat these mappings as global mappings that apply to each geom in the graph. 
+## In other words, this code will produce the same plot as the previous code:
+
+ggplot(data = mpg, mapping = aes(x = displ, y = hwy)) + 
+  geom_point() +
+  geom_smooth()
+
+## If you place mappings in a geom function, ggplot2 will treat them as local mappings for the layer. 
+## It will use these mappings to extend or overwrite the global mappings for that layer only. 
+## This makes it possible to display different aesthetics in different layers: 
+
+ggplot(data = mpg, mapping = aes(x = displ, y = hwy)) + 
+  geom_point(mapping = aes(color = class)) + 
+  geom_smooth()
+
+
+## You can use the same idea to specify different data for each layer. 
+## Here, our smooth line displays just a subset of the mpg dataset, the subcompact cars. 
+## The local data argument in geom_smooth() overrides the global data argument in ggplot() 
+## for that layer only:
+
+ggplot(data = mpg, mapping = aes(x = displ, y = hwy)) + 
+  geom_point(mapping = aes(color = class)) + 
+  geom_smooth(data = filter(mpg, class == "subcompact"), se = FALSE) # + 
+  # geom_smooth(data = filter(mpg, class == "suv"), se = FALSE, color = "pink")
+
+
+## 3.6.1 Exercises: ------
+
+## 1. What geom would you use to draw a line chart? 
+##    A boxplot? A histogram? An area chart?
+
+?geom_path # redirected from ?geom_line
+?geom_boxplot
+?geom_histogram # see also geom_freqpoly
+?geom_area
+
+## Try out some plots:
+
+ggplot(data = mpg, mapping = aes(x = class, y = hwy)) + 
+  geom_boxplot(mapping = aes(color = class))
+
+ggplot(data = mpg) + 
+  geom_histogram(aes(x = cty))
+
+ggplot(data = mpg) + 
+  geom_freqpoly(aes(x = cty))
+
+ggplot(data = mpg) + 
+  geom_area(aes(x = class, y = hwy))
+
+## Try example of ?geom_area: 
+
+# Generate data
+huron <- data.frame(year = 1875:1972, level = as.vector(LakeHuron))
+h <- ggplot(huron, aes(year))
+
+h + geom_ribbon(aes(ymin = 0, ymax = level))
+h + geom_area(aes(y = level))
+
+# Add aesthetic mappings
+h +
+  geom_ribbon(aes(ymin = level - 1, ymax = level + 1), fill = "grey70") +
+  geom_line(aes(y = level))
+
+
+## 2. Run this code in your head and predict what the output will look like. 
+##    Then, run the code in R and check your predictions: 
+
+ggplot(data = mpg, mapping = aes(x = displ, y = hwy, color = drv)) + 
+  geom_point() + 
+  geom_smooth(se = FALSE)
+
+## 3. What does show.legend = FALSE do? What happens if you remove it?
+##    Why do you think I used it earlier in the chapter?
+
 ## +++ here now +++
 
+
+## 3.7 Statistical transformations: ------ 
+
+## 3.8 Position adjustments: ------ 
+
+## 3.9 Coordinate systems: ------ 
+
+## 3.10 The layered grammar of graphics: ------ 
+
+
+
+
+## Resources on ggplot: ------
+
+## Books: 
+
+# 1. ggplot2 book by Hadley Wickham:  
+#    ggplot2: Elegant Graphics for Data Analysis (Use R!) 2nd ed. 2016 Edition 
+#    https://amzn.com/331924275X. 
+
+# 2. R Graphics Cookbook by Winston Chang: 
+#    Parts are available at http://www.cookbook-r.com/Graphs/ 
+
+# 3. Graphical Data Analysis with R, by Antony Unwin
+#    https://www.amazon.com/dp/1498715230/ref=cm_sw_su_dp 
+
+
+## Others:
+
+# - See ggplot2 cheatsheet at https://www.rstudio.com/resources/cheatsheets/
+
+# - ggplot2 extensions: https://www.ggplot2-exts.org
+#   Notable extenstions include: cowplot, ggmosaic. 
 
 
 ## ------
