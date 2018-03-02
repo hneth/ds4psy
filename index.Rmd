@@ -1,7 +1,7 @@
 ---
 title: "Data Science for Psychologists (ds4psy)"
 author: "Hansjörg Neth, SPDS, uni.kn"
-date: "2018 02 28"
+date: "2018 03 02"
 output:
   rmdformats::html_clean:
     highlight: kate
@@ -44,7 +44,7 @@ opts_knit$set(width=75)
 
 Students of psychology and other social sciences are trained to analyze data. But the data they learn to work with (e.g., in courses on statistics and empirical research methods) is typically provided to them and structured in a (rectangular or "tidy") format that presupposes many steps of data processing regarding the aggregation and spatial layout of variables.  When beginning to collect their own data, students inevitably struggle with these pre-processing steps which --- even for experienced data scientists --- tend to require more time and effort than choosing and conducting statistical tests. 
 
-This course develops the foundations of data analysis that allow students to collect data from real-world sources and transform and shape such data to answer scientific and practical questions. Although there are many good introductions to data science (e.g., [Grolemund & Wickham, 2016](http://r4ds.had.co.nz/); Zumel & Mount, 2014) they typically do not take into account the special needs (and often anxieties and reservations) of psychology students. As social scientists are not computer scientists, we introduce new concepts and commands without assuming a mathematical or computational background. Adopting a task-oriented perspective, we begin with a specific problem and then solve it with some combination of data collection, manipulation, modeling, and visualization.
+This course develops the foundations of data analysis that allow students to collect data from real-world sources and transform and shape such data to answer scientific and practical questions. Although there are many good introductions to data science (e.g., [Grolemund & Wickham, 2016](http://r4ds.had.co.nz/); Zumel & Mount, 2014) they typically do not take into account the special needs -- and often anxieties and reservations -- of psychology students. As social scientists are not computer scientists, we introduce new concepts and commands without assuming a mathematical or computational background. Adopting a task-oriented perspective, we begin with a specific problem and then solve it with some combination of data collection, manipulation, modeling, and visualization.
 
 ## Goals
 
@@ -57,6 +57,27 @@ This course assumes some basic familiarity with statistics and the [R](http://ww
 ## Assessment
 
 Weekly exercises, mid-term test, and/or final project (which may be thesis-related).
+
+
+## Miscellaneous Hints
+
+### How to succeed in this course
+
+The recipe for succeeding in this course is very similar to succeeding in life in general. 
+To become proficient in R, you primarily need two things: curiosity and routine.
+
+1. Curiosity implies motivation, stamina, and fun: 
+You want to achieve something (e.g., make a graph) and willing to find out how this can be done, and overcome various obstacles that may appear along the way. Curiosity will allow you to enjoy the efforts invested, rather than removing them. 
+
+2. Routine implies habits, discipline, and lots of practice (i.e., time). Crucially, habitual use of R implies that you develop many organizational skills (e.g., how to name objects, format code, and structure files) that are non-trivial. 
+
+
+### Warning 
+
+Beware of side effects: Becoming a useR will profoundly transform your thinking --- not just about code, but about the data and problems you are analyzing or visualizing.
+
+Programming (in R or any other language) can be enjoyable, but also has addictive potential. Make sure to take regular breaks and also engage in other activities!
+
 
 
 # References
