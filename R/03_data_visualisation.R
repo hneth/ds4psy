@@ -476,10 +476,157 @@ ggplot(data = mpg, mapping = aes(x = displ, y = hwy, color = drv)) +
 ## 3. What does show.legend = FALSE do? What happens if you remove it?
 ##    Why do you think I used it earlier in the chapter?
 
+## `show.legend = FALSE` hides/removes legend. 
+## Removing the legend creates (almost) the same plot as before (with group = drv).
+## Removing the command automatically adds a legend. 
+
+## 4. What does the se argument to geom_smooth() do?
+
+ggplot(data = mpg, mapping = aes(x = displ, y = hwy, color = drv)) + 
+  geom_point() + 
+  geom_smooth(se = TRUE)
+
+## 5. Will these two graphs look different? Why/why not?
+## They should look the same, as the 1st is an 
+## abbreviated/generalized version of the 2nd. 
+
+ggplot(data = mpg, mapping = aes(x = displ, y = hwy)) + 
+  geom_point() + 
+  geom_smooth()
+
+ggplot() + 
+  geom_point(data = mpg, mapping = aes(x = displ, y = hwy)) + 
+  geom_smooth(data = mpg, mapping = aes(x = displ, y = hwy))
+
+## 6. Recreate the R code necessary to generate the following graphs.
+
+ggplot(data = mpg, mapping = aes(x = displ, y = hwy)) +
+  geom_point() + 
+  geom_smooth(se = FALSE) 
+
+ggplot(data = mpg, mapping = aes(x = displ, y = hwy)) +
+  geom_point() + 
+  geom_smooth(mapping = aes(group = drv), se = FALSE) 
+
+ggplot(data = mpg, mapping = aes(x = displ, y = hwy, color = drv)) +
+  geom_point() + 
+  geom_smooth(mapping = aes(group = drv), se = FALSE) 
+
+ggplot(data = mpg) +
+  geom_point(mapping = aes(x = displ, y = hwy, color = drv)) + 
+  geom_smooth(mapping = aes(x = displ, y = hwy), se = FALSE) 
+
+ggplot(data = mpg) +
+  geom_point(mapping = aes(x = displ, y = hwy, color = drv)) + 
+  geom_smooth(mapping = aes(x = displ, y = hwy, linetype = drv), se = FALSE) 
+
+ggplot(data = mpg) +
+  geom_point(mapping = aes(x = displ, y = hwy, fill = drv), shape = 21, size = 3, color = "white", stroke = 1.5)
+
+## 3.7 Statistical transformations: ------ 
+
+## The diamonds data set: 
+head(diamonds)
+dim(diamonds)
+?diamonds 
+
+## Bar graph: 
+ggplot(data = diamonds) + 
+  geom_bar(mapping = aes(x = cut))
+
+## Note: count variable is being calculated.
+
+## The algorithm used to calculate new values for a graph 
+## is called a stat, short for statistical transformation.
+
+## You can learn which stat a geom uses by inspecting the default value 
+## for the stat argument. For example, ?geom_bar shows that the default 
+## value for stat is “count”, which means that geom_bar() uses stat_count(). 
+## stat_count() is documented on the same page as geom_bar(), and 
+## if you scroll down you can find a section called “Computed variables”. 
+## That describes how it computes two new variables: count and prop.
+
+?geom_bar
+
+## You can generally use geoms and stats interchangeably. 
+## For example, you can recreate the previous plot using 
+## stat_count() instead of geom_bar():
+
+ggplot(data = diamonds) + 
+  stat_count(mapping = aes(x = cut))
+
+## This works because every geom has a default stat; 
+## and every stat has a default geom. 
+## This means that you can typically use geoms without worrying about 
+## the underlying statistical transformation. 
+
+## There are three reasons you might need to use a stat explicitly:
+  
+## 1. You might want to override the default stat. 
+##    In the code below, I change the stat of geom_bar() from count 
+##    (the default) to identity. This lets me map the height of the 
+##    bars to the raw values of a y variable.
+
+demo <- tribble(
+  ~cut,         ~freq,
+  "Fair",       1610,
+  "Good",       4906,
+  "Very Good",  12082,
+  "Premium",    13791,
+  "Ideal",      21551
+)
+
+ggplot(data = demo) +
+  geom_bar(mapping = aes(x = cut, y = freq), stat = "identity")
+
+## 2. You might want to override the default mapping from 
+##    transformed variables to aesthetics. 
+## For example, you might want to display a bar chart of proportion, 
+## rather than count:
+
+ggplot(data = diamonds) + 
+  geom_bar(mapping = aes(x = cut, y = ..prop.., group = 1))
+
+## 3. You might want to draw greater attention to the statistical 
+## transformation in your code. 
+## For example, you might use stat_summary(), which summarises 
+## the y values for each unique x value, to draw attention to the 
+## summary that you’re computing:
+
+ggplot(data = diamonds) + 
+  stat_summary(
+    mapping = aes(x = cut, y = depth),
+    fun.ymin = min,
+    fun.ymax = max,
+    fun.y = median
+  )
+
+## ggplot2 provides over 20 stats for you to use. 
+## Each stat is a function, so you can get help in the usual way, 
+## (e.g., ?stat_bin). 
+## To see a complete list of stats, try the ggplot2 cheatsheet.
+
+## 3.7.1 Exercises
+
+## 1. What is the default geom associated with stat_summary()? 
+##    How could you rewrite the previous plot to use that geom function 
+##    instead of the stat function?
+  
+?stat_summary # => geom = "pointrange"
+
+ggplot(data = diamonds) + 
+  geom_pointrange(mapping = aes(x = cut, y = depth, ymin = min, ymax = max)
+  )
+
+
+## 2. What does geom_col() do? How is it different to geom_bar()?
+## 3. Most geoms and stats come in pairs that are almost always used in concert. Read through the documentation and make a list of all the pairs. What do they have in common?
+## 4. What variables does stat_smooth() compute? What parameters control its behaviour?
+
+
 ## +++ here now +++
 
 
-## 3.7 Statistical transformations: ------ 
 
 ## 3.8 Position adjustments: ------ 
 
