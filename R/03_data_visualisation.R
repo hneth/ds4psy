@@ -615,18 +615,65 @@ ggplot(data = diamonds) +
 ?stat_summary # => geom = "pointrange"
 
 ggplot(data = diamonds) + 
-  geom_pointrange(mapping = aes(x = cut, y = depth, ymin = min, ymax = max)
-  )
+    geom_pointrange(mapping = aes(x = cut, y = depth, ymin = depth, ymax = depth))
+## ???
 
 
 ## 2. What does geom_col() do? How is it different to geom_bar()?
-## 3. Most geoms and stats come in pairs that are almost always used in concert. Read through the documentation and make a list of all the pairs. What do they have in common?
+
+?geom_col
+
+## From help: 
+# There are two types of bar charts: 
+# 1. geom_bar makes the height of the bar proportional to the number of cases in each group 
+#    (or if the weight aethetic is supplied, the sum of the weights). 
+# 2. If you want the heights of the bars to represent values in the data, use 
+#    geom_col instead. 
+# 
+# Difference: 
+# - geom_bar uses stat_count by default: it counts the number of cases at each x position. 
+# - geom_col uses stat_identity: it leaves the data as is.
+
+## Example using demo (defined above):
+## demo
+
+ggplot(data = demo) +
+  geom_col(mapping = aes(x = cut, y = freq))
+
+## 3. Most geoms and stats come in pairs that are almost always used in concert. 
+##    Read through the documentation and make a list of all the pairs. What do they have in common?
+
+## ... [Check some examples.]
+
+
 ## 4. What variables does stat_smooth() compute? What parameters control its behaviour?
 
+?stat_smooth
+
+## Computed variables: 
+# y    ... predicted value
+# ymin ... lower pointwise confidence interval around the mean
+# ymax ... upper pointwise confidence interval around the mean
+# se   ... standard error 
+
+# Aesthetics
+
+# geom_smooth understands the following aesthetics (required aesthetics are marked with *):
+# x*
+# y*
+# alpha
+# colour
+# fill
+# group
+# linetype
+# size
+# weight
+
+ggplot(data = diamonds) +
+  geom_point(mapping = aes(x = carat, y = price)) + 
+  geom_smooth(mapping = aes(x = carat, y = price))
 
 ## +++ here now +++
-
-
 
 ## 3.8 Position adjustments: ------ 
 
