@@ -673,14 +673,157 @@ ggplot(data = diamonds) +
   geom_point(mapping = aes(x = carat, y = price)) + 
   geom_smooth(mapping = aes(x = carat, y = price))
 
-## +++ here now +++
 
 ## 3.8 Position adjustments: ------ 
 
+## There’s one more piece of magic associated with bar charts. 
+## You can colour a bar chart using either the colour aesthetic, 
+## or, more usefully, fill:
+
+ggplot(data = diamonds) + 
+  geom_bar(mapping = aes(x = cut, colour = cut))
+
+ggplot(data = diamonds) + 
+  geom_bar(mapping = aes(x = cut, fill = cut))
+
+## Note what happens if you map the fill aesthetic to another variable, 
+## like clarity: the bars are automatically stacked. 
+## Each colored rectangle represents a combination of cut and clarity: 
+
+ggplot(data = diamonds) + 
+  geom_bar(mapping = aes(x = cut, fill = clarity))
+
+## The stacking is performed automatically by the position adjustment 
+## specified by the position argument. If you don’t want a stacked bar chart, 
+## you can use one of three other options: "identity", "dodge" or "fill".
+
+## 1. position = "identity" will place each object exactly where it falls 
+## in the context of the graph. This is not very useful for bars, because 
+## it overlaps them. To see that overlapping we either need to make the bars 
+## slightly transparent by setting alpha to a small value, 
+## or completely transparent by setting fill = NA.
+
+ggplot(data = diamonds, mapping = aes(x = cut, fill = clarity)) + 
+  geom_bar(alpha = 1/5, position = "identity")
+
+ggplot(data = diamonds, mapping = aes(x = cut, colour = clarity)) + 
+  geom_bar(fill = NA, position = "identity")
+
+## The identity position adjustment is more useful for 2d geoms, 
+## like points, where it is the default. 
+
+## 2. position = "dodge" places overlapping objects directly 
+## beside one another. This makes it easier to compare individual values: 
+
+ggplot(data = diamonds) + 
+  geom_bar(mapping = aes(x = cut, fill = clarity), position = "dodge")
+
+## There’s one other type of adjustment that’s not useful for bar charts, 
+## but it can be very useful for scatterplots. Recall our first scatterplot. 
+## Did you notice that the plot displays only 126 points, even though there 
+## are 234 observations in the dataset?
+
+ggplot(data = mpg) + 
+  geom_point(mapping = aes(x = displ, y = hwy), position = "identity")
+
+## The values of hwy and displ are rounded so the points appear on a grid 
+## and many points overlap each other. This problem is known as overplotting. 
+## This arrangement makes it hard to see where the mass of the data is. 
+## Are the data points spread equally throughout the graph, or is there 
+## one special combination of hwy and displ that contains 109 values?
+
+## You can avoid this gridding by setting the position adjustment to “jitter”. 
+## position = "jitter" adds a small amount of random noise to each point. 
+## This spreads the points out because no two points are likely to receive 
+## the same amount of random noise: 
+
+ggplot(data = mpg) + 
+  geom_point(mapping = aes(x = displ, y = hwy), position = "jitter")
+
+## Adding randomness seems like a strange way to improve your plot, 
+## but while it makes your graph less accurate at small scales, it makes 
+## your graph more revealing at large scales. 
+
+## Because this is such a useful operation, ggplot2 comes with a 
+## shorthand for geom_point(position = "jitter"): geom_jitter().
+
+ggplot(data = mpg) + 
+  geom_jitter(mapping = aes(x = displ, y = hwy))
+
+## To learn more about a position adjustment, look up the help page 
+## associated with each adjustment: 
+
+?position_dodge
+?position_fill 
+?position_identity 
+?position_jitter 
+?position_stack
+
+## 3.8.1 Exercises
+
+# 1. What is the problem with this plot? How could you improve it?
+
+ggplot(data = mpg, mapping = aes(x = cty, y = hwy)) + 
+  geom_point()
+
+## Problem: overplotting.
+## Solution 1) jittering: 
+
+ggplot(data = mpg, mapping = aes(x = cty, y = hwy)) + 
+  geom_point(position = "jitter")
+
+## Solution 2) transparency:
+
+ggplot(data = mpg, mapping = aes(x = cty, y = hwy)) + 
+  geom_point(color = "steelblue4", alpha = 2/5, size = 4) + 
+  theme_light()
+
+## Combining 1) and 2):
+
+ggplot(data = mpg, mapping = aes(x = cty, y = hwy)) + 
+  geom_point(position = "jitter", color = "steelblue4", alpha = 2/5, size = 2) + 
+  theme_light()
+  
+## 2. What parameters to geom_jitter() control the amount of jittering?
+
+?geom_jitter
+
+ggplot(data = mpg, mapping = aes(x = cty, y = hwy)) + 
+  geom_jitter(color = "steelblue4", alpha = 2/5, size = 2, width = .2, height = .4) + 
+  theme_light()
+
+
+## 3. Compare and contrast geom_jitter() with geom_count(). 
+
+?geom_count
+
+## geom_count is a variant geom_point that counts the number of observations 
+## at each location, then maps the count to point area. 
+## It useful when you have discrete data and overplotting: 
+
+ggplot(data = mpg, mapping = aes(x = cty, y = hwy)) + 
+  geom_count(color = "steelblue4") + 
+  theme_light()
+
+
+## 4. What’s the default position adjustment for geom_boxplot()? 
+##    Create a visualisation of the mpg dataset that demonstrates it.
+
+?geom_boxplot
+
+mpg
+
+ggplot(data = mpg) +
+  geom_boxplot(mapping = aes(x = manufacturer, y = hwy, color = manufacturer), position = "dodge", outlier.colour = "firebrick") +
+  geom_jitter(mapping = aes(x = manufacturer, y = hwy), width = .2, alpha = 2/5) + 
+  theme_bw()
+
 ## 3.9 Coordinate systems: ------ 
 
-## 3.10 The layered grammar of graphics: ------ 
+## +++ here now +++
 
+
+## 3.10 The layered grammar of graphics: ------ 
 
 
 
