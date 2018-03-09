@@ -1,8 +1,13 @@
 ## Code for http://r4ds.had.co.nz/data-visualisation.html
-## 2018 03 01 ------
+## hn spds uni.kn
+## 2018 03 09 ------
 
-## Quote:
+## Quotes: ------
+
 ## “The simple graph has brought more information to the data analyst’s mind than any other device.” 
+## John Tukey
+
+## “The greatest value of a picture is when it forces us to notice what we never expected to see.” 
 ## John Tukey
 
 ## 3.1 Introduction ------
@@ -332,7 +337,7 @@ ggplot(data = mpg) +
 
 # Note: Order determines which geoms are plotted above/below which others.
 
-## Grouping variable levels with group vs. aesthetics: ------
+## Grouping variable levels with group vs. aesthetics:
 
 ## Grouping by group: 
 ggplot(data = mpg) + 
@@ -348,7 +353,7 @@ ggplot(data = mpg) +
   geom_point(mapping = aes(x = displ, y = hwy, linetype = drv, color = drv))
 
 
-## Geoms: ------
+## Geoms:
 
 # - ggplot2 provides over 30 geoms, and extension packages provide even more 
 #   (see https://www.ggplot2-exts.org for a sampling). 
@@ -368,7 +373,7 @@ c + geom_line(
   )
 
 
-## Grouping with group vs. aesthetics: ------
+## Grouping with group vs. aesthetics: 
 
 # Many geoms, like geom_smooth(), use a single geometric object to display multiple rows of data. 
 # For these geoms, you can set the group aesthetic to a categorical variable to draw multiple objects. 
@@ -388,7 +393,7 @@ ggplot(data = mpg) +
 ## Note: Setting `show.legend = FALSE` creates (almost) the same plot as above (with group = drv).
 
 
-## Multiple geoms in 1 plot: Local vs. global mappings ------
+## Multiple geoms in 1 plot: Local vs. global mappings
 
 ## To display multiple geoms in the same plot, add multiple geom functions to ggplot():
 
@@ -414,7 +419,6 @@ ggplot(data = mpg, mapping = aes(x = displ, y = hwy)) +
 ggplot(data = mpg, mapping = aes(x = displ, y = hwy)) + 
   geom_point(mapping = aes(color = class)) + 
   geom_smooth()
-
 
 ## You can use the same idea to specify different data for each layer. 
 ## Here, our smooth line displays just a subset of the mpg dataset, the subcompact cars. 
@@ -606,7 +610,7 @@ ggplot(data = diamonds) +
 ## (e.g., ?stat_bin). 
 ## To see a complete list of stats, try the ggplot2 cheatsheet.
 
-## 3.7.1 Exercises
+## 3.7.1 Exercises ------ 
 
 ## 1. What is the default geom associated with stat_summary()? 
 ##    How could you rewrite the previous plot to use that geom function 
@@ -759,7 +763,8 @@ ggplot(data = mpg) +
 ?position_jitter 
 ?position_stack
 
-## 3.8.1 Exercises
+
+## 3.8.1 Exercises ------
 
 # 1. What is the problem with this plot? How could you improve it?
 
@@ -783,7 +788,13 @@ ggplot(data = mpg, mapping = aes(x = cty, y = hwy)) +
 ggplot(data = mpg, mapping = aes(x = cty, y = hwy)) + 
   geom_point(position = "jitter", color = "steelblue4", alpha = 2/5, size = 2) + 
   theme_light()
-  
+
+## Solution 3) Using geom_count to map frequency to point size:
+
+ggplot(data = mpg, mapping = aes(x = cty, y = hwy)) + 
+  geom_count(color = "steelblue4") + 
+  theme_light()
+
 ## 2. What parameters to geom_jitter() control the amount of jittering?
 
 ?geom_jitter
@@ -818,16 +829,231 @@ ggplot(data = mpg) +
   geom_jitter(mapping = aes(x = manufacturer, y = hwy), width = .2, alpha = 2/5) + 
   theme_bw()
 
+
 ## 3.9 Coordinate systems: ------ 
 
-## +++ here now +++
+## Coordinate systems are probably the most complicated part of ggplot2. 
+## The default coordinate system is the Cartesian coordinate system [test.quest]
+## where the x and y positions act independently to determine 
+## the location of each point. 
+
+## There are a number of other coordinate systems that are occasionally helpful: 
+
+## A. coord_flip() switches the x and y axes. 
+## This is useful (for example), if you want horizontal boxplots. 
+## It’s also useful for long labels: it’s hard to get them to fit 
+## without overlapping on the x-axis: 
+
+ggplot(data = mpg, mapping = aes(x = class, y = hwy)) + 
+  coord_cartesian() + # = default
+  geom_boxplot()
+
+ggplot(data = mpg, mapping = aes(x = class, y = hwy)) + 
+  geom_boxplot() +
+  coord_flip()
+
+ggplot(data = mpg) +
+  geom_boxplot(mapping = aes(x = manufacturer, y = hwy, color = manufacturer), position = "dodge", outlier.colour = "firebrick") +
+  geom_jitter(mapping = aes(x = manufacturer, y = hwy), width = .2, alpha = 2/5) + 
+  theme_bw() + 
+  coord_flip()  # no longer: coord_cartesian() [default]
+
+## B. coord_quickmap() sets the aspect ratio correctly for maps: 
+
+install.packages("maps")
+library(maps)
+?maps
+
+nz <- map_data("nz")
+
+ggplot(nz, aes(long, lat, group = group)) +
+  geom_polygon(fill = "white", colour = "black")
+
+ggplot(nz, aes(long, lat, group = group)) +
+  geom_polygon(fill = "white", colour = "black") +
+  coord_quickmap()
+
+## C. coord_polar() uses polar coordinates. 
+## Polar coordinates reveal an interesting connection 
+## between a bar chart and a Coxcomb chart.
+
+bar <- ggplot(data = diamonds) + 
+  geom_bar(
+    mapping = aes(x = cut, fill = cut), 
+    show.legend = FALSE,
+    width = 1
+  ) + 
+  theme(aspect.ratio = 1) +
+  labs(x = NULL, y = NULL)
+
+bar  # bar chart (with 1:1 aspect ratio)
+bar + coord_flip()  # Coxcomb chart
+bar + coord_polar() # polar chart
+
+
+## 3.9.1 Exercises ------ 
+
+## 1. Turn a stacked bar chart into a pie chart using coord_polar():
+
+## Note: geom_pie does not exist [test.quest].
+
+mpg
+
+stack.bar <- ggplot(data = mpg, mapping = aes(x = "", y = hwy, fill = drv)) +
+  geom_bar(stat = "identity") +
+  theme_light()
+
+stack.bar
+
+stack.bar +
+  coord_polar("y", start = 0)
+
+## See solutions in help of 
+?coord_polar
+
+#' # A pie chart = stacked bar chart + polar coordinates
+pie <- ggplot(mtcars, aes(x = factor(1), fill = factor(cyl))) +
+  geom_bar(width = 1)
+
+pie + coord_polar(theta = "y")
+
+# A coxcomb plot = bar chart + polar coordinates
+cxc <- ggplot(mtcars, aes(x = factor(cyl))) +
+  geom_bar(width = 1, colour = "black")
+cxc + coord_polar()
+
+# A new type of plot?
+cxc + coord_polar(theta = "y")
+
+# The bullseye chart
+pie + coord_polar()
+
+## Pac man pie:  
+## (based on Hadley's favourite pie chart): 
+df <- data.frame(
+  variable = c("ghost", "pac man"),
+  value = c(20, 80)
+)
+
+ggplot(df, aes(x = "", y = value, fill = variable)) +
+  geom_col(width = 1) +
+  scale_fill_manual(values = c("black", "yellow")) +
+  coord_polar("y", start = 2.2) +
+  labs(title = "Pac man", x = NULL, y = NULL) +
+  theme_minimal()
+
+## [test.quest]: German election results
+
+## (a) data frame:
+
+df <- data.frame(
+  party = c("CDU", "SPD", "others"),
+  share = c(.33, .20, (1 - .33 - .20))
+)
+df$party <- factor(df$party, levels = c("CDU", "SPD", "others"))
+head(df)
+
+## (b) stacked par chart:
+
+bp <- ggplot(data = df, mapping = aes(x = "", y = share, fill = party)) +
+  geom_bar(stat = "identity") + 
+  scale_fill_manual(values = c("black", "red3", "gold")) + 
+  theme_bw()
+bp
+
+## (c) pie chart:
+
+pie <- bp + coord_polar("y", start = 0)
+pie
+
+## Note: 
+## See section customized pie charts in 
+## http://www.sthda.com/english/wiki/ggplot2-pie-chart-quick-start-guide-r-software-and-data-visualization
+## - creating blank theme
+## - adding text to pie
+
+
+## 2. What does labs() do? Read the documentation.
+
+?labs()
+
+## Modify axis, legend, and plot labels
+
+## Good labels are critical for making your plots accessible to a wider audience. 
+## Ensure the axis and legend labels display the full variable name. 
+## Use the plot title and subtitle to explain the main findings. 
+## It's common to use the caption to provide information about the data source.
+
+mtcars
+
+p <- ggplot(data = mtcars, aes(x = mpg, y = wt, colour = cyl)) + geom_point()
+p + labs(colour = "Cylinders")
+p + labs(x = "Miles per gallon")
+
+# The plot title appears at the top-left, with the subtitle
+# display in smaller text underneath it
+p + labs(title = "New plot title")
+p + labs(title = "New plot title", subtitle = "A subtitle")
+
+# The caption appears in the bottom-right, and is often used for
+# sources, notes or copyright
+p + labs(caption = "(based on data from ...)")
+
+
+## 3. What’s the difference between coord_quickmap() and coord_map()?
+
+?coord_quickmap
+
+# coord_map projects a portion of the earth, which is approximately spherical, 
+# onto a flat 2D plane using any projection defined by the mapproj package. 
+# Map projections do not, in general, preserve straight lines, so this requires 
+# considerable computation. 
+# coord_quickmap is a quick approximation that does preserve straight lines. 
+# It works best for smaller areas closer to the equator.
+
+
+## 4. What does the plot below tell you about the relationship between 
+##    city and highway mpg? 
+##    Why is coord_fixed() important? What does geom_abline() do?
+
+?mpg
+
+ggplot(data = mpg, mapping = aes(x = cty, y = hwy)) +
+  geom_point() + 
+  geom_abline() +
+  coord_fixed()
+
+## Interpretation: miles per gallon on hwy > miles per gallon in city (for ALL cars)
+
+?geom_abline # adds reference line to plot
+?coord_fixed # fixes aspect ratio (to 1 by default) ==> angle of reference line is 45 degrees to both x- and y-axes
+
+## make clearer plot:
+
+ggplot(data = mpg, mapping = aes(x = cty, y = hwy)) +
+  geom_count(color = "steelblue4") + 
+  geom_abline(color = "firebrick") +
+  coord_fixed() +
+  theme_light()
 
 
 ## 3.10 The layered grammar of graphics: ------ 
 
+## +++ here now +++
+
+## General template:
+
+# ggplot(data = <DATA>) + 
+#   <GEOM_FUNCTION>(
+#     mapping = aes(<MAPPINGS>),
+#     stat = <STAT>, 
+#     position = <POSITION>
+#   ) +
+#   <COORDINATE_FUNCTION> +
+#   <FACET_FUNCTION>
 
 
-## Resources on ggplot: ------
+## Appendix: Additional resources on ggplot: ------
 
 ## Books: 
 
