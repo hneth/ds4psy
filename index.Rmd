@@ -1,7 +1,7 @@
 ---
 title: "Data Science for Psychologists (ds4psy)"
 author: "Hansjörg Neth, SPDS, uni.kn"
-date: "2018 03 02"
+date: "2018 03 09"
 output:
   rmdformats::html_clean:
     highlight: kate
@@ -36,6 +36,22 @@ opts_knit$set(width=75)
 * Taught at the [University of Konstanz](https://www.uni-konstanz.de/) by [Hansjörg Neth](http://neth.de/) (<h.neth@uni.kn>,  [SPDS](https://www.spds.uni-konstanz.de/), office D507).
 * Spring/summer 2018: Mondays, 13:30--15:00, C511 (from 2018.04.16 to 2018.07.16) 
 * Links to [ZeUS](https://zeus.uni-konstanz.de:443/hioserver/pages/startFlow.xhtml?_flowId=showEvent-flow&unitId=5101&termYear=2018&termTypeValueId=1&navigationPosition=hisinoneLehrorganisation,examEventOverviewOwn) and [Ilias](https://ilias.uni-konstanz.de/ilias/goto_ilias_uni_crs_758039.html)
+
+
+# Sessions and Topics
+
+Individual sessions:
+
+Introduction:
+
+1. R basics 1: Scalars and vectors, vector functions and indexing vectors (weeks 1+2)
+1. R basics 2: Matrices and data frames, data frame manipulations (weeks 3+4)
+1. R basics 3: Writing functions and loops, graphics (weeks 9+5)
+
+Book chapters: 
+
+1. [Chapter 3: Data visualisation](http://r4ds.had.co.nz/data-visualisation.html)
+1. Mid-term test
 
 
 # Course Description
