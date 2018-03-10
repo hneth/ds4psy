@@ -1,7 +1,7 @@
 ---
 title: "Data Science for Psychologists (ds4psy)"
 author: "Hansjörg Neth, SPDS, uni.kn"
-date: "2018 03 09"
+date: "2018 03 10"
 output:
   rmdformats::html_clean:
     highlight: kate
@@ -42,16 +42,26 @@ opts_knit$set(width=75)
 
 Individual sessions:
 
-Introduction:
+Introduction: R basics (from other course)
 
 1. R basics 1: Scalars and vectors, vector functions and indexing vectors (weeks 1+2)
 1. R basics 2: Matrices and data frames, data frame manipulations (weeks 3+4)
 1. R basics 3: Writing functions and loops, graphics (weeks 9+5)
 
+
 Book chapters: 
 
-1. [Chapter 3: Data visualisation](http://r4ds.had.co.nz/data-visualisation.html)
+1. [Chapter 3: Data visualisation](http://r4ds.had.co.nz/data-visualisation.html): `ggplot2`.  
+   [Chapter 4: Workflow: basics](http://r4ds.had.co.nz/workflow-basics.html): assignment, naming, completion, functions 
+
+1. [Chapter 5: Data transformation](http://r4ds.had.co.nz/5_data_transformation.html): `dplyr`.  
+   [Chapter 6: Workflow: scripts](http://r4ds.had.co.nz/workflow-scripts.html): scripts, running code 
+
+1. [Chapter 7: Exploratory data analysis (EDA)](http://r4ds.had.co.nz/exploratory-data-analysis.html).  
+   [Chapter 8: Workflow: projects](http://r4ds.had.co.nz/workflow-projects.html): files, directories, paths, projects
+
 1. Mid-term test
+
 
 
 # Course Description
