@@ -1,7 +1,7 @@
 ## r4ds: Chapter 5: Data transformation 
 ## Code for http://r4ds.had.co.nz/5_data_transformation.html 
 ## hn spds uni.kn
-## 2018 03 10 ------
+## 2018 03 11 ------
 
 
 ## Quotes: ------
@@ -71,6 +71,7 @@ table(flights$dest)
 # - The subsequent arguments describe what to do with the data frame, 
 #   using the variable names (without quotes).
 # - The result is a new data frame.
+
 
 
 
@@ -434,7 +435,366 @@ select(flights, contains("TIME", ignore.case = FALSE))
 
 
 
+## 5.5 Add new variables with mutate() ------
+
+## mutate() adds new columns that are functions of existing columns.
+## mutate() always adds new columns at the end of the dataset.
+
+
+## Create a narrower dataset from flights:
+
+flights_sml <- select(flights, 
+                      year:day, 
+                      ends_with("delay"), 
+                      distance, 
+                      air_time)
+
+flights_sml
+
+mutate(flights_sml,
+       gain = arr_delay - dep_delay,
+       speed = distance / air_time * 60)
+
+## Note that you can refer to columns that you’ve just created:
+  
+mutate(flights_sml,
+       gain = arr_delay - dep_delay,
+       hours = air_time / 60,
+       gain_per_hour = gain / hours)
+
+## If you only want to keep the new variables, use transmute():
+  
+transmute(flights,
+          gain = arr_delay - dep_delay,
+          hours = air_time / 60,
+          gain_per_hour = gain / hours)
+
+
+
+## 5.5.1 Useful creation functions
+
+## There are many functions for creating new variables that you can use with
+## mutate(). The key property is that the function must be vectorised: it must
+## take a vector of values as input, return a vector with the same number of
+## values as output.
+
+## 1. Arithmetic operators: +, -, *, /, ^.
+
+## 2. Modular arithmetic: %/% (integer division) and %% (remainder), where 
+
+x <- runif(1, min = 101, max = 1000)
+y <- runif(1, min = 1, max = 100)
+x == y * (x %/% y) + (x %% y)  ## [test.quest]: explain why OR mc == 0, 1, x, y.
+
+transmute(flights,
+          dep_time,
+          hour = dep_time %/% 100,
+          minute = dep_time %% 100
+          )
+
+## Logs: log(), log2(), log10(). 
+
+## Logarithms are an incredibly useful transformation for dealing with data that
+## ranges across multiple orders of magnitude. They also convert multiplicative
+## relationships to additive, a feature we’ll come back to in modelling.
+
+## All else being equal, use log2() because it’s easy to interpret: 
+## A difference of 1 on the log scale corresponds to doubling on the original
+## scale and a difference of -1 corresponds to halving.
+
+## 3. Offsets: lead() and lag() allow you to refer to leading or lagging values.
+
+## This allows you to compute running differences (e.g. x - lag(x)) 
+## or find when values change (x != lag(x)). 
+## They are most useful in conjunction with group_by(), which you’ll learn about
+## shortly.
+
+(x <- 1:10)
+
+lag(x)  # value before current value
+lead(x) # value behind current value
+
+## 4. Cumulative and rolling aggregates: 
+
+## R provides functions for running sums, products, mins and maxes: 
+## cumsum(), cumprod(), cummin(), cummax(); and dplyr provides cummean() for
+## cumulative means. 
+
+## If you need rolling aggregates (i.e. a sum computed over a rolling window),
+## try the RcppRoll package.
+
+x
+cumsum(x)
+cummean(x)
+
+## 5. Logical comparisons: <, <=, >, >=, != 
+
+## 6. Ranking: 
+
+## There are a number of ranking functions, but start with min_rank(). 
+## It does the most usual type of ranking (e.g. 1st, 2nd, 2nd, 4th). 
+## The default gives smallest values the small ranks; use desc(x) to give the
+## largest values the smallest ranks.
+
+y <- c(1, 2, 2, NA, 3, 4)
+
+min_rank(y)
+min_rank(desc(y))
+
+## If min_rank() doesn’t do what you need, look at the variants: 
+## row_number(), dense_rank(), percent_rank(), cume_dist(), ntile(). 
+## See their help pages for more details.
+
+row_number(y)
+dense_rank(y)
+percent_rank(y)
+cume_dist(y)
+
+
+## 5.5.2 Exercises ------
+ 
+## 1. Currently dep_time and sched_dep_time are convenient to look at, but hard
+## to compute with because they’re not really continuous numbers. Convert them
+## to a more convenient representation of number of minutes since midnight.
+
+transmute(flights,
+          dep_time,
+          sched_dep_time,
+          dep_time_min = (dep_time %/% 100) * 60 + (dep_time %% 100), 
+          sched_dep_time_min = (sched_dep_time %/% 100) * 60 + (sched_dep_time %% 100)
+          )
+
+## 2. Compare air_time with arr_time - dep_time. What do you expect to see? 
+## What do you see? What do you need to do to fix it?
+
+transmute(flights,
+          dep_time,
+          arr_time,
+          sched_dep_time,
+          sched_arr_time, 
+          air_time,
+          air_time_2 = (arr_time - dep_time),
+          arr_time_min = (arr_time %/% 100) * 60 + (arr_time %% 100), 
+          dep_time_min = (dep_time %/% 100) * 60 + (dep_time %% 100), 
+          sched_dep_time_min = (sched_dep_time %/% 100) * 60 + (sched_dep_time %% 100),
+          sched_arr_time_min = (sched_arr_time %/% 100) * 60 + (sched_arr_time %% 100),
+          air_time_3 = (arr_time_min - dep_time_min),
+          air_time_4 = (sched_arr_time_min - sched_dep_time_min)
+          )
+
+# ???
+   
+## 3. Compare dep_time, sched_dep_time, and dep_delay. 
+## How would you expect those three numbers to be related?
+
+transmute(flights,
+          dep_time,
+          sched_dep_time,
+          dep_delay,
+          dep_time_min = (dep_time %/% 100) * 60 + (dep_time %% 100), 
+          sched_dep_time_min = (sched_dep_time %/% 100) * 60 + (sched_dep_time %% 100),
+          dep_delay_2 = dep_time_min - sched_dep_time_min,
+          same = near(dep_delay, dep_delay_2)
+          )
+
+## 4. Find the 10 most delayed flights using a ranking function. 
+## How do you want to handle ties? Carefully read the documentation for min_rank().
+
+?min_rank
+
+t <- mutate(flights, 
+           delay_rank = min_rank(desc(dep_delay))  # add rank of dep_delay (descending)
+           )
+t <- select(t, delay_rank, everything())  # put delay_rank to front
+arrange(t, delay_rank)  # sort t by delay rank
+
+## Directly: 
+arrange(flights, desc(dep_delay))  # sort flights by (descending) dep_delay 
+
+
+## 5. What does 1:3 + 1:10 return? Why?
+1:3 + 1:10  # due to recycling shorter object (see warning):
+
+## 6. What trigonometric functions does R provide?
+?sin
+
+
+
+
+## 5.6 Grouped summaries with summarise() ------
+
+## The last key verb is summarise(). 
+## It collapses a data frame to a single row:
+
+(md <- summarise(flights, delay = mean(dep_delay, na.rm = TRUE)))
+
+md == mean(flights$dep_delay, na.rm = TRUE)
+
+## summarise() is not terribly useful unless we pair it with group_by(). 
+## This changes the unit of analysis from the complete dataset to individual groups. 
+## Then, when you use the dplyr verbs on a grouped data frame they’ll be
+## automatically applied “by group”.  For example, if we applied exactly the same
+## code to a data frame grouped by date, we get the average delay per date:
+
+flights
+  
+by_day <- group_by(flights, year, month, day)
+by_day
+
+summarise(by_day, delay = mean(dep_delay, na.rm = TRUE))
+
+## [test.quest] ggplot: plot curve of average delay per day/week/month
+
+by_month <- group_by(flights, month)
+by_month
+month_delay <- summarise(by_month, 
+                          count = n(),
+                          delay = mean(dep_delay, na.rm = TRUE)
+                          )
+  
+ggplot(month_delay, mapping = aes(x = month, y = delay)) +
+  geom_point(aes(size = count), color = "firebrick", alpha = 1/2) +
+  geom_smooth(se = FALSE)
+
+## Together group_by() and summarise() provide one of the tools that we’ll use
+## most commonly when working with dplyr: grouped summaries.
+
+## 5.6.1 Combining multiple operations with the pipe -----
+
+## Imagine that we want to explore the relationship between the distance and
+## average delay for each location. Using what you know about dplyr, you might
+## write code like this:
+  
+by_dest <- group_by(flights, dest)  # group flights by dest
+
+delay <- summarise(by_dest,
+                   count = n(),                           # count n
+                   dist = mean(distance, na.rm = TRUE),   # mean dist
+                   delay = mean(arr_delay, na.rm = TRUE)  # mean delay
+                   )
+
+delay <- filter(delay, count > 20, dest != "HNL")  # filter to rare points and outlier HNL
+
+delay
+
+# It looks like delays increase with distance up to ~750 miles 
+# and then decrease. Maybe as flights get longer there's more 
+# ability to make up delays in the air?
+
+ggplot(data = delay, mapping = aes(x = dist, y = delay)) +
+  geom_point(aes(size = count), alpha = 1/3) +
+  geom_smooth(se = FALSE)
+
+## As we're not interested in the intermediate results, 
+## we could rewrite the same by using the pipe:
+
+delays <- flights %>% 
+  group_by(dest) %>% 
+  summarise(
+    count = n(),
+    dist = mean(distance, na.rm = TRUE),
+    delay = mean(arr_delay, na.rm = TRUE)
+  ) %>% 
+  filter(count > 20, dest != "HNL")
+
+## Read the pipe as "then".
+
+## Behind the scenes, x %>% f(y) turns into f(x, y), 
+## and x %>% f(y) %>% g(z) turns into g(f(x, y), z), etc. 
+
+
+## 5.6.2 Missing values ----- 
+
+## All aggregation functions have an na.rm argument 
+## which removes the missing values prior to computation:
+
+flights %>% 
+  group_by(year, month, day) %>% 
+  summarise(count = n(),
+            mean = mean(dep_delay))
+
+## => yields many missing values (as mean of any set of values containing NA returns NA). 
+
+flights %>% 
+  group_by(year, month, day) %>% 
+  summarise(count = n(),                            # count n (including NAs)
+            n_is_NA = sum(is.na(dep_delay)),        # count n of NAs
+            n_not_NA = sum(!is.na(dep_delay)),      # count n of non-NAs
+            mean = mean(dep_delay, na.rm = TRUE)    # mean of dep_delay that are not NA
+            )
+
+## Note that count is the same in both cases. How to count number of NAs?
+
+## Subset of flights not cancelled: 
+not_cancelled <- flights %>% 
+  filter(!is.na(dep_delay), !is.na(arr_delay))
+
+not_cancelled %>% 
+  group_by(year, month, day) %>% 
+  summarise(count = n(),
+            n_is_NA = sum(is.na(dep_delay)), 
+            n_not_NA = sum(!is.na(dep_delay)), 
+            mean = mean(dep_delay)
+            )
+
+## Note that using the subset not_cancelled has decreased 
+## the count to previous value of n_not_NA!
+
+
+## 5.6.3 Counts ----
+
+## Whenever you do any aggregation, it’s always a good idea to include either a
+## count (n()), or a count of non-missing values (sum(!is.na(x))).
+
+## Look at planes (identified by their tail number) 
+## that have the highest average delays:
+  
+delays <- not_cancelled %>% 
+  group_by(tailnum) %>% 
+  summarise(
+    delay = mean(arr_delay)
+  )
+
+ggplot(data = delays, mapping = aes(x = delay)) + 
+  geom_freqpoly(binwidth = 10)
+
+## Wow, there are some planes that have an average delay of 5 hours (300 minutes)!
+
+## The story is actually a little more nuanced. 
+
+## We can get more insight if we draw a scatterplot of 
+## number of flights vs. average delay:
+  
+delays <- not_cancelled %>% 
+  group_by(tailnum) %>% 
+  summarise(
+    delay = mean(arr_delay, na.rm = TRUE),
+    n = n()
+  )
+
+ggplot(data = delays, mapping = aes(x = n, y = delay)) + 
+  geom_point(alpha = 1/10) +
+  theme_light()
+
+## Characteristic shape: variation decreases as the sample size increases. 
+
+## filter out the groups with the smallest numbers of observations:
+
+delays %>% 
+  filter(n > 20) %>% 
+  ggplot(mapping = aes(x = n, y = delay)) + 
+  geom_point(alpha = 1/10) +
+  theme_light()
+
+## RStudio tip: a useful keyboard shortcut is Cmd/Ctrl + Shift + P. 
+## This resends the previously sent chunk from the editor to the console. This
+## is very convenient when you’re (e.g.) exploring the value of n in the example
+## above.
+
+
+
 ## +++ here now +++ ------ 
+
 
 
 
