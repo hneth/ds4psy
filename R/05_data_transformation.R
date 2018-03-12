@@ -1,7 +1,7 @@
 ## r4ds: Chapter 5: Data transformation 
 ## Code for http://r4ds.had.co.nz/5_data_transformation.html 
 ## hn spds uni.kn
-## 2018 03 11 ------
+## 2018 03 12 ------
 
 
 ## Quotes: ------
@@ -760,7 +760,7 @@ ggplot(data = delays, mapping = aes(x = delay)) +
 
 ## Wow, there are some planes that have an average delay of 5 hours (300 minutes)!
 
-## The story is actually a little more nuanced. 
+## The story is actually a little more nuanced ----
 
 ## We can get more insight if we draw a scatterplot of 
 ## number of flights vs. average delay:
@@ -790,6 +790,65 @@ delays %>%
 ## This resends the previously sent chunk from the editor to the console. This
 ## is very convenient when you’re (e.g.) exploring the value of n in the example
 ## above.
+
+## A common variation of this type of pattern: ----
+
+## Let’s look at how the average performance of batters in baseball is related
+## to the number of times they’re at bat (using data from the Lahman
+## package to compute the batting average (number of hits / number of attempts)
+## of every major league baseball player)
+
+# When plotting the skill of the batter (measured by the batting average, ba)
+# against the number of opportunities to hit the ball (measured by at bat, ab),
+# you see two patterns:
+
+# install.packages('Lahman')
+
+batting <- as_tibble(Lahman::Batting)
+
+batters <- batting %>% 
+  group_by(playerID) %>% 
+  summarise(
+    count = n(),
+    not_NA = sum(!is.na(AB)), 
+    ba = sum(H, na.rm = TRUE) / sum(AB, na.rm = TRUE),
+    ab = sum(AB, na.rm = TRUE)
+  )
+
+batters %>% 
+  filter(ab > 100) %>% 
+  ggplot(mapping = aes(x = ab, y = ba)) +
+  geom_point(alpha = 1/5) + 
+  geom_smooth(se = FALSE) + 
+  theme_light()
+
+
+# 1. As above, the variation in our aggregate decreases as we get more data points.
+
+# 2. There’s a positive correlation between skill (ba) and 
+# opportunities to hit the ball (ab).  
+# This is because teams control who gets to play, and obviously they 
+# pick their best players.
+
+# This also has important implications for ranking: 
+
+# If you naively sort on desc(ba), the people with the best batting averages 
+# are clearly lucky, not skilled:
+
+batters %>% 
+  arrange(desc(ba))
+
+batters %>% 
+  filter(ab > 30) %>%
+  arrange(desc(ba))
+
+# You can find a good explanation of this problem at 
+# http://varianceexplained.org/r/empirical_bayes_baseball/ and 
+# http://www.evanmiller.org/how-not-to-sort-by-average-rating.html 
+
+
+## 5.6.4 Useful summary functions -----
+
 
 
 
