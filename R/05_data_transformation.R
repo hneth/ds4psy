@@ -747,7 +747,7 @@ not_cancelled %>%
 
 ## Look at planes (identified by their tail number) 
 ## that have the highest average delays:
-  
+
 delays <- not_cancelled %>% 
   group_by(tailnum) %>% 
   summarise(
@@ -981,7 +981,44 @@ daily %>%
 ## 5.6.7 Exercises ------
 
 # 1. Brainstorm at least 5 different ways to assess the typical delay
-# characteristics of a group of flights. Consider the following scenarios:
+#    characteristics of a group of flights. Consider the following scenarios:
+
+?flights
+
+## The question concerns distributional characteristics of a flight.
+
+## What defines a "flight"?
+
+## (a) same carrier and flight number:
+
+arrange(flights, carrier, flight)
+
+flights %>%
+  group_by(carrier, flight) %>%
+  summarise(count = n(),
+            n_not_NA = sum(!is.na(dep_delay)), 
+            mn_dep_delay = mean(dep_delay, na.rm = TRUE),
+            sd_dep_delay = sd(dep_delay, na.rm = TRUE),
+            mn_arr_delay = mean(arr_delay, na.rm = TRUE),
+            sd_arr_delay = sd(arr_delay, na.rm = TRUE)
+            ) %>%
+  arrange(desc(count))
+
+
+## (b) same origin and destination:
+
+arrange(flights, origin, dest)
+
+flights %>%
+  group_by(origin, dest) %>%
+  summarise(count = n(),
+            n_not_NA = sum(!is.na(dep_delay)), 
+            mn_dep_delay = mean(dep_delay, na.rm = TRUE),
+            sd_dep_delay = sd(dep_delay, na.rm = TRUE),
+            mn_arr_delay = mean(arr_delay, na.rm = TRUE),
+            sd_arr_delay = sd(arr_delay, na.rm = TRUE)
+  ) %>%
+  arrange(desc(count))
 
 #  A flight is 15 minutes early 50% of the time, and 15 minutes late 50% of the time.
 # 
