@@ -1,7 +1,7 @@
 ---
 title: "Data Science for Psychologists (ds4psy)"
 author: "Hansjörg Neth, SPDS, uni.kn"
-date: "2018 03 10"
+date: "2018 03 14"
 output:
   rmdformats::html_clean:
     highlight: kate
@@ -61,6 +61,25 @@ Book chapters:
    [Chapter 8: Workflow: projects](http://r4ds.had.co.nz/workflow-projects.html): files, directories, paths, projects
 
 1. Mid-term test
+
+
+Dates and sessions:
+
+ 1. 16.04.2018: Introduction.
+ 2. 23.04.2018:
+ 3. 30.04.2018:
+ 4. 07.05.2018:
+ 5. 14.05.2018:
+ 6. 21.05.2018:
+ 7. 28.05.2018:
+ 8. 04.06.2018: 
+ 9. 11.06.2018: (On ABC retreat.)
+10. 18.06.2018:
+11. 25.06.2018:
+12. 02.07.2018:
+13. 09.07.2018:
+14. 16.07.2018: (Hiking.)
+
 
 
 
