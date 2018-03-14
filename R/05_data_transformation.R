@@ -1,7 +1,7 @@
 ## r4ds: Chapter 5: Data transformation 
 ## Code for http://r4ds.had.co.nz/5_data_transformation.html 
 ## hn spds uni.kn
-## 2018 03 12 ------
+## 2018 03 14 ------
 
 ## Quotes: ------
 
@@ -1020,31 +1020,102 @@ flights %>%
   ) %>%
   arrange(desc(count))
 
-#  A flight is 15 minutes early 50% of the time, and 15 minutes late 50% of the time.
+# Which is more important: arrival delay or departure delay?
+#
+# Arrival delay seems more important, as it crucially impacts 
+# subsequent flights and travel plans.
+
+#  a. A flight is always 10 minutes late.
+
+flights_s <- select(flights, 
+                    year:day,
+                    arr_delay,
+                    carrier:tailnum)
+
+mutate(flights_s,
+       late10 = (arr_delay >= 10)
+       )
+
+#  b. A flight is 15 minutes early 50% of the time, and 15 minutes late 50% of the time.
 # 
-#  A flight is always 10 minutes late.
+#  c. A flight is 30 minutes early 50% of the time, and 30 minutes late 50% of the time.
 # 
-#  A flight is 30 minutes early 50% of the time, and 30 minutes late 50% of the time.
-# 
-#  99% of the time a flight is on time. 1% of the time it’s 2 hours late.
+#  d. 99% of the time a flight is on time. 1% of the time it’s 2 hours late.
 
 
-# 2. Which is more important: arrival delay or departure delay?
+
   
-#   Come up with another approach that will give you the same output as
-#   not_cancelled %>% count(dest) and not_cancelled %>% count(tailnum, wt =
-#   distance) (without using count()).
+#  2. Come up with another approach that will give you the same output as
+# (a)
+
+not_cancelled %>% 
+  count(dest) 
+
+# without using count():
+
+not_cancelled %>% 
+  group_by(dest) %>% 
+  summarise(count = n())
+
+# (b)
+
+not_cancelled %>% 
+  count(tailnum, wt = distance)
+
+# without using count():
+
+not_cancelled %>% 
+  group_by(tailnum) %>%
+  summarise(n = sum(distance))
+
+# [test.quest]: Do the reverse: 
+# a) replace count by (group_by + summarise)
+# b) replace (group_by + summarise) by count + wt.
 
 
 # 3. Our definition of cancelled flights (is.na(dep_delay) | is.na(arr_delay) )
-# is slightly suboptimal. Why? Which is the most important column?
+#    is slightly suboptimal. Why? Which is the most important column?
+
+not_cancelled <- flights %>% 
+  filter(!is.na(dep_delay), !is.na(arr_delay))
+
+nrow(not_cancelled)
+
+cancelled <- flights %>%
+  filter(is.na(dep_delay) | is.na(arr_delay))
+
+nrow(cancelled) # => 9430
+nrow(not_cancelled) + nrow(cancelled) == nrow(flights) # is TRUE (as it should)
+
+# But:
+cancel_dep <- flights %>%
+  filter(is.na(dep_delay))
+
+cancel_arr <- flights %>%
+  filter(is.na(arr_delay))
+
+nrow(cancel_dep) # => 8255
+nrow(cancel_arr) # => 9430
+
+# => There are flights with a departure delay value but no arrival delay value (arr_delay = NA):
+
+no_arr_delay <- flights %>%
+  filter(!is.na(dep_delay) & is.na(arr_delay))
+
+no_arr_delay
+nrow(no_arr_delay)
+
+# Perhaps require that arr_time is also NA?
+
 
 # 4. Look at the number of cancelled flights per day. Is there a pattern? Is the
 # proportion of cancelled flights related to the average delay?
    
+
 # 5. Which carrier has the worst delays? Challenge: can you disentangle the
 # effects of bad airports vs. bad carriers? Why/why not? (Hint: think about
 # flights %>% group_by(carrier, dest) %>% summarise(n()))
+
 
 # 6. What does the sort argument to count() do.  When might you use it?
 
