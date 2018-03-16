@@ -159,6 +159,292 @@ head(faithful)
 ggplot(data = faithful, mapping = aes(x = eruptions)) + 
   geom_histogram(binwidth = 0.25)
 
+
+## 7.3.3 Unusual values ------
+
+# Outliers are observations that are unusual; data points that don’t seem to fit
+# the pattern. Sometimes outliers are data entry errors; other times outliers
+# suggest important new science. 
+
+# When you have a lot of data, outliers are sometimes difficult to see in a
+# histogram. For example, take the distribution of the y variable from the
+# diamonds dataset. The only evidence of outliers is the unusually wide limits
+# on the x-axis:
+
+ggplot(diamonds) + 
+  geom_histogram(mapping = aes(x = y), binwidth = 0.5)
+
+range(diamonds$y)
+
+# There are so many observations in the common bins that the rare bins are so
+# short that you can’t see them (although maybe if you stare intently at 0
+# you’ll spot something). To make it easy to see the unusual values, we need to
+# zoom to small values of the y-axis with coord_cartesian():
+  
+ggplot(diamonds) + 
+  geom_histogram(mapping = aes(x = y), binwidth = 0.5) +
+  coord_cartesian(ylim = c(0, 50))
+
+# coord_cartesian() also has an xlim() argument for when you need to zoom into
+# the x-axis. 
+
+# ggplot2 also has xlim() and ylim() functions that work slightly differently: 
+# they throw away the data outside the limits.
+
+# This allows us to see that there are three unusual values: 0, ~30, and ~60. 
+# We pluck them out with dplyr:
+
+unusual <- diamonds %>% 
+  filter(y < 3 | y > 20) %>% 
+  select(price, x, y, z) %>%
+  arrange(y)
+unusual
+
+# The y variable measures one of the three dimensions of these diamonds, in mm.
+# We know that diamonds can’t have a width of 0mm, so these values must be
+# incorrect. We might also suspect that measurements of 32mm and 59mm are
+# implausible: those diamonds are over an inch long, but don’t cost hundreds of
+# thousands of dollars!
+
+# It’s good practice to repeat your analysis with and without the outliers. 
+
+# If they have minimal effect on the results, and you can’t figure out why they’re
+# there, it’s reasonable to replace them with missing values, and move on.
+
+# However, if they have a substantial effect on your results, you shouldn’t drop
+# them without justification.  You’ll need to figure out what caused them 
+# (e.g. a data entry error) and disclose that you removed them in your write-up.
+
+
+## 7.3.4 Exercises -----
+
+?diamonds
+
+# 1. Explore the distribution of each of the x, y, and z variables in diamonds.
+#    What do you learn? Think about a diamond and how you might decide which
+#    dimension is the length, width, and depth.
+
+# width y: see above
+
+# length x:
+
+range(diamonds$x)
+
+ggplot(diamonds) + 
+  geom_histogram(mapping = aes(x = x), binwidth = 0.5)
+
+ggplot(diamonds) + 
+  geom_histogram(mapping = aes(x = x), binwidth = 0.5) +
+  coord_cartesian(ylim = c(0, 20))
+
+# depth z:
+
+range(diamonds$z)
+
+ggplot(diamonds) + 
+  geom_histogram(mapping = aes(x = z), binwidth = 0.5)
+
+ggplot(diamonds) + 
+  geom_histogram(mapping = aes(x = z), binwidth = 0.5) +
+  coord_cartesian(ylim = c(0, 20))
+
+# All 3 variables in one plot:
+# (a) gather 3 variables into 1 (using tidyr): 1 freqpoly by group
+# (b) 3 different layers of a plot: 3 freqpoly layers
+
+bw <- 0.1
+
+ggplot(data = diamonds) +
+  geom_freqpoly(mapping = aes(x = x), binwidth = bw, color = "forestgreen") +
+  geom_freqpoly(mapping = aes(x = y), binwidth = bw, color = "firebrick") + 
+  geom_freqpoly(mapping = aes(x = z), binwidth = bw, color = "steelblue") +
+  coord_cartesian(xlim = c(0, 10)) + 
+  theme_light()
+
+# 2. Explore the distribution of price. 
+#    Do you discover anything unusual or surprising? 
+#    (Hint: Carefully think about the binwidth and make sure you try a wide range of values.)
+#    [test.quest]: Describe main findings (start, shape, modal, max, ...) & mark in a graph.
+
+range(diamonds$price)
+
+# Start with binwidth = 1000: 
+
+ggplot(diamonds) + 
+  geom_histogram(mapping = aes(x = price), binwidth = 1000, fill = "steelblue4") + 
+  # coord_cartesian(ylim = c(0, 20)) + 
+  theme_light()
+
+# Smaller binwidth = 100: 
+
+ggplot(diamonds) + 
+  geom_histogram(mapping = aes(x = price), binwidth = 100, fill = "steelblue4") + 
+  # coord_cartesian(ylim = c(0, 20)) + 
+  theme_light()
+
+# Note gap around x = 1000 and zoom in:
+
+ggplot(diamonds) + 
+  geom_histogram(mapping = aes(x = price), binwidth = 50, fill = "steelblue4") + 
+  coord_cartesian(xlim = c(0, 5000), ylim = c(0, 1500)) + 
+  theme_light()
+
+# Locate peak (by limiting x range):
+
+ggplot(diamonds) + 
+  geom_histogram(mapping = aes(x = price), binwidth = 50, fill = "steelblue4") + 
+  coord_cartesian(xlim = c(0, 1000), ylim = c(0, 1500)) + 
+  geom_vline(mapping = aes(xintercept = 700), color = "yellow") + 
+  theme_light()
+
+# Zoom in to gap around x = 1500:
+
+ggplot(diamonds) + 
+  geom_histogram(mapping = aes(x = price), binwidth = 10, fill = "steelblue4") + 
+  coord_cartesian(xlim = c(1400, 1600), ylim = c(0, 250)) + 
+  theme_light()
+
+# Solution: 
+# - start at a min of $300
+# - peak at $700
+# - decline to max of $18823
+# - peculiar: Range from $1460 to $1550 is vacant.
+
+
+# 3. How many diamonds are 0.99 carat? How many are 1 carat? 
+#    What do you think is the cause of the difference?
+
+?diamonds
+
+ggplot(diamonds) + 
+  geom_histogram(mapping = aes(x = carat), binwidth = 0.1, fill = "firebrick") + 
+  # coord_cartesian(xlim = c(1400, 1600), ylim = c(0, 250)) + 
+  theme_light()
+
+# Zooming in further:
+
+ggplot(diamonds) + 
+  geom_histogram(mapping = aes(x = carat), binwidth = 0.01, fill = "firebrick") + 
+  coord_cartesian(xlim = c(0, 2.5), ylim = c(0, 2500)) + 
+  theme_light()
+
+# Zooming in on x = 1 carat:
+
+ggplot(diamonds) + 
+  geom_histogram(mapping = aes(x = carat), binwidth = 0.01, fill = "firebrick") + 
+  coord_cartesian(xlim = c(0.75, 1.25), ylim = c(0, 2500)) + 
+  theme_light()
+
+# Reasons:
+# - people round numbers 
+# - diamond size is not defined by nature, but are cut by sellers aiming to maximize profits
+
+
+# 4. Compare and contrast coord_cartesian() vs xlim() or ylim() 
+#    when zooming in on a histogram. 
+#    - What happens if you leave binwidth unset? 
+#    - What happens if you try and zoom so only half a bar shows?
+
+# (a) Basic histogram: 
+
+ggplot(diamonds) + 
+  geom_histogram(mapping = aes(x = carat), binwidth = NULL, fill = "steelblue4") + 
+  theme_light()
+
+# => binwidth is set automatically (to 30).
+
+# (b) Adding coord_cartesian():
+
+ggplot(diamonds) + 
+  geom_histogram(mapping = aes(x = carat), binwidth = NULL, fill = "steelblue4") + 
+  coord_cartesian(xlim = c(0, 2.5), ylim = c(0, 2500)) + 
+  theme_light()
+
+# => zooms in without changing the plot.
+
+# (c) Contrast with xlim and ylim:
+
+?xlim
+
+ggplot(diamonds) + 
+  geom_histogram(mapping = aes(x = carat), binwidth = NULL, fill = "steelblue4") + 
+  # coord_cartesian(xlim = c(0, 2.5), ylim = c(0, 2500)) + 
+  xlim(0, 2.5) + 
+  ylim(0, 2500) + 
+  theme_light()
+
+# - Values outside given ranges are removed (set to NA).
+# - Binwidth is automatically set to smaller value (0.1)
+
+# Providing binwidth:
+
+ggplot(diamonds) + 
+  geom_histogram(mapping = aes(x = carat), binwidth = 0.1, fill = "steelblue4") + 
+  # coord_cartesian(xlim = c(0, 2.5), ylim = c(0, 2500)) + 
+  xlim(0, 2.5) + 
+  ylim(0, 2500) + 
+  theme_light()
+
+# - even more gaps
+
+# ad: What happens if you leave binwidth unset? 
+
+ggplot(diamonds) + 
+  geom_histogram(mapping = aes(x = carat), binwidth = NULL, fill = "steelblue4") + 
+  coord_cartesian(xlim = c(1, 2.5), ylim = c(0, 2500)) + 
+  theme_light()
+
+# => Binwidth remains the same (i.e., is not adjusted automatically).
+
+ggplot(diamonds) + 
+  geom_histogram(mapping = aes(x = carat), binwidth = NULL, fill = "steelblue4") + 
+  # coord_cartesian(xlim = c(1, 2.5), ylim = c(0, 2500)) + 
+  xlim(1, 2.5) + 
+  ylim(0, 2500) + 
+  theme_light()
+
+# => Binwidth is adjusted (lowered) automatically.
+
+# ad: What happens if you try and zoom so only half a bar shows?
+
+ggplot(diamonds) + 
+  geom_histogram(mapping = aes(x = carat), binwidth = 0.1, fill = "steelblue4") + 
+  theme_light()
+
+# => 5 bars with frequencies of > 5000.
+
+# coord_cartesian():
+
+ggplot(diamonds) + 
+  geom_histogram(mapping = aes(x = carat), binwidth = 0.1, fill = "steelblue4") + 
+  coord_cartesian(ylim = c(0, 5000)) + 
+  theme_light()
+
+# => zooming only (without changing anything in the plot)
+
+# xlim() and ylim():
+
+ggplot(diamonds) + 
+  geom_histogram(mapping = aes(x = carat), binwidth = 0.1, fill = "steelblue4") + 
+  ylim(0, 5000) + 
+  theme_light()
+
+# => 5 bars that exceed limit are removed (see warning).
+
+# Conclusions: 
+# - binwidth should be set to suitable value whenever possible.
+# - for zooming in, always use coord_cartesian()
+
+
+## 7.4 Missing values ------
+
+# What do do with outliers or suspect/peculiar values?
+
+
+
+
+
+
 ## +++ here now +++
 
 ## ------
