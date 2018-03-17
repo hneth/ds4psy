@@ -1,7 +1,7 @@
 ## r4ds: Chapter 7:  
 ## Code for http://r4ds.had.co.nz/exploratory-data-analysis.html 
 ## hn spds uni.kn
-## 2018 03 15 ------
+## 2018 03 17 ------
 
 ## Quotes: ------
 
@@ -11,6 +11,7 @@
 # > “Far better an approximate answer to the right question, which is often vague, 
 # >  than an exact answer to the wrong question, which can always be made precise.” 
 # >  John Tukey
+
 
 ## 7.1 Introduction ------
 
@@ -32,9 +33,11 @@
 # To do data cleaning, you’ll need to deploy all the tools of EDA:
 # visualisation, transformation, and modelling.
 
+
 ## 7.1.1 Prerequisites
 
 library(tidyverse)
+
 
 ## 7.2 Questions ------ 
 
@@ -64,6 +67,7 @@ library(tidyverse)
 #           a) each value is placed in its own “cell”, 
 #           b) each variable in its own column, and 
 #           c) each observation in its own row.
+
 
 
 ## 7.3 Variation ------
@@ -453,6 +457,7 @@ ggplot(diamonds) +
 # - for zooming in, always use coord_cartesian()
 
 
+
 ## 7.4 Missing values ------
 
 # What to do with outliers or suspect/peculiar values?
@@ -533,6 +538,21 @@ nycflights13::flights %>%
 # Note: Check for correlation between times of cancelled and non-cancelled flights.
 #       => See next section: Covariation 
 
+# Solution: Compare density (count standardized to 1) [test.quest]: 
+
+nycflights13::flights %>% 
+  mutate(
+    cancelled = is.na(dep_time),
+    sched_hour = sched_dep_time %/% 100,
+    sched_min = sched_dep_time %% 100,
+    sched_dep_time = sched_hour + sched_min / 60
+  ) %>% 
+  ggplot(mapping = aes(x = sched_dep_time, y = ..density..)) + 
+  geom_freqpoly(mapping = aes(color = cancelled), binwidth = 1/4) +
+  theme_light()
+
+# => early flights (up to 12:00) are less likely to be cancelled than late flights (after 15:00).
+
 
 ## 7.4.1 Exercises ------
 
@@ -583,7 +603,131 @@ mean(v, na.rm = TRUE)
 # na.rm = TRUE removes NA values before applying function.
 
 
+
 ## 7.5 Covariation ------
+
+# If variation describes the behavior within a variable, 
+# covariation describes the behavior between variables. 
+
+# Covariation is the tendency for the values of two or more variables 
+# to vary together in a related way. 
+
+# The best way to spot covariation is to visualise the relationship 
+# between two or more variables. 
+
+# How you do that should again depend on the type of variables involved.
+
+
+## 7.5.1 A categorical and continuous variable -----
+
+## (A) Frequency polygon: ----
+
+# It’s common to want to explore the distribution of a continuous variable
+# broken down by a categorical variable, as in the previous frequency polygon.
+
+# The default appearance of geom_freqpoly() is not that useful for that sort of
+# comparison because the height is given by the count. That means if one of the
+# groups is much smaller than the others, it’s hard to see the differences in
+# shape:
+  
+ggplot(data = diamonds, mapping = aes(x = price)) + 
+  geom_freqpoly(mapping = aes(color = cut), binwidth = 500)
+
+# It’s hard to see the difference in distribution 
+# because the overall counts differ so much:
+
+ggplot(diamonds) + 
+  geom_bar(mapping = aes(x = cut))
+
+# To make the comparison easier we need to swap what is displayed on the y-axis.
+# Instead of displaying count, we’ll display density, which is the count
+# standardised so that the area under each frequency polygon is one:
+
+ggplot(data = diamonds, mapping = aes(x = price, y = ..density..)) + 
+  geom_freqpoly(mapping = aes(colour = cut), binwidth = 500)
+
+
+## (B) Boxplot: ----
+
+# Another alternative to display the distribution of a continuous variable
+# broken down by a categorical variable is the boxplot. 
+
+# A boxplot is a type of visual shorthand for a distribution of values. 
+# Each boxplot consists of:
+  
+# 1. A box that stretches from the 25th percentile of the distribution to the
+#    75th percentile, a distance known as the interquartile range (IQR). 
+#    In the middle of the box is a line that displays the median, i.e. 50th percentile, of
+#    the distribution. 
+#    These three lines give you a sense of the spread of the distribution and 
+#    whether or not the distribution is symmetric about the median or skewed to one side.
+
+# 2. Visual points that display observations that fall more than 1.5 times the
+#    IQR from either edge of the box. These outlying points are unusual so are
+#    plotted individually.
+
+# 3. A line (or whisker) that extends from each end of the box and goes to the 
+#    farthest non-outlier point in the distribution.
+
+ggplot(data = diamonds, mapping = aes(x = cut, y = price)) +
+  geom_boxplot() +
+  theme_light()
+
+# poor alternative: 
+
+ggplot(data = diamonds, mapping = aes(x = cut, y = price, color = cut)) +
+  geom_violin() +
+  # geom_jitter(alpha = 1/5) + 
+  scale_color_brewer(palette = "Set1") + 
+  theme_light()
+
+# We see much less information about the distribution, but the boxplots are much
+# more compact so we can more easily compare them (and fit more on one plot). 
+# It supports the counterintuitive finding that better quality diamonds are cheaper
+# on average! 
+# In the exercises, you’ll be challenged to figure out why.
+
+
+## Ordered vs. un-ordered factors: reoder categories ----
+
+# cut is an ordered factor: 
+# fair is worse than good, which is worse than very good and so on. 
+# Many categorical variables don’t have such an intrinsic order,
+# so you might want to reorder them to make a more informative display. 
+# One way to do that is with the reorder() function.
+
+# For example, take the class variable in the mpg dataset. 
+# You might be interested to know how highway mileage varies across classes:
+  
+ggplot(data = mpg, mapping = aes(x = class, y = hwy)) +
+  geom_boxplot()
+
+# To make the trend easier to see, we can reorder class based on the median value of hwy:
+  
+ggplot(data = mpg) +
+  geom_boxplot(mapping = aes(x = reorder(class, hwy, FUN = median), y = hwy))
+
+# If you have long variable names, geom_boxplot() will work better if you flip it 90°. 
+# You can do that with coord_flip().
+
+ggplot(data = mpg) +
+  geom_boxplot(mapping = aes(x = reorder(class, hwy, FUN = median), y = hwy)) +
+  coord_flip()
+
+## 7.5.1.1 Exercises -----
+
+# 1. Use what you’ve learned to improve the visualisation of the departure times of cancelled vs. non-cancelled flights.
+
+# 2. What variable in the diamonds dataset is most important for predicting the price of a diamond? How is that variable correlated with cut? Why does the combination of those two relationships lead to lower quality diamonds being more expensive?
+  
+# 3. Install the ggstance package, and create a horizontal boxplot. How does this compare to using coord_flip()?
+  
+# 4. One problem with boxplots is that they were developed in an era of much smaller datasets and tend to display a prohibitively large number of “outlying values”. One approach to remedy this problem is the letter value plot. Install the lvplot package, and try using geom_lv() to display the distribution of price vs cut. What do you learn? How do you interpret the plots?
+  
+# 5. Compare and contrast geom_violin() with a facetted geom_histogram(), or a coloured geom_freqpoly(). What are the pros and cons of each method?
+  
+# 6. If you have a small dataset, it’s sometimes useful to use geom_jitter() to see the relationship between a continuous and categorical variable. The ggbeeswarm package provides a number of methods similar to geom_jitter(). List them and briefly describe what each one does.
+
 
 
 
