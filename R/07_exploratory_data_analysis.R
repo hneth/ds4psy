@@ -261,6 +261,23 @@ ggplot(data = diamonds) +
   coord_cartesian(xlim = c(0, 10)) + 
   theme_light()
 
+# Relationships between 2 dimensions:
+
+# x by y:
+
+ggplot(data = diamonds, mapping = aes(x = x, y = y)) + 
+  geom_point(color = "steelblue4", alpha = 1/4) +
+  # coord_cartesian(ylim = c(0, 10)) + 
+  theme_light()
+
+# x by z:
+
+ggplot(data = diamonds, mapping = aes(x = x, y = z)) + 
+  geom_point(color = "steelblue4", alpha = 1/4) +
+  # coord_cartesian(ylim = c(0, 10)) + 
+  theme_light()
+
+
 # 2. Explore the distribution of price. 
 #    Do you discover anything unusual or surprising? 
 #    (Hint: Carefully think about the binwidth and make sure you try a wide range of values.)
@@ -438,14 +455,139 @@ ggplot(diamonds) +
 
 ## 7.4 Missing values ------
 
-# What do do with outliers or suspect/peculiar values?
+# What to do with outliers or suspect/peculiar values?
+
+# 1. Drop the entire row with the strange values:
+
+diamonds2 <- diamonds %>% 
+  filter(between(y, 3, 20))
+
+?between # between(x, left, right) is an efficient shortcut for  x >= left & x <= right
+
+# Dropping is not recommended. Better solution:
+
+# 2. Replace unusual values with missing values. 
+
+# The easiest way to do this is to use mutate() to replace the variable with a
+# modified copy. You can use the ifelse() function to replace unusual values
+# with NA:
+
+diamonds2 <- diamonds %>% 
+  mutate(y = ifelse((y < 3 | y > 20), NA, y))
+
+# ifelse() has three arguments: 
+# - The first argument test should be a logical vector. 
+# - The result will contain the value of the second argument, yes, when test is TRUE, and 
+# - the value of the third argument, no, when it is false.
+
+# Like R, ggplot2 subscribes to the philosophy that missing values should never
+# silently go missing. It’s not obvious where you should plot missing values, so
+# ggplot2 doesn’t include them in the plot, but it does warn that they’ve been
+# removed:
+
+ggplot(diamonds2) +
+  geom_point(mapping = aes(x = x, y = y)) +
+  theme_light()
+
+# Warning: Removed 9 rows containing missing values (geom_point).
+
+# To suppress that warning, set na.rm = TRUE:
+  
+ggplot(data = diamonds2, mapping = aes(x = x, y = y)) + 
+  geom_point(na.rm = TRUE) +
+  theme_light()
+
+# Other times you want to understand what makes observations with missing values
+# different to observations with recorded values. 
+
+# For example, in nycflights13::flights, missing values in the dep_time variable
+# indicate that the flight was cancelled. So you might want to compare the
+# scheduled departure times for cancelled and non-cancelled times. You can do
+# this by making a new variable with is.na().
+
+nycflights13::flights %>% 
+  mutate(
+    cancelled = is.na(dep_time),
+    sched_hour = sched_dep_time %/% 100,
+    sched_min = sched_dep_time %% 100,
+    sched_dep_time = sched_hour + sched_min / 60
+  ) %>% 
+  ggplot(mapping = aes(sched_dep_time)) + 
+  geom_freqpoly(mapping = aes(color = cancelled), binwidth = 1/4) +
+  theme_light()
+
+# Zooming in:
+
+nycflights13::flights %>% 
+  mutate(
+    cancelled = is.na(dep_time),
+    sched_hour = sched_dep_time %/% 100,
+    sched_min = sched_dep_time %% 100,
+    sched_dep_time = sched_hour + sched_min / 60
+  ) %>% 
+  ggplot(mapping = aes(sched_dep_time)) + 
+  geom_freqpoly(mapping = aes(color = cancelled), binwidth = 1/4) +
+  coord_cartesian(ylim = c(0, 1000)) + 
+  theme_light()
+
+# Note: Check for correlation between times of cancelled and non-cancelled flights.
+#       => See next section: Covariation 
+
+
+## 7.4.1 Exercises ------
+
+# 1. What happens to missing values in a histogram? 
+#    What happens to missing values in a bar chart? 
+#    Why is there a difference?
+
+diamonds2 <- diamonds %>% 
+  mutate(y = ifelse((y < 3 | y > 20), NA, y))
+
+ggplot(diamonds2, mapping = aes(x = y)) +
+  geom_histogram(binwidth = 1/50) 
+
+# => 9 NA values are removed.
+
+# Bar chart on continuous variable (exceptional case): 
+
+ggplot(diamonds2, mapping = aes(x = y)) +
+  geom_bar() 
+
+# => 9 NA values are removed.
+
+# But: 
+# Bar chart on categorical variable (ordinary case):
+
+ggplot(diamonds2, mapping = aes(x = cut)) +
+  geom_bar() 
+
+# => NA values are not mentioned.
+# ?: Are they simply left out?
+
+diamonds2 %>%
+  mutate(cut2 = ifelse((cut =="Very Good"), NA, cut)) %>%
+  ggplot(mapping = aes(x = cut2)) +
+  geom_bar() 
+
+
+# 2. What does na.rm = TRUE do in mean() and sum()?
+
+v <- c(1, 2, 3, NA, 4)
+  
+sum(v)
+sum(v, na.rm = TRUE)
+
+mean(v)
+mean(v, na.rm = TRUE)
+
+# na.rm = TRUE removes NA values before applying function.
+
+
+## 7.5 Covariation ------
 
 
 
-
-
-
-## +++ here now +++
+## +++ here now +++ ------
 
 ## ------
 ## eof.
