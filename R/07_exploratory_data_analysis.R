@@ -716,10 +716,98 @@ ggplot(data = mpg) +
 
 ## 7.5.1.1 Exercises -----
 
-# 1. Use what you’ve learned to improve the visualisation of the departure times of cancelled vs. non-cancelled flights.
+# 1. Use what you’ve learned to improve the visualisation of the departure times
+#    of cancelled vs. non-cancelled flights.
 
-# 2. What variable in the diamonds dataset is most important for predicting the price of a diamond? How is that variable correlated with cut? Why does the combination of those two relationships lead to lower quality diamonds being more expensive?
-  
+nycflights13::flights %>% 
+  mutate(
+    cancelled = is.na(dep_time),
+    sched_hour = sched_dep_time %/% 100,
+    sched_min = sched_dep_time %% 100,
+    sched_dep_time = sched_hour + sched_min / 60
+  ) %>% 
+  ggplot(mapping = aes(x = sched_dep_time, y = ..density..)) + 
+  geom_freqpoly(mapping = aes(color = cancelled), size = 1, binwidth = 1/4) +
+  scale_color_brewer(palette = "Set1") +
+  theme_light()
+
+# 2. a) What variable in the diamonds dataset is most important for predicting the
+#       price of a diamond? 
+#    b) How is that variable correlated with cut? 
+#    c) Why does the combination of those two relationships lead to lower quality diamonds 
+#       being more expensive?
+
+?diamonds
+
+with(diamonds, cor(carat, price))
+with(diamonds, cor(x, price))
+with(diamonds, cor(y, price))
+with(diamonds, cor(z, price))
+with(diamonds, cor(table, price))
+
+# a) carat is most relevant for price:
+
+ggplot(diamonds, mapping = aes(x = carat, y = price, color = cut)) +
+  geom_point(alpha = 1/3) + 
+  scale_color_brewer(palette = "Set1") +
+  theme_light()
+
+# split into different facets (by cut):
+
+ggplot(diamonds, mapping = aes(x = carat, y = price)) +
+  geom_point(alpha = 1/10) + 
+  facet_wrap(~cut) + 
+  scale_color_brewer(palette = "Set1") +
+  theme_light()
+
+# frequency of carat:
+
+ggplot(diamonds, mapping = aes(x = carat, color = cut)) +
+  geom_freqpoly(binwidth = 0.1) +
+  scale_color_brewer(palette = "Set1") +
+  theme_light()
+
+ggplot(diamonds, mapping = aes(x = carat, y = ..density.., color = cut)) +
+  geom_freqpoly(binwidth = 0.1) +
+  scale_color_brewer(palette = "Set1") +
+  theme_light()
+
+# => lowest quality = most frequent for high carat counts; 
+#    highest quality = most frequent for low carat counts.
+
+
+# b) How is that variable correlated with cut? 
+#    cut is categorical, hence use boxplot or violin plot:
+
+# Price by cut:
+
+ggplot(diamonds, mapping = aes(x = cut, y = price, color = cut)) +
+  geom_boxplot() + 
+  scale_color_brewer(palette = "Set1") +
+  theme_light()
+
+ggplot(diamonds, mapping = aes(x = cut, y = price, color = cut)) +
+  geom_violin() + 
+  scale_color_brewer(palette = "Set1") +
+  theme_light()
+
+# Carat by cut:
+
+ggplot(diamonds, mapping = aes(x = cut, y = carat, color = cut)) +
+  geom_boxplot() + 
+  scale_color_brewer(palette = "Set1") +
+  theme_light()
+
+ggplot(diamonds, mapping = aes(x = cut, y = carat, color = cut)) +
+  geom_jitter(alpha = 1/10) + 
+  geom_violin() + 
+  scale_color_brewer(palette = "Set1") +
+  theme_light()
+
+# => 1. negative relationship: lower quality (cut) tends to have more carats (except for premium cut).
+#    2. ideal cut with low carats is most frequent type of diamond.
+
+
 # 3. Install the ggstance package, and create a horizontal boxplot. How does this compare to using coord_flip()?
   
 # 4. One problem with boxplots is that they were developed in an era of much smaller datasets and tend to display a prohibitively large number of “outlying values”. One approach to remedy this problem is the letter value plot. Install the lvplot package, and try using geom_lv() to display the distribution of price vs cut. What do you learn? How do you interpret the plots?
