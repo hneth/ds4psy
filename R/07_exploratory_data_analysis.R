@@ -1287,11 +1287,139 @@ ggplot(data = diamonds) +
 # Answer: The scatterplot shows the linear relationship between x and y?
 
 
+
 ## 7.6 Patterns and models ------
 
+# Patterns in your data provide clues about relationships. If a systematic
+# relationship exists between two variables it will appear as a pattern in the
+# data. If you spot a pattern, ask yourself: 
+
+# - Could this pattern be due to coincidence (i.e. random chance)? 
+# - How can you describe the relationship implied by the pattern? 
+# - How strong is the relationship implied by the pattern? 
+# - What other variables might affect the relationship? 
+# - Does the relationship change if you look at individual subgroups of the data?  
+   
+# A scatterplot of Old Faithful eruption lengths versus the wait time 
+# between eruptions shows a pattern: 
+# - longer wait times are associated with longer eruptions. 
+
+# The scatterplot also displays the two clusters that we noticed above:
+
+ggplot(data = faithful) + 
+  geom_point(mapping = aes(x = eruptions, y = waiting), color = "firebrick", alpha = 2/3) + 
+  theme_light()
+
+# Patterns provide one of the most useful tools for data scientists because they
+# reveal covariation. If you think of variation as a phenomenon that creates
+# uncertainty, covariation is a phenomenon that reduces it. If two variables
+# covary, you can use the values of one variable to make better predictions
+# about the values of the second. If the covariation is due to a causal
+# relationship (a special case), then you can use the value of one variable to
+# control the value of the second.
+
+# Models are a tool for extracting patterns out of data. 
+
+# For example, consider the diamonds data. It’s hard to understand the
+# relationship between cut and price, because cut and carat, and carat and price
+# are tightly related. 
+
+# It’s possible to use a model to remove the very strong relationship between
+# price and carat so we can explore the subtleties that remain. 
+
+# The following code fits a model that predicts price from carat and then
+# computes the residuals (the difference between the predicted value and the
+# actual value). 
+
+# The residuals give us a view of the price of the diamond, once the effect of
+# carat has been removed:
+
+library(modelr)
+
+mod <- lm(log(price) ~ log(carat), data = diamonds)
+
+diamonds2 <- diamonds %>% 
+  add_residuals(mod) %>% 
+  mutate(resid = exp(resid))
+
+ggplot(data = diamonds2) + 
+  geom_point(mapping = aes(x = carat, y = resid), alpha = 1/10) +
+  theme_light()
+
+# Once you’ve removed the strong relationship between carat and price, 
+# you can see what you expect in the relationship between cut and price: 
+# Relative to their size, better quality diamonds are more expensive:
+
+ggplot(data = diamonds2) + 
+  geom_boxplot(mapping = aes(x = cut, y = resid))
+
+# You’ll learn how models, and the modelr package, work in the final part of the book
+
+# model: http://r4ds.had.co.nz/model-intro.html#model-intro 
+
+# We’re saving modelling for later because understanding what models
+# are and how they work is easiest once you have tools of data wrangling and
+# programming in hand. 
 
 
-## +++ here now +++ ------
+
+## 7.7 ggplot2 calls ------
+
+# As we move on from these introductory chapters, we’ll transition to a more
+# concise expression of ggplot2 code. So far we’ve been very explicit, which is
+# helpful when you are learning:
+  
+ggplot(data = faithful, mapping = aes(x = eruptions)) + 
+  geom_freqpoly(binwidth = 0.25)
+
+# Typically, the first one or two arguments to a function are so important that
+# you should know them by heart. The first two arguments to ggplot() are 
+# 1. data and 2. mapping, and 
+# the first two arguments to aes() are x and y. 
+
+# In theremainder of the book, we won’t supply those names. 
+# That saves typing, and, by reducing the amount of boilerplate, 
+# makes it easier to see what’s different between plots. 
+# That’s a really important programming concern that we’ll come
+# back in functions.
+
+# Rewriting the previous plot more concisely yields:
+  
+ggplot(faithful, aes(eruptions)) + 
+  geom_freqpoly(binwidth = 0.25)
+
+# Sometimes we’ll turn the end of a pipeline of data transformation into a plot. 
+# Watch for the transition from %>% to +. 
+# I wish this transition wasn’t necessary but unfortunately ggplot2 was created 
+# before the pipe was discovered: 
+
+diamonds %>% 
+  count(cut, clarity) %>% 
+  ggplot(aes(clarity, cut, fill = n)) + 
+  geom_tile()
+
+
+
+## 7.8 Learning more ------
+
+# 1. ggplot2 book: 
+# If you want to learn more about the mechanics of ggplot2, I’d highly recommend
+# grabbing a copy of the ggplot2 book: https://amzn.com/331924275X. It’s been
+# recently updated, so it includes dplyr and tidyr code, and has much more space
+# to explore all the facets of visualisation. 
+
+# Unfortunately the book isn’t generally available for free, but if you have a
+# connection to a university you can probably get an electronic version for free
+# through SpringerLink.
+
+# 2. Another useful resource is the R Graphics Cookbook by Winston Chang. Much
+#    of the contents are available online at http://www.cookbook-r.com/Graphs/.
+
+# 3. I also recommend Graphical Data Analysis with R, by Antony Unwin. 
+#    This is a book-length treatment similar to the material covered in this
+#    chapter, but has the space to go into much greater depth.
+
+# +++ here now +++ ------
 
 ## ------
 ## eof.
