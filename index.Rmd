@@ -1,7 +1,7 @@
 ---
 title: "Data Science for Psychologists (ds4psy)"
 author: "Hansjörg Neth, SPDS, uni.kn"
-date: "2018 03 14"
+date: "2018 03 18"
 output:
   rmdformats::html_clean:
     highlight: kate
@@ -84,6 +84,31 @@ Dates and sessions:
 
 
 # Course Description
+
+## Data science as the art of dealing with data
+
+Data is cheap and ubiquitous. Every shopping trip, phone call, or visit of a web page leaves a trail of data. Apart from raising important issues of privacy, the notion of big data highlights another problem: In an era in which digital information is collected everywhere, we are drowning in data that seems meaningful and valuable, but we often fail to understand. We lack the ability and tools of dealing with data. 
+
+Data science is relevant not only for natural and computer sciences, but also for social sciences, humanities, and even arts. It is partly, but not only a scientific enterprise, but also a skill, art, and craft. 
+Like all skills, arts and crafts, it requires special tools, experience in selecting and using them, and an awful lot of practice.
+
+### Learning to play an instrument
+
+Compare data science with learning an instrument (or some sport): You need some special things (e.g., the instrument, various accessories, but also infrastructure) to get started. Once you have all this stuff, you mostly need instruction and lots of practice. (It helps to have talent, but dedicated practice is essential even when you happen to be a genius.) 
+
+Goals: Complete Rtudes, recital at exam, your first concert as final project.
+
+Ultimately, practicing any art, craft or science is also a process of socialization: belonging to a community that shares the same goals, methods, and values.
+
+### Contrast with statistics
+
+There is an overlap between data science and statistics, but not the same. 
+Statistics is also a mathematical discipline that does not require getting your hands dirty with data. Moreover, statistics mostly quantifies differences and relationships and aims to test effects.
+
+Data science is an essential prerequisite for applied statistics, but does not need statistics to yield meaningful results. Data science is applied descriptive statistics, but with a different main goal: understanding the data, rather than testing effects.
+
+The ability to deal with data in a variety of ways enables new insights (e.g., by visualizing hidden properties and relationships), but also frees the mind for thinking about data.
+
 
 ## Overview
 
