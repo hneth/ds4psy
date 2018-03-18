@@ -70,6 +70,7 @@ library(tidyverse)
 
 
 
+
 ## 7.3 Variation ------
 
 # Variation := the tendency of the values of a variable to change 
@@ -604,6 +605,7 @@ mean(v, na.rm = TRUE)
 
 
 
+
 ## 7.5 Covariation ------
 
 # If variation describes the behavior within a variable, 
@@ -618,7 +620,8 @@ mean(v, na.rm = TRUE)
 # How you do that should again depend on the type of variables involved.
 
 
-## 7.5.1 A categorical and continuous variable -----
+
+## 7.5.1 A categorical and a continuous variable -----
 
 ## (A) Frequency polygon: ----
 
@@ -688,7 +691,7 @@ ggplot(data = diamonds, mapping = aes(x = cut, y = price, color = cut)) +
 # In the exercises, you’ll be challenged to figure out why.
 
 
-## Ordered vs. un-ordered factors: reorder categories ----
+## (C) Ordered vs. un-ordered factors: reordering categories ----
 
 # cut is an ordered factor: 
 # fair is worse than good, which is worse than very good and so on. 
@@ -982,6 +985,7 @@ ggplot(diamonds) +
   theme_light()
 
 
+
 ## 7.5.2 Two categorical variables -----
 
 # (1) Visualize the frequency of counts:
@@ -1040,15 +1044,170 @@ ggplot(df1) +
 
 # 1. How could you rescale the count dataset above to more clearly show the
 #    distribution of cut within colour, or colour within cut?
-  
+
+?geom_count
+
+p <- ggplot(diamonds, aes(x = cut, y = color)) +
+  theme_light()
+
+# above:
+p + geom_count()
+
+# with scale_size_area():
+p + geom_count() +
+  scale_size_area(max_size = 15)
+
+# Display proportions instead of counts:
+p + geom_count(aes(size = ..prop.., group = 1)) +
+  scale_size_area(max_size = 15)
+
+p + geom_count(aes(size = ..prop.., group = 2)) +
+  scale_size_area(max_size = 15)
+
+# Or group by x/y variables to have rows/columns sum to 1.
+p + geom_count(aes(size = ..prop.., group = cut)) + # columns sum to 1
+  scale_size_area(max_size = 15) 
+
+p + geom_count(aes(size = ..prop.., group = color)) + # rows sum to 1
+  scale_size_area(max_size = 15)
+
+
 # 2. Use geom_tile() together with dplyr to explore how average flight delays
 #    vary by destination and month of year. What makes the plot difficult to read?
 #    How could you improve it?
-  
+
+arr_delay <- nycflights13::flights %>%
+  group_by(month, dest) %>%
+   summarise(count = n(),
+             n_not_NA = sum(!is.na(arr_delay)), 
+             mn_delay = mean(arr_delay, na.rm = TRUE))
+
+ggplot(arr_delay, aes(x = dest, y = month)) +
+  geom_tile(aes(fill = mn_delay))
+
+# - too many destinations
+# - missing values for some destinations => remove them
+# - flip x axis labels
+
+
 # 3. Why is it slightly better to use aes(x = color, y = cut) 
 #    rather than aes(x = cut, y = color) in the example above?
+
+# used above:
+ggplot(data = diamonds) +
+  geom_count(mapping = aes(x = cut, y = color), color = "steelblue") + 
+  theme_light()
+
+# better alternative:   
+ggplot(data = diamonds) +
+  geom_count(mapping = aes(x = color, y = cut), color = "steelblue") + 
+  theme_light()
+
+# There are 7 levels of color vs. 5 levels of cut: 
+# Use larger number as x axis 
+# (on rectangular screens with larger width than height)
+
+
+
+## 7.5.3 Two continuous variables -----
+
+# You’ve already seen one great way to visualise the covariation between two
+# continuous variables: 
+
+## Draw a scatterplot with geom_point(): ----
+
+# Covariation shows as a pattern in the points. 
+
+# For example, see the exponential relationship between 
+# the carat size and price of a diamond:
+
+p <- ggplot(data = diamonds, mapping = aes(x = carat, y = price)) +
+  theme_light()
+
+p + geom_point()
+
+# Problem with large data sets: Overplotting
+
+# Possible solutions: 
+
+## (A) Add transparency using the alpha aesthetic: ----
+
+p + geom_point(alpha = 1/25)
+
+# But: Transparency can be insufficient for large data sets.
+
+## (B) Bin across 2 dimensions: ----
+
+# Previously we used geom_histogram() and geom_freqpoly() to bin in 1 dimension. 
+# Now we use geom_bin2d() and geom_hex() to bin in 2 dimensions:
+
+smaller <- diamonds %>% 
+  filter(carat < 3)
+
+p <- ggplot(data = smaller, mapping = aes(x = carat, y = price)) + 
+  theme_light()
+
+# Using transparency:
+p + geom_point(alpha = 1/25)
+
+# Using geom_bin2d(): 
+p + geom_bin2d()
+
+## Using geom_hexbin():
+# install.packages('hexbin')
+
+p + geom_hex()
+
+# geom_bin2d() and geom_hex() divide the coordinate plane into 2d bins and then
+# use a fill color to display how many points fall into each bin. 
+# - geom_bin2d() creates rectangular bins. 
+# - geom_hex() creates hexagonal bins (and requires the hexbin package). 
+
+# Note: The vertical pattern of price frequency by carat size disappears 
+#       in both binned versions.  Perhaps try a smaller bin width?
+
+?geom_hex
+
+p + geom_hex(bins = 90)
+
+p + geom_hex(binwidth = c(1, 1000))
+p + geom_hex(binwidth = c(0.1, 1000))
+p + geom_hex(binwidth = c(0.05, 500))
+p + geom_hex(binwidth = c(0.025, 250))
+
+
+## (C) Bin 1 continuous variable and visualize 1 categorical + 1 continuous variable: ----
+
+# Another option is to bin one continuous variable so it acts like a categorical
+# variable. Then you can use one of the techniques for visualising the
+# combination of a categorical and a continuous variable that you learned about.
+
+# For example, you could bin carat and then for each group, display a boxplot:
   
+ggplot(data = smaller, mapping = aes(x = carat, y = price)) + 
+  geom_boxplot(mapping = aes(group = cut_width(carat, 0.1)))
+
+p + geom_boxplot(mapping = aes(group = cut_width(carat, 0.1)))
   
+# cut_width(x, width), as used above, divides x into bins of width width.
+
+# Problem: Boxplot do not show frequency of observations per box: 
+# By default, boxplots look roughly the same (apart from number of outliers) 
+# regardless of how many observations there are, so it’s difficult to tell 
+# that each boxplot summarises a different number of points. 
+
+# Solutions:
+
+# (a) One way to show that is to make the width of the boxplot proportional to the
+#     number of points with varwidth = TRUE:  [test.quest]
+
+p + geom_boxplot(mapping = aes(group = cut_width(carat, 0.1)), varwidth = TRUE)
+
+# (b) Another approach is to display approximately the same number of points 
+#     in each bin. That’s the job of cut_number():
+  
+p + geom_boxplot(mapping = aes(group = cut_number(carat, 20)))  
+
 
 
 ## +++ here now +++ ------
