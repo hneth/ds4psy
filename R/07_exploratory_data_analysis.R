@@ -1,7 +1,7 @@
 ## r4ds: Chapter 7:  
 ## Code for http://r4ds.had.co.nz/exploratory-data-analysis.html 
 ## hn spds uni.kn
-## 2018 03 17 ------
+## 2018 03 18 ------
 
 ## Quotes: ------
 
@@ -688,7 +688,7 @@ ggplot(data = diamonds, mapping = aes(x = cut, y = price, color = cut)) +
 # In the exercises, you’ll be challenged to figure out why.
 
 
-## Ordered vs. un-ordered factors: reoder categories ----
+## Ordered vs. un-ordered factors: reorder categories ----
 
 # cut is an ordered factor: 
 # fair is worse than good, which is worse than very good and so on. 
@@ -699,19 +699,19 @@ ggplot(data = diamonds, mapping = aes(x = cut, y = price, color = cut)) +
 # For example, take the class variable in the mpg dataset. 
 # You might be interested to know how highway mileage varies across classes:
   
-ggplot(data = mpg, mapping = aes(x = class, y = hwy)) +
+ggplot(data = mpg, mapping = aes(x = class, y = hwy, color = class)) +
   geom_boxplot()
 
 # To make the trend easier to see, we can reorder class based on the median value of hwy:
   
 ggplot(data = mpg) +
-  geom_boxplot(mapping = aes(x = reorder(class, hwy, FUN = median), y = hwy))
+  geom_boxplot(mapping = aes(x = reorder(class, hwy, FUN = median), y = hwy, color = class))
 
 # If you have long variable names, geom_boxplot() will work better if you flip it 90°. 
 # You can do that with coord_flip().
 
 ggplot(data = mpg) +
-  geom_boxplot(mapping = aes(x = reorder(class, hwy, FUN = median), y = hwy)) +
+  geom_boxplot(mapping = aes(x = reorder(class, hwy, FUN = median), y = hwy, color = class)) +
   coord_flip()
 
 ## 7.5.1.1 Exercises -----
@@ -767,6 +767,8 @@ ggplot(diamonds, mapping = aes(x = carat, color = cut)) +
   scale_color_brewer(palette = "Set1") +
   theme_light()
 
+# Show distribution density (each curve scaled to 1):
+
 ggplot(diamonds, mapping = aes(x = carat, y = ..density.., color = cut)) +
   geom_freqpoly(binwidth = 0.1) +
   scale_color_brewer(palette = "Set1") +
@@ -798,6 +800,9 @@ ggplot(diamonds, mapping = aes(x = cut, y = carat, color = cut)) +
   scale_color_brewer(palette = "Set1") +
   theme_light()
 
+# Note: Boxplot does not show frequency and gets messy when there are many outliers.
+#       (See Exercise 4 below: lvplot)
+
 ggplot(diamonds, mapping = aes(x = cut, y = carat, color = cut)) +
   geom_jitter(alpha = 1/10) + 
   geom_violin() + 
@@ -808,15 +813,242 @@ ggplot(diamonds, mapping = aes(x = cut, y = carat, color = cut)) +
 #    2. ideal cut with low carats is most frequent type of diamond.
 
 
-# 3. Install the ggstance package, and create a horizontal boxplot. How does this compare to using coord_flip()?
-  
-# 4. One problem with boxplots is that they were developed in an era of much smaller datasets and tend to display a prohibitively large number of “outlying values”. One approach to remedy this problem is the letter value plot. Install the lvplot package, and try using geom_lv() to display the distribution of price vs cut. What do you learn? How do you interpret the plots?
-  
-# 5. Compare and contrast geom_violin() with a facetted geom_histogram(), or a coloured geom_freqpoly(). What are the pros and cons of each method?
-  
-# 6. If you have a small dataset, it’s sometimes useful to use geom_jitter() to see the relationship between a continuous and categorical variable. The ggbeeswarm package provides a number of methods similar to geom_jitter(). List them and briefly describe what each one does.
+# 3. Install the ggstance package, and create a horizontal boxplot. 
+#    How does this compare to using coord_flip()?
+
+# from above:
+
+ggplot(data = mpg) +
+  geom_boxplot(mapping = aes(x = reorder(class, hwy, FUN = median), y = hwy, color = class)) +
+  coord_flip() + 
+  theme_light()
+
+# adding cyl as a factor within class:
+
+ggplot(data = mpg) +
+  geom_boxplot(mapping = aes(x = reorder(class, hwy, FUN = median), y = hwy, fill = factor(cyl))) +
+  coord_flip() + 
+  theme_light()
+
+# ggstance implements horizontal versions of common ggplot2 Geoms, Stats, and Positions.
+
+# Difference in argument order of command: 
+# To create a horizontal layer in ggplot2 with coord_flip(), 
+# aesthetics are specified as if they were to be drawn vertically:
+# In ggstance, aesthetics are specified in their natural order:
+
+# install.packages('ggstance')
+library(ggstance)
+
+ggplot(data = mpg) +
+  geom_boxploth(mapping = aes(x = hwy, y = reorder(class, hwy, FUN = median), color = class)) +
+  theme_light()
+
+# adding cyl as a factor within class:
+
+ggplot(data = mpg) +
+  geom_boxploth(mapping = aes(x = hwy, y = reorder(class, hwy, FUN = median), fill = factor(cyl))) +
+  theme_light()
+
+# 3 differences:
+# 
+# - Command order (see above).
+# - While coord_flip() in ggplot can only flip a plot as a whole, 
+#   ggstance provides flipped versions of Geoms, Stats and Positions. 
+#   This makes it easier to build horizontal layer or use vertical positioning 
+#   (e.g. vertical dodging). 
+# - Also, horizontal Geoms draw horizontal legend keys to keep the appearance 
+#   of plots consistent.
 
 
+# 4. One problem with boxplots is that they were developed in an era of much
+#    smaller datasets and tend to display a prohibitively large number of “outliers”. 
+#    Also: Boxplots do not represent frequency and thus can be misleading when categories 
+#    differ a lot in their frequency (as in the diamond$cut example above).
+
+ggplot(diamonds, mapping = aes(x = cut, y = carat, color = cut)) +
+  geom_boxplot() + 
+  scale_color_brewer(palette = "Set1") +
+  theme_light()
+
+#   One approach to remedy this problem is the letter value plot. 
+#   Install the lvplot package, and try using geom_lv() to display the distribution of
+#   price vs cut. 
+
+# install.packages('lvplot')
+library(lvplot)
+
+# From examples (using mpg data):
+p <- ggplot(mpg, aes(class, hwy)) + theme_light()
+p
+p + geom_lv(aes(fill = ..LV..)) + scale_fill_brewer()
+p + geom_lv() + geom_jitter(width = 0.2)
+p + geom_lv(alpha = 1, aes(fill = ..LV..)) + scale_fill_lv()
+
+# Above graph (i.e., still carat by cut):
+
+ggplot(diamonds, mapping = aes(x = cut, y = carat, color = cut)) +
+  geom_lv() + 
+  scale_color_brewer(palette = "Set1") +
+  theme_light()
+
+# Price vs. cut:
+
+ggplot(diamonds, mapping = aes(x = cut, y = price)) +
+  geom_lv(aes(fill = ..LV..)) + 
+  scale_fill_brewer() +
+  theme_light()
+
+# What do you learn? How do you interpret the plots?
+  
+
+# 5. Compare and contrast 
+#    a) geom_violin() with a 
+#    b) facetted geom_histogram(), or a 
+#    c) coloured geom_freqpoly(). 
+# What are the pros and cons of each method?
+
+# - all plot types show distributions
+# - of 1 continuous variable by 1 categorical variable
+
+# 1) Using mpg data: Distribution of hwy by class of car:
+# a) violin plot:
+
+ggplot(mpg) +
+  geom_violin(mapping = aes(x = reorder(class, hwy, FUN = median), y = hwy, color = class)) +
+  theme_light()
+
+# b) histogram facets:
+
+ggplot(mpg) +
+  facet_wrap(~class) + 
+  geom_histogram(mapping = aes(x = hwy, fill = class), binwidth = 1) +
+  theme_light()
+
+# c) freqpoly: 
+
+ggplot(mpg) +
+  geom_freqpoly(mapping = aes(x = hwy, color = class)) +
+  theme_light()
+
+# freqpoly as density:
+
+ggplot(mpg) +
+  geom_freqpoly(mapping = aes(x = hwy, y = ..density.., color = class)) +
+  theme_light()
+
+# 2) Using diamonds data: price by carat
+
+# a) violin plot:
+
+ggplot(diamonds) +
+  geom_violin(mapping = aes(x = cut, y = price, color = cut)) +
+  theme_light()
+
+# b) histogram facets:
+
+ggplot(diamonds) +
+  facet_wrap(~cut) + 
+  geom_histogram(mapping = aes(x = price, fill = cut), binwidth = 1000) +
+  theme_light()
+
+# c) freqpoly: 
+
+ggplot(diamonds) +
+  geom_freqpoly(mapping = aes(x = price, color = cut)) +
+  theme_light()
+
+
+# 6. If you have a small dataset, it’s sometimes useful to use geom_jitter() 
+#    to see the relationship between a continuous and categorical variable. 
+#    The ggbeeswarm package provides a number of methods similar to geom_jitter().
+#    List them and briefly describe what each one does.
+
+# install.packages('ggbeeswarm')
+library(ggbeeswarm)
+
+ggplot(mpg) +
+  geom_beeswarm(mapping = aes(x = reorder(class, hwy, FUN = median), y = hwy, color = class)) +
+  theme_light()
+
+ggplot(mpg) +
+  geom_quasirandom(mapping = aes(x = reorder(class, hwy, FUN = median), y = hwy, color = class)) +
+  theme_light()
+
+# Note: ggbeeswarm gets difficult with larger datasets (large N of cases): 
+
+ggplot(diamonds) +
+  geom_quasirandom(mapping = aes(x = cut, y = price, color = cut), alpha = 1/10) +
+  theme_light()
+
+
+## 7.5.2 Two categorical variables -----
+
+# (1) Visualize the frequency of counts:
+
+# To visualise the covariation between categorical variables, 
+# count the number of observations for each combination
+# by using geom_count():
+
+ggplot(data = diamonds) +
+  geom_count(mapping = aes(x = cut, y = color), color = "steelblue") + 
+  theme_light()
+
+# The size of each circle in the plot displays how many observations occurred at
+# each combination of values. Covariation will appear as a strong correlation
+# between specific x values and specific y values.
+
+
+# (2) Contingency/frequency table:
+
+# table(diamonds$cut)
+# table(diamonds$color)
+
+t1 <- table(diamonds$color, diamonds$cut)
+t1
+
+
+# (2) Using dplyr:
+
+t2 <- diamonds %>% 
+  count(color, cut)
+t2
+
+# Then visualise t2 with geom_tile() and the fill aesthetic:
+
+ggplot(t2) +
+  geom_tile(mapping = aes(x = color, y = cut, fill = n))
+
+# same with t1 (i.e., without dplyr):
+
+df1 <- data.frame(t1)
+names(df1) <- c("color", "cut", "n")
+head(df1)
+
+ggplot(df1) +
+  geom_tile(mapping = aes(x = color, y = cut, fill = n))
+
+# If the categorical variables are unordered, 
+# use the seriation package to simultaneously reorder the rows and columns 
+# in order to more clearly reveal interesting patterns. 
+
+# For larger plots, you might want to try the 
+# d3heatmap or heatmaply packages, which create interactive plots.
+
+
+## 7.5.2.1 Exercises ---- 
+
+# 1. How could you rescale the count dataset above to more clearly show the
+#    distribution of cut within colour, or colour within cut?
+  
+# 2. Use geom_tile() together with dplyr to explore how average flight delays
+#    vary by destination and month of year. What makes the plot difficult to read?
+#    How could you improve it?
+  
+# 3. Why is it slightly better to use aes(x = color, y = cut) 
+#    rather than aes(x = cut, y = color) in the example above?
+  
+  
 
 
 ## +++ here now +++ ------
