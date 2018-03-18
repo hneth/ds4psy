@@ -1209,6 +1209,87 @@ p + geom_boxplot(mapping = aes(group = cut_width(carat, 0.1)), varwidth = TRUE)
 p + geom_boxplot(mapping = aes(group = cut_number(carat, 20)))  
 
 
+## 7.5.3.1 Exercises -----
+
+library(tidyverse)
+
+smaller <- diamonds %>% 
+  filter(carat < 3)
+
+# 1. Instead of summarising the conditional distribution with a boxplot, 
+#    you could use a frequency polygon. 
+#    What do you need to consider when using cut_width() vs cut_number()? 
+#    How does that impact a visualisation of the 2d distribution of carat and price?
+
+q <- ggplot(data = smaller, mapping = aes(x = carat)) + 
+  theme_light()
+
+q + geom_freqpoly(mapping = aes(color = cut_width(price, 5000)))
+
+q + geom_freqpoly(mapping = aes(color = cut_number(price, 6)))
+
+
+# 2. Visualise the distribution of carat, partitioned by price.
+
+r <- ggplot(data = smaller, mapping = aes(x = price, y = carat)) + 
+  theme_light()
+
+r + geom_boxplot(mapping = aes(group = cut_width(price, 2000))) # bin spanning a width of $1000
+
+r + geom_boxplot(mapping = aes(group = cut_width(price, 2000)), varwidth = TRUE) # width represents freq
+
+r + geom_boxplot(mapping = aes(group = cut_number(price, 10))) # 10 bins with equal number of points per bin
+
+
+# 3. How does the price distribution of very large diamonds compare to small diamonds. 
+#    Is it as you expect, or does it surprise you?
+
+p <- ggplot(data = smaller, mapping = aes(x = carat, y = price)) + 
+  theme_light()
+
+p + geom_boxplot(mapping = aes(group = cut_width(carat, 1))) # bin spanning a width of 1 carat
+
+# Larger diamonds (as defined by carat) show more variability, unsurprisingly. 
+
+
+# 4. Combine two of the techniques you’ve learned to visualise 
+#    the combined distribution of cut, carat, and price.
+
+?diamonds
+
+# cut is categorical => use as grouping or faceting variable
+
+s <- ggplot(data = smaller, mapping = aes(x = carat, y = price)) +
+  theme_light()
+
+s + geom_point(aes(color = cut), alpha = 1/10)
+
+# use faceting:
+
+s + facet_wrap(~cut) +
+    geom_point(aes(color = cut), alpha = 1/10)
+
+ 
+# 5. Two dimensional plots reveal outliers that are 
+#    not visible in one dimensional plots. 
+
+# For example, some points in the plot below have an unusual combination 
+# of x and y values, which makes the points outliers even though their 
+# x and y values appear normal when examined separately:
+
+ggplot(data = diamonds) +
+  geom_point(mapping = aes(x = x, y = y), alpha = 1/5) +
+  coord_cartesian(xlim = c(4, 11), ylim = c(4, 11)) +
+  theme_light()
+
+# Why is a scatterplot a better display than a binned plot for this case?
+
+# Answer: The scatterplot shows the linear relationship between x and y?
+
+
+## 7.6 Patterns and models ------
+
+
 
 ## +++ here now +++ ------
 
