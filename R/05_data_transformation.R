@@ -3,12 +3,6 @@
 ## hn spds uni.kn
 ## 2018 03 14 ------
 
-## Quotes: ------
-
-## ...
-
-
-
 ## 5.1 Introduction ------
 
 ## 5.1.1 Prerequisites
