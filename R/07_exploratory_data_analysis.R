@@ -1,7 +1,7 @@
 ## r4ds: Chapter 7:  
 ## Code for http://r4ds.had.co.nz/exploratory-data-analysis.html 
 ## hn spds uni.kn
-## 2018 03 18 ------
+## 2018 03 19 ------
 
 ## Quotes: ------
 
@@ -1401,6 +1401,9 @@ diamonds %>%
 
 
 ## 7.8 Learning more ------
+
+# 0. Chapter 28: of current book <http://r4ds.had.co.nz>:
+# Graphics for communication: http://r4ds.had.co.nz/graphics-for-communication.html 
 
 # 1. ggplot2 book: 
 # If you want to learn more about the mechanics of ggplot2, I’d highly recommend

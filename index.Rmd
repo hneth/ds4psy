@@ -40,7 +40,7 @@ opts_knit$set(width=75)
 
 # Sessions and Topics
 
-Individual sessions:
+## Individual sessions
 
 Introduction: R basics (from other course)
 
@@ -49,9 +49,20 @@ Introduction: R basics (from other course)
 1. R basics 3: Writing functions and loops, graphics (weeks 9+5)
 
 
-Book chapters: 
+## Book parts 
+
+- Introduction
+- Explore
+- Wrangle
+- Program
+- Model
+- Communicate
+
+## Book chapters 
 
 1. [Chapters 1, 2, 4, 6, 8](http://r4ds.had.co.nz): Introduction, coding and workflow basics (scripts, projects).
+
+Part 1: Explore
 
 1. [Chapter 3: Data visualisation](http://r4ds.had.co.nz/data-visualisation.html): `ggplot2`.  
    [Chapter 4: Workflow: basics](http://r4ds.had.co.nz/workflow-basics.html): assignment, naming, completion, functions 
@@ -62,15 +73,22 @@ Book chapters:
 1. [Chapter 7: Exploratory data analysis (EDA)](http://r4ds.had.co.nz/exploratory-data-analysis.html).  
    [Chapter 8: Workflow: projects](http://r4ds.had.co.nz/workflow-projects.html): files, directories, paths, projects
 
+Part 2: Wrangle 
+
 1. Mid-term test
 
 
-Dates and sessions:
+## Dates and sessions 
 
  1. 16.04.2018: Introduction:  [Chapters 1, 2, 4, 6, 8](http://r4ds.had.co.nz) 
+ 
+ Part 1: Explore
+ 
  2. 23.04.2018: [Chapter 3: Data visualisation](http://r4ds.had.co.nz/data-visualisation.html): `ggplot2`.  
  3. 30.04.2018: [Chapter 5: Data transformation](http://r4ds.had.co.nz/5_data_transformation.html): `dplyr`.  
  4. 07.05.2018: [Chapter 7: Exploratory data analysis (EDA)](http://r4ds.had.co.nz/exploratory-data-analysis.html).
+ 
+ Part 2: Wrangle 
  
  5. 14.05.2018: 
  6. 21.05.2018:

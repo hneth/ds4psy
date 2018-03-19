@@ -11,6 +11,7 @@
 ## “The greatest value of a picture is when it forces us to notice what we never expected to see.” 
 ## John Tukey
 
+
 ## 3.1 Introduction ------
 
 ## Goal: Visualize data using ggplot2
@@ -26,6 +27,7 @@ library(tidyverse)               # always
 ## Note: Use "::", e.g., 
 ## package::function() 
 ## to explicilty use function() from package "package".
+
 
 
 ## 3.2 First steps: ------
@@ -81,6 +83,7 @@ table(mpg$class)
 
 ggplot(data = mpg) +                            
   geom_point(mapping = aes(x = class, y = drv))
+
 
 
 ## 3.3 Aesthetic mappings ------
@@ -183,6 +186,7 @@ ggplot(data = mpg) +
 # Something interesting happens: Classification into 2 truth values.
 
 
+
 ## 3.4 Common problems: ------
 
 # One common problem when creating ggplot2 graphics is to put the + in the wrong place: 
@@ -196,6 +200,7 @@ ggplot(data = mpg)   # won't work:
 # - try out and play with variants
 # - consult help (via ?function) and manuals
 # - Google error messages 
+
 
 
 ## 3.5 Facets: ------ 
@@ -316,6 +321,7 @@ ggplot(data = mpg) +
   geom_point(mapping = aes(x = displ, y = hwy)) + 
   facet_grid(cyl ~ drv) +   # (4 rows ~ 3 cols)
   theme_light()
+
 
 
 
@@ -528,6 +534,7 @@ ggplot(data = mpg) +
 ggplot(data = mpg) +
   geom_point(mapping = aes(x = displ, y = hwy, fill = drv), shape = 21, size = 3, color = "white", stroke = 1.5)
 
+
 ## 3.7 Statistical transformations: ------ 
 
 ## The diamonds data set: 
@@ -677,6 +684,7 @@ ggplot(data = demo) +
 ggplot(data = diamonds) +
   geom_point(mapping = aes(x = carat, y = price)) + 
   geom_smooth(mapping = aes(x = carat, y = price))
+
 
 
 ## 3.8 Position adjustments: ------ 
@@ -829,6 +837,7 @@ ggplot(data = mpg) +
   geom_boxplot(mapping = aes(x = manufacturer, y = hwy, color = manufacturer), position = "dodge", outlier.colour = "firebrick") +
   geom_jitter(mapping = aes(x = manufacturer, y = hwy), width = .2, alpha = 2/5) + 
   theme_bw()
+
 
 
 ## 3.9 Coordinate systems: ------ 
@@ -1038,6 +1047,7 @@ ggplot(data = mpg, mapping = aes(x = cty, y = hwy)) +
   theme_light()
 
 
+
 ## 3.10 The layered grammar of graphics: ------ 
 
 ## +++ here now +++
@@ -1054,7 +1064,13 @@ ggplot(data = mpg, mapping = aes(x = cty, y = hwy)) +
 #   <FACET_FUNCTION>
 
 
+
 ## Appendix: Additional resources on ggplot: ------
+
+## Chapter 28 of r4ds: 
+
+# Chapter 28: of current book <http://r4ds.had.co.nz>:
+# Graphics for communication: http://r4ds.had.co.nz/graphics-for-communication.html 
 
 ## Books: 
 
