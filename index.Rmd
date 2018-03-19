@@ -1,7 +1,7 @@
 ---
 title: "Data Science for Psychologists (ds4psy)"
 author: "Hansjörg Neth, SPDS, uni.kn"
-date: "2018 03 18"
+date: "2018 03 19"
 output:
   rmdformats::html_clean:
     highlight: kate
@@ -51,6 +51,8 @@ Introduction: R basics (from other course)
 
 Book chapters: 
 
+1. [Chapters 1, 2, 4, 6, 8](http://r4ds.had.co.nz): Introduction, coding and workflow basics (scripts, projects).
+
 1. [Chapter 3: Data visualisation](http://r4ds.had.co.nz/data-visualisation.html): `ggplot2`.  
    [Chapter 4: Workflow: basics](http://r4ds.had.co.nz/workflow-basics.html): assignment, naming, completion, functions 
 
@@ -65,11 +67,12 @@ Book chapters:
 
 Dates and sessions:
 
- 1. 16.04.2018: Introduction.
- 2. 23.04.2018:
- 3. 30.04.2018:
- 4. 07.05.2018:
- 5. 14.05.2018:
+ 1. 16.04.2018: Introduction:  [Chapters 1, 2, 4, 6, 8](http://r4ds.had.co.nz) 
+ 2. 23.04.2018: [Chapter 3: Data visualisation](http://r4ds.had.co.nz/data-visualisation.html): `ggplot2`.  
+ 3. 30.04.2018: [Chapter 5: Data transformation](http://r4ds.had.co.nz/5_data_transformation.html): `dplyr`.  
+ 4. 07.05.2018: [Chapter 7: Exploratory data analysis (EDA)](http://r4ds.had.co.nz/exploratory-data-analysis.html).
+ 
+ 5. 14.05.2018: 
  6. 21.05.2018:
  7. 28.05.2018:
  8. 04.06.2018: 
