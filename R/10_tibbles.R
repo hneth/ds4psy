@@ -3,6 +3,7 @@
 ## hn spds uni.kn
 ## 2018 03 19 ------
 
+
 ## 10.1 Introduction ------
 
 # In this chapter we’ll explore the tibble package, part of the core tidyverse:
@@ -17,6 +18,7 @@ vignette("tibble")
 # They keep the features that have stood the test of time, 
 # and drop the features that used to be convenient but are now frustrating 
 # (i.e. converting character vectors to factors).
+
 
 
 ## 10.2 Creating tibbles ------
@@ -120,10 +122,11 @@ tb
 
 tribble(
   ~x, ~y, ~z,
-  #--|--|----
+  #--|--|---
   "a", 2, 3.6,
   "b", 1, 8.5
 )
+
 
 
 ## 10.3 Tibbles vs. data.frame ------
@@ -205,6 +208,7 @@ df %>% .[["x"]]
 # - they will generate a warning if the column you are trying to access does not exist.
 
 
+
 ## 10.4 Interacting with older code ------
 
 # Some older functions don’t work with tibbles. If you encounter one of these
@@ -228,41 +232,132 @@ class(df)
 # - With tibbles, [ always returns another tibble.
 
 
-# +++ here now +++ ------
 
 ## 10.5 Exercises ------
 
 # 1. How can you tell if an object is a tibble? (Hint: try printing mtcars,
 #    which is a regular data frame).
 
-# 2. Compare and contrast the following operations on a data.frame and
-#    equivalent tibble. What is different? Why might the default data frame
-#    behaviours cause you frustration?
+# printing tibble:
+df %>% 
+ print(n = 2, width = Inf)
+
+# printing data frame:
+head(mtcars)
+
+mtcars # prints entire data frame, but no additional info (type of variable, dimensions etc.)
+
+# contrast with:
+print(as_tibble(mtcars))
+
+
+# 2. Compare and contrast the following operations on a 
+#    data.frame and equivalent tibble. 
+#    What is different? 
+#    Why might the default data frame behaviours cause you frustration?
   
 df <- data.frame(abc = 1, xyz = "a")
-df$x
-df[, "xyz"]
-df[, c("abc", "xyz")]
+df
 
-# 3. If you have the name of a variable stored in an object, e.g. var <- "mpg",
+tb <- as_tibble(df)
+tb  
+
+df$x  # partial matching of variable name?
+tb$x  # NULL + warning: unknonwn column
+
+df[, "xyz"]  # a and "Levels: a"
+tb[, "xyz"]  # a and <fctr>
+
+df[, c("abc", "xyz")]  # returns df
+tb[, c("abc", "xyz")]  # returns tb + meta info (size, type)
+
+
+# 3. If you have the name of a variable stored in an object (e.g., var <- "mpg"),
 #    how can you extract the reference variable from a tibble?
-  
+
+mpg
+var <- mpg
+
+# Extracting the values of the "model" variable: 
+var$model
+var[ , 2]
+var %>% .$model
+
+# Extracing the name of the "model" variable:
+names(var)[2]
+
+
 # 4. Practice referring to non-syntactic names in the following data frame by:
-# a. Extracting the variable called 1.
-# b. Plotting a scatterplot of 1 vs 2.
-# c. Creating a new column called 3 which is 2 divided by 1.
-# d. Renaming the columns to one, two and three.
+#    a. Extracting the variable called 1.
+#    b. Plotting a scatterplot of 1 vs 2.
+#    c. Creating a new column called 3 which is 2 divided by 1.
+#    d. Renaming the columns to one, two and three.
 
 annoying <- tibble(
   `1` = 1:10,
   `2` = `1` * 2 + rnorm(length(`1`))
 )
 
+annoying
+
+annoying$`1`                                    # a.
+ggplot(annoying, aes(`1`, `2`)) + geom_point()  # b.
+annoying$`3` <- annoying$`2`/annoying$`1`       # c. 
+names(annoying) <- c("one", "two", "three")     # d. 
+
+annoying
+
 # 5. What does tibble::enframe() do? 
 #    When might you use it?
-  
+
+?enframe
+
+
+# Description: 
+
+# enframe() converts named atomic vectors or lists to two-column data frames.
+# For unnamed vectors, the natural sequence is used as name column.
+
+# deframe() converts two-column data frames to a named vector or list, 
+# using the first column as name and the second column as value.
+
+# Example: 
+
+# Create a named vector describing German flag:
+de <- c("black", "red", "gold")
+names(de) <- c("top", "mid", "bot")
+de
+
+# Enframe:
+flag <- enframe(de)
+flag
+
+# Note: 
+as_tibble(de) # does not work!
+
+# Deframe: 
+deframe(flag)
+
+# [test.quest]: Create a tibble from a named vector.
+
+
 # 6. What option controls how many additional column names are printed at the
 #    footer of a tibble?
+
+?print.tbl
+
+# n_extra:
+
+# - Number of extra columns to print abbreviated information for, 
+#   if the width is too small for the entire tibble. 
+# If NULL, the default, will print information about 
+#    at most tibble.max_extra_cols extra columns.
+
+print(x = nycflights13::flights, n = 5, width = 75, n_extra = 2)
+
+
+
+## +++ here now +++ ------
 
 
 ## Appendix ------
