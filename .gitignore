@@ -35,6 +35,8 @@ vignettes/*.pdf
 .Rproj.user
 
 # others:
+_book 
+_data/_* 
 _gitless 
 .DS_Store 
 
