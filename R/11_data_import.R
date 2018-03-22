@@ -1,7 +1,7 @@
 ## r4ds: Chapter 11: Data import  
 ## Code for http://r4ds.had.co.nz/data-import.html 
 ## hn spds uni.kn
-## 2018 03 20 ------
+## 2018 03 22 ------
 
 
 ## 11.1 Introduction ------
