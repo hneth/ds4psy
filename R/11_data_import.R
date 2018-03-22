@@ -279,13 +279,132 @@ x <- parse_integer(c("123", "345", "abc", "123.45"))
 
 x
 
-# If there are many parsing failures, 
-# you’ll need to use problems() to get the complete set. 
-# This returns a tibble, which you can then manipulate with dplyr: 
+# If there are many parsing failures, you’ll need to use 
+# problems() 
+# to get the complete set. This returns a 
+# tibble, which you can manipulate with dplyr: 
 
 problems(x)
 
+# Using parsers is mostly a matter of understanding what’s available and how
+# they deal with different types of input. 
 
+# There are 8 important parsers:
+   
+# 1. parse_logical() and 
+# 2. parse_integer() parse logicals and integers. 
+# 
+# 3. parse_double() is a strict numeric parser, and 
+# 4. parse_number() is a flexible numeric parser. 
+#    These are more complicated than you might expect because 
+#     different parts of the world write numbers in different ways.
+# 
+# 5. parse_character() seems so simple that it shouldn’t be necessary. 
+#    But one complication makes it quite important: character encodings.
+# 
+# 6. parse_factor() create factors, the data structure that R uses 
+#    to represent categorical variables with fixed and known values.
+# 
+# 7. parse_datetime(), 
+# 8. parse_date(), and 
+# 9. parse_time() allow you to parse various date & time specifications. 
+#    These are the most complicated because there are so many different ways of writing dates.
+
+
+## 11.3.1 Numbers -----
+
+parse_double("1.23")
+
+# (1) Local decimal marks: ---- 
+
+# People write numbers differently in different parts of the world. 
+# For example, while the U.S. use "." in between the integer and fractional parts of a real number, 
+# many European countries use ",".
+
+# readr has the notion of a “locale”, an object that specifies parsing options
+# that differ from place to place. When parsing numbers, the most important
+# option is the character you use for the decimal mark. You can override the
+# default value of "." by creating a new locale and setting the decimal_mark
+# argument:
+
+parse_double("1,23", locale = locale(decimal_mark = ","))
+
+## (2) Context (pre- and postfix: units and percentages): ----
+
+# parse_number() ignores non-numeric characters before and after the number.
+# This is particularly useful for currencies and percentages, but also works to
+# extract numbers embedded in text:
+
+parse_number("$100")
+parse_number("20%")
+parse_number("It cost $123.45 for the entire box!")
+
+# Note: only 1st number extracted: 
+parse_number("It cost $123.45 for the entire box, not $12.45!") 
+
+
+## (3) Local grouping marks: ----
+
+# The combination of parse_number() and the locale as parse_number() 
+# will ignore the “grouping mark”:
+
+parse_number("$123,456,789")  # U.S.: "," as grouping mark (default) 
+parse_number("EUR123.456.789", locale = locale(grouping_mark = ".")) # Many European countries
+parse_number("FR123'456'789", locale = locale(grouping_mark = "'"))  # The Swiss are crazy!
+
+# Note rounding:
+parse_number("$123,456,789.49")  # rounds down
+parse_number("$123,456,789.50")  # rounds up
+
+
+## 11.3.2 Strings ----- 
+
+# It seems like parse_character() should be really simple — it could just return
+# its input. Unfortunately life isn’t so simple, as there are multiple ways to
+# represent the same string. 
+# In R, we can get at the underlying representation of a string using charToRaw():
+
+charToRaw("Hans")
+charToRaw("hans")
+
+# The mapping from hexadecimal number to character is called the encoding, 
+# and in this case the encoding is called ASCII. 
+
+# Fortunately, today there is one standard that is supported almost everywhere: UTF-8. 
+# UTF-8 can encode just about every character used by humans today, 
+# as well as many extra symbols (like emoji!).
+
+# readr uses UTF-8 everywhere: it assumes your data is UTF-8 encoded when you read it, 
+# and always uses it when writing. 
+# This is a good default, but will fail for data produced by older systems 
+# that don’t understand UTF-8.
+
+x1 <- "El Ni\xf1o was particularly bad this year"
+x2 <- "\x82\xb1\x82\xf1\x82\xc9\x82\xbf\x82\xcd"
+
+x1
+x2
+
+# To fix the problem you need to specify the encoding in parse_character():
+
+parse_character(x1, locale = locale(encoding = "Latin1"))
+parse_character(x2, locale = locale(encoding = "Shift-JIS"))
+
+# How do you find the correct encoding? If you’re lucky, it’ll be included
+# somewhere in the data documentation. Unfortunately, that’s rarely the case, so
+# readr provides guess_encoding() to help you figure it out. It’s not foolproof,
+# and it works better when you have lots of text (unlike here), but it’s a
+# reasonable place to start. 
+# Expect to try a few different encodings before you find the right one.
+
+guess_encoding(charToRaw(x1))
+guess_encoding(charToRaw(x2))
+
+# The first argument to guess_encoding() can either be a path to a file, or, 
+# as in this case, a raw vector (useful if the strings are already in R).
+
+# Encodings are a rich and complex topic. To learn more see 
+# http://kunststube.net/encoding/. 
 
 ## +++ here now +++ ------
 
