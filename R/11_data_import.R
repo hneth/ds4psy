@@ -1,7 +1,7 @@
 ## r4ds: Chapter 11: Data import  
 ## Code for http://r4ds.had.co.nz/data-import.html 
 ## hn spds uni.kn
-## 2018 03 22 ------
+## 2018 03 23 ------
 
 
 ## 11.1 Introduction ------
@@ -315,7 +315,7 @@ problems(x)
 
 parse_double("1.23")
 
-# (1) Local decimal marks: ---- 
+## (1) Local decimal marks: ---- 
 
 # People write numbers differently in different parts of the world. 
 # For example, while the U.S. use "." in between the integer and fractional parts of a real number, 
@@ -405,6 +405,191 @@ guess_encoding(charToRaw(x2))
 
 # Encodings are a rich and complex topic. To learn more see 
 # http://kunststube.net/encoding/. 
+
+## 11.3.3 Factors -----
+
+# R uses factors to represent categorical variables that have 
+# a known set of possible values. 
+
+# parse_factor() needs a vector of known levels to generate a warning 
+# whenever an unexpected value is present:
+  
+fruit <- c("apple", "banana")  # define levels
+parse_factor(c("apple", "banana", "bananana"), levels = fruit)
+
+# if you have many problematic entries, it’s often easier to leave as character vectors 
+# and then use the tools you’ll learn about in strings and factors to clean them up:
+# Ch. 14: http://r4ds.had.co.nz/strings.html
+# Ch. 20: http://r4ds.had.co.nz/vectors.html#factors-1 
+
+
+## 11.3.4 Dates, date-times, and times -----
+
+# 3 parsers distinguish between 
+
+# 1. date (the number of days since 1970-01-01), 
+# 2. date-time (the number of seconds since midnight 1970-01-01), or a 
+# 3. time (the number of seconds since midnight). 
+
+# When called without any additional arguments:
+
+# 1. parse_datetime() expects an ISO8601 date-time.
+#    This is the most important date/time standard. 
+#    If you work with dates and times frequently, see https://en.wikipedia.org/wiki/ISO_8601.
+
+parse_datetime("2010-12-24T2010")
+parse_datetime("20101224") # omitting time, sets it to midnight
+
+# 2. parse_date() expects a four digit year, a "-" or "/", the month, a "-" or "/", then the day:
+
+parse_date("2010-12-24")
+parse_date("2010/12/24")
+parse_date("2010/12-24")
+parse_date("2010-12/24")
+parse_date("2010-12_24")
+
+# 3. parse_time() expects the hour, ":", minutes, optionally ":" and seconds, 
+#    and an optional am/pm specifier:
+
+# Base R doesn’t have a great built in class for time data, 
+# so we use the one provided in the hms package: 
+library(hms)
+
+parse_time("01:10 am")
+parse_time("20:10:01")
+
+# If these defaults don’t work for your data you can supply your own date-time
+# format, built up of the following pieces:
+
+# Year:
+
+# %Y (4 digits). 
+# %y (2 digits); 00-69 -> 2000-2069, 70-99 -> 1970-1999. 
+
+# Month:
+
+# %m (2 digits). 
+# %b (abbreviated name, like “Jan”). 
+# %B (full name, “January”). 
+
+# Day:
+
+# %d (2 digits). 
+# %e (optional leading space). 
+
+# Time:
+
+# %H 0-23 hour. 
+# %I 0-12, must be used with %p. 
+# %p AM/PM indicator. 
+# %M minutes. 
+# %S integer seconds. 
+# %OS real seconds. 
+# %Z Time zone (as name, e.g. America/Chicago). Beware of abbreviations: if you’re American, note that “EST” is a Canadian time zone that does not have daylight savings time. It is not Eastern Standard Time! We’ll come back to this time zones. 
+# %z (as offset from UTC, e.g. +0800). 
+
+# Non-digits:
+
+# %. skips one non-digit character. 
+# %* skips any number of non-digits. 
+
+## Examples: 
+
+parse_date("01/02/15", "%m/%d/%y")
+parse_date("01/02/15", "%d/%m/%y")
+parse_date("01/02/15", "%y/%m/%d")
+
+
+# If you’re using %b or %B with non-English month names, 
+# set the lang argument to locale(). 
+# See the list of built-in languages in date_names_langs().   
+# If your language is not included, create your own with date_names().
+
+date_names_langs()
+
+parse_date("1 janvier 2015", "%d %B %Y", locale = locale("fr"))
+parse_date("1. Juli 1975", "%d %. %B %Y", locale = locale("de"))
+
+# [test.quest]:
+{
+# Take your ID card and type your birthday as a string exactly as it's written on the card:
+#
+# For instance, if you were Erika Mustermann https://de.wikipedia.org/wiki/Personalausweis_(Deutschland) 
+# you would write the string "12.08.1964"
+
+# a) Use a command to parse this into R 
+# b) Now read out the date in German (i.e., "12. August 1964") 
+#    and use a command parse this string into R
+
+parse_date("12.08.1964", "%d.%m.%Y")
+parse_date("12. August 1964", "%d. %B %Y", locale = locale("de"))
+}
+
+
+## 11.3.5 Exercises -----
+
+# 1. What are the most important arguments to locale()?
+
+?locale
+
+# Usage
+
+# locale(date_names = "en", date_format = "%AD", time_format = "%AT",
+#        decimal_mark = ".", grouping_mark = ",", tz = "UTC",
+#        encoding = "UTF-8", asciify = FALSE)
+
+
+# 2. a. What happens if you try and set decimal_mark and grouping_mark to the same
+#       character? 
+#    b. What happens to the default value of grouping_mark when you set
+#       decimal_mark to “,”? 
+#    c. What happens to the default value of decimal_mark when
+#       you set the grouping_mark to “.”?
+
+# ad (a):
+parse_number("EUR123.456.789", locale = locale(grouping_mark = "."))
+parse_number("EUR123.456.789", locale = locale(decimal_mark = ".", grouping_mark = "."))
+# => Error: `decimal_mark` and `grouping_mark` must be different
+
+# ad (b):
+parse_number("EUR123.456.789") # first "." is viewed as decimal mark
+parse_number("EUR123.456.789", locale = locale(decimal_mark = ","))  # "." is interpreted as grouping mark!
+
+# ad (c):
+parse_number("EUR123.456,789") # first "." is viewed as decimal mark
+parse_number("EUR123.456,789", locale = locale(grouping_mark = ".")) # "," is interpreted as decimal mark!
+
+# [test.quest]:
+# Parse the same amount in US$ and EUR (in the respective notation of each country):
+parse_number("US$1,099.95") 
+parse_number("EUR1.099,95", locale = locale(grouping_mark = "."))
+
+
+# 3. I didn’t discuss the date_format and time_format options to locale(). 
+#    What do they do? Construct an example that shows when they might be useful.
+
+
+# 4. If you live outside the US, create a new locale object that encapsulates
+#    the settings for the types of file you read most commonly.
+
+# 5. What’s the difference between read_csv() and read_csv2()?
+
+# 6. What are the most common encodings used in Europe? 
+#    What are the most common encodings used in Asia? 
+#    Do some googling to find out.
+ 
+# 7. Generate the correct format string to parse each of the following dates and times:
+  
+d1 <- "January 1, 2010"
+d2 <- "2015-Mar-07"
+d3 <- "06-Jun-2017"
+d4 <- c("August 19 (2015)", "July 1 (2015)")
+d5 <- "12/30/14" # Dec 30, 2014
+
+t1 <- "1705"
+t2 <- "11:15:10.12 PM"
+
+
 
 ## +++ here now +++ ------
 
