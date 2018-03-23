@@ -568,16 +568,46 @@ parse_number("EUR1.099,95", locale = locale(grouping_mark = "."))
 # 3. I didn’t discuss the date_format and time_format options to locale(). 
 #    What do they do? Construct an example that shows when they might be useful.
 
+?locale
+?date_format
+?time_format # no documentation!
+Sys.timezone()
+
+parse_datetime("2017-03-23 16:23:59", locale = locale(date_format = "%Y-%m-%d", tz = "UTC"))
+
 
 # 4. If you live outside the US, create a new locale object that encapsulates
 #    the settings for the types of file you read most commonly.
 
+format(Sys.time(), "%a %b %d %X %Y %Z")
+format(Sys.time(), "%A %B %D %X %Y %Z")
+
+de_locale <- locale(date_names = "de", date_format = "%AD", time_format = "%AT",
+                    decimal_mark = ",", grouping_mark = ".", tz = "CET",
+                    encoding = "UTF-8", asciify = FALSE)
+
+format(Sys.time(), locale = de_locale)
+parse_date(Sys.Date(), locale = de_locale)
+parse_number("1.010,99", locale = de_locale)
+
+
 # 5. What’s the difference between read_csv() and read_csv2()?
+
+?read_csv2()
+
+# read_csv() and read_tsv() are special cases of the general read_delim().
+# They're useful for reading the most common types of flat file data, comma
+# separated values and tab separated values, respectively.
+
+# read_csv2() uses ";" for separators, instead of ",". 
+# This is common in European countries which use , as the decimal separator.
+
 
 # 6. What are the most common encodings used in Europe? 
 #    What are the most common encodings used in Asia? 
 #    Do some googling to find out.
- 
+
+
 # 7. Generate the correct format string to parse each of the following dates and times:
   
 d1 <- "January 1, 2010"
@@ -590,10 +620,13 @@ t1 <- "1705"
 t2 <- "11:15:10.12 PM"
 
 
+parse_date(d1, "%B %d, %Y")
+parse_date(d2, "%Y-%b-%d")
+parse_date(d3, "%d-%b-%Y")
+parse_date(d4, "%B %d (%Y)")
+parse_date(d5, "%m/%d/%y")
 
 ## +++ here now +++ ------
-
-
 
 ## Appendix ------
 
