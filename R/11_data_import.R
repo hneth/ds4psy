@@ -590,6 +590,13 @@ format(Sys.time(), locale = de_locale)
 parse_date(Sys.Date(), locale = de_locale)
 parse_number("1.010,99", locale = de_locale)
 
+# See also 
+# http://r4ds.had.co.nz/dates-and-times.html#time-zones
+# for time zones.
+
+Sys.timezone() # shows current time zone
+OlsonNames()   # lists all time zones
+
 
 # 5. What’s the difference between read_csv() and read_csv2()?
 
@@ -607,6 +614,11 @@ parse_number("1.010,99", locale = de_locale)
 #    What are the most common encodings used in Asia? 
 #    Do some googling to find out.
 
+# See 
+# http://kunststube.net/encoding/ 
+# https://en.wikipedia.org/wiki/Character_encoding 
+# https://stackoverflow.com/questions/8509339/what-is-the-most-common-encoding-of-each-language 
+
 
 # 7. Generate the correct format string to parse each of the following dates and times:
   
@@ -619,12 +631,136 @@ d5 <- "12/30/14" # Dec 30, 2014
 t1 <- "1705"
 t2 <- "11:15:10.12 PM"
 
-
 parse_date(d1, "%B %d, %Y")
 parse_date(d2, "%Y-%b-%d")
 parse_date(d3, "%d-%b-%Y")
 parse_date(d4, "%B %d (%Y)")
 parse_date(d5, "%m/%d/%y")
+
+parse_time(t1, "%H%M")
+parse_time(t2, "%H:%M:%OS %p")
+
+
+## 11.4 Parsing a file ------
+
+# Now that we can parse an individual vector, 
+# we can understand how readr parses a file. 
+
+# This involves 2 points:
+# 1. How readr automatically guesses the type of each column.
+# 2. How to override the default specification.
+
+## 11.4.1 Strategy -----
+
+# readr uses a heuristic to figure out the type of each column: 
+# it reads the first 1000 rows and uses some (moderately conservative) 
+# heuristics to figure out the type of each column. 
+
+# To emulate this process with a character vector:  
+# - guess_parser() returns readr’s best guess, and
+# - parse_guess() uses that guess to parse a column:
+
+guess_parser("2010-10-01")
+guess_parser("15:01")
+guess_parser(c("TRUE", "FALSE"))
+guess_parser(c("1", "5", "9"))
+guess_parser(c("12,352,561"))
+
+parse_guess("2010-10-10")
+str(parse_guess("2010-10-10"))
+
+## 11.4.2 Problems -----
+
+# These defaults don’t always work for larger files. 
+# There are 2basic problems:
+  
+# 1. The first thousand rows might be a special case, and readr guesses a type
+#    that is not sufficiently general. For example, you might have a column of
+#    doubles that only contains integers in the first 1000 rows.
+
+# 2. The column might contain a lot of missing values. 
+#    If the first 1000 rows contain only NAs, readr will guess that it’s a character vector, 
+#    whereas you probably want to parse it as something more specific.
+
+# readr contains a challenging CSV that illustrates both of these problems:
+
+challenge <- read_csv(readr_example("challenge.csv"))
+
+# (Note the use of readr_example() which finds the path 
+#  to one of the files included with the package.)
+
+# It’s always a good idea to explicitly pull out the problems()  
+# to explore them in more depth:
+
+problems(challenge)
+
+# A good strategy is to work column by column until there are no problems remaining. 
+
+# Here we can see that there are a lot of parsing problems with the x column 
+# - there are trailing characters after the integer value. 
+# That suggests we need to use a double parser instead.
+
+# To fix the call, start by copying and pasting the column specification 
+# into your original call:
+
+challenge <- read_csv(
+  readr_example("challenge.csv"), 
+  col_types = cols(
+    x = col_integer(),
+    y = col_character()
+  )
+)
+
+# NOW we can tweak the type of the x column:
+
+challenge <- read_csv(
+  readr_example("challenge.csv"), 
+  col_types = cols(
+    x = col_double(),
+    y = col_character()
+  )
+)
+
+challenge
+problems(challenge)
+
+# That fixed the first problem, but when looking at the last few rows, 
+# we see dates stored in a character vector:
+
+tail(challenge)
+
+# We fix this by specifying that y is a date column:
+  
+challenge <- read_csv(
+    readr_example("challenge.csv"), 
+    col_types = cols(
+      x = col_double(),
+      y = col_date()
+    )
+  )
+
+tail(challenge)
+
+# Every parse_xyz() function has a corresponding col_xyz() function. 
+# - use parse_xyz() when the data already is a character vector in R; 
+# - use col_xyz() when we want to tell readr how to load the data.
+
+# I highly recommend always supplying col_types, 
+# building up from the print-out provided by readr. 
+# This ensures a consistent and reproducible data import script. 
+
+# If you rely on the default guesses and your data changes, 
+# readr will continue to read it in. 
+
+# If you want to be really strict, use stop_for_problems(): 
+# that will throw an error and stop your script if there are any parsing problems.
+
+
+## 11.4.3 Other strategies -----
+
+
+
+
 
 ## +++ here now +++ ------
 
