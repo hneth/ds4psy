@@ -834,8 +834,8 @@ type_convert(df)  # => applies parsing heuristics to df
 
 challenge  # tibble with <dbl> and <date>
 
-write_csv(challenge, "challenge-2.csv")
-read_csv("challenge-2.csv")
+write_csv(challenge, "data/challenge-2.csv")
+read_csv("data/challenge-2.csv")
 
 # This makes CSVs a little unreliable for caching interim results
 # -— we need to recreate column specifications every time we load data. 
@@ -849,8 +849,8 @@ read_csv("challenge-2.csv")
 
 # These store data in R’s custom binary format called RDS:
 
-write_rds(challenge, "challenge.rds")
-read_rds("challenge.rds")
+write_rds(challenge, "data/challenge.rds")
+read_rds("data/challenge.rds")
 
 # 2. The feather package implements a fast binary file format 
 # that can be shared across programming languages:
@@ -858,8 +858,8 @@ read_rds("challenge.rds")
 # install.packages('feather')
 library(feather)
 
-write_feather(challenge, "challenge.feather")
-read_feather("challenge.feather")
+write_feather(challenge, "data/challenge.feather")
+read_feather("data/challenge.feather")
 
 ## Advantages of using RDS vs. feather:
 # - Feather tends to be faster than RDS and is usable outside of R. 
