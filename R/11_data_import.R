@@ -1,7 +1,7 @@
 ## r4ds: Chapter 11: Data import  
 ## Code for http://r4ds.had.co.nz/data-import.html 
 ## hn spds uni.kn
-## 2018 03 23 ------
+## 2018 03 24 ------
 
 
 ## 11.1 Introduction ------
@@ -758,15 +758,151 @@ tail(challenge)
 
 ## 11.4.3 Other strategies -----
 
+# There are a few other general strategies to help you parse files:
+  
+## (1) Increasing guess_max:
+
+# In the previous example, we just got unlucky: 
+# if we look at just one more row than the default of 1000, 
+# we can correctly parse in one shot:
+  
+challenge2 <- read_csv(readr_example("challenge.csv"), guess_max = 1001)
+
+tail(challenge2)
+
+## (2) Reading as character vectors:
+
+# Sometimes it’s easier to diagnose problems if you just 
+# read in all the columns as character vectors:
+  
+challenge2 <- read_csv(readr_example("challenge.csv"), 
+                       col_types = cols(.default = col_character())
+                       )
+
+# This is particularly useful in conjunction with type_convert(), 
+# which applies the parsing heuristics to the character columns in a data frame:
+
+df <- tribble(
+  ~x,  ~y,
+  "1", "1.21",
+  "2", "2.32",
+  "3", "4.56"
+)
+
+df  # => 2 character vectors
+
+type_convert(df)  # => applies parsing heuristics to df
 
 
+## (3) Further tips: 
+
+# - If you’re reading a very large file, 
+#   set n_max to a smallish number like 10,000 or 100,000. 
+#   This accelerates iterations while eliminating common problems.
+
+# - If you’re having major parsing problems, 
+#   sometimes it’s easier to just read into a character vector of lines with read_lines(), 
+#   or even a character vector of length 1 with read_file(). 
+#   Then you can use the string parsing skills you’ll learn later to parse more exotic formats.
+
+
+## 11.5 Writing to a file ------
+
+# readr also comes with two useful functions for writing data to disk: 
+# - write_csv() and 
+# - write_tsv(). 
+
+# Both functions increase the chances of the output file being read back in by:
+# 1. Always encoding strings in UTF-8.
+# 2. Saving dates and date-times in ISO8601 format 
+#    so they are easily parsed elsewhere.
+
+# If you want to export a csv file to Excel, use 
+# write_excel_csv() — this writes a special character (a “byte order mark”) 
+# at the start of the file which tells Excel that you’re using the UTF-8 encoding.
+
+# The most important arguments are 
+# - x (the data frame to save), and 
+# - path (the location to save it). You can also specify 
+# - how missing values are written with na, and 
+# - if you want to append to an existing file.
+
+## See 
+?write_csv
+
+## Note that the type information is lost when you save to csv:
+
+challenge  # tibble with <dbl> and <date>
+
+write_csv(challenge, "challenge-2.csv")
+read_csv("challenge-2.csv")
+
+# This makes CSVs a little unreliable for caching interim results
+# -— we need to recreate column specifications every time we load data. 
+
+# There are 2 alternatives:
+
+# 1. Using RDS format:
+# - write_rds() and 
+# - read_rds() 
+# are uniform wrappers around the base functions readRDS() and saveRDS(). 
+
+# These store data in R’s custom binary format called RDS:
+
+write_rds(challenge, "challenge.rds")
+read_rds("challenge.rds")
+
+# 2. The feather package implements a fast binary file format 
+# that can be shared across programming languages:
+
+# install.packages('feather')
+library(feather)
+
+write_feather(challenge, "challenge.feather")
+read_feather("challenge.feather")
+
+## Advantages of using RDS vs. feather:
+# - Feather tends to be faster than RDS and is usable outside of R. 
+# - RDS supports list-columns (which you’ll learn about in many models); 
+#   feather currently does not.
+
+
+## 11.6 Other types of data ------
+
+# To get other types of data into R, we recommend 
+# starting with the tidyverse packages listed below. 
+# They’re certainly not perfect, but they are a good place to start. 
+
+# (1) For rectangular data:
+  
+# - haven reads SPSS, Stata, and SAS files.
+# - readxl reads excel files (both .xls and .xlsx).
+# - DBI, along with a database specific backend (e.g. RMySQL, RSQLite, RPostgreSQL etc) 
+#   allows you to run SQL queries against a database and return a data frame.
+
+# (2) For hierarchical data: 
+# - use jsonlite (by Jeroen Ooms) for json, and 
+# - xml2 for XML. Jenny Bryan has some excellent worked examples at 
+#   https://jennybc.github.io/purrr-tutorial/.
+
+# (3) For other file types, try 
+# - the R data import/export manual at https://cran.r-project.org/doc/manuals/r-release/R-data.html and  
+# - the rio package.
 
 
 ## +++ here now +++ ------
 
 ## Appendix ------
 
+# See 
 vignette("readr")
+
+# On language or region-specific encodings see 
+# http://kunststube.net/encoding/ 
+# https://en.wikipedia.org/wiki/Character_encoding 
+# https://stackoverflow.com/questions/8509339/what-is-the-most-common-encoding-of-each-language 
+
+# The R data import/export manual at https://cran.r-project.org/doc/manuals/r-release/R-data.html
 
 ## ------
 ## eof.
