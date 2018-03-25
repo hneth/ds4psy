@@ -1,0 +1,148 @@
+---
+title: "Data sets and sources (ds4psy)"
+author: "Hansjörg Neth, SPDS, uni.kn"
+date: "2018 03 25"
+output:
+  rmdformats::html_clean:
+    highlight: kate
+---
+
+
+```{r knitr_init, echo = FALSE, cache = FALSE, message = FALSE, warning = FALSE}
+library(knitr)
+library(rmdformats)
+
+## Global options
+options(max.print="75")
+opts_chunk$set(echo=FALSE,
+	             cache=TRUE,
+               prompt=FALSE,
+               tidy=TRUE,
+               comment=NA,
+               message=FALSE,
+               warning=FALSE)
+opts_knit$set(width=75)
+```
+
+
+<!-- uni.kn logo and link to SPDS: -->  
+<!-- ![](../inst/pix/uniKn_logo.png) --> 
+<a href="https://www.spds.uni-konstanz.de/">
+<img src = "../inst/pix/uniKn_logo.png" alt = "spds.uni.kn" align = "right" width = "300" style = "width: 300px; float: right; border:20;"/>
+<!-- <img src = "../inst/pix/uniKn_logo_s.png" alt = "spds.uni.kn" style = "float: right; border:20;"/> --> 
+</a>
+
+* Taught at the [University of Konstanz](https://www.uni-konstanz.de/) by [Hansjörg Neth](http://neth.de/) (<h.neth@uni.kn>,  [SPDS](https://www.spds.uni-konstanz.de/), office D507).
+* Spring/summer 2018: Mondays, 13:30--15:00, C511 (from 2018.04.16 to 2018.07.16) 
+* Links to [ZeUS](https://zeus.uni-konstanz.de:443/hioserver/pages/startFlow.xhtml?_flowId=showEvent-flow&unitId=5101&termYear=2018&termTypeValueId=1&navigationPosition=hisinoneLehrorganisation,examEventOverviewOwn) and [Ilias](https://ilias.uni-konstanz.de/ilias/goto_ilias_uni_crs_758039.html)
+
+# Data Sets
+
+This file collects ideas and sources of suitable data sets.
+
+## Base R
+
+The R datasets package contains many useful datasets: 
+
+```{r}
+library(help = "datasets")
+```
+
+`iris`
+
+```{r}
+?iris
+```
+
+`sleep`
+
+```{r}
+?sleep
+# sleep
+
+# Examples:
+require(stats)
+## Student's paired t-test
+with(sleep,
+     t.test(extra[group == 1],
+            extra[group == 2], paired = TRUE))
+
+## The sleep *prolongations*
+sleep1 <- with(sleep, extra[group == 2] - extra[group == 1])
+summary(sleep1)
+
+stripchart(sleep1, method = "stack", xlab = "hours",
+           main = "Sleep prolongation (n = 10)")
+
+boxplot(sleep1, horizontal = TRUE, add = TRUE,
+        at = .6, pars = list(boxwex = 0.5, staplewex = 0.25))
+
+
+```
+
+`women`
+
+```{r}
+?women
+
+# Examples:
+require(graphics)
+plot(women, xlab = "Height (in)", ylab = "Weight (lb)",
+     main = "women data: American women aged 30-39")
+
+```
+
+`USArrests`
+
+This data set contains statistics, in arrests per 100,000 residents for assault, murder, and rape in each of the 50 US states in 1973. Also given is the percent of the population living in urban areas.
+
+```{r}
+?USArrests
+```
+
+## From `tidyverse` packages
+
+```{r}
+library(tidyverse)
+
+?diamonds # Prices of 50,000 round cut diamonds
+
+?econonmics # This dataset was produced from US economic time series data available from http://research.stlouisfed.org/fred2. economics is in "wide" format, economics_long is in "long" format.
+
+```
+
+## `MASS` package
+
+```{r}
+library(MASS)
+
+?survey # This data frame contains the responses of 237 Statistics I students 
+        # at the University of Adelaide to a number of questions.
+
+?Boston # Housing Values in Suburbs of Boston
+
+```
+
+## `ISLR` package
+
+An Introduction to Statistical Learning with Applications in R  
+Authors: Gareth James, Daniela Witten, Trevor Hastie and Robert Tibshirani
+
+- R package [ISLR](https://CRAN.R-project.org/package=ISLR) (with data sets):   
+- Book [PDF](http://www-bcf.usc.edu/~gareth/ISL/ISLR%20Seventh%20Printing.pdf) 
+- Website: <www.StatLearning.com> or <http://www-bcf.usc.edu/~gareth/ISL/> 
+
+## Online: blogs etc.
+
+- http://www.sharpsightlabs.com 
+
+
+# References
+
+- Wickham, H., & Grolemund, G. (2016). _R for data science: Import, tidy, transform, visualize, and model data._ 
+Sebastopol, Canada: O'Reilly Media, Inc.  [Available online at [http://r4ds.had.co.nz](http://r4ds.had.co.nz).]
+
+- Zumel, N., & Mount, J. (2014). _Practical data science with R_. Greenwich, CT: Manning Publications.
+
+
+<!-- eof. -->  
