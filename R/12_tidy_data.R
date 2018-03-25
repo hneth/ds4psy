@@ -1,7 +1,7 @@
 ## r4ds: Chapter 12: Tidy data  
 ## Code for http://r4ds.had.co.nz/tidy-data.html
 ## hn spds uni.kn
-## 2018 03 24 ------
+## 2018 03 25 ------
 
 ## Quotes: ------
 
@@ -147,8 +147,7 @@ table5  # splits year of table3 into 2 variables (century, year)
 #    c. Divide cases by population, and multiply by 10000.
 #    d. Store back in the appropriate place.
 
-
-# (a) from table2: 
+# (A) from table2: 
 table2
 
 cases <- table2 %>%
@@ -168,13 +167,42 @@ rate # contains desired rates
 mutate(cases, 
        rate = rate) # does not work... 
 
-# (b) from table4a and table4b: 
+# Solutions: 
+# (a) Combine individual vectors into a tibble: 
+tibble(country = cases$country,
+       cases = cases$count, 
+       population = population$count,
+       rate = rate)
+
+# (b) Using left_join from Chapter 13: 
+#     http://r4ds.had.co.nz/relational-data.html#relational-data [???]:
+
+# Note: The "count" columns of cases and population contain different counts,
+#       but have the same name.  We should name them more informatively: 
+
+# cases <- as_data_frame(cases)
+names(cases[4]) <- "n_cases"  # How to change the name of a tibble column?
+cases
+
+names(population$count) <- "pop"
+population
+
+# After renaming them, we can join the two tibbles: 
+left_join(cases, population) # => population is missing! [???]
+
+
+# (B) from table4a and table4b: 
 
 table4a # contains cases
 table4b # contains populations
 
 table4c <- table4a[, -1]/table4b[, -1] * 10000
 table4c # contains desired rates
+
+# Combine into a tibble:
+tibble(country = table4a$country,
+       rate_99 = table4c$`1999`,
+       rate_00 = table4c$`2000`)
 
 # 3. Which representation is easiest to work with? Which is hardest? Why?
 
@@ -220,6 +248,8 @@ ggplot(cases, aes(x = year, y = count, group = country, color = country)) +
 
 ## 12.3.1 Gathering -----
 
+# Change format: From wide to long... 
+
 # A common problem is a dataset where some of the column names are  
 # NOT names of variables, but values of a variable. 
 
@@ -232,7 +262,97 @@ table4a
 # Note: This is common in the wide format which some programs require 
 #       (to show each case/observation in 1 row, and multiple measurements in columns).
 
+# To tidy a dataset like this, we need to _gather_ columns into a new pair of variables. 
 
+# To describe that operation we need 3 parameters:
+  
+# 1. The set of columns that represent values, not variables. 
+#    In this example, those are the columns 1999 and 2000.
+
+# 2. The name of the variable whose values form the column names. 
+#    I call that the "key", and here it is "year".
+
+# 3. The name of the variable whose values are spread over the cells. 
+#    I call that "value", and here it’s the number of "cases".
+
+# Together these 3 parameters generate the call to gather():
+
+table4a %>% 
+  gather(`1999`, `2000`, key = "year", value = "cases")
+
+# See Figure 12.2 for a visualization of this operation: 
+# http://r4ds.had.co.nz/tidy-data.html#fig:tidy-gather
+
+# Notes: 
+# - The columns to gather are specified with dplyr::select() style notation. 
+#   Here there are only 2 columns, so we list them individually. 
+
+# - Note that “1999” and “2000” are non-syntactic names 
+#   -- because they don’t start with a letter --  
+#   so we have to surround them in backticks. 
+
+# - To refresh your memory of the other ways to select columns, 
+#   see http://r4ds.had.co.nz/transform.html#select 
+
+
+# We can use gather() to tidy table4b in a similar fashion. 
+# The only difference is the variable stored in the cell values:
+
+table4b 
+
+table4b %>% 
+  gather(`1999`:`2000`, key = "year", value = "pop")
+
+# To combine the tidied versions of table4a and table4b into a single tibble, 
+# we need to use dplyr::left_join(), which you’ll learn about in 
+# relational data: http://r4ds.had.co.nz/relational-data.html#relational-data 
+
+tidy4a <- table4a %>% 
+  gather(`1999`:`2000`, key = "year", value = "cases")
+
+tidy4b <- table4b %>% 
+  gather(`1999`:`2000`, key = "year", value = "pop")
+
+left_join(tidy4a, tidy4b)
+
+
+## 12.3.2 Spreading -----
+
+# Change format: From long to wide...
+
+# Spreading is the opposite of gathering. 
+# Use it when an observation is scattered across multiple rows. 
+
+# For example, take table2: 
+
+table2
+
+# Definition: An "observation" is the state (or several values) of a country in a year, 
+# but in table2 each observation is spread across 2 rows.
+
+# To tidy this up, we first analyse the representation in similar way to gather(). 
+# This time, however, we only need two parameters:
+  
+# 1. The column that contains variable names, the "key" column. 
+#    Here, it’s "type".
+
+# 2. The column that contains values forms multiple variables, the "value" column. 
+#    Here it’s "count".
+
+# Once we’ve figured that out, we can use spread(), 
+# a) programmatically:
+
+spread(table2, key = type, value = count)
+
+# b) visually in Figure 12.3: 
+#    http://r4ds.had.co.nz/tidy-data.html#fig:tidy-spread 
+
+
+# As you might have guessed from the common key and value arguments, 
+# spread() and gather() are complements. 
+
+# 1. gather() makes wide tables narrower and longer; 
+# 2. spread() makes long tables shorter and wider.
 
 
 
