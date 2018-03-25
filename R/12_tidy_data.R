@@ -477,7 +477,204 @@ gather(preg, sex, count, male, female) %>%
 # was not necessary to tidy it, but it makes it easier to work with.
 
 
+
 ## 12.4 Separating and uniting ------
+
+
+# So far we’ve learned how to tidy table2 and table4, but not table3. 
+
+table3
+
+# table3 has a different problem: 
+# 1 column (rate) contains 2 variables (cases and population). 
+
+# To fix this problem, we’ll need the separate() function. 
+
+# The complement of separate() is unite(), which we use if 
+# a single variable is spread across multiple columns.
+
+## 12.4.1 Separate -----
+
+# separate() pulls apart one column into multiple columns, 
+# by splitting wherever a separator character appears. 
+# Take table3:
+
+table3 
+
+# The rate column contains both cases and population variables, 
+# and we need to split it into 2 variables. 
+
+## (1) Separating by regular expression (i.e., some pattern or character): 
+
+# separate() takes the name of the column to separate, 
+# and the names of the columns to separate into, as shown in 
+# Figure 12.4 at http://r4ds.had.co.nz/tidy-data.html#fig:tidy-separate 
+# and the code:
+
+table3 %>% 
+  separate(rate, into = c("cases", "population"))
+
+# By default, separate() will split values wherever it sees a 
+# non-alphanumeric character (i.e. a character that isn’t a number or letter). 
+
+# For example, in the code above, separate() split the values of rate 
+# at the forward slash characters "/". 
+
+# If you wish to use a specific character to separate a column, 
+# you can pass the character to the sep argument of separate(). 
+# For example, we could rewrite the code above as:
+
+table3 %>% 
+  separate(rate, into = c("cases", "population"), sep = "/")
+
+# (Formally, sep is a regular expression, which you’ll learn more about 
+#  in strings at http://r4ds.had.co.nz/strings.html#strings  )
+
+# Look carefully at the column types: 
+# you’ll notice that case and population are character columns. 
+# This is the default behaviour in separate(): 
+# it leaves the type of the column as is. 
+
+# Here, however, it’s not very useful as those really are numbers. 
+# We can ask separate() to try and convert to better types using 
+# convert = TRUE:
+
+table3 %>% 
+  separate(rate, into = c("cases", "population"), sep = "/", convert = TRUE)
+
+## (2) Separating by position:
+
+# You can also pass a vector of integers to sep. 
+# separate() will interpret the integers as positions to split at. 
+# Positive values start at 1 on the far-left of the strings; 
+# negative value start at -1 on the far-right of the strings. 
+
+# When using integers to separate strings, the length of sep 
+# should be one less than the number of names in into:
+
+# You can use this arrangement to separate the last two digits of each year. 
+# This make this data less tidy, but is useful in other cases, 
+# as you’ll see in a little bit:
+
+table3 %>% 
+  separate(year, into = c("century", "year"), sep = 2)
+
+
+## 12.4.2 Unite -----
+
+# unite() is the inverse of separate(): 
+# it combines multiple columns into a single column. 
+
+# We need it much less frequently than separate(), 
+# but it’s still a useful tool.  
+
+# We can use unite() to rejoin the century and year columns 
+# that we created in the last example. 
+
+# That data is saved as tidyr::table5:
+
+tidyr::table5
+
+# unite() takes a data frame, the name of the new variable to create, 
+# and a set of columns to combine, again specified in dplyr::select() style:
+
+table5 %>% 
+  unite(new, century, year)
+
+# In this case we also need to use the sep argument. 
+# The default will place an underscore (_) between the values from different columns. 
+# Here we don’t want any separator so we use "":
+
+table5 %>% 
+  unite(new, century, year, sep = "")
+
+## 12.4.3 Exercises -----
+
+# 1. What do the extra and fill arguments do in separate()? 
+#    Experiment with the various options for the following two toy datasets: 
+
+?separate
+
+# (a) extra controls what happens when there are too many pieces:
+#     (as determined by in 1st line): 
+
+tibble(x = c("a,b,c", "d,e,f,g", "h,i,j")) %>% 
+  separate(x, c("one", "two", "three"))  # yields warning: Too many values at 1 locations: 2
+
+t1 <- tibble(x = c("a,b,c", "d,e,f,g", "h,i,j"))
+t1
+
+t1 %>% 
+  separate(x, c("one", "two", "three"), extra = "warn") # default
+
+t1 %>%
+  separate(x, c("one", "two", "three"), extra = "drop") # drops extra element
+
+t1 %>%
+  separate(x, c("one", "two", "three"), extra = "merge") # merges 2 elements into 1
+
+
+# (b) fill controls what happens when there are not enough pieces 
+#     (as determined by in 1st line): 
+
+tibble(x = c("a,b,c", "d,e", "f,g,i")) %>% 
+  separate(x, c("one", "two", "three"))  # yields warning: Too few values at 1 locations: 2  
+
+t2 <- tibble(x = c("a,b,c", "d,e", "f,g,i"))
+
+t2 %>%
+  separate(x, c("one", "two", "three"), fill = "warn")  # default
+
+t2 %>%
+  separate(x, c("one", "two", "three"), fill = "right")  # fill with missing values (NA) on right
+
+t2 %>%
+  separate(x, c("one", "two", "three"), fill = "left")  # fill with missing values (NA) on left
+
+# 2. Both unite() and separate() have a remove argument. 
+#    What does it do? Why would you set it to FALSE?
+
+?unite
+
+# If remove = TRUE (as by default), input columns are removed 
+# from output data frame.
+# remove = FALSE keeps the input columns:
+
+table5 %>% 
+  unite(yr, century, year, sep = "", remove = FALSE)
+
+table5 %>%
+  separate(rate, into = c("n_cases", "n_popu"), remove = FALSE)
+
+# 3. Compare and contrast separate() and extract(). 
+#    Why are there three variations of separation (
+#  - by position, 
+#  - by separator, and 
+#  - with groups),
+#    but only one unite?
+
+?separate # separates 
+# - by separator 
+# - by position
+
+?extract
+# - Given a regular expression with capturing groups, 
+#   extract() turns each group into a new column.
+
+# Unite presumably works with all of the above?
+
+# The function extract uses a regular expression 
+# to find groups and split into columns. 
+
+# In unite it is unambiguous since it combines many columns into 1, 
+# and once the columns are specified, there is only one way to do it, 
+# the only choice is the sep. 
+# By contrast, separate, splits 1 column into many, 
+# and there are different ways to split a character string.
+
+
+## 12.5 Missing values ------
+
 
 
 ## +++ here now +++ ------
