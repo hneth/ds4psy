@@ -355,6 +355,130 @@ spread(table2, key = type, value = count)
 # 2. spread() makes long tables shorter and wider.
 
 
+## 12.3.3 Exercises -----
+
+# 1. Why are gather() and spread() not perfectly symmetrical?
+#    Carefully consider the following example:
+  
+stocks <- tibble(
+  year   = c(2015, 2015, 2016, 2016),
+  half  = c(   1,    2,     1,    2),
+  return = c(1.88, 0.59, 0.92, 0.17)
+  )
+
+stocks
+
+stocks %>% 
+  spread(year, return) %>% 
+  gather("year", "return", `2015`:`2016`)
+
+# - Order of year and half changed
+# - Year changed to character type.
+
+# (Hint: look at the variable types and think about column names.)
+
+# Both spread() and gather() have a convert argument. What does it do?
+
+?gather
+
+# convert ... If TRUE will automatically run type.convert() on the key column. 
+#             This is useful if the column names are actually numeric, integer, or logical.
+
+# Try convert = TRUE on gather():
+
+stocks %>% 
+  spread(year, return) %>% 
+  gather("year", "return", `2015`:`2016`, convert = TRUE)
+
+# => year is now of type "integer" (rather than "character").
+
+
+## 2. Why does this code fail?
+
+table4a %>% 
+  gather(1999, 2000, key = "year", value = "cases")
+
+# Non-regular column names in table4a: When variables do not start with a character, 
+# they must be enclosed in ``:
+
+table4a %>% 
+  gather(`1999`, `2000`, key = "year", value = "cases")
+
+# 3. Why does spreading this tibble fail? 
+#    How could you add a new column to fix the problem?
+
+people <- tribble(
+  ~name,             ~key,    ~value,
+  #-----------------|--------|------
+  "Phillip Woods",   "age",       45,
+  "Phillip Woods",   "height",   186,
+  "Phillip Woods",   "age",       50,
+  "Jessica Cordero", "age",       37,
+  "Jessica Cordero", "height",   156
+  )
+
+glimpse(people)
+
+people %>%
+  spread(key, value)
+
+# Error: Duplicate identifiers for rows (1, 3)
+# PW has 2 age values (or 2 observations).
+
+# To fix this, add the observation column:
+
+people <- tribble(
+  ~name,             ~key,    ~value,  ~obs, 
+  #-----------------|--------|------|-------
+  "Phillip Woods",   "age",       45,  1, 
+  "Phillip Woods",   "height",   186,  1, 
+  "Phillip Woods",   "age",       50,  2, 
+  "Jessica Cordero", "age",       37,  1, 
+  "Jessica Cordero", "height",   156,  1  
+)
+
+glimpse(people)
+
+people %>%
+  spread(key, value)
+
+# Note: PW's height is NA for obs == 2. 
+
+# 4. Tidy the simple tibble below. 
+#    Do you need to spread or gather it? 
+#    What are the variables?
+
+preg <- tribble(
+  ~pregnant, ~male, ~female,
+  "yes",     NA,    10,
+  "no",      20,    12
+)
+
+preg
+
+# - gather from 2x2 into 4 lines.
+# - variables: sex, preg, count
+
+preg %>%
+  gather("male":"female", key = "sex", value = "count")
+
+# [test.quest]: Turn any 2x2 contingency table into a tidy table. 
+
+# See also the more complicated solution from 
+# https://jrnold.github.io/r4ds-exercise-solutions/tidy-data.html#spreading-and-gathering
+# turns pregnant and female into logical values:
+
+gather(preg, sex, count, male, female) %>%
+  mutate(pregnant = pregnant == "yes",
+         female = sex == "female") %>%
+  select(-sex)
+
+# Converting pregnant and female from character vectors to logical 
+# was not necessary to tidy it, but it makes it easier to work with.
+
+
+## 12.4 Separating and uniting ------
+
 
 ## +++ here now +++ ------
 
@@ -364,6 +488,7 @@ spread(table2, key = type, value = count)
 
 ## (1) Understand, redo, and improve on 
 ##     http://www.sharpsightlabs.com/blog/us-metro-gdp/
+
 
 
 ## Appendix ------
