@@ -1,7 +1,7 @@
 ## r4ds: Chapter 12: Tidy data  
 ## Code for http://r4ds.had.co.nz/tidy-data.html
 ## hn spds uni.kn
-## 2018 03 25 ------
+## 2018 03 26 ------
 
 ## Quotes: ------
 
@@ -675,9 +675,135 @@ table5 %>%
 
 ## 12.5 Missing values ------
 
+# Changing the representation of a dataset brings up 
+# an important subtlety of missing values. Surprisingly, 
+# a value can be missing in 1 of 2 possible ways:
+  
+# 1. Explicitly, i.e. flagged with NA.
+# 2. Implicitly, i.e. simply not present in the data.
+
+# Example: 
+stocks <- tibble(
+  year   = c(2015, 2015, 2015, 2015, 2016, 2016, 2016),
+  qtr    = c(   1,    2,    3,    4,    2,    3,    4),
+  return = c(1.88, 0.59, 0.35,   NA, 0.92, 0.17, 2.66)
+)
+
+stocks
+
+# Note the 2 missing values in this dataset:
+# - return of 2015 q4 is explicitly missing
+# - anything of 2016 q1 is implicitly missing
+
+# Zen-like koan: 
+# - An explicit missing value is the presence of an absence; 
+# - an implicit missing value is the absence of a presence.
+
+# (cute, but an explicit missing value is also absence of a presence)
+
+# The way that a dataset is represented can make implicit values explicit. 
+# For example, we can make the implicit missing value explicit 
+# by putting years in the columns:
+
+stocks %>% 
+  spread(year, return)
+
+# or putting qtr in columns: 
+
+stocks %>% 
+  spread(qtr, return)
+
+# or both???
+
+stocks %>%
+  spread(c(year, qtr), return)
+
+# [test.quest]: How to spread 2 factors 
+# (in repeated-measurement design with 2 within-subjects factors)?
+
+# See Solution and Discussion at 
+
+# a) Long to wide:
+# https://stackoverflow.com/questions/29775461/how-can-i-spread-repeated-measures-of-multiple-variables-into-wide-format?noredirect=1&lq=1
+# b) Wide to long:
+# https://stackoverflow.com/questions/29473399/tidyr-wide-to-long-with-two-repeated-measures
+
+
+## Making implicit NAs explicit -----
+
+## (1) na.rm = TRUE/FALSE
+
+# Because these explicit missing values may not be important 
+# in other representations of the data, you can set na.rm = TRUE 
+# in gather() to turn explicit missing values implicit:
+  
+stocks %>% 
+  spread(year, return) %>% 
+  gather(year, return, `2015`:`2016`, na.rm = TRUE)
+
+# Contrast with na.rm = FALSE:
+
+stocks %>% 
+  spread(year, return) %>% 
+  gather(year, return, `2015`:`2016`, na.rm = FALSE)
+
+
+## (2) complete 
+
+# Another important tool for making missing values explicit in tidy data 
+# is complete():
+
+stocks %>% 
+  complete(year, qtr)
+
+# complete() takes a set of columns, and finds all unique combinations. 
+# It then ensures the original dataset contains all those values, 
+# filling in explicit NAs where necessary.
+
+
+## (3) fill 
+
+# Sometimes when a data source has primarily been used for data entry, 
+# missing values indicate that the previous value should be carried forward:
+  
+treatment <- tribble(
+    ~person,           ~treatment, ~response,
+    "Derrick Whitmore", 1,           7,
+    NA,                 2,           10,
+    NA,                 3,           9,
+    "Katherine Burke",  1,           4
+  )
+
+# We can fill in these missing values with fill(). 
+# Fill() takes a set of columns where you want missing values 
+# to be replaced by the most recent non-missing value 
+# (sometimes called last observation carried forward).
+
+treatment %>%
+  fill(person)
+
+
+## 12.5.1 Exercises -----
+
+# 1. Compare and contrast the fill() arguments 
+#    to spread() and complete().
+
+?fill
+?spread
+
+# 2. What does the direction argument to fill() do?
+  
+# .direction = c("down", "up"))
+
+treatment %>%
+  fill(person, .direction = "up")
+
+
+## 12.6 Case Study ------
 
 
 ## +++ here now +++ ------
+
 
 
 
