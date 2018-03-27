@@ -1,7 +1,7 @@
 ## r4ds: Chapter 12: Tidy data  
 ## Code for http://r4ds.had.co.nz/tidy-data.html
 ## hn spds uni.kn
-## 2018 03 26 ------
+## 2018 03 27 ------
 
 ## Quotes: ------
 
@@ -801,6 +801,159 @@ treatment %>%
 
 ## 12.6 Case Study ------
 
+# Let’s pull together everything we’ve learned to tackle a realistic data tidying problem. 
+
+# The tidyr::who dataset contains tuberculosis (TB) cases broken down by 
+# year, country, age, gender, and diagnosis method. 
+# The data comes from the 2014 World Health Organization Global Tuberculosis Report, 
+# available at http://www.who.int/tb/country/data/download/en/.
+
+# There’s a wealth of epidemiological information in this dataset, 
+# but it’s challenging to work with the data in the form that it’s provided:
+  
+tidyr::who
+
+# This is a very typical real-life example dataset. 
+# It contains redundant columns, odd variable codes, and many missing values. 
+# In short, who is messy, and we’ll need multiple steps to tidy it.
+
+# The best place to start is almost always to gather together the columns 
+# that are not variables. Let’s have a look at what we’ve got:
+
+# 1. It looks like country, iso2, and iso3 are 3 variables that 
+#    redundantly specify the country.
+
+# 2. year is clearly also a variable.
+
+# 3. We don’t know what all the other columns are yet, 
+#    but given the structure in the variable names 
+#   (e.g. new_sp_m014, new_ep_m014, new_ep_f014) 
+#   these are likely to be values, not variables.
+
+# => So we need to gather together all the columns from new_sp_m014 to newrel_f65. 
+# 1. We don’t know what those values represent yet, so we’ll give them 
+#    the generic name "key". 
+# 2. We know the cells represent the count of cases, so we’ll use the variable cases. 
+# 3. There are a lot of missing values in the current representation, 
+#    so for now we’ll use na.rm just so we can focus on the values that are present.
+
+who1 <- who %>% 
+  gather(new_sp_m014:newrel_f65, key = "key", value = "cases", na.rm = TRUE)
+
+who1
+
+# We can get some hint of the structure of the values in the new key column 
+# by counting them:
+  
+who1 %>% 
+  count(key)
+
+# The data dictionary tells us:
+
+# 1. The first three letters of each column denote whether the column contains
+#    new or old cases of TB. In this dataset, each column contains new cases.
+
+# 2. The next two letters describe the type of TB:
+# - rel stands for cases of relapse
+# - ep stands for cases of extrapulmonary TB
+# - sn stands for cases of pulmonary TB that could not be diagnosed by a pulmonary smear (smear negative)
+# - sp stands for cases of pulmonary TB that could be diagnosed be a pulmonary smear (smear positive)
+
+# 3. The sixth letter gives the sex of TB patients. 
+#    The dataset groups cases by males (m) and females (f).
+
+# 4. The remaining numbers gives the age group. 
+#    The dataset groups cases into seven age groups:
+#   014 = 0 – 14 years old
+#   1524 = 15 – 24 years old
+#   2534 = 25 – 34 years old
+#   3544 = 35 – 44 years old
+#   4554 = 45 – 54 years old
+#   5564 = 55 – 64 years old
+#   65 = 65 or older
+
+# We need to make a minor fix to the format of the column names: 
+# unfortunately the names are slightly inconsistent because instead of 
+# new_rel we have newrel (it’s hard to spot this here 
+# but if you don’t fix it we’ll get errors in subsequent steps). 
+
+# You’ll learn about str_replace() in strings, but the basic idea 
+# is pretty simple: replace the characters “newrel” with “new_rel”. 
+# This makes all variable names consistent.
+
+who2 <- who1 %>% 
+  mutate(key = stringr::str_replace(key, "newrel", "new_rel"))
+
+who2
+
+# We can separate the values in each code with two passes of separate(). 
+
+# 1. The first pass will split the codes at each underscore:
+
+who3 <- who2 %>% 
+  separate(key, c("new", "type", "sexage"), sep = "_")
+
+who3
+
+# 2. Next we’ll separate sexage into sex and age by splitting after the first character:
+
+who4 <- who3 %>% 
+  separate(sexage, c("sex", "age"), sep = 1)
+
+who4
+
+# Dropping redundant variables:
+
+# We might as well drop the "new" column 
+# because it’s constant in this dataset: 
+
+who4 %>% 
+  count(new)
+
+# While we’re dropping columns, let’s also drop 
+# "iso2" and "iso3" since they’re redundant:
+
+who5 <- who4 %>% 
+  select(-new, -iso2, -iso3)
+
+who5
+
+# The who dataset is now tidy!
+
+## Note:
+
+# The above steps illustrate the code a piece at a time, 
+# assigning each interim result to a new variable. 
+
+# This is often a good idea -- as it makes intermediate steps transparent -- but 
+# if the intermediate steps are never needed, there is a shorter way:  
+# Typically, you’d gradually build up a complex pipe:
+  
+who %>%
+  gather(code, value, new_sp_m014:newrel_f65, na.rm = TRUE) %>% 
+  mutate(code = stringr::str_replace(code, "newrel", "new_rel")) %>%
+  separate(code, c("new", "var", "sexage")) %>% 
+  separate(sexage, c("sex", "age"), sep = 1) %>% 
+  select(-new, -iso2, -iso3)
+
+
+## 12.6.1 Exercises -----
+
+# 1. In this case study I set na.rm = TRUE just to make it easier 
+#    to check that we had the correct values. Is this reasonable? 
+#    Think about how missing values are represented in this dataset. 
+#    Are there implicit missing values? 
+#    What’s the difference between an NA and zero?
+   
+# 2. What happens if you neglect the mutate() step? 
+#    (mutate(key = stringr::str_replace(key, "newrel", "new_rel")))
+ 
+# 3. I claimed that iso2 and iso3 were redundant with country. 
+#    Confirm this claim.
+ 
+# 4. For each country, year, and sex compute the total number of cases of TB.
+#    Make an informative visualisation of the data.
+ 
 
 ## +++ here now +++ ------
 
