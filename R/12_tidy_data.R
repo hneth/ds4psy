@@ -851,26 +851,26 @@ who1 %>%
 # The data dictionary tells us:
 
 # 1. The first three letters of each column denote whether the column contains
-#    new or old cases of TB. In this dataset, each column contains new cases.
+#    "new" or "old" cases of TB. In this dataset, each column contains "new" cases.
 
 # 2. The next two letters describe the type of TB:
-# - rel stands for cases of relapse
-# - ep stands for cases of extrapulmonary TB
-# - sn stands for cases of pulmonary TB that could not be diagnosed by a pulmonary smear (smear negative)
-# - sp stands for cases of pulmonary TB that could be diagnosed be a pulmonary smear (smear positive)
+#    - rel stands for cases of relapse
+#    - ep stands for cases of extrapulmonary TB
+#    - sn stands for cases of pulmonary TB that could not be diagnosed by a pulmonary smear (smear negative)
+#    - sp stands for cases of pulmonary TB that could be diagnosed be a pulmonary smear (smear positive)
 
 # 3. The sixth letter gives the sex of TB patients. 
 #    The dataset groups cases by males (m) and females (f).
 
 # 4. The remaining numbers gives the age group. 
 #    The dataset groups cases into seven age groups:
-#   014 = 0 – 14 years old
-#   1524 = 15 – 24 years old
-#   2534 = 25 – 34 years old
-#   3544 = 35 – 44 years old
-#   4554 = 45 – 54 years old
-#   5564 = 55 – 64 years old
-#   65 = 65 or older
+#   - 014 = 0 – 14 years old
+#   - 1524 = 15 – 24 years old
+#   - 2534 = 25 – 34 years old
+#   - 3544 = 35 – 44 years old
+#   - 4554 = 45 – 54 years old
+#   - 5564 = 55 – 64 years old
+#   - 65 = 65 or older
 
 # We need to make a minor fix to the format of the column names: 
 # unfortunately the names are slightly inconsistent because instead of 
@@ -937,6 +937,7 @@ who %>%
   select(-new, -iso2, -iso3)
 
 
+
 ## 12.6.1 Exercises -----
 
 # 1. In this case study I set na.rm = TRUE just to make it easier 
@@ -944,7 +945,47 @@ who %>%
 #    Think about how missing values are represented in this dataset. 
 #    Are there implicit missing values? 
 #    What’s the difference between an NA and zero?
-   
+
+who
+dim(who)
+
+# Number of cases and NA cases: 
+N <- nrow(who) * ncol(who)
+n_NA <- sum(is.na(who))
+n_not_NA <- sum(!is.na(who))
+
+(n_NA + n_not_NA) == N # should be true
+n_NA/N  # percentage of NA cases
+
+# => 76% pf all cases are NA, hence dropping them is reasonable.
+
+# Any implicit missing values?
+
+who1b <- who %>% 
+  gather(new_sp_m014:newrel_f65, key = "key", value = "cases", na.rm = FALSE)
+
+who2b <- who1b %>%
+  group_by(country, year) %>%
+  count(cases)
+
+who2b$n
+
+
+# Numerically: 
+# 1 "new" x 4 types of TB x 2 genders x 7 age groups:
+(1 * 4 * 2 * 7)  # => 56 groups per country
+
+# How many countries?
+unique(who1b$country) # => 219 countries
+
+# rows in complete data set:
+
+(1 * 4 * 2 * 7) * 219
+
+who
+
+
+
 # 2. What happens if you neglect the mutate() step? 
 #    (mutate(key = stringr::str_replace(key, "newrel", "new_rel")))
  
