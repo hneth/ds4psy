@@ -29,7 +29,6 @@
 
 library(tidyverse)
 
-
 ## 12.2 Tidy data (Definition and Motivation) ------
 
 # Data can be represented in multiple ways. 
@@ -959,42 +958,122 @@ n_NA/N  # percentage of NA cases
 
 # => 76% pf all cases are NA, hence dropping them is reasonable.
 
-# Any implicit missing values?
+## Any implicit missing values?
 
-who1b <- who %>% 
-  gather(new_sp_m014:newrel_f65, key = "key", value = "cases", na.rm = FALSE)
+who1 <- who %>% 
+  gather(new_sp_m014:newrel_f65, key = "key", value = "cases", na.rm = TRUE)
+# who1
 
-who2b <- who1b %>%
-  group_by(country, year) %>%
-  count(cases)
+who1 %>%
+  filter(cases == 0) %>%
+  nrow()
 
-who2b$n
+# There are 11080 country/year/key combinations with an
+# explicit value of 0.
 
+
+# For how many countries and years is there data?
+# who
+dim(who)
+
+# => 219 countries
+# => beyond 4 variables for country and year, 
+#    there are 56 count variables (containing explicit NAs)
 
 # Numerically: 
 # 1 "new" x 4 types of TB x 2 genders x 7 age groups:
-(1 * 4 * 2 * 7)  # => 56 groups per country
+(1 * 4 * 2 * 7)  # => 56 count variables per country
 
-# How many countries?
-unique(who1b$country) # => 219 countries
+# What about the existing range of years per country? 
+ct <- who %>%
+  count(country)
+table(ct$n)
 
-# rows in complete data set:
+with(who, table(country, year))
 
-(1 * 4 * 2 * 7) * 219
+# => Most countries (210 of 219) have data for 34 years,
+#    but 9 have data from fewer years. 
 
-who
+#    Thus, it's possible that there are implicit missing values. 
 
+#    However, removing explicit NAs does not change anything
+#    as it treats explictly missing values like implicitly missing ones. 
 
 
 # 2. What happens if you neglect the mutate() step? 
 #    (mutate(key = stringr::str_replace(key, "newrel", "new_rel")))
- 
+
+who %>%
+  gather(code, value, new_sp_m014:newrel_f65, na.rm = TRUE) %>% 
+  # mutate(code = stringr::str_replace(code, "newrel", "new_rel")) %>%
+  separate(code, c("new", "var", "sexage")) %>% 
+  separate(sexage, c("sex", "age"), sep = 1) %>% 
+  select(-new, -iso2, -iso3)
+
+# Warning: Too few values at 2580 locations: 73467, 73468, 73469, ... 
+
+who3e <- who1 %>% 
+  separate(key, c("new", "type", "sexage"), sep = "_")
+
+# Printing problematic rows:
+who3e[73460:73480, ]
+
+# => "new" is "newrel" and "type" becomes "m014" (rather than "sexage")...
+
+## Filter out problematic range: 
+filter(who3e, new == "newrel") # %>% head()
+
+
 # 3. I claimed that iso2 and iso3 were redundant with country. 
 #    Confirm this claim.
- 
+
+# "Redundancy" implies that using "iso2" or "iso3" instead of "country" 
+# would yield the same result (in terms of table contents):
+
+# However, the variable "country" was not used in the above pipe of commands 
+# (i.e., cannot be replaced by "iso2" or "iso3".) 
+
+# Count cases by country in 3 ways:
+
+cs_country <- who1 %>%
+  group_by(country) %>%
+  summarise(count = n(),
+            sum   = sum(cases)) %>%
+  arrange(sum)
+
+cs_iso2 <- who1 %>%
+  group_by(iso2) %>%
+  summarise(count = n(),
+            sum   = sum(cases)) %>%
+  arrange(sum)
+
+cs_iso3 <- who1 %>%
+  group_by(iso3) %>%
+  summarise(count = n(),
+            sum   = sum(cases)) %>%
+  arrange(sum)
+
+
+# Check for equality of counts and sums:
+all.equal(select(cs_country, count, sum), select(cs_iso2, count, sum))
+all.equal(select(cs_iso2, count, sum), select(cs_iso3, count, sum))
+
+## Alternative solution:
+
+select(who, country, iso2, iso3) %>%
+  distinct() %>%
+  group_by(country) %>%
+  filter(n() > 1)
+
+?distinct 
+
 # 4. For each country, year, and sex compute the total number of cases of TB.
 #    Make an informative visualisation of the data.
  
+
+
+
+
 
 ## +++ here now +++ ------
 

@@ -188,7 +188,7 @@ Programming (in R or any other language) can be enjoyable, but also has addictiv
 ## Book and Exercises
 
 - Book: http://r4ds.had.co.nz/ 
-- Exercises: https://jrnold.github.io/r4ds-exercise-solutions/ 
+- Exercise solutions: https://jrnold.github.io/r4ds-exercise-solutions/ 
 
 ## Computing for SocSci
 
