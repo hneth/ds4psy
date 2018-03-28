@@ -1,7 +1,7 @@
 ## r4ds: Chapter 12: Tidy data  
 ## Code for http://r4ds.had.co.nz/tidy-data.html
 ## hn spds uni.kn
-## 2018 03 27 ------
+## 2018 03 28 ------
 
 ## Quotes: ------
 
@@ -1070,21 +1070,61 @@ select(who, country, iso2, iso3) %>%
 # 4. For each country, year, and sex compute the total number of cases of TB.
 #    Make an informative visualisation of the data.
  
+cases <- who5 %>%
+  group_by(country, year, sex) %>%
+  summarise(n_count = n(),
+            n_not_NA = sum(!is.na(cases)), 
+            sum_cases = sum(cases)) %>%
+  unite(country_sex, country, sex, remove = FALSE)
+cases
 
 
+# Showing all countries in 1 plot makes not much sense:
+ggplot(cases, aes(x = year, y = sum_cases, group = country_sex, color = sex)) +
+  geom_line(alpha = 1/2, size = .25) +
+  theme_light()
+
+# Limit to countries starting with "A":
+A_countries <- cases[(substr(cases$country, 1, 1)) %in% c("A"), ]  
+
+ggplot(A_countries, aes(x = year, y = sum_cases, group = country_sex, color = sex)) +
+  facet_wrap(~country) + 
+  geom_line(aes()) +
+  theme_light()
+
+# Other options for filters or groups:
+# - Group countries by a similar number of cases
+# - Group countries by a similar magnitude of changes
 
 
+## 12.7 Non-tidy data ------
+
+# Above, we used the pejorative term “messy” to refer to non-tidy data. 
+# That’s an oversimplification: 
+# There are lots of useful and well-founded data structures that are not tidy data. 
+
+# There are two main reasons to use other data structures:
+
+# 1. Alternative representations may have substantial 
+#    performance or space advantages.
+
+# 2. Specialised fields have evolved their own conventions 
+#    for storing data that may differ from the conventions of tidy data.
+
+# Either of these reasons means you’ll need something other than a tibble (or data frame). 
+# If your data does fit naturally into a rectangular structure composed of observations and variables, 
+# tidy data should be your default choice. 
+# But there are good reasons to use other structures; tidy data is not the only way.
+
+# To learn more about non-tidy data, see this blog post by Jeff Leek: 
+# http://simplystatistics.org/2016/02/17/non-tidy-data/
 
 ## +++ here now +++ ------
-
-
-
 
 ## [test.quest]:
 
 ## (1) Understand, redo, and improve on 
 ##     http://www.sharpsightlabs.com/blog/us-metro-gdp/
-
 
 
 ## Appendix ------
@@ -1098,6 +1138,9 @@ vignette("tidy-data")
 
 # To learn more about the underlying theory, see the Tidy Data paper 
 # in the Journal of Statistical Software: http://www.jstatsoft.org/v59/i10/paper.
+
+# To learn more about non-tidy data, see
+# http://simplystatistics.org/2016/02/17/non-tidy-data/ 
 
 ## ------
 ## eof.
