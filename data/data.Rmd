@@ -1,7 +1,7 @@
 ---
 title: "Data sets and sources (ds4psy)"
 author: "Hansjörg Neth, SPDS, uni.kn"
-date: "2018 03 25"
+date: "2018 03 29"
 output:
   rmdformats::html_clean:
     highlight: kate
@@ -123,6 +123,7 @@ library(MASS)
 
 ```
 
+
 ## `ISLR` package
 
 An Introduction to Statistical Learning with Applications in R  
@@ -131,6 +132,14 @@ Authors: Gareth James, Daniela Witten, Trevor Hastie and Robert Tibshirani
 - R package [ISLR](https://CRAN.R-project.org/package=ISLR) (with data sets):   
 - Book [PDF](http://www-bcf.usc.edu/~gareth/ISL/ISLR%20Seventh%20Printing.pdf) 
 - Website: <www.StatLearning.com> or <http://www-bcf.usc.edu/~gareth/ISL/> 
+
+
+## The `eurostat` package
+
+- http://ropengov.github.io/eurostat/ 
+- R tools to access the eurostat database, by [rOpenGov](http://ropengov.github.io/).
+- Cheatsheet at <https://github.com/rstudio/cheatsheets/raw/master/eurostat.pdf>
+
 
 ## `dslabs` package
 
@@ -143,6 +152,7 @@ Datasets and functions that facilitate data analysis labs in data science course
 ## Online: blogs etc.
 
 - http://www.sharpsightlabs.com 
+
 
 # References
 
