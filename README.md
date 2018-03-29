@@ -19,13 +19,16 @@ Students of psychology and other social sciences are trained to analyze data. Bu
 
 This course develops the foundations of data analysis that allow students to collect data from real-world sources and transform and shape such data to answer scientific and practical questions. Although there are many good introductions to data science (e.g., [Grolemund & Wickham, 2016](http://r4ds.had.co.nz/); Zumel & Mount, 2014) they typically do not take into account the special needs (and often anxieties and reservations) of psychology students. As social scientists are not computer scientists, we introduce new concepts and commands without assuming a mathematical or computational background. Adopting a task-oriented perspective, we begin with a specific problem and then solve it with some combination of data collection, manipulation, modeling, and visualization.
 
+
 ### Goals
 
-Our main goal is to develop a set of useful skills in data analysis in a playful fashion. Upon completing this course, you will be able to read, transform, analyze, and visualize data of various types. Many interactive exercises will allow students to continuously check their understanding, practice their skills, and monitor their progress.
+Our main goal is to develop a set of useful skills in analyzing real-world data and conducting reproducible research. Upon completing this course, you will be able to read, transform, analyze, and visualize data of various types. Many interactive exercises will allow students to continuously check their understanding, practice their skills, and monitor their progress.
+
 
 ### Requirements
 
 This course assumes some basic familiarity with statistics and the [R](http://www.r-project.org/) programming language, but enthusiastic programming novices are also welcome. 
+
 
 ### Assessment
 
