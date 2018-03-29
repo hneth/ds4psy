@@ -215,6 +215,11 @@ Authors: Gareth James, Daniela Witten, Trevor Hastie and Robert Tibshirani
 
 - http://www.sharpsightlabs.com 
 
+## Useful resources
+
+- [GitHub](https://github.com/): 
+    - http://kbroman.org/github_tutorial/ 
+
 
 # References
 

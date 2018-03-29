@@ -132,10 +132,17 @@ Authors: Gareth James, Daniela Witten, Trevor Hastie and Robert Tibshirani
 - Book [PDF](http://www-bcf.usc.edu/~gareth/ISL/ISLR%20Seventh%20Printing.pdf) 
 - Website: <www.StatLearning.com> or <http://www-bcf.usc.edu/~gareth/ISL/> 
 
+## `dslabs` package
+
+Datasets and functions that facilitate data analysis labs in data science courses and workshops. 
+
+- See [this blog post](https://simplystatistics.org/2018/01/22/the-dslabs-package-provides-datasets-for-teaching-data-science/) at [simplyStats](simplystatistics.org) for an overview 
+- https://CRAN.R-project.org/package=dslabs 
+
+
 ## Online: blogs etc.
 
 - http://www.sharpsightlabs.com 
-
 
 # References
 
