@@ -1424,7 +1424,7 @@ diamonds %>%
 
 # +++ here now +++ ------
 
-## Ideas for test questions: -----
+## Ideas for test questions [test.quest]: ------
 
 # [test.quest]: Daily temperature curves in 3 NYC airports by month
 {
