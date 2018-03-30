@@ -1,7 +1,7 @@
 ## r4ds: Chapter 7: Exploratory data analysis
 ## Code for http://r4ds.had.co.nz/exploratory-data-analysis.html 
 ## hn spds uni.kn
-## 2018 03 22 ------
+## 2018 03 30 ------
 
 ## Quotes: ------
 
@@ -1423,6 +1423,64 @@ diamonds %>%
 #    chapter, but has the space to go into much greater depth.
 
 # +++ here now +++ ------
+
+## Ideas for test questions: -----
+
+# [test.quest]: Daily temperature curves in 3 NYC airports by month
+{
+  # Using only data from nycflights13::weather 
+  # Tools to know: dplyr (group_by, summarise, mutate), ggplot (facet_wrap, geom_line)
+  
+  # Compute average temperature (in degrees celsius) 
+  # for each hour, month, and airport.
+  
+  # To convert temperatures in degrees Fahrenheit to Celsius:
+  # subtract 32 and multiply by 5/9.
+  
+  wt <- nycflights13::weather %>% 
+    group_by(origin, month, hour) %>%
+    summarise(n_count = n(),
+              n_non_NA = sum(!is.na(temp)),
+              mn_temp = mean(temp, na.rm = TRUE),
+              sd_temp = sd(temp, na.rm = TRUE)
+    ) %>%
+    mutate(mn_temp_c = (mn_temp - 32) * 5/9)
+  
+  # 1st version: 
+  ggplot(wt, aes(x = hour, y = mn_temp_c, color = origin)) +
+    facet_wrap(~month) +
+    # geom_point() +
+    geom_line(size = 1) +
+    theme_bw()
+  
+  # Note: 
+  # - Similar curves on all 3 airports (which is to be expected):
+  #   JFK seems a little colder at night (from April to July)
+  # - Differentiating by origin is not very useful --- collapse across origins.
+  # - Plot all 12 months in 1 plot.
+  
+  library(RColorBrewer)
+  display.brewer.all()
+  
+  # ?brewer.pal
+  season.cols <- c(brewer.pal(3,"Greens"), brewer.pal(6,"OrRd"), brewer.pal(3, "Blues"))
+  
+  # 2nd version:
+  ggplot(wt, aes(x = hour, y = mn_temp_c, color = factor(month))) +
+    facet_wrap(~origin) +
+    # geom_point() +
+    geom_line(aes(group = month), size = 1.5) +
+    scale_color_manual(values = season.cols) +
+    theme_bw()
+  
+  # ?brewer
+  
+  # Interpretation: 
+  # - All 3 locations show similar pattern (which is to be expected)
+  # - Daily temperature wave has interesting shape: 
+  #   Declines up to 10am, then rises until about 18/20.
+  
+}
 
 ## ------
 ## eof.
