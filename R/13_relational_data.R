@@ -135,30 +135,291 @@ nycflights13::weather  # links origin and time to weather info
 
 # 1. Imagine you wanted to draw (approximately) the route 
 #    each plane flies from its origin to its destination. 
-#  - What variables would you need? 
-#  - What tables would you need to combine?
+# a: What variables would you need? 
+# b: What tables would you need to combine?
 
+# ad a:
+# - tailnum from flights
+# - lat/lon from airports (origin/dest in flights correspond to faa)
 
-## +++ here now +++ ------
+# ad b:
+# flights and airports
 
-# 2. I forgot to draw the relationship between weather and airports. What is the
-# relationship and how should it appear in the diagram?
+# We would merge flights with airports twice: 
+# once to get the location of the origin airport, and 
+# once to get the location of the dest airport.
+
+# 2. I forgot to draw the relationship between weather and airports. 
+#    What is the relationship and how should it appear in the diagram?
+
+nycflights13::weather
+
+# "origin" in weather corresponds to "faa" in airports
+
+# 3. weather only contains information for the origin (NYC) airports. 
+# If it contained weather records for all airports in the USA, 
+# what additional relation would it define with flights?
    
-# 3. weather only contains information for the origin (NYC) airports. If it
-# contained weather records for all airports in the USA, what additional
-# relation would it define with flights?
-   
-# 4. We know that some days of the year are “special”, and fewer people than
-# usual fly on them. How might you represent that data as a data frame? What
-# would be the primary keys of that table? How would it connect to the existing
-# tables?
-   
-  
+nycflights13::flights$dest # "dest" could be linked to some faa code in weather
 
-
+# 4. We know that some days of the year are “special”, 
+#    and fewer people than usual fly on them. 
+#    How might you represent that data as a data frame? 
+#    What would be the primary keys of that table? 
+#    How would it connect to the existing tables?
+   
+# Create a df of holidays and weekdays.
+# e.g., a table of 365 rows (1 per day) 
+# Key variables: month, day, weekday, holiday (logical), and name of holiday.
+# Connect via date: month & day.
 
 
 ## 13.3 Keys ------
+
+## (A) Defining "key": primary vs. foreign ----
+
+# - "Keys" are variables used to connect each pair of tables. 
+#   A "key" is a variable (or set of variables) that uniquely identifies an observation. 
+
+# - In simple cases, a single variable is sufficient to identify an observation. 
+#   For example, each plane is uniquely identified by its tailnum. 
+
+# - In other cases, multiple variables may be needed to identify an observation. 
+#   For example, to identify an observation in weather 
+#   you need 5 variables: year, month, day, hour, and origin (i.e., date, time, and location).
+
+# There are 2 types of keys:
+  
+# 1. A "primary key" uniquely identifies an observation in its _own_ table. 
+#    For example, planes$tailnum is a primary key because 
+#    it uniquely identifies each plane in the planes table.
+
+# 2. A "foreign key" uniquely identifies an observation in _another_ table. 
+#    For example, the flights$tailnum is a foreign key 
+#    because it appears in the flights table where it matches each flight to a unique plane.
+
+# A variable in a table can be both a primary key and a foreign key. 
+# For example, "origin" is part of the weather primary key, 
+# and is also a foreign key for the airport table.
+
+# Once you’ve identified the primary keys in your tables, 
+# it’s good practice to verify that they do indeed 
+# uniquely identify each observation. 
+
+# One way to do that is to count() the primary keys 
+# and look for entries where n is greater than 1:
+
+planes %>% 
+  count(tailnum) %>% 
+  filter(n > 1)
+
+# => 0 rows (q.e.d., for a primary key)
+
+weather %>% 
+  count(year, month, day, hour, origin) %>% 
+  filter(n > 1)
+
+# => 0 rows (q.e.d., for a primary key)
+
+# Sometimes a table doesn’t have an explicit primary key: 
+# each row is an observation, but no combination of variables 
+# reliably identifies it. 
+
+# For example, what’s the primary key in the flights table? 
+# You might think it would be the date plus the flight or tail number, 
+# but neither of those are unique:
+
+flights %>%
+  count(year, month, day, flight) %>%
+  filter(n > 1)
+
+# => lots of duplicates (29,768)
+
+flights %>%
+  count(year, month, day, tailnum) %>%
+  filter(n > 1)
+
+# => lots of duplicates (64,928)
+
+flights %>%
+  count(year, month, day, flight, tailnum) %>%
+  filter(n > 1)
+
+# => still some duplicates (though only 11)
+
+# The table of flights lacks a primary key.
+
+## Defining "surrogate key" and "relation": ---- 
+
+# If a table lacks a primary key, it’s sometimes useful 
+# to add a "surrogate key" with mutate() and row_number(). 
+# That makes it easier to match observations after some filtering 
+# and checking back in with the original data. 
+# Adding a unique primary key is called a "surrogate key".
+
+# A "primary key" and the corresponding "foreign key" in another table 
+# form a "relation". 
+
+## Types of relations (4): ----
+
+# Relations are typically 1-to-many (a). 
+# For example, each flight has one plane, but each plane has many flights. 
+
+# In other data, you’ll occasionally see a 1-to-1 relationship (b). 
+# You can think of this as a special case of 1-to-many. 
+
+# You can model many-to-many relations (c) with 
+# a many-to-1 relation (d) plus a 1-to-many relation (a). 
+# For example, in this data there’s a many-to-many relationship between airlines and airports: 
+# Each airline flies to many airports; each airport hosts many airlines.
+
+
+## 13.3.1 Exercises -----
+
+# 1. Add a surrogate key to flights.
+
+f2 <- flights %>%
+  mutate(flight_nr = row_number()) %>%
+  select(flight_nr, everything())
+
+# Verify that flight_nr is a primary key
+# (i.e., uniquely specifies each observation in flights):
+
+f2 %>%
+  count(flight_nr) %>%
+  filter(n > 1)
+
+# => 0 rows (q.e.d., for a primary key)
+ 
+
+# 2. Identify the keys in the following datasets: 
+
+# a. Lahman::Batting
+# b. babynames::babynames
+# c. nasaweather::atmos
+# d. fueleconomy::vehicles
+# e. ggplot2::diamonds
+
+# (You might need to install some packages and read some documentation.)
+
+# ad a: 
+Lahman::Batting
+
+Lahman::Batting %>%
+  count(playerID, yearID, stint) %>%  # primary key?
+  filter(n > 1)
+
+# ad b:
+
+# install.packages('babynames')
+library('babynames')
+
+?babynames
+bn <- as_tibble(babynames)
+bn
+
+# Note: "n" is a variable name in bn. 
+# Hence, count creates a new variable "nn".
+
+bn %>% 
+  count(year, sex, name) %>%  # primary key?
+  filter(nn > 1)
+
+# [test.quest]: Explore babynames: 
+{
+  ## Data used: babynames::babynames
+  ## To know: dplyr, ggplot 
+  
+  ## Data: 
+  # install.packages('babynames')
+  # library('babynames')
+  
+  # ?babynames
+  bn <- as_tibble(babynames)
+  bn
+  
+  # Determine most popular names:
+  bn %>%
+    group_by(name, sex) %>%
+    summarise(n_cases = n(),
+              sum = sum(n)
+    ) %>%
+    arrange(desc(sum)) %>%
+    print(n = 30)
+  
+  # "Alma":
+  bn %>%
+    filter(name %in% c("Alma")) %>%
+    ggplot(aes(x = year, y = n, color = sex)) +
+    geom_line()
+  
+  # "Ada" vs. "Ava":
+  bn %>%
+    filter(name %in% c("Ada", "Ava") & sex == "F") %>%
+    ggplot(aes(x = year, y = n, color = name)) +
+    geom_line()
+  
+  # Compare "Alma" with "Ada", "Ava", and "Maria":
+  bn %>%
+    filter(name %in% c("Ada", "Alma", "Ava", "Maria")) %>%
+    ggplot(aes(x = year, y = n, color = name)) +
+    facet_wrap(~sex) + 
+    geom_line()
+  
+  # Compare "Teresa" with "Theresa":
+  bn %>%
+    filter(name %in% c("Teresa", "Theresa"), sex == "F") %>%
+    ggplot(aes(x = year, y = n, color = name)) +
+    geom_line()
+  
+  # Compare "Hans" with variants: 
+  bn %>%
+    filter(name %in% c("Hans", "Jack", "John", "James"), sex == "M") %>%
+    ggplot(aes(x = year, y = n, color = name)) +
+    geom_line()
+  
+  # Compare "Jetta" with "Ruby":
+  bn %>% 
+    filter(name %in% c("Jetta", "Ruby"), sex == "F") %>% 
+    ggplot(aes(x = year, y = n, color = name)) +
+    geom_line()
+  
+  # Frequency of "Jetta" since 1970:
+  bn %>%
+    filter(year >= 1970, name %in% c("Jetta")) %>% 
+    ggplot(aes(x = year, y = n, color = name)) +
+    geom_line()
+  
+  # This suggest a possible influence of the Volkswagen model 
+  # of the same name, manufactured since 1979, 
+  # see https://en.wikipedia.org/wiki/Volkswagen_Jetta 
+  # however:
+  
+  bn %>%
+    filter(name %in% c("Jetta"), sex == "F") %>% 
+    ggplot(aes(x = year, y = n, color = name)) +
+    geom_line()
+  
+  # even more popular in 1920s and 1950s, hence not only source of influence.
+  
+  }
+
+## +++ here now +++ ------
+
+
+
+# 3. Draw a diagram illustrating the connections between the 
+#    Batting, Master, and Salaries tables in the Lahman package. 
+#    Draw another diagram that shows the relationship between Master, Managers, AwardsManagers.
+
+# 4. How would you characterise the relationship between the 
+#    Batting, Pitching, and Fielding tables?
+
+
+
+  
+  
+
 
 ## 13.4 Mutating joins ------
 

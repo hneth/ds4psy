@@ -1426,7 +1426,7 @@ diamonds %>%
 
 ## Ideas for test questions [test.quest]: ------
 
-# [test.quest]: Daily temperature curves in 3 NYC airports by month
+# [test.quest]: Daily temperature curves in 3 NYC airports by month: 
 {
   # Using only data from nycflights13::weather 
   # Tools to know: dplyr (group_by, summarise, mutate), ggplot (facet_wrap, geom_line)
@@ -1479,6 +1479,85 @@ diamonds %>%
   # - All 3 locations show similar pattern (which is to be expected)
   # - Daily temperature wave has interesting shape: 
   #   Declines up to 10am, then rises until about 18/20.
+  
+}
+
+# [test.quest]: Explore babynames:
+{
+  ## Data used: babynames::babynames
+  ## To know: dplyr, ggplot 
+  
+  ## Data: 
+  # install.packages('babynames')
+  # library('babynames')
+  
+  # ?babynames
+  bn <- as_tibble(babynames)
+  bn
+  
+  # Determine most popular names:
+  bn %>%
+    group_by(name, sex) %>%
+    summarise(n_cases = n(),
+              sum = sum(n)
+    ) %>%
+    arrange(desc(sum)) %>%
+    print(n = 30)
+  
+  # "Alma":
+  bn %>%
+    filter(name %in% c("Alma")) %>%
+    ggplot(aes(x = year, y = n, color = sex)) +
+    geom_line()
+  
+  # "Ada" vs. "Ava":
+  bn %>%
+    filter(name %in% c("Ada", "Ava") & sex == "F") %>%
+    ggplot(aes(x = year, y = n, color = name)) +
+    geom_line()
+  
+  # Compare "Alma" with "Ada", "Ava", and "Maria":
+  bn %>%
+    filter(name %in% c("Ada", "Alma", "Ava", "Maria")) %>%
+    ggplot(aes(x = year, y = n, color = name)) +
+    facet_wrap(~sex) + 
+    geom_line()
+  
+  # Compare "Teresa" with "Theresa":
+  bn %>%
+    filter(name %in% c("Teresa", "Theresa"), sex == "F") %>%
+    ggplot(aes(x = year, y = n, color = name)) +
+    geom_line()
+  
+  # Compare "Hans" with variants: 
+  bn %>%
+    filter(name %in% c("Hans", "Jack", "John", "James"), sex == "M") %>%
+    ggplot(aes(x = year, y = n, color = name)) +
+    geom_line()
+  
+  # Compare "Jetta" with "Ruby":
+  bn %>% 
+    filter(name %in% c("Jetta", "Ruby"), sex == "F") %>% 
+    ggplot(aes(x = year, y = n, color = name)) +
+    geom_line()
+  
+  # Frequency of "Jetta" since 1970:
+  bn %>%
+    filter(year >= 1970, name %in% c("Jetta")) %>% 
+    ggplot(aes(x = year, y = n, color = name)) +
+    geom_line()
+  
+  # This suggest a possible influence of the Volkswagen model 
+  # of the same name, manufactured since 1979, 
+  # see https://en.wikipedia.org/wiki/Volkswagen_Jetta 
+  # however:
+  
+  bn %>%
+    filter(name %in% c("Jetta"), sex == "F") %>% 
+    ggplot(aes(x = year, y = n, color = name)) +
+    geom_line()
+  
+  # even more popular in 1920s and 1950s, hence not only source of influence.
   
 }
 
