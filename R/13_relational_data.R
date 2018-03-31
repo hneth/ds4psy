@@ -766,15 +766,60 @@ airports %>%
 
 # (Don’t worry if you don’t understand what semi_join() does 
 # — we’ll learn about it next.)
- 
+
 # You might want to use the size or colour of the points to display the average
 # delay for each airport.
- 
-# 2. Add the location of the origin and destination (i.e. the lat and lon) to flights.
+
+?flights
+
+flights <- flights %>%
+  select(year:dep_time, carrier, flight, origin, dest, dep_delay, arr_delay)
+
+delays <- flights %>%
+  group_by(dest) %>%
+  summarise(n = n(),
+            n_not_NA = sum(!is.na(dep_delay)),
+            mn_dep_del = mean(dep_delay, na.rm = TRUE), 
+            mn_arr_del = mean(arr_delay, na.rm = TRUE)) %>%
+  arrange(desc(mn_arr_del))
+
+delay_airports <- delays %>% 
+  left_join(airports, by = c("dest" = "faa"))
+# delay_airports
+
+delay_airports %>%
+  # semi_join(flights, c("dest" = "dest")) %>%
+  ggplot(aes(lon, lat, size = mn_arr_del, color = mn_arr_del)) +
+  borders("state") +
+  geom_point() +
+  coord_quickmap() + 
+  theme_light()
+            
+
+# 2. Add the location of the origin and destination (i.e., the lat and lon) to flights.
+
+flights2 %>%
+  left_join(airports, by = c("origin" = "faa")) %>%
+  left_join(airports, by = c("dest" = "faa")) 
 
 # 3. Is there a relationship between the age of a plane and its delays?
-   
+
+flights %>% 
+  left_join(planes, by = "tailnum") %>%
+  group_by(year.y) %>%
+  summarise(n = n(),
+            n_non_NA = sum(!is.na(dep_delay)),
+            mn_dep_del = mean(dep_delay, na.rm = TRUE),
+            mn_arr_del = mean(arr_delay, na.rm = TRUE)) %>%
+  # filter(n_non_NA > 100) %>%
+  ggplot(aes(x = year.y, y = mn_dep_del)) +
+   geom_point() + 
+   geom_line() +
+   theme_bw()
+
 # 4. What weather conditions make it more likely to see a delay?
+
+?weather
 
 # 5. What happened on June 13 2013? 
 #    Display the spatial pattern of delays, and then 
