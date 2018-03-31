@@ -1,7 +1,16 @@
 ## r4ds: Chapter 5: Data transformation 
 ## Code for http://r4ds.had.co.nz/5_data_transformation.html 
 ## hn spds uni.kn
-## 2018 03 14 ------
+## 2018 03 31 ------
+
+## Note: dplyr implements a grammar of data transformation.
+##       This chapter concerns transformations involving a single table
+##       and 6 verbs for different actions: 
+##       - arranging rows (arrange)
+##       - selecting rows (filter) and selecting columns (select)
+##       - creating new columns (mutate, transmute)
+##       - aggregation via grouped summaries (group_by and summarise)
+
 
 ## 5.1 Introduction ------
 
@@ -64,9 +73,6 @@ table(flights$dest)
 # - The subsequent arguments describe what to do with the data frame, 
 #   using the variable names (without quotes).
 # - The result is a new data frame.
-
-
-
 
 
 ## 5.2 Filter rows with filter() ------

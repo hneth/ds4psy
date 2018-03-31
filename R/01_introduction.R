@@ -1,7 +1,7 @@
 ## r4ds: Chapter 1:  
 ## Code for http://r4ds.had.co.nz/introduction.html 
 ## hn spds uni.kn
-## 2018 03 19 ------
+## 2018 03 31 ------
 
 ## 1.1 What you will learn ------
 
@@ -66,13 +66,18 @@
 ## Install tidyverse packages: 
 install.packages("tidyverse")
 
+## This includes the following datasets:
+
+ggplot2::diamonds
+dplyr::band_members
+dplyr::starwars
+tidyr::table1 # etc. 
 
 ## (4) Other packages ----- 
 
 ## Install additional data packages:
 install.packages(c("nycflights13", "gapminder", "Lahman"))
-
-
+# install.packages("babynames")
 
 
 ## 1.5 Running R code ------
@@ -87,7 +92,22 @@ install.packages(c("nycflights13", "gapminder", "Lahman"))
 ## 1.6 Getting help and learning more ------
 
 # - ?command or package documentation: examples!
-# - books and scripts, cheatsheets
+
+# - Cheatsheets:
+
+# See 
+# - https://www.rstudio.com/resources/cheatsheets/
+# - https://github.com/rstudio/cheatsheets
+
+# Currently relevant (prior to any specific packages):
+
+# - Base R Cheat sheet: https://github.com/rstudio/cheatsheets/blob/master/base-r.pdf 
+# - RStudio IDE Cheat Sheet: https://github.com/rstudio/cheatsheets/blob/master/rstudio-ide.pdf 
+
+# - R Markdown Cheat Sheet: https://github.com/rstudio/cheatsheets/blob/master/rmarkdown-2.0.pdf
+# - R Markdown Reference Guide: https://www.rstudio.com/wp-content/uploads/2015/03/rmarkdown-reference.pdf 
+
+# - books and scripts
 # - Google
 # - stackoverflow: reprex
 
