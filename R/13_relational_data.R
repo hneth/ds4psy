@@ -1,9 +1,15 @@
 ## r4ds: Chapter 13: Relational data
 ## Code for http://r4ds.had.co.nz/relational-data.html
 ## hn spds uni.kn
-## 2018 03 29 ------
+## 2018 03 31 ------
 
 ## [see Book chapter 10: "Relational data with dplyr"] 
+
+
+
+## Note: dplyr implements a grammar of data transformation.
+##       This chapter concerns transformations involving multiple tables
+##       that are linked by keys that define relations.
 
 
 ## 13.1 Introduction ------
@@ -16,13 +22,13 @@
 # Collectively, multiple tables of data are called "relational data" because it is 
 # the relations between tables, not just the individual datasets, that are important.
 
-# Relations are always defined between a pair of tables. 
+# _Relations_ are always defined between a pair of tables. 
 # All other relations are built up from this simple idea: 
 # the relations of three or more tables are always a property of the relations between each pair. 
 
 # Sometimes both elements of a pair can be the same table! 
 # This is needed if, for example, you have a table of people, and 
-# each person has a reference to their parents.
+# each person has a reference to their parents (in the same table).
 
 # To work with relational data you need verbs that work with pairs of tables. 
 
@@ -36,7 +42,7 @@
 #    they match an observation in another table.
 
 # 3. Set operations:
-#    treat observations as if they were set elements.
+#    Combine or distinguish observations from tables as if they were set elements.
 
 # The most common place to find relational data is in a 
 # relational database management system (or RDBMS), 
@@ -178,17 +184,17 @@ nycflights13::flights$dest # "dest" could be linked to some faa code in weather
 
 ## (A) Defining "key": primary vs. foreign ----
 
-# - "Keys" are variables used to connect each pair of tables. 
+# - Definition: "Keys" are variables used to connect each pair of tables. 
 #   A "key" is a variable (or set of variables) that uniquely identifies an observation. 
 
 # - In simple cases, a single variable is sufficient to identify an observation. 
-#   For example, each plane is uniquely identified by its tailnum. 
+#   For example, each plane is uniquely identified by its "tailnum". 
 
 # - In other cases, multiple variables may be needed to identify an observation. 
 #   For example, to identify an observation in weather 
 #   you need 5 variables: year, month, day, hour, and origin (i.e., date, time, and location).
 
-# There are 2 types of keys:
+# There are 2 types of keys, that are defined by their _perspective_:
   
 # 1. A "primary key" uniquely identifies an observation in its _own_ table. 
 #    For example, planes$tailnum is a primary key because 
@@ -198,7 +204,7 @@ nycflights13::flights$dest # "dest" could be linked to some faa code in weather
 #    For example, the flights$tailnum is a foreign key 
 #    because it appears in the flights table where it matches each flight to a unique plane.
 
-# A variable in a table can be both a primary key and a foreign key. 
+# A variable in a table can be _both_ a primary key and a foreign key. 
 # For example, "origin" is part of the weather primary key, 
 # and is also a foreign key for the airport table.
 
@@ -206,7 +212,7 @@ nycflights13::flights$dest # "dest" could be linked to some faa code in weather
 # it’s good practice to verify that they do indeed 
 # uniquely identify each observation. 
 
-# One way to do that is to count() the primary keys 
+# One way to do this is to count() the (set of all) primary keys 
 # and look for entries where n is greater than 1:
 
 planes %>% 
@@ -260,10 +266,15 @@ flights %>%
 # A "primary key" and the corresponding "foreign key" in another table 
 # form a "relation". 
 
+
 ## Types of relations (4): ----
 
+# A _relation_ consists between 2 keys (primary in the current table, foreign in another): 
+
+# 4 types of relations: 
+
 # Relations are typically 1-to-many (a). 
-# For example, each flight has one plane, but each plane has many flights. 
+# For example, each flight has one plane, but each plane is used for many flights. 
 
 # In other data, you’ll occasionally see a 1-to-1 relationship (b). 
 # You can think of this as a special case of 1-to-many. 
@@ -279,14 +290,16 @@ flights %>%
 # 1. Add a surrogate key to flights.
 
 f2 <- flights %>%
-  mutate(flight_nr = row_number()) %>%
-  select(flight_nr, everything())
+  mutate(flight_id = row_number()) %>%
+  select(flight_id, everything())
+
+glimpse(f2)
 
 # Verify that flight_nr is a primary key
 # (i.e., uniquely specifies each observation in flights):
 
 f2 %>%
-  count(flight_nr) %>%
+  count(flight_id) %>%
   filter(n > 1)
 
 # => 0 rows (q.e.d., for a primary key)
@@ -324,6 +337,7 @@ bn
 bn %>% 
   count(year, sex, name) %>%  # primary key?
   filter(nn > 1)
+# => 0 rows (q.e.d., for a primary key)
 
 # [test.quest]: Explore babynames: 
 {
@@ -378,6 +392,11 @@ bn %>%
     ggplot(aes(x = year, y = n, color = name)) +
     geom_line()
   
+  bn %>%
+    filter(name %in% c("Henny"), sex == "F") %>%
+    ggplot(aes(x = year, y = n, color = name)) +
+    geom_line()
+  
   # Compare "Jetta" with "Ruby":
   bn %>% 
     filter(name %in% c("Jetta", "Ruby"), sex == "F") %>% 
@@ -404,24 +423,366 @@ bn %>%
   
   }
 
-## +++ here now +++ ------
+# ad c: nasaweather::atmos
+# ad d: fueleconomy::vehicles
 
+# ad e: ggplot2::diamonds
+dm <- ggplot2::diamonds
+dm # does not seem to have a primary key.
 
+# Confirmation: Count combination of all variables:
+dm %>%
+  count(carat, cut, color, clarity, depth, price, x, y, z) %>%
+  filter(n > 1)
+
+# Note: Some observations appear more than twice:
+dm %>%
+  count(carat, cut, color, clarity, depth, price, x, y, z) %>%
+  filter(n > 2)
+
+# Create a surrogate key:
+dm2 <- dm %>%
+  mutate(dm_id = row_number()) %>%
+  select(dm_id, everything())
+dm2
+
+# Verify that key uniquely identifies each observation:
+dm2 %>%
+  count(dm_id) %>%
+  filter(n > 1)
+# => 0 rows (q.e.d., for a primary key)
+
+## Another argument:
+nrow(dm)
+
+dm %>%
+  distinct() %>% 
+  nrow()
+
+# => There are some duplicates in dm.
+
+# Using _all_ variables in the data frame, 
+# the number of _distinct_ rows is less than the total number of rows, 
+# this implies that _no_ combination of variables uniquely identifies the observations.
 
 # 3. Draw a diagram illustrating the connections between the 
 #    Batting, Master, and Salaries tables in the Lahman package. 
 #    Draw another diagram that shows the relationship between Master, Managers, AwardsManagers.
 
+# See 
+# https://jrnold.github.io/r4ds-exercise-solutions/relational-data.html#exercise-4-15
+# for a solution that uses the datamodelr package.
+
+## See packages: 
+# https://github.com/bergant/datamodelr 
+# http://rich-iannone.github.io/DiagrammeR/ 
+
+
 # 4. How would you characterise the relationship between the 
 #    Batting, Pitching, and Fielding tables?
 
-
-
-  
-  
+# The Batting, Pitching, and Fielding tables all have a primary key 
+# consisting of the playerID, yearID, and stint variables. 
+# They all have a 1-1 relationship to each other.
 
 
 ## 13.4 Mutating joins ------
+
+# The first tool to combine a pair of tables is the mutating join. 
+
+# Definition: A _mutating join_ allows you to combine variables from two tables. 
+# It first matches observations by their keys, then copies across variables 
+# from one table to the other.
+
+# Like mutate(), the join functions add variables to the right, 
+# so if you have a lot of variables already, the new variables won’t get printed out. 
+
+# For these examples, we’ll make it easier to see what’s going on in the examples 
+# by creating a narrower dataset:
+
+flights
+
+flights2 <- flights %>% 
+  select(year:day, hour, origin, dest, tailnum, carrier)
+flights2
+
+# Imagine we want to add the full airline name to the flights2 data.
+# We get this name from the name column in the following table: 
+airlines
+
+# You can combine the airlines and flights2 data frames with left_join():
+  
+flights2 %>%
+  select(-origin, -dest) %>% 
+  left_join(airlines, by = "carrier")
+
+# The result of joining airlines to flights2 is an additional variable: "name". 
+# This why we call this type of join a "mutating join". 
+
+# In this case, we could get to the same place using mutate() and R’s base subsetting:
+  
+flights2 %>%
+  select(-origin, -dest) %>% 
+  mutate(name = airlines$name[match(carrier, airlines$carrier)])
+
+# But this is hard to generalise when you need to match multiple variables, 
+# and takes close reading to figure out the overall intent.
+
+## Transition: 
+
+# The following sections explain, in detail, how mutating joins work. 
+# You’ll start by learning a useful visual representation of joins. 
+# We’ll then use that to explain the 4 mutating join functions: 
+# 1 inner join, and 3 outer joins. 
+
+# When working with real data, keys don’t always uniquely identify observations, 
+# so next we’ll talk about what happens when there isn’t a unique match. 
+
+# Finally, we’ll learn how to tell dplyr which variables are the keys for a given join.
+
+## 13.4.1 Understanding joins -----
+
+# To learn how joins work, we use a visual representation:
+# See diagram of 2 tables, with colored key variables, at 
+# http://r4ds.had.co.nz/relational-data.html#understanding-joins 
+
+x <- tribble(
+  ~key, ~val_x,
+  1, "x1",
+  2, "x2",
+  3, "x3")
+
+y <- tribble(
+  ~key, ~val_y,
+  1, "y1",
+  2, "y2",
+  4, "y3")
+
+# Distinguish:
+# a) key variables: used to match tables 
+# b) value variables: carried along
+
+# A "join" is a way of connecting each row in x to zero, one, or more rows in y, 
+# based on the match or mismatch of the specified key variables. 
+
+# (Note the diagram to view potential matches as an intersection of a pair of lines.)
+
+## 13.4.2 Inner join -----
+
+# The simplest type of join is the inner join. 
+
+# An "inner join" matches pairs of observations whenever their keys are equal:
+
+x %>% 
+  inner_join(y, by = "key")
+
+# OR: 
+inner_join(x, y, by = "key")
+
+# See diagram at http://r4ds.had.co.nz/relational-data.html#inner-join 
+
+# The most important property of an inner join is that 
+# unmatched rows are not included in the result. 
+
+# This means that generally inner joins are usually NOT appropriate 
+# for use in analysis because it’s too easy to lose observations.
+
+
+## 13.4.3 3 Outer joins -----
+
+# An inner join keeps observations that appear in both tables. 
+# An outer join keeps observations that appear in at least one of the tables. 
+
+# There are 3 types of outer joins:
+  
+# 1. A _left join_ keeps all observations in x.
+# 2. A _right join_ keeps all observations in y.
+# 3. A _full join_ keeps all observations in x and y.
+
+# These joins work by adding an additional “virtual” observation to each table. 
+# This observation has a key that always matches (if no other key matches), 
+# and a value filled with NA.
+
+# Graphically, that looks like: 
+# see Diagram at http://r4ds.had.co.nz/relational-data.html#outer-join 
+
+# Computationally:
+
+x %>% 
+  left_join(y, by = "key")
+
+x %>% 
+  right_join(y, by = "key")
+
+x %>% 
+  full_join(y, by = "key")
+
+
+# The most commonly used join is the left join: 
+# you use this whenever you look up additional data from another table, 
+# because it preserves the original observations even when there isn’t a match. 
+
+# The left join should be your default join: 
+# use it unless you have a strong reason to prefer one of the others.
+# [test.quest]
+
+
+## 13.4.4 Duplicate keys -----
+
+# So far all the diagrams have assumed that the keys are unique. 
+# But that’s not always the case. 
+# This section explains what happens when the keys are not unique. 
+
+# There are 2 possibilities:
+  
+# 1. One table has duplicate keys. 
+#    This is useful when you want to add in additional information 
+#    as there is typically a one-to-many relationship:
+
+x <- tribble(
+  ~key, ~val_x,
+  1, "x1",
+  2, "x2",
+  2, "x3",
+  1, "x4")
+
+y <- tribble(
+  ~key, ~val_y,
+  1, "y1",
+  2, "y2")
+
+left_join(x, y, by = "key")
+
+# Note that I’ve put the key column in a slightly different position in the output. 
+# This reflects that the key is a _primary_ key in y and a _foreign_ key in x.
+
+# 2. Both tables have duplicate keys. 
+#    This is usually an error because in neither table do the keys 
+#    uniquely identify an observation. 
+
+# When you join duplicated keys, you get all possible combinations, 
+# the Cartesian product:
+
+x <- tribble(
+  ~key, ~val_x,
+  1, "x1",
+  2, "x2",
+  2, "x3",
+  3, "x4")
+
+y <- tribble(
+  ~key, ~val_y,
+  1, "y1",
+  2, "y2",
+  2, "y3",
+  3, "y4")
+
+left_join(x, y, by = "key")
+
+## 13.4.5 Defining the key columns -----
+
+# So far, the pairs of tables have always been joined by a single variable, 
+# and that variable has the same name in both tables. 
+
+# That constraint was encoded by specifying  
+# by = "key". 
+
+# You can use other values for by to connect the tables in other ways:
+  
+# 1. The default, by = NULL, uses all variables that appear in both tables, 
+#    the so-called _natural join_. 
+
+# For example, the flights and weather tables match on their common variables: 
+# year, month, day, hour and origin.
+
+flights2 %>% left_join(weather)
+
+left_join(flights2, weather)
+
+# 2. A character vector, by = "x". 
+# This is like a natural join, but uses only some of the common variables. 
+
+# For example, flights and planes have "year" variables, 
+# but they mean different things so we only want to join by "tailnum": 
+
+flights
+planes
+
+flights2 %>% 
+  left_join(planes, by = "tailnum")
+
+left_join(flights2, planes, by = "tailnum")
+
+# Note that the year variables (which appear in both input data frames, 
+# but are not constrained to be equal) are disambiguated in the output with a suffix.
+
+
+# [test.quest]: What happens if a natural join is attempted?
+
+test <- left_join(flights2, planes) # ==> most plane values are NA.
+
+test %>% 
+  filter(!is.na(type)) %>%
+  group_by(carrier, type, manufacturer, tailnum) %>%
+  count() %>%
+  arrange(desc(n))
+
+# 3. A named character vector: by = c("a" = "b"). 
+#    This will match variable a in table x to variable b in table y. 
+#    The variables from x will be used in the output.
+
+# For example, if we want to draw a map we need to combine the flights data 
+# with the airports data which contains the location (lat and long) of each airport.
+# Each flight has an origin and destination airport, so we need to specify which
+# one we want to join to:
+
+flights2 %>% 
+  left_join(airports, c("dest" = "faa"))
+
+flights2 %>% 
+  left_join(airports, c("origin" = "faa"))
+
+# Actually, we would want both:
+
+flights2 %>% 
+  left_join(airports, c("origin" = "faa")) %>%
+  left_join(airports, c("dest" = "faa"))
+  
+
+## 13.4.6 Exercises -----
+
+# 1. Compute the average delay by destination, 
+#    then join on the airports data frame so you can show 
+#    the spatial distribution of delays. 
+
+# Here’s an easy way to draw a map of the United States:
+  
+airports %>%
+  semi_join(flights, c("faa" = "dest")) %>%
+  ggplot(aes(lon, lat)) +
+  borders("state") +
+  geom_point() +
+  coord_quickmap()
+
+# (Don’t worry if you don’t understand what semi_join() does 
+# — we’ll learn about it next.)
+ 
+# You might want to use the size or colour of the points to display the average
+# delay for each airport.
+ 
+# 2. Add the location of the origin and destination (i.e. the lat and lon) to flights.
+
+# 3. Is there a relationship between the age of a plane and its delays?
+   
+# 4. What weather conditions make it more likely to see a delay?
+
+# 5. What happened on June 13 2013? 
+#    Display the spatial pattern of delays, and then 
+#    use Google to cross-reference with the weather.
+
+
+## +++ here now +++ ------
+
 
 ## 13.5 Filtering joins ------
 
@@ -433,11 +794,18 @@ bn %>%
 
 # See 
 
+## Documentation: 
+
 # dplyr: Two-table verbs vignette: [dplyr::two-table]()	
 # - vignette("two-table", package = "dplyr")
 # - https://cran.r-project.org/web/packages/dplyr/vignettes/two-table.html
 
-# Web: 
+
+## R packages: 
+# https://github.com/bergant/datamodelr 
+
+## Web: 
+
 # - http://www.rpubs.com/williamsurles/293454
 
 # - Data Wrangling Cheatsheet: https://www.rstudio.com/wp-content/uploads/2015/02/data-wrangling-cheatsheet.pdf 
@@ -446,7 +814,25 @@ bn %>%
 ## Ideas for test questions [test.quest]: ------
 
 # - Scenario involving family dynasties (e.g., Games of thrones, Lord of the Rings, Harry Potter, Star Wars, ...)
-# - Scenario involving patients/doctors/insurances/pharma: 
+
+?dplyr::starwars
+
+starwars %>%
+  group_by(species) %>%
+  count() %>%
+  arrange(desc(n))
+
+# What is the name, species, and homeworld of the Star Wars characters
+# with the 10 highest BMI values?
+# Note: BMI := weight (in kg) / ((height (in cm) / 100)  ^ 2
+
+starwars %>% 
+  mutate(bmi = mass / ((height / 100)  ^ 2)) %>%
+  # select(name:mass, bmi) %>%
+  select(name, species, homeworld, bmi, films, everything()) %>% 
+  arrange(desc(bmi))
+
+# - Scenario involving patients/doctors/insurances/pharma ... 
 
 
 ## ------
