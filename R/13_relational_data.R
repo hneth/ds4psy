@@ -804,22 +804,117 @@ flights2 %>%
 
 # 3. Is there a relationship between the age of a plane and its delays?
 
-flights %>% 
-  left_join(planes, by = "tailnum") %>%
-  group_by(year.y) %>%
+planeage <- planes %>%
+  mutate(age = 2013 - year) %>%
+  select(tailnum, age)
+
+delay_age <- flights %>% 
+  left_join(planeage, by = "tailnum") %>%
+  group_by(age) %>%
   summarise(n = n(),
             n_non_NA = sum(!is.na(dep_delay)),
             mn_dep_del = mean(dep_delay, na.rm = TRUE),
-            mn_arr_del = mean(arr_delay, na.rm = TRUE)) %>%
-  # filter(n_non_NA > 100) %>%
-  ggplot(aes(x = year.y, y = mn_dep_del)) +
-   geom_point() + 
-   geom_line() +
+            mn_arr_del = mean(arr_delay, na.rm = TRUE))
+
+# filter(n_non_NA > 100) %>%
+
+ggplot(delay_age, aes(x = age, y = mn_dep_del)) +
+   geom_point(aes(size = n_non_NA), color = "steelblue4") + 
+   geom_line(color = "steelblue4") +
+   labs(title = "Mean departure delay by age of plane",
+        x = "Age of plane (in years)", 
+        y = "Mean departure delay (in min)") + 
    theme_bw()
+
+ggplot(delay_age, aes(x = age, y = mn_arr_del)) +
+  geom_point(aes(size = n_non_NA), color = "forestgreen") + 
+  geom_line(color = "forestgreen") +
+  labs(title = "Mean departure delay by age of plane",
+       x = "Age of plane (in years)", 
+       y = "Mean arrival delay (in min)") + 
+  theme_bw()
+
+# Interpretation: 
+# There appears no linear relationship between age of plane and departure or
+# arrival delay (for the first 30 years, for which there seems sufficient data).
+# If anything, the relationship seems curvilinear, with maximum delays around 10
+# years of age and decreasing for older planes.
+
 
 # 4. What weather conditions make it more likely to see a delay?
 
 ?weather
+weather
+
+# Note that weather data is by location ("origin") and 
+# "hour" (as integer), which corresponds to  
+# "hour" in flights (but dbl).
+
+fw <- flights %>%
+  left_join(weather, by = c("origin" = "origin",
+                            "year" = "year",
+                            "month" = "month",
+                            "day" = "day",
+                            "hour" = "hour"))
+fw
+
+# => Candidate variables for causing delays are 
+#    temp, wind_speed, wind_gust, precip, visib
+
+#    As they are all continuous, we will use 
+#    cut_interval (cut_width or cut_number) to discretise them.
+
+## (a) dep_delay by "temp":
+
+## raw values:
+# ggplot(fw, aes(x = cut_width(temp, 10), y = dep_delay)) +
+#  geom_jitter(alpha = 1/4)
+
+## means: 
+fw %>% 
+  group_by(temp) %>%
+  summarise(n = n(),
+            not_NA = sum(!is.na(dep_delay)), 
+            mn_dep_del = mean(dep_delay, na.rm = TRUE)) %>%
+  filter(not_NA >= 100) %>%
+  ggplot(aes(x = temp, y = mn_dep_del)) +
+  geom_point() +
+  geom_smooth() + 
+  theme_bw()
+
+
+## (b) dep_delay by "wind_speed":
+  
+## raw values:
+ggplot(fw, aes(x = cut_width(wind_speed, 5), y = dep_delay)) +
+  geom_jitter(alpha = 1/4)
+
+## means: 
+fw %>% 
+  group_by(wind_speed) %>%
+  summarise(n = n(),
+            not_NA = sum(!is.na(dep_delay)), 
+            mn_dep_del = mean(dep_delay, na.rm = TRUE)) %>%
+  filter(not_NA >= 50) %>%
+  ggplot(aes(x = wind_speed, y = mn_dep_del)) +
+  geom_point() +
+  geom_smooth() + 
+  theme_bw()
+
+## (c) dep_delay by "precip":
+
+## means: 
+fw %>% 
+  group_by(precip) %>%
+  summarise(n = n(),
+            not_NA = sum(!is.na(dep_delay)), 
+            mn_dep_del = mean(dep_delay, na.rm = TRUE)) %>%
+  filter(not_NA >= 50) %>%
+  ggplot(aes(x = precip, y = mn_dep_del)) +
+  geom_point() +
+  geom_smooth() + 
+  theme_bw()
+
 
 # 5. What happened on June 13 2013? 
 #    Display the spatial pattern of delays, and then 
