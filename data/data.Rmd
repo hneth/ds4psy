@@ -1,12 +1,11 @@
 ---
 title: "Data sets and sources (ds4psy)"
 author: "Hansjörg Neth, SPDS, uni.kn"
-date: "2018 03 29"
+date: "2018 04 01"
 output:
   rmdformats::html_clean:
     highlight: kate
 ---
-
 
 ```{r knitr_init, echo = FALSE, cache = FALSE, message = FALSE, warning = FALSE}
 library(knitr)
@@ -23,7 +22,6 @@ opts_chunk$set(echo=FALSE,
                warning=FALSE)
 opts_knit$set(width=75)
 ```
-
 
 <!-- uni.kn logo and link to SPDS: -->  
 <!-- ![](../inst/pix/uniKn_logo.png) --> 
@@ -103,26 +101,45 @@ This data set contains statistics, in arrests per 100,000 residents for assault,
 ## From `tidyverse` packages
 
 ```{r}
+## Install tidyverse packages: 
+# install.packages("tidyverse")
 library(tidyverse)
 
 ?diamonds # Prices of 50,000 round cut diamonds
 
-?econonmics # This dataset was produced from US economic time series data available from http://research.stlouisfed.org/fred2. economics is in "wide" format, economics_long is in "long" format.
+## This includes the following datasets (as tibbles):
+ggplot2::diamonds
+dplyr::band_members
+dplyr::starwars
+tidyr::table1 # etc. 
 
+?econonmics # This dataset was produced from US economic time series data available from http://research.stlouisfed.org/fred2. economics is in "wide" format, economics_long is in "long" format.
+```
+
+## Data packages
+
+Some dedicated data packages: 
+
+```{r}
+## Install additional data packages:
+# install.packages("nycflights13")
+# install.packages("gapminder")
+# install.packages("Lahman")
+# install.packages("babynames")
+# install.packages("fueleconomy")
 ```
 
 ## `MASS` package
 
 ```{r}
+# install.packages("MASS")
 library(MASS)
 
 ?survey # This data frame contains the responses of 237 Statistics I students 
         # at the University of Adelaide to a number of questions.
 
 ?Boston # Housing Values in Suburbs of Boston
-
 ```
-
 
 ## `ISLR` package
 
@@ -135,6 +152,8 @@ Authors: Gareth James, Daniela Witten, Trevor Hastie and Robert Tibshirani
 
 
 ## The `eurostat` package
+
+Access to some real-world data:
 
 - http://ropengov.github.io/eurostat/ 
 - R tools to access the eurostat database, by [rOpenGov](http://ropengov.github.io/).
@@ -156,10 +175,11 @@ Datasets and functions that facilitate data analysis labs in data science course
 
 # References
 
+Books: 
+
 - Wickham, H., & Grolemund, G. (2016). _R for data science: Import, tidy, transform, visualize, and model data._ 
 Sebastopol, Canada: O'Reilly Media, Inc.  [Available online at [http://r4ds.had.co.nz](http://r4ds.had.co.nz).]
 
 - Zumel, N., & Mount, J. (2014). _Practical data science with R_. Greenwich, CT: Manning Publications.
 
-
-<!-- eof. -->  
+<!-- eof. -->

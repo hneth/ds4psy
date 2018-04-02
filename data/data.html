@@ -66,7 +66,7 @@ img {
 <div id="header">
 <h1 class="title">Data sets and sources (ds4psy)</h1>
 <h4 class="author"><em>Hansjörg Neth, SPDS, uni.kn</em></h4>
-<h4 class="date"><em>2018 03 29</em></h4>
+<h4 class="date"><em>2018 04 01</em></h4>
 </div>
 
 <div id="content">
@@ -115,8 +115,56 @@ Using the first match ...</code></pre>
 </div>
 <div id="from-tidyverse-packages" class="section level2">
 <h2>From <code>tidyverse</code> packages</h2>
+<pre><code># A tibble: 53,940 x 10
+   carat       cut color clarity depth table price     x     y     z
+   &lt;dbl&gt;     &lt;ord&gt; &lt;ord&gt;   &lt;ord&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+ 1  0.23     Ideal     E     SI2  61.5    55   326  3.95  3.98  2.43
+ 2  0.21   Premium     E     SI1  59.8    61   326  3.89  3.84  2.31
+ 3  0.23      Good     E     VS1  56.9    65   327  4.05  4.07  2.31
+ 4  0.29   Premium     I     VS2  62.4    58   334  4.20  4.23  2.63
+ 5  0.31      Good     J     SI2  63.3    58   335  4.34  4.35  2.75
+ 6  0.24 Very Good     J    VVS2  62.8    57   336  3.94  3.96  2.48
+ 7  0.24 Very Good     I    VVS1  62.3    57   336  3.95  3.98  2.47
+ 8  0.26 Very Good     H     SI1  61.9    55   337  4.07  4.11  2.53
+ 9  0.22      Fair     E     VS2  65.1    61   337  3.87  3.78  2.49
+10  0.23 Very Good     H     VS1  59.4    61   338  4.00  4.05  2.39
+# ... with 53,930 more rows</code></pre>
+<pre><code># A tibble: 3 x 2
+   name    band
+  &lt;chr&gt;   &lt;chr&gt;
+1  Mick  Stones
+2  John Beatles
+3  Paul Beatles</code></pre>
+<pre><code># A tibble: 87 x 13
+                 name height  mass    hair_color  skin_color eye_color
+                &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt;         &lt;chr&gt;       &lt;chr&gt;     &lt;chr&gt;
+ 1     Luke Skywalker    172    77         blond        fair      blue
+ 2              C-3PO    167    75          &lt;NA&gt;        gold    yellow
+ 3              R2-D2     96    32          &lt;NA&gt; white, blue       red
+ 4        Darth Vader    202   136          none       white    yellow
+ 5        Leia Organa    150    49         brown       light     brown
+ 6          Owen Lars    178   120   brown, grey       light      blue
+ 7 Beru Whitesun lars    165    75         brown       light      blue
+ 8              R5-D4     97    32          &lt;NA&gt;  white, red       red
+ 9  Biggs Darklighter    183    84         black       light     brown
+10     Obi-Wan Kenobi    182    77 auburn, white        fair blue-gray
+# ... with 77 more rows, and 7 more variables: birth_year &lt;dbl&gt;,
+#   gender &lt;chr&gt;, homeworld &lt;chr&gt;, species &lt;chr&gt;, films &lt;list&gt;,
+#   vehicles &lt;list&gt;, starships &lt;list&gt;</code></pre>
+<pre><code># A tibble: 6 x 4
+      country  year  cases population
+        &lt;chr&gt; &lt;int&gt;  &lt;int&gt;      &lt;int&gt;
+1 Afghanistan  1999    745   19987071
+2 Afghanistan  2000   2666   20595360
+3      Brazil  1999  37737  172006362
+4      Brazil  2000  80488  174504898
+5       China  1999 212258 1272915272
+6       China  2000 213766 1280428583</code></pre>
 <pre><code>No documentation for 'econonmics' in specified packages and libraries:
 you could try '??econonmics'</code></pre>
+</div>
+<div id="data-packages" class="section level2">
+<h2>Data packages</h2>
 </div>
 <div id="mass-package" class="section level2">
 <h2><code>MASS</code> package</h2>
@@ -174,6 +222,7 @@ Authors: Gareth James, Daniela Witten, Trevor Hastie and Robert Tibshirani</p>
         <li><a href="#data-sets">Data Sets</a><ul>
         <li><a href="#base-r">Base R</a></li>
         <li><a href="#from-tidyverse-packages">From <code>tidyverse</code> packages</a></li>
+        <li><a href="#data-packages">Data packages</a></li>
         <li><a href="#mass-package"><code>MASS</code> package</a></li>
         <li><a href="#islr-package"><code>ISLR</code> package</a></li>
         <li><a href="#the-eurostat-package">The <code>eurostat</code> package</a></li>

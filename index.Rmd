@@ -47,7 +47,6 @@ Introduction: R basics (from other course)
 1. R basics 2: Matrices and data frames, data frame manipulations (weeks 3+4)
 1. R basics 3: Writing functions and loops, graphics (weeks 9+5)
 
-
 ## Book parts 
 
 - Introduction
@@ -108,10 +107,18 @@ Part 2: Wrangle
 13. 09.07.2018:
 14. 16.07.2018: (Hiking.)
 
-
-
-
 # Course Description
+
+## Quotes 
+
+> The process of preparing programs for a digital computer is especially attractive,  
+> not only because it can be economically and scientifically rewarding, but also  
+> because it can be an aesthetic experience much like composing poetry or music.   
+> Donald E. Knuth in his Preface to _The Art of Computer Programming_ (1973)  
+
+> Practise yourself, for Heaven's sake, in little things,  
+> and thence proceed to greater.  
+> Epictetus _Discourses_ Book I, 18
 
 ## Data science as the art of dealing with data
 
@@ -235,6 +242,26 @@ Sebastopol, Canada: O'Reilly Media, Inc.  [Available online at [http://r4ds.had.
 
 
 ## Blogs etc.
+
+### Basics: Terminology and Theory
+
+1. What is "data science"? See the article: 
+
+> Donoho, David (2017). 50 years of data science, 
+> _Journal of Computational and Graphical Statistics_, _26:4_, 745-766, 
+> DOI: 10.1080/10618600.2017.1384734
+
+- Link to [article](https://doi.org/10.1080/10618600.2017.1384734). 
+- A [comment](https://www.tandfonline.com/doi/full/10.1080/10618600.2017.1385470?src=recsys) by Roger Peng 
+- A [discussion](https://www.tandfonline.com/doi/full/10.1080/10618600.2017.1385471?src=recsys) by Susan Holmes and Julie Josse provides some (French) historical perspective 
+
+
+2. Teaching data science: 
+
+- https://peerj.com/collections/50-practicaldatascistats/
+
+
+### Miscellaneous
 
 - <https://www.r-bloggers.com/>
 - <https://simplystatistics.org/>
