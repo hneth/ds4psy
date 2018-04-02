@@ -1,7 +1,7 @@
 ## r4ds: Chapter 13: Relational data
 ## Code for http://r4ds.had.co.nz/relational-data.html
 ## hn spds uni.kn
-## 2018 03 31 ------
+## 2018 04 02 ------
 
 ## [see Book chapter 10: "Relational data with dplyr"] 
 
@@ -10,6 +10,7 @@
 ## Note: dplyr implements a grammar of data transformation.
 ##       This chapter concerns transformations involving multiple tables
 ##       that are linked by keys that define relations.
+
 
 
 ## 13.1 Introduction ------
@@ -31,6 +32,8 @@
 # each person has a reference to their parents (in the same table).
 
 # To work with relational data you need verbs that work with pairs of tables. 
+
+# In which ways can we combine information from 2 or more tables?
 
 # There are 3 families of verbs designed to work with relational data:
   
@@ -180,6 +183,7 @@ nycflights13::flights$dest # "dest" could be linked to some faa code in weather
 # Connect via date: month & day.
 
 
+
 ## 13.3 Keys ------
 
 ## (A) Defining "key": primary vs. foreign ----
@@ -315,14 +319,14 @@ f2 %>%
 
 # (You might need to install some packages and read some documentation.)
 
-# ad a: 
+## ad a: 
 Lahman::Batting
 
 Lahman::Batting %>%
   count(playerID, yearID, stint) %>%  # primary key?
   filter(n > 1)
 
-# ad b:
+## ad b:
 
 # install.packages('babynames')
 library('babynames')
@@ -423,10 +427,18 @@ bn %>%
   
   }
 
-# ad c: nasaweather::atmos
-# ad d: fueleconomy::vehicles
+## ad c: nasaweather::atmos
 
-# ad e: ggplot2::diamonds
+# yet ToDo.
+
+## ad d: fueleconomy::vehicles
+
+# install.packages('fueleconomy')
+# library('fueleconomy')
+
+# yet ToDo.
+
+## ad e: ggplot2::diamonds
 dm <- ggplot2::diamonds
 dm # does not seem to have a primary key.
 
@@ -486,6 +498,7 @@ dm %>%
 # They all have a 1-1 relationship to each other.
 
 
+
 ## 13.4 Mutating joins ------
 
 # The first tool to combine a pair of tables is the mutating join. 
@@ -500,10 +513,11 @@ dm %>%
 # For these examples, we’ll make it easier to see what’s going on in the examples 
 # by creating a narrower dataset:
 
-flights
+# flights
 
 flights2 <- flights %>% 
   select(year:day, hour, origin, dest, tailnum, carrier)
+
 flights2
 
 # Imagine we want to add the full airline name to the flights2 data.
@@ -511,15 +525,16 @@ flights2
 airlines
 
 # You can combine the airlines and flights2 data frames with left_join():
-  
 flights2 %>%
   select(-origin, -dest) %>% 
   left_join(airlines, by = "carrier")
 
-# The result of joining airlines to flights2 is an additional variable: "name". 
+# The result of joining airlines to flights2 is an additional variable: 
+# "name". 
 # This why we call this type of join a "mutating join". 
 
-# In this case, we could get to the same place using mutate() and R’s base subsetting:
+# In this simple case, we could get the same result 
+# using mutate() and R’s base subsetting:
   
 flights2 %>%
   select(-origin, -dest) %>% 
@@ -576,7 +591,7 @@ y <- tribble(
 x %>% 
   inner_join(y, by = "key")
 
-# OR: 
+# OR (in 1 command): 
 inner_join(x, y, by = "key")
 
 # See diagram at http://r4ds.had.co.nz/relational-data.html#inner-join 
@@ -587,17 +602,30 @@ inner_join(x, y, by = "key")
 # This means that generally inner joins are usually NOT appropriate 
 # for use in analysis because it’s too easy to lose observations.
 
+# (To be precise, this is an _inner equijoin_ because the keys are matched 
+#  using the equality operator. Since most joins are equijoins 
+#  we usually drop that specification.) 
+
+# [test.quest]: Is inner_join symmetrical?
+
+inner_join(x, y, by = "key")
+inner_join(y, x, by = "key")
+
+# => Yes, as far as the observations (rows) preserved are concerned,
+#    No, as far as the order of variables (columns) is concerned.
+
 
 ## 13.4.3 3 Outer joins -----
 
-# An inner join keeps observations that appear in both tables. 
-# An outer join keeps observations that appear in at least one of the tables. 
+# An inner join keeps observations that appear in _both_ tables 
+#               (and drops others from both tables). 
+# An outer join keeps observations that appear in _at least one_ of the tables. 
 
 # There are 3 types of outer joins:
   
-# 1. A _left join_ keeps all observations in x.
-# 2. A _right join_ keeps all observations in y.
-# 3. A _full join_ keeps all observations in x and y.
+# 1. A _left_  join keeps all observations in x.
+# 2. A _right_ join keeps all observations in y.
+# 3. A _full_  join keeps all observations in x and y.
 
 # These joins work by adding an additional “virtual” observation to each table. 
 # This observation has a key that always matches (if no other key matches), 
@@ -617,14 +645,44 @@ x %>%
 x %>% 
   full_join(y, by = "key")
 
-
 # The most commonly used join is the left join: 
-# you use this whenever you look up additional data from another table, 
-# because it preserves the original observations even when there isn’t a match. 
+# Use left_join whenever you look up additional data from another table, 
+# because it preserves all original observations even when there is no match. 
 
 # The left join should be your default join: 
 # use it unless you have a strong reason to prefer one of the others.
 # [test.quest]
+
+## [test.quest]: Symmetry of full_join():
+# Symmetry (in the sense of same observations, irrespective of order of columns):
+# - left_join and right_join are clearly asymmetrical, but vary the order of tables.
+# - full_join is symmetrical (but order determines the order of variables)
+
+full_join(x, y, by = "key")
+full_join(y, x, by = "key")
+
+# => Same set of observations (rows), but different order of observations and variables (columns).
+
+## [test.quest]: left_join(x, y) vs. right_join(y, x): 
+## What is the relationship between left_join(x, y) and right_join(y, x):
+
+# (a) toy data:
+x
+y
+
+left_join(x, y, by = "key")
+right_join(y, x, by = "key")
+
+# => Same set of observations (rows), but different variable order (columns).
+
+# (b) flights data:
+flights3 <- flights2 %>%
+  select(-origin, -dest)
+
+left_join(flights3, airlines, by = "carrier")
+right_join(airlines, flights3, by = "carrier")
+
+# => Same set of observations (rows), but different variable order (columns).
 
 
 ## 13.4.4 Duplicate keys -----
@@ -921,14 +979,300 @@ fw %>%
 #    use Google to cross-reference with the weather.
 
 
-## +++ here now +++ ------
+## 13.4.7 Other implementations -----
+
+## (1) merge from base R:
+
+# base::merge() can perform all four types of mutating join:
+  
+#     `dplyr`:     |      `merge`:
+# -----------------|------------------------|  
+# inner_join(x, y) |	merge(x, y)
+# left_join(x, y)  |	merge(x, y, all.x = TRUE)
+# right_join(x, y) |	merge(x, y, all.y = TRUE),
+# full_join(x, y)  |	merge(x, y, all.x = TRUE, all.y = TRUE)
+
+?merge # to show documentation
+
+# The advantages of the specific dplyr verbs are:
+
+# 1. they more clearly convey the intent of your code: 
+#    the difference between the joins is really important 
+#    but concealed in the arguments of merge(). 
+
+# 2. dplyr’s joins are considerably faster and 
+#    don’t mess with the order of the rows.
+
+## (2) SQL:
+
+# SQL is the inspiration for dplyr’s conventions, so the translation is straightforward:
+  
+#      dplyr: 	             |               SQL:
+# ---------------------------| ------------------------------------------       
+# inner_join(x, y, by = "z") | SELECT * FROM x INNER JOIN y USING (z)
+# left_join(x, y, by = "z")  | SELECT * FROM x LEFT OUTER JOIN y USING (z)
+# right_join(x, y, by = "z") | SELECT * FROM x RIGHT OUTER JOIN y USING (z)
+# full_join(x, y, by = "z")  | SELECT * FROM x FULL OUTER JOIN y USING (z)
+
+# Note that “INNER” and “OUTER” are optional, and often omitted.
+
+# Joining different variables between the tables, 
+# e.g. inner_join(x, y, by = c("a" = "b")) uses a slightly different syntax in SQL: 
+#      SELECT * FROM x INNER JOIN y ON x.a = y.b. 
+
+# As this syntax suggests, SQL supports a wider range of join types than dplyr 
+# because you can connect the tables using constraints other than equality 
+# (sometimes called non-equijoins).
+
 
 
 ## 13.5 Filtering joins ------
 
+# Filtering joins match observations in the same way as mutating joins, 
+# but affect the observations, not the variables. 
+
+# There are 2 types:
+  
+# 1. semi_join(x, y) keeps all observations in x that have a match in y.
+# 2. anti_join(x, y) drops all observations in x that have a match in y.
+
+# ad 1.: semi_join: -----
+
+# Semi-joins are useful for matching filtered summary tables back to the original rows. 
+# For example, imagine you’ve found the top ten most popular destinations:
+
+top_dest <- flights %>%
+  count(dest, sort = TRUE) %>%
+  head(10)
+
+top_dest
+
+# Now you want to find each flight that went to one of those destinations. 
+# (a) You could construct a filter yourself:
+  
+flights %>% 
+  filter(dest %in% top_dest$dest)
+
+# However, it’s difficult to extend that approach to multiple variables. 
+# For example, imagine that you’d found the 10 days with highest average delays. 
+# How would you construct the filter statement that used the variables 
+# "year", "month", and "day" to match it back to flights?
+  
+# Instead you can use a semi-join, which connects the 2 tables like a mutating join, 
+# but instead of adding new columns, only keeps the rows in x that have a match in y:
+
+flights %>% 
+  semi_join(top_dest)
+
+# Note that columns of y are dropped! 
+
+# For a diagram that graphically shows a semi_join, see
+# http://r4ds.had.co.nz/relational-data.html#filtering-joins 
+
+# - Only the existence of a match is important; 
+#   it doesn’t matter which observation is matched. 
+
+# - This implies that filtering joins never duplicate rows like mutating joins do. 
+
+
+# ad 2.: anti_join: -----
+
+# - An anti-join is the inverse of a semi-join. 
+#   Note & [test.quest] MC: The inverse of semi_join is NOT full_join!
+
+# An anti-join keeps the rows that don’t have a match:
+
+# Use: 
+# Anti-joins are useful for diagnosing join mismatches. 
+
+# For example, when connecting flights and planes, 
+# you might be interested to know that there are many flights 
+# that don’t have a match in planes:
+
+flights %>%
+  anti_join(planes, by = "tailnum") %>%
+  count(tailnum, sort = TRUE)
+
+# [test.quest]:
+# Do semi_join and anti_join add up to all cases?
+
+f_semi <- flights %>%
+  semi_join(planes, by = "tailnum")
+
+f_anti <- flights %>%
+  anti_join(planes, by = "tailnum")
+
+nrow(f_semi) + nrow(f_anti) == nrow(flights) # ==> TRUE (q.e.d.).
+
+
+## 13.5.1 Exercises -----
+
+# 1. What does it mean for a flight to have a missing tailnum? 
+#    What do the tail numbers that don’t have a matching record in planes have in common? 
+#    (Hint: one variable explains ~90% of the problems.)
+
+missing_tailnumber <- flights %>%
+  anti_join(planes, by = "tailnum")
+
+missing_tailnumber %>%
+  count(carrier, sort = TRUE) %>%
+  left_join(airlines, by = "carrier")
+
+
+# 2. Filter flights to only show flights with planes 
+#    that have flown at least 100 flights.
+
+freq_planes <- flights %>%
+  #group_by(tailnum) %>%
+  count(tailnum, sort = TRUE) %>%
+  filter(n >= 100 & !is.na(tailnum))
+freq_planes
+
+flights %>%
+  semi_join(freq_planes, by = "tailnum")
+
+
+# 3. Combine fueleconomy::vehicles and fueleconomy::common to find 
+#    only the records for the most common models.
+
+library(fueleconomy)
+
+vehicles
+common
+
+vehicles %>%
+  semi_join(common, by = c("make", "model"))
+
+# => 14,531 vehicles left.
+
+
+# 4. Find the 48 hours (over the course of the whole year) that have the worst delays. 
+#    Cross-reference it with the weather data. Can you see any patterns?
+
+# yet ToDo.
+
+# 5. What does anti_join(flights, airports, by = c("dest" = "faa")) tell you?
+#    What does anti_join(airports, flights, by = c("faa" = "dest")) tell you?
+
+anti_join(flights, airports, by = c("dest" = "faa"))
+
+# yields 7,592 flights with destinations that are not listed in airports:
+
+anti_join(airports, flights, by = c("faa" = "dest"))
+
+# yields 1,357 airports to which there are no flights (from NYC in 2013).
+
+
+# 6. You might expect that there’s an implicit relationship between plane and airline, 
+#    because each plane is flown by a single airline. 
+#    Confirm or reject this hypothesis using the tools you’ve learned above.
+
+# yet ToDo.
+
+
+
 ## 13.6 Join problems ------
 
-## 13.7 Set operations ------
+# The data in this chapter has been cleaned up so that 
+# we encounter as few problems as possible. 
+
+# Real data is unlikely to be so nice, so here are a few things 
+# that we should do to make our joins go smoothly:
+
+## 1. Identify primary keys:
+
+# Start by identifying the variables that form the primary key in each table. 
+
+# We should usually do this based on our understanding of the data, 
+# not empirically by looking for a combination of variables that give 
+# a unique identifier. 
+
+# If we only look for variables without thinking about what they mean, 
+# we might get (un)lucky and find a combination that’s unique in 
+# our current data but the relationship might not be true in general.
+
+# For example, the altitude and longitude uniquely identify each airport, 
+# but they are not good identifiers:
+
+airports %>% 
+  count(alt, lon) %>% 
+  filter(n > 1)
+
+## 2. Missing key values:
+
+#    Check that none of the variables in the primary key are missing. 
+#    If a value is missing then it can’t identify an observation!
+  
+## 3. Foreign keys:
+
+#    Check that your foreign keys match primary keys in another table. 
+#    The best way to do this is with an anti_join(). 
+#    It’s common for keys not to match because of data entry errors. 
+#    Fixing these is often a lot of work.
+
+# If you do have missing keys, you need to be thoughtful about your use of
+# inner vs. outer joins, carefully considering whether or not you want to drop
+# rows that lack a match.
+
+# Be aware that simply checking the number of rows before and after the join is
+# not sufficient to ensure that your join has gone smoothly.  
+# If you have an inner join with duplicate keys in both tables, 
+# you might get unlucky as the number of dropped rows might exactly 
+# equal the number of duplicated rows. 
+
+
+
+## 13.7 Set operations (3) ------
+
+# The 3rd and final type of two-table verb are the set operations
+# (after mutating joins and filter joins). 
+
+# Generally, we use these the least frequently, 
+# but they are occasionally useful when we want to break 
+# a single complex filter into simpler pieces. 
+
+# All these operations work with a complete row, 
+# comparing the values of every variable. 
+
+# These expect the x and y inputs to have the same variables, 
+# and treat the observations like sets:
+  
+# 1. intersect(x, y): return only observations in both x and y.
+# 2. union(x, y):     return all unique observations in x and/or y.
+# 3. setdiff(x, y):   return observations in x, but not in y.
+
+# Note: 
+# a) Symmetry: 1. and 2. are symmetrical, 3. is asymmetrical. [test.quest]
+# b) Duplicates: What happens with duplicates?
+
+## Examples:
+
+# Given this simple data:
+  
+df1 <- tribble(
+    ~x, ~y,
+    1,  1,
+    2,  1
+  )
+
+df2 <- tribble(
+  ~x, ~y,
+  1,  1,
+  1,  2
+)
+
+# The 4 possibilities are:
+
+                     # Notes:
+intersect(df1, df2)  # b) duplicate is removed!
+intersect(df2, df1)  # a) symmetrical
+
+union(df1, df2)      # b) duplicate is removed!
+union(df2, df1)      # b) symmetrical (but different order of rows)
+
+setdiff(df1, df2)    # b) not symmetrical: order matters!
+setdiff(df2, df1)
+
 
 ## Appendix ------
 
@@ -951,7 +1295,60 @@ fw %>%
 # - Data Wrangling Cheatsheet: https://www.rstudio.com/wp-content/uploads/2015/02/data-wrangling-cheatsheet.pdf 
 
 
+## +++ here now +++ ------
 ## Ideas for test questions [test.quest]: ------
+
+
+## Multiple choice [MC] questions: -----
+
+# (+) Which of the following join types are _symmetrical_ (in the sense of yielding 
+#     the same set of observations for join(x, y) and join(y, x), 
+#     but may vary in the order of variables (columns)):
+
+# - inner_join(x, y) (TRUE)
+# - left_join(x, y)
+# - right_join(x, y)
+# - full_join(x, y)  (TRUE)
+# - semi_join(x, y)
+# - anti_join(x, y)
+# - intersect(x, y)  (TRUE)
+# - union(x, y)      (TRUE)
+# - setdiff(x, y)
+
+
+# (+) Which of the following join types is the default and most commonly used one, 
+#     as it preserves original observations in x even when there is no match with y?
+
+# - `full_join(x, y)`
+# - `inner_join(x, y)` 
+# - `semi_join(x, y)` 
+# - `left_join(x, y)` (TRUE)
+# - `right_join(x, y)`
+
+
+# (+) Which of the following yields the same result (i.e., the same set of obervations) 
+#     as left_join(x, y)?
+
+# - anti_join(x, y)
+# - anti_join(y, x)
+# - semi_join(x, y)
+# - semi_join(y, x)
+# - right_join(x, y)
+# - right_join(y, x)  (TRUE)
+# - setdiff(x, y)
+# - setdiff(y, x)
+
+
+# (+) Which of the following is the _inverse_ of an `anti-join`?
+
+# - `full_join`
+# - `inner_join` 
+# - `semi_join` (TRUE)
+# - `left_join`
+# - `right_join`
+
+
+## Practical questions: ----- 
 
 # - Scenario involving family dynasties (e.g., Games of thrones, Lord of the Rings, Harry Potter, Star Wars, ...)
 
