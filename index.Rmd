@@ -1,12 +1,11 @@
 ---
 title: "Data Science for Psychologists (ds4psy)"
 author: "Hansjörg Neth, SPDS, uni.kn"
-date: "2018 03 29"
+date: "2018 04 02"
 output:
   rmdformats::html_clean:
     highlight: kate
 ---
-
 
 ```{r knitr_init, echo = FALSE, cache = FALSE, message = FALSE, warning = FALSE}
 library(knitr)
@@ -81,10 +80,10 @@ Part 2: Wrangle
 
 1. [Chapter 12: Tidy data](http://r4ds.had.co.nz/tidy-data.html): `tidyr`. 
 
+1. [Chapter 13: Relational data](http://r4ds.had.co.nz/relational-data.html): `dplyr`.
 
 
 1. Mid-term test
-
 
 ## Dates and sessions 
 
@@ -101,13 +100,14 @@ Part 2: Wrangle
  5. 14.05.2018: [Chapter 10: Tibbles](http://r4ds.had.co.nz/tibbles.html): `tibble`. 
  6. 21.05.2018: [Chapter 11: Data import](http://r4ds.had.co.nz/data-import.html): `readr`. 
  7. 28.05.2018: [Chapter 12: Tidy data](http://r4ds.had.co.nz/tidy-data.html): `tidyr`. 
- 8. 04.06.2018: 
+ 8. 04.06.2018: [Chapter 13: Relational data](http://r4ds.had.co.nz/relational-data.html): `dplyr`.
  9. 11.06.2018: (On ABC retreat.)
 10. 18.06.2018:
 11. 25.06.2018:
 12. 02.07.2018:
 13. 09.07.2018:
 14. 16.07.2018: (Hiking.)
+
 
 
 
@@ -175,8 +175,8 @@ Beware of side effects: Becoming a useR will profoundly transform your thinking 
 
 Programming (in R or any other language) can be enjoyable, but also has addictive potential. Make sure to take regular breaks and also engage in other activities!
 
-# Links
 
+# Links
 
 ## Software and packages
 
@@ -186,7 +186,7 @@ Programming (in R or any other language) can be enjoyable, but also has addictiv
 
 ## Book and Exercises
 
-- Book: http://r4ds.had.co.nz/ 
+- Book: [R4DS](http://r4ds.had.co.nz/)  
 - Exercise solutions: https://jrnold.github.io/r4ds-exercise-solutions/ 
 
 ## Computing for SocSci
@@ -210,22 +210,35 @@ Authors: Gareth James, Daniela Witten, Trevor Hastie and Robert Tibshirani
 - Book [PDF](http://www-bcf.usc.edu/~gareth/ISL/ISLR%20Seventh%20Printing.pdf) 
 - Website: <www.StatLearning.com> or <http://www-bcf.usc.edu/~gareth/ISL/> 
 
-## Online: blogs etc.
-
-- http://www.sharpsightlabs.com 
-
-## Useful resources
-
-- [GitHub](https://github.com/): 
-    - http://kbroman.org/github_tutorial/ 
 
 
-# References
+
+# References and Links
+
+## Books
 
 - Wickham, H., & Grolemund, G. (2016). _R for data science: Import, tidy, transform, visualize, and model data._ 
 Sebastopol, Canada: O'Reilly Media, Inc.  [Available online at [http://r4ds.had.co.nz](http://r4ds.had.co.nz).]
 
 - Zumel, N., & Mount, J. (2014). _Practical data science with R_. Greenwich, CT: Manning Publications.
 
+## Online resources
+
+- [tidyverse](https://www.tidyverse.org/)
+    - See <https://www.tidyverse.org/articles/> for current developments
+    - See <https://www.tidyverse.org/learn/> for learning resources 
+
+- [RStudio cheat sheets](https://www.rstudio.com/resources/cheatsheets/)
+
+- [GitHub](https://github.com/): 
+    - <http://kbroman.org/github_tutorial/> 
+
+
+## Blogs etc.
+
+- <https://www.r-bloggers.com/>
+- <https://simplystatistics.org/>
+- <http://kbroman.org>
+- <http://www.sharpsightlabs.com/> 
 
 <!-- eof. -->  

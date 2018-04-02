@@ -1,7 +1,7 @@
 ## r4ds: Chapter 1:  
 ## Code for http://r4ds.had.co.nz/introduction.html 
 ## hn spds uni.kn
-## 2018 03 31 ------
+## 2018 04 01 ------
 
 ## 1.1 What you will learn ------
 
@@ -76,9 +76,11 @@ tidyr::table1 # etc.
 ## (4) Other packages ----- 
 
 ## Install additional data packages:
-install.packages(c("nycflights13", "gapminder", "Lahman"))
+# install.packages("nycflights13")
+# install.packages("gapminder")
+# install.packages("Lahman")
 # install.packages("babynames")
-
+# install.packages("fueleconomy")
 
 ## 1.5 Running R code ------
 
