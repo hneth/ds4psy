@@ -1,17 +1,9 @@
----
-title: "Readme (ds4psy)"
-author: "Hansjörg Neth, SPDS, uni.kn"
-date: "2018 04 02"
-output:
-  rmdformats::html_clean:
-    highlight: kate
----
 
-## ds4psy
+# ds4psy
 
-#### Data science for psychologists
+## Data science for psychologists
 
-A course teaching the principles and basic methods of data science to students of psychology and social sciences.
+A course on the principles and basic methods of data science for students of psychology and social sciences.
 
 ## Course Coordinates
 
