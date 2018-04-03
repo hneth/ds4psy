@@ -1,4 +1,13 @@
-# ds4psy
+---
+title: "Readme (ds4psy)"
+author: "Hansjörg Neth, SPDS, uni.kn"
+date: "2018 04 02"
+output:
+  rmdformats::html_clean:
+    highlight: kate
+---
+
+## ds4psy
 
 #### Data science for psychologists
 
@@ -17,7 +26,7 @@ A course teaching the principles and basic methods of data science to students o
 
 Students of psychology and other social sciences are trained to analyze data. But the data they learn to work with (e.g., in courses on statistics and empirical research methods) is typically provided to them and structured in a (rectangular or "tidy") format that presupposes many steps of data processing regarding the aggregation and spatial layout of variables.  When beginning to collect their own data, students inevitably struggle with these pre-processing steps which --- even for experienced data scientists --- tend to require more time and effort than choosing and conducting statistical tests. 
 
-This course develops the foundations of data analysis that allow students to collect data from real-world sources and transform and shape such data to answer scientific and practical questions. Although there are many good introductions to data science (e.g., [Grolemund & Wickham, 2016](http://r4ds.had.co.nz/); Zumel & Mount, 2014) they typically do not take into account the special needs (and often anxieties and reservations) of psychology students. As social scientists are not computer scientists, we introduce new concepts and commands without assuming a mathematical or computational background. Adopting a task-oriented perspective, we begin with a specific problem and then solve it with some combination of data collection, manipulation, modeling, and visualization.
+This course develops the foundations of data analysis that allow students to collect data from real-world sources and transform and shape such data to answer scientific and practical questions. Although there are many good introductions to data science (we use [Grolemund & Wickham, 2017](http://r4ds.had.co.nz/)) they typically do not take into account the special needs (and often anxieties and reservations) of psychology students. As social scientists are not computer scientists, we introduce new concepts and commands without assuming a mathematical or computational background. Adopting a task-oriented perspective, we begin with a specific problem and then solve it with some combination of data collection, manipulation, modeling, and visualization.
 
 
 ### Goals
@@ -37,11 +46,33 @@ Weekly exercises, mid-term test, and/or final project (which may be thesis-relat
 
 ## References
 
+### Textbook
+
+- Wickham, H., & Grolemund, G. (2017). _R for data science: Import, tidy, transform, visualize, and model data._ 
+Sebastopol, Canada: O'Reilly Media, Inc.  [Available online at [http://r4ds.had.co.nz](http://r4ds.had.co.nz).]
+
+### Software 
+
 - [The R Project for Statistical Computing](http://www.r-project.org/)
 
 - [R Studio](http://www.rstudio.com/) is an integrated development environment (IDE) for R.
 
-- Wickham, H., & Grolemund, G. (2016). _R for data science: Import, tidy, transform, visualize, and model data._ 
-Sebastopol, Canada: O'Reilly Media, Inc.  [Available online at [http://r4ds.had.co.nz](http://r4ds.had.co.nz).]
+- R packages of the [tidyverse](https://www.tidyverse.org/):
+    - See <https://www.tidyverse.org/articles/> for current developments
+    - See <https://www.tidyverse.org/learn/> for learning resources 
+
+- R packages to install: 
+
+```{r, eval = FALSE}
+# R packages:
+install.packages("tidyverse", "stringr")
+
+# Additional data packages:
+install.packages("nycflights13", "gapminder", "Lahman", "babynames", "fueleconomy")
+```
+
+### Other resources
+
+- [RStudio cheat sheets](https://www.rstudio.com/resources/cheatsheets/)
 
 - Zumel, N., & Mount, J. (2014). _Practical data science with R_. Greenwich, CT: Manning Publications.
