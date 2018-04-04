@@ -1,7 +1,7 @@
 ## r4ds: Chapter 14: Strings
 ## Code for http://r4ds.had.co.nz/strings.html 
 ## hn spds uni.kn
-## 2018 04 02 ------
+## 2018 04 04 ------
 
 ## [see Book chapter 1x: "..."]
 
@@ -366,14 +366,140 @@ str_c(c(a, b, c), collapse = "; ")  # collapses a vector of strings into 1 strin
 #    from a string. 
 #    What will you do if the string has an even number of characters?
 
+get_mid <- function(string) {
+  
+  l <- str_length(string)
+  
+  start <- ceiling(l/2)
+  
+  # if (l %% 2 == 0) {
+  #   start <- l/2
+  #   end <- start + 1
+  # } else {
+  #   start <- ceiling(l/2)
+  #   end <- start + 1 - (l %% 2)
+  # }
+
+  start <- ceiling(l/2)
+  end <- start + 1 - (l %% 2)
+  
+  mid <- str_sub(string, start, end)
+    
+  return(mid)
+  }
+  
+get_mid(c("1", "12", "123", "1234", "12345", "123456"))
+
 # 4. What does str_wrap() do? When might you want to use it?
+
+?str_wrap # wrap strings into nicely formatted paragraphs.
+
+# Example:
+thanks_path <- file.path(R.home("doc"), "THANKS")
+thanks <- str_c(readLines(thanks_path), collapse = "\n")
+thanks <- word(thanks, 1, 3, fixed("\n\n"))
+cat(str_wrap(thanks), "\n")
+cat(str_wrap(thanks, width = 40), "\n")
+cat(str_wrap(thanks, width = 60, indent = 2), "\n")
+cat(str_wrap(thanks, width = 60, exdent = 2), "\n")
+cat(str_wrap(thanks, width = 0, exdent = 2), "\n")
 
 # 5. What does str_trim() do? What’s the opposite of str_trim()?
 
-# 6. Write a function that turns (e.g.) a vector c("a", "b", "c") into the
-# string a, b, and c. Think carefully about what it should do if given a vector
-# of length 0, 1, or 2.
+?str_trim()   # removes whitespace from start and end of string; 
+?str_squish() # also reduces repeated whitespace inside a string.
 
+?str_pad() # adds whitespace
+
+s <- " this string has  added  white space "
+str_trim(s)
+str_squish(s)
+
+str_pad(s, width = 50, side = "both")
+
+# 6. Write a function that turns (e.g.) a vector c("a", "b", "c") into the
+#    string a, b, and c. 
+#    Think carefully about what it should do if given a vector of length 0, 1, or 2. 
+
+# yet ToDo
+
+
+## 14.3 Matching patterns with regular expressions ------
+
+# Regexps are a very terse language that allow you to describe patterns in strings. 
+
+# To learn regular expressions, we’ll use str_view() and str_view_all(). 
+# These functions take a character vector and a regular expression, 
+# and show you how they match:
+
+
+## 14.3.1 Basic matches -----
+
+# 1. The simplest patterns match exact strings:
+  
+x <- c("apple", "banana", "pear")
+
+str_view(x, "an") # Note: only 1st "an" in "banana" is found.
+str_view(x, "a")  # Note: only 1st "a"  in "banana" is found.
+
+# 2. The next step up in complexity is ., 
+#    which matches any character (except a newline):
+
+str_view(x, ".a.")  # Note: Start of "apple" is NOT matched.
+
+# 3. But if “.” matches any character, how do you match the character “.”? 
+#    You need to use an “escape” to tell the regular expression that you want to match it exactly, 
+#    rather than use its special behaviour. 
+
+#   Like strings, regexps use the backslash, \, to escape special behaviour. 
+#   So to match an ., you need the regexp \.. 
+
+#   Unfortunately this creates a problem:  
+#   We use _strings_ to represent regular expressions, 
+#   and \ is also used as an escape symbol in strings. 
+
+#   So to create the regular expression \. we need the string "\\.".
+
+# To create the regular expression \., we need the string "\\." 
+dot <- "\\."  # a string
+
+# But the expression itself only contains one backslash: 
+writeLines(dot)
+#> \.
+
+# And this tells R to look for an explicit ".": 
+str_view(c("abc", "a.c", "bef"), "a\\.c")
+
+s <- "This is a sentence."
+str_view(s, "\\.")
+
+# 4. If \ is used as an escape character in regular expressions, 
+#    how do you match a literal \? 
+
+# Well you need to escape it, creating the regular expression \\. 
+# To create that regular expression, you need to use a string, 
+# which also needs to escape \. 
+# That means to match a literal \ you need to write "\\\\" 
+# — you need four backslashes to match one!
+
+x <- "a\\b"
+writeLines(x)
+#> a\b
+
+str_view(x, "\\\\")
+
+
+## 14.3.1.1 Exercises -----
+
+# 1. Explain why each of these strings don’t match a \: "\", "\\", "\\\".
+
+# 2. How would you match the sequence "'\?
+
+# 3. What patterns will the regular expression \..\..\.. match? 
+#    How would you represent it as a string?
+
+
+## 14.3.2 Anchors -----
 
 
 ## +++ here now +++ ------
