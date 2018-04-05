@@ -120,6 +120,7 @@ Part 2: Wrangle
 > and thence proceed to greater.  
 > Epictetus _Discourses_ Book I, 18
 
+
 ## Data science as the art of dealing with data
 
 Data is cheap and ubiquitous. Every shopping trip, phone call, or visit of a web page leaves a trail of data. Apart from raising important issues of privacy, the notion of big data highlights another problem: In an era in which digital information is collected everywhere, we are drowning in data that seems meaningful and valuable, but we often fail to understand. We lack the ability and tools of dealing with data. 
