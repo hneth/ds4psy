@@ -501,15 +501,30 @@ str_view(x, "\\\\")
 #         However, we need a string that represents this expression.
 #    "\\\" escapes 1 of the 2 \, but we need to escape both.
 
+# Solution from 
+# https://jrnold.github.io/r4ds-exercise-solutions/strings.html#basic-matches :
+# "\": This will escape the next character in the R string.
+# "\\": This will resolve to \ in the regular expression, which will escape the next character in the regular expression.
+# "\\\": The first two backslashes will resolve to a literal backslash in the regular expression, the third will escape the next character. So in the regular expression, this will escape some escaped character.
+
+
 # 2. How would you match the (3-symbol) sequence "'\?
 
 seq <- "\"\'\\"
 writeLines(seq)
 
 teststring <- str_c("a", seq, "df")
-regex <- "\"\'\\\\" # written as a string
+regex <- "\"\'\\\\"  # written as a string
+writeLines(regex)    # as regex
 
 str_view(teststring, regex)
+
+# Note: The single quote (') does not require escape (\):
+regex2 <- "\"'\\\\"  # written as a string
+writeLines(regex2)   # as regex
+
+str_view(teststring, regex2)
+
 
 # 3. What patterns will the regular expression \..\..\.. match? 
 #    How would you represent it as a string?
@@ -519,6 +534,7 @@ str_view(teststring, regex)
 teststring <- c(".a.b.c", ".x.y.z", ".aa.bb.cc", "some.T.N.Tstuff")
 
 regex <- "\\..\\..\\.."  # written as a string
+writeLines(regex)    # as regex
 
 str_view(teststring, regex)
 
@@ -565,19 +581,139 @@ str_view(x, "apple\\b") # fails to find "applebees"
 ## 14.3.2.1 Exercises -----
 
 # 1. How would you match the literal string "$^$"?
-   
+
+s <- "$^$"
+writeLines(s)
+
+regex <- "\\$\\^\\$" # written as a string 
+writeLines(regex)    # as regex
+
+str_view(s, regex)
+
+# alternatively (if we wanted to match entire strings only):
+
+regex2 <- "^\\$\\^\\$$" # written as a string 
+writeLines(regex2)      # as regex
+
+str_view(s, regex2)
+
+
 # 2. Given the corpus of common words in stringr::words, 
 #    create regular expressions that find all words that:
 #    a. Start with “y”.
 #    b. End with “x”
 #    c. Are exactly three letters long. (Don’t cheat by using str_length()!)
 #    d. Have seven letters or more.
- 
+
 # Since this list is long, you might want to use the match argument to
 # str_view() to show only the matching or non-matching words.
 
+w <- stringr::words
+
+# ad a. Start with “y”.
+str_view(w, "^y", match = TRUE)
+
+# ad b. End with “x”
+str_view(w, "x$", match = TRUE)
+
+# ad c. Are exactly three letters long. (Don’t cheat by using str_length()!)
+str_view(w, "^...$", match = TRUE)
+
+# ad d. Have seven letters or more.
+str_view(w, ".......", match = TRUE)
+
+
+## 14.3.3 Character classes and alternatives -----
+
+## Wildcard characters: ----
+
+# There are a number of special patterns 
+# that match more than one character. 
+# You’ve already seen ., which matches 
+# any character apart from a newline. 
+
+# There are four other useful tools:
+#
+# - \d:     matches any digit.
+# - \s:     matches any whitespace (e.g. space, tab, newline).
+# - [abc]:  matches a, b, or c.
+# - [^abc]: matches anything except a, b, or c.
+
+# As before, to create a regular expression containing \d or \s, 
+# we need to escape the \ for the string, 
+# so we type "\\d" or "\\s". 
+
+
+## Alternation (|) and precedence: ----
+
+# We can use _alternation_ (|) to pick between 
+# alternative patterns. 
+# For example, abc|d..f will match either 
+# - ‘“abc”’, or 
+# - "deaf". 
+
+# Note that the precedence for | is low, so that abc|xyz 
+# matches abc or xyz 
+# not abcyz or abxyz. 
+
+s <- c("abc", "xyz", "abcyz", "abxyz")
+str_view(s, "abc|xyz")  # seems to match all 4 ???
+
+# Difference: 
+str_view(s, "(abc)|(xyz)") # matches all 4 strings 
+str_view(s, "ab(c|x)yz")   # matches only last 2 
+
+# As with mathematical expressions, 
+# if precedence ever gets confusing, 
+# use parentheses to make it clear what you want:
+
+str_view(c("grey", "gray"), "gr(e|a)y")
+
+
+## 14.3.3.1 Exercises -----
+
+# 1. Create regular expressions to find all words that:
+#    a. Start with a vowel.
+#    b. That only contain consonants. (Hint: thinking about matching “not”-vowels.)
+#    c. End with ed, but not with eed.
+#    d. End with ing or ise.
+
+w <- stringr::words
+
+# ad a. Start with a vowel.
+
+regex <- "^[aeiou]"
+writeLines(regex)
+
+str_view(w, regex, match = TRUE)
+
+# ad b. That only contain consonants. (Hint: thinking about matching “not”-vowels.)
+
+regex <- "[^aeiou]"
+writeLines(regex)
+
+str_view(w, regex, match = TRUE)
 
 ## +++ here now +++ ------
+
+# ad c. End with ed, but not with eed.
+# ad d. End with ing or ise.
+
+
+
+# 2. Empirically verify the rule “i before e except after c”.
+ 
+# 3. Is “q” always followed by a “u”?
+   
+# 4. Write a regular expression that matches a word if it’s probably written in
+# British English, not American English.
+ 
+# 5. Create a regular expression that will match telephone numbers as commonly
+# written in your country.
+
+
+
+
 
 
 ## Appendix ------
