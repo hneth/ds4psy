@@ -26,9 +26,9 @@
 # so we need to load it explicitly:
 
 library(tidyverse)
+
 # install.packages('stringr') # also installs the (more powerful) stringi package
 library(stringr)
-
 
 ## 14.2 String basics ------ 
 
@@ -338,7 +338,6 @@ paste0(a, b, c, d) # NA is interpreted as/treated like a string "NA"
 str_c(c(a, b, c, d), collapse = " ")  # NA is contagious: everything becomes NA!
 
 
-
 str_c(a, b, c, d)                     # NA is contagious: everything becomes NA!
 str_c(c(a, b, c, d), collapse = "")   # NA is contagious: everything becomes NA!
 
@@ -418,10 +417,11 @@ str_squish(s)
 str_pad(s, width = 50, side = "both")
 
 # 6. Write a function that turns (e.g.) a vector c("a", "b", "c") into the
-#    string a, b, and c. 
+#    string "a, b, and c". 
 #    Think carefully about what it should do if given a vector of length 0, 1, or 2. 
 
 # yet ToDo
+
 
 
 ## 14.3 Matching patterns with regular expressions ------
@@ -433,7 +433,7 @@ str_pad(s, width = 50, side = "both")
 # and show you how they match:
 
 
-## 14.3.1 Basic matches -----
+## 14.3.1 Basic matches and escapes -----
 
 # 1. The simplest patterns match exact strings:
   
@@ -442,10 +442,12 @@ x <- c("apple", "banana", "pear")
 str_view(x, "an") # Note: only 1st "an" in "banana" is found.
 str_view(x, "a")  # Note: only 1st "a"  in "banana" is found.
 
+
 # 2. The next step up in complexity is ., 
 #    which matches any character (except a newline):
 
 str_view(x, ".a.")  # Note: Start of "apple" is NOT matched.
+
 
 # 3. But if “.” matches any character, how do you match the character “.”? 
 #    You need to use an “escape” to tell the regular expression that you want to match it exactly, 
@@ -491,15 +493,88 @@ str_view(x, "\\\\")
 
 ## 14.3.1.1 Exercises -----
 
-# 1. Explain why each of these strings don’t match a \: "\", "\\", "\\\".
+# 1. Explain why each of these strings don’t match a \: 
+#    "\", "\\", "\\\".
 
-# 2. How would you match the sequence "'\?
+#    "\" is the escape character in a regular expression, 
+#    "\\" is a regular expression that escapes the escape character \.
+#         However, we need a string that represents this expression.
+#    "\\\" escapes 1 of the 2 \, but we need to escape both.
+
+# 2. How would you match the (3-symbol) sequence "'\?
+
+seq <- "\"\'\\"
+writeLines(seq)
+
+teststring <- str_c("a", seq, "df")
+regex <- "\"\'\\\\" # written as a string
+
+str_view(teststring, regex)
 
 # 3. What patterns will the regular expression \..\..\.. match? 
 #    How would you represent it as a string?
 
+# It will match any 3 single letters following a period (e.g. (".a.b.c", ".x.y.z", ...):
+
+teststring <- c(".a.b.c", ".x.y.z", ".aa.bb.cc", "some.T.N.Tstuff")
+
+regex <- "\\..\\..\\.."  # written as a string
+
+str_view(teststring, regex)
+
 
 ## 14.3.2 Anchors -----
+
+# By default, regular expressions will match _any part_ of a string. 
+
+# It’s often useful to anchor the regular expression so that 
+# it matches from the start or end of the string. 
+
+# Use:
+# - ^ (at the front) to match the start of the string.
+# - $ (at the back)  to match the end of the string.
+
+x <- c("apple", "banana", "pear")
+
+str_view(x, "^a") # matches only 1st letter of apple
+str_view(x, "a$") # matches only the last letter of banana
+
+# Mnemonic: if you begin with power (^), you end up with money ($).
+
+# To force a regular expression to only match a complete string, 
+# anchor it with both ^ and $:
+
+x <- c("apple pie", "apple", "apple cake", "big apple", "applebees")
+
+str_view(x, "apple")   # matches all 5 instances of "apple"
+str_view(x, "^apple$") # matches only "apple" by itself
+
+# You can also match the boundary between words with \b 
+# (using a string "\\b")
+
+str_view(x, "apple\\b") # fails to find "applebees"
+
+# I don’t often use this in R, but I will sometimes use it 
+# when I’m doing a search in RStudio when I want to find 
+# the name of a function that’s a component of other functions. 
+
+# For example, I’ll search for \bsum\b to avoid matching 
+# summarise, summary, rowsum and so on.
+
+
+## 14.3.2.1 Exercises -----
+
+# 1. How would you match the literal string "$^$"?
+   
+# 2. Given the corpus of common words in stringr::words, 
+#    create regular expressions that find all words that:
+#    a. Start with “y”.
+#    b. End with “x”
+#    c. Are exactly three letters long. (Don’t cheat by using str_length()!)
+#    d. Have seven letters or more.
+ 
+# Since this list is long, you might want to use the match argument to
+# str_view() to show only the matching or non-matching words.
 
 
 ## +++ here now +++ ------
