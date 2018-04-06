@@ -681,38 +681,140 @@ str_view(c("grey", "gray"), "gr(e|a)y")
 w <- stringr::words
 
 # ad a. Start with a vowel.
-
 regex <- "^[aeiou]"
 writeLines(regex)
 
 str_view(w, regex, match = TRUE)
 
 # ad b. That only contain consonants. (Hint: thinking about matching “not”-vowels.)
-
-regex <- "[^aeiou]"
+regex <- "^[^aeiou]+$"
 writeLines(regex)
 
 str_view(w, regex, match = TRUE)
 
-## +++ here now +++ ------
+# [test.quest]: Words that only contain vowels:
+regex <- "^[aeiou]+$"
+str_view(w, regex, match = TRUE)
+
+# [test.quest]: Words that start with a vowel and end with a consonant:  
+regex <- "^[aeiou]*[^aeiou]$"
+str_view(w, regex, match = TRUE)
 
 # ad c. End with ed, but not with eed.
-# ad d. End with ing or ise.
+regex <- "[^e]ed$"
+str_view(w, regex, match = TRUE)
 
+# ad d. End with ing or ise.
+regex <- "(ing)|(ise)$"
+str_view(w, regex, match = TRUE)
+
+regex <- "i(ng|se)$"
+str_view(w, regex, match = TRUE)
 
 
 # 2. Empirically verify the rule “i before e except after c”.
- 
+regex <- "(c|i)e"  # finds only positive instances
+regex <- "[^ci]e"  # finds falsification cases
+
+str_view(w, regex, match = TRUE)
+
+# From https://jrnold.github.io/r4ds-exercise-solutions/strings.html#character-classes-and-alternatives
+# Using only what has been introduced thus far:
+  
+str_view(stringr::words, "(cei|[^c]ie)", match = TRUE)
+str_view(stringr::words, "(cie|[^c]ei)", match = TRUE)
+
 # 3. Is “q” always followed by a “u”?
-   
+regex <- "q[^u]"  # finds falsification cases
+str_view(w, regex, match = TRUE) # fails to find anything => TRUE (in this dataset)
+str_view(w, "qu", match = TRUE) # finds positive cases
+str_view(w, "q", match = TRUE)  # finds the same positive cases
+
 # 4. Write a regular expression that matches a word if it’s probably written in
 # British English, not American English.
+
+# yet ToDo
+
+# 5. Create a regular expression that will match telephone numbers 
+#    as commonly written in your country.
+
+# yet ToDo
+
+
+## 14.3.4 Repetition -----
+
+## Repetitions: ----
+
+# The next step up in power involves controlling 
+# how many times a pattern matches:
+
+# - ?: 0 or 1
+# - +: 1 or more
+# - *: 0 or more
+
+x <- "1888 is the longest year in Roman numerals: MDCCCLXXXVIII"
+str_view(x, "CC?")  # finds 1st match
+str_view(x, "CC+")  # finds 1st and 2nd match
+str_view(x, "CC*")  # finds 1st and 2nd match
+
+# But note: 
+str_view(x, 'C[LX]+')
+
+# Note that the precedence of these operators is high, 
+# so you can write: colou?r to match either American or British spellings. 
+# That means most uses will need parentheses, like bana(na)+.
+
+# ???
+
+## Number of matches: ----
+
+# To precisely specify the number of matches:
+
+# - {n}:   exactly n
+# - {n,}:  n or more
+# - {,m}:  at most m
+# - {n,m}: between n and m
+
+str_view(x, "C{2}")  # finds CC
+str_view(x, "C{2,}") # finds CCC
+str_view(x, "C{2,3}") # finds CCC (greedy: longest match possible)
+
+# By default these matches are “greedy”: 
+# they will match the longest string possible. 
+# You can make them “lazy”, matching the shortest string possible 
+# by putting a ? after them. 
+# This is an advanced feature of regular expressions, 
+# but it’s useful to know that it exists:
+  
+str_view(x, 'C{2,3}?') # finds CC (lazy: shortest match possible)
+str_view(x, 'C[LX]+?') # finds CL (lazy: shortest match possible)
+
+# Note: 
+str_view(x, "X+")    # finds XXX
+str_view(x, "X{1}+") # finds X only
+
+
+## 14.3.4.1 Exercises -----
+
+# 1. Describe the equivalents of ?, +, * in {m,n} form.
  
-# 5. Create a regular expression that will match telephone numbers as commonly
-# written in your country.
+# 2. Describe in words what these regular expressions match: 
+#   (read carefully to see if I’m using a regular expression 
+#    or a string that defines a regular expression.)
+#    - ^.*$
+#    - "\\{.+\\}"
+#    - \d{4}-\d{2}-\d{2}
+#    - "\\\\{4}"
+ 
+# 3. Create regular expressions to find all words that:
+#    a. Start with three consonants.
+#    b. Have three or more vowels in a row.
+#    c. Have two or more vowel-consonant pairs in a row.
+ 
+# 4. Solve the beginner regexp crosswords at https://regexcrossword.com/challenges/beginner.
 
 
-
+## +++ here now +++ ------
 
 
 
@@ -734,6 +836,16 @@ str_view(w, regex, match = TRUE)
 ## Multiple choice [MC] questions: -----
 
 ## Practical questions: ----- 
+
+library(tidyverse)
+library("stringr")
+
+# [test.quest]: Baby name starting with letter "T" and ending with "a"?
+n <- unique(babynames::babynames$name)
+as_tibble(n)
+
+str_view(n, "^Z...$", match = TRUE)
+
 
 ## ------
 ## eof.
