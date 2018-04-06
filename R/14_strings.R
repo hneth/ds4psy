@@ -1,7 +1,7 @@
 ## r4ds: Chapter 14: Strings
 ## Code for http://r4ds.had.co.nz/strings.html 
 ## hn spds uni.kn
-## 2018 04 04 ------
+## 2018 04 06 ------
 
 ## [see Book chapter 1x: "..."]
 
@@ -797,15 +797,33 @@ str_view(x, "X{1}+") # finds X only
 ## 14.3.4.1 Exercises -----
 
 # 1. Describe the equivalents of ?, +, * in {m,n} form.
+
+# - ?: 0 or 1:    {0, 1}
+# - +: 1 or more: {1, inf}
+# - *: 0 or more: {0, inf}
  
 # 2. Describe in words what these regular expressions match: 
-#   (read carefully to see if I’m using a regular expression 
-#    or a string that defines a regular expression.)
-#    - ^.*$
+#   (read carefully to see if we're using a regular expression 
+#    or a string to define a regular expression.)
+#    - ^.*$ 
 #    - "\\{.+\\}"
 #    - \d{4}-\d{2}-\d{2}
 #    - "\\\\{4}"
  
+#    - ^.*$  : a regex matching any string
+str_view(c("a", "abc", "abc def", "..."), "^.*$")
+
+#    - "\\{.+\\}": a string matching any word with at least 1 character inside curly braces {...} 
+str_view(c("a", "abc", "abc def", "...", "{}", "{a}", "x {a b} z"), "\\{.+\\}")
+
+#    - \d{4}-\d{2}-\d{2}: a regex matching 4-2-2 digit sequence (separated by -): 
+str_view(c("a", "abc", "abc def", "...", "{}", "{a}", "x {a b} z", 
+           "1234-56-78", "01234-56-7880"), "\\d{4}-\\d{2}-\\d{2}")
+
+#    - "\\\\{4}":  a string matching 4 backslashes "\"
+str_view( c("\\\\", "\\\\\\", "\\\\\\\\", "\\\\\\\\\\") , "\\\\{4}")
+
+
 # 3. Create regular expressions to find all words that:
 #    a. Start with three consonants.
 #    b. Have three or more vowels in a row.
