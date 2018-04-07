@@ -828,8 +828,80 @@ str_view( c("\\\\", "\\\\\\", "\\\\\\\\", "\\\\\\\\\\") , "\\\\{4}")
 #    a. Start with three consonants.
 #    b. Have three or more vowels in a row.
 #    c. Have two or more vowel-consonant pairs in a row.
+
+w <- stringr::words
+
+#    a. Start with three consonants.
+regex <- "^[^aeiou]{3}"
+str_view(w, regex, match = TRUE)
+
+#    b. Have three or more vowels in a row.
+regex <- "[aeiou]{3,}"
+str_view(w, regex, match = TRUE)
+
+#    c. Have two or more vowel-consonant pairs in a row.
+regex <- "([aeiou][^aeiou]){2,}"
+str_view(w, regex, match = TRUE)
+
+# [test.quest]:
+# Words beginning with 4 consonants:
+regex <- "^[^aeiou]{4}"
+str_view(w, regex, match = TRUE) # => "system"
+
+# Words with 4 vowel-consonant pairs in a row:
+regex <- "([aeiou][^aeiou]){4}"
+str_view(w, regex, match = TRUE) # => "original"
+
+# 4. Solve the beginner regexp crosswords at 
+#    https://regexcrossword.com/challenges/beginner.
+
+# yet ToDo
+
+
+## 14.3.5 Grouping and backreferences -----
+
+# Earlier, we learned about parentheses as a way 
+# to disambiguate complex expressions. 
+# They also define “groups” that you can refer to with backreferences, 
+# like \1, \2 etc. 
+
+# For example, the following regular expression 
+# finds all fruits that have a repeated pair of letters: 
+str_view(fruit, "(..)\\1", match = TRUE)
+
+# (Shortly, we’ll also see how they’re useful 
+#  in conjunction with str_match().)
+
+
+## 14.3.5.1 Exercises -----
+
+# 1. Describe, in words, what these expressions will match:
+#    a. (.)\1\1
+#    b. "(.)(.)\\2\\1"
+#    c. (..)\1
+#    d. "(.).\\1.\\1"
+#    e. "(.)(.)(.).*\\3\\2\\1"
  
-# 4. Solve the beginner regexp crosswords at https://regexcrossword.com/challenges/beginner.
+# 2. Construct regular expressions to match _words_ that:
+#    a. Start and end with the same character.
+regex <- "^.$"
+regex <- "^(.)(.)\\1$" # does not match words yet.
+regex <- "^(.).*\\1$"
+
+str_view(w, regex, match = TRUE)
+
+# [test.quest]: 
+# Words that end with the same letter twice:
+regex <- "(.)\\1$"
+str_view(w, regex, match = TRUE)
+
+#    b. Contain a repeated pair of letters 
+#       (e.g., “church” contains “ch” repeated twice).
+regex <- "(.)*.\\1" # does not match words yet.
+str_view(w, regex, match = TRUE) 
+
+#   c. Contain one letter repeated in at least three places 
+#      (e.g., “eleven” contains three “e”s).
 
 
 ## +++ here now +++ ------
@@ -857,12 +929,25 @@ str_view( c("\\\\", "\\\\\\", "\\\\\\\\", "\\\\\\\\\\") , "\\\\{4}")
 
 library(tidyverse)
 library("stringr")
+w <- stringr::words
 
-# [test.quest]: Baby name starting with letter "T" and ending with "a"?
+# [test.quest]: Based on 14.3.4.1, Exercise 3
+
+# Words beginning with 4 consonants:
+regex <- "^[^aeiou]{4}"
+str_view(w, regex, match = TRUE) # => "system"
+
+# Words with 4 vowel-consonant pairs in a row:
+regex <- "([aeiou][^aeiou]){4}"
+str_view(w, regex, match = TRUE) # => "original"
+
+
+
+# [test.quest]: Baby name, 3 letters, starting with letter "Z"?
 n <- unique(babynames::babynames$name)
 as_tibble(n)
 
-str_view(n, "^Z...$", match = TRUE)
+str_view(n, "^Z..$", match = TRUE)
 
 
 ## ------
