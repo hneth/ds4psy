@@ -1,7 +1,7 @@
 ## r4ds: Chapter 14: Strings
 ## Code for http://r4ds.had.co.nz/strings.html 
 ## hn spds uni.kn
-## 2018 04 06 ------
+## 2018 04 08 ------
 
 ## [see Book chapter 1x: "..."]
 
@@ -881,7 +881,22 @@ str_view(fruit, "(..)\\1", match = TRUE)
 #    c. (..)\1
 #    d. "(.).\\1.\\1"
 #    e. "(.)(.)(.).*\\3\\2\\1"
- 
+
+#    a. (.)\1\1 := same letter 3 times in a row
+str_view(c("ttt", "axxxz", "whazzzup", "anananas"), "(.)\\1\\1")
+
+#    b. "(.)(.)\\2\\1" := a sequence of 2 letters in reversed order
+str_view(c("banana", "abba", "Hannah", "ottonormal"), "(.)(.)\\2\\1")
+
+#    c. (..)\1 := a sequence of 2 letters twice
+str_view(c("banana", "abba", "Hannah", "ottonormal"), "(..)\\1")
+
+#    d. "(.).\\1.\\1" := a letter 3 times with 2 arbitrary characters in between
+str_view(c("banana", "aabbccdd", "hohoho", "iiiii", "attttta", "xi.i,i.x"), "(.).\\1.\\1")
+
+#    e. "(.)(.)(.).*\\3\\2\\1" := a sequence of 3 letters in forward and reversed order.
+str_view(c("abccba", "abba xyz abba", "Hannah", "hannah", "123.etc.321"), "(.)(.)(.).*\\3\\2\\1")
+
 # 2. Construct regular expressions to match _words_ that:
 #    a. Start and end with the same character.
 regex <- "^.$"
@@ -902,6 +917,97 @@ str_view(w, regex, match = TRUE)
 
 #   c. Contain one letter repeated in at least three places 
 #      (e.g., “eleven” contains three “e”s).
+regex <- "(.).*\\1.*\\1"
+# regex <- "([a-z]).*\\1.*\\1"
+str_view(w, regex, match = TRUE) 
+
+
+## 14.4 Tools ------
+
+# Now that you’ve learned the basics of regular expressions, 
+# it’s time to learn how to apply them to real problems. 
+
+# In this section you’ll learn a wide array of stringr functions 
+# that let you:
+  
+# - Determine which strings match a pattern.
+# - Find the positions of matches.
+# - Extract the content of matches.
+# - Replace matches with new values.
+# - Split a string based on a match.
+
+# Cautionary tale: Beware of complicated regular expressions
+# See the stackoverflow discussion on detecting valid email address 
+# at http://stackoverflow.com/a/201378 for more details. 
+
+
+## 14.4.1 Detect matches
+
+# To determine if a character vector matches a pattern, 
+# use str_detect(). 
+
+# It returns a logical vector the same length as the input:
+  
+x <- c("apple", "banana", "pear")
+str_detect(x, "e")
+
+# Remember that when you use a logical vector in a numeric context, 
+# FALSE becomes 0 and TRUE becomes 1. 
+# That makes sum() and mean() useful if you want to answer questions 
+# about matches across a larger vector:
+  
+# How many common words start with t?
+words <- stringr::words
+sum(str_detect(words, "^t"))
+
+# What proportion of common words end with a vowel?
+mean(str_detect(words, "[aeiou]$"))
+
+# When you have complex logical conditions 
+# (e.g., match a or b but not c unless d) 
+# it’s often easier to combine multiple str_detect() calls 
+# with logical operators, rather than trying to create 
+# a single regular expression. 
+
+# For example, here are two ways to find all words that 
+# don’t contain any vowels:
+
+# Find all words containing at least one vowel, and negate
+no_vowels_1 <- !str_detect(words, "[aeiou]")
+
+# Find all words consisting only of consonants (non-vowels)
+no_vowels_2 <- str_detect(words, "^[^aeiou]+$")
+
+# Check for identity: 
+identical(no_vowels_1, no_vowels_2)
+
+# The results are identical, but the 1st approach is simpler and 
+# easier to understand. 
+
+# Lesson: If a regular expression gets overly complicated, 
+# try breaking it up into smaller pieces, giving each piece a name, 
+# and then combining the pieces with logical operations.
+
+
+# A common use of str_detect() is to select the elements 
+# that match a pattern. 
+# We  can do this with logical subsetting, or the convenient 
+# str_subset() wrapper:
+  
+words[str_detect(words, "x$")]  # words ending with "x"
+str_subset(words, "x$")
+
+# Typically, however, our strings will be a column of a data frame, 
+# and we’ll want to use filter instead:
+
+df <- tibble(
+  word = words, 
+  i = seq_along(word)
+)
+
+df %>% 
+  filter(str_detect(words, "x$"))
+
 
 
 ## +++ here now +++ ------
