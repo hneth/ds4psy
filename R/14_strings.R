@@ -1,7 +1,7 @@
 ## r4ds: Chapter 14: Strings
 ## Code for http://r4ds.had.co.nz/strings.html 
 ## hn spds uni.kn
-## 2018 04 08 ------
+## 2018 04 09 ------
 
 ## [see Book chapter 1x: "..."]
 
@@ -972,10 +972,10 @@ mean(str_detect(words, "[aeiou]$"))
 # For example, here are two ways to find all words that 
 # don’t contain any vowels:
 
-# Find all words containing at least one vowel, and negate
+# Find all words containing at least one vowel, and negate: 
 no_vowels_1 <- !str_detect(words, "[aeiou]")
 
-# Find all words consisting only of consonants (non-vowels)
+# Find all words consisting only of consonants (non-vowels): 
 no_vowels_2 <- str_detect(words, "^[^aeiou]+$")
 
 # Check for identity: 
@@ -1005,9 +1005,60 @@ df <- tibble(
   i = seq_along(word)
 )
 
+# ?seq_along
+
 df %>% 
   filter(str_detect(words, "x$"))
 
+# A variation on str_detect() is str_count(): 
+# rather than a simple yes or no, it tells us 
+# how many matches there are in a string:
+
+x <- c("apple", "banana", "pear")
+str_count(x, "a")
+
+# On average, how many vowels are there per word?
+mean(str_count(words, "[aeiou]"))
+
+# In a typical use case, it makes sense to use 
+# str_count() with mutate():
+
+df %>% 
+  mutate(
+    chars = str_length(word), 
+    vowels = str_count(word, "[aeiou]"),
+    consonants = str_count(word, "[^aeiou]")
+  )
+
+# Note that matches never overlap. 
+# For example, in "abababa", 
+# how many times will the pattern "aba" match? 
+# Regular expressions say 2 times, not 3:
+
+str_count("abababa", "aba")
+
+str_view_all("abababa", "aba")
+
+# Note the use of str_view_all(). 
+# As we’ll shortly learn, many stringr functions come in pairs: 
+# one function works with a single match, and 
+# the other works with all matches. 
+# The 2nd function will have the suffix "_all".
+
+
+# 14.4.2 Exercises -----
+
+# 1. For each of the following challenges, try solving it by using both 
+#    a singleregular expression, and 
+#    a combination of multiple str_detect() calls.
+
+# a. Find all words that start or end with x.
+# b. Find all words that start with a vowel and end with a consonant.
+# c. Are there any words that contain at least one of each different vowel?
+   
+# 2. What word has the highest number of vowels? 
+#    What word has the highest proportion of vowels? 
+#    (Hint: what is the denominator?)
 
 
 ## +++ here now +++ ------
