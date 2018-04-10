@@ -81,6 +81,8 @@ Part 2: Wrangle
 
 1. [Chapter 13: Relational data](http://r4ds.had.co.nz/relational-data.html): `dplyr`.
 
+1. [Chapter 14: Strings](http://r4ds.had.co.nz/strings.html): `stringr`.
+
 
 1. Mid-term test
 
@@ -101,7 +103,7 @@ Part 2: Wrangle
  7. 28.05.2018: [Chapter 12: Tidy data](http://r4ds.had.co.nz/tidy-data.html): `tidyr`. 
  8. 04.06.2018: [Chapter 13: Relational data](http://r4ds.had.co.nz/relational-data.html): `dplyr`.
  9. 11.06.2018: (On ABC retreat.)
-10. 18.06.2018:
+10. 18.06.2018: [Chapter 14: Strings](http://r4ds.had.co.nz/strings.html): `stringr`.
 11. 25.06.2018:
 12. 02.07.2018:
 13. 09.07.2018:
