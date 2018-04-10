@@ -1085,8 +1085,14 @@ rx1 <- "a"
 rx2 <- "e"
 rx3 <- "i"
 rx4 <- "o"
+rx5 <- "u"
 
-words[str_detect(words, rx1) & str_detect(words, rx2) & str_detect(words, rx3) & str_detect(words, rx4)]
+words[str_detect(words, rx1) & str_detect(words, rx2) & 
+      str_detect(words, rx3) & str_detect(words, rx4) ]  # still exist
+
+words[str_detect(words, rx1) & str_detect(words, rx2) & 
+      str_detect(words, rx3) & str_detect(words, rx4) &
+      str_detect(words, rx5) ]                           # no longer exist
 
    
 # 2. What word has the highest number of vowels? 
@@ -1104,8 +1110,90 @@ len <- str_length(words)
 
 words[nvow/len == max(nvow/len)]  # ==> "a"
 
+## 14.4.3 Extract matches ----- 
+
+# To extract the actual text of a match, use 
+# str_extract().
+
+stringr::sentences # 720 Harvard sentences
+# see https://en.wikipedia.org/wiki/Harvard_sentences 
+
+length(sentences) #> [1] 720
+head(sentences)
+
+# Imagine we want to find all sentences that contain a colour. 
+# We first create a vector of colour names, and then 
+# turn it into a single regular expression:
+
+colours <- c("red", "orange", "yellow", "green", "blue", "purple")
+colour_match <- str_c(colours, collapse = "|")
+colour_match
+
+# Now we can select the sentences that contain a colour, 
+# and then extract the colour to figure out which one it is:
+  
+has_colour <- str_subset(sentences, colour_match)
+has_colour
+
+matches <- str_extract(has_colour, colour_match)
+head(matches)
+table(matches)
+
+# Note that str_extract() only extracts the 1st match. 
+# We can see that by first selecting all sentences 
+# that have more than 1 match:
+  
+more <- sentences[str_count(sentences, colour_match) > 1]
+str_view_all(more, colour_match)
+
+str_extract(more, colour_match)
+
+# This is a common pattern for stringr functions, 
+# because working with a single match allows you to use 
+# much simpler data structures. 
+
+# To get all matches, use str_extract_all(). 
+# It returns a list:
+
+str_extract_all(more, colour_match)
+
+# We’ll learn more about lists in lists and iteration:
+# http://r4ds.had.co.nz/vectors.html#lists 
+# http://r4ds.had.co.nz/iteration.html#iteration 
+
+# If we use simplify = TRUE, str_extract_all() 
+# will return a matrix with short matches expanded to the same length 
+# as the longest:
+  
+str_extract_all(more, colour_match, simplify = TRUE)
+
+x <- c("a", "a b", "a b c")
+str_extract_all(x, "[a-z]", simplify = TRUE)
+
+
+## 14.4.3.1 Exercises ----- 
+
+# 1. In the previous example, you might have noticed that the 
+# regular expression matched “flickered”, which is not a colour. 
+# Modify the regex to fix the problem.
 
 ## +++ here now +++ ------
+
+# 2. From the Harvard sentences data, extract: 
+#    a. The first word from each sentence.
+#    b. All words ending in "ing".
+#    c. All plurals.
+
+
+
+
+# [test.quest]: Extract all sentences with family names:
+family <- c("mother", "father", "son$", "daughter", "sister", "brother")
+family_match <- str_c(family, collapse = "|")
+has_family <- str_subset(sentences, family_match)
+has_family 
+
+
 
 
 
