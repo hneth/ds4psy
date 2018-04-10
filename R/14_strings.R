@@ -1055,10 +1055,54 @@ str_view_all("abababa", "aba")
 # a. Find all words that start or end with x.
 # b. Find all words that start with a vowel and end with a consonant.
 # c. Are there any words that contain at least one of each different vowel?
+
+# a. Find all words that start or end with x.
+
+# 1 regex: 
+regex <- "^x|x$"
+str_view(words, regex, match = TRUE)
+words[str_detect(words, regex)]
+
+# 2 regex:
+regex1 <- "^x"
+regex2 <- "x$"
+words[str_detect(words, regex1) | str_detect(words, regex2)]
+
+# b. Find all words that start with a vowel and end with a consonant.
+# 1 regex: 
+regex <- "^[aeiou]|[^aeiou]$"
+words[str_detect(words, regex)]
+
+# 2 regex:
+regex1 <- "^[aeiou]"
+regex2 <- "[^aeiou]$"
+words[str_detect(words, regex1) | str_detect(words, regex2)]
+
+# c. Are there any words that contain at least one of each different vowel?
+
+# many regex:
+rx1 <- "a"
+rx2 <- "e"
+rx3 <- "i"
+rx4 <- "o"
+
+words[str_detect(words, rx1) & str_detect(words, rx2) & str_detect(words, rx3) & str_detect(words, rx4)]
+
    
 # 2. What word has the highest number of vowels? 
 #    What word has the highest proportion of vowels? 
 #    (Hint: what is the denominator?)
+
+# What word has the highest number of vowels? 
+max <- max(str_count(words, "[aeiou]"))
+words[str_count(words, "[aeiou]") == max]
+
+#    What word has the highest proportion of vowels? 
+#    (Hint: what is the denominator?)
+nvow <- str_count(words, "[aeiou]")
+len <- str_length(words)
+
+words[nvow/len == max(nvow/len)]  # ==> "a"
 
 
 ## +++ here now +++ ------
