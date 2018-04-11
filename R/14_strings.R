@@ -1177,15 +1177,174 @@ str_extract_all(x, "[a-z]", simplify = TRUE)
 # regular expression matched “flickered”, which is not a colour. 
 # Modify the regex to fix the problem.
 
-## +++ here now +++ ------
+# Previous example:
+colours <- c("red", "orange", "yellow", "green", "blue", "purple")
+colour_match <- str_c(colours, collapse = "|")
+more <- sentences[str_count(sentences, colour_match) > 1]
+str_view_all(more, colour_match)
+
+str_extract_all(more, colour_match)
+
+# colour_match matches a string containing “flickered” because 
+# it contains “red”. The problem is that the pattern matches 
+# any word containing a color.
+
+# Fixing: 1st attempt: 
+colours <- c("\\^red", "orange", "yellow", "green", "blue", "purple")
+colour_match <- str_c(colours, collapse = "|\\^")
+colour_match
+
+more <- sentences[str_count(sentences, colour_match) > 1]
+str_view_all(more, colour_match)
+str_extract_all(more, colour_match)
+# Does not work, as strings do not begin with color names.
+
+# 2nd attempt: Detect word boundaries:
+# We want to only match colors in which the entire word 
+# is the name of the color. We can do this by adding a 
+# \b (to indicate a word boundary) before and after the pattern:
+colours <- c("red", "orange", "yellow", "green", "blue", "purple")
+colour_match2 <- str_c("\\b(", str_c(colours, collapse = "|"), ")\\b")
+colour_match2
+
+more2 <- sentences[str_count(sentences, colour_match2) > 1]
+str_view_all(more2, colour_match2)
+str_extract_all(more2, colour_match2)
+
 
 # 2. From the Harvard sentences data, extract: 
 #    a. The first word from each sentence.
 #    b. All words ending in "ing".
 #    c. All plurals.
 
+# ad a. The first word from each sentence.
+first <- "[a-zA-X]+"
+
+str_view(sentences, first)
+str_extract(sentences, first)
+
+# ad b. All words ending in "ing".
+
+end_ing <- "\\b[A-Za-z]+ing\\b"
+str_view(sentences, end_ing)
+str_extract(sentences, end_ing)
+
+sentences_with_ing <- str_detect(sentences, end_ing)
+unique(unlist(str_extract_all(sentences[sentences_with_ing], end_ing)))
+
+# ad c. All plurals.
+
+# From 
+# https://jrnold.github.io/r4ds-exercise-solutions/strings.html#extract-matches :
+# Extracting all plurals cannot be done with regular expressions alone. 
+# It would require morphological information about words in the language. 
+# See WordNet for a resource that would do that:
+# https://CRAN.R-project.org/package=wordnet 
+
+# However, identifying words that end in an “s” and 
+# with more than 3 characters in order to remove “as”, “is”, “gas”, etc., 
+# will provide a reasonable approximation:
+
+plr <- "\\b[A-Za-z]{3,}s\\b"
+unique(unlist(str_extract_all(sentences, plr)))
 
 
+## 14.4.4 Grouped matches -----
+
+# Earlier in this chapter we talked about the use of parentheses 
+# for clarifying precedence and for backreferences when matching. 
+
+# You can also use parentheses to extract parts of a complex match. 
+# For example, imagine we want to extract nouns from the sentences. 
+# As a heuristic, we’ll look for any word that comes after “a” or “the”. 
+
+# Defining a “word” in a regular expression is a little tricky, 
+# so we use a simple approximation: 
+# A sequence of at least 1 character that isn’t a space: 
+
+noun <- "(a|the) ([^ ]+)"
+
+has_noun <- sentences %>%
+  str_subset(noun) %>%
+  head(10)
+
+has_noun %>% 
+  str_extract(noun)  # 1st match
+
+has_noun %>%
+  str_extract_all(noun)  # extracts all matches
+
+# str_extract() gives us the complete match; 
+# str_match() gives each individual component. 
+
+# Instead of a character vector, it returns a matrix, 
+# with 1 column for the complete match followed by 1 column for each group:
+  
+has_noun %>% 
+  str_match(noun)     # 1st match
+
+has_noun %>% 
+  str_match_all(noun) # all matches
+
+# (Unsurprisingly, our heuristic for detecting nouns is poor, 
+#  and also picks up adjectives like smooth and parked.)
+
+
+## Grouped matching of a tibble
+
+# If your data is in a tibble, it’s often easier to use 
+# tidyr::extract(). It works like str_match() but requires you 
+# to name the matches, which are then placed in new columns:
+  
+tibble(sentence = sentences) %>% 
+  tidyr::extract(
+    sentence, c("article", "noun"), "(a|the) ([^ ]+)", 
+    remove = FALSE
+  )
+
+# As with str_extract():
+# If you want _all_ matches for each string, 
+# you need str_match_all().
+
+
+## 14.4.4.1 Exercises -----
+
+# 1. Find all words that come after a “number” like “one”, “two”, “three” etc. 
+#    Pull out both the number and the word.
+
+num <- c("one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten", "eleven", "twelve")
+num_match <- str_c(num, collapse = " \\b|\\b")
+num_match <- str_c(num, collapse = "|")
+num_match
+has_num <- str_subset(sentences, num_match)
+has_num
+
+num_noun <- str_c("(", num_match, ") ([^ ]+)")
+num_noun
+
+has_num %>% 
+  str_match(num_noun)     # 1st match
+
+has_noun %>% 
+  str_match_all(noun) # all matches
+
+sentences[str_detect(sentences, num_noun)] %>%
+  str_extract(num_noun)
+
+# Solution from
+# https://jrnold.github.io/r4ds-exercise-solutions/strings.html#extract-matches
+
+numword <- "(one|two|three|four|five|six|seven|eight|nine|ten) +(\\S+)"
+
+sentences[str_detect(sentences, numword)] %>%
+  str_extract(numword)
+
+
+# 2. Find all contractions. 
+#    Separate out the pieces before and after the apostrophe.
+
+
+## +++ here now +++ ------
 
 # [test.quest]: Extract all sentences with family names:
 family <- c("mother", "father", "son$", "daughter", "sister", "brother")

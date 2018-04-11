@@ -221,8 +221,6 @@ Authors: Gareth James, Daniela Witten, Trevor Hastie and Robert Tibshirani
 - Website: <www.StatLearning.com> or <http://www-bcf.usc.edu/~gareth/ISL/> 
 
 
-
-
 # References and Links
 
 ## Books
@@ -270,4 +268,4 @@ Sebastopol, Canada: O'Reilly Media, Inc.  [Available online at [http://r4ds.had.
 - <http://kbroman.org>
 - <http://www.sharpsightlabs.com/> 
 
-<!-- eof. -->  
+<!-- eof. --> 
