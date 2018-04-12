@@ -1,7 +1,7 @@
 ## r4ds: Chapter 14: Strings
 ## Code for http://r4ds.had.co.nz/strings.html 
 ## hn spds uni.kn
-## 2018 04 09 ------
+## 2018 04 12 ------
 
 ## [see Book chapter 1x: "..."]
 
@@ -1342,6 +1342,27 @@ sentences[str_detect(sentences, numword)] %>%
 
 # 2. Find all contractions. 
 #    Separate out the pieces before and after the apostrophe.
+
+ct <- "\\'"
+has_ct <- str_subset(sentences, ct)
+has_ct
+
+contraction <- "([A-Za-z]+)'([A-Za-z]+)"
+
+sentences %>%
+  `[`(str_detect(sentences, contraction)) %>%
+  str_extract(contraction)
+
+sentences %>%
+  `[`(str_detect(sentences, contraction)) %>%
+  str_match(contraction)
+
+tibble(sentence = sentences) %>% 
+  tidyr::extract(
+    sentence, c("pre", "post"), contraction, 
+    remove = FALSE
+  )
+
 
 
 ## +++ here now +++ ------
