@@ -7,6 +7,7 @@
 
 ## Note: stringr is not part of the core tidyverse. 
 
+
 ## 14.1 Introduction ------
 
 # This chapter introduces you to string manipulation in R:
@@ -29,6 +30,7 @@ library(tidyverse)
 
 # install.packages('stringr') # also installs the (more powerful) stringi package
 library(stringr)
+
 
 ## 14.2 String basics ------ 
 
@@ -421,6 +423,7 @@ str_pad(s, width = 50, side = "both")
 #    Think carefully about what it should do if given a vector of length 0, 1, or 2. 
 
 # yet ToDo
+
 
 
 
@@ -922,6 +925,7 @@ regex <- "(.).*\\1.*\\1"
 str_view(w, regex, match = TRUE) 
 
 
+
 ## 14.4 Tools ------
 
 # Now that you’ve learned the basics of regular expressions, 
@@ -941,7 +945,7 @@ str_view(w, regex, match = TRUE)
 # at http://stackoverflow.com/a/201378 for more details. 
 
 
-## 14.4.1 Detect matches
+## 14.4.1 Detect matches ----- 
 
 # To determine if a character vector matches a pattern, 
 # use str_detect(). 
@@ -1046,7 +1050,7 @@ str_view_all("abababa", "aba")
 # The 2nd function will have the suffix "_all".
 
 
-# 14.4.2 Exercises -----
+## 14.4.2 Exercises -----
 
 # 1. For each of the following challenges, try solving it by using both 
 #    a singleregular expression, and 
@@ -1439,6 +1443,122 @@ w2 <- str_replace_all(words, "^([A-Za-z])(.*)([a-z])$", "\\3\\2\\1")
 intersect(w2, words)
 
 
+
+
+
+## 14.4.6 Splitting ----- 
+
+# Use str_split() to split a string up into pieces. 
+
+## (A) Splitting by pattern: ----
+
+# For example, we could split sentences into words:
+  
+sentences %>%
+  head(5) %>% 
+  str_split(" ")
+
+# As each component might contain a different number of pieces, 
+# str_split() returns a list: 
+
+"a|b|c|d" %>% 
+  str_split("\\|")
+
+# If you’re working with a length-1 vector, 
+# the easiest thing is to just extract the first element of the list:
+
+"a|b|c|d" %>% 
+  str_split("\\|") %>% 
+  .[[1]]
+
+# Otherwise, like the other stringr functions that return a list, 
+# we can use simplify = TRUE to return a matrix:
+
+sentences %>%
+  head(5) %>% 
+  str_split(" ", simplify = TRUE)
+
+# We can also request a maximum number of pieces (columns):
+
+fields <- c("Name: Hadley", "Country: NZ", "Age: 35")
+
+fields %>% 
+  str_split(": ", n = 2, simplify = TRUE)
+
+
+## (B) Splitting by boundary(): ---- 
+
+# Instead of splitting up strings by patterns, 
+# we can also split up by character, line, sentence and word boundary()s:
+
+x <- "This is a sentence.  This is another sentence."
+
+str_view_all(x, boundary("word"))
+str_view_all(x, boundary("sentence"))
+str_view_all(x, boundary("character"))
+
+str_split(x, " ")[[1]]
+str_split(x, boundary("word"))[[1]]
+str_split(x, boundary("sentence"))[[1]]
+
+
+## 14.4.6.1 Exercises -----
+
+# 1. Split up a string like "apples, pears, and bananas" 
+#    into individual components.
+fruit <- c("apples, pears, and bananas")
+
+str_split(fruit, " ")[[1]]               # by pattern
+str_split(fruit, boundary("word"))[[1]]  # by boundary
+
+str_split(fruit, boundary("character"))[[1]] 
+
+
+# 2. Why is it better to split up by boundary("word") than " "?
+# boundary("word") recognizes and ignores punctuation (commas and full stops).
+
+# From https://jrnold.github.io/r4ds-exercise-solutions/strings.html
+# Splitting by boundary("word") is a more sophisticated method 
+# to split a string into words. 
+# It recognizes non-space punctuation that splits words, 
+# and also removes punctuation while retaining internal 
+# non-letter characters that are parts of the word, 
+# e.g., “can’t” 
+
+# See the ICU website for a description of the set of rules 
+# that are used to determine word boundaries.
+
+# Consider this sentence from the official Unicode Report on word boundaries
+# at http://www.unicode.org/reports/tr29/#Word_Boundaries :
+
+sentence <- "The quick (“brown”) fox can’t jump 32.3 feet, right?"
+
+# Splitting the string on spaces will group the punctuation with the words:
+str_split(sentence, " ")[[1]] 
+
+# By contrast, splitting the string using boundary("word") 
+# correctly removes punctuation, 
+# while still not separating “32.2” and “can’t”: 
+str_split(sentence, boundary("word"))[[1]]
+  
+
+# 3. What does splitting with an empty string ("") do? 
+#    Experiment, and then read the documentation.
+str_split(fruit, "")[[1]]  # seems identical to 
+str_split(fruit, boundary("character"))[[1]] 
+
+# It splits the string into individual characters. 
+
+
+## 14.4.7 Find matches -----
+
+# str_locate() and str_locate_all() give you the starting and ending positions
+# of each match. These are particularly useful when none of the other functions
+# does exactly what you want. You can use str_locate() to find the matching
+# pattern, str_sub() to extract and/or modify them.
+
+
+## 14.5 Other types of pattern ------
 
 
 ## +++ here now +++ ------
