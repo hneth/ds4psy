@@ -1,7 +1,7 @@
 ## r4ds: Chapter 14: Strings
 ## Code for http://r4ds.had.co.nz/strings.html 
 ## hn spds uni.kn
-## 2018 04 12 ------
+## 2018 04 13 ------
 
 ## [see Book chapter 1x: "..."]
 
@@ -1362,6 +1362,82 @@ tibble(sentence = sentences) %>%
     sentence, c("pre", "post"), contraction, 
     remove = FALSE
   )
+
+
+## 14.4.5 Replacing matches ----- 
+
+# str_replace() and 
+# str_replace_all() 
+# allow you to replace matches with new strings. 
+
+
+## Simple replacements: 
+
+# The simplest use is to replace a pattern with a fixed string:
+  
+f <- c("apple", "pear", "banana")
+
+str_replace(f, "[aeiou]", "-")
+str_replace_all(f, "[aeiou]", "-")
+
+
+## Multiple replacements:
+
+# With str_replace_all() you can perform multiple replacements 
+# by supplying a named vector:
+  
+x <- c("1 house", "2 cars", "3 people")
+
+str_replace_all(x, c("1" = "one", "2" = "two", "3" = "three"))
+
+
+## Grouping and backreferencing: 
+
+# Instead of replacing with a fixed string 
+# we can use backreferences to insert components of the match. 
+
+# The following code flips the order of the 2nd and 3rd words:
+sentences %>% 
+  str_replace("([^ ]+) ([^ ]+) ([^ ]+)", "\\1 \\3 \\2") %>% 
+  head(8)
+
+
+## 14.4.5.1 Exercises ----- 
+
+# 1. Replace all forward slashes in a string with backslashes.
+
+s <- c("\\/", "\\\\//")
+writeLines(s)
+
+str_replace_all(s, "/", "\\\\") %>% 
+  writeLines
+
+
+# 2. Implement a simple version of str_to_lower() using replace_all().
+
+# The following fails: 
+str_replace_all(sentences, "[A-Z]", "[a-z]")
+
+# explicit solution using multiple replacements: 
+str_replace_all(sentences, c("A"="a", "B"="b", "C"="c", 
+                             "D"="d", "E"="e", "F"="f", 
+                             "G"="g", "H"="h", "I"="i", 
+                             "J"="j", "K"="k", "L"="l", 
+                             "M"="m", "N"="n", "O"="o", 
+                             "P"="p", "Q"="q", "R"="r", 
+                             "S"="s", "T"="t", "U"="u", 
+                             "V"="v", "W"="w", "X"="x", 
+                             "Y"="y", "Z"="z"))
+
+# 3. Switch the first and last letters in words. 
+#    Which of those strings are still words?
+
+w2 <- str_replace_all(words, "^([A-Za-z])(.*)([a-z])$", "\\3\\2\\1")
+
+# Find which elements of the w2 are also in the original words 
+# by using intersect: 
+intersect(w2, words)
+
 
 
 
