@@ -1553,21 +1553,86 @@ str_split(fruit, boundary("character"))[[1]]
 ## 14.4.7 Find matches -----
 
 # str_locate() and str_locate_all() give you the starting and ending positions
-# of each match. These are particularly useful when none of the other functions
-# does exactly what you want. You can use str_locate() to find the matching
+# of each match. 
+
+str_locate(sentences, c("and", "to", "the"))
+str_locate_all(sentences, c("and", "to", "the"))
+
+# These are particularly useful when none of the other functions
+# does exactly what you want. We can use str_locate() to find the matching
 # pattern, str_sub() to extract and/or modify them.
 
 
 ## 14.5 Other types of pattern ------
 
+# When you use a pattern that’s a string, 
+# it’s automatically wrapped into a call to regex():
+  
+# The regular call:
+str_view(fruit, "nana")
+
+# is actually a shorthand for: 
+str_view(fruit, regex("nana"))
+
+# We can use the other arguments of regex() 
+# to control details of the match:
+
+# 1. ignore_case = TRUE 
+# 2. multiline = TRUE 
+# 3. comments = TRUE 
+# 4. dotall = TRUE 
+
+
+# 1. ignore_case = TRUE 
+# allows characters to match either their uppercase or lowercase forms. 
+# This always uses the current locale.
+
+bananas <- c("banana", "Banana", "BANANA")
+str_view(bananas, "banana")
+
+str_view(bananas, regex("banana", ignore_case = TRUE))
+
+# 2. multiline = TRUE 
+# allows ^ and $ to match the start and end of each line 
+# rather than the start and end of the complete string: 
+
+x <- "Line 1\nLine 2\nLine 3"
+writeLines(x)
+
+str_extract_all(x, "^Line")[[1]]
+#> [1] "Line"
+
+str_extract_all(x, regex("^Line", multiline = TRUE))[[1]]
+#> [1] "Line" "Line" "Line"
+
+
+# 3. comments = TRUE 
+# allows using comments and white space to render  
+# complex regular expressions more understandable. 
+# Spaces are ignored, as is everything after #. 
+# To match a literal space, we need to escape it: "\\ ".
+
+phone <- regex("
+               \\(?     # optional opening parens
+               (\\d{3}) # area code
+               [)- ]?   # optional closing parens, dash, or space
+               (\\d{3}) # another three numbers
+               [ -]?    # optional space or dash
+               (\\d{3}) # three more numbers
+               ", comments = TRUE)
+
+str_match("514-791-8141", phone)
+
+# 4. dotall = TRUE 
+# allows . to match everything, including \n.
+
+
+
+
 
 ## +++ here now +++ ------
 
-# [test.quest]: Extract all sentences with family names:
-family <- c("mother", "father", "son$", "daughter", "sister", "brother")
-family_match <- str_c(family, collapse = "|")
-has_family <- str_subset(sentences, family_match)
-has_family 
+
 
 
 
@@ -1577,14 +1642,30 @@ has_family
 
 # See 
 
-## Documentation: 
+## Documentation: ----- 
 
 # stringr Vignettes 
 
 
+## Related tools: -----
+
+# (1) Regular Expressions as used in base R: 
+?regex # see documentation
+
+# (2) glob2rx (from utils package): 
+# Change wildcard (aka. globbing) patterns into the corresponding regular expressions (regexp).
+
+?glob2rx # see documentation
+
+glob2rx("a*z.txt")
+glob2rx("*.Rmd")
+
+
 ## R packages: 
 
-## Web: 
+## Web: Regex cheatsheets 
+
+
 
 ## Ideas for test questions [test.quest]: ------
 
@@ -1595,6 +1676,7 @@ has_family
 library(tidyverse)
 library("stringr")
 w <- stringr::words
+
 
 # [test.quest]: Based on 14.3.4.1, Exercise 3
 
@@ -1613,6 +1695,13 @@ n <- unique(babynames::babynames$name)
 as_tibble(n)
 
 str_view(n, "^Z..$", match = TRUE)
+
+
+# [test.quest]: Extract all sentences with family names:
+family <- c("mother", "father", "son$", "daughter", "sister", "brother")
+family_match <- str_c(family, collapse = "|")
+has_family <- str_subset(sentences, family_match)
+has_family 
 
 
 ## ------
