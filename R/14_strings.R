@@ -8,6 +8,7 @@
 ## Note: stringr is not part of the core tidyverse. 
 
 
+
 ## 14.1 Introduction ------
 
 # This chapter introduces you to string manipulation in R:
@@ -30,6 +31,7 @@ library(tidyverse)
 
 # install.packages('stringr') # also installs the (more powerful) stringi package
 library(stringr)
+
 
 
 ## 14.2 String basics ------ 
@@ -1569,10 +1571,11 @@ str_locate_all(sentences, c("and", "to", "the"))
 # it’s automatically wrapped into a call to regex():
   
 # The regular call:
-str_view(fruit, "nana")
-
+str_view(fruit, "nana") 
 # is actually a shorthand for: 
 str_view(fruit, regex("nana"))
+
+## (1) regex() and its arguments: ---- 
 
 # We can use the other arguments of regex() 
 # to control details of the match:
@@ -1626,7 +1629,236 @@ str_match("514-791-8141", phone)
 # 4. dotall = TRUE 
 # allows . to match everything, including \n.
 
+## (2) Alternatives to regex(): ---- 
 
+# There are 3 other functions you can use instead of regex():
+
+# 1. fixed():
+# 2. coll():
+
+
+# 1. fixed() matches exactly the specified sequence of bytes. 
+# It ignores all special regular expressions and operates at a low level. 
+
+# This allows you to avoid complex escaping and 
+# can be much faster than regular expressions. 
+
+# The following microbenchmark shows that it’s 
+# about 3x faster for a simple example:
+
+# install.packages("microbenchmark")
+# library("microbenchmark")
+
+microbenchmark::microbenchmark(
+  regex = str_detect(sentences, "the"),
+  fixed = str_detect(sentences, fixed("the")),
+  times = 100
+)
+
+# Beware using fixed() with non-English data. 
+
+# It is problematic because there are often multiple ways 
+# of representing the same character. 
+
+# For example, there are 2 ways to define “á”: 
+# - either as a single character or 
+# - as an “a” plus an accent:
+
+a1 <- "\u00e1"
+a2 <- "a\u0301"
+
+c(a1, a2) # look the same, but 
+a1 == a2  # => FALSE
+
+# They render identically, but because they’re defined differently, 
+# fixed() doesn’t find a match:
+
+str_detect(a1, fixed(a2))
+
+# Instead, we can use coll(), defined next, 
+# to respect human character comparison rules:
+
+str_detect(a1, coll(a2))
+
+
+# 2. coll(): compare strings using standard collation rules. 
+
+# This is useful for doing case insensitive matching. 
+
+# Note that coll() takes a locale parameter that controls which rules are used
+# for comparing characters. Unfortunately different parts of the world use
+# different rules!
+  
+# That means you also need to be aware of the difference
+# when doing case insensitive matches:
+i <- c("I", "İ", "i", "ı")
+i  
+
+str_subset(i, coll("i", ignore_case = TRUE))
+str_subset(i, coll("i", ignore_case = TRUE, locale = "tr"))
+
+# Both fixed() and regex() have ignore_case arguments, 
+# but they do not allow you to pick the locale: 
+# they always use the default locale. 
+
+# You can see what that is with the following code; 
+# (more on stringi later).
+
+stringi::stri_locale_info()
+
+# The downside of coll() is speed; 
+# As the rules for recognising which characters are the same 
+# are complicated, coll() is relatively slow compared to 
+# regex() and fixed().
+
+# As you saw with str_split() you can use boundary() 
+# to match boundaries. You can also use it with the other functions:
+
+# 3. boundary()
+
+x <- "This is a sentence."
+
+str_view_all(x, boundary("word"))
+str_extract_all(x, boundary("word"))
+
+
+## 14.5.1 Exercises -----
+
+# 1. How would you find all strings containing \ 
+#    with regex() vs. with fixed()?
+
+s <- c("asdf", "\\", "\\/", "\\/\\/", "xyz")
+writeLines(s)
+
+str_view_all(s, regex("\\\\"))
+str_view_all(s, fixed("\\"))
+
+microbenchmark::microbenchmark(
+  regex = str_detect(s, regex("\\\\")),
+  fixed = str_detect(s, fixed("\\")),
+  times = 1000
+)
+
+
+# 2. What are the 5 most common words in sentences? 
+
+wordlists <- str_extract_all(sentences, boundary("word"))
+allwords <- str_to_lower(unlist(wordlists))
+
+twords <- tibble(allwords)
+# dim(twords)
+names(twords) <- "word"
+
+twords %>%
+  group_by(word) %>%
+  count() %>%
+  arrange(desc(n))
+
+# 1-pipe solution by 
+# https://jrnold.github.io/r4ds-exercise-solutions/strings.html#other-types-of-patterns 
+
+str_extract_all(sentences, boundary("word")) %>%
+  unlist() %>%
+  str_to_lower() %>%
+  tibble() %>%
+  set_names("word") %>%
+  group_by(word) %>%
+  count(sort = TRUE) %>%
+  head(10)  
+
+# [test.quest]: Analog: Most frequent word in some song lyrics.
+
+
+## 14.6 Other uses of regular expressions ------
+
+# There are 2 useful functions in base R 
+# that also use regular expressions:
+
+# 1. apropos() 
+# 2. dir()
+
+## Details: 
+
+# 1. apropos() searches all objects available 
+# from the global environment. 
+# This is useful if you can’t quite remember 
+# the name of the function: 
+
+apropos("replace")
+
+# 2. dir() lists all the files in a directory. 
+# The pattern argument takes a regular expression 
+# and only returns file names that match the pattern. 
+
+# For example, you can find all the R Markdown files 
+# in the current directory with:
+head(dir(pattern = "\\.Rmd$"))
+
+# (If you’re more comfortable with “globs” like *.Rmd, 
+# you can convert them to regular expressions with glob2rx()):
+
+glob2rx("*.Rmd")
+glob2rx("*.Rmd", trim.head = TRUE)
+
+
+
+## 14.7 stringi ------
+
+# stringr is built on top of the stringi package. 
+
+# stringr is useful when you’re learning because 
+# it exposes a minimal set of functions, 
+# which have been carefully picked to handle 
+# the most common string manipulation functions. 
+
+# stringi, on the other hand, is designed to be 
+# comprehensive. It contains almost every function 
+# you might ever need: stringi has 232 functions to stringr’s 43.
+
+# If you find yourself struggling to do something in stringr, 
+# it’s worth taking a look at stringi. 
+
+# The packages work very similar, 
+# so you should be able to translate your stringr knowledge 
+# in a natural way. 
+# The main difference is the prefix: str_ vs. stri_.
+
+
+## 14.7.1 Exercises ----- 
+
+library(stringi)
+
+# 1. Find the stringi functions that:
+#    a. Count the number of words.
+#    b. Find duplicated strings.
+#    c. Generate random text.
+
+#    a. Count the number of words.
+test <- "The\u00a0above-mentioned    features are very useful. Warm thanks to their developers."
+
+stri_count_boundaries(test, type="word")
+stri_count_words(test)  # seems more accurate
+
+#    b. Find duplicated strings.
+words <- str_extract_all(sentences, boundary("word")) %>%
+  unlist() %>%
+  str_to_lower() 
+
+stri_duplicated(words)
+
+#    c. Generate random text:
+# 1. random strings:
+# stri_rand_strings(n, length, pattern = "[A-Za-z0-9]")
+stri_rand_strings(10, 25)
+
+# 2. random paragraphs:
+# stri_rand_lipsum(nparagraphs, start_lipsum = TRUE)
+stri_rand_lipsum(3)
+
+
+# 2. How do you control the language that stri_sort() uses for sorting?
+?stri_sort
+# By setting the locale argument to the opts_collator argument.
 
 
 
@@ -1634,20 +1866,17 @@ str_match("514-791-8141", phone)
 
 
 
-
-
-
-
 ## Appendix ------
 
-# See 
+## Web: Regex cheatsheets: 
+#  https://www.rstudio.com/wp-content/uploads/2016/09/RegExCheatsheet.pdf
 
 ## Documentation: ----- 
 
-# stringr Vignettes 
+# Vignettes of R packages: 
+library("stringi", "stringr")
 
-
-## Related tools: -----
+## Related tools:
 
 # (1) Regular Expressions as used in base R: 
 ?regex # see documentation
@@ -1659,12 +1888,6 @@ str_match("514-791-8141", phone)
 
 glob2rx("a*z.txt")
 glob2rx("*.Rmd")
-
-
-## R packages: 
-
-## Web: Regex cheatsheets 
-
 
 
 ## Ideas for test questions [test.quest]: ------
@@ -1689,7 +1912,6 @@ regex <- "([aeiou][^aeiou]){4}"
 str_view(w, regex, match = TRUE) # => "original"
 
 
-
 # [test.quest]: Baby name, 3 letters, starting with letter "Z"?
 n <- unique(babynames::babynames$name)
 as_tibble(n)
@@ -1702,6 +1924,10 @@ family <- c("mother", "father", "son$", "daughter", "sister", "brother")
 family_match <- str_c(family, collapse = "|")
 has_family <- str_subset(sentences, family_match)
 has_family 
+
+
+# [test.quest]: Analog to 14.5.1: Exercise 2
+# Most frequent word in some song lyrics.
 
 
 ## ------
