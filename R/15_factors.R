@@ -259,6 +259,183 @@ gss_cat %>%
 # are described in the sections below.
 
 
+## 15.4 Modifying factor order ------
+
+# It’s often useful to change the order of the factor levels in a visualisation.
+# For example, imagine you want to explore the average number of hours spent
+# watching TV per day across religions:
+  
+relig_summary <- gss_cat %>%
+  group_by(relig) %>%
+  summarise(
+    age = mean(age, na.rm = TRUE),
+    tvhours = mean(tvhours, na.rm = TRUE),
+    n = n()
+  )
+
+ggplot(relig_summary, aes(tvhours, relig)) + 
+  geom_point() + theme_light()
+
+# It is difficult to interpret this plot because there’s no overall pattern. 
+
+# We can improve it by reordering the levels of relig using fct_reorder().
+
+## (A) fct_reorder(): ----
+
+# fct_reorder() takes three arguments:
+# 1. f, the factor whose levels you want to modify.
+# 2. x, a numeric vector that you want to use to reorder the levels.
+# 3. Optionally, fun, a function that’s used if there are multiple values of 
+#    x for each value of f. The default value of fun is median.
+
+ggplot(relig_summary, aes(tvhours, fct_reorder(f = relig, x = tvhours))) +
+  geom_point() + theme_light()
+
+# Reordering religion makes it much easier to see that people in the 
+# “Don’t know” category watch much more TV, and Hinduism & 
+# Other Eastern religions watch much less.
+
+# As you start making more complicated transformations, 
+# I’d recommend moving them out of aes() and 
+# into a separate mutate() step. 
+# For example, you could rewrite the plot above as:
+  
+relig_summary %>%
+  mutate(relig = fct_reorder(relig, tvhours)) %>%  # new mutate step!
+  ggplot(aes(tvhours, relig)) +
+  geom_point() + theme_light()
+
+# Let's create a similar plot showing how average age 
+# varies across reported income level:
+
+rincome_summary <- gss_cat %>%
+  group_by(rincome) %>%
+  summarise(
+    age = mean(age, na.rm = TRUE),
+    tvhours = mean(tvhours, na.rm = TRUE),
+    n = n()
+  )
+
+ggplot(rincome_summary, aes(age, fct_reorder(rincome, age))) + 
+  geom_point() + theme_light()
+
+# OR (with separate mutate step): 
+rincome_summary %>%
+  mutate(rincome = fct_reorder(rincome, age)) %>%  # new mutate step!
+  ggplot(aes(age, rincome)) + 
+  geom_point() + theme_light()
+
+# Here, arbitrarily reordering the levels isn’t a good idea! 
+# That’s because rincome already has a principled order 
+# that we shouldn’t mess with. 
+# Reserve fct_reorder() for factors whose levels are arbitrarily ordered.
+
+## (B) fct_relevel(): ----
+
+# However, it does make sense to pull the “Not applicable” category  
+# to the front with the other special levels. 
+
+# We can use fct_relevel(). 
+# It takes a factor, f, and then any number of levels 
+# that we want to move to the front of the line:
+
+levels(rincome_summary$rincome)
+
+ggplot(rincome_summary, aes(age, fct_relevel(rincome, "Not applicable"))) + 
+  geom_point() + theme_light()
+
+# Why do you think the average age for “Not applicable” is so high?
+
+## (C) fct_reorder2(): ----
+
+# Another type of reordering is useful when you are colouring 
+# the lines on a plot. 
+# fct_reorder2() reorders the factor by the y values 
+# associated with the largest x values. 
+# This makes the plot easier to read because line colours line up with the legend: 
+
+by_age <- gss_cat %>%
+  filter(!is.na(age)) %>%
+  group_by(age, marital) %>%
+  count() %>%
+  # mutate(prop = (n / sum(n)))  # ERROR: yields 1 for all prop
+  mutate(prop = (n / 21407))     # hack fix
+
+sum(by_age$n) # => 21407         # hack fix
+by_age
+
+# Default: Group colored lines by marital:
+ggplot(by_age, aes(age, prop, colour = marital)) +
+  geom_line(na.rm = TRUE) + theme_light()
+
+# with fact_reorder2():
+ggplot(by_age, aes(age, prop, colour = fct_reorder2(marital, age, prop))) +
+  geom_line() +
+  labs(colour = "marital") + theme_light()
+
+## (D) fct_infreq() and fct_rev(): ----
+
+# For bar plots, you can use fct_infreq() 
+# to order levels in increasing frequency: 
+
+# This is the simplest type of reordering 
+# because it doesn’t need any extra variables. 
+# You may want to combine with fct_rev().
+
+gss_cat %>%
+mutate(marital = marital %>% fct_infreq() %>% fct_rev()) %>%
+  ggplot(aes(marital)) +
+  geom_bar() + theme_light()
+
+# without fct_rev():
+gss_cat %>%
+  mutate(marital = marital %>% fct_infreq()) %>% # fct_rev()) %>%
+  ggplot(aes(marital)) +
+  geom_bar() + theme_light()
+
+
+## 15.4.1 Exercises -----
+
+# 1. There are some suspiciously high numbers in tvhours. 
+#    Is the mean a good summary?
+
+gss_cat %>%
+  group_by(tvhours) %>%
+  count() %>%
+  arrange(desc(n))
+
+# Check distribution:
+gss_cat %>%
+  filter(!is.na(tvhours)) %>%
+  ggplot(aes(x = tvhours)) +
+  geom_histogram(binwidth = .5)
+
+# Distribution looks skewed.  
+
+# Alternative 1: Use median instead!
+# Above example when using median:
+
+relig_tv <- gss_cat %>%
+  group_by(relig) %>%
+  summarise(
+    age = mean(age, na.rm = TRUE),
+    tvhours = median(tvhours, na.rm = TRUE),
+    n = n()
+  )
+
+relig_tv %>%
+  mutate(relig = fct_reorder(relig, tvhours)) %>%  # new mutate step!
+  ggplot(aes(tvhours, relig)) +
+  geom_point(aes(size = n)) + theme_light()
+
+# Alternative 2: Rescale tvhours via log_transformation.
+
+   
+# 2. For each factor in gss_cat identify whether the order of the levels is arbitrary or principled.
+ 
+# 3. Why did moving “Not applicable” to the front of the levels move it to the bottom of the plot?
+
+
 ## +++ here now +++ ------
 
 
