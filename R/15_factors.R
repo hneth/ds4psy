@@ -115,10 +115,148 @@ forcats::gss_cat
 # independent research organization NORC at the University of Chicago.
 # http://gss.norc.org/
 
+## Check data: ----
+
 gss_cat
 glimpse(gss_cat)
-
 ?gss_cat # provides info on package data
+
+## Explore data: ----
+
+# When factors are stored in a tibble, 
+# you can’t see their levels so easily. 
+# One way to see them is with count():
+
+gss_cat %>% count(race)
+gss_cat %>% count(marital)
+gss_cat %>% count(rincome)
+
+# Or with a bar chart:
+  
+ggplot(gss_cat, aes(race)) +
+  geom_bar()
+
+ggplot(gss_cat, aes(marital)) +
+  geom_bar()
+
+# By default, ggplot2 will drop levels that don’t have any values. 
+# We can force them to display with:
+
+ggplot(gss_cat, aes(race)) +
+  geom_bar() +
+  scale_x_discrete(drop = FALSE)
+
+ggplot(gss_cat, aes(marital)) +
+  geom_bar() +
+  scale_x_discrete(drop = FALSE)
+
+# These levels represent valid values that simply did not occur in this dataset. 
+# Unfortunately, dplyr doesn’t yet have a drop option, but it will in the future.
+
+
+## 15.3.1 Exercise -----
+
+# 1. Explore the distribution of rincome (reported income). 
+#    What makes the default bar chart hard to understand? 
+#    How could you improve the plot?
+
+ggplot(gss_cat, aes(rincome)) +
+  geom_bar() 
+
+# Problems: 
+# x-axis labels are hard to read (thus: rotate by 90 degrees)
+# and add color info:
+
+# Prettier version:
+ggplot(gss_cat, aes(rincome, fill = rincome)) +
+  geom_bar() +
+  scale_fill_hue(h = c(100, 300)) + 
+  theme_light() +
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1))
+
+# Alternatively, flip the plot to display labels horizontally:
+ggplot(gss_cat, aes(rincome, fill = rincome)) +
+  geom_bar() +
+  scale_fill_hue(h = c(100, 300)) + 
+  theme_light() +
+  coord_flip()
+
+# Still suboptimal:
+# - Order of factor levels should be changed: 
+# - scale should be reversed
+# - group all missing factor levels together
+levels(gss_cat$rincome)
+
+
+# 2. What is the most common relig in this survey? 
+#    What’s the most common partyid?
+
+# relig: 
+gss_cat %>% count(relig) %>% arrange(desc(n))
+
+ggplot(gss_cat, aes(relig, fill = relig)) +
+  geom_bar() +
+  # scale_fill_hue(h = c(200, 300)) + 
+  theme_light() +
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1))
+
+# => The most common relig is "Protestant".
+
+# partyid: 
+gss_cat %>% count(partyid) %>% arrange(desc(n))
+
+ggplot(gss_cat, aes(partyid, fill = partyid)) +
+  geom_bar() +
+  # scale_fill_hue(h = c(200, 300)) + 
+  theme_light() +
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1))
+
+# => The most common partyid is "Independent".   
+
+# 3. Which relig does denom (denomination) apply to? 
+#    How can you find out with a table? 
+#    How can you find out with a visualisation?
+
+gss_cat %>% 
+  # filter(relig == "Protestant") %>%
+  group_by(relig, denom) %>%
+  summarise(n = n(),
+            non_NA = sum(!is.na(denom))) %>%
+  arrange(desc(n)) %>%
+  head(20)
+
+# denom further categorizes relig == "Protestant".
+
+# Alternative ways of showing this from: 
+# https://jrnold.github.io/r4ds-exercise-solutions/factors.html#exercise-4-21 
+
+# 1. Let’s filter out the non-responses, no answers, others, 
+#    not-applicable, or no denomination, 
+# to leave only answers to denominations. 
+# After doing that, the only remaining responses are “Protestant”.
+
+gss_cat %>%
+  filter(!denom %in% c("No answer", "Other", "Don't know", "Not applicable",
+                       "No denomination")) %>%
+  count(relig)
+
+# 2. This is also clear in a scatter plot of relig vs. denom 
+#    in which points are proportional to the size of the number of answers 
+#    (since otherwise there would be overplotting).
+
+gss_cat %>%
+  count(relig, denom) %>%
+  ggplot(aes(x = relig, y = denom, size = n)) +
+  geom_point(color = "steelblue") +
+  theme_light() + 
+  theme(axis.text.x = element_text(angle = 90))
+
+
+## Working with factors:
+  
+# When working with factors, the two most common operations are changing the
+# order of the levels, and changing the values of the levels. Those operations
+# are described in the sections below.
 
 
 ## +++ here now +++ ------
