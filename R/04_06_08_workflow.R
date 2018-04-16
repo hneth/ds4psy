@@ -87,7 +87,6 @@ library(tidyverse) # works, but should probably be
 library('tidyverse')
 
 # ad (a)
-
 ggplot(dota = mpg) + 
   geom_point(mapping = aes(x = displ, y = hwy))
 
@@ -118,17 +117,14 @@ filter(diamonds, carat > 3)  # works!
 # via Help > Keyboard Shortcuts Help 
 
 
-
-# +++ here now ------ 
-
-
-
 ## Chapter 6: Workflow: scripts -------
 
 # See http://r4ds.had.co.nz/workflow-scripts.html
 
+# +++ here now ------ 
 
-## Workflow: projects 
+
+## Chapter 8: Workflow: projects ------ 
 
 # See http://r4ds.had.co.nz/workflow-projects.html
 
