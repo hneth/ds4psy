@@ -3,11 +3,11 @@
 ## hn spds uni.kn
 ## 2018 04 16 ------
 
+
 ## Chapter 2: Introduction -------
 
 # Read http://r4ds.had.co.nz/explore-intro.html 
-
-
+# Ok. 
 
 ## Chapter 4: Workflow: basics -------
 
@@ -117,17 +117,68 @@ filter(diamonds, carat > 3)  # works!
 # via Help > Keyboard Shortcuts Help 
 
 
+
+
 ## Chapter 6: Workflow: scripts -------
 
 # See http://r4ds.had.co.nz/workflow-scripts.html
 
-# +++ here now ------ 
+# RStudio IDE: Distinguish between different panels/windows: 
+# - Editor (for scripts)
+# - Console (for evaluation results)
+# - Output (e.g., plots)
+# - Environment (History, Files, Packages, Help, etc.)
+
+## 6.1 Running code -----
+
+# Place cursor and run code via Cmd/Ctrl + Enter:
+
+# load packages: 
+library(dplyr)
+library(nycflights13)
+
+# Run code 1:
+not_cancelled <- flights %>% 
+  filter(!is.na(dep_delay), !is.na(arr_delay))
+
+# Run code 2:
+not_cancelled %>% 
+  group_by(year, month, day) %>% 
+  summarise(mean = mean(dep_delay))
+
+# Observe how cursor iteratively jumps to the next code block... 
+
+## 6.2 RStudio diagnostics ------
+
+# The script editor will also highlight syntax errors with a red squiggly line
+# and a cross in the sidebar:
+x y <- 10 
+
+# Hover over the cross or red line to see what the problem is.
+
+# RStudio will also lets us know about potential problems:
+3 == NA
+
+
+## 6.3 Practice -----
+
+# 1. Go to the RStudio Tips twitter account, 
+# https://twitter.com/rstudiotips 
+# and find one tip that looks interesting. 
+# Practice using it! Ok... 
+  
+# 2. What other common mistakes will RStudio diagnostics report? 
+# Read https://support.rstudio.com/hc/en-us/articles/205753617-Code-Diagnostics 
+# to find out.  Ok...
+
+
 
 
 ## Chapter 8: Workflow: projects ------ 
 
 # See http://r4ds.had.co.nz/workflow-projects.html
 
+# +++ here now ------ 
 
 ## ------
 ## eof.
