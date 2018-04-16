@@ -81,7 +81,9 @@ Part 2: Wrangle
 
 1. [Chapter 13: Relational data](http://r4ds.had.co.nz/relational-data.html): `dplyr`.
 
-1. [Chapter 14: Strings](http://r4ds.had.co.nz/strings.html): `stringr`.
+1. [Chapter 14: Strings](http://r4ds.had.co.nz/strings.html): `stringr`. 
+
+1. [Chapter 15: Factors](http://r4ds.had.co.nz/factors.html): `forcats`. 
 
 
 1. Mid-term test
@@ -102,12 +104,12 @@ Part 2: Wrangle
  6. 21.05.2018: [Chapter 11: Data import](http://r4ds.had.co.nz/data-import.html): `readr`. 
  7. 28.05.2018: [Chapter 12: Tidy data](http://r4ds.had.co.nz/tidy-data.html): `tidyr`. 
  8. 04.06.2018: [Chapter 13: Relational data](http://r4ds.had.co.nz/relational-data.html): `dplyr`.
- 9. 11.06.2018: (On ABC retreat.)
+ 9. 11.06.2018: (On ABC research meeting.)
 10. 18.06.2018: [Chapter 14: Strings](http://r4ds.had.co.nz/strings.html): `stringr`.
-11. 25.06.2018:
-12. 02.07.2018:
-13. 09.07.2018:
-14. 16.07.2018: (Hiking.)
+11. 25.06.2018: [Chapter 15: Factors](http://r4ds.had.co.nz/factors.html): `forcats`.
+12. 02.07.2018: 
+13. 09.07.2018: 
+14. 16.07.2018: (not in Kn.)
 
 # Course Description
 
@@ -165,25 +167,45 @@ This course assumes some basic familiarity with statistics and the [R](http://ww
 
 Weekly exercises, mid-term test, and/or final project (which may be thesis-related).
 
+Vote on 2 options:
 
-## Miscellaneous Hints
+1. 2 tests (mid-term and final): each 90 minutes, open book)
+2. 1 test (mid-term) and final data science project (discussed with instructor, due 2018-08-15)
 
-### How to succeed in this course
 
-The recipe for succeeding in this course is very similar to succeeding in life in general. 
-To become proficient in R, you primarily need two things: curiosity and routine.
+## Assumptions and Structure
+
+### Premises
+
+This course assumes that you are motivated to learn its material and willing and able to invest the effort and time required to do so. Ideally, you could work through the textbook by yourself, but the instructor and other classmates provide guidance, ask and answer questions, and allow you to continuously check your understanding and your progress. 
+
+### Structure of each week and class
+
+- Before class: 
+    - read the chapter
+    - prepare a `.Rmd` script that includes all chapter code 
+
+- During class: 
+    - ask questions (plenary)
+    - work through exercises (in random dyads/triples) 
+
+### Succeeding in this course
+
+<!-- The recipe for succeeding in this course is very similar to succeeding in life in general. -->
+
+Becoming proficient in data science requires two things: curiosity and routine.
 
 1. Curiosity implies motivation, stamina, and fun: 
 You want to achieve something (e.g., make a graph) and willing to find out how this can be done, and overcome various obstacles that may appear along the way. Curiosity will allow you to enjoy the efforts invested, rather than removing them. 
 
-2. Routine implies habits, discipline, and lots of practice (i.e., time). Crucially, habitual use of R implies that you develop many organizational skills (e.g., how to name objects, format code, and structure files) that are non-trivial. 
+2. Routine implies habits, discipline, and lots of practice (i.e., time). Crucially, habitual use of data science tools implies that you develop various organizational skills (e.g., how to name objects, format code, and structure files) that are non-trivial. 
 
 
 ### Warning 
 
 Beware of side effects: Becoming a useR will profoundly transform your thinking --- not just about code, but about the data and problems you are analyzing or visualizing.
 
-Programming (in R or any other language) can be enjoyable, but also has addictive potential. Make sure to take regular breaks and also engage in other activities!
+Programming (in R or any other language) can be enjoyable, but also has addictive potential. Make sure to take regular breaks and think about the questions behind and beyond data science tools.
 
 
 # Links
