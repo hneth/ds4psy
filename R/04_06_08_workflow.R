@@ -1,0 +1,137 @@
+## r4ds: Chapters 4, 6, 8:  
+## Code for workflow chapters of http://r4ds.had.co.nz/ 
+## hn spds uni.kn
+## 2018 04 16 ------
+
+## Chapter 2: Introduction -------
+
+# Read http://r4ds.had.co.nz/explore-intro.html 
+
+
+
+## Chapter 4: Workflow: basics -------
+
+# See http://r4ds.had.co.nz/workflow-basics.html
+
+## 4.1 Coding basics -----
+
+1 / 200 * 30 + 1 
+#> [1] 1.15
+
+(59 + 73 + 2) / 3
+#> [1] 44.66667
+
+sin(pi / 2)
+#> [1] 1
+
+## Creating objects by assignment: -----
+
+# All R statements where you create objects, assignment statements, 
+# have the same form:
+#   object_name <- value
+# When reading that code say “object name gets value” in your head.
+
+# Examples of creating new objects: 
+x <- 3 * 4
+y <- 8 - 5
+
+x      # => 12
+y      # =>  3
+x * y  # => 36
+
+## 4.2 What’s in a name? -----
+
+# Let's use descriptive variable names in snake_case to name new objects:
+sum_x_y <- (x + y)
+
+r_power <- 2 ^ 3
+
+# Distinguish between: 
+r_power   # => 8
+R_powder  # => ERROR: object not found
+R_power   # => ERROR (as R is case-sensitive)
+
+
+## 4.3 Calling functions -----
+
+# R has a large collection of built-in functions that are called like this:
+# function_name(arg1 = val1, arg2 = val2, ...)
+
+## Examples:
+
+seq(1, 10)  # is short for: 
+seq(from = 1, to = 10)
+
+# Note: 
+?seq  # shows help page for function seq()
+
+y <- seq(1, 10, length.out = 5)
+y
+
+# Note: 
+# Contents of y (and other objects) are shown in Environment pane of RStudio.
+
+
+## 4.4 Practice ------
+
+# 1. Why does this code not work?
+  
+my_variable <- 10
+my_varıable
+
+# Answer: The letter "i" is spelled differently (as "ı", i.e., without dot).
+#         Thus, the dot-less object is not found by R.
+
+# 2. Tweak each of the following R commands so that they run correctly:
+library(tidyverse) # works, but should probably be
+library('tidyverse')
+
+# ad (a)
+
+ggplot(dota = mpg) + 
+  geom_point(mapping = aes(x = displ, y = hwy))
+
+# Error: ... argument "data" is missing, with no default
+# => Change "dota" into "data": 
+ggplot(data = mpg) + 
+  geom_point(mapping = aes(x = displ, y = hwy))
+
+# ad (b)
+fliter(mpg, cyl = 8)   # Error: could not find function "fliter"
+# => Change "fliter" into "filter": 
+filter(mpg, cyl = 8)   # Error: `cyl` (`cyl = 8`) must not be named, do you need `==`? 
+# => Change "=" into "==": 
+filter(mpg, cyl == 8)  # works!
+
+# ad (c)
+filter(diamond, carat > 3)   # Error in filter(diamond, carat > 3) : object 'diamond' not found.
+# Start typing 
+# ?diam... completes into "diamonds":
+filter(diamonds, carat > 3)  # works!
+
+# 3. Press Alt + Shift + K. 
+
+# What happens? 
+# Answer: We see a list of keyboard shortcuts of RStudio.
+
+# How can you get to the same place using the menus?
+# via Help > Keyboard Shortcuts Help 
+
+
+
+# +++ here now ------ 
+
+
+
+## Chapter 6: Workflow: scripts -------
+
+# See http://r4ds.had.co.nz/workflow-scripts.html
+
+
+## Workflow: projects 
+
+# See http://r4ds.had.co.nz/workflow-projects.html
+
+
+## ------
+## eof.
