@@ -1,7 +1,7 @@
 ## r4ds: Chapter 3: Data visualisation 
 ## Code for http://r4ds.had.co.nz/data-visualisation.html
 ## hn spds uni.kn
-## 2018 03 09 ------
+## 2018 04 18 ------
 
 ## Quotes: ------
 
@@ -19,15 +19,13 @@
 ## See ggplot cheatsheet at https://www.rstudio.com/resources/cheatsheets/ : 
 ##     https://github.com/rstudio/cheatsheets/raw/master/data-visualization-2.1.pdf 
 
-
 ## Prerequisites:
 # install.packages("tidyverse")  # once
 library(tidyverse)               # always
 
 ## Note: Use "::", e.g., 
-## package::function() 
-## to explicilty use function() from package "package".
-
+## pack::func() 
+## to explicilty use a function "func()" from package "pack".
 
 
 ## 3.2 First steps: ------
@@ -57,6 +55,13 @@ ggplot(data = mpg) +                             # specify data set to use
 ## ggplot(data = <DATA>) + 
 ##  <GEOM_FUNCTION>(mapping = aes(<MAPPINGS>))
 
+# Beware of shorter and alternative versions:
+ggplot(mpg) +
+  geom_point(aes(x = displ, y = hwy)) 
+
+ggplot(mpg, aes(x = displ, y = hwy)) +
+  geom_point() 
+
 
 ## 3.2.4 Exercises: ------
 
@@ -64,6 +69,7 @@ ggplot(data = mpg) +                             # specify data set to use
 ggplot(data = mpg)
 
 # 2. How many rows are in mpg? How many columns?
+mpg
 dim(mpg)
 
 # 3. What does the drv variable describe? Read the help for ?mpg to find out.
@@ -78,11 +84,24 @@ ggplot(data = mpg) +
 ggplot(data = mpg) +                            
   geom_point(mapping = aes(x = hwy, y = cyl))
 
-# 5. What happens if you make a scatterplot of class vs drv? Why is the plot not useful?
-table(mpg$class)
+# 5. What happens if you make a scatterplot of class vs drv? 
+#    Why is the plot not useful?
 
 ggplot(data = mpg) +                            
   geom_point(mapping = aes(x = class, y = drv))
+
+# Why is the plot not useful?
+# Overplotting (as both variables are categorical and have multiple instances): 
+table(mpg$class, mpg$drv)
+
+# Advanced solution: 
+# Count frequency and use size to show it in graph:
+mpg %>%
+  group_by(class, drv) %>%
+  count %>%
+  ggplot() +                            
+  geom_point(mapping = aes(x = class, y = drv, size = n), color = "steelblue") + 
+  theme_light()
 
 
 
@@ -135,7 +154,7 @@ ggplot(data = mpg) +
 ggplot(data = mpg) + 
   geom_point(mapping = aes(x = displ, y = hwy, color = "blue"))
 
-# the color = "blue" argument needs to be outside of aes():
+# Answer: The color = "blue" argument needs to be outside of aes():
 
 ggplot(data = mpg) + 
   geom_point(mapping = aes(x = displ, y = hwy), color = "blue")
@@ -143,7 +162,6 @@ ggplot(data = mpg) +
 # 2. Which variables in mpg are categorical? Which variables are continuous? 
 #   (Hint: type ?mpg to read the documentation for the dataset). 
 #   How can you see this information when you run mpg?
-
 ?mpg
 mpg
 
@@ -187,7 +205,7 @@ ggplot(data = mpg) +
 
 
 
-## 3.4 Common problems: ------
+## 3.4 Common problems ------
 
 # One common problem when creating ggplot2 graphics is to put the + in the wrong place: 
 # it has to come at the end of the line, not the start. 
@@ -203,7 +221,7 @@ ggplot(data = mpg)   # won't work:
 
 
 
-## 3.5 Facets: ------ 
+## 3.5 Facets ------ 
 
 ## Facets are 
 ## := subplots that display different subsets of the data.
@@ -323,9 +341,7 @@ ggplot(data = mpg) +
   theme_light()
 
 
-
-
-## 3.6 Geometric objects: ------
+## 3.6 Geometric objects (geoms) ------
 
 ## Same plot with different geoms:
 
@@ -535,7 +551,7 @@ ggplot(data = mpg) +
   geom_point(mapping = aes(x = displ, y = hwy, fill = drv), shape = 21, size = 3, color = "white", stroke = 1.5)
 
 
-## 3.7 Statistical transformations: ------ 
+## 3.7 Statistical transformations ------ 
 
 ## The diamonds data set: 
 head(diamonds)
@@ -687,7 +703,7 @@ ggplot(data = diamonds) +
 
 
 
-## 3.8 Position adjustments: ------ 
+## 3.8 Position adjustments ------ 
 
 ## There’s one more piece of magic associated with bar charts. 
 ## You can colour a bar chart using either the colour aesthetic, 
@@ -840,7 +856,7 @@ ggplot(data = mpg) +
 
 
 
-## 3.9 Coordinate systems: ------ 
+## 3.9 Coordinate systems ------ 
 
 ## Coordinate systems are probably the most complicated part of ggplot2. 
 ## The default coordinate system is the Cartesian coordinate system [test.quest]
@@ -1048,7 +1064,7 @@ ggplot(data = mpg, mapping = aes(x = cty, y = hwy)) +
 
 
 
-## 3.10 The layered grammar of graphics: ------ 
+## 3.10 The layered grammar of graphics ------ 
 
 ## +++ here now +++
 
@@ -1062,6 +1078,7 @@ ggplot(data = mpg, mapping = aes(x = cty, y = hwy)) +
 #   ) +
 #   <COORDINATE_FUNCTION> +
 #   <FACET_FUNCTION>
+
 
 
 
@@ -1088,6 +1105,10 @@ ggplot(data = mpg, mapping = aes(x = cty, y = hwy)) +
 ## Others:
 
 # - See ggplot2 cheatsheet at https://www.rstudio.com/resources/cheatsheets/
+
+# - R graph catalog: A shiny app showing 100+ ggplot graphs + code: 
+#   http://shiny.stat.ubc.ca/r-graph-catalog/ 
+#   A complement to “Creating More Effective Graphs” by Naomi Robbins.
 
 # - ggplot2 extensions: https://www.ggplot2-exts.org
 #   Notable extenstions include: cowplot, ggmosaic. 
