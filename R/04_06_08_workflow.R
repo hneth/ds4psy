@@ -4,10 +4,12 @@
 ## 2018 04 16 ------
 
 
+
 ## Chapter 2: Introduction -------
 
 # Read http://r4ds.had.co.nz/explore-intro.html 
 # Ok. 
+
 
 ## Chapter 4: Workflow: basics -------
 
@@ -47,9 +49,9 @@ sum_x_y <- (x + y)
 r_power <- 2 ^ 3
 
 # Distinguish between: 
-r_power   # => 8
-R_powder  # => ERROR: object not found
-R_power   # => ERROR (as R is case-sensitive)
+r_power     # => 8
+# R_powder  # => ERROR: object not found
+# R_power   # => ERROR (as R is case-sensitive)
 
 
 ## 4.3 Calling functions -----
@@ -77,7 +79,7 @@ y
 # 1. Why does this code not work?
   
 my_variable <- 10
-my_varıable
+# my_varıable  # commented out as yielding ERROR
 
 # Answer: The letter "i" is spelled differently (as "ı", i.e., without dot).
 #         Thus, the dot-less object is not found by R.
@@ -86,24 +88,24 @@ my_varıable
 library(tidyverse) # works, but should probably be
 library('tidyverse')
 
-# ad (a)
-ggplot(dota = mpg) + 
-  geom_point(mapping = aes(x = displ, y = hwy))
+# ad (a): 
+# ggplot(dota = mpg) +  # commented out as yielding ERROR
+#   geom_point(mapping = aes(x = displ, y = hwy))
 
 # Error: ... argument "data" is missing, with no default
 # => Change "dota" into "data": 
 ggplot(data = mpg) + 
   geom_point(mapping = aes(x = displ, y = hwy))
 
-# ad (b)
-fliter(mpg, cyl = 8)   # Error: could not find function "fliter"
+# ad (b): 
+# fliter(mpg, cyl = 8)   # Error: could not find function "fliter"
 # => Change "fliter" into "filter": 
-filter(mpg, cyl = 8)   # Error: `cyl` (`cyl = 8`) must not be named, do you need `==`? 
+# filter(mpg, cyl = 8)   # Error: `cyl` (`cyl = 8`) must not be named, do you need `==`? 
 # => Change "=" into "==": 
 filter(mpg, cyl == 8)  # works!
 
 # ad (c)
-filter(diamond, carat > 3)   # Error in filter(diamond, carat > 3) : object 'diamond' not found.
+# filter(diamond, carat > 3)   # Error in filter(diamond, carat > 3) : object 'diamond' not found.
 # Start typing 
 # ?diam... completes into "diamonds":
 filter(diamonds, carat > 3)  # works!
@@ -115,6 +117,7 @@ filter(diamonds, carat > 3)  # works!
 
 # How can you get to the same place using the menus?
 # via Help > Keyboard Shortcuts Help 
+
 
 
 
@@ -150,14 +153,17 @@ not_cancelled %>%
 
 ## 6.2 RStudio diagnostics ------
 
+# RStudio detects errors and potential problems: 
+
 # The script editor will also highlight syntax errors with a red squiggly line
 # and a cross in the sidebar:
-x y <- 10 
+
+# x y <- 10  # (commented out to allow running script)
 
 # Hover over the cross or red line to see what the problem is.
-
 # RStudio will also lets us know about potential problems:
-3 == NA
+
+# 3 == NA  # (commented out to allow running script)
 
 
 ## 6.3 Practice -----
@@ -173,12 +179,76 @@ x y <- 10
 
 
 
-
 ## Chapter 8: Workflow: projects ------ 
 
 # See http://r4ds.had.co.nz/workflow-projects.html
 
-# +++ here now ------ 
+## 8.1 What is real? ------
+
+# Basic message: 
+# - The basic units of reproducible research are: data + R script 
+# - Do not rely on saving the current environment, but rather 
+#   re-create the environment from R scripts (stored as .R or .Rmd files).
+# - 
+
+
+# Keyboard shortcuts 
+# to check whether everything relevant is part of the current script:
+
+# 1. Press Cmd/Ctrl + Shift + F10 to restart RStudio.
+# 2. Press Cmd/Ctrl + Shift + S to rerun (aka. "source") the current script.
+
+## 8.2 Where does your analysis live? ------ 
+
+# Answer: in your working directory: 
+getwd()
+
+# Note: Every project (e.g., a course) 
+#       should have its own directory (and RStudio project). 
+
+
+## 8.3 Paths and directories -------
+
+# - forward slashes on Mac: ./data/
+# - backslashes on Windows: .\data\
+
+# - Use relative paths 
+#   (i.e., relative to current working directory).
+
+
+## 8.4 RStudio projects ------
+
+# To get organized for this course: 
+# - create a "r4ds" or "ds4psy" directory and project (see ".Rproj" file)
+# - create a subdirectory "R" for R scripts.
+# - create a subdirectory "data" for data files.
+
+
+## 8.5 Summary ------
+
+# In summary, RStudio projects give you a solid workflow 
+# that will serve you well in the future:
+  
+# 1. Create an RStudio project for each data analysis project 
+#    (e.g., this course).
+ 
+# 2. Keep data files in "data" directory; 
+#    we’ll talk about loading them into R in data import.
+ 
+# 3. Keep R scripts in an "R" directory; 
+#    edit them, run them in bits or as a whole.
+ 
+# 4. Save your outputs (plots and cleaned data) there 
+#    or in a subdirectory.
+ 
+# 5. Only ever use relative paths, not absolute paths.
+
+# Everything you need is in one place, and cleanly separated 
+# from all the other projects that you are working on.
+
+
+
+# +++ here now +++ ------ 
 
 ## ------
 ## eof.
