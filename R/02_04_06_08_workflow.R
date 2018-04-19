@@ -1,4 +1,4 @@
-## r4ds: Chapters 4, 6, 8:  
+## r4ds: Chapters 2, 4, 6, 8:  
 ## Code for workflow chapters of http://r4ds.had.co.nz/ 
 ## hn spds uni.kn
 ## 2018 04 18 ------

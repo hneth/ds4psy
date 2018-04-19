@@ -1,10 +1,11 @@
 ## r4ds: Chapter 1:  
 ## Code for http://r4ds.had.co.nz/introduction.html 
 ## hn spds uni.kn
-## 2018 04 01 ------
+## 2018 04 18 ------
 
 ## 1.1 What you will learn ------
 
+# Disclaimer: 
 # Data science is a huge field, and there’s no way to master it by a single course. 
 # The goal of this course is to give you a solid foundation and some useful tools. 
 # Our model of the tools needed in a typical data science project looks something like this:
@@ -19,15 +20,23 @@
 # - communicate
 
 # - programming:
-# Surrounding all these tools is programming. Programming is a cross-cutting
-# tool that you use in every part of the project:
-# Programming as a tool for thinking, gaining insights, and for transparent communication. 
+# Surrounding all these tools is programming. 
+# Programming is a cross-cutting tool that you use 
+# in every part of a data science project:
+
+# Programming is a skill that requires both knowledge and practice, 
+# but also a tool for thinking, gaining insights, 
+# and transparent communication. 
 
 
+## This course (ds4psy, summer 2018): -----
 
-## 1.2 How this book is organised ------
+# Focus on 2 essential parts: 
+# 1 - exploring data (checking distributions, summarizing variables, and visualizing data)
+# 2 - transforming data (of various types)
 
 
+## 1.2 How the book is organised ------
 
 ## 1.3 What you won’t learn ------
 
