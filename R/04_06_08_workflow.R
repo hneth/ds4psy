@@ -1,8 +1,7 @@
 ## r4ds: Chapters 4, 6, 8:  
 ## Code for workflow chapters of http://r4ds.had.co.nz/ 
 ## hn spds uni.kn
-## 2018 04 16 ------
-
+## 2018 04 18 ------
 
 
 ## Chapter 2: Introduction -------
@@ -117,8 +116,6 @@ filter(diamonds, carat > 3)  # works!
 
 # How can you get to the same place using the menus?
 # via Help > Keyboard Shortcuts Help 
-
-
 
 
 

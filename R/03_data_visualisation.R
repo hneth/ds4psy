@@ -1,7 +1,7 @@
 ## r4ds: Chapter 3: Data visualisation 
 ## Code for http://r4ds.had.co.nz/data-visualisation.html
 ## hn spds uni.kn
-## 2018 04 18 ------
+## 2018 04 19 ------
 
 ## Quotes: ------
 
@@ -10,6 +10,7 @@
 
 ## “The greatest value of a picture is when it forces us to notice what we never expected to see.” 
 ## John Tukey
+
 
 
 ## 3.1 Introduction ------
@@ -28,7 +29,8 @@ library(tidyverse)               # always
 ## to explicilty use a function "func()" from package "pack".
 
 
-## 3.2 First steps: ------
+
+## 3.2 First steps ------
 
 # Questions:
 # - Do cars with big engines use more fuel than cars with small engines?
@@ -63,7 +65,7 @@ ggplot(mpg, aes(x = displ, y = hwy)) +
   geom_point() 
 
 
-## 3.2.4 Exercises: ------
+## 3.2.4 Exercises ------
 
 # 1. Run ggplot(data = mpg). What do you see?
 ggplot(data = mpg)
@@ -102,6 +104,7 @@ mpg %>%
   ggplot() +                            
   geom_point(mapping = aes(x = class, y = drv, size = n), color = "steelblue") + 
   theme_light()
+
 
 
 
@@ -147,7 +150,7 @@ ggplot(data = mpg) +
   theme_light()
 
 
-## 3.3.1 Exercises: ------
+## 3.3.1 Exercises ------
 
 # 1. What’s gone wrong with this code? Why are the points not blue?
 
@@ -265,7 +268,7 @@ ggplot(data = mpg) +
   theme_light()
 
 
-## 3.5.1 Exercises: ------
+## 3.5.1 Exercises ------
 
 # 1. What happens if you facet on a continuous variable?
 
@@ -339,6 +342,7 @@ ggplot(data = mpg) +
   geom_point(mapping = aes(x = displ, y = hwy)) + 
   facet_grid(cyl ~ drv) +   # (4 rows ~ 3 cols)
   theme_light()
+
 
 
 ## 3.6 Geometric objects (geoms) ------
@@ -549,6 +553,7 @@ ggplot(data = mpg) +
 
 ggplot(data = mpg) +
   geom_point(mapping = aes(x = displ, y = hwy, fill = drv), shape = 21, size = 3, color = "white", stroke = 1.5)
+
 
 
 ## 3.7 Statistical transformations ------ 
@@ -856,19 +861,21 @@ ggplot(data = mpg) +
 
 
 
+
 ## 3.9 Coordinate systems ------ 
 
-## Coordinate systems are probably the most complicated part of ggplot2. 
-## The default coordinate system is the Cartesian coordinate system [test.quest]
-## where the x and y positions act independently to determine 
-## the location of each point. 
+# Coordinate systems are probably the most complicated part of ggplot2. 
+# The default coordinate system is the Cartesian coordinate system [test.quest]
+# where the x and y positions act independently to determine 
+# the location of each point. 
 
-## There are a number of other coordinate systems that are occasionally helpful: 
+# There are a number of other coordinate systems that are occasionally helpful: 
 
-## A. coord_flip() switches the x and y axes. 
-## This is useful (for example), if you want horizontal boxplots. 
-## It’s also useful for long labels: it’s hard to get them to fit 
-## without overlapping on the x-axis: 
+## A. coord_flip() ---- 
+# switches the x and y axes. 
+# This is useful (for example), if we want horizontal boxplots. 
+# It’s also useful when labels are long: it’s hard to get them to fit 
+# without overlapping on the x-axis: 
 
 ggplot(data = mpg, mapping = aes(x = class, y = hwy)) + 
   coord_cartesian() + # = default
@@ -884,7 +891,8 @@ ggplot(data = mpg) +
   theme_bw() + 
   coord_flip()  # no longer: coord_cartesian() [default]
 
-## B. coord_quickmap() sets the aspect ratio correctly for maps: 
+## B. coord_quickmap() ----
+# sets the aspect ratio correctly for maps: 
 
 install.packages("maps")
 library(maps)
@@ -899,9 +907,10 @@ ggplot(nz, aes(long, lat, group = group)) +
   geom_polygon(fill = "white", colour = "black") +
   coord_quickmap()
 
-## C. coord_polar() uses polar coordinates. 
-## Polar coordinates reveal an interesting connection 
-## between a bar chart and a Coxcomb chart.
+## C. coord_polar() ----
+# uses polar (circular) coordinates. 
+# Polar coordinates reveal an interesting connection 
+# between a bar chart and a Coxcomb chart.
 
 bar <- ggplot(data = diamonds) + 
   geom_bar(
@@ -1063,10 +1072,7 @@ ggplot(data = mpg, mapping = aes(x = cty, y = hwy)) +
   theme_light()
 
 
-
 ## 3.10 The layered grammar of graphics ------ 
-
-## +++ here now +++
 
 ## General template:
 
@@ -1079,10 +1085,10 @@ ggplot(data = mpg, mapping = aes(x = cty, y = hwy)) +
 #   <COORDINATE_FUNCTION> +
 #   <FACET_FUNCTION>
 
+# +++ here now +++ -----
 
 
-
-## Appendix: Additional resources on ggplot: ------
+## Appendix: Additional resources on ggplot ------
 
 ## Chapter 28 of r4ds: 
 
