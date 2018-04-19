@@ -1,7 +1,7 @@
 ## r4ds: Chapter 14: Strings
 ## Code for http://r4ds.had.co.nz/strings.html 
 ## hn spds uni.kn
-## 2018 04 13 ------
+## 2018 04 19 ------
 
 ## [see Book chapter 1x: "..."]
 
@@ -1865,11 +1865,14 @@ stri_rand_lipsum(3)
 ## +++ here now +++ ------
 
 
-
 ## Appendix ------
 
 ## Web: Regex cheatsheets: 
 #  https://www.rstudio.com/wp-content/uploads/2016/09/RegExCheatsheet.pdf
+
+## Text mining with R:
+#  https://www.tidytextmining.com/ 
+
 
 ## Documentation: ----- 
 
