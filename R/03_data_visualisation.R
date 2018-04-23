@@ -1,7 +1,8 @@
 ## r4ds: Chapter 3: Data visualisation 
 ## Code for http://r4ds.had.co.nz/data-visualisation.html
 ## hn spds uni.kn
-## 2018 04 19 ------
+## 2018 04 23 ------
+
 
 ## Quotes: ------
 
@@ -10,6 +11,17 @@
 
 ## “The greatest value of a picture is when it forces us to notice what we never expected to see.” 
 ## John Tukey
+
+
+
+## Note some keyboard shortcuts: ------
+
+## Create some objects:
+name <- "Hans"
+v <- 1:10
+
+## - Cmd/Ctrl + Shift + F10: restart R session (cleaning environment)
+## - Cmd/Ctrl + Shift + S:   rerun the current script
 
 
 
@@ -27,7 +39,6 @@ library(tidyverse)               # always
 ## Note: Use "::", e.g., 
 ## pack::func() 
 ## to explicilty use a function "func()" from package "pack".
-
 
 
 ## 3.2 First steps ------
@@ -67,6 +78,8 @@ ggplot(mpg, aes(x = displ, y = hwy)) +
 
 ## 3.2.4 Exercises ------
 
+## Exploring the mpg data set and ggplot essentials: 
+
 # 1. Run ggplot(data = mpg). What do you see?
 ggplot(data = mpg)
 
@@ -94,18 +107,18 @@ ggplot(data = mpg) +
 
 # Why is the plot not useful?
 # Overplotting (as both variables are categorical and have multiple instances): 
+
 table(mpg$class, mpg$drv)
 
 # Advanced solution: 
 # Count frequency and use size to show it in graph:
+
 mpg %>%
   group_by(class, drv) %>%
   count %>%
   ggplot() +                            
   geom_point(mapping = aes(x = class, y = drv, size = n), color = "steelblue") + 
   theme_light()
-
-
 
 
 ## 3.3 Aesthetic mappings ------
@@ -125,7 +138,7 @@ ggplot(data = mpg) +
 
 ggplot(data = mpg) +                            
   geom_point(mapping = aes(x = displ, y = hwy, size = class))   # map class on size
-## see Warning: size not advised for discrete variables.
+## See Warning: size not advised for discrete variables.
 
 ggplot(data = mpg) +                            
   geom_point(mapping = aes(x = displ, y = hwy, alpha = class))  # map class on alpha (transparency)
@@ -134,19 +147,24 @@ ggplot(data = mpg) +
   geom_point(mapping = aes(x = displ, y = hwy, shape = class))  # map class on shape
 ## see Warning: 7 discrete categories, but only 6 shapes in palette... 
 
-## Notes: 
+## Notes on aesthetics and aes(): 
+
 # - The aes() function gathers together each of the aesthetic mappings used by a layer 
 #   and passes them to the layer’s mapping argument. 
+
 # - x and y are aesthetics: visual properties that are mapped to variables to display information about the data.
+
 # - For x and y aesthetics, ggplot2 does not create a legend, but creates an axis line with tick marks and a label. 
 #   The axis line acts as a legend; it explains the mapping between locations and values.
 
 ## Manually setting the aesthetic properties of a geom: No longer maps, but changes appearance.
+
 ## To set an aesthetic manually, set the aesthetic by name as an argument of the geom function  
-## [i.e. it goes outside of aes().] 
+## [i.e., outside of aes().] 
 
 ggplot(data = mpg) + 
-  geom_point(mapping = aes(x = displ, y = hwy), shape = 21, color = "black", fill = "steelblue4", alpha = 1/3, size = 3, stroke = 1) + 
+  geom_point(mapping = aes(x = displ, y = hwy), 
+             shape = 21, color = "black", fill = "steelblue4", alpha = 1/4, size = 4, stroke = 1) + 
   theme_light()
 
 
@@ -187,15 +205,19 @@ ggplot(data = mpg) +
 
 # 5. What does the stroke aesthetic do? What shapes does it work with? 
 #    (Hint: use ?geom_point)
+?geom_point
 
 ggplot(data = mpg) + 
-  geom_point(mapping = aes(x = displ, y = hwy), shape = 21, color = "black", fill = "steelblue4", alpha = 1/3, size = 2, stroke = 2) + 
+  geom_point(mapping = aes(x = displ, y = hwy), 
+             shape = 21, color = "black", fill = "steelblue4", alpha = 1/4, size = 1, stroke = 7) + 
   theme_light()
 
 ggplot(data = mpg) + 
-  geom_point(mapping = aes(x = displ, y = hwy), shape = 16, color = "black", fill = "steelblue4", alpha = 1/3, size = 2, stroke = 2) + 
+  geom_point(mapping = aes(x = displ, y = hwy), 
+             shape = 16, color = "black", fill = "steelblue4", alpha = 1/4, size = 1, stroke = 8) + 
   theme_light()
 
+# Note: fill for shape = 21 corresponds to color of shape = 16, etc.
 
 # 6. What happens if you map an aesthetic to something other than a variable name, 
 #    like aes(colour = displ < 5)?
@@ -204,8 +226,9 @@ ggplot(data = mpg) +
   geom_point(mapping = aes(x = displ, y = hwy, color = (displ < 5), shape = (displ > 3)), size = 3) + 
   theme_light()
 
-# Something interesting happens: Classification into 2 truth values.
-
+# Something very interesting happens: 
+# Classification into 2 truth values (according to definition).
+# This allows grouping continuous variables into (visual) categories.
 
 
 ## 3.4 Common problems ------
@@ -564,6 +587,8 @@ dim(diamonds)
 ?diamonds 
 
 ## Bar graph: 
+?geom_bar
+
 ggplot(data = diamonds) + 
   geom_bar(mapping = aes(x = cut))
 
@@ -577,7 +602,7 @@ ggplot(data = diamonds) +
 ## value for stat is “count”, which means that geom_bar() uses stat_count(). 
 ## stat_count() is documented on the same page as geom_bar(), and 
 ## if you scroll down you can find a section called “Computed variables”. 
-## That describes how it computes two new variables: count and prop.
+## That describes how it computes 2 new variables: count and prop.
 
 ?geom_bar
 
@@ -586,14 +611,15 @@ ggplot(data = diamonds) +
 ## stat_count() instead of geom_bar():
 
 ggplot(data = diamonds) + 
-  stat_count(mapping = aes(x = cut))
+  stat_count(mapping = aes(x = cut, y = ..prop.., group = 1))
 
 ## This works because every geom has a default stat; 
 ## and every stat has a default geom. 
 ## This means that you can typically use geoms without worrying about 
 ## the underlying statistical transformation. 
 
-## There are three reasons you might need to use a stat explicitly:
+
+## There are 3 reasons you might need to use a stat explicitly:
   
 ## 1. You might want to override the default stat. 
 ##    In the code below, I change the stat of geom_bar() from count 
@@ -608,9 +634,11 @@ demo <- tribble(
   "Premium",    13791,
   "Ideal",      21551
 )
-
+demo
 ggplot(data = demo) +
-  geom_bar(mapping = aes(x = cut, y = freq), stat = "identity")
+  geom_bar(mapping = aes(x = cut, y = freq), 
+           stat = "identity")
+
 
 ## 2. You might want to override the default mapping from 
 ##    transformed variables to aesthetics. 
@@ -618,7 +646,11 @@ ggplot(data = demo) +
 ## rather than count:
 
 ggplot(data = diamonds) + 
+  geom_bar(mapping = aes(x = cut, group = 1)) # default: y = ..count..
+
+ggplot(data = diamonds) + 
   geom_bar(mapping = aes(x = cut, y = ..prop.., group = 1))
+
 
 ## 3. You might want to draw greater attention to the statistical 
 ## transformation in your code. 
@@ -649,8 +681,33 @@ ggplot(data = diamonds) +
 
 ggplot(data = diamonds) + 
     geom_pointrange(mapping = aes(x = cut, y = depth, ymin = depth, ymax = depth))
-## ???
 
+
+## Solution from 
+# https://jrnold.github.io/r4ds-exercise-solutions/visualize.html#exercise-1-3 
+
+# The default geom for stat_summary is geom_pointrange (see the stat) argument.
+
+# But, the default stat for geom_pointrange is identity, so use
+# geom_pointrange(stat = "summary"):
+
+ggplot(data = diamonds) +
+  geom_pointrange(
+    mapping = aes(x = cut, y = depth),
+    stat = "summary")
+
+# The default message says that stat_summary uses the mean and sd to calculate
+# the point, and range of the line. So lets use the previous values of fun.ymin,
+# fun.ymax, and fun.y:
+
+ggplot(data = diamonds) +
+  geom_pointrange(
+    mapping = aes(x = cut, y = depth),
+    stat = "summary",
+    fun.ymin = min,
+    fun.ymax = max,
+    fun.y = median
+  )
 
 ## 2. What does geom_col() do? How is it different to geom_bar()?
 
@@ -1087,13 +1144,23 @@ ggplot(data = mpg, mapping = aes(x = cty, y = hwy)) +
 
 # +++ here now +++ -----
 
-
 ## Appendix: Additional resources on ggplot ------
 
 ## Chapter 28 of r4ds: 
 
 # Chapter 28: of current book <http://r4ds.had.co.nz>:
 # Graphics for communication: http://r4ds.had.co.nz/graphics-for-communication.html 
+
+## Online:
+
+# - See ggplot2 cheatsheet at https://www.rstudio.com/resources/cheatsheets/
+
+# - R graph catalog: A shiny app showing 100+ ggplot graphs + code: 
+#   http://shiny.stat.ubc.ca/r-graph-catalog/ 
+#   A complement to “Creating More Effective Graphs” by Naomi Robbins.
+
+# - ggplot2 extensions: https://www.ggplot2-exts.org
+#   Notable extenstions include: cowplot, ggmosaic. 
 
 ## Books: 
 
@@ -1106,18 +1173,6 @@ ggplot(data = mpg, mapping = aes(x = cty, y = hwy)) +
 
 # 3. Graphical Data Analysis with R, by Antony Unwin
 #    https://www.amazon.com/dp/1498715230/ref=cm_sw_su_dp 
-
-
-## Others:
-
-# - See ggplot2 cheatsheet at https://www.rstudio.com/resources/cheatsheets/
-
-# - R graph catalog: A shiny app showing 100+ ggplot graphs + code: 
-#   http://shiny.stat.ubc.ca/r-graph-catalog/ 
-#   A complement to “Creating More Effective Graphs” by Naomi Robbins.
-
-# - ggplot2 extensions: https://www.ggplot2-exts.org
-#   Notable extenstions include: cowplot, ggmosaic. 
 
 
 ## ------
