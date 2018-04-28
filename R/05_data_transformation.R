@@ -1,14 +1,14 @@
 ## r4ds: Chapter 5: Data transformation 
 ## Code for http://r4ds.had.co.nz/5_data_transformation.html 
 ## hn spds uni.kn
-## 2018 03 31 ------
+## 2018 04 28 ------
 
 ## Note: dplyr implements a grammar of data transformation.
 ##       This chapter concerns transformations involving a single table
 ##       and 6 verbs for different actions: 
 ##       - arranging rows (arrange)
 ##       - selecting rows (filter) and selecting columns (select)
-##       - creating new columns (mutate, transmute)
+##       - creating new columns/variables (mutate, transmute)
 ##       - aggregation via grouped summaries (group_by and summarise)
 
 
@@ -59,19 +59,19 @@ table(flights$dest)
 # 1. Pick observations by their values (filter()).
 # 2. Reorder the rows (arrange()).
 # 3. Pick variables by their names (select()).
-# 4. Create new variables with functions of existing variables (mutate()).
+# 4. Create new variables with functions of existing variables (mutate(), transmute()).
 # 5. Collapse many values down to a single summary (summarise()).
+# 6. These can all be used in conjunction with group_by() which changes the 
+#    scope of each function from operating on the entire dataset to operating 
+#    on it group-by-group. 
 
-# These can all be used in conjunction with group_by() which changes the 
-# scope of each function from operating on the entire dataset to operating 
-# on it group-by-group. 
-# These six functions provide the verbs for a language of data manipulation:
+# These 6 functions provide the verbs for a language of data manipulation:
 
 # All verbs work similarly:
 # 
-# - The first argument is a data frame.
+# - The 1st argument is a data frame.
 # - The subsequent arguments describe what to do with the data frame, 
-#   using the variable names (without quotes).
+#   using the variable names (_without_ quotes).
 # - The result is a new data frame.
 
 
@@ -137,11 +137,12 @@ range(flights$month) # check
   
 filter(flights, !(arr_delay > 120 | dep_delay > 120))
 filter(flights, arr_delay <= 120, dep_delay <= 120)
+filter(flights, arr_delay <= 120 & dep_delay <= 120)
 
 ## Tip: Whenever you start using complicated, multipart expressions in filter(), 
-## consider making them explicit variables instead. 
-## That makes it much easier to check your work. 
-## You’ll learn how to create new variables shortly.
+##      consider making them explicit variables instead. 
+##      That makes it much easier to check your work. 
+##      You’ll learn how to create new variables shortly.
 
 ## 5.2.3 Missing values ------
 
@@ -152,9 +153,10 @@ NA > 2
 NA == 2
 NA != 2
 
-NA == NA  # indeed!
+NA == NA      # indeed!
+near(NA, NA)  # same
 
-## Why is this so?
+## Why is this so?  [test.quest]
 x <- NA  # Let x be Mary's age. We don't know how old she is.
 y <- NA  # Let y be John's age. We don't know how old he is.
 
