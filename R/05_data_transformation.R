@@ -1134,9 +1134,9 @@ mutate(flights_s,
        )
 
 #  b. A flight is 15 minutes early 50% of the time, and 15 minutes late 50% of the time.
-# 
+
 #  c. A flight is 30 minutes early 50% of the time, and 30 minutes late 50% of the time.
-# 
+ 
 #  d. 99% of the time a flight is on time. 1% of the time it’s 2 hours late.
 
 
@@ -1144,7 +1144,6 @@ mutate(flights_s,
   
 #  2. Come up with another approach that will give you the same output as
 # (a)
-
 not_cancelled %>% 
   count(dest) 
 
@@ -1154,16 +1153,28 @@ not_cancelled %>%
   group_by(dest) %>% 
   summarise(count = n())
 
-# (b)
 
+# (b)
 not_cancelled %>% 
   count(tailnum, wt = distance)
 
-# without using count():
+## Note: 
+# ?count
+#  wt ... - If omitted, will count the number of rows. 
+#         - If specified, will perform a "weighted" tally by summing the (non-missing) 
+#           values of variable wt.
 
+# without using count():
 not_cancelled %>% 
   group_by(tailnum) %>%
   summarise(n = sum(distance))
+
+# From 
+# https://jrnold.github.io/r4ds-exercise-solutions/data-transformation.html#exercise-2-9
+
+not_cancelled %>%
+  group_by(tailnum) %>%
+  tally(distance)
 
 # [test.quest]: Do the reverse: 
 # a) replace count by (group_by + summarise)
@@ -1204,22 +1215,135 @@ nrow(no_arr_delay)
 
 # Perhaps require that arr_time is also NA?
 
+# Also: See 
+# https://jrnold.github.io/r4ds-exercise-solutions/data-transformation.html#exercise-3-9
 
-# 4. Look at the number of cancelled flights per day. Is there a pattern? Is the
-# proportion of cancelled flights related to the average delay?
-   
+# If a flight never departs, then it won’t arrive. 
+# A flight could also depart and not arrive if it crashes, 
+# or if it is redirected and lands in an airport other than its intended destination.
+
+# The more important column is arr_delay, which indicates the amount of delay in arrival.
+
+filter(flights, !is.na(dep_delay), is.na(arr_delay)) %>%
+  select(dep_time, arr_time, sched_arr_time, dep_delay, arr_delay)
+
+
+# 4. Look at the number of cancelled flights per day. Is there a pattern? 
+#    Is the proportion of cancelled flights related to the average delay?
+
+cancelled <- flights %>% 
+  filter(is.na(dep_delay), is.na(arr_delay))
+
+cancelled %>%
+  group_by(month, day) %>%
+  summarise(n = n(),
+            n_not_NA = sum(!is.na(day)))
+
+## Better solution:  Create 2 variables (per day):
+# - number (or proportion) of cancelled flights
+# - average delay of non-cancelled flights
+
+flights %>%
+  mutate(cancelled = (is.na(dep_delay) & is.na(arr_delay))) %>%
+  group_by(month, day) %>%
+  summarise(n = n(),
+            n_not_NA = sum(!is.na(dep_delay)),
+            n_is_NA  = sum(is.na(dep_delay)), 
+            n_cancelled = sum(cancelled), 
+            cancelled_prop = sum(cancelled)/n,
+            mn_dep_delay = mean(dep_delay, na.rm = TRUE)
+            ) %>%
+  ggplot(aes(x = mn_dep_delay, y = cancelled_prop)) +
+  geom_point(aes(size = n_cancelled), alpha = 1/3) +
+  geom_smooth() + 
+  theme_bw()
+  
+# [test.quest]: Zoom in on 2 outliers with >50% of cancelled flights.
+flights %>%
+  mutate(cancelled = (is.na(dep_delay) & is.na(arr_delay))) %>%
+  group_by(month, day) %>%
+  summarise(n = n(),
+            n_not_NA = sum(!is.na(dep_delay)),
+            n_is_NA  = sum(is.na(dep_delay)), 
+            n_cancelled = sum(cancelled), 
+            cancelled_prop = sum(cancelled)/n,
+            mn_dep_delay = mean(dep_delay, na.rm = TRUE)
+  ) %>%
+  arrange(desc(cancelled_prop))
+
+# Any special weather conditions?
+weather %>%
+  # filter(month == 2, between(day, 1, 15)) %>%
+  group_by(month, day) %>%
+  summarise(n = n(),
+            mn_temp = mean(temp, na.rm = TRUE),
+            mn_wind = mean(wind_speed, na.rm = TRUE),
+            mn_gust = mean(wind_gust, na.rm = TRUE),
+            mn_rain = mean(precip, na.rm = TRUE)
+            ) %>%
+  arrange(desc(mn_rain))
+# => No obvious weather extremes. 
+
 
 # 5. Which carrier has the worst delays? Challenge: can you disentangle the
 # effects of bad airports vs. bad carriers? Why/why not? (Hint: think about
 # flights %>% group_by(carrier, dest) %>% summarise(n()))
 
+flights %>% 
+  group_by(carrier, dest) %>%
+  summarise(n = n(),
+            n_is_NA  = sum(is.na(arr_delay)), 
+            mn_delay = mean(arr_delay, na.rm = TRUE),
+            sd_delay = sd(arr_delay, na.rm = TRUE)
+            ) %>% 
+  filter(n >= 10) %>%
+  arrange(desc(mn_delay))
+  
+# worst carriers:
+flights %>% 
+  group_by(carrier) %>%
+  summarise(n = n(),
+            n_is_NA  = sum(is.na(arr_delay)), 
+            mn_delay = mean(arr_delay, na.rm = TRUE),
+            sd_delay = sd(arr_delay, na.rm = TRUE)
+  ) %>% 
+  filter(n >= 1) %>%
+  arrange(desc(mn_delay))
 
-# 6. What does the sort argument to count() do.  When might you use it?
+airlines %>%
+  filter(carrier %in% c("F9", "FL", "EV"))
 
+# worst destinations:
+flights %>% 
+  group_by(dest) %>%
+  summarise(n = n(),
+            n_is_NA  = sum(is.na(arr_delay)), 
+            mn_delay = mean(arr_delay, na.rm = TRUE),
+            sd_delay = sd(arr_delay, na.rm = TRUE)
+  ) %>% 
+  filter(n >= 1) %>%
+  arrange(desc(mn_delay))
 
+airports %>%
+  filter(faa %in% c("CAE", "TUL", "OKC"))
+  
+
+# 6. What does the sort argument to count() do.  
+#    When might you use it?
+
+?count
+# => sort	if TRUE will sort output in descending order of n
+
+flights %>%
+  group_by(origin) %>%
+  count(sort = TRUE)
+
+flights %>% 
+  filter(origin == "LGA") %>%
+  group_by(dest) %>%
+  count(sort = TRUE)
 
 ## +++ here now +++ ------ 
-
 
 
 ## 5.7 Grouped mutates (and filters) ------
