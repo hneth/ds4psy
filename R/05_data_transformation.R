@@ -784,7 +784,7 @@ delays <- flights %>%
 ## and x %>% f(y) %>% g(z) turns into g(f(x, y), z), etc. 
 
 
-## 5.6.2 Missing values ----- 
+## 5.6.2 Missing values (in grouped summaries) ----- 
 
 ## All aggregation functions have an na.rm argument 
 ## which removes the missing values prior to computation:
@@ -796,15 +796,28 @@ flights %>%
 
 ## => yields many missing values (as mean of any set of values containing NA returns NA). 
 
+## (1) Removing NA values: ---- 
+
+flights %>% 
+  group_by(year, month, day) %>% 
+  summarise(count = n(),                            # count n (including NAs)
+            mean = mean(dep_delay, na.rm = TRUE)    # means of dep_delay values that are not NA
+            )
+
+## Note that the count computed by n() is the same in both cases. 
+## How to count number of NAs?
+
+## (2) Counting NA values: ----
+
 flights %>% 
   group_by(year, month, day) %>% 
   summarise(count = n(),                            # count n (including NAs)
             n_is_NA = sum(is.na(dep_delay)),        # count n of NAs
             n_not_NA = sum(!is.na(dep_delay)),      # count n of non-NAs
-            mean = mean(dep_delay, na.rm = TRUE)    # mean of dep_delay that are not NA
-            )
+            mean = mean(dep_delay, na.rm = TRUE)    # means of dep_delay values that are not NA
+  )
 
-## Note that count is the same in both cases. How to count number of NAs?
+## (3) Subsetting data by filtering out NA values: ----
 
 ## Subset of flights not cancelled: 
 not_cancelled <- flights %>% 
@@ -825,7 +838,7 @@ not_cancelled %>%
 ## 5.6.3 Counts ----
 
 ## Whenever you do any aggregation, it’s always a good idea to include either a
-## count (n()), or a count of non-missing values (sum(!is.na(x))).
+## count (n()), and a count of non-missing values (sum(!is.na(x))).
 
 ## Look at planes (identified by their tail number) 
 ## that have the highest average delays:
@@ -857,7 +870,7 @@ ggplot(data = delays, mapping = aes(x = n, y = delay)) +
   geom_point(alpha = 1/10) +
   theme_light()
 
-## Characteristic shape: variation decreases as the sample size increases. 
+## Characteristic shape: Variation decreases as the sample size increases. 
 
 ## filter out the groups with the smallest numbers of observations:
 
@@ -868,11 +881,11 @@ delays %>%
   theme_light()
 
 ## RStudio tip: a useful keyboard shortcut is Cmd/Ctrl + Shift + P. 
-## This resends the previously sent chunk from the editor to the console. This
-## is very convenient when you’re (e.g.) exploring the value of n in the example
-## above.
+## This resends the previously sent chunk from the editor to the console. 
+## This is very convenient when you’re (e.g.) exploring the value of n 
+## in this example.
 
-## A common variation of this type of pattern: 
+## A common variation of this type of pattern: Means as a function of N. 
 
 ## Let’s look at how the average performance of batters in baseball is related
 ## to the number of times they’re at bat (using data from the Lahman
@@ -907,7 +920,7 @@ batters %>%
 # 1. As above, the variation in our aggregate decreases as we get more data points.
 
 # 2. There’s a positive correlation between skill (ba) and 
-# opportunities to hit the ball (ab).  
+#    opportunities to hit the ball (ab).  
 # This is because teams control who gets to play, and obviously they 
 # pick their best players.
 
@@ -933,7 +946,7 @@ batters %>%
 ## Just using means, counts, and sum can get you a long way, but R provides many
 ## other useful summary functions:
 
-## 1. Measures of location: mean(x), median(x)
+## (1) Measures of location: mean(x), median(x) ----
 
 ## Tip: Combine aggregation with logical subsetting
 
@@ -944,7 +957,7 @@ not_cancelled %>%
     avg_delay2 = mean(arr_delay[arr_delay > 0]) # the average positive delay
   )
 
-## 2. Measures of spread: sd(x), IQR(x), mad(x):
+## (2) Measures of variability/spread: sd(x), IQR(x), mad(x) ----
 
 # Why is distance to some destinations more variable than to others?
 
@@ -953,7 +966,7 @@ not_cancelled %>%
   summarise(distance_sd = sd(distance)) %>% 
   arrange(desc(distance_sd))
 
-## 3. Measures of rank: min(x), quantile(x, 0.25), max(x):
+## (3) Measures of rank: min(x), quantile(x, 0.25), max(x) ----
 
 # When do the first and last flights leave each day?
 
@@ -964,7 +977,7 @@ not_cancelled %>%
     last = max(dep_time)
     )
 
-## 4. Measures of position: first(x), nth(x, 2), last(x).
+## (4) Measures of position: first(x), nth(x, 2), last(x) ----
 
 not_cancelled %>% 
   group_by(year, month, day) %>% 
@@ -983,7 +996,8 @@ not_cancelled %>%
   filter(r %in% range(r))
 
 
-## 5. Counts: You’ve seen n(), which takes no arguments, 
+## (5) Counts: ----
+## We’ve seen n(), which takes no arguments, 
 ## and returns the size of the current group. 
 ## To count the number of non-missing values, 
 ## use sum(!is.na(x)). 
@@ -1009,7 +1023,8 @@ not_cancelled %>%
 not_cancelled %>% 
   count(tailnum, wt = distance)
 
-## Counts and proportions of logical values: sum(x > 10), mean(y == 0). 
+
+## (+) Sums and proportions of logical values: sum(x > 10), mean(y == 0) ----
 
 ## When used with numeric functions, TRUE is converted to 1 and FALSE to 0. 
 
@@ -1025,7 +1040,7 @@ not_cancelled %>%
   summarise(n_early = sum(dep_time < 500))
 
 
-# What proportion of flights are delayed by more than an hour?
+# What _proportion_ of flights are delayed by more than an hour?
 
 not_cancelled %>% 
   group_by(year, month, day) %>% 
