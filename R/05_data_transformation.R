@@ -1,15 +1,16 @@
 ## r4ds: Chapter 5: Data transformation 
 ## Code for http://r4ds.had.co.nz/5_data_transformation.html 
 ## hn spds uni.kn
-## 2018 04 28 ------
+## 2018 04 29 ------
 
 ## Note: dplyr implements a grammar of data transformation.
 ##       This chapter concerns transformations involving a single table
 ##       and 6 verbs for different actions: 
+##       - selecting rows (filter) or columns (select)
 ##       - arranging rows (arrange)
-##       - selecting rows (filter) and selecting columns (select)
 ##       - creating new columns/variables (mutate, transmute)
 ##       - aggregation via grouped summaries (group_by and summarise)
+
 
 
 ## 5.1 Introduction ------
@@ -34,7 +35,8 @@ library(tidyverse)
 flights
 table(flights$dest)
 
-# A tibble. Tibbles are data frames, but slightly tweaked to work better in the tidyverse. 
+# A tibble: Tibbles are data frames, 
+# but slightly tweaked to work better in the tidyverse. 
 
 # Note row of three (or four) letter abbreviations under the column names. 
 # These describe the type of each variable:
@@ -44,7 +46,7 @@ table(flights$dest)
 # - chr stands for character vectors, or strings.
 # - dttm stands for date-times (a date + a time).
 
-# There are three other common types of variables that aren’t used in this dataset:
+# There are 3 other common types of variables that aren’t used in this dataset:
   
 # - lgl stands for logical, vectors that contain only TRUE or FALSE.
 # - fctr stands for factors, which R uses to represent categorical variables with fixed possible values.
@@ -75,6 +77,7 @@ table(flights$dest)
 # - The result is a new data frame.
 
 
+
 ## 5.2 Filter rows with filter() ------
 
 # filter() allows you to subset observations based on their values. 
@@ -85,7 +88,7 @@ table(flights$dest)
 jan1 <- filter(flights, month == 1, day == 1)
 jan1
 
-# Assigning and printing result: Wrap assignment in parentheses:
+# Assigning _and_ printing result: Wrap assignment in parentheses:
 
 (dec25 <- filter(flights, month == 12, day == 25))
 
@@ -144,6 +147,7 @@ filter(flights, arr_delay <= 120 & dep_delay <= 120)
 ##      That makes it much easier to check your work. 
 ##      You’ll learn how to create new variables shortly.
 
+
 ## 5.2.3 Missing values ------
 
 # NA represents an unknown value so missing values are “contagious”: 
@@ -161,13 +165,13 @@ x <- NA  # Let x be Mary's age. We don't know how old she is.
 y <- NA  # Let y be John's age. We don't know how old he is.
 
 x == y   # Are John and Mary the same age?
-# We don't know!
+# Answer: We don't know!
 
 # Use is.na() if you want to determine if a value is missing:
 is.na(x)
 
 # filter() only includes rows where the condition is TRUE; 
-# it excludes both FALSE and NA values. 
+# it excludes _both_ FALSE and NA values. [test.quest]
 # If you want to preserve missing values, ask for them explicitly:
   
 df <- tibble(x = c(1, NA, 3))
@@ -218,7 +222,21 @@ airlines
 ## 2. Another useful dplyr filtering helper is between(). 
 ##    What does it do? 
 
-?between
+?between # a shortcut for x >= left & x <= right.
+
+# Examples: 
+x <- rnorm(1000)
+z <- round(runif(1000, min = -3, max = +3), 0)
+
+hist(x)
+hist(z)
+
+y <- x[between(x, -1, 1)]
+range(y)
+
+z2 <- z[between(z, -1, 1)]
+range(z2) # => between interprets boundaries inclusive (<= and >=)
+
 
 ## Can you use it to simplify the code needed to answer the previous challenges?
 
@@ -248,6 +266,7 @@ FALSE & NA
 ##    Can you figure out the general rule? (NA * 0 is a tricky counterexample!)
 
 NA * 0
+
 
 
 
@@ -281,12 +300,14 @@ arrange(df, desc(x))
 
 ## 5.3.1 Exercises ------
 
-# 1. How could you use arrange() to sort all missing values to the start? (Hint: use is.na()).
+# 1. How could you use arrange() to sort all missing values to the start? 
+#    (Hint: use is.na()).
 
 flights
 arrange(flights, !is.na(dep_time))
 
-# 2. Sort flights to find the most delayed flights. Find the flights that left earliest.
+# 2. Sort flights to find the most delayed flights. 
+#    Find the flights that left earliest.
 
 (most_delay <- arrange(flights, desc(dep_delay)))
 (earliest <- arrange(flights, dep_time))
@@ -319,15 +340,62 @@ filter(airports, faa == "JFK" | faa == "HNL")
 ## - How many instances of the farthest flight are in the data? 
 ## - What is their average duration?
 ## - Which carrier(s) conducted these flights?
-## - Plot the relationship between both (distance and time).
+## - Plot the relationship between both (distance and air_time).
 
 flights
+(by_distance <- arrange(flights, desc(distance)))
 (farthest <- filter(flights, origin == "JFK" & dest == "HNL")) # => 342
 mean(farthest$air_time)
 table(farthest$carrier)
 
 ?airlines
 filter(airlines, carrier == "HA")
+
+f <- flights %>% 
+  filter(!is.na(distance) & !is.na(air_time)) %>% # both exist
+  group_by(distance) %>%
+  summarise(n = n(),
+            not_NA = sum(!is.na(air_time)),
+            mn_at = mean(air_time),
+            md_at = median(air_time))
+# f
+
+ggplot(f, aes(x = distance, y = mn_at)) +
+  geom_point(alpha = 1/3)
+
+## From the plot: 
+## (a) 2 outliers with distance > 4000:
+flights %>% 
+  filter(distance > 4000, is.na(dep_time)) %>%
+  # group_by(carrier, tailnum) %>%
+  summarise(count = n(),
+            count_NA = sum(is.na(dep_time)))
+
+# => 707 flights, 2 NA
+# Which 2 did not take place?
+
+flights %>% 
+  filter(distance > 4000, is.na(dep_time))
+
+# Why? Unusual weather conditions? 
+?weather
+weather %>% 
+  filter(origin == "EWR" & month == 2 & day == 10 & hour > 10)
+
+weather %>%
+  filter(origin == "EWR") %>%
+  group_by(month, day) %>%
+  summarise(n = n(),
+            mn_wind = mean(wind_speed, na.rm = TRUE),
+            mn_rain = mean(precip, na.rm = TRUE)) %>%
+  arrange(desc(mn_rain))
+
+## (b) 1 outlier with between(distance, 3000, 4000):
+flights %>% 
+  filter(between(distance, 3000, 4000))
+
+# => Only 8 flights to from EWR to ANC (Anchorage).
+# Compute mean arrival delay...
 
 
 
@@ -346,6 +414,8 @@ filter(airlines, carrier == "HA")
 select(flights, year, month, day)  # select columns by name
 select(flights, year:day)          # select all columns between year and day (inclusive)
 select(flights, -(year:day))       # select all columns except those from year to day (inclusive)
+
+## select() helper functions: starts_with(), ends_with(), contains(), matches() ----
 
 # There are a number of helper functions you can use within select():
 #   
@@ -375,23 +445,26 @@ select(flights, matches("(.)\\1"))
 
 # See "Scoped selection and renaming"
 
-## select vs. rename:
+## select vs. rename: ----
 
 # select() can be used to rename variables, but it’s rarely useful 
-# because it drops all of the variables not explicitly mentioned. 
+# because it _drops_ all of the variables not explicitly mentioned. 
 # Instead, use rename(), which is a variant of select() that 
-# keeps all the variables that aren’t explicitly mentioned:
+# _keeps_ all the variables that aren’t explicitly mentioned:
 
 ?rename
 
-# flights$tailnum
-rename(flights, tail_num = "tailnum")
+flights$tailnum
+(df <- rename(flights, tail_num = tailnum))
+flights$tailnum
+df$tailnum # no longer exists
+all.equal(flights$tailnum, df$tail_num) #  => TRUE
 
 # head(iris)
 # rename(iris, petal_length = Petal.Length)
 
 
-## everything:
+## select() with everything(): ---- 
 
 # Another option is to use select() in conjunction with the everything() helper.
 # This is useful if you have a handful of variables you’d like to move to the
@@ -431,6 +504,7 @@ select(flights, one_of(vars))
   
 select(flights, contains("TIME"))  # yes, this is surprising, as R typically is case sensitive.  But here: ignore.case = TRUE by default.
 select(flights, contains("TIME", ignore.case = FALSE))
+
 
 
 
@@ -622,6 +696,7 @@ arrange(flights, desc(dep_delay))  # sort flights by (descending) dep_delay
 
 
 
+
 ## 5.6 Grouped summaries with summarise() ------
 
 ## The last key verb is summarise(). 
@@ -631,10 +706,12 @@ arrange(flights, desc(dep_delay))  # sort flights by (descending) dep_delay
 
 md == mean(flights$dep_delay, na.rm = TRUE)
 
-## summarise() is not terribly useful unless we pair it with group_by(). 
-## This changes the unit of analysis from the complete dataset to individual groups. 
-## Then, when you use the dplyr verbs on a grouped data frame they’ll be
-## automatically applied “by group”.  For example, if we applied exactly the same
+## summarise() is not terribly useful unless we pair it with group_by()
+## (and vice versa: group_by makes only sense with summarise). 
+
+## group_by() changes the unit of analysis from the complete dataset to individual groups. 
+## When you use the dplyr verbs on a grouped data frame they’ll be
+## automatically applied "by group".  For example, if we apply exactly the same
 ## code to a data frame grouped by date, we get the average delay per date:
 
 flights
@@ -655,10 +732,13 @@ month_delay <- summarise(by_month,
   
 ggplot(month_delay, mapping = aes(x = month, y = delay)) +
   geom_point(aes(size = count), color = "firebrick", alpha = 1/2) +
-  geom_smooth(se = FALSE)
+  geom_smooth(se = FALSE) +
+  scale_x_continuous(name = "Month", breaks = 1:12) + 
+  theme_bw()
 
-## Together group_by() and summarise() provide one of the tools that we’ll use
-## most commonly when working with dplyr: grouped summaries.
+## Together group_by() and summarise() provide one of the tools 
+## that we’ll use most commonly when working with dplyr: 
+## grouped summaries.
 
 ## 5.6.1 Combining multiple operations with the pipe -----
 
@@ -674,7 +754,7 @@ delay <- summarise(by_dest,
                    delay = mean(arr_delay, na.rm = TRUE)  # mean delay
                    )
 
-delay <- filter(delay, count > 20, dest != "HNL")  # filter to rare points and outlier HNL
+delay <- filter(delay, count > 20, dest != "HNL")  # filter out rare points and outlier HNL
 
 delay
 
@@ -1122,7 +1202,9 @@ nrow(no_arr_delay)
 # 6. What does the sort argument to count() do.  When might you use it?
 
 
+
 ## +++ here now +++ ------ 
+
 
 
 ## 5.7 Grouped mutates (and filters) ------
@@ -1146,28 +1228,22 @@ nrow(no_arr_delay)
 # 8. For each plane, count the number of flights before the first delay of greater than 1 hour.
 
 
+
 ## Appendix: Additional resources on dplyr: ------
 
 ## Books: 
 
-# 1. ggplot2 book by Hadley Wickham:  
-#    ggplot2: Elegant Graphics for Data Analysis (Use R!) 2nd ed. 2016 Edition 
-#    https://amzn.com/331924275X. 
 
-# 2. R Graphics Cookbook by Winston Chang: 
-#    Parts are available at http://www.cookbook-r.com/Graphs/ 
-
-# 3. Graphical Data Analysis with R, by Antony Unwin
-#    https://www.amazon.com/dp/1498715230/ref=cm_sw_su_dp 
 
 
 ## Others:
 
-# - See ggplot2 cheatsheet at https://www.rstudio.com/resources/cheatsheets/
+# - See dplyr cheatsheet at https://www.rstudio.com/resources/cheatsheets/
 
-# - ggplot2 extensions: https://www.ggplot2-exts.org
-#   Notable extenstions include: cowplot, ggmosaic. 
+## Ideas for test questions [test.quest]: ------
 
+# Use data set "weather" for questions that require 
+# filter, arrange, group_by, summarise (count, NAs, means, medians)
 
 ## ------
 ## eof.
