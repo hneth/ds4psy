@@ -1,7 +1,7 @@
 ## r4ds: Chapter 5: Data transformation 
 ## Code for http://r4ds.had.co.nz/5_data_transformation.html 
 ## hn spds uni.kn
-## 2018 04 29 ------
+## 2018 04 30 ------
 
 ## Note: dplyr implements a grammar of data transformation.
 ##       This chapter concerns transformations involving a single table
@@ -515,7 +515,6 @@ select(flights, contains("TIME", ignore.case = FALSE))
 ## mutate() adds new columns that are functions of existing columns.
 ## mutate() always adds new columns at the end of the dataset.
 
-
 ## Create a narrower dataset from flights:
 
 flights_sml <- select(flights, 
@@ -546,16 +545,16 @@ transmute(flights,
 
 
 
-## 5.5.1 Useful creation functions
+## 5.5.1 Useful creation functions -----
 
 ## There are many functions for creating new variables that you can use with
 ## mutate(). The key property is that the function must be vectorised: it must
 ## take a vector of values as input, return a vector with the same number of
 ## values as output.
 
-## 1. Arithmetic operators: +, -, *, /, ^.
+## 1. Arithmetic operators: +, -, *, /, ^ ----
 
-## 2. Modular arithmetic: %/% (integer division) and %% (remainder), where 
+## 2. Modular arithmetic: %/% (integer division) and %% (remainder) ----
 
 x <- runif(1, min = 101, max = 1000)
 y <- runif(1, min = 1, max = 100)
@@ -567,7 +566,7 @@ transmute(flights,
           minute = dep_time %% 100
           )
 
-## Logs: log(), log2(), log10(). 
+## 3. Logs: log(), log2(), log10(). ----
 
 ## Logarithms are an incredibly useful transformation for dealing with data that
 ## ranges across multiple orders of magnitude. They also convert multiplicative
@@ -577,34 +576,34 @@ transmute(flights,
 ## A difference of 1 on the log scale corresponds to doubling on the original
 ## scale and a difference of -1 corresponds to halving.
 
-## 3. Offsets: lead() and lag() allow you to refer to leading or lagging values.
+## 4. Offsets: lead() and lag() allow you to refer to leading or lagging values. ----
 
 ## This allows you to compute running differences (e.g. x - lag(x)) 
 ## or find when values change (x != lag(x)). 
-## They are most useful in conjunction with group_by(), which you’ll learn about
-## shortly.
+## They are most useful in conjunction with group_by(), 
+## which we’ll learn about shortly.
 
 (x <- 1:10)
 
 lag(x)  # value before current value
 lead(x) # value behind current value
 
-## 4. Cumulative and rolling aggregates: 
+## 5. Cumulative and rolling aggregates: ----
 
 ## R provides functions for running sums, products, mins and maxes: 
 ## cumsum(), cumprod(), cummin(), cummax(); and dplyr provides cummean() for
 ## cumulative means. 
 
-## If you need rolling aggregates (i.e. a sum computed over a rolling window),
+## If we need rolling aggregates (i.e., a sum computed over a rolling window),
 ## try the RcppRoll package.
 
 x
 cumsum(x)
 cummean(x)
 
-## 5. Logical comparisons: <, <=, >, >=, != 
+## 6. Logical comparisons: <, <=, >, >=, != ----
 
-## 6. Ranking: 
+## 7. Ranking: ----
 
 ## There are a number of ranking functions, but start with min_rank(). 
 ## It does the most usual type of ranking (e.g. 1st, 2nd, 2nd, 4th). 
@@ -1343,21 +1342,143 @@ flights %>%
   group_by(dest) %>%
   count(sort = TRUE)
 
-## +++ here now +++ ------ 
 
 
 ## 5.7 Grouped mutates (and filters) ------
 
+flights_sml <- select(flights, 
+                      year:day, 
+                      ends_with("delay"), 
+                      distance, 
+                      air_time)
+
+# Grouping is most useful in conjunction with summarise(), 
+# but we can also do convenient operations with mutate() and filter():
+  
+# (1) Find the best/worst members of each group: ---- 
+  
+flights_sml %>% 
+  group_by(year, month, day) %>%
+  filter(rank(desc(arr_delay)) <= 3)  # finds the 3 worst for each day (Note use of "rank")
+
+# (2) Find all groups bigger than a threshold: ---- 
+
+popular_dests <- flights %>% 
+  group_by(dest) %>% 
+  filter(n() > 365)
+
+# Note that solution is implicit (does not show result).
+length(unique(popular_dests$dest)) # => 77
+
+# Alternative/explicit solution: 
+flights %>% 
+  group_by(dest) %>% 
+  summarise(n = n(),
+            n_not_NA = sum(!is.na(arr_time))) %>%
+  mutate(prop = round(n/sum(n) * 100, 3)) %>%
+  arrange(rank(desc(n))) %>%
+  filter(n > 365)
+
+
+## [test.quest]: Rare destinations?
+  
+# Implicit solution:
+rare_dests <- flights %>% 
+  group_by(dest) %>% 
+  filter(n() < 10) # fewer than 10 flights
+rare_dests$dest
+
+# Alternative/explicit solution: 
+flights %>% 
+  group_by(dest) %>% 
+  summarise(n = n(),
+            n_not_NA = sum(!is.na(arr_time))) %>%
+  mutate(prop = round(n/sum(n) * 100, 3)) %>%
+  arrange(rank(n))
+
+# [test.quest]: Dest. with fewer than .01% of flights?            
+
+# (3) Standardise to compute per group metrics: ---- 
+  
+popular_dests %>% 
+  filter(arr_delay > 0) %>% 
+  mutate(prop_delay = arr_delay / sum(arr_delay)) %>% 
+  select(year:day, dest, arr_delay, prop_delay)
+
+# A grouped filter is a grouped mutate followed by an ungrouped filter. 
+# We generally avoid them except for quick and dirty manipulations: 
+# otherwise it’s hard to check that we’ve done the manipulation correctly.
+
+## Window functions: ---- 
+
+# Functions that work most naturally in grouped mutates and filters 
+# are known as window functions (vs. the summary functions used for summaries). 
+# We can learn more about useful window functions in the corresponding vignette: 
+
+# vignette("window-functions")
+
+
 ## 5.7.1 Exercises ------
 
-# 1. Refer back to the lists of useful mutate and filtering functions. Describe how each operation changes when you combine it with grouping.
+# 1. Refer back to the lists of useful mutate and filtering functions. 
+#    Describe how each operation changes when you combine it with grouping.
+
+# Summary functions take all values per group, 
+# rather than raw values.
 
 # 2. Which plane (tailnum) has the worst on-time record?
-   
+
+#    Decision: Use mean of arr_delay to determine on-time record.
+
+flights %>%
+  group_by(tailnum) %>%
+  summarise(n = n(),
+            n_not_NA = sum(!is.na(arr_delay)),
+            mn_delay = mean(arr_delay, na.rm = TRUE)) %>%
+  #filter(n_not_NA > 10) %>%  # at least 10 flights
+  arrange(desc(mn_delay))
+
+## Which flight is this?
+flights %>%
+  filter(tailnum %in% c("N844MH", "N337AT"))
+
+# [test.quest]: Which destinations with at least 1000 arrivals has the worst arrival delays?
+flights %>%
+  group_by(dest) %>%
+  summarise(n = n(),
+            n_not_NA = sum(!is.na(arr_delay)),
+            mn_delay = mean(arr_delay, na.rm = TRUE)) %>%
+  filter(n_not_NA > 1000) %>%  # at least 1000 flights
+  arrange(desc(mn_delay))
+
 # 3. What time of day should you fly if you want to avoid delays as much as possible?
-   
-# 4. For each destination, compute the total minutes of delay. For each, flight, compute the proportion of the total delay for its destination.
+
+# (a) Using departure delays:
+td <- flights %>%
+  group_by(hour) %>%
+  summarise(n = n(),
+            n_not_NA = sum(!is.na(dep_delay)),
+            mn_delay = mean(dep_delay, na.rm = TRUE)) %>%
+  # filter(n_not_NA > 100) %>%  # at least 100 flights in group
+  arrange(mn_delay)
+td
+
+# [test.quest]: Plotting relationship:
+ggplot(td, aes(x = hour, y = mn_delay)) +
+  geom_point() +
+  geom_line()
+
+# Note that corresponding raw data plot is a mess: 
+ggplot(flights, aes(x = hour, y = arr_delay)) +
+  geom_point(alpha = 1/5) +
+  geom_smooth()
+
+# 4. For each destination, compute the total minutes of delay. 
+#    For each, flight, compute the proportion of the total delay for its destination.
  
+## +++ here now +++ ------ 
+
+
 # 5. Delays are typically temporally correlated: even once the problem that caused the initial delay has been resolved, later flights are delayed to allow earlier flights to leave. Using lag() explore how the delay of a flight is related to the delay of the immediately preceding flight.
  
 # 6. Look at each destination. Can you find flights that are suspiciously fast? (i.e. flights that represent a potential data entry error). Compute the air time a flight relative to the shortest flight to that destination. Which flights were most delayed in the air?
@@ -1365,6 +1486,7 @@ flights %>%
 # 7. Find all destinations that are flown by at least two carriers. Use that information to rank the carriers.
 
 # 8. For each plane, count the number of flights before the first delay of greater than 1 hour.
+
 
 
 
