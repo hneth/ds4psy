@@ -1475,26 +1475,77 @@ ggplot(flights, aes(x = hour, y = arr_delay)) +
 
 # 4. For each destination, compute the total minutes of delay. 
 #    For each, flight, compute the proportion of the total delay for its destination.
- 
+
+flights %>%
+  group_by(dest) %>%
+  summarise(n = n(),
+            n_not_NA = sum(!is.na(arr_delay)),
+            sum_delay = sum(arr_delay, na.rm = TRUE))
+
+## For flights with positive arr_delay values:
+flights %>%
+  filter(!is.na(arr_delay), arr_delay > 0) %>%  # an arr_delay exists
+  group_by(dest) %>%
+  mutate(total_delay = sum(arr_delay),
+         prop_delay = arr_delay / sum(arr_delay)) %>%
+  select(arr_delay, total_delay, prop_delay, everything()) %>%
+  arrange(desc(prop_delay))
+
+# 5. Delays are typically temporally correlated: 
+#    even once the problem that caused the initial delay has been resolved, 
+#    later flights are delayed to allow earlier flights to leave. 
+#    Using lag() explore how the delay of a flight 
+#    is related to the delay of the immediately preceding flight.
+
+flights  # are ordered by date and time.
+# However, should be done by origin airports:
+
+# From https://jrnold.github.io/r4ds-exercise-solutions/data-transformation.html#exercise-5-5 
+
+# We want to group by day to avoid taking the lag from the previous day. 
+# Also, we want to use departure delay, since this mechanism is relevant for departures.
+# Also, we remove missing values both before and after calculating the lag delay.
+# (However, it would be interesting to ask the probability or average delay after
+#  a cancellation.) 
+
+flights %>%
+  filter(origin == "EWR") %>%
+  group_by(year, month, day) %>%
+  filter(!is.na(dep_delay)) %>%
+  mutate(lag_delay = lag(dep_delay)) %>%
+  filter(!is.na(lag_delay)) %>%
+  ggplot(aes(x = dep_delay, y = lag_delay)) +
+  geom_point(alpha = 1/3) +
+  geom_smooth() + 
+  theme_bw()
+
 ## +++ here now +++ ------ 
 
+# 6. Look at each destination. 
+#    Can you find flights that are suspiciously fast 
+#    (i.e., flights that represent a potential data entry error). 
+#    Compute the air time a flight relative to the shortest flight to that destination. 
+#    Which flights were most delayed in the air?
 
-# 5. Delays are typically temporally correlated: even once the problem that caused the initial delay has been resolved, later flights are delayed to allow earlier flights to leave. Using lag() explore how the delay of a flight is related to the delay of the immediately preceding flight.
- 
-# 6. Look at each destination. Can you find flights that are suspiciously fast? (i.e. flights that represent a potential data entry error). Compute the air time a flight relative to the shortest flight to that destination. Which flights were most delayed in the air?
-   
-# 7. Find all destinations that are flown by at least two carriers. Use that information to rank the carriers.
 
-# 8. For each plane, count the number of flights before the first delay of greater than 1 hour.
+# 7. Find all destinations that are flown by at least two carriers. 
+#    Use that information to rank the carriers.
 
+
+# 8. For each plane, count the number of flights 
+#    before the first delay of greater than 1 hour.
 
 
 
 ## Appendix: Additional resources on dplyr: ------
 
-## Books: 
+## Basic of dplyr: 
+vignette("dplyr")
+vignette("window-functions")
 
-
+## More advanced uses of dplyr:
+vignette("two-table")
+vignette("programming")
 
 
 ## Others:
@@ -1505,6 +1556,34 @@ ggplot(flights, aes(x = hour, y = arr_delay)) +
 
 # Use data set "weather" for questions that require 
 # filter, arrange, group_by, summarise (count, NAs, means, medians)
+
+# Aggregation examples: -----
+# (1) Average temperature per month: (used in class)
+
+weather %>%
+  # group_by(origin, month) %>%
+  group_by(month) %>%
+  summarise(n = n(),
+            n_not_NA = sum(!is.na(temp)), 
+            mn_temp = mean(temp, na.rm = TRUE)) %>%
+  ggplot(aes(x = month, y = mn_temp)) +
+  geom_point() +
+  geom_line() +
+  scale_x_continuous(breaks = 1:12) +
+  theme_bw()
+
+# (2) Mean precipitation (by origin and month):
+weather %>%
+  group_by(origin, month) %>%
+  summarise(n = n(),
+            n_not_NA = sum(!is.na(precip)), 
+            mn_precip = mean(precip, na.rm = TRUE)) %>%
+  ggplot(aes(x = month, y = mn_precip, color = origin)) +
+  geom_point() +
+  geom_line() +
+  # geom_bar(aes(fill = origin), stat = "identity", position = "dodge") +
+  scale_x_continuous(breaks = 1:12) +
+  theme_bw()
 
 ## ------
 ## eof.
