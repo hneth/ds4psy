@@ -1,7 +1,7 @@
 ## r4ds: Chapter 5: Data transformation 
 ## Code for http://r4ds.had.co.nz/5_data_transformation.html 
 ## hn spds uni.kn
-## 2018 04 30 ------
+## 2018 05 01 ------
 
 ## Note: dplyr implements a grammar of data transformation.
 ##       This chapter concerns transformations involving a single table
@@ -10,6 +10,7 @@
 ##       - arranging rows (arrange)
 ##       - creating new columns/variables (mutate, transmute)
 ##       - aggregation via grouped summaries (group_by and summarise)
+
 
 
 
@@ -75,6 +76,7 @@ table(flights$dest)
 # - The subsequent arguments describe what to do with the data frame, 
 #   using the variable names (_without_ quotes).
 # - The result is a new data frame.
+
 
 
 
@@ -270,6 +272,7 @@ NA * 0
 
 
 
+
 ## 5.3 Arrange rows with arrange() ------
 
 ## arrange() works similarly to filter() except that 
@@ -399,6 +402,7 @@ flights %>%
 
 
 
+
 ## 5.4 Select columns with select() ------
 
 # It’s not uncommon to get datasets with hundreds or even thousands of
@@ -504,6 +508,7 @@ select(flights, one_of(vars))
   
 select(flights, contains("TIME"))  # yes, this is surprising, as R typically is case sensitive.  But here: ignore.case = TRUE by default.
 select(flights, contains("TIME", ignore.case = FALSE))
+
 
 
 
@@ -691,6 +696,7 @@ arrange(flights, desc(dep_delay))  # sort flights by (descending) dep_delay
 
 ## 6. What trigonometric functions does R provide?
 ?sin
+
 
 
 
@@ -1344,6 +1350,7 @@ flights %>%
 
 
 
+
 ## 5.7 Grouped mutates (and filters) ------
 
 flights_sml <- select(flights, 
@@ -1502,14 +1509,14 @@ flights  # are ordered by date and time.
 
 # From https://jrnold.github.io/r4ds-exercise-solutions/data-transformation.html#exercise-5-5 
 
-# We want to group by day to avoid taking the lag from the previous day. 
+# - We want to group by day to avoid taking the lag from the previous day. 
 # Also, we want to use departure delay, since this mechanism is relevant for departures.
 # Also, we remove missing values both before and after calculating the lag delay.
 # (However, it would be interesting to ask the probability or average delay after
 #  a cancellation.) 
 
 flights %>%
-  filter(origin == "EWR") %>%
+  filter(origin == "EWR") %>%  # only 1 airport at a time
   group_by(year, month, day) %>%
   filter(!is.na(dep_delay)) %>%
   mutate(lag_delay = lag(dep_delay)) %>%
@@ -1519,21 +1526,140 @@ flights %>%
   geom_smooth() + 
   theme_bw()
 
-## +++ here now +++ ------ 
-
 # 6. Look at each destination. 
 #    Can you find flights that are suspiciously fast 
 #    (i.e., flights that represent a potential data entry error). 
 #    Compute the air time a flight relative to the shortest flight to that destination. 
 #    Which flights were most delayed in the air?
 
+# Depends on a definition of "suspiciously fast".
+# Here: > 3 SDs faster than mean air_time to this destination.
 
-# 7. Find all destinations that are flown by at least two carriers. 
+flights %>%
+  group_by(dest) %>%
+  mutate(n = n(),  
+         n_not_NA = sum(!is.na(air_time)),
+         mn_at = mean(air_time, na.rm = TRUE),  # Note: Compute on grouped level!
+         sd_at = sd(air_time, na.rm = TRUE)
+         ) %>%
+  # ungroup() %>%
+  select(year:dep_time, arr_time, air_time, carrier, origin, dest, n:sd_at) %>% # individual flights
+  mutate(suspect = air_time < (mn_at - 3 * sd_at)) %>%  # Compare air_time of individual flights to grouped variables!
+  filter(suspect == TRUE)
+
+# more compact version:
+flights %>%
+  group_by(dest) %>%
+  mutate(n = n(),  
+         n_not_NA = sum(!is.na(air_time)),
+         mn_at = mean(air_time, na.rm = TRUE),  # Note: Compute on grouped level!
+         sd_at = sd(air_time, na.rm = TRUE),
+         suspect = air_time < (mn_at - 3 * sd_at)) %>%  # Compare air_time of individual flights to grouped variables!
+  select(year:dep_time, arr_time, air_time, carrier, origin, dest, n:sd_at, suspect) %>% # individual flights
+  filter(suspect == TRUE)
+  
+## Important: We compute the mean and SD for each destination (grouped level),
+##            but then compare the air_time of individual flights to those means.
+
+# computing mean and sd for combinations of origin and dest:
+flights %>%
+  group_by(origin, dest) %>%
+  mutate(n = n(),  
+         n_not_NA = sum(!is.na(air_time)),
+         mn_at = mean(air_time, na.rm = TRUE),  # Note: Compute on grouped level!
+         sd_at = sd(air_time, na.rm = TRUE),
+         suspect = air_time < (mn_at - 3 * sd_at)) %>%  # Compare air_time of individual flights to grouped variables!
+  select(year:dep_time, arr_time, air_time, carrier, origin, dest, n:sd_at, suspect) %>% # individual flights
+  filter(suspect == TRUE)
+
+#    Which flights were most delayed in the air?
+flights %>%
+  group_by(dest) %>%
+  mutate(n = n(),  
+         n_not_NA = sum(!is.na(air_time)),
+         mn_at = mean(air_time, na.rm = TRUE),  # Note: Compute on grouped level!
+         sd_at = sd(air_time, na.rm = TRUE),
+         air_delay = air_time - mn_at) %>%  # Compute air_delay of individual flight to grouped variables!
+  select(year:dep_time, arr_time, air_time, carrier, origin, dest, n:air_delay) %>% # individual flights
+  arrange(desc(air_delay))
+
+## [test.quest]: Identify outliers based on deviation from group means.
+## Using iris data: Sepal.Length more than 2 SDs away from Species mean: 
+
+iris %>%
+  group_by(Species) %>%
+  mutate(n = n(),  
+         n_not_NA = sum(!is.na(Sepal.Length)),
+         mn_sl = mean(Sepal.Length, na.rm = TRUE),
+         sd_sl = sd(Sepal.Length, na.rm = TRUE),
+         outlier = (abs(Sepal.Length - mn_sl) > 2 * sd_sl)) %>%
+  filter(outlier)
+  
+ggplot(iris, aes(x = Sepal.Length, fill = Species)) +
+  facet_wrap(~Species) +
+  geom_histogram(binwidth = 0.1) +
+  geom_density()
+
+
+## From
+## https://jrnold.github.io/r4ds-exercise-solutions/data-transformation.html#exercise-6-4 
+
+## (a) "fast" as proportion of air_time being faster than med_time
+
+flights %>%
+  filter(!is.na(air_time)) %>%
+  group_by(dest) %>%
+  mutate(med_time = median(air_time),
+         fast = (air_time - med_time) / med_time) %>%
+  arrange(fast) %>%
+  select(air_time, med_time, fast, dep_time, sched_dep_time, arr_time, sched_arr_time)
+
+## (b) Compute a z-score, though mean and SD are affected by outliers:
+
+flights %>%
+  filter(!is.na(air_time)) %>%
+  group_by(dest) %>%
+  mutate(air_time_mean = mean(air_time),
+         air_time_sd = sd(air_time),
+         z_score = (air_time - air_time_mean) / air_time_sd) %>%
+  arrange(z_score) %>%
+  select(dest, z_score, air_time_mean, air_time_sd, air_time, dep_time, sched_dep_time, arr_time, sched_arr_time)
+
+## (c) "Fast" as the difference: air_time - min(air_time):
+
+flights %>%
+  filter(!is.na(air_time)) %>%
+  group_by(dest) %>%
+  mutate(air_time_diff = air_time - min(air_time)) %>%
+  arrange(desc(air_time_diff)) %>%
+  select(dest, year, month, day, carrier, flight, air_time_diff, air_time, dep_time, arr_time)
+
+## (d) "Fast" as the difference: air_time - mean(air_time):
+
+flights %>%
+  filter(!is.na(air_time)) %>%
+  group_by(dest) %>%
+  mutate(air_time_bonus = mean(air_time) - air_time) %>%
+  arrange(desc(air_time_bonus)) %>%
+  select(dest, year, month, day, carrier, flight, air_time_bonus, air_time, dep_time, arr_time)
+
+
+# 7. Find all destinations that are flown by at least 2 carriers. 
 #    Use that information to rank the carriers.
 
+flights %>%
+  group_by(dest, carrier) %>%
+  count(carrier) %>% 
+  group_by(carrier) %>%
+  count(sort = TRUE)
+
+airlines %>%
+  filter(carrier == "EV")
 
 # 8. For each plane, count the number of flights 
 #    before the first delay of greater than 1 hour.
+
+## +++ here now +++ ------ 
 
 
 
@@ -1552,13 +1678,17 @@ vignette("programming")
 
 # - See dplyr cheatsheet at https://www.rstudio.com/resources/cheatsheets/
 
+
 ## Ideas for test questions [test.quest]: ------
+
+# Compute true_travel_time (from dep_time and arr_time) and 
+# plot its relationship to air_time.
 
 # Use data set "weather" for questions that require 
 # filter, arrange, group_by, summarise (count, NAs, means, medians)
 
-# Aggregation examples: -----
-# (1) Average temperature per month: (used in class)
+## Aggregation examples: -----
+## (1) Average temperature per month: (used in class)
 
 weather %>%
   # group_by(origin, month) %>%
@@ -1584,6 +1714,69 @@ weather %>%
   # geom_bar(aes(fill = origin), stat = "identity", position = "dodge") +
   scale_x_continuous(breaks = 1:12) +
   theme_bw()
+
+## Identifying outliers: ---- 
+## relative to 
+## (a) overall mean and SD 
+## (b) group mean and SD 
+
+## Generate data: 
+set.seed(123)
+n <- 1000
+id <- paste0("p.", 1:n) # paste0(sample(LETTERS, 1), sample(LETTERS, 1))
+sex <- sample(x = c(0, 1), size = n, replace = TRUE)
+height <- rep(NA, n)
+noise <- round(rnorm(n, mean = 0, sd = 11), 0)
+height[sex == 0] <- 169 + noise[sex == 0]
+height[sex == 1] <- 181 + noise[sex == 1]
+
+data <- as_tibble(data_frame(id, factor(sex), height))
+names(data) <- c("id", "sex", "height")
+# data
+mean(data$height) # => 175.051
+
+# Define "outlier" as someone deviating by more than 2 SD in some metric 
+# from the mean of a reference group. 
+crit <- 2
+
+# (a) Identify people (men and women) who are _not_ outliers relative to the entire population
+#     but _are_ outliers relative to their own sex.
+#     (As men are taller than women on average, these are tall women and small men). 
+data %>%
+  mutate(mn_height = mean(height),
+         sd_height = sd(height),
+         out_height = abs(height - mn_height) > (crit * sd_height)) %>%
+  group_by(sex) %>%
+  mutate(mn_sex_height = mean(height),
+         sd_sex_height = sd(height),
+         out_sex_height = abs(height - mn_sex_height) > (crit * sd_sex_height)) %>%
+  filter(!out_height & out_sex_height)
+
+# (b) outliers relative to entire population AND to own group (sex):
+data %>%
+  mutate(mn_height = mean(height),
+         sd_height = sd(height),
+         out_height = abs(height - mn_height) > (crit * sd_height)) %>%
+  group_by(sex) %>%
+  mutate(mn_sex_height = mean(height),
+         sd_sex_height = sd(height),
+         out_sex_height = abs(height - mn_sex_height) > (crit * sd_sex_height)) %>%
+  filter(out_height & out_sex_height)
+
+# Visualization of data: 
+p <- ggplot(data) +
+  geom_density(aes(x = height), fill = "forestgreen", alpha = 2/3) +
+  geom_density(aes(x = height, fill = factor(sex)), alpha = 1/4) +
+  theme_bw()
+
+p <- ggplot(data) +
+  facet_wrap(~sex) + 
+  geom_histogram(aes(x = height, binwidth = 10, fill = factor(sex)), alpha = 1/4) +
+  #geom_histogram(aes(x = height), binwidh = 10, fill = "forestgreen", alpha = 2/3) +
+  theme_bw()
+
+
+# ?geom_density
 
 ## ------
 ## eof.
