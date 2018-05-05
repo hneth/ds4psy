@@ -130,6 +130,62 @@ flights %>%
          departure = make_datetime(year, month, day, hour, minute))
 
 
+# Example: 
+# Let’s do the same thing for each of the 4 time columns in flights: 
+
+# The times are represented in a slightly odd format, 
+# so we use modulus arithmetic to pull out the hour and minute components. 
+
+# Once we’ve created the date-time variables, 
+# we focus in on the variables we’ll explore in the rest of the chapter.
+
+make_datetime_100 <- function(year, month, day, time) {
+  make_datetime(year, month, day, time %/% 100, time %% 100)
+}
+
+flights_dt <- flights %>% 
+  filter(!is.na(dep_time), !is.na(arr_time)) %>% 
+  mutate(
+    dep_time = make_datetime_100(year, month, day, dep_time),
+    arr_time = make_datetime_100(year, month, day, arr_time),
+    sched_dep_time = make_datetime_100(year, month, day, sched_dep_time),
+    sched_arr_time = make_datetime_100(year, month, day, sched_arr_time)
+  ) %>% 
+  select(origin, dest, ends_with("time"), ends_with("delay"))
+
+flights_dt
+
+# With this data, we can visualise the distribution 
+# of departure times across the year:
+
+sec_per_day <- 60 * 60 * 24
+sec_per_day # => 86400 
+
+flights_dt %>% 
+  ggplot(aes(dep_time)) + 
+  geom_freqpoly(binwidth = 86400) # 86400 seconds = 1 day
+
+# Or within a single day:
+  
+flights_dt %>% 
+  filter(dep_time < ymd(20130102)) %>% 
+  ggplot(aes(dep_time)) + 
+  geom_freqpoly(binwidth = 60 * 10) # 600 seconds = 10 minutes
+
+## Some particular date: 
+# dt <- flights_dt$dep_time[10000]
+# as_date(dt) # yields the date of some date-time dt
+
+flights_dt %>% 
+  filter(as_date(dep_time) == ymd(20130713)) %>% 
+  ggplot(aes(dep_time)) + 
+  geom_freqpoly(binwidth = 60 * 10) # 600 seconds = 10 minutes
+
+# Note that when you use date-times in a numeric context (like in a histogram), 
+# 1 means 1 second, so a binwidth of 86400 means one day. 
+# For dates, 1 means 1 day.
+
+
 ## 16.2.3 From other types (switching between date and date-time) ----- 
 
 # To switch between a date-time and a date, we can use 
@@ -170,6 +226,7 @@ ymd(c("2010-10-10", "bananas", "2018/05/21"))
 # tzone	takes a character vector specifying which time zone we would like to
 # find the current date of. 
 # Defaults to the system time zone set on our computer.
+Sys.timezone()
 
 today()
 today(tzone = "GMT")
@@ -198,12 +255,223 @@ mdy(d5)
 # 1. Accessor functions that let us get and set individual components. 
 # 2. Arithmetic with date-times.
 
-## +++ here now +++ ------
 
 ## 16.3.1 Getting components ----- 
+
+# We can pull out individual parts of the date with 8 accessor functions: 
+# year(), month(), 
+# mday() (day of the month), yday() (day of the year), wday() (day of the week), 
+# hour(), minute(), and second().
+
+datetime <- ymd_hms("2018-01-31 10:58:56")
+
+year(datetime)
+month(datetime)
+mday(datetime)
+yday(datetime)
+wday(datetime)
+hour(datetime)
+minute(datetime)
+
+# For month() and wday() we can set label = TRUE 
+# to return the abbreviated name of the month or day of the week. 
+# By contrast, abbr = FALSE returns the full name:
+
+month(datetime) # => numeric
+month(datetime, label = TRUE, abbr = TRUE)  # short label
+month(datetime, label = TRUE, abbr = FALSE) # long label
+
+wday(datetime) # => numeric
+wday(datetime, label = TRUE, abbr = TRUE)   # short label
+wday(datetime, label = TRUE, abbr = FALSE)  # long label
+
+
+## Examples: ----
+
+# (1) wday: 
+# We can use wday() to see that more flights depart 
+# during the week than on the weekend:
+  
+flights_dt %>% 
+  mutate(wday = wday(dep_time, label = TRUE)) %>%  # get wday from dep_time
+  ggplot(aes(x = wday)) +
+  geom_bar(aes(fill = wday))
+
+# (2) minute:
+# There’s an interesting pattern if we look at the average departure delay 
+# by minute within the hour. 
+# It looks like flights leaving in minutes 20-30 and 50-60 have much lower delays 
+# than the rest of the hour!
+  
+dp_tm_min <- flights_dt %>% 
+  mutate(minute = minute(dep_time)) %>% 
+  group_by(minute) %>% 
+  summarise(
+    mn_dep_delay = mean(dep_delay, na.rm = TRUE),
+    mn_arr_delay = mean(arr_delay, na.rm = TRUE),
+    n = n())
+dp_tm_min
+
+ggplot(dp_tm_min, aes(x = minute)) +
+    geom_line(aes(y = mn_dep_delay), color = "green3") +
+    geom_line(aes(y = mn_arr_delay), color = "red3")
+
+
+# Interestingly, if we look at the _scheduled_ departure time 
+# we don’t see such a strong pattern:
+  
+sched_dp_tm_min <- flights_dt %>% 
+  mutate(minute = minute(sched_dep_time)) %>% 
+  group_by(minute) %>% 
+  summarise(
+    mn_dep_delay = mean(dep_delay, na.rm = TRUE),
+    mn_arr_delay = mean(arr_delay, na.rm = TRUE),
+    n = n())
+sched_dp_tm_min
+
+ggplot(sched_dp_tm_min, aes(x = minute)) +
+  geom_line(aes(y = mn_dep_delay), color = "green3") +
+  geom_line(aes(y = mn_arr_delay), color = "red3")
+
+# So why do we see that pattern with the _actual_ departure times? 
+# Well, like much data collected by humans, there’s a strong bias 
+# towards flights leaving at “nice” departure times. 
+# Always be alert for this sort of pattern whenever 
+# you work with data that involves human judgement!
+
+# Frequency of scheduled departure times:
+ggplot(sched_dp_tm_min, aes(minute, n)) +
+  geom_line()
+
+# Contrast this with the frequency of actual departure times:
+ggplot(dp_tm_min, aes(minute, n)) +
+  geom_line()
+
+
 ## 16.3.2 Rounding ----- 
+
+# An alternative approach to plotting individual components 
+# is to round the date to a nearby unit of time, with 
+# - floor_date(), 
+# - round_date(), and 
+# - ceiling_date(). 
+
+# Each function takes 
+# - a vector of dates to adjust and then 
+# - the name of the unit round down (floor), round up (ceiling), or round to. 
+
+# This, for example, allows us to plot the number of flights per week:
+  
+flights_dt %>% 
+  count(week = floor_date(dep_time, "week")) %>% 
+  ggplot(aes(week, n)) +
+  geom_line()
+
+# Computing the difference between a rounded and unrounded date 
+# can be particularly useful.
+
+
 ## 16.3.3 Setting components ----- 
+
+## (1) Setting year/month/hour: ----
+
+# We can also use each accessor function to set the components of a date/time:
+  
+(datetime <- ymd_hms("2016-07-08 12:34:56"))
+#> [1] "2016-07-08 12:34:56 UTC"
+
+year(datetime) <- 2020  # set year of datetime
+datetime
+#> [1] "2020-07-08 12:34:56 UTC"
+
+month(datetime) <- 01  # set month of datetime
+datetime
+#> [1] "2020-01-08 12:34:56 UTC"
+
+hour(datetime) <- hour(datetime) + 1  # increment hour of datetime
+datetime 
+#> [1] "2020-01-08 13:34:56 UTC"
+
+# (2) update: ---- 
+# Alternatively, rather than modifying in place, 
+# we can create a new date-time with update(). 
+
+# This also allows us to set multiple values at once: 
+update(datetime, year = 2020, month = 2, mday = 2, hour = 2)
+#> [1] "2020-02-02 02:34:56 UTC"
+
+# If values are too big, they will roll-over:
+  
+ymd("2015-02-01") %>% 
+  update(mday = 30)
+#> [1] "2015-03-02"
+
+ymd("2015-02-01") %>% 
+  update(hour = 25)
+#> [1] "2015-02-02 01:00:00 UTC"
+
+# We can use update() to show the distribution of flights 
+# across the course of the day for every day of the year:
+
+flights_dt %>% 
+  mutate(dep_hour = update(dep_time, yday = 1)) %>% 
+  ggplot(aes(dep_hour)) +
+  geom_freqpoly(binwidth = 300)
+
+# Setting larger components of a date to a constant 
+# is a powerful technique that allows us to explore 
+# patterns in the smaller components.
+
+
 ## 16.3.4 Exercises -----
+
+# 1. How does the distribution of flight times within a day 
+#    change over the course of the year?
+
+flights_dt
+
+dep_time_month <- flights_dt %>%
+  filter(!is.na(dep_time)) %>%
+  mutate(month = month(dep_time)) %>%
+  group_by(month) %>%
+  mutate(hour = hour(dep_time)) %>%
+  group_by(month, hour) %>%
+  summarize(n = n())
+#  dep_time_month
+
+ggplot(dep_time_month, aes(x = hour, y = n)) +
+  facet_wrap(~month) + 
+  geom_line(aes(color = month))
+
+# From
+# https://jrnold.github.io/r4ds-exercise-solutions/dates-and-times.html#date-time-components 
+
+flights_dt %>%
+  mutate(time = hour(dep_time) * 100 + minute(dep_time),
+         month = as.factor(month(dep_time))) %>%
+  ggplot(aes(x = time, group = month, color = month)) +
+  geom_freqpoly(binwidth = 100)
+
+# 2. Compare dep_time, sched_dep_time and dep_delay. 
+#    Are they consistent? Explain your findings.
+
+## +++ here now +++ ------
+
+# 3. Compare air_time with the duration between the departure and arrival.
+#    Explain your findings. (Hint: consider the location of the airport.)
+
+# 4. How does the average delay time change over the course of a day? 
+#    Should you use dep_time or sched_dep_time? Why?
+  
+# 5. On what day of the week should you leave if you want to minimise the chance of a delay?
+  
+# 6. What makes the distribution of diamonds$carat and flights$sched_dep_time similar?
+  
+# 7. Confirm my hypothesis that the early departures of flights 
+#    in minutes 20-30 and 50-60 are caused by scheduled flights 
+#    that leave early. 
+#    Hint: create a binary variable that tells you whether or not a flight was delayed.
+
 
 
 
