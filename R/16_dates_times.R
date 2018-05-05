@@ -1,7 +1,7 @@
 ## r4ds: Chapter 16: 
 ## Code for http://r4ds.had.co.nz/dates-and-times.html  
 ## hn spds uni.kn
-## 2018 05 04 ------
+## 2018 05 05 ------
 
 ## [see Book chapter 1x: "..."]
 
@@ -64,7 +64,7 @@ typeof(now())             # => "double"
 
 # They work as follows:
 
-## 16.2.1 From strings ----- 
+## 16.2.1 From strings (denoting ymd hms) ----- 
 
 # (1) readr: ---- 
 
@@ -72,7 +72,10 @@ typeof(now())             # => "double"
 # - readr::parse_date()
 # - readr::parse_time()
 # - readr::parse_datetime()
+
 # See http://r4ds.had.co.nz/data-import.html#readr-datetimes
+# e.g., 
+readr::parse_datetime(flights$time_hour)
 
 # (2) lubridate: ---- 
 
@@ -108,7 +111,7 @@ mdy_hm("01/31/2018 09:22")
 ymd(20170131, tz = "UTC")
 
 
-## 16.2.2 From individual components -----
+## 16.2.2 From individual components (multiple variables) -----
 
 # Instead of a single string, we often have the individual components 
 # of the date-time spread across multiple columns. 
@@ -126,12 +129,81 @@ flights %>%
   mutate(cur_date = make_date(year, month, day), 
          departure = make_datetime(year, month, day, hour, minute))
 
-## 16.2.3 From other types ----- 
+
+## 16.2.3 From other types (switching between date and date-time) ----- 
+
+# To switch between a date-time and a date, we can use 
+# as_datetime() and as_date():
+
+as_datetime(today()) # => the date & time zone (as no time is given)
+as_datetime(now())   # => the date & time & time zone (as time given)
+
+as_date(now())   # => only the date
+as_date(today()) # => the same date
+
+# Sometimes we'll get date/times as numeric offsets 
+# from the “Unix Epoch”, 1970-01-01. 
+# If the offset is 
+# - in seconds, use as_datetime(); 
+# - if it’s in days, use as_date():
+
+as_datetime((60 * 60 * 24 * 3) + (60 * 60 * 10)) # 3 days + 10 hours
+# "1970-01-04 10:00:00 UTC"
+
+as_date((365 * 10 + 2)) # 10 years (+ 2 leap years!) later
 
 
+## 16.2.4 Exercises ----- 
+
+# 1. What happens if you parse a string that contains invalid dates?
+  
+ymd(c("2010-10-10", "bananas", "2018/05/21"))
+
+# The 2nd string fails to parse and yields NA, 
+# but the others are correctly parsed into dates.
+
+# 2. What does the tzone argument to today() do? 
+#    Why is it important?
+
+# ?today()
+
+# tzone	takes a character vector specifying which time zone we would like to
+# find the current date of. 
+# Defaults to the system time zone set on our computer.
+
+today()
+today(tzone = "GMT")
+today() == today("GMT") # not always true
+
+# 3. Use the appropriate lubridate function 
+#    to parse each of the following dates:
+
+d1 <- "January 1, 2010"
+d2 <- "2015-Mar-07"
+d3 <- "06-Jun-2017"
+d4 <- c("August 19 (2015)", "July 1 (2015)")
+d5 <- "12/30/14" # Dec 30, 2014
+
+mdy(d1)
+ymd(d2)
+dmy(d3)
+mdy(d4)
+mdy(d5)
+
+
+## 16.3 Date-time components ------ 
+
+# Now that you know how to get date-time data into R’s date-time data structures, 
+# let’s explore what we can do with them. 
+# 1. Accessor functions that let us get and set individual components. 
+# 2. Arithmetic with date-times.
 
 ## +++ here now +++ ------
 
+## 16.3.1 Getting components ----- 
+## 16.3.2 Rounding ----- 
+## 16.3.3 Setting components ----- 
+## 16.3.4 Exercises -----
 
 
 
