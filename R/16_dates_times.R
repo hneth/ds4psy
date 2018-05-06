@@ -455,10 +455,73 @@ flights_dt %>%
 # 2. Compare dep_time, sched_dep_time and dep_delay. 
 #    Are they consistent? Explain your findings.
 
-## +++ here now +++ ------
+del_dif <- flights_dt %>%
+  mutate(ad_t_h = hour(dep_time),   # actual departure time hour
+         ad_t_m = minute(dep_time),
+         sd_t_h = hour(sched_dep_time),   # scheduled departure time hour
+         sd_t_m = minute(sched_dep_time),
+         my_dep_delay = (((ad_t_h * 60) + ad_t_m) - ((sd_t_h * 60) + sd_t_m)), 
+         delay_diff = my_dep_delay - dep_delay
+         ) %>%
+  select(ad_t_h, ad_t_m, dep_time, sd_t_h, sd_t_m, sched_dep_time, my_dep_delay, dep_delay, delay_diff) %>%
+  filter(delay_diff != 0)
+
+del_dif # 1234 flights with discrepancies.
+unique(del_dif$delay_diff) # All delay_diff values are -1440
+
+# Note: 
+60*24 # 1440 (i.e., 24 hours are 1440 minutes).
+# => Flights that were delayed to the next day;
+#    For these flights, the departure _dates_ are erroneous, as they should be incremented to the next day.   
+#    However, the values of the dep_delay variable are correct!
+
+ggplot(del_dif, aes(dep_delay, my_dep_delay)) +
+  geom_abline(intercept = -(24*60), slope = 1, linetype = 2, color = "green3") +  # y = x - 1440
+  geom_point(alpha = 1/3) +
+  theme_bw()
+
+## Shorter solution from
+# https://jrnold.github.io/r4ds-exercise-solutions/dates-and-times.html#exercise-2-46 
+
+# If they are consistent, then dep_time = sched_dep_time + dep_delay.
+
+flights_dt %>%
+  mutate(dep_time_2 = sched_dep_time + dep_delay * 60) %>%
+  filter(dep_time_2 != dep_time) %>%
+  select(dep_time_2, dep_time, sched_dep_time, dep_delay)
+
+# There exist discrepancies. It looks like there are mistakes in the dates.
+# These are flights in which the actual departure time is on the next day
+# relative to the scheduled departure time. 
+
+# We forgot to account for this when creating the date-times. The code would
+# have had to check if the departure time is BEFORE the scheduled departure
+# time (by an unreasonable amount). 
+
+# Alternatively, simply adding the delay time to the scheduled departure time 
+# is more robust because it will automatically account for crossing into the next day.
 
 # 3. Compare air_time with the duration between the departure and arrival.
-#    Explain your findings. (Hint: consider the location of the airport.)
+#    Explain your findings. (Hint: Consider the location of the airport.)
+
+at <- flights_dt %>%
+  mutate(air_time_2 = arr_time - dep_time,
+         air_time_3 = sched_arr_time - sched_dep_time,
+         diff = air_time_2 - air_time) %>%
+  select(origin, dest, dep_time, arr_time, air_time_2, air_time_3, air_time, diff) 
+at
+
+ggplot(at, aes(x = air_time, y = air_time_2)) +
+  geom_point(size = .1, alpha = 1/4) + 
+  geom_abline(intercept = 0, slope = 1, linetype = 2, color = "green3") +  # y = x
+  geom_abline(intercept = -60, slope = 1, linetype = 2, color = "red3") +  # y = x - 60
+  geom_abline(intercept = -120, slope = 1, linetype = 2, color = "gold") +  # y = x - 120
+  geom_abline(intercept = -180, slope = 1, linetype = 2, color = "steelblue3") +  # y = x - 180
+  theme_bw()
+# => plot shows clusters at different time zones,
+#    and arriving on the next day (with negative diff values).
+
+## +++ here now +++ ------
 
 # 4. How does the average delay time change over the course of a day? 
 #    Should you use dep_time or sched_dep_time? Why?
