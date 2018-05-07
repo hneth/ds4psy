@@ -1,7 +1,7 @@
 ## r4ds: Chapter 7: Exploratory data analysis
 ## Code for http://r4ds.had.co.nz/exploratory-data-analysis.html 
 ## hn spds uni.kn
-## 2018 03 30 ------
+## 2018 05 07 ------
 
 ## Quotes: ------
 
@@ -11,6 +11,7 @@
 # > “Far better an approximate answer to the right question, which is often vague, 
 # >  than an exact answer to the wrong question, which can always be made precise.” 
 # >  John Tukey
+
 
 
 ## 7.1 Introduction ------
@@ -38,14 +39,13 @@
 
 library(tidyverse)
 
-
 ## 7.2 Questions ------ 
 
 ## Goal of EDA: developing an understanding of data.
 
-## - use questions to guide attention
-## - creative process: good quality and large quantity of questions
-## - no general rules, but 2 types of questions: 
+## - Use questions to guide attention
+## - Creative process: good quality and large quantity of questions
+## - No general rules, but 2 types of questions: 
 ##   a. type of variation within variables?
 ##   b. type of covariation between variables?
 
@@ -70,7 +70,6 @@ library(tidyverse)
 
 
 
-
 ## 7.3 Variation ------
 
 # Variation := the tendency of the values of a variable to change 
@@ -80,15 +79,14 @@ library(tidyverse)
 
 ## 7.3.1 Visualising distributions 
 
-## A: Distribution of a categorical variable (discrete levels): 
-##    bar chart
+## A: Distribution of a categorical variable (discrete levels): bar chart ---- 
 
 table(diamonds$cut)
 
 ggplot(data = diamonds) +
   geom_bar(mapping = aes(x = cut))
 
-# Bar height denotes frequency of category value. 
+# => Bar height denotes the frequency of category values. 
 
 # Compute with dplyr:
 
@@ -101,8 +99,7 @@ diamonds %>%
   group_by(cut) %>%
   summarise(count = n())
 
-## B: Distribution of a continuous variable, 
-##    histogram:
+## B: Distribution of a continuous variable: histogram ---- 
 
 ggplot(data = diamonds) +
   geom_histogram(mapping = aes(x = carat), binwidth = 0.5)
@@ -143,7 +140,7 @@ ggplot(data = smaller, mapping = aes(x = carat, color = cut)) +
 ggplot(data = smaller, mapping = aes(x = carat, fill = cut)) +
   geom_histogram(binwidth = 0.1) +
   scale_fill_brewer(palette = "Blues") +
-  theme_light()
+  theme_bw()
 
 
 ## 7.3.2 Typical values ------
@@ -240,7 +237,7 @@ ggplot(diamonds) +
 
 ggplot(diamonds) + 
   geom_histogram(mapping = aes(x = x), binwidth = 0.5) +
-  coord_cartesian(ylim = c(0, 20))
+  coord_cartesian(ylim = c(0, 20))  # zooming in 
 
 # depth z:
 
@@ -459,6 +456,7 @@ ggplot(diamonds) +
 
 
 
+
 ## 7.4 Missing values ------
 
 # What to do with outliers or suspect/peculiar values?
@@ -602,6 +600,7 @@ mean(v)
 mean(v, na.rm = TRUE)
 
 # na.rm = TRUE removes NA values before applying function.
+
 
 
 
@@ -986,6 +985,7 @@ ggplot(diamonds) +
 
 
 
+
 ## 7.5.2 Two categorical variables -----
 
 # (1) Visualize the frequency of counts:
@@ -1288,6 +1288,7 @@ ggplot(data = diamonds) +
 
 
 
+
 ## 7.6 Patterns and models ------
 
 # Patterns in your data provide clues about relationships. If a systematic
@@ -1363,6 +1364,7 @@ ggplot(data = diamonds2) +
 
 
 
+
 ## 7.7 ggplot2 calls ------
 
 # As we move on from these introductory chapters, we’ll transition to a more
@@ -1400,6 +1402,7 @@ diamonds %>%
 
 
 
+
 ## 7.8 Learning more ------
 
 # 0. Chapter 28: of current book <http://r4ds.had.co.nz>:
@@ -1422,11 +1425,13 @@ diamonds %>%
 #    This is a book-length treatment similar to the material covered in this
 #    chapter, but has the space to go into much greater depth.
 
+
 # +++ here now +++ ------
+
 
 ## Ideas for test questions [test.quest]: ------
 
-# [test.quest]: Daily temperature curves in 3 NYC airports by month: 
+# [test.quest]: Daily temperature curves in 3 NYC airports by month: ----
 {
   # Using only data from nycflights13::weather 
   # Tools to know: dplyr (group_by, summarise, mutate), ggplot (facet_wrap, geom_line)
@@ -1482,7 +1487,7 @@ diamonds %>%
   
 }
 
-# [test.quest]: Explore babynames:
+# [test.quest]: Explore babynames: ---- 
 {
   ## Data used: babynames::babynames
   ## To know: dplyr, ggplot 
