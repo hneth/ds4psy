@@ -1,12 +1,9 @@
 ## r4ds: Chapter 16: 
 ## Code for http://r4ds.had.co.nz/dates-and-times.html  
 ## hn spds uni.kn
-## 2018 05 05 ------
+## 2018 05 07 ------
 
 ## [see Book chapter 1x: "..."]
-
-## Note: forcats is not part of the core tidyverse. 
-
 
 
 ## 16.1 Introduction ------
@@ -512,7 +509,7 @@ at <- flights_dt %>%
 at
 
 ggplot(at, aes(x = air_time, y = air_time_2)) +
-  geom_point(size = .1, alpha = 1/4) + 
+  geom_point(size = 1/4, alpha = 1/4) + 
   geom_abline(intercept = 0, slope = 1, linetype = 2, color = "green3") +  # y = x
   geom_abline(intercept = -60, slope = 1, linetype = 2, color = "red3") +  # y = x - 60
   geom_abline(intercept = -120, slope = 1, linetype = 2, color = "gold") +  # y = x - 120
@@ -521,13 +518,40 @@ ggplot(at, aes(x = air_time, y = air_time_2)) +
 # => plot shows clusters at different time zones,
 #    and arriving on the next day (with negative diff values).
 
-## +++ here now +++ ------
-
 # 4. How does the average delay time change over the course of a day? 
 #    Should you use dep_time or sched_dep_time? Why?
-  
+
+flights_dt %>%
+  filter(!is.na(dep_delay)) %>%
+  mutate(hour = hour(sched_dep_time)) %>% # use scheduled time, as this does not yet include delay
+  group_by(hour) %>%
+  summarise(n = n(),
+            mn_delay = mean(dep_delay)) %>%
+  ggplot(aes(x = hour, y = mn_delay)) +
+  geom_point() + 
+  geom_line() +
+  geom_smooth() + 
+  theme_bw()
+
+# Similar solution from 
+# https://jrnold.github.io/r4ds-exercise-solutions/dates-and-times.html#exercise-3-34 
+# Use sched_dep_time because that is the relevant metric for someone scheduling a flight. 
+# Also, using dep_time will always bias delays to later in the day since delays 
+# will push flights later.
+
+flights_dt %>%
+  mutate(sched_dep_hour = hour(sched_dep_time)) %>%
+  group_by(sched_dep_hour) %>%
+  summarise(dep_delay = mean(dep_delay)) %>%
+  ggplot(aes(y = dep_delay, x = sched_dep_hour)) +
+  geom_point() +
+  geom_smooth()
+
 # 5. On what day of the week should you leave if you want to minimise the chance of a delay?
-  
+
+## +++ here now +++ ------
+
+
 # 6. What makes the distribution of diamonds$carat and flights$sched_dep_time similar?
   
 # 7. Confirm my hypothesis that the early departures of flights 
