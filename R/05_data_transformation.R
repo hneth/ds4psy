@@ -1716,9 +1716,6 @@ weather %>%
   theme_bw()
 
 ## Identifying outliers: ---- 
-## relative to 
-## (a) overall mean and SD 
-## (b) group mean and SD 
 
 ## Generate data: 
 set.seed(123)
@@ -1735,35 +1732,42 @@ names(data) <- c("id", "sex", "height")
 # data
 mean(data$height) # => 175.051
 
-# Define "outlier" as someone deviating by more than 2 SD in some metric 
+## Definition: 
+# Define an "outlier" as someone deviating by more than 2 SD in some metric 
 # from the mean of a reference group. 
 crit <- 2
 
-# (a) Identify people (men and women) who are _not_ outliers relative to the entire population
+## Compute 2 types of outliers:
+## (a) relative to overall mean and SD 
+## (b) relative to specific group mean and SD 
+
+data_out <- data %>%
+  mutate(mn_height = mean(height),      # (a) overall:
+         sd_height = sd(height),
+         out_height = abs(height - mn_height) > (crit * sd_height)) %>%
+  group_by(sex) %>% 
+  mutate(mn_sex_height = mean(height),  # (b) by sex:
+         sd_sex_height = sd(height),
+         out_sex_height = abs(height - mn_sex_height) > (crit * sd_sex_height))
+
+# (1) Identify outliers relative to entire population AND to own group (sex):
+out_1 <- data_out %>%
+  filter(out_height & out_sex_height)
+out_1
+
+# (2) Identify people (men and women) who are _not_ outliers relative to the entire population
 #     but _are_ outliers relative to their own sex.
 #     (As men are taller than women on average, these are tall women and small men). 
-data %>%
-  mutate(mn_height = mean(height),
-         sd_height = sd(height),
-         out_height = abs(height - mn_height) > (crit * sd_height)) %>%
-  group_by(sex) %>%
-  mutate(mn_sex_height = mean(height),
-         sd_sex_height = sd(height),
-         out_sex_height = abs(height - mn_sex_height) > (crit * sd_sex_height)) %>%
+out_2 <- data_out %>%
   filter(!out_height & out_sex_height)
+out_2
 
-# (b) outliers relative to entire population AND to own group (sex):
-data %>%
-  mutate(mn_height = mean(height),
-         sd_height = sd(height),
-         out_height = abs(height - mn_height) > (crit * sd_height)) %>%
-  group_by(sex) %>%
-  mutate(mn_sex_height = mean(height),
-         sd_sex_height = sd(height),
-         out_sex_height = abs(height - mn_sex_height) > (crit * sd_sex_height)) %>%
-  filter(out_height & out_sex_height)
 
-# Visualization of data: 
+## Visualizations:
+
+# (a) All data: 
+# ?geom_density
+
 p <- ggplot(data) +
   geom_density(aes(x = height), fill = "forestgreen", alpha = 2/3) +
   geom_density(aes(x = height, fill = factor(sex)), alpha = 1/4) +
@@ -1775,8 +1779,14 @@ p <- ggplot(data) +
   #geom_histogram(aes(x = height), binwidh = 10, fill = "forestgreen", alpha = 2/3) +
   theme_bw()
 
+## (b) 2 types of outliers:
+ggplot(out_1, aes(x = sex, y = height, color = sex)) +
+  geom_violin() + 
+  geom_jitter()
 
-# ?geom_density
+ggplot(out_2, aes(x = sex, y = height, color = sex)) +
+  geom_violin() + 
+  geom_jitter()
 
 ## ------
 ## eof.

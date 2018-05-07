@@ -549,10 +549,33 @@ flights_dt %>%
 
 # 5. On what day of the week should you leave if you want to minimise the chance of a delay?
 
-## +++ here now +++ ------
+wd <- flights_dt %>%
+  # filter(!is.na(dep_delay), !is.na(arr_delay)) %>%
+  mutate(day = wday(sched_dep_time, label = FALSE)) %>%  # treat day as numeric (continuous) variable
+  group_by(day) %>%
+  summarise(n = n(),
+            dep_delay = mean(dep_delay, na.rm = TRUE),
+            arr_delay = mean(arr_delay, na.rm = TRUE))
+wd
+# => Answer: Day 7 (=Saturday!) has the lowest (departure and arrival) delays
 
+ggplot(wd, aes(x = day)) +
+  geom_point(aes(y = dep_delay), color = "steelblue") +
+  # geom_line(aes(y = dep_delay), color = "steelblue") + 
+  geom_smooth(aes(y = dep_delay),  color = "steelblue", fill = "skyblue") + 
+  geom_point(aes(y = arr_delay), color = "forestgreen") +
+  # geom_line(aes(y = arr_delay), color = "forestgreen") + 
+  geom_smooth(aes(y = arr_delay), color = "forestgreen", fill = "green1") +
+  # scale_x_continuous() + 
+  theme_bw()
+
+# Note that solution of 
+# https://jrnold.github.io/r4ds-exercise-solutions/dates-and-times.html#exercise-5-14 
+# is wrong: Day 7 in this data denotes Saturday, not Sunday!
 
 # 6. What makes the distribution of diamonds$carat and flights$sched_dep_time similar?
+
+## +++ here now +++ ------
   
 # 7. Confirm my hypothesis that the early departures of flights 
 #    in minutes 20-30 and 50-60 are caused by scheduled flights 

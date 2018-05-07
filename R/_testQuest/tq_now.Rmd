@@ -1,0 +1,111 @@
+---
+title: "Test Questions (ds4psy)"
+author: "Hansjörg Neth, SPDS, uni.kn"
+date: "2018 05 02"
+output:
+  rmdformats::html_clean:
+    highlight: kate
+---
+
+```{r knitr_init, echo = FALSE, cache = FALSE, message = FALSE, warning = FALSE}
+library(knitr)
+library(rmdformats)
+
+## Global options
+options(max.print="75")
+opts_chunk$set(echo=FALSE,
+	             cache=TRUE,
+               prompt=FALSE,
+               tidy=FALSE,
+               comment=NA,
+               message=FALSE,
+               warning=FALSE)
+opts_knit$set(width=75)
+```
+
+
+# Course Coordinates
+
+<!-- uni.kn logo and link to SPDS: -->  
+<!-- ![](./inst/pix/uniKn_logo.png) --> 
+<a href="https://www.spds.uni-konstanz.de/">
+<img src = "../../inst/pix/uniKn_logo.png" alt = "spds.uni.kn" align = "right" width = "300" style = "width: 300px; float: right; border:20;"/>
+<!-- <img src = "./inst/pix/uniKn_logo_s.png" alt = "spds.uni.kn" style = "float: right; border:20;"/> --> 
+</a>
+
+* Taught at the [University of Konstanz](https://www.uni-konstanz.de/) by [Hansjörg Neth](http://neth.de/) (<h.neth@uni.kn>,  [SPDS](https://www.spds.uni-konstanz.de/), office D507).
+* Spring/summer 2018: Mondays, 13:30--15:00, C511 (from 2018.04.16 to 2018.07.16) 
+* Links to [ZeUS](https://zeus.uni-konstanz.de:443/hioserver/pages/startFlow.xhtml?_flowId=showEvent-flow&unitId=5101&termYear=2018&termTypeValueId=1&navigationPosition=hisinoneLehrorganisation,examEventOverviewOwn) and [Ilias](https://ilias.uni-konstanz.de/ilias/goto_ilias_uni_crs_758039.html)
+
+
+# Test Questions
+
+This file contains practice and test questions suited to test your skills and understanding.
+
+
+## 5: Data transformation
+
+```{r, setup_5, echo = TRUE, eval = TRUE}
+library(tidyverse)    # dplyr
+library(nycflights13) # data
+```
+
+### Compute true flight duration
+
+Using the `flights` dataset: 
+- Compute a variable `true_duration` as the duration of each flight (in minutes) from its `dep_time` and `arr_time`. 
+- How does it relate to the `air_time` variable in the data set? (Plot the relationship between both variables.)
+
+```{r, echo = TRUE}
+compute_duration <- function(dep_min, arr_min) {
+
+  dur <- NA # initialize
+  
+  # Distinguish between 2 cases:
+  if (dep_min < arr_min) {  # dep before arr (i.e., same day): 
+    dur <- arr_min - dep_min
+  } else { # dep later than arr (i.e., different days): 
+    dur <- (arr_min + 24 * 60) - dep_min 
+  }
+  
+  return(dur)
+  
+}
+
+# Check for vectors: 
+dep <- seq(0, 24*60, by = +15)
+arr <- seq(24*60, 0, by = -15)
+
+# compute_duration(dep, arr)
+# ???: How to apply a function to each pair of values of 2 vectors/columns?
+
+d <- flights %>% 
+  filter(origin == "JFK") %>%  # to reduce size of dataset
+  select(dep_time, arr_time, air_time) %>%
+  mutate(dep_time_min = ((dep_time %/% 100) * 60) + (dep_time %% 100),
+         arr_time_min = ((arr_time %/% 100) * 60) + (arr_time %% 100),
+         # true_duration = compute_duration(dep_time_min, arr_time_min),
+         true_duration = arr_time_min - dep_time_min) %>%
+  filter(air_time > 0, true_duration > 0)
+
+p <- ggplot(d, (aes(x = air_time, y = true_duration))) +
+  geom_point(alpha = 1/4) +
+  geom_abline(intercept = 0, slope = 1, linetype = 2, size = 1, color = "red3") +
+  theme_bw()
+```
+
+#### Notes
+
+- The `dep_time` and `arr_time` are specified in terms of hour and minutes. As an hour contains 60 minutes (rather than 100), we first use modular arithmetic to transform both variables into a metric of minutes (see variables `dep_time_min` and `arr_time_min`).
+
+- For flights departing and arriving on the same day, we can simply subtract `dep_time_min` from `arr_time_min` to obtain `true_duration`. However, if a flight departs before and arrives after midnight (i.e., arrives on the next day), this measure would yield a negative result. To correct for this, we need to add 24 hours (24 times 60 minutes) to `arr_time` whenever `arr_time` is before (or smaller than) `dep_time`. [This assumes that there are no flights exceeding 24 hours.]
+
+- Seems too difficult, as it requires conditional execution and/or functions. 
+
+
+
+
+
+[This file last updated on `r Sys.time()` by [hn](http://neth.de/).]
+
+<!-- eof. --> 
