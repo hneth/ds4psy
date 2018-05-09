@@ -575,6 +575,29 @@ ggplot(wd, aes(x = day)) +
 
 # 6. What makes the distribution of diamonds$carat and flights$sched_dep_time similar?
 
+# Distribution of diamonds$carat:
+ds <- filter(diamonds, carat < 3.1)
+ggplot(ds, aes(x = carat)) + 
+  geom_histogram(binwidth = .025, color = "grey50", fill = "gold") + 
+  # geom_freqpoly(binwidth = .025, color = "steelblue", size = 1.0) + 
+  theme_bw()
+
+# Distribution of flights$sched_dep_time:
+# flights
+ggplot(flights, aes(x = sched_dep_time)) +
+  geom_histogram(binwidth = 25, color = "grey50", fill = "gold") + 
+  # geom_freqpoly(binwidth = 25, color = "steelblue", size = 1.0) + 
+  scale_x_continuous(breaks = seq(0, 2400, by = 100), labels = seq(0, 2400, by = 100)) +
+  theme_bw()
+
+# Zooming in at bottom (with coord_cartesian): 
+ggplot(flights, aes(x = sched_dep_time)) +
+  geom_histogram(binwidth = 25, color = "grey50", fill = "gold") + 
+  # geom_freqpoly(binwidth = 25, color = "steelblue", size = 1.0) + 
+  scale_x_continuous(breaks = seq(0, 2400, by = 100), labels = seq(0, 2400, by = 100)) +
+  coord_cartesian(ylim = c(0, 100)) + 
+  theme_bw()
+
 ## +++ here now +++ ------
   
 # 7. Confirm my hypothesis that the early departures of flights 
@@ -603,6 +626,12 @@ ggplot(wd, aes(x = day)) +
 ## Multiple choice [MC] questions: -----
 
 ## Practical questions: ----- 
+
+## See 
+## https://fivethirtyeight.com/features/some-people-are-too-superstitious-to-have-a-baby-on-friday-the-13th/
+## for nice day/date effects.
+
+
 
 ## ------
 ## eof.
