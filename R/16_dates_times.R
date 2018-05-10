@@ -1,7 +1,7 @@
 ## r4ds: Chapter 16: 
 ## Code for http://r4ds.had.co.nz/dates-and-times.html  
 ## hn spds uni.kn
-## 2018 05 07 ------
+## 2018 05 10 ------
 
 ## [see Book chapter 1x: "..."]
 
@@ -598,12 +598,261 @@ ggplot(flights, aes(x = sched_dep_time)) +
   coord_cartesian(ylim = c(0, 100)) + 
   theme_bw()
 
-## +++ here now +++ ------
-  
+# Answer: Both patterns seem to be based on a human preference for nice (round) numbers
+#         (and a corresponding mechanism to manipulate the measurements).
+
 # 7. Confirm my hypothesis that the early departures of flights 
 #    in minutes 20-30 and 50-60 are caused by scheduled flights 
 #    that leave early. 
 #    Hint: create a binary variable that tells you whether or not a flight was delayed.
+
+# Phenomenon:
+
+flights_dt %>% 
+  mutate(minute = minute(dep_time)) %>% 
+  group_by(minute) %>% 
+  summarise(
+    avg_delay = mean(arr_delay, na.rm = TRUE),
+    n = n()) %>% 
+  ggplot(aes(minute, avg_delay)) +
+  geom_line(size = 1, color = "steelblue") + 
+  scale_x_continuous(breaks = seq(0, 60, by = 10), labels = seq(0, 60, by = 10)) +
+  theme_bw()
+
+# => Average delay of flights is much lower in minutes 20-30 and 50-60.
+
+# Hypothesis: The lower delays are due to scheduled flights leaving early.
+
+# Check 1: Are there fewer or more flights leaving in minutes 20-30 and 50-60?
+
+flights_dt %>% 
+  mutate(minute = minute(dep_time)) %>% # minute of actual sched_dep_time 
+  group_by(minute) %>% 
+  summarise(
+    avg_delay = mean(arr_delay, na.rm = TRUE),
+    n = n()) %>% 
+  ggplot(aes(minute, n)) +
+  geom_line(size = 1, color = "steelblue") + 
+  geom_point(shape = 21, size = 2, fill = "orange") +
+  scale_x_continuous(breaks = seq(0, 60, by = 10), labels = seq(0, 60, by = 10)) +
+  theme_bw()
+
+# => There are _more_ flights leaving in these time periods.
+
+# Check 2: What about _scheduled_ flight times?  
+#          Are there more or fewer in these periods?
+flights_dt %>% 
+  mutate(minute = minute(sched_dep_time)) %>%  # minute of sched_dep_time 
+  group_by(minute) %>% 
+  summarise(
+    avg_delay = mean(arr_delay, na.rm = TRUE),
+    n = n()) %>% 
+  ggplot(aes(minute, n)) +
+  geom_line(size = 1, color = "steelblue") + 
+  geom_point(shape = 21, size = 2, fill = "orange") +
+  scale_x_continuous(breaks = seq(0, 60, by = 10), labels = seq(0, 60, by = 10)) +
+  theme_bw()
+
+# => Peaks of scheduled flight frequencies around minutes of 30 and 0/60.
+
+# Both checks support the hypothesis (but do not prove anything yet). 
+
+# To test it, let's distinguish between delayed and non-delayed flights,
+#             as well as early vs. non-early flights:
+fdt <- flights_dt %>%
+  mutate(delay = (dep_time > sched_dep_time),
+         early = (dep_time < sched_dep_time)) %>%
+  select(early, delay, everything())
+
+# Note: We could add a tolerance threshold dt (e.g., 2 mins) 
+#       before judging a flight to be delayed or early.
+fdt
+
+# Frequency of _early_ flights by minute of sched_dep_time:
+fdt %>% 
+  filter(early == TRUE) %>%  # considering ONLY early flights:
+  mutate(minute = minute(sched_dep_time)) %>%  # minute of sched_dep_time 
+  group_by(minute) %>% 
+  summarise(
+    avg_delay = mean(arr_delay, na.rm = TRUE),
+    n = n()) %>% 
+  ggplot(aes(minute, n)) +
+  geom_line(size = 1, color = "steelblue") + 
+  geom_point(shape = 21, size = 2, fill = "orange") +
+  scale_x_continuous(breaks = seq(0, 60, by = 10), labels = seq(0, 60, by = 10)) +
+  theme_bw()
+
+# Frequency of _early_ flights by minute of actual dep_time:
+fdt %>% 
+  filter(early == TRUE) %>%  # considering ONLY early flights:
+  mutate(minute = minute(dep_time)) %>%  # minute of actual dep_time 
+  group_by(minute) %>% 
+  summarise(
+    avg_delay = mean(arr_delay, na.rm = TRUE),
+    n = n()) %>% 
+  ggplot(aes(minute, n)) +
+  geom_line(size = 1, color = "steelblue") + 
+  geom_point(shape = 21, size = 2, fill = "orange") +
+  scale_x_continuous(breaks = seq(0, 60, by = 10), labels = seq(0, 60, by = 10)) +
+  theme_bw()
+
+# Result: Both graphs of the frequency of _early_ flights by minute 
+#         show that many flights scheduled to depart at round times (30 and 60) 
+#         are departing earlier then scheduled, qed.
+
+
+## 16.4 Time spans ------ 
+
+# Addressing arithmetic with dates (i.e., subtraction, addition, and division). 
+
+# There are 3 important classes representing time spans:
+# 1. durations, which represent an exact number of seconds.
+# 2. periods,   which represent human units like weeks and months.
+# 3. intervals, which represent a starting and ending point.
+
+## 16.4.1 Durations -----
+
+# Subtracting 2 dates yields a difftime object:
+  
+h_age <- today() - ymd(19791014)
+h_age <- today() - ymd(19690713)
+h_age
+
+# A difftime class object records a time span of 
+# seconds, minutes, hours, days, or weeks. 
+# This ambiguity can make difftimes a little painful to work with, 
+# so lubridate provides an alternative which always uses seconds: 
+# the duration.
+
+as.duration(h_age)
+
+# Durations come with a bunch of convenient constructors:
+  
+dseconds(15)
+#> [1] "15s"
+
+dminutes(10)
+#> [1] "600s (~10 minutes)"
+
+dhours(c(12, 24))
+#> [1] "43200s (~12 hours)" "86400s (~1 days)"
+
+ddays(0:5)
+#> [1] "0s"                "86400s (~1 days)"  "172800s (~2 days)"
+#> [4] "259200s (~3 days)" "345600s (~4 days)" "432000s (~5 days)"
+
+dweeks(3)
+#> [1] "1814400s (~3 weeks)"
+
+dyears(1)
+#> [1] "31536000s (~52.14 weeks)"
+
+# Durations always record the time span in seconds. 
+# Larger units are created by converting minutes, hours, days, weeks, and years 
+# to seconds at the standard rate (60 seconds in a minute, 60 minutes in an hour, 
+# 24 hours in day, 7 days in a week, 365 days in a year).
+
+# We can add and multiply durations:
+
+2 * dyears(1)
+#> [1] "63072000s (~2 years)"
+
+dyears(1) + dweeks(12) + dhours(15)
+#> [1] "38847600s (~1.23 years)"
+
+# We can add and subtract durations to and from days:
+tomorrow <- today() + ddays(1)
+tomorrow
+
+last_year <- today() - dyears(1)
+last_year
+
+# However, because durations represent an exact number of seconds, 
+# sometimes we might get an unexpected result:
+  
+one_pm <- ymd_hms("2016-03-12 13:00:00", tz = "America/New_York")
+one_pm
+#> [1] "2016-03-12 13:00:00 EST"
+
+one_pm + ddays(1)
+#> [1] "2016-03-13 14:00:00 EDT" 
+
+# Why is one day after 1pm on March 12, 2pm on March 13?! 
+
+# If we look carefully at the date we might also notice 
+# that the time zones have changed. 
+# Because of switching to daylight saving time (DST), 
+# March 12 only has 23 hours, so if add a full days worth of seconds 
+# we end up with a different time.
+
+
+## 16.4.2 Periods -----
+
+# To solve this problem, lubridate provides periods. 
+# Periods are time spans but don’t have a fixed length in seconds, 
+# instead they work with “human” times, like days and months. 
+# That allows them work in a more intuitive way:
+
+one_pm
+#> [1] "2016-03-12 13:00:00 EST"
+
+one_pm + days(1)
+#> [1] "2016-03-13 13:00:00 EDT"
+
+# Like durations, periods can be created with a number of friendly 
+# constructor functions:
+
+seconds(15)
+#> [1] "15S"
+
+minutes(10)
+#> [1] "10M 0S"
+
+hours(c(12, 24))
+#> [1] "12H 0M 0S" "24H 0M 0S"
+
+days(7)
+#> [1] "7d 0H 0M 0S"
+
+months(1:6)
+#> [1] "1m 0d 0H 0M 0S" "2m 0d 0H 0M 0S" "3m 0d 0H 0M 0S" "4m 0d 0H 0M 0S"
+#> [5] "5m 0d 0H 0M 0S" "6m 0d 0H 0M 0S"
+
+weeks(3)
+#> [1] "21d 0H 0M 0S"
+
+years(1)
+#> [1] "1y 0m 0d 0H 0M 0S"
+
+# We can add and multiply periods:
+
+10 * (months(6) + days(1))
+#> [1] "60m 10d 0H 0M 0S"
+
+days(50) + hours(25) + minutes(2)
+#> [1] "50d 25H 2M 0S"
+
+# And of course, we can add periods to dates. 
+# Compared to durations, periods are more likely to do what we expect:
+  
+# A leap year:
+ymd("2016-01-01") + dyears(1)
+#> [1] "2016-12-31"          (i.e., still 2016!)
+
+ymd("2016-01-01") + years(1)
+#> [1] "2017-01-01" (same date in the next year)
+
+# Switching to Daylight Savings Time:
+one_pm + ddays(1)
+#> [1] "2016-03-13 14:00:00 EDT"  (i.e., exactly 24 hours later)
+
+one_pm + days(1)
+#> [1] "2016-03-13 13:00:00 EDT" (i.e., same time on next day)
+
+## +++ here now +++ ------
+
+# 16.4.3 Intervals -----
+
 
 
 
