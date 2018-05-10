@@ -6,6 +6,7 @@
 ## [see Book chapter 1x: "..."]
 
 
+
 ## 16.1 Introduction ------
 
 ## 16.1.1 Prerequisites 
@@ -17,6 +18,8 @@ library(tidyverse)
 library(lubridate)
 
 library(nycflights13) # data
+
+
 
 ## 16.2 Creating date/times ------ 
 
@@ -61,9 +64,10 @@ typeof(now())             # => "double"
 
 # They work as follows:
 
+
 ## 16.2.1 From strings (denoting ymd hms) ----- 
 
-# (1) readr: ---- 
+## (1) readr: ---- 
 
 # In chapter 11 (on data import using readr) we encountered
 # - readr::parse_date()
@@ -74,7 +78,7 @@ typeof(now())             # => "double"
 # e.g., 
 readr::parse_datetime(flights$time_hour)
 
-# (2) lubridate: ---- 
+## (2) lubridate: ---- 
 
 # Alternatively, use the helpers provided by lubridate:
 
@@ -245,6 +249,7 @@ mdy(d4)
 mdy(d5)
 
 
+
 ## 16.3 Date-time components ------ 
 
 # Now that you know how to get date-time data into R’s date-time data structures, 
@@ -389,7 +394,7 @@ hour(datetime) <- hour(datetime) + 1  # increment hour of datetime
 datetime 
 #> [1] "2020-01-08 13:34:56 UTC"
 
-# (2) update: ---- 
+## (2) update: ---- 
 # Alternatively, rather than modifying in place, 
 # we can create a new date-time with update(). 
 
@@ -701,14 +706,28 @@ fdt %>%
 #         are departing earlier then scheduled, qed.
 
 
+
 ## 16.4 Time spans ------ 
 
 # Addressing arithmetic with dates (i.e., subtraction, addition, and division). 
 
 # There are 3 important classes representing time spans:
-# 1. durations, which represent an exact number of seconds.
+# 1. durations, which represent an exact number of seconds between 2 time points.
 # 2. periods,   which represent human units like weeks and months.
 # 3. intervals, which represent a starting and ending point.
+
+# Excerpt from http://lubridate.tidyverse.org/ : 
+# Lubridate expands the type of mathematical operations 
+# that can be performed with date-time objects. 
+# 
+# It introduces 3 time span classes (borrowed from http://joda.org):
+# 
+# 1. durations, which measure the exact amount of time between two points
+# 2. periods, which accurately track clock times despite leap years, 
+#    leap seconds, and day light savings time
+# 3. intervals, a protean summary of the time information between two time points. 
+
+
 
 ## 16.4.1 Durations -----
 
@@ -849,12 +868,208 @@ one_pm + ddays(1)
 one_pm + days(1)
 #> [1] "2016-03-13 13:00:00 EDT" (i.e., same time on next day)
 
-## +++ here now +++ ------
+
+# Example:
+# Let’s use periods to fix an oddity related to our flight dates. 
+# Some planes appear to have arrived at their destination 
+# before they departed from New York City:
+
+flights_dt %>% 
+  filter(arr_time < dep_time) 
+
+# These are overnight flights. 
+# Above, we used the same date information for setting 
+# both the departure and the arrival times, but these flights 
+# arrived on the following day. 
+
+# We can fix this by adding days(1) to the arrival time of each overnight flight: 
+flights_dt_2 <- flights_dt %>% 
+  mutate(
+    overnight = arr_time < dep_time,            # Boolean variable      
+    arr_time = arr_time + days(overnight * 1),  # Using overnight as 0 vs. 1! (See Exercise 2 below).
+    sched_arr_time = sched_arr_time + days(overnight * 1) # Using overnight as 0 vs. 1!
+  )
+flights_dt_2
+
+
+# View overnight flights and check corresponding dates: 
+flights_dt_2 %>%
+  filter(overnight == TRUE) %>%
+  select(dep_time, arr_time, overnight, everything())
+
+# Now all of our flights obey the laws of physics: 
+flights_dt_2 %>% 
+  filter(overnight, arr_time < dep_time) 
+
 
 # 16.4.3 Intervals -----
 
+# 1) using durations:
+# It’s obvious what dyears(1) / ddays(365) should return: 
+dyears(1) / ddays(365)
+
+# one, because durations are always represented by a number of seconds, 
+# and a duration of a year is defined as 365 days worth of seconds.
+
+# 2) using periods:
+# What should years(1) / days(1) return? 
+# This depends on whether we mean a regular or a leap year: 
+# - If the year was 2015 it should return 365, 
+# - but if it was 2016, it should return 366! 
+# There’s not quite enough information for lubridate to give a single clear answer. 
+# What it does instead is give an estimate, with a warning:
+  
+years(1) / days(1)
+
+# If we want a more accurate measurement, we have to use an interval. 
+
+# An interval is a duration with a starting point: 
+# that makes it precise so we can determine exactly how long it is:
+  
+next_year <- today() + years(1)
+(today() %--% next_year) / ddays(1)
+
+# To find out how many periods fall into an interval, 
+# we need to use integer division:
+  
+(today() %--% next_year) %/% days(1)
+
+## 16.4.4 Summary ----- 
+
+# How to pick between duration, periods, and intervals? 
+
+# As always, we pick the simplest data structure that solves our problem. 
+# - use duration if we only care about physical time; 
+# - use period if we need to add human times; 
+# - use interval if we need to if figure out how long a span is in human units.
+
+# Figure 16.1 summarises permitted arithmetic operations between the different data types:
+# http://r4ds.had.co.nz/dates-and-times.html#fig:dt-algebra
 
 
+## 16.4.5 Exercises -----
+
+# 1. Why is there months() but no dmonths()?
+
+months(2)  # is a period
+# dmonths(2) # would be a duration (in seconds). 
+# However, this varies between months (i.e., is specific for every month 
+# and even -- for the month of February -- on the year being regular vs. a leap year). 
+
+# 2. Explain days(overnight * 1) to someone who has just started learning R. 
+#    How does it work?
+
+# - overnight is computed as a Boolean/logical variable (TRUE vs. FALSE)
+# - when calculating with Booleans, TRUE becomes 1 and FALSE becomes 1.
+# - thus, days(overnight * 1) is days(0) for overnight being FALSE and 
+#                                days(1) for overnight being TRUE. 
+
+# 3. a. Create a vector of dates giving the first day of every month in 2015. 
+#    b. Create a vector of dates giving the first day of every month in the current year.
+
+# a. Let's use intervals, as we want human time spans (months) of specific years:
+firsts_2015 <- ymd(150101) + months(0:11)
+
+# b. This is tricky: 
+cur_year <- year(today())  # gets the current year:
+cur_year  # but NOT January 1st.
+
+# Idea: Round today() to the floor of year: 
+cur_jan1 <- floor_date(today(), unit = "year") # rounds today's date to the floor of the year (i.e., January 1st)
+cur_jan1
+
+firsts_cur <- cur_jan1 + months(0:11)
+firsts_cur
+
+# [test.quest]: 
+# - Analogously: Getting the first of the current month:
+cur_month_1st <- floor_date(today(), unit = "month")
+cur_month_1st
+
+# - Getting the weekday of some particular date:
+wday(cur_month_1st, label = TRUE)
+
+
+# 4. Write a function that given your birthday (as a date), 
+#    returns how old you are in years.
+
+## (a) complicated solution: 
+bday <- ymd(690713)
+
+get_age <- function(bday, tday = today()) {
+  
+  # Components of birthday: 
+  bday_year <- year(bday)
+  bday_month <- month(bday)
+  bday_mday  <- mday(bday)
+  
+  # Current year and birthday in current year: 
+  cur_year <- year(tday) 
+  cur_jan1 <- floor_date(today(), unit = "year") # rounds today's date to the floor of the year (i.e., January 1st)
+  # cur_jan1
+  
+  bday_cur_year <- cur_jan1 + months(bday_month - 1) + days(bday_mday - 1)
+  # bday_cur_year
+  
+  # Compute age:
+  if (tday < bday_cur_year) { # no birthday this year yet: 
+    age <- (cur_year - bday_year - 1) 
+  } else { # including birthday for current year:  
+    age <- (cur_year - bday_year)
+  }
+  
+  return(age)
+  
+}
+
+# Checks: 
+get_age(bday)
+
+# with different tday dates:
+get_age(bday, tday = ymd(180101)) # before birthday this year
+get_age(bday, tday = ymd(180713)) # on birthday this year
+get_age(bday, tday = ymd(181231)) # after birthday this year
+
+
+## (b) Shorter (and more elegant) version:
+
+## Note that: 
+bday %--% today() # yields a valid interval
+
+my_age <- function(bday) {
+  
+  lifetime <- (bday %--% today()) # interval from bday to today() 
+  (lifetime %/% years(1))         # integer division (into full years)
+
+}
+my_age(bday)
+
+
+# 5. Why can’t (today() %--% (today() + years(1)) / months(1) work?
+
+# The only problem appears to be the initial parenthesis "(". 
+# When dropping the initial "(" it appears to work:             
+today() %--% (today() + years(1)) / months(1)
+# => 12
+
+# It also works when closing the parentheses after the interval: 
+(today() %--% (today() + years(1))) / months(1)
+# => 12
+
+# Note that 
+today()  # is a valid date, 
+years(1) # is a valid period, 
+today() %--% (today() + years(1)) # is a valid interval, 
+months(1) # is a valid period, 
+# and intervals can be divided by periods:
+today() %--% (today() + years(1)) / months(1)
+# => 12
+
+
+## 16.5 Time zones ------ 
+
+
+## +++ here now +++ ------
 
 
 ## Appendix ------
@@ -872,9 +1087,71 @@ one_pm + days(1)
 
 ## Ideas for test questions [test.quest]: ------
 
+
 ## Multiple choice [MC] questions: -----
 
+## Definitions of 3 time spans:
+## - durations 
+## - periods
+## - intervals
+
 ## Practical questions: ----- 
+
+## (A) Getting date components: ---- 
+
+## Determine the month and weekday of some date variable and group cases 
+## (e.g., events, flights, people, ...) by month or weekday. 
+
+
+## (B) Calculating with dates: ---- 
+
+## (1) Birthday calculations:  
+## Determine (a) the weekday of your (original) birthday; 
+##           (b) the weekday of your birthday this year (so that the code works in any year);  
+##       and (c) the weekdays of all of your birthdays so far (including this year).
+
+## Note: Assume that you know your original birthdate (in yymmdd format, e.g. 691307) 
+##       and your current age (48). However, assume that you do _not_ know the current year 
+##       (or rather: your code should work not only in some particular year, but in _any_ year).
+
+# ad (a): 
+bday_0 <- ymd(690713)
+# bday_0 <- ymd(750701)
+bday_0
+
+# Weekday of this date: 
+wday(bday_0, label = TRUE) # Note that label = FALSE would start counting on Sunday (= 1).
+
+# ad (b):
+# Determine the current year:
+cur_year <- year(floor_date(today(), unit = "year"))
+
+# My birthday this year (by adding months and days to January 1st):
+bday_cur <- floor_date(today(), unit = "year") + months(7-1) + days(13-1)
+bday_cur
+
+# Alternatively, knowing my current age 
+# (AND whether I already celebrated by birthday this year):
+age <- 48
+bday_cur <- bday_0 + years(age + 1) # to include current birthday (if not yet celebrated this year)
+bday_cur
+
+# Weekday of this date: 
+wday(bday_cur, label = TRUE)
+
+# ad (c):
+# number of birthdays (including current year):
+age_cur <- year(bday_cur) - year(bday_0) 
+age_cur
+
+# corresponding dates:
+bdays <- bday_0 + years(0:age_cur)
+bdays
+
+# corresponding weekdays:
+wday(bdays, label = TRUE)
+
+
 
 ## See 
 ## https://fivethirtyeight.com/features/some-people-are-too-superstitious-to-have-a-baby-on-friday-the-13th/
