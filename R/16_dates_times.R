@@ -1066,18 +1066,113 @@ today() %--% (today() + years(1)) / months(1)
 # => 12
 
 
+
 ## 16.5 Time zones ------ 
+## http://r4ds.had.co.nz/dates-and-times.html#time-zones 
+
+# Time zones are an enormously complicated topic because of their interaction
+# with geopolitical entities. Fortunately we don’t need to dig into all the
+# details as they’re not all important for data analysis, but there are a few
+# challenges we’ll need to tackle head on.
+
+# The first challenge is that everyday names of time zones tend to be ambiguous.
+# For example, if you’re American you’re probably familiar with EST, or Eastern
+# Standard Time. However, both Australia and Canada also have EST! 
+
+# To avoid confusion, R uses the international standard IANA time zones. These
+# use a consistent naming scheme “/”, typically in the form “<continent>/<city>”
+# (there are a few exceptions because not every country lies on a continent).
+# Examples include “America/New_York”, “Europe/Paris”, and “Pacific/Auckland”.
+
+# You might wonder why the time zone uses a city, when typically you think of
+# time zones as associated with a country or region within a country. 
+
+# This is because the IANA database has to record decades worth of time zone
+# rules. In the course of decades, countries change names (or break apart)
+# fairly frequently, but city names tend to stay the same. Another problem is
+# that name needs to reflect not only to the current behaviour, but also the
+# complete history. For example, there are time zones for both
+# “America/New_York” and “America/Detroit”. These cities both currently use
+# Eastern Standard Time but in 1969-1972 Michigan (the state in which Detroit is
+# located), did not follow DST, so it needs a different name.
+
+# It’s worth reading the raw time zone database (available at
+# http://www.iana.org/time-zones) just to read some of these stories!
+  
+# You can find out what R thinks your current time zone is with Sys.timezone():
+
+Sys.timezone()
+
+# (If R doesn’t know, you’ll get an NA.)
+
+# See the complete list of all time zone names with OlsonNames():
+length(OlsonNames())
+#> [1] 592
+
+# OlsonNames()
+head(OlsonNames())
+
+# In R, the time zone is an attribute of the date-time 
+# that only controls printing. 
+# For example, these 3 objects represent the same instant in time:
+  
+(x1 <- ymd_hms("2015-06-01 12:00:00", tz = "America/New_York"))
+(x2 <- ymd_hms("2015-06-01 18:00:00", tz = "Europe/Copenhagen"))
+(x3 <- ymd_hms("2015-06-02 04:00:00", tz = "Pacific/Auckland"))
+
+# Verify their identity by subtraction:
+x2 - x1
+x3 - x1
+
+# Unless specified differently, lubridate always uses UTC.  [test.quest]
+
+# UTC (Coordinated Universal Time) is the standard time zone 
+# used by the scientific community and roughly equivalent to its predecessor 
+# GMT (Greenwich Mean Time). 
+
+# UTC does not have DST, which makes a convenient representation for computation. 
+# Operations that combine date-times, like c(), will often drop the time zone. 
+
+# In that case, the date-times will display in your local time zone:
+x4 <- c(x1, x2, x3)
+x4
+
+## Changing time zones: ---- 
+
+# We can change the time zone in 2 ways:
+
+# (1) Keep the time, but change its display ---- 
+#     Keep the instant in time the same, and change how it’s displayed. 
+#     Use this when the instant is correct, but you want a more natural display: 
+x4a <- with_tz(x4, tzone = "Australia/Lord_Howe")
+x4a
+
+x4a - x4 # time points remain the same (only display is different)!
+
+
+# (2) Change the underlying instant in time ---- 
+#     Use this when you have an instant that has been labelled with 
+#     the incorrect time zone, and you need to fix it: 
+
+x4b <- force_tz(x4, tzone = "Australia/Lord_Howe")
+x4b
+
+x4b - x4 # time points have been shifted!
+
 
 
 ## +++ here now +++ ------
+
 
 
 ## Appendix ------
 
 ## Web:  
 
-# cheatsheets: 
-# 
+# Cheatsheets: 
+# Dates and Times (lubridate), see 
+# https://www.rstudio.com/resources/cheatsheets/
+
 
 ## Documentation: ----- 
 
@@ -1085,8 +1180,8 @@ today() %--% (today() + years(1)) / months(1)
 
 ## Related tools:
 
-## Ideas for test questions [test.quest]: ------
 
+## Ideas for test questions [test.quest]: ------
 
 ## Multiple choice [MC] questions: -----
 
@@ -1152,11 +1247,9 @@ bdays
 wday(bdays, label = TRUE)
 
 
-
 ## See 
 ## https://fivethirtyeight.com/features/some-people-are-too-superstitious-to-have-a-baby-on-friday-the-13th/
 ## for nice day/date effects.
-
 
 
 ## ------
