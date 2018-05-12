@@ -1,11 +1,7 @@
 ## r4ds: Chapter 18: 
 ## Code for http://r4ds.had.co.nz/pipes.html#pipes 
 ## hn spds uni.kn
-## 2018 05 11 ------
-
-
-
-
+## 2018 05 12 ------
 
 
 # Programming with pipes:
@@ -147,13 +143,173 @@ pryr::object_size(diamonds, diamonds2)
 # (aka the "dagwood sandwhich problem"). 
 
 
-## 18.2.4 Use the pipe ----- 
+## 18.2.4 The pipe ----- 
 
+## Advantages: ---- 
+
+# foo_foo %>%
+#   hop(through = forest) %>%
+#   scoop(up = field_mouse) %>%
+#   bop(on = head)
+
+# - Using the pipe focuses on verbs, rather than nouns. 
+# - This can be read sequentially 
+#   like a set of imperative actions.
+
+
+## How the pipe works: ----
+
+# The pipe works by performing a “lexical transformation”: 
+# behind the scenes, magrittr reassembles the code in the pipe to a form 
+# that works by overwriting an intermediate object. 
+
+# When you run a pipe like the one above, 
+# magrittr does something like this:
+  
+# my_pipe <- function(.) {
+#   . <- hop(., through = forest)
+#   . <- scoop(., up = field_mice)
+#   bop(., on = head)
+# }
+# 
+# my_pipe(foo_foo)
+
+## When the pipe does not work: ---- 
+
+# This way of working implies that the pipe won’t work 
+# for 2 classes of functions:
+  
+# 1. Functions that use the current environment. For example, assign() will
+# create a new variable with the given name in the current environment:
+  
+assign("x", 10)
+x
+#> [1] 10
+
+"x" %>% assign(100)
+x
+#> [1] 10
+
+# The use of assign with the pipe does not work because it assigns it to a
+# temporary environment used by %>%. If you do want to use assign with the pipe,
+# you must be explicit about the environment:
+  
+env <- environment()
+"x" %>% assign(100, envir = env)
+x
+#> [1] 100
+
+# Other functions with this problem include get() and load().
+
+# 2. Functions that use lazy evaluation. 
+
+# In R, function arguments are only computed when the function uses them, 
+# not prior to calling the function. The pipe computes each element in turn, 
+# so you can’t rely on this behavior.
+
+# One place that this is a problem is tryCatch(), 
+# which lets you capture and handle errors:
+  
+tryCatch(stop("!"), error = function(e) "An error")
+#> [1] "An error"
+
+stop("!") %>% 
+  tryCatch(error = function(e) "An error")
+#> Error in eval(lhs, parent, parent): !
+
+# There are a relatively wide class of functions with this behavior, 
+# including try(), suppressMessages(), and suppressWarnings() 
+# in base R.
+
+
+## 18.3 When not to use the pipe ------
+
+# The pipe is a powerful tool, but it’s not the only tool at your disposal, 
+# and it doesn’t solve every problem! 
+# Pipes are most useful for rewriting a fairly short linear sequence of operations. 
+
+# You should reach for another tool when:
+  
+# 1. Your pipes are longer than (say) ten steps. 
+#    In that case, create intermediate objects with meaningful names. 
+#    That will make debugging easier, because you can more easily check 
+#    the intermediate results, and it makes it easier to understand your code, 
+#    because the variable names can help communicate intent.
+
+# 2. You have multiple inputs or outputs. 
+#    If there isn’t one primary object being transformed, 
+#    but two or more objects being combined together, don’t use the pipe.
+
+# 3. You are starting to think about a directed graph with a 
+#    complex dependency structure. 
+#    Pipes are fundamentally linear and expressing complex relationships 
+#    with them will typically yield confusing code.
+
+
+## 18.4 Other tools from magrittr ------
+
+# All packages in the tidyverse automatically make %>% available for you, so you
+# don’t normally load magrittr explicitly. However, there are some other useful
+# tools inside magrittr that you might want to try out:
+
+## 1. The T-pipe (%T>%) for side effects: ----  
+
+# When working with more complex pipes, it’s sometimes useful to call a function
+# for its side-effects. Maybe you want to print out the current object, or plot
+# it, or save it to disk. Many times, such functions don’t return anything,
+# effectively terminating the pipe.
+
+# To work around this problem, you can use the “tee” pipe. %T>% works like %>%
+# except that it returns the left-hand side instead of the right-hand side. 
+# It’s called “tee” because it’s like a literal T-shaped pipe: 
+
+rnorm(100) %>%
+  matrix(ncol = 2) %>%
+  plot() %>%
+  str()
+#>  NULL
+
+rnorm(100) %>%
+  matrix(ncol = 2) %T>%
+  plot() %>%
+  str()
+#>  num [1:50, 1:2] -0.387 -0.785 -1.057 -0.796 -1.756 ...
+
+
+## 2. The %$%-operator (%$%) for exploding vectors: ---- 
+
+# If you’re working with functions that don’t have a data frame based API
+# (i.e. you pass them individual vectors, not a data frame 
+#  and expressions to be evaluated in the context of that data frame), 
+# you might find %$% useful. 
+
+# It “explodes” out the variables in a data frame so that you can refer to them
+# explicitly. This is useful when working with many functions in base R:
+  
+mtcars %$%
+  cor(disp, mpg)
+
+
+## 3. The %<>%-operator for assignment: ---- 
+
+# For assignment magrittr provides the %<>% operator 
+# which allows you to replace code like:
+
+mtcars <- mtcars %>% 
+  transform(cyl = cyl * 2)
+
+# with: 
+
+mtcars %<>% transform(cyl = cyl * 2)
+
+# I’m not a fan of this operator because I think assignment is such a special
+# operation that it should always be clear when it’s occurring. 
+# In my opinion, a little bit of duplication 
+# (i.e. repeating the name of an object twice) 
+# is fine in return for making assignment more explicit.
 
 
 ## +++ here now +++ ------
-
-
 
 
 ## Appendix ------
