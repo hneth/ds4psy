@@ -9,6 +9,7 @@
 #  what the alternatives are, and when not to use it.
 
 
+
 ## 18.1 Introduction ------ 
 
 # Pipes are a powerful tool for clearly expressing a sequence of multiple operations. 
@@ -30,6 +31,7 @@
 # so we will load it explicitly:
 
 library(magrittr)
+
 
 
 ## 18.2 Piping alternatives ------
@@ -61,7 +63,7 @@ library(magrittr)
 # - Suffixes get confusing.
 # - But: R does not duplicate shared data:
 
-# Demo: R does not copy shared data ---- 
+## Demo: R does not copy shared data ---- 
 
 ## (A) 
 # Add a new column to ggplot2::diamonds:
@@ -143,6 +145,7 @@ pryr::object_size(diamonds, diamonds2)
 # (aka the "dagwood sandwhich problem"). 
 
 
+
 ## 18.2.4 The pipe ----- 
 
 ## Advantages: ---- 
@@ -160,8 +163,8 @@ pryr::object_size(diamonds, diamonds2)
 ## How the pipe works: ----
 
 # The pipe works by performing a “lexical transformation”: 
-# behind the scenes, magrittr reassembles the code in the pipe to a form 
-# that works by overwriting an intermediate object. 
+# behind the scenes, magrittr reassembles the code in the pipe 
+# to a form that works by overwriting an intermediate object. 
 
 # When you run a pipe like the one above, 
 # magrittr does something like this:
@@ -222,6 +225,7 @@ stop("!") %>%
 # in base R.
 
 
+
 ## 18.3 When not to use the pipe ------
 
 # The pipe is a powerful tool, but it’s not the only tool at your disposal, 
@@ -246,13 +250,14 @@ stop("!") %>%
 #    with them will typically yield confusing code.
 
 
+
 ## 18.4 Other tools from magrittr ------
 
 # All packages in the tidyverse automatically make %>% available for you, so you
 # don’t normally load magrittr explicitly. However, there are some other useful
 # tools inside magrittr that you might want to try out:
 
-## 1. The T-pipe (%T>%) for side effects: ----  
+## 1. The %T>%-operator (T-pipe) for side effects: ----  
 
 # When working with more complex pipes, it’s sometimes useful to call a function
 # for its side-effects. Maybe you want to print out the current object, or plot
@@ -307,6 +312,7 @@ mtcars %<>% transform(cyl = cyl * 2)
 # In my opinion, a little bit of duplication 
 # (i.e. repeating the name of an object twice) 
 # is fine in return for making assignment more explicit.
+
 
 
 ## +++ here now +++ ------

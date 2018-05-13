@@ -1,13 +1,15 @@
 ## r4ds: Chapters 2, 4, 6, 8:  
 ## Code for workflow chapters of http://r4ds.had.co.nz/ 
 ## hn spds uni.kn
-## 2018 04 18 ------
+## 2018 05 13 ------
+
 
 
 ## Chapter 2: Introduction -------
 
 # Read http://r4ds.had.co.nz/explore-intro.html 
 # Ok. 
+
 
 
 ## Chapter 4: Workflow: basics -------
@@ -119,7 +121,8 @@ filter(diamonds, carat > 3)  # works!
 
 
 
-## Chapter 6: Workflow: scripts -------
+
+## Chapter 6: Workflow: Scripts -------
 
 # See http://r4ds.had.co.nz/workflow-scripts.html
 
@@ -173,6 +176,7 @@ not_cancelled %>%
 # 2. What other common mistakes will RStudio diagnostics report? 
 # Read https://support.rstudio.com/hc/en-us/articles/205753617-Code-Diagnostics 
 # to find out.  Ok...
+
 
 
 
@@ -244,6 +248,26 @@ getwd()
 # from all the other projects that you are working on.
 
 
+
+## Appendix: ------
+
+# General resources:
+# - https://nicercode.github.io/intro/resources.html 
+
+# R cheatsheets: 
+# - https://www.rstudio.com/resources/cheatsheets/ 
+# - https://github.com/rstudio/cheatsheets 
+
+# Bookdown books:
+# - https://bookdown.org/
+
+# Books by Hadley Wickham: 
+# - http://r4ds.had.co.nz/ 
+# - R packages: http://r-pkgs.had.co.nz/
+# - Advanced R: http://adv-r.had.co.nz/ 
+
+# Why write nice code?
+# https://nicercode.github.io/blog/2013-04-05-why-nice-code/
 
 # +++ here now +++ ------ 
 
