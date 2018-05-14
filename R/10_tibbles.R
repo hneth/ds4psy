@@ -1,7 +1,7 @@
 ## r4ds: Chapter 10: Tibbles  
 ## Code for http://r4ds.had.co.nz/tibbles.html 
 ## hn spds uni.kn
-## 2018 04 13 ------
+## 2018 04 14 ------
 
 
 
@@ -38,8 +38,9 @@ vignette("tibble")
 
 it <- as_tibble(iris)
 it
+glimpse(it)
 
-## [test.quest]: Explore iris 
+## [test.quest]: Explore iris (it).
 {
 
 ## Histograms or freqpoly (1 continuous variable) by species (category):
@@ -78,6 +79,16 @@ ggplot(it, aes(x = Petal.Length, y = Petal.Width, color = Species)) +
 
 }
 
+## Using mtcars data:
+?mtcars
+
+mtc <- as_tibble(mtcars)
+mtc
+glimpse(mtc)
+
+## [test.quest]: Explore mtcars (mtc).
+
+
 ## (2) Creation by tibble(): ----
 
 ## Create a new tibble from individual vectors with tibble(). 
@@ -113,8 +124,9 @@ tb <- tibble(
 
 tb
 
-# [in.class]: Creating a tibble for an experimental design ---- 
+# [in.class]: Creating a tibble for an experimental design ----- 
 {
+  # (1) 2-factorial experiment:  ----
   # A total of n = 180 people took part in an experiment.
   # Their unique IDs and final test scores are as follows:
   
@@ -123,29 +135,66 @@ tb
   set.seed(101)  # for reproducible results
   scores <- round(rnorm(n, 80, 15), 0)
   
-  # Create a tibble that contains 180 rows (1 for each participant)  
-  # and assigns them in turn to 2 experimental factors so that there are 
-  # an equal number of people in all (4 x 3 = 12) factor levels.
+  mean(scores)
+  
+  
+  
+  
+  # (a) Create a tibble `dt` that contains 180 rows (1 for each participant)  
+  #     and assigns them in turn to 2 experimental factors so that there are 
+  #     an equal number of people in all (4 x 3 = 12) factor levels.
   
   # Use the following factor names and levels:
-  # - `cond` (with 4 levels "A", "B", "C", "D")
-  # - `drug` (with 2 levels "beer", "coffee", "water")
+  # - `cond`, with 4 levels: "A", "B", "C", "D" 
+  # - `drug`, with 3 levels: "beer", "coffee", "water"
   
-  ## Creating tibble: 
+  # To repeat a vector v to a length of l elements, 
+  # use rep(v, length.out = l): 
+  v <- c(0, 1)
+  v
+  rep(v, length.out = 11)
   
+  conds <- rep(c("A", "B", "C", "D"), length.out = n)
+  drugs <- rep(c("beer", "coffee", "water"), length.out = n)  
+  
+  e <- tibble(
+    id = ids,
+    cond = conds,
+    drug = drugs, 
+    score = scores
+  )
+  e
+  
+  # Note: Getting scores again:
+  e$score      # as vector 
+  e[["score"]] # as vector
+  e[,4]        # as column vector
+  
+  
+  # (b) What are the mean scores for each of the 12 conditions?
+  
+  # (c) Visualize the distribution of scores (overall)
+  #     and the average scores for each level of `drug``
+  
+  
+  # ad (a): Creating tibble: ----
+  
+  # Define vectors:
   cond_levels  <- c("A", "B", "C", "D")
   drug_levels <- c("beer", "coffee", "water")
   
+  # Define tibble: 
   dt <- tibble(
     id = ids,
-    cond = rep(cond_levels, length.out = n),
-    drug = rep(drug_levels, length.out = n), 
+    cond = rep(cond_levels, length.out = n),  # to make length n
+    drug = rep(drug_levels, length.out = n),  # to make length n
     score = scores 
   )
   
   # Note:
   # expand.grid(cond_levels, drug_levels)
   
+  ## ad (b): Mean scores per condition: ---- 
   
   ## Counts and mean scores by experimental condition:
   dt %>% 
@@ -154,11 +203,22 @@ tb
               mn_score = mean(score),
               sd_score = sd(score))
   
-  ## Visualizations:
+  ## ad (c): Visualizations: ----
   
-  # - Distribution of scores
-  # - Score by team or by drink (boxplots or density plots)
-  # - Score by team and by drink (facets)
+  # - Distribution of scores:
+  ggplot(dt, aes(x = scores)) +
+    geom_histogram()
+  
+  # - Score as a function of drug (boxplots or density plots):
+  ggplot(dt, aes(x = drug, y = score, color = drug)) +
+    geom_boxplot() +
+    # geom_violin() +
+    geom_jitter(alpha = 2/3, width = .1) +
+    coord_flip() +
+    theme_bw()
+  
+  # - Score by cond and by drug (facets):
+  #   ... 
   
 }
 
