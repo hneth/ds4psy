@@ -1,7 +1,8 @@
 ## r4ds: Chapter 10: Tibbles  
 ## Code for http://r4ds.had.co.nz/tibbles.html 
 ## hn spds uni.kn
-## 2018 03 19 ------
+## 2018 04 13 ------
+
 
 
 ## 10.1 Introduction ------
@@ -14,10 +15,11 @@ library(tidyverse)
 
 vignette("tibble")
 
-# Tibbles are a modern take on data frames. 
+# Tibbles are a reduced form of and modern take on data frames. 
 # They keep the features that have stood the test of time, 
 # and drop the features that used to be convenient but are now frustrating 
-# (i.e. converting character vectors to factors).
+# (e.g., converting character vectors to factors).
+
 
 
 
@@ -59,15 +61,15 @@ ggplot(it, aes(x = Petal.Length, fill = Species)) +
 ## Scatterplots (2 continuous variables):
 
 ggplot(it, aes(x = Sepal.Length, y = Sepal.Width, color = Species)) + 
-  geom_point(size = 3, alpha = 1/2) + 
+  geom_point(size = 3, alpha = 1/3) + 
   theme_light()
 
-# Insight: 
+# Insights: 
 # - 3 clusters (partly overlapping)
 # - low positive correlation
 
 ggplot(it, aes(x = Petal.Length, y = Petal.Width, color = Species)) + 
-  geom_point(size = 3, alpha = 1/2) + 
+  geom_point(size = 3, alpha = 1/3) + 
   theme_light()
 
 # Insight:
@@ -89,7 +91,8 @@ tibble(
   z = x ^ 2 + y
   )
 
-# tibble() does much less than data.frames: it 
+# tibble() does much less than data.frames: 
+# tibble  
 # - never changes the type of the inputs 
 #   (e.g., it never converts strings to factors!),
 # - never changes the names of variables, and 
@@ -109,6 +112,56 @@ tb <- tibble(
   )
 
 tb
+
+# [in.class]: Creating a tibble for an experimental design ---- 
+{
+  # A total of n = 180 people took part in an experiment.
+  # Their unique IDs and final test scores are as follows:
+  
+  n <- 180
+  ids <- 1:n
+  set.seed(101)  # for reproducible results
+  scores <- round(rnorm(n, 80, 15), 0)
+  
+  # Create a tibble that contains 180 rows (1 for each participant)  
+  # and assigns them in turn to 2 experimental factors so that there are 
+  # an equal number of people in all (4 x 3 = 12) factor levels.
+  
+  # Use the following factor names and levels:
+  # - `cond` (with 4 levels "A", "B", "C", "D")
+  # - `drug` (with 2 levels "beer", "coffee", "water")
+  
+  ## Creating tibble: 
+  
+  cond_levels  <- c("A", "B", "C", "D")
+  drug_levels <- c("beer", "coffee", "water")
+  
+  dt <- tibble(
+    id = ids,
+    cond = rep(cond_levels, length.out = n),
+    drug = rep(drug_levels, length.out = n), 
+    score = scores 
+  )
+  
+  # Note:
+  # expand.grid(cond_levels, drug_levels)
+  
+  
+  ## Counts and mean scores by experimental condition:
+  dt %>% 
+    group_by(cond, drug) %>%
+    summarise(n = n(),
+              mn_score = mean(score),
+              sd_score = sd(score))
+  
+  ## Visualizations:
+  
+  # - Distribution of scores
+  # - Score by team or by drink (boxplots or density plots)
+  # - Score by team and by drink (facets)
+  
+}
+
 
 ## (3) Creation by tribble(): ---- 
 
@@ -135,7 +188,10 @@ tribble(
 # 1. printing and 
 # 2. subsetting.
 
+
 ## 10.3.1 Printing -----
+
+## Basics: ---- 
 
 # Tibbles have a refined print method that shows only the first 10 rows, 
 # and all the columns that fit on screen. 
@@ -156,6 +212,8 @@ tibble(
 # when you print large data frames. But sometimes you need more output than the
 # default display. There are a few options that can help.
 
+## print() and print options: ----
+
 # First, you can explicitly print() the data frame and control the number of
 # rows (n) and the width of the display. 
 # Setting width = Inf will display all columns:
@@ -163,13 +221,17 @@ tibble(
 nycflights13::flights %>% 
   print(n = 10, width = Inf)
 
-# You can also control the default print behaviour by setting options:
+# You can also control the default print behavior by setting options:
 # - options(tibble.print_max = n, tibble.print_min = m): if more than m rows, print only n rows. 
 # - options(dplyr.print_min = Inf) to always show all rows.
 # - options(tibble.width = Inf) to always print all columns, regardless of the width of the screen.
 
 # You can see a complete list of options by looking at the package help with
 # package?tibble.
+
+?tibble
+
+## View(): ----
 
 # A final option is to use RStudio’s built-in data viewer to get a scrollable
 # view of the complete dataset. This is also often useful at the end of a long
@@ -178,9 +240,17 @@ nycflights13::flights %>%
 nycflights13::flights %>% 
   View()
 
+## glimpse(): ---- 
+
+glimpse(nycflights13::flights)
+
+
+
 ## 10.3.2 Subsetting -----
 
 # So far all the tools you’ve learned have worked with complete data frames. 
+
+## Extracting variables from data frames: ---- 
 
 # If you want to pull out a single variable, you need some new tools, $ and [[. 
 # - [[ can extract by name or position; 
@@ -198,6 +268,8 @@ df[["x"]]
 # Extract by position: 
 df[[1]]
 
+## Subsetting with the pipe %>%: ---- 
+
 # To use these in a pipe, you’ll need to use the special placeholder .:
   
 df %>% .$x
@@ -207,6 +279,58 @@ df %>% .[["x"]]
 # - they never do partial matching, and 
 # - they will generate a warning if the column you are trying to access does not exist.
 
+# [in.class]: Extracting parts of a tibble ----- 
+{
+  ## (1) Variables (columns): ---- 
+  diamonds
+  
+  ## Individual variables (columns): 
+  
+  ## Task 1: Extract the variable `price` (as a vector):
+  ## 2 ways: by name ($ vs. [[]])
+  ##         by position
+  
+  all.equal(diamonds$price, diamonds[["price"]])
+  
+  # Contrast this with: 
+  diamonds %>% select(price) # returns a tibble
+  
+  ## Task 2: How many diamonds with a price over $10k?  What is their mean price?
+  
+  
+  
+  ## (2) Cases (rows): ---- 
+  
+  ## Task 1: By line numbers: Use only rows 1000 to 1100. 
+  
+  ## (a) subsetting matrices by indices:
+  diamonds[1000:1100, ]
+  
+  ## (b) By adding an indexing variable and then filter:
+  
+  # Add indexing variable:
+  diamonds %>%
+    mutate(line = 1:nrow(diamonds)) %>%
+    filter(line >= 1000, line <= 1100)
+  
+  # See also: 
+  # add_rownames(diamonds)
+  # rownames_to_column(diamonds)
+  
+  # Task 2: By conditions: Use only diamonds with a price over $10k.
+  #         Plot their price as a function of carat. 
+  
+  
+  
+  diamonds %>%
+    filter(price > 10000) %>%
+    ggplot(aes(x = carat, y = price)) + 
+    # facet_wrap(~cut) +
+    geom_point(alpha = 1/3) +
+    # geom_hex() +
+    theme_bw()
+  
+}
 
 
 ## 10.4 Interacting with older code ------
@@ -230,6 +354,7 @@ class(df)
 # - With base R data frames, [ sometimes returns a data frame, 
 #   and sometimes returns a vector. 
 # - With tibbles, [ always returns another tibble.
+
 
 
 
@@ -362,7 +487,8 @@ print(x = nycflights13::flights, n = 5, width = 75, n_extra = 2)
 
 ## Appendix ------
 
-# If this chapter leaves you wanting to learn more about tibbles, you might enjoy 
+# If this chapter leaves you wanting to learn more about tibbles, 
+# see
 
 vignette("tibble")
 
