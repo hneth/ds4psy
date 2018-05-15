@@ -672,8 +672,14 @@ x
 
 
 
-# 4. How could you use cut() to simplify this set of nested if-else statements?
-  
+# 4. Using cut():
+# a. How could you use cut() to simplify this set of nested if-else statements?
+# b. How would you change the call to cut() if I’d used < instead of <=? 
+# c. What is the other chief advantage of cut() for this problem? 
+#    (Hint: what happens if you have many values in temp?)
+
+temp <- 15
+
 if (temp <= 0) {
   "freezing"
 } else if (temp <= 10) {
@@ -686,9 +692,23 @@ if (temp <= 0) {
   "hot"
 }
 
-# How would you change the call to cut() if I’d used < instead of <=? 
-# What is the other chief advantage of cut() for this problem? 
-# (Hint: what happens if you have many values in temp?)
+# ad a: 
+temp <- 20
+cut(temp, breaks = c(-Inf, 0, 10, 20, 30, +Inf))
+cut(temp, breaks = c(-Inf, 0, 10, 20, 30, +Inf), 
+          labels = c("freezing", "cold", "cool", "warm", "hot"))
+
+# ad b: 
+cut(temp, breaks = c(-Inf, 0, 10, 20, 30, +Inf), right = FALSE)
+cut(temp, breaks = c(-Inf, 0, 10, 20, 30, +Inf), 
+          labels = c("freezing", "cold", "cool", "warm", "hot"), right = FALSE)
+
+# ad c:
+temp <- seq(-10, 40, by = 5)
+temp # as vector: 
+cut(temp, breaks = c(-Inf, 0, 10, 20, 30, +Inf), 
+    labels = c("freezing", "cold", "cool", "warm", "hot"))
+
 
 # 5. What happens if you use switch() with numeric values?
   
