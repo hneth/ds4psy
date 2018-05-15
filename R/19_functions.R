@@ -1,7 +1,7 @@
 ## r4ds: Chapter 19: 
 ## Code for http://r4ds.had.co.nz/functions.html
 ## hn spds uni.kn
-## 2018 05 13 ------
+## 2018 05 15 ------
 
 
 # Programming with pipes:
@@ -83,6 +83,10 @@ rescale01 <- function(x) {         # inputs
   rng <- range(x, na.rm = TRUE)    # intermediate step
   (x - rng[1]) / (rng[2] - rng[1]) # output
 }
+
+# Note: The standard return rule: 
+#       A function returns the last value that it computed.
+#       Better: Explicit return() at the end.
 
 # 4. Check any new function with a range of different inputs:  
 rescale01(c(0, 5, 10))
@@ -450,6 +454,259 @@ dnorm(x = 1:4, mean= 10, sd = 2)
 
 
 ## 19.4 Conditional execution ------
+
+# An if statement allows us to conditionally execute code. 
+# It looks like this:
+  
+# if (condition) {
+#   # code executed when condition is TRUE
+# } else {
+#   # code executed when condition is FALSE
+# }
+
+?`if` # yields help on if / control flow, but is rather cryptic. 
+
+## Example: 
+#  of a function that uses an if statement. 
+
+# The goal of this function is to return a logical vector describing 
+# whether or not each element of a vector is named.
+
+has_name <- function(x) {
+  nms <- names(x)
+  if (is.null(nms)) {
+    rep(FALSE, length(x))
+  } else {
+    !is.na(nms) & nms != ""
+  }
+}
+
+has_name(c("A", "B", "C"))
+
+# This function takes advantage of the standard return rule: 
+# a function returns the last value that it computed. 
+# Here that is either one of the 2 branches of the if statement.
+
+## 19.4.1 Conditions ----- 
+
+# The condition must evaluate to either TRUE or FALSE. 
+# - if it’s a vector, you’ll get a warning message; 
+# - if it’s an NA, you’ll get an error. 
+# Watch out for these messages in your own code:
+  
+if (c(TRUE, FALSE)) {}
+#> Warning in if (c(TRUE, FALSE)) {: the condition has length > 1 and only the
+#> first element will be used
+#> NULL
+
+if (NA) {}
+#> Error in if (NA) {: missing value where TRUE/FALSE needed
+
+## Booleans in if-conditions:
+
+# (1) Using || and && in conditions: ---- 
+
+# We can use || (or) and && (and) to combine multiple logical expressions. 
+# These operators are “short-circuiting”: 
+# As soon as || sees the first TRUE it returns TRUE without computing anything else. 
+# As soon as && sees the first FALSE it returns FALSE. 
+
+# We should never use | or & in an if statement: 
+# these are vectorised operations that apply to multiple values 
+# (that’s why we use them in filter()). 
+# If we do have a logical vector, we can use 
+# any() or all() to collapse it to a single value.
+
+# (2) Testing for equality: ----
+
+# == is vectorised, which means that it’s easy to get more than one output. 
+# Either check the length is already 1, collapse with all() or any(), 
+# or use the non-vectorised identical(). 
+# identical() is very strict: it always returns either a single TRUE or a single FALSE, 
+# and doesn’t coerce types. 
+
+# This means that we need to be careful when comparing integers and doubles:
+identical(0L, 0) # => FALSE
+
+# We also need to be wary of floating point numbers:
+x <- sqrt(2) ^ 2
+x
+#> [1] 2
+
+x == 2
+#> [1] FALSE
+
+x - 2
+#> [1] 4.44e-16
+
+# Instead use dplyr::near() for comparisons, 
+# as described in Chapter 5.2.1 Comparisons: 
+# http://r4ds.had.co.nz/transform.html#comparisons
+
+dplyr::near(x, 2) # => TRUE
+
+# (3) Testing for NA: ----
+
+# Remember that x == NA doesn’t do anything useful!
+# Instead, use is.na(x).
+
+
+## 19.4.2 Multiple conditions -----
+
+# We can chain multiple if-statements together:
+  
+# if (this) {
+#   # do that
+# } else if (that) {
+#   # do something else
+# } else {
+#   # 
+# }
+
+# But if we end up with a very long series of chained if statements, 
+# we should consider rewriting. 
+
+## 2 Alternatives: 
+
+## (1) switch(): 
+# One useful technique is the switch() function. 
+# It allows us to evaluate selected code based on position or name.
+
+# function(x, y, op) {
+#   switch(op,
+#          plus = x + y,
+#          minus = x - y,
+#          times = x * y,
+#          divide = x / y,
+#          stop("Unknown op!")
+#   )
+# }
+
+
+# (2) cut(): 
+# Another useful function that can often eliminate long chains of if statements is cut(). 
+# It’s used to discretise continuous variables.
+
+?cut
+
+cut(x = 1:4, breaks = c(0, 2, 5), right = TRUE)  # => 2 belongs to 1st category
+cut(x = 1:4, breaks = c(0, 2, 5), right = FALSE) # => 2 belongs to 2nd category
+
+cut(x = 1:4, breaks = c(0, 2, 5), labels = c("one", "two"), right = TRUE)
+cut(x = 1:4, breaks = c(0, 2, 5), labels = c("one", "two"), right = FALSE)
+
+
+## 19.4.3 Code style -----
+
+# Both if and function should (almost) always be followed by 
+# squiggly brackets ({}), and 
+# the contents should be indented by 2 spaces. 
+# This makes it easier to see the hierarchy in our code 
+# by skimming the left-hand margin.
+
+# An opening curly brace should never go on its own line and should always be
+# followed by a new line. 
+
+# A closing curly brace should always go on its own line, unless it’s followed
+# by else. Always indent the code inside curly braces.
+
+## Examples: 
+x <- 2
+y <- 2
+
+## Good style: 
+if (y < 0 && debug) {
+  message("Y is negative")
+}
+
+if (y == 0) {
+  log(x)
+} else {
+  y ^ x
+}
+
+## Bad style:
+# if (y < 0 && debug)
+#   message("Y is negative")
+
+# if (y == 0) {
+#   log(x)
+# } 
+# else {
+#   y ^ x
+# }
+
+# It’s ok to drop the curly braces if we have a very short if-statement 
+# that can fit on one line:
+  
+y <- 10
+x <- if (y < 20) "Too low" else "Too high"
+x
+
+# Use this only for very brief if statements. 
+# Otherwise, the full form is easier to read:
+  
+if (y < 20) {
+  x <- "Still too low" 
+  } else {
+  x <- "Too high"
+}
+x
+
+## 19.4.4 Exercises -----
+
+# 1. What’s the difference between if and ifelse()? 
+#    Carefully read the help and construct 3 examples that illustrate the key differences.
+
+# 2. Write a greeting function that says “good morning”, “good afternoon”, or
+#    “good evening”, depending on the time of day. 
+#    (Hint: use a time argument that defaults to lubridate::now(). 
+#           That will make it easier to test your function.)
+
+# 3. Implement a fizzbuzz function that takes a single number as input. 
+#    If the number is divisible by 3, it returns “fizz”. 
+#    If it’s divisible by 5 it returns “buzz”. 
+#    If it’s divisible by three and five, it returns “fizzbuzz”.
+#    Otherwise, it returns the number. 
+#    Make sure you first write working code before you create the function.
+
+
+
+# 4. How could you use cut() to simplify this set of nested if-else statements?
+  
+if (temp <= 0) {
+  "freezing"
+} else if (temp <= 10) {
+  "cold"
+} else if (temp <= 20) {
+  "cool"
+} else if (temp <= 30) {
+  "warm"
+} else {
+  "hot"
+}
+
+# How would you change the call to cut() if I’d used < instead of <=? 
+# What is the other chief advantage of cut() for this problem? 
+# (Hint: what happens if you have many values in temp?)
+
+# 5. What happens if you use switch() with numeric values?
+  
+# 6. What does this switch() call do? What happens if x is “e”?
+  
+switch(x, 
+       a = ,
+       b = "ab",
+       c = ,
+       d = "cd"
+)
+
+switch(x = "a")
+
+# Experiment, then carefully read the documentation.
+
+
+
 
 ## +++ here now +++ ------
 
