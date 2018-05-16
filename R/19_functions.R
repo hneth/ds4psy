@@ -1,13 +1,15 @@
 ## r4ds: Chapter 19: 
 ## Code for http://r4ds.had.co.nz/functions.html
 ## hn spds uni.kn
-## 2018 05 15 ------
+## 2018 05 16 ------
 
 
-# Programming with pipes:
-#  Learn how to use the pipe, %>%, how it works, 
-#  what the alternatives are, and when not to use it.
+## Topics: -----
 
+# - writing functions
+# - conditional execution (if, ifelse, switch)
+# - function arguments
+# - environments
 
 
 ## Quotes: ------
@@ -15,7 +17,8 @@
 # Programs should be written for people to read, 
 # and only incidentally for machines to execute.
 
-# Abelson and Sussman, Structure and Interpretation of Computer Programs
+# Abelson and Sussman, "Structure and Interpretation of Computer Programs"
+
 
 
 
@@ -41,6 +44,7 @@
 ## 19.1.1 Prerequisites -----
 
 # Base R, no extra packages.
+
 
 
 ## 19.2 When should you write a function? ------
@@ -369,6 +373,7 @@ is_directory("stuff")
 }
 
 
+
 ## 19.3 Functions are for humans and computers ------ 
 
 ## Recommendations: ---- 
@@ -453,6 +458,7 @@ dnorm(x = 1:4, mean= 10, sd = 2)
 #   relation to other families (like runif(), etc.). 
 
 
+
 ## 19.4 Conditional execution ------
 
 # An if statement allows us to conditionally execute code. 
@@ -504,7 +510,7 @@ if (NA) {}
 
 ## Booleans in if-conditions:
 
-# (1) Using || and && in conditions: ---- 
+## (1) Using || and && in conditions: ---- 
 
 # We can use || (or) and && (and) to combine multiple logical expressions. 
 # These operators are “short-circuiting”: 
@@ -517,7 +523,7 @@ if (NA) {}
 # If we do have a logical vector, we can use 
 # any() or all() to collapse it to a single value.
 
-# (2) Testing for equality: ----
+## (2) Testing for equality: ----
 
 # == is vectorised, which means that it’s easy to get more than one output. 
 # Either check the length is already 1, collapse with all() or any(), 
@@ -545,7 +551,7 @@ x - 2
 
 dplyr::near(x, 2) # => TRUE
 
-# (3) Testing for NA: ----
+## (3) Testing for NA: ----
 
 # Remember that x == NA doesn’t do anything useful!
 # Instead, use is.na(x).
@@ -656,20 +662,124 @@ x
 ## 19.4.4 Exercises -----
 
 # 1. What’s the difference between if and ifelse()? 
-#    Carefully read the help and construct 3 examples that illustrate the key differences.
+#    Carefully read the help and
+#    construct 3 examples that illustrate the key differences.
+
+?ifelse
+
+# Usage: ifelse(test, yes, no)
+
+# ifelse returns a value with the same shape as test 
+# which is filled with elements selected from either yes or no 
+# depending on whether the element of test is TRUE or FALSE.
+
+x <- 2:-1
+x
+sqrt(x)                     # => Warning: NANs produced
+sqrt(ifelse(x >= 0, x, NA)) # => no warning
+# But:
+ifelse(x >= 0, sqrt(x), NA) # => Warning (as before)
+
+## Example of different return modes:
+yes <- 1:3
+no <- pi^(0:3)
+
+ifelse(NA,    yes, no) # => NA
+typeof(ifelse(NA,    yes, no)) # logical
+
+ifelse(TRUE,  yes, no) # => 1
+typeof(ifelse(TRUE,  yes, no)) # integer
+
+ifelse(FALSE, yes, no) # => 1.000
+typeof(ifelse(FALSE, yes, no)) # double
+
+## Contrasting if() vs. ifelse(): ----
+
+# (1) test vs. cond
+# if tests a single condition (cond):
+# if (cond) { expr1 } else { expr2 }
+
+# By contrast, ifelse tests each element of a vector (test):
+# ifelse(test, expr1, expr2)
+
+# Example: 
+x <- 1:4
+ifelse(x < 2, "one", "two")
+
+# (2) Return value if cond or test is NA:
+if (TRUE)  { "1" } else { "2" } # => "1"
+if (FALSE) { "1" } else { "2" } # => "2"
+if (NA)    { "1" } else { "2" } # => ERROR!
+
+ifelse(TRUE, "1", "2")  # => "1"
+ifelse(FALSE, "1", "2") # => "2"
+ifelse(NA, "1", "2")    # => NA!
+
+x <- c(1, NA, 3)
+ifelse(x < 2, "one", "two") # => "one" NA    "two"
+# => Missing values in test yield missing values in result.
+
 
 # 2. Write a greeting function that says “good morning”, “good afternoon”, or
 #    “good evening”, depending on the time of day. 
 #    (Hint: use a time argument that defaults to lubridate::now(). 
 #           That will make it easier to test your function.)
 
+greet <- function(time = lubridate::now()) {
+
+  # time <- lubridate::now()  
+  cur_hour <- lubridate::hour(time)
+  messages <- c("good morning", "good afternoon", "good evening")
+  
+  if (cur_hour < 12) { 
+    messages[1] 
+  } else if (cur_hour < 18) { 
+    messages[2] 
+  } else {
+    messages[3] 
+  }
+  
+}
+
+# Setting a time: lubridate::hms("10:00:00")
+
+# Checks: 
+greet()
+greet(time = lubridate::hms("08:00:00"))
+greet(time = lubridate::hms("12:00:00"))
+greet(time = lubridate::hms("18:00:00"))
+
+
 # 3. Implement a fizzbuzz function that takes a single number as input. 
-#    If the number is divisible by 3, it returns “fizz”. 
-#    If it’s divisible by 5 it returns “buzz”. 
-#    If it’s divisible by three and five, it returns “fizzbuzz”.
-#    Otherwise, it returns the number. 
+#    - If the number is divisible by 3, it returns “fizz”. 
+#    - If it’s divisible by 5 it returns “buzz”. 
+#    - If it’s divisible by 3 and 5, it returns “fizzbuzz”.
+#    - Otherwise, it returns the number. 
 #    Make sure you first write working code before you create the function.
 
+fizzbuzz <- function(n) {
+
+  ## Check input:
+  # stopifnot(length(n) == 1)
+  # stopifnot(is.numeric(n))
+
+  # Tests:
+  div3 <- (n %% 3 == 0) # => Boolean
+  div5 <- (n %% 5 == 0) # => Boolean
+  
+  # Conditions: 
+  if (div3 && div5) { "fizzbuzz" }
+  else if (div3) { "fizz" }
+  else if (div5) { "buzz" }
+  else { n }
+}
+
+# Checks:
+fizzbuzz(15)
+fizzbuzz(12)
+fizzbuzz(10)
+fizzbuzz(11)
+fizzbuzz("A") # => ERROR
 
 
 # 4. Using cut():
@@ -711,6 +821,8 @@ cut(temp, breaks = c(-Inf, 0, 10, 20, 30, +Inf),
 
 
 # 5. What happens if you use switch() with numeric values?
+
+## +++ here now +++ ------
   
 # 6. What does this switch() call do? What happens if x is “e”?
   
@@ -727,18 +839,16 @@ switch(x = "a")
 
 
 
-
-## +++ here now +++ ------
-
-
-
 ## 19.5 Function arguments ------
+
 
 
 ## 19.6 Return values ------
 
 
+
 ## 19.7 Environment ----- 
+
 
 
 ## Appendix ------
