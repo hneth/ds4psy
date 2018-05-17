@@ -1,7 +1,7 @@
 ## r4ds: Chapter 19: 
 ## Code for http://r4ds.had.co.nz/functions.html
 ## hn spds uni.kn
-## 2018 05 16 ------
+## 2018 05 17 ------
 
 
 ## Topics: -----
@@ -661,7 +661,7 @@ x
 
 ## 19.4.4 Exercises -----
 
-# 1. What’s the difference between if and ifelse()? 
+## 1. What’s the difference between if and ifelse()? 
 #    Carefully read the help and
 #    construct 3 examples that illustrate the key differences.
 
@@ -720,7 +720,7 @@ ifelse(x < 2, "one", "two") # => "one" NA    "two"
 # => Missing values in test yield missing values in result.
 
 
-# 2. Write a greeting function that says “good morning”, “good afternoon”, or
+## 2. Write a greeting function that says “good morning”, “good afternoon”, or
 #    “good evening”, depending on the time of day. 
 #    (Hint: use a time argument that defaults to lubridate::now(). 
 #           That will make it easier to test your function.)
@@ -750,7 +750,7 @@ greet(time = lubridate::hms("12:00:00"))
 greet(time = lubridate::hms("18:00:00"))
 
 
-# 3. Implement a fizzbuzz function that takes a single number as input. 
+## 3. Implement a fizzbuzz function that takes a single number as input. 
 #    - If the number is divisible by 3, it returns “fizz”. 
 #    - If it’s divisible by 5 it returns “buzz”. 
 #    - If it’s divisible by 3 and 5, it returns “fizzbuzz”.
@@ -782,7 +782,7 @@ fizzbuzz(11)
 fizzbuzz("A") # => ERROR
 
 
-# 4. Using cut():
+## 4. Using cut():
 # a. How could you use cut() to simplify this set of nested if-else statements?
 # b. How would you change the call to cut() if I’d used < instead of <=? 
 # c. What is the other chief advantage of cut() for this problem? 
@@ -820,23 +820,71 @@ cut(temp, breaks = c(-Inf, 0, 10, 20, 30, +Inf),
     labels = c("freezing", "cold", "cool", "warm", "hot"))
 
 
-# 5. What happens if you use switch() with numeric values?
+## 5. What happens if you use switch() with numeric values?
 
-## +++ here now +++ ------
-  
-# 6. What does this switch() call do? What happens if x is “e”?
-  
+?switch
+
+# switch(EXPR, ...) evaluates EXPR and accordingly chooses one of the further arguments (in ...).
+
+# Using switch() with a numereric argument n selects the n-th argument from ...:
+switch(3, "one", "two", "three", "four") # => "three" 
+switch(5, "one", "two", "three", "four") # => nothing (not NA)
+
+# Examples of using switch: ---- 
+
+# (a) with character string:
+
+require(stats)
+centre <- function(x, type) {
+  switch(type,
+         mean = mean(x),
+         median = median(x),
+         trimmed = mean(x, trim = .1))
+}
+x <- rcauchy(10)
+centre(x, "mean")
+centre(x, "median")
+centre(x, "trimmed")
+
+# (b) with numeric sequence:
+
+gimme <- function(n) {
+  switch(n,
+         "one",
+         "two",
+         "many",
+         "zero")
+  }
+
+gimme(2) # => "two" 
+gimme(4) # => "zero"
+gimme(9) # => returns nothing (not NA)
+gimme(0) # => returns nothing (not NA)
+
+for(i in c(0:2, 8)) print(switch(i, 1, 2, 3, 4))
+
+
+## 6. What does this switch() call do? What happens if x is “e”?
+##    Experiment, then carefully read the documentation.  
+
+x <- "a"
+x <- "c"
+# x <- "e"
+
 switch(x, 
        a = ,
        b = "ab",
        c = ,
        d = "cd"
-)
+       )
 
-switch(x = "a")
+# The switch call returns the first non-missing value for the first name it matches:
+# - "ab" for a or b, 
+# - "cd" for c or d, and 
+# - NULL for e or x. 
 
-# Experiment, then carefully read the documentation.
 
+## +++ here now +++ ------
 
 
 ## 19.5 Function arguments ------
