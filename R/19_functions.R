@@ -883,6 +883,28 @@ switch(x,
 # - "cd" for c or d, and 
 # - NULL for e or x. 
 
+## From https://jrnold.github.io/r4ds-exercise-solutions/functions.html#exercise-6-12 
+
+switcheroo <- function(x) {
+  switch(x,
+         a = ,
+         b = "ab",
+         c = ,
+         d = "cd"
+  )
+}
+
+switcheroo("a")
+#> [1] "ab"
+switcheroo("b")
+#> [1] "ab"
+switcheroo("c")
+#> [1] "cd"
+switcheroo("d")
+#> [1] "cd"
+switcheroo("e")
+#> nothing!
+
 
 ## +++ here now +++ ------
 
