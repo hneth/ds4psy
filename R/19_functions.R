@@ -1,7 +1,7 @@
 ## r4ds: Chapter 19: 
 ## Code for http://r4ds.had.co.nz/functions.html
 ## hn spds uni.kn
-## 2018 05 17 ------
+## 2018 05 18 ------
 
 
 ## Topics: -----
@@ -906,10 +906,113 @@ switcheroo("e")
 #> nothing!
 
 
+## 19.5 Function arguments ------
+
+# The arguments to a function typically fall into two broad sets: 
+# - one set supplies the data to compute on, and 
+# - the other supplies arguments that control the details of the computation. 
+
+# For example:
+  
+# - In log(), the data is x, and 
+#   the detail is the base of the logarithm.
+
+# - In mean(), the data is x, and 
+#   the details are how much data to trim from the ends (trim) and 
+#   how to handle missing values (na.rm).
+
+# - In t.test(), the data are x and y, and 
+#   the details of the test are alternative, mu, paired, var.equal, and conf.level.
+
+# - In str_c() you can supply any number of strings to ..., and 
+#   the details of the concatenation are controlled by sep and collapse.
+
+# Generally, data arguments should come first. 
+# Detail arguments should go on the end, and usually should have default values. 
+# You specify a default value in the same way you call a function with a named argument:
+
+## Compute confidence interval around mean using normal approximation: 
+mean_ci <- function(x, conf = 0.95) {
+  se <- sd(x) / sqrt(length(x))
+  alpha <- (1 - conf)
+  mean(x) + se * qnorm(c(alpha / 2, 1 - alpha / 2))
+}
+
+## Check: 
+set.seed(7)
+x <- runif(100)
+
+mean_ci(x)
+#> [1] 0.4536547 0.5648240
+
+mean_ci(x, conf = 0.99)
+#> [1] 0.4361888 0.5822900 
+
+
+## Default values and issues of style: ---- 
+
+# The default value should almost always be the most common value. 
+# The few exceptions to this rule are to do with safety. 
+# For example, it makes sense for na.rm to default to FALSE 
+# because missing values are important. 
+# Even though na.rm = TRUE is what you usually put in your code, 
+# it’s a bad idea to silently ignore missing values by default.
+
+# When you call a function, you typically omit the names of the data arguments, 
+# because they are used so commonly. 
+# If you override the default value of a detail argument, 
+# you should use the full name:
+  
+# Good: 
+mean(1:10, na.rm = TRUE)
+
+# Bad: 
+mean(x = 1:10, , FALSE)
+mean(, TRUE, x = c(1:10, NA))
+
+# You can refer to an argument by its unique prefix (e.g. mean(x, n = TRUE)), 
+# but this is generally best avoided given the possibilities for confusion.
+
+# Notice that when you call a function, you should place 
+# a space around = in function calls, and 
+# always put a space after a comma, not before (just like in regular English). 
+# Using whitespace makes it easier to skim the function for the important components.
+
+# Good: 
+average <- mean(feet / 12 + inches, na.rm = TRUE)
+
+# Bad: 
+average<-mean(feet/12+inches,na.rm=TRUE)
+
+
+## 19.5.1 Choosing names ----- 
+
+# The names of the arguments are also important. 
+# R doesn’t care, but the readers of your code (including future-you) will. 
+
+# Generally you should prefer longer, more descriptive names, 
+# but there are a handful of very common, very short names. 
+# It’s worth memorising these:
+  
+# - x, y, z: vectors.
+# - w:       a vector of weights.
+# - df:      a data frame.
+# - i, j:    numeric indices (typically rows and columns).
+# - n:       length, or number of rows, or cases (subjects).
+# - p:       number of columns.
+
+# Otherwise, consider matching names of arguments in existing R functions. 
+# For example, use na.rm to determine if missing values should be removed.
+
+
+## 19.5.2 Checking values ----- 
+
+
+
 ## +++ here now +++ ------
 
 
-## 19.5 Function arguments ------
+
 
 
 
