@@ -1007,6 +1007,226 @@ average<-mean(feet/12+inches,na.rm=TRUE)
 
 ## 19.5.2 Checking values ----- 
 
+# It's good practice to check the validity of inputs to functions.
+# This makes constraints explicit and thus helps to avoid calling functions 
+# with invalid inputs. 
+
+# For example, see functions for computing weighted summary statistics:
+
+wt_mean <- function(x, w) {
+  sum(x * w) / sum(w)
+}
+
+wt_var <- function(x, w) {
+  mu <- wt_mean(x, w)
+  sum(w * (x - mu) ^ 2) / sum(w)
+}
+
+wt_sd <- function(x, w) {
+  sqrt(wt_var(x, w))
+}
+
+# What happens if x and w are not of the same length?
+
+wt_mean(1:6, 1:3)
+#> [1] 7.666667
+
+# Because of R’s vector recycling rules, we don’t get an error
+# --- but also never learn that there was a problem! 
+
+## (A) if (cond) { stop() }: ---- 
+
+# It’s good practice to check important preconditions, 
+# and throw an error (with stop()), if they are not met:
+  
+wt_mean <- function(x, w) {
+  
+  if (length(x) != length(w)) {
+    stop("`x` and `w` must be the same length", call. = FALSE)
+  }
+  
+  sum(w * x) / sum(w)
+}
+
+wt_mean(1:6, 1:3)
+#> ERROR
+
+# Be careful not to take this too far. 
+# There’s a tradeoff between how much time we spend making our function robust, 
+# versus how long we spend writing it. 
+
+# For example, if we also added a na.rm argument, 
+# we probably wouldn’t check it carefully:
+  
+wt_mean <- function(x, w, na.rm = FALSE) {
+  
+  if (!is.logical(na.rm)) {
+    stop("`na.rm` must be logical")
+  }
+  
+  if (length(na.rm) != 1) {
+    stop("`na.rm` must be length 1")
+  }
+  
+  if (length(x) != length(w)) {
+    stop("`x` and `w` must be the same length", call. = FALSE)
+  }
+  
+  if (na.rm) {
+    miss <- is.na(x) | is.na(w)
+    x <- x[!miss]
+    w <- w[!miss]
+  }
+  sum(w * x) / sum(w)
+}
+
+# This is a lot of extra work for little additional gain. 
+
+## (B) stopifnot(): ----
+
+# A useful compromise is the built-in stopifnot(): 
+# it checks that each argument is TRUE, 
+# and produces a generic error message if not: 
+
+wt_mean <- function(x, w, na.rm = FALSE) {
+  
+  # Assert conditions that should be TRUE: 
+  stopifnot(is.logical(na.rm), length(na.rm) == 1)
+  stopifnot(length(x) == length(w))
+  
+  if (na.rm) {
+    miss <- is.na(x) | is.na(w)
+    x <- x[!miss]
+    w <- w[!miss]
+  }
+  sum(w * x) / sum(w)
+}
+
+wt_mean(1:6, 6:1, na.rm = "foo")
+#> Error: is.logical(na.rm) is not TRUE 
+
+# Note that when using stopifnot() we assert what should be TRUE 
+# rather than checking for what might be wrong.
+
+
+## 19.5.3 Dot-dot-dot (…) ----- 
+
+# Many functions in R take an arbitrary number of inputs:
+  
+sum(1, 2, 3, 4, 5, 6, 7, 8, 9, 10)
+#> [1] 55
+
+stringr::str_c("a", "b", "c", "d", "e", "f")
+#> [1] "abcdef"
+
+# How do these functions work? 
+# They rely on a special argument: ... (pronounced dot-dot-dot). 
+# This special argument captures any number of arguments 
+# that aren’t otherwise matched.
+
+## Benefits: ---- 
+
+# It’s useful because you can then send those ... on to another function. 
+# This is a useful catch-all if your function primarily wraps another function. 
+
+# For example, I commonly create these helper functions 
+# that wrap around str_c():
+  
+commas <- function(...) stringr::str_c(..., collapse = ", ")
+
+commas(letters[1:10])
+#> [1] "a, b, c, d, e, f, g, h, i, j"
+
+rule <- function(..., pad = "-") {
+  title <- paste0(...)
+  width <- getOption("width") - nchar(title) - 5
+  cat(title, " ", stringr::str_dup(pad, width), "\n", sep = "")
+}
+
+rule("Important output")
+#> Important output ------------------------------------------------------
+
+# In such cases ... lets me forward on any arguments that 
+# I don’t want to deal with to str_c(). 
+
+## Costs: ---- 
+
+# It’s a very convenient technique, but comes at a price: 
+# Any misspelled arguments will not raise an error. 
+# This makes it easy for typos to go unnoticed:
+  
+x <- c(1, 2)
+sum(x, na.mr = TRUE)  # Note the typo!
+#> [1] 4
+
+## list(...) ---- 
+
+# If you just want to capture the values of the ..., 
+# use list(...).
+
+
+## 19.5.4 Lazy evaluation ----- 
+
+# Arguments in R are lazily evaluated: 
+# They’re not computed until they’re needed. 
+# That means if they’re never used, they’re never called. 
+
+# This is an important property of R as a programming language, 
+# but is generally not important when you’re writing your own functions 
+# for data analysis. 
+
+# You can read more about lazy evaluation at 
+# http://adv-r.had.co.nz/Functions.html#lazy-evaluation.
+
+
+## 19.5.5 Exercises ----- 
+
+# 1. What does commas(letters, collapse = "-") do?  Why?
+
+# Definition:
+commas <- function(...) stringr::str_c(..., collapse = ", ")
+
+commas(letters[1:3])  # => "a, b, c"
+
+commas(letters, collapse = "-")  # => ERROR:
+# Error in stringr::str_c(..., collapse = ", ") : 
+#   formal argument "collapse" matched by multiple actual arguments
+
+
+# 2. It’d be nice if you could supply multiple characters to the pad argument, 
+#    [e.g., rule("Title", pad = "-+")]. 
+#    Why doesn’t this currently work?  How could you fix it?
+
+# Definition:
+rule <- function(..., pad = "-") {
+  title <- paste0(...)
+  width <- getOption("width") - nchar(title) - 5
+  cat(title, " ", stringr::str_dup(pad, width), "\n", sep = "")
+}
+
+rule("Test")               # => works as intended
+rule("Title", pad = "-+")  # => length of line too long
+
+# Fix:
+nchar("-")
+nchar("-+")
+
+rule <- function(..., pad = "-") {
+  title <- paste0(...)
+  width <- getOption("width") - nchar(title) - 5
+  cat(title, " ", stringr::str_dup(pad, width/nchar(pad)), "\n", sep = "")
+}
+
+rule("Title", pad = "-+") # => works as intended
+
+
+# 3. What does the trim argument to mean() do? When might you use it?
+  
+# 4. The default value for the method argument to cor() is 
+#    c("pearson", "kendall", "spearman"). 
+#    What does that mean?  What value is used by default?
+  
+
 
 
 ## +++ here now +++ ------
