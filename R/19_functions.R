@@ -1,7 +1,7 @@
 ## r4ds: Chapter 19: 
 ## Code for http://r4ds.had.co.nz/functions.html
 ## hn spds uni.kn
-## 2018 05 18 ------
+## 2018 05 19 ------
 
 
 ## Topics: -----
@@ -1192,6 +1192,17 @@ commas(letters, collapse = "-")  # => ERROR:
 # Error in stringr::str_c(..., collapse = ", ") : 
 #   formal argument "collapse" matched by multiple actual arguments
 
+# It yields an error to provide the same named argument to a function twice.
+
+# To allow the user to override the separator in commas 
+# add an identical collapse argument to the function:
+
+commas <- function(..., collapse = ", ") {
+  stringr::str_c(..., collapse = collapse)
+}
+
+commas(letters, collapse = "-")
+
 
 # 2. It’d be nice if you could supply multiple characters to the pad argument, 
 #    [e.g., rule("Title", pad = "-+")]. 
@@ -1221,26 +1232,68 @@ rule("Title", pad = "-+") # => works as intended
 
 
 # 3. What does the trim argument to mean() do? When might you use it?
-  
+
+?mean
+
+# trim ... the fraction (0 to 0.5) of observations to be trimmed 
+#          from each end of x before the mean is computed. 
+#           Values of trim outside that range are taken as the nearest endpoint.
+
+# The trim arguments trims a fraction of x from each end of the vector 
+# (i.e., the range of values) before calculating the mean. 
+# This allows calculating a measure of central tendency that is 
+# robust wrt. possible outliers.
+
+# Examples: 
+x <- c(-9, 1:3, +9)
+mean(x, trim = 0)  # => 1.2
+mean(x, trim = .2) # => 2
+
+z <- c(0:10, 50)
+zm <- mean(z)
+c(zm, mean(z, trim = 0.10))
+
+# Use: trim allows removing outliers.
+
+
+
 # 4. The default value for the method argument to cor() is 
 #    c("pearson", "kendall", "spearman"). 
 #    What does that mean?  What value is used by default?
-  
 
+?cor
 
+# method ... a character string indicating which correlation coefficient (or covariance) 
+#            is to be computed. 
+#            One of "pearson" (default), "kendall", or "spearman": can be abbreviated.
+
+x <- 1:10
+y <- 1:10 + round(runif(10, min = -2, max = 2), 0)
+
+cor(x, y)
+
+cor(x, y, method = "pearson") # default
+cor(x, y, method = "kendall") 
+cor(x, y, method = "spearman") 
 
 ## +++ here now +++ ------
 
 
-
-
-
-
 ## 19.6 Return values ------
 
+# Figuring out what our function should return is usually straightforward: 
+# It’s why we created the function in the first place! 
+
+# There are 2 things we should consider when returning a value:  
+
+# 1. Does returning early make our function easier to read?  
+# 2. Can we make your function pipeable?  
+  
+## 19.6.1 Explicit return statements ----- 
 
 
-## 19.7 Environment ----- 
+
+## 19.7 Environment ------  
 
 
 
