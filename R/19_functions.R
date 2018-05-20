@@ -1,7 +1,7 @@
 ## r4ds: Chapter 19: 
 ## Code for http://r4ds.had.co.nz/functions.html
 ## hn spds uni.kn
-## 2018 05 19 ------
+## 2018 05 20 ------
 
 
 ## Topics: -----
@@ -1291,10 +1291,196 @@ cor(x, y, method = "spearman")
   
 ## 19.6.1 Explicit return statements ----- 
 
+# The value returned by the function is usually the last statement it evaluates,
+# but you can choose to return early by using return(). 
+
+# Recommendation: 
+# Save the use of return() to signal that you can return early with a simpler
+# solution. 
+
+# A common reason to do this is because the inputs are empty:
+  
+complicated_function <- function(x, y, z) {
+  if (length(x) == 0 || length(y) == 0) {
+    return(0)
+  }
+  
+  # Complicated code here
+}
+
+# Another reason is because you have a if statement with one complex block 
+# and one simple block. For example, you might write an if statement like this:
+  
+f <- function() {
+  if (x) {
+    # Do 
+    # something
+    # that
+    # takes
+    # many
+    # lines
+    # to
+    # express
+  } else {
+    # return something short
+  }
+}
+
+# But if the first block is very long, by the time you get to the else, 
+# you’ve forgotten the condition.  One way to rewrite it is to 
+# use an early return for the simple case:
+  
+f <- function() {
+ 
+  if (!x) {
+    return(something_short)
+  }
+  
+  # Do 
+  # something
+  # that
+  # takes
+  # many
+  # lines
+  # to
+  # express
+}
+
+# This tends to make the code easier to understand, 
+# because you don’t need quite so much context to understand it.
+
+
+## 19.6.2 Writing pipeable functions ----- 
+
+# If we want to write our own pipeable functions, 
+# it’s important to think about the return value. 
+
+# Knowing the return value’s object type means that our pipeline 
+# will “just work”.  
+# For example, with dplyr and tidyr the object type is the data frame.
+
+# There are 2 basic types of pipeable functions: 
+# transformations and side-effects. 
+# - With transformations, an object is passed to the function’s 1st argument 
+#   and a modified object is returned. 
+# - With side-effects, the passed object is not transformed. 
+#   Instead, the function performs an action on the object, 
+#   like drawing a plot or saving a file. 
+# Side-effects functions should “invisibly” return the 1st argument, 
+# so that while they’re not printed they can still be used in a pipeline. 
+
+# For example, this simple function prints the number of missing values 
+# in a data frame:
+
+show_missings <- function(df) {
+
+  n <- sum(is.na(df))
+  
+  cat("Missing values: ", n, "\n", sep = "")
+  
+  invisible(df)
+}
+
+# If we call it interactively, the invisible() means 
+# that the input df doesn’t get printed out:
+  
+show_missings(mtcars)
+#> Missing values: 0
+
+# But it’s still there, it’s just not printed by default:
+
+x <- show_missings(mtcars) 
+
+#> Missing values: 0
+class(x)
+#> [1] "data.frame"
+
+dim(x)
+#> [1] 32 11
+
+# And we can still use it in a pipe:
+library(tidyverse)  
+
+mtcars %>% 
+  show_missings() %>% 
+  mutate(mpg = ifelse(mpg < 20, NA, mpg)) %>% 
+  show_missings() 
+#> Missing values: 0
+#> Missing values: 18
 
 
 ## 19.7 Environment ------  
 
+# The last component of a function is its environment. 
+
+# This is not something we need to understand deeply when we first start writing
+# functions.
+
+# However, it’s important to know a little bit about environments because they
+# are crucial to how functions work.
+
+## Lexical scoping: ---- 
+
+# The environment of a function controls how R finds the value associated with a
+# name. For example, take this function:
+  
+f <- function(x) {
+    x + y
+  } 
+
+# In many programming languages, this would be an error, because y is not
+# defined inside the function. 
+
+# In R, this is valid code because R uses rules called "lexical scoping" to find
+# the value associated with a name. Since y is not defined inside the function,
+# R will look in the environment where the function was defined:
+  
+y <- 100
+f(10)
+#> [1] 110
+
+y <- 1000
+f(10)
+#> [1] 1010
+
+# This behavior seems like a recipe for bugs, and indeed 
+# we should avoid creating functions like this deliberately, 
+# but by and large it doesn’t cause too many problems 
+# (especially if we regularly restart R to get to a clean slate).
+
+# The advantage of this behavior is that -- from a language standpoint --  
+# it allows R to be very consistent. 
+# Every name is looked up using the same set of rules. 
+# For f() that includes the behavior of 2 things that you might not expect: 
+# { and +. This allows you to do devious things like:
+    
+`+` <- function(x, y) {
+      if (runif(1) < 0.1) {
+        sum(x, y)
+      } else {
+        sum(x, y) * 1.1
+      }
+    }
+
+table(replicate(1000, 1 + 2))
+#> 
+#>   3 3.3 
+#> 100 900
+
+rm(`+`) # to remove weird plus again!
+    
+# This is a common phenomenon in R. 
+
+# R places few limits on your power. 
+
+# You can do many things that you can’t do in other programming languages. 
+# You can do many things that 99% of the time are extremely ill-advised 
+# (like overriding how addition works!). 
+
+# But this power and flexibility is what makes tools like ggplot2 and dplyr possible. 
+
+# Learning how to make best use of this flexibility is beyond the scope of this book, 
+# but you can read about in "Advanced R" at http://adv-r.had.co.nz/. 
 
 
 ## Appendix ------
@@ -1303,6 +1489,10 @@ cor(x, y, method = "spearman")
 
 # Best practices for scientific computing:
 # - http://journals.plos.org/plosbiology/article?id=10.1371/journal.pbio.1001745
+
+# Advanced R:
+# Book at http://adv-r.had.co.nz/. 
+# Chapter on Functions: http://adv-r.had.co.nz/Functions.html 
 
 # Nice R code:
 # - https://nicercode.github.io/ 
