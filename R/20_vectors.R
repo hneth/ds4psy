@@ -4,16 +4,6 @@
 ## 2018 05 21 ------
 
 
-## Topics: -----
-
-
-
-## Quotes: ------
-
-
-
-
-
 ## 20 Vectors 
 
 ## 20.1 Introduction ------ 
@@ -197,6 +187,131 @@ is.na(c(-1, 0, 1) / 0)       # => FALSE TRUE FALSE
 
 
 ## 20.3.3 Character ----- 
+
+# Character vectors are the most complex type of atomic vector, 
+# because each element of a character vector is a string, 
+# and a string can contain an arbitrary amount of data.
+
+# You’ve already learned a lot about working with strings in 
+# Ch. 14 strings: http://r4ds.had.co.nz/strings.html#strings
+
+# Here we discuss one important feature of the underlying string 
+# implementation: R uses a global string pool. 
+# This means that each unique string is only stored in memory once, 
+# and every use of the string points to that representation. 
+
+# This reduces the amount of memory needed by duplicated strings. 
+# You can see this behaviour in practice with pryr::object_size():
+  
+x <- "This is a reasonably long string."
+pryr::object_size(x)
+#> 136 B
+
+y <- rep(x, 1000)
+pryr::object_size(y)
+#> 8.13 kB
+
+# y doesn’t take up 1,000x as much memory as x, 
+# because each element of y is just a pointer to that same string. 
+# A pointer is 8 bytes, so 1000 pointers to a 136 B string is 
+# 8 * 1000 + 136 = 8.13 kB.
+
+
+## 20.3.4 Missing values ----- 
+
+# Note that each type of atomic vector has its own missing value:
+  
+NA            # logical
+#> [1] NA
+
+NA_integer_   # integer
+#> [1] NA
+
+NA_real_      # double
+#> [1] NA
+
+NA_character_ # character
+#> [1] NA
+
+# Normally you don’t need to know about these different types because you can
+# always use NA and it will be converted to the correct type using the implicit
+# coercion rules described next. 
+
+# However, there are some functions that are strict about their inputs, 
+# so it’s useful to have this knowledge sitting in your back pocket 
+# so you can be specific when needed.
+
+
+## 20.3.5 Exercises ----- 
+
+# 1. Describe the difference between is.finite(x) and !is.infinite(x).
+
+# Both return the same values for most numbers:
+
+is.finite(99^99)    # => TRUE
+!is.infinite(99^99) # => TRUE
+
+is.finite(1/0)     # => FALSE
+!is.infinite(1/0)  # => FALSE
+
+is.finite(-1/0)    # => FALSE
+!is.infinite(-1/0) # => FALSE
+
+# But not for NA and NaN: 
+
+is.finite(NA)     # => FALSE
+!is.infinite(NA)  # => TRUE
+
+is.finite(NaN)    # => FALSE
+!is.infinite(NaN) # => TRUE
+
+# From https://jrnold.github.io/r4ds-exercise-solutions/vectors.html 
+
+x <- c(0, NA, NaN, Inf, -Inf)
+is.finite(x)
+#> [1]  TRUE FALSE FALSE FALSE FALSE
+
+!is.infinite(x)
+#> [1]  TRUE  TRUE  TRUE FALSE FALSE
+
+# is.finite considers only a number to be finite, 
+# and considers missing (NA), not a number (NaN), 
+# and positive and negative infinity to be not finite. 
+
+# However, since is.infinite only considers Inf and -Inf to be infinite, 
+# !is.infinite considers 0 as well as missing and not-a-number to be not infinite.
+
+# So NA and NaN are neither finite or infinite. Mind blown.
+
+
+# 2. Read the source code for dplyr::near() 
+#    (Hint: to see the source code, drop the ()). How does it work?
+
+dplyr::near
+
+# Source code:
+function (x, y, tol = .Machine$double.eps^0.5) {
+  abs(x - y) < tol
+}
+<environment: namespace:dplyr>
+  
+# near() return TRUE iff absolute deviation of x and y is below tolerance tol. 
+  
+# 3. A logical vector can take 3 possible values. 
+#    How many possible values can an integer vector take? 
+#    How many possible values can a double take? 
+#    (Use Google to do some research.)
+
+.Machine
+
+# 4. Brainstorm at least four functions that allow you to 
+#    convert a double to an integer. 
+#    How do they differ? Be precise.
+
+# 5. What functions from the readr package allow you to turn a string 
+#    into logical, integer, and double vector?
+  
+
 
 
 ## +++ here now +++ ------
