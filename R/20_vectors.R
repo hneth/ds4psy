@@ -308,9 +308,59 @@ function (x, y, tol = .Machine$double.eps^0.5) {
 #    convert a double to an integer. 
 #    How do they differ? Be precise.
 
+?round()
+
+x <- -100:99 + .5
+x
+mean(x) # => 0
+
+mean(round(x))   # preserves mean (in this case)
+mean(ceiling(x)) # rounds up
+mean(floor(x))   # rounds down
+mean(trunc(x))   # drops decimal (and happens to preserve mean in this case)
+
+
 # 5. What functions from the readr package allow you to turn a string 
 #    into logical, integer, and double vector?
+
+# library(tidyverse)
+# ?readr
+
+# parse_logical(x, na = c("", "NA"), locale = default_locale())
+# parse_integer(x, na = c("", "NA"), locale = default_locale())
+# parse_double(x, na = c("", "NA"), locale = default_locale())
+
+s <- c("A", "B", "C", "TRUE", "FALSE", NA, 1, 2, 3, 1/2, sqrt(2))
+
+parse_logical(s)
+parse_integer(s)
+parse_double(s)
+
+
+## 20.4 Using atomic vectors ------ 
+
+# Now that you understand the different types of atomic vector, 
+# it’s useful to review some of the important tools for working with them. 
+# These include:
   
+# 1. How to convert from one type to another, 
+#    and when that happens automatically: Coercion. 
+#
+# 2. How to tell if an object is a specific type of vector: Test functions. 
+#
+# 3. What happens when you work with vectors of different lengths: Recycling. 
+#
+# 4. How to name the elements of a vector: Naming.
+#
+# 5. How to pull out elements of interest: Subsetting. 
+
+
+## 20.4.1 Coercion ----- 
+## 20.4.2 Test functions ----- 
+## 20.4.3 Scalars and recycling rules -----
+## 20.4.4 Naming vectors ----- 
+## 20.4.5 Subsetting ----- 
+
 
 
 
