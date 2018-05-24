@@ -1,7 +1,7 @@
 ## r4ds: Chapter 12: Tidy data  
 ## Code for http://r4ds.had.co.nz/tidy-data.html
 ## hn spds uni.kn
-## 2018 03 28 ------
+## 2018 05 24 ------
 
 ## Quotes: ------
 
@@ -24,10 +24,12 @@
 # For more theory, see the Tidy Data paper published in the Journal of Statistical Software
 # at http://www.jstatsoft.org/v59/i10/paper. 
 
-# In this chapter we’ll focus on tidyr, a package that provides tools that help tidying up messy datasets. 
+# In this chapter we’ll focus on tidyr, a package that provides tools 
+# that help tidying up messy datasets. 
 # tidyr is a core member of the tidyverse: 
 
 library(tidyverse)
+
 
 ## 12.2 Tidy data (Definition and Motivation) ------
 
@@ -57,7 +59,7 @@ table5
 ## Definition: There are 3 interrelated rules which make a dataset "tidy":
 
 # 1. Each variable must have its own column.
-# 2. Each observation must have its own row.
+# 2. Each case/observation must have its own row.
 # 3. Each value must have its own cell.
 
 # Figure 12.1 shows the rules visually: 
@@ -66,12 +68,12 @@ table5
 # These three rules are interrelated because it’s impossible to only satisfy 2 of the 3. 
 # That interrelationship leads to an even simpler set of practical instructions:
 
-# A. Put each dataset in a tibble.
-# B. Put each variable in a column.
+# A. turn each dataset in a tibble.
+# B. put each variable in a column.
 
-# In the above example, only table1 is tidy. 
+# In the above examples, only table1 is tidy. 
 # It’s the only representation in which each column is a variable.
-# (Note that you need to interpret the semantics of the variables 
+# (Note that we need to interpret the semantics of the variables 
 #  to make and understand this statement.)
 
 
@@ -88,7 +90,7 @@ table5
 #    dplyr, ggplot2, and other packages are designed to work with tidy data.
 
 
-## Examples of working with tidy table1:
+## Example of working with tidy data (table1):
 
 table1
 
@@ -118,14 +120,22 @@ ggplot(table1, aes(year, cases, group = country, color = country)) +
   theme_light()
 
 
-## [test.quest]: Make a corresponding bar chart: 
-
-# ?geom_bar
-
-ggplot(table1, aes(x = year, y = cases)) + 
-  geom_bar(aes(fill = country), stat = "identity", position = "dodge") + 
-  theme_light()
-
+## [test.quest]:  Plot a bar chart (using the data from tidyr::table1).   
+{
+  ## Show the number of cases per country (on the y-axis) as a function of the year (on the x-axis).
+  ## Bonus: Label each bar with the number of cases (1) and adjust plot title and caption (1). 
+  
+  ## Solution:   
+  
+  # ?geom_bar
+  
+  ggplot(table1, aes(x = year, y = cases, fill = country)) + 
+    geom_bar(stat = "identity", position = "dodge", color = "black") + 
+    geom_text(aes(label = cases), position = position_dodge(width = 0.9), vjust = -0.5) +
+    scale_x_continuous(name = "Year", breaks = 1999:2000) + 
+    labs(title = "Cases per country and year", y = "Cases", caption = "[Data from tidyr::table1.]") +
+    theme_light()
+  }
 
 ## 12.2.1 Exercises -----
 
@@ -140,7 +150,7 @@ table4b # contains populations in wide format
 table5  # splits year of table3 into 2 variables (century, year)
 
 # 2. Compute the rate for (a) table2, and (b) table4a + table4b. 
-#    You will need to perform four operations:
+#    You will need to perform 4 operations:
 #    a. Extract the number of TB cases per country per year.
 #    b. Extract the matching population per country per year.
 #    c. Divide cases by population, and multiply by 10000.
@@ -222,39 +232,39 @@ ggplot(cases, aes(x = year, y = count, group = country, color = country)) +
 ## 12.3 Spreading and gathering ------
 
 # Why is data not always tidy?  
+
 # 2 main reasons:
 
 # 1. Ignorance:  Most people aren’t familiar with the principles of tidy data. 
 # 2. Other priorities: Ensure easy of entry, 
 #    particular methods require particular (e.g., wide or long) formats.
 
-# This means for most real analyses, you’ll need to do some tidying. 
+# This means for most real analyses, we’ll first need to do some tidying. 
 
 # Step 1: Figure out what the variables and observations are. 
 # Sometimes this is easy; otherwise consult whoever generated the data. 
 
-# Step 2: Resolve one of two common problems:
-# a. One variable might be spread across multiple columns.
-# b. One observation might be scattered across multiple rows.
+# Step 2: Resolve 1 of 2 common problems:
+# a. 1 variable might be spread across multiple columns (i.e., data is too wide), 
+# b. 1 observation might be scattered across multiple rows (i.e., data is too long).
 
-# Typically a dataset will only suffer from one of these problems; 
-# it’ll only suffer from both if you’re really unlucky! 
+# Typically a dataset only suffers from 1 of these problems; 
+# it’ll only suffer from both if we’re really unlucky! 
 
-# To fix these problems, you’ll need the two most important functions in tidyr: 
-# - gather() and 
-# - spread().
-
+# To fix these problems, we need the 2 most important functions in tidyr: 
+# - gather(): Changing from wide to long data; and 
+# - spread(): Chinging from long to wide data.
 
 ## 12.3.1 Gathering -----
 
 # Change format: From wide to long... 
 
 # A common problem is a dataset where some of the column names are  
-# NOT names of variables, but values of a variable. 
+# NOT names of variables, but _values_ of a variable. 
 
 # Consider table4a: 
 # the column names 1999 and 2000 represent values of the year variable, 
-# and each row represents 2 observations, not 1:
+# and each row represents 2 observations, not 1 (i.e., data is in wide format): 
 
 table4a
 
@@ -269,10 +279,10 @@ table4a
 #    In this example, those are the columns 1999 and 2000.
 
 # 2. The name of the variable whose values form the column names. 
-#    I call that the "key", and here it is "year".
+#    We call this variable the "key", and here it is "year".
 
 # 3. The name of the variable whose values are spread over the cells. 
-#    I call that "value", and here it’s the number of "cases".
+#    We call that "value", and here it’s the number of "cases".
 
 # Together these 3 parameters generate the call to gather():
 
@@ -314,6 +324,51 @@ tidy4b <- table4b %>%
 
 left_join(tidy4a, tidy4b)
 
+## Question on BSc thesis data by anna-katharina.knoop@uni-konstanz.de [2018 05 23]:
+## 2x3 Anova mit Messwiederholung
+{
+  ## Goal: Transform data from wide format into long-Format. 
+  ## Using tidyr::gather:  What are "value" and "key"?  
+  ## Experimental factors: emotion (2 levels: A, B) x size (3 levels: 1size1, 1size4, 1size9). 
+  
+  # ?read_csv2
+  
+  # Read data (in wide format, columns separated by “;"): 
+  data_wide <- read_csv2("data/emo_size.csv")
+  
+  # Checking data_wide:
+  dim(data_wide) # => 16 x 7
+  data_wide
+  names(data_wide)
+  
+  # Convert from wide into long format: 
+  data_long <- data_wide %>% 
+    gather(`A_1size9`:`B_1size1`, key = "condition", value = "value") %>%
+    separate(condition, into = c("emotion", "size"), sep = "_")
+  
+  # Checking data_long:
+  dim(data_long) # => 96 x 4
+  data_long # => variables are of type "character"
+  data_long$emotion <- as_factor(data_long$emotion) # make factor
+  data_long$size <- as_factor(data_long$size)       # make factor
+  data_long$value <- parse_double(data_long$value)  # convert value from char into double (number)
+  data_long
+  
+  # Getting group aggregates:
+  data_long %>%
+    group_by(emotion, size) %>%
+    summarise(n = n(),
+              mn = mean(value),
+              sd = sd(value))
+  
+  # Visualization: 
+  ggplot(data_long, aes(x = emotion, y = value, fill = size)) +
+    geom_boxplot() +
+    theme_bw()
+  
+  # etc. 
+}
+
 
 ## 12.3.2 Spreading -----
 
@@ -350,8 +405,9 @@ spread(table2, key = type, value = count)
 # As you might have guessed from the common key and value arguments, 
 # spread() and gather() are complements. 
 
-# 1. gather() makes wide tables narrower and longer; 
-# 2. spread() makes long tables shorter and wider.
+# 1. gather() makes wide tables longer/narrower; 
+# 2. spread() makes long tables wider/shorter.
+
 
 
 ## 12.3.3 Exercises -----
@@ -698,7 +754,7 @@ stocks
 # - An explicit missing value is the presence of an absence; 
 # - an implicit missing value is the absence of a presence.
 
-# (cute, but an explicit missing value is also absence of a presence)
+# (cute, but an explicit missing value is also absence of a presence...)
 
 # The way that a dataset is represented can make implicit values explicit. 
 # For example, we can make the implicit missing value explicit 
@@ -1136,10 +1192,10 @@ vignette("tidy-data")
 
 # This chapter provided a practical introduction to tidy data and the tidyr package. 
 
-# To learn more about the underlying theory, see the Tidy Data paper 
+# To learn more about the underlying theory, see the "Tidy Data" paper 
 # in the Journal of Statistical Software: http://www.jstatsoft.org/v59/i10/paper.
 
-# To learn more about non-tidy data, see
+# To learn more about non-tidy data, see 
 # http://simplystatistics.org/2016/02/17/non-tidy-data/ 
 
 ## ------

@@ -1,7 +1,7 @@
 ## r4ds: Chapter 3: Data visualisation 
 ## Code for http://r4ds.had.co.nz/data-visualisation.html
 ## hn spds uni.kn
-## 2018 04 23 ------
+## 2018 05 23 ------
 
 
 ## Quotes: ------
@@ -1035,28 +1035,29 @@ ggplot(df, aes(x = "", y = value, fill = variable)) +
   theme_minimal()
 
 ## [test.quest]: German election results
-
-## (a) data frame:
-
-df <- data.frame(
-  party = c("CDU", "SPD", "others"),
-  share = c(.33, .20, (1 - .33 - .20))
-)
-df$party <- factor(df$party, levels = c("CDU", "SPD", "others"))
-head(df)
-
-## (b) stacked par chart:
-
-bp <- ggplot(data = df, mapping = aes(x = "", y = share, fill = party)) +
-  geom_bar(stat = "identity") + 
-  scale_fill_manual(values = c("black", "red3", "gold")) + 
-  theme_bw()
-bp
-
-## (c) pie chart:
-
-pie <- bp + coord_polar("y", start = 0)
-pie
+{
+  ## (a) Create a data frame or tibble:
+  
+  df <- data.frame(
+    party = c("CDU", "SPD", "others"),
+    share = c(.33, .20, (1 - .33 - .20))
+  )
+  df$party <- factor(df$party, levels = c("CDU", "SPD", "others"))
+  head(df)
+  
+  ## (b) Create a stacked bar chart:
+  
+  bp <- ggplot(data = df, mapping = aes(x = "", y = share, fill = party)) +
+    geom_bar(stat = "identity") + 
+    scale_fill_manual(values = c("black", "red3", "gold")) + 
+    theme_bw()
+  bp
+  
+  ## (c) Create a pie chart:
+  
+  pie <- bp + coord_polar("y", start = 0)
+  pie
+  }
 
 ## Note: 
 ## See section customized pie charts in 
