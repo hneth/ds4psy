@@ -1,7 +1,7 @@
 ---
 title: "Test Questions (ds4psy)"
 author: "Hansjörg Neth, SPDS, uni.kn"
-date: "2018 05 02"
+date: "2018 05 23"
 output:
   rmdformats::html_clean:
     highlight: kate
@@ -42,6 +42,202 @@ opts_knit$set(width=75)
 
 This file contains practice and test questions suited to test your skills and understanding.
 
+## 3: Data visualisation
+
+```{r, setup_3, echo = TRUE, eval = TRUE}
+library(tidyverse)  # dplyr, ggplot
+```
+
+Note: The chapter does primarily introduce visualizations (with `ggplot`), 
+but not yet data transformations (with `dplyr`). 
+
+### Using `mtcars` data
+
+```{r, mtcars, echo = TRUE}
+## Data to use:
+?mtcars
+# mtcars
+
+## (0) Convert into a tibble: 
+df <- as_tibble(rownames_to_column(mtcars, var = "model"))
+df$cyl <- factor(df$cyl)
+df$am <- factor(df$am)
+df
+
+## (1) Distribution of mpg: ---- 
+range(df$mpg)
+
+ggplot(df, aes(x = mpg)) +
+  geom_histogram(binwidth = 5)
+
+## (2) Group means and boxplot: Mean mpg by cylinder: ----  
+
+df %>%
+  group_by(cyl) %>%
+  summarise(n = n(),
+            md_mpg = median(mpg),
+            mn_mpg = mean(mpg)
+            )
+
+ggplot(df, aes(x = cyl, y = mpg, color = cyl)) +
+  geom_boxplot() +
+  # geom_violin() + 
+  geom_jitter()
+
+## (3) Scatterplot: ---- 
+
+## Show value of `disp` (on y-axis) by `hp` (on x-axis), grouped by `am`: 
+ggplot(df, aes(x = hp, y = disp, fill = am)) +
+  geom_point(shape = 21, size = 2.5) +
+  # geom_smooth() +
+  geom_text(aes(label = model), size = 2.5, vjust = 0, hjust = 0, nudge_x = 5) +
+  theme_bw()
+
+## Alternative (using facets):
+ggplot(df, aes(x = hp, y = disp)) +
+  facet_wrap(~am) + 
+  geom_point(size = 2.5) +
+  # geom_smooth() +
+  geom_text(aes(label = model), size = 2.5, vjust = 0, hjust = 0, nudge_x = 5) +
+  theme_bw()
+
+## Conclusions: ---- 
+# - There is a positive correlation between horsepower and displacement 
+#   (for both types of transmission). 
+# - outliers: Ford Pantera L and Maserati 
+#             have more hp and disp than other cars with manual transmission.
+```
+
+#### Tasks involved
+
+- Plot distribution (histogram) 
+- Descriptive group measures (count, mean, SD) 
+- Plot raw data and group means (boxplot) 
+- Plot scatterplot of 2 continuous variables  
+- Interpret and draw conclusions 
+
+### Using `iris` data
+
+```{r, iris}
+?iris
+
+# Turn into tibble: ----- 
+df <- as_tibble(iris)
+df
+
+# Compute group counts and means: ----- 
+df %>%
+  group_by(Species) %>%
+  summarise(n = n(),
+            mn_sep.len = mean(Sepal.Length),
+            mn_sep.wid = mean(Sepal.Width),
+            mn_pet.len = mean(Petal.Length),
+            mn_pet.wid = mean(Petal.Width)
+            )
+
+
+
+# Task 1: Turn df into long format using tidyr::gather ----- 
+df_long <- df %>%
+  gather(Sepal.Length:Petal.Width, key = "type", value = "val") %>%
+  separate("type", into = c("part", "metric"), sep = "\\.")
+
+df_long
+dim(df_long)
+
+# Recompute group counts and means: ----- 
+df_long %>%
+  group_by(Species, part, metric) %>%
+  summarise(n = n(),
+            mn_val = mean(val)
+            )
+
+
+# Task 2: Turn df_long back into original wide format using tidyr::spread -----
+df_long
+
+df_long <- rownames_to_column(df_long, var = "id") # add id column
+df_long$id <- parse_integer(df_long$id)            # make integer
+df_long
+
+df_long %>%
+  unite(type, part, metric, sep = ".") %>%  # unite part and metric into "type" column
+  spread(key = type, value = val) %>%      # spread "type" variable into multiple columns
+  arrange(id)
+
+# ???: Still contains 600 rows (and 3 out of 4 empty columns).
+# +++ here now +++
+
+```
+
+
+### Using `dplyr::table1` data
+
+Plot a bar chart (using the data from dplyr::table1) that shows the number of cases per country (on the y-axis) as a function of the year (on the x-axis).
+
+Bonus: Label each bar with the number of cases (1) and adjust plot title and caption (1). 
+
+```{r, barchart_with_labels}
+# ?geom_bar
+
+ggplot(tidyr::table1, aes(x = year, y = cases, fill = country)) + 
+  geom_bar(stat = "identity", position = "dodge", color = "black") + 
+  geom_text(aes(label = cases), position = position_dodge(width = 0.9), vjust = -0.5) +
+  scale_x_continuous(name = "Year", breaks = 1999:2000) + 
+  labs(title = "Cases per country and year", y = "Cases", caption = "[Data from tidyr::table1.]") +
+  theme_light()
+```
+
+### Own data: German election results
+
+Create tibble and then visualize election results, which are given as a table:
+
+| Party: | Share 2017:       | Share 2013: | 
+|:------- |--------:         |--------:|
+| CDU/CSU | `r (26.8+6.2)`%  | `r (34.1 + 7.4)`% |
+| SPD     | `r (20.5)`%      | `r (25.7)`% |
+| others  |      ?           |        ?    |
+
+
+<!-- From https://www.bundeswahlleiter.de/info/presse/mitteilungen/bundestagswahl-2017/34_17_endgueltiges_ergebnis.html 
+
+CDU 	Christlich Demokratische Union Deutschlands 	26,8 % 	(2013: 34,1 %)
+SPD 	Sozialdemokratische Partei Deutschlands 	    20,5 % 	(2013: 25,7 %)
+AfD 	Alternative für Deutschland 	                12,6 % 	(2013:  4,7 %)
+FDP 	Freie Demokratische Partei 	                  10,7 % 	(2013:  4,8 %)
+DIE LINKE 	DIE LINKE 	                             9,2 % 	(2013:  8,6 %)
+GRÜNE 	    BÜNDNIS 90/GRÜNE 	                       8,9 % 	(2013:  8,4 %)
+CSU 	Christlich-Soziale Union in Bayern e.V 	       6,2 % 	(2013:  7,4 %)
+Sonstige 	  	                                       5,0 % 	(2013:  6,2 %)
+
+--> 
+
+```{r, election_results}
+## (a) Create a data frame or tibble:
+df <- data.frame(
+    party = c("CDU/CSU", "SPD", "others"),
+    share = c((.268 + .062), .205, (1 - (.268 + .062) - .205))
+  )
+df$party <- factor(df$party, levels = c("CDU/CSU", "SPD", "others"))
+head(df)
+  
+## (b) Create a stacked bar chart:
+bp <- ggplot(data = df, mapping = aes(x = "", y = share, fill = party)) +
+  geom_bar(stat = "identity") + 
+  scale_fill_manual(values = c("black", "red3", "gold")) + 
+  theme_bw()
+bp
+
+## (c) Create a pie chart: 
+pie <- bp + coord_polar("y", start = 0)
+pie
+```
+
+- Create a data frame or tibble
+- Plot bar chart (with `stat = "identity"`)
+- Create pie chart (with `coord_polar`) 
+
+
 
 ## 5: Data transformation
 
@@ -56,7 +252,7 @@ Using the `flights` dataset:
 - Compute a variable `true_duration` as the duration of each flight (in minutes) from its `dep_time` and `arr_time`. 
 - How does it relate to the `air_time` variable in the data set? (Plot the relationship between both variables.)
 
-```{r, echo = TRUE}
+```{r, flights_duration, echo = TRUE}
 compute_duration <- function(dep_min, arr_min) {
 
   dur <- NA # initialize
@@ -100,11 +296,108 @@ p <- ggplot(d, (aes(x = air_time, y = true_duration))) +
 
 - For flights departing and arriving on the same day, we can simply subtract `dep_time_min` from `arr_time_min` to obtain `true_duration`. However, if a flight departs before and arrives after midnight (i.e., arrives on the next day), this measure would yield a negative result. To correct for this, we need to add 24 hours (24 times 60 minutes) to `arr_time` whenever `arr_time` is before (or smaller than) `dep_time`. [This assumes that there are no flights exceeding 24 hours.]
 
-- Seems too difficult, as it requires conditional execution and/or functions. 
+- Seems too difficult at this stage, as it requires _conditional execution_ (for flights departing and arriving on the same vs. different days) and/or _functions_. 
+
+In chapter 16 (Dates and times: http://r4ds.had.co.nz/dates-and-times.html), this problem is solved by introducing a Boolean variable for `overnight` flights and re-computing `air_time` by subtracting date-time objects (as intervals). 
 
 
 
+### Identifying outliers
 
+#### Definition 
+
+Let's define an _outlier_ as someone deviating by more than 2 SD (in some metric) from the mean of a reference group. Depending on the reference group, outliers can be computed in defined in 2 ways:  
+
+1. relative to _overall_ mean and SD;  
+
+2. relative to _group_ mean and SD.  
+
+```{r, outlier_create_data}
+## Generate data: 
+set.seed(123)
+n <- 1000
+id <- paste0("p.", 1:n) # paste0(sample(LETTERS, 1), sample(LETTERS, 1))
+sex <- sample(x = c(0, 1), size = n, replace = TRUE)
+height <- rep(NA, n)
+noise <- round(rnorm(n, mean = 0, sd = 11), 0)
+height[sex == 0] <- 169 + noise[sex == 0]
+height[sex == 1] <- 181 + noise[sex == 1]
+
+data <- as_tibble(data_frame(id, factor(sex), height))
+names(data) <- c("id", "sex", "height")
+# data
+mean(data$height) # => 175.051
+```
+
+#### Tasks
+
+A. Create 2 variables for both types of outliers.
+
+B. Identify people who are outliers relative to _both_ the entire poulation _and_ to their own sex.
+
+C. Identify people (men and women) who are _not_ outliers relative to the entire population, but _are_ outliers relative to their own sex. (As men are taller than women on average, these are tall women and small men.)
+
+D. Visualize the overall distribution of `height`, its distribution by `sex`, 
+and the raw data values for both types of outliers (by `sex`).
+
+#### Solution 
+
+To identify both groups, we first need to compute 2 outlier variables: One for the entire population and one for each subgroup (based on people's `sex`).
+ 
+```{r, outlier_solution}
+crit <- 2 # criterion for outliers
+
+# (A)
+data_out <- data %>%
+  mutate(mn_height = mean(height),
+         sd_height = sd(height),
+         out_height = abs(height - mn_height) > (crit * sd_height)) %>%
+  group_by(sex) %>%
+  mutate(mn_sex_height = mean(height),
+         sd_sex_height = sd(height),
+         out_sex_height = abs(height - mn_sex_height) > (crit * sd_sex_height))
+data_out
+
+# (B) outliers relative to entire population AND to their own group (sex):
+out_1 <- data_out %>%
+  filter(out_height & out_sex_height)
+out_1
+
+# (C) outliers relative to own sex, but NOT relative to entire population:
+out_2 <- data_out %>%
+  filter(!out_height & out_sex_height)
+out_2
+
+# (D) Visualization of the data: 
+# (a) All data: 
+p <- ggplot(data) +
+  geom_density(aes(x = height), fill = "gold", alpha = 2/3) +
+  geom_density(aes(x = height, fill = factor(sex)), alpha = 1/4) +
+  theme_bw()
+p
+
+p <- ggplot(data) +
+  facet_wrap(~sex) + 
+  geom_histogram(aes(x = height, fill = factor(sex)), binwidth = 5, alpha = 2/4) +
+  # geom_histogram(aes(x = height), binwidth = 10, fill = "forestgreen", alpha = 2/3) +
+  # geom_density(aes(x = height, fill = sex)) + 
+  theme_bw()
+# p
+
+## (b) 2 types of outliers:
+ggplot(out_1, aes(x = sex, y = height, color = sex)) +
+  geom_violin() + 
+  geom_jitter() + 
+  theme_bw()
+
+ggplot(out_2, aes(x = sex, y = height, color = sex)) +
+  geom_violin() + 
+  geom_jitter() +
+  theme_bw()
+```
+
+
++++ here now +++
 
 [This file last updated on `r Sys.time()` by [hn](http://neth.de/).]
 
