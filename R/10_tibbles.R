@@ -1,7 +1,7 @@
 ## r4ds: Chapter 10: Tibbles  
 ## Code for http://r4ds.had.co.nz/tibbles.html 
 ## hn spds uni.kn
-## 2018 04 14 ------
+## 2018 05 25 ------
 
 
 

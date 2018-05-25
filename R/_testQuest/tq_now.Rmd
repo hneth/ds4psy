@@ -1,7 +1,7 @@
 ---
 title: "Test Questions (ds4psy)"
 author: "Hansjörg Neth, SPDS, uni.kn"
-date: "2018 05 23"
+date: "2018 05 25"
 output:
   rmdformats::html_clean:
     highlight: kate
@@ -24,7 +24,9 @@ opts_knit$set(width=75)
 ```
 
 
-# Course Coordinates
+# Introduction
+
+## Course Coordinates
 
 <!-- uni.kn logo and link to SPDS: -->  
 <!-- ![](./inst/pix/uniKn_logo.png) --> 
@@ -37,19 +39,19 @@ opts_knit$set(width=75)
 * Spring/summer 2018: Mondays, 13:30--15:00, C511 (from 2018.04.16 to 2018.07.16) 
 * Links to [ZeUS](https://zeus.uni-konstanz.de:443/hioserver/pages/startFlow.xhtml?_flowId=showEvent-flow&unitId=5101&termYear=2018&termTypeValueId=1&navigationPosition=hisinoneLehrorganisation,examEventOverviewOwn) and [Ilias](https://ilias.uni-konstanz.de/ilias/goto_ilias_uni_crs_758039.html)
 
-
-# Test Questions
+## Test Questions
 
 This file contains practice and test questions suited to test your skills and understanding.
 
-## 3: Data visualisation
+# 3: Data visualisation
 
 ```{r, setup_3, echo = TRUE, eval = TRUE}
 library(tidyverse)  # dplyr, ggplot
 ```
 
-Note: The chapter does primarily introduce visualizations (with `ggplot`), 
-but not yet data transformations (with `dplyr`). 
+## Contents
+
+The chapter primarily introduces visualizations (with `ggplot`), but not yet data transformations (with `dplyr`). 
 
 ### Using `mtcars` data
 
@@ -239,12 +241,22 @@ pie
 
 
 
-## 5: Data transformation
+# 5: Data transformation
 
 ```{r, setup_5, echo = TRUE, eval = TRUE}
 library(tidyverse)    # dplyr
 library(nycflights13) # data
 ```
+
+## Contents
+
+Transform data with essential `dplyr` commands:
+
+- `arrange` cases (rows)
+- `select` variables (columns)
+- add and compute new variables with `mutate` and `transmute`
+- counts and descriptives of aggregates (by `group_by`, `summarise` and functions)
+- group-level variables via grouped mutates
 
 ### Compute true flight duration
 
@@ -311,6 +323,8 @@ Let's define an _outlier_ as someone deviating by more than 2 SD (in some metric
 1. relative to _overall_ mean and SD;  
 
 2. relative to _group_ mean and SD.  
+
+Creating a suitable data set: 
 
 ```{r, outlier_create_data}
 ## Generate data: 
@@ -396,6 +410,208 @@ ggplot(out_2, aes(x = sex, y = height, color = sex)) +
   theme_bw()
 ```
 
+# 7: Exploratory Data Analysis 
+
+## Contents
+
+Transform and visualize datasets to: 
+
+- detect and deal with missing values
+- view distributions of variables and outliers  
+- view relationships between (categorical/continuous) variables
+
+# 10: Tibbles
+
+## Contents
+
+Turn data into tibbles: 
+
+- convert data frames into tibbles
+- create tibbles from tabular data
+
+# 12: Tidy Data
+
+## Contents
+
+Wrangle data to: 
+
+- create tidy datasets
+- gather wide datasets into longer ones
+- spread long datasets into wider ones
+- separate and unite variables (columns)
+
+### Stock dataset
+
+```{r, stock_data}
+# library(tidyverse)
+
+## (1) Enter stock data (in wide format):
+
+st <- tribble(
+  ~name, ~d1_start, ~d1_end, ~d2_start, ~d2_end, ~d3_start, ~d3_end,  
+  #----|----------|--------|----------|--------|----------|--------|
+  "Amada",   2.5,     3.6,    3.5,       4.2,      4.4,       2.8,            
+  "Betix",   3.3,     2.9,    3.0,       2.1,      2.3,       2.5,  
+  "Cevis",   4.2,     4.8,    4.6,       3.7,      3.8,       3.1     
+)
+# st
+
+## Note data structure: 
+## 2 nested factors: day (1 to 3), type (start or end).
+
+## (2) Change from wide to long format:
+st_long <- st %>%
+  gather(d1_start:d3_end, key = "key", value = "val") %>%
+  separate(key, into = c("day", "type")) %>%
+  arrange(name, day, type) # optional: arrange rows
+st_long
+
+## (3) Change into wider format that lists start and end as 2 distinct variables (columns):
+st_long %>%
+  spread(key = type, value = val) %>%
+  mutate(day_nr = parse_integer(str_sub(day, 2, 2))) # optional: get day_nr as integer variable
+
+## (4) Note: Assume that stock data contains duplicate rows:
+st2 <- rbind(st, st)
+st2
+
+## Gathering from wide to long format works as before: 
+st_long2 <- st2 %>%
+  gather(d1_start:d3_end, key = "key", value = "val") %>%
+  separate(key, into = c("day", "type")) %>%
+  arrange(name, day, type) # optional: arrange rows
+st_long2
+
+## However, spreading from long to wider format would yield an 
+##          ERROR: "duplicate identifiers": 
+
+## not run: ## 
+# st_long2 %>%
+#  spread(key = type, value = val)
+
+## Possible fix:
+## (a) Add an id variable that distinguishes between duplicate cases: 
+st_long3 <- st_long2 %>%
+  mutate(id = rep(1:2, nrow(st_long2)/2)) %>%  # adding a vector
+  select(name, id, everything())               # optional: re-arrange variables (columns)
+# st_long3
+
+## (b) Now spreading from long to wider format succeeds: 
+st_long3 %>%
+  spread(key = type, value = val)
+
+```
+
+### Experimental dataset
+
+```{r, create_exp_data, include = TRUE}
+n <- 10 # [n]umber of participants
+set.seed(101) # for replicability
+
+IVs <- data.frame("name" = c("Ann", "Bea", "Cat", "Deb", "Eva", "Fred", "Gary", "Hans", "Ian", "John"),
+                  "gender" = c(rep("f", 5), rep("m", 5)), 
+                  "age" = sample(18:65, n, replace = TRUE)
+                   )
+IVs
+
+# a) within-subjects conditions (with multiple tasks per person):
+DVs <- data.frame("task.1" = rep(c("red", "blue"), 5),
+                   # "pos.1" = rep(1, n),
+                   "time.1" = sample(10:99, n), 
+                   "task.2" = rep(c("blue", "red"), 5),
+                   # "pos.2" = rep(2, n),
+                   "time.2" = sample(10:99, n)
+                   )
+DVs
+
+# b) between-subjects conditions (with separate variables):
+
+# DVs2 <- data.frame("cond" = c(rep("A", n/2), rep("B", n/2)),
+#                    "A.num1" = c(sample(1:7, n/2), rep(NA, n/2)), 
+#                    "B.num1" = c(rep(NA, n/2), sample(3:9, n/2)),
+#                    "A.chr1" = c(sample(c("ABBA", "Beatles"), n/2, replace = TRUE), rep(NA, n/2)), 
+#                    "B.chr1" = c(rep(NA, n/2), sample(c("ABBA", "Pink Floyd"), n/2, replace = TRUE))
+#                    )
+
+DVs2 <- data.frame("cond" = rep(c("A", "B"), n/2))
+
+DVs2$A.num1 <- NA
+DVs2$A.num1[DVs2$cond == "A"] <- c(sample(1:6, n/2, replace = TRUE))
+DVs2$B.num1 <- NA
+DVs2$B.num1[DVs2$cond == "B"] <- c(sample(4:9, n/2, replace = TRUE))
+
+DVs2$A.chr1 <- NA
+DVs2$A.chr1[DVs2$cond == "A"] <- c(sample(c("Abba", "Beatles"), n/2, replace = TRUE))
+DVs2$B.chr1 <- NA
+DVs2$B.chr1[DVs2$cond == "B"] <- c(sample(c("Beatles", "Zappa"), n/2, replace = TRUE))
+DVs2
+
+# Note that DVs encodes order (or chronological trial position) 
+# implicitly (as 1st vs. 2nd entry) for every case.
+
+exp <- cbind(IVs, DVs)
+exp2 <- cbind(IVs, DVs2)
+
+# exp
+# exp2
+
+dim(exp)
+dim(exp2)
+```
+
+Basic manipulations of `exp` data (in base R):
+
+```{r, manipulate_exp_data, include = TRUE}
+exp.t <- exp # temporal copy
+
+# 1. Adding 2 new variables/columns to a df by assigning/using it: 
+exp.t$id <- 1:nrow(exp.t)
+exp.t$bnt <- sample(1:4, n, replace = TRUE)
+# exp.t
+
+# 2. Swap some columns (e.g., putting id to front): 
+id.col  <- which(names(exp.t) == "id")  # determine id column
+bnt.col <- which(names(exp.t) == "bnt") # determine bnt column
+exp.t <- exp.t[ , c(id.col, 1:(id.col - 1), bnt.col)]
+exp.t
+
+# 3. Sorting cases: 
+exp.t[order(exp.t$task.1, exp.t$bnt),] # sort cases by task.1 and bnt values
+
+# 4. Reversing cases and variables: 
+#    Reversing the (arbitrary) order of all cases and all variables in df:
+exp.t[rev(1:nrow(exp.t)), rev(1:ncol(exp.t))]
+```
+
+Same steps in the `tidyverse`:
+
+```{r, manipulate_exp_data_tidyverse, include = TRUE}
+exp.t2 <- exp # temporal copy
+
+# 1. Adding 2 new variables/columns to a df by assigning/using it: 
+exp.t2 <- exp.t2 %>%
+  mutate(id = 1:nrow(exp.t2),
+         bnt = sample(1:4, n, replace = TRUE))
+# exp.t2
+
+# 2. Swap some columns (e.g., putting id to front): 
+exp.t2 <- exp.t2 %>%
+  select(id, everything())
+# exp.t2
+
+# 3. Sorting cases:
+exp.t2 <- exp.t2 %>%
+  arrange(task.1, bnt)
+# exp.t2
+
+# 4. Reversing cases and variables: 
+#    Reversing the (arbitrary) order of all cases and all variables in df:
+exp.t2 %>%
+  mutate(row = 1:nrow(exp.t2)) %>%  # add helper column 
+  arrange(desc(row)) %>%
+  select(-row) %>%                  # remove helper column again 
+  select(rev(names(exp.t2)))
+```
 
 +++ here now +++
 

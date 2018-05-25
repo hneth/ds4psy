@@ -142,9 +142,9 @@ ggplot(table1, aes(year, cases, group = country, color = country)) +
 # 1. Using prose, describe how the variables and observations 
 #    are organised in each of the sample tables.
 
-table1  # is tidy (3 criteria), but also in long format 
-table2  # is table1 in long format (type - count)
-table3  # combines cases/population into rate
+table1  # is tidy (3 criteria), but also in long format (2 DVs: cases, population)
+table2  # is table1 in long format (type - count): only 1 DV (count)
+table3  # combines cases/population into rate (as only DV)
 table4a # contains cases in wide format
 table4b # contains populations in wide format 
 table5  # splits year of table3 into 2 variables (century, year)
@@ -254,6 +254,7 @@ ggplot(cases, aes(x = year, y = count, group = country, color = country)) +
 # To fix these problems, we need the 2 most important functions in tidyr: 
 # - gather(): Changing from wide to long data; and 
 # - spread(): Chinging from long to wide data.
+
 
 ## 12.3.1 Gathering -----
 
@@ -1179,7 +1180,76 @@ ggplot(A_countries, aes(x = year, y = sum_cases, group = country_sex, color = se
 
 ## [test.quest]:
 
-## (1) Understand, redo, and improve on 
+## Additional examples: -----
+
+## (A) Stock data: ---- 
+{
+  library(tidyverse)
+  
+  ## (1) Enter stock data (in wide format):
+  
+  st <- tribble(
+    ~name, ~d1_start, ~d1_end, ~d2_start, ~d2_end, ~d3_start, ~d3_end,  
+    #----|----------|--------|----------|--------|----------|--------|
+    "Amada",   2.5,     3.6,    3.5,       4.2,      4.4,       2.8,            
+    "Betix",   3.3,     2.9,    3.0,       2.1,      2.3,       2.5,  
+    "Cevis",   4.2,     4.8,    4.6,       3.7,      3.8,       3.1     
+  )
+  # st
+  
+  ## Note data structure: 
+  ## 2 nested factors: day (1 to 3), type (start or end).
+  
+  ## (2) Change from wide to long format:
+  st_long <- st %>%
+    gather(d1_start:d3_end, key = "key", value = "val") %>%
+    separate(key, into = c("day", "type")) %>%
+    arrange(name, day, type) # optional: arrange rows
+  st_long
+  
+  ## (3) Change into wider format that lists start and end as 2 distinct variables (columns):
+  st_long %>%
+    spread(key = type, value = val) %>%
+    mutate(day_nr = parse_integer(str_sub(day, 2, 2))) # optional: get day_nr as integer variable
+  
+  ## (4) Note: Assume that stock data contains duplicate rows:
+  st2 <- rbind(st, st)
+  st2
+  
+  ## Gathering from wide to long format works as before: 
+  st_long2 <- st2 %>%
+    gather(d1_start:d3_end, key = "key", value = "val") %>%
+    separate(key, into = c("day", "type")) %>%
+    arrange(name, day, type) # optional: arrange rows
+  st_long2
+  
+  ## However, spreading from long to wider format yields error of "duplicate identifiers": 
+  st_long2 %>%
+    spread(key = type, value = val)
+  
+  ## Possible fix:
+  ## (a) Add an id variable that distinguishes between duplicate cases: 
+  st_long3 <- st_long2 %>%
+    mutate(id = rep(1:2, nrow(st_long2)/2)) %>%  # adding a vector
+    select(name, id, everything())               # optional: re-arrange variables (columns)
+  # st_long3
+  
+  ## (b) Now spreading from long to wider format succeeds: 
+  st_long3 %>%
+    spread(key = type, value = val)
+  
+}
+
+## (B) Experimental data: ----
+
+
+
+# Tidy data:
+# - Each observation is a case (person).
+# - Nested factors: 2 measurements of 3 levels (e.g. mood at 3 times per day)
+
+
+## (X) Understand, redo, and improve on 
 ##     http://www.sharpsightlabs.com/blog/us-metro-gdp/
 
 
