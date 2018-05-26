@@ -508,6 +508,84 @@ st_long3 %>%
 n <- 10 # [n]umber of participants
 set.seed(101) # for replicability
 
+## Demographics: -----
+
+## Generate random initials: ----
+r_initials <- function(n) {
+
+  stopifnot(is.numeric(n), n > 0) # check conditions
+  
+  initials <- rep("N.N", n) # initialize output vector
+  
+  for (i in 1:n) {
+    initials[i] <- paste0(paste(sample(LETTERS, 1), sample(LETTERS, 1), sep = "."), ".")
+  }
+  return(initials)
+}
+
+## Check:
+r_initials(100)
+# length(LETTERS)^2 # => 676 possible sequences
+# length(unique(r_initials(10000))) # => 676 
+
+## Generate a (pseudo) random age distribution: ---- 
+r_ages <- function(n, min = 16, max = 88) {
+  
+  stopifnot(is.numeric(n), n > 0) # check conditions
+
+  ages <- rep(NA, n) # initialize output vector
+  
+  # (a) sample from stepwise distribution: 
+  ages <- sample(size = n, 
+                 x = c(min:max, 24:74, 18:33, 21:31, 23:36, 25:39, 35:63, 44:63, 26:49, 55:80), # oversampling some regions
+                 replace = TRUE)
+  
+  # (b) smoothing by adding random noise: 
+  ix.not_extreme <- which(ages > (min + 5) && ages < (max - 5))
+  ages[ix.not_extreme] <- ages[ix.not_extreme] + sample(size = length(ix.not_extreme), -5:5, replace = TRUE)
+  
+  return(ages)
+}
+
+## Check:
+ggplot(as_tibble(r_ages(100000)), aes(x = value)) +
+  geom_histogram(binwidth = 1)
+
+## Convert ages into birthdays: ----
+library(lubridate)
+ages  <- r_ages(n)
+
+r_bday <- function(ages) {
+  
+  stopifnot(is.numeric(ages), ages > 0) # check conditions
+
+  n <- length(ages)
+  bdays <- rep(NA, n) # initialize output 
+  
+  # Compute bdays as today() - age (in years) - some random day within this year:
+  bdays <- today() - years(ages) - days(sample(size = n, 0:365, replace = TRUE)) 
+  
+  return(bdays)
+  
+}
+
+ages <- r_ages(n)
+bdays <- r_bday(ages)
+tibble(age = ages,
+       bday = bdays,
+       byear = year(bday),
+       bmonth = month(bday),
+       bdmonth = day(bday), 
+       age_y = year(today())- year(bday), # Note deviation to age if bday was/wasn't in this year
+       bday.date = paste0(bmonth, "/", bdmonth)
+       )
+
+# year(bdays)
+# year(today()) - ages
+
+# +++ here now +++
+
+
 IVs <- data.frame("name" = c("Ann", "Bea", "Cat", "Deb", "Eva", "Fred", "Gary", "Hans", "Ian", "John"),
                   "gender" = c(rep("f", 5), rep("m", 5)), 
                   "age" = sample(18:65, n, replace = TRUE)

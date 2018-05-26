@@ -1,7 +1,7 @@
 ## r4ds: Chapter 16: 
 ## Code for http://r4ds.had.co.nz/dates-and-times.html  
 ## hn spds uni.kn
-## 2018 05 14 ------
+## 2018 05 26 ------
 
 ## [see Book chapter 1x: "..."]
 

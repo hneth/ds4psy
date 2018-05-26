@@ -1,7 +1,7 @@
 ## r4ds: Chapter 19: 
 ## Code for http://r4ds.had.co.nz/functions.html
 ## hn spds uni.kn
-## 2018 05 20 ------
+## 2018 05 26 ------
 
 
 ## Topics: -----
