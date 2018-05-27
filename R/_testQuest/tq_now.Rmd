@@ -1,7 +1,7 @@
 ---
 title: "Test Questions (ds4psy)"
 author: "Hansjörg Neth, SPDS, uni.kn"
-date: "2018 05 25"
+date: "2018 05 27"
 output:
   rmdformats::html_clean:
     highlight: kate
@@ -21,6 +21,22 @@ opts_chunk$set(echo=FALSE,
                message=FALSE,
                warning=FALSE)
 opts_knit$set(width=75)
+```
+
+```{r graphics}
+# Defining colors: 
+seeblau <- rgb(0, 169, 224, maxColorValue = 255) # seeblau.4
+seeblau.colors <- c(rgb(204, 238, 249, maxColorValue = 255), # seeblau.1
+                    rgb(166, 225, 244, maxColorValue = 255), # seeblau.2 
+                    rgb(89, 199, 235, maxColorValue = 255),  # seeblau.3
+                    rgb(0, 169, 224, maxColorValue = 255),   # seeblau.4 
+                    rgb(0, 0, 0, maxColorValue = 255),       #  5. black
+                    gray(level = 0, alpha = .6),             #  6. gray 60% transparent
+                    gray(level = 0, alpha = .4),             #  7. gray 40% transparent
+                    gray(level = 0, alpha = .2),             #  8. gray 20% transparent
+                    gray(level = 0, alpha = .1),             #  9. gray 10% transparent
+                    rgb(255, 255, 255, maxColorValue = 255)  # 10. white
+                    )
 ```
 
 
@@ -137,8 +153,6 @@ df %>%
             mn_pet.wid = mean(Petal.Width)
             )
 
-
-
 # Task 1: Turn df into long format using tidyr::gather ----- 
 df_long <- df %>%
   gather(Sepal.Length:Petal.Width, key = "type", value = "val") %>%
@@ -173,14 +187,16 @@ df_long %>%
 ```
 
 
-### Using `dplyr::table1` data
+### Using `tidyr::table1` data
 
-Plot a bar chart (using the data from dplyr::table1) that shows the number of cases per country (on the y-axis) as a function of the year (on the x-axis).
+Plot a bar chart (using the data from tidyr::table1) that shows the number of cases per country (on the y-axis) as a function of the year (on the x-axis).
 
 Bonus: Label each bar with the number of cases (1) and adjust plot title and caption (1). 
 
 ```{r, barchart_with_labels}
 # ?geom_bar
+
+tidyr::table1
 
 ggplot(tidyr::table1, aes(x = year, y = cases, fill = country)) + 
   geom_bar(stat = "identity", position = "dodge", color = "black") + 
@@ -252,13 +268,129 @@ library(nycflights13) # data
 
 Transform data with essential `dplyr` commands:
 
-- `arrange` cases (rows)
-- `select` variables (columns)
+- `filter` and `arrange` cases (rows)
+- `select` and re-arrange variables (columns)
 - add and compute new variables with `mutate` and `transmute`
-- counts and descriptives of aggregates (by `group_by`, `summarise` and functions)
-- group-level variables via grouped mutates
+- compute counts and descriptives of aggregates (by `group_by`, `summarise`, and functions)
+- compute new group-level variables with grouped mutates
 
-### Compute true flight duration
+### Using `weather` dataset
+
+Use the data set `nycflights13::weather` for questions that require 
+`filter`, `arrange`, `select`, `group_by`, `summarise` (count, NAs, means, medians), etc.
+
+```{r, weather_transformations}
+library(nycflights13)
+nycflights13::weather
+?weather
+
+## How many observations (rows) and variables (columns) does the data set contain overall?
+dim(weather)
+
+## How many observations (rows) does the data contain for each of the 3 airports (`origin`)?
+weather %>%
+  group_by(origin) %>%
+  count()
+
+## How many missing values does the `weather` data contain?
+sum(is.na(weather))  # 
+mean(is.na(weather)) # percentage
+
+## Which range of values does the variable `year` contain?
+range(weather$year)
+
+## (On the original data set): 
+## Compute a variable `temp_dc` that provides the temperature (in degrees Celsius) 
+## that corresponds to `temp` (in degrees Fahrenheit).
+## Fahrenheit (degrees F) to Celsius (degrees C) conversion:
+## C = (F - 32) x 5/9.
+
+## Add your new `temp_dc` variable to a new dataset `weather_2` and 
+## re-arrange its columns so that your `temp_dc` variable appears next to `temp`.
+
+weather_2 <- weather %>%
+  mutate(temp_dc = (temp - 32) * 5/9) %>%
+  select(origin:temp, temp_dc, everything())
+weather_2
+
+## Only considering "JFK" airport: 
+## What are the 3 (different) dates with the (a) coldest and (b) hottest temperatures there?
+## Report the 3 dates and their extreme temperatures (in degrees Celsius) for (a) and (b). 
+JFK_temp <- weather_2 %>%
+  filter(origin == "JFK") %>%
+  arrange(temp_dc)
+
+JFK_temp # => coldest days
+JFK_temp %>% arrange(desc(temp)) # => hottest days
+
+
+## Aggregation examples: -----
+
+## (1) Average temperature per month: 
+##     (used in class): 
+
+weather %>%
+  # group_by(origin, month) %>%
+  group_by(month) %>%
+  summarise(n = n(),
+            n_not_NA = sum(!is.na(temp)), 
+            mn_temp = mean(temp, na.rm = TRUE)) %>%
+  ggplot(aes(x = month, y = mn_temp)) +
+  geom_point() +
+  geom_line() +
+  scale_x_continuous(breaks = 1:12) +
+  theme_bw()
+
+# (2) Average precipitation (by origin and month):
+
+weather %>%
+  group_by(origin, month) %>%
+  summarise(n = n(),
+            n_not_NA = sum(!is.na(precip)), 
+            mn_precip = mean(precip, na.rm = TRUE)) %>%
+  ggplot(aes(x = month, y = mn_precip, color = origin)) +
+  geom_point() +
+  geom_line() +
+  # geom_bar(aes(fill = origin), stat = "identity", position = "dodge") +
+  scale_x_continuous(breaks = 1:12) +
+  theme_bw()
+
+
+## Computation and visualization to answer a question: ----
+
+## For each of the 3 airports: 
+## When excluding extreme cases of precipitation (values of `precip` greater than 0.30): 
+## Does it rain more during winter (Oct to Mar) or during summer (Apr to Sep) months?
+
+## Inspect data:
+weather # month is given numerically!
+
+# ggplot(weather, aes(x = precip)) +
+#  geom_histogram(binwidth = 0.01, fill = seeblau)
+
+## (a) Preparation: 
+weather_season <- weather %>%
+  filter(precip < .30) %>%
+  mutate(summer = (month > 3 & month < 10)#,
+         # winter = (month < 4 | month > 9)
+         )
+
+## (b) Computation:
+weather_season %>%
+  group_by(origin, summer) %>%
+  summarise(n = n(),
+            # n_not_NA = sum(!is.na(precip)), 
+            # mn_precip = mean(precip, na.rm = TRUE),
+            sum_precip = sum(precip, na.rm = TRUE))
+
+## (c) Visualization:
+ggplot(weather_season, aes(x = summer, fill = summer)) +
+  facet_wrap(~origin) + 
+  geom_bar(aes(weight = precip), na.rm = TRUE)
+```
+
+
+### Using `flight` duration
 
 Using the `flights` dataset: 
 - Compute a variable `true_duration` as the duration of each flight (in minutes) from its `dep_time` and `arr_time`. 
@@ -502,11 +634,16 @@ st_long3 %>%
 
 ```
 
-### Experimental dataset
 
-```{r, create_exp_data, include = TRUE}
-n <- 10 # [n]umber of participants
-set.seed(101) # for replicability
+# All chapters
+
+Create a (psychological) dataset that allows illustrating contents from all chapters. 
+
+### People data
+
+```{r, create_people_data, include = TRUE}
+n <- 1000     # [n]umber of participants
+set.seed(42)  # for replicability
 
 ## Demographics: -----
 
@@ -524,12 +661,17 @@ r_initials <- function(n) {
 }
 
 ## Check:
-r_initials(100)
+# r_initials(100)
 # length(LETTERS)^2 # => 676 possible sequences
 # length(unique(r_initials(10000))) # => 676 
+initials <- r_initials(n)
+
+## Sex/gender: 
+sex <- sample(x = c(0, 1), size = n, prob = c(.54, .46), replace = TRUE)
+sex <- factor(sex, labels = c("female", "male"))
 
 ## Generate a (pseudo) random age distribution: ---- 
-r_ages <- function(n, min = 16, max = 88) {
+r_ages <- function(n, min = 16, max = 92) {
   
   stopifnot(is.numeric(n), n > 0) # check conditions
 
@@ -537,23 +679,31 @@ r_ages <- function(n, min = 16, max = 88) {
   
   # (a) sample from stepwise distribution: 
   ages <- sample(size = n, 
-                 x = c(min:max, 24:74, 18:33, 21:31, 23:36, 25:39, 35:63, 44:63, 26:49, 55:80), # oversampling some regions
+                 x = c(min:max, 18:85, 20:39, 22:36, 24:33, 26:30, 35:63, 44:61, 65:77), # oversampling some regions
                  replace = TRUE)
   
   # (b) smoothing by adding random noise: 
-  ix.not_extreme <- which(ages > (min + 5) && ages < (max - 5))
-  ages[ix.not_extreme] <- ages[ix.not_extreme] + sample(size = length(ix.not_extreme), -5:5, replace = TRUE)
+  ix.not_extreme <- which((ages > (min + 2)) & (ages < (max - 2)))
+  ages[ix.not_extreme] <- ages[ix.not_extreme] + sample(size = length(ix.not_extreme), -2:2, replace = TRUE)
   
   return(ages)
 }
 
+ages <- r_ages(n)
+
 ## Check:
-ggplot(as_tibble(r_ages(100000)), aes(x = value)) +
-  geom_histogram(binwidth = 1)
+ggplot(as_tibble(ages), aes(x = value)) +
+  geom_histogram(binwidth = 1, fill = seeblau) # +
+  # geom_density()
+
+## Big sample: 
+# ggplot(as_tibble(r_ages(100000)), aes(x = value)) +
+#  # geom_density() + 
+#  geom_histogram(binwidth = 1, fill = seeblau)
+
 
 ## Convert ages into birthdays: ----
 library(lubridate)
-ages  <- r_ages(n)
 
 r_bday <- function(ages) {
   
@@ -569,22 +719,130 @@ r_bday <- function(ages) {
   
 }
 
-ages <- r_ages(n)
-bdays <- r_bday(ages)
-tibble(age = ages,
-       bday = bdays,
-       byear = year(bday),
-       bmonth = month(bday),
-       bdmonth = day(bday), 
-       age_y = year(today())- year(bday), # Note deviation to age if bday was/wasn't in this year
-       bday.date = paste0(bmonth, "/", bdmonth)
-       )
+bdates <- r_bday(ages)
+byears <- year(bdates)
+bmonths <- month(bdates, label = FALSE)
+bdays <- day(bdates) 
+bmdays <- paste0(bmonths, "/", bdays)
+bweekdays <- wday(bdates, label = TRUE)
 
-# year(bdays)
-# year(today()) - ages
+## Check:
+t <- tibble(id = initials,
+            sex = sex, 
+            age = ages,
+            bdate = bdates,
+            byear = year(bdates),
+            bmonth = month(bdates, label = FALSE),
+            bday = day(bdates), 
+            bmday = paste0(bmonths, "/", bdays), 
+            bweekday = wday(bdates, label = TRUE), 
+            age_y = year(today())- year(bdates)  # Note deviation from ages 
+            # if bday hasn't been reached yet this year
+)
+# t
 
-# +++ here now +++
+# t %>% arrange(bdate)
+# t %>% arrange(age)
 
+## Height: ----- 
+## From https://en.wikipedia.org/wiki/List_of_average_human_height_worldwide 
+
+##          Average male:             Average female:
+## -----------------------------------------------------##
+## Germany: 178 cm (5 ft 10 in) 	    165 cm (5 ft 5 in)
+## USA:     175.7 cm (5 ft 9 in) 	    161.8 cm (5 ft 3 1⁄2 in)
+
+heights <- rep(NA, n)
+
+noise_female <- round(rnorm(sum(sex == "female"), mean = 0, sd = 8), 0)
+noise_male   <- round(rnorm(sum(sex == "male"), mean = 0, sd = 11), 0)
+
+heights[sex == "female"] <- 165 + noise_female
+heights[sex == "male"]   <- 178 + noise_male
+
+## Reduce height by age (1cm per decade): 
+heights[byears < 2000] <- heights[byears < 2000] -  1
+heights[byears < 1990] <- heights[byears < 1990] -  1
+heights[byears < 1980] <- heights[byears < 1980] -  1
+heights[byears < 1970] <- heights[byears < 1970] -  2
+heights[byears < 1960] <- heights[byears < 1960] -  1
+heights[byears < 1950] <- heights[byears < 1950] -  2
+heights[byears < 1940] <- heights[byears < 1940] -  1
+heights[byears < 1930] <- heights[byears < 1930] -  2
+
+## Convert metric (cm) into imperial (feet and inches)...
+
+## Check:
+sex_height <- tibble(sex = sex,
+                     byear = byears, 
+                     height = heights)
+
+## Height by sex:
+ggplot(as_tibble(sex_height), aes(x = sex, y = height, color = sex)) +
+  geom_violin() +
+  geom_jitter(alpha = 1/2)
+
+## Height by age and sex:
+ggplot(as_tibble(sex_height), aes(x = byears, y = height)) +
+  facet_wrap(~sex) +
+  geom_jitter(alpha = 1/3) +
+  geom_smooth()
+
+
+## Blood type: -----
+## From https://en.wikipedia.org/wiki/Blood_type_distribution_by_country 
+
+## Types:   O+ 	   A+ 	    B+ 	    AB+ 	  O− 	    A− 	    B− 	    AB−
+## --------------------------------------------------------------------- ##
+## Germany:35.0% 	 37.0% 	  9.0% 	  4.0% 	  6.0% 	  6.0% 	  2.0% 	  1.0%
+## USA:    37.4% 	 35.7% 	  8.5% 	  3.4% 	  6.6% 	  6.3% 	  1.5% 	  0.6%
+## World:  38.67%  27.42%  22.02% 	5.88% 	2.55% 	1.99% 	1.11% 	0.36%
+
+blood_types <- c("O+", "A+", "B+", "AB+", "O−", "A−", "B−", "AB−")
+# blood_probs <- c(.35, .37, .09, .04, 	.06, .06,  .02,	.01)  # Germany
+blood_probs <- c(.374, .357, .085, .034, 	.066, .063,  .015,	.006)  # USA
+# sum(blood_probs) # should be 1.00
+
+btypes <- sample(size = n, blood_types, prob = blood_probs, replace = TRUE)
+# table(btypes)
+
+## Other possible IVs: ----- 
+## - education (categorical)
+## - weight (compute via height and BMI distribution)
+
+## Combine IVs: ----- 
+IVs <- tibble(name = initials,
+              sex = sex, 
+              # bdate = bdates,
+              byear = byears, 
+              bmonth = bmonths,
+              bday = bdays,
+              bweekday = bweekdays,
+              height = heights, 
+              blood_type = btypes)
+IVs
+
+## DVs: -----
+
+## - disposable income (numeric)
+## - numeracy (categorical)
+## - health status (numeric, e.g., 1:10 scale)
+## - mood (1:5, on 3 days: Mon, Wed, Fri, and 2 times: 10:00 vs. 18:00)
+
+## To compute (from IVs):
+## - Age (from byear, but adjusting by bday)
+## - Birth season (spring, summer, autumn, winter)
+## - Zodiac sign (from birthday)
+
+```
+
++++ here now +++
+
+### Experimental data
+
+```{r, create_exp_data, include = TRUE}
+n <- 10       # [n]umber of participants
+set.seed(88)  # for replicability
 
 IVs <- data.frame("name" = c("Ann", "Bea", "Cat", "Deb", "Eva", "Fred", "Gary", "Hans", "Ian", "John"),
                   "gender" = c(rep("f", 5), rep("m", 5)), 
@@ -592,7 +850,7 @@ IVs <- data.frame("name" = c("Ann", "Bea", "Cat", "Deb", "Eva", "Fred", "Gary", 
                    )
 IVs
 
-# a) within-subjects conditions (with multiple tasks per person):
+## (a) within-subjects conditions (with multiple tasks per person):
 DVs <- data.frame("task.1" = rep(c("red", "blue"), 5),
                    # "pos.1" = rep(1, n),
                    "time.1" = sample(10:99, n), 
@@ -602,7 +860,8 @@ DVs <- data.frame("task.1" = rep(c("red", "blue"), 5),
                    )
 DVs
 
-# b) between-subjects conditions (with separate variables):
+
+## (b) between-subjects conditions (with separate variables):
 
 # DVs2 <- data.frame("cond" = c(rep("A", n/2), rep("B", n/2)),
 #                    "A.num1" = c(sample(1:7, n/2), rep(NA, n/2)), 
@@ -627,6 +886,7 @@ DVs2
 # Note that DVs encodes order (or chronological trial position) 
 # implicitly (as 1st vs. 2nd entry) for every case.
 
+## Combine IVs and DVs: 
 exp <- cbind(IVs, DVs)
 exp2 <- cbind(IVs, DVs2)
 
@@ -691,7 +951,7 @@ exp.t2 %>%
   select(rev(names(exp.t2)))
 ```
 
-+++ here now +++
+
 
 [This file last updated on `r Sys.time()` by [hn](http://neth.de/).]
 

@@ -1702,7 +1702,7 @@ weather %>%
   scale_x_continuous(breaks = 1:12) +
   theme_bw()
 
-# (2) Mean precipitation (by origin and month):
+# (2) Average precipitation (by origin and month):
 weather %>%
   group_by(origin, month) %>%
   summarise(n = n(),
@@ -1716,7 +1716,9 @@ weather %>%
   theme_bw()
 
 ## Identifying outliers: ---- 
+## Identify and contrast overall (population-level) vs. within-group outliers. 
 
+{
 ## Generate data: 
 set.seed(123)
 n <- 1000
@@ -1787,6 +1789,8 @@ ggplot(out_1, aes(x = sex, y = height, color = sex)) +
 ggplot(out_2, aes(x = sex, y = height, color = sex)) +
   geom_violin() + 
   geom_jitter()
+
+}
 
 ## ------
 ## eof.
