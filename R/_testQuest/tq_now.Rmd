@@ -67,7 +67,103 @@ library(tidyverse)  # dplyr, ggplot
 
 ## Contents
 
-The chapter primarily introduces visualizations (with `ggplot`), but not yet data transformations (with `dplyr`). 
+The chapter introduces visualizations (with `ggplot`), but not yet data transformations (with `dplyr`). Specifically, the chapter illustrates: 
+
+- scatterplots (`geom_point`) and trendlines (`geom_smooth`)
+- grouping (via aesthetic mappings like `color`, `shape`, `size`, etc.)
+- facetting (`facet_wrap` and `facet_grid`)
+- bar charts (`geom_bar`) for given values (`stat = "identity"`), frequencies, and proportions and different positions (e.g., `stack`, `fill` and `dodge`) 
+- boxplots (`geom_boxplot`)
+- adjusting coordinates (`coord_cartesian`, `coord_flip`, and `coord_polar`)
+
+### Using `PlantGrowth` data
+
+```{r, plantGrowth, echo = TRUE}
+# ?PlantGrowth
+
+df <- as_tibble(PlantGrowth)
+df
+
+# Compute number of observations by group, their mean, median and standard deviation: 
+df %>%
+  group_by(group) %>%
+  summarise(count = n(),
+            mn_weight = mean(weight),
+            md_weight = median(weight),
+            sd_weight = sd(weight)
+            )
+
+# Plot median and raw values of weight by group: 
+ggplot(df, aes(x = group, y = weight, color = group)) +
+  # geom_violin() +
+  geom_boxplot() +
+  geom_point(alpha = 2/3, size = 5, position = "jitter")
+```
+
+### Using `sleep` data
+
+```{r, sleep, echo = TRUE}
+# ?sleep
+df <- as_tibble(sleep)
+df
+
+# Compute average extra time by group:
+df %>% 
+  group_by(group) %>%
+  summarize(n = n(),
+            md = median(extra),
+            mn = mean(extra),
+            sd = sd(extra))
+
+# Visualize raw values and group averages:
+ggplot(df, aes(x = group, y = extra, fill = group)) +
+  geom_boxplot() +
+  # geom_violin() +
+  geom_point(aes(shape = group), size = 3)
+
+# Reformat data so that the 2 groups appear in 2 lines, and IDs as 10 columns:
+df %>%
+  spread(key = ID, value = extra)
+```
+
+### Using `ChickWeight` data
+
+```{r, chickWeight, echo = TRUE}
+# ?ChickWeight
+
+df <- as_tibble(ChickWeight)
+df
+
+# Scatter & line plot showing weight development of each chick over Time:
+ggplot(df, aes(x = Time, y = weight, group = Diet)) +
+  facet_wrap(~Diet) + 
+  geom_point(alpha = 1/2) +
+  geom_line(aes(group = Chick)) +
+  geom_smooth(aes(color = Diet))
+
+# Plot the weight of each individual chick 
+# and the Median weight per diet at the end (Time = 21).
+# Hint: Filter data for the maximum time and combine a scatterplot with a boxplot.
+df %>%
+  filter(Time == 21) %>%
+  ggplot(., aes(x = Diet, y = weight, fill = Diet)) +
+    geom_boxplot() +
+    geom_point(size = 4) +
+    coord_flip()
+
+# Bar plot showing the number (count) of chicks per diet over time: 
+ggplot(df, aes(x = Time, fill = Diet)) +
+  geom_bar(position = "dodge")
+
+# Bonus: Re-create the counts of chicks per diet over time numerically 
+# (by using `dplyr` and `tidyr`). 
+
+# How many chicks per diet over time?
+df %>%
+  group_by(Diet, Time) %>%
+  count() %>%
+  spread(key = Time, value = n)
+```
 
 ### Using `mtcars` data
 
@@ -86,7 +182,7 @@ df
 range(df$mpg)
 
 ggplot(df, aes(x = mpg)) +
-  geom_histogram(binwidth = 5)
+  geom_histogram(binwidth = 5) 
 
 ## (2) Group means and boxplot: Mean mpg by cylinder: ----  
 
@@ -134,59 +230,6 @@ ggplot(df, aes(x = hp, y = disp)) +
 - Plot scatterplot of 2 continuous variables  
 - Interpret and draw conclusions 
 
-### Using `iris` data
-
-```{r, iris}
-?iris
-
-# Turn into tibble: ----- 
-df <- as_tibble(iris)
-df
-
-# Compute group counts and means: ----- 
-df %>%
-  group_by(Species) %>%
-  summarise(n = n(),
-            mn_sep.len = mean(Sepal.Length),
-            mn_sep.wid = mean(Sepal.Width),
-            mn_pet.len = mean(Petal.Length),
-            mn_pet.wid = mean(Petal.Width)
-            )
-
-# Task 1: Turn df into long format using tidyr::gather ----- 
-df_long <- df %>%
-  gather(Sepal.Length:Petal.Width, key = "type", value = "val") %>%
-  separate("type", into = c("part", "metric"), sep = "\\.")
-
-df_long
-dim(df_long)
-
-# Recompute group counts and means: ----- 
-df_long %>%
-  group_by(Species, part, metric) %>%
-  summarise(n = n(),
-            mn_val = mean(val)
-            )
-
-
-# Task 2: Turn df_long back into original wide format using tidyr::spread -----
-df_long
-
-df_long <- rownames_to_column(df_long, var = "id") # add id column
-df_long$id <- parse_integer(df_long$id)            # make integer
-df_long
-
-df_long %>%
-  unite(type, part, metric, sep = ".") %>%  # unite part and metric into "type" column
-  spread(key = type, value = val) %>%      # spread "type" variable into multiple columns
-  arrange(id)
-
-# ???: Still contains 600 rows (and 3 out of 4 empty columns).
-# +++ here now +++
-
-```
-
-
 ### Using `tidyr::table1` data
 
 Plot a bar chart (using the data from tidyr::table1) that shows the number of cases per country (on the y-axis) as a function of the year (on the x-axis).
@@ -205,7 +248,6 @@ ggplot(tidyr::table1, aes(x = year, y = cases, fill = country)) +
   labs(title = "Cases per country and year", y = "Cases", caption = "[Data from tidyr::table1.]") +
   theme_light()
 ```
-
 
 ### Own data: German election results
 
@@ -275,6 +317,99 @@ Transform data with essential `dplyr` commands:
 - compute counts and descriptives of aggregates (by `group_by`, `summarise`, and functions)
 - compute new group-level variables with grouped mutates
 
+### Using `dplyr::starwars` dataset
+
+Exploring the `dplyr::starwars` universe: 
+
+Save the tibble `dplyr::starwars` as `df` and then answer the following questions by filtering, grouping, counting, summarizing, and sorting (i.e., using basic `dplyr` commands):
+
+```{r, starwars_transformations}
+## Data: 
+df <- dplyr::starwars
+# df
+
+## (1)  and determine basic data properties: ---- 
+
+# (a) How many individuals (rows) and variables (columns) are there?
+dim(df)  # => 87 x 13
+
+# (b) How many missing data points?
+sum(is.na(df))  # 101
+
+## (2) Gender issues: ----- 
+
+# (a) How many humans are there of each gender?
+df %>% 
+  filter(species == "Human") %>%
+  group_by(gender) %>%
+  count()
+
+# (b) How many and which individuals are neither male nor female?
+df %>% 
+  filter(gender != "male", gender != "female")
+
+
+## (3) Homeworld issues: ----- 
+
+# (a) From which homeworld do the most indidividuals (rows) come from?
+df %>%
+  group_by(homeworld) %>%
+  count() %>%
+  arrange(desc(n))
+
+# (b) List all individuals with orange eyes that come from this homeworld.
+df %>% 
+  filter(homeworld == "Naboo", eye_color == "orange")
+
+# Note: 
+df %>% filter(eye_color == "orange") # => 8 individuals
+
+# (c) What is the mass and homeworld of the smallest droid?
+df %>% 
+  filter(species == "Droid") %>%
+  arrange(height)
+
+# (d) Which individuals come from an unknown (missing) homeworld 
+#     but have a known birth_year or mass? 
+df %>% 
+  filter(is.na(homeworld), !is.na(mass) | !is.na(birth_year))
+
+
+## (4) Group summaries: ----- 
+
+# (a) How many individuals come from the 3 most frequent (known) species?
+df %>%
+  group_by(species) %>%
+  count %>%
+  arrange(desc(n))
+
+# (b) Compute the mean height and standard deviation of all human individuals by gender.
+df %>%
+  filter(species == "Human") %>%
+  group_by(gender) %>%
+  summarise(n = n(),
+            not_NA_h = sum(!is.na(height)),
+            mn_height = mean(height, na.rm = TRUE),
+            sd_height = sd(height, na.rm = TRUE))
+
+# (c) Compute the average height and mass by species and save the result as `h_m`:
+h_m <- df %>%
+  group_by(species) %>%
+  summarise(n = n(),
+            # not_NA_h = sum(!is.na(height)),
+            mn_height = mean(height),
+            # not_NA_m = sum(!is.na(mass)),
+            md_mass = median(mass)
+            )
+# h_m
+
+# (c) Use `h_m` to list the 3 species with the smallest individuals (in terms of mean height)?
+h_m %>% arrange(mn_height) %>% slice(1:3)
+
+# (d) Use `h_m` to list the 3 species with the heaviest individuals (in terms of median mass)?
+h_m %>% arrange(desc(md_mass)) %>%  slice(1:3)
+```
+
 ### Using `weather` dataset
 
 Use the data set `nycflights13::weather` for questions that require 
@@ -283,22 +418,22 @@ Use the data set `nycflights13::weather` for questions that require
 ```{r, weather_transformations}
 library(nycflights13)
 nycflights13::weather
-?weather
+# ?weather
 
 ## How many observations (rows) and variables (columns) does the data set contain overall?
 dim(weather)
-
-## How many observations (rows) does the data contain for each of the 3 airports (`origin`)?
-weather %>%
-  group_by(origin) %>%
-  count()
 
 ## How many missing values does the `weather` data contain?
 sum(is.na(weather))  # 
 mean(is.na(weather)) # percentage
 
-## Which range of values does the variable `year` contain?
+## What is the range of values of the `year` variable?
 range(weather$year)
+
+## How many observations (rows) does the data contain for each of the 3 airports (`origin`)?
+weather %>%
+  group_by(origin) %>%
+  count()
 
 ## (On the original data set): 
 ## Compute a variable `temp_dc` that provides the temperature (in degrees Celsius) 
@@ -390,64 +525,7 @@ ggplot(weather_season, aes(x = summer, fill = summer)) +
   geom_bar(aes(weight = precip), na.rm = TRUE)
 ```
 
-
-### Using `flight` duration
-
-Using the `flights` dataset: 
-- Compute a variable `true_duration` as the duration of each flight (in minutes) from its `dep_time` and `arr_time`. 
-- How does it relate to the `air_time` variable in the data set? (Plot the relationship between both variables.)
-
-```{r, flights_duration, echo = TRUE}
-compute_duration <- function(dep_min, arr_min) {
-
-  dur <- NA # initialize
-  
-  # Distinguish between 2 cases:
-  if (dep_min < arr_min) {  # dep before arr (i.e., same day): 
-    dur <- arr_min - dep_min
-  } else { # dep later than arr (i.e., different days): 
-    dur <- (arr_min + 24 * 60) - dep_min 
-  }
-  
-  return(dur)
-  
-}
-
-# Check for vectors: 
-dep <- seq(0, 24*60, by = +15)
-arr <- seq(24*60, 0, by = -15)
-
-# compute_duration(dep, arr)
-# ???: How to apply a function to each pair of values of 2 vectors/columns?
-
-d <- flights %>% 
-  filter(origin == "JFK") %>%  # to reduce size of dataset
-  select(dep_time, arr_time, air_time) %>%
-  mutate(dep_time_min = ((dep_time %/% 100) * 60) + (dep_time %% 100),
-         arr_time_min = ((arr_time %/% 100) * 60) + (arr_time %% 100),
-         # true_duration = compute_duration(dep_time_min, arr_time_min),
-         true_duration = arr_time_min - dep_time_min) %>%
-  filter(air_time > 0, true_duration > 0)
-
-p <- ggplot(d, (aes(x = air_time, y = true_duration))) +
-  geom_point(alpha = 1/4) +
-  geom_abline(intercept = 0, slope = 1, linetype = 2, size = 1, color = "red3") +
-  theme_bw()
-```
-
-#### Notes
-
-- The `dep_time` and `arr_time` are specified in terms of hour and minutes. As an hour contains 60 minutes (rather than 100), we first use modular arithmetic to transform both variables into a metric of minutes (see variables `dep_time_min` and `arr_time_min`).
-
-- For flights departing and arriving on the same day, we can simply subtract `dep_time_min` from `arr_time_min` to obtain `true_duration`. However, if a flight departs before and arrives after midnight (i.e., arrives on the next day), this measure would yield a negative result. To correct for this, we need to add 24 hours (24 times 60 minutes) to `arr_time` whenever `arr_time` is before (or smaller than) `dep_time`. [This assumes that there are no flights exceeding 24 hours.]
-
-- Seems too difficult at this stage, as it requires _conditional execution_ (for flights departing and arriving on the same vs. different days) and/or _functions_. 
-
-In chapter 16 (Dates and times: http://r4ds.had.co.nz/dates-and-times.html), this problem is solved by introducing a Boolean variable for `overnight` flights and re-computing `air_time` by subtracting date-time objects (as intervals). 
-
-
-
-### Identifying outliers
+### Own data: Identifying outliers
 
 #### Definition 
 
@@ -543,6 +621,61 @@ ggplot(out_2, aes(x = sex, y = height, color = sex)) +
   theme_bw()
 ```
 
+### Using `flight` dataset to compute duration
+
+Using the `flights` dataset: 
+- Compute a variable `true_duration` as the duration of each flight (in minutes) from its `dep_time` and `arr_time`. 
+- How does it relate to the `air_time` variable in the data set? (Plot the relationship between both variables.)
+
+```{r, flights_duration, echo = TRUE}
+compute_duration <- function(dep_min, arr_min) {
+
+  dur <- NA # initialize
+  
+  # Distinguish between 2 cases:
+  if (dep_min < arr_min) {  # dep before arr (i.e., same day): 
+    dur <- arr_min - dep_min
+  } else { # dep later than arr (i.e., different days): 
+    dur <- (arr_min + 24 * 60) - dep_min 
+  }
+  
+  return(dur)
+  
+}
+
+# Check for vectors: 
+dep <- seq(0, 24*60, by = +15)
+arr <- seq(24*60, 0, by = -15)
+
+# compute_duration(dep, arr)
+# ???: How to apply a function to each pair of values of 2 vectors/columns?
+
+d <- flights %>% 
+  filter(origin == "JFK") %>%  # to reduce size of dataset
+  select(dep_time, arr_time, air_time) %>%
+  mutate(dep_time_min = ((dep_time %/% 100) * 60) + (dep_time %% 100),
+         arr_time_min = ((arr_time %/% 100) * 60) + (arr_time %% 100),
+         # true_duration = compute_duration(dep_time_min, arr_time_min),
+         true_duration = arr_time_min - dep_time_min) %>%
+  filter(air_time > 0, true_duration > 0)
+
+p <- ggplot(d, (aes(x = air_time, y = true_duration))) +
+  geom_point(alpha = 1/4) +
+  geom_abline(intercept = 0, slope = 1, linetype = 2, size = 1, color = "red3") +
+  theme_bw()
+```
+
+#### Notes
+
+- The `dep_time` and `arr_time` are specified in terms of hour and minutes. As an hour contains 60 minutes (rather than 100), we first use modular arithmetic to transform both variables into a metric of minutes (see variables `dep_time_min` and `arr_time_min`).
+
+- For flights departing and arriving on the same day, we can simply subtract `dep_time_min` from `arr_time_min` to obtain `true_duration`. However, if a flight departs before and arrives after midnight (i.e., arrives on the next day), this measure would yield a negative result. To correct for this, we need to add 24 hours (24 times 60 minutes) to `arr_time` whenever `arr_time` is before (or smaller than) `dep_time`. [This assumes that there are no flights exceeding 24 hours.]
+
+- Seems too difficult at this stage, as it requires _conditional execution_ (for flights departing and arriving on the same vs. different days) and/or _functions_. 
+
+In chapter 16 (Dates and times: http://r4ds.had.co.nz/dates-and-times.html), this problem is solved by introducing a Boolean variable for `overnight` flights and re-computing `air_time` by subtracting date-time objects (as intervals). 
+
+
 # 7: Exploratory Data Analysis 
 
 ## Contents
@@ -552,6 +685,64 @@ Transform and visualize datasets to:
 - detect and deal with missing values
 - view distributions of variables and outliers  
 - view relationships between (categorical/continuous) variables
+
+### Using `iris` data
+
+```{r, iris_EDA}
+?iris
+
+## Turn into tibble: ----- 
+df <- as_tibble(iris)
+df
+
+## Compute group counts and means: ----- 
+df %>%
+  group_by(Species) %>%
+  summarise(n = n(),
+            mn_sep.len = mean(Sepal.Length),
+            mn_sep.wid = mean(Sepal.Width),
+            mn_pet.len = mean(Petal.Length),
+            mn_pet.wid = mean(Petal.Width)
+            )
+
+## Graphical exploration: ----- 
+
+# (a) Means by species:
+ggplot(df, aes(x = Species, y = Sepal.Width, fill = Species)) +
+  # geom_violin() +
+  geom_boxplot() +
+  geom_point(position = "jitter")
+
+ggplot(df, aes(x = Species, y = Petal.Length, fill = Species)) +
+  # geom_violin() +
+  geom_boxplot() +
+  geom_point(position = "jitter")
+
+# (b) Relationship between 2 variables: 
+ggplot(df, aes(x = Sepal.Length, y = Sepal.Width, color = Species)) +
+  facet_wrap(~Species) +
+  geom_point(size = 3, alpha = 1/2, position = "jitter") +
+  # geom_smooth() +
+  # geom_density2d() +
+  coord_fixed()
+
+ggplot(df, aes(x = Petal.Length, y = Petal.Width, color = Species)) +
+  facet_wrap(~Species) +
+  geom_point(size = 3, alpha = 1/2, position = "jitter")
+
+ggplot(df, aes(x = Sepal.Width, y = Petal.Width, color = Species)) +
+  facet_wrap(~Species) +
+  geom_point(size = 3, alpha = 1/2, position = "jitter") +
+  # geom_density2d() +
+  coord_fixed()
+
+
+## Turn df into long format using tidyr::gather ----- 
+## (see Chapter 12: Tidy Data below)
+
+```
+
+
 
 # 10: Tibbles
 
@@ -573,7 +764,67 @@ Wrangle data to:
 - spread long datasets into wider ones
 - separate and unite variables (columns)
 
-### Stock dataset
+### Using `iris` dataset
+
+```{r, iris_tidyr}
+# ?iris
+
+## Turn into tibble: ----- 
+df <- as_tibble(iris)
+df
+
+## Compute group counts and means: ----- 
+cm1 <- df %>%
+  group_by(Species) %>%
+  summarise(n = n(),
+            mn_sep.len = mean(Sepal.Length),
+            mn_sep.wid = mean(Sepal.Width),
+            mn_pet.len = mean(Petal.Length),
+            mn_pet.wid = mean(Petal.Width)
+            )
+cm1
+## Check: Sum of all means  
+sum(cm1$mn_sep.len) + sum(cm1$mn_sep.wid) + sum(cm1$mn_pet.len) + sum(cm1$mn_pet.wid)  # => 41.574
+
+
+## Turn df into long format using tidyr::gather ----- 
+df_long <- df %>%
+  gather(Sepal.Length:Petal.Width, key = "type", value = "val") %>%
+  separate("type", into = c("part", "metric"), sep = "\\.")
+
+df_long
+dim(df_long)
+
+## Recompute group counts and means: ----- 
+cm2 <- df_long %>%
+  group_by(Species, part, metric) %>%
+  summarise(n = n(),
+            mn_val = mean(val)
+            )
+cm2
+
+## Check: Sum of all means  
+sum(cm2$mn_val) # => 41.574
+
+
+## Bonus task: Turn df_long back into original wide format using tidyr::spread -----
+df_long
+
+df_long <- rownames_to_column(df_long, var = "id") # add id column
+df_long$id <- parse_integer(df_long$id)            # make integer
+df_long
+
+df_long %>%
+  unite(type, part, metric, sep = ".") %>%  # unite part and metric into "type" column
+  spread(key = type, value = val) %>%      # spread "type" variable into multiple columns
+  arrange(id)
+
+# ???: Still contains 600 rows (and 3 out of 4 empty columns).
+# +++ here now +++
+
+```
+
+### Using own stock (`st`) dataset
 
 ```{r, stock_data}
 # library(tidyverse)
@@ -632,15 +883,16 @@ st_long3 <- st_long2 %>%
 ## (b) Now spreading from long to wider format succeeds: 
 st_long3 %>%
   spread(key = type, value = val)
-
 ```
+
+
 
 
 # All chapters
 
 Create a (psychological) dataset that allows illustrating contents from all chapters. 
 
-### People data
+### Create people data
 
 ```{r, create_people_data, include = TRUE}
 n <- 1000     # [n]umber of participants
@@ -839,7 +1091,7 @@ IVs
 
 +++ here now +++
 
-### Experimental data
+### Create experimental data
 
 ```{r, create_exp_data, include = TRUE}
 n <- 10       # [n]umber of participants
