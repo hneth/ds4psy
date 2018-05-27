@@ -206,6 +206,7 @@ ggplot(tidyr::table1, aes(x = year, y = cases, fill = country)) +
   theme_light()
 ```
 
+
 ### Own data: German election results
 
 Create tibble and then visualize election results, which are given as a table:
