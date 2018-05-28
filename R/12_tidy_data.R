@@ -1,7 +1,7 @@
 ## r4ds: Chapter 12: Tidy data  
 ## Code for http://r4ds.had.co.nz/tidy-data.html
 ## hn spds uni.kn
-## 2018 05 24 ------
+## 2018 05 28 ------
 
 ## Quotes: ------
 
@@ -385,8 +385,8 @@ table2
 # Definition: An "observation" is the state (or several values) of a country in a year, 
 # but in table2 each observation is spread across 2 rows.
 
-# To tidy this up, we first analyse the representation in similar way to gather(). 
-# This time, however, we only need two parameters:
+# To tidy this up, we first analyse the representation a in similar way to gather(). 
+# This time, however, we only need 2 parameters:
   
 # 1. The column that contains variable names, the "key" column. 
 #    Here, it’s "type".
@@ -1182,14 +1182,34 @@ ggplot(A_countries, aes(x = year, y = sum_cases, group = country_sex, color = se
 
 ## Additional examples: -----
 
-## (A) Stock data: ---- 
+## [Class demo]: Converting table1 into (longer) table2 and back (wider): ----  
+{
+  table1
+  table2
+  
+  t2 <- table1 %>%
+    gather(cases:population, key = "type", value = "cases") %>%
+    arrange(country, year)
+  t2
+  
+  # Check: 
+  t2 == table2
+  
+  t1 <- t2 %>%
+    spread(key = "type", value = "cases")
+  
+  # Check: 
+  t1 == table1
+}
+
+## Stock data: ---- 
 {
   library(tidyverse)
   
-  ## (1) Enter stock data (in wide format):
+  ## (a) Enter stock data (in wide format):
   
   st <- tribble(
-    ~name, ~d1_start, ~d1_end, ~d2_start, ~d2_end, ~d3_start, ~d3_end,  
+    ~stock, ~d1_start, ~d1_end, ~d2_start, ~d2_end, ~d3_start, ~d3_end,  
     #----|----------|--------|----------|--------|----------|--------|
     "Amada",   2.5,     3.6,    3.5,       4.2,      4.4,       2.8,            
     "Betix",   3.3,     2.9,    3.0,       2.1,      2.3,       2.5,  
@@ -1200,43 +1220,54 @@ ggplot(A_countries, aes(x = year, y = sum_cases, group = country_sex, color = se
   ## Note data structure: 
   ## 2 nested factors: day (1 to 3), type (start or end).
   
-  ## (2) Change from wide to long format:
+  ## (b) Change from wide to long format 
+  ##     that contains the day (d1, d2, d3) and type (start vs. end) as separate columns:
   st_long <- st %>%
     gather(d1_start:d3_end, key = "key", value = "val") %>%
-    separate(key, into = c("day", "type")) %>%
-    arrange(name, day, type) # optional: arrange rows
+    separate(key, into = c("day", "time")) %>%
+    arrange(stock, day, time) # optional: arrange rows
   st_long
   
-  ## (3) Change into wider format that lists start and end as 2 distinct variables (columns):
+  ## (c) Plot the end values (on the y-axis) of the 3 stocks over 3 days (x-axis):
+  st_long %>% 
+    filter(time == "end") %>%
+    ggplot(aes(x = day, y = val, color = stock, shape = stock)) +
+    geom_point(size = 3) + 
+    geom_line(aes(group = stock))
+  
+  ## (d) Change st_long into a wider format that lists start and end as 2 distinct variables (columns):
   st_long %>%
-    spread(key = type, value = val) %>%
+    spread(key = time, value = val) %>%
     mutate(day_nr = parse_integer(str_sub(day, 2, 2))) # optional: get day_nr as integer variable
   
-  ## (4) Note: Assume that stock data contains duplicate rows:
+  ## (e) Note: Assume that stock data contains duplicate rows:
   st2 <- rbind(st, st)
   st2
   
   ## Gathering from wide to long format works as before: 
   st_long2 <- st2 %>%
     gather(d1_start:d3_end, key = "key", value = "val") %>%
-    separate(key, into = c("day", "type")) %>%
-    arrange(name, day, type) # optional: arrange rows
+    separate(key, into = c("day", "time")) %>%
+    arrange(stock, day, time) # optional: arrange rows
   st_long2
   
   ## However, spreading from long to wider format yields error of "duplicate identifiers": 
-  st_long2 %>%
-    spread(key = type, value = val)
+  
+  # st_long2 %>%
+  #  spread(key = time, value = val) 
+  
+  ## would yield ERROR!
   
   ## Possible fix:
-  ## (a) Add an id variable that distinguishes between duplicate cases: 
+  ## (e1) Add an id variable that distinguishes between duplicate cases: 
   st_long3 <- st_long2 %>%
     mutate(id = rep(1:2, nrow(st_long2)/2)) %>%  # adding a vector
-    select(name, id, everything())               # optional: re-arrange variables (columns)
+    select(stock, id, everything())               # optional: re-arrange variables (columns)
   # st_long3
   
-  ## (b) Now spreading from long to wider format succeeds: 
+  ## (e2) Now spreading from long to wider format succeeds: 
   st_long3 %>%
-    spread(key = type, value = val)
+    spread(key = time, value = val)
   
 }
 

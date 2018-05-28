@@ -145,6 +145,7 @@ The chapter introduces visualizations (with `ggplot`), but not yet data transfor
 - boxplots (`geom_boxplot`)
 - adjusting coordinates (`coord_cartesian`, `coord_flip`, and `coord_polar`)
 
+## Example tasks 
 
 ### Using `PlantGrowth` data
 
@@ -209,10 +210,10 @@ df %>%
             sd = sd(extra))
 
 # (c) Visualize the raw values and averages by group:
-ggplot(df, aes(x = group, y = extra, fill = group)) +
+ggplot(df, aes(x = group, y = extra, color = group)) +
   geom_boxplot() +
   # geom_violin() +
-  geom_point(aes(shape = group), size = 3)
+  geom_point(aes(shape = group), size = 3, position = "jitter")
 
 # (d) Reformat data so that the 2 groups appear in 2 lines, and IDs as 10 columns:
 df %>%
@@ -406,7 +407,7 @@ library(tidyverse)    # dplyr
 library(nycflights13) # data
 ```
 
-## Contents
+## Key skills
 
 Transform data with essential `dplyr` commands:
 
@@ -414,7 +415,9 @@ Transform data with essential `dplyr` commands:
 - `select` and re-arrange variables (columns)
 - add and compute new variables with `mutate` and `transmute`
 - compute counts and descriptives of aggregates (by `group_by`, `summarise`, and functions)
-- compute new group-level variables with grouped mutates
+- compute new group-level variables (by grouped mutates) 
+
+## Example tasks 
 
 ### Using `dplyr::starwars` dataset
 
@@ -502,10 +505,10 @@ h_m <- df %>%
             )
 # h_m
 
-# (c) Use `h_m` to list the 3 species with the smallest individuals (in terms of mean height)?
+# (d) Use `h_m` to list the 3 species with the smallest individuals (in terms of mean height)?
 h_m %>% arrange(mn_height) %>% slice(1:3)
 
-# (d) Use `h_m` to list the 3 species with the heaviest individuals (in terms of median mass)?
+# (e) Use `h_m` to list the 3 species with the heaviest individuals (in terms of median mass)?
 h_m %>% arrange(desc(md_mass)) %>%  slice(1:3)
 ```
 
@@ -603,14 +606,14 @@ weather # month is given numerically!
 # ggplot(weather, aes(x = precip)) +
 #  geom_histogram(binwidth = 0.01, fill = seeblau)
 
-## (a) Preparation: 
+## (a) Preparation: Filter out extreme values and add a summer variable: 
 weather_season <- weather %>%
   filter(precip < .30) %>%
   mutate(summer = (month > 3 & month < 10)#,
          # winter = (month < 4 | month > 9)
          )
 
-## (b) Computation:
+## (b) Computation: Sum of precipitation by origin and summer season:
 weather_season %>%
   group_by(origin, summer) %>%
   summarise(n = n(),
@@ -618,10 +621,11 @@ weather_season %>%
             # mn_precip = mean(precip, na.rm = TRUE),
             sum_precip = sum(precip, na.rm = TRUE))
 
-## (c) Visualization:
+## (c) Visualization: Sum of precipitation as a bar chart:
 ggplot(weather_season, aes(x = summer, fill = summer)) +
   facet_wrap(~origin) + 
-  geom_bar(aes(weight = precip), na.rm = TRUE)
+  geom_bar(aes(weight = precip), na.rm = TRUE) +
+  scale_fill_manual(values = c("steelblue3", "firebrick"))
 ```
 
 ### Own data: Identifying outliers
@@ -777,13 +781,15 @@ In chapter 16 (Dates and times: http://r4ds.had.co.nz/dates-and-times.html), thi
 
 # 7: Exploratory Data Analysis 
 
-## Contents
+## Key skills
 
 Transform and visualize datasets to: 
 
 - detect and deal with missing values
 - view distributions of variables and outliers  
-- view relationships between (categorical/continuous) variables
+- plot and interpret relationships between (categorical/continuous) variables 
+
+## Example tasks 
 
 ### Using `iris` data
 
@@ -835,33 +841,34 @@ ggplot(df, aes(x = Sepal.Width, y = Petal.Width, color = Species)) +
   # geom_density2d() +
   coord_fixed()
 
-
-## Turn df into long format using tidyr::gather ----- 
+## Turn iris df into long format using tidyr::gather ----- 
 ## (see Chapter 12: Tidy Data below)
-
 ```
-
 
 
 # 10: Tibbles
 
-## Contents
+## Key skills
 
 Turn data into tibbles: 
 
-- convert data frames into tibbles
-- create tibbles from tabular data
+- convert data frames into tibbles (by `as_tibble`) 
+- create tibbles from tabular data (by `tibble` and `tribble`)
+
+
 
 # 12: Tidy Data
 
-## Contents
+## Key skills
 
 Wrangle data to: 
 
-- create tidy datasets
-- gather wide datasets into longer ones
-- spread long datasets into wider ones
-- separate and unite variables (columns)
+- identify and create tidy datasets
+- `gather` (wider) datasets into longer ones
+- `spread` (longer) datasets into wider ones
+- `separate` and `unite` variables (columns)
+
+## Example tasks 
 
 ### Using `iris` dataset
 
@@ -925,14 +932,31 @@ df_long %>%
 
 ### Using own stock (`st`) dataset
 
-```{r, stock_data}
+**`r nr<-nr+1; nr`.** The following table shows the start and end price of 3 stocks on 3 days (d1, d2, d3):
+
+| stock | d1_start | d1_end | d2_start | d2_end | d3_start | d3_end |  
+|-------|----------|--------|----------|--------|----------|--------|
+| "Amada"|   2.5  |   3.6   |  3.5    |    4.2  |   4.4   |   2.8  |            
+| "Betix"|   3.3  |   2.9   |  3.0    |    2.1  |   2.3   |   2.5  |  
+| "Cevis"|   4.2  |   4.8   |  4.6    |    3.7  |   3.8   |   3.1  |
+
+**`r nr`a.** Create a tibble `st` that contains this data in this (wide) format (1). 
+
+**`r nr`b.** Transform `st` into a longer table `st_long` that contains 18 rows and only 1 numeric variable for all stock prices (1). 
+Adjust it so that the `day` and `time` appear as 2 separate columns (1). 
+
+**`r nr`c.** Create a graph that shows the 3 stocks' `end` prices (on the y-axis) over the 3 days (on the x-axis) (1).
+
+**`r nr`d.** Spread  `st_long` into a wider table that contains `start` and `end` prices as 2 distinct variables (columns) for each stock and day (1).
+
+```{r, stock_data, echo = TRUE}
 # library(tidyverse)
 
-## (1) Enter stock data (in wide format):
+## (a) Enter stock data (in wide format) as a tibble:
 
 st <- tribble(
-  ~name, ~d1_start, ~d1_end, ~d2_start, ~d2_end, ~d3_start, ~d3_end,  
-  #----|----------|--------|----------|--------|----------|--------|
+  ~stock, ~d1_start, ~d1_end, ~d2_start, ~d2_end, ~d3_start, ~d3_end,  
+  #-----|----------|--------|----------|--------|----------|--------|
   "Amada",   2.5,     3.6,    3.5,       4.2,      4.4,       2.8,            
   "Betix",   3.3,     2.9,    3.0,       2.1,      2.3,       2.5,  
   "Cevis",   4.2,     4.8,    4.6,       3.7,      3.8,       3.1     
@@ -942,46 +966,54 @@ st <- tribble(
 ## Note data structure: 
 ## 2 nested factors: day (1 to 3), type (start or end).
 
-## (2) Change from wide to long format:
+## (b) Change from wide to long format 
+##     that contains the day (d1, d2, d3) and type (start vs. end) as separate columns:
 st_long <- st %>%
   gather(d1_start:d3_end, key = "key", value = "val") %>%
-  separate(key, into = c("day", "type")) %>%
-  arrange(name, day, type) # optional: arrange rows
+  separate(key, into = c("day", "time")) %>%
+  arrange(stock, day, time) # optional: arrange rows
 st_long
 
-## (3) Change into wider format that lists start and end as 2 distinct variables (columns):
+## (c) Plot the end values (on the y-axis) of the 3 stocks over 3 days (x-axis):
+st_long %>% 
+  filter(time == "end") %>%
+  ggplot(aes(x = day, y = val, color = stock, shape = stock)) +
+  geom_point(size = 3) + 
+  geom_line(aes(group = stock))
+
+## (d) Change st_long into a wider format that lists start and end as 2 distinct variables (columns):
 st_long %>%
-  spread(key = type, value = val) %>%
+  spread(key = time, value = val) %>%
   mutate(day_nr = parse_integer(str_sub(day, 2, 2))) # optional: get day_nr as integer variable
 
-## (4) Note: Assume that stock data contains duplicate rows:
+## (e) Note: Assume that stock data contains duplicate rows:
 st2 <- rbind(st, st)
 st2
 
 ## Gathering from wide to long format works as before: 
 st_long2 <- st2 %>%
   gather(d1_start:d3_end, key = "key", value = "val") %>%
-  separate(key, into = c("day", "type")) %>%
-  arrange(name, day, type) # optional: arrange rows
+  separate(key, into = c("day", "time")) %>%
+  arrange(stock, day, time) # optional: arrange rows
 st_long2
 
-## However, spreading from long to wider format would yield an 
-##          ERROR: "duplicate identifiers": 
+## However, spreading from long to wider format yields error of "duplicate identifiers": 
 
-## not run: ## 
 # st_long2 %>%
-#  spread(key = type, value = val)
+#  spread(key = time, value = val) 
+
+## would yield ERROR!
 
 ## Possible fix:
-## (a) Add an id variable that distinguishes between duplicate cases: 
+## (e1) Add an id variable that distinguishes between duplicate cases: 
 st_long3 <- st_long2 %>%
   mutate(id = rep(1:2, nrow(st_long2)/2)) %>%  # adding a vector
-  select(name, id, everything())               # optional: re-arrange variables (columns)
+  select(stock, id, everything())               # optional: re-arrange variables (columns)
 # st_long3
 
-## (b) Now spreading from long to wider format succeeds: 
+## (e2) Now spreading from long to wider format succeeds: 
 st_long3 %>%
-  spread(key = type, value = val)
+  spread(key = time, value = val)
 ```
 
 
@@ -1238,8 +1270,6 @@ add_whats(1:10, .5, what = "ABC")
 
 ```
 
-
-
 +++ here now +++
 
 ### Create experimental data
@@ -1354,8 +1384,6 @@ exp.t2 %>%
   select(-row) %>%                  # remove helper column again 
   select(rev(names(exp.t2)))
 ```
-
-
 
 [This file last updated on `r Sys.time()` by [hn](http://neth.de/).]
 
