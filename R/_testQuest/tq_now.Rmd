@@ -1,31 +1,47 @@
 ---
 title: "Test Questions (ds4psy)"
 author: "Hansjörg Neth, SPDS, uni.kn"
-date: "2018 05 27"
+date: "2018 05 28"
 output:
   rmdformats::html_clean:
     highlight: kate
 ---
 
-```{r knitr_init, echo = FALSE, cache = FALSE, message = FALSE, warning = FALSE}
+```{r preamble, echo = FALSE, cache = FALSE, message = FALSE, warning = FALSE}
+## (a) Housekeeping: -----
+rm(list=ls()) # clean all.
+
+## (b) Current file name and path: ----- 
+# cur.path <- dirname(rstudioapi::getActiveDocumentContext()$path)
+# cur.path
+# setwd(cur.path) # set to current directory
+setwd("~/Desktop/stuff/Dropbox/_code/R/_teachR/ds4psy/R/_testQuest") # set to current directory
+# list.files() # all files + folders in current directory
+fileName <- "tq_now.Rmd"
+
+## (c) Packages: ----- 
 library(knitr)
 library(rmdformats)
+library(tidyverse)
 
-## Global options
+## (d) Global options: ----- 
 options(max.print="75")
-opts_chunk$set(echo=FALSE,
-	             cache=TRUE,
-               prompt=FALSE,
-               tidy=FALSE,
-               comment=NA,
-               message=FALSE,
-               warning=FALSE)
+opts_chunk$set(echo = TRUE,
+	             cache = TRUE,
+               prompt = FALSE,
+               tidy = FALSE,
+               collapse = TRUE, # set TRUE in answers 
+               comment = "#>",
+               message = FALSE,
+               warning = FALSE,
+               fig.width = 9, fig.height = 6)
 opts_knit$set(width=75)
-```
 
-```{r graphics}
-# Defining colors: 
-seeblau <- rgb(0, 169, 224, maxColorValue = 255) # seeblau.4
+## (e) Graphics: ----- 
+
+# Defining colors:
+seeblau <- rgb(0, 169, 224, names = "seeblau", maxColorValue = 255) # seeblau.4 (non-transparent)
+
 seeblau.colors <- c(rgb(204, 238, 249, maxColorValue = 255), # seeblau.1
                     rgb(166, 225, 244, maxColorValue = 255), # seeblau.2 
                     rgb(89, 199, 235, maxColorValue = 255),  # seeblau.3
@@ -37,8 +53,23 @@ seeblau.colors <- c(rgb(204, 238, 249, maxColorValue = 255), # seeblau.1
                     gray(level = 0, alpha = .1),             #  9. gray 10% transparent
                     rgb(255, 255, 255, maxColorValue = 255)  # 10. white
                     )
-```
 
+unikn.pal = data.frame(                             ## in one df (for the yarrr package): 
+  "seeblau1" = rgb(204, 238, 249, maxColorValue = 255), #  1. seeblau1 (non-transparent)
+  "seeblau2" = rgb(166, 225, 244, maxColorValue = 255), #  2. seeblau2 (non-transparent)
+  "seeblau3" = rgb( 89, 199, 235, maxColorValue = 255), #  3. seeblau3 (non-transparent)
+  "seeblau4" = rgb(  0, 169, 224, maxColorValue = 255), #  4. seeblau4 (= seeblau base color)
+  "black"    = rgb(  0,   0,   0, maxColorValue = 255), #  5. black
+  "seegrau4" = rgb(102, 102, 102, maxColorValue = 255), #  6. grey40 (non-transparent)
+  "seegrau3" = rgb(153, 153, 153, maxColorValue = 255), #  7. grey60 (non-transparent)
+  "seegrau2" = rgb(204, 204, 204, maxColorValue = 255), #  8. grey80 (non-transparent)
+  "seegrau1" = rgb(229, 229, 229, maxColorValue = 255), #  9. grey90 (non-transparent)
+  "white"    = rgb(255, 255, 255, maxColorValue = 255), # 10. white
+  stringsAsFactors = FALSE)
+
+## (f) Exercise counter: ----- 
+nr <- 0
+```
 
 # Introduction
 
@@ -57,15 +88,53 @@ seeblau.colors <- c(rgb(204, 238, 249, maxColorValue = 255), # seeblau.1
 
 ## Test Questions
 
-This file contains practice and test questions suited to test your skills and understanding.
+This file contains practice and test questions suited to test your skills and understanding. It also illustrates the procedure of our **mid-term exam** (on June 4, 2018).
+
+## Preparation and response format
+
+**`r nr`.** Please answer the following questions by creating a single R script that contains all your code and answers and meets the following criteria: 
+
+- Save your script (regularly) as `Lastname_Firstname_midTerm_180528.R`.
+
+- Include a header that contains your name, your student ID, this course, and today's date.
+
+- Load the R packages of the `tidyverse`. 
+
+- Structure your file by clearly marking the current task (e.g., `# Task 1: -----`) and subtask (e.g., `# (a):`).
+
+- Include answers to all questions as comments in your script.
+
+- Send your script by email (as an attachment) to <h.neth@uni.kn> by 15:15 (today). 
+
+```{r, header, echo = TRUE}
+## Mid-term exam  | Data science for psychologists (Summer 2018)
+## Name: ... | Student ID: ...
+## 2018 05 28
+## ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ##
+
+## Preparations: ----- 
+
+library(tidyverse)
+
+## Task 1: ----- 
+
+## (a):
+df <- as_tibble(PlantGrowth)
+dim(df) 
+
+## Answer: 30 rows x 2 columns.
+
+## (b): 
+## ...
+
+## ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ##
+## End of file. ----- 
+```
+
 
 # 3: Data visualisation
 
-```{r, setup_3, echo = TRUE, eval = TRUE}
-library(tidyverse)  # dplyr, ggplot
-```
-
-## Contents
+## Key skills
 
 The chapter introduces visualizations (with `ggplot`), but not yet data transformations (with `dplyr`). Specifically, the chapter illustrates: 
 
@@ -76,15 +145,26 @@ The chapter introduces visualizations (with `ggplot`), but not yet data transfor
 - boxplots (`geom_boxplot`)
 - adjusting coordinates (`coord_cartesian`, `coord_flip`, and `coord_polar`)
 
+
 ### Using `PlantGrowth` data
 
-```{r, plantGrowth, echo = TRUE}
+**`r nr<-nr+1; nr`.** The `PlanthGrowth` data (contained in R datasets) reports the results from an experiment to compare yields (measured by the dried weight of plants) obtained under a control vs. 2 treatment conditions.
+
+**`r nr`a.** Save the `PlantGrowth` data as a tibbble and inspect its dimensions (1 point).
+
+**`r nr`b.** Use a `dplyr` pipe to compute the number of observations (rows) by group, 
+their mean, median, and standard deviations (2).
+
+**`r nr`c.** Use `ggplot` to create a graph that shows the medians and raw values of plant `weight` by `group` (2). 
+
+```{r, plantGrowth, echo = TRUE, eval = TRUE}
 # ?PlantGrowth
 
+# (a): 
 df <- as_tibble(PlantGrowth)
-df
+df # => 30 cases (rows) x 2 variables (columns)
 
-# Compute number of observations by group, their mean, median and standard deviation: 
+# (b) Compute number of observations by group, their mean, median and standard deviation: 
 df %>%
   group_by(group) %>%
   summarise(count = n(),
@@ -93,7 +173,7 @@ df %>%
             sd_weight = sd(weight)
             )
 
-# Plot median and raw values of weight by group: 
+# (c) Plot the median and raw values of weight by group: 
 ggplot(df, aes(x = group, y = weight, color = group)) +
   # geom_violin() +
   geom_boxplot() +
@@ -102,12 +182,25 @@ ggplot(df, aes(x = group, y = weight, color = group)) +
 
 ### Using `sleep` data
 
+**`r nr<-nr+1; nr`.** The `sleep` data (contained in R datasets) shows the effect of 2 sleep-promoting drugs (as an increase in hours of sleep compared to a control group) on 10 patients.
+
+**`r nr`a.** Save the `sleep` data as a tibbble and inspect its dimensions (1 point). 
+
+**`r nr`b.** Use a `dplyr` pipe to compute the number of observations (rows) by group, 
+their mean, median, and standard deviations (2).
+
+**`r nr`c.** Use `ggplot` to create a graph that shows the medians and raw values of `extra` sleep time by `group` (2). 
+
+**`r nr`d.** Reformat the `sleep` data so that the 2 groups appear in 2 lines (rows) and IDs as 10 columns (1).
+
 ```{r, sleep, echo = TRUE}
 # ?sleep
-df <- as_tibble(sleep)
-df
 
-# Compute average extra time by group:
+# (a)
+df <- as_tibble(sleep)
+df # => 20 x 3
+
+# (b) Compute the number of observations and descriptives of extra time by group:
 df %>% 
   group_by(group) %>%
   summarize(n = n(),
@@ -115,16 +208,17 @@ df %>%
             mn = mean(extra),
             sd = sd(extra))
 
-# Visualize raw values and group averages:
+# (c) Visualize the raw values and averages by group:
 ggplot(df, aes(x = group, y = extra, fill = group)) +
   geom_boxplot() +
   # geom_violin() +
   geom_point(aes(shape = group), size = 3)
 
-# Reformat data so that the 2 groups appear in 2 lines, and IDs as 10 columns:
+# (d) Reformat data so that the 2 groups appear in 2 lines, and IDs as 10 columns:
 df %>%
   spread(key = ID, value = extra)
 ```
+
 
 ### Using `ChickWeight` data
 
@@ -230,16 +324,21 @@ ggplot(df, aes(x = hp, y = disp)) +
 - Plot scatterplot of 2 continuous variables  
 - Interpret and draw conclusions 
 
-### Using `tidyr::table1` data
+### Using `tidyr::table1` data 
 
-Plot a bar chart (using the data from tidyr::table1) that shows the number of cases per country (on the y-axis) as a function of the year (on the x-axis).
+**`r nr<-nr+1; nr`.** The `tidyr::table1` shows the number of TB cases for 3 countries and 2 years. 
 
-Bonus: Label each bar with the number of cases (1) and adjust plot title and caption (1). 
+**`r nr`a.** Plot a bar chart that shows the number of cases per `country` (on the y-axis) as a function of the `year` (on the x-axis) (2).
 
-```{r, barchart_with_labels}
+**`r nr`b.** Format the bars (showing cases per `country`) in different colors (1). 
+
+**`r nr`c.** Provide a suitable plot title and a caption noting the data source (1). 
+
+**`r nr`d.** Label each bar with the number of cases (1). 
+
+```{r, barchart_with_labels, echo = FALSE, eval = TRUE}
 # ?geom_bar
-
-tidyr::table1
+?tidyr::table1
 
 ggplot(tidyr::table1, aes(x = year, y = cases, fill = country)) + 
   geom_bar(stat = "identity", position = "dodge", color = "black") + 
@@ -1065,7 +1164,7 @@ btypes <- sample(size = n, blood_types, prob = blood_probs, replace = TRUE)
 
 ## Combine IVs: ----- 
 IVs <- tibble(name = initials,
-              sex = sex, 
+              gender = sex, 
               # bdate = bdates,
               byear = byears, 
               bmonth = bmonths,
@@ -1074,6 +1173,7 @@ IVs <- tibble(name = initials,
               height = heights, 
               blood_type = btypes)
 IVs
+
 
 ## DVs: -----
 
@@ -1086,8 +1186,59 @@ IVs
 ## - Age (from byear, but adjusting by bday)
 ## - Birth season (spring, summer, autumn, winter)
 ## - Zodiac sign (from birthday)
+```
+
+
+Adding a random amount (number or proportion) of NA values to a vector:
+
+```{r add_random_NA_values}
+
+## Function to replace a random amount of vector elements by NA values:  
+add_NAs <- function(vec, amount){
+  
+  stopifnot((is.vector(vec)) & (amount >= 0) & (amount <= length(vec)))
+
+  out <- vec
+  n <- length(vec)
+  
+  amount2 <- ifelse(amount < 1, round(n * amount, 0), amount) # turn amount prop into n
+  
+  out[sample(x = 1:n, size = amount2, replace = FALSE)] <- NA
+  
+  return(out)
+
+}
+
+## Check:
+add_NAs(1:10, 0)
+add_NAs(1:10, 3)
+add_NAs(1:10, .5)
+add_NAs(letters[1:10], 3)
+
+## Generalization: Replace a random amount of vector elements by what: 
+add_whats <- function(vec, amount, what = NA){
+  
+  stopifnot((is.vector(vec)) & (amount >= 0) & (amount <= length(vec)))
+
+  out <- vec
+  n <- length(vec)
+  
+  amount2 <- ifelse(amount < 1, round(n * amount, 0), amount) # turn amount prop into n
+  
+  out[sample(x = 1:n, size = amount2, replace = FALSE)] <- what
+  
+  return(out)
+
+}
+
+## Check:
+add_whats(1:10, 3) # default: what = NA
+add_whats(1:10, 3, what = 99)
+add_whats(1:10, .5, what = "ABC")
 
 ```
+
+
 
 +++ here now +++
 
