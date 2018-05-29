@@ -1,7 +1,7 @@
 ---
 title: "Test Questions (ds4psy)"
 author: "Hansjörg Neth, SPDS, uni.kn"
-date: "2018 05 28"
+date: "2018 05 29"
 output:
   rmdformats::html_clean:
     highlight: kate
@@ -92,24 +92,24 @@ This file contains practice and test questions suited to test your skills and un
 
 ## Preparation and response format
 
-**`r nr`.** Please answer the following questions by creating a single R script that contains all your code and answers and meets the following criteria: 
+**`r nr`.** Please answer the following questions by creating a single R script (or an R-Markdown file `.Rmd`) that contains all your code and answers and meets the following criteria: 
 
 - Save your script (regularly) as `Lastname_Firstname_midTerm_180528.R`.
 
-- Include a header that contains your name, your student ID, this course, and today's date.
+- Include a header that contains your _name_, _student ID_, this _course_, and today's _date_.
 
 - Load the R packages of the `tidyverse`. 
 
 - Structure your file by clearly marking the current task (e.g., `# Task 1: -----`) and subtask (e.g., `# (a):`).
 
-- Include answers to all questions as comments in your script.
+- When asked for numbers or interpretations, include short answers as comments in your script. However, when asked for quantitative summaries (e.g., descriptive statistics on a dataset) simply print them to your console (or save them as an object).
 
 - Send your script by email (as an attachment) to <h.neth@uni.kn> by 15:15 (today). 
 
 ```{r, header, echo = TRUE}
 ## Mid-term exam  | Data science for psychologists (Summer 2018)
 ## Name: ... | Student ID: ...
-## 2018 05 28
+## 2018 06 04
 ## ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ##
 
 ## Preparations: ----- 
@@ -130,7 +130,6 @@ dim(df)
 ## ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ##
 ## End of file. ----- 
 ```
-
 
 # 3: Data visualisation
 
