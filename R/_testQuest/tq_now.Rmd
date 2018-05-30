@@ -1,7 +1,7 @@
 ---
 title: "Test Questions (ds4psy)"
 author: "Hansjörg Neth, SPDS, uni.kn"
-date: "2018 05 29"
+date: "2018 05 30"
 output:
   rmdformats::html_clean:
     highlight: kate
@@ -94,42 +94,52 @@ This file contains practice and test questions suited to test your skills and un
 
 **`r nr`.** Please answer the following questions by creating a single R script (or an R-Markdown file `.Rmd`) that contains all your code and answers and meets the following criteria: 
 
-- Save your script (regularly) as `Lastname_Firstname_midTerm_180528.R`.
+- _Layout issues_: 
 
-- Include a header that contains your _name_, _student ID_, this _course_, and today's _date_.
+    1. Include a header that contains your _name_, _student ID_, this _course_, and today's _date_.
+    
+    2. Load the R packages of the `tidyverse`. 
+    
+    3. Structure your file clearly by _labeling_ the current task (e.g., `# Task 1: -----`) and subtask (e.g., `# (a) ...:`) and by _leaving blank lines_ between all tasks and subtasks. 
+    
+    Here's a layout template that you can copy and adapt: 
 
-- Load the R packages of the `tidyverse`. 
-
-- Structure your file by clearly marking the current task (e.g., `# Task 1: -----`) and subtask (e.g., `# (a):`).
-
-- When asked for numbers or interpretations, include short answers as comments in your script. However, when asked for quantitative summaries (e.g., descriptive statistics on a dataset) simply print them to your console (or save them as an object).
-
-- Send your script by email (as an attachment) to <h.neth@uni.kn> by 15:15 (today). 
-
-```{r, header, echo = TRUE}
+```{r layout_template, echo = TRUE}
 ## Mid-term exam  | Data science for psychologists (Summer 2018)
 ## Name: ... | Student ID: ...
 ## 2018 06 04
-## ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ##
+## ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ##
 
 ## Preparations: ----- 
 
 library(tidyverse)
 
+
 ## Task 1: ----- 
 
-## (a):
-df <- as_tibble(PlantGrowth)
-dim(df) 
+## (a) Saving and inspecting data:
+sp <- as_tibble(sleep)
+dim(sp)
 
-## Answer: 30 rows x 2 columns.
+## Answer: The sleep data contains 20 rows and 3 columns. 
 
-## (b): 
+## (b): ... 
 ## ...
 
-## ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ##
+
+## Task X: ----- 
+## ...
+
+## ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ##
 ## End of file. ----- 
 ```
+
+- Save your script (regularly) as `Lastname_Firstname_midTerm_180604.R` (replacing `Lastname` and `Firstname` by your names).
+
+- When asked for numbers or interpretations, include _short answers as comments_ in your script. However, when asked for quantitative summaries containing more than 2 numbers (e.g., descriptive statistics of a dataset) simply print your results (e.g., the output of a `dplyr` pipe) in your code.
+
+- Submit your script by email (as an attachment) to <h.neth@uni.kn> by 15:15 (today). 
+
 
 # 3: Data visualisation
 
@@ -148,24 +158,24 @@ The chapter introduces visualizations (with `ggplot`), but not yet data transfor
 
 ### Using `PlantGrowth` data
 
-**`r nr<-nr+1; nr`.** The `PlanthGrowth` data (contained in R datasets) reports the results from an experiment to compare yields (measured by the dried weight of plants) obtained under a control vs. 2 treatment conditions.
+**`r nr<-nr+1; nr`.** The `PlanthGrowth` data (contained in R datasets) reports the results from an experiment that  compares growth yields (measured by the dried weight of plants) obtained under 2 treatments vs. a control condition.
 
-**`r nr`a.** Save the `PlantGrowth` data as a tibbble and inspect its dimensions (1 point).
+**`r nr`a.** Save the `PlantGrowth` data as a tibble and inspect its dimensions (1 point).
 
-**`r nr`b.** Use a `dplyr` pipe to compute the number of observations (rows) by group, 
-their mean, median, and standard deviations (2).
+**`r nr`b.** Use a `dplyr` pipe to compute the number of observations (rows) in each `group` 
+and key descriptives (their mean, median, and standard deviation) (2).
 
-**`r nr`c.** Use `ggplot` to create a graph that shows the medians and raw values of plant `weight` by `group` (2). 
+**`r nr`c.** Use `ggplot` to create a graph that shows the medians and raw values of plant `weight` by `group` (2). Hint: Use 2 different geoms to show both medians and raw values in the same plot. The order of layers is determined by the order of geom commands. 
 
-```{r, plantGrowth, echo = TRUE, eval = TRUE}
-# ?PlantGrowth
+```{r plantGrowth, echo = TRUE, eval = TRUE}
+# ?datasets::PlantGrowth
 
-# (a): 
-df <- as_tibble(PlantGrowth)
-df # => 30 cases (rows) x 2 variables (columns)
+# (a) Save as tibble and inspect data:
+pg <- as_tibble(PlantGrowth)
+pg # => 30 cases (rows) x 2 variables (columns)
 
 # (b) Compute number of observations by group, their mean, median and standard deviation: 
-df %>%
+pg %>%
   group_by(group) %>%
   summarise(count = n(),
             mn_weight = mean(weight),
@@ -174,34 +184,37 @@ df %>%
             )
 
 # (c) Plot the median and raw values of weight by group: 
-ggplot(df, aes(x = group, y = weight, color = group)) +
+ggplot(pg, aes(x = group, y = weight)) +
   # geom_violin() +
-  geom_boxplot() +
-  geom_point(alpha = 2/3, size = 5, position = "jitter")
+  geom_boxplot(aes(fill = group)) +
+  geom_point(aes(shape = group), alpha = 2/3, size = 4, position = "jitter") +
+  labs(title = "Plant weight by group", x = "Group", y = "Weight", 
+       caption = "[Using datasets::PlantGrowth data.]") +
+  theme_bw()
 ```
 
 ### Using `sleep` data
 
-**`r nr<-nr+1; nr`.** The `sleep` data (contained in R datasets) shows the effect of 2 sleep-promoting drugs (as an increase in hours of sleep compared to a control group) on 10 patients.
+**`r nr<-nr+1; nr`.** The `sleep` data (contained in R datasets) shows the effect of 2 sleep-promoting drugs (as an increase in hours of sleep compared to a control group) for 10 patients.
 
-**`r nr`a.** Save the `sleep` data as a tibbble and inspect its dimensions (1 point). 
+**`r nr`a.** Save the `sleep` data as a tibble and inspect its dimensions (1 point). 
 
-**`r nr`b.** Use a `dplyr` pipe to compute the number of observations (rows) by group, 
-their mean, median, and standard deviations (2).
+**`r nr`b.** Use a `dplyr` pipe to compute the number of observations (rows) by group  
+and key descriptives (their mean, median, and standard deviation) (2).
 
-**`r nr`c.** Use `ggplot` to create a graph that shows the medians and raw values of `extra` sleep time by `group` (2). 
+**`r nr`c.** Use `ggplot` to create a graph that shows the medians and raw values of `extra` sleep time by `group` (2). Hint: Use 2 different geoms to show both medians and raw values in the same plot. The order of layers is determined by the order of geom commands. 
 
-**`r nr`d.** Reformat the `sleep` data so that the 2 groups appear in 2 lines (rows) and IDs as 10 columns (1).
+**`r nr`d.** Reformat the `sleep` data so that the 2 groups appear in 2 lines (rows) and 10 subject IDs as 10 columns (1).
 
 ```{r, sleep, echo = TRUE}
-# ?sleep
+# ?datasets::sleep
 
-# (a)
-df <- as_tibble(sleep)
-df # => 20 x 3
+# (a) Save data as tibble and inspect:
+sp <- as_tibble(sleep)
+sp # => 20 cases (rows) x 3 variables (columns)
 
 # (b) Compute the number of observations and descriptives of extra time by group:
-df %>% 
+sp %>% 
   group_by(group) %>%
   summarize(n = n(),
             md = median(extra),
@@ -209,120 +222,85 @@ df %>%
             sd = sd(extra))
 
 # (c) Visualize the raw values and averages by group:
-ggplot(df, aes(x = group, y = extra, color = group)) +
+ggplot(sp, aes(x = group, y = extra, color = group)) +
   geom_boxplot() +
   # geom_violin() +
-  geom_point(aes(shape = group), size = 3, position = "jitter")
+  geom_point(aes(shape = group), size = 4, position = "jitter") + 
+  labs(title = "Extra sleep time by treatment group", x = "Treatment group", y = "Extra sleep time", 
+       caption = "[Using datasets::sleep data.]") +
+  theme_bw()
 
-# (d) Reformat data so that the 2 groups appear in 2 lines, and IDs as 10 columns:
-df %>%
+# (d) Reformat data so that the 2 groups appear in 2 lines, 
+#     and 10 subject IDs as 10 columns:
+sp %>%
   spread(key = ID, value = extra)
 ```
 
-
 ### Using `ChickWeight` data
 
+**`r nr<-nr+1; nr`.** The `ChickWeight` data (contained in R datasets) contains the results of an experiment that measures the effects of `Diet` on the early growth of chicks.
+
+**`r nr`a.** Save the `ChickWeight` data as a tibble and inspect its dimensions (1 point). 
+
+**`r nr`b.** Create a line plot showing the `weight` development of each indivdual chick (on the y-axis) over `Time` (on the x-axis) for each `Diet` (in 4 different facets) (2).
+
 ```{r, chickWeight, echo = TRUE}
-# ?ChickWeight
+# ?datasets::ChickWeight
 
-df <- as_tibble(ChickWeight)
-df
+# (a) Save data as tibble and inspect:
+cw <- as_tibble(ChickWeight)
+cw # => 578 observations (rows) x 4 variables (columns)
 
-# Scatter & line plot showing weight development of each chick over Time:
-ggplot(df, aes(x = Time, y = weight, group = Diet)) +
+# (b) Scatter and/or line plot showing the weight development of each chick (on the y-axis) 
+#     over Time (on the x-axis) for each Diet (as different facets): 
+ggplot(cw, aes(x = Time, y = weight, group = Diet)) +
   facet_wrap(~Diet) + 
   geom_point(alpha = 1/2) +
   geom_line(aes(group = Chick)) +
-  geom_smooth(aes(color = Diet))
+  geom_smooth(aes(color = Diet)) + 
+  labs(title = "Chick weight by time for different diets", x = "Time (number of days)", y = "Weight (in gm)", 
+       caption = "[Using datasets::ChickWeight data.]") +
+  theme_bw()
+```
 
-# Plot the weight of each individual chick 
+**`r nr`c.** The following bar chart shows the number of chicks per `Diet` over `Time`.  
+We see that the initial `Diet` groups contain a different numbers of chicks and some chicks drop out over `Time`.  
+
+```{r, chickWeight_2, echo = TRUE}
+# (c) Bar plot showing the number (count) of chicks per diet over time: 
+ggplot(cw, aes(x = Time, fill = Diet)) +
+  geom_bar(position = "dodge") +
+  labs(title = "Number of chicks per diet over time", x = "Time (number of days)", y = "Number", 
+       caption = "[Using datasets::ChickWeight data.]") +
+  theme_bw()
+```
+
+Instead of re-creating this plot, create a table (or tibble) that shows the same (4 x 12 = 48) data points in 4 rows (for the 4 different types of `Diet`) and 12 columns (for the different `Time` points) (2).
+
+Hint: First count the number of chicks per `Diet` and `Time`, then spread the results into a wider format (to show the time points as different columns).
+
+```{r, chickWeight_3, echo = TRUE}
+# (c) Re-create the counts of chicks per diet over time numerically (using `dplyr` and `tidyr`). 
+#     as a table: How many chicks are there per diet over time?
+cw %>%
+  group_by(Diet, Time) %>%
+  count() %>%
+  spread(key = Time, value = n) 
+
+## Not asked: 
+# (x) Plot the weight of each individual chick 
 # and the Median weight per diet at the end (Time = 21).
-# Hint: Filter data for the maximum time and combine a scatterplot with a boxplot.
-df %>%
+# Hint: Filter data for the maximum time and 
+#       combine 2 geoms: A boxplot and a scatterplot.
+cw %>%
   filter(Time == 21) %>%
   ggplot(., aes(x = Diet, y = weight, fill = Diet)) +
     geom_boxplot() +
-    geom_point(size = 4) +
-    coord_flip()
-
-# Bar plot showing the number (count) of chicks per diet over time: 
-ggplot(df, aes(x = Time, fill = Diet)) +
-  geom_bar(position = "dodge")
-
-# Bonus: Re-create the counts of chicks per diet over time numerically 
-# (by using `dplyr` and `tidyr`). 
-
-# How many chicks per diet over time?
-df %>%
-  group_by(Diet, Time) %>%
-  count() %>%
-  spread(key = Time, value = n)
+    geom_point(size = 4, alpha = 1/2) +
+    coord_flip() +
+    theme_bw()
 ```
 
-### Using `mtcars` data
-
-```{r, mtcars, echo = TRUE}
-## Data to use:
-?mtcars
-# mtcars
-
-## (0) Convert into a tibble: 
-df <- as_tibble(rownames_to_column(mtcars, var = "model"))
-df$cyl <- factor(df$cyl)
-df$am <- factor(df$am)
-df
-
-## (1) Distribution of mpg: ---- 
-range(df$mpg)
-
-ggplot(df, aes(x = mpg)) +
-  geom_histogram(binwidth = 5) 
-
-## (2) Group means and boxplot: Mean mpg by cylinder: ----  
-
-df %>%
-  group_by(cyl) %>%
-  summarise(n = n(),
-            md_mpg = median(mpg),
-            mn_mpg = mean(mpg)
-            )
-
-ggplot(df, aes(x = cyl, y = mpg, color = cyl)) +
-  geom_boxplot() +
-  # geom_violin() + 
-  geom_jitter()
-
-## (3) Scatterplot: ---- 
-
-## Show value of `disp` (on y-axis) by `hp` (on x-axis), grouped by `am`: 
-ggplot(df, aes(x = hp, y = disp, fill = am)) +
-  geom_point(shape = 21, size = 2.5) +
-  # geom_smooth() +
-  geom_text(aes(label = model), size = 2.5, vjust = 0, hjust = 0, nudge_x = 5) +
-  theme_bw()
-
-## Alternative (using facets):
-ggplot(df, aes(x = hp, y = disp)) +
-  facet_wrap(~am) + 
-  geom_point(size = 2.5) +
-  # geom_smooth() +
-  geom_text(aes(label = model), size = 2.5, vjust = 0, hjust = 0, nudge_x = 5) +
-  theme_bw()
-
-## Conclusions: ---- 
-# - There is a positive correlation between horsepower and displacement 
-#   (for both types of transmission). 
-# - outliers: Ford Pantera L and Maserati 
-#             have more hp and disp than other cars with manual transmission.
-```
-
-#### Tasks involved
-
-- Plot distribution (histogram) 
-- Descriptive group measures (count, mean, SD) 
-- Plot raw data and group means (boxplot) 
-- Plot scatterplot of 2 continuous variables  
-- Interpret and draw conclusions 
 
 ### Using `tidyr::table1` data 
 
@@ -344,22 +322,23 @@ ggplot(tidyr::table1, aes(x = year, y = cases, fill = country)) +
   geom_bar(stat = "identity", position = "dodge", color = "black") + 
   geom_text(aes(label = cases), position = position_dodge(width = 0.9), vjust = -0.5) +
   scale_x_continuous(name = "Year", breaks = 1999:2000) + 
-  labs(title = "Cases per country and year", y = "Cases", caption = "[Data from tidyr::table1.]") +
-  theme_light()
+  labs(title = "Cases per country and year", y = "Cases", caption = "[Using tidyr::table1 data.]") +
+  theme_classic()
 ```
 
 ### Own data: German election results
 
-Create tibble and then visualize election results, which are given as a table:
+**`r nr<-nr+1; nr`.** The following table provides the percentage share of 2 major parties on the last 2 
+general elections of Germany (based on [this link](https://www.bundeswahlleiter.de/info/presse/mitteilungen/bundestagswahl-2017/34_17_endgueltiges_ergebnis.html)):
 
-| Party: | Share 2017:       | Share 2013: | 
-|:------- |--------:         |--------:|
-| CDU/CSU | `r (26.8+6.2)`%  | `r (34.1 + 7.4)`% |
-| SPD     | `r (20.5)`%      | `r (25.7)`% |
-| others  |      ?           |        ?    |
+| Party:  | Share 2013:       | Share 2017:       |
+|:------- |--------:|--------:|
+| CDU/CSU | `r (34.1 + 7.4)`% | `r (26.8 + 6.2)`% |
+| SPD     | `r (25.7)`%       | `r (20.5)`%       |
+| Others  |      `?`          |    `?`            | 
 
-
-<!-- From https://www.bundeswahlleiter.de/info/presse/mitteilungen/bundestagswahl-2017/34_17_endgueltiges_ergebnis.html 
+<!-- Details: from 
+https://www.bundeswahlleiter.de/info/presse/mitteilungen/bundestagswahl-2017/34_17_endgueltiges_ergebnis.html 
 
 CDU 	Christlich Demokratische Union Deutschlands 	26,8 % 	(2013: 34,1 %)
 SPD 	Sozialdemokratische Partei Deutschlands 	    20,5 % 	(2013: 25,7 %)
@@ -372,24 +351,108 @@ Sonstige 	  	                                       5,0 % 	(2013:  6,2 %)
 
 --> 
 
-```{r, election_results}
-## (a) Create a data frame or tibble:
-df <- data.frame(
-    party = c("CDU/CSU", "SPD", "others"),
-    share = c((.268 + .062), .205, (1 - (.268 + .062) - .205))
+**`r nr`a.** Create a tibble `de` that contains this data and the missing (`?`) values for all other parties so that all shares of an election add up to 100% (2). 
+
+**`r nr`b.** Convert your `de` table into a "tidy" table saved as `de_2` (2). 
+
+Hints: Use `gather` to list the values of all election results in 1 variable called `share` and make sure that `de_2` contains a separate variable (column) that specifies the election `year`.
+
+**`r nr`c.** Visualize and contrast the election results by a bar chart that contains 2 bars (representing the 2 elections) and the party's share of votes (as the proportions of each bar) (2). 
+
+Hints: As the data in `de_2` already contains the identity of the values which you want to plot, there is no need to count anything. Showing multiple values in one bar is called a "stack".
+
+
+**`r nr`d.** Create an improved version of your plot in **`r nr`c.** that provides the share of votes for each bar area as text labels (1).
+
+**`r nr`e.** Show the 2017 election results as a pie chart (with 3 pieces representing each party's share of votes) (1).
+
+```{r election_results}
+## (a) Create a tibble with the data:
+de <- tibble(
+    party = c("CDU/CSU", "SPD", "Others"),
+    share_2013 = c((.341 + .074), .257, (1 - (.341 + .074) - .257)), 
+    share_2017 = c((.268 + .062), .205, (1 - (.268 + .062) - .205))
   )
-df$party <- factor(df$party, levels = c("CDU/CSU", "SPD", "others"))
-head(df)
-  
-## (b) Create a stacked bar chart:
-bp <- ggplot(data = df, mapping = aes(x = "", y = share, fill = party)) +
+de$party <- factor(de$party, levels = c("CDU/CSU", "SPD", "Others"))  # optional
+de
+
+## Check that columns add to 100:
+sum(de$share_2013)  # => 1 (qed)
+sum(de$share_2017)  # => 1 (qed)
+
+## (b) Converting de into a tidy data table:
+de_2 <- de %>%
+  gather(share_2013:share_2017, key = "election", value = "share") %>%
+  separate(col = "election", into = c("dummy", "year")) %>%
+  select(year, party, share)
+de_2
+
+## Note that year is of type character, which could be changed by:
+# de_2$year <- parse_integer(de_2$year)
+
+## (c) Bar chart showing proportions for each election:
+ggplot(de_2, aes(x = year, y = share, fill = party)) +
+  ## (A) 1 bar per election (position = "stack"):
+  geom_bar(stat = "identity", position = "stack") +  # 1 bar per election
+  ## (B) 3 bars per election (position = "dodge"):  
+  # geom_bar(stat = "identity", position = "dodge") +  # 3 bars next to each other
+  ## Pimping plot: 
+  scale_fill_manual(values = c("black", "red3", "gold")) + # optional
+  labs(title = "Partial results of the German general elections 2013 and 2017", 
+       x = "Year of election", y = "Share of votes", caption = "[Data: www.bundeswahlleiter.de.]") +
+  theme_classic()
+
+## Advanced issues or Bonus tasks: ----- 
+
+cols <- rep(c("black", "black", "white"), 2)
+
+## (d) Versions of (c) with vote shares as text labels:
+ggplot(de_2, aes(x = year, y = share, fill = party, 
+                 label = paste0(as.character(round(share * 100, 2)), "%"))) +
+  ## (A) 1 bar per election (position = "stack"):
+  geom_bar(stat = "identity") +  # 1 bar per election
+  geom_text(position = "stack", vjust = 5, size = 4, color = rep(c("black", "black", "white"), 2)) + 
+  ## (B) 3 bars per election (position = "dodge"):  
+  # geom_bar(stat = "identity", position = "dodge") +  # 3 bars next to each other
+  # geom_text(position = position_dodge(width = .9), vjust = -1, size = 4) + 
+  ## Pimping plot: 
+  scale_fill_manual(values = c("black", "red3", "gold")) + # optional
+  labs(title = "Partial results of the German general elections 2013 and 2017", 
+       x = "Year of election", y = "Share of votes", caption = "[Data: www.bundeswahlleiter.de.]") +
+  theme_classic()
+
+## (e) Pie chart of 2017 results only:
+ggplot(de, aes(x = "", y = share_2017)) +
+  geom_bar(aes(fill = party), stat = "identity", position = "stack") +  # 1 bar per election
+  scale_fill_manual(values = c("black", "red3", "gold")) +  # optional
+  ## Pimping plot: 
+  labs(title = "Partial pie of the German general election 2017", 
+       y = "Share of votes", caption = "[Data: www.bundeswahlleiter.de.]") +
+  coord_polar("y") +
+  theme_minimal()
+
+## OLDER code (based on 2017 data ONLY): ----- 
+
+## (x) Create a data frame:
+df <- data.frame(
+    party = c("CDU/CSU", "SPD", "Others"),
+    # share_2013 = c((.341 + .074), .257, (1 - (.341 + .074) - .257)), 
+    share_2017 = c((.268 + .062), .205, (1 - (.268 + .062) - .205))
+  )
+df$party <- factor(df$party, levels = c("CDU/CSU", "SPD", "Others"))
+df
+
+## (y) Create a stacked bar chart:
+bp <- ggplot(data = df, mapping = aes(x = "", y = share_2017, fill = party)) +
   geom_bar(stat = "identity") + 
   scale_fill_manual(values = c("black", "red3", "gold")) + 
   theme_bw()
 bp
 
-## (c) Create a pie chart: 
-pie <- bp + coord_polar("y", start = 0)
+## (z) Create a pie chart: 
+pie <- bp + 
+  coord_polar("y", start = 0) +
+  theme_minimal()
 pie
 ```
 
@@ -397,6 +460,8 @@ pie
 - Plot bar chart (with `stat = "identity"`)
 - Create pie chart (with `coord_polar`) 
 
+
++++ here now +++
 
 
 # 5: Data transformation
@@ -420,7 +485,7 @@ Transform data with essential `dplyr` commands:
 
 ### Using `dplyr::starwars` dataset
 
-Exploring the `dplyr::starwars` universe: 
+**`r nr<-nr+1; nr`.** Exploring the `dplyr::starwars` universe: 
 
 Save the tibble `dplyr::starwars` as `df` and then answer the following questions by filtering, grouping, counting, summarizing, and sorting (i.e., using basic `dplyr` commands):
 
@@ -844,6 +909,73 @@ ggplot(df, aes(x = Sepal.Width, y = Petal.Width, color = Species)) +
 ## (see Chapter 12: Tidy Data below)
 ```
 
+### Using `mtcars` data
+
+**`r nr<-nr+1; nr`.** The `mtcars` data (contained in R datasets) contains ...
+
+```{r, mtcars, echo = TRUE}
+## Data to use:
+# ?datasets::mtcars
+# mtcars
+
+## (0) Convert into a tibble: 
+df <- as_tibble(rownames_to_column(mtcars, var = "model"))
+df$cyl <- factor(df$cyl)
+df$am <- factor(df$am)
+df
+
+## (1) Distribution of mpg: ---- 
+range(df$mpg)
+
+ggplot(df, aes(x = mpg)) +
+  geom_histogram(binwidth = 5) 
+
+## (2) Group means and boxplot: Mean mpg by cylinder: ----  
+
+df %>%
+  group_by(cyl) %>%
+  summarise(n = n(),
+            md_mpg = median(mpg),
+            mn_mpg = mean(mpg)
+            )
+
+ggplot(df, aes(x = cyl, y = mpg, color = cyl)) +
+  geom_boxplot() +
+  # geom_violin() + 
+  geom_jitter()
+
+## (3) Scatterplot: ---- 
+
+## Show value of `disp` (on y-axis) by `hp` (on x-axis), grouped by `am`: 
+ggplot(df, aes(x = hp, y = disp, fill = am)) +
+  geom_point(shape = 21, size = 2.5) +
+  # geom_smooth() +
+  geom_text(aes(label = model), size = 2.5, vjust = 0, hjust = 0, nudge_x = 5) +
+  theme_bw()
+
+## Alternative (using facets):
+ggplot(df, aes(x = hp, y = disp)) +
+  facet_wrap(~am) + 
+  geom_point(size = 2.5) +
+  # geom_smooth() +
+  geom_text(aes(label = model), size = 2.5, vjust = 0, hjust = 0, nudge_x = 5) +
+  theme_bw()
+
+## Conclusions: ---- 
+# - There is a positive correlation between horsepower and displacement 
+#   (for both types of transmission). 
+# - outliers: Ford Pantera L and Maserati 
+#             have more hp and disp than other cars with manual transmission.
+```
+
+#### Tasks involved
+
+- Plot variable distributions (histogram) 
+- Descriptive group measures (count, mean, SD) 
+- Plot raw data and group means (boxplot) 
+- Plot scatterplot of 2 continuous variables  
+- Interpret and draw conclusions 
+
 
 # 10: Tibbles
 
@@ -854,6 +986,9 @@ Turn data into tibbles:
 - convert data frames into tibbles (by `as_tibble`) 
 - create tibbles from tabular data (by `tibble` and `tribble`)
 
+## Example tasks 
+
+Commands to create and convert to tibbles are included in tasks to other chapters. 
 
 
 # 12: Tidy Data
