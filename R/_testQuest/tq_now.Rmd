@@ -1,11 +1,20 @@
 ---
 title: "Test Questions (ds4psy)"
 author: "Hansjörg Neth, SPDS, uni.kn"
-date: "2018 05 30"
+date: "2018 05 31"
 output:
-  rmdformats::html_clean:
-    highlight: kate
+   rmdformats::html_clean: # html_clean html_docco readthedown material #
+     code_folding: show # hide
+     toc_float: true
+     toc_depth: 2
+     highlight: kate # textmate default kate haddock monochrome #
+     lightbox: true # true by default
+     fig_width: 8 # in inches
+editor_options: 
+  chunk_output_type: console # inline
 ---
+
+<!-- Collection of exercises and test problems | ds4psy: Summer 2018 -->
 
 ```{r preamble, echo = FALSE, cache = FALSE, message = FALSE, warning = FALSE}
 ## (a) Housekeeping: -----
@@ -25,7 +34,7 @@ library(rmdformats)
 library(tidyverse)
 
 ## (d) Global options: ----- 
-options(max.print="75")
+options(max.print = "75")
 opts_chunk$set(echo = TRUE,
 	             cache = TRUE,
                prompt = FALSE,
@@ -34,8 +43,13 @@ opts_chunk$set(echo = TRUE,
                comment = "#>",
                message = FALSE,
                warning = FALSE,
-               fig.width = 9, fig.height = 6)
-opts_knit$set(width=75)
+               ## Default figure options:
+               fig.width = 8, 
+               fig.asp = .618, # golden ratio
+               out.width = "75%",
+               fig.align = "center"
+               )
+opts_knit$set(width = 75)
 
 ## (e) Graphics: ----- 
 
@@ -168,7 +182,7 @@ and key descriptives (their mean, median, and standard deviation) (2).
 
 **`r nr`c.** Use `ggplot` to create a graph that shows the medians and raw values of plant `weight` by `group` (2). Hint: Use 2 different geoms to show both medians and raw values in the same plot. The order of layers is determined by the order of geom commands. 
 
-```{r plantGrowth, echo = TRUE, eval = TRUE}
+```{r plantGrowth, echo = TRUE, eval = TRUE, fig.show = "hold"}
 # ?datasets::PlantGrowth
 
 # (a) Save as tibble and inspect data:
@@ -207,7 +221,7 @@ and key descriptives (their mean, median, and standard deviation) (2).
 
 **`r nr`d.** Reformat the `sleep` data so that the 2 groups appear in 2 lines (rows) and 10 subject IDs as 10 columns (1).
 
-```{r, sleep, echo = TRUE}
+```{r, sleep, echo = TRUE, fig.show = "hold"}
 # ?datasets::sleep
 
 # (a) Save data as tibble and inspect:
@@ -302,7 +316,6 @@ cw %>%
     theme_bw()
 ```
 
-
 ### Using `tidyr::table1` data 
 
 **`r nr<-nr+1; nr`.** The `tidyr::table1` shows the number of TB cases for 3 countries and 2 years. 
@@ -361,7 +374,6 @@ Hints: Use `gather` to list the values of all election results in 1 variable cal
 **`r nr`c.** Visualize and contrast the election results by a bar chart that contains 2 bars (representing the 2 elections) and the party's share of votes (as the proportions of each bar) (2). 
 
 Hints: As the data in `de_2` already contains the identity of the values which you want to plot, there is no need to count anything. Showing multiple values in one bar is called a "stack".
-
 
 **`r nr`d.** Create an improved version of your plot in **`r nr`c.** that provides the share of votes for each bar area as text labels (1).
 
@@ -461,7 +473,6 @@ pie
 - Plot bar chart (with `stat = "identity"`)
 - Create pie chart (with `coord_polar`) 
 
-
 # 5: Data transformation
 
 ```{r, setup_5, echo = TRUE, eval = TRUE}
@@ -484,13 +495,11 @@ Key skills conveyed include transforming data by using essential `dplyr` command
 
 ### Using `dplyr::starwars` dataset
 
-**`r nr<-nr+1; nr`.** Let's explore the `dplyr::starwars` universe within the tidyverse. 
+**`r nr<-nr+1; nr`.** Let's tackle the universe with the tidyverse by uncovering some facts about the `dplyr::starwars` dataset. 
 
-Please answer the following questions by using pipes of basic `dplyr` commands (i.e., arranging, filtering, selecting, grouping, counting, summarizing).
-
+Answer the following questions by using pipes of basic `dplyr` commands (i.e., arranging, filtering, selecting, grouping, counting, summarizing).
 
 **`r nr`a.** Save the tibble `dplyr::starwars` as `sw` and reports its dimensions (1). 
-
 
 **`r nr`b.** Missing values and known unknowns:
 
@@ -512,7 +521,6 @@ Please answer the following questions by using pipes of basic `dplyr` commands (
 - Of which species in `sw` exist at least 2 different gender values? (1)
 
 
-
 **`r nr`d.** Popular homes and heights:
 
 - From which `homeworld` do the most indidividuals (rows) come from? (1)
@@ -529,7 +537,6 @@ Please answer the following questions by using pipes of basic `dplyr` commands (
 - Sort `h_m` to list the 3 species with the smallest individuals (in terms of mean height) (1).
 
 - Sort `h_m` to list the 3 species with the heaviest individuals (in terms of median mass) (1).
-
 
 ```{r, starwars_transformations}
 # library(tidyverse)
@@ -580,7 +587,6 @@ sw %>%
   count() %>%
   filter(nn > 1)
 
-
 ## (d) Homeworld issues: ----- 
 
 # (+) Popular homes: From which homeworld do the most indidividuals (rows) come from? 
@@ -604,7 +610,6 @@ sw %>% filter(eye_color == "orange") # => 8 individuals
 sw %>% 
   filter(species == "Droid") %>%
   arrange(height)
-
 
 ## (4) Group summaries: ----- 
 
@@ -644,8 +649,6 @@ sw %>%
   arrange(desc(n)) %>%
   filter(n > 1)
 ```
-
-+++ here now +++
 
 ### Using `nycflights13::weather` dataset
 
@@ -728,7 +731,6 @@ weather %>%
   scale_x_continuous(breaks = 1:12) +
   theme_bw()
 
-
 ## Computation and visualization to answer a question: ----
 
 ## For each of the 3 airports: 
@@ -767,36 +769,39 @@ ggplot(weather_season, aes(x = summer, fill = summer)) +
 
 #### Definition 
 
-Let's define an _outlier_ as someone deviating by more than 2 SD (in some metric) from the mean of a reference group. Depending on the reference group, outliers can be computed in defined in 2 ways:  
+An _outlier_ can be defined as someone whose value in some metric deviates by more than 2 SD from the mean of a reference group. Depending on the reference group, outliers can be computed in defined in (at least) 2 ways: 
 
-1. relative to _overall_ mean and SD;  
+1. relative to the _overall sample_ mean and SD;  
 
-2. relative to _group_ mean and SD.  
+2. relative to _some subgroup's_ mean and SD.  
 
 Creating a suitable data set: 
 
 ```{r, outlier_create_data}
+library(tidyverse)
+
 ## Generate data: 
 set.seed(123)
 n <- 1000
 id <- paste0("p.", 1:n) # paste0(sample(LETTERS, 1), sample(LETTERS, 1))
 sex <- sample(x = c(0, 1), size = n, replace = TRUE)
 height <- rep(NA, n)
-noise <- round(rnorm(n, mean = 0, sd = 11), 0)
-height[sex == 0] <- 169 + noise[sex == 0]
-height[sex == 1] <- 181 + noise[sex == 1]
+noise_0 <- round(rnorm(n, mean = 0, sd = 8), 0)
+noise_1 <- round(rnorm(n, mean = 0, sd = 10), 0)
+height[sex == 0] <- 169 + noise_0[sex == 0]
+height[sex == 1] <- 181 + noise_1[sex == 1]
 
 data <- as_tibble(data_frame(id, factor(sex), height))
 names(data) <- c("id", "sex", "height")
 # data
-mean(data$height) # => 175.051
+mean(data$height) # => 174.782 (with seed 123)
 ```
 
 #### Tasks
 
 A. Create 2 variables for both types of outliers.
 
-B. Identify people who are outliers relative to _both_ the entire poulation _and_ to their own sex.
+B. Identify people who are outliers relative to _both_ the entire sample _and_ the sample of their own sex.
 
 C. Identify people (men and women) who are _not_ outliers relative to the entire population, but _are_ outliers relative to their own sex. (As men are taller than women on average, these are tall women and small men.)
 
@@ -806,11 +811,13 @@ and the raw data values for both types of outliers (by `sex`).
 #### Solution 
 
 To identify both groups, we first need to compute 2 outlier variables: One for the entire population and one for each subgroup (based on people's `sex`).
- 
-```{r, outlier_solution}
-crit <- 2 # criterion for outliers
 
-# (A)
+<!-- fig.show options: "asis", "hide", "hold", "animate" --> 
+
+```{r, outlier_solution, fig.show = "asis"}
+crit <- 2 # criterion for detecting outliers (in SD units)
+
+# (A) Compute means, SDs, and outliers of overall and by gender: -----  
 data_out <- data %>%
   mutate(mn_height = mean(height),
          sd_height = sd(height),
@@ -819,43 +826,49 @@ data_out <- data %>%
   mutate(mn_sex_height = mean(height),
          sd_sex_height = sd(height),
          out_sex_height = abs(height - mn_sex_height) > (crit * sd_sex_height))
-data_out
+# data_out
 
-# (B) outliers relative to entire population AND to their own group (sex):
+# (B) Show outliers relative to entire population AND to their own group (sex):
 out_1 <- data_out %>%
   filter(out_height & out_sex_height)
-out_1
+# out_1
 
-# (C) outliers relative to own sex, but NOT relative to entire population:
+# (C) Show outliers relative to own sex, but NOT relative to entire population:
 out_2 <- data_out %>%
   filter(!out_height & out_sex_height)
-out_2
+# out_2
 
-# (D) Visualization of the data: 
-# (a) All data: 
+# (D) Visualization of the data: ----- 
+
+# (a) Distributions of all data: 
 p <- ggplot(data) +
   geom_density(aes(x = height), fill = "gold", alpha = 2/3) +
   geom_density(aes(x = height, fill = factor(sex)), alpha = 1/4) +
+  labs(title = "Distribution of heights overall and by gender") +
   theme_bw()
 p
 
+# As 2 histograms: 
 p <- ggplot(data) +
   facet_wrap(~sex) + 
   geom_histogram(aes(x = height, fill = factor(sex)), binwidth = 5, alpha = 2/4) +
-  # geom_histogram(aes(x = height), binwidth = 10, fill = "forestgreen", alpha = 2/3) +
-  # geom_density(aes(x = height, fill = sex)) + 
+  labs(title = "Distribution of heights overall and by gender") +
   theme_bw()
 # p
 
 ## (b) 2 types of outliers:
-ggplot(out_1, aes(x = sex, y = height, color = sex)) +
-  geom_violin() + 
-  geom_jitter() + 
+ggplot(out_1, aes(x = sex, y = height)) +
+  geom_violin(aes(fill = sex)) + 
+  geom_jitter(size = 4, alpha = 2/3) + 
+  scale_fill_manual(values = c("firebrick", "steelblue3")) +
+  labs(title = "Outliers relative to both overall sample and gender") +
   theme_bw()
 
-ggplot(out_2, aes(x = sex, y = height, color = sex)) +
-  geom_violin() + 
-  geom_jitter() +
+ggplot(out_2, aes(x = sex, y = height)) +
+  geom_violin(aes(fill = sex)) + 
+  geom_jitter(size = 4, alpha = 2/3) + 
+  scale_fill_manual(values = c("firebrick", "steelblue3")) +
+  labs(title = "Outliers relative to gender but not overall sample") +
   theme_bw()
 ```
 
@@ -920,65 +933,13 @@ In chapter 16 (Dates and times: http://r4ds.had.co.nz/dates-and-times.html), thi
 
 Transform and visualize datasets to: 
 
-- detect and deal with missing values
-- view distributions of variables and outliers  
-- plot and interpret relationships between (categorical/continuous) variables 
+- detect and deal with missing values; 
+- view distributions of variables and outliers;   
+- plot and interpret relationships between (categorical/continuous) variables. 
 
 ## Example tasks 
 
-### Using `iris` data
-
-```{r, iris_EDA}
-?iris
-
-## Turn into tibble: ----- 
-df <- as_tibble(iris)
-df
-
-## Compute group counts and means: ----- 
-df %>%
-  group_by(Species) %>%
-  summarise(n = n(),
-            mn_sep.len = mean(Sepal.Length),
-            mn_sep.wid = mean(Sepal.Width),
-            mn_pet.len = mean(Petal.Length),
-            mn_pet.wid = mean(Petal.Width)
-            )
-
-## Graphical exploration: ----- 
-
-# (a) Means by species:
-ggplot(df, aes(x = Species, y = Sepal.Width, fill = Species)) +
-  # geom_violin() +
-  geom_boxplot() +
-  geom_point(position = "jitter")
-
-ggplot(df, aes(x = Species, y = Petal.Length, fill = Species)) +
-  # geom_violin() +
-  geom_boxplot() +
-  geom_point(position = "jitter")
-
-# (b) Relationship between 2 variables: 
-ggplot(df, aes(x = Sepal.Length, y = Sepal.Width, color = Species)) +
-  facet_wrap(~Species) +
-  geom_point(size = 3, alpha = 1/2, position = "jitter") +
-  # geom_smooth() +
-  # geom_density2d() +
-  coord_fixed()
-
-ggplot(df, aes(x = Petal.Length, y = Petal.Width, color = Species)) +
-  facet_wrap(~Species) +
-  geom_point(size = 3, alpha = 1/2, position = "jitter")
-
-ggplot(df, aes(x = Sepal.Width, y = Petal.Width, color = Species)) +
-  facet_wrap(~Species) +
-  geom_point(size = 3, alpha = 1/2, position = "jitter") +
-  # geom_density2d() +
-  coord_fixed()
-
-## Turn iris df into long format using tidyr::gather ----- 
-## (see Chapter 12: Tidy Data below)
-```
+Examples of tasks are contained in the other chapters (see tasks on "multiple chapters" below).
 
 ### Using `mtcars` data
 
@@ -1059,7 +1020,7 @@ Turn data into tibbles:
 
 ## Example tasks 
 
-Commands to create and convert to tibbles are included in tasks to other chapters. 
+The commands to create and convert to tibbles are included in tasks to other chapters. 
 
 
 # 12: Tidy Data
@@ -1075,75 +1036,33 @@ Wrangle data to:
 
 ## Example tasks 
 
-### Using `iris` dataset
+### Using own stock (`st`) dataset
 
-```{r, iris_tidyr}
-# ?iris
-
-## Turn into tibble: ----- 
-df <- as_tibble(iris)
-df
-
-## Compute group counts and means: ----- 
-cm1 <- df %>%
-  group_by(Species) %>%
-  summarise(n = n(),
-            mn_sep.len = mean(Sepal.Length),
-            mn_sep.wid = mean(Sepal.Width),
-            mn_pet.len = mean(Petal.Length),
-            mn_pet.wid = mean(Petal.Width)
-            )
-cm1
-## Check: Sum of all means  
-sum(cm1$mn_sep.len) + sum(cm1$mn_sep.wid) + sum(cm1$mn_pet.len) + sum(cm1$mn_pet.wid)  # => 41.574
-
-
-## Turn df into long format using tidyr::gather ----- 
-df_long <- df %>%
-  gather(Sepal.Length:Petal.Width, key = "type", value = "val") %>%
-  separate("type", into = c("part", "metric"), sep = "\\.")
-
-df_long
-dim(df_long)
-
-## Recompute group counts and means: ----- 
-cm2 <- df_long %>%
-  group_by(Species, part, metric) %>%
-  summarise(n = n(),
-            mn_val = mean(val)
-            )
-cm2
-
-## Check: Sum of all means  
-sum(cm2$mn_val) # => 41.574
-
-
-## Bonus task: Turn df_long back into original wide format using tidyr::spread -----
-df_long
-
-df_long <- rownames_to_column(df_long, var = "id") # add id column
-df_long$id <- parse_integer(df_long$id)            # make integer
-df_long
-
-df_long %>%
-  unite(type, part, metric, sep = ".") %>%  # unite part and metric into "type" column
-  spread(key = type, value = val) %>%      # spread "type" variable into multiple columns
-  arrange(id)
-
-# ???: Still contains 600 rows (and 3 out of 4 empty columns).
-# +++ here now +++
-
+```{r stock_data_definition, echo = FALSE, eval = TRUE}
+# Define the stock data (to be shown below) as a tibble: 
+st <- tribble(
+  ~stock, ~d1_start, ~d1_end, ~d2_start, ~d2_end, ~d3_start, ~d3_end,  
+  #-----|----------|--------|----------|--------|----------|--------|
+  "Amada",   2.5,     3.6,    3.5,       4.2,      4.4,       2.8,            
+  "Betix",   3.3,     2.9,    3.0,       2.1,      2.3,       2.5,  
+  "Cevis",   4.2,     4.8,    4.6,       3.1,      3.2,       3.7     
+)
 ```
 
-### Using own stock (`st`) dataset
 
 **`r nr<-nr+1; nr`.** The following table shows the start and end price of 3 stocks on 3 days (d1, d2, d3):
 
-| stock | d1_start | d1_end | d2_start | d2_end | d3_start | d3_end |  
-|-------|----------|--------|----------|--------|----------|--------|
-| "Amada"|   2.5  |   3.6   |  3.5    |    4.2  |   4.4   |   2.8  |            
-| "Betix"|   3.3  |   2.9   |  3.0    |    2.1  |   2.3   |   2.5  |  
-| "Cevis"|   4.2  |   4.8   |  4.6    |    3.7  |   3.8   |   3.1  |
+```{r stock_data_table, echo = FALSE, eval = TRUE}
+knitr::kable(st, caption = "Stock data example showing the start and end prices of the shares of 3 companies on 3 days.")
+```
+
+<!-- Data as Rmd table in text: 
+| stock  | d1_start | d1_end | d2_start | d2_end | d3_start | d3_end |  
+|---------|---------|--------|----------|--------|----------|--------|
+| "Amada" |   2.5  |   3.6   |   3.5    |  4.2   |   4.4    |   2.8  |            
+| "Betix" |   3.3  |   2.9   |   3.0    |  2.1   |   2.3    |   2.5  |  
+| "Cevis" |   4.2  |   4.8   |   4.6    |  3.1   |   3.2    |   3.7  |
+--> 
 
 **`r nr`a.** Create a tibble `st` that contains this data in this (wide) format (1). 
 
@@ -1158,15 +1077,14 @@ Adjust it so that the `day` and `time` appear as 2 separate columns (1).
 # library(tidyverse)
 
 ## (a) Enter stock data (in wide format) as a tibble:
-
 st <- tribble(
   ~stock, ~d1_start, ~d1_end, ~d2_start, ~d2_end, ~d3_start, ~d3_end,  
   #-----|----------|--------|----------|--------|----------|--------|
   "Amada",   2.5,     3.6,    3.5,       4.2,      4.4,       2.8,            
   "Betix",   3.3,     2.9,    3.0,       2.1,      2.3,       2.5,  
-  "Cevis",   4.2,     4.8,    4.6,       3.7,      3.8,       3.1     
+  "Cevis",   4.2,     4.8,    4.6,       3.1,      3.2,       3.7     
 )
-# st
+dim(st)
 
 ## Note data structure: 
 ## 2 nested factors: day (1 to 3), type (start or end).
@@ -1222,13 +1140,217 @@ st_long3 %>%
 ```
 
 
+# Multiple chapters
+
+## Using `iris` dataset
+
+**`r nr<-nr+1; nr`.** The `iris` data (contained in R datasets) provides the measurements (in cm) of plant parts (length and width of _sepal_ and _petal_ parts) for 50 flowers from each of 3 species of iris (called _setosa_, _versicolor_, and _virginica_).
+
+### Exploratory data analysis (EDA)
+
+**`r nr`a.** Save `datasets::iris` a tibble `ir` that contains this data and inspect it. 
+Are there any missing values? (2). 
+
+**`r nr`b.** Compute a summary table that shows the means of the 4 measurement columns (`Sepal.Length`, `Sepal.Width`, `Petal.Length`, `Petal.Width`) for each of the 3 `Species` (in rows). 
+Save the resulting table of means as a tibble `im1` (2).
+
+**`r nr`c.** Create a histogram that shows the distribution of `Sepal.Width` values 
+across all species (1). 
+
+**`r nr`d.** Create a graph that shows the shape of the distribution of `Sepal.Width` values 
+separately for each species (1). 
+
+**`r nr`e.** Create a graph that shows `Petal.Width` as a function of `Sepal.Width` 
+separately for each species (1). 
+
+```{r, iris_EDA}
+# ?iris
+
+## (a) Turn into tibble and inspect: ----- 
+ir <- as_tibble(datasets::iris)
+dim(ir)        # => 150 observations (rows) x 5 variables (columns)
+sum(is.na(ir)) # =>   0 missing values
+
+## (b) Compute counts and means by species: ----- 
+im1 <- ir %>%
+  group_by(Species) %>%
+  summarise(n = n(),
+            mn_sep.len = mean(Sepal.Length),
+            mn_sep.wid = mean(Sepal.Width),
+            mn_pet.len = mean(Petal.Length),
+            mn_pet.wid = mean(Petal.Width)
+            )
+
+# Print im1 (as table with 4 variables of means): 
+knitr::kable(im1, caption = "Average iris measures (4 variables of mean values).") 
+
+## Graphical exploration: ----- 
+
+## Distribution of 1 (continuous) variable:
+
+## (c) Distribution of Sepal.Width across species:
+ggplot(ir, aes(x = Sepal.Width)) +
+  geom_histogram(binwidth = .1, fill = "forestgreen") + 
+  labs(title = "Distribution of sepal width across iris species") +
+  theme_bw()
+
+## Distributions/relationships between 2 variables (1 categorical, 1 continuous):
+
+## (d) The distributions of Sepal.Width by species:
+ggplot(ir, aes(x = Species, y = Sepal.Width, fill = Species, shape = Species)) +
+  geom_violin() +
+  geom_point(size = 4, alpha = 1/2, position = "jitter") +
+  labs(title = "Distributions of sepal width by iris species") +
+  theme_bw()
+
+## Alternative solution using density plots: 
+ggplot(ir, aes(x = Sepal.Width, fill = Species)) +
+  facet_wrap(~Species) + 
+  geom_density() +
+  labs(title = "Distributions of sepal width by iris species") + 
+  coord_fixed() +
+  theme_bw()
+
+## Relationships between 2 variables (2 continuous):
+
+## (e) Petal.Width as a function of Sepal.Width by iris species: 
+ggplot(ir, aes(x = Sepal.Width, y = Petal.Width, color = Species, shape = Species)) +
+  facet_wrap(~Species) +
+  geom_jitter(size = 3, alpha = 2/3) +
+  # geom_density2d() +
+  coord_fixed() +
+  labs(title = "Petal width as a function of sepal width by iris species") +
+  theme_bw()
+
+## next: Turn iris df into long format using tidyr::gather ----- 
+## (see below)
+```
+
+### Tidy data
+
+**`r nr`f.** Re-format your tibble `ir` into a tibble `ir_long` which in "long format" (2). 
+
+Hint: Use `tidyr::gather` and `separate` to turn `ir` into a tibble that contains only 1 dependent variable for the value of measurements (e.g., `val`), but 2 categorical variables that specify the `part` (Sepal vs. Petal) and `metric` (Length vs. Width) of each observation.
+
+**`r nr`g.** Use `ir_long` to recompute the subgroup means (for each combination of species, plant part, and metric) computed in **`r nr`b.**.  Save the resulting table of means as a tibble `im2` and verify that they have not changed from `im1` above (2). 
+
+**`r nr`h.** Visualize the relationships between the means of `im2` (i.e., the mean measurements by plant part and metric) separately for each species (2). 
+
+Hints: This task asks for showing the value of a continuous variable (the value of means) as a function of 2 categorical variables (the plant `part` and type of `metric`). Possible solutions could incorporate either `geom_line` or `geom_tile` and use different facets for different `Species`. 
+
+**`r nr`i.** **Bonus task:** Re-format your tibble `ir_long` (in long format) into a wider tibble `ir_short` that corresponds to the original `ir` dataset (2). 
+
+Hint: This task primarily calls for applying `tidyr::spread` and `unite` commands on `ir_long`. 
+However, `spread` will encounter an error unless every individual plant is identified by a unique variable (e.g., `id` number).  This can be achieved by adding a numeric counter variable `id` (with values of `rep(1:50, 3)`) to `ir` _before_ creating `df_long`. 
+
+```{r, iris_tidyr}
+## Data (from above): 
+# ?iris
+# ir <- as_tibble(datasets::iris)
+# ir
+
+## (f) Re-format ir into long format (using tidyr::gather) ----- 
+ir_long <- ir %>% 
+  mutate(id = rep(1:50, 3)) %>%   # add a unique id to each plant [to enable (i) below]
+  gather(Sepal.Length:Petal.Width, key = "type", value = "val") %>%
+  separate("type", into = c("part", "metric"), sep = "\\.")
+
+ir_long
+dim(ir_long) # => 600 rows x 5 columns
+
+## (g) Recompute group counts and means from ir_long: ----- 
+im2 <- ir_long %>%
+  group_by(Species, part, metric) %>%
+  summarise(n = n(),
+            mn_val = mean(val)
+            )
+
+# Print im2 (as table with 4 variables of means): 
+knitr::kable(im2, caption = "Average iris measures (1 variable of mean values).")
+
+## Check: Compare sums of all means in im1 vs. im2: 
+sum1 <- sum(im1$mn_sep.len) + sum(im1$mn_sep.wid) + 
+        sum(im1$mn_pet.len) + sum(im1$mn_pet.wid)  # => 41.574
+sum2 <- sum(im2$mn_val)  # => 41.574
+sum1 == sum2             # => TRUE (qed)
 
 
-# All chapters
+## Showing the value of a continuous variable by 2 categorical variables: ----- 
 
-Create a (psychological) dataset that allows illustrating contents from all chapters. 
+## (h) Visualize the means of im2 (i.e., mean measurements by plant part and metric) 
+##     as a line plot separately for each species:
+ggplot(im2, aes(x = part, y = mn_val, group = metric, color = metric)) +
+  facet_wrap(~Species) +
+  geom_point(aes(shape = metric), size = 3) +
+  geom_line(aes(linetype = metric)) +
+  labs(title = "Mean petal and sepal lengths and widths by iris species") + 
+  theme_bw()
+
+## Alternative solution using tile plots:
+ggplot(im2, aes(x = part, y = metric)) +
+  facet_wrap(~Species) +
+  geom_tile(aes(fill = mn_val)) +
+  geom_text(aes(label = mn_val), color = "white") + 
+  labs(title = "Mean petal and sepal lengths and widths by iris species") + 
+  theme_bw()
+
+## Note: Using raw values (df_long) to visualize the distributions of val 
+##       as a function of Species, plant part, and metric:
+ggplot(ir_long, aes(x = part, y = val, fill = Species)) + 
+  facet_wrap(~Species) +
+  geom_violin() +
+  geom_jitter(aes(shape = metric), size = 2, alpha = 2/3) + 
+  labs(title = "Mean petal and sepal lengths and widths by iris species") + 
+  theme_bw()
+
+## (i) Turn df_long back into original wide format using tidyr::spread -----
+# ir_long
+
+# PROBLEM with original iris data:  
+# Many val have identical combinations of values of 
+# Species, part, and metric. 
+
+# This is due to the original iris dataset, which include 50 plants
+# for each species that were not further distinguished.
+
+# However, this creates a problem when trying to re-format from 
+# long format into a wider format. Doing so would create an error
+# "Error: Duplicate identifiers ..." 
+
+# Thus, we need to add a variable `id` that uniquely identifies each plant. 
+
+# Hack: Adding id to ir_long to recover original id to each individual plant.  
+#       (Note that this relies on knowing the order of plants in ir_long):
+
+# ir_long$id <- rep(1:50, 4*3)
+# ir_long
+
+# A better solution: Adding id = 1:50 to the _original_ data set 
+# (before turning it into long format above)!                             
+
+## (i) Re-format ir_long into shorter format (using tidyr::spread) ----- 
+ir_short <- ir_long %>%
+  unite(type, part, metric, sep = ".") %>%  # unite part and metric into "type" column
+  spread(key = type, value = val) %>%       # spread "type" variable into multiple columns
+  arrange(Species, id)
+
+ir_short
+
+## Verify identity of all measurement values in ir and ir_short: 
+all.equal(ir$Sepal.Length, ir_short$Sepal.Length) & 
+all.equal(ir$Sepal.Width,  ir_short$Sepal.Width)  &
+all.equal(ir$Petal.Length, ir_short$Petal.Length) & 
+all.equal(ir$Petal.Width,  ir_short$Petal.Width)  # => TRUE (qed) 
+```
+
++++ here now +++
+
+
+## Own datasets
 
 ### Create people data
+
+Create a (psychological) dataset that allows illustrating contents from all chapters. 
 
 ```{r, create_people_data, include = TRUE}
 n <- 1000     # [n]umber of participants
@@ -1425,7 +1547,6 @@ IVs
 ## - Zodiac sign (from birthday)
 ```
 
-
 Adding a random amount (number or proportion) of NA values to a vector:
 
 ```{r add_random_NA_values}
@@ -1474,8 +1595,6 @@ add_whats(1:10, 3, what = 99)
 add_whats(1:10, .5, what = "ABC")
 
 ```
-
-+++ here now +++
 
 ### Create experimental data
 
