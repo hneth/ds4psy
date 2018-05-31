@@ -85,6 +85,54 @@ unikn.pal = data.frame(                             ## in one df (for the yarrr 
 nr <- 0
 ```
 
+```{r utility_add_random_NA_values, echo = FALSE, eval = TRUE}
+# Adding a random amount (number or proportion) of NA or other values to a vector:
+
+## Function to replace a random amount of vector elements by NA values:  
+add_NAs <- function(vec, amount){
+  
+  stopifnot((is.vector(vec)) & (amount >= 0) & (amount <= length(vec)))
+
+  out <- vec
+  n <- length(vec)
+  
+  amount2 <- ifelse(amount < 1, round(n * amount, 0), amount) # turn amount prop into n
+  
+  out[sample(x = 1:n, size = amount2, replace = FALSE)] <- NA
+  
+  return(out)
+
+}
+
+## Check:
+# add_NAs(1:10, 0)
+# add_NAs(1:10, 3)
+# add_NAs(1:10, .5)
+# add_NAs(letters[1:10], 3)
+
+## Generalization: Replace a random amount of vector elements by what: 
+add_whats <- function(vec, amount, what = NA){
+  
+  stopifnot((is.vector(vec)) & (amount >= 0) & (amount <= length(vec)))
+
+  out <- vec
+  n <- length(vec)
+  
+  amount2 <- ifelse(amount < 1, round(n * amount, 0), amount) # turn amount prop into n
+  
+  out[sample(x = 1:n, size = amount2, replace = FALSE)] <- what
+  
+  return(out)
+
+}
+
+## Check:
+# add_whats(1:10, 3) # default: what = NA
+# add_whats(1:10, 3, what = 99)
+# add_whats(1:10, .5, what = "ABC")
+
+```
+
 # Introduction
 
 ## Course Coordinates
@@ -767,41 +815,72 @@ ggplot(weather_season, aes(x = summer, fill = summer)) +
 
 ### Own data: Identifying outliers
 
-#### Definition 
+**`r nr<-nr+1; nr`.** An _outlier_ can be defined as someone whose value in some metric deviates by more than some criterion (e.g., 2 standard deviations) from the mean. But this definition is incomplete, as it does not specify the appropriate reference group. This task explores the implications of different reference groups.
 
-An _outlier_ can be defined as someone whose value in some metric deviates by more than 2 SD from the mean of a reference group. Depending on the reference group, outliers can be computed in defined in (at least) 2 ways: 
+```{r, outlier_create_data, echo = FALSE, eval = TRUE}
+# library(tidyverse)
 
-1. relative to the _overall sample_ mean and SD;  
-
-2. relative to _some subgroup's_ mean and SD.  
-
-Creating a suitable data set: 
-
-```{r, outlier_create_data}
-library(tidyverse)
-
-## Generate data: 
+## Creating a suitable data set: 
 set.seed(123)
 n <- 1000
-id <- paste0("p.", 1:n) # paste0(sample(LETTERS, 1), sample(LETTERS, 1))
+id <- paste0("nr.", 1:n) # paste0(sample(LETTERS, 1), sample(LETTERS, 1))
 sex <- sample(x = c(0, 1), size = n, replace = TRUE)
 height <- rep(NA, n)
 noise_0 <- round(rnorm(n, mean = 0, sd = 8), 0)
-noise_1 <- round(rnorm(n, mean = 0, sd = 10), 0)
+noise_1 <- round(rnorm(n, mean = 0, sd = 11), 0)
 height[sex == 0] <- 169 + noise_0[sex == 0]
 height[sex == 1] <- 181 + noise_1[sex == 1]
 
-data <- as_tibble(data_frame(id, factor(sex), height))
+## Modify data:
+height <- add_NAs(height, amount = 18)  # 1.8% NA values in height
+height[sex == 0] <- add_whats(vec = height[sex == 0], amount = 1, what = 202) # add a tall woman
+# sex <- add_NAs(sex, amount = 3)          # 2  NA values in sex
+
+## Save data as tibble: 
+data <- as_tibble(data_frame(id, sex, height))
+data$sex <- factor(data$sex, labels = c("female", "male"))
 names(data) <- c("id", "sex", "height")
-# data
-mean(data$height) # => 174.782 (with seed 123)
+
+## Check data:
+mean(data$sex == "female", na.rm = TRUE)  # => .507
+mean(data$height, na.rm = TRUE)           # => 174.7006 (with seed 123)
 ```
+
+**`r nr`a.** Save the data into a tibble `data` and report its number of observations and variables (1).  
+
+**`r nr`b.** How many missing data values are there in `data`(1)? 
+
+**`r nr`c.** What is the gender distribution in this sample (1)? 
+
+**`r nr`d.** Create a graph that shows the distribution of `height` values for each gender (1).
+
+<!-- Definition: Outlier -->
+
+**`r nr`e.** Compute 2 new variables that signal and distinguish between 2 types of outliers in terms of `height`: 
+
+1. outliers relative to the `height` of the _overall sample_ (i.e., people with `height` values deviating more than 2 SD from the overall mean of `height`) (1);
+
+2. outliers relative to the `height` of _some subgroup's_ mean and SD. In the present case, the subgroup to consider is every person's gender (i.e., people with `height` values deviating more than 2 SD from the mean `height` of their own gender) (1).
+
+Hint: Both variables can be defined as logical variables and added as new columns of `data` (via `mutate`). While the first variable can directly be computed based on the mean and SD of the overall sample, the second variable can be computed after grouping `data` by gender and then computing the corresponding mean and SD. 
+
+**`r nr`f.** Use the 2 new variables to define and identify 2 subgroups of people: 
+
+1. `out_1`: Individuals (females and males) with `height` values that are outliers relative to _both_ the entire sample _and_ the sample of their own gender. How many such individuals are in `data` (1)? 
+
+2. `out_2`: Individuals (females and males) with `height` values that are _not_ outliers relative to the entire population, but _are_ outliers relative to their own gender. How many such individuals are in `data` (1)? 
+
+**`r nr`g.** Visualize the raw values and distributions of `height` for both types of outliers (`out_1` and `out_2`) in separate plots and describe the key features of individuals shown in each plot (2). 
+
+
+
++++ here now +++
 
 #### Tasks
 
 A. Create 2 variables for both types of outliers.
 
-B. Identify people who are outliers relative to _both_ the entire sample _and_ the sample of their own sex.
+B. Identify 
 
 C. Identify people (men and women) who are _not_ outliers relative to the entire population, but _are_ outliers relative to their own sex. (As men are taller than women on average, these are tall women and small men.)
 
@@ -815,48 +894,86 @@ To identify both groups, we first need to compute 2 outlier variables: One for t
 <!-- fig.show options: "asis", "hide", "hold", "animate" --> 
 
 ```{r, outlier_solution, fig.show = "asis"}
+## (a) Save and inspect data:
+data <- as_tibble(data)
+dim(data)  # => 1000 observations (rows) x 3 variables (columns)
+
+## (b) Missing data points: 
+sum(is.na(data))  # => 18 missing values
+
+## (c) Gender distribution: 
+data %>% 
+  group_by(sex) %>% 
+  count()
+# => 50.7% females, 49.3% males.
+
+## (d) Distributions of `height` as density plot: 
+ggplot(data, aes(x = height)) +
+  geom_density(fill = "gold", alpha = 2/3) +
+  geom_density(aes(fill = sex), alpha = 2/5) +
+  labs(title = "Distribution of heights overall and by gender", 
+       fill = "Gender") +
+  theme_bw()
+
+## Alternative solution as 2 histograms: 
+ggplot(data) +
+  facet_wrap(~sex) + 
+  geom_histogram(aes(x = height, fill = sex), binwidth = 5, color = "grey10") +
+  labs(title = "Distribution of heights overall and by gender",
+       fill = sex) +
+  scale_fill_manual(values = c("firebrick", "steelblue3")) +
+  theme_bw()
+
+## (+) Compute the number, means and SD of height values:
+{
+  ## 1. overall: 
+  data %>%
+    summarise(n = n(),
+              n_not_NA = sum(!is.na(height)),
+              mn_height = mean(height, na.rm = TRUE),
+              sd_height = sd(height, na.rm = TRUE))
+  
+  ## 2. by gender:
+  data %>%
+    group_by(sex) %>%
+    summarise(n = n(),
+              n_not_NA = sum(!is.na(height)),
+              mn_height = mean(height, na.rm = TRUE),
+              sd_height = sd(height, na.rm = TRUE))
+  }
+
+## (e) Compute means, SDs, and outliers of overall and by sex: -----  
 crit <- 2 # criterion for detecting outliers (in SD units)
 
-# (A) Compute means, SDs, and outliers of overall and by gender: -----  
 data_out <- data %>%
-  mutate(mn_height = mean(height),
-         sd_height = sd(height),
+  mutate(mn_height = mean(height, na.rm = TRUE),
+         sd_height = sd(height, na.rm = TRUE),
          out_height = abs(height - mn_height) > (crit * sd_height)) %>%
   group_by(sex) %>%
-  mutate(mn_sex_height = mean(height),
-         sd_sex_height = sd(height),
+  mutate(mn_sex_height = mean(height, na.rm = TRUE),
+         sd_sex_height = sd(height, na.rm = TRUE),
          out_sex_height = abs(height - mn_sex_height) > (crit * sd_sex_height))
 # data_out
 
-# (B) Show outliers relative to entire population AND to their own group (sex):
+## (f) Identify 2 types of outliers: 
+## 1. Outliers relative to entire population AND to their own gender: 
 out_1 <- data_out %>%
-  filter(out_height & out_sex_height)
-# out_1
+  filter(out_height & out_sex_height) %>%
+  arrange(sex, height)
 
-# (C) Show outliers relative to own sex, but NOT relative to entire population:
+nrow(out_1) # => 21 individuals. 
+
+## 2. Outliers relative to their own gender, but NOT relative to entire population:
 out_2 <- data_out %>%
-  filter(!out_height & out_sex_height)
-# out_2
+  filter(!out_height & out_sex_height) %>%
+  arrange(sex, height)  
 
-# (D) Visualization of the data: ----- 
+nrow(out_2) # => 24 individuals.
 
-# (a) Distributions of all data: 
-p <- ggplot(data) +
-  geom_density(aes(x = height), fill = "gold", alpha = 2/3) +
-  geom_density(aes(x = height, fill = factor(sex)), alpha = 1/4) +
-  labs(title = "Distribution of heights overall and by gender") +
-  theme_bw()
-p
+## Visualization of both outlier types (out_1 and out_2): ----- 
 
-# As 2 histograms: 
-p <- ggplot(data) +
-  facet_wrap(~sex) + 
-  geom_histogram(aes(x = height, fill = factor(sex)), binwidth = 5, alpha = 2/4) +
-  labs(title = "Distribution of heights overall and by gender") +
-  theme_bw()
-# p
-
-## (b) 2 types of outliers:
+## (g) 2 types of outliers:
+## 1. out_1: 
 ggplot(out_1, aes(x = sex, y = height)) +
   geom_violin(aes(fill = sex)) + 
   geom_jitter(size = 4, alpha = 2/3) + 
@@ -864,12 +981,20 @@ ggplot(out_1, aes(x = sex, y = height)) +
   labs(title = "Outliers relative to both overall sample and gender") +
   theme_bw()
 
+# Interpretation: 
+# `out_1` mostly contains short women (except for 1 tall woman) 
+# and tall men (except for 2 short men). 
+
+## 2. out_2: 
 ggplot(out_2, aes(x = sex, y = height)) +
   geom_violin(aes(fill = sex)) + 
   geom_jitter(size = 4, alpha = 2/3) + 
   scale_fill_manual(values = c("firebrick", "steelblue3")) +
   labs(title = "Outliers relative to gender but not overall sample") +
   theme_bw()
+
+# Interpretation: 
+# `out_2` contains individuals which are either tall women or short men.
 ```
 
 ### Using `flight` dataset to compute duration
@@ -1544,57 +1669,9 @@ IVs
 ## To compute (from IVs):
 ## - Age (from byear, but adjusting by bday)
 ## - Birth season (spring, summer, autumn, winter)
-## - Zodiac sign (from birthday)
+## - Zodiac sign (from birthday, using cut() or join functions)
 ```
 
-Adding a random amount (number or proportion) of NA values to a vector:
-
-```{r add_random_NA_values}
-
-## Function to replace a random amount of vector elements by NA values:  
-add_NAs <- function(vec, amount){
-  
-  stopifnot((is.vector(vec)) & (amount >= 0) & (amount <= length(vec)))
-
-  out <- vec
-  n <- length(vec)
-  
-  amount2 <- ifelse(amount < 1, round(n * amount, 0), amount) # turn amount prop into n
-  
-  out[sample(x = 1:n, size = amount2, replace = FALSE)] <- NA
-  
-  return(out)
-
-}
-
-## Check:
-add_NAs(1:10, 0)
-add_NAs(1:10, 3)
-add_NAs(1:10, .5)
-add_NAs(letters[1:10], 3)
-
-## Generalization: Replace a random amount of vector elements by what: 
-add_whats <- function(vec, amount, what = NA){
-  
-  stopifnot((is.vector(vec)) & (amount >= 0) & (amount <= length(vec)))
-
-  out <- vec
-  n <- length(vec)
-  
-  amount2 <- ifelse(amount < 1, round(n * amount, 0), amount) # turn amount prop into n
-  
-  out[sample(x = 1:n, size = amount2, replace = FALSE)] <- what
-  
-  return(out)
-
-}
-
-## Check:
-add_whats(1:10, 3) # default: what = NA
-add_whats(1:10, 3, what = 99)
-add_whats(1:10, .5, what = "ABC")
-
-```
 
 ### Create experimental data
 
