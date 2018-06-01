@@ -1,7 +1,7 @@
 ---
 title: "Test Questions (ds4psy)"
 author: "Hansjörg Neth, SPDS, uni.kn"
-date: "2018 05 31"
+date: "2018 06 01"
 output:
    rmdformats::html_clean: # html_clean html_docco readthedown material #
      code_folding: show # hide
@@ -962,14 +962,14 @@ data_out <- data %>%
 
 ## (f) Identify 2 types of outliers: ----- 
 
-## 1. Outliers relative to entire population AND to their own gender: 
+## 1. Outliers relative to the entire population AND to their own gender: 
 out_1 <- data_out %>%
   filter(out_height & out_sex_height) %>%
   arrange(sex, height)
 
 nrow(out_1) # => 21 individuals. 
 
-## 2. Outliers relative to their own gender, but NOT relative to entire population:
+## 2. Outliers relative to their own gender, but NOT relative to the entire population:
 out_2 <- data_out %>%
   filter(!out_height & out_sex_height) %>%
   arrange(sex, height)  
@@ -984,7 +984,9 @@ ggplot(out_1, aes(x = sex, y = height)) +
   geom_violin(aes(fill = sex)) + 
   geom_jitter(size = 4, alpha = 2/3) + 
   scale_fill_manual(values = c("firebrick", "steelblue3")) +
-  labs(title = "Outliers relative to both overall sample and gender") +
+  labs(title = "Outliers relative to both overall sample and gender", 
+       x = "Gender", y = "Height (in cm)", 
+       fill = "Gender:") +
   theme_bw()
 
 # Interpretation: 
@@ -996,7 +998,9 @@ ggplot(out_2, aes(x = sex, y = height)) +
   geom_violin(aes(fill = sex)) + 
   geom_jitter(size = 4, alpha = 2/3) + 
   scale_fill_manual(values = c("firebrick", "steelblue3")) +
-  labs(title = "Outliers relative to gender but not overall sample") +
+  labs(title = "Outliers relative to gender but not overall sample", 
+       x = "Gender", y = "Height (in cm)", 
+       fill = "Gender:") +
   theme_bw()
 
 # Interpretation: 
