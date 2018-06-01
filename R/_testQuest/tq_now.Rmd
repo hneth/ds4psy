@@ -81,8 +81,9 @@ unikn.pal = data.frame(                             ## in one df (for the yarrr 
   "white"    = rgb(255, 255, 255, maxColorValue = 255), # 10. white
   stringsAsFactors = FALSE)
 
-## (f) Exercise counter: ----- 
-nr <- 0
+## (f) Counters: ----- 
+nr <- 0  # task number
+pt <- 0  # point total
 ```
 
 ```{r utility_add_random_NA_values, echo = FALSE, eval = TRUE}
@@ -228,7 +229,9 @@ Key skills to be acquired in this context include creating:
 **`r nr`b.** Use a `dplyr` pipe to compute the number of observations (rows) in each `group` 
 and key descriptives (their mean, median, and standard deviation) (2).
 
-**`r nr`c.** Use `ggplot` to create a graph that shows the medians and raw values of plant `weight` by `group` (2). Hint: Use 2 different geoms to show both medians and raw values in the same plot. The order of layers is determined by the order of geom commands. 
+**`r nr`c.** Use `ggplot` to create a graph that shows the medians and raw values of plant `weight` by `group` (2). 
+
+Hints: Use 2 different geoms to show both medians and raw values in the same plot. The order of layers is determined by the order of geom commands. 
 
 ```{r plantGrowth, echo = TRUE, eval = TRUE, fig.show = "hold"}
 # ?datasets::PlantGrowth
@@ -250,24 +253,32 @@ pg %>%
 ggplot(pg, aes(x = group, y = weight)) +
   # geom_violin() +
   geom_boxplot(aes(fill = group)) +
-  geom_point(aes(shape = group), alpha = 2/3, size = 4, position = "jitter") +
+  geom_point(aes(shape = group), alpha = 2/3, size = 4, position = "jitter") + 
+  ## Pimping plot: 
   labs(title = "Plant weight by group", x = "Group", y = "Weight", 
-       caption = "[Using datasets::PlantGrowth data.]") +
+       caption = "Data from datasets::PlantGrowth.") + 
+  scale_fill_manual(values = c("grey75", "gold", "steelblue3")) +
   theme_bw()
+
+pt <- pt + 5  # increment point total
 ```
 
-### Using `sleep` data
+### Time to sleep 
+
+Using `sleep` data: 
 
 **`r nr<-nr+1; nr`.** The `sleep` data (contained in R datasets) shows the effect of 2 sleep-promoting drugs (as an increase in hours of sleep compared to a control group) for 10 patients.
 
-**`r nr`a.** Save the `sleep` data as a tibble and inspect its dimensions (1 point). 
+**`r nr`a.** Save the `sleep` data as a tibble `sp` and inspect its dimensions (1 point). 
 
 **`r nr`b.** Use a `dplyr` pipe to compute the number of observations (rows) by group  
 and key descriptives (their mean, median, and standard deviation) (2).
 
-**`r nr`c.** Use `ggplot` to create a graph that shows the medians and raw values of `extra` sleep time by `group` (2). Hint: Use 2 different geoms to show both medians and raw values in the same plot. The order of layers is determined by the order of geom commands. 
+**`r nr`c.** Use `ggplot` to create a graph that shows the medians and raw values of `extra` sleep time by `group` (2). 
 
-**`r nr`d.** Reformat the `sleep` data so that the 2 groups appear in 2 lines (rows) and 10 subject IDs as 10 columns (1).
+Hints: Use 2 different geoms to show both medians and raw values in the same plot. The order of layers is determined by the order of geom commands. 
+
+**`r nr`d.** Reformat the `sleep` data in `sp` so that the 2 groups appear in 2 lines (rows) and 10 subject IDs as 10 columns (1). 
 
 ```{r, sleep, echo = TRUE, fig.show = "hold"}
 # ?datasets::sleep
@@ -285,21 +296,27 @@ sp %>%
             sd = sd(extra))
 
 # (c) Visualize the raw values and averages by group:
-ggplot(sp, aes(x = group, y = extra, color = group)) +
-  geom_boxplot() +
+ggplot(sp, aes(x = group, y = extra)) +
+  geom_boxplot(aes(fill = group)) +
   # geom_violin() +
-  geom_point(aes(shape = group), size = 4, position = "jitter") + 
+  geom_point(aes(shape = group), size = 4, alpha = 2/3, position = "jitter") + 
+  ## Pimping plot: 
   labs(title = "Extra sleep time by treatment group", x = "Treatment group", y = "Extra sleep time", 
-       caption = "[Using datasets::sleep data.]") +
+       caption = "Data from datasets::sleep.") + 
+  scale_fill_manual(values = c("gold1", "steelblue3")) +
   theme_bw()
 
 # (d) Reformat data so that the 2 groups appear in 2 lines, 
 #     and 10 subject IDs as 10 columns:
 sp %>%
   spread(key = ID, value = extra)
+
+pt <- pt + 6  # increment point total
 ```
 
-### Using `ChickWeight` data
+### Dietary chicks 
+
+Using `ChickWeight` data: 
 
 **`r nr<-nr+1; nr`.** The `ChickWeight` data (contained in R datasets) contains the results of an experiment that measures the effects of `Diet` on the early growth of chicks.
 
@@ -322,7 +339,7 @@ ggplot(cw, aes(x = Time, y = weight, group = Diet)) +
   geom_line(aes(group = Chick)) +
   geom_smooth(aes(color = Diet)) + 
   labs(title = "Chick weight by time for different diets", x = "Time (number of days)", y = "Weight (in gm)", 
-       caption = "[Using datasets::ChickWeight data.]") +
+       caption = "Data from datasets::ChickWeight.") +
   theme_bw()
 ```
 
@@ -334,13 +351,13 @@ We see that the initial `Diet` groups contain a different numbers of chicks and 
 ggplot(cw, aes(x = Time, fill = Diet)) +
   geom_bar(position = "dodge") +
   labs(title = "Number of chicks per diet over time", x = "Time (number of days)", y = "Number", 
-       caption = "[Using datasets::ChickWeight data.]") +
+       caption = "Data from datasets::ChickWeight.") +
   theme_bw()
 ```
 
 Instead of re-creating this plot, create a table (or tibble) that shows the same (4 x 12 = 48) data points in 4 rows (for the 4 different types of `Diet`) and 12 columns (for the different `Time` points) (2).
 
-Hint: First count the number of chicks per `Diet` and `Time`, then spread the results into a wider format (to show the time points as different columns).
+Hints: In a first step, count the number of chicks per `Diet` and `Time`. Next, spread the results into a wider format (to show the time points as different columns).
 
 ```{r, chickWeight_3, echo = TRUE}
 # (c) Re-create the counts of chicks per diet over time numerically (using `dplyr` and `tidyr`). 
@@ -362,9 +379,13 @@ cw %>%
     geom_point(size = 4, alpha = 1/2) +
     coord_flip() +
     theme_bw()
+
+pt <- pt + 5  # increment point total
 ```
 
-### Using `tidyr::table1` data 
+### Tabular TBC 
+
+Using `tidyr::table1` data 
 
 **`r nr<-nr+1; nr`.** The `tidyr::table1` shows the number of TB cases for 3 countries and 2 years. 
 
@@ -384,11 +405,16 @@ ggplot(tidyr::table1, aes(x = year, y = cases, fill = country)) +
   geom_bar(stat = "identity", position = "dodge", color = "black") + 
   geom_text(aes(label = cases), position = position_dodge(width = 0.9), vjust = -0.5) +
   scale_x_continuous(name = "Year", breaks = 1999:2000) + 
-  labs(title = "Cases per country and year", y = "Cases", caption = "[Using tidyr::table1 data.]") +
+  labs(title = "Cases per country and year", y = "Cases", 
+       caption = "Data from tidyr::table1.") +
   theme_classic()
+
+pt <- pt + 5  # increment point total
 ```
 
-### Own data: German election results
+### Party plots 
+
+(or "partial election plots"): Own data on 2017 German election results
 
 **`r nr<-nr+1; nr`.** The following table provides the percentage share of 2 major parties on the last 2 
 general elections of Germany (based on [this link](https://www.bundeswahlleiter.de/info/presse/mitteilungen/bundestagswahl-2017/34_17_endgueltiges_ergebnis.html)):
@@ -488,34 +514,15 @@ ggplot(de, aes(x = "", y = share_2017)) +
   scale_fill_manual(values = c("black", "red3", "gold")) +  # optional
   ## Pimping plot: 
   labs(title = "Partial pie of the German general election 2017", 
-       y = "Share of votes", caption = "[Data: www.bundeswahlleiter.de.]") +
+       y = "Share of votes", 
+       caption = "Data from www.bundeswahlleiter.de.") +
   coord_polar("y") +
   theme_minimal()
 
-## OLDER code (based on 2017 data ONLY): ----- 
-
-## (x) Create a data frame:
-df <- data.frame(
-    party = c("CDU/CSU", "SPD", "Others"),
-    # share_2013 = c((.341 + .074), .257, (1 - (.341 + .074) - .257)), 
-    share_2017 = c((.268 + .062), .205, (1 - (.268 + .062) - .205))
-  )
-df$party <- factor(df$party, levels = c("CDU/CSU", "SPD", "Others"))
-df
-
-## (y) Create a stacked bar chart:
-bp <- ggplot(data = df, mapping = aes(x = "", y = share_2017, fill = party)) +
-  geom_bar(stat = "identity") + 
-  scale_fill_manual(values = c("black", "red3", "gold")) + 
-  theme_bw()
-bp
-
-## (z) Create a pie chart: 
-pie <- bp + 
-  coord_polar("y", start = 0) +
-  theme_minimal()
-pie
+pt <- pt + 8  # increment point total
 ```
+
+### Tasks 
 
 - Create a data frame or tibble
 - Plot bar chart (with `stat = "identity"`)
@@ -541,13 +548,13 @@ Key skills conveyed include transforming data by using essential `dplyr` command
 
 ## Example tasks 
 
-### Using `dplyr::starwars` dataset
+### R wars
 
-**`r nr<-nr+1; nr`.** Let's tackle the universe with the tidyverse by uncovering some facts about the `dplyr::starwars` dataset. 
+Using `dplyr::starwars` dataset
 
-Answer the following questions by using pipes of basic `dplyr` commands (i.e., arranging, filtering, selecting, grouping, counting, summarizing).
+**`r nr<-nr+1; nr`.** Let's tackle the universe with the tidyverse by uncovering some facts about the `dplyr::starwars` dataset. Answer the following questions by using pipes of basic `dplyr` commands (i.e., arranging, filtering, selecting, grouping, counting, summarizing). 
 
-**`r nr`a.** Save the tibble `dplyr::starwars` as `sw` and reports its dimensions (1). 
+**`r nr`a.** Save the tibble `dplyr::starwars` as `sw` and report its dimensions (1). 
 
 **`r nr`b.** Missing values and known unknowns:
 
@@ -687,6 +694,8 @@ h_m %>% arrange(mn_height) %>% slice(1:3)
 # (+) Use `h_m` to list the 3 species with the heaviest individuals (in terms of median mass)?
 h_m %>% arrange(desc(md_mass)) %>%  slice(1:3)
 
+pt <- pt + 12  # increment point total
+
 
 ## (+) Other questions: ----- 
 
@@ -698,7 +707,9 @@ sw %>%
   filter(n > 1)
 ```
 
-### Using `nycflights13::weather` dataset
+### Weather flights 
+
+Using `nycflights13::weather` dataset
 
 Use the data set `nycflights13::weather` for questions that require 
 `filter`, `arrange`, `select`, `group_by`, `summarise` (count, NAs, means, medians), etc.
@@ -813,7 +824,9 @@ ggplot(weather_season, aes(x = summer, fill = summer)) +
   scale_fill_manual(values = c("steelblue3", "firebrick"))
 ```
 
-### Own data: Identifying outliers
+### Not all outliers are alike 
+
+Own data: Identifying outliers --- some outliers are more equal than others...
 
 **`r nr<-nr+1; nr`.** An _outlier_ can be defined as an individual whose value in some metric deviates by more than a given criterion (e.g., 2 standard deviations) from the mean. But this definition is incomplete unless it also specifies an appropriate reference group. This task explores the implications of different reference groups. 
 
@@ -880,8 +893,6 @@ Hints: As both variable signal whether or not someone is an outlier they should 
 2. `out_2`: Individuals (females and males) with `height` values that are _not_ outliers relative to the entire population, but _are_ outliers relative to their own gender. How many such individuals are in `data` (1)? 
 
 **`r nr`g.** Visualize the raw values and distributions of `height` for both types of outliers (`out_1` and `out_2`) in 2 separate plots and describe the `height` and `sex` combination of the individuals shown in each plot (2). 
-
-+++ here now +++
 
 <!-- fig.show options: "asis", "hide", "hold", "animate" --> 
 
@@ -1005,9 +1016,14 @@ ggplot(out_2, aes(x = sex, y = height)) +
 
 # Interpretation: 
 # `out_2` contains individuals which are either tall women or short men.
+
+pt <- pt + 10  # increment point total
 ```
 
-### Using `flight` dataset to compute duration
+
+### The length of flights 
+
+Using `flight` dataset to compute duration
 
 Using the `flights` dataset: 
 - Compute a variable `true_duration` as the duration of each flight (in minutes) from its `dep_time` and `arr_time`. 
@@ -1076,7 +1092,10 @@ Transform and visualize datasets to:
 
 Additional examples of tasks are contained in the other chapters (see tasks on "multiple chapters" below).
 
-### Using `mtcars` data
+
+### Cars
+
+Using `mtcars` data
 
 **`r nr<-nr+1; nr`.** The `mtcars` data (contained in R datasets) contains ...
 
@@ -1170,7 +1189,9 @@ The commands to create and convert to tibbles are included in tasks to other cha
 
 ## Example tasks 
 
-### Using own stock (`st`) dataset
+### Taking stocks 
+
+Using own stock (`st`) dataset
 
 ```{r stock_data_definition, echo = FALSE, eval = TRUE}
 # Define the stock data (to be shown below) as a tibble: 
@@ -1235,8 +1256,13 @@ st_long
 st_long %>% 
   filter(time == "end") %>%
   ggplot(aes(x = day, y = val, color = stock, shape = stock)) +
-  geom_point(size = 3) + 
-  geom_line(aes(group = stock))
+  geom_point(size = 4) + 
+  geom_line(aes(group = stock)) + 
+   ## Pimping plot: 
+  labs(title = "End prices of stocks", 
+       x = "Day", y = "End price", 
+       shape = "Stock:", color = "Stock:") +
+  theme_bw()
 
 ## (d) Change st_long into a wider format that lists start and end as 2 distinct variables (columns):
 st_long %>%
@@ -1271,12 +1297,16 @@ st_long3 <- st_long2 %>%
 ## (e2) Now spreading from long to wider format succeeds: 
 st_long3 %>%
   spread(key = time, value = val)
+
+pt <- pt + 5  # increment point total
 ```
 
 
 # Multiple chapters
 
-## Using `iris` dataset
+## Flower power 
+
+Using `iris` dataset
 
 **`r nr<-nr+1; nr`.** The `iris` data (contained in R datasets) provides the measurements (in cm) of plant parts (length and width of _sepal_ and _petal_ parts) for 50 flowers from each of 3 species of iris (called _setosa_, _versicolor_, and _virginica_).
 
@@ -1355,6 +1385,8 @@ ggplot(ir, aes(x = Sepal.Width, y = Petal.Width, color = Species, shape = Specie
   coord_fixed() +
   labs(title = "Petal width as a function of sepal width by iris species") +
   theme_bw()
+
+pt <- pt + 7  # increment point total
 
 ## next: Turn iris df into long format using tidyr::gather ----- 
 ## (see below)
@@ -1475,6 +1507,8 @@ all.equal(ir$Sepal.Length, ir_short$Sepal.Length) &
 all.equal(ir$Sepal.Width,  ir_short$Sepal.Width)  &
 all.equal(ir$Petal.Length, ir_short$Petal.Length) & 
 all.equal(ir$Petal.Width,  ir_short$Petal.Width)  # => TRUE (qed) 
+
+pt <- pt + 6  # increment point total
 ```
 
 +++ here now +++
@@ -1799,6 +1833,10 @@ exp.t2 %>%
   select(rev(names(exp.t2)))
 ```
 
-[This file last updated on `r Sys.time()` by [hn](http://neth.de/).]
+## File info
+
+This file currently contains about **`r nr` tasks** and a total of **`r pt` points**.  
+
+[Last update on `r Sys.time()` by [hn](http://neth.de/).]  
 
 <!-- eof. --> 
