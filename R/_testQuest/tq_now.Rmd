@@ -815,9 +815,9 @@ ggplot(weather_season, aes(x = summer, fill = summer)) +
 
 ### Own data: Identifying outliers
 
-**`r nr<-nr+1; nr`.** An _outlier_ can be defined as someone whose value in some metric deviates by more than some criterion (e.g., 2 standard deviations) from the mean. But this definition is incomplete, as it does not specify the appropriate reference group. This task explores the implications of different reference groups.
+**`r nr<-nr+1; nr`.** An _outlier_ can be defined as an individual whose value in some metric deviates by more than a given criterion (e.g., 2 standard deviations) from the mean. But this definition is incomplete unless it also specifies an appropriate reference group. This task explores the implications of different reference groups. 
 
-```{r, outlier_create_data, echo = FALSE, eval = TRUE}
+```{r, outlier_create_data, echo = FALSE, eval = FALSE}
 # library(tidyverse)
 
 ## Creating a suitable data set: 
@@ -844,25 +844,34 @@ names(data) <- c("id", "sex", "height")
 ## Check data:
 mean(data$sex == "female", na.rm = TRUE)  # => .507
 mean(data$height, na.rm = TRUE)           # => 174.7006 (with seed 123)
+
+## Writing out data:
+write_csv(data, "out.csv")
+
+## Reading in again (from csv-file):
+data <- read_csv("out.csv")
+data
 ```
 
 **`r nr`a.** Save the data into a tibble `data` and report its number of observations and variables (1).  
 
 **`r nr`b.** How many missing data values are there in `data`(1)? 
 
-**`r nr`c.** What is the gender distribution in this sample (1)? 
+**`r nr`c.** What is the gender (or `sex`) distribution in this sample (1)? 
 
-**`r nr`d.** Create a graph that shows the distribution of `height` values for each gender (1).
+**`r nr`d.** Create a plot that shows the distribution of `height` values for each gender (1).
 
 <!-- Definition: Outlier -->
 
 **`r nr`e.** Compute 2 new variables that signal and distinguish between 2 types of outliers in terms of `height`: 
 
-1. outliers relative to the `height` of the _overall sample_ (i.e., people with `height` values deviating more than 2 SD from the overall mean of `height`) (1);
+1. outliers relative to the `height` of the _overall sample_ 
+(i.e., individuals with `height` values deviating more than 2 SD from the overall mean of `height`) (1);
 
-2. outliers relative to the `height` of _some subgroup's_ mean and SD. In the present case, the subgroup to consider is every person's gender (i.e., people with `height` values deviating more than 2 SD from the mean `height` of their own gender) (1).
+2. outliers relative to the `height` of _some subgroup_'s mean and SD. Here, a suitable subgroup to consider is every person's gender 
+(i.e., individuals with `height` values deviating more than 2 SD from the mean `height` of their own gender) (1).
 
-Hint: Both variables can be defined as logical variables and added as new columns of `data` (via `mutate`). While the first variable can directly be computed based on the mean and SD of the overall sample, the second variable can be computed after grouping `data` by gender and then computing the corresponding mean and SD. 
+Hints: As both variable signal whether or not someone is an outlier they should be defined as logicals (being either `TRUE` or `FALSE`) and added as new columns to `data` (via appropriate `mutate` commands). While the 1st variable can be computed based on the mean and SD of the overall sample, the 2nd variable can be computed after grouping `data` by gender and then computing and using the corresponding mean and SD values. The absolute difference between 2 numeric values `x` and `y` is provided by `abs(x - y)`. 
 
 **`r nr`f.** Use the 2 new variables to define and identify 2 subgroups of people: 
 
@@ -870,32 +879,16 @@ Hint: Both variables can be defined as logical variables and added as new column
 
 2. `out_2`: Individuals (females and males) with `height` values that are _not_ outliers relative to the entire population, but _are_ outliers relative to their own gender. How many such individuals are in `data` (1)? 
 
-**`r nr`g.** Visualize the raw values and distributions of `height` for both types of outliers (`out_1` and `out_2`) in separate plots and describe the key features of individuals shown in each plot (2). 
-
-
+**`r nr`g.** Visualize the raw values and distributions of `height` for both types of outliers (`out_1` and `out_2`) in 2 separate plots and describe the `height` and `sex` combination of the individuals shown in each plot (2). 
 
 +++ here now +++
-
-#### Tasks
-
-A. Create 2 variables for both types of outliers.
-
-B. Identify 
-
-C. Identify people (men and women) who are _not_ outliers relative to the entire population, but _are_ outliers relative to their own sex. (As men are taller than women on average, these are tall women and small men.)
-
-D. Visualize the overall distribution of `height`, its distribution by `sex`, 
-and the raw data values for both types of outliers (by `sex`).
-
-#### Solution 
-
-To identify both groups, we first need to compute 2 outlier variables: One for the entire population and one for each subgroup (based on people's `sex`).
 
 <!-- fig.show options: "asis", "hide", "hold", "animate" --> 
 
 ```{r, outlier_solution, fig.show = "asis"}
-## (a) Save and inspect data:
-data <- as_tibble(data)
+## (a) Load and inspect data:
+data <- read_csv("out.csv") # read in csv-file
+# data <- as_tibble(data)   # if data is not already a tibble
 dim(data)  # => 1000 observations (rows) x 3 variables (columns)
 
 ## (b) Missing data points: 
@@ -912,19 +905,25 @@ ggplot(data, aes(x = height)) +
   geom_density(fill = "gold", alpha = 2/3) +
   geom_density(aes(fill = sex), alpha = 2/5) +
   labs(title = "Distribution of heights overall and by gender", 
-       fill = "Gender") +
+       fill = "Gender") + 
+  scale_fill_manual(values = c("firebrick", "steelblue3")) +
   theme_bw()
+
+# Note: To avoid the Warning about removing 18 cases with NA-values, 
+#       we could first filter out those cases:
+# non_NA_data <- filter(data, !is.na(height))
 
 ## Alternative solution as 2 histograms: 
 ggplot(data) +
   facet_wrap(~sex) + 
   geom_histogram(aes(x = height, fill = sex), binwidth = 5, color = "grey10") +
-  labs(title = "Distribution of heights overall and by gender",
-       fill = sex) +
+  labs(title = "Distribution of heights by gender",
+       fill = "Gender") +
   scale_fill_manual(values = c("firebrick", "steelblue3")) +
   theme_bw()
 
-## (+) Compute the number, means and SD of height values:
+## (+) Included in (e), but also possible to do separately:  
+##     Compute the number, means and SD of height values in 2 ways: 
 {
   ## 1. overall: 
   data %>%
@@ -942,20 +941,27 @@ ggplot(data) +
               sd_height = sd(height, na.rm = TRUE))
   }
 
-## (e) Compute means, SDs, and outliers of overall and by sex: -----  
-crit <- 2 # criterion for detecting outliers (in SD units)
 
-data_out <- data %>%
-  mutate(mn_height = mean(height, na.rm = TRUE),
-         sd_height = sd(height, na.rm = TRUE),
+## (e) Detecting and marking outliers (by logical variables): ----- 
+
+## Compute the means, SDs, and corresponding outliers in 2 ways:
+crit <- 2  # criterion value for detecting outliers (in SD units)
+
+data_out <- data %>%      
+  # 1. Compute means, SD, and outliers for overall sample: 
+  mutate(mn_height  = mean(height, na.rm = TRUE),  
+         sd_height  = sd(height, na.rm = TRUE),
          out_height = abs(height - mn_height) > (crit * sd_height)) %>%
-  group_by(sex) %>%
-  mutate(mn_sex_height = mean(height, na.rm = TRUE),
-         sd_sex_height = sd(height, na.rm = TRUE),
+  group_by(sex) %>%       
+  # 2. Compute same metrics for subgroups:
+  mutate(mn_sex_height  = mean(height, na.rm = TRUE), 
+         sd_sex_height  = sd(height, na.rm = TRUE),
          out_sex_height = abs(height - mn_sex_height) > (crit * sd_sex_height))
+
 # data_out
 
-## (f) Identify 2 types of outliers: 
+## (f) Identify 2 types of outliers: ----- 
+
 ## 1. Outliers relative to entire population AND to their own gender: 
 out_1 <- data_out %>%
   filter(out_height & out_sex_height) %>%
@@ -970,10 +976,10 @@ out_2 <- data_out %>%
 
 nrow(out_2) # => 24 individuals.
 
-## Visualization of both outlier types (out_1 and out_2): ----- 
 
-## (g) 2 types of outliers:
-## 1. out_1: 
+## (g) Visualization of both types of outliers (out_1 and out_2): ----- 
+
+## 1. Showing out_1: 
 ggplot(out_1, aes(x = sex, y = height)) +
   geom_violin(aes(fill = sex)) + 
   geom_jitter(size = 4, alpha = 2/3) + 
@@ -982,10 +988,10 @@ ggplot(out_1, aes(x = sex, y = height)) +
   theme_bw()
 
 # Interpretation: 
-# `out_1` mostly contains short women (except for 1 tall woman) 
-# and tall men (except for 2 short men). 
+# `out_1` contains mostly short women (except for 1 tall woman) 
+#  and mostly tall men (except for 2 short men). 
 
-## 2. out_2: 
+## 2. Showing out_2: 
 ggplot(out_2, aes(x = sex, y = height)) +
   geom_violin(aes(fill = sex)) + 
   geom_jitter(size = 4, alpha = 2/3) + 
@@ -1058,13 +1064,13 @@ In chapter 16 (Dates and times: http://r4ds.had.co.nz/dates-and-times.html), thi
 
 Transform and visualize datasets to: 
 
-- detect and deal with missing values; 
-- view distributions of variables and outliers;   
-- plot and interpret relationships between (categorical/continuous) variables. 
+- detect and deal with missing (NA) values; 
+- view and interpret distributions of variables (e.g., to see patterns and deal with unusual or extreme values);  
+- view and interpret relationships between (categorical/continuous) variables. 
 
 ## Example tasks 
 
-Examples of tasks are contained in the other chapters (see tasks on "multiple chapters" below).
+Additional examples of tasks are contained in the other chapters (see tasks on "multiple chapters" below).
 
 ### Using `mtcars` data
 
@@ -1127,11 +1133,11 @@ ggplot(df, aes(x = hp, y = disp)) +
 
 #### Tasks involved
 
-- Plot variable distributions (histogram) 
-- Descriptive group measures (count, mean, SD) 
-- Plot raw data and group means (boxplot) 
-- Plot scatterplot of 2 continuous variables  
-- Interpret and draw conclusions 
+- Plot variable distributions (histogram);  
+- Compute descriptive group measures (e.g., counts, means, SDs);  
+- Plot raw data and group means (boxplot);  
+- Plot a scatterplot of 2 continuous variables; 
+- Interpret tables and graphs and draw conclusions. 
 
 
 # 10: Tibbles
@@ -1140,8 +1146,8 @@ ggplot(df, aes(x = hp, y = disp)) +
 
 Turn data into tibbles: 
 
-- convert data frames into tibbles (by `as_tibble`) 
-- create tibbles from tabular data (by `tibble` and `tribble`)
+- convert data frames into tibbles (by `as_tibble`);  
+- create tibbles from tabular data (by `tibble` and `tribble`). 
 
 ## Example tasks 
 
@@ -1152,12 +1158,11 @@ The commands to create and convert to tibbles are included in tasks to other cha
 
 ## Key skills
 
-Wrangle data to: 
-
-- identify and create tidy datasets
-- `gather` (wider) datasets into longer ones
-- `spread` (longer) datasets into wider ones
-- `separate` and `unite` variables (columns)
+- Identify and create "tidy" datasets.  
+- Wrangle data to:  
+    - `gather` (wider) datasets into longer ones; 
+    - `spread` (longer) datasets into wider ones; 
+    - `separate` and `unite` variables (columns). 
 
 ## Example tasks 
 
@@ -1365,8 +1370,8 @@ Hints: This task asks for showing the value of a continuous variable (the value 
 
 **`r nr`i.** **Bonus task:** Re-format your tibble `ir_long` (in long format) into a wider tibble `ir_short` that corresponds to the original `ir` dataset (2). 
 
-Hint: This task primarily calls for applying `tidyr::spread` and `unite` commands on `ir_long`. 
-However, `spread` will encounter an error unless every individual plant is identified by a unique variable (e.g., `id` number).  This can be achieved by adding a numeric counter variable `id` (with values of `rep(1:50, 3)`) to `ir` _before_ creating `df_long`. 
+Hints: This task calls for applying `tidyr::spread` and `unite` commands to `ir_long`. 
+However, `spread` will encounter an error unless every individual plant is identified by a unique variable (e.g., `id` number). This can be achieved by adding a numeric counter variable `id` (with values of `rep(1:50, 3)`) to `ir` _before_ creating `ir_long`. 
 
 ```{r, iris_tidyr}
 ## Data (from above): 
@@ -1419,7 +1424,7 @@ ggplot(im2, aes(x = part, y = metric)) +
   labs(title = "Mean petal and sepal lengths and widths by iris species") + 
   theme_bw()
 
-## Note: Using raw values (df_long) to visualize the distributions of val 
+## Note: Using raw values (ir_long) to visualize the distributions of val 
 ##       as a function of Species, plant part, and metric:
 ggplot(ir_long, aes(x = part, y = val, fill = Species)) + 
   facet_wrap(~Species) +
@@ -1428,7 +1433,7 @@ ggplot(ir_long, aes(x = part, y = val, fill = Species)) +
   labs(title = "Mean petal and sepal lengths and widths by iris species") + 
   theme_bw()
 
-## (i) Turn df_long back into original wide format using tidyr::spread -----
+## (i) Turn ir_long back into original wide format using tidyr::spread -----
 # ir_long
 
 # PROBLEM with original iris data:  
@@ -1470,12 +1475,13 @@ all.equal(ir$Petal.Width,  ir_short$Petal.Width)  # => TRUE (qed)
 
 +++ here now +++
 
+## Additional datasets
 
-## Own datasets
+Generating datasets with specific properties not yet used in the above tasks. 
 
-### Create people data
+### Create `people` data
 
-Create a (psychological) dataset that allows illustrating contents from all chapters. 
+Create a (psychological) dataset `people` that allows illustrating contents from all chapters. 
 
 ```{r, create_people_data, include = TRUE}
 n <- 1000     # [n]umber of participants
@@ -1656,7 +1662,7 @@ IVs <- tibble(name = initials,
               bweekday = bweekdays,
               height = heights, 
               blood_type = btypes)
-IVs
+# IVs
 
 
 ## DVs: -----
@@ -1672,8 +1678,9 @@ IVs
 ## - Zodiac sign (from birthday, using cut() or join functions)
 ```
 
+### Create `exp` data
 
-### Create experimental data
+Create an (experimental) dataset `exp` that contains typical features (e.g., multiple measurements with nested factors) of psychological studies. 
 
 ```{r, create_exp_data, include = TRUE}
 n <- 10       # [n]umber of participants
@@ -1731,6 +1738,8 @@ exp2 <- cbind(IVs, DVs2)
 dim(exp)
 dim(exp2)
 ```
+
+#### Using `exp` data 
 
 Basic manipulations of `exp` data (in base R):
 
