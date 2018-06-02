@@ -1,7 +1,7 @@
 ---
 title: "Test Questions (ds4psy)"
 author: "Hansjörg Neth, SPDS, uni.kn"
-date: "2018 06 01"
+date: "2018 06 02"
 output:
    rmdformats::html_clean: # html_clean html_docco readthedown material #
      code_folding: show # hide
@@ -16,7 +16,7 @@ editor_options:
 
 <!-- Collection of exercises and test problems | ds4psy: Summer 2018 -->
 
-```{r preamble, echo = FALSE, cache = FALSE, message = FALSE, warning = FALSE}
+```{r preamble, echo = FALSE, eval = TRUE, cache = FALSE, message = FALSE, warning = FALSE}
 ## (a) Housekeeping: -----
 rm(list=ls()) # clean all.
 
@@ -136,6 +136,13 @@ add_whats <- function(vec, amount, what = NA){
 
 # Introduction
 
+This file contains practice and test questions suited to test your skills and understanding. 
+It also illustrates the procedure of our **mid-term exam** (on June 4, 2018). 
+
+<!-- This file contains possible solutions to the **mid-term exam** (on June 4, 2018). --> 
+
+<!-- The following questions comprise our **mid-term exam** (on June 4, 2018). -->
+
 ## Course Coordinates
 
 <!-- uni.kn logo and link to SPDS: -->  
@@ -145,13 +152,11 @@ add_whats <- function(vec, amount, what = NA){
 <!-- <img src = "./inst/pix/uniKn_logo_s.png" alt = "spds.uni.kn" style = "float: right; border:20;"/> --> 
 </a>
 
+* Course [Data Science for Psychologists](http://rpository.com/ds4psy/) (ds4psy). 
 * Taught at the [University of Konstanz](https://www.uni-konstanz.de/) by [Hansjörg Neth](http://neth.de/) (<h.neth@uni.kn>,  [SPDS](https://www.spds.uni-konstanz.de/), office D507).
 * Spring/summer 2018: Mondays, 13:30--15:00, C511 (from 2018.04.16 to 2018.07.16) 
 * Links to [ZeUS](https://zeus.uni-konstanz.de:443/hioserver/pages/startFlow.xhtml?_flowId=showEvent-flow&unitId=5101&termYear=2018&termTypeValueId=1&navigationPosition=hisinoneLehrorganisation,examEventOverviewOwn) and [Ilias](https://ilias.uni-konstanz.de/ilias/goto_ilias_uni_crs_758039.html)
 
-## Test Questions
-
-This file contains practice and test questions suited to test your skills and understanding. It also illustrates the procedure of our **mid-term exam** (on June 4, 2018).
 
 ## Preparation and response format
 
@@ -167,7 +172,7 @@ This file contains practice and test questions suited to test your skills and un
     
     Here's a layout template that you can copy and adapt: 
 
-```{r layout_template, echo = TRUE}
+```{r layout_template, echo = TRUE, eval = FALSE}
 ## Mid-term exam  | Data science for psychologists (Summer 2018)
 ## Name: ... | Student ID: ...
 ## 2018 06 04
@@ -191,7 +196,7 @@ dim(sp)
 
 
 ## Task X: ----- 
-## ...
+## (a) ... 
 
 ## ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ##
 ## End of file. ----- 
@@ -220,9 +225,9 @@ Key skills to be acquired in this context include creating:
 
 ## Example tasks 
 
-### Using `PlantGrowth` data
+### Task `r nr<-nr+1; nr`: Using `PlantGrowth` data
 
-**`r nr<-nr+1; nr`.** The `PlanthGrowth` data (contained in R datasets) reports the results from an experiment that  compares growth yields (measured by the dried weight of plants) obtained under 2 treatments vs. a control condition.
+The `PlanthGrowth` data (contained in R datasets) reports the results from an experiment that  compares growth yields (measured by the dried weight of plants) obtained under 2 treatments vs. a control condition.
 
 **`r nr`a.** Save the `PlantGrowth` data as a tibble and inspect its dimensions (1 point).
 
@@ -231,7 +236,7 @@ and key descriptives (their mean, median, and standard deviation) (2).
 
 **`r nr`c.** Use `ggplot` to create a graph that shows the medians and raw values of plant `weight` by `group` (2). 
 
-Hints: Use 2 different geoms to show both medians and raw values in the same plot. The order of layers is determined by the order of geom commands. 
+**Hints:** Use 2 different geoms to show both medians and raw values in the same plot. The order of layers is determined by the order of geom commands. 
 
 ```{r plantGrowth, echo = TRUE, eval = TRUE, fig.show = "hold"}
 # ?datasets::PlantGrowth
@@ -263,11 +268,10 @@ ggplot(pg, aes(x = group, y = weight)) +
 pt <- pt + 5  # increment point total
 ```
 
-### Time to sleep 
 
-Using `sleep` data: 
+### Task `r nr<-nr+1; nr`: Time to sleep 
 
-**`r nr<-nr+1; nr`.** The `sleep` data (contained in R datasets) shows the effect of 2 sleep-promoting drugs (as an increase in hours of sleep compared to a control group) for 10 patients.
+The `sleep` data (contained in R datasets) shows the effect of 2 sleep-promoting drugs (as an increase in hours of sleep compared to a control group) for 10 patients.
 
 **`r nr`a.** Save the `sleep` data as a tibble `sp` and inspect its dimensions (1 point). 
 
@@ -276,7 +280,7 @@ and key descriptives (their mean, median, and standard deviation) (2).
 
 **`r nr`c.** Use `ggplot` to create a graph that shows the medians and raw values of `extra` sleep time by `group` (2). 
 
-Hints: Use 2 different geoms to show both medians and raw values in the same plot. The order of layers is determined by the order of geom commands. 
+**Hints:** Use 2 different geoms to show both medians and raw values in the same plot. The order of layers is determined by the order of geom commands. 
 
 **`r nr`d.** Reformat the `sleep` data in `sp` so that the 2 groups appear in 2 lines (rows) and 10 subject IDs as 10 columns (1). 
 
@@ -314,11 +318,9 @@ sp %>%
 pt <- pt + 6  # increment point total
 ```
 
-### Dietary chicks 
+### Task `r nr<-nr+1; nr`: Dietary chicks 
 
-Using `ChickWeight` data: 
-
-**`r nr<-nr+1; nr`.** The `ChickWeight` data (contained in R datasets) contains the results of an experiment that measures the effects of `Diet` on the early growth of chicks.
+The `ChickWeight` data (contained in R datasets) contains the results of an experiment that measures the effects of `Diet` on the early growth of chicks.
 
 **`r nr`a.** Save the `ChickWeight` data as a tibble and inspect its dimensions (1 point). 
 
@@ -357,7 +359,7 @@ ggplot(cw, aes(x = Time, fill = Diet)) +
 
 Instead of re-creating this plot, create a table (or tibble) that shows the same (4 x 12 = 48) data points in 4 rows (for the 4 different types of `Diet`) and 12 columns (for the different `Time` points) (2).
 
-Hints: In a first step, count the number of chicks per `Diet` and `Time`. Next, spread the results into a wider format (to show the time points as different columns).
+**Hints:** In a first step, count the number of chicks per `Diet` and `Time`. Next, spread the results into a wider format (to show the time points as different columns).
 
 ```{r, chickWeight_3, echo = TRUE}
 # (c) Re-create the counts of chicks per diet over time numerically (using `dplyr` and `tidyr`). 
@@ -370,7 +372,7 @@ cw %>%
 ## Not asked: 
 # (x) Plot the weight of each individual chick 
 # and the Median weight per diet at the end (Time = 21).
-# Hint: Filter data for the maximum time and 
+# **Hint:** Filter data for the maximum time and 
 #       combine 2 geoms: A boxplot and a scatterplot.
 cw %>%
   filter(Time == 21) %>%
@@ -383,11 +385,11 @@ cw %>%
 pt <- pt + 5  # increment point total
 ```
 
-### Tabular TBC 
+### Task `r nr<-nr+1; nr`: Tabular TBC 
 
-Using `tidyr::table1` data 
+Using `tidyr::table1` data. 
 
-**`r nr<-nr+1; nr`.** The `tidyr::table1` shows the number of TB cases for 3 countries and 2 years. 
+The `tidyr::table1` shows the number of TB cases for 3 countries and 2 years. 
 
 **`r nr`a.** Plot a bar chart that shows the number of cases per `country` (on the y-axis) as a function of the `year` (on the x-axis) (2).
 
@@ -412,11 +414,11 @@ ggplot(tidyr::table1, aes(x = year, y = cases, fill = country)) +
 pt <- pt + 5  # increment point total
 ```
 
-### Party plots 
+### Task `r nr<-nr+1; nr`: Party plots 
 
 (or "partial election plots"): Own data on 2017 German election results
 
-**`r nr<-nr+1; nr`.** The following table provides the percentage share of 2 major parties on the last 2 
+The following table provides the percentage share of 2 major parties on the last 2 
 general elections of Germany (based on [this link](https://www.bundeswahlleiter.de/info/presse/mitteilungen/bundestagswahl-2017/34_17_endgueltiges_ergebnis.html)):
 
 | Party:  | Share 2013:       | Share 2017:       |
@@ -443,11 +445,11 @@ Sonstige 	  	                                       5,0 % 	(2013:  6,2 %)
 
 **`r nr`b.** Convert your `de` table into a "tidy" table saved as `de_2` (2). 
 
-Hints: Use `gather` to list the values of all election results in 1 variable called `share` and make sure that `de_2` contains a separate variable (column) that specifies the election `year`.
+**Hints:** Use `gather` to list the values of all election results in 1 variable called `share` and make sure that `de_2` contains a separate variable (column) that specifies the election `year`.
 
 **`r nr`c.** Visualize and contrast the election results by a bar chart that contains 2 bars (representing the 2 elections) and the party's share of votes (as the proportions of each bar) (2). 
 
-Hints: As the data in `de_2` already contains the identity of the values which you want to plot, there is no need to count anything. Showing multiple values in one bar is called a "stack".
+**Hints:** As the data in `de_2` already contains the identity of the values which you want to plot, there is no need to count anything. Showing multiple values in one bar is called a "stack".
 
 **`r nr`d.** Create an improved version of your plot in **`r nr`c.** that provides the share of votes for each bar area as text labels (1).
 
@@ -548,11 +550,11 @@ Key skills conveyed include transforming data by using essential `dplyr` command
 
 ## Example tasks 
 
-### R wars
+### Task `r nr<-nr+1; nr`: R wars
 
-Using `dplyr::starwars` dataset
+Using `dplyr::starwars` dataset: 
 
-**`r nr<-nr+1; nr`.** Let's tackle the universe with the tidyverse by uncovering some facts about the `dplyr::starwars` dataset. Answer the following questions by using pipes of basic `dplyr` commands (i.e., arranging, filtering, selecting, grouping, counting, summarizing). 
+Let's tackle the universe with the tidyverse by uncovering some facts about the `dplyr::starwars` dataset. Answer the following questions by using pipes of basic `dplyr` commands (i.e., arranging, filtering, selecting, grouping, counting, summarizing). 
 
 **`r nr`a.** Save the tibble `dplyr::starwars` as `sw` and report its dimensions (1). 
 
@@ -707,9 +709,9 @@ sw %>%
   filter(n > 1)
 ```
 
-### Weather flights 
+### Task `r nr<-nr+1; nr`: Weather flights 
 
-Using `nycflights13::weather` dataset
+Using the `nycflights13::weather` dataset: 
 
 Use the data set `nycflights13::weather` for questions that require 
 `filter`, `arrange`, `select`, `group_by`, `summarise` (count, NAs, means, medians), etc.
@@ -824,11 +826,18 @@ ggplot(weather_season, aes(x = summer, fill = summer)) +
   scale_fill_manual(values = c("steelblue3", "firebrick"))
 ```
 
-### Not all outliers are alike 
+### Task `r nr<-nr+1; nr`: Not all outliers are alike 
 
 Own data: Identifying outliers --- some outliers are more equal than others...
 
-**`r nr<-nr+1; nr`.** An _outlier_ can be defined as an individual whose value in some metric deviates by more than a given criterion (e.g., 2 standard deviations) from the mean. But this definition is incomplete unless it also specifies an appropriate reference group. This task explores the implications of different reference groups. 
+This task examines the statistical definition of outliers and uses a generated dataset (entitled `out.csv`) which you can obtain and load with the `read_csv()` command:
+
+```{r, outlier_load_data, echo = TRUE, eval = TRUE}
+## Load data: 
+data <- read_csv("out.csv")  # read comma-separated-file
+```
+
+An _outlier_ can be defined as an individual whose value in some metric deviates by more than a given criterion (e.g., 2 standard deviations) from the mean. But this definition is incomplete unless it also specifies an appropriate reference group. This task explores the implications of different reference groups. 
 
 ```{r, outlier_create_data, echo = FALSE, eval = FALSE}
 # library(tidyverse)
@@ -884,7 +893,7 @@ data
 2. outliers relative to the `height` of _some subgroup_'s mean and SD. Here, a suitable subgroup to consider is every person's gender 
 (i.e., individuals with `height` values deviating more than 2 SD from the mean `height` of their own gender) (1).
 
-Hints: As both variable signal whether or not someone is an outlier they should be defined as logicals (being either `TRUE` or `FALSE`) and added as new columns to `data` (via appropriate `mutate` commands). While the 1st variable can be computed based on the mean and SD of the overall sample, the 2nd variable can be computed after grouping `data` by gender and then computing and using the corresponding mean and SD values. The absolute difference between 2 numeric values `x` and `y` is provided by `abs(x - y)`. 
+**Hints:** As both variable signal whether or not someone is an outlier they should be defined as logicals (being either `TRUE` or `FALSE`) and added as new columns to `data` (via appropriate `mutate` commands). While the 1st variable can be computed based on the mean and SD of the overall sample, the 2nd variable can be computed after grouping `data` by gender and then computing and using the corresponding mean and SD values. The absolute difference between 2 numeric values `x` and `y` is provided by `abs(x - y)`. 
 
 **`r nr`f.** Use the 2 new variables to define and identify 2 subgroups of people: 
 
@@ -898,7 +907,7 @@ Hints: As both variable signal whether or not someone is an outlier they should 
 
 ```{r, outlier_solution, fig.show = "asis"}
 ## (a) Load and inspect data:
-data <- read_csv("out.csv") # read in csv-file
+# data <- read_csv("out.csv") # read in csv-file
 # data <- as_tibble(data)   # if data is not already a tibble
 dim(data)  # => 1000 observations (rows) x 3 variables (columns)
 
@@ -1021,15 +1030,17 @@ pt <- pt + 10  # increment point total
 ```
 
 
-### The length of flights 
+### Task `r nr<-nr+1; nr`: The length of flights 
 
-Using `flight` dataset to compute duration
+Using the `nycflights13::flights` dataset to compute the actual duration of flights:  
 
-Using the `flights` dataset: 
 - Compute a variable `true_duration` as the duration of each flight (in minutes) from its `dep_time` and `arr_time`. 
+
 - How does it relate to the `air_time` variable in the data set? (Plot the relationship between both variables.)
 
 ```{r, flights_duration, echo = TRUE}
+library(nycflights13) # loads flights dataset
+
 compute_duration <- function(dep_min, arr_min) {
 
   dur <- NA # initialize
@@ -1093,9 +1104,9 @@ Transform and visualize datasets to:
 Additional examples of tasks are contained in the other chapters (see tasks on "multiple chapters" below).
 
 
-### Cars
+### Task `r nr<-nr+1; nr`: Cars
 
-Using `mtcars` data
+Using the `mtcars` dataset: 
 
 **`r nr<-nr+1; nr`.** The `mtcars` data (contained in R datasets) contains ...
 
@@ -1189,9 +1200,9 @@ The commands to create and convert to tibbles are included in tasks to other cha
 
 ## Example tasks 
 
-### Taking stocks 
+### Task `r nr<-nr+1; nr`: Taking stocks 
 
-Using own stock (`st`) dataset
+Using own stock (`st`) dataset: 
 
 ```{r stock_data_definition, echo = FALSE, eval = TRUE}
 # Define the stock data (to be shown below) as a tibble: 
@@ -1204,8 +1215,7 @@ st <- tribble(
 )
 ```
 
-
-**`r nr<-nr+1; nr`.** The following table shows the start and end price of 3 stocks on 3 days (d1, d2, d3):
+The following table shows the start and end price of 3 stocks on 3 days (d1, d2, d3):
 
 ```{r stock_data_table, echo = FALSE, eval = TRUE}
 knitr::kable(st, caption = "Stock data example showing the start and end prices of the shares of 3 companies on 3 days.")
@@ -1221,10 +1231,9 @@ knitr::kable(st, caption = "Stock data example showing the start and end prices 
 
 **`r nr`a.** Create a tibble `st` that contains this data in this (wide) format (1). 
 
-**`r nr`b.** Transform `st` into a longer table `st_long` that contains 18 rows and only 1 numeric variable for all stock prices (1). 
-Adjust it so that the `day` and `time` appear as 2 separate columns (1). 
+**`r nr`b.** Transform `st` into a longer table `st_long` that contains 18 rows and only 1 numeric variable for all stock prices. Adjust this table so that the `day` and `time` appear as 2 separate columns (2). 
 
-**`r nr`c.** Create a graph that shows the 3 stocks' `end` prices (on the y-axis) over the 3 days (on the x-axis) (1).
+**`r nr`c.** Create a graph that shows the 3 stocks' `end` prices (on the y-axis) over the 3 days (on the x-axis) (1). 
 
 **`r nr`d.** Spread  `st_long` into a wider table that contains `start` and `end` prices as 2 distinct variables (columns) for each stock and day (1).
 
@@ -1304,11 +1313,11 @@ pt <- pt + 5  # increment point total
 
 # Multiple chapters
 
-## Flower power 
+## Task `r nr<-nr+1; nr`: Flower power 
 
-Using `iris` dataset
+Using the `iris` dataset: 
 
-**`r nr<-nr+1; nr`.** The `iris` data (contained in R datasets) provides the measurements (in cm) of plant parts (length and width of _sepal_ and _petal_ parts) for 50 flowers from each of 3 species of iris (called _setosa_, _versicolor_, and _virginica_).
+The `iris` data (contained in R datasets) provides the measurements (in cm) of plant parts (length and width of _sepal_ and _petal_ parts) for 50 flowers from each of 3 species of iris (called _setosa_, _versicolor_, and _virginica_).
 
 ### Exploratory data analysis (EDA)
 
@@ -1321,11 +1330,10 @@ Save the resulting table of means as a tibble `im1` (2).
 **`r nr`c.** Create a histogram that shows the distribution of `Sepal.Width` values 
 across all species (1). 
 
-**`r nr`d.** Create a graph that shows the shape of the distribution of `Sepal.Width` values 
-separately for each species (1). 
+**`r nr`d.** Create a plot that shows the shape of the distribution of `Sepal.Width` values for each species (1). 
 
-**`r nr`e.** Create a graph that shows `Petal.Width` as a function of `Sepal.Width` 
-separately for each species (1). 
+**`r nr`e.** Create a plot that shows `Petal.Width` as a function of `Sepal.Width` 
+separately (i.e., in 3 facets) for each species (1).
 
 ```{r, iris_EDA}
 # ?iris
@@ -1396,17 +1404,17 @@ pt <- pt + 7  # increment point total
 
 **`r nr`f.** Re-format your tibble `ir` into a tibble `ir_long` which in "long format" (2). 
 
-Hint: Use `tidyr::gather` and `separate` to turn `ir` into a tibble that contains only 1 dependent variable for the value of measurements (e.g., `val`), but 2 categorical variables that specify the `part` (Sepal vs. Petal) and `metric` (Length vs. Width) of each observation.
+**Hint:** Use `tidyr::gather` and `separate` to turn `ir` into a tibble that contains only 1 dependent variable for the value of measurements (e.g., `val`), but 2 categorical variables that specify the `part` (Sepal vs. Petal) and `metric` (Length vs. Width) of each observation.
 
 **`r nr`g.** Use `ir_long` to recompute the subgroup means (for each combination of species, plant part, and metric) computed in **`r nr`b.**.  Save the resulting table of means as a tibble `im2` and verify that they have not changed from `im1` above (2). 
 
 **`r nr`h.** Visualize the relationships between the means of `im2` (i.e., the mean measurements by plant part and metric) separately for each species (2). 
 
-Hints: This task asks for showing the value of a continuous variable (the value of means) as a function of 2 categorical variables (the plant `part` and type of `metric`). Possible solutions could incorporate either `geom_line` or `geom_tile` and use different facets for different `Species`. 
+**Hints:** This task asks for showing the value of a continuous variable (the value of means) as a function of 2 categorical variables (the plant `part` and type of `metric`). Possible solutions could incorporate either `geom_line` or `geom_tile` and use different facets for different `Species`. 
 
 **`r nr`i.** **Bonus task:** Re-format your tibble `ir_long` (in long format) into a wider tibble `ir_short` that corresponds to the original `ir` dataset (2). 
 
-Hints: This task calls for applying `tidyr::spread` and `unite` commands to `ir_long`. 
+**Hints:** This task calls for applying `tidyr::spread` and `unite` commands to `ir_long`. 
 However, `spread` will encounter an error unless every individual plant is identified by a unique variable (e.g., `id` number). This can be achieved by adding a numeric counter variable `id` (with values of `rep(1:50, 3)`) to `ir` _before_ creating `ir_long`. 
 
 ```{r, iris_tidyr}
@@ -1511,7 +1519,6 @@ all.equal(ir$Petal.Width,  ir_short$Petal.Width)  # => TRUE (qed)
 pt <- pt + 6  # increment point total
 ```
 
-+++ here now +++
 
 ## Additional datasets
 
@@ -1803,7 +1810,7 @@ exp.t[order(exp.t$task.1, exp.t$bnt),] # sort cases by task.1 and bnt values
 exp.t[rev(1:nrow(exp.t)), rev(1:ncol(exp.t))]
 ```
 
-Same steps in the `tidyverse`:
+Same steps in the `tidyverse`: 
 
 ```{r, manipulate_exp_data_tidyverse, include = TRUE}
 exp.t2 <- exp # temporal copy
@@ -1833,9 +1840,10 @@ exp.t2 %>%
   select(rev(names(exp.t2)))
 ```
 
-## File info
 
-This file currently contains about **`r nr` tasks** and a total of **`r pt` points**.  
+## Counting tasks and points 
+
+This file contains **`r nr` tasks** for a total of **`r pt` points** (plus some possible bonus points).  
 
 [Last update on `r Sys.time()` by [hn](http://neth.de/).]  
 
