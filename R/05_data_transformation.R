@@ -13,7 +13,6 @@
 
 
 
-
 ## 5.1 Introduction ------
 
 ## 5.1.1 Prerequisites
@@ -1760,7 +1759,8 @@ weather %>%
   # data
   mean(data$height) # => 175.051
   
-  ## Definition: 
+  ## Definition: Outlier  
+  
   # Define an "outlier" as someone deviating by more than 2 SD in some metric 
   # from the mean of a reference group. 
   crit <- 2
