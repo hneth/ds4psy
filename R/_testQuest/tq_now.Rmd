@@ -1,7 +1,7 @@
 ---
 title: "Test Questions (ds4psy)"
 author: "Hansjörg Neth, SPDS, uni.kn"
-date: "2018 06 02"
+date: "2018 06 04"
 output:
    rmdformats::html_clean: # html_clean html_docco readthedown material #
      code_folding: show # hide
@@ -131,7 +131,6 @@ add_whats <- function(vec, amount, what = NA){
 # add_whats(1:10, 3) # default: what = NA
 # add_whats(1:10, 3, what = 99)
 # add_whats(1:10, .5, what = "ABC")
-
 ```
 
 # Introduction
@@ -143,7 +142,7 @@ It also illustrates the procedure of our **mid-term exam** (on June 4, 2018).
 
 <!-- The following questions comprise our **mid-term exam** (on June 4, 2018). -->
 
-## Course Coordinates
+## Course coordinates
 
 <!-- uni.kn logo and link to SPDS: -->  
 <!-- ![](./inst/pix/uniKn_logo.png) --> 
@@ -488,7 +487,8 @@ ggplot(de_2, aes(x = year, y = share, fill = party)) +
   ## Pimping plot: 
   scale_fill_manual(values = c("black", "red3", "gold")) + # optional
   labs(title = "Partial results of the German general elections 2013 and 2017", 
-       x = "Year of election", y = "Share of votes", caption = "[Data: www.bundeswahlleiter.de.]") +
+       x = "Year of election", y = "Share of votes", 
+       caption = "Data from www.bundeswahlleiter.de.") +
   theme_classic()
 
 ## Advanced issues or Bonus tasks: ----- 
@@ -507,7 +507,8 @@ ggplot(de_2, aes(x = year, y = share, fill = party,
   ## Pimping plot: 
   scale_fill_manual(values = c("black", "red3", "gold")) + # optional
   labs(title = "Partial results of the German general elections 2013 and 2017", 
-       x = "Year of election", y = "Share of votes", caption = "[Data: www.bundeswahlleiter.de.]") +
+       x = "Year of election", y = "Share of votes", 
+       caption = "Data from www.bundeswahlleiter.de.") +
   theme_classic()
 
 ## (e) Pie chart of 2017 results only:
@@ -830,11 +831,14 @@ ggplot(weather_season, aes(x = summer, fill = summer)) +
 
 Own data: Identifying outliers --- some outliers are more equal than others...
 
-This task examines the statistical definition of outliers and uses a generated dataset (entitled `out.csv`) which you can obtain and load with the `read_csv()` command:
+This task examines the statistical definition of outliers and uses a generated dataset (entitled `out.csv` and available at <http://rpository.com/ds4psy/mt/out.csv>). Use the following `read_csv()` command to obtain and load it into R: 
 
-```{r, outlier_load_data, echo = TRUE, eval = TRUE}
-## Load data: 
-data <- read_csv("out.csv")  # read comma-separated-file
+```{r outlier_load_data, echo = TRUE, eval = TRUE}
+## Load data (as comma-separated file): 
+data <- read_csv("http://rpository.com/ds4psy/mt/out.csv")  # from online source
+
+## Alternatively (from local source): 
+# data <- read_csv("out.csv")  # from current directory
 ```
 
 An _outlier_ can be defined as an individual whose value in some metric deviates by more than a given criterion (e.g., 2 standard deviations) from the mean. But this definition is incomplete unless it also specifies an appropriate reference group. This task explores the implications of different reference groups. 
@@ -1468,8 +1472,8 @@ ggplot(im2, aes(x = part, y = metric)) +
   labs(title = "Mean petal and sepal lengths and widths by iris species") + 
   theme_bw()
 
-## Note: Using raw values (ir_long) to visualize the distributions of val 
-##       as a function of Species, plant part, and metric:
+## Alternative: Using raw values (ir_long) to visualize the distributions 
+##              of val as a function of Species, plant part, and metric:
 ggplot(ir_long, aes(x = part, y = val, fill = Species)) + 
   facet_wrap(~Species) +
   geom_violin() +
@@ -1477,7 +1481,8 @@ ggplot(ir_long, aes(x = part, y = val, fill = Species)) +
   labs(title = "Mean petal and sepal lengths and widths by iris species") + 
   theme_bw()
 
-## (i) Turn ir_long back into original wide format using tidyr::spread -----
+## (i) Bonus task:
+# Turn ir_long back into original wide format using tidyr::spread -----
 # ir_long
 
 # PROBLEM with original iris data:  
@@ -1503,6 +1508,10 @@ ggplot(ir_long, aes(x = part, y = val, fill = Species)) +
 # (before turning it into long format above)!                             
 
 ## (i) Re-format ir_long into shorter format (using tidyr::spread) ----- 
+
+## See (f) above for additional mutate step: 
+## mutate(id = rep(1:50, 3)) %>%   # add a unique id to each plant [to enable (i) below]
+
 ir_short <- ir_long %>%
   unite(type, part, metric, sep = ".") %>%  # unite part and metric into "type" column
   spread(key = type, value = val) %>%       # spread "type" variable into multiple columns
