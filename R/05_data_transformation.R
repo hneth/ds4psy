@@ -1,7 +1,7 @@
 ## r4ds: Chapter 5: Data transformation 
 ## Code for http://r4ds.had.co.nz/5_data_transformation.html 
 ## hn spds uni.kn
-## 2018 05 01 ------
+## 2018 06 04 ------
 
 ## Note: dplyr implements a grammar of data transformation.
 ##       This chapter concerns transformations involving a single table
@@ -1659,9 +1659,6 @@ airlines %>%
 # 8. For each plane, count the number of flights 
 #    before the first delay of greater than 1 hour.
 
-## +++ here now +++ ------ 
-
-
 
 ## Appendix: Additional resources on dplyr: ------
 
@@ -1678,6 +1675,7 @@ vignette("programming")
 
 # - See dplyr cheatsheet at https://www.rstudio.com/resources/cheatsheets/
 
+## +++ here now +++ ------ 
 
 ## Ideas for test questions [test.quest]: ------
 
@@ -1688,6 +1686,7 @@ vignette("programming")
 # filter, arrange, group_by, summarise (count, NAs, means, medians)
 
 ## Aggregation examples: -----
+
 ## (1) Average temperature per month: (used in class)
 
 weather %>%
@@ -1715,81 +1714,108 @@ weather %>%
   scale_x_continuous(breaks = 1:12) +
   theme_bw()
 
+
+## Scenario involving family dynasties (e.g., Games of thrones, Lord of the Rings, Harry Potter, Star Wars, ...)
+
+{ ## Starwars scenario:  
+  
+  
+  ?dplyr::starwars
+  
+  starwars %>%
+    group_by(species) %>%
+    count() %>%
+    arrange(desc(n))
+  
+  # What is the name, species, and homeworld of the Star Wars characters
+  # with the 10 highest BMI values?
+  # Note: BMI := weight (in kg) / ((height (in cm) / 100)  ^ 2
+  
+  starwars %>% 
+    mutate(bmi = mass / ((height / 100)  ^ 2)) %>%
+    # select(name:mass, bmi) %>%
+    select(name, species, homeworld, bmi, films, everything()) %>% 
+    arrange(desc(bmi))
+  
+  # Analogy: Scenario involving patients/doctors/insurances/pharma ... 
+  
+  }
+
 ## Identifying outliers: ---- 
 ## Identify and contrast overall (population-level) vs. within-group outliers. 
 
 {
-## Generate data: 
-set.seed(123)
-n <- 1000
-id <- paste0("p.", 1:n) # paste0(sample(LETTERS, 1), sample(LETTERS, 1))
-sex <- sample(x = c(0, 1), size = n, replace = TRUE)
-height <- rep(NA, n)
-noise <- round(rnorm(n, mean = 0, sd = 11), 0)
-height[sex == 0] <- 169 + noise[sex == 0]
-height[sex == 1] <- 181 + noise[sex == 1]
-
-data <- as_tibble(data_frame(id, factor(sex), height))
-names(data) <- c("id", "sex", "height")
-# data
-mean(data$height) # => 175.051
-
-## Definition: 
-# Define an "outlier" as someone deviating by more than 2 SD in some metric 
-# from the mean of a reference group. 
-crit <- 2
-
-## Compute 2 types of outliers:
-## (a) relative to overall mean and SD 
-## (b) relative to specific group mean and SD 
-
-data_out <- data %>%
-  mutate(mn_height = mean(height),      # (a) overall:
-         sd_height = sd(height),
-         out_height = abs(height - mn_height) > (crit * sd_height)) %>%
-  group_by(sex) %>% 
-  mutate(mn_sex_height = mean(height),  # (b) by sex:
-         sd_sex_height = sd(height),
-         out_sex_height = abs(height - mn_sex_height) > (crit * sd_sex_height))
-
-# (1) Identify outliers relative to entire population AND to own group (sex):
-out_1 <- data_out %>%
-  filter(out_height & out_sex_height)
-out_1
-
-# (2) Identify people (men and women) who are _not_ outliers relative to the entire population
-#     but _are_ outliers relative to their own sex.
-#     (As men are taller than women on average, these are tall women and small men). 
-out_2 <- data_out %>%
-  filter(!out_height & out_sex_height)
-out_2
-
-
-## Visualizations:
-
-# (a) All data: 
-# ?geom_density
-
-p <- ggplot(data) +
-  geom_density(aes(x = height), fill = "forestgreen", alpha = 2/3) +
-  geom_density(aes(x = height, fill = factor(sex)), alpha = 1/4) +
-  theme_bw()
-
-p <- ggplot(data) +
-  facet_wrap(~sex) + 
-  geom_histogram(aes(x = height, binwidth = 10, fill = factor(sex)), alpha = 1/4) +
-  #geom_histogram(aes(x = height), binwidh = 10, fill = "forestgreen", alpha = 2/3) +
-  theme_bw()
-
-## (b) 2 types of outliers:
-ggplot(out_1, aes(x = sex, y = height, color = sex)) +
-  geom_violin() + 
-  geom_jitter()
-
-ggplot(out_2, aes(x = sex, y = height, color = sex)) +
-  geom_violin() + 
-  geom_jitter()
-
+  ## Generate data: 
+  set.seed(123)
+  n <- 1000
+  id <- paste0("p.", 1:n) # paste0(sample(LETTERS, 1), sample(LETTERS, 1))
+  sex <- sample(x = c(0, 1), size = n, replace = TRUE)
+  height <- rep(NA, n)
+  noise <- round(rnorm(n, mean = 0, sd = 11), 0)
+  height[sex == 0] <- 169 + noise[sex == 0]
+  height[sex == 1] <- 181 + noise[sex == 1]
+  
+  data <- as_tibble(data_frame(id, factor(sex), height))
+  names(data) <- c("id", "sex", "height")
+  # data
+  mean(data$height) # => 175.051
+  
+  ## Definition: 
+  # Define an "outlier" as someone deviating by more than 2 SD in some metric 
+  # from the mean of a reference group. 
+  crit <- 2
+  
+  ## Compute 2 types of outliers:
+  ## (a) relative to overall mean and SD 
+  ## (b) relative to specific group mean and SD 
+  
+  data_out <- data %>%
+    mutate(mn_height = mean(height),      # (a) overall:
+           sd_height = sd(height),
+           out_height = abs(height - mn_height) > (crit * sd_height)) %>%
+    group_by(sex) %>% 
+    mutate(mn_sex_height = mean(height),  # (b) by sex:
+           sd_sex_height = sd(height),
+           out_sex_height = abs(height - mn_sex_height) > (crit * sd_sex_height))
+  
+  # (1) Identify outliers relative to entire population AND to own group (sex):
+  out_1 <- data_out %>%
+    filter(out_height & out_sex_height)
+  out_1
+  
+  # (2) Identify people (men and women) who are _not_ outliers relative to the entire population
+  #     but _are_ outliers relative to their own sex.
+  #     (As men are taller than women on average, these are tall women and small men). 
+  out_2 <- data_out %>%
+    filter(!out_height & out_sex_height)
+  out_2
+  
+  
+  ## Visualizations: -----
+  
+  # (a) All data: 
+  # ?geom_density
+  
+  p <- ggplot(data) +
+    geom_density(aes(x = height), fill = "forestgreen", alpha = 2/3) +
+    geom_density(aes(x = height, fill = factor(sex)), alpha = 1/4) +
+    theme_bw()
+  
+  p <- ggplot(data) +
+    facet_wrap(~sex) + 
+    geom_histogram(aes(x = height, binwidth = 10, fill = factor(sex)), alpha = 1/4) +
+    #geom_histogram(aes(x = height), binwidh = 10, fill = "forestgreen", alpha = 2/3) +
+    theme_bw()
+  
+  ## (b) 2 types of outliers:
+  ggplot(out_1, aes(x = sex, y = height, color = sex)) +
+    geom_violin() + 
+    geom_jitter()
+  
+  ggplot(out_2, aes(x = sex, y = height, color = sex)) +
+    geom_violin() + 
+    geom_jitter()
+  
 }
 
 ## ------

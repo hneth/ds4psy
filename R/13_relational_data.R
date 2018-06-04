@@ -1,7 +1,7 @@
 ## r4ds: Chapter 13: Relational data
 ## Code for http://r4ds.had.co.nz/relational-data.html
 ## hn spds uni.kn
-## 2018 04 02 ------
+## 2018 06 04 ------
 
 ## [see Book chapter 10: "Relational data with dplyr"] 
 
@@ -10,6 +10,7 @@
 ## Note: dplyr implements a grammar of data transformation.
 ##       This chapter concerns transformations involving multiple tables
 ##       that are linked by keys that define relations.
+
 
 
 
@@ -57,11 +58,11 @@
 
 # Generally, dplyr is a little easier to use than SQL because 
 # dplyr is specialised to do data analysis: 
-# it makes common data analysis operations easier, 
+# It makes common data analysis operations easier, 
 # at the expense of making it more difficult to do other things 
 # that aren’t commonly needed for data analysis.
 
-# We explore relational data from nycflights13 using the two-table verbs from dplyr:
+# We explore relational data from nycflights13 using the 2-table verbs from dplyr:
 
 library(tidyverse) # includes: library(dplyr)
 library(nycflights13)
@@ -74,11 +75,12 @@ library(nycflights13)
 
 ?nycflights13::flights
 
-nycflights13::flights  # all 336,776 flights departing from NYC in 2013
-nycflights13::airlines # links carrier codes to airline names
-nycflights13::airports # links faa codes to aiport name, location, and timezone
-nycflights13::planes   # links tailnum to plane info (year, make, model, seats, engine)
-nycflights13::weather  # links origin and time to weather info
+## Data:                # Description: 
+nycflights13::flights   # all 336,776 flights departing from NYC in 2013
+nycflights13::airlines  # links carrier codes to airline names
+nycflights13::airports  # links faa codes to aiport name, location, and timezone
+nycflights13::planes    # links tailnum to plane info (year, make, model, seats, engine)
+nycflights13::weather   # links origin and time to weather info
 
 # [test.quest]: Daily temperature curves in 3 NYC airports by month
 {
@@ -111,10 +113,10 @@ nycflights13::weather  # links origin and time to weather info
   # - Similar curves on all 3 airports (which is to be expected):
   #   JFK seems a little colder at night (from April to July)
   # - Differentiating by origin is not very useful --- collapse across origins.
-  # - Plot all 12 months in 1 plot.
+  # - Plot all 12 months in 1 plot: 
   
   library(RColorBrewer)
-  display.brewer.all()
+  # display.brewer.all()
   
   # ?brewer.pal
   season.cols <- c(brewer.pal(3,"Greens"), brewer.pal(6,"OrRd"), brewer.pal(3, "Blues"))
@@ -161,9 +163,9 @@ nycflights13::weather  # links origin and time to weather info
 # 2. I forgot to draw the relationship between weather and airports. 
 #    What is the relationship and how should it appear in the diagram?
 
-nycflights13::weather
+# nycflights13::weather
 
-# "origin" in weather corresponds to "faa" in airports
+# => "origin" in weather corresponds to "faa" in airports
 
 # 3. weather only contains information for the origin (NYC) airports. 
 # If it contained weather records for all airports in the USA, 
@@ -257,7 +259,7 @@ flights %>%
 
 # => still some duplicates (though only 11)
 
-# The table of flights lacks a primary key.
+# => The table of flights lacks a primary key.
 
 ## Defining "surrogate key" and "relation": ---- 
 
@@ -306,7 +308,7 @@ f2 %>%
   count(flight_id) %>%
   filter(n > 1)
 
-# => 0 rows (q.e.d., for a primary key)
+# => 0 rows (q.e.d., for a primary key). 
  
 
 # 2. Identify the keys in the following datasets: 
@@ -328,10 +330,10 @@ Lahman::Batting %>%
 
 ## ad b:
 
-# install.packages('babynames')
+# install.packages('babynames') # if not installed yet.
 library('babynames')
 
-?babynames
+# ?babynames
 bn <- as_tibble(babynames)
 bn
 
@@ -503,9 +505,9 @@ dm %>%
 
 # The first tool to combine a pair of tables is the mutating join. 
 
-# Definition: A _mutating join_ allows you to combine variables from two tables. 
+# Definition: A _mutating join_ allows you to combine variables from 2 tables. 
 # It first matches observations by their keys, then copies across variables 
-# from one table to the other.
+# from one table to the other. 
 
 # Like mutate(), the join functions add variables to the right, 
 # so if you have a lot of variables already, the new variables won’t get printed out. 
@@ -574,10 +576,10 @@ y <- tribble(
   4, "y3")
 
 # Distinguish:
-# a) key variables: used to match tables 
-# b) value variables: carried along
+# (a) key variables: used to match tables 
+# (b) value variables: carried along
 
-# A "join" is a way of connecting each row in x to zero, one, or more rows in y, 
+# A "join" is a way of connecting each row in a table x to zero, one, or more rows in table y, 
 # based on the match or mismatch of the specified key variables. 
 
 # (Note the diagram to view potential matches as an intersection of a pair of lines.)
@@ -675,14 +677,19 @@ right_join(y, x, by = "key")
 
 # => Same set of observations (rows), but different variable order (columns).
 
+# However:
+left_join(x, y, by = "key")  # yields a DIFFERENT result than 
+right_join(x, y, by = "key") # !!!
+
+
 # (b) flights data:
 flights3 <- flights2 %>%
   select(-origin, -dest)
 
-left_join(flights3, airlines, by = "carrier")
+left_join(flights3,  airlines, by = "carrier")
 right_join(airlines, flights3, by = "carrier")
 
-# => Same set of observations (rows), but different variable order (columns).
+# => Same set of observations (rows), but 2 different variable orders (columns).
 
 
 ## 13.4.4 Duplicate keys -----
@@ -703,11 +710,13 @@ x <- tribble(
   2, "x2",
   2, "x3",
   1, "x4")
+x
 
 y <- tribble(
   ~key, ~val_y,
   1, "y1",
   2, "y2")
+y
 
 left_join(x, y, by = "key")
 
@@ -736,6 +745,7 @@ y <- tribble(
   3, "y4")
 
 left_join(x, y, by = "key")
+
 
 ## 13.4.5 Defining the key columns -----
 
@@ -1274,6 +1284,7 @@ setdiff(df1, df2)    # b) not symmetrical: order matters!
 setdiff(df2, df1)
 
 
+
 ## Appendix ------
 
 # See 
@@ -1295,9 +1306,10 @@ setdiff(df2, df1)
 # - Data Wrangling Cheatsheet: https://www.rstudio.com/wp-content/uploads/2015/02/data-wrangling-cheatsheet.pdf 
 
 
-## +++ here now +++ ------
-## Ideas for test questions [test.quest]: ------
 
+## +++ here now +++ ------
+
+## Ideas for test questions [test.quest]: ------
 
 ## Multiple choice [MC] questions: -----
 
@@ -1350,27 +1362,7 @@ setdiff(df2, df1)
 
 ## Practical questions: ----- 
 
-# - Scenario involving family dynasties (e.g., Games of thrones, Lord of the Rings, Harry Potter, Star Wars, ...)
-
-?dplyr::starwars
-
-starwars %>%
-  group_by(species) %>%
-  count() %>%
-  arrange(desc(n))
-
-# What is the name, species, and homeworld of the Star Wars characters
-# with the 10 highest BMI values?
-# Note: BMI := weight (in kg) / ((height (in cm) / 100)  ^ 2
-
-starwars %>% 
-  mutate(bmi = mass / ((height / 100)  ^ 2)) %>%
-  # select(name:mass, bmi) %>%
-  select(name, species, homeworld, bmi, films, everything()) %>% 
-  arrange(desc(bmi))
-
-# - Scenario involving patients/doctors/insurances/pharma ... 
-
+## (none yet)
 
 ## ------
 ## eof.
