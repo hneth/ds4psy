@@ -1037,14 +1037,15 @@ fw %>%
 ## 13.5 Filtering joins ------
 
 # Filtering joins match observations in the same way as mutating joins, 
-# but affect the observations, not the variables. 
+# but affect the observations (cases), NOT the variables (columns). 
 
 # There are 2 types:
   
 # 1. semi_join(x, y) keeps all observations in x that have a match in y.
 # 2. anti_join(x, y) drops all observations in x that have a match in y.
 
-# ad 1.: semi_join: -----
+
+## ad 1.: semi_join: -----
 
 # Semi-joins are useful for matching filtered summary tables back to the original rows. 
 # For example, imagine you’ve found the top ten most popular destinations:
@@ -1083,7 +1084,7 @@ flights %>%
 # - This implies that filtering joins never duplicate rows like mutating joins do. 
 
 
-# ad 2.: anti_join: -----
+## ad 2.: anti_join: -----
 
 # - An anti-join is the inverse of a semi-join. 
 #   Note & [test.quest] MC: The inverse of semi_join is NOT full_join!
@@ -1102,15 +1103,17 @@ flights %>%
   count(tailnum, sort = TRUE)
 
 # [test.quest]:
-# Do semi_join and anti_join add up to all cases?
-
-f_semi <- flights %>%
-  semi_join(planes, by = "tailnum")
-
-f_anti <- flights %>%
-  anti_join(planes, by = "tailnum")
-
-nrow(f_semi) + nrow(f_anti) == nrow(flights) # ==> TRUE (q.e.d.).
+{
+  # Do semi_join and anti_join add up to all cases?
+  
+  f_semi <- flights %>%
+    semi_join(planes, by = "tailnum")
+  
+  f_anti <- flights %>%
+    anti_join(planes, by = "tailnum")
+  
+  nrow(f_semi) + nrow(f_anti) == nrow(flights) # ==> TRUE (q.e.d.).
+  }
 
 
 ## 13.5.1 Exercises -----
@@ -1305,7 +1308,6 @@ setdiff(df2, df1)
 
 
 
-## +++ here now +++ ------
 
 ## Ideas for test questions [test.quest]: ------
 
@@ -1437,6 +1439,7 @@ setdiff(df2, df1)
   sex <- sample(x = c(0, 1), size = n, prob = c(.54, .46), replace = TRUE)
   sex <- factor(sex, labels = c("female", "male"))
   
+  ## Time 1: ## 
   ## Likert-scale rating:
   like <- sample(x = 1:7, size = n, prob = c(.03, .08, .23, .28, .19, .12, .07), replace = TRUE)
   like <- add_NAs(like, amount = .05)  # add 5% NA values
@@ -1449,38 +1452,83 @@ setdiff(df2, df1)
   ## Assemble data set at t1:
   data_t1 <- tibble(name = initials,
                     gender = sex, 
-                    like = like,
-                    bnt = bnt)
+                    like_1 = like,
+                    bnt_1 = bnt)
   data_t1 <- data_t1[sample(1:nrow(data_t1)), ]  # randomize rows
   data_t1
   
-  
-  set.seed(33)  # for replicability  
-  
+  ## Time 2: ##
   ## Likert-scale rating:
-  like <- sample(x = 1:7, size = n, prob = c(.03, .08, .23, .28, .19, .12, .07), replace = TRUE)
-  like <- add_NAs(like, amount = .05)  # add 5% NA values
+  like_2 <- sample(x = 1:7, size = n, prob = c(.03, .08, .23, .28, .19, .12, .07), replace = TRUE)
+  like_2 <- add_NAs(like_2, amount = .05)  # add 5% NA values
   
   ## BNT score:
-  bnt <- sample(x = 1:4, size = n, prob = c(.33, .15, .14, .38), replace = TRUE)
-  bnt[is.na(like)] <- NA             # when like is NA, make bnt NA as well
-  bnt <- add_NAs(bnt, amount = .04)  # add 2% additional NA values
+  bnt_2 <- sample(x = 1:4, size = n, prob = c(.33, .15, .14, .38), replace = TRUE)
+  bnt_2[is.na(like_2)] <- NA             # when like is NA, make bnt NA as well
+  bnt_2 <- add_NAs(bnt_2, amount = .04)  # add 2% additional NA values
   
   ## Assemble data set at t1:
   data_t2 <- tibble(name = initials,
                     gender = sex, 
-                    like = like,
-                    bnt = bnt)
+                    like_2 = like_2,
+                    bnt_2 = bnt_2)
   data_t2 <- data_t2[sample(1:nrow(data_t2)), ]  # randomize rows
 }
 
-## Combine both tables: 
-data_t1
-data_t2
 
-# +++ here now +++
+## +++ here now +++ ------
 
-## (none yet)
+## Combine both tables: ------ 
+{
+  data_t1
+  data_t2
+  
+  ## (A) Both tables have identical names: ----- 
+  
+  j1 <- left_join(data_t1, data_t2, by = "name")
+  j1 <- left_join(data_t1, data_t2, by = c("name", "gender"))
+  j1
+
+  j2 <- right_join(data_t2, data_t1, by = c("name", "gender"))
+  j2
+    
+  j3 <- inner_join(data_t1, data_t2, by = c("name", "gender"))
+  j3
+
+  # Show equality:   
+  all.equal(j1, j2)
+  all.equal(j1, j3)
+
+  # But:   
+  jx <- semi_join(data_t1, data_t2, by = c("name", "gender"))
+  jx
+  all.equal(j1, jx)  
+  
+  
+  ## (B) What happens, when names (and rows) differ: ----- 
+  set.seed(7)  # for replicability
+  
+  data_t3 <- data_t1[sample(1:(nrow(data_t1) - 2)), ] # remove 2 random rows
+  data_t4 <- data_t2[sample(1:(nrow(data_t2) - 4)), ] # remove 4 random rows
+  
+  # Check which name differs:
+  data_t3 %>% arrange(name) 
+  data_t4 %>% arrange(name)
+  
+  j4 <- left_join(data_t3, data_t4, by = c("name", "gender")) %>% arrange(name)
+  j4 # => 18 people (from data_t3) left
+  
+  j5 <- left_join(data_t4, data_t3, by = c("name", "gender")) %>% arrange(name)
+  j5 # => 16 people (from data_t4) left
+  
+  j6 <- inner_join(data_t3, data_t4, by = c("name", "gender")) %>% arrange(name)
+  j6 # => 15 people left (which were present in both tables)
+  
+  j7 <- semi_join(data_t3, data_t4, by = c("name", "gender")) %>% arrange(name)
+  j7 # => 15 people left (which were present in both tables), but only columns from data_t3
+  
+}
+
 
 ## ------
 ## eof.
