@@ -1,17 +1,13 @@
 ## r4ds: Chapter 13: Relational data
 ## Code for http://r4ds.had.co.nz/relational-data.html
 ## hn spds uni.kn
-## 2018 06 04 ------
+## 2018 06 05 ------
 
 ## [see Book chapter 10: "Relational data with dplyr"] 
-
-
 
 ## Note: dplyr implements a grammar of data transformation.
 ##       This chapter concerns transformations involving multiple tables
 ##       that are linked by keys that define relations.
-
-
 
 
 ## 13.1 Introduction ------
@@ -568,12 +564,14 @@ x <- tribble(
   1, "x1",
   2, "x2",
   3, "x3")
+x
 
 y <- tribble(
   ~key, ~val_y,
   1, "y1",
   2, "y2",
   4, "y3")
+y
 
 # Distinguish:
 # (a) key variables: used to match tables 
@@ -591,7 +589,7 @@ y <- tribble(
 # An "inner join" matches pairs of observations whenever their keys are equal:
 
 x %>% 
-  inner_join(y, by = "key")
+  inner_join(., y, by = "key")
 
 # OR (in 1 command): 
 inner_join(x, y, by = "key")
@@ -1361,6 +1359,126 @@ setdiff(df2, df1)
 
 
 ## Practical questions: ----- 
+
+## Utility functions: -----
+{
+  ## Function to replace a random amount of vector elements by NA values:  
+  add_NAs <- function(vec, amount){
+    
+    stopifnot((is.vector(vec)) & (amount >= 0) & (amount <= length(vec)))
+    
+    out <- vec
+    n <- length(vec)
+    
+    amount2 <- ifelse(amount < 1, round(n * amount, 0), amount) # turn amount prop into n
+    
+    out[sample(x = 1:n, size = amount2, replace = FALSE)] <- NA
+    
+    return(out)
+    
+  }
+  
+  ## Check:
+  # add_NAs(1:10, 0)
+  # add_NAs(1:10, 3)
+  # add_NAs(1:10, .5)
+  # add_NAs(letters[1:10], 3)
+  
+  ## Generalization: Replace a random amount of vector elements by what: 
+  add_whats <- function(vec, amount, what = NA){
+    
+    stopifnot((is.vector(vec)) & (amount >= 0) & (amount <= length(vec)))
+    
+    out <- vec
+    n <- length(vec)
+    
+    amount2 <- ifelse(amount < 1, round(n * amount, 0), amount) # turn amount prop into n
+    
+    out[sample(x = 1:n, size = amount2, replace = FALSE)] <- what
+    
+    return(out)
+    
+  }
+  
+  ## Check:
+  # add_whats(1:10, 3) # default: what = NA
+  # add_whats(1:10, 3, what = 99)
+  # add_whats(1:10, .5, what = "ABC")
+}
+
+## Generate data: ----- 
+{
+  library(tidyverse)
+  n <- 20      # [n]umber of participants
+  set.seed(42)  # for replicability
+  
+  ## Demographics: -----
+  
+  ## Generate random initials: ----
+  r_initials <- function(n) {
+    
+    stopifnot(is.numeric(n), n > 0) # check conditions
+    
+    initials <- rep("N.N", n) # initialize output vector
+    
+    for (i in 1:n) {
+      initials[i] <- paste0(paste(sample(LETTERS, 1), sample(LETTERS, 1), sep = "."), ".")
+    }
+    return(initials)
+  }
+  
+  ## Check:
+  # r_initials(100)
+  # length(LETTERS)^2 # => 676 possible sequences
+  # length(unique(r_initials(10000))) # => 676 
+  initials <- r_initials(n)
+  
+  ## Sex/gender: 
+  sex <- sample(x = c(0, 1), size = n, prob = c(.54, .46), replace = TRUE)
+  sex <- factor(sex, labels = c("female", "male"))
+  
+  ## Likert-scale rating:
+  like <- sample(x = 1:7, size = n, prob = c(.03, .08, .23, .28, .19, .12, .07), replace = TRUE)
+  like <- add_NAs(like, amount = .05)  # add 5% NA values
+  
+  ## BNT score:
+  bnt <- sample(x = 1:4, size = n, prob = c(.33, .15, .14, .38), replace = TRUE)
+  bnt[is.na(like)] <- NA             # when like is NA, make bnt NA as well
+  bnt <- add_NAs(bnt, amount = .05)  # add 2% additional NA values
+  
+  ## Assemble data set at t1:
+  data_t1 <- tibble(name = initials,
+                    gender = sex, 
+                    like = like,
+                    bnt = bnt)
+  data_t1 <- data_t1[sample(1:nrow(data_t1)), ]  # randomize rows
+  data_t1
+  
+  
+  set.seed(33)  # for replicability  
+  
+  ## Likert-scale rating:
+  like <- sample(x = 1:7, size = n, prob = c(.03, .08, .23, .28, .19, .12, .07), replace = TRUE)
+  like <- add_NAs(like, amount = .05)  # add 5% NA values
+  
+  ## BNT score:
+  bnt <- sample(x = 1:4, size = n, prob = c(.33, .15, .14, .38), replace = TRUE)
+  bnt[is.na(like)] <- NA             # when like is NA, make bnt NA as well
+  bnt <- add_NAs(bnt, amount = .04)  # add 2% additional NA values
+  
+  ## Assemble data set at t1:
+  data_t2 <- tibble(name = initials,
+                    gender = sex, 
+                    like = like,
+                    bnt = bnt)
+  data_t2 <- data_t2[sample(1:nrow(data_t2)), ]  # randomize rows
+}
+
+## Combine both tables: 
+data_t1
+data_t2
+
+# +++ here now +++
 
 ## (none yet)
 
