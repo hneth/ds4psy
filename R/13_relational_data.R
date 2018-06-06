@@ -1,13 +1,14 @@
 ## r4ds: Chapter 13: Relational data
 ## Code for http://r4ds.had.co.nz/relational-data.html
 ## hn spds uni.kn
-## 2018 06 05 ------
+## 2018 06 06 ------
 
 ## [see Book chapter 10: "Relational data with dplyr"] 
 
 ## Note: dplyr implements a grammar of data transformation.
 ##       This chapter concerns transformations involving multiple tables
 ##       that are linked by keys that define relations.
+
 
 
 ## 13.1 Introduction ------
@@ -1360,9 +1361,14 @@ setdiff(df2, df1)
 # - `right_join`
 
 
-## Practical questions: ----- 
+## Practical questions: ------ 
 
-## Utility functions: -----
+## +++ here now +++ ------
+
+## In class example: ------ 
+## Typical case of using join-commands on people data with 2 measurements:
+
+## Utility functions: ------
 {
   ## Function to replace a random amount of vector elements by NA values:  
   add_NAs <- function(vec, amount){
@@ -1408,9 +1414,10 @@ setdiff(df2, df1)
   # add_whats(1:10, .5, what = "ABC")
 }
 
-## Generate data: ----- 
+## Generate data: ------ 
 {
   library(tidyverse)
+  
   n <- 20      # [n]umber of participants
   set.seed(42)  # for replicability
   
@@ -1435,16 +1442,17 @@ setdiff(df2, df1)
   # length(unique(r_initials(10000))) # => 676 
   initials <- r_initials(n)
   
-  ## Sex/gender: 
+  ## Sex/gender: ----
   sex <- sample(x = c(0, 1), size = n, prob = c(.54, .46), replace = TRUE)
   sex <- factor(sex, labels = c("female", "male"))
   
-  ## Time 1: ## 
+  ## Time 1: ----
+  
   ## Likert-scale rating:
   like <- sample(x = 1:7, size = n, prob = c(.03, .08, .23, .28, .19, .12, .07), replace = TRUE)
   like <- add_NAs(like, amount = .05)  # add 5% NA values
   
-  ## BNT score:
+  ## BNT score: 
   bnt <- sample(x = 1:4, size = n, prob = c(.33, .15, .14, .38), replace = TRUE)
   bnt[is.na(like)] <- NA             # when like is NA, make bnt NA as well
   bnt <- add_NAs(bnt, amount = .05)  # add 2% additional NA values
@@ -1457,7 +1465,8 @@ setdiff(df2, df1)
   data_t1 <- data_t1[sample(1:nrow(data_t1)), ]  # randomize rows
   data_t1
   
-  ## Time 2: ##
+  ## Time 2: ---- 
+  
   ## Likert-scale rating:
   like_2 <- sample(x = 1:7, size = n, prob = c(.03, .08, .23, .28, .19, .12, .07), replace = TRUE)
   like_2 <- add_NAs(like_2, amount = .05)  # add 5% NA values
@@ -1473,62 +1482,93 @@ setdiff(df2, df1)
                     like_2 = like_2,
                     bnt_2 = bnt_2)
   data_t2 <- data_t2[sample(1:nrow(data_t2)), ]  # randomize rows
+  data_t2
+  
+  ## Write out data tables:
+  write_csv(data_t1, path = "data/data_t1.csv")
+  write_csv(data_t2, path = "data/data_t2.csv")
+  
+  ## Remove data tables:
+  rm(list = c("data_t1", "data_t2"))
 }
 
-
-## +++ here now +++ ------
+## Read in data tables: ------ 
+{
+  ## From online file:
+  data_t1 <- as_tibble(read.csv(file = "http://rpository.com/ds4psy/data/data_t1.csv"))
+  data_t2 <- as_tibble(read.csv(file = "http://rpository.com/ds4psy/data/data_t2.csv"))
+  
+  ## From local file:
+  # data_t1 <- as_tibble(read.csv(file = "data/data_t1.csv"))
+  # data_t2 <- as_tibble(read.csv(file = "data/data_t2.csv"))
+}
 
 ## Combine both tables: ------ 
 {
+  ## View data:
   data_t1
   data_t2
-  
-  ## (A) Both tables have identical names: ----- 
-  
-  j1 <- left_join(data_t1, data_t2, by = "name")
-  j1 <- left_join(data_t1, data_t2, by = c("name", "gender"))
-  j1
 
-  j2 <- right_join(data_t2, data_t1, by = c("name", "gender"))
-  j2
+  ## Sort both by name:
+  data_t1 %>% arrange(name)
+  data_t2 %>% arrange(name)
+  
+  ## (A) Simple case: Both tables have identical names: ----- 
+  
+  ## 1. Mutating joins: ----
+  
+  m1 <- left_join(data_t1, data_t2, by = "name")
+  m1 <- left_join(data_t1, data_t2, by = c("name", "gender"))
+  m1
+
+  m2 <- right_join(data_t2, data_t1, by = c("name", "gender"))
+  m2
     
-  j3 <- inner_join(data_t1, data_t2, by = c("name", "gender"))
-  j3
+  m3 <- inner_join(data_t1, data_t2, by = c("name", "gender"))
+  m3
 
-  # Show equality:   
-  all.equal(j1, j2)
-  all.equal(j1, j3)
+  ## Show equality:   
+  all.equal(m1, m2)  # => TRUE
+  all.equal(m1, m3)  # => TRUE
 
-  # But:   
-  jx <- semi_join(data_t1, data_t2, by = c("name", "gender"))
-  jx
-  all.equal(j1, jx)  
+  ## 2. Filtering joins: ----  
+  
+  f1 <- semi_join(data_t1, data_t2, by = c("name", "gender"))
+  f1 # => columns from data_t2 dropped.
+  
+  f2 <- anti_join(data_t1, data_t2, by = c("name", "gender"))
+  f2 # => 0 cases (rows) left.
+  
+
+  ## 3. Set operations: ---- 
+  
+  # union(data_t1, data_t2)      # => ERROR due to different variables (columns). 
+  # intersect(data_t1, data_t2)  # => ERROR due to different variables (columns). 
   
   
-  ## (B) What happens, when names (and rows) differ: ----- 
+  ## (B) What happens, when names (and rows) differ? ----- 
   set.seed(7)  # for replicability
   
   data_t3 <- data_t1[sample(1:(nrow(data_t1) - 2)), ] # remove 2 random rows
   data_t4 <- data_t2[sample(1:(nrow(data_t2) - 4)), ] # remove 4 random rows
   
   # Check which name differs:
-  data_t3 %>% arrange(name) 
-  data_t4 %>% arrange(name)
+  data_t3 %>% arrange(name) # => 18 people left
+  data_t4 %>% arrange(name) # => 16 people left
   
-  j4 <- left_join(data_t3, data_t4, by = c("name", "gender")) %>% arrange(name)
-  j4 # => 18 people (from data_t3) left
+  m4 <- left_join(data_t3, data_t4, by = c("name", "gender")) %>% arrange(name)
+  m4 # => 18 people (from data_t3) left, additional NA values in like_2 and bnt_2
   
-  j5 <- left_join(data_t4, data_t3, by = c("name", "gender")) %>% arrange(name)
-  j5 # => 16 people (from data_t4) left
+  m5 <- left_join(data_t4, data_t3, by = c("name", "gender")) %>% arrange(name)
+  m5 # => 16 people (from data_t4) left, additional NA values in like_1 and bnt_1
+
+  m6 <- inner_join(data_t3, data_t4, by = c("name", "gender")) %>% arrange(name)
+  m6 # => 15 people left (which were present in both tables)
   
-  j6 <- inner_join(data_t3, data_t4, by = c("name", "gender")) %>% arrange(name)
-  j6 # => 15 people left (which were present in both tables)
-  
-  j7 <- semi_join(data_t3, data_t4, by = c("name", "gender")) %>% arrange(name)
-  j7 # => 15 people left (which were present in both tables), but only columns from data_t3
+  m7 <- semi_join(data_t3, data_t4, by = c("name", "gender")) %>% arrange(name)
+  m7 # => 15 people left (which were present in both tables), but only columns from data_t3
   
 }
-
 
 ## ------
 ## eof.
