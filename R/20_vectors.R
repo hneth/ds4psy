@@ -1,7 +1,7 @@
 ## r4ds: Chapter 20: 
 ## Code for http://r4ds.had.co.nz/vectors.html 
 ## hn spds uni.kn
-## 2018 05 21 ------
+## 2018 06 07 ------
 
 
 ## 20 Vectors 
@@ -70,7 +70,7 @@ library(tidyverse)
 
 # Every vector has 2 key properties:
   
-# 1. Its type, which you can determine with typeof().
+# 1. Its type, which you can determine with typeof(): 
 
 typeof(letters)
 #> [1] "character"
@@ -78,7 +78,10 @@ typeof(letters)
 typeof(1:10)
 #> [1] "integer"
 
-# 2. Its length, which you can determine with length().
+typeof(1:10 > 3)
+#> [1] "logical" 
+
+# 2. Its length, which you can determine with length(): 
 
 x <- list("a", "b", 1:10)
 length(x)
@@ -98,6 +101,7 @@ length(x)
 
 # We’ll start with atomic vectors, then build up to lists, 
 # and finish off with augmented vectors.
+
 
 ## 20.3 Important types of atomic vector ------ 
 
@@ -356,15 +360,106 @@ parse_double(s)
 
 
 ## 20.4.1 Coercion ----- 
+
+# There are 2 ways to convert, or coerce, one type of vector to another:
+  
+# 1. Explicit coercion happens when we call a function like 
+#    as.logical(), as.integer(), as.double(), or as.character(). 
+
+#    Whenever we find ourselves using explicit coercion, 
+#    we should always check whether we can make the fix upstream, 
+#    so that the vector never had the wrong type in the first place. 
+#    For example, we may need to tweak our readr col_types specification. 
+
+# 2. Implicit coercion happens when we use a vector in a specific context 
+#    that expects a certain type of vector. 
+#    For example, when we use a logical vector with a numeric summary function, 
+#    or when we use a double vector where an integer vector is expected.
+
+# As explicit coercion is used relatively rarely, and is largely easy to understand, 
+# we’ll focus on implicit coercion here:
+
+# We’ve already seen the most important type of implicit coercion: 
+# using a logical vector in a numeric context. 
+# In this case TRUE is converted to 1 and FALSE converted to 0. 
+# That means the sum of a logical vector is the number of trues, 
+# and the mean of a logical vector is the proportion of trues:
+
+x <- 1:30
+y <- x > 10
+sum(y)  # how many are greater than 10?
+#> [1] 20
+
+mean(y) # what proportion are greater than 10?
+#> [1] 0.6667
+
+
+# We may see some code (typically older) that relies on implicit coercion 
+# in the opposite direction, from integer to logical:
+
+if (length(x)) {
+  # do something
+}
+
+# In this case, 0 is converted to FALSE and everything else is converted to TRUE. 
+# This makes it harder to understand our code, and we don’t recommend it. 
+# Instead be explicit: length(x) > 0.
+
+# It’s also important to understand what happens when we try and create a vector 
+# containing multiple types with c(): 
+# The most complex type always wins.
+
+typeof(c(TRUE, 1L))
+#> [1] "integer"
+
+typeof(c(1L, 1.5))
+#> [1] "double"
+
+typeof(c(1.5, "a"))
+#> [1] "character"
+
+# An atomic vector can not have a mix of different types because the type 
+# is a property of the complete vector, not the individual elements. 
+
+# If we need to mix multiple types in the same vector, we should use a list, 
+# which we’ll learn about shortly.
+
 ## 20.4.2 Test functions ----- 
+
+# Sometimes we want to do different things based on the type of vector. 
+# One option is to use typeof(). 
+# Another is to use a test function which returns a TRUE or FALSE. 
+
+# Base R provides many functions like is.vector() and is.atomic(), 
+# but they often returns surprising results. Instead, it’s safer to
+# use the is_* functions provided by purrr, which are summarised here:
+
+# function:  	lgl 	int 	dbl 	chr 	list
+# -----------------------------------------
+# is_logical() 	x 				
+# is_integer() 		x 			
+# is_double() 			x 		
+# is_numeric() 		x 	x 		
+# is_character() 				x 	
+# is_atomic() 	x 	x 	x 	x 	
+# is_list() 					x
+# is_vector()
+
+# Each predicate also comes with a “scalar” version, like is_scalar_atomic(), 
+# which checks that the length is 1. This is useful, for example, 
+# if we want to check that an argument to our function is a single logical value.
+
 ## 20.4.3 Scalars and recycling rules -----
+
+## +++ here now +++ ------
+
 ## 20.4.4 Naming vectors ----- 
 ## 20.4.5 Subsetting ----- 
 
 
 
 
-## +++ here now +++ ------
+
 
 
 
