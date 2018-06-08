@@ -1,7 +1,7 @@
 ## r4ds: Chapter 20: 
 ## Code for http://r4ds.had.co.nz/vectors.html 
 ## hn spds uni.kn
-## 2018 06 07 ------
+## 2018 06 08 ------
 
 
 ## 20 Vectors 
@@ -123,9 +123,10 @@ length(x)
 1:10 %% 3 == 0
 #>  [1] FALSE FALSE  TRUE FALSE FALSE  TRUE FALSE FALSE  TRUE FALSE
 
-# You can also create them by hand with c():
+# We can also create them by hand with c():
   
 c(TRUE, TRUE, FALSE, NA)
+#> [1]  TRUE  TRUE FALSE    NA
 
 
 ## 20.3.2 Numeric ----- 
@@ -445,23 +446,124 @@ typeof(c(1.5, "a"))
 # is_list() 					x
 # is_vector()
 
+# library(tidyverse)
+is.logical(1:2 > 1) # => TRUE
+
+is_logical(1:2 > 1) # => TRUE
+is_logical(1:2)     # => FALSE
+
+is_integer(1:2)     # => TRUE
+is_double(1:2)      # => FALSE
+
+is_double(1/2)      # => TRUE
+is_numeric(1/2)     # => TRUE (Warning: Deprecated)
+
+is_character(1/2)   # => FALSE
+is_character("AB")  # => TRUE
+
+is_atomic(1/2)      # => TRUE
+is_list(1/2)        # => FALSE
+is_vector(1/2)      # => TRUE
+
 # Each predicate also comes with a “scalar” version, like is_scalar_atomic(), 
 # which checks that the length is 1. This is useful, for example, 
 # if we want to check that an argument to our function is a single logical value.
 
 ## 20.4.3 Scalars and recycling rules -----
 
-## +++ here now +++ ------
+# In addition to coercing the types of vectors, R will also implicitly 
+# coerce the length of vectors. This is called vector recycling, 
+# because the shorter vector is repeated, or recycled, to the same length 
+# as the longer vector.
+
+# This is most useful when mixing vectors and “scalars”
+# (R doesn’t actually have scalars: instead, a single number is a vector of length 1.)  
+# Because there are no scalars, most built-in functions are vectorised, 
+# meaning that they will operate on a vector of numbers. 
+# That’s why, for example, this code works:
+  
+sample(10) + 100
+#>  [1] 109 108 104 102 103 110 106 107 105 101
+
+runif(10) > 0.5
+#>  [1]  TRUE  TRUE FALSE  TRUE  TRUE  TRUE FALSE  TRUE  TRUE  TRUE
+
+# In R, basic mathematical operations work with vectors. 
+# That means that we should never need to perform explicit iteration 
+# when performing simple mathematical computations.
+
+# It’s intuitive what should happen if we add 2 vectors of the same length, 
+# or a vector and a “scalar”.
+# But what happens if we add two vectors of different lengths?
+  
+1:10 + 1:2
+#> [1]  2  4  4  6  6  8  8 10 10 12
+
+# => R will expand the shortest vector to the same length as the longest, 
+#    so called recycling. 
+
+# Recycling is silent except when the length of the longer is not an integer multiple 
+# of the length of the shorter:
+  
+1:10 + 1:3
+#> Warning in 1:10 + 1:3: longer object length is not a multiple of shorter
+#> object length
+#>  [1]  2  4  6  5  7  9  8 10 12 11
+
+# While vector recycling can be used to create very succinct, clever code, 
+# it can also silently conceal problems. 
+# For this reason, the vectorised functions in tidyverse 
+# throw errors when we recycle anything other than a scalar. 
+
+# If we do want to recycle, we need to do it explicitly with rep():
+  
+tibble(x = 1:4, y = 1:2)
+#> Error: Variables must be length 1 or 4, not 2 
+#> Problem variables: 'y'
+
+tibble(x = 1:4, y = rep(1:2, 2))
+#> # A tibble: 4 × 2
+#>       x     y
+#>   <int> <int>
+#> 1     1     1
+#> 2     2     2
+#> 3     3     1
+#> 4     4     2
+
+tibble(x = 1:4, y = rep(1:2, each = 2))
+#> # A tibble: 4 × 2
+#>       x     y
+#>   <int> <int>
+#> 1     1     1
+#> 2     2     1
+#> 3     3     2
+#> 4     4     2
+
 
 ## 20.4.4 Naming vectors ----- 
+
+# All types of vectors can be named. 
+
+# (1) We can name them during creation with c():
+  
+c(x = 1, y = 2, z = 4)
+#> x y z 
+#> 1 2 4
+
+# (2) Or after the fact with purrr::set_names():
+  
+purrr::set_names(1:3, c("a", "b", "c"))
+#> a b c 
+#> 1 2 3
+
+# Named vectors are most useful for subsetting, 
+# described next.
+
+
 ## 20.4.5 Subsetting ----- 
 
 
-
-
-
-
-
+## +++ here now +++ ------
 
 ## Appendix ------
 
