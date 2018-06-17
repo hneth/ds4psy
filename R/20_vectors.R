@@ -630,7 +630,59 @@ x[c("xyz", "def")]
 # The distinction between [ and [[ is most important for lists, 
 # as we’ll see shortly.                                                                                                                                                                                                                                                          20.4.6 Exercises
 
+
 ## 20.4.6 Exercises ----- 
+
+# 1. What does mean(is.na(x)) tell you about a vector x? 
+#    What about sum(!is.finite(x))?
+
+x <- c(1:2, NA, NA, 5:6)
+x
+
+mean(is.na(x))     # The proportion of NA values.
+sum(!is.finite(x)) # The number of non-finite values.
+
+# 2. Carefully read the documentation of is.vector(). 
+#    a. What does it actually test for? 
+#    b. Why does is.atomic() not agree with the definition of atomic vectors above?
+
+#    a. What does it actually test for? 
+
+?is.vector
+# returns TRUE if x is a vector of the specified mode 
+# having no attributes other than names. It returns FALSE otherwise.
+
+df <- data.frame(x = 1:3, y = 4:6)
+df
+
+is.vector(df) # => FALSE
+
+#    b. Why does is.atomic() not agree with the definition of atomic vectors above?
+
+?is.atomic # returns TRUE if x is of an atomic type (or NULL) and FALSE otherwise.
+
+is.atomic(c("A"))
+is.atomic(c(22))
+is.atomic(c(FALSE))
+
+
+
+# 3. Compare and contrast setNames() with purrr::set_names().
+
+# 4. Create functions that take a vector as input and returns:
+  
+# a. The last value. Should you use [ or [[?
+# b. The elements at even numbered positions.
+# c. Every element except the last value.
+# d. Only even numbers (and no missing values).
+                                        
+# 5. Why is x[-which(x > 0)] not the same as x[x <= 0]?
+                                          
+# 6. What happens when you subset with a positive integer 
+#    that’s bigger than the length of the vector? 
+#    What happens when you subset with a name that doesn’t exist?
+
+
 
 
 
