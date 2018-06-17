@@ -562,6 +562,77 @@ purrr::set_names(1:3, c("a", "b", "c"))
 
 ## 20.4.5 Subsetting ----- 
 
+# So far we’ve used dplyr::filter() to filter the rows in a tibble. 
+# filter() only works with tibble, so we’ll need new tool for vectors: [. 
+
+# [ is the subsetting function, and is called x[a]. 
+
+# There are 4 types of things that you can subset a vector with:
+                                                                                                                                              
+# 1. A numeric vector containing only integers. 
+#    The integers must either be all positive, all negative, or zero:
+
+# Subsetting with positive integers keeps the elements at those positions:
+x <- c("one", "two", "three", "four", "five")                                                                                                                             
+x[c(3, 2, 5)]
+
+# By repeating a position, you can actually make a longer output than input:
+x[c(1, 1, 5, 5, 5, 2)]
+
+# Negative values drop the elements at the specified positions:
+x[c(-1, -3, -5)]
+
+# Mixing positive and negative values yields an error:
+x[c(1, -1)]
+
+# The error message mentions subsetting with zero, which returns no values:
+x[0]
+
+# 2. Subsetting with a logical vector keeps all values corresponding to a TRUE value. 
+#    This is most often useful in conjunction with the comparison functions:
+
+x <- c(10, 3, NA, 5, 8, 1, NA)
+
+# All non-missing values of x: 
+x[!is.na(x)]
+#> [1] 10  3  5  8  1
+
+# All even (or missing!) values of x: 
+x[x %% 2 == 0]
+#> [1] 10 NA  8 NA
+
+# 3. Named vectors can be subset with a character vector:
+
+x <- c(abc = 1, def = 2, xyz = 5)
+x[c("xyz", "def")]
+#> xyz def 
+#>   5   2
+
+# The simplest type of subsetting is nothing, x[], which returns the complete x. 
+# This is not useful for subsetting vectors, but it is useful when subsetting matrices 
+# (and other high dimensional structures) because it lets you select 
+# all the rows or all the columns, by leaving that index blank. 
+# For example, if x is 2d, x[1, ] selects the first row and all the columns, 
+# and x[, -1] selects all rows and all columns except the first.
+
+# To learn more about the applications of subsetting, 
+# read the “Subsetting” chapter of Advanced R: 
+# http://adv-r.had.co.nz/Subsetting.html#applications.
+
+
+## [ vs. [[: 
+
+# There is an important variation of [ called [[. 
+# [[ only ever extracts a single element, and always drops names. 
+# It’s a good idea to use it whenever you want to make it clear 
+# that you’re extracting a single item, as in a for loop. 
+
+# The distinction between [ and [[ is most important for lists, 
+# as we’ll see shortly.                                                                                                                                                                                                                                                          20.4.6 Exercises
+
+## 20.4.6 Exercises ----- 
+
+
 
 ## +++ here now +++ ------
 
