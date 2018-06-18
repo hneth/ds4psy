@@ -436,7 +436,7 @@ typeof(c(1.5, "a"))
 # use the is_* functions provided by purrr, which are summarised here:
 
 # function:  	lgl 	int 	dbl 	chr 	list
-# -----------------------------------------
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # is_logical() 	x 				
 # is_integer() 		x 			
 # is_double() 			x 		
@@ -665,13 +665,18 @@ is.vector(df) # => FALSE
 is.atomic(c("A"))
 is.atomic(c(22))
 is.atomic(c(FALSE))
-is.atomic(NULL)
+is.atomic(NULL) # is TRUE!
 
 length(22)         # => 1
 length((c(FALSE))) # => 1
 length(NULL)       # => 0
 
-# 3. Compare and contrast setNames() with purrr::set_names().
+is_atomic(c("A"))
+is_atomic(c(22))
+is_atomic(c(FALSE))
+is_atomic(NULL) # is FALSE!
+
+## 3. Compare and contrast setNames() with purrr::set_names().
 
 ?setNames()
 
@@ -681,7 +686,7 @@ x
 purrr::set_names(x, nm = c("foo2", "bar2", "pie2"))
 
 
-# 4. Create functions that take a vector as input and returns:
+## 4. Create functions that take a vector as input and returns:
 #    a. The last value. Should you use [ or [[?
 #    b. The elements at even numbered positions.
 #    c. Every element except the last value.
@@ -690,41 +695,62 @@ purrr::set_names(x, nm = c("foo2", "bar2", "pie2"))
 x <- 1:10                                        
 y <- letters[1:10]
 z <- c(1:3, NA, NA, 6:10)
-  
-  
+
 all_fun <- function(v) {
   
-#    a. The last value. Should you use [ or [[?
+# a. The last value. Should you use [ or [[?
+v[[length(v)]] # Using [[]] as this only ever extracts a single element, and always drops names.  
   
-  v[length(v)]
+#    b. The elements at even numbered positions: 
+v[(1:length(v) %% 2) == 0]
   
-#    b. The elements at even numbered positions.
+#    c. Every element except the last value: 
+v[-length(v)]
   
-  v[ (1:length(v) %% 2) == 0]
-  
-#    c. Every element except the last value.
-  
-  v[-length(v)]
-  
-#    d. Only even numbers (and no missing values).
-  
-  v[is.numeric(v) & (v %% 2 == 0) & !is.na(v)]
+#    d. Only even numbers (and no missing values): 
+# v[!is.na(v) & (v %% 2 == 0)]
 
 }
 
+all_fun(x)
+all_fun(y)
+all_fun(z)
+
+## 5. Why is x[-which(x > 0)] not the same as x[x <= 0]?
+
+x <- c(-2:2, -Inf, +Inf, NA, NaN)
+x
+
+x[-which(x > 0)]
+x[x <= 0]
+
+# => Difference only for NaN.
 
 
-# 5. Why is x[-which(x > 0)] not the same as x[x <= 0]?
-                                          
-# 6. What happens when you subset with a positive integer 
-#    that’s bigger than the length of the vector? 
-#    What happens when you subset with a name that doesn’t exist?
+## 6. What happens when you subset with a positive integer 
+#     that’s bigger than the length of the vector? 
+#     What happens when you subset with a name that doesn’t exist?
+
+x <- 1:10
+x
+
+x[11:12]
+
+# => When subsetting with positive integers that are larger 
+#    than length(vector), NA values are returned for those integers.
+
+y <- c(a = 1, b = 2)
+y
+
+# When a vector is subset with a name that doesn’t exist, an error is generated: 
+# y[["c"]]
+#> Error: subscript out of bounds
 
 
-
-
+## 20.5 Recursive vectors (lists) ------ 
 
 ## +++ here now +++ ------
+
 
 ## Appendix ------
 
