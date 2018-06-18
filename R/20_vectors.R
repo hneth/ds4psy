@@ -1,7 +1,7 @@
 ## r4ds: Chapter 20: 
 ## Code for http://r4ds.had.co.nz/vectors.html 
 ## hn spds uni.kn
-## 2018 06 08 ------
+## 2018 06 18 ------
 
 
 ## 20 Vectors 
@@ -661,21 +661,59 @@ is.vector(df) # => FALSE
 
 ?is.atomic # returns TRUE if x is of an atomic type (or NULL) and FALSE otherwise.
 
+# The following are all TRUE: 
 is.atomic(c("A"))
 is.atomic(c(22))
 is.atomic(c(FALSE))
+is.atomic(NULL)
 
-
+length(22)         # => 1
+length((c(FALSE))) # => 1
+length(NULL)       # => 0
 
 # 3. Compare and contrast setNames() with purrr::set_names().
 
+?setNames()
+
+x <- setNames( 1:3, c("foo", "bar", "pie") )
+x
+
+purrr::set_names(x, nm = c("foo2", "bar2", "pie2"))
+
+
 # 4. Create functions that take a vector as input and returns:
+#    a. The last value. Should you use [ or [[?
+#    b. The elements at even numbered positions.
+#    c. Every element except the last value.
+#    d. Only even numbers (and no missing values).
+
+x <- 1:10                                        
+y <- letters[1:10]
+z <- c(1:3, NA, NA, 6:10)
   
-# a. The last value. Should you use [ or [[?
-# b. The elements at even numbered positions.
-# c. Every element except the last value.
-# d. Only even numbers (and no missing values).
-                                        
+  
+all_fun <- function(v) {
+  
+#    a. The last value. Should you use [ or [[?
+  
+  v[length(v)]
+  
+#    b. The elements at even numbered positions.
+  
+  v[ (1:length(v) %% 2) == 0]
+  
+#    c. Every element except the last value.
+  
+  v[-length(v)]
+  
+#    d. Only even numbers (and no missing values).
+  
+  v[is.numeric(v) & (v %% 2 == 0) & !is.na(v)]
+
+}
+
+
+
 # 5. Why is x[-which(x > 0)] not the same as x[x <= 0]?
                                           
 # 6. What happens when you subset with a positive integer 
