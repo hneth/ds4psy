@@ -1,7 +1,7 @@
 ---
 title: "Data Science for Psychologists (ds4psy)"
 author: "Hansjörg Neth, SPDS, uni.kn"
-date: "2018 06 20"
+date: "2018 06 21"
 output:
   rmdformats::html_clean:
     highlight: kate
@@ -42,7 +42,7 @@ opts_knit$set(width=75)
 
 ## Overview
 
-Students of psychology and other social sciences are trained to analyze data. But the data they learn to work with (e.g., in courses on statistics and empirical research methods) is typically provided to them and structured in a (rectangular or "tidy") format that presupposes many steps of data processing regarding the aggregation and spatial layout of variables.  When beginning to collect data from other sources, students tend to struggle with these pre-processing steps which --- even for experienced data scientists --- tend to require more time and effort than choosing and conducting statistical tests. 
+Students of psychology and other social sciences are trained to analyze data. But the data they learn to work with (e.g., in courses on statistics and empirical research methods) is typically provided to them and structured in a (rectangular or "tidy") format that presupposes many steps of data processing regarding the aggregation and spatial layout of variables.  When beginning to collect data from other sources, most students struggle with these pre-processing steps which --- even for experienced data scientists --- tend to require more time and effort than choosing and conducting statistical tests. 
 
 This course develops the foundations of data analysis that allow students to collect data from real-world sources and transform and shape such data to conduct reproducible research and answer scientific and practical questions. Although there are many good introductions to data science (we use [Grolemund & Wickham, 2017](http://r4ds.had.co.nz/)) they typically do not take into account the special needs -- and often anxieties and reservations -- of psychology students. As social scientists are not computer scientists, we introduce new concepts and commands without assuming a mathematical or computational background. Adopting a task-oriented perspective, we begin with a specific problem and then solve it with some combination of data collection, manipulation, modeling, and visualization.
 
@@ -189,20 +189,21 @@ This section contains some clarifications (on the term "data science") and recom
 
 ### Data science as the art of dealing with data
 
-Data is cheap and ubiquitous. Every call, trip, or visit of a web page leaves a trail of data. Apart from raising important issues of privacy, the notion of big data highlights another problem: In an era in which digital information is collected everywhere, we are drowning in data that promises to be meaningful and valuable, but we often fail to understand. We typically lack the ability and tools of dealing with data. 
+In our technology-driven environment, data is cheap and ubiquitous. Every call, trip, or visit of a web page leaves a trail of data. Apart from raising important issues of privacy, the notion of big data highlights another problem: In an era in which digital information is collected everywhere, we are drowning in data that promises to be meaningful and valuable, but we often fail to understand. We typically lack the ability and the tools of dealing with data. 
 
-Thus, data science is relevant not only for natural and computer sciences, but also for social sciences, humanities, and even arts. It is partly a scientific enterprise, but also a skill, art, and craft. 
-Like all skills, arts and crafts, it requires special tools, experience in selecting and using them, and an awful lot of practice (see below).
+Thus, data science is relevant not only for natural and computer sciences, but also for social sciences, humanities, and even arts. It is partly a scientific enterprise, but also a skill, an art, and a craft. 
+Like all skills, arts and crafts, data science requires special tools, experience in choosing and using them, and an awful lot of dedicated practice (see below).
 
 ### Data science vs. statistics
 
-There is considerable overlap between data science and statistics, but they are not identical. 
+There is considerable overlap between data science and statistics, but they are not identical: 
 
-- _Statistics_ is primarily a mathematical discipline that examines the properties of probabilty distributions and inferences from samples. Statistics typically involves data, but does not necessarily require getting your hands dirty with real-world data. In the context of psychology, statistics mostly quantifies differences and relationships between groups and tests effects of experimental manipulations or treatments.
+- _Statistics_ is primarily a mathematical discipline that examines the properties of probabilty distributions and inferences from samples. Statistics typically involves numbers, but does not necessarily require getting your hands dirty with real-world data. In the context of psychology, statistics mostly quantifies differences and relationships between groups and tests effects of experimental manipulations or treatments.
 
-- _Data science_ typically begins with messy data from real-world sources. Dealing with data is an essential prerequisite for applied statistics, but does not require statistics to yield meaningful results. Data science can be described as applied descriptive statistics, but with a different main goal: understanding the data, rather than testing effects.
+- _Data science_ typically begins with messy data from real-world sources. Data literacy (as a basic ability to 
+deal with data) is an essential prerequisite for applying statistics, but does not require statistics to yield meaningful results. Data science can be described as using statistics to solve real-world problems, but pursues a different main goal: understanding the data, rather than testing effects.
 
-In short, data science enables us to deal with data. Dealing with data in a variety of ways enables new insights (e.g., by visualizing properties and relationships) and frees the mind for thinking about the causes and meanings of data.
+In short, basic data literacy and data science enable us to understand and deal with data before and beyond statistics. Dealing with data in a variety of ways enables new insights (e.g., by visualizing properties and relationships) and allows us to think more clearly about the causes and meanings of data.
 
 
 ## Premises of this Course
