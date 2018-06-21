@@ -1,7 +1,7 @@
 ---
 title: "Data Science for Psychologists (ds4psy)"
 author: "Hansjörg Neth, SPDS, uni.kn"
-date: "2018 06 20"
+date: "2018 06 04"
 output:
   rmdformats::html_clean:
     highlight: kate
@@ -34,7 +34,7 @@ opts_knit$set(width=75)
 </a>
 
 * Taught at the [University of Konstanz](https://www.uni-konstanz.de/) by [Hansjörg Neth](http://neth.de/) (<h.neth@uni.kn>,  [SPDS](https://www.spds.uni-konstanz.de/), office D507).
-* Spring/summer 2018: Mondays, 13:30--15:00, C511. 
+* Spring/summer 2018: Mondays, 13:30--15:00, C511 (from 2018.04.16 to 2018.07.16) 
 * Links to [ZeUS](https://zeus.uni-konstanz.de:443/hioserver/pages/startFlow.xhtml?_flowId=showEvent-flow&unitId=5101&termYear=2018&termTypeValueId=1&navigationPosition=hisinoneLehrorganisation,examEventOverviewOwn) and [Ilias](https://ilias.uni-konstanz.de/ilias/goto_ilias_uni_crs_758039.html)
 
 
@@ -69,14 +69,13 @@ consisting of MC questions and/or practical exercises (open book, 90 mins).
 Final assessment: Vote on 1 of 2 options (after mid-term exam): 
 
 1. Final exam (same format as in mid-term test);  
-2. Final data science project (contents to be discussed with instructor). 
+2. Final data science project (contents to be discussed with instructor, due on 2018-08-15). 
 
-Both components count towards your final grade (with the better component being systematically over-weighted). 
+Both components count towards your final grade (2 x 50% for either exam, .33% exam vs. .67% final project).
 
 
-# Schedule 
 
-**Note:** The following schedule was **revised on June 20th, 2018**. 
+# Schedule
 
 ## Individual sessions, dates, and topics
 
@@ -106,7 +105,7 @@ Part 1: Explore
 1. [Chapter 3: Data visualisation](http://r4ds.had.co.nz/data-visualisation.html): `ggplot2`.  
    [Chapter 4: Workflow: basics](http://r4ds.had.co.nz/workflow-basics.html): assignment, naming, completion, functions 
 
-1. [Chapter 5: Data transformation](http://r4ds.had.co.nz/transform.html): `dplyr`.  
+1. [Chapter 5: Data transformation](http://r4ds.had.co.nz/5_data_transformation.html): `dplyr`.  
    [Chapter 6: Workflow: scripts](http://r4ds.had.co.nz/workflow-scripts.html): scripts, running code 
 
 1. [Chapter 7: Exploratory data analysis (EDA)](http://r4ds.had.co.nz/exploratory-data-analysis.html).  
@@ -140,16 +139,13 @@ Part 2: Wrangle
  5. 14.05.2018: [Chapter 10: Tibbles](http://r4ds.had.co.nz/tibbles.html): `tibble`. 
  6. 21.05.2018: **Holiday: No class** Skipping [Chapter 11: Data import](http://r4ds.had.co.nz/data-import.html): `readr`. 
  7. 28.05.2018: [Chapter 12: Tidy data](http://r4ds.had.co.nz/tidy-data.html): `tidyr`. 
- 8. 04.06.2018: [Mid-term exam](http://rpository.com/ds4psy/mt/): Data transformation and visualization (open book, 90 mins). 
+ 8. 04.06.2018: [Mid-term exam](http://rpository.com/ds4psy/mt/): Data transformation and visualization (open book, 90 mins)
  9. 11.06.2018: [Chapter 13: Relational data](http://r4ds.had.co.nz/relational-data.html): `dplyr`.
- 
- **Part 3: Rinse and repeat**
- 
-10. 18.06.2018: Essentials of [Chapter 10: Tibbles](http://r4ds.had.co.nz/tibbles.html): `tibble`. 
-11. 25.06.2018: Essentials of [Chapter 5: Data transformation](http://r4ds.had.co.nz/transform.html): `dplyr`.  
-12. 02.07.2018: Essentials of [Chapter 3: Data visualisation](http://r4ds.had.co.nz/data-visualisation.html) and  [Chapter 7: EDA](http://r4ds.had.co.nz/exploratory-data-analysis.html): `ggplot` + `dplyr`.  
-13. 09.07.2018: Essentials of [Chapter 12: Tidy data](http://r4ds.had.co.nz/tidy-data.html): `tidyr`. 
-14. 16.07.2018: Final project/exam. 
+10. 18.06.2018: [Chapter 14: Strings](http://r4ds.had.co.nz/strings.html): `stringr`.
+11. 25.06.2018: [Chapter 15: Factors](http://r4ds.had.co.nz/factors.html): `forcats`.
+12. 02.07.2018: [Chapter 16: Dates and times](http://r4ds.had.co.nz/dates-and-times.html): `lubridate`. 
+13. 09.07.2018: **Final exam** or **final project discussion**
+14. 16.07.2018: Final (buffer) session 
 
 
 ## Structure of each week and session
