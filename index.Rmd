@@ -140,12 +140,12 @@ Part 2: Wrangle
  5. 14.05.2018: [Chapter 10: Tibbles](http://r4ds.had.co.nz/tibbles.html): `tibble`. 
  6. 21.05.2018: **Holiday: No class** Skipping [Chapter 11: Data import](http://r4ds.had.co.nz/data-import.html): `readr`. 
  7. 28.05.2018: [Chapter 12: Tidy data](http://r4ds.had.co.nz/tidy-data.html): `tidyr`. 
- 8. 04.06.2018: [Mid-term exam](http://rpository.com/ds4psy/mt/): Data transformation and visualization (open book, 90 mins). 
+ 8. 04.06.2018: [**Mid-term exam**](http://rpository.com/ds4psy/mt/): Data transformation and visualization (open book, 90 mins). 
  9. 11.06.2018: [Chapter 13: Relational data](http://r4ds.had.co.nz/relational-data.html): `dplyr`.
  
  **Part 3: Rinse and repeat**
  
-10. 18.06.2018: Essentials of [Chapter 10: Tibbles](http://r4ds.had.co.nz/tibbles.html): `tibble`. 
+10. 18.06.2018: [**Essentials**](http://rpository.com/ds4psy/R/_essentials/tibbles.html) of [Chapter 10: Tibbles](http://r4ds.had.co.nz/tibbles.html): `tibble`. 
 11. 25.06.2018: Essentials of [Chapter 5: Data transformation](http://r4ds.had.co.nz/transform.html): `dplyr`.  
 12. 02.07.2018: Essentials of [Chapter 3: Data visualisation](http://r4ds.had.co.nz/data-visualisation.html) and  [Chapter 7: EDA](http://r4ds.had.co.nz/exploratory-data-analysis.html): `ggplot` + `dplyr`.  
 13. 09.07.2018: Essentials of [Chapter 12: Tidy data](http://r4ds.had.co.nz/tidy-data.html): `tidyr`. 
