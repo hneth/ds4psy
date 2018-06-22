@@ -1,7 +1,7 @@
 ---
 title: "Essential commands (ds4psy)"
 author: "Hansjörg Neth, SPDS, uni.kn"
-date: "2018 06 21"
+date: "2018 06 22"
 output:
    rmdformats::html_clean: # html_clean html_docco readthedown material #
      code_folding: show # hide
@@ -479,12 +479,46 @@ mean(is.na(dplyr::storms))    # => 10.03%
 
 More advanced operations on tibbles are covered in [Chapter 5: Data transformation](http://r4ds.had.co.nz/transform.html) and involve using the `dplyr` commands `arrange`, `filter`, and `select`. 
 
-## Additional information
+## More on tibbles
 
 For more details on tibbles, 
 
 - study `vignette("tibble")` and `?tibble`, 
 - read [Chapter 10: Tibbles](http://r4ds.had.co.nz/tibbles.html) and complete its exercises. 
+
+
+# Data transformation
+
+## Overview
+
+When we have data in the form of a tibble or data frame, `dplyr` provides a range of simple tools to transform this data. Essential commands incldue:
+
+1. `arrange` sorts cases (rows); 
+2. `filter` selects cases (rows) by logical conditions; 
+3. `select` selects variables (columns); 
+4. `group_by` aggregates variables; 
+5. `mutate` computes new variables and adds them to existing ones; 
+6. `summarise` collapses multiple values of a variable to a single one. 
+
+Not quite as essential but still useful `dplyr` commands include:
+
+- `rename` to rename variables (columns);
+- `transmute` to compute new variables and drop existing ones;
+- `sample_n` and `sample_frac` to draw random samples of cases (rows).
+
+## Commands and examples
+
+### `arrange`
+
++++ here now +++
+
+## More on data transformation 
+
+For more details on `dplyr`, 
+
+- study `vignette("dplyr")` and `?arrange`, `?filter`, etc. 
+- read [Chapter 5: Data transformation](http://r4ds.had.co.nz/transform.html) and complete its exercises. 
+
 
 [Last update on `r Sys.time()` by [hn](http://neth.de/).]  
 
