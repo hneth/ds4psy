@@ -1,7 +1,7 @@
 ## r4ds: Chapter 5: Data transformation 
-## Code for http://r4ds.had.co.nz/5_data_transformation.html 
+## Code for http://r4ds.had.co.nz/transform.html 
 ## hn spds uni.kn
-## 2018 06 04 ------
+## 2018 06 23 ------
 
 ## Note: dplyr implements a grammar of data transformation.
 ##       This chapter concerns transformations involving a single table
@@ -533,20 +533,19 @@ mutate(flights_sml,
        gain = arr_delay - dep_delay,
        speed = distance / air_time * 60)
 
-## Note that you can refer to columns that you’ve just created:
+## Note that we can refer to columns that we’ve just created:
   
 mutate(flights_sml,
        gain = arr_delay - dep_delay,
        hours = air_time / 60,
        gain_per_hour = gain / hours)
 
-## If you only want to keep the new variables, use transmute():
+## Using transmute() only keeps the new variables:
   
 transmute(flights,
           gain = arr_delay - dep_delay,
           hours = air_time / 60,
           gain_per_hour = gain / hours)
-
 
 
 ## 5.5.1 Useful creation functions -----
@@ -582,8 +581,9 @@ transmute(flights,
 
 ## 4. Offsets: lead() and lag() allow you to refer to leading or lagging values. ----
 
-## This allows you to compute running differences (e.g. x - lag(x)) 
+## This allows us to compute running differences (e.g. x - lag(x)) 
 ## or find when values change (x != lag(x)). 
+
 ## They are most useful in conjunction with group_by(), 
 ## which we’ll learn about shortly.
 

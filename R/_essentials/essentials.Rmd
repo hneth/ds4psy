@@ -1,12 +1,12 @@
 ---
 title: "Essential commands (ds4psy)"
 author: "Hansjörg Neth, SPDS, uni.kn"
-date: "2018 06 22"
+date: "2018 06 23"
 output:
    rmdformats::html_clean: # html_clean html_docco readthedown material #
      code_folding: show # hide
      toc_float: true
-     toc_depth: 2
+     toc_depth: 3
      highlight: kate # textmate default kate haddock monochrome #
      lightbox: true # true by default
      fig_width: 8 # in inches
@@ -179,7 +179,7 @@ Whenever working with rectangular data structures -- data consisting of multiple
 
 ## Creating tibbles
 
-### Commands
+### Basic commands
 
 There are 3 basic commands for creating tibbles:
 
@@ -192,9 +192,10 @@ There are 3 basic commands for creating tibbles:
 **Check**: 
 The 3 commands yield the same type of output (i.e., a tibble), but require different inputs. Ask yourself which kind of input each command takes and how this input needs to be structured and formatted (e.g., with commas).
 
-### Examples
 
-1. Use `as_tibble` when the data to be used already is in a data frame (or matrix):
+### 1. `as_tibble`
+
+Use `as_tibble` when the data to be used already is in a data frame (or matrix):
 
 ```{r as_tibble}
 ## Using the data frame `sleep`: ------ 
@@ -224,7 +225,9 @@ glimpse(tb)
 **Practice:** 
 Convert the data frames `datasets::attitude` and `datasets::iris` into tibbles and inspect their dimensions and contents. What types of variables do they contain? 
 
-2. Use `tibble` when the data to be used appears as a collection of columns. 
+### 2. `tibble`
+
+Use `tibble` when the data to be used appears as a collection of columns. 
 For instance, imagine we have the following information about a family: 
 
 ```{r tibble_def, echo = FALSE, eval = TRUE}
@@ -288,7 +291,10 @@ abc  # prints the tibble:
 **Practice:** 
 Find some tabular data online (e.g., on [Wikipedia](https://en.wikipedia.org)) and enter it as a tibble.
 
-3. Use `tribble` when the data to be used appears as a collection of rows (or already is in tabular form). 
+
+### 3. `tribble`
+
+Use `tribble` when the data to be used appears as a collection of rows (or already is in tabular form). 
 
 For instance, when you copy and paste the above family data from an electronic document, it is easy to insert commas between consecutive cell values and use `tribble` to convert it into a tibble:
 
@@ -331,7 +337,8 @@ all.equal(fm, fm2)
 
 Once we have an R object that is a tibble, we often want to access individual parts of it. We can distinguish between 3 simple cases: 
 
-1. Accessing individual _columns_:  
+### 1. Variables (columns) 
+
 As each column of a tibble is a vector, obtaining a column amounts to obtaining the corresponding vector. We can access this vector by its name (label) or by its number (column position):
 
 ```{r tibble_cols}
@@ -371,7 +378,8 @@ mean(dm[[7]])  # => US-$ 3932.80
 mean(as_vector(select(dm, price))) 
 ```
 
-2. Accessing individual _rows_:  
+### 2. Cases (rows)
+
 Extracting specific rows of a tibble amounts to filtering a tibble and typically yields smaller tibbles (as a row may contain entries of different types). The best way of filtering specific rows of a tibble is using `dplyr::filter`.  However, it's also possible to specify the desired rows by subsetting (i.e., specifying a condition that results in a Boolean value) and by row number:
 
 ```{r tibble_rows}
@@ -410,7 +418,8 @@ mean(dm_2[["price"]])
 mean(dm_2[[7]])  # => US-$ 14843.66
 ```
 
-3. Accessing individual _cells_:  
+### 3. Cells
+
 Accessing the values of individual tibble cells is relatively rare, but can be achieved by 
 
     a. explicitly providing both row number `r` and column number `c` (as `[r, c]`), or by  
@@ -479,11 +488,13 @@ mean(is.na(dplyr::storms))    # => 10.03%
 
 More advanced operations on tibbles are covered in [Chapter 5: Data transformation](http://r4ds.had.co.nz/transform.html) and involve using the `dplyr` commands `arrange`, `filter`, and `select`. 
 
+
 ## More on tibbles
 
 For more details on tibbles, 
 
-- study `vignette("tibble")` and `?tibble`, 
+- study `vignette("tibble")` and the documentation for `?tibble`;
+- study <https://tibble.tidyverse.org/> and its examples; 
 - read [Chapter 10: Tibbles](http://r4ds.had.co.nz/tibbles.html) and complete its exercises. 
 
 
@@ -491,32 +502,259 @@ For more details on tibbles,
 
 ## Overview
 
-When we have data in the form of a tibble or data frame, `dplyr` provides a range of simple tools to transform this data. Essential commands incldue:
+When we have data in the form of a tibble or data frame, `dplyr` provides a range of simple tools to transform this data. Essential `dplyr` commands include:
 
 1. `arrange` sorts cases (rows); 
 2. `filter` selects cases (rows) by logical conditions; 
-3. `select` selects variables (columns); 
-4. `group_by` aggregates variables; 
-5. `mutate` computes new variables and adds them to existing ones; 
+3. `select` selects and reorders variables (columns); 
+4. `mutate` computes new variables (columns) and adds them to existing ones; 
+5. `group_by` aggregates by variable values; 
 6. `summarise` collapses multiple values of a variable to a single one. 
 
 Not quite as essential but still useful `dplyr` commands include:
 
-- `rename` to rename variables (columns);
-- `transmute` to compute new variables and drop existing ones;
-- `sample_n` and `sample_frac` to draw random samples of cases (rows).
+- `slice` selects (ranges of) cases (rows) by number; 
+- `rename` renames variables (columns) and keeps others; 
+- `transmute` computes new variables (columns) and drops existing ones;
+- `sample_n` and `sample_frac` draw random samples of cases (rows).
 
 ## Commands and examples
 
-### `arrange`
+We save the `dplyr::starwars` data as a tibble `sw` and use it to illustrate the essential `dplyr` commands.
+
+```{r starwars_data}
+library(tidyverse)
+sw <- dplyr::starwars
+
+sw  # => A tibble: 87 rows (individuals) x 13 columns (variables)
+```
+
+**Practice:** How many `sw` variables (columns) are there and of which _type_ are they? How many _missing_ (`NA`) values are there? 
+
+
+### 1. Using `arrange` to sort rows
+
+`arrange` sorts cases (rows) by putting specific variables (columns) in specific orders (e.g., ascending or descending):
+
+```{r dplyr_arrange}
+# Sort rows alphabetically (by name):
+arrange(sw, name)
+
+# The same command using the pipe:
+sw %>%           # Note: %>% is NOT + (used in ggplot) 
+  arrange(name) 
+
+# Sort rows in descending order:
+sw %>% 
+  arrange(desc(name)) 
+
+# Sort by multiple variables:
+sw %>% 
+  arrange(eye_color, gender, desc(height))
+
+## Note: See 
+# ?dplyr::arrange  # for more help and examples.
+```
+
+Note some details: 
+
+- All basic `dplyr` commands can be called as `verb(data, ...)` or -- using the pipe from `magrittr` -- as `data %>% verb(...)` (see `vignette("magrittr")` for details).
+
+- Variable names are unquoted.
+
+**Practice:** Arrange the `sw` data in different ways, combining multiple variables and (ascending and descending) orders. Where are cases containing `NA` values in sorted variables placed?
+
+
+### 2. Using `filter` to select rows
+
+`filter` selects cases (rows) by logical conditions. It keeps all rows for which the conditions are `TRUE` and drops all rows for which the conditions are `FALSE` or `NA`.
+
+```{r dplyr_filter}
+# Filter to keep all humans:
+filter(sw, species == "Human")
+
+# The same command using the pipe:
+sw %>%           # Note: %>% is NOT + (used in ggplot) 
+  filter(species == "Human")
+
+# Filter by multiple (additive) conditions: 
+sw %>%
+  filter(height > 180, mass <= 75)  # tall and light individuals
+
+# The same command using the logical operator (&): 
+sw %>%
+  filter(height > 180 & mass <= 75)  # tall and light individuals
+
+# Filter for a range of a specific variable:
+sw %>%
+  filter(height >= 150, height <= 165)  # (a) using height twice
+
+sw %>%
+  filter(between(height, 150, 165))     # (b) using between(...)
+
+# Filter by multiple (alternative) conditions: 
+sw %>%
+  filter(homeworld == "Kashyyyk" | skin_color == "green")
+
+# Filter cases with missing (NA) values on specific variables:
+sw %>%
+  filter(is.na(gender))
+
+# Filter cases with existing (non-NA) values on specific variables:
+sw %>%
+  filter(!is.na(mass), !is.na(birth_year))
+
+## Note: See 
+# ?dplyr::filter  # for more help and examples.
+```
+
+Note some details:
+
+- Separating multiple conditions by commas is the same as the logical AND (`&`). 
+
+- Variable names are unquoted.
+
+- Unlike in base R, rows for which the condition evaluates to `NA` are dropped. 
+
+- Additional filter functions include `near()` for testing numerical (near-)identity. 
+
+
+**Practice:** Use `filter` on `sw` to select very diverse or narrow subsets of individuals. 
+
+
+### 3. Using `select` to select columns 
+
+`select` selects variables (columns) by their names or numbers: 
+
+```{r dplyr_select}
+# Select 4 specific variables (columns) of sw:
+select(sw, name, species, birth_year, gender)
+
+# The same when using the pipe:
+sw %>%           # Note: %>% is NOT + (used in ggplot) 
+  select(name, species, birth_year, gender)
+
+# The same when providing a vector of variable names: 
+sw %>%
+  select(c(name, species, birth_year, gender)) 
+
+# The same when providing column numbers:
+sw %>%
+  select(1, 10, 7, 8) 
+
+# The same when providing a vector of column numbers: 
+sw %>%
+  select(c(1, 10, 7, 8)) 
+
+# Select ranges of variables with ":":
+sw %>%
+  select(name:mass, films:starships)
+
+# Select to re-order variables (columns) with everything():
+sw %>%
+  select(species, name, gender, everything())
+
+# Select variables with helper functions:
+sw %>%
+  select(starts_with("s"))
+
+sw %>%
+  select(ends_with("s"))
+
+sw %>%
+  select(contains("_"))
+
+sw %>%
+  select(matches("or"))
+
+# Renaming variables:
+sw %>%
+  rename(creature = name, from_planet = homeworld)
+
+## Note: See 
+# ?dplyr::select  # for more help and examples. 
+?dplyr::select_if  # for more help and examples. 
+```
+
+Note some details:
+
+- `select` works both by specifying variable (column) _names_ and by specifying column _numbers_.
+
+- Variable names are unquoted. 
+
+- Selecting and adding `everything()` allows re-ordering. 
+
+- Various helper functions (e.g., `starts_with`, `ends_with`, `contains`, `matches`, `num_range`) refer to (parts of) variable names. 
+
+- `rename` renames specified variables (without quotes) and keeps all other variables.
+
+**Practice:** Use `select` on `sw` to select and re-order specific subsets of variables (e.g., all variables starting with "h", all even columns, all character variables, etc.).
+
+
+### 4. Using `mutate` to compute new variables
+
+`mutate` computes new variables (columns) from scratch or existing ones: 
+
+```{r dplyr_mutate}
+# Preparation: Save only a subset variables of sw as sws:   
+sws <- select(sw, name:mass, birth_year:species) 
+sws    # => 87 cases (rows), but only 7 variables (columns)
+
+# Compute 2 new variables and add them to existing ones:
+mutate(sws, id = 1:nrow(sw), height_feet = .032808399 * height)
+
+# The same using the pipe:
+sws %>%
+  mutate(id = 1:nrow(sw), height_feet = .032808399 * height)
+
+# Transmute commputes and only keeps new variables:
+sws %>%
+  transmute(id = 1:nrow(sw), height_feet = .032808399 * height)
+
+# Compute variables based on multiple others (including computed ones):
+sws %>%
+  mutate(BMI = mass / ((height / 100)  ^ 2),  # compute body mass index (kg/m^2)
+         BMI_low  = BMI < 18.5,               # classify low BMI values
+         BMI_high = BMI > 30,                 # classify high BMI values
+         BMI_norm = !BMI_low & !BMI_high      # classify normal BMI values 
+         )
+
+## Note: See 
+# ?dplyr::mutate  # for more help and examples. 
+```
+
+Note some details:
+
+- `mutate` computes new variables (columns) and adds them to existing ones, while `transmute` drops existing ones.
+
+- Variable names are unquoted. 
+
+- Each mutate command specifies a new variable name (without quotes), followed by `=` and a _rule_ for computing the new variable from existing ones. 
+
+- Multiple mutate steps are separated by commas. 
+
+- See <http://r4ds.had.co.nz/transform.html#mutate-funs> for useful functions for creating new variables. 
+
+
+**Practice:** Compute a new variable `mass_pound` from `mass` (in kg) and the age of each individual in `sw` at the Battle of Yavin by using the variable `birth_year`, which is provided in years BBY (Before Battle of Yavin).
+
+
+### 5. Using `group_by` to aggregate variables
 
 +++ here now +++
+
+
+### 6. Using `summarise` to compute group summaries
+
+
 
 ## More on data transformation 
 
 For more details on `dplyr`, 
 
-- study `vignette("dplyr")` and `?arrange`, `?filter`, etc. 
+- study `vignette("dplyr")` and the documentation for `?arrange`, `?filter`, `?select`, etc. 
+- study <https://dplyr.tidyverse.org/> and its examples; 
+- see the [cheat sheet on data transformation](https://www.rstudio.com/resources/cheatsheets/); 
 - read [Chapter 5: Data transformation](http://r4ds.had.co.nz/transform.html) and complete its exercises. 
 
 
