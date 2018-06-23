@@ -1,7 +1,7 @@
 ## r4ds: Chapter 10: Tibbles  
 ## Code for http://r4ds.had.co.nz/tibbles.html 
 ## hn spds uni.kn
-## 2018 05 25 ------
+## 2018 06 21 ------
 
 
 
@@ -348,9 +348,15 @@ df %>% .[["x"]]
   
   ## Task 1: Extract the variable `price` (as a vector):
   ## 2 ways: by name ($ vs. [[]])
-  ##         by position
+  diamonds$price
+  diamonds[["price"]]  
+  
+  ##         by position ([[]]):
+  diamonds[[7]]
+  
   
   all.equal(diamonds$price, diamonds[["price"]])
+  all.equal(diamonds$price, diamonds[[7]])
   
   # Contrast this with: 
   diamonds %>% select(price) # returns a tibble
@@ -541,16 +547,15 @@ deframe(flag)
 print(x = nycflights13::flights, n = 5, width = 75, n_extra = 2)
 
 
-
 ## +++ here now +++ ------
 
 
 ## Appendix ------
 
 # If this chapter leaves you wanting to learn more about tibbles, 
-# see
-
-vignette("tibble")
+# 
+# - study `vignette("tibble")` and the documentation for `?tibble`;
+# - study <https://tibble.tidyverse.org/> and its examples; 
 
 ## ------
 ## eof.
