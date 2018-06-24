@@ -1,0 +1,525 @@
+---
+title: "Essential tibble commands (ds4psy)"
+author: "Hansjörg Neth, SPDS, uni.kn"
+date: "2018 06 24"
+output:
+   rmdformats::html_clean: # html_clean html_docco readthedown material #
+     code_folding: show # hide
+     toc_float: true
+     toc_depth: 3
+     highlight: kate # textmate default kate haddock monochrome #
+     lightbox: true # true by default
+     fig_width: 8 # in inches
+editor_options: 
+  chunk_output_type: console # inline
+---
+
+<!-- Example of essential commands | ds4psy: Summer 2018 -->
+
+```{r preamble, echo = FALSE, eval = TRUE, cache = FALSE, message = FALSE, warning = FALSE}
+## (a) Housekeeping: -----
+rm(list=ls()) # clean all.
+
+## (b) Current file name and path: ----- 
+# cur.path <- dirname(rstudioapi::getActiveDocumentContext()$path)
+# cur.path
+# setwd(cur.path) # set to current directory
+setwd("~/Desktop/stuff/Dropbox/_code/R/_teachR/ds4psy/R/_essentials") # set to current directory
+# list.files() # all files + folders in current directory
+fileName <- "tibble.Rmd"
+
+## (c) Packages: ----- 
+library(knitr)
+library(rmdformats)
+library(tidyverse)
+
+## (d) Global options: ----- 
+options(max.print = "75")
+opts_chunk$set(echo = TRUE,
+	             cache = TRUE,
+               prompt = FALSE,
+               tidy = FALSE,
+               collapse = TRUE, # set TRUE in answers 
+               comment = "#>",
+               message = FALSE,
+               warning = FALSE,
+               ## Default figure options:
+               fig.width = 8, 
+               fig.asp = .618, # golden ratio
+               out.width = "75%",
+               fig.align = "center"
+               )
+opts_knit$set(width = 75)
+
+## (e) Graphics: ----- 
+
+# Defining colors:
+seeblau <- rgb(0, 169, 224, names = "seeblau", maxColorValue = 255) # seeblau.4 (non-transparent)
+
+seeblau.colors <- c(rgb(204, 238, 249, maxColorValue = 255), # seeblau.1
+                    rgb(166, 225, 244, maxColorValue = 255), # seeblau.2 
+                    rgb(89, 199, 235, maxColorValue = 255),  # seeblau.3
+                    rgb(0, 169, 224, maxColorValue = 255),   # seeblau.4 
+                    rgb(0, 0, 0, maxColorValue = 255),       #  5. black
+                    gray(level = 0, alpha = .6),             #  6. gray 60% transparent
+                    gray(level = 0, alpha = .4),             #  7. gray 40% transparent
+                    gray(level = 0, alpha = .2),             #  8. gray 20% transparent
+                    gray(level = 0, alpha = .1),             #  9. gray 10% transparent
+                    rgb(255, 255, 255, maxColorValue = 255)  # 10. white
+                    )
+
+unikn.pal = data.frame(                             ## in one df (for the yarrr package): 
+  "seeblau1" = rgb(204, 238, 249, maxColorValue = 255), #  1. seeblau1 (non-transparent)
+  "seeblau2" = rgb(166, 225, 244, maxColorValue = 255), #  2. seeblau2 (non-transparent)
+  "seeblau3" = rgb( 89, 199, 235, maxColorValue = 255), #  3. seeblau3 (non-transparent)
+  "seeblau4" = rgb(  0, 169, 224, maxColorValue = 255), #  4. seeblau4 (= seeblau base color)
+  "black"    = rgb(  0,   0,   0, maxColorValue = 255), #  5. black
+  "seegrau4" = rgb(102, 102, 102, maxColorValue = 255), #  6. grey40 (non-transparent)
+  "seegrau3" = rgb(153, 153, 153, maxColorValue = 255), #  7. grey60 (non-transparent)
+  "seegrau2" = rgb(204, 204, 204, maxColorValue = 255), #  8. grey80 (non-transparent)
+  "seegrau1" = rgb(229, 229, 229, maxColorValue = 255), #  9. grey90 (non-transparent)
+  "white"    = rgb(255, 255, 255, maxColorValue = 255), # 10. white
+  stringsAsFactors = FALSE)
+
+## (f) Counters: ----- 
+nr <- 0  # task number
+pt <- 0  # point total
+```
+
+```{r utility_add_random_NA_values, echo = FALSE, eval = TRUE}
+# Adding a random amount (number or proportion) of NA or other values to a vector:
+
+## Function to replace a random amount of vector elements by NA values:  
+add_NAs <- function(vec, amount){
+  
+  stopifnot((is.vector(vec)) & (amount >= 0) & (amount <= length(vec)))
+
+  out <- vec
+  n <- length(vec)
+  
+  amount2 <- ifelse(amount < 1, round(n * amount, 0), amount) # turn amount prop into n
+  
+  out[sample(x = 1:n, size = amount2, replace = FALSE)] <- NA
+  
+  return(out)
+
+}
+
+## Check:
+# add_NAs(1:10, 0)
+# add_NAs(1:10, 3)
+# add_NAs(1:10, .5)
+# add_NAs(letters[1:10], 3)
+
+## Generalization: Replace a random amount of vector elements by what: 
+add_whats <- function(vec, amount, what = NA){
+  
+  stopifnot((is.vector(vec)) & (amount >= 0) & (amount <= length(vec)))
+
+  out <- vec
+  n <- length(vec)
+  
+  amount2 <- ifelse(amount < 1, round(n * amount, 0), amount) # turn amount prop into n
+  
+  out[sample(x = 1:n, size = amount2, replace = FALSE)] <- what
+  
+  return(out)
+
+}
+
+## Check:
+# add_whats(1:10, 3) # default: what = NA
+# add_whats(1:10, 3, what = 99)
+# add_whats(1:10, .5, what = "ABC")
+```
+
+# Introduction
+
+This file contains **essential commands** from the chapters of [r4ds](http://r4ds.had.co.nz) and corresponding examples. A command is considered "essential" when you really need to _know_ it and need to know _how to use_ it to succeed in this course. 
+
+<!-- Table with links: -->
+
+All [ds4psy](http://rpository.com/ds4psy/) essentials: 
+
+Nr. | Topic       |
+---:|:------------| 
+1.  | **Creating and using tibbles** |
+2.  | [Data transformation](http://rpository.com/ds4psy/R/_essentials/transform.html) |
+
+
+## Course coordinates
+
+<!-- uni.kn logo and link to SPDS: -->  
+<!-- ![](./inst/pix/uniKn_logo.png) --> 
+<a href="https://www.spds.uni-konstanz.de/">
+<img src = "../../inst/pix/uniKn_logo.png" alt = "spds.uni.kn" align = "right" width = "300" style = "width: 300px; float: right; border:20;"/>
+<!-- <img src = "./inst/pix/uniKn_logo_s.png" alt = "spds.uni.kn" style = "float: right; border:20;"/> --> 
+</a>
+
+* Course [Data Science for Psychologists](http://rpository.com/ds4psy/) (ds4psy). 
+* Taught at the [University of Konstanz](https://www.uni-konstanz.de/) by [Hansjörg Neth](http://neth.de/) (<h.neth@uni.kn>,  [SPDS](https://www.spds.uni-konstanz.de/), office D507).
+* Spring/summer 2018: Mondays, 13:30--15:00, C511.  
+* Links to [ZeUS](https://zeus.uni-konstanz.de:443/hioserver/pages/startFlow.xhtml?_flowId=showEvent-flow&unitId=5101&termYear=2018&termTypeValueId=1&navigationPosition=hisinoneLehrorganisation,examEventOverviewOwn) and [Ilias](https://ilias.uni-konstanz.de/ilias/goto_ilias_uni_crs_758039.html)
+
+## Preparations
+
+Create an R script (`.R`) or an R-Markdown file (`.Rmd`) and load the R packages of the `tidyverse`. (Hint: Structure your script by inserting spaces, meaningful comments, and sections.) 
+ 
+```{r layout_template, echo = TRUE, eval = FALSE}
+## Essential commmands | Data science for psychologists
+## 2018 06 18
+## ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ##
+
+## Preparations: ----- 
+
+library(tidyverse)
+
+## Tibbles: ----- 
+
+# ...
+
+## ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ##
+## End of file. ----- 
+```
+
+# Tibbles
+
+Whenever working with rectangular data structures -- data consisting of multiple cases (rows) and variables (columns) -- our first step is to create or transform the data into a _tibble_ (i.e., a simple version of a _data frame_). 
+
+## Creating tibbles
+
+### Basic commands
+
+There are 3 basic commands for creating tibbles:
+
+1. `as_tibble` converts (or coerces) an existing data frame into a tibble.
+
+2. `tibble` converts several vectors into (the columns of) a tibble.
+
+3. `tribble` converts a table (entered row-by-row) into a tibble. 
+
+**Check**: 
+The 3 commands yield the same type of output (i.e., a tibble), but require different inputs. Ask yourself which kind of input each command takes and how this input needs to be structured and formatted (e.g., with commas).
+
+
+### 1. `as_tibble`
+
+Use `as_tibble` when the data to be used already is in a data frame (or matrix):
+
+```{r as_tibble}
+## Using the data frame `sleep`: ------ 
+
+# ?datasets::sleep # provides background information on the data set.
+
+# Save the sleep data frame as df: 
+df <- datasets::sleep
+
+# Convert df into a tibble tb: 
+tb <- as_tibble(df)
+
+# Inspect the data frame df: 
+dim(df)
+is.data.frame(df)
+head(df)
+str(df)
+
+# Inspect the tibble tb:
+dim(tb)
+is.tibble(tb)
+is.data.frame(tb) # => tibbles ARE data frames.
+head(tb)
+glimpse(tb)
+```
+
+**Practice:** 
+Convert the data frames `datasets::attitude` and `datasets::iris` into tibbles and inspect their dimensions and contents. What types of variables do they contain? 
+
+### 2. `tibble`
+
+Use `tibble` when the data to be used appears as a collection of columns. 
+For instance, imagine we have the following information about a family: 
+
+```{r tibble_def, echo = FALSE, eval = TRUE}
+# Define some data (to be shown below) as a tibble: 
+tb <- tribble(
+  ~id, ~name, ~age, ~gender, ~drives, ~married_2,   
+  #--|------|-----|--------|----------|----------|
+  1,  "Adam", 46,  "male",    TRUE,     "Eva",    
+  2,  "Eva",  48,  "female",  TRUE,     "Adam",  
+  3,  "Xaxi", 21,  "female",  FALSE,    "Zenon",    
+  4,  "Yota", 19,  "female",  TRUE,      NA, 
+  5,  "Zack", 17,  "male",    FALSE,     NA      )
+
+knitr::kable(tb, caption = "Example data of some family.")
+```
+
+One way of viewing this table is as a series of columns. Each column consists of a variable name and the same number of (here: 5) values, which can be of different types (here: numbers, characters, or Boolean truth values).  Each column may or may not contain missing values (entered as `NA`). 
+
+The `tibble` command expects that each column of the table is entered as a vector:
+
+```{r tibble, echo = TRUE, eval = TRUE}
+## Create a tibble from vectors (column-by-column): 
+fm <- tibble(
+  id       = c(1, 2, 3, 4, 5), # OR: id = 1:5, 
+  name     = c("Adam", "Eva", "Xaxi", "Yota", "Zack"), 
+  age      = c(46, 48, 21, 19, 17), 
+  gender   = c("male", rep("female", 3), "male"), 
+  drives   = c(TRUE, TRUE, FALSE, TRUE, FALSE), 
+  married_2 = c("Eva", "Adam", "Zenon", NA, NA)
+  )
+
+fm  # prints the tibble: 
+```
+
+Note some details: 
+
+- Each vector is labeled by the variable (column) name, which is _not_ put into quotes; 
+
+- Avoid spaces within variable (column) names (or enclose names in single quotes if you really `must use spaces`); 
+
+- All vectors need to have the same length; 
+
+- Each vector is of a single type (numeric, character, or Boolean truth values); 
+
+- Consecutive vectors are separated by commas (but there is no comma after the final vector).
+
+When using `tibble`, later vectors may use the values of earlier vectors:
+
+```{r tibble_use_early_v}
+# Using earlier vectors when defining later ones:
+abc <- tibble(
+  ltr = LETTERS[1:5],
+  num = 1:5,
+  l_n = paste(ltr, num, sep = "_"),  # combining abc with num
+  nsq = num^2                        # squaring num
+  )
+
+abc  # prints the tibble: 
+```
+
+**Practice:** 
+Find some tabular data online (e.g., on [Wikipedia](https://en.wikipedia.org)) and enter it as a tibble.
+
+
+### 3. `tribble`
+
+Use `tribble` when the data to be used appears as a collection of rows (or already is in tabular form). 
+
+For instance, when you copy and paste the above family data from an electronic document, it is easy to insert commas between consecutive cell values and use `tribble` to convert it into a tibble:
+
+```{r tribble, echo = TRUE, eval = TRUE}
+## Create a tibble from tabular data (row-by-row): 
+fm2 <- tribble(
+  ~id, ~name, ~age, ~gender, ~drives, ~married_2,   
+  #--|------|-----|--------|----------|----------|
+  1,  "Adam", 46,  "male",    TRUE,     "Eva",    
+  2,  "Eva",  48,  "female",  TRUE,     "Adam",  
+  3,  "Xaxi", 21,  "female",  FALSE,    "Zenon",    
+  4,  "Yota", 19,  "female",  TRUE,      NA, 
+  5,  "Zack", 17,  "male",    FALSE,     NA      )
+
+fm2  # prints the tibble: 
+```
+
+Note some details: 
+
+- The column names are preceded by `~`; 
+
+- Consecutive entries are separated by a comma (but there is no comma after the final entry); 
+
+- The line `#--|------|-----|--------|----------|----------|` is commented out and can be omitted; 
+
+- The type of each column is determined by the type of the corresponding cell values. For instance, the NA values in `fm2` are missing character values because the entries above were characters (entered in quotes).
+
+
+**Check**: If `tibble` and `tribble` really are alternative commands, then the contents of our objects `fm` and `fm2` should be identical: 
+
+```{r check_equality, echo = TRUE, eval = TRUE}
+# Are fm and fm2 equal?
+all.equal(fm, fm2)
+```
+
+**Practice:** Enter the tibble `abc` by using `tribble`. 
+
+
+## Accessing parts of a tibble 
+
+Once we have an R object that is a tibble, we often want to access individual parts of it. We can distinguish between 3 simple cases: 
+
+### 1. Variables (columns) 
+
+As each column of a tibble is a vector, obtaining a column amounts to obtaining the corresponding vector. We can access this vector by its name (label) or by its number (column position):
+
+```{r tibble_cols}
+fm  # family tibble (defined above): 
+
+# Get the name column of fm:
+fm$name       # by label (with $)
+fm[["name"]]  # by label (with [])
+fm[[2]]       # by number (with [])
+
+# Get the age column of fm: 
+fm$age        # by name (with $)
+fm[["age"]]   # by name (with [])
+fm[[3]]       # by number (with [])
+
+# Note: The following all yield the same vectors as a tibble:
+fm[ , 2] # yields the name vector as a (5 x 1) tibble
+select(fm, 2) 
+select(fm, name)
+
+fm[ , 3] # yields the age vector as a (5 x 1) tibble
+select(fm, 3)
+select(fm, age)
+```
+
+**Practice:** Extract the `price` column of `ggplot2::diamonds` in at least 3 different ways and verify that they all yield the same mean price. 
+
+```{r tibble_col_ex, echo = FALSE, eval = FALSE}
+# Save data ggplot2::diamonds as dm: 
+dm <- ggplot2::diamonds
+dm
+
+# Compute the mean price of dm in 4 ways: 
+mean(dm$price)
+mean(dm[["price"]])
+mean(dm[[7]])  # => US-$ 3932.80 
+mean(as_vector(select(dm, price))) 
+```
+
+### 2. Cases (rows)
+
+Extracting specific rows of a tibble amounts to filtering a tibble and typically yields smaller tibbles (as a row may contain entries of different types). The best way of filtering specific rows of a tibble is using `dplyr::filter`.  However, it's also possible to specify the desired rows by subsetting (i.e., specifying a condition that results in a Boolean value) and by row number:
+
+```{r tibble_rows}
+fm  # family tibble (defined above): 
+
+# Filter specific rows (by condition):
+filter(fm, id > 2)
+filter(fm, age < 18)
+fm %>% filter(drives == TRUE) 
+  
+# The same filters by using Boolean vectors (subsetting):
+fm[fm$id > 2, ]
+fm[fm$age < 18, ]
+fm[fm$drives == TRUE, ]
+
+# The same filters by providing specific row numbers:
+fm[3:5, ]  # getting rows 3 to 5 of fm
+fm[5, ]    # getting row 5 of fm
+fm[c(1, 2, 4), ]  # getting rows 1, 2, and 4 of fm
+```
+
+**Practice:** Extract all diamonds from `ggplot2::diamonds` that have at least 2 carat. How many of them are there and what is their mean price? 
+
+```{r tibble_row_ex, echo = FALSE, eval = FALSE}
+# Save data ggplot2::diamonds as dm: 
+dm <- ggplot2::diamonds
+dm
+
+# Filter dm by condition: 
+dm_2 <- filter(dm, carat >= 2)
+dm_2  # => 2154 rows (cases)
+
+# Compute the mean price of dm_2 in 3 ways:
+mean(dm_2$price)
+mean(dm_2[["price"]])
+mean(dm_2[[7]])  # => US-$ 14843.66
+```
+
+### 3. Cells
+
+Accessing the values of individual tibble cells is relatively rare, but can be achieved by 
+
+    a. explicitly providing both row number `r` and column number `c` (as `[r, c]`), or by  
+    b. first extracting the column (as a vector `v`) and then providing the desired row number `r` (`v[r]`). 
+
+```{r tibble_cells}
+fm  # family tibble (defined above): 
+
+# Getting specific cell values:
+fm$name[4]  # getting the name of the 4th row
+fm[4, 2]    # getting the same name by row and column numbers
+
+# Note: What if we don't know the row number? 
+which(fm$name == "Yota") # getting the row number that contains the name "Yota"
+```
+
+In practice, accessing individual cell values is mostly needed to _check_ for specific cell values and to _change_ or _correct_ erroneous entries by re-assigning them to a different value.
+
+```{r tibble_cells_check_change}
+# Checking and changing cell values:
+
+# Check: "Who is Xaxi's spouse?" in 3 different ways:
+fm[fm$name == "Xaxi", ]$married_2
+fm$married_2[3]
+fm[3, 6]
+
+# Change: "Zenon" is actually "Zeus" in 3 different ways:
+fm[fm$name == "Xaxi", ]$married_2 <- "Zeus"
+fm$married_2[3] <- "Zeus"
+fm[3, 6] <- "Zeus"
+
+# Check for successful change:
+fm
+```
+
+By contrast, a relatively common task is to check an entire tibble for missing values, count them, or replace them by some other value: 
+
+```{r tibble_missing_values}
+# Checking for, counting, and changing missing values:
+
+fm  # family tibble (defined above): 
+
+# (a) Check for missing values:
+is.na(fm)       # checks each cell value for being NA
+
+# (b) Count the number of missing values: 
+sum(is.na(fm))  # counts missing values (by adding up all TRUE values)
+
+# (c) Change all missing values: 
+fm[is.na(fm)] <- "A MISSING value!"
+
+# Check for successful change: 
+fm
+```
+
+
+**Practice:** Determine the number and the percentage of missing values in the datasets `dplyr::starwars` and `dplyr::storms`.
+
+```{r missing_values_ex, echo = FALSE, eval = FALSE}
+sum(is.na(dplyr::starwars))   # => 101 missing values
+mean(is.na(dplyr::starwars))  # => 8.93%
+
+sum(is.na(dplyr::storms))     # => 13056 missing values
+mean(is.na(dplyr::storms))    # => 10.03% 
+```
+
+More advanced operations on tibbles are covered in [Chapter 5: Data transformation](http://r4ds.had.co.nz/transform.html) and involve using the `dplyr` commands `arrange`, `filter`, and `select`. 
+
+
+## More on tibbles
+
+For more details on tibbles, 
+
+- study `vignette("tibble")` and the documentation for `?tibble`;
+- study <https://tibble.tidyverse.org/> and its examples; 
+- read [Chapter 10: Tibbles](http://r4ds.had.co.nz/tibbles.html) and complete its exercises. 
+
+
+
+# Conclusion
+
+<!-- Table with links: -->
+
+All [ds4psy](http://rpository.com/ds4psy/) essentials: 
+
+Nr. | Topic       |
+---:|:------------| 
+1.  | **Creating and using tibbles** |
+2.  | [Data transformation](http://rpository.com/ds4psy/R/_essentials/transform.html) |
+
+
+[Last update on `r Sys.time()` by [hn](http://neth.de/).]  
+
+<!-- eof. --> 
