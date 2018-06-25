@@ -1,7 +1,7 @@
 ---
 title: "Test Questions (ds4psy)"
 author: "Hansjörg Neth, SPDS, uni.kn"
-date: "2018 06 04"
+date: "2018 06 24"
 output:
    rmdformats::html_clean: # html_clean html_docco readthedown material #
      code_folding: show # hide
@@ -586,7 +586,7 @@ Let's tackle the universe with the tidyverse by uncovering some facts about the 
 - What is the mean `height` of all individuals with orange eyes from the most popular homeworld? (1)
 
 
-**`r nr`e.** Seize and mass issues: 
+**`r nr`e.** Size and mass issues: 
 
 - Compute the median, mean, and standard deviation of `height` for all droids (1).
 
@@ -1538,6 +1538,7 @@ Generating datasets with specific properties not yet used in the above tasks.
 Create a (psychological) dataset `people` that allows illustrating contents from all chapters. 
 
 ```{r, create_people_data, include = TRUE}
+library(tidyverse)
 n <- 1000     # [n]umber of participants
 set.seed(42)  # for replicability
 
@@ -1709,7 +1710,7 @@ btypes <- sample(size = n, blood_types, prob = blood_probs, replace = TRUE)
 ## Combine IVs: ----- 
 IVs <- tibble(name = initials,
               gender = sex, 
-              # bdate = bdates,
+              bdate = bdates,
               byear = byears, 
               bmonth = bmonths,
               bday = bdays,
@@ -1717,7 +1718,6 @@ IVs <- tibble(name = initials,
               height = heights, 
               blood_type = btypes)
 # IVs
-
 
 ## DVs: -----
 

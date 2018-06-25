@@ -935,7 +935,6 @@ sws %>%
   filter(taller_2 == TRUE)
 ```
 
-
 ## Combining commands
 
 The essential `dplyr` commands are quite simple by themselves, but form the basic verbs of a language for data manipulation. The commands become particularly powerful when they are combined into pipes (by using `%>%`). Stringing together several `dplyr` commands allows slicing and dicing data (tibbles or data frames) in a step-wise fashion to run non-trivial data analyses on the fly. 
@@ -988,13 +987,12 @@ Answer the following questions about the `dplyr::starwars` dataset by using pipe
 
 **f.** Counting and arranging: 
 
-How many individuals exist of the three most frequent (known) species?
+- How many individuals exist of the three most frequent (known) species?
 
 
 **g.** Grouped mutates: 
 
 - Which individuals are more than 20% lighter than the average mass of individuals of their own homeworld? 
-
 
 ```{r starwars_practice}
 # library(tidyverse)
@@ -1129,6 +1127,50 @@ For more details on `dplyr`,
 - see the [cheat sheet on data transformation](https://www.rstudio.com/resources/cheatsheets/); 
 - read [Chapter 5: Data transformation](http://r4ds.had.co.nz/transform.html) and complete its exercises. 
 
+
+# Visualizing data
+
+In the following, we introduce some essential commands of `ggplot2` in the context of examples. However, the `ggplot2` package extends far beyond our modest introduction -- it is an important pillar (and predecessor) of the `tidyverse` and implements a language for and philosophy of data visualisation. 
+
+See the textbook [Chapter 3: Data visualization](http://r4ds.had.co.nz/data-visualisation.html)) and [Chapter 7: Exploratory data analysis (EDA)](http://r4ds.had.co.nz/exploratory-data-analysis.html) and the links provided below for more detailed information. 
+
+## Commands and examples
+
++++ here now +++
+
+### General structure of `ggplot` calls
+
+Generic template
+
+Generic Examples
+
+Note some details:
+
+- `ggplot` requires data and maps independent variables to dimensions (e.g., the x- and y-axis) and dependent variables to geometric objects (called "geoms"). It typically assumes that the to-be-plotted data is in long format and contains independent variables as factors. 
+
+- Different geoms can be combined, but their order matters (as later layers are printed on top of earlier ones).
+
+- In `ggplot`, multiple commands are combined by `+`, rather than `%>%`. 
+
+- The visual appearance of plots are highly customizable (e.g., by supplying aesthetic arguments, speciying labels and legends, and applying pre-defined themes to plots). 
+
+
+### Scatterplots
+
+Trendlines
+
+### Lines and curves
+
+### Bar plots
+
+### 
+
+
+## More on data visualization
+
+- study `vignette("ggplot")` and the documentation for `ggplot` and various geoms (e.g., `geom_`); 
+- see the [cheat sheet on data visualization](https://www.rstudio.com/resources/cheatsheets/); 
+- read [Chapter 3: Data visualization](http://r4ds.had.co.nz/data-visualisation.html) and [Chapter 7: Exploratory data analysis (EDA)](http://r4ds.had.co.nz/exploratory-data-analysis.html) and complete their exercises. 
 
 # Conclusion
 
