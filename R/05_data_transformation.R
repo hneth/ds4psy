@@ -1,7 +1,7 @@
 ## r4ds: Chapter 5: Data transformation 
 ## Code for http://r4ds.had.co.nz/transform.html 
 ## hn spds uni.kn
-## 2018 06 23 ------
+## 2018 06 24 ------
 
 ## Note: dplyr implements a grammar of data transformation.
 ##       This chapter concerns transformations involving a single table
