@@ -969,6 +969,7 @@ ggplot(data) +
 ## (e) Detecting and marking outliers (by logical variables): ----- 
 
 ## Compute the means, SDs, and corresponding outliers in 2 ways:
+
 crit <- 2  # criterion value for detecting outliers (in SD units)
 
 data_out <- data %>%      
@@ -977,7 +978,7 @@ data_out <- data %>%
          sd_height  = sd(height, na.rm = TRUE),
          out_height = abs(height - mn_height) > (crit * sd_height)) %>%
   group_by(sex) %>%       
-  # 2. Compute same metrics for subgroups:
+  # 2. Compute same metrics for subgroups (by sex):
   mutate(mn_sex_height  = mean(height, na.rm = TRUE), 
          sd_sex_height  = sd(height, na.rm = TRUE),
          out_sex_height = abs(height - mn_sex_height) > (crit * sd_sex_height))
