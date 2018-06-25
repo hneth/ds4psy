@@ -1132,11 +1132,13 @@ For more details on `dplyr`,
 
 In the following, we introduce some essential commands of `ggplot2` in the context of examples. However, the `ggplot2` package extends far beyond our modest introduction -- it is an important pillar (and predecessor) of the `tidyverse` and implements a language for and philosophy of data visualisation. 
 
-See the textbook [Chapter 3: Data visualization](http://r4ds.had.co.nz/data-visualisation.html)) and [Chapter 7: Exploratory data analysis (EDA)](http://r4ds.had.co.nz/exploratory-data-analysis.html) and the links provided below for more detailed information. 
+See [Chapter 3: Data visualization](http://r4ds.had.co.nz/data-visualisation.html)) and [Chapter 7: Exploratory data analysis (EDA)](http://r4ds.had.co.nz/exploratory-data-analysis.html) and the links provided below for more detailed information. 
 
 ## Commands and examples
 
 +++ here now +++
+
+See <https://ggplot2.tidyverse.org/reference/> for examples. 
 
 ### General structure of `ggplot` calls
 
@@ -1168,7 +1170,8 @@ Trendlines
 
 ## More on data visualization
 
-- study `vignette("ggplot")` and the documentation for `ggplot` and various geoms (e.g., `geom_`); 
+- study `vignette("ggplot")` and the documentation for `ggplot` and various geoms (e.g., `geom_`);
+- study <https://ggplot2.tidyverse.org/reference/> and its examples; 
 - see the [cheat sheet on data visualization](https://www.rstudio.com/resources/cheatsheets/); 
 - read [Chapter 3: Data visualization](http://r4ds.had.co.nz/data-visualisation.html) and [Chapter 7: Exploratory data analysis (EDA)](http://r4ds.had.co.nz/exploratory-data-analysis.html) and complete their exercises. 
 
