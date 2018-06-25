@@ -1,7 +1,7 @@
 ---
 title: "Data sets and sources (ds4psy)"
 author: "Hansjörg Neth, SPDS, uni.kn"
-date: "2018 04 01"
+date: "2018 05 23"
 output:
   rmdformats::html_clean:
     highlight: kate
@@ -42,19 +42,25 @@ This file collects ideas and sources of suitable data sets.
 
 The R datasets package contains many useful datasets: 
 
-```{r}
+```{r, datasets}
 library(help = "datasets")
+```
+
+`mtcars`
+
+```{r, mtcars}
+?mtcars
 ```
 
 `iris`
 
-```{r}
+```{r, iris}
 ?iris
 ```
 
 `sleep`
 
-```{r}
+```{r, sleep}
 ?sleep
 # sleep
 
@@ -80,27 +86,28 @@ boxplot(sleep1, horizontal = TRUE, add = TRUE,
 
 `women`
 
-```{r}
+```{r, women, eval = FALSE}
 ?women
+
+as_tibble(women)
 
 # Examples:
 require(graphics)
 plot(women, xlab = "Height (in)", ylab = "Weight (lb)",
      main = "women data: American women aged 30-39")
-
 ```
 
 `USArrests`
 
 This data set contains statistics, in arrests per 100,000 residents for assault, murder, and rape in each of the 50 US states in 1973. Also given is the percent of the population living in urban areas.
 
-```{r}
-?USArrests
+```{r, USArrests, eval = FALSE}
+# ?USArrests
 ```
 
 ## From `tidyverse` packages
 
-```{r}
+```{r, tidyverse}
 ## Install tidyverse packages: 
 # install.packages("tidyverse")
 library(tidyverse)
@@ -109,7 +116,7 @@ library(tidyverse)
 
 ## This includes the following datasets (as tibbles):
 ggplot2::diamonds
-dplyr::band_members
+# dplyr::band_members
 dplyr::starwars
 tidyr::table1 # etc. 
 
@@ -120,7 +127,7 @@ tidyr::table1 # etc.
 
 Some dedicated data packages: 
 
-```{r}
+```{r, data_packages}
 ## Install additional data packages:
 # install.packages("nycflights13")
 # install.packages("gapminder")
@@ -131,7 +138,7 @@ Some dedicated data packages:
 
 ## `MASS` package
 
-```{r}
+```{r, MASS}
 # install.packages("MASS")
 library(MASS)
 
