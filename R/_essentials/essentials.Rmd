@@ -1,7 +1,7 @@
 ---
 title: "Essential commands (ds4psy)"
 author: "Hansjörg Neth, SPDS, uni.kn"
-date: "2018 06 24"
+date: "2018 06 25"
 output:
    rmdformats::html_clean: # html_clean html_docco readthedown material #
      code_folding: show # hide
@@ -571,6 +571,8 @@ Note some details:
 
 - Variable names are unquoted.
 
+- The order of variable names (`x, y, ...`) specifies the _order_ or _priority_ of operations (first by `x`, then by `y`, etc.).
+
 **Practice:** Arrange the `sw` data in different ways, combining multiple variables and (ascending and descending) orders. Where are cases containing `NA` values in sorted variables placed?
 
 
@@ -622,6 +624,8 @@ Note some details:
 - Separating multiple conditions by commas is the same as the logical AND (`&`). 
 
 - Variable names are unquoted.
+
+- The comma between conditions or tests (`x, y, ...`) means the same as `&` (logical AND), as each test results in a vector of Boolean values.
 
 - Unlike in base R, rows for which the condition evaluates to `NA` are dropped. 
 
@@ -711,6 +715,8 @@ Note some details:
 
 - Variable names are unquoted. 
 
+- The sequence of variable names (separated by commas) specifies the _order_ of columns in the resulting tibble.
+
 - Selecting and adding `everything()` allows re-ordering. 
 
 - Various helper functions (e.g., `starts_with`, `ends_with`, `contains`, `matches`, `num_range`) refer to (parts of) variable names. 
@@ -760,11 +766,26 @@ Note some details:
 
 - Variable names are unquoted. 
 
-- Multiple `mutate` steps are separated by commas. 
+- Multiple `mutate` steps are separated by commas, each of which creates a new variable. 
 
 - See <http://r4ds.had.co.nz/transform.html#mutate-funs> for useful functions for creating new variables. 
 
-**Practice:** Compute a new variable `mass_pound` from `mass` (in kg) and the age of each individual in `sw` at the Battle of Yavin by using the variable `birth_year`, which is provided in years BBY (Before Battle of Yavin).
+**Practice:** Compute a new variable `mass_pound` from `mass` (in kg) and the age of each individual in `sw` relative to Yoda's age. (Note that the variable `birth_year` is provided in years BBY, i.e., Before Battle of Yavin.) 
+
+```{r mutate_ex, echo = FALSE, eval = FALSE}
+# sws
+
+age_yoda <- sws %>%
+  filter(name == "Yoda") %>%
+  .$birth_year
+age_yoda
+
+sws %>% 
+  mutate(mass_pound = mass/.45,
+         age_since_yoda = age_yoda - birth_year) %>%
+  select(name, mass, mass_pound, birth_year, age_since_yoda)
+```
+
 
 ### 5. `summarise` to compute summaries
 
