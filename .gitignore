@@ -38,6 +38,8 @@ vignettes/*.pdf
 _book 
 _data/_* 
 _gitless 
+_midTerm/ 
+_readings/ 
 .DS_Store 
 
 # eof. 
