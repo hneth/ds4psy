@@ -1,13 +1,13 @@
 ---
 title: "Essential commands (ds4psy)"
 author: "Hansjörg Neth, SPDS, uni.kn"
-date: "2018 06 25"
+date: "2018 06 26"
 output:
    rmdformats::html_clean: # html_clean html_docco readthedown material #
      code_folding: show # hide
      toc_float: true
      toc_depth: 3
-     highlight: kate # textmate default kate haddock monochrome #
+     highlight: default # textmate default kate haddock monochrome #
      lightbox: true # true by default
      fig_width: 8 # in inches
 editor_options: 
@@ -1157,23 +1157,74 @@ See [Chapter 3: Data visualization](http://r4ds.had.co.nz/data-visualisation.htm
 
 ## Commands and examples
 
-+++ here now +++
-
-See <https://ggplot2.tidyverse.org/reference/> for examples. 
-
 ### General structure of `ggplot` calls
 
-Generic template
+A generic template for creating a graph with `ggplot` is:
 
-Generic Examples
+```{r ggplot_template, eval = FALSE}
+# Generic ggplot template: 
+ggplot(data = <DATA>) + 
+  <GEOM_fun>(mapping = aes(<MAPPINGS>), <arg_1 = val_1, ..., arg_n = val_n>) +
+  <FACET_fun> +    # optional
+  <LOOK_GOOD_fun>  # optional 
+  
+# Minimal ggplot template:
+ggplot(<DATA>) + 
+  <GEOM_fun>(aes(<MAPPINGS>) 
+```
+
+The generic template includes the following parts: 
+
+- `<DATA>` is a data frame or tibble that contains the data that is to be plotted.
+
+- `<GEOM_fun>` is a function that maps data to a _geometric object_ ("geom") according to the aesthetic mappings that are specified in `aes(<MAPPINGS>)`. 
+
+- A geom's appearance can be customized by setting its arguments to specific values in `<arg_1 = val_1, ..., arg_n = val_n>`.
+
+- An optional `<FACET_fun>` splits a complex plot into multiple subplots. 
+
+- A sequence of optional `<LOOK_GOOD_fun>` adjusts the visual features of plots by adding themes, plot titles and labels, color scales, and alternative coordinate systems.
+
+Some examples that use these components are:
+
++++ here now +++
+
+```{r ggplot_template_ex_mw}
+library(ggplot2)
+?ggplot2::midwest
+mw <- ggplot2::midwest
+# mw
+
+# Check some variable types: 
+unique(mw$state)
+unique(mw$inmetro)
+unique(mw$category)
+
+ggplot(mw) +
+  geom_histogram(aes(x = poptotal), binwidth = 10000)
+
+ggplot(mw) +
+  geom_histogram(aes(x = popdensity), binwidth = 500) +
+  facet_wrap(~inmetro) +
+  theme_bw()
+
+ggplot(mw) +
+  geom_histogram(aes(x = popdensity), binwidth = 1000) +
+  facet_wrap(~state) +
+  theme_bw()
+```
+
+See <https://ggplot2.tidyverse.org/reference/> for more examples. 
 
 Note some details:
 
-- `ggplot` requires data and maps independent variables to dimensions (e.g., the x- and y-axis) and dependent variables to geometric objects (called "geoms"). It typically assumes that the to-be-plotted data is in long format and contains independent variables as factors. 
+- `ggplot` requires data and maps independent variables to dimensions (e.g., the x- and y-axis) and dependent variables to geometric objects (called "geoms"). It typically assumes that the to-be-plotted `<DATA>` is in a table (data frame or tibble) in long format and contains independent variables as factors. 
 
 - Different geoms can be combined, but their order matters (as later layers are printed on top of earlier ones).
 
-- In `ggplot`, multiple commands are combined by `+`, rather than `%>%`. 
+- When multiple geoms use the same mappings, their common `aes(<MAPPINGS>)` can be moved into the initial `ggplot` call (behind `<DATA>`).
+
+- In `ggplot`, a sequence of commands is combined by `+`, rather than `%>%`. 
 
 - The visual appearance of plots are highly customizable (e.g., by supplying aesthetic arguments, speciying labels and legends, and applying pre-defined themes to plots). 
 
@@ -1185,8 +1236,6 @@ Trendlines
 ### Lines and curves
 
 ### Bar plots
-
-### 
 
 
 ## More on data visualization
