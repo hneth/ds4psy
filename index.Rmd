@@ -1,7 +1,7 @@
 ---
 title: "Data Science for Psychologists (ds4psy)"
 author: "Hansjörg Neth, SPDS, uni.kn"
-date: "2018 06 24"
+date: "2018 06 28"
 output:
   rmdformats::html_clean:
     highlight: kate
@@ -34,7 +34,7 @@ opts_knit$set(width=75)
 </a>
 
 * Taught at the [University of Konstanz](https://www.uni-konstanz.de/) by [Hansjörg Neth](http://neth.de/) (<h.neth@uni.kn>,  [SPDS](https://www.spds.uni-konstanz.de/), office D507).
-* Spring/summer 2018: Mondays, 13:30--15:00, C511. 
+* Summer 2018: Mondays, 13:30--15:00, C511. 
 * Links to [ZeUS](https://zeus.uni-konstanz.de:443/hioserver/pages/startFlow.xhtml?_flowId=showEvent-flow&unitId=5101&termYear=2018&termTypeValueId=1&navigationPosition=hisinoneLehrorganisation,examEventOverviewOwn) and [Ilias](https://ilias.uni-konstanz.de/ilias/goto_ilias_uni_crs_758039.html)
 
 
@@ -196,14 +196,15 @@ Like all skills, arts and crafts, data science requires special tools, experienc
 
 ### Data science vs. statistics
 
-There is considerable overlap between data science and statistics, but they are not identical: 
+There is considerable overlap between data science and statistics, but they are not identical. 
 
-- _Statistics_ is primarily a mathematical discipline that examines the properties of probabilty distributions and inferences from samples. Statistics typically involves numbers, but does not necessarily require getting your hands dirty with real-world data. In the context of psychology, statistics mostly quantifies differences and relationships between groups and tests effects of experimental manipulations or treatments.
+- _Statistics_ is primarily a mathematical discipline that examines the properties of probabilty distributions and inferences from samples. Statistics typically involves formulas and numbers, but does not necessarily require getting your hands dirty with real-world data. In the context of psychology, statistics mostly quantifies differences and relationships between groups and tests effects of experimental manipulations or treatments.
 
 - _Data science_ typically begins with messy data from real-world sources. Data literacy (as a basic ability to 
 deal with data) is an essential prerequisite for applying statistics, but does not require statistics to yield meaningful results. Data science can be described as using statistics to solve real-world problems, but pursues a different main goal: understanding the data, rather than testing effects.
 
-In short, basic data literacy and data science enable us to understand and deal with data before and beyond statistics. Dealing with data in a variety of ways enables new insights (e.g., by visualizing properties and relationships) and allows us to think more clearly about the causes and meanings of data.
+In short, statistics mostly summarizes data to test hypotheses, while data science transforms and visualizes data to promote the generation of hypotheses.^[See Donoho (2017) and the surrounding discussions for a vastly more nuanced and diverging views.] 
+In science, both objectives are ubiquitous and complementary, but basic data literacy and data science enable us to understand and deal with data before and beyond statistics. Dealing with data in a variety of ways enables new insights (e.g., by visualizing properties and relationships) and allows us to think more clearly about the causes and implications of data.
 
 
 ## Premises of this Course
@@ -249,14 +250,20 @@ Programming (in R or any other language) can be enjoyable, but also has addictiv
 
 ## Software and packages
 
-- [The R Project for Statistical Computing](http://www.r-project.org/)
-- [R Studio](http://www.rstudio.com/) is an integrated development environment (IDE) for R.
-- The [tidyverse](https://www.tidyverse.org/) site also links to [instructional resources](https://www.tidyverse.org/learn/)
+- [The R project for statistical computing](http://www.r-project.org/); 
+- [R Studio](http://www.rstudio.com/) is an integrated development environment (IDE) for R; 
+- The [tidyverse site](https://www.tidyverse.org/) also links to [instructional resources](https://www.tidyverse.org/learn/). 
 
-## Book 
+## Textbook 
 
 - Wickham, H., & Grolemund, G. (2017). _R for data science: Import, tidy, transform, visualize, and model data._ 
 Sebastopol, Canada: O'Reilly Media, Inc.  [Available online at [http://r4ds.had.co.nz](http://r4ds.had.co.nz).]
+
+## References 
+
+- Donoho, D. (2017). 50 years of data science. _Journal of Computational and Graphical Statistics_, _26_(4), 745--766. [Available at <https://doi.org/10.1080/10618600.2017.1384734>.] 
+
+- Wickham, H. (2014). Tidy data. _Journal of Statistical Software_, _59_(10), 1--23.  [Available from <http://vita.had.co.nz/articles.html>.] 
 
 
 <!-- 
