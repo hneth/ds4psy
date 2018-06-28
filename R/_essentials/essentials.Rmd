@@ -1,7 +1,7 @@
 ---
 title: "Essential commands (ds4psy)"
 author: "Hansjörg Neth, SPDS, uni.kn"
-date: "2018 06 26"
+date: "2018 06 28"
 output:
    rmdformats::html_clean: # html_clean html_docco readthedown material #
      code_folding: show # hide
@@ -145,7 +145,7 @@ Nr. | Topic       |
 ---:|:------------| 
 1.  | [Creating and using tibbles](http://rpository.com/ds4psy/R/_essentials/tibble.html) |
 2.  | [Data transformation](http://rpository.com/ds4psy/R/_essentials/transform.html) |
-
+3.  | [Visualizing data](http://rpository.com/ds4psy/R/_essentials/visualize.html) |
 
 ## Course coordinates
 
@@ -1151,11 +1151,11 @@ For more details on `dplyr`,
 
 # Visualizing data
 
-In the following, we introduce some essential commands of `ggplot2` in the context of examples. However, the `ggplot2` package extends far beyond our modest introduction -- it is an important pillar (and predecessor) of the `tidyverse` and implements a language for and philosophy of data visualisation. 
+In the following, we introduce some essential commands of `ggplot2` in the context of examples. However, the `ggplot2` package extends far beyond this modest introduction -- it is an important pillar (and predecessor) of the `tidyverse` and implements a language for and philosophy of data visualisation. 
 
 See [Chapter 3: Data visualization](http://r4ds.had.co.nz/data-visualisation.html)) and [Chapter 7: Exploratory data analysis (EDA)](http://r4ds.had.co.nz/exploratory-data-analysis.html) and the links provided below for more detailed information. 
 
-## Commands and examples
+## Commands and examples 
 
 ### General structure of `ggplot` calls
 
@@ -1164,33 +1164,137 @@ A generic template for creating a graph with `ggplot` is:
 ```{r ggplot_template, eval = FALSE}
 # Generic ggplot template: 
 ggplot(data = <DATA>) + 
-  <GEOM_fun>(mapping = aes(<MAPPINGS>), <arg_1 = val_1, ..., arg_n = val_n>) +
+  <GEOM_fun>(mapping = aes(<MAPPING>), <arg_1 = val_1, ..., arg_n = val_n>) +
   <FACET_fun> +    # optional
   <LOOK_GOOD_fun>  # optional 
   
 # Minimal ggplot template:
 ggplot(<DATA>) + 
-  <GEOM_fun>(aes(<MAPPINGS>) 
+  <GEOM_fun>(aes(<MAPPING>) 
 ```
 
 The generic template includes the following parts: 
 
 - `<DATA>` is a data frame or tibble that contains the data that is to be plotted.
 
-- `<GEOM_fun>` is a function that maps data to a _geometric object_ ("geom") according to the aesthetic mappings that are specified in `aes(<MAPPINGS>)`. 
+- `<GEOM_fun>` is a function that maps data to a _geometric object_ ("geom") according to an aesthetic mapping that are specified in `aes(<MAPPING>)`. (A "mapping" specifies what goes where.) 
 
-- A geom's appearance can be customized by setting its arguments to specific values in `<arg_1 = val_1, ..., arg_n = val_n>`.
+- A geom's visual appearance (e.g., colors, shapes, sizes, ...) can be customized 
+     a. in the aesthetic mapping (when varying visual features according to data properties), or 
+     b. by setting its arguments to specific values in `<arg_1 = val_1, ..., arg_n = val_n>` (when remaining constant).
 
 - An optional `<FACET_fun>` splits a complex plot into multiple subplots. 
 
-- A sequence of optional `<LOOK_GOOD_fun>` adjusts the visual features of plots by adding themes, plot titles and labels, color scales, and alternative coordinate systems.
+- A sequence of optional `<LOOK_GOOD_fun>` adjusts the visual features of plots (e.g., by adding themes, plot titles and labels, color scales, and coordinate systems).
 
-Some examples that use these components are:
+Some examples that illustrate the use of these components are:
 
-+++ here now +++
+### A histogram
 
-```{r ggplot_template_ex_mw}
+A _histogram_ counts how often specific values of one (typically continuous) variable occur in the data. This allows viewing the distribution of values for this variable: 
+
+```{r ggplot_template_mpg_hist}
 library(ggplot2)
+
+# Data: ------ 
+# Using mpg data:
+# ?ggplot2::mpg
+
+# (A) Histogram: ------
+
+# A minimal histogram:
+hi1 <- ggplot(mpg, aes(x = cty)) +  # set mappings for ALL geoms
+  geom_histogram() 
+hi1
+
+# The same histogram:
+hi1b <- ggplot(mpg) +
+  geom_histogram(aes(x = cty))      # set mappings for THIS geoms
+hi1b
+
+# (B) Adding aesthetics, labels and themes: ------ 
+
+# Enhanced version of the same plot: 
+hi2 <- ggplot(mpg) +
+  geom_histogram(aes(x = cty), binwidth = 1, fill = "forestgreen", color = "black") +
+  labs(title = "Distribution of fuel economy in city environments", 
+       x = "cty (miles per gallon)",
+       caption = "Data from ggplot2::mpg") +
+  theme_light()
+hi2
+```
+
+### A scatterplot
+
+A _scatterplot_ shows a data point (observation) as a function of 2 (typically continuous) variables `x` and `y`. This allows judging the relationship between `x` and `y` in the data: 
+
+```{r ggplot_template_mpg_scat}
+
+# (A) Scatterplot: ------ 
+
+# A minimal scatterplot + reference line:
+sp1 <- ggplot(mpg) +
+  geom_point(aes(x = cty, y = hwy)) +
+  geom_abline()
+sp1
+
+# Note a potential issue: Overplotting (multiple points on the same position).
+
+
+# (B) Overplotting: ----- 
+
+# One way of dealing with overplotting is 
+# adding randomness to point positions:  
+sp2 <- ggplot(mpg) +
+  geom_point(aes(x = cty, y = hwy), position = "jitter") +
+  geom_abline()
+sp2
+
+# Another way of dealing with overplotting is 
+# using transparency (via setting alpha to < 1): 
+sp3 <- ggplot(mpg) +
+  geom_point(aes(x = cty, y = hwy), position = "identity", 
+             pch = 21, fill = "steelblue", alpha = 1/4, size = 4) +
+  geom_abline(linetype = 2, color = "firebrick") # + 
+  # geom_rug(aes(x = cty, y = hwy), position = "jitter", alpha = 1/4, size = 1)
+sp3
+
+# Adding labels and themes to plots: 
+sp4 <- sp3 +   # use the plot defined above
+  labs(title = "Fuel economy on highway vs. city",
+                x = "City (miles per gallon)",
+                y = "Highway (miles per gallon)",
+                caption = "Data from ggplot2::mpg") +
+  # coord_fixed() +
+  theme_bw()
+sp4
+
+
+# (C) Grouping (by a categorical variable): ------  
+
+# Grouping by color:
+sp5 <- ggplot(mpg) +
+  geom_point(aes(x = cty, y = hwy, color = class), 
+             position = "jitter", alpha = 1/2, size = 4) +
+  geom_abline(linetype = 2) +
+  theme_bw()
+sp5
+
+# Grouping by facets: 
+sp6 <- ggplot(mpg) +
+  geom_point(aes(x = cty, y = hwy), 
+             position = "jitter", alpha = 1/2, size = 2) +
+  geom_abline(linetype = 2) +
+  facet_wrap(~class) +
+  theme_bw()
+sp6
+```
+
+
+```{r ggplot_template_ex_mw, echo = FALSE, eval = FALSE}
+# UNUSED examples:
+
+# midwest data:
 ?ggplot2::midwest
 mw <- ggplot2::midwest
 # mw
@@ -1220,13 +1324,29 @@ Note some details:
 
 - `ggplot` requires data and maps independent variables to dimensions (e.g., the x- and y-axis) and dependent variables to geometric objects (called "geoms"). It typically assumes that the to-be-plotted `<DATA>` is in a table (data frame or tibble) in long format and contains independent variables as factors. 
 
+- The arguments `data =` and `mappings =` can be omitted, but an aesthetic mapping `aes(<MAPPING>)` for at least one geom is needed. 
+
 - Different geoms can be combined, but their order matters (as later layers are printed on top of earlier ones).
 
-- When multiple geoms use the same mappings, their common `aes(<MAPPINGS>)` can be moved into the initial `ggplot` call (behind `<DATA>`).
+- When multiple geoms use the same mappings, their common `aes(<MAPPING>)` can be moved into the initial `ggplot` call (behind `<DATA>`).
 
 - In `ggplot`, a sequence of commands is combined by `+`, rather than `%>%`. 
 
 - The visual appearance of plots are highly customizable (e.g., by supplying aesthetic arguments, speciying labels and legends, and applying pre-defined themes to plots). 
+
+
+## EDA 
+
+The key to creating a good graph involves 2 steps: 
+
+1. Knowing the number and type of variables to be plotted. 
+
+2. Knowing the intended type of graph (i.e., knowing the available ones and identifying the suitable ones).
+
+Even when 1. and 2. is given, creating good graphs with `ggplot` requires a lot of practice and many hours of trial-and-error experimentation. 
+
+
++++ here now +++
 
 
 ### Scatterplots
@@ -1255,7 +1375,7 @@ Nr. | Topic       |
 ---:|:------------| 
 1.  | [Creating and using tibbles](http://rpository.com/ds4psy/R/_essentials/tibble.html) |
 2.  | [Data transformation](http://rpository.com/ds4psy/R/_essentials/transform.html) |
-
+3.  | [Visualizing data](http://rpository.com/ds4psy/R/_essentials/visualize.html) |
 
 [Last update on `r Sys.time()` by [hn](http://neth.de/).]  
 
