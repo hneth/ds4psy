@@ -1,7 +1,7 @@
 ---
 title: "Essential commands (ds4psy)"
 author: "Hansjörg Neth, SPDS, uni.kn"
-date: "2018 06 28"
+date: "2018 06 30"
 output:
    rmdformats::html_clean: # html_clean html_docco readthedown material #
      code_folding: show # hide
@@ -1356,6 +1356,136 @@ Trendlines
 ### Lines and curves
 
 ### Bar plots
+
+### Other plots and packages
+
+`ggplot2` comes with a large variety of geoms. Nevertheless, we sometimes want to show or do something that is not included in the standard package. [Chapter 7: Exploratory data analysis](http://r4ds.had.co.nz/exploratory-data-analysis.html) goes beyond standard `ggplot` geoms by touching on `geom_hex` (from the `hexbin` package) and `geom_beeswarm` and `geom_quasirandom` (from the `ggbeeswarm` package). When looking for new forms of visual expression, web sites like 
+
+- [Data Visualization Catalogue](https://datavizcatalogue.com)
+- [Google charts](https://developers.google.com/chart/)
+- [R-graph gallery](http://www.r-graph-gallery.com)
+
+can inspire and provide many interesting pointers. The site 
+
+- [ggplot2-exts.org](https://www.ggplot2-exts.org/) 
+
+also provides valuable resources for `ggplot` users, as it shows packages specifically designed to work with `ggplot2`. In the following, we illustrate the package `ggalluvial` that allows showing the transitions between categorical data. 
+
+#### Example 1: Alluvial plot
+
+```{r alluvial_plots_1, fig.width = 6, fig.height = 8}
+# Preparations: 
+library(tidyverse)
+# install.packages("ggalluvial")
+library(ggalluvial)
+
+# Example 1 (adapted from vignette): ----- 
+
+as_tibble(as.data.frame(UCBAdmissions))
+is_alluvial(as.data.frame(UCBAdmissions), logical = FALSE, silent = TRUE)
+
+ggplot(as.data.frame(UCBAdmissions),
+       aes(weight = Freq, axis1 = Gender, axis2 = Dept)) +
+  geom_alluvium(aes(fill = Admit), width = 1/12) +
+  geom_stratum(width = 1/12, 
+               fill = c("firebrick", "steelblue4", "grey10", "grey80", "grey30", "grey50", "grey70", "grey20"), 
+               color = "grey10") +
+  geom_label(stat = "stratum", label.strata = TRUE) +
+  scale_x_continuous(breaks = 1:2, labels = c("Gender", "Department")) +
+  # scale_fill_brewer(type = "qual", palette = "Set2") +
+  scale_fill_manual(values = c("forestgreen", "gold2")) + 
+  ggtitle("UC Berkeley admissions and rejections") +
+  theme_light()
+```
+
+An important feature of these diagrams is the meaningfulness of the vertical axis: No gaps are inserted between the strata, so the total height of the diagram reflects the cumulative weight of the observations.^[This is different in _Sankey diagrams_, shown <https://developers.google.com/chart/interactive/docs/gallery/sankey>.]
+
+
+#### Example 2: Parallel set diagram 
+
+```{r alluvial_plots_2, fig.width = 7, fig.height = 7}
+# Preparations: 
+library(ggalluvial)
+
+# Example 2 (adapted from vignette): ----- 
+
+# as.data.frame(Titanic)
+
+ggplot(as.data.frame(Titanic),
+       aes(weight = Freq,
+           axis1 = Survived, axis2 = Sex, axis3 = Class)) +
+  geom_alluvium(aes(fill = Class),
+                width = 0, knot.pos = 0, reverse = FALSE) +
+  guides(fill = FALSE) +
+  geom_stratum(width = 1/8, reverse = FALSE) +
+  geom_text(stat = "stratum", label.strata = TRUE, reverse = FALSE) +
+  scale_x_continuous(breaks = 1:3, labels = c("Survived", "Gender", "Class")) +
+  coord_flip() +
+  ggtitle("Titanic survival by class and gender") +
+  scale_fill_brewer(type = "qual", palette = "Dark2") +
+  theme_bw()
+
+# Switching order of axes (to put Survived in middle):
+
+ggplot(as.data.frame(Titanic),
+       aes(weight = Freq,
+           axis1 = Sex, axis2 = Survived, axis3 = Class)) +
+  geom_alluvium(aes(fill = Class),
+                width = 0, knot.pos = 0, reverse = FALSE) +
+  guides(fill = FALSE) +
+  geom_stratum(width = 1/8, reverse = FALSE) +
+  geom_text(stat = "stratum", label.strata = TRUE, reverse = FALSE) +
+  scale_x_continuous(breaks = 1:3, labels = c("Gender", "Survived", "Class")) +
+  coord_flip() +
+  ggtitle("Titanic survival by class and gender (2)") +
+  scale_fill_brewer(type = "qual", palette = "Set1") +
+  theme_bw()
+
+# Fill by gender:
+
+ggplot(as.data.frame(Titanic),
+       aes(weight = Freq,
+           axis1 = Class, axis2 = Survived, axis3 = Sex)) +
+  geom_alluvium(aes(fill = Sex),
+                width = 0, knot.pos = 0, reverse = FALSE) +
+  guides(fill = FALSE) +
+  geom_stratum(width = 1/8, reverse = FALSE) +
+  geom_text(stat = "stratum", label.strata = TRUE, reverse = FALSE) +
+  scale_x_continuous(breaks = 1:3, labels = c("Class", "Survived", "Gender")) +
+  coord_flip() +
+  ggtitle("Titanic survival by class and gender (3)") +
+  # scale_fill_brewer(type = "qual", palette = "Paired") +
+  scale_fill_manual(values = c("steelblue", "firebrick")) + 
+  theme_bw()
+```
+
+#### Example 3: Data in long format
+
+```{r alluvial_plots_3, fig.width = 8, fig.height = 5}
+# Preparations: 
+library(ggalluvial)
+
+# Example 3 (adapted from vignette): ----- 
+
+?majors
+data(majors)
+as_tibble(majors) # illustrating lode format 
+majors$curriculum <- as.factor(majors$curriculum)
+
+ggplot(majors,
+       aes(x = semester, stratum = curriculum, alluvium = student,
+           fill = curriculum, label = curriculum)) +
+  scale_fill_brewer(type = "qual", palette = "Pastel2") +
+  geom_flow(stat = "alluvium", 
+            lode.guidance = "rightleft",
+            color = "darkgray") +
+  geom_stratum() +
+  theme(legend.position = "right") + # "bottom" "top"
+  ggtitle("Student curricula across several semesters") +
+  theme_light()
+```
+
+See the packages `circlize`, `ggforce`, and `ggparallel` for other types of transition plots. 
 
 
 ## More on data visualization
