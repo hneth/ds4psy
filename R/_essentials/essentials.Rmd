@@ -1,7 +1,7 @@
 ---
 title: "Essential commands (ds4psy)"
 author: "Hansjörg Neth, SPDS, uni.kn"
-date: "2018 07 01"
+date: "2018 07 02"
 output:
    rmdformats::html_clean: # html_clean html_docco readthedown material #
      code_folding: show # hide
@@ -1196,15 +1196,18 @@ A _histogram_ counts how often specific values of one (typically continuous) var
 ```{r ggplot_template_mpg_hist}
 library(ggplot2)
 
+
+
 # Data: ------ 
 # Using mpg data:
-# ?ggplot2::mpg
+?ggplot2::mpg
+mpg
 
 # (A) Histogram: ------
 
 # A minimal histogram:
 hi1 <- ggplot(mpg, aes(x = cty)) +  # set mappings for ALL geoms
-  geom_histogram() 
+  geom_histogram(binwidth = 1) 
 hi1
 
 # The same histogram:
@@ -1354,14 +1357,67 @@ The key to creating good graphs requires answering 2 sets of questions:
 
 Even when the questions of 1. and 2. are answered, creating good graphs with `ggplot` requires a lot of practice and many hours of trial-and-error experimentation. 
 
-
 ## Basic plot types
-
-+++ here now +++
 
 ### Histograms
 
+A histogram shows counts of the values of 1 (typically continuous) variable. This is useful for evaluating the distribution of the variable:
+
+```{r histograms}
+library(ggplot2)
+ 
+# Create data: 
+tb <- tibble(iq = rnorm(n = 1000, mean = 100, sd = 15))
+ 
+# Basic histogram:
+ggplot(tb) + 
+  geom_histogram(aes(x = iq), binwidth = 5)
+
+# Pimped histogram: 
+ggplot(tb) + 
+  geom_histogram(aes(x = iq), binwidth = 5, 
+                 fill = "gold", color = "black") +
+  labs(title = "Histogram", x = "IQ values", y = "Frequency in sample (n)",
+       caption = "[Using random iq data.]") +
+  theme_classic()
+```
+
+More on histograms: 
+
+- <https://www.r-graph-gallery.com/histogram/>
+
 ### Scatterplots
+
+A scatterplot shows relationship between 2 (typically continuous) variables:
+
+```{r scatterplots}
+# Data:
+ir <- as_tibble(iris)
+ir
+
+# Basic scatterplot:
+ggplot(ir) +
+  geom_point(aes(x = Petal.Length, y = Petal.Width, color = Species, shape = Species))
+
+# Using 3 different facets:
+ggplot(ir) +
+  geom_point(aes(x = Petal.Length, y = Petal.Width, color = Species)) +
+  facet_wrap(~Species)
+
+# Pimped scatterplot:
+ggplot(ir) +
+  geom_point(aes(x = Petal.Length, y = Petal.Width, fill = Species), pch = 21, color = "black", size = 2, alpha = 1/2) +
+  facet_wrap(~Species) +
+  # coord_fixed() + 
+  labs(title = "Scatterplot", x = "Length of petal", y = "Width of petal",
+       caption = "[Using iris data.]") + 
+  theme_bw() +
+  theme(legend.position = "none")
+```
+
+More on scatterplots: 
+
+- <https://www.r-graph-gallery.com/scatterplot/>
 
 
 ### Drawing curves and lines
@@ -1376,6 +1432,10 @@ Are surprisingly complex:
 - position: dodge vs. stacked
 - statistics: `count` vs. `prop` vs. `identity`
 - error bars 
+
+### Box plots
+
+
 
 ### Improving plots
 
