@@ -1,7 +1,7 @@
 ---
-title: "Essential commands (ds4psy)"
+title: "Essential data transformation (ds4psy)"
 author: "Hansjörg Neth, SPDS, uni.kn"
-date: "2018 06 25"
+date: "2018 07 05"
 output:
    rmdformats::html_clean: # html_clean html_docco readthedown material #
      code_folding: show # hide
@@ -144,7 +144,8 @@ All [ds4psy](http://rpository.com/ds4psy/) essentials:
 Nr. | Topic       |
 ---:|:------------| 
 1.  | [Creating and using tibbles](http://rpository.com/ds4psy/R/_essentials/tibble.html) |
-2.  | **Data transformation** |
+2.  | [Data transformation](http://rpository.com/ds4psy/R/_essentials/transform.html) |
+3.  | [Visualizing data](http://rpository.com/ds4psy/R/_essentials/visualize.html) |
 
 
 ## Course coordinates
@@ -834,7 +835,8 @@ All [ds4psy](http://rpository.com/ds4psy/) essentials:
 Nr. | Topic       |
 ---:|:------------| 
 1.  | [Creating and using tibbles](http://rpository.com/ds4psy/R/_essentials/tibble.html) |
-2.  | **Data transformation** |
+2.  | [Data transformation](http://rpository.com/ds4psy/R/_essentials/transform.html) |
+3.  | [Visualizing data](http://rpository.com/ds4psy/R/_essentials/visualize.html) |
 
 
 [Last update on `r Sys.time()` by [hn](http://neth.de/).]  

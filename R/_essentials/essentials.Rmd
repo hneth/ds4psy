@@ -1,7 +1,7 @@
 ---
 title: "Essential commands (ds4psy)"
 author: "Hansjörg Neth, SPDS, uni.kn"
-date: "2018 07 02"
+date: "2018 07 06"
 output:
    rmdformats::html_clean: # html_clean html_docco readthedown material #
      code_folding: show # hide
@@ -146,6 +146,7 @@ Nr. | Topic       |
 1.  | [Creating and using tibbles](http://rpository.com/ds4psy/R/_essentials/tibble.html) |
 2.  | [Data transformation](http://rpository.com/ds4psy/R/_essentials/transform.html) |
 3.  | [Visualizing data](http://rpository.com/ds4psy/R/_essentials/visualize.html) |
+
 
 ## Course coordinates
 
@@ -1836,6 +1837,7 @@ See the packages `circlize`, `ggforce`, and `ggparallel` for other types of tran
 - study <https://ggplot2.tidyverse.org/reference/> and its examples; 
 - see the [cheat sheet on data visualization](https://www.rstudio.com/resources/cheatsheets/); 
 - read [Chapter 3: Data visualization](http://r4ds.had.co.nz/data-visualisation.html) and [Chapter 7: Exploratory data analysis (EDA)](http://r4ds.had.co.nz/exploratory-data-analysis.html) and complete their exercises. 
+
 
 # Conclusion
 

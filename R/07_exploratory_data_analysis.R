@@ -1,7 +1,7 @@
 ## r4ds: Chapter 7: Exploratory data analysis
 ## Code for http://r4ds.had.co.nz/exploratory-data-analysis.html 
 ## hn spds uni.kn
-## 2018 05 07 ------
+## 2018 06 30 ------
 
 ## Quotes: ------
 

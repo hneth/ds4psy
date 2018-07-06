@@ -143,8 +143,9 @@ All [ds4psy](http://rpository.com/ds4psy/) essentials:
 
 Nr. | Topic       |
 ---:|:------------| 
-1.  | **Creating and using tibbles** |
+1.  | [Creating and using tibbles](http://rpository.com/ds4psy/R/_essentials/tibble.html) |
 2.  | [Data transformation](http://rpository.com/ds4psy/R/_essentials/transform.html) |
+3.  | [Visualizing data](http://rpository.com/ds4psy/R/_essentials/visualize.html) | 
 
 
 ## Course coordinates
@@ -516,8 +517,9 @@ All [ds4psy](http://rpository.com/ds4psy/) essentials:
 
 Nr. | Topic       |
 ---:|:------------| 
-1.  | **Creating and using tibbles** |
+1.  | [Creating and using tibbles](http://rpository.com/ds4psy/R/_essentials/tibble.html) |
 2.  | [Data transformation](http://rpository.com/ds4psy/R/_essentials/transform.html) |
+3.  | [Visualizing data](http://rpository.com/ds4psy/R/_essentials/visualize.html) |
 
 
 [Last update on `r Sys.time()` by [hn](http://neth.de/).]  
