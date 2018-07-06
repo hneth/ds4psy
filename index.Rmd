@@ -1,7 +1,7 @@
 ---
 title: "Data Science for Psychologists (ds4psy)"
 author: "Hansjörg Neth, SPDS, uni.kn"
-date: "2018 07 05"
+date: "2018 07 06"
 output:
   rmdformats::html_clean:
     highlight: kate
@@ -147,7 +147,7 @@ Part 2: Wrangle
  
 10. 18.06.2018: [**Essentials**](http://rpository.com/ds4psy/R/_essentials/tibble.html) of [Chapter 10: Tibbles](http://r4ds.had.co.nz/tibbles.html): `tibble`. 
 11. 25.06.2018: [**Essentials**](http://rpository.com/ds4psy/R/_essentials/transform.html) of [Chapter 5: Data transformation](http://r4ds.had.co.nz/transform.html): `dplyr`.
-12. 02.07.2018: [**Essentials**](http://rpository.com/ds4psy/R/_essentials/visualize.html) of [Chapter 3: Data visualisation](http://r4ds.had.co.nz/data-visualisation.html) and  [Chapter 7: EDA](http://r4ds.had.co.nz/exploratory-data-analysis.html): `ggplot` + `dplyr`.  
+12. 02.07.2018: [**Essentials**](http://rpository.com/ds4psy/R/_essentials/visualize.html) of [Chapter 3: Data visualisation](http://r4ds.had.co.nz/data-visualisation.html) and [Chapter 7: EDA](http://r4ds.had.co.nz/exploratory-data-analysis.html): `ggplot2` + `dplyr`.  
 13. 09.07.2018: Essentials of [Chapter 12: Tidy data](http://r4ds.had.co.nz/tidy-data.html): `tidyr`. 
 14. 16.07.2018: Final project/exam. 
 
