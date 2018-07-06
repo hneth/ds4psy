@@ -1197,8 +1197,6 @@ A _histogram_ counts how often specific values of one (typically continuous) var
 ```{r ggplot_template_mpg_hist}
 library(ggplot2)
 
-
-
 # Data: ------ 
 # Using mpg data:
 ?ggplot2::mpg
@@ -1681,10 +1679,15 @@ More on barplots:
 
 ### Drawing curves and lines
 
+**ToDo:**
+
 - adding trendlines
 - lines of data (e.g., means)
 
+
 ### Box plots
+
+**ToDo:**
 
 - show medians, quartiles, distribution, and outliers
 
