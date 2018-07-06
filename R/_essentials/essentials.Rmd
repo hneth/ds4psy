@@ -1231,7 +1231,7 @@ hi2
 
 A _scatterplot_ shows a data point (observation) as a function of 2 (typically continuous) variables `x` and `y`. This allows judging the relationship between `x` and `y` in the data: 
 
-```{r ggplot_template_mpg_scat}
+```{r ggplot_template_mpg_scat_min}
 
 # (A) Scatterplot: ------ 
 
@@ -1240,21 +1240,33 @@ sp1 <- ggplot(mpg) +
   geom_point(aes(x = cty, y = hwy)) +
   geom_abline()
 sp1
+```
 
-# Note a potential issue: Overplotting (multiple points on the same position).
+#### Dealing with overplotting 
 
+A common issue with scatterplots is so-called _overplotting_: Multiple points appear on the same position. 
 
-# (B) Overplotting: ----- 
+Here are some ways of dealing with this issue: 
 
-# One way of dealing with overplotting is 
-# adding randomness to point positions:  
+1. `jitter` adds randomness to positions;  
+2. `alpha` uses transparency to show frequency of positions;  
+3. `geom_size` allows mapping values (e.g., frequency) to object size; 
+4. `facet_wrap` allows disentangling plots by levels of variables. 
+
+Some examples include: 
+
+```{r ggplot_template_mpg_scat_adv}
+## Dealing with overplotting: ----- 
+
+# 1. One way of dealing with overplotting is 
+#    adding randomness to point positions:  
 sp2 <- ggplot(mpg) +
   geom_point(aes(x = cty, y = hwy), position = "jitter") +
   geom_abline()
 sp2
 
-# Another way of dealing with overplotting is 
-# using transparency (via setting alpha to < 1): 
+# 2. Another way of dealing with overplotting is 
+#    using transparency (via setting alpha to < 1): 
 sp3 <- ggplot(mpg) +
   geom_point(aes(x = cty, y = hwy), position = "identity", 
              pch = 21, fill = "steelblue", alpha = 1/4, size = 4) +
@@ -1272,25 +1284,32 @@ sp4 <- sp3 +   # use the plot defined above
   theme_bw()
 sp4
 
-
 # (C) Grouping (by a categorical variable): ------  
 
-# Grouping by color:
+# Using facets to avoid overplotting: 
 sp5 <- ggplot(mpg) +
+  geom_point(aes(x = cty, y = hwy)) +
+  geom_abline() + 
+  facet_wrap(~class) +
+  theme_bw()
+sp5
+
+# Grouping by color:
+sp6 <- ggplot(mpg) +
   geom_point(aes(x = cty, y = hwy, color = class), 
              position = "jitter", alpha = 1/2, size = 4) +
   geom_abline(linetype = 2) +
   theme_bw()
-sp5
+sp6
 
 # Grouping by facets: 
-sp6 <- ggplot(mpg) +
+sp7 <- ggplot(mpg) +
   geom_point(aes(x = cty, y = hwy), 
              position = "jitter", alpha = 1/2, size = 2) +
   geom_abline(linetype = 2) +
   facet_wrap(~class) +
   theme_bw()
-sp6
+sp7
 ```
 
 
@@ -1420,34 +1439,267 @@ More on scatterplots:
 - <https://www.r-graph-gallery.com/scatterplot/>
 
 
+### Bar plots
+
+Another common type of plot shows the values (across different levels of some variable as the height of bars. As this plot type can use both categorical or continuous variables, it turns out to be surprisingly complex to create good bar charts. To us get started, here are only a few examples: 
+
+#### Counts of cases
+
+By default, `geom_bar` computes summary statistics of the data. When nothing else is specified, `geom_bar` _counts_ the number or frequency of values (i.e., `stat = "count"`) and maps this count to the `y` (i.e., `y = ..count..`): 
+
+```{r bar_plot_count}
+library(ggplot2)
+
+## Data: 
+ggplot2::mpg
+
+# (1) Count number of cases by class: 
+ggplot(mpg) + 
+  geom_bar(aes(x = class))
+
+# (b) is the same as: 
+ggplot(mpg) + 
+  geom_bar(aes(x = class, y = ..count..))
+
+# (c) is the same as:
+ggplot(mpg) + 
+  geom_bar(aes(x = class), stat = "count")
+
+# (d) is the same as:
+ggplot(mpg) + 
+  geom_bar(aes(x = class, y = ..count..), stat = "count")
+
+# (e) pimped version:
+ggplot(mpg) + 
+  geom_bar(aes(x = class, fill = class), 
+           # stat = "count", 
+           color = "black") + 
+  labs(title = "Counts of cars by class",
+       x = "Class of car", y = "Frequency") + 
+  scale_fill_brewer(name = "Class:", palette = "Blues") + 
+  theme_bw()
+```
+
+**Practice:** Plot the _number_ or _frequency of cases_ in the `mpg` data by `cyl` (in at least 3 different ways). 
+
+```{r bar_plot_count_ex, echo = FALSE, eval = FALSE}
+# (2) Count number of cases by cylinders: 
+ggplot(mpg) + 
+  geom_bar(aes(x = cyl))
+
+ggplot(mpg) + 
+  geom_bar(aes(x = cyl, y = ..count..))
+
+ggplot(mpg) + 
+  geom_bar(aes(x = cyl), stat = "count")
+
+
+# pimped version:
+ggplot(mpg) + 
+  geom_bar(aes(x = cyl, fill = as.factor(cyl)), 
+           stat = "count",
+           color = "black") + 
+  labs(title = "Counts of cars by class",
+       x = "Cylinders", y = "Frequency") + 
+  scale_fill_brewer(name = "Cylinders:", palette = "Spectral") + 
+  # coord_flip() + 
+  theme_bw()
+```
+
+
+#### Proportion of cases
+
+An alternative to showing the count or frequency of cases is showing the corresponding _proportion_ of cases: 
+
+```{r bar_plot_prop}
+library(ggplot2)
+
+## Data: 
+ggplot2::mpg
+
+# (1) Proportion of cases by class: 
+ggplot(mpg) + 
+  geom_bar(aes(x = class, y = ..prop.., group = 1))
+
+# is the same as: 
+ggplot(mpg) + 
+  geom_bar(aes(x = class, y = ..count../sum(..count..)))
+```
+
+**Practice:** Plot the _proportion of cases_ in the `mpg` data by `cyl` (in at least 3 different ways). 
+
+
+#### Bar plots of existing values
+
+A common difficulty occurs when the table to plot already contains the values to be shown as bars. 
+As there is nothing to be computed in this case, we need to specify `stat = "identity"` for `geom_bar` (to override its default of `stat = "count"`). 
+
+For instance, let's plot a bar chart that shows the election data from the following tibble `de`:
+
+```{r election_data, echo = FALSE, eval = TRUE}
+library(knitr)
+library(tidyverse)
+
+## (a) Create a tibble of data: 
+de_org <- tibble(
+    party = c("CDU/CSU", "SPD", "Others"),
+    share_2013 = c((.341 + .074), .257, (1 - (.341 + .074) - .257)), 
+    share_2017 = c((.268 + .062), .205, (1 - (.268 + .062) - .205))
+  )
+de_org$party <- factor(de_org$party, levels = c("CDU/CSU", "SPD", "Others"))  # optional
+# de_org
+
+## Check that columns add to 100:
+# sum(de_org$share_2013)  # => 1 (qed)
+# sum(de_org$share_2017)  # => 1 (qed)
+
+## (b) Converting de into a tidy data table:
+de <- de_org %>%
+  gather(share_2013:share_2017, key = "election", value = "share") %>%
+  separate(col = "election", into = c("dummy", "year")) %>%
+  select(year, party, share)
+kable(de)
+```
+
+1. A version with 2 x 3 separate bars (using `position = "dodge"`): 
+
+```{r bar_plot_stat_identity_dodge}
+## Data: ----- 
+de  # => 6 x 3 tibble
+
+## Note that year is of type character, which could be changed by:
+# de$year <- parse_integer(de$year)
+
+## (1) Bar chart with  side-by-side bars (dodge): ----- 
+
+## (a) minimal version: 
+bp_1 <- ggplot(de, aes(x = year, y = share, fill = party)) +
+  ## (A) 3 bars per election (position = "dodge"):  
+  geom_bar(stat = "identity", position = "dodge", color = "black") # 3 bars next to each other
+bp_1
+
+## (b) Version with text labels and customized colors: 
+bp_1 + 
+  ## pimping plot: 
+  geom_text(aes(label = paste0(round(share * 100, 1), "%"), y = share + .01), 
+            position = position_dodge(width = 1), 
+            fontface = 2, color = "black") + 
+  # Some set of high contrast colors: 
+  scale_fill_manual(name = "Party:", values = c("black", "red3", "gold")) + 
+  # Titles and labels: 
+  labs(title = "Partial results of the German general elections 2013 and 2017", 
+       x = "Year of election", y = "Share of votes", 
+       caption = "Data from www.bundeswahlleiter.de.") + 
+  # coord_flip() + 
+  theme_bw()
+```
+
+2. A version with 2 bars with 3 segments (using `position = "stack"`): 
+
+```{r bar_plot_stat_identity_stack}
+## Data: ----- 
+de  # => 6 x 3 tibble
+
+## (2) Bar chart with stacked bars: -----  
+
+## (a) minimal version: 
+bp_2 <- ggplot(de, aes(x = year, y = share, fill = party)) +
+  ## (B) 1 bar per election (position = "stack"):
+  geom_bar(stat = "identity", position = "stack") # 1 bar per election
+bp_2
+
+## (b) Version with text labels and customized colors: 
+bp_2 +   
+  ## Pimping plot: 
+  geom_text(aes(label = paste0(round(share * 100, 1), "%")), 
+            position = position_stack(vjust = .5),
+            color = rep(c("black", "white", "white"), 2), 
+            fontface = 2) + 
+  # Some set of high contrast colors: 
+  scale_fill_manual(name = "Party:", values = c("black", "red3", "gold")) + 
+  # Titles and labels: 
+  labs(title = "Partial results of the German general elections 2013 and 2017", 
+       x = "Year of election", y = "Share of votes", 
+       caption = "Data from www.bundeswahlleiter.de.") + 
+  # coord_flip() + 
+  theme_classic()
+```
+
+#### Bar plots with error bars
+
+It is typically a good idea to show some measure of variability (e.g., the standard deviation, standard error, confidence interval, etc.) to any bar plots. 
+There is an entire range of geoms that draw error bars: 
+
+```{r bar_plot_error_bar}
+## Create data to plot: ----- 
+n_cat <- 6
+set.seed(101)
+
+data <- tibble(
+  name = LETTERS[1:n_cat],
+  value = sample(seq(25, 50), n_cat),
+  sd = rnorm(n = n_cat, mean = 0, sd = 8))
+data
+
+## Error bars: -----
+
+## x-aesthetic only:
+
+# (a) errorbar: 
+ggplot(data) +
+    geom_bar(aes(x = name, y = value), stat = "identity", fill = "steelblue") +
+    geom_errorbar(aes(x = name, ymin = value - sd, ymax = value + sd), 
+                  width = 0.4, color = "orange", alpha = 1, size = 1.0)
+
+# (b) linerange: 
+ggplot(data) +
+    geom_bar(aes(x = name, y = value), stat = "identity", fill = "olivedrab3") +
+    geom_linerange(aes(x = name, ymin = value - sd, ymax = value + sd), 
+                   color = "firebrick", alpha = 1, size = 2.5)
+
+## Additional y-aesthetic: 
+
+# (c) crossbar:
+ggplot(data) +
+    geom_bar(aes(x = name, y = value), stat = "identity", fill = "tomato4") +
+    geom_crossbar(aes(x = name, y = value, ymin = value - sd, ymax = value + sd), 
+                  width = 0.3, color = "sienna1", alpha = 1, size = 1.0)
+
+# (d) pointrange: 
+ggplot(data) +
+    geom_bar(aes(x = name, y = value), stat = "identity", fill = "burlywood4") +
+    geom_pointrange(aes(x = name, y = value, ymin = value - sd, ymax = value + sd), 
+                    color = "gold", alpha = 1.0, size = 1.2)
+```
+
+More on barplots:
+
+- <https://www.r-graph-gallery.com/barplot/>. 
+
++++ here now +++
+
 ### Drawing curves and lines
 
 - adding trendlines
 - lines of data (e.g., means)
 
-### Bar plots
-
-Are surprisingly complex:
-
-- position: dodge vs. stacked
-- statistics: `count` vs. `prop` vs. `identity`
-- error bars 
-
 ### Box plots
 
+- show medians, quartiles, distribution, and outliers
 
 
 ### Improving plots
 
 Most default plots can be improved by fine-tuning their visual appearance. 
-Popular levers for pimping plots include: 
+Popular levers for "pimping" plots include: 
 
-- labels: `labs(...)` allows setting titles, captions, axis labels, etc.  
-- colors: can be set with geoms (variable when inside `aes()` or fixed outside), choosing or designing specific color scales;  
-- legends: can be (re-)moved or edited; 
-- themes: can be selected or modified.
+- colors: can be set withing geoms (variable when inside `aes(...)`, fixed outside), choosing or designing specific color scales;  
+- labels: `labs(...)` allows setting titles, captions, axis labels, etc.;  
+- legends: can be (re-)moved or edited;  
+- themes: can be selected or modified.  
 
-### Other plots and packages
+
+### Related plots and packages
 
 `ggplot2` comes with a large variety of geoms. Nevertheless, we sometimes want to show or do something that is not included in the standard package. [Chapter 7: Exploratory data analysis](http://r4ds.had.co.nz/exploratory-data-analysis.html) goes beyond standard `ggplot` geoms by touching on `geom_hex` (from the `hexbin` package) and `geom_beeswarm` and `geom_quasirandom` (from the `ggbeeswarm` package). When looking for new forms of visual expression, web sites like 
 
