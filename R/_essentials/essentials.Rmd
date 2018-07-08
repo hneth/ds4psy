@@ -1842,6 +1842,19 @@ See the packages `circlize`, `ggforce`, and `ggparallel` for other types of tran
 - read [Chapter 3: Data visualization](http://r4ds.had.co.nz/data-visualisation.html) and [Chapter 7: Exploratory data analysis (EDA)](http://r4ds.had.co.nz/exploratory-data-analysis.html) and complete their exercises. 
 
 
+# Tidy data 
+
+## Definition
+
+## Commands and examples
+
+
+## More on tidy data
+
+- For background information on the notion of tidy data, see  
+Wickham, H. (2014). Tidy data. _Journal of Statistical Software_, _59_(10), 1--23.  
+available at <http://www.jstatsoft.org/v59/i10/paper>. 
+
 # Conclusion
 
 <!-- Table with links: -->
