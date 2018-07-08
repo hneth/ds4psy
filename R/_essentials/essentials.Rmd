@@ -1,7 +1,7 @@
 ---
 title: "Essential commands (ds4psy)"
 author: "Hansjörg Neth, SPDS, uni.kn"
-date: "2018 07 06"
+date: "2018 07 07"
 output:
    rmdformats::html_clean: # html_clean html_docco readthedown material #
      code_folding: show # hide
@@ -1844,9 +1844,94 @@ See the packages `circlize`, `ggforce`, and `ggparallel` for other types of tran
 
 # Tidy data 
 
-## Definition
+[Chapter 12: Tidy data](http://r4ds.had.co.nz/tidy-data.html) teaches a consistent way to organise tabular data. It introduces commands of the `tidyr` package, which is a core member of the tidyverse. 
+
+## Tabular data
+
+In R, rectangular data is often organized in _tibbles_ or _data frames_. Importantly, each column is a vector (of a particular type) that contains the values of a variable. Thus, whereas every column must be of one type, every row can contain values of different variables and types. 
+
+The same set of data (values of variables) can be organised in many different ways. For instance, the following tables (or tibbles) all provide the number of TB cases documented by the World Health Organization in 3 countries (Afghanistan, Brazil, and China) in 2 years (1999 and 2000):
+
+```{r table1_as_barplot, echo = FALSE, eval = TRUE}
+library(tidyverse)
+library(knitr)
+
+# Illustrating the data in tidyr::table1 
+kable(tidyr::table1)
+
+ggplot(data = tidyr::table1, aes(x = year, y = cases, fill = country)) + 
+    geom_bar(stat = "identity", position = "dodge", color = "black") + 
+    geom_text(aes(label = cases), position = position_dodge(width = 0.9), vjust = -0.5) +
+    scale_x_continuous(name = "Year", breaks = 1999:2000) + 
+    scale_fill_manual(name = "Country", values = c("grey33", "forestgreen", "firebrick")) + 
+    labs(title = "Cases per country and year", y = "Cases", 
+         caption = "[Data from tidyr::table1.]") +
+    theme_light()
+```
+
+```{r rectangular_data}
+library(tidyverse)
+
+## Example of the same data organised in 4 different ways:
+# ?table1 # for semantics and source of data
+
+tidyr::table1
+
+tidyr::table2
+
+tidyr::table3
+
+tidyr::table4a
+tidyr::table4b
+
+tidyr::table5
+```
+
+**Practice:** Recreate the above bar plot using `ggplot2` with `data = table1`. 
+
+## Defining tidy data
+
+**Definition:** A _tidy_ dataset conforms to 3 interrelated rules:
+
+1. Each _variable_ must have its own _column_.
+
+2. Each _case/observation_ must have its own _row_.
+
+3. Each _value_ must have its own _cell_.
+
+See <http://r4ds.had.co.nz/tidy-data.html#fig:tidy-structure> for a graphical illustration of these rules. 
+
+The 3 rules defining _tidy_ data are connected, as it is impossible to only satisfy 2 of the 3. 
+This leads to a simpler set of practical instructions for tidying a messy set of data: 
+
+a. turn each dataset into a tibble.  
+b. put each variable into a column.  
+
+Note that we need to interpret the semantics of the variables to understand whether a data set is tidy. 
+
+**Practice:** Which of the data tables in the above example (`table1` to `table5`) are tidy? Why or why not?
+
+
+## Advantages of tidy data 
+
+1. _Consistency_: Consistent data structures make it easier to learn the tools that work with it because they have an underlying uniformity.
+
+2. _Vectorization_: Placing variables in columns allows R’s vectorised nature to shine. For instance, the basic verbs of `dplyr` (and most built-in R functions) work with vectors of values. That makes transforming tidy data easy and natural. 
+
+3. _Matching_ data and tools: Packages like `dplyr`, `ggplot2`, and many others are designed to work with tidy data. 
+
 
 ## Commands and examples
+
++++ here now +++
+
+### 1. `gather` makes wide data longer 
+
+### 2. `spread` makes long data wider
+
+### 3. `separate` 1 variable
+
+### 4. `unite` variables into 1 
 
 
 ## More on tidy data

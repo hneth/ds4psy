@@ -1,7 +1,7 @@
 ## r4ds: Chapter 12: Tidy data  
 ## Code for http://r4ds.had.co.nz/tidy-data.html
 ## hn spds uni.kn
-## 2018 05 28 ------
+## 2018 07 07 ------
 
 ## Quotes: ------
 
@@ -129,11 +129,16 @@ ggplot(table1, aes(year, cases, group = country, color = country)) +
   
   # ?geom_bar
   
-  ggplot(table1, aes(x = year, y = cases, fill = country)) + 
+  # Illustrating the data in tidyr::table1 
+  knitr::kable(tidyr::table1)
+  
+  ggplot(data = tidyr::table1, aes(x = year, y = cases, fill = country)) + 
     geom_bar(stat = "identity", position = "dodge", color = "black") + 
     geom_text(aes(label = cases), position = position_dodge(width = 0.9), vjust = -0.5) +
     scale_x_continuous(name = "Year", breaks = 1999:2000) + 
-    labs(title = "Cases per country and year", y = "Cases", caption = "[Data from tidyr::table1.]") +
+    scale_fill_manual(name = "Country", values = c("grey33", "forestgreen", "firebrick")) + 
+    labs(title = "Cases per country and year", y = "Cases", 
+         caption = "[Data from tidyr::table1.]") +
     theme_light()
   }
 
@@ -258,7 +263,7 @@ ggplot(cases, aes(x = year, y = count, group = country, color = country)) +
 
 ## 12.3.1 Gathering -----
 
-# Change format: From wide to long... 
+# Change format: From wider to longer... 
 
 # A common problem is a dataset where some of the column names are  
 # NOT names of variables, but _values_ of a variable. 
