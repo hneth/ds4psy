@@ -1,7 +1,7 @@
 ---
 title: "Essential commands (ds4psy)"
 author: "Hansjörg Neth, SPDS, uni.kn"
-date: "2018 07 07"
+date: "2018 07 08"
 output:
    rmdformats::html_clean: # html_clean html_docco readthedown material #
      code_folding: show # hide
@@ -1933,12 +1933,14 @@ We consider 2 pairs of 2 complementary commands as essential:
 3. `gather` makes wide data longer (by gathering many variables into 1);  
 4. `spread` makes long data wider (by spreading 1 variable into many).  
 
-Here are basic examples for using these 4 commands: 
+`separate` is the complement/opposite of `unite` and `spread` is the complement/opposite of `gather`. 
+
+Here are some basic examples for using these 4 commands: 
 
 ### 1. `separate` 1 variable into 2
 
 `separate` splits 1 variable (column) into multiple variables (columns) -- at a position where some separator character appears -- and is the complement to `unite`. 
-Using `separate` requires 
+Using `separate` requires the following arguments: 
 
 - some tibble/data frame `data`; 
 - the variable (column) `col` to be separated (specified by its name or column number); 
@@ -2058,14 +2060,14 @@ table6a <- table6 %>%
   separate(col = stuff, into = c("year", "stuff"), sep = "\\.") %>% 
   separate(col = stuff, into = c("cases", "population"), sep = "/")
 
-knitr::kable(table6a)
+table6a
 ```
 
 
 ### 2. `unite` 2 variables into 1
 
 `unite` combines 2 variables (columns) into 1 variable (column) -- adding an optional separator character -- and is the complement to `separate`. 
-Using `unite` requires 
+Using `unite` requires the following arguments: 
 
 - some tibble/data frame `data`; 
 - the name of the new compound variable (column) `col` (specified as a character); 
@@ -2106,6 +2108,18 @@ table5 %>%
   unite("yr", century, year, sep = "", remove = FALSE)
 ```
 
+**Practice:** Take the data from `dplyr::storms` and unite the variables `year`, `month`, `day` into 1 variable `date`.
+
+```{r unite_practice, echo = FALSE, eval = TRUE}
+## Data to use: 
+# dplyr::storms
+
+## Uniting year:day into date:
+storms %>%
+  unite("date", year:day, sep = "/") %>%
+  head()
+```
+
 **Practice:** Read the data from `read_csv("http://rpository.com/ds4psy/data/table7.csv")` into a tibble `table7` and inspect its dimension and contents.
 
 a. Use multiple (4) `separate` commands to split `table7` into a tibble `table7a` with multiple (5) columns. 
@@ -2117,29 +2131,83 @@ Examples of `table7` and possible solutions for `table7a` and `table7b`:
 ```{r separate+unite_practice, echo = FALSE, eval = TRUE}
 # Data to use: 
 table7 <- read_csv("http://rpository.com/ds4psy/data/table7.csv") # from online source
-knitr::kable(table7)  # Note that column when_what contains several splitting options.
+table7  # Note that column when_what contains several splitting options.
 
+# (a) Separating:
 table7a <- table7 %>%
   separate(col = where_when_what, into = c("country", "stuff"), sep = "@") %>%
   separate(col = stuff, into = c("year", "stuff"), sep = "\\$") %>%    # using regex "\\$"
   separate(col = year, into = c("century", "year"), sep = ":") %>%
   separate(col = stuff, into = c("rate", "population"), sep = "\\\\")  # using regex "\\\\"
 
-knitr::kable(table7a)
+table7a
 
+# (b) Uniting: 
 table7b <- table7a %>% 
   unite("yr", century, year, sep = "") %>%
   unite("what", rate, population, sep = "/") %>%
   unite("where_when", country, yr, sep = ":") %>%
   unite("where_when_what", where_when, what, sep = "_")
 
-knitr::kable(table7b)
+table7b
 ```
 
 
 ### 3. `gather` makes wide data longer 
 
-+++ here now +++
+Gathering is the opposite of spreading and used when observations that are distributed over multiple columns should be contained in 1 variable (column). More specifically, `gather` moves the values of several variables (columns) into 1 column `value` and describes this value by the value of a new `key` variable. When gathering more than 2 variables, this reduces the number of columns by increasing the number of rows (i.e., makes a wide data set longer).^[The length and width of a data set are relative terms here: gathering tends to decrease data width by increasing length, spreading tends to decrease data length by increasing width.] 
+
+Using `gather` requires the following arguments: 
+
+- `data` is a data frame or tibble;  
+- `key` is the name of the variable that describes the values of the gathered columns (or name of the _independent_ variable);  
+- `value` is the name of the variable that is contained in the gathered columns (or the name of the _dependent_ variable);  
+- `...` or `var_x:var_y` is a list of variables (columns) to be gathered. 
+
+```{r gather_example_1}
+# ?gather # provides documentation
+
+## Data to use: 
+table4a
+# Note that counts of cases is distributed over 2 variables (columns) for each country.
+
+## Basics: -----
+
+# gather 2 variables into 1 variable:
+gather(data = table4a, 
+       key = year, value = cases, 
+       `1999`:`2000`)
+
+# The same command using the pipe:
+table4a %>%
+  gather(key = year, value = cases, 
+         `1999`:`2000`)
+
+## Variants: ----- 
+
+# The same command with in different order of arguments:
+table4a %>%
+  gather(`1999`:`2000`, key = year, value = cases)
+
+# The same command specifying the numbers of the columns to gather:
+table4a %>%
+  gather(2:3, key = year, value = cases)
+```
+
+Note that `year` is of type _character_ in the above example. If we wanted our `key` variable to be converted into a number (here: an integer), we can add the optional argument `convert = TRUE`:
+
+```{r gather_convert}
+## Default: convert = FALSE: 
+table4a %>%
+  gather(key = year, value = cases, `1999`:`2000`, convert = FALSE)
+# => year is a character vector.
+
+## Converting year into an integer:
+table4a %>%
+  gather(key = year, value = cases, `1999`:`2000`, convert = TRUE)
+# => year is a vector of integers. 
+```
+
 
 **Practice:** Save the following data as a tibble `de` and then turn it into tidy data (by using `gather` to create a single variable `share` and listing the election `year` as an additional variable).
 
@@ -2156,7 +2224,7 @@ de <- tibble(
 # sum(de$share_2017)  # => 1 (qed)
 
 de$party <- factor(de$party, levels = c("CDU/CSU", "SPD", "Others"))  # optional
-kable(de)
+knitr::kable(de)
 ```
 
 ```{r gather_separate_practice}
@@ -2166,7 +2234,7 @@ de
 ## (b) Converting de into a tidy data table:
 de_2 <- de %>%
   gather(share_2013:share_2017, key = "election", value = "share") %>%
-  separate(col = "election", into = c("dummy", "year")) %>%
+  separate(col = election, into = c("dummy", "year")) %>%
   select(year, party, share)
 
 de_2
@@ -2174,6 +2242,45 @@ de_2
 
 
 ### 4. `spread` makes long data wider 
+
+Spreading is the opposite of gathering and used when an observation that should be in 1 row is distributed over multiple rows (in 1 column). More specifically, `spread` puts the values of several cases (rows) into different variables (columns) of 1 row. When spreading more than 2 rows per case, this decreases the number of rows by increasing the number of columns (i.e., makes a long data set wider).^[Again, the length and width of data sets are relative terms.] 
+
+Using `spread` requires the following arguments: 
+
+- `data` is a data frame or tibble;  
+- `key` is the name of the variable that describes the values of the gathered columns (or the names of the _independent_ variables which become the _names_ of the new columns);  
+- `value` is the name of the variable whose values should be spread over multiple columns (or the name of the _dependent_ variable);
+
+Note that we do not need to specify a range of new columns. The number of new columns is determined by the number of different values in the `key` variable. 
+
+```{r spread_example_1}
+# ?spread # provides documentation
+
+## Data to use: 
+table2
+# Note that count contains 2 DVs which are described by the values of type. 
+
+## Basics: -----
+
+# spread 2 rows into 2 columns of 1 row:
+spread(data = table2, 
+       key = type, value = count)
+
+# The same command using the pipe:
+table2 %>% 
+  spread(key = type, value = count)
+
+# The same shorter: 
+table2 %>% 
+  spread(type, count)
+
+
+## Variants: -----
+
+# Use <key><sep><value> to create new column names:
+table2 %>% 
+  spread(key = type, value = count, sep = ":")
+```
 
 **Practice:** Take the 6 x 3 tibble `de_2` (from above) and use `spread` to create a 3 x 3 tibble `de_3` that re-creates the original tibble `de` from it.
 
@@ -2194,6 +2301,84 @@ de
 all.equal(de_3, de)
 ```
 
+**Practice:** Moving stocks from wide to long to wide. 
+
+```{r stock_data_definition, echo = FALSE, eval = TRUE}
+# Define the stock data (to be shown below) as a tibble: 
+st <- tribble(
+  ~stock, ~d1_start, ~d1_end, ~d2_start, ~d2_end, ~d3_start, ~d3_end,  
+  #-----|----------|--------|----------|--------|----------|--------|
+  "Amada",   2.5,     3.6,    3.5,       4.2,      4.4,       2.8,            
+  "Betix",   3.3,     2.9,    3.0,       2.1,      2.3,       2.5,  
+  "Cevis",   4.2,     4.8,    4.6,       3.1,      3.2,       3.7     
+)
+```
+
+The following table shows the start and end price of 3 stocks on 3 days (d1, d2, d3):
+
+```{r stock_data_table, echo = FALSE, eval = TRUE}
+knitr::kable(st, caption = "Stock data example showing the start and end prices of the shares of 3 companies on 3 days.")
+```
+
+<!-- Data as Rmd table in text: 
+| stock  | d1_start | d1_end | d2_start | d2_end | d3_start | d3_end |  
+|---------|---------|--------|----------|--------|----------|--------|
+| "Amada" |   2.5  |   3.6   |   3.5    |  4.2   |   4.4    |   2.8  |            
+| "Betix" |   3.3  |   2.9   |   3.0    |  2.1   |   2.3    |   2.5  |  
+| "Cevis" |   4.2  |   4.8   |   4.6    |  3.1   |   3.2    |   3.7  |
+--> 
+
+**a.** Create a tibble `st` that contains this data in this (wide) format.
+
+**b.** Transform `st` into a longer table `st_long` that contains 18 rows and only 1 numeric variable for all stock prices. Adjust this table so that the `day` and `time` appear as 2 separate columns. 
+
+**c.** Create a (line) graph that shows the 3 stocks' `end` prices (on the y-axis) over the 3 days (on the x-axis). 
+
+**d.** Spread  `st_long` into a wider table that contains `start` and `end` prices as 2 distinct variables (columns) for each stock and day. 
+
+```{r stock_solution, echo = TRUE, fig.show = "hold"}
+# library(tidyverse)
+
+## (a) Enter stock data (in wide format) as a tibble:
+st <- tribble(
+  ~stock, ~d1_start, ~d1_end, ~d2_start, ~d2_end, ~d3_start, ~d3_end,  
+  #-----|----------|--------|----------|--------|----------|--------|
+  "Amada",   2.5,     3.6,    3.5,       4.2,      4.4,       2.8,            
+  "Betix",   3.3,     2.9,    3.0,       2.1,      2.3,       2.5,  
+  "Cevis",   4.2,     4.8,    4.6,       3.1,      3.2,       3.7     
+)
+dim(st)
+
+## Note data structure: 
+## 2 nested factors: day (1 to 3), type (start or end).
+
+## (b) Change from wide to long format 
+##     that contains the day (d1, d2, d3) and type (start vs. end) as separate columns:
+st_long <- st %>%
+  gather(d1_start:d3_end, key = "key", value = "val") %>%
+  separate(key, into = c("day", "time")) %>%
+  arrange(stock, day, time) # optional: arrange rows
+st_long
+
+## (c) Plot the end values (on the y-axis) of the 3 stocks over 3 days (x-axis):
+st_long %>% 
+  filter(time == "end") %>%
+  ggplot(aes(x = day, y = val, color = stock, shape = stock)) +
+  geom_point(size = 4) + 
+  geom_line(aes(group = stock)) +
+  ## Pimping plot: 
+  labs(title = "End prices of stocks", 
+       x = "Day", y = "End price", 
+       shape = "Stock:", color = "Stock:") +
+  theme_bw()
+
+## (d) Change st_long into a wider format that lists start and end as 2 distinct variables (columns):
+st_long %>%
+  spread(key = time, value = val) %>%
+  mutate(day_nr = parse_integer(str_sub(day, 2, 2))) # optional: get day_nr as integer variable
+```
+
++++ here now +++
 
 ## More on tidy data
 
