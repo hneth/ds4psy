@@ -145,7 +145,8 @@ Nr. | Topic       |
 ---:|:------------| 
 1.  | [Creating and using tibbles](http://rpository.com/ds4psy/R/_essentials/tibble.html) |
 2.  | [Data transformation](http://rpository.com/ds4psy/R/_essentials/transform.html) |
-3.  | [Visualizing data](http://rpository.com/ds4psy/R/_essentials/visualize.html) |
+3.  | [Visualizing data](http://rpository.com/ds4psy/R/_essentials/visualize.html) | 
+4.  | [Tidy data](http://rpository.com/ds4psy/R/_essentials/tidy.html) | 
 
 
 ## Course coordinates
@@ -1863,10 +1864,12 @@ ggplot(data = tidyr::table1, aes(x = year, y = cases, fill = country)) +
     geom_bar(stat = "identity", position = "dodge", color = "black") + 
     geom_text(aes(label = cases), position = position_dodge(width = 0.9), vjust = -0.5) +
     scale_x_continuous(name = "Year", breaks = 1999:2000) + 
-    scale_fill_manual(name = "Country", values = c("grey33", "forestgreen", "firebrick")) + 
-    labs(title = "Cases per country and year", y = "Cases", 
+    scale_fill_manual(name = "Country", 
+                      values = c("grey33", "forestgreen", "firebrick")) + 
+    labs(title = "TB cases per country and year", y = "Cases", 
          caption = "[Data from tidyr::table1.]") +
-    theme_light()
+    theme_classic() +
+    theme(panel.grid.major.y = element_line(linetype = 2, color = "grey50", size = 1/4))
 ```
 
 ```{r rectangular_data}
@@ -1923,15 +1926,273 @@ Note that we need to interpret the semantics of the variables to understand whet
 
 ## Commands and examples
 
+We consider 2 pairs of 2 complementary commands as essential:
+
+1. `separate` splits 1 variable into 2 variables;  
+2. `unite` combines 2 variables into 1 variable;  
+3. `gather` makes wide data longer (by gathering many variables into 1);  
+4. `spread` makes long data wider (by spreading 1 variable into many).  
+
+Here are basic examples for using these 4 commands: 
+
+### 1. `separate` 1 variable into 2
+
+`separate` splits 1 variable (column) into multiple variables (columns) -- at a position where some separator character appears -- and is the complement to `unite`. 
+Using `separate` requires 
+
+- some tibble/data frame `data`; 
+- the variable (column) `col` to be separated (specified by its name or column number); 
+- the names of the new variables (columns) `into` which `col` is to be split (specified as a character vector); 
+- the separator character `sep` (as a character/regular expression). 
+
+An additional argument `remove` regulates whether the original columns are dropped from the output tibble. By default, `remove = TRUE`.
+
+```{r separate_example_1}
+# Data to use: 
+tidyr::table3  # Note that column rate contains 2 numbers, separated by "/". 
+
+## Basics: ----- 
+
+# Full separate command:
+separate(data = table3, col = rate, into = c("cases", "population"), sep = "/")
+# Note that "/" disappears from output tibble.
+
+# Shorter versions of the same command:
+separate(table3, rate, c("cases", "population"))
+
+# Using the pipe: 
+table3 %>% 
+  separate(rate, c("cases", "population"))
+
+## Variants: ----- 
+
+# Specifying the variable to be split (rate) by its column number (3):
+table3 %>% 
+  separate(3, c("cases", "population"))
+
+# Not dropping the original rate variable:
+table3 %>% 
+  separate(rate, c("cases", "population"), remove = FALSE)
+```
+
+The example shows that the argument names (`data`, `col`, and `into`) can be left out (but still require appropriate arguments in the correct order) and  `sep` can be left unspecified when `tidyr` can make a good guess what the separator character might be. 
+
+```{r create_data_for_separate_example_2, echo = FALSE, eval = TRUE}
+table6 <- table5 %>% 
+  unite(col = when, century, year, sep = "_") %>%
+  unite(col = when_what, when, rate, sep = ".")
+# table6
+
+## Writing out data:
+# write_csv(table6, "data/table6.csv")
+
+## Reading in again (from csv-file):
+# tb6 <- read_csv("data/table6.csv")
+# tb6
+
+table7 <- table5 %>%
+  mutate(rate_2 = stringr::str_replace_all(table5$rate, "/", "\\\\")) %>%  # replace "/" with "\\"
+  unite(col = when, century, year, sep = ":") %>%
+  unite(col = when_what, when, rate_2, sep = "$") %>%
+  unite(col = where_when_what, country, when_what, sep = "@") %>%
+  select(where_when_what)
+# table7
+
+## Writing out data:
+# write_csv(table7, "data/table7.csv")
+
+## Reading in again (from csv-file):
+# tb7 <- read_csv("data/table7.csv")
+# tb7
+```
+
+However, consider the following `table6`, which is available online and can be read into R via `read_csv("http://rpository.com/ds4psy/data/table6.csv")`: 
+
+```{r show_tb6, echo = TRUE, eval = TRUE}
+## Load data (as comma-separated file): 
+table6 <- read_csv("http://rpository.com/ds4psy/data/table6.csv")  # from online source
+
+## Alternatively (from local source "data/table6.csv"): 
+# table6 <- read_csv("data/table6.csv")  # from local directory
+
+table6
+```
+
+Here, the variable `when_what` contains several plausible separation characters: `_`, `.`, and `/`. 
+Let's first see what happens when we fail to provide a separating character `sep`, and then split the variable `when_what` in three different ways: 
+
+```{r separate_example_2}
+# Data to use: 
+table6 <- read_csv("http://rpository.com/ds4psy/data/table6.csv") # from online source
+table6    # Note that column when_what contains several splitting options. 
+
+# What happens when we do not specify "sep"? 
+table6 %>%
+  separate(col = when_what, into = c("var_1", "var_2"))  # sep is not provided!
+
+# => when_what is split at 1st option (_), but Warning (and loss of data)!
+
+# Specifying different splitting characters:
+# (a) split at "_": 
+table6 %>%
+  separate(col = when_what, into = c("var_1", "var_2"), sep = "_")  # 
+
+# (b) split at "." (specified as a regular expression "\\."):
+table6 %>%
+  separate(col = when_what, into = c("var_1", "var_2"), sep = "\\.")  
+
+# (c) split at "/":
+table6 %>%
+  separate(col = when_what, into = c("var_1", "var_2"), sep = "/")
+```
+
+Note that using the point or period (`.`) as a splitting character `sep = "."` would _not_ work. 
+Instead, we need to use the corresponding regular expression `sep = "\\."`. 
+(See [Chapter 14: Strings](http://r4ds.had.co.nz/strings.html) for details.) 
+
+**Practice:** Split the `when_what` variable of `table6` 3 times to create a tibble `table6a` that contains 5 variables (columns) and reasonable variable names: 
+
+```{r separate_practice, echo = FALSE, eval = TRUE}
+table6a <- table6 %>%
+  separate(col = when_what, into = c("century", "stuff"), sep = "_") %>%
+  separate(col = stuff, into = c("year", "stuff"), sep = "\\.") %>% 
+  separate(col = stuff, into = c("cases", "population"), sep = "/")
+
+knitr::kable(table6a)
+```
+
+
+### 2. `unite` 2 variables into 1
+
+`unite` combines 2 variables (columns) into 1 variable (column) -- adding an optional separator character -- and is the complement to `separate`. 
+Using `unite` requires 
+
+- some tibble/data frame `data`; 
+- the name of the new compound variable (column) `col` (specified as a character); 
+- the names of the variables (columns) to be combined (specified by their names or column numbers); 
+- an optional separator character `sep` (as a character/regular expression). 
+
+An additional argument `remove` regulates whether the original columns are dropped from the output tibble. By default, `remove = TRUE`.
+
+```{r unite_example_1}
+# Data to use: 
+tidyr::table5  # Note that columns 2 and 3 contain 2 values (as characters!) that belong together. 
+
+## Basics: ----- 
+
+# Full separate command:
+unite(data = table5, col = "yr", century, year, sep = "")
+# Note that century and year variables disappear from output tibble.
+
+# Shorter versions of the same command:
+unite(table5, "yr", century, year, sep = "")
+
+# Using the pipe: 
+table5 %>%
+  unite("yr", century, year, sep = "")
+
+## Variants: ----- 
+
+# Providing a different separation character:
+table5 %>%
+  unite("yr", century, year, sep = "<--|-->")
+
+# Specifying the variables to be combined () by their column numbers (2 & 3):
+table5 %>% 
+  unite("yr", 2, 3, sep = "")
+
+# Not dropping the original variables:
+table5 %>%
+  unite("yr", century, year, sep = "", remove = FALSE)
+```
+
+**Practice:** Read the data from `read_csv("http://rpository.com/ds4psy/data/table7.csv")` into a tibble `table7` and inspect its dimension and contents.
+
+a. Use multiple (4) `separate` commands to split `table7` into a tibble `table7a` with multiple (5) columns. 
+
+b. Use multiple (4) `unite` commands on `table7a` to re-create a tibble `table7b` that contains _all_ data in 1 column. 
+
+Examples of `table7` and possible solutions for `table7a` and `table7b`: 
+
+```{r separate+unite_practice, echo = FALSE, eval = TRUE}
+# Data to use: 
+table7 <- read_csv("http://rpository.com/ds4psy/data/table7.csv") # from online source
+knitr::kable(table7)  # Note that column when_what contains several splitting options.
+
+table7a <- table7 %>%
+  separate(col = where_when_what, into = c("country", "stuff"), sep = "@") %>%
+  separate(col = stuff, into = c("year", "stuff"), sep = "\\$") %>%    # using regex "\\$"
+  separate(col = year, into = c("century", "year"), sep = ":") %>%
+  separate(col = stuff, into = c("rate", "population"), sep = "\\\\")  # using regex "\\\\"
+
+knitr::kable(table7a)
+
+table7b <- table7a %>% 
+  unite("yr", century, year, sep = "") %>%
+  unite("what", rate, population, sep = "/") %>%
+  unite("where_when", country, yr, sep = ":") %>%
+  unite("where_when_what", where_when, what, sep = "_")
+
+knitr::kable(table7b)
+```
+
+
+### 3. `gather` makes wide data longer 
+
 +++ here now +++
 
-### 1. `gather` makes wide data longer 
+**Practice:** Save the following data as a tibble `de` and then turn it into tidy data (by using `gather` to create a single variable `share` and listing the election `year` as an additional variable).
 
-### 2. `spread` makes long data wider
+```{r de_tibble, echo = FALSE, eval = TRUE}
+## (a) Create a tibble with the data:
+de <- tibble(
+    party = c("CDU/CSU", "SPD", "Others"),
+    share_2013 = c((.341 + .074), .257, (1 - (.341 + .074) - .257)), 
+    share_2017 = c((.268 + .062), .205, (1 - (.268 + .062) - .205))
+    )
 
-### 3. `separate` 1 variable
+## Check that columns add to 100:
+# sum(de$share_2013)  # => 1 (qed)
+# sum(de$share_2017)  # => 1 (qed)
 
-### 4. `unite` variables into 1 
+de$party <- factor(de$party, levels = c("CDU/CSU", "SPD", "Others"))  # optional
+kable(de)
+```
+
+```{r gather_separate_practice}
+## (a) Data saved as a tibble (see above): 
+de
+
+## (b) Converting de into a tidy data table:
+de_2 <- de %>%
+  gather(share_2013:share_2017, key = "election", value = "share") %>%
+  separate(col = "election", into = c("dummy", "year")) %>%
+  select(year, party, share)
+
+de_2
+```
+
+
+### 4. `spread` makes long data wider 
+
+**Practice:** Take the 6 x 3 tibble `de_2` (from above) and use `spread` to create a 3 x 3 tibble `de_3` that re-creates the original tibble `de` from it.
+
+```{r spread_practice}
+## (a) Data from above: 
+de_2
+
+## (b) Using spread to put share by year into 2 columns/variables:
+de_3 <- de_2 %>% 
+  spread(key = year, value = share) %>%
+  rename(share_2013 = `2013`,  # restore original variable names
+         share_2017 = `2017`)
+
+de_3
+
+## (c) Comparing de_3 to de: 
+de
+all.equal(de_3, de)
+```
 
 
 ## More on tidy data
@@ -1950,7 +2211,8 @@ Nr. | Topic       |
 ---:|:------------| 
 1.  | [Creating and using tibbles](http://rpository.com/ds4psy/R/_essentials/tibble.html) |
 2.  | [Data transformation](http://rpository.com/ds4psy/R/_essentials/transform.html) |
-3.  | [Visualizing data](http://rpository.com/ds4psy/R/_essentials/visualize.html) |
+3.  | [Visualizing data](http://rpository.com/ds4psy/R/_essentials/visualize.html) |  
+4.  | [Tidy data](http://rpository.com/ds4psy/R/_essentials/tidy.html) |  
 
 [Last update on `r Sys.time()` by [hn](http://neth.de/).]  
 

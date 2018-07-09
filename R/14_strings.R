@@ -1,7 +1,7 @@
 ## r4ds: Chapter 14: Strings
 ## Code for http://r4ds.had.co.nz/strings.html 
 ## hn spds uni.kn
-## 2018 04 19 ------
+## 2018 07 09 ------
 
 ## [see Book chapter 1x: "..."]
 
