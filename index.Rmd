@@ -1,7 +1,7 @@
 ---
 title: "Data Science for Psychologists (ds4psy)"
 author: "Hansjörg Neth, SPDS, uni.kn"
-date: "2018 07 06"
+date: "2018 07 09"
 output:
   rmdformats::html_clean:
     highlight: kate
@@ -148,8 +148,21 @@ Part 2: Wrangle
 10. 18.06.2018: [**Essentials**](http://rpository.com/ds4psy/R/_essentials/tibble.html) of [Chapter 10: Tibbles](http://r4ds.had.co.nz/tibbles.html): `tibble`. 
 11. 25.06.2018: [**Essentials**](http://rpository.com/ds4psy/R/_essentials/transform.html) of [Chapter 5: Data transformation](http://r4ds.had.co.nz/transform.html): `dplyr`.
 12. 02.07.2018: [**Essentials**](http://rpository.com/ds4psy/R/_essentials/visualize.html) of [Chapter 3: Data visualisation](http://r4ds.had.co.nz/data-visualisation.html) and [Chapter 7: EDA](http://r4ds.had.co.nz/exploratory-data-analysis.html): `ggplot2` + `dplyr`.  
-13. 09.07.2018: Essentials of [Chapter 12: Tidy data](http://r4ds.had.co.nz/tidy-data.html): `tidyr`. 
+13. 09.07.2018: [**Essentials**](http://rpository.com/ds4psy/R/_essentials/tidy.html) of [Chapter 12: Tidy data](http://r4ds.had.co.nz/tidy-data.html): `tidyr`. 
 14. 16.07.2018: Final project/exam. 
+
+
+<!-- Table with links: -->
+
+All [ds4psy](http://rpository.com/ds4psy/) essentials: 
+
+Nr. | Topic       |
+---:|:------------| 
+1.  | [Creating and using tibbles](http://rpository.com/ds4psy/R/_essentials/tibble.html) |
+2.  | [Data transformation](http://rpository.com/ds4psy/R/_essentials/transform.html) |
+3.  | [Visualizing data](http://rpository.com/ds4psy/R/_essentials/visualize.html) | 
+4.  | [Tidy data](http://rpository.com/ds4psy/R/_essentials/tidy.html) |
+
 
 ## Structure of each week and session
 
@@ -245,6 +258,19 @@ Programming (in R or any other language) can be enjoyable, but also has addictiv
 
 # Links
 
+## Essential commands and examples 
+
+<!-- Table with links: -->
+
+All [ds4psy](http://rpository.com/ds4psy/) essentials: 
+
+Nr. | Topic       |
+---:|:------------| 
+1.  | [Creating and using tibbles](http://rpository.com/ds4psy/R/_essentials/tibble.html) |
+2.  | [Data transformation](http://rpository.com/ds4psy/R/_essentials/transform.html) |
+3.  | [Visualizing data](http://rpository.com/ds4psy/R/_essentials/visualize.html) | 
+4.  | [Tidy data](http://rpository.com/ds4psy/R/_essentials/tidy.html) |
+
 <!-- The following links allow you to get started. -->
 
 ## Software and packages
@@ -263,6 +289,7 @@ Sebastopol, Canada: O'Reilly Media, Inc.  [Available online at [http://r4ds.had.
 - Donoho, D. (2017). 50 years of data science. _Journal of Computational and Graphical Statistics_, _26_(4), 745--766. [Available at <https://doi.org/10.1080/10618600.2017.1384734>.] 
 
 - Wickham, H. (2014). Tidy data. _Journal of Statistical Software_, _59_(10), 1--23.  [Available from <http://vita.had.co.nz/articles.html>.] 
+
 
 
 <!-- 

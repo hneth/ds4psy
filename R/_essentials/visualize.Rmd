@@ -145,7 +145,8 @@ Nr. | Topic       |
 ---:|:------------| 
 1.  | [Creating and using tibbles](http://rpository.com/ds4psy/R/_essentials/tibble.html) |
 2.  | [Data transformation](http://rpository.com/ds4psy/R/_essentials/transform.html) |
-3.  | [Visualizing data](http://rpository.com/ds4psy/R/_essentials/visualize.html) |
+3.  | [Visualizing data](http://rpository.com/ds4psy/R/_essentials/visualize.html) | 
+4.  | [Tidy data](http://rpository.com/ds4psy/R/_essentials/tidy.html) | 
 
 ## Course coordinates
 
@@ -167,14 +168,14 @@ Create an R script (`.R`) or an R-Markdown file (`.Rmd`) and load the R packages
  
 ```{r layout_template, echo = TRUE, eval = FALSE}
 ## Essential commmands | Data science for psychologists
-## 2018 07 05
+## 2018 07 06
 ## ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ##
 
 ## Preparations: ----- 
 
 library(tidyverse)
 
-## Visualize data and EDA: ggplot and dplyr ----- 
+## Visualize data and EDA: ggplot2 and dplyr ----- 
 
 # ...
 
@@ -875,7 +876,7 @@ See the packages `circlize`, `ggforce`, and `ggparallel` for other types of tran
 - read [Chapter 3: Data visualization](http://r4ds.had.co.nz/data-visualisation.html) and [Chapter 7: Exploratory data analysis (EDA)](http://r4ds.had.co.nz/exploratory-data-analysis.html) and complete their exercises. 
 
 
-## Essential commands
+# Conclusion 
 
 <!-- Table with links: -->
 
@@ -885,7 +886,8 @@ Nr. | Topic       |
 ---:|:------------| 
 1.  | [Creating and using tibbles](http://rpository.com/ds4psy/R/_essentials/tibble.html) |
 2.  | [Data transformation](http://rpository.com/ds4psy/R/_essentials/transform.html) |
-3.  | [Visualizing data](http://rpository.com/ds4psy/R/_essentials/visualize.html) |
+3.  | [Visualizing data](http://rpository.com/ds4psy/R/_essentials/visualize.html) | 
+4.  | [Tidy data](http://rpository.com/ds4psy/R/_essentials/tidy.html) | 
 
 [Last update on `r Sys.time()` by [hn](http://neth.de/).]  
 

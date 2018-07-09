@@ -1,7 +1,7 @@
 ---
 title: "Essential commands (ds4psy)"
 author: "Hansjörg Neth, SPDS, uni.kn"
-date: "2018 07 08"
+date: "2018 07 09"
 output:
    rmdformats::html_clean: # html_clean html_docco readthedown material #
      code_folding: show # hide
@@ -1676,7 +1676,7 @@ More on barplots:
 
 - <https://www.r-graph-gallery.com/barplot/>. 
 
-+++ here now +++
+<!-- +++ here now +++ --> 
 
 ### Drawing curves and lines
 
@@ -1847,7 +1847,8 @@ See the packages `circlize`, `ggforce`, and `ggparallel` for other types of tran
 
 [Chapter 12: Tidy data](http://r4ds.had.co.nz/tidy-data.html) teaches a consistent way to organise tabular data. It introduces commands of the `tidyr` package, which is a core member of the tidyverse. 
 
-## Tabular data
+
+## Tabular data 
 
 In R, rectangular data is often organized in _tibbles_ or _data frames_. Importantly, each column is a vector (of a particular type) that contains the values of a variable. Thus, whereas every column must be of one type, every row can contain values of different variables and types. 
 
@@ -1892,7 +1893,7 @@ tidyr::table5
 
 **Practice:** Recreate the above bar plot using `ggplot2` with `data = table1`. 
 
-## Defining tidy data
+### Defining tidy data
 
 **Definition:** A _tidy_ dataset conforms to 3 interrelated rules:
 
@@ -1915,7 +1916,7 @@ Note that we need to interpret the semantics of the variables to understand whet
 **Practice:** Which of the data tables in the above example (`table1` to `table5`) are tidy? Why or why not?
 
 
-## Advantages of tidy data 
+### Advantages of tidy data 
 
 1. _Consistency_: Consistent data structures make it easier to learn the tools that work with it because they have an underlying uniformity.
 
@@ -1937,7 +1938,7 @@ We consider 2 pairs of 2 complementary commands as essential:
 
 Here are some basic examples for using these 4 commands: 
 
-### 1. `separate` 1 variable into 2
+### 1. `separate` a variable
 
 `separate` splits 1 variable (column) into multiple variables (columns) -- at a position where some separator character appears -- and is the complement to `unite`. 
 Using `separate` requires the following arguments: 
@@ -2064,7 +2065,7 @@ table6a
 ```
 
 
-### 2. `unite` 2 variables into 1
+### 2. `unite` variables
 
 `unite` combines 2 variables (columns) into 1 variable (column) -- adding an optional separator character -- and is the complement to `separate`. 
 Using `unite` requires the following arguments: 
@@ -2153,7 +2154,7 @@ table7b
 ```
 
 
-### 3. `gather` makes wide data longer 
+### 3. `gather` makes wide data longer
 
 Gathering is the opposite of spreading and used when observations that are distributed over multiple columns should be contained in 1 variable (column). More specifically, `gather` moves the values of several variables (columns) into 1 column `value` and describes this value by the value of a new `key` variable. When gathering more than 2 variables, this reduces the number of columns by increasing the number of rows (i.e., makes a wide data set longer).^[The length and width of a data set are relative terms here: gathering tends to decrease data width by increasing length, spreading tends to decrease data length by increasing width.] 
 
@@ -2241,7 +2242,7 @@ de_2
 ```
 
 
-### 4. `spread` makes long data wider 
+### 4. `spread` makes long data wider
 
 Spreading is the opposite of gathering and used when an observation that should be in 1 row is distributed over multiple rows (in 1 column). More specifically, `spread` puts the values of several cases (rows) into different variables (columns) of 1 row. When spreading more than 2 rows per case, this decreases the number of rows by increasing the number of columns (i.e., makes a long data set wider).^[Again, the length and width of data sets are relative terms.] 
 
@@ -2378,13 +2379,20 @@ st_long %>%
   mutate(day_nr = parse_integer(str_sub(day, 2, 2))) # optional: get day_nr as integer variable
 ```
 
-+++ here now +++
 
 ## More on tidy data
+
+- Study the vignette on `vignette("tidy-data")` and the [RStudio cheatsheet](https://www.rstudio.com/resources/cheatsheets/) on _Data Import_ for essential `tidyr` commands. 
+
+- Read [Chapter 12: Tidy data](http://r4ds.had.co.nz/tidy-data.html) and complete its exercises.
 
 - For background information on the notion of tidy data, see  
 Wickham, H. (2014). Tidy data. _Journal of Statistical Software_, _59_(10), 1--23.  
 available at <http://www.jstatsoft.org/v59/i10/paper>. 
+
+- Follow the links on <https://tidyr.tidyverse.org.> for additional information. 
+
+
 
 # Conclusion
 
