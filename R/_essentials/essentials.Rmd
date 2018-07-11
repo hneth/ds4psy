@@ -1,7 +1,7 @@
 ---
 title: "Essential commands (ds4psy)"
 author: "Hansjörg Neth, SPDS, uni.kn"
-date: "2018 07 10"
+date: "2018 07 11"
 output:
    rmdformats::html_clean: # html_clean html_docco readthedown material #
      code_folding: show # hide
@@ -184,6 +184,29 @@ library(tidyverse)
 ## ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ##
 ## End of file. ----- 
 ```
+
+# Basics
+
+Some background knowledge and basics facts (required to learn R or any other programming language): 
+
+## Concepts
+
+- Different types of objects: Code contains data values (objects being measured or manipulated) vs. functions (actions, operators, verbs). 
+- Data formats: scalars, vectors, matrices (data frame or tibbles), arrays. 
+- Data types: numeric, character, logical. 
+- Accessing data formats (vectors, matrices) via names, indices, or subsetting.  
+
+## Technology
+
+- Essentials: R, packages, code (commands vs. scripts). 
+- Convencience: IDE like RStudio. 
+- Infrastructure: [R-project](https://www.r-project.org), stackoverflow, GitHub, ..., Google. 
+
+## Organization 
+
+- Clean code (spacing, comments, sections, ...) 
+- Projects (with scripts, data, and folders)
+
 
 # Tibbles
 
@@ -1164,9 +1187,7 @@ In the following, we introduce some essential commands of `ggplot2` in the conte
 
 See [Chapter 3: Data visualization](http://r4ds.had.co.nz/data-visualisation.html)) and [Chapter 7: Exploratory data analysis (EDA)](http://r4ds.had.co.nz/exploratory-data-analysis.html) and the links provided below for more detailed information. 
 
-## Commands and examples 
-
-### General structure of `ggplot` calls
+## Structure of `ggplot` commands
 
 A generic template for creating a graph with `ggplot` is:
 
@@ -1196,9 +1217,11 @@ The generic template includes the following parts:
 
 - A sequence of optional `<LOOK_GOOD_fun>` adjusts the visual features of plots (e.g., by adding themes, plot titles and labels, color scales, and coordinate systems).
 
-Some examples that illustrate the use of these components are:
+## Basic plot types
 
-### Histograms
+`ggplot2` contains dozens of geoms. Fortunately, many graphical messages can be conveyed by mastering a few basic plot types. In the following, we show some examples that illustrate the use of `ggplot` commands (and should get you started to explore other geoms).
+
+### 1. Histograms
 
 A _histogram_ counts how often specific values of one (typically continuous) variable occur in the data. This allows viewing the distribution of values for this variable: 
 
@@ -1234,7 +1257,13 @@ hi2 <- ggplot(mpg) +
 hi2
 ```
 
-### Scatterplots
+More on histograms: 
+
+- See <https://www.r-graph-gallery.com/histogram/> and 
+- <https://ggplot2.tidyverse.org/reference/> for more examples. 
+
+
+### 2. Scatterplots
 
 A _scatterplot_ shows a data point (observation) as a function of 2 (typically continuous) variables `x` and `y`. This allows judging the relationship between `x` and `y` in the data: 
 
@@ -1347,8 +1376,6 @@ ggplot(mw) +
   theme_bw()
 ```
 
-See <https://ggplot2.tidyverse.org/reference/> for more examples. 
-
 Note some details:
 
 - `ggplot` requires data and maps independent variables to dimensions (e.g., the x- and y-axis) and dependent variables to geometric objects (called "geoms"). It typically assumes that the to-be-plotted `<DATA>` is in a table (data frame or tibble) in long format and contains independent variables as factors. 
@@ -1363,9 +1390,13 @@ Note some details:
 
 - The visual appearance of plots are highly customizable (e.g., by supplying aesthetic arguments, speciying labels and legends, and applying pre-defined themes to plots). 
 
+More on scatterplots: 
+
+- See <https://www.r-graph-gallery.com/scatterplot/> and 
+- <https://ggplot2.tidyverse.org/reference/> for more examples. 
 
 
-### Bar plots
+### 3. Bar plots
 
 Another common type of plot shows the values (across different levels of some variable as the height of bars. As this plot type can use both categorical or continuous variables, it turns out to be surprisingly complex to create good bar charts. To us get started, here are only a few examples: 
 
@@ -1432,7 +1463,6 @@ ggplot(mpg) +
   theme_bw()
 ```
 
-
 #### Proportion of cases
 
 An alternative to showing the count or frequency of cases is showing the corresponding _proportion_ of cases: 
@@ -1453,7 +1483,6 @@ ggplot(mpg) +
 ```
 
 **Practice:** Plot the _proportion of cases_ in the `mpg` data by `cyl` (in at least 3 different ways). 
-
 
 #### Bar plots of existing values
 
@@ -1600,13 +1629,14 @@ ggplot(data) +
 
 More on barplots:
 
-- <https://www.r-graph-gallery.com/barplot/>. 
+- See <https://www.r-graph-gallery.com/barplot/> and 
+- <https://ggplot2.tidyverse.org/reference/> for more examples.
 
 <!-- +++ here now +++ --> 
 
-### Drawing lines and curves
+### 4. Lines and curves
 
-There are many types of lines. Here, we introduce some basic types. 
+There are many types of lines. In this section, we introduce some basic types. 
 
 1. _Straight and curved lines_: 
 When using lines to illustrate boundaries, limits, or trends in plots, we can add them by specifying their key parameters (e.g., their `intercept`, `slope`, etc.). 
@@ -1690,8 +1720,9 @@ fn2 <- function(x){x^2 - x}
 fn3 <- function(x){-log(abs(x))}
 fn4 <- function(x){2^x}
 fn5 <- function(x){2 * sin(x)}
-fn6 <- function(x){rnorm(x, mean = 0, sd = 1)}
-  
+fn6 <- function(x){rnorm(x, mean = 0, sd = 1)}     # random value from normal dist. 
+fn7 <- function(x){rbinom(x, size = 1, prob = .5)} # random value from binom. dist.
+
 # (b) Empty plotting canvas:
 ggplot(data.frame(x = c(-10, 10)), aes(x = x))   # empty canvas from -10 < x < +10
 
@@ -1704,8 +1735,10 @@ ggplot(data.frame(x = c(-10, 10)), aes(x = x)) +
     stat_function(fun = fn4, color = "gold") + 
     stat_function(fun = fn5, color = "orange") + 
     stat_function(fun = fn6, color = "grey50") + 
+    stat_function(fun = fn7, color = "grey75") + 
     ## Prettify plot: ## 
-    labs(title = "Plotting functions", caption = "[ds4psy]") + 
+    labs(title = "Plotting different functions", 
+         caption = "[ds4psy]") + 
     coord_cartesian(xlim = c(-3, +3), ylim = c(-3, +3)) +  # zoom in on plot region +
     theme_bw()                                             # use bw theme
 ```
@@ -1733,7 +1766,7 @@ knitr::kable(tb)
 We can easily define this data as a tibble (e.g., row-by-row, using the `tribble` command), but then encounter a problem: 
 To use `geom_line` we need to define a mapping from some variable `x` to some variable `y`. However, we do not have an individual variable `x` here, but rather 7 values of `x` for every person (for different days of the week). To obtain a single variable that contains all dependent values for `x`, we need to re-format the data from wide to long format (see [Chapter 12: Tidy data](http://r4ds.had.co.nz/tidy-data.html), which introduces the `tidyr` package). 
 
-```{r lineplot_of_data}
+```{r lineplot_of_data_1, fig.show = "hold"}
 # (a) Data tibble (in wide format):
 tb <- tribble(
   ~name, ~Mon, ~Tue, ~Wed, ~Thu, ~Fri, ~Sat, ~Sun,   
@@ -1759,15 +1792,23 @@ ggplot(tb_long, aes(x = day, y = val, group = name, color = name)) +
 # However, note that x-axis labels are ordered alphabetically! 
 # The reason for this is that -- in tb_long -- day is a character variable. 
 # To fix this, we need to turn day into a factor with levels that match its values: 
+```
 
+Note that the labels on the x-axis are ordered alphabetically (i.e., from "Fri"" to "Wed"). 
+The reason for this is that -- in `tb_long` -- the variable `day` is of type character.  
+To fix this problem, we need to turn `day` into a _factor_ with levels that match its values: 
+
+```{r lineplot_of_data_2}
+# (d) Turn day into a factor:
 tb_long$day <- factor(tb_long$day, levels = c("Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"))
-tb_long
+# tb_long
 
-# (d) Repeat (c) with tb_long$day as factor:
+# (e) Repeat (c) with tb_long$day as factor:
 ggplot(tb_long, aes(x = day, y = val, group = name, color = name)) +
   geom_line(size = 1.0)
+# Note that order of weekdays is not correct (corresponding to factor levels). 
 
-# (e) A prettier version of the same plot:
+# (f) A prettier version of the same plot:
 ggplot(tb_long, aes(x = day, y = val, group = name, color = name, shape = name)) +
   geom_line(size = 1.0) +
   geom_point(size = 2.5) +
@@ -1777,6 +1818,264 @@ ggplot(tb_long, aes(x = day, y = val, group = name, color = name, shape = name))
   scale_color_brewer(palette = "Set1") + 
   theme_bw()
 ```
+
+### 5. Box plots
+
++++ here now +++
+
+**ToDo:**
+
+- show medians, quartiles, distribution, and outliers
+- also show means
+- also show raw data 
+
+
+
+## Improving plots
+
+Most default plots can be improved by fine-tuning their visual appearance. 
+Popular levers for "pimping" plots include: 
+
+- _colors_, _shapes_ and _sizes_ can be set withing geoms (and are variable when inside `aes(...)`, or fixed when set outside). Using color often involves setting specific color scales;  
+- _labels_ are essential for understanding plots: `labs(...)` allows setting titles, captions, axis labels, etc.;  
+- _legends_ can be crucial for understanding aesthetic mappings. They can be edited or (re-)moved;  
+- _themes_ allow for a consistent look, can be selected and modified.  
+
+### Colors 
+
+- Colors of lines, points, shapes, and text  
+- Choosing color scales 
+
+### Symbols
+
+Setting the `shape` parameter to different `pch` types.
+
+```{r symbols}
+# Create an empty chart (in base R): 
+plot(1, 1, xlim = c(1, 5.5), ylim = c(0, 7), type = "n", ann = FALSE)
+
+# Plot digits 0-4 with increasing size and color
+text(1:5, rep(6, 5), labels = c(0:4), cex = 1:5, col = 1:5)
+
+# Plot symbols 0-4 with increasing size and color
+points(1:5, rep(5,5), cex = 1:5, col = 1:5, pch = 0:4)
+text((1:5)+0.4, rep(5,5), cex = 0.6, (0:4))
+
+# Plot symbols 5-9 with labels
+points(1:5, rep(4,5), cex = 2, pch = (5:9))
+text((1:5)+0.4, rep(4,5), cex = 0.6, (5:9))
+
+# Plot symbols 10-14 with labels
+points(1:5, rep(3,5), cex = 2, pch = (10:14))
+text((1:5)+0.4, rep(3,5), cex = 0.6, (10:14))
+
+# Plot symbols 15-19 with labels
+points(1:5, rep(2,5), cex = 2, pch = (15:19))
+text((1:5)+0.4, rep(2,5), cex = 0.6, (15:19))
+
+# Plot symbols 20-25 with labels
+points((1:6)*0.8+0.2, rep(1, 6), cex = 2, pch = (20:25))
+text((1:6)*0.8+0.5, rep(1, 6), cex = 0.6, (20:25))
+```
+
+### Canvas and annotations
+
+- Titles, axis labels, etc.
+- Legends 
+- Grid lines 
+- Themes 
+
+## Advanced plots and related packages
+
+`ggplot2` comes with a large variety of geoms. Nevertheless, we sometimes want to show or do something that is not included in the standard package. [Chapter 7: Exploratory data analysis](http://r4ds.had.co.nz/exploratory-data-analysis.html) goes beyond standard `ggplot` geoms by touching on `geom_hex` (from the `hexbin` package) and `geom_beeswarm` and `geom_quasirandom` (from the `ggbeeswarm` package). When looking for new forms of visual expression, web sites like 
+
+- [Data Visualization Catalogue](https://datavizcatalogue.com)
+- [Google charts](https://developers.google.com/chart/)
+- [R-graph gallery](http://www.r-graph-gallery.com)
+- The [Masterlist](http://r-statistics.co/Top50-Ggplot2-Visualizations-MasterList-R-Code.html) (with code) at <http://r-statistics.co>
+
+can inspire and provide many interesting pointers. The site 
+
+- [ggplot2-exts.org](https://www.ggplot2-exts.org/) 
+
+also provides valuable resources for `ggplot` users, as it shows packages specifically designed to work with `ggplot2`. In the following, we illustrate the packages `ggmosaic` and `ggalluvial` that allow showing the relations and transitions between categorical data (sets). 
+
+### Example 1: Mosaic plots
+
+An example showing the use of `ggmosaic`: 
+
+```{r mosaic_plots}
+# install.packages("ggmosaic")
+library(ggmosaic)
+
+# ?geom_mosaic()
+
+# Data to use: ----  
+data(Titanic)
+titanic <- as.data.frame(Titanic)
+titanic$Survived <- factor(titanic$Survived, levels = c("Yes", "No"))
+
+# Examples: ---- 
+
+ggplot(data=titanic) +
+  geom_mosaic(aes(weight=Freq, x=product(Class), fill=Survived)) +
+  scale_fill_brewer(palette = "Set1")
+
+# Good practice: 
+# Use the dependent variable (or most important variable)
+# as fill variable. 
+
+ggplot(data=titanic) +
+  geom_mosaic(aes(weight = Freq, x = product(Class, Age), fill = Survived)) +
+  scale_fill_brewer(palette = "Set2") +
+  theme_bw()
+
+# As usual, we can change where we define variables: 
+ggplot(data=titanic, aes(weight = Freq, fill=Survived, x=product(Class, Age))) +
+  geom_mosaic() + 
+  scale_fill_brewer(palette = "Dark2") +
+  theme_bw()
+
+ggplot(data=titanic) +
+  geom_mosaic(aes(weight = Freq, x = product(Class), conds = product(Age), fill = Survived)) +
+  scale_fill_manual(values = c("forestgreen", "firebrick")) +
+  theme_bw()
+
+ggplot(data=titanic) +
+  geom_mosaic(aes(weight = Freq, x = product(Survived, Class), fill = Age)) + 
+  scale_fill_manual(values = c("skyblue", "steelblue")) +
+  theme_bw()
+```
+
+
+### Example 2: Alluvial plot
+
+Alluvial plots with data as a frequency table: 
+
+```{r alluvial_plots_1, fig.width = 6, fig.height = 8}
+# Preparations: 
+library(tidyverse)
+# install.packages("ggalluvial")
+library(ggalluvial)
+
+# Example 1 (adapted from vignette): ----- 
+
+# Data:
+as_tibble(as.data.frame(UCBAdmissions))
+is_alluvial(as.data.frame(UCBAdmissions), logical = FALSE, silent = TRUE)
+
+# Alluvial plot: 
+ggplot(as.data.frame(UCBAdmissions),
+       aes(weight = Freq, axis1 = Gender, axis2 = Dept)) +
+  geom_alluvium(aes(fill = Admit), width = .10, color = "grey10") +
+  geom_stratum(width = .10, 
+               fill = c("firebrick", "steelblue4", "grey10", "grey80", "grey30", "grey50", "grey70", "grey20"), 
+               color = "grey10") +
+  geom_label(stat = "stratum", label.strata = TRUE) +
+  scale_x_continuous(breaks = 1:2, labels = c("Gender", "Department")) +
+  # scale_fill_brewer(type = "qual", palette = "Set2") +
+  scale_fill_manual(name = "Admissions:", values = c("forestgreen", "gold2")) + 
+  ggtitle("UC Berkeley admissions and rejections") +
+  theme_light()
+```
+
+An important feature of these diagrams is the meaningfulness of the vertical axis: No gaps are inserted between the strata, so the total height of the diagram reflects the cumulative weight of the observations.^[This is different in _Sankey diagrams_, shown <https://developers.google.com/chart/interactive/docs/gallery/sankey>.]
+
+Alluvial plots with data in long format:
+
+```{r alluvial_plots_3, fig.width = 8, fig.height = 5}
+# Preparations: 
+library(ggalluvial)
+
+# Example 3 (adapted from vignette): ----- 
+
+?majors
+data(majors)
+as_tibble(majors) # illustrating lode format 
+majors$curriculum <- as.factor(majors$curriculum)
+
+ggplot(majors,
+       aes(x = semester, stratum = curriculum, alluvium = student,
+           fill = curriculum, label = curriculum)) +
+  scale_fill_brewer(type = "qual", palette = "Pastel2") +
+  geom_flow(stat = "alluvium", 
+            lode.guidance = "rightleft",
+            color = "darkgray") +
+  geom_stratum() +
+  theme(legend.position = "right") + # "bottom" "top"
+  ggtitle("Student curricula across several semesters") +
+  theme_light()
+```
+
+#### Example 3: Parallel set diagram 
+
+```{r alluvial_plots_2, fig.width = 7, fig.height = 7}
+# Preparations: 
+library(ggalluvial)
+
+# Example 2 (adapted from vignette): ----- 
+
+as_tibble(as.data.frame(Titanic))
+
+ggplot(as.data.frame(Titanic),
+       aes(weight = Freq,
+           axis1 = Survived, axis2 = Sex, axis3 = Class)) +
+  geom_alluvium(aes(fill = Class),
+                width = 0, knot.pos = 0, reverse = FALSE) +
+  guides(fill = FALSE) +
+  geom_stratum(width = 1/12, reverse = FALSE) +
+  geom_text(stat = "stratum", label.strata = TRUE, reverse = FALSE) +
+  scale_x_continuous(breaks = 1:3, labels = c("Survived", "Gender", "Class")) +
+  coord_flip() +
+  ggtitle("Titanic survival by class and gender (1)") +
+  scale_fill_brewer(type = "qual", palette = "Dark2") +
+  theme_bw()
+
+# Switching order of axes (to put Survived in the middle):
+# Fill alluvium by Survived: 
+ggplot(as.data.frame(Titanic),
+       aes(weight = Freq,
+           axis1 = Sex, axis2 = Survived, axis3 = Class)) +
+  geom_alluvium(aes(fill = Survived), # rather than Class
+                width = 0, knot.pos = 0, reverse = FALSE) +
+  guides(fill = FALSE) +
+  geom_stratum(width = 1/12, reverse = FALSE) +
+  geom_text(stat = "stratum", label.strata = TRUE, reverse = FALSE) +
+  scale_x_continuous(breaks = 1:3, labels = c("Gender", "Survived", "Class")) +
+  coord_flip() +
+  ggtitle("Titanic survival by class and gender (2)") +
+  # scale_fill_brewer(type = "qual", palette = "Set1") +
+  scale_fill_manual(name = "Survival:", values = c("black", "forestgreen")) +
+  theme_bw()
+
+# Fill alluvium by gender:
+ggplot(as.data.frame(Titanic),
+       aes(weight = Freq,
+           axis1 = Class, axis2 = Survived, axis3 = Sex)) +
+  geom_alluvium(aes(fill = Sex), 
+                width = 0, knot.pos = 0, reverse = FALSE) +
+  guides(fill = FALSE) +
+  geom_stratum(width = 1/12, reverse = FALSE) +
+  geom_text(stat = "stratum", label.strata = TRUE, reverse = FALSE) +
+  scale_x_continuous(breaks = 1:3, labels = c("Class", "Survived", "Gender")) +
+  coord_flip() +
+  ggtitle("Titanic survival by class and gender (3)") +
+  # scale_fill_brewer(type = "qual", palette = "Paired") +
+  scale_fill_manual(values = c("steelblue", "firebrick")) + 
+  theme_bw()
+```
+
+
+See the packages `circlize`, `ggforce`, and `ggparallel` for other types of transition plots. 
+
+
+## More on data visualization
+
+- study `vignette("ggplot")` and the documentation for `ggplot` and various geoms (e.g., `geom_`);
+- study <https://ggplot2.tidyverse.org/reference/> and its examples; 
+- see the [cheat sheet on data visualization](https://www.rstudio.com/resources/cheatsheets/); 
+- read [Chapter 3: Data visualization](http://r4ds.had.co.nz/data-visualisation.html) and [Chapter 7: Exploratory data analysis (EDA)](http://r4ds.had.co.nz/exploratory-data-analysis.html) and complete their exercises. 
+
 
 
 # Data exploration 
@@ -1875,7 +2174,8 @@ ggplot(tb) +
 
 More on histograms: 
 
-- <https://www.r-graph-gallery.com/histogram/>
+- See <https://www.r-graph-gallery.com/histogram/> and 
+- <https://ggplot2.tidyverse.org/reference/> for more examples.
 
 ### Scatterplots
 
@@ -1908,166 +2208,11 @@ ggplot(ir) +
 
 More on scatterplots: 
 
-- <https://www.r-graph-gallery.com/scatterplot/>
+- See <https://www.r-graph-gallery.com/scatterplot/> and 
+- <https://ggplot2.tidyverse.org/reference/> for more examples. 
 
 
-
-
-### Box plots
-
-**ToDo:**
-
-- show medians, quartiles, distribution, and outliers
-
-
-### Improving plots
-
-Most default plots can be improved by fine-tuning their visual appearance. 
-Popular levers for "pimping" plots include: 
-
-- _colors_, _shapes_ and _sizes_ can be set withing geoms (and are variable when inside `aes(...)`, or fixed when set outside). Using color often involves setting specific color scales;  
-- _labels_ are essential for understanding plots: `labs(...)` allows setting titles, captions, axis labels, etc.;  
-- _legends_ can be crucial for understanding aesthetic mappings. They can be edited or (re-)moved;  
-- _themes_ allow for a consistent look, can be selected and modified.  
-
-
-### Related plots and packages
-
-`ggplot2` comes with a large variety of geoms. Nevertheless, we sometimes want to show or do something that is not included in the standard package. [Chapter 7: Exploratory data analysis](http://r4ds.had.co.nz/exploratory-data-analysis.html) goes beyond standard `ggplot` geoms by touching on `geom_hex` (from the `hexbin` package) and `geom_beeswarm` and `geom_quasirandom` (from the `ggbeeswarm` package). When looking for new forms of visual expression, web sites like 
-
-- [Data Visualization Catalogue](https://datavizcatalogue.com)
-- [Google charts](https://developers.google.com/chart/)
-- [R-graph gallery](http://www.r-graph-gallery.com)
-
-can inspire and provide many interesting pointers. The site 
-
-- [ggplot2-exts.org](https://www.ggplot2-exts.org/) 
-
-also provides valuable resources for `ggplot` users, as it shows packages specifically designed to work with `ggplot2`. In the following, we illustrate the package `ggalluvial` that allows showing the transitions between categorical data. 
-
-#### Example 1: Alluvial plot
-
-```{r alluvial_plots_1, fig.width = 6, fig.height = 8}
-# Preparations: 
-library(tidyverse)
-# install.packages("ggalluvial")
-library(ggalluvial)
-
-# Example 1 (adapted from vignette): ----- 
-
-as_tibble(as.data.frame(UCBAdmissions))
-is_alluvial(as.data.frame(UCBAdmissions), logical = FALSE, silent = TRUE)
-
-ggplot(as.data.frame(UCBAdmissions),
-       aes(weight = Freq, axis1 = Gender, axis2 = Dept)) +
-  geom_alluvium(aes(fill = Admit), width = .10, color = "grey10") +
-  geom_stratum(width = .10, 
-               fill = c("firebrick", "steelblue4", "grey10", "grey80", "grey30", "grey50", "grey70", "grey20"), 
-               color = "grey10") +
-  geom_label(stat = "stratum", label.strata = TRUE) +
-  scale_x_continuous(breaks = 1:2, labels = c("Gender", "Department")) +
-  # scale_fill_brewer(type = "qual", palette = "Set2") +
-  scale_fill_manual(name = "Admissions:", values = c("forestgreen", "gold2")) + 
-  ggtitle("UC Berkeley admissions and rejections") +
-  theme_light()
-```
-
-An important feature of these diagrams is the meaningfulness of the vertical axis: No gaps are inserted between the strata, so the total height of the diagram reflects the cumulative weight of the observations.^[This is different in _Sankey diagrams_, shown <https://developers.google.com/chart/interactive/docs/gallery/sankey>.]
-
-
-#### Example 2: Parallel set diagram 
-
-```{r alluvial_plots_2, fig.width = 7, fig.height = 7}
-# Preparations: 
-library(ggalluvial)
-
-# Example 2 (adapted from vignette): ----- 
-
-as_tibble(as.data.frame(Titanic))
-
-ggplot(as.data.frame(Titanic),
-       aes(weight = Freq,
-           axis1 = Survived, axis2 = Sex, axis3 = Class)) +
-  geom_alluvium(aes(fill = Class),
-                width = 0, knot.pos = 0, reverse = FALSE) +
-  guides(fill = FALSE) +
-  geom_stratum(width = 1/12, reverse = FALSE) +
-  geom_text(stat = "stratum", label.strata = TRUE, reverse = FALSE) +
-  scale_x_continuous(breaks = 1:3, labels = c("Survived", "Gender", "Class")) +
-  coord_flip() +
-  ggtitle("Titanic survival by class and gender (1)") +
-  scale_fill_brewer(type = "qual", palette = "Dark2") +
-  theme_bw()
-
-# Switching order of axes (to put Survived in the middle):
-# Fill alluvium by Survived: 
-ggplot(as.data.frame(Titanic),
-       aes(weight = Freq,
-           axis1 = Sex, axis2 = Survived, axis3 = Class)) +
-  geom_alluvium(aes(fill = Survived), # rather than Class
-                width = 0, knot.pos = 0, reverse = FALSE) +
-  guides(fill = FALSE) +
-  geom_stratum(width = 1/12, reverse = FALSE) +
-  geom_text(stat = "stratum", label.strata = TRUE, reverse = FALSE) +
-  scale_x_continuous(breaks = 1:3, labels = c("Gender", "Survived", "Class")) +
-  coord_flip() +
-  ggtitle("Titanic survival by class and gender (2)") +
-  # scale_fill_brewer(type = "qual", palette = "Set1") +
-  scale_fill_manual(name = "Survival:", values = c("black", "forestgreen")) +
-  theme_bw()
-
-# Fill alluvium by gender:
-ggplot(as.data.frame(Titanic),
-       aes(weight = Freq,
-           axis1 = Class, axis2 = Survived, axis3 = Sex)) +
-  geom_alluvium(aes(fill = Sex), 
-                width = 0, knot.pos = 0, reverse = FALSE) +
-  guides(fill = FALSE) +
-  geom_stratum(width = 1/12, reverse = FALSE) +
-  geom_text(stat = "stratum", label.strata = TRUE, reverse = FALSE) +
-  scale_x_continuous(breaks = 1:3, labels = c("Class", "Survived", "Gender")) +
-  coord_flip() +
-  ggtitle("Titanic survival by class and gender (3)") +
-  # scale_fill_brewer(type = "qual", palette = "Paired") +
-  scale_fill_manual(values = c("steelblue", "firebrick")) + 
-  theme_bw()
-```
-
-#### Example 3: Data in long format
-
-```{r alluvial_plots_3, fig.width = 8, fig.height = 5}
-# Preparations: 
-library(ggalluvial)
-
-# Example 3 (adapted from vignette): ----- 
-
-?majors
-data(majors)
-as_tibble(majors) # illustrating lode format 
-majors$curriculum <- as.factor(majors$curriculum)
-
-ggplot(majors,
-       aes(x = semester, stratum = curriculum, alluvium = student,
-           fill = curriculum, label = curriculum)) +
-  scale_fill_brewer(type = "qual", palette = "Pastel2") +
-  geom_flow(stat = "alluvium", 
-            lode.guidance = "rightleft",
-            color = "darkgray") +
-  geom_stratum() +
-  theme(legend.position = "right") + # "bottom" "top"
-  ggtitle("Student curricula across several semesters") +
-  theme_light()
-```
-
-See the packages `circlize`, `ggforce`, and `ggparallel` for other types of transition plots. 
-
-
-## More on data visualization
-
-- study `vignette("ggplot")` and the documentation for `ggplot` and various geoms (e.g., `geom_`);
-- study <https://ggplot2.tidyverse.org/reference/> and its examples; 
-- see the [cheat sheet on data visualization](https://www.rstudio.com/resources/cheatsheets/); 
-- read [Chapter 3: Data visualization](http://r4ds.had.co.nz/data-visualisation.html) and [Chapter 7: Exploratory data analysis (EDA)](http://r4ds.had.co.nz/exploratory-data-analysis.html) and complete their exercises. 
+(...)
 
 
 # Tidy data 
