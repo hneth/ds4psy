@@ -1,7 +1,7 @@
 ---
 title: "All Test Questions (ds4psy)"
 author: "Hansjörg Neth, SPDS, uni.kn"
-date: "2018 07 01"
+date: "2018 07 10"
 output:
    rmdformats::html_clean: # html_clean html_docco readthedown material #
      code_folding: show # hide
@@ -89,7 +89,8 @@ pt <- 0  # point total
 ```{r utility_add_random_NA_values, echo = FALSE, eval = TRUE}
 # Adding a random amount (number or proportion) of NA or other values to a vector:
 
-## Function to replace a random amount of vector elements by NA values:  
+## Function to replace a random amount (a proportion <= 1 or absolute number > 1) 
+## of vector elements by NA values:  
 add_NAs <- function(vec, amount){
   
   stopifnot((is.vector(vec)) & (amount >= 0) & (amount <= length(vec)))
@@ -135,12 +136,15 @@ add_whats <- function(vec, amount, what = NA){
 
 # Introduction
 
-This file contains practice and test questions suited to test your skills and understanding. 
-It also illustrates the procedure of our **mid-term exam** (on June 4, 2018). 
+This file contains practice and exam questions suited to test your skills and understanding. 
+It also illustrates the procedure of our **mid-term exam** (on June 4, 2018) and **final exam** (on July 16, 2018). 
 
 <!-- This file contains possible solutions to the **mid-term exam** (on June 4, 2018). --> 
 
 <!-- The following questions comprise our **mid-term exam** (on June 4, 2018). -->
+<!-- This exam contains a total of **6 tasks** and a maximum score of **50 points**. --> 
+
+This exam contains a total of **XXX tasks** and a maximum score of **YYY points**. 
 
 ## Course coordinates
 
@@ -172,9 +176,9 @@ It also illustrates the procedure of our **mid-term exam** (on June 4, 2018).
     Here's a layout template that you can copy and adapt: 
 
 ```{r layout_template, echo = TRUE, eval = FALSE}
-## Mid-term exam  | Data science for psychologists (Summer 2018)
+## Final exam  | Data science for psychologists (Summer 2018)
 ## Name: ... | Student ID: ...
-## 2018 06 04
+## 2018 07 16
 ## ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ##
 
 ## Preparations: ----- 
@@ -203,10 +207,13 @@ pg
 
 - Save your script (regularly) as `Lastname_Firstname_midTerm_180604.R` (replacing `Lastname` and `Firstname` by your names).
 
-- When asked for numbers or interpretations, include _short answers as comments_ in your script. However, when asked for quantitative summaries containing more than 2 numbers (e.g., descriptive statistics of a dataset) simply print your results (e.g., the output of a `dplyr` pipe) in your code.
+- When asked for numbers or interpretations, include _short answers as comments_ in your script. However, when asked for quantitative summaries containing more than 2 numbers (e.g., descriptive statistics of a dataset) simply _print your results_ (e.g., the output of a `dplyr` pipe) in your code. 
 
-- Submit your script by email (as an attachment) to <h.neth@uni.kn> by 15:15 (today). 
+- **Submit** your script as an attachment to an _email_ (with the subject header "ds4psy: final exam") to <h.neth@uni.kn> by Wednesday (July 18th, 2018). 
 
+
+
+<!-- Test questions by chapter/topic: --> 
 
 # 3: Data visualisation
 
@@ -851,8 +858,6 @@ pt <- pt + 15  # increment point total
 
 ### Task `r nr<-nr+1; nr`: Not all outliers are alike 
 
-Own data: Identifying outliers --- some outliers are more equal than others...
-
 This task examines the statistical definition of outliers and uses a generated dataset (entitled `out.csv` and available at <http://rpository.com/ds4psy/mt/out.csv>). Use the following `read_csv()` command to obtain and load it into R: 
 
 ```{r outlier_load_data, echo = TRUE, eval = TRUE}
@@ -865,7 +870,7 @@ data <- read_csv("http://rpository.com/ds4psy/mt/out.csv")  # from online source
 
 An _outlier_ can be defined as an individual whose value in some metric deviates by more than a given criterion (e.g., 2 standard deviations) from the mean. But this definition is incomplete unless it also specifies an appropriate reference group. This task explores the implications of different reference groups. 
 
-```{r, outlier_create_data, echo = FALSE, eval = FALSE}
+```{r outlier_create_data, echo = FALSE, eval = FALSE}
 # library(tidyverse)
 
 ## Creating a suitable data set: 
@@ -901,37 +906,37 @@ data <- read_csv("out.csv")
 data
 ```
 
-**`r nr`a.** Save the data into a tibble `data` and report its number of observations and variables (1).  
+**`r nr`a.** Save the data into a tibble `data` and report its number of observations and variables. (1&nbsp;point)   
 
-**`r nr`b.** How many missing data values are there in `data`(1)? 
+**`r nr`b.** How many missing data values are there in `data`? (1&nbsp;point) 
 
-**`r nr`c.** What is the gender (or `sex`) distribution in this sample (1)? 
+**`r nr`c.** What is the gender (or `sex`) distribution in this sample? (1&nbsp;point)  
 
-**`r nr`d.** Create a plot that shows the distribution of `height` values for each gender (1).
+**`r nr`d.** Create a plot that shows the distribution of `height` values for each gender. (1&nbsp;point) 
 
 <!-- Definition: Outlier -->
 
 **`r nr`e.** Compute 2 new variables that signal and distinguish between 2 types of outliers in terms of `height`: 
 
 1. outliers relative to the `height` of the _overall sample_ 
-(i.e., individuals with `height` values deviating more than 2 SD from the overall mean of `height`) (1);
+(i.e., individuals with `height` values deviating more than 2 SD from the overall mean of `height`) (1&nbsp;point);
 
 2. outliers relative to the `height` of _some subgroup_'s mean and SD. Here, a suitable subgroup to consider is every person's gender 
-(i.e., individuals with `height` values deviating more than 2 SD from the mean `height` of their own gender) (1).
+(i.e., individuals with `height` values deviating more than 2 SD from the mean `height` of their own gender). (1&nbsp;point) 
 
 **Hints:** As both variable signal whether or not someone is an outlier they should be defined as logicals (being either `TRUE` or `FALSE`) and added as new columns to `data` (via appropriate `mutate` commands). While the 1st variable can be computed based on the mean and SD of the overall sample, the 2nd variable can be computed after grouping `data` by gender and then computing and using the corresponding mean and SD values. The absolute difference between 2 numeric values `x` and `y` is provided by `abs(x - y)`. 
 
 **`r nr`f.** Use the 2 new variables to define and identify 2 subgroups of people: 
 
-1. `out_1`: Individuals (females and males) with `height` values that are outliers relative to _both_ the entire sample _and_ the sample of their own gender. How many such individuals are in `data` (1)? 
+1. `out_1`: Individuals (females and males) with `height` values that are outliers relative to _both_ the entire sample _and_ the sample of their own gender. How many such individuals are in `data`? (1&nbsp;point) 
 
-2. `out_2`: Individuals (females and males) with `height` values that are _not_ outliers relative to the entire population, but _are_ outliers relative to their own gender. How many such individuals are in `data` (1)? 
+2. `out_2`: Individuals (females and males) with `height` values that are _not_ outliers relative to the entire population, but _are_ outliers relative to their own gender. How many such individuals are in `data`? (1&nbsp;point) 
 
-**`r nr`g.** Visualize the raw values and distributions of `height` for both types of outliers (`out_1` and `out_2`) in 2 separate plots and describe the `height` and `sex` combination of the individuals shown in each plot (2). 
+**`r nr`g.** **Bonus task:** Visualize the raw values and distributions of `height` for both types of outliers (`out_1` and `out_2`) in 2 separate plots and describe the `height` and `sex` combination of the individuals shown in each plot. (2&nbsp;bonus points)  
 
 <!-- fig.show options: "asis", "hide", "hold", "animate" --> 
-
-```{r, outlier_solution, fig.show = "asis"}
+ 
+```{r outlier_solution, fig.show = "asis"}
 ## (a) Load and inspect data:
 # data <- read_csv("out.csv") # read in csv-file
 # data <- as_tibble(data)   # if data is not already a tibble
@@ -1024,7 +1029,8 @@ out_2 <- data_out %>%
 nrow(out_2) # => 24 individuals.
 
 
-## (g) Visualization of both types of outliers (out_1 and out_2): ----- 
+## (g) Bonus task:  
+## Visualization and interpretation of both types of outliers: ----- 
 
 ## 1. Showing out_1: 
 ggplot(out_1, aes(x = sex, y = height)) +
@@ -1053,8 +1059,9 @@ ggplot(out_2, aes(x = sex, y = height)) +
 # Interpretation: 
 # `out_2` contains individuals which are either tall women or short men.
 
-pt <- pt + 10  # increment point total
+pt <- pt + (8 + 0)  # increment point total (leaving out 2 bonus points)
 ```
+
 
 
 ### Task `r nr<-nr+1; nr`: The length of flights 
@@ -1137,7 +1144,7 @@ Using the `mtcars` dataset:
 
 **`r nr<-nr+1; nr`.** The `mtcars` data (contained in R datasets) contains ...
 
-```{r, mtcars, echo = TRUE}
+```{r mtcars, echo = TRUE}
 ## Data to use:
 # ?datasets::mtcars
 # mtcars
@@ -1201,6 +1208,7 @@ ggplot(df, aes(x = hp, y = disp)) +
 - Interpret tables and graphs and draw conclusions. 
 
 
+
 # 10: Tibbles
 
 ## Key skills
@@ -1229,8 +1237,6 @@ The commands to create and convert to tibbles are included in tasks to other cha
 
 ### Task `r nr<-nr+1; nr`: Taking stocks 
 
-Using own stock (`st`) dataset: 
-
 ```{r stock_data_definition, echo = FALSE, eval = TRUE}
 # Define the stock data (to be shown below) as a tibble: 
 st <- tribble(
@@ -1256,15 +1262,15 @@ knitr::kable(st, caption = "Stock data example showing the start and end prices 
 | "Cevis" |   4.2  |   4.8   |   4.6    |  3.1   |   3.2    |   3.7  |
 --> 
 
-**`r nr`a.** Create a tibble `st` that contains this data in this (wide) format (1). 
+**`r nr`a.** Create a tibble `st` that contains this data in this (wide) format. (1&nbsp;point)  
 
-**`r nr`b.** Transform `st` into a longer table `st_long` that contains 18 rows and only 1 numeric variable for all stock prices. Adjust this table so that the `day` and `time` appear as 2 separate columns (2). 
+**`r nr`b.** Transform `st` into a longer table `st_long` that contains 18 rows and only 1 numeric variable for all stock prices. Adjust this table so that the `day` and `time` appear as 2 separate columns. (2&nbsp;points)  
 
-**`r nr`c.** Create a graph that shows the 3 stocks' `end` prices (on the y-axis) over the 3 days (on the x-axis) (1). 
+**`r nr`c.** Create a graph that shows the 3 stocks' `end` prices (on the y-axis) over the 3 days (on the x-axis). (1&nbsp;point) 
 
-**`r nr`d.** Spread  `st_long` into a wider table that contains `start` and `end` prices as 2 distinct variables (columns) for each stock and day (1).
+**`r nr`d.** Spread  `st_long` into a wider table that contains `start` and `end` prices as 2 distinct variables (columns) for each stock and day. (1&nbsp;point) 
 
-```{r, stock_data, echo = TRUE}
+```{r stock_solution, echo = TRUE, fig.show = "hold"}
 # library(tidyverse)
 
 ## (a) Enter stock data (in wide format) as a tibble:
@@ -1293,8 +1299,8 @@ st_long %>%
   filter(time == "end") %>%
   ggplot(aes(x = day, y = val, color = stock, shape = stock)) +
   geom_point(size = 4) + 
-  geom_line(aes(group = stock)) + 
-   ## Pimping plot: 
+  geom_line(aes(group = stock)) +
+  ## Pimping plot: 
   labs(title = "End prices of stocks", 
        x = "Day", y = "End price", 
        shape = "Stock:", color = "Stock:") +
@@ -1304,65 +1310,35 @@ st_long %>%
 st_long %>%
   spread(key = time, value = val) %>%
   mutate(day_nr = parse_integer(str_sub(day, 2, 2))) # optional: get day_nr as integer variable
-
-## (e) Note: Assume that stock data contains duplicate rows:
-st2 <- rbind(st, st)
-st2
-
-## Gathering from wide to long format works as before: 
-st_long2 <- st2 %>%
-  gather(d1_start:d3_end, key = "key", value = "val") %>%
-  separate(key, into = c("day", "time")) %>%
-  arrange(stock, day, time) # optional: arrange rows
-st_long2
-
-## However, spreading from long to wider format yields error of "duplicate identifiers": 
-
-# st_long2 %>%
-#  spread(key = time, value = val) 
-
-## would yield ERROR!
-
-## Possible fix:
-## (e1) Add an id variable that distinguishes between duplicate cases: 
-st_long3 <- st_long2 %>%
-  mutate(id = rep(1:2, nrow(st_long2)/2)) %>%  # adding a vector
-  select(stock, id, everything())               # optional: re-arrange variables (columns)
-# st_long3
-
-## (e2) Now spreading from long to wider format succeeds: 
-st_long3 %>%
-  spread(key = time, value = val)
-
+ 
 pt <- pt + 5  # increment point total
 ```
 
 
+
 # Multiple chapters
 
-## Task `r nr<-nr+1; nr`: Flower power 
-
-Using the `iris` dataset: 
+### Task `r nr<-nr+1; nr`: Flower power
 
 The `iris` data (contained in R datasets) provides the measurements (in cm) of plant parts (length and width of _sepal_ and _petal_ parts) for 50 flowers from each of 3 species of iris (called _setosa_, _versicolor_, and _virginica_).
 
-### Exploratory data analysis (EDA)
+<!-- Exploratory data analysis (EDA): --> 
 
 **`r nr`a.** Save `datasets::iris` a tibble `ir` that contains this data and inspect it. 
-Are there any missing values? (2). 
+Are there any missing values? (2&nbsp;points)  
 
 **`r nr`b.** Compute a summary table that shows the means of the 4 measurement columns (`Sepal.Length`, `Sepal.Width`, `Petal.Length`, `Petal.Width`) for each of the 3 `Species` (in rows). 
-Save the resulting table of means as a tibble `im1` (2).
+Save the resulting table of means as a tibble `im1` . (2&nbsp;points) 
 
 **`r nr`c.** Create a histogram that shows the distribution of `Sepal.Width` values 
-across all species (1). 
+across all species. (1&nbsp;point)  
 
-**`r nr`d.** Create a plot that shows the shape of the distribution of `Sepal.Width` values for each species (1). 
+**`r nr`d.** Create a plot that shows the shape of the distribution of `Sepal.Width` values for each species. (1&nbsp;point)  
 
 **`r nr`e.** Create a plot that shows `Petal.Width` as a function of `Sepal.Width` 
-separately (i.e., in 3 facets) for each species (1).
+separately (i.e., in 3 facets) for each species. (1&nbsp;point)  
 
-```{r, iris_EDA}
+```{r iris_EDA, fig.show = "asis"}
 # ?iris
 
 ## (a) Turn into tibble and inspect: ----- 
@@ -1427,19 +1403,22 @@ pt <- pt + 7  # increment point total
 ## (see below)
 ```
 
-### Tidy data
+<!-- Tidy data --> 
 
-**`r nr`f.** Re-format your tibble `ir` into a tibble `ir_long` which in "long format" (2). 
+**`r nr`f.** Re-format your tibble `ir` into a tibble `ir_long` which in "long format". (2&nbsp;points)  
 
 **Hint:** Use `tidyr::gather` and `separate` to turn `ir` into a tibble that contains only 1 dependent variable for the value of measurements (e.g., `val`), but 2 categorical variables that specify the `part` (Sepal vs. Petal) and `metric` (Length vs. Width) of each observation.
 
-**`r nr`g.** Use `ir_long` to recompute the subgroup means (for each combination of species, plant part, and metric) computed in **`r nr`b.**.  Save the resulting table of means as a tibble `im2` and verify that they have not changed from `im1` above (2). 
 
-**`r nr`h.** Visualize the relationships between the means of `im2` (i.e., the mean measurements by plant part and metric) separately for each species (2). 
+**`r nr`g.** Use `ir_long` to recompute the subgroup means (for each combination of species, plant part, and metric) computed in **`r nr`b.**.  Save the resulting table of means as a tibble `im2` and verify that they have not changed from `im1` above. (2&nbsp;points)  
+
+
+**`r nr`h.** Visualize the relationships between the means of `im2` (i.e., the mean measurements by plant part and metric) separately for each species. (2&nbsp;points)  
 
 **Hints:** This task asks for showing the value of a continuous variable (the value of means) as a function of 2 categorical variables (the plant `part` and type of `metric`). Possible solutions could incorporate either `geom_line` or `geom_tile` and use different facets for different `Species`. 
 
-**`r nr`i.** **Bonus task:** Re-format your tibble `ir_long` (in long format) into a wider tibble `ir_short` that corresponds to the original `ir` dataset (2). 
+
+**`r nr`i.** **Bonus task:** Re-format your tibble `ir_long` (in long format) into a wider tibble `ir_short` that corresponds to the original `ir` dataset. (2&nbsp;bonus points)  
 
 **Hints:** This task calls for applying `tidyr::spread` and `unite` commands to `ir_long`. 
 However, `spread` will encounter an error unless every individual plant is identified by a unique variable (e.g., `id` number). This can be achieved by adding a numeric counter variable `id` (with values of `rep(1:50, 3)`) to `ir` _before_ creating `ir_long`. 
@@ -1504,37 +1483,12 @@ ggplot(ir_long, aes(x = part, y = val, fill = Species)) +
   labs(title = "Mean petal and sepal lengths and widths by iris species") + 
   theme_bw()
 
-## (i) Bonus task:
-# Turn ir_long back into original wide format using tidyr::spread -----
-# ir_long
+## (i) Bonus task: ----- 
 
-# PROBLEM with original iris data:  
-# Many val have identical combinations of values of 
-# Species, part, and metric. 
+## See (f) above for the additional id-column for each plant:
+## mutate(id = rep(1:50, 3)) %>% ...
 
-# This is due to the original iris dataset, which include 50 plants
-# for each species that were not further distinguished.
-
-# However, this creates a problem when trying to re-format from 
-# long format into a wider format. Doing so would create an error
-# "Error: Duplicate identifiers ..." 
-
-# Thus, we need to add a variable `id` that uniquely identifies each plant. 
-
-# Hack: Adding id to ir_long to recover original id to each individual plant.  
-#       (Note that this relies on knowing the order of plants in ir_long):
-
-# ir_long$id <- rep(1:50, 4*3)
-# ir_long
-
-# A better solution: Adding id = 1:50 to the _original_ data set 
-# (before turning it into long format above)!                             
-
-## (i) Re-format ir_long into shorter format (using tidyr::spread) ----- 
-
-## See (f) above for additional mutate step: 
-## mutate(id = rep(1:50, 3)) %>%   # add a unique id to each plant [to enable (i) below]
-
+## Re-format ir_long into shorter format (using tidyr::spread) ----- 
 ir_short <- ir_long %>%
   unite(type, part, metric, sep = ".") %>%  # unite part and metric into "type" column
   spread(key = type, value = val) %>%       # spread "type" variable into multiple columns
@@ -1548,22 +1502,28 @@ all.equal(ir$Sepal.Width,  ir_short$Sepal.Width)  &
 all.equal(ir$Petal.Length, ir_short$Petal.Length) & 
 all.equal(ir$Petal.Width,  ir_short$Petal.Width)  # => TRUE (qed) 
 
-pt <- pt + 6  # increment point total
+pt <- pt + (6 + 0)  # increment point total (leaving out 2 bonus points) 
 ```
 
 
-## Additional datasets
+
+
+
+# Appendix
+
+## Creating data
 
 Generating datasets with specific properties not yet used in the above tasks. 
 
-### Create `people` data
+### Create `numeracy` data
 
-Create a (psychological) dataset `people` that allows illustrating contents from all chapters. 
+Create a (psychological) dataset `numeracy` that allows illustrating contents from all chapters. 
 
-```{r, create_people_data, include = TRUE}
+```{r create_numeracy_data, echo = FALSE, include = TRUE}
 library(tidyverse)
+
 n <- 1000     # [n]umber of participants
-set.seed(42)  # for replicability
+set.seed(100) # for replicability
 
 ## Demographics: -----
 
@@ -1674,8 +1634,8 @@ t <- tibble(id = initials,
 
 heights <- rep(NA, n)
 
-noise_female <- round(rnorm(sum(sex == "female"), mean = 0, sd = 8), 0)
-noise_male   <- round(rnorm(sum(sex == "male"), mean = 0, sd = 11), 0)
+noise_female <- round(rnorm(sum(sex == "female"), mean = 0, sd =  8), 0)
+noise_male   <- round(rnorm(sum(sex == "male"),   mean = 0, sd = 11), 0)
 
 heights[sex == "female"] <- 165 + noise_female
 heights[sex == "male"]   <- 178 + noise_male
@@ -1687,8 +1647,8 @@ heights[byears < 1980] <- heights[byears < 1980] -  1
 heights[byears < 1970] <- heights[byears < 1970] -  2
 heights[byears < 1960] <- heights[byears < 1960] -  1
 heights[byears < 1950] <- heights[byears < 1950] -  2
-heights[byears < 1940] <- heights[byears < 1940] -  1
-heights[byears < 1930] <- heights[byears < 1930] -  2
+heights[byears < 1940] <- heights[byears < 1940] -  2
+heights[byears < 1930] <- heights[byears < 1930] -  3
 
 ## Convert metric (cm) into imperial (feet and inches)...
 
@@ -1700,13 +1660,22 @@ sex_height <- tibble(sex = sex,
 ## Height by sex:
 ggplot(as_tibble(sex_height), aes(x = sex, y = height, color = sex)) +
   geom_violin() +
-  geom_jitter(alpha = 1/2)
+  geom_jitter(alpha = 1/2) + 
+  theme_bw()
+
+## Height by age:
+ggplot(as_tibble(sex_height), aes(x = byears, y = height)) +
+  # facet_wrap(~sex) +
+  geom_jitter(alpha = 1/3) +
+  geom_smooth() + 
+  theme_bw()
 
 ## Height by age and sex:
 ggplot(as_tibble(sex_height), aes(x = byears, y = height)) +
   facet_wrap(~sex) +
   geom_jitter(alpha = 1/3) +
-  geom_smooth()
+  geom_smooth() + 
+  theme_bw()
 
 
 ## Blood type: -----
@@ -1730,36 +1699,307 @@ btypes <- sample(size = n, blood_types, prob = blood_probs, replace = TRUE)
 ## - education (categorical)
 ## - weight (compute via height and BMI distribution)
 
+
 ## Combine IVs: ----- 
 IVs <- tibble(name = initials,
               gender = sex, 
               bdate = bdates,
-              byear = byears, 
-              bmonth = bmonths,
-              bday = bdays,
+              # byear = byears, 
+              # bmonth = bmonths,
+              # bday = bdays,
               bweekday = bweekdays,
               height = heights, 
-              blood_type = btypes)
+              blood_type = btypes
+              )
 # IVs
 
 ## DVs: -----
 
-## - disposable income (numeric)
-## - numeracy (categorical)
-## - health status (numeric, e.g., 1:10 scale)
-## - mood (1:5, on 3 days: Mon, Wed, Fri, and 2 times: 10:00 vs. 18:00)
+## (1) BNT scores: ---- 
+set.seed(101)  # for replicability
+
+# initialize 4 variables: 
+bnt_1 <- rep(NA, n)
+bnt_2 <- rep(NA, n)
+bnt_3 <- rep(NA, n)
+bnt_4 <- rep(NA, n)
+
+# random values:
+bnt_1 <- sample(x = c(1, 0), size = n, prob = c(.55, .45), replace = TRUE)
+bnt_3 <- sample(x = c(1, 0), size = n, prob = c(.45, .55), replace = TRUE)
+
+# category-specific values: females > males
+bnt_2[sex == "female"] <- sample(x = c(1, 0), size = length(bnt_2[sex == "female"]), prob = c(.68, .32), replace = TRUE)
+bnt_2[sex == "male"] <- sample(x = c(1, 0), size = length(bnt_2[sex == "male"]), prob = c(.42, .58), replace = TRUE)
+
+bnt_4[sex == "female"] <- sample(x = c(1, 0), size = length(bnt_4[sex == "female"]), prob = c(.41, .59), replace = TRUE)
+bnt_4[sex == "male"] <- sample(x = c(1, 0), size = length(bnt_4[sex == "male"]), prob = c(.31, .69), replace = TRUE)
+
+## add some NA values (DO AT THE END):
+# bnt_1 <- add_NAs(bnt_1, amount = .02)
+# bnt_2 <- add_NAs(bnt_2, amount = .01)
+# bnt_3 <- add_NAs(bnt_3, amount = .03)
+# bnt_4 <- add_NAs(bnt_4, amount = .02)
+
+# check: 
+BNT <- tibble(gender = sex, 
+              bnt_1 = bnt_1,
+              bnt_2 = bnt_2,
+              bnt_3 = bnt_3,
+              bnt_4 = bnt_4
+              )
+
+BNT %>%
+  mutate(bnt_sum = bnt_1 + bnt_2 + bnt_3 + bnt_4) %>% 
+  group_by(gender) %>% 
+  summarise(bnt_1_nNA = sum(!is.na(bnt_1)),
+            bnt_1_mn = round(mean(bnt_1, na.rm = TRUE), 3),
+            bnt_2_nNA = sum(!is.na(bnt_2)),
+            bnt_2_mn = round(mean(bnt_2, na.rm = TRUE), 3),
+            bnt_3_nNA = sum(!is.na(bnt_3)),
+            bnt_3_mn = round(mean(bnt_3, na.rm = TRUE), 3),
+            bnt_4_nNA = sum(!is.na(bnt_4)),
+            bnt_4_mn = round(mean(bnt_4, na.rm = TRUE), 3),
+            bnt_sum_nNA = sum(!is.na(bnt_sum)),
+            bnt_sum_mn = round(mean(bnt_sum, na.rm = TRUE), 3)
+            )
+  
+## (2) IQ: general vs. social ---- 
+set.seed(102)  # for replicability
+
+# initialize 2 variables: 
+g_iq <- rep(NA, n)  # genereal IQ
+s_iq <- rep(NA, n)  # social IQ
+
+# moderators on IQ:
+bnt_sum = bnt_1 + bnt_2 + bnt_3 + bnt_4
+# bnt_sum
+# bmonths
+# btypes
+bweekdays
+
+# Random deviations by specific category:
+
+# BNT score: 
+dev_bnt_lo <- round(rnorm(sum(bnt_sum < 2, na.rm = TRUE), mean = -3, sd =  4), 0)
+dev_bnt_hi <- round(rnorm(sum(bnt_sum > 2, na.rm = TRUE), mean = +4, sd =  6), 0)
+
+# seasonal effect:
+dev_bmonth_summer <- round(rnorm(sum((bmonths > 3) & (bmonths < 10)), mean = +5, sd =  6), 0)
+dev_bmonth_winter <- round(rnorm(sum((bmonths < 4) & (bmonths >  9)), mean = -4, sd =  5), 0)
+
+# blood type effect: 
+dev_btype_pos <- round(rnorm(sum(btypes %in% c("O+", "A+", "B+")), mean = +6, sd =  7), 0)
+dev_btype_neg <- round(rnorm(sum(btypes %in% c("O−", "A−", "B−")), mean = -4, sd =  6), 0)
+
+# bweedays effect: 
+dev_weekend <- round(rnorm(bweekdays %in% c("Sat", "Sun"), mean = +6, sd =  6), 0)
+dev_TueThu  <- round(rnorm(bweekdays %in% c("Tue", "Thu"), mean = -5, sd =  5), 0)
+
+
+# Set and adjust values by specific category: 
+
+# (a) general IQ: 
+
+# gender: 
+g_iq[sex == "female"] <- 101
+g_iq[sex == "male"]   <-  99
+
+# BNT score: 
+g_iq[bnt_sum <= 2] <- g_iq[bnt_sum <= 2] + dev_bnt_lo
+g_iq[bnt_sum >  2] <- g_iq[bnt_sum >  2] + dev_bnt_hi
+
+# season: 
+g_iq[(bmonths > 3) & (bmonths < 10)] <- g_iq[(bmonths > 3) & (bmonths < 10)] + dev_bmonth_summer
+g_iq[(bmonths < 4) & (bmonths >  9)] <- g_iq[(bmonths < 4) & (bmonths >  9)] + dev_bmonth_winter
+
+# birthday: 
+g_iq[bweekdays %in% c("Sat", "Sun")] <- g_iq[bweekdays %in% c("Sat", "Sun")] + dev_weekend
+g_iq[bweekdays %in% c("Tue", "Thu")] <- g_iq[bweekdays %in% c("Tue", "Thu")] + dev_TueThu 
+
+
+# (b) social IQ: 
+
+# gender: 
+s_iq[sex == "female"] <- 105
+s_iq[sex == "male"]   <-  95
+
+# reverse seasonal effects by reversing signs: 
+s_iq[(bmonths > 3) & (bmonths < 10)] <- s_iq[(bmonths > 3) & (bmonths < 10)] - dev_bmonth_summer 
+s_iq[(bmonths < 4) & (bmonths >  9)] <- s_iq[(bmonths < 4) & (bmonths >  9)] - dev_bmonth_winter
+
+# blood type effect: 
+s_iq[btypes %in% c("O+", "A+", "B+")] <- s_iq[btypes %in% c("O+", "A+", "B+")] + dev_btype_pos
+s_iq[btypes %in% c("O−", "A−", "B−")] <- s_iq[btypes %in% c("O−", "A−", "B−")] + dev_btype_neg
+
+# Check:
+IQ <- tibble(gender = sex,
+             bnt_sum = bnt_sum, 
+             bmonths = bmonths, 
+             bweekdays = bweekdays, 
+             g_iq = g_iq,
+             s_iq = s_iq
+             )
+
+# gender: 
+IQ %>% 
+  group_by(gender) %>%
+  summarise(n = n(),
+            mn_g_iq = mean(g_iq),
+            mn_s_iq = mean(s_iq)
+  )
+
+# BNT score:
+IQ %>% 
+  group_by(bnt_sum) %>%
+  summarise(n = n(),
+            mn_g_iq = mean(g_iq),
+            mn_s_iq = mean(s_iq)
+  )
+
+# season:
+IQ %>% 
+  mutate(summerborn = (bmonths > 3) & (bmonths < 10)) %>% 
+  group_by(summerborn) %>%
+  summarise(n = n(),
+            mn_g_iq = mean(g_iq),
+            mn_s_iq = mean(s_iq)
+  )
+
+
+# birthday:
+IQ %>% 
+  # mutate(weekend = bweekdays %in% c("Sat", "Sun")) %>% 
+  # group_by(weekend) %>%
+  group_by(bweekdays) %>%
+  summarise(n = n(),
+            mn_g_iq = mean(g_iq),
+            mn_s_iq = mean(s_iq)
+  )
+
+IQ %>% 
+  mutate(weekend = bweekdays %in% c("Sat", "Sun")) %>% 
+  group_by(weekend) %>%
+  summarise(n = n(),
+            mn_g_iq = mean(g_iq),
+            mn_s_iq = mean(s_iq)
+  )
+
+# blood_type:
+IQ %>% 
+  mutate(blood_pos = btypes %in% c("O+", "A+", "B+", "AB+")) %>% 
+  group_by(blood_pos) %>%
+  summarise(n = n(),
+            mn_g_iq = mean(g_iq),
+            mn_s_iq = mean(s_iq)
+  )
+
+
+## (3) Add some NA values (DO AT THE END):
+bnt_1 <- add_NAs(bnt_1, amount = .02)
+bnt_2 <- add_NAs(bnt_2, amount = .01)
+bnt_3 <- add_NAs(bnt_3, amount = .03)
+bnt_4 <- add_NAs(bnt_4, amount = .02)
+
+g_iq <- add_NAs(g_iq, amount = .02)
+s_iq <- add_NAs(s_iq, amount = .03)
+
+## Combine DVs: ----- 
+DVs <- tibble(bnt_1 = bnt_1,
+              bnt_2 = bnt_2,
+              bnt_3 = bnt_3,
+              bnt_4 = bnt_4,
+              g_iq = g_iq,
+              s_iq = s_iq
+              )
+DVs
+
+## Combine data set:
+numeracy <- as_tibble(cbind(IVs, DVs))
+# numeracy
+
+## Writing out data:
+write_csv(numeracy, "numeracy.csv")
+
+## Reading in again (from csv-file):
+numeracy <- read_csv("numeracy.csv")
+numeracy
+
+
+## Tasks: ------ 
 
 ## To compute (from IVs):
 ## - Age (from byear, but adjusting by bday)
 ## - Birth season (spring, summer, autumn, winter)
 ## - Zodiac sign (from birthday, using cut() or join functions)
+
+## DVs: 
+## - numeracy (BNT: 4 binary values, 1 categorical type)
+## - intelligence (general vs. social) 
+
+## Other possible DVs:
+## - disposable income (numeric)
+## - health status (numeric, e.g., 1:10 scale)
+## - mood (1:5, on 3 days: Mon, Wed, Fri, and 2 times: 10:00 vs. 18:00)
 ```
+
+
+#### Tasks 
+
+**Basics:**
+
+- Report the data dimensions and number of missing values. 
+
+- Split the birth date (`bdate`) variable into 3 separate variables (`byear`, `bmonth`, and `bday`) that denote the year, month, and day of each participant's birth. 
+
+- Create a new variable `summerborn` that is `TRUE` when a person was born in summer (defined as April to September) and `FALSE` when a person was born in winter (October to March). 
+
+
+**Assessing IVs:**
+
+- Compute the current `age` of each participant (in years, taking into account today's date). 
+
+- List the frequency of each blood type (`blood_type`) (a) overall and (b) by gender. 
+
+- Compute descriptives (the means and standard deviations) of `height` (a) by gender and (b) by cohort (decade of birth). 
+
+- Plot the distributions of heights by gender and cohort. 
+
+
+**Assessing DVs:**
+
+- Compute aggregate BNT score (a `BNT` value from 0 to 4 points) for each participant and check whether it varies systematically as a function of gender, 
+
+- Check the intelligence scores `g_iq` and `s_iq`: 
+
+    - How many missing values? 
+    - What are their means and ranges?
+    - Plot their distributions in 2 histograms.
+
+- Plot the relationship between `g_iq` and `s_iq`. 
+
+- Assess possible effects of numeracy (as measured by `BNT`) on the 2 types of intelligence (`g_iq` and `s_iq`).
+
+- Assess possible effects of the variables 
+
+    - age (`age`), 
+    - birth season (`summerborn`), 
+    - blood type (`blood_type`), and 
+    - the weekday on which a person was born (`bweekday`) 
+
+on the 2 types of intelligence (`g_iq` and `s_iq`) in 2 ways: 
+
+    a. numercially (by computing group means) and 
+    b. graphically (by plotting means and/or distributions). 
+
+
+
 
 ### Create `exp` data
 
 Create an (experimental) dataset `exp` that contains typical features (e.g., multiple measurements with nested factors) of psychological studies. 
 
-```{r, create_exp_data, include = TRUE}
+```{r create_exp_data, include = TRUE}
 n <- 10       # [n]umber of participants
 set.seed(88)  # for replicability
 
@@ -1770,12 +2010,12 @@ IVs <- data.frame("name" = c("Ann", "Bea", "Cat", "Deb", "Eva", "Fred", "Gary", 
 IVs
 
 ## (a) within-subjects conditions (with multiple tasks per person):
-DVs <- data.frame("task.1" = rep(c("red", "blue"), 5),
-                   # "pos.1" = rep(1, n),
-                   "time.1" = sample(10:99, n), 
-                   "task.2" = rep(c("blue", "red"), 5),
-                   # "pos.2" = rep(2, n),
-                   "time.2" = sample(10:99, n)
+DVs <- data.frame("task_1" = rep(c("red", "blue"), 5),
+                   # "pos_1" = rep(1, n),
+                   "time_1" = sample(10:99, n), 
+                   "task_2" = rep(c("blue", "red"), 5),
+                   # "pos_2" = rep(2, n),
+                   "time_2" = sample(10:99, n)
                    )
 DVs
 
@@ -1816,11 +2056,11 @@ dim(exp)
 dim(exp2)
 ```
 
-#### Using `exp` data 
+### Use `exp` data 
 
 Basic manipulations of `exp` data (in base R):
 
-```{r, manipulate_exp_data, include = TRUE}
+```{r manipulate_exp_data, include = TRUE}
 exp.t <- exp # temporal copy
 
 # 1. Adding 2 new variables/columns to a df by assigning/using it: 
@@ -1835,7 +2075,7 @@ exp.t <- exp.t[ , c(id.col, 1:(id.col - 1), bnt.col)]
 exp.t
 
 # 3. Sorting cases: 
-exp.t[order(exp.t$task.1, exp.t$bnt),] # sort cases by task.1 and bnt values
+exp.t[order(exp.t$task_1, exp.t$bnt),] # sort cases by task_1 and bnt values
 
 # 4. Reversing cases and variables: 
 #    Reversing the (arbitrary) order of all cases and all variables in df:
@@ -1844,7 +2084,9 @@ exp.t[rev(1:nrow(exp.t)), rev(1:ncol(exp.t))]
 
 Same steps in the `tidyverse`: 
 
-```{r, manipulate_exp_data_tidyverse, include = TRUE}
+```{r manipulate_exp_data_tidyverse, include = TRUE}
+library(tidyverse)
+
 exp.t2 <- exp # temporal copy
 
 # 1. Adding 2 new variables/columns to a df by assigning/using it: 
@@ -1860,7 +2102,7 @@ exp.t2 <- exp.t2 %>%
 
 # 3. Sorting cases:
 exp.t2 <- exp.t2 %>%
-  arrange(task.1, bnt)
+  arrange(task_1, bnt)
 # exp.t2
 
 # 4. Reversing cases and variables: 
@@ -1871,7 +2113,6 @@ exp.t2 %>%
   select(-row) %>%                  # remove helper column again 
   select(rev(names(exp.t2)))
 ```
-
 
 ## Counting tasks and points 
 
