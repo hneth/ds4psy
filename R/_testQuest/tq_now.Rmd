@@ -1,7 +1,7 @@
 ---
 title: "All Test Questions (ds4psy)"
 author: "Hansjörg Neth, SPDS, uni.kn"
-date: "2018 07 10"
+date: "2018 07 12"
 output:
    rmdformats::html_clean: # html_clean html_docco readthedown material #
      code_folding: show # hide
@@ -1505,7 +1505,98 @@ all.equal(ir$Petal.Width,  ir_short$Petal.Width)  # => TRUE (qed)
 pt <- pt + (6 + 0)  # increment point total (leaving out 2 bonus points) 
 ```
 
+### Task `r nr<-nr+1; nr`: Numeracy vs. intelligence
 
+This task uses a generated dataset (entitled `numeracy.csv` and available at <http://rpository.com/ds4psy/data/numeracy.csv>). Use the following `read_csv()` command to obtain and load it into R: 
+
+```{r numeracy_load_data, echo = TRUE, eval = TRUE}
+## Load data (as comma-separated file): 
+data <- read_csv("http://rpository.com/ds4psy/data/numeracy.csv")  # from online source
+
+## Alternatively (from local source): 
+# data <- read_csv("numeracy.csv")  # from current directory
+```
+
+#### Data structure
+
+This data is structured as follows: 
+
+- Each _row_ contains the data from _one individual participant_. 
+
+- Six columns contain the following _independent variables_ (IVs): 
+
+1. `name` contains each participant's initials; 
+2. `gender`: each participant's `gender`; 
+3. `bdate`:  each participant's birth date; 
+4. `bweekday`: the day of the week on which each participant was born; 
+5. `height`: how tall each participant is (in cm); 
+6. `blood_type`: each participant's blood type; 
+
+The remaining six columns contain the following _dependent_ variables (DVs): 
+
+- `bnt_1` to `bnt_4` signal a correct (1) or incorrect (0) answer to the corresponding question of the Berlin Numeracy Test (Cokely et al., 2012, see <http://www.riskliteracy.org/researchers/> for details). The sum of these 4 variables define the BNT _numeracy_ score for each participant.
+
+- `g_iq` and `s_iq` provide two distinct measurements of each participant's _general_ vs. _social intelligence_. 
+
+
+#### Tasks
+
+(A) Basics:
+
+**`r nr`a.** Report the data dimensions and number and percentage of missing values. (1&nbsp;point)
+
+**`r nr`b.** Split the birth date (`bdate`) variable into 3 separate variables (`byear`, `bmonth`, and `bday`) that denote the year, month, and day of each participant's birth. (1&nbsp;point) 
+
+**`r nr`c.** Create a new variable `summerborn` that is `TRUE` when a participant was born in summer (defined as April to September) and `FALSE` when a person was born in winter (October to March).  (1&nbsp;point)
+
+
+(B) Assessing IVs: 
+
+**`r nr`d.** Compute the current `age` of each participant (in years, taking into account today's date). (2&nbsp;points) 
+
+**`r nr`e.** List the frequency of each blood type (`blood_type`) (a) _overall_ and (b) by _gender_. (2&nbsp;points) 
+
+**`r nr`f.** Compute descriptives (the counts, means, and standard deviations) of `height` (a) by _gender_ and (b) by _cohort_ (i.e., the decade of birth). (3&nbsp;points)
+
+**`r nr`g.** Plot the distributions of `height` (a) by _gender_ and (b) by _cohort_. (2&nbsp;points)
+
+
+(C) Assessing DVs: 
+
+**`r nr`h.** Compute the aggregate BNT score (the sum of all four `bnt_i` values, varying from 0 to 4 points) for each participant and check whether it varies systematically as a function of _gender_. (2&nbsp;points)
+
+**`r nr`i.** Inspect the values for the 2 _intelligence_ scores `g_iq` and `s_iq`:
+
+- How many missing values are there? 
+- What are their means and ranges?
+- Plot their distributions in 2 separate histograms.  (3&nbsp;points)
+
+**`r nr`j.** Plot the relationship between `g_iq` and `s_iq`. (1&nbsp;point)
+
+**`r nr`k.** Assess possible effects of _numeracy_ (as measured by `BNT`) on the 2 measures of intelligence (`g_iq` and `s_iq`). (2&nbsp;points)
+
+**`r nr`l.** Assess possible effects of the variables 
+
+- age (`age`), 
+- birth season (`summerborn`), 
+- blood type (`blood_type`), and 
+- the day of the week on which a person was born (`bweekday`), 
+
+on the 2 types of intelligence (`g_iq` and `s_iq`) in 2 ways: 
+
+a. numercially (by computing group means) and 
+b. graphically (by plotting means and/or distributions).  (10&nbsp;points)
+
+```{r numeracy_solution}
+# (a) inspect data: 
+dim(data) # => 1000 participants x 12 variables
+sum(is.na(data))   # 130 missing values
+mean(is.na(data))  # 1.083 percent of missing data
+
+# +++ here now +++
+
+pt <- pt + 30
+```
 
 
 
@@ -1519,7 +1610,7 @@ Generating datasets with specific properties not yet used in the above tasks.
 
 Create a (psychological) dataset `numeracy` that allows illustrating contents from all chapters. 
 
-```{r create_numeracy_data, echo = FALSE, include = TRUE}
+```{r create_numeracy_data, echo = FALSE, include = FALSE}
 library(tidyverse)
 
 n <- 1000     # [n]umber of participants
