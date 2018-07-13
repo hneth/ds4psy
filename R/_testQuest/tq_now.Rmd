@@ -1815,6 +1815,34 @@ pt <- pt + 30
 
 
 
+### Task `r nr<-nr+1; nr`: Your data, your plot...
+
+Now it's your turn to find and plot some data! 
+Find a table with interesting data online (e.g., at [Wikipedia](https://en.wikipedia.org/)), load and save it (by copying or re-creating it) as a _tibble_ in R, and then re-format, analyze, and visualize this tibble in one or several _graphs_. 
+Your _goal_ should be to illustrate some -- but not necessarily all -- key aspects of the data in a transparent fashion (i.e., making it easy to see some key observations, relationships between variables, or possible trends).  
+
+**Please note:** Your chosen data table should meet the following requirements: 
+
+1. Make sure to select a data source that has a _stable URL_ that is cited in your script (to allow verifying the source and integrity of your data).  
+2. Your initial data table (tibble) should contain a _minimum_ of 4 rows and 4 columns.  
+
+**Examples** of suitable sources include tables of 
+
+- [NBA scoring leaders](https://en.wikipedia.org/wiki/List_of_National_Basketball_Association_career_scoring_leaders),  
+- [refugee populations by country](https://en.wikipedia.org/wiki/List_of_countries_by_refugee_population#By_country_of_asylum), or    
+- the world's [largest cities](https://en.wikipedia.org/wiki/List_of_largest_cities#Largest_cities).   
+
+**Hints:** If you choose some data of interest to you, this task should be fun, rather than a chore...
+
+(5 points + up to 5&nbsp;bonus&nbsp;points)
+
+```{r your_data_solution, echo = FALSE, eval = TRUE}
+## Your data source: 
+
+pt <- pt + 5 # + up to 5 bonus points
+```
+
+
 # Appendix
 
 ## Creating data
