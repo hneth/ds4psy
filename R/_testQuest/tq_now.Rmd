@@ -185,7 +185,6 @@ This exam contains a total of **XXX tasks** and a maximum score of **YYY points*
 
 library(tidyverse)
 
-
 ## Task 1: ----- 
 
 # (a) Save data as tibble and inspect data:
@@ -197,9 +196,14 @@ pg
 ## (b): ... 
 ## ...
 
-
+## ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ##
 ## Task X: ----- 
 ## (a) ... 
+
+## ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ##
+
+## By submitting this script I assure that I have completed this 
+## script by myself (using only permissible sources of help). 
 
 ## ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ##
 ## End of file. ----- 
@@ -209,9 +213,7 @@ pg
 
 - When asked for numbers or interpretations, include _short answers as comments_ in your script. However, when asked for quantitative summaries containing more than 2 numbers (e.g., descriptive statistics of a dataset) simply _print your results_ (e.g., the output of a `dplyr` pipe) in your code. 
 
-- **Submit** your script as an attachment to an _email_ (with the subject header "ds4psy: final exam") to <h.neth@uni.kn> by Wednesday (July 18th, 2018). 
-
-
+- **Submit** your script as an attachment to an _email_ (with the subject header "ds4psy: final exam") to <h.neth@uni.kn> no later than on **Wednesday (July 18th, 2018)** and include a brief statement that assures that you have completed this work by yourself (using only permissible sources of help). 
 
 <!-- Test questions by chapter/topic: --> 
 
