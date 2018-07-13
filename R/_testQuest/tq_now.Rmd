@@ -1,7 +1,7 @@
 ---
 title: "All Test Questions (ds4psy)"
 author: "Hansjörg Neth, SPDS, uni.kn"
-date: "2018 07 12"
+date: "2018 07 13"
 output:
    rmdformats::html_clean: # html_clean html_docco readthedown material #
      code_folding: show # hide
@@ -1507,7 +1507,8 @@ pt <- pt + (6 + 0)  # increment point total (leaving out 2 bonus points)
 
 ### Task `r nr<-nr+1; nr`: Numeracy vs. intelligence
 
-This task uses a generated dataset (entitled `numeracy.csv` and available at <http://rpository.com/ds4psy/data/numeracy.csv>). Use the following `read_csv()` command to obtain and load it into R: 
+This task uses a generated dataset (entitled `numeracy.csv` and available at <http://rpository.com/ds4psy/data/numeracy.csv>). 
+Use the following `read_csv()` command to obtain and load it into R: 
 
 ```{r numeracy_load_data, echo = TRUE, eval = TRUE}
 ## Load data (as comma-separated file): 
@@ -1541,57 +1542,271 @@ The remaining six columns contain the following _dependent_ variables (DVs):
 
 #### Tasks
 
-(A) Basics:
+**(A) Basics:**
 
-**`r nr`a.** Report the data dimensions and number and percentage of missing values. (1&nbsp;point)
+**`r nr`a.** Inspect the data dimensions and the percentage of missing values. (1&nbsp;point)
+
+**Hints:** As later parts of this task use variables created in earlier ones, you should either update your existing `data` with modified tibbles (e.g., including new variables) or incrementally save your new tibbles with new names (e.g., `data_a`, `data_b`, etc.). 
 
 **`r nr`b.** Split the birth date (`bdate`) variable into 3 separate variables (`byear`, `bmonth`, and `bday`) that denote the year, month, and day of each participant's birth. (1&nbsp;point) 
 
-**`r nr`c.** Create a new variable `summerborn` that is `TRUE` when a participant was born in summer (defined as April to September) and `FALSE` when a person was born in winter (October to March).  (1&nbsp;point)
+**Hints:** Use `tidyr::separate` for this task, but check the type of your new variables (and use the `convert` argument to ensure that they are numeric). 
+
+**`r nr`c.** Create a new variable `summer_born` that is `TRUE` when a participant was born in summer (defined as April to September) and `FALSE` when a person was born in winter (October to March).  (1&nbsp;point)
 
 
-(B) Assessing IVs: 
+**(B) Assessing IVs:** 
 
-**`r nr`d.** Compute the current `age` of each participant (in years, taking into account today's date). (2&nbsp;points) 
+**`r nr`d.** Compute the current `age` of each participant as the person would report it (i.e., in completed years, taking into account today's date). (2&nbsp;points) 
 
-**`r nr`e.** List the frequency of each blood type (`blood_type`) (a) _overall_ and (b) by _gender_. (2&nbsp;points) 
+**`r nr`e.** List the frequency of each blood type (`blood_type`) by _gender_ (as a tibble by using `dplyr`) and re-format your tibble into a wider format (by using `tidyr`) that lists the types of `gender` in rows and the types of `blood_type` as columns. (2&nbsp;points) 
 
 **`r nr`f.** Compute descriptives (the counts, means, and standard deviations) of `height` (a) by _gender_ and (b) by _cohort_ (i.e., the decade of birth). (3&nbsp;points)
 
-**`r nr`g.** Plot the distributions of `height` (a) by _gender_ and (b) by _cohort_. (2&nbsp;points)
+**Hints:** Use integer division on each participant's `age` to determine his or her decade cohort: `cohort = age %/% 10`. 
+
+**`r nr`g.** Visualize the distributions of `height` (a) by _gender_ and (b) by _cohort_. What do you find? (2&nbsp;points)
+
+**Hints:** Inspect the type of your `cohort` variable (by `typeof(my_data$cohort)`). Depending on your intended plot, you may have to turn this variable into a _factor_ by using `as.factor(my_data$cohort)`. The factor has discrete levels, while the `cohort` variable may have been continuous (numeric).
 
 
-(C) Assessing DVs: 
+**(C) Assessing DVs:**
 
-**`r nr`h.** Compute the aggregate BNT score (the sum of all four `bnt_i` values, varying from 0 to 4 points) for each participant and check whether it varies systematically as a function of _gender_. (2&nbsp;points)
+**`r nr`h.** Compute the _aggregate_ `BNT` _score_ as the sum of all four `bnt_i` values (i.e., a value varying from 0 to 4) for each participant. How many _missing_ `BNT` _values_ are there? (1&nbsp;point)
 
 **`r nr`i.** Inspect the values for the 2 _intelligence_ scores `g_iq` and `s_iq`:
 
-- How many missing values are there? 
-- What are their means and ranges?
-- Plot their distributions in 2 separate histograms.  (3&nbsp;points)
+- How many _missing values_ are there? 
+- What are their _means_ and their _ranges_ (minimum and maximum values)?
+- Plot their distributions in 2 separate _histograms_.  (3&nbsp;points)
 
-**`r nr`j.** Plot the relationship between `g_iq` and `s_iq`. (1&nbsp;point)
+**`r nr`j.** Visualize the relationship between `g_iq` and `s_iq`. Can you detect any systematic trend? (1&nbsp;point)
 
-**`r nr`k.** Assess possible effects of _numeracy_ (as measured by `BNT`) on the 2 measures of intelligence (`g_iq` and `s_iq`). (2&nbsp;points)
+**Hints:** Consider using a scatterplot, but take care of overplotting. 
 
-**`r nr`l.** Assess possible effects of the variables 
 
-- age (`age`), 
-- birth season (`summerborn`), 
+**(D) Exploring results:**
+
+**`r nr`k.** Does _numeracy_ (as measured by the aggregate `BNT` score) seem to vary by  _gender_? (1&nbsp;point)
+
+**`r nr`l.** Assess possible effects of _numeracy_ (as measured by `BNT`) on the 2 measures of intelligence (`g_iq` and `s_iq`). (2&nbsp;points)
+
+**`r nr`m.** Assess possible effects of the independent variables 
+
+- gender (`gender`), 
+- age (as provided by `age` or `cohort` from above), 
+- birth season (`summer_born`), 
 - blood type (`blood_type`), and 
 - the day of the week on which a person was born (`bweekday`), 
 
-on the 2 types of intelligence (`g_iq` and `s_iq`) in 2 ways: 
+on each of the 2 types of intelligence (`g_iq` and `s_iq`) in 2 ways: 
 
-a. numercially (by computing group means) and 
-b. graphically (by plotting means and/or distributions).  (10&nbsp;points)
+a. _numercially_ (by computing group means) and 
+b. _graphically_ (by plotting means and/or distributions).  
+
+Which plausible or implausible effects does the data suggest? (10&nbsp;points)
 
 ```{r numeracy_solution}
-# (a) inspect data: 
-dim(data) # => 1000 participants x 12 variables
-sum(is.na(data))   # 130 missing values
-mean(is.na(data))  # 1.083 percent of missing data
+
+## (A) Basics: ----- 
+
+## (a) Inspect data:
+data_a <- data 
+dim(data_a) # => 1000 participants x 12 variables
+sum(is.na(data_a))   # 130 missing values
+mean(is.na(data_a))  # 1.083 percent of missing data
+# data_a
+
+## (b) Split bdate into 3 separate variables (`byear`, `bmonth`, and `bday`):
+# data_a$bdate       # inspect variable
+length(data_a$bdate) # 1000 (i.e., no missing values) 
+
+data_b <- data_a %>%
+  tidyr::separate(bdate, into = c("byear", "bmonth", "bday"), sep = "-", 
+                  convert = TRUE, 
+                  remove = FALSE) %>%
+  select(name:bdate, byear, bmonth, bday, everything()) # re-arrange variables
+
+# Note that byear:bmonth are converted into characters if convert = FALSE.
+# Resulting data:
+# data_b
+
+## (c) Create a new variable `summer_born`:
+##     `TRUE` iff born in summer (April to September)
+data_c <- data_b %>% 
+  mutate(summer_born = (bmonth > 3) & (bmonth < 10)) %>%
+  select(name:bday, summer_born, everything()) # re-arrange variables
+# data_c
+
+## (B) Assessing IVs: ----- 
+
+## (d) Age in (completed) years:
+
+# Today's date: 
+year_now  <- 2018
+month_now <-    7
+day_now   <-   13
+
+data_d <- data_c %>%
+  mutate(had_bday_this_year = (bmonth < month_now) | (bmonth = month_now & bday <= day_now),
+         no_bday_this_year_yet = !had_bday_this_year, 
+         age = (year_now - byear) - no_bday_this_year_yet) %>%
+  select(name:bday, age, everything()) # re-arrange variables  
+# data_d
+
+# Note: A simpler solution using lubridate()
+{
+  library(lubridate)
+  
+  bday <- ymd("000713") # today, 18 years ago 
+  (bday %--% today())   # yields a time interval
+  
+  # Define a function that computes current age: 
+  cur_age <- function(bday) {
+    
+    lifetime <- (bday %--% today()) # interval from bday to today() 
+    (lifetime %/% years(1))         # integer division (into full years)
+    
+  }
+  
+  # Check: 
+  bday_1 <- ymd("000712") # year 2000 yesterday
+  bday_2 <- ymd("000713") # year 2000 today
+  bday_3 <- ymd("000714") # year 2000 tomorrow
+  
+  cur_age(bday_1) # => 18
+  cur_age(bday_2) # => 18
+  cur_age(bday_3) # => 17 (qed)
+  }
+
+## (e) Frequency of blood_type
+
+## by gender:
+btg <- data_d %>%
+  group_by(gender) %>%
+  count(blood_type)
+btg
+
+## Re-format from long to wider format: 
+btg %>%
+  spread(key = blood_type, value = n)
+
+## (f+g) Descriptives and distribution of height by gender:
+data_d %>%
+  group_by(gender) %>%
+  summarise(n = n(),
+            n_notNA = sum(!is.na(height)),
+            mn_height = mean(height, na.rm = TRUE),
+            sd_height = sd(height, na.rm = TRUE)
+            )
+
+ggplot(data_d, aes(x = gender, y = height, color = gender)) +
+  geom_violin() +
+  geom_jitter(size = 2, alpha = 1/3) + 
+  scale_color_brewer(palette = "Set1") + 
+  labs(title = "Distribution of height by gender",
+       x = "Gender", y = "Height (in cm)", 
+       caption = "[ds4psy]") + 
+  theme_bw()
+
+## (f+g) Descriptives and distribution of height by cohort:
+data_f <- data_d %>%
+  mutate(cohort = age %/% 10)
+
+data_f %>%
+  group_by(cohort) %>%
+  summarise(n = n(),
+            n_notNA = sum(!is.na(height)),
+            mn_height = mean(height, na.rm = TRUE),
+            sd_height = sd(height, na.rm = TRUE)
+            )
+
+# Inspect cohort:
+typeof(data_f$cohort)
+data_f$cohort <- as.factor(data_f$cohort)
+
+ggplot(data_f, aes(x = cohort, y = height, color = cohort)) +
+  geom_violin() +
+  geom_jitter(size = 2, alpha = 1/2) + 
+  scale_color_brewer(name = "Cohort:", palette = "Set1") + 
+  labs(title = "Distribution of height by cohort",
+       x = "Cohort (x 10 years)", y = "Height (in cm)", 
+       caption = "[ds4psy: numeracy data]") + 
+  theme_bw()
+
+# Visualizing distributions by both gender and cohort: 
+ggplot(data_f, aes(x = cohort, y = height, color = cohort)) +
+  facet_wrap(~gender) + 
+  geom_boxplot() + 
+  scale_color_brewer(name = "Cohort:", palette = "Set1") + 
+  labs(title = "Boxplots of height by cohort (by gender)",
+       x = "Cohort (x 10 years)", y = "Height (in cm)", 
+       caption = "[ds4psy: numeracy data]") + 
+  coord_flip() + 
+  theme_bw()
+
+## (C) Assessing DVs: ----- 
+data_f
+
+# (h) BNT values:
+data_h <- data_f %>%
+  mutate(BNT = bnt_1 + bnt_2 + bnt_3 + bnt_4) %>%
+  select(name:bnt_4, BNT, everything())
+
+data_h %>%
+  select(bnt_1:BNT)
+
+mean(is.na(data_h$BNT)) # 78 or 7.8% missing values.
+
+# (i) Inspecting g_iq and s_iq:
+sum(is.na(data_h$g_iq)) # => 20 missing g_iq values
+sum(is.na(data_h$s_iq)) # => 30 missing g_iq values
+
+summary(data_h$g_iq, na.rm = TRUE) # mean of 101.9, range from 73 to 139. 
+summary(data_h$s_iq, na.rm = TRUE) # mean of 102.0, range from 70 to 131.  
+
+# Save means and medians for plots:
+mn_g_iq <- summary(data_h$g_iq, na.rm = TRUE)[["Mean"]]
+md_g_iq <- summary(data_h$g_iq, na.rm = TRUE)[["Median"]]
+mn_s_iq <- summary(data_h$s_iq, na.rm = TRUE)[["Mean"]]
+md_s_iq <- summary(data_h$s_iq, na.rm = TRUE)[["Median"]]
+
+ggplot(data_h) +
+  geom_histogram(aes(x = g_iq), binwidth = 2, fill = "gold", color = "black") + 
+  geom_vline(xintercept = mn_g_iq, linetype = 2, color = "steelblue") +  # mark mean by vertical dashed line 
+  # geom_vline(xintercept = md_g_iq, linetype = 3, color = "steelblue") +  # mark median by vertical dotted line   
+  labs(title = "Distribution of general intelligence values",
+       x = "General intelligence", y = "Frequency", 
+       caption = "[ds4psy: numeracy data]") + 
+  theme_bw()
+
+ggplot(data_h) +
+  geom_histogram(aes(x = s_iq), binwidth = 2, fill = "steelblue", color = "black") +
+  geom_vline(xintercept = mn_s_iq, linetype = 2, color = "gold") +  # mark mean by vertical dashed line 
+  # geom_vline(xintercept = md_s_iq, linetype = 3, color = "gold") +  # mark median by vertical dotted line   
+  labs(title = "Distribution of social intelligence values",
+       x = "General intelligence", y = "Frequency", 
+       caption = "[ds4psy: numeracy data]") + 
+  theme_bw()
+
+# (j) Relationship between g_iq and s_iq:
+ggplot(data_h, aes(x = g_iq, y = s_iq)) +
+  geom_point(position = "jitter", alpha = 1/3) +
+  geom_smooth() +
+  geom_abline(color = "forestgreen", linetype = 2) +  
+  labs(title = "Social intelligence by general intelligence",
+       x = "General intelligence", y = "Social intelligence", 
+       caption = "[ds4psy: numeracy data]") + 
+  # coord_fixed() + 
+  theme_bw()
+
+# => No clear relationship, but possibly a decline of s_iq with increasing g_iq.
+
+
+
+# +++ here now +++
+
+## (D) Exploring results: ----- 
 
 # +++ here now +++
 
