@@ -1,7 +1,7 @@
 ---
 title: "Essential data visualization and EDA (ds4psy)"
 author: "Hansjörg Neth, SPDS, uni.kn"
-date: "2018 07 06"
+date: "2018 07 28"
 output:
    rmdformats::html_clean: # html_clean html_docco readthedown material #
      code_folding: show # hide
