@@ -1,7 +1,7 @@
 ---
 title: "Essential data visualization and EDA (ds4psy)"
 author: "Hansjörg Neth, SPDS, uni.kn"
-date: "2018 07 28"
+date: "2018 07 30"
 output:
    rmdformats::html_clean: # html_clean html_docco readthedown material #
      code_folding: show # hide
@@ -442,7 +442,7 @@ More on histograms:
 
 ### Scatterplots
 
-A scatterplot shows relationship between 2 (typically continuous) variables:
+A scatterplot shows the relationship between 2 (typically continuous) variables:
 
 ```{r scatterplots}
 # Data:
