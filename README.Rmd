@@ -51,7 +51,7 @@ Sebastopol, Canada: O'Reilly Media, Inc.  [Available online at [http://r4ds.had.
 
 - R packages of the [tidyverse](https://www.tidyverse.org/) and some data packages: 
 
-```{r, eval = FALSE}
+```{r tidyverse_packages, eval = FALSE, warning = FALSE}
 # R packages:
 install.packages("tidyverse")
 
