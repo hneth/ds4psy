@@ -1,0 +1,372 @@
+---
+title: "Data Science for Psychologists (ds4psy)"
+author: "Hansjörg Neth, SPDS, uni.kn"
+date: "2018 07 13"
+output:
+  rmdformats::html_clean:
+    highlight: kate
+---
+
+```{r knitr_init, echo = FALSE, cache = FALSE, message = FALSE, warning = FALSE}
+library(knitr)
+library(rmdformats)
+
+## Global options
+options(max.print="75")
+opts_chunk$set(echo=FALSE,
+	             cache=TRUE,
+               prompt=FALSE,
+               tidy=TRUE,
+               comment=NA,
+               message=FALSE,
+               warning=FALSE)
+opts_knit$set(width=75)
+```
+
+
+# Course Coordinates
+
+<!-- uni.kn logo and link to SPDS: -->  
+<!-- ![](./inst/pix/uniKn_logo.png) --> 
+<a href="https://www.spds.uni-konstanz.de/">
+<img src = "./inst/pix/uniKn_logo.png" alt = "spds.uni.kn" align = "right" width = "300" style = "width: 300px; float: right; border:20;"/>
+<!-- <img src = "./inst/pix/uniKn_logo_s.png" alt = "spds.uni.kn" style = "float: right; border:20;"/> --> 
+</a>
+
+* Taught at the [University of Konstanz](https://www.uni-konstanz.de/) by [Hansjörg Neth](http://neth.de/) (<h.neth@uni.kn>,  [SPDS](https://www.spds.uni-konstanz.de/), office D507).
+* Summer 2018: Mondays, 13:30--15:00, C511. 
+* Links to [ZeUS](https://zeus.uni-konstanz.de:443/hioserver/pages/startFlow.xhtml?_flowId=showEvent-flow&unitId=5101&termYear=2018&termTypeValueId=1&navigationPosition=hisinoneLehrorganisation,examEventOverviewOwn) and [Ilias](https://ilias.uni-konstanz.de/ilias/goto_ilias_uni_crs_758039.html)
+
+
+# Course Description
+
+## Overview
+
+Students of psychology and other social sciences are trained to analyze data. But the data they learn to work with (e.g., in courses on statistics and empirical research methods) is typically provided to them and structured in a (rectangular or "tidy") format that presupposes many steps of data processing regarding the aggregation and spatial layout of variables.  When beginning to collect data from other sources, most students struggle with these pre-processing steps which --- even for experienced data scientists --- tend to require more time and effort than choosing and conducting statistical tests. 
+
+This course develops the foundations of data analysis that allow students to collect data from real-world sources and transform and shape such data to conduct reproducible research and answer scientific and practical questions. Although there are many good introductions to data science (we use [Grolemund & Wickham, 2017](http://r4ds.had.co.nz/)) they typically do not take into account the special needs -- and often anxieties and reservations -- of psychology students. As social scientists are not computer scientists, we introduce new concepts and commands without assuming a mathematical or computational background. Adopting a task-oriented perspective, we begin with a specific problem and then solve it with some combination of data collection, manipulation, modeling, and visualization.
+
+
+## Goals
+
+Our main goal is to develop a set of useful skills in analyzing real-world data and conducting reproducible research. Upon completing this course, you will be able to read, transform, analyze, and visualize data of various types. Many interactive exercises will allow students to check their understanding, monitor their progress, and practice their skills.
+
+
+## Requirements
+
+This course assumes some basic familiarity with statistics and the [R](http://www.r-project.org/) programming language, but enthusiastic programming novices are also welcome.
+
+Attending class, continuos preparation (by working through chapters prior to class), and solving exercises (in class).
+
+
+## Assessment
+
+Weekly exercises in class, mid-term test, and/or final test or project (which may be thesis-related).
+
+On June 4, 2018, we will have a **mid-term exam**, 
+consisting of MC questions and/or practical exercises (open book, 90 mins).
+
+Final assessment: Vote on 1 of 2 options (after mid-term exam): 
+
+1. Final exam (same format as in mid-term test);  
+2. Final data science project (contents to be discussed with instructor). 
+
+Both components count towards your final grade (with the better component being systematically over-weighted). 
+
+
+# Schedule 
+
+**Note:** The following schedule was **revised on June 20th, 2018**. 
+
+## Individual sessions, dates, and topics
+
+<!-- 
+
+Introduction: R basics (from other course)
+
+1. R basics 1: Scalars and vectors, vector functions and indexing vectors (weeks 1+2)
+1. R basics 2: Matrices and data frames, data frame manipulations (weeks 3+4)
+1. R basics 3: Writing functions and loops, graphics (weeks 9+5)
+
+## Book parts 
+
+- Introduction
+- Explore
+- Wrangle
+- Program
+- Model
+- Communicate
+
+## Book chapters 
+
+1. [Chapters 1, 2, 4, 6, 8](http://r4ds.had.co.nz): Introduction, coding and workflow basics (scripts, projects).
+
+Part 1: Explore
+
+1. [Chapter 3: Data visualisation](http://r4ds.had.co.nz/data-visualisation.html): `ggplot2`.  
+   [Chapter 4: Workflow: basics](http://r4ds.had.co.nz/workflow-basics.html): assignment, naming, completion, functions 
+
+1. [Chapter 5: Data transformation](http://r4ds.had.co.nz/transform.html): `dplyr`.  
+   [Chapter 6: Workflow: scripts](http://r4ds.had.co.nz/workflow-scripts.html): scripts, running code 
+
+1. [Chapter 7: Exploratory data analysis (EDA)](http://r4ds.had.co.nz/exploratory-data-analysis.html).  
+   [Chapter 8: Workflow: projects](http://r4ds.had.co.nz/workflow-projects.html): files, directories, paths, projects
+
+Part 2: Wrangle 
+
+1. [Chapter 10: Tibbles](http://r4ds.had.co.nz/tibbles.html): `tibble`. 
+1. [Chapter 11: Data import](http://r4ds.had.co.nz/data-import.html): `readr`. 
+1. [Chapter 12: Tidy data](http://r4ds.had.co.nz/tidy-data.html): `tidyr`. 
+1. [Chapter 13: Relational data](http://r4ds.had.co.nz/relational-data.html): `dplyr`.
+1. [Chapter 14: Strings](http://r4ds.had.co.nz/strings.html): `stringr`. 
+1. [Chapter 15: Factors](http://r4ds.had.co.nz/factors.html): `forcats`. 
+
+
+1. Mid-term test
+
+-->
+
+
+ 1. 16.04.2018: Introduction: [Chapters 1, 2, 4, 6, 8](http://r4ds.had.co.nz) 
+ 
+ **Part 1: Explore data**
+ 
+ 2. 23.04.2018: [Chapter 3: Data visualisation](http://r4ds.had.co.nz/data-visualisation.html): `ggplot2`.  
+ 3. 30.04.2018: [Chapter 5: Data transformation](http://r4ds.had.co.nz/transform.html): `dplyr`.  
+ 4. 07.05.2018: [Chapter 7: Exploratory data analysis (EDA)](http://r4ds.had.co.nz/exploratory-data-analysis.html).
+ 
+ **Part 2: Wrangle data**
+ 
+ 5. 14.05.2018: [Chapter 10: Tibbles](http://r4ds.had.co.nz/tibbles.html): `tibble`. 
+ 6. 21.05.2018: **Holiday: No class** Skipping [Chapter 11: Data import](http://r4ds.had.co.nz/data-import.html): `readr`. 
+ 7. 28.05.2018: [Chapter 12: Tidy data](http://r4ds.had.co.nz/tidy-data.html): `tidyr`. 
+ 8. 04.06.2018: [**Mid-term exam**](http://rpository.com/ds4psy/mt/): Data transformation and visualization (open book, 90 mins). 
+ 9. 11.06.2018: [Chapter 13: Relational data](http://r4ds.had.co.nz/relational-data.html): `dplyr`.
+ 
+ **Part 3: Rinse and repeat**
+ 
+10. 18.06.2018: [**Essentials**](http://rpository.com/ds4psy/R/_essentials/tibble.html) of [Chapter 10: Tibbles](http://r4ds.had.co.nz/tibbles.html): `tibble`. 
+11. 25.06.2018: [**Essentials**](http://rpository.com/ds4psy/R/_essentials/transform.html) of [Chapter 5: Data transformation](http://r4ds.had.co.nz/transform.html): `dplyr`.
+12. 02.07.2018: [**Essentials**](http://rpository.com/ds4psy/R/_essentials/visualize.html) of [Chapter 3: Data visualisation](http://r4ds.had.co.nz/data-visualisation.html) and [Chapter 7: EDA](http://r4ds.had.co.nz/exploratory-data-analysis.html): `ggplot2` + `dplyr`.  
+13. 09.07.2018: [**Essentials**](http://rpository.com/ds4psy/R/_essentials/tidy.html) of [Chapter 12: Tidy data](http://r4ds.had.co.nz/tidy-data.html): `tidyr`. 
+14. 16.07.2018: [**Final exam**](http://rpository.com/ds4psy/fe/): Transforming and visualizing data (open book, take at home).
+
+
+<!-- Table with links: -->
+
+All [ds4psy](http://rpository.com/ds4psy/) essentials: 
+
+Nr. | Topic       |
+---:|:------------| 
+1.  | [Creating and using tibbles](http://rpository.com/ds4psy/R/_essentials/tibble.html) |
+2.  | [Data transformation](http://rpository.com/ds4psy/R/_essentials/transform.html) |
+3.  | [Visualizing data](http://rpository.com/ds4psy/R/_essentials/visualize.html) | 
+4.  | [Tidy data](http://rpository.com/ds4psy/R/_essentials/tidy.html) |
+
+
+## Structure of each week and session
+
+This course mostly uses the so-called _flipped classroom_ paradigm, in which students are solving exercises --- in pairs or small groups --- with additional guidance by the instructor (see [Wikipedia](http://en.wikipedia.org/wiki/Flipped_classroom) for details). 
+
+- _Before_ class: You need to prepare every session at home by 
+
+    1. reading the current chapter, and 
+    
+    2. preparing an `.R` or `.Rmd` script that includes all chapter code (_without_ the exercises). 
+
+- _During_ class: Every class session consists of 2 parts: 
+
+    1. Asking questions (plenary): To start each weekly session, the instructor introduces the current topic and answers questions on main concepts or commands. 
+    
+    2. Solving chapter exercises (in random dyads/triples): Copy exercise text into your scripts and solve exercises in a way that you can share with other members of the class (by posting your solutions on [Ilias](https://ilias.uni-konstanz.de/ilias/goto_ilias_uni_crs_758039.html)). 
+
+
+# Details
+
+This section contains some clarifications (on the term "data science") and recommendations (on how to succeed in this course). 
+
+## What is data science? 
+
+<!-- Quotes --> 
+
+<!--
+> The process of preparing programs for a digital computer is especially attractive,  
+> not only because it can be economically and scientifically rewarding, but also  
+> because it can be an aesthetic experience much like composing poetry or music.   
+> Donald E. Knuth in his Preface to _The Art of Computer Programming_ (1973)  
+-->
+
+<!-- Data science as "solving problems": Just like James Bond... --> 
+
+
+### Data science as the art of dealing with data
+
+In our technology-driven environment, data is cheap and ubiquitous. Every call, trip, or visit of a web page leaves a trail of data. Apart from raising important issues of privacy, the notion of big data highlights another problem: In an era in which digital information is collected everywhere, we are drowning in data that promises to be meaningful and valuable, but we often fail to understand. We typically lack the ability and the tools of dealing with data. 
+
+Thus, data science is relevant not only for natural and computer sciences, but also for social sciences, humanities, and even arts. It is partly a scientific enterprise, but also a skill, an art, and a craft. 
+Like all skills, arts and crafts, data science requires special tools, experience in choosing and using them, and an awful lot of dedicated practice (see below).
+
+### Data science vs. statistics
+
+There is considerable overlap between data science and statistics, but they are not identical. 
+
+- _Statistics_ is primarily a mathematical discipline that examines the properties of probabilty distributions and inferences from samples. Statistics typically involves formulas and numbers, but does not necessarily require getting your hands dirty with real-world data. In the context of psychology, statistics mostly quantifies differences and relationships between groups and tests effects of experimental manipulations or treatments.
+
+- _Data science_ typically begins with messy data from real-world sources. Data literacy (as a basic ability to 
+deal with data) is an essential prerequisite for applying statistics, but does not require statistics to yield meaningful results. Data science can be described as using statistics to solve real-world problems, but pursues a different main goal: understanding the data, rather than testing effects.
+
+In short, statistics mostly summarizes data to test hypotheses, while data science transforms and visualizes data to promote the generation of hypotheses.^[See Donoho (2017) and the surrounding discussions for a vastly more nuanced and diverging views.] 
+In science, both objectives are ubiquitous and complementary, but basic data literacy and data science enable us to understand and deal with data before and beyond statistics. Dealing with data in a variety of ways enables new insights (e.g., by visualizing properties and relationships) and allows us to think more clearly about the causes and implications of data.
+
+
+## Premises of this Course
+
+### Assumptions
+
+This course assumes that you are motivated to learn its material and willing and able to invest the effort and time required to do so. Theoretically, you could work through the textbook by yourself, but this would be a tenacious and lonely endeavour. Thus, the instructor and other classmates are there to help you to stay focused, provide motivation and guidance, ask and answer questions, and allow you to continuously check your progress and understanding. 
+
+### Succeeding in this course
+
+The main ingredient for succeeding in this course is aptly summarized by the following quote: 
+
+> Practise yourself, for Heaven's sake, in little things,  
+> and thence proceed to greater.  
+> Epictetus _Discourses_ Book I, 18
+
+<!-- Goals: Complete Rtudes, recital at exam, your first concert as final project. --> 
+
+<!-- The recipe for succeeding in this course is very similar to succeeding in life in general. -->
+
+<!-- ### Learning to play an instrument -->
+
+Getting good at data science is similar to learning an instrument or mastering some sport: You need some things (e.g., special equipment, various accessories, but also a suitable infrastructure) to get started. Once you have all this stuff, you need advice and instruction from experts and lots of practice. It always helps to have talent, but dedicated practice is essential even when you happen to be a genius. 
+
+Becoming proficient in data science requires both curiosity and routine: 
+
+- _Curiosity_ implies interest, motivation, and fun: If you really want to find out or achieve something (e.g., understand some data or conduct some analysis), you are willing to find out how this can be achieved and will overcome the obstacles that may appear along the way. Perceiving tasks as a challenge rather than a chore will allow you to enjoy the efforts invested, rather than suffering from them. 
+
+- _Routine_ implies discipline, stamina, and lots of practice. It's impossible to acquire new skills without investing a lot of time and effort. Crucially, _habitual_ practice (e.g., daily use of data science tools) helps developing various organizational skills (e.g., using keyboard shortcuts, naming objects, formatting code, and structuring files or projects) that are non-trivial and will profoundly affect your productivity. 
+
+Ultimately, practicing any art, craft or science is also a process of socialization: belonging to a community that shares the same goals, methods, and values. 
+
+### Warning 
+
+Beware of side effects: Becoming a useR will profoundly transform your thinking --- not just about code, but about the data and problems you are analyzing or visualizing.
+
+Programming (in R or any other language) can be enjoyable, but also has addictive potential. Make sure to take regular breaks and keep focused on the questions behind and beyond the data science tools.
+
+
+# Links
+
+## Essential commands and examples 
+
+<!-- Table with links: -->
+
+All [ds4psy](http://rpository.com/ds4psy/) essentials: 
+
+Nr. | Topic       |
+---:|:------------| 
+1.  | [Creating and using tibbles](http://rpository.com/ds4psy/R/_essentials/tibble.html) |
+2.  | [Data transformation](http://rpository.com/ds4psy/R/_essentials/transform.html) |
+3.  | [Visualizing data](http://rpository.com/ds4psy/R/_essentials/visualize.html) | 
+4.  | [Tidy data](http://rpository.com/ds4psy/R/_essentials/tidy.html) |
+
+<!-- The following links allow you to get started. -->
+
+## Software and packages
+
+- [The R project for statistical computing](http://www.r-project.org/); 
+- [R Studio](http://www.rstudio.com/) is an integrated development environment (IDE) for R; 
+- The [tidyverse site](https://www.tidyverse.org/) also links to [instructional resources](https://www.tidyverse.org/learn/). 
+
+## Textbook 
+
+- Wickham, H., & Grolemund, G. (2017). _R for data science: Import, tidy, transform, visualize, and model data._ 
+Sebastopol, Canada: O'Reilly Media, Inc.  [Available online at [http://r4ds.had.co.nz](http://r4ds.had.co.nz).]
+
+## References 
+
+- Donoho, D. (2017). 50 years of data science. _Journal of Computational and Graphical Statistics_, _26_(4), 745--766. [Available at <https://doi.org/10.1080/10618600.2017.1384734>.] 
+
+- Wickham, H. (2014). Tidy data. _Journal of Statistical Software_, _59_(10), 1--23.  [Available from <http://vita.had.co.nz/articles.html>.] 
+
+
+
+<!-- 
+
+- Exercise solutions: https://jrnold.github.io/r4ds-exercise-solutions/ 
+
+## Computing for SocSci
+
+Computing for the Social Sciences University of Chicago; Benjamin Soltoff. 
+
+See 
+
+- http://cfss.uchicago.edu/ 
+- http://cfss.uchicago.edu/faq.html
+- http://cfss.uchicago.edu/hw00_homework_guidelines.html 
+- http://cfss.uchicago.edu/git07.html 
+
+
+## ISLR
+
+An Introduction to Statistical Learning with Applications in R  
+Authors: Gareth James, Daniela Witten, Trevor Hastie and Robert Tibshirani
+
+- R package [ISLR](https://CRAN.R-project.org/package=ISLR) (with data sets):   
+- Book [PDF](http://www-bcf.usc.edu/~gareth/ISL/ISLR%20Seventh%20Printing.pdf) 
+- Website: <www.StatLearning.com> or <http://www-bcf.usc.edu/~gareth/ISL/> 
+
+
+# References and Links
+
+## Books
+
+- Wickham, H., & Grolemund, G. (2017). _R for data science: Import, tidy, transform, visualize, and model data._ 
+Sebastopol, Canada: O'Reilly Media, Inc.  [Available online at [http://r4ds.had.co.nz](http://r4ds.had.co.nz).]
+
+- Zumel, N., & Mount, J. (2014). _Practical data science with R_. Greenwich, CT: Manning Publications.
+
+## Online resources
+
+- [tidyverse](https://www.tidyverse.org/)
+    - See <https://www.tidyverse.org/articles/> for current developments
+    - See <https://www.tidyverse.org/learn/> for learning resources 
+
+- [RStudio cheat sheets](https://www.rstudio.com/resources/cheatsheets/)
+
+- [GitHub](https://github.com/): 
+    - <http://kbroman.org/github_tutorial/> 
+
+## Blogs etc.
+
+### Basics: Terminology and Theory
+
+1. What is "data science"? See the article: 
+
+> Donoho, David (2017). 50 years of data science, 
+> _Journal of Computational and Graphical Statistics_, _26:4_, 745-766, 
+> DOI: 10.1080/10618600.2017.1384734
+
+- Link to [article](https://doi.org/10.1080/10618600.2017.1384734). 
+- A [comment](https://www.tandfonline.com/doi/full/10.1080/10618600.2017.1385470?src=recsys) by Roger Peng 
+- A [discussion](https://www.tandfonline.com/doi/full/10.1080/10618600.2017.1385471?src=recsys) by Susan Holmes and Julie Josse provides some (French) historical perspective 
+
+
+2. Teaching data science: 
+
+- https://peerj.com/collections/50-practicaldatascistats/
+
+
+### Miscellaneous
+
+- <https://www.r-bloggers.com/>
+- <https://simplystatistics.org/>
+- <http://kbroman.org>
+- <http://www.sharpsightlabs.com/> 
+
+-->
+
+[This file last updated on `r Sys.time()` by [hn](http://neth.de/).]
+
+<!-- eof. --> 

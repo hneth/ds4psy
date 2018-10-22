@@ -1,0 +1,526 @@
+---
+title: "Mid-term exam  | Data science for psychologists (Summer 2018)"
+author: "Name: Alisa Auer | Student ID: 01/945854"
+date: "14 Juli 2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+#Preparation
+```{r 1, echo = TRUE, eval = TRUE}
+library(tidyverse)
+```
+
+# Task 1: Plants
+```{r 2, echo = TRUE, eval = TRUE}
+## (a): Save the PlantGrowth data as a tibble and inspect its dimensions. (1 point)
+
+pg <- as.tibble(PlantGrowth)
+str(pg)
+
+## Answer: The PlantGrowth data contains 30 cases (rows) and 2 variables (columns). 
+
+#####################################################################
+
+## (b): Use a dplyr pipe to compute the number of observations (rows) in each group and some key descriptives (their mean, median, and standard deviation). (2 points)
+
+pg %>%
+  group_by(group) %>%
+  summarise(observations = n(),
+            mean = mean(weight, na.rm = TRUE),
+            median = median(weight, na.rm = TRUE),
+            sd = sd(weight, na.rm = TRUE))
+
+#####################################################################
+
+## (c): Use ggplot to create a graph that shows the medians and raw values of plant weight by group. (2 points)
+
+ggplot(pg, mapping = aes(x = group, y = weight, color = group)) +
+  geom_boxplot() +
+  geom_jitter() +
+  ggtitle("Plant weight by group") +
+  theme_bw()
+
+```
+
+# Task 2: Hot and wet flights
+```{r 3, echo = TRUE, eval = TRUE}
+library(nycflights13)
+nycflights13::weather
+str(weather)
+
+## (a): Save the tibble nycflights13::weather as wt and report its dimensions. (1 point)
+
+wt <- as.tibble(weather)
+str(weather)
+
+## Answer: The Weather data contains 26130 cases (rows) and 15 variables (columns).
+
+#####################################################################
+
+## (b): Missing values and known unknowns:
+
+  #How many missing (NA) values does wt contain? (1 point)
+sum(is.na(wt))
+
+  ##Answer: The Weather data contains 3157 missing values
+
+  #What is the percentage of missing (NA) values in wt? (1 point)
+wt  %>%
+  summarise(percentage_NA = sum(is.na(wt))/(15*26130))
+
+  ##Answer: The percentage of NAs is 0,81%.
+
+  #What is the range (i.e., minimum and maximum value) of the year variable? (1 point)
+
+wt %>%
+  summarise(min = min(year, na.rm = TRUE),
+            max = max(year, na.rm = TRUE))
+
+  ##Answer: 2013 is minimum and maximum value.
+
+#####################################################################
+
+## (c): How many observations (rows) does the data contain for each of the 3 airports (origin)? (1 point)
+
+wt %>%
+  group_by(origin) %>%
+  count()
+  
+  ##Answer: EWR: 8708, JFK: 8711, LGA: 8711
+
+#####################################################################
+
+## (d): Compute a new variable temp_dc that provides the temperature (in degrees Celsius) that corresponds to temp (in degrees Fahrenheit).
+
+#Hints: The formula for conversion from Fahrenheit (degrees F) to Celsius (degrees C) is: C=(F-32)× 5/9.
+
+#Add your new temp_dc variable to a new dataset wt_2 and re-arrange its columns so that your new temp_dc variable appears next to temp. (2 points)
+
+(wt_2 <- wt %>%
+  mutate(temp_dc = ((temp-32)* 5/9)) %>%
+  select(temp, temp_dc, everything()))
+
+#####################################################################
+
+##(e): When only considering “JFK” airport: What are the 3 (different) dates with the (a) coldest and (b) hottest temperatures at this airport?
+
+  #Report the 3 dates and their extreme temperatures (in degrees Celsius) for (a) and (b). (2 points)
+
+wt_2 %>%
+  filter(origin == "JFK") %>%
+  arrange(temp_dc)
+
+  ##Answer: Three Coldest Temperatures: -11.1 degrees Celsius on 23rd January 2013; -10.6 degrees Celsius on 24th January 2013; -10.5 degrees Celsius on 9th May 2013
+
+wt_2 %>%
+  filter(origin == "JFK") %>%
+  arrange(desc(temp_dc))
+
+##Answer: Three Hottest Temperatures: 36.7 degrees Celsius on 18th July 2013; 35.6 degrees Celsius on 16th July 2013; 35.0 degrees Celsius on 15th July 2013
+
+#####################################################################
+
+##(f): Plot the amount of mean precipitation by month for each of the 3 airports (origin). (2 points)
+
+#Hint: First use dplyr to compute a table of means (by origin and month). Then use ggplot to draw a line or bar plot of the means.
+
+(plot <- wt_2 %>%
+  group_by(origin, month) %>%
+  summarise(mean_precip = (mean(precip, na.rm = TRUE))))
+
+ggplot(plot, mapping = aes(x = month, y = mean_precip, fill = origin)) +
+  geom_bar(sta = "identity", position = "dodge") +
+  ggtitle("Mean of precipitation by month for each of the 3 airports") +
+  theme_bw()
+
+ggplot(plot, mapping = aes(x = month, y = mean_precip, color = origin)) +
+  geom_line(size = 1) +
+  ggtitle("Mean of precipitation by month for each of the 3 airports") +
+  theme_bw()
+
+#####################################################################
+
+## (g): For each of the 3 airports:
+
+  #When excluding extreme cases of precipitation (specifically, values of precip greater than 0.30): Does it rain more during winter months (Oct to Mar) or during summer months (Apr to Sep)? (2 points)
+
+plot2 <- wt_2 %>%
+  filter(!(precip > 0.30)) %>%
+  mutate(summer = month == 4 | month == 5 | month == 6 | month == 7 | month == 8 | month == 9) %>%
+  group_by(summer, origin) %>%
+  summarise(sum_precip = sum(precip))
+  
+  #Plot the total amount of precipitation in winter vs. summer for each airport. (2 points)
+
+ggplot(plot2, mapping = aes(x = summer, y = sum_precip, fill = summer)) +
+  geom_bar(stat = "identity") +
+  facet_grid(. ~ origin) +
+  ggtitle("The total amount of precipitation in winter vs. summer for each airport") +
+  theme_bw()
+
+```
+
+#Task 3: Numeracy vs. intelligence
+
+##(A) Basics
+```{r 4, echo = TRUE, eval = TRUE}
+## Load data (as comma-separated file): 
+data <- read_csv("http://rpository.com/ds4psy/data/numeracy.csv")  # from online source
+
+## (a): Inspect the data dimensions and the percentage of missing values. (1 point)
+
+#Hints: As later parts of this task use variables created in earlier ones, you should either update your existing data with modified tibbles (e.g., including new variables) or incrementally save your new tibbles with new names (e.g.,  data_a, data_b, etc.).
+
+str(data)
+
+## Answer: The data data contains 1000 cases (rows) and 12 variables (columns).
+
+#the percentage of missing (NA) values in data
+data  %>%
+  summarise(percentage_NA = sum(is.na(data))/(12*1000))
+
+  ##Answer: The percentage of NAs is 1,083%.
+
+#####################################################################
+
+## (b): Split the birth date (bdate) variable into 3 separate variables (byear, bmonth, and bday) that denote the year, month, and day of each participant’s birth. (1 point)
+
+#Hints: Use tidyr::separate for this task, but check the type of your new variables (and use the convert argument to ensure that they are numeric).
+
+(data_2 <- data %>%
+  separate(bdate, into = c("byear", "bmonth", "bday"), sep = "-", convert = TRUE))
+
+#####################################################################
+
+## (c): Create a new variable summer_born that is TRUE when a participant was born in summer (defined as April to September) and FALSE when a person was born in winter (October to March). (1 point)
+
+(data_2 <- data_2 %>%
+  mutate(summer = bmonth == 4 | bmonth == 5 | bmonth == 6 | bmonth == 7 | bmonth == 8 | bmonth == 9))
+
+```
+
+##(B) Assessing IVs
+```{r 5, echo = TRUE, eval = TRUE}
+## (d): Compute the current age of each participant as the person would report it (i.e., in completed years, taking into account today’s date). (2 points)
+
+
+
+#####################################################################
+
+## (e): List the frequency of each blood type (blood_type) by gender (as a tibble by using dplyr) and re-format your tibble into a wider format (by using tidyr) that lists the types of gender in rows and the types of blood_type as columns. (2 points)
+
+library(tidyr)
+
+data %>%
+  group_by(gender) %>%
+  count(blood_type) %>%
+  spread(blood_type, n)
+
+#####################################################################
+
+## (f): Compute descriptives (the counts, means, and standard deviations) of height (a) by gender and (b) by cohort (i.e., the decade of birth). (3 points)
+
+#Hints: Use integer division on each participant’s age to determine his or her decade cohort: cohort = age %/% 10.
+
+data_2 %>%
+  mutate(cohort = byear %/% 10) %>%
+  group_by(gender, cohort) %>%
+  summarise(counts = n(),
+            mean = mean(height, na.rm = TRUE),
+            median = median(height, na.rm = TRUE),
+            sd = sd(height, na.rm = TRUE)) 
+
+data_2 %>%
+  mutate(cohort = byear %/% 10) %>%
+  group_by(cohort) %>%
+  summarise(counts = n(),
+            mean = mean(height, na.rm = TRUE),
+            median = median(height, na.rm = TRUE),
+            sd = sd(height, na.rm = TRUE)) 
+
+data_2 %>%
+  mutate(cohort = byear %/% 10) %>%
+  group_by(gender) %>%
+  summarise(counts = n(),
+            mean = mean(height, na.rm = TRUE),
+            median = median(height, na.rm = TRUE),
+            sd = sd(height, na.rm = TRUE)) 
+  
+#####################################################################
+
+## (g): Visualize the distributions of height (a) by gender and (b) by cohort. What do you find? (2 points)
+
+data_plot <- data_2 %>%
+  mutate(cohort = byear %/% 10) 
+
+#by gender
+ggplot(data_plot, mapping = (aes(x = height, fill = gender))) +
+  geom_histogram(position = "dodge", binwidth = 10) +
+  ggtitle("Distributions of height by gender") +
+  theme_bw()
+
+#by cohort
+data_plot$cohort <- as.factor(data_plot$cohort)
+
+ggplot(data_plot, mapping = (aes(x = height, fill = cohort))) +
+  geom_bar(position = "dodge", binwidth = 10) +
+  ggtitle("Distributions of height by cohort") +
+  theme_bw()
+
+#Hints: Inspect the type of your cohort variable (by typeof(my_data$cohort)). Depending on your intended plot, you may have to turn this variable into a factor by using as.factor(my_data$cohort). The factor has discrete levels, while the cohort variable may have been continuous (numeric).
+
+```
+
+
+##(C) Assessing DVs:
+```{r 6, echo = TRUE, eval = TRUE}
+## (h): Compute the aggregate BNT score as the sum of all four bnt_i values (i.e., a value varying from 0 to 4) for each participant. How many missing BNT values are there? (1 point)
+
+(data_bnt_score <- data %>%
+  mutate(bnt_score = (bnt_1 + bnt_2 + bnt_3 + bnt_4), na.rm = TRUE) %>%
+  select(bnt_score, bnt_1, bnt_2, bnt_3, bnt_4, everything()))
+
+sum(is.na(data_bnt_score$bnt_1)) + sum(is.na(data_bnt_score$bnt_2)) + sum(is.na(data_bnt_score$bnt_3)) + sum(is.na(data_bnt_score$bnt_4))
+
+  ##Answer: 80 BNT values are missing.
+
+#####################################################################
+
+## (i): Inspect the values for the 2 intelligence scores g_iq and s_iq:
+
+  #How many missing values are there?
+sum(is.na(data_bnt_score$g_iq)) + sum(is.na(data_bnt_score$s_iq))
+
+  ##Answer: 50 IQ Values are missing.
+
+  #What are their means and their ranges (minimum and maximum values)?
+
+data %>%
+  summarise(mean_g_iq = mean(g_iq, na.rm = TRUE),
+            min_g_iq = min(g_iq, na.rm = TRUE),
+            max_g_iq = max(g_iq, na.rm = TRUE),
+            mean_s_iq = mean(s_iq, na.rm = TRUE),
+            min_s_iq = min(s_iq, na.rm = TRUE),
+            max_s_iq = max(s_iq, na.rm = TRUE))
+  
+  #Plot their distributions in 2 separate histograms. (3 points)
+
+ggplot(data, mapping = aes(x = g_iq)) +
+  geom_histogram(binwidth = 1) +
+  ggtitle("Distribution g_iq") +
+  theme_bw()
+
+ggplot(data, mapping = aes(x = s_iq)) +
+  geom_histogram(binwidth = 1) +
+  ggtitle("Distribution s_iq") +
+  theme_bw()
+
+#####################################################################
+
+## (j): Visualize the relationship between g_iq and s_iq. Can you detect any systematic trend? (1 point)
+
+ggplot(data, mapping = aes(x = g_iq, y = s_iq)) +
+  geom_point(alpha = 0.5) +
+  geom_smooth() +
+  theme_bw() +
+  ggtitle("Relationship between g_iq and s_iq")
+
+#Hints: Consider using a scatterplot, but take care of overplotting.
+
+```
+
+##(D) Exploring results:
+```{r 7, echo = TRUE, eval = TRUE}
+## (k): Does numeracy (as measured by the aggregate BNT score) seem to vary by gender? (1 point)
+
+ggplot(data_bnt_score, mapping = aes(x = bnt_score, fill = gender)) +
+  geom_bar( position = "dodge") +
+  theme_bw() +
+  ggtitle("BNT Score by gender")
+
+#####################################################################
+
+## (l): Assess possible effects of numeracy (as measured by BNT) on the 2 measures of intelligence (g_iq and s_iq). (2 points)
+
+ggplot(data_bnt_score, mapping = aes(x = g_iq, y = s_iq)) +
+  geom_point(alpha = 0.5) +
+  geom_smooth() +
+  facet_wrap(~ bnt_score) +
+  theme_bw() +
+  ggtitle("G_iq and S_iq by BNT Score")
+
+#####################################################################
+
+## (m): Assess possible effects of the independent variables
+  #gender (gender), age (as provided by age or cohort from above), birth season (summer_born), blood type (blood_type), and the day of the week on which a person was born (bweekday), on each of the 2 types of intelligence (g_iq and s_iq) in 2 ways:
+
+  #a numercially (by computing group means) and
+  #b graphically (by plotting means and/or distributions).
+
+#Which plausible or implausible effects does the data suggest? (10 points)
+
+#a Numerically
+
+#Gender
+data %>%
+  group_by(gender) %>%
+  summarise(mean_g_iq = mean(g_iq, na.rm = TRUE),
+            mean_s_iq = mean(s_iq, na.rm = TRUE))
+
+#Cohort
+data_plot %>%
+  group_by(cohort) %>%
+  summarise(mean_g_iq = mean(g_iq, na.rm = TRUE),
+            mean_s_iq = mean(s_iq, na.rm = TRUE))
+
+#Summer
+data_2 %>%
+  group_by(summer) %>%
+  summarise(mean_g_iq = mean(g_iq, na.rm = TRUE),
+            mean_s_iq = mean(s_iq, na.rm = TRUE))
+
+#blood_type
+data %>%
+  group_by(blood_type) %>%
+  summarise(mean_g_iq = mean(g_iq, na.rm = TRUE),
+            mean_s_iq = mean(s_iq, na.rm = TRUE))
+
+#bweekday
+data %>%
+  group_by(bweekday) %>%
+  summarise(mean_g_iq = mean(g_iq, na.rm = TRUE),
+            mean_s_iq = mean(s_iq, na.rm = TRUE))
+
+#b Graphically
+
+#Gender
+ggplot(data, mapping = aes(x = g_iq, y = s_iq)) +
+  geom_point(alpha = 0.5) +
+  geom_smooth() +
+  theme_bw() +
+  facet_grid(.~gender) +
+  ggtitle("G_iq and S_iq by Gender")
+
+#Cohort
+ggplot(data_plot, mapping = aes(x = g_iq, y = s_iq)) +
+  geom_point(alpha = 0.5) +
+  geom_smooth() +
+  theme_bw() +
+  facet_wrap(~cohort) +
+  ggtitle("G_iq and S_iq by Cohort")
+
+#Summer
+ggplot(data_2, mapping = aes(x = g_iq, y = s_iq)) +
+  geom_point(alpha = 0.5) +
+  geom_smooth() +
+  theme_bw() +
+  facet_grid(.~summer) +
+  ggtitle("G_iq and S_iq by Summer born or not")
+
+#Blood type
+ggplot(data, mapping = aes(x = g_iq, y = s_iq)) +
+  geom_point(alpha = 0.5) +
+  geom_smooth() +
+  theme_bw() +
+  facet_wrap(~blood_type) +
+  ggtitle("G_iq and S_iq by Blood type")
+
+#bweekday
+ggplot(data, mapping = aes(x = g_iq, y = s_iq)) +
+  geom_point(alpha = 0.5) +
+  geom_smooth() +
+  theme_bw() +
+  facet_wrap(~bweekday) +
+  ggtitle("G_iq and S_iq by Weekday")
+```
+
+#Task 4: Your data, your Plot
+```{r 8, echo = TRUE, eval = TRUE}
+library(help = "datasets")
+
+View(Titanic)
+str(Titanic)
+
+titanic <- as.tibble(Titanic)
+
+titanic
+
+#How many passengers have been on the Titanic
+sum(titanic$n)
+#2201 passangers have been on the Titanic
+
+#How many survived vs. non survived
+ggplot(titanic, mapping = aes(x = Survived, y = n)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  ggtitle("Survival") +
+  theme_bw()
+
+#How many survived vs. non survived by gender
+ggplot(titanic, mapping = aes(x = Survived, y = n, fill = Sex)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  ggtitle("Survival by gender") +
+  theme_bw()
+
+#Class and Survival 
+ggplot(titanic, mapping = aes(x = Class, y = n, fill = Survived)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  ggtitle("Class and Survival") +
+  theme_bw()
+
+#Age and Survival 
+ggplot(titanic, mapping = aes(x = Age, y = n, fill = Survived)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  ggtitle("Age and Survival") +
+  theme_bw()
+
+########################################################
+
+#Class and Survival by Gender 
+ggplot(titanic, mapping = aes(x = Class, y = n, fill = Survived)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  ggtitle("Class and Survival by Gender") +
+  theme_bw() +
+  facet_wrap(~Sex)
+
+#Class and Survival by Age
+ggplot(titanic, mapping = aes(x = Class, y = n, fill = Survived)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  ggtitle("Class and Survival by Age") +
+  theme_bw() +
+  facet_wrap(~Age)
+
+#Sex and Survival by Age
+ggplot(titanic, mapping = aes(x = Sex, y = n, fill = Survived)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  ggtitle("Sex and Survival by Age") +
+  theme_bw() +
+  facet_wrap(~Age)
+
+#Sex and Survival by Class
+ggplot(titanic, mapping = aes(x = Sex, y = n, fill = Survived)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  ggtitle("Sex and Survival by Class") +
+  theme_bw() +
+  facet_wrap(~Class)
+
+#Age and Survival by Class 
+ggplot(titanic, mapping = aes(x = Age, y = n, fill = Survived)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  ggtitle("Age and Survival by class") +
+  theme_bw() +
+  facet_wrap(~Class)
+
+#Age and Survival by Gender
+ggplot(titanic, mapping = aes(x = Age, y = n, fill = Survived)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  ggtitle("Age and Survival by Gender") +
+  theme_bw() +
+  facet_wrap(~Sex)
+```
+
+By submitting this script I assure that I have completed this script by myself (using only permissible sources of help). 
+
