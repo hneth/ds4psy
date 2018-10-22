@@ -329,14 +329,14 @@ dim(wt)
 
 ## (b) missing values and ranges: 
 ## - How many missing values does the `weather` data contain?
-sum(is.na(weather))  # sum of NA values
-mean(is.na(weather)) # percentage
+sum(is.na(wt))  # sum of NA values
+mean(is.na(wt)) # percentage
 
 ## - What is the range of values of the `year` variable?
-range(weather$year)
+range(wt$year)
 
 ## (c) How many observations (rows) does the data contain for each of the 3 airports (`origin`)?
-weather %>%
+wt %>%
   group_by(origin) %>%
   count()
 
