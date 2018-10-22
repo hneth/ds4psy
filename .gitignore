@@ -2,6 +2,9 @@
 .Rhistory
 .Rapp.history
 
+# Mac OS:
+.DS_Store 
+
 # Session Data files
 .RData
 
@@ -16,7 +19,7 @@
 
 # RStudio files
 .Rproj.user/
-ds4psy.Rproj 
+*.Rproj 
 
 # produced vignettes
 vignettes/*.html
@@ -27,9 +30,7 @@ vignettes/*.pdf
 
 # knitr and R markdown default cache directories: 
 /*_cache/ 
-/cache/ 
-*_cache 
-R/_essentials/essentials_cache/ 
+/cache/
 
 # Temporary files created by R markdown
 *.utf8.md
@@ -38,11 +39,11 @@ R/_essentials/essentials_cache/
 
 # others:
 _book 
-_data/_* 
+_data/_*
 _gitless 
-_midTerm/ 
-_readings/
-rsconnect/ 
-.DS_Store 
+_readings
+rsconnect/
+R/_essentials/essentials_cache/*
+R/_testQuest/tq_now_cache/*
 
 # eof. 
