@@ -12,3 +12,5 @@ stringr
 forcats
 bindrcpp
 ggalluvial
+productplots
+ggmosaic
