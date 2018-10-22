@@ -1,0 +1,74 @@
+---
+title: "Software (ds4psy)"
+author: "Hansjörg Neth, SPDS, uni.kn"
+date: "2018 04 11"
+output:
+  rmdformats::html_clean:
+    highlight: kate
+---
+
+```{r knitr_init, echo = FALSE, cache = FALSE, message = FALSE, warning = FALSE}
+library(knitr)
+library(rmdformats)
+
+## Global options
+options(max.print="75")
+opts_chunk$set(echo=FALSE,
+	             cache=TRUE,
+               prompt=FALSE,
+               tidy=TRUE,
+               comment=NA,
+               message=FALSE,
+               warning=FALSE)
+opts_knit$set(width=75)
+```
+
+<!-- uni.kn logo and link to SPDS: -->  
+<!-- ![](../inst/pix/uniKn_logo.png) --> 
+<a href="https://www.spds.uni-konstanz.de/">
+<img src = "../inst/pix/uniKn_logo.png" alt = "spds.uni.kn" align = "right" width = "300" style = "width: 300px; float: right; border:20;"/>
+<!-- <img src = "../inst/pix/uniKn_logo_s.png" alt = "spds.uni.kn" style = "float: right; border:20;"/> --> 
+</a>
+
+* Taught at the [University of Konstanz](https://www.uni-konstanz.de/) by [Hansjörg Neth](http://neth.de/) (<h.neth@uni.kn>,  [SPDS](https://www.spds.uni-konstanz.de/), office D507).
+* Spring/summer 2018: Mondays, 13:30--15:00, C511 (from 2018.04.16 to 2018.07.16) 
+* Links to [ZeUS](https://zeus.uni-konstanz.de:443/hioserver/pages/startFlow.xhtml?_flowId=showEvent-flow&unitId=5101&termYear=2018&termTypeValueId=1&navigationPosition=hisinoneLehrorganisation,examEventOverviewOwn) and [Ilias](https://ilias.uni-konstanz.de/ilias/goto_ilias_uni_crs_758039.html)
+
+
+# 1. General software: Current R and R Studio versions
+
+- [The R Project for Statistical Computing](http://www.r-project.org/)
+
+- [R Studio](http://www.rstudio.com/) is an integrated development environment (IDE) for R.
+
+# 2. R packages 
+
+## A. The  `tidyverse` packages 
+
+```{r, echo = TRUE, eval = FALSE}
+## Install the tidyverse packages: 
+install.packages("tidyverse")
+library(tidyverse) # loads packages
+```
+
+## B. Data packages
+
+Some dedicated data packages: 
+
+```{r, echo = TRUE, eval = FALSE}
+## Install additional data packages:
+install.packages("nycflights13")
+install.packages("gapminder")
+install.packages("Lahman")
+install.packages("babynames")
+install.packages("fueleconomy")
+```
+
+# References
+
+Textbook: 
+
+- Wickham, H., & Grolemund, G. (2016). _R for data science: Import, tidy, transform, visualize, and model data._ 
+Sebastopol, Canada: O'Reilly Media, Inc.  [Available online at [http://r4ds.had.co.nz](http://r4ds.had.co.nz).]
+
+<!-- eof. -->

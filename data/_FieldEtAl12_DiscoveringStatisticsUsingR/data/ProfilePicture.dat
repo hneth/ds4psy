@@ -1,0 +1,41 @@
+case	relationship_status	couple	alone
+1	In a Relationship	4	4
+2	In a Relationship	4	6
+3	In a Relationship	4	7
+4	In a Relationship	3	5
+5	In a Relationship	4	3
+6	In a Relationship	2	5
+7	In a Relationship	4	6
+8	In a Relationship	3	4
+9	In a Relationship	3	7
+10	In a Relationship	3	5
+11	In a Relationship	3	8
+12	In a Relationship	4	7
+13	In a Relationship	3	6
+14	In a Relationship	1	4
+15	In a Relationship	3	6
+16	In a Relationship	4	6
+17	In a Relationship	4	7
+18	Single	6	8
+19	Single	3	8
+20	Single	4	9
+21	Single	4	9
+22	Single	3	10
+23	Single	3	11
+24	Single	4	7
+25	Single	4	6
+26	Single	2	8
+27	Single	6	5
+28	Single	4	9
+29	Single	4	6
+30	Single	3	5
+31	Single	2	8
+32	Single	4	11
+33	Single	5	8
+34	Single	3	7
+35	Single	2	5
+36	Single	5	10
+37	Single	4	8
+38	Single	6	9
+39	Single	7	10
+40	Single	3	5

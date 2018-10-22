@@ -1,0 +1,51 @@
+treat,before,after,diff
+No Treatment,13,16,3
+No Treatment,10,18,8
+No Treatment,19,13,-6
+No Treatment,20,15,-5
+No Treatment,18,18,0
+No Treatment,14,16,2
+No Treatment,16,18,2
+No Treatment,20,19,-1
+No Treatment,15,9,-6
+No Treatment,16,16,0
+Placebo,16,13,-3
+Placebo,14,12,-2
+Placebo,20,11,-9
+Placebo,14,8,-6
+Placebo,16,13,-3
+Placebo,12,8,-4
+Placebo,12,9,-3
+Placebo,20,15,-5
+Placebo,19,16,-3
+Placebo,19,12,-7
+Seroxat (Paxil),17,15,-2
+Seroxat (Paxil),14,19,5
+Seroxat (Paxil),20,14,-6
+Seroxat (Paxil),16,16,0
+Seroxat (Paxil),17,10,-7
+Seroxat (Paxil),20,11,-9
+Seroxat (Paxil),16,11,-5
+Seroxat (Paxil),16,13,-3
+Seroxat (Paxil),19,15,-4
+Seroxat (Paxil),14,10,-4
+Effexor,17,19,2
+Effexor,20,12,-8
+Effexor,13,10,-3
+Effexor,16,15,-1
+Effexor,15,15,0
+Effexor,16,11,-5
+Effexor,14,17,3
+Effexor,20,13,-7
+Effexor,20,12,-8
+Effexor,13,18,5
+Cheerup,17,11,-6
+Cheerup,18,10,-8
+Cheerup,17,13,-4
+Cheerup,18,5,-13
+Cheerup,17,10,-7
+Cheerup,16,11,-5
+Cheerup,19,11,-8
+Cheerup,17,14,-3
+Cheerup,17,7,-10
+Cheerup,18,12,-6
