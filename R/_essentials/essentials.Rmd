@@ -194,6 +194,7 @@ Some background knowledge and basics facts (required to learn R or any other pro
 - Different types of objects: Code contains data values (objects being measured or manipulated) vs. functions (actions, operators, verbs). 
 - Data formats: scalars, vectors, matrices (data frame or tibbles), arrays. 
 - Data types: numeric, character, logical. 
+- Functions: Descriptions, arithmetic, text, sampling, etc.
 - Accessing data formats (vectors, matrices) via names, indices, or subsetting.  
 
 ## Technology
