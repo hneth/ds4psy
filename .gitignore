@@ -37,13 +37,14 @@ vignettes/*.pdf
 *.knit.md
 .Rproj.user
 
-# others:
-_book 
-_data/_*
+# Others:
 _gitless 
+_book 
+_essentials/essentials_cache/*
+_testQuest/tq_now_cache/*
 _readings
+_data/_*
 rsconnect/
-R/_essentials/essentials_cache/*
-R/_testQuest/tq_now_cache/*
+
 
 # eof. 
