@@ -1,0 +1,387 @@
+---
+title: "Mid-term exam (ds4psy)"
+author: "Hansjörg Neth, SPDS, uni.kn"
+date: "2018 06 04"
+output:
+   rmdformats::html_clean: # html_clean html_docco readthedown material #
+     code_folding: show # hide
+     toc_float: true
+     toc_depth: 2
+     highlight: kate # textmate default kate haddock monochrome #
+     lightbox: true # true by default
+     fig_width: 8 # in inches
+editor_options: 
+  chunk_output_type: console # inline
+---
+
+<!-- Collection of exercises and test problems | ds4psy: Summer 2018 -->
+
+```{r preamble, echo = FALSE, eval = TRUE, cache = FALSE, message = FALSE, warning = FALSE}
+## (a) Housekeeping: -----
+rm(list=ls()) # clean all.
+
+## (b) Current file name and path: ----- 
+# cur.path <- dirname(rstudioapi::getActiveDocumentContext()$path)
+# cur.path
+# setwd(cur.path) # set to current directory
+setwd("~/Desktop/stuff/Dropbox/_code/R/_teachR/ds4psy/R/_testQuest/01_mt") # set to current directory
+# list.files() # all files + folders in current directory
+fileName <- "index.Rmd"
+
+## (c) Packages: ----- 
+library(knitr)
+library(rmdformats)
+library(tidyverse)
+
+## (d) Global options: ----- 
+options(max.print = "75")
+opts_chunk$set(echo = TRUE,
+	             cache = TRUE,
+               prompt = FALSE,
+               tidy = FALSE,
+               collapse = TRUE, # set TRUE in answers 
+               comment = "#>",
+               message = FALSE,
+               warning = FALSE,
+               ## Default figure options:
+               fig.width = 8, 
+               fig.asp = .618, # golden ratio
+               out.width = "75%",
+               fig.align = "center"
+               )
+opts_knit$set(width = 75)
+
+## (e) Graphics: ----- 
+
+# Defining colors:
+seeblau <- rgb(0, 169, 224, names = "seeblau", maxColorValue = 255) # seeblau.4 (non-transparent)
+
+seeblau.colors <- c(rgb(204, 238, 249, maxColorValue = 255), # seeblau.1
+                    rgb(166, 225, 244, maxColorValue = 255), # seeblau.2 
+                    rgb(89, 199, 235, maxColorValue = 255),  # seeblau.3
+                    rgb(0, 169, 224, maxColorValue = 255),   # seeblau.4 
+                    rgb(0, 0, 0, maxColorValue = 255),       #  5. black
+                    gray(level = 0, alpha = .6),             #  6. gray 60% transparent
+                    gray(level = 0, alpha = .4),             #  7. gray 40% transparent
+                    gray(level = 0, alpha = .2),             #  8. gray 20% transparent
+                    gray(level = 0, alpha = .1),             #  9. gray 10% transparent
+                    rgb(255, 255, 255, maxColorValue = 255)  # 10. white
+                    )
+
+unikn.pal = data.frame(                             ## in one df (for the yarrr package): 
+  "seeblau1" = rgb(204, 238, 249, maxColorValue = 255), #  1. seeblau1 (non-transparent)
+  "seeblau2" = rgb(166, 225, 244, maxColorValue = 255), #  2. seeblau2 (non-transparent)
+  "seeblau3" = rgb( 89, 199, 235, maxColorValue = 255), #  3. seeblau3 (non-transparent)
+  "seeblau4" = rgb(  0, 169, 224, maxColorValue = 255), #  4. seeblau4 (= seeblau base color)
+  "black"    = rgb(  0,   0,   0, maxColorValue = 255), #  5. black
+  "seegrau4" = rgb(102, 102, 102, maxColorValue = 255), #  6. grey40 (non-transparent)
+  "seegrau3" = rgb(153, 153, 153, maxColorValue = 255), #  7. grey60 (non-transparent)
+  "seegrau2" = rgb(204, 204, 204, maxColorValue = 255), #  8. grey80 (non-transparent)
+  "seegrau1" = rgb(229, 229, 229, maxColorValue = 255), #  9. grey90 (non-transparent)
+  "white"    = rgb(255, 255, 255, maxColorValue = 255), # 10. white
+  stringsAsFactors = FALSE)
+
+## (f) Counters: ----- 
+nr <- 0  # initialize task number
+pt <- 0  # initialize point total
+```
+
+# Introduction
+
+This file contains possible solutions to the **mid-term exam** (on June 4, 2018). 
+
+<!-- The following questions comprise our **mid-term exam** (on June 4, 2018). -->
+
+This exam contains a total of **6 tasks** and a maximum score of **50 points**. 
+
+
+## Course coordinates
+
+<!-- uni.kn logo and link to SPDS: -->  
+<!-- ![](./inst/pix/uniKn_logo.png) --> 
+<a href="https://www.spds.uni-konstanz.de/">
+<img src = "../../../inst/pix/uniKn_logo.png" alt = "spds.uni.kn" align = "right" width = "300" style = "width: 300px; float: right; border:20;"/>
+<!-- <img src = "./inst/pix/uniKn_logo_s.png" alt = "spds.uni.kn" style = "float: right; border:20;"/> --> 
+</a>
+
+* Course [Data Science for Psychologists](http://rpository.com/ds4psy/) (ds4psy).  
+* Taught at the [University of Konstanz](https://www.uni-konstanz.de/) by [Hansjörg Neth](http://neth.de/) (<h.neth@uni.kn>,  [SPDS](https://www.spds.uni-konstanz.de/), office D507).
+* Spring/summer 2018: Mondays, 13:30--15:00, C511 (from 2018.04.16 to 2018.07.16) 
+* Links to [ZeUS](https://zeus.uni-konstanz.de:443/hioserver/pages/startFlow.xhtml?_flowId=showEvent-flow&unitId=5101&termYear=2018&termTypeValueId=1&navigationPosition=hisinoneLehrorganisation,examEventOverviewOwn) and [Ilias](https://ilias.uni-konstanz.de/ilias/goto_ilias_uni_crs_758039.html)
+
+## Preparation and response format
+
+**`r nr`.** Please answer the following questions by creating a single R script (or an R-Markdown file `.Rmd`) that contains all your code and answers and meets the following criteria: 
+
+- _Layout issues_: 
+
+    1. Include a header that contains your _name_, _student ID_, this _course_, and today's _date_.
+    
+    2. Load the R packages of the `tidyverse`. 
+    
+    3. Structure your file clearly by _labeling_ the current task (e.g., `# Task 1: -----`) and subtask (e.g., `# (a) ...:`) and by _leaving blank lines_ between all tasks and subtasks. 
+    
+    Here's a layout template that you can copy and adapt: 
+
+```{r layout_template, echo = TRUE, eval = FALSE}
+## Mid-term exam  | Data science for psychologists (Summer 2018)
+## Name: ... | Student ID: ...
+## 2018 06 04
+## ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ##
+
+## Preparations: ----- 
+
+library(tidyverse)
+
+
+## Task 1: ----- 
+
+## (a) Saving and inspecting data:
+sp <- as_tibble(sleep)
+dim(sp)
+
+## Answer: The sleep data contains 20 rows and 3 columns. 
+
+## (b): ... 
+## ...
+
+
+## Task X: ----- 
+## (a) ...
+
+## ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ##
+## End of file. ----- 
+```
+
+- Save your script (regularly) as `Lastname_Firstname_midTerm_180604.R` (replacing `Lastname` and `Firstname` by your names).
+
+- When asked for numbers or interpretations, include _short answers as comments_ in your script. However, when asked for quantitative summaries containing more than 2 numbers (e.g., descriptive statistics of a dataset) simply print your results (e.g., the output of a `dplyr` pipe) in your code.
+
+- Submit your script by email (as an attachment) to <h.neth@uni.kn> by 15:15 (today). 
+
+
+# Task `r nr<-nr+1; nr`: Time to sleep
+
+The `sleep` data (contained in R datasets) shows the effect of 2 sleep-promoting drugs (as an increase in hours of sleep compared to a control group) for 10 patients.
+
+**`r nr`a.** Save the `sleep` data as a tibble `sp` and inspect its dimensions. (1&nbsp;point)  
+
+**`r nr`b.** Use a `dplyr` pipe to compute the number of observations (rows) by group  
+and key descriptives (their mean, median, and standard deviation). (2&nbsp;points) 
+
+**`r nr`c.** Use `ggplot` to create a graph that shows the medians and raw values of `extra` sleep time by `group`. (2&nbsp;points)  
+
+**Hints:** Use 2 different geoms to show both medians and raw values in the same plot. The order of layers is determined by the order of geom commands. 
+
+**`r nr`d.** Reformat the `sleep` data in `sp` so that the 2 groups appear in 2 lines (rows) and 10 subject IDs as 10 columns. (1&nbsp;point)  
+
+**Hints:** This implies using the `tidyr::spread` command to change a long dataset into a wider format.
+
+
+# Task `r nr<-nr+1; nr`: Party plots
+
+The following table provides the percentage share of 2 major parties on the last 2 
+general elections of Germany (based on [this link](https://www.bundeswahlleiter.de/info/presse/mitteilungen/bundestagswahl-2017/34_17_endgueltiges_ergebnis.html)):
+
+| Party:  | Share 2013:       | Share 2017:       |
+|:------- |--------:|--------:|
+| CDU/CSU | `r (34.1 + 7.4)`% | `r (26.8 + 6.2)`% |
+| SPD     | `r (25.7)`%       | `r (20.5)`%       |
+| Others  |      `?`          |    `?`            | 
+
+<!-- Details: from 
+https://www.bundeswahlleiter.de/info/presse/mitteilungen/bundestagswahl-2017/34_17_endgueltiges_ergebnis.html 
+
+CDU 	Christlich Demokratische Union Deutschlands 	26,8 % 	(2013: 34,1 %)
+SPD 	Sozialdemokratische Partei Deutschlands 	    20,5 % 	(2013: 25,7 %)
+AfD 	Alternative für Deutschland 	                12,6 % 	(2013:  4,7 %)
+FDP 	Freie Demokratische Partei 	                  10,7 % 	(2013:  4,8 %)
+DIE LINKE 	DIE LINKE 	                             9,2 % 	(2013:  8,6 %)
+GRÜNE 	    BÜNDNIS 90/GRÜNE 	                       8,9 % 	(2013:  8,4 %)
+CSU 	Christlich-Soziale Union in Bayern e.V 	       6,2 % 	(2013:  7,4 %)
+Sonstige 	  	                                       5,0 % 	(2013:  6,2 %)
+
+--> 
+
+**`r nr`a.** Create a tibble `de` that contains this data and the missing (`?`) values for all other parties so that all shares of an election add up to 100%. (2&nbsp;points)  
+
+**`r nr`b.** Convert your `de` table into a "tidy" table saved as `de_2`. (2&nbsp;points)  
+
+**Hints:** Use `tidyr::gather` to list the values of all election results in 1 variable called `share` and make sure that `de_2` contains a separate variable (column) that specifies the election `year`.
+
+**`r nr`c.** Visualize and contrast the election results by a bar chart that contains 2 bars (representing the 2 elections) and the party's share of votes (as the proportions of each bar). (2&nbsp;points)  
+
+**Hints:** As the data in `de_2` already contains the identity of the values which you want to plot, there is no need to count anything. Showing multiple values in one bar is called a "stack".
+
+
+# Task `r nr<-nr+1; nr`: R wars
+
+Let's tackle the universe with the tidyverse by uncovering some facts about the `dplyr::starwars` dataset. Answer the following questions by using pipes of basic `dplyr` commands (i.e., arranging, filtering, selecting, grouping, counting, summarizing). 
+
+**`r nr`a.** Save the tibble `dplyr::starwars` as `sw` and report its dimensions. (1&nbsp;point)  
+
+**`r nr`b.** Missing values and known unknowns:
+
+- How many missing (`NA`) values does `sw` contain? (1&nbsp;point)  
+
+- Which individuals come from an unknown (missing) `homeworld` but have a known `birth_year` or known `mass`? (1&nbsp;point)
+
+<!-- Which variable (column) has the most missing values? --> 
+
+<!-- Replace all missing values of `hair_color` (in the variable `sw$hair_color`) by "bald". (2&nbsp;points)  -->
+
+
+**`r nr`c.** Gender issues:
+
+- How many humans are contained in `sw` overall and by gender? (1&nbsp;point)
+
+- How many and which individuals in `sw` are neither male nor female? (1&nbsp;point)
+
+- Of which species in `sw` exist at least 2 different gender values? (1&nbsp;point)
+
+
+**`r nr`d.** Popular homes and heights:
+
+- From which `homeworld` do the most indidividuals (rows) come from? (1&nbsp;point)
+
+- What is the mean `height` of all individuals with orange eyes from the most popular homeworld? (1&nbsp;point)
+
+
+**`r nr`e.** Seize and mass issues: 
+
+- Compute the median, mean, and standard deviation of `height` for all droids. (1&nbsp;point) 
+
+- Compute the average height and mass by species and save the result as `h_m`. (1&nbsp;point) 
+
+- Sort `h_m` to list the 3 species with the smallest individuals (in terms of mean height). (1&nbsp;point) 
+
+- Sort `h_m` to list the 3 species with the heaviest individuals (in terms of median mass). (1&nbsp;point) 
+
+
+# Task `r nr<-nr+1; nr`: Taking stocks 
+
+```{r stock_data_definition, echo = FALSE, eval = TRUE}
+# Define the stock data (to be shown below) as a tibble: 
+st <- tribble(
+  ~stock, ~d1_start, ~d1_end, ~d2_start, ~d2_end, ~d3_start, ~d3_end,  
+  #-----|----------|--------|----------|--------|----------|--------|
+  "Amada",   2.5,     3.6,    3.5,       4.2,      4.4,       2.8,            
+  "Betix",   3.3,     2.9,    3.0,       2.1,      2.3,       2.5,  
+  "Cevis",   4.2,     4.8,    4.6,       3.1,      3.2,       3.7     
+)
+```
+
+The following table shows the start and end price of 3 stocks on 3 days (d1, d2, d3):
+
+```{r stock_data_table, echo = FALSE, eval = TRUE}
+knitr::kable(st, caption = "Stock data example showing the start and end prices of the shares of 3 companies on 3 days.")
+```
+
+<!-- Data as Rmd table in text: 
+| stock  | d1_start | d1_end | d2_start | d2_end | d3_start | d3_end |  
+|---------|---------|--------|----------|--------|----------|--------|
+| "Amada" |   2.5  |   3.6   |   3.5    |  4.2   |   4.4    |   2.8  |            
+| "Betix" |   3.3  |   2.9   |   3.0    |  2.1   |   2.3    |   2.5  |  
+| "Cevis" |   4.2  |   4.8   |   4.6    |  3.1   |   3.2    |   3.7  |
+--> 
+
+**`r nr`a.** Create a tibble `st` that contains this data in this (wide) format. (1&nbsp;point)  
+
+**`r nr`b.** Transform `st` into a longer table `st_long` that contains 18 rows and only 1 numeric variable for all stock prices. Adjust this table so that the `day` and `time` appear as 2 separate columns. (2&nbsp;points)  
+
+**`r nr`c.** Create a graph that shows the 3 stocks' `end` prices (on the y-axis) over the 3 days (on the x-axis). (1&nbsp;point) 
+
+**`r nr`d.** Spread  `st_long` into a wider table that contains `start` and `end` prices as 2 distinct variables (columns) for each stock and day. (1&nbsp;point) 
+
+
+# Task `r nr<-nr+1; nr`: Flower power
+
+The `iris` data (contained in R datasets) provides the measurements (in cm) of plant parts (length and width of _sepal_ and _petal_ parts) for 50 flowers from each of 3 species of iris (called _setosa_, _versicolor_, and _virginica_).
+
+<!-- Exploratory data analysis (EDA): --> 
+
+**`r nr`a.** Save `datasets::iris` a tibble `ir` that contains this data and inspect it. 
+Are there any missing values? (2&nbsp;points)  
+
+**`r nr`b.** Compute a summary table that shows the means of the 4 measurement columns (`Sepal.Length`, `Sepal.Width`, `Petal.Length`, `Petal.Width`) for each of the 3 `Species` (in rows). 
+Save the resulting table of means as a tibble `im1` . (2&nbsp;points) 
+
+**`r nr`c.** Create a histogram that shows the distribution of `Sepal.Width` values 
+across all species. (1&nbsp;point)  
+
+**`r nr`d.** Create a plot that shows the shape of the distribution of `Sepal.Width` values for each species. (1&nbsp;point)  
+
+**`r nr`e.** Create a plot that shows `Petal.Width` as a function of `Sepal.Width` 
+separately (i.e., in 3 facets) for each species. (1&nbsp;point)  
+
+<!-- Tidy data --> 
+
+**`r nr`f.** Re-format your tibble `ir` into a tibble `ir_long` which in "long format". (2&nbsp;points)  
+
+**Hint:** Use `tidyr::gather` and `separate` to turn `ir` into a tibble that contains only 1 dependent variable for the value of measurements (e.g., `val`), but 2 categorical variables that specify the `part` (Sepal vs. Petal) and `metric` (Length vs. Width) of each observation.
+
+
+**`r nr`g.** Use `ir_long` to recompute the subgroup means (for each combination of species, plant part, and metric) computed in **`r nr`b.**.  Save the resulting table of means as a tibble `im2` and verify that they have not changed from `im1` above. (2&nbsp;points)  
+
+
+**`r nr`h.** Visualize the relationships between the means of `im2` (i.e., the mean measurements by plant part and metric) separately for each species. (2&nbsp;points)  
+
+**Hints:** This task asks for showing the value of a continuous variable (the value of means) as a function of 2 categorical variables (the plant `part` and type of `metric`). Possible solutions could incorporate either `geom_line` or `geom_tile` and use different facets for different `Species`. 
+
+
+**`r nr`i.** **Bonus task:** Re-format your tibble `ir_long` (in long format) into a wider tibble `ir_short` that corresponds to the original `ir` dataset. (2&nbsp;bonus points)  
+
+**Hints:** This task calls for applying `tidyr::spread` and `unite` commands to `ir_long`. 
+However, `spread` will encounter an error unless every individual plant is identified by a unique variable (e.g., `id` number). This can be achieved by adding a numeric counter variable `id` (with values of `rep(1:50, 3)`) to `ir` _before_ creating `ir_long`. 
+
+
+# Task `r nr<-nr+1; nr`: Not all outliers are alike 
+
+This task examines the statistical definition of outliers and uses a generated dataset (entitled `out.csv` and available at <http://rpository.com/ds4psy/mt/out.csv>). Use the following `read_csv()` command to obtain and load it into R: 
+
+```{r outlier_load_data, echo = TRUE, eval = TRUE}
+## Load data (as comma-separated file): 
+data <- read_csv("http://rpository.com/ds4psy/mt/out.csv")  # from online source
+
+## Alternatively (from local source): 
+# data <- read_csv("out.csv")  # from current directory
+```
+
+An _outlier_ can be defined as an individual whose value in some metric deviates by more than a given criterion (e.g., 2 standard deviations) from the mean. But this definition is incomplete unless it also specifies an appropriate reference group. This task explores the implications of different reference groups. 
+
+**`r nr`a.** Save the data into a tibble `data` and report its number of observations and variables. (1&nbsp;point)   
+
+**`r nr`b.** How many missing data values are there in `data`? (1&nbsp;point) 
+
+**`r nr`c.** What is the gender (or `sex`) distribution in this sample? (1&nbsp;point)  
+
+**`r nr`d.** Create a plot that shows the distribution of `height` values for each gender. (1&nbsp;point) 
+
+<!-- Definition: Outlier -->
+
+**`r nr`e.** Compute 2 new variables that signal and distinguish between 2 types of outliers in terms of `height`: 
+
+1. outliers relative to the `height` of the _overall sample_ 
+(i.e., individuals with `height` values deviating more than 2 SD from the overall mean of `height`) (1&nbsp;point);
+
+2. outliers relative to the `height` of _some subgroup_'s mean and SD. Here, a suitable subgroup to consider is every person's gender 
+(i.e., individuals with `height` values deviating more than 2 SD from the mean `height` of their own gender). (1&nbsp;point) 
+
+**Hints:** As both variable signal whether or not someone is an outlier they should be defined as logicals (being either `TRUE` or `FALSE`) and added as new columns to `data` (via appropriate `mutate` commands). While the 1st variable can be computed based on the mean and SD of the overall sample, the 2nd variable can be computed after grouping `data` by gender and then computing and using the corresponding mean and SD values. The absolute difference between 2 numeric values `x` and `y` is provided by `abs(x - y)`. 
+
+**`r nr`f.** Use the 2 new variables to define and identify 2 subgroups of people: 
+
+1. `out_1`: Individuals (females and males) with `height` values that are outliers relative to _both_ the entire sample _and_ the sample of their own gender. How many such individuals are in `data`? (1&nbsp;point) 
+
+2. `out_2`: Individuals (females and males) with `height` values that are _not_ outliers relative to the entire population, but _are_ outliers relative to their own gender. How many such individuals are in `data`? (1&nbsp;point) 
+
+**`r nr`g.** **Bonus task:** Visualize the raw values and distributions of `height` for both types of outliers (`out_1` and `out_2`) in 2 separate plots and describe the `height` and `sex` combination of the individuals shown in each plot. (2&nbsp;bonus points)  
+
+
+## Counting tasks and points 
+
+This exam contains **`r nr` tasks** for a total of **50 points** (plus 4 possible bonus points). 
+
+[Last update on `r Sys.time()` by [hn](http://neth.de/).]  
+
+<!-- eof. --> 

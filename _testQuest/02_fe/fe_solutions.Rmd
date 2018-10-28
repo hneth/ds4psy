@@ -1,0 +1,794 @@
+---
+title: "Solutions to final exam (ds4psy)"
+author: "Hansjörg Neth, SPDS, uni.kn"
+date: "2018 07 16"
+output:
+   rmdformats::html_clean: # html_clean html_docco readthedown material #
+     code_folding: show # hide
+     toc_float: true
+     toc_depth: 2
+     highlight: kate # textmate default kate haddock monochrome #
+     lightbox: true # true by default
+     fig_width: 8 # in inches
+editor_options: 
+  chunk_output_type: console # inline
+---
+
+<!-- Collection of exercises and test problems | ds4psy: Summer 2018 -->
+
+```{r preamble, echo = FALSE, eval = TRUE, cache = FALSE, message = FALSE, warning = FALSE}
+## (a) Housekeeping: -----
+rm(list=ls()) # clean all.
+
+## (b) Current file name and path: ----- 
+# cur.path <- dirname(rstudioapi::getActiveDocumentContext()$path)
+# cur.path
+# setwd(cur.path) # set to current directory
+setwd("~/Desktop/stuff/Dropbox/_code/R/_teachR/ds4psy/R/_testQuest/02_fe") # set to current directory
+# list.files() # all files + folders in current directory
+fileName <- "fe_solutions.Rmd"
+
+## (c) Packages: ----- 
+library(knitr)
+library(rmdformats)
+library(tidyverse)
+
+## (d) Global options: ----- 
+options(max.print = "75")
+opts_chunk$set(echo = TRUE,
+	             cache = TRUE,
+               prompt = FALSE,
+               tidy = FALSE,
+               collapse = TRUE, # set TRUE in answers 
+               comment = "#>",
+               message = FALSE,
+               warning = FALSE,
+               ## Default figure options:
+               fig.width = 8, 
+               fig.asp = .618, # golden ratio
+               out.width = "75%",
+               fig.align = "center"
+               )
+opts_knit$set(width = 75)
+
+## (e) Graphics: ----- 
+
+# Defining colors:
+seeblau <- rgb(0, 169, 224, names = "seeblau", maxColorValue = 255) # seeblau.4 (non-transparent)
+
+seeblau.colors <- c(rgb(204, 238, 249, maxColorValue = 255), # seeblau.1
+                    rgb(166, 225, 244, maxColorValue = 255), # seeblau.2 
+                    rgb(89, 199, 235, maxColorValue = 255),  # seeblau.3
+                    rgb(0, 169, 224, maxColorValue = 255),   # seeblau.4 
+                    rgb(0, 0, 0, maxColorValue = 255),       #  5. black
+                    gray(level = 0, alpha = .6),             #  6. gray 60% transparent
+                    gray(level = 0, alpha = .4),             #  7. gray 40% transparent
+                    gray(level = 0, alpha = .2),             #  8. gray 20% transparent
+                    gray(level = 0, alpha = .1),             #  9. gray 10% transparent
+                    rgb(255, 255, 255, maxColorValue = 255)  # 10. white
+                    )
+
+unikn.pal = data.frame(                             ## in one df (for the yarrr package): 
+  "seeblau1" = rgb(204, 238, 249, maxColorValue = 255), #  1. seeblau1 (non-transparent)
+  "seeblau2" = rgb(166, 225, 244, maxColorValue = 255), #  2. seeblau2 (non-transparent)
+  "seeblau3" = rgb( 89, 199, 235, maxColorValue = 255), #  3. seeblau3 (non-transparent)
+  "seeblau4" = rgb(  0, 169, 224, maxColorValue = 255), #  4. seeblau4 (= seeblau base color)
+  "black"    = rgb(  0,   0,   0, maxColorValue = 255), #  5. black
+  "seegrau4" = rgb(102, 102, 102, maxColorValue = 255), #  6. grey40 (non-transparent)
+  "seegrau3" = rgb(153, 153, 153, maxColorValue = 255), #  7. grey60 (non-transparent)
+  "seegrau2" = rgb(204, 204, 204, maxColorValue = 255), #  8. grey80 (non-transparent)
+  "seegrau1" = rgb(229, 229, 229, maxColorValue = 255), #  9. grey90 (non-transparent)
+  "white"    = rgb(255, 255, 255, maxColorValue = 255), # 10. white
+  stringsAsFactors = FALSE)
+
+## (f) Counters: ----- 
+nr <- 0  # task number
+pt <- 0  # point total
+```
+
+```{r utility_add_random_NA_values, echo = FALSE, eval = TRUE}
+# Adding a random amount (number or proportion) of NA or other values to a vector:
+
+## Function to replace a random amount (a proportion <= 1 or absolute number > 1) 
+## of vector elements by NA values:  
+add_NAs <- function(vec, amount){
+  
+  stopifnot((is.vector(vec)) & (amount >= 0) & (amount <= length(vec)))
+
+  out <- vec
+  n <- length(vec)
+  
+  amount2 <- ifelse(amount < 1, round(n * amount, 0), amount) # turn amount prop into n
+  
+  out[sample(x = 1:n, size = amount2, replace = FALSE)] <- NA
+  
+  return(out)
+
+}
+
+## Check:
+# add_NAs(1:10, 0)
+# add_NAs(1:10, 3)
+# add_NAs(1:10, .5)
+# add_NAs(letters[1:10], 3)
+
+## Generalization: Replace a random amount of vector elements by what: 
+add_whats <- function(vec, amount, what = NA){
+  
+  stopifnot((is.vector(vec)) & (amount >= 0) & (amount <= length(vec)))
+
+  out <- vec
+  n <- length(vec)
+  
+  amount2 <- ifelse(amount < 1, round(n * amount, 0), amount) # turn amount prop into n
+  
+  out[sample(x = 1:n, size = amount2, replace = FALSE)] <- what
+  
+  return(out)
+
+}
+
+## Check:
+# add_whats(1:10, 3) # default: what = NA
+# add_whats(1:10, 3, what = 99)
+# add_whats(1:10, .5, what = "ABC")
+```
+
+# Introduction
+
+<!-- This file contains practice and exam questions suited to test your skills and understanding. 
+It also illustrate **final exam** (on July 16, 2018). --> 
+
+<!-- This file contains possible solutions to the **mid-term exam** (on June 4, 2018). --> 
+
+The following questions comprise our **final exam** (on July 16, 2018). 
+
+This exam contains a total of **4 tasks** and a maximum score of **55 points** (plus 5 bonus points). 
+
+
+## Course coordinates
+
+<!-- uni.kn logo and link to SPDS: -->  
+<!-- ![](./inst/pix/uniKn_logo.png) --> 
+<a href="https://www.spds.uni-konstanz.de/">
+<img src = "../../../inst/pix/uniKn_logo.png" alt = "spds.uni.kn" align = "right" width = "300" style = "width: 300px; float: right; border:20;"/>
+<!-- <img src = "./inst/pix/uniKn_logo_s.png" alt = "spds.uni.kn" style = "float: right; border:20;"/> --> 
+</a>
+
+* Course [Data Science for Psychologists](http://rpository.com/ds4psy/) (ds4psy). 
+* Taught at the [University of Konstanz](https://www.uni-konstanz.de/) by [Hansjörg Neth](http://neth.de/) (<h.neth@uni.kn>,  [SPDS](https://www.spds.uni-konstanz.de/), office D507).
+* Spring/summer 2018: Mondays, 13:30--15:00, C511 (from 2018.04.16 to 2018.07.16) 
+* Links to [ZeUS](https://zeus.uni-konstanz.de:443/hioserver/pages/startFlow.xhtml?_flowId=showEvent-flow&unitId=5101&termYear=2018&termTypeValueId=1&navigationPosition=hisinoneLehrorganisation,examEventOverviewOwn) and [Ilias](https://ilias.uni-konstanz.de/ilias/goto_ilias_uni_crs_758039.html)
+
+
+## Preparation and response format
+
+**`r nr`.** Please answer the following questions by creating a single R script (or an R-Markdown file `.Rmd`) that contains all your code and answers and meets the following criteria: 
+
+- _Layout issues_: 
+
+    1. Include a header that contains your _name_, _student ID_, this _course_, and today's _date_.
+    
+    2. Load the R packages of the `tidyverse`. 
+    
+    3. Structure your file clearly by _labeling_ the current task (e.g., `# Task 1: -----`) and subtask (e.g., `# (a) ...:`) and by _leaving blank lines_ between all tasks and subtasks. 
+    
+    Here's a layout template that you can copy and adapt: 
+
+```{r layout_template, echo = TRUE, eval = FALSE}
+## Final exam  | Data science for psychologists (Summer 2018)
+## Name: ... | Student ID: ...
+## 2018 07 16
+## ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ##
+
+## Preparations: ----- 
+
+library(tidyverse)
+
+## Task 1: ----- 
+
+# (a) Save data as tibble and inspect data:
+pg <- as_tibble(PlantGrowth)
+pg
+
+## Answer: The PlantGrowth data contains 30 cases (rows) and 2 variables (columns). 
+
+## (b): ... 
+## ...
+
+## ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ##
+## Task X: ----- 
+## (a) ... 
+
+## ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ##
+
+## By submitting this script I assure that I have completed this 
+## script by myself (using only permissible sources of help). 
+
+## ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ##
+## End of file. ----- 
+```
+
+- Save your script (regularly) as `Lastname_Firstname_midTerm_180604.R` (replacing `Lastname` and `Firstname` by your names).
+
+- When asked for numbers or interpretations, include _short answers as comments_ in your script. However, when asked for quantitative summaries containing more than 2 numbers (e.g., descriptive statistics of a dataset) simply _print your results_ (e.g., the output of a `dplyr` pipe) in your code. 
+
+- **Submit** your script as an attachment to an _email_ (with the subject header "ds4psy: final exam") to <h.neth@uni.kn> no later than on **Wednesday (July 18th, 2018)** and include a brief statement that assures that you have completed this work by yourself (using only permissible sources of help). 
+
+
+<!-- Test questions: --> 
+
+
+# Task `r nr<-nr+1; nr`: Plants 
+
+<!-- Using `PlantGrowth` data: --> 
+
+The `PlanthGrowth` data (contained in R datasets) reports the results from an experiment that compares growth yields (measured by the dried weight of plants) obtained under 2 treatments vs. a control condition.
+
+**`r nr`a.** Save the `PlantGrowth` data as a tibble and inspect its dimensions. (1&nbsp;point) 
+
+**`r nr`b.** Use a `dplyr` pipe to compute the number of observations (rows) in each `group` and some key descriptives (their mean, median, and standard deviation). (2&nbsp;points) 
+
+**`r nr`c.** Use `ggplot` to create a graph that shows the medians and raw values of plant `weight` by `group`. (2&nbsp;points)  
+
+**Hints:** Use 2 different geoms to show both medians and raw values in the same plot. The order of layers is determined by the order of geom commands. 
+
+```{r plantGrowth, echo = TRUE, eval = TRUE, fig.show = "hold"}
+# ?datasets::PlantGrowth
+
+# (a) Save as tibble and inspect data:
+pg <- as_tibble(PlantGrowth)
+pg # => 30 cases (rows) x 2 variables (columns)
+
+# (b) Compute number of observations by group, their mean, median and standard deviation: 
+pg %>%
+  group_by(group) %>%
+  summarise(count = n(),
+            mn_weight = mean(weight),
+            md_weight = median(weight),
+            sd_weight = sd(weight)
+            )
+
+# (c) Plot the median and raw values of weight by group: 
+ggplot(pg, aes(x = group, y = weight)) +
+  # geom_violin() +
+  geom_boxplot(aes(fill = group)) +
+  geom_point(aes(shape = group), alpha = 2/3, size = 4, position = "jitter") + 
+  ## Pimping plot: 
+  labs(title = "Plant weight by group", x = "Group", y = "Weight", 
+       caption = "Data from datasets::PlantGrowth.") + 
+  scale_fill_manual(values = c("grey75", "gold", "steelblue3")) +
+  theme_bw()
+
+pt <- pt + 5  # increment point total
+```
+
+
+# Task `r nr<-nr+1; nr`: Hot and wet flights 
+
+Use the data set `nycflights13::weather` for questions that require 
+`filter`, `arrange`, `select`, `group_by`, `summarise` (count, NAs, means, medians), etc. 
+
+**Hints:** As this task uses the `nycflights13::weather` dataset, make sure to have the package `nycflights13` installed to access this data. 
+
+```{r, setup_5, echo = TRUE, eval = TRUE}
+# install.packages(nycflights13) # install package 
+library(nycflights13) # load package
+```
+
+
+**`r nr`a.** Save the tibble `nycflights13::weather` as `wt` and report its dimensions. (1&nbsp;point)  
+
+**`r nr`b.** Missing values and known unknowns:
+
+- How many missing (`NA`) values does `sw` contain? (1&nbsp;point) 
+
+- What is the percentage of missing (`NA`) values in `wt`? (1&nbsp;point) 
+
+- What is the range (i.e., minimum and maximum value) of the `year` variable? (1&nbsp;point) 
+
+**`r nr`c.** How many observations (rows) does the data contain for each of the 3 airports (`origin`)? (1&nbsp;point) 
+
+**`r nr`d.** Compute a new variable `temp_dc` that provides the temperature (in degrees Celsius) 
+that corresponds to `temp` (in degrees Fahrenheit). 
+
+**Hints:** The formula for conversion from Fahrenheit (degrees F) to Celsius (degrees C) is: 
+$C = (F - 32) \times\ 5/9$.
+
+Add your new `temp_dc` variable to a new dataset `wt_2` and re-arrange its columns so that your new `temp_dc` variable appears next to `temp`. (2&nbsp;points) 
+
+**`r nr`e.** When only considering "JFK" airport: 
+
+- What are the 3 (different) dates with the (a) coldest and (b) hottest temperatures at this airport?
+
+Report the 3 dates and their extreme temperatures (in degrees Celsius) for (a) and (b).  (2&nbsp;points) 
+
+**`r nr`f.** Plot the amount of mean precipitation by `month` for each of the 3 airports (`origin`). (2&nbsp;points) 
+
+**Hint:** First use `dplyr` to compute a table of means (by `origin` and `month`). 
+Then use `ggplot` to draw a line or bar plot of the means. 
+
+**`r nr`g.** For each of the 3 airports: 
+
+- When excluding extreme cases of precipitation (specifically, values of `precip` greater than 0.30):  
+Does it rain more during winter months (Oct to Mar) or during summer months (Apr to Sep)? (2&nbsp;points) 
+
+- Plot the total amount of precipitation in winter vs. summer for each airport. (2&nbsp;points) 
+
+**Hints:** Use `filter` to remove cases of extreme precipitation and create a logical variable (e.g., `summer`) that is `TRUE` for summer months and `FALSE` for winter months. The use `dplyr` to `summarise` the total amount (`sum`) of precipitation by `origin` and `summer`. The resulting tibble can be plotted as a bar chart (with different facets by `origin`). 
+
+```{r weather_transformations}
+library(nycflights13)
+
+# nycflights13::weather
+# ?weather
+
+## How many observations (rows) and variables (columns) does the data set contain overall?
+wt <- nycflights13::weather
+dim(wt)
+
+## (b) missing values and ranges: 
+## - How many missing values does the `weather` data contain?
+sum(is.na(wt))  # sum of NA values
+mean(is.na(wt)) # percentage
+
+## - What is the range of values of the `year` variable?
+range(wt$year)
+
+## (c) How many observations (rows) does the data contain for each of the 3 airports (`origin`)?
+wt %>%
+  group_by(origin) %>%
+  count()
+
+## (d) Conversion from Fahrenheit to Celsius: 
+## Compute a variable `temp_dc` that provides the temperature (in degrees Celsius) 
+## that corresponds to `temp` (in degrees Fahrenheit).
+## Fahrenheit (degrees F) to Celsius (degrees C) conversion:
+## C = (F - 32) x 5/9.
+
+## Add your new `temp_dc` variable to a new dataset `wt_2` and 
+## re-arrange its columns so that your `temp_dc` variable appears next to `temp`.
+
+wt_2 <- wt %>%
+  mutate(temp_dc = (temp - 32) * 5/9) %>%
+  select(origin:temp, temp_dc, everything())
+wt_2
+
+## (e) Only considering "JFK" airport: 
+## What are the 3 (different) dates with the (a) coldest and (b) hottest temperatures there?
+## Report the 3 dates and their extreme temperatures (in degrees Celsius) for (a) and (b). 
+JFK_temp <- wt_2 %>%
+  filter(origin == "JFK") %>%
+  arrange(temp_dc)
+
+JFK_temp # => coldest days
+JFK_temp %>% arrange(desc(temp)) # => hottest days
+
+
+## Aggregation examples: -----
+
+## (x) Average temperature per month: 
+##     (used in class): 
+
+mn_temp_month <- wt_2 %>%
+  # group_by(origin, month) %>%
+  group_by(month) %>%
+  summarise(n = n(),
+            n_not_NA = sum(!is.na(temp_dc)), 
+            mn_temp_dc = mean(temp_dc, na.rm = TRUE))
+mn_temp_month
+
+ggplot(mn_temp_month, aes(x = month, y = mn_temp_dc)) +
+  geom_point() +
+  geom_line() +
+  scale_x_continuous(breaks = 1:12) +
+  theme_bw()
+
+## (f) Plot the amount of mean precipitation (by origin and month):
+
+wt %>%
+  group_by(origin, month) %>%
+  summarise(n = n(),
+            n_not_NA = sum(!is.na(precip)), 
+            mn_precip = mean(precip, na.rm = TRUE)) %>%
+  ggplot(aes(x = month, y = mn_precip, color = origin, shape = origin)) +
+  geom_point(size = 2) +
+  geom_line(size = 1) +
+  # geom_bar(aes(fill = origin), stat = "identity", position = "dodge") +
+  scale_x_continuous(breaks = 1:12) +
+  labs(title = "Mean precipitation by month and origin",
+       x = "Month", y = "Mean precipitation", 
+       caption = "[Data from nycflights13::weather]") + 
+  theme_bw()
+
+## Computation and visualization to answer a question: ----
+
+## (g) For each of the 3 airports: 
+## When excluding extreme cases of precipitation (values of `precip` greater than 0.30): 
+## Does it rain more during winter (Oct to Mar) or during summer (Apr to Sep) months?
+## Plot the total amount of precipitation in winter vs. summer for each airport. 
+
+## Inspect data:
+wt # month is given numerically!
+
+# ggplot(weather, aes(x = precip)) +
+#  geom_histogram(binwidth = 0.01, fill = seeblau)
+
+## Preparation: Filter out extreme values and add a summer variable: 
+weather_season <- wt %>%
+  filter(precip <= .30) %>%
+  mutate(summer = (month > 3 & month < 10)#,
+         # winter = (month < 4 | month > 9)
+         )
+
+## Computation: Sum of precipitation by origin and summer season:
+sum_rain_season <- weather_season %>%
+  group_by(origin, summer) %>%
+  summarise(n = n(),
+            # n_not_NA = sum(!is.na(precip)), 
+            # mn_precip = mean(precip, na.rm = TRUE),
+            sum_precip = sum(precip, na.rm = TRUE))
+sum_rain_season
+
+## Visualization: Sum of precipitation as a bar chart:
+ggplot(weather_season, aes(x = summer, fill = summer)) +
+  facet_wrap(~origin) + 
+  geom_bar(aes(weight = precip), na.rm = TRUE) +
+  scale_fill_manual(name = "Summer:", values = c("steelblue3", "firebrick")) +
+  labs(title = "Sum of precipitation in winter vs. summer months",
+       x = "Summer", y = "Sum of precipitation", 
+       caption = "[Data from nycflights13::weather]") + 
+  theme_bw()
+
+pt <- pt + 15  # increment point total
+```
+
+# Task `r nr<-nr+1; nr`: Numeracy vs. intelligence
+
+This task uses a generated dataset (entitled `numeracy.csv` and available at <http://rpository.com/ds4psy/data/numeracy.csv>). 
+Use the following `read_csv()` command to obtain and load it into R: 
+
+```{r numeracy_load_data, echo = TRUE, eval = TRUE}
+## Load data (as comma-separated file): 
+data <- read_csv("http://rpository.com/ds4psy/data/numeracy.csv")  # from online source
+
+## Alternatively (from local source): 
+# data <- read_csv("numeracy.csv")  # from current directory
+```
+
+### Understanding the data
+
+The numeracy `data` is structured as follows: 
+
+- Each _row_ contains the data from _one individual participant_. 
+
+- Six columns contain the following _independent variables_ (IVs): 
+
+1. `name` contains each participant's initials; 
+2. `gender`: each participant's `gender`; 
+3. `bdate`:  each participant's birth date; 
+4. `bweekday`: the day of the week on which each participant was born; 
+5. `height`: how tall each participant is (in cm); 
+6. `blood_type`: each participant's blood type; 
+
+The remaining six columns contain the following _dependent_ variables (DVs): 
+
+- `bnt_1` to `bnt_4` signal a correct (1) or incorrect (0) answer to the corresponding question of the Berlin Numeracy Test (Cokely et al., 2012, see <http://www.riskliteracy.org/researchers/> for details). The sum of these 4 variables define the BNT _numeracy_ score for each participant.
+
+- `g_iq` and `s_iq` provide two distinct measurements of each participant's _general_ vs. _social intelligence_. 
+
+
+### Your tasks 
+
+**(A) Basics:**
+
+**`r nr`a.** Inspect the data dimensions and the percentage of missing values. (1&nbsp;point)
+
+**Hints:** As later parts of this task use variables created in earlier ones, you should either update your existing `data` with modified tibbles (e.g., including new variables) or incrementally save your new tibbles with new names (e.g., `data_a`, `data_b`, etc.). 
+
+**`r nr`b.** Split the birth date (`bdate`) variable into 3 separate variables (`byear`, `bmonth`, and `bday`) that denote the year, month, and day of each participant's birth. (1&nbsp;point) 
+
+**Hints:** Use `tidyr::separate` for this task, but check the type of your new variables (and use the `convert` argument to ensure that they are numeric). 
+
+**`r nr`c.** Create a new variable `summer_born` that is `TRUE` when a participant was born in summer (defined as April to September) and `FALSE` when a person was born in winter (October to March).  (1&nbsp;point)
+
+
+**(B) Assessing IVs:** 
+
+**`r nr`d.** Compute the current `age` of each participant as the person would report it (i.e., in completed years, taking into account today's date). (2&nbsp;points) 
+
+**`r nr`e.** List the frequency of each blood type (`blood_type`) by _gender_ (as a tibble by using `dplyr`) and re-format your tibble into a wider format (by using `tidyr`) that lists the types of `gender` in rows and the types of `blood_type` as columns. (2&nbsp;points) 
+
+**`r nr`f.** Compute descriptives (the counts, means, and standard deviations) of `height` (a) by _gender_ and (b) by _cohort_ (i.e., the decade of birth). (3&nbsp;points)
+
+**Hints:** Use integer division on each participant's `age` to determine his or her decade cohort: `cohort = age %/% 10`. 
+
+**`r nr`g.** Visualize the distributions of `height` (a) by _gender_ and (b) by _cohort_. What do you find? (2&nbsp;points)
+
+**Hints:** Inspect the type of your `cohort` variable (by `typeof(my_data$cohort)`). Depending on your intended plot, you may have to turn this variable into a _factor_ by using `as.factor(my_data$cohort)`. The factor has discrete levels, while the `cohort` variable may have been continuous (numeric).
+
+
+**(C) Assessing DVs:**
+
+**`r nr`h.** Compute the _aggregate_ `BNT` _score_ as the sum of all four `bnt_i` values (i.e., a value varying from 0 to 4) for each participant. How many _missing_ `BNT` _values_ are there? (1&nbsp;point)
+
+**`r nr`i.** Inspect the values for the 2 _intelligence_ scores `g_iq` and `s_iq`:
+
+- How many _missing values_ are there? 
+- What are their _means_ and their _ranges_ (minimum and maximum values)?
+- Plot their distributions in 2 separate _histograms_.  (3&nbsp;points)
+
+**`r nr`j.** Visualize the relationship between `g_iq` and `s_iq`. Can you detect any systematic trend? (1&nbsp;point)
+
+**Hints:** Consider using a scatterplot, but take care of overplotting. 
+
+
+**(D) Exploring results:**
+
+**`r nr`k.** Does _numeracy_ (as measured by the aggregate `BNT` score) seem to vary by  _gender_? (1&nbsp;point)
+
+**`r nr`l.** Assess possible effects of _numeracy_ (as measured by `BNT`) on the 2 measures of intelligence (`g_iq` and `s_iq`). (2&nbsp;points)
+
+**`r nr`m.** Assess possible effects of the independent variables 
+
+- gender (`gender`), 
+- age (as provided by `age` or `cohort` from above), 
+- birth season (`summer_born`), 
+- blood type (`blood_type`), and 
+- the day of the week on which a person was born (`bweekday`), 
+
+on each of the 2 types of intelligence (`g_iq` and `s_iq`) in 2 ways: 
+
+a. _numercially_ (by computing group means) and 
+b. _graphically_ (by plotting means and/or distributions).  
+
+Which plausible or implausible effects does the data suggest? (10&nbsp;points)
+
+```{r numeracy_solution}
+
+## (A) Basics: ----- 
+
+## (a) Inspect data:
+data_a <- data 
+dim(data_a) # => 1000 participants x 12 variables
+sum(is.na(data_a))   # 130 missing values
+mean(is.na(data_a))  # 1.083 percent of missing data
+# data_a
+
+## (b) Split bdate into 3 separate variables (`byear`, `bmonth`, and `bday`):
+# data_a$bdate       # inspect variable
+length(data_a$bdate) # 1000 (i.e., no missing values) 
+
+data_b <- data_a %>%
+  tidyr::separate(bdate, into = c("byear", "bmonth", "bday"), sep = "-", 
+                  convert = TRUE, 
+                  remove = FALSE) %>%
+  select(name:bdate, byear, bmonth, bday, everything()) # re-arrange variables
+
+# Note that byear:bmonth are converted into characters if convert = FALSE.
+# Resulting data:
+# data_b
+
+## (c) Create a new variable `summer_born`:
+##     `TRUE` iff born in summer (April to September)
+data_c <- data_b %>% 
+  mutate(summer_born = (bmonth > 3) & (bmonth < 10)) %>%
+  select(name:bday, summer_born, everything()) # re-arrange variables
+# data_c
+
+## (B) Assessing IVs: ----- 
+
+## (d) Age in (completed) years:
+
+# Today's date: 
+year_now  <- 2018
+month_now <-    7
+day_now   <-   13
+
+data_d <- data_c %>%
+  mutate(had_bday_this_year = (bmonth < month_now) | (bmonth = month_now & bday <= day_now),
+         no_bday_this_year_yet = !had_bday_this_year, 
+         age = (year_now - byear) - no_bday_this_year_yet) %>%
+  select(name:bday, age, everything()) # re-arrange variables  
+# data_d
+
+# Note: A simpler solution using lubridate()
+{
+  library(lubridate)
+  
+  bday <- ymd("000713") # today, 18 years ago 
+  (bday %--% today())   # yields a time interval
+  
+  # Define a function that computes current age: 
+  cur_age <- function(bday) {
+    
+    lifetime <- (bday %--% today()) # interval from bday to today() 
+    (lifetime %/% years(1))         # integer division (into full years)
+    
+  }
+  
+  # Check: 
+  bday_1 <- ymd("000712") # year 2000 yesterday
+  bday_2 <- ymd("000713") # year 2000 today
+  bday_3 <- ymd("000714") # year 2000 tomorrow
+  
+  cur_age(bday_1) # => 18
+  cur_age(bday_2) # => 18
+  cur_age(bday_3) # => 17 (qed)
+  }
+
+## (e) Frequency of blood_type
+
+## by gender:
+btg <- data_d %>%
+  group_by(gender) %>%
+  count(blood_type)
+btg
+
+## Re-format from long to wider format: 
+btg %>%
+  spread(key = blood_type, value = n)
+
+## (f+g) Descriptives and distribution of height by gender:
+data_d %>%
+  group_by(gender) %>%
+  summarise(n = n(),
+            n_notNA = sum(!is.na(height)),
+            mn_height = mean(height, na.rm = TRUE),
+            sd_height = sd(height, na.rm = TRUE)
+            )
+
+ggplot(data_d, aes(x = gender, y = height, color = gender)) +
+  geom_violin() +
+  geom_jitter(size = 2, alpha = 1/3) + 
+  scale_color_brewer(palette = "Set1") + 
+  labs(title = "Distribution of height by gender",
+       x = "Gender", y = "Height (in cm)", 
+       caption = "[ds4psy]") + 
+  theme_bw()
+
+## (f+g) Descriptives and distribution of height by cohort:
+data_f <- data_d %>%
+  mutate(cohort = age %/% 10)
+
+data_f %>%
+  group_by(cohort) %>%
+  summarise(n = n(),
+            n_notNA = sum(!is.na(height)),
+            mn_height = mean(height, na.rm = TRUE),
+            sd_height = sd(height, na.rm = TRUE)
+            )
+
+# Inspect cohort:
+typeof(data_f$cohort)
+data_f$cohort <- as.factor(data_f$cohort)
+
+ggplot(data_f, aes(x = cohort, y = height, color = cohort)) +
+  geom_violin() +
+  geom_jitter(size = 2, alpha = 1/2) + 
+  scale_color_brewer(name = "Cohort:", palette = "Set1") + 
+  labs(title = "Distribution of height by cohort",
+       x = "Cohort (x 10 years)", y = "Height (in cm)", 
+       caption = "[ds4psy: numeracy data]") + 
+  theme_bw()
+
+# Visualizing distributions by both gender and cohort: 
+ggplot(data_f, aes(x = cohort, y = height, color = cohort)) +
+  facet_wrap(~gender) + 
+  geom_boxplot() + 
+  scale_color_brewer(name = "Cohort:", palette = "Set1") + 
+  labs(title = "Boxplots of height by cohort (by gender)",
+       x = "Cohort (x 10 years)", y = "Height (in cm)", 
+       caption = "[ds4psy: numeracy data]") + 
+  coord_flip() + 
+  theme_bw()
+
+## (C) Assessing DVs: ----- 
+data_f
+
+# (h) BNT values:
+data_h <- data_f %>%
+  mutate(BNT = bnt_1 + bnt_2 + bnt_3 + bnt_4) %>%
+  select(name:bnt_4, BNT, everything())
+
+data_h %>%
+  select(bnt_1:BNT)
+
+mean(is.na(data_h$BNT)) # 78 or 7.8% missing values.
+
+# (i) Inspecting g_iq and s_iq:
+sum(is.na(data_h$g_iq)) # => 20 missing g_iq values
+sum(is.na(data_h$s_iq)) # => 30 missing g_iq values
+
+summary(data_h$g_iq, na.rm = TRUE) # mean of 101.9, range from 73 to 139. 
+summary(data_h$s_iq, na.rm = TRUE) # mean of 102.0, range from 70 to 131.  
+
+# Save means and medians for plots:
+mn_g_iq <- summary(data_h$g_iq, na.rm = TRUE)[["Mean"]]
+md_g_iq <- summary(data_h$g_iq, na.rm = TRUE)[["Median"]]
+mn_s_iq <- summary(data_h$s_iq, na.rm = TRUE)[["Mean"]]
+md_s_iq <- summary(data_h$s_iq, na.rm = TRUE)[["Median"]]
+
+ggplot(data_h) +
+  geom_histogram(aes(x = g_iq), binwidth = 2, fill = "gold", color = "black") + 
+  geom_vline(xintercept = mn_g_iq, linetype = 2, color = "steelblue") +  # mark mean by vertical dashed line 
+  # geom_vline(xintercept = md_g_iq, linetype = 3, color = "steelblue") +  # mark median by vertical dotted line   
+  labs(title = "Distribution of general intelligence values",
+       x = "General intelligence", y = "Frequency", 
+       caption = "[ds4psy: numeracy data]") + 
+  theme_bw()
+
+ggplot(data_h) +
+  geom_histogram(aes(x = s_iq), binwidth = 2, fill = "steelblue", color = "black") +
+  geom_vline(xintercept = mn_s_iq, linetype = 2, color = "gold") +  # mark mean by vertical dashed line 
+  # geom_vline(xintercept = md_s_iq, linetype = 3, color = "gold") +  # mark median by vertical dotted line   
+  labs(title = "Distribution of social intelligence values",
+       x = "General intelligence", y = "Frequency", 
+       caption = "[ds4psy: numeracy data]") + 
+  theme_bw()
+
+# (j) Relationship between g_iq and s_iq:
+ggplot(data_h, aes(x = g_iq, y = s_iq)) +
+  geom_point(position = "jitter", alpha = 1/3) +
+  geom_smooth() +
+  geom_abline(color = "forestgreen", linetype = 2) +  
+  labs(title = "Social intelligence by general intelligence",
+       x = "General intelligence", y = "Social intelligence", 
+       caption = "[ds4psy: numeracy data]") + 
+  # coord_fixed() + 
+  theme_bw()
+
+# => No clear relationship, but possibly a decline of s_iq with increasing g_iq.
+
+## (D) Exploring results: ----- 
+
+# +++ here now +++
+
+pt <- pt + 30
+```
+
+
+# Task `r nr<-nr+1; nr`: Your data, your plot
+
+Now it's your turn to find and plot some data! 
+Find a table with interesting data online (e.g., at [Wikipedia](https://en.wikipedia.org/)), load and save it (by copying or re-creating it) as a _tibble_ in R, and then re-format, analyze, and visualize this tibble in one or several _graphs_. 
+Your _goal_ should be to illustrate some -- but not necessarily all -- key aspects of the data in a transparent fashion (i.e., making it easy to see some key observations, relationships between variables, or possible trends).  
+
+**Please note:** Your chosen data table should meet the following requirements: 
+
+1. Make sure to select a data source that has a _stable URL_ that is cited in your script (to allow verifying the source and integrity of your data).  
+2. Your initial data table (tibble) should contain a _minimum_ of 4 rows and 4 columns.  
+
+**Examples** of suitable sources include tables of 
+
+- [NBA scoring leaders](https://en.wikipedia.org/wiki/List_of_National_Basketball_Association_career_scoring_leaders),  
+- [refugee populations by country](https://en.wikipedia.org/wiki/List_of_countries_by_refugee_population#By_country_of_asylum), or    
+- the world's [largest cities](https://en.wikipedia.org/wiki/List_of_largest_cities#Largest_cities).   
+
+**Hints:** If you choose some data of interest to you, this task should be fun, rather than a chore...
+
+(5 points + up to 5&nbsp;bonus&nbsp;points)
+
+```{r your_data_solution, echo = FALSE, eval = TRUE}
+## Your data source: 
+
+pt <- pt + 5 # + up to 5 bonus points
+```
+
+
+# Conclusion
+
+## Counting tasks and points
+
+This file contains **`r nr` tasks** for a total of **`r pt` points** (plus 5 possible bonus points).  
+
+## Cheers
+
+I sincerely hope you enjoyed these tasks and this course. 
+
+All the best,  
+Hansjörg Neth 
+
+[Last update on `r Sys.time()` by [hn](http://neth.de/).]  
+
+<!-- eof. --> 
