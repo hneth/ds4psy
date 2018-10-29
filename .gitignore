@@ -44,6 +44,7 @@ _essentials/essentials_cache/*
 _testQuest/tq_now_cache/*
 _readings
 _data/_*
+_data/data_cache
 rsconnect/
 
 
