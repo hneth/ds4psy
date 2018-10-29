@@ -1,7 +1,7 @@
 ---
 title: "Data sets and sources (ds4psy)"
 author: "Hansjörg Neth, SPDS, uni.kn"
-date: "2018 05 23"
+date: "2018 10 28"
 output:
   rmdformats::html_clean:
     highlight: kate
@@ -125,7 +125,7 @@ tidyr::table1 # etc.
 
 ## Data packages
 
-Some dedicated data packages: 
+Some dedicated data packages (some used in [https://r4ds.had.co.nz/]): 
 
 ```{r, data_packages}
 ## Install additional data packages:
@@ -135,6 +135,33 @@ Some dedicated data packages:
 # install.packages("babynames")
 # install.packages("fueleconomy")
 ```
+
+## `yarrr` package 
+
+```{r yarrr_data, eval = FALSE}
+library(yarrr)
+library(tibble)
+
+?pirates  
+dim(pirates)  # => 1000 x 17
+as_tibble(pirates)
+
+# See also
+?pirateserrors # identical, but with many errors
+
+# Related data sets (with pirate theme): 
+?auction
+as_tibble(auction)
+
+?capture
+?poopdeck
+
+# Other data sets: 
+?movies
+dim(movies)  # => 5000 x 13
+as_tibble(movies)
+```
+
 
 ## `MASS` package
 
