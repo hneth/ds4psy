@@ -1,7 +1,7 @@
 ---
 title: "Essential commands (ds4psy)"
 author: "Hansjörg Neth, SPDS, uni.kn"
-date: "2018 07 11"
+date: "2018 10 28"
 output:
    rmdformats::html_clean: # html_clean html_docco readthedown material #
      code_folding: show # hide
@@ -24,7 +24,7 @@ rm(list=ls()) # clean all.
 # cur.path <- dirname(rstudioapi::getActiveDocumentContext()$path)
 # cur.path
 # setwd(cur.path) # set to current directory
-setwd("~/Desktop/stuff/Dropbox/_code/R/_teachR/ds4psy/R/_essentials") # set to current directory
+setwd("~/Desktop/stuff/Dropbox/_code/R/_teachR/ds4psy/_essentials") # set to current directory
 # list.files() # all files + folders in current directory
 fileName <- "essentials.Rmd"
 
@@ -152,42 +152,64 @@ Nr. | Topic       |
 
 ## Course coordinates
 
-<!-- uni.kn logo and link to SPDS: -->  
-<!-- ![](./inst/pix/uniKn_logo.png) --> 
-<a href="https://www.spds.uni-konstanz.de/">
-<img src = "../../inst/pix/uniKn_logo.png" alt = "spds.uni.kn" align = "right" width = "300" style = "width: 300px; float: right; border:20;"/>
-<!-- <img src = "./inst/pix/uniKn_logo_s.png" alt = "spds.uni.kn" style = "float: right; border:20;"/> --> 
-</a>
-
-* Course [Data Science for Psychologists](http://rpository.com/ds4psy/) (ds4psy). 
 * Taught at the [University of Konstanz](https://www.uni-konstanz.de/) by [Hansjörg Neth](http://neth.de/) (<h.neth@uni.kn>,  [SPDS](https://www.spds.uni-konstanz.de/), office D507).
-* Spring/summer 2018: Mondays, 13:30--15:00, C511.  
-* Links to [ZeUS](https://zeus.uni-konstanz.de:443/hioserver/pages/startFlow.xhtml?_flowId=showEvent-flow&unitId=5101&termYear=2018&termTypeValueId=1&navigationPosition=hisinoneLehrorganisation,examEventOverviewOwn) and [Ilias](https://ilias.uni-konstanz.de/ilias/goto_ilias_uni_crs_758039.html)
+* Winter 2018/2019: Mondays, 13:30--15:00, C511. 
+* Links to [ZeUS](https://zeus.uni-konstanz.de/hioserver/pages/startFlow.xhtml?_flowId=detailView-flow&unitId=5101&periodId=78&navigationPosition=hisinoneLehrorganisation,examEventOverviewOwn) and [Ilias](https://ilias.uni-konstanz.de/ilias/goto_ilias_uni_crs_809936.html)
 
 ## Preparations
 
 Create an R script (`.R`) or an R-Markdown file (`.Rmd`) and load the R packages of the `tidyverse`. (Hint: Structure your script by inserting spaces, meaningful comments, and sections.) 
  
 ```{r layout_template, echo = TRUE, eval = FALSE}
-## Essential commmands | Data science for psychologists
-## 2018 06 24
-## ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ##
+## Essential commmands | ds4psy
+## 2018 10 28
+## ----------------------------
 
-## Preparations: ----- 
+## Preparations: ----------
 
 library(tidyverse)
 
-## Topic: ----- 
+## Topic: ----------
 
 # ...
 
-## ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ##
-## End of file. ----- 
+## End of file (eof). ----------  
 ```
 
-# Basics
+# Basic R Concepts and Commands
 
-Some background knowledge and basics facts (required to learn R or any other programming language): 
+## Preliminaries 
+
+This session provides some background knowledge and basics facts that are required 
+for learning data science (in R or any other programming language).
+It assumes the following:
+
+1. **Software:** You have installed the software prerequisites mentioned in 
+[Chapter 1.4](https://r4ds.had.co.nz/introduction.html#prerequisites) 
+of [r4ds](https://r4ds.had.co.nz/). Specifically,
+
+    1. A current version of [R](https://cloud.r-project.org);   
+    2. A current version of [RStudio](http://www.rstudio.com); 
+    3. The R packages comprising the [tidyverse](https://www.tidyverse.org).  
+  
+2. **Readings:** You have read the following chapters of [r4ds](https://r4ds.had.co.nz/):
+
+    1. _Introductions_: [Chapter 1](https://r4ds.had.co.nz/introduction.html) and [Chapter 2](https://r4ds.had.co.nz/explore-intro.html));  
+    2. _Workflow_: [basics (Chapter 4)](https://r4ds.had.co.nz/workflow-basics.html) 
+    and [scripts (Chapter 6)](https://r4ds.had.co.nz/workflow-scripts.html).  
+
+This implies that you understand and can do the following:
+
+- Enter and run R commands in the Console window of RStudio. 
+- Use R as a calculator for simple arithmetic.
+- Assign values to named objects. 
+- Call simple R functions. 
+- Enter and run R scripts in the Editor window of RStudio.
+
+## Objects
+
++++ here now +++
+
 
 ## Concepts
 

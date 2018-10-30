@@ -1,7 +1,7 @@
 ---
 title: "Data Science for Psychologists (ds4psy)"
 author: "Hansjörg Neth, SPDS, uni.kn"
-date: "2018 10 28"
+date: "2018 10 29"
 output:
   rmdformats::html_clean:
     highlight: kate
@@ -125,14 +125,14 @@ Part 2: Wrangle
  **Part 1: Preambulations**
 
  1. 22.10.2018: Introduction: [r4ds Chapters 1 & 2](http://r4ds.had.co.nz) 
- 2. 29.10.2018: R Basics: [Script](http://rpository.com/ds4psy/) and [r4ds Chapters 4/6/8](http://r4ds.had.co.nz) 
+ 2. 29.10.2018: [**Basic R concepts and commands: Scalars**](http://rpository.com/ds4psy/R/_essentials/basics.html) and [r4ds Chapters 4/6/8](http://r4ds.had.co.nz) 
  
  **Part 1: Explore data**
  
- 3. 05.11.2018: [Chapter 3: Data visualisation](http://r4ds.had.co.nz/data-visualisation.html): `ggplot2`.  
- 4. 12.11.2018: [Chapter 5: Data transformation](http://r4ds.had.co.nz/transform.html): `dplyr`.  
- 5. 19.11.2018: [Chapter 7: Exploratory data analysis (EDA)](http://r4ds.had.co.nz/exploratory-data-analysis.html).
- 6. 26.11.2018: **Buffer session**: Rinse and repeat 
+ 3. 05.11.2018: [**Basic R concepts and commands: Vectors and rectangular data**](http://rpository.com/ds4psy/R/_essentials/basics.html) 
+ 4. 12.11.2018: [Chapter 3: Data visualisation](http://r4ds.had.co.nz/data-visualisation.html): `ggplot2`.  
+ 5. 19.11.2018: [Chapter 5: Data transformation](http://r4ds.had.co.nz/transform.html): `dplyr`.  
+ 6. 26.11.2018: [Chapter 7: Exploratory data analysis (EDA)](http://r4ds.had.co.nz/exploratory-data-analysis.html).
  
  **Part 2: Wrangle data**
  
