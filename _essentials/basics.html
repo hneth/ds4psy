@@ -129,9 +129,10 @@ img {
 
 <div id="content">
 <!-- Example of essential commands | ds4psy: Winter 2018/2019 -->
+<div id="introduction" class="section level1">
+<h1>Introduction</h1>
+<p>This file contains a brief introduction into basic concepts and commands when learning R. Knowing some R is not a necessary precondition for reading and learning data science with our textbook (<a href="http://r4ds.had.co.nz">r4ds</a>), but certainly helpful. Thus, please work through the examples, try to understand them, and try solving the exercises below.</p>
 <!--
-
-# Introduction
 
 This file contains **essential commands** from the chapters of [r4ds](http://r4ds.had.co.nz) and corresponding examples. A command is considered "essential" when you really need to _know_ it and need to know _how to use_ it to succeed in this course. 
 
@@ -174,6 +175,7 @@ Nr. | Topic       |
 
 ## End of file (eof). ----------  </code></pre></div>
 </div>
+</div>
 <div id="basic-r-concepts-and-commands" class="section level1">
 <h1>Basic R Concepts and Commands</h1>
 <div id="preliminaries" class="section level2">
@@ -190,9 +192,9 @@ Nr. | Topic       |
 </ol></li>
 <li><p><strong>Readings:</strong> You have read the following chapters of <a href="https://r4ds.had.co.nz/">r4ds</a>:</p>
 <ol style="list-style-type: decimal">
-<li><em>Introductions</em>: <a href="https://r4ds.had.co.nz/introduction.html">Chapter 1</a> and <a href="https://r4ds.had.co.nz/explore-intro.html">Chapter 2</a>);<br />
+<li><em>Introductions</em> (<a href="https://r4ds.had.co.nz/introduction.html">Chapter 1</a> &amp; <a href="https://r4ds.had.co.nz/explore-intro.html">Chapter 2</a>);<br />
 </li>
-<li><em>Workflow</em>: <a href="https://r4ds.had.co.nz/workflow-basics.html">basics (Chapter 4)</a> and <a href="https://r4ds.had.co.nz/workflow-scripts.html">scripts (Chapter 6)</a>.</li>
+<li><em>Workflow</em>: <a href="https://r4ds.had.co.nz/workflow-basics.html">basics (Chapter 4)</a> &amp; <a href="https://r4ds.had.co.nz/workflow-scripts.html">scripts (Chapter 6)</a>.</li>
 </ol></li>
 </ol>
 <p>This implies that you understand and can do the following:</p>
@@ -205,8 +207,8 @@ Nr. | Topic       |
 <li>Enter and run R scripts in the <em>Editor</em> window of RStudio.</li>
 </ul>
 </div>
-<div id="code-as-data-and-functions" class="section level2">
-<h2>Code as data and functions</h2>
+<div id="data-vs.functions" class="section level2">
+<h2>Data vs. functions</h2>
 <p>Using R and most other programming languages consists in</p>
 <ol style="list-style-type: decimal">
 <li><p>defining or loading <em>data</em> (objects, values), and</p></li>
@@ -216,7 +218,7 @@ Nr. | Topic       |
 <p>In the following, we will introduce some ways to describe data (by shape and type), learn to create new data objects, and apply some pre-defined functions on these data objects.</p>
 <div id="data" class="section level3">
 <h3>Data</h3>
-<p>In R, different data objects are characterized by their shape and by their type.</p>
+<p>In R, different data objects are characterized by their <em>shape</em> and by their <em>type</em>.</p>
 <ol style="list-style-type: decimal">
 <li><p>The most common <em>shapes</em> of data are:</p>
 <ul>
@@ -688,8 +690,9 @@ p_info           <span class="co"># prints a summary of the table/tibble</span>
 <p>We will examine these variables in <strong>Exercise 6</strong> (below).</p>
 </div>
 </div>
-<div id="exercises" class="section level2">
-<h2>Exercises</h2>
+</div>
+<div id="exercises" class="section level1">
+<h1>Exercises</h1>
 <p><strong>Exercise 1.</strong> Evaluate and explain the following results (and correct any errors that may occur):</p>
 <p><strong>Exercise 2.</strong> With only a little knowledge of R you can perform quite fancy financial arithmetic. Assume that you have won an amount of EUR 1000 and are considering to deposit this amount into a new bank account that offers an annual interest rate of 0.1%.</p>
 <ol style="list-style-type: decimal">
@@ -731,7 +734,7 @@ p_info           <span class="co"># prints a summary of the table/tibble</span>
 </ol>
 <p><strong>Answers:</strong></p>
 <ol style="list-style-type: decimal">
-<li>This data set contains 295 individuals.</li>
+<li>The <code>p_info</code> data contains 295 individuals.</li>
 <li>85.08% of the participants are female.</li>
 <li>222 of the participants are in 1 of the 3 treatment groups.</li>
 <li>74.92% of the participants have a university degree.</li>
@@ -740,25 +743,23 @@ p_info           <span class="co"># prints a summary of the table/tibble</span>
 <li>24.75% of the participants state that their income is below average.</li>
 </ol>
 </div>
-<div id="additional-resources" class="section level2">
-<h2>Additional resources</h2>
-<p>Introductory R books and scripts:</p>
+<div id="related-resources" class="section level1">
+<h1>Related Resources</h1>
+<p>There is no shortage of introductory R books and scripts, but it’s helpful if you find one that fits your interests and level of expertise.</p>
 <ul>
-<li><a href="https://bookdown.org/ndphillips/YaRrr/">YaRrr! The Pirate’s Guide to R</a> provides a more detailed and more entertaining introduction to R.<br />
-</li>
-<li>See <a href="http://rpository.com/learnr/">Rpository.com/learnR/</a> for corresponding exercises (with solutions)</li>
-<li>R <a href="https://cran.r-project.org/manuals.html">manuals</a> and <a href="www.r-project.org/other-docs.html">other documentation</a>.</li>
+<li><p>My favorite introduction to R is <a href="https://bookdown.org/ndphillips/YaRrr/">YaRrr! The Pirate’s Guide to R</a>, an ebook by Nathaniel Phillips that provides a more detailed and much more entertaining introduction to R. (See <a href="http://rpository.com/learnr/">Rpository.com/learnR/</a> for corresponding exercises with solutions.)</p></li>
+<li><p>For many other materials and scripts, see <a href="https://cran.r-project.org/manuals.html">R manuals</a> and <a href="www.r-project.org/other-docs.html">other documentation</a>.</p></li>
+<li><p>For <em>help</em> on any R command, simply evaluate <code>?command</code> (in the Console or Editor) to show R’s in-built help on the command with this name. For instance, evaluating <code>?sum</code> provides a precise definition and some examples of the function <code>sum</code> (introduced above). Even when some parts of the definition are difficult to understand at first, it’s typically helpful to examine and run the Examples provided.</p></li>
 </ul>
 </div>
-<div id="references" class="section level2">
-<h2>References</h2>
+<div id="references" class="section level1">
+<h1>References</h1>
 <p>The participant data <code>p_info</code> (used in <strong>Exercise 6</strong>) is from:</p>
 <ul>
 <li>Woodworth, R. J., O’Brien-Malone, A., Diamond, M. R. and Schüz, B. (2018). Data from, ‘Web-based Positive Psychology Interventions: A Reexamination of Effectiveness’. <em>Journal of Open Psychology Data</em>, <em>6</em>: 1. DOI: <a href="https://doi.org/10.5334/jopd.35" class="uri">https://doi.org/10.5334/jopd.35</a></li>
 </ul>
-<p>[Last update on 2018-10-30 10:43:13 by <a href="http://neth.de/">hn</a>.]</p>
+<p>[Last update on 2018-10-30 16:43:04 by <a href="http://neth.de/">hn</a>.]</p>
 <!-- eof. -->
-</div>
 </div>
 </div>
 
@@ -768,18 +769,20 @@ p_info           <span class="co"># prints a summary of the table/tibble</span>
       <div id="toc">
       	<button type="button" class="close">×</button>
         <ul>
+        <li><a href="#introduction">Introduction</a><ul>
         <li><a href="#course-coordinates">Course coordinates</a></li>
         <li><a href="#preparations">Preparations</a></li>
+        </ul></li>
         <li><a href="#basic-r-concepts-and-commands">Basic R Concepts and Commands</a><ul>
         <li><a href="#preliminaries">Preliminaries</a></li>
-        <li><a href="#code-as-data-and-functions">Code as data and functions</a></li>
+        <li><a href="#data-vs.functions">Data vs. functions</a></li>
         <li><a href="#scalars">Scalars</a></li>
         <li><a href="#vectors">Vectors</a></li>
         <li><a href="#rectangular-data">Rectangular data</a></li>
-        <li><a href="#exercises">Exercises</a></li>
-        <li><a href="#additional-resources">Additional resources</a></li>
-        <li><a href="#references">References</a></li>
         </ul></li>
+        <li><a href="#exercises">Exercises</a></li>
+        <li><a href="#related-resources">Related Resources</a></li>
+        <li><a href="#references">References</a></li>
         </ul>
       </div>
     </div>

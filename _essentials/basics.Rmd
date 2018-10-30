@@ -133,10 +133,12 @@ add_whats <- function(vec, amount, what = NA){
 # add_whats(1:10, .5, what = "ABC")
 ```
 
+# Introduction
+
+This file contains a brief introduction into basic concepts and commands when learning R. Knowing some R is not a necessary precondition for reading and learning data science with our textbook ([r4ds](http://r4ds.had.co.nz)), 
+but certainly helpful. Thus, please work through the examples, try to understand them, and try solving the exercises below. 
 
 <!--
-
-# Introduction
 
 This file contains **essential commands** from the chapters of [r4ds](http://r4ds.had.co.nz) and corresponding examples. A command is considered "essential" when you really need to _know_ it and need to know _how to use_ it to succeed in this course. 
 
@@ -195,15 +197,16 @@ It assumes the following:
 of [r4ds](https://r4ds.had.co.nz/). Specifically,
 
     1. A current version of [R](https://cloud.r-project.org);   
-    2. A current version of [RStudio](http://www.rstudio.com);  
-    3. The R packages comprising the [tidyverse](https://www.tidyverse.org).  
+    2. A current version of [RStudio](http://www.rstudio.com);   
+    3. The R packages comprising the [tidyverse](https://www.tidyverse.org).   
     
 
 2. **Readings:** You have read the following chapters of [r4ds](https://r4ds.had.co.nz/):
 
-    1. _Introductions_: [Chapter 1](https://r4ds.had.co.nz/introduction.html) and [Chapter 2](https://r4ds.had.co.nz/explore-intro.html));  
+    1. _Introductions_ ([Chapter 1](https://r4ds.had.co.nz/introduction.html) & [Chapter 2](https://r4ds.had.co.nz/explore-intro.html));  
     2. _Workflow_: [basics (Chapter 4)](https://r4ds.had.co.nz/workflow-basics.html) 
-    and [scripts (Chapter 6)](https://r4ds.had.co.nz/workflow-scripts.html).  
+    & [scripts (Chapter 6)](https://r4ds.had.co.nz/workflow-scripts.html).   
+
 
 This implies that you understand and can do the following:
 
@@ -214,7 +217,7 @@ This implies that you understand and can do the following:
 - Enter and run R scripts in the _Editor_ window of RStudio. 
 
 
-## Code as data and functions
+## Data vs. functions
 
 Using R and most other programming languages consists in 
 
@@ -229,7 +232,7 @@ In the following, we will introduce some ways to describe data (by shape and typ
 
 ### Data
 
-In R, different data objects are characterized by their shape and by their type. 
+In R, different data objects are characterized by their _shape_ and by their _type_. 
 
 1. The most common _shapes_ of data are:
 
@@ -245,8 +248,7 @@ In R, different data objects are characterized by their shape and by their type.
 
 ### Functions
 
-In R, functions are applied to data objects (so-called _arguments_, e.g., `a1` and `a2`) by 
-specifying the function name and providing the arguments in round parentheses (i.e., `function(a1, a2)`). 
+In R, functions are applied to data objects (so-called _arguments_, e.g., `a1` and `a2`) by specifying the function name and providing the arguments in round parentheses (i.e., `function(a1, a2)`). 
 An example of a function with 2 arguments is: 
 
 ```{r sum_function}
@@ -767,7 +769,7 @@ When analyzing a data file from a remote source, it's crucial to also obtain a d
 We will examine these variables in **Exercise 6** (below).
 
 
-## Exercises
+# Exercises
 
 **Exercise 1.** Evaluate and explain the following results (and correct any errors that may occur):
 
@@ -1010,7 +1012,7 @@ pc_income_low
 
 **Answers:**
 
-1. This data set contains `r n_total` individuals.
+1. The `p_info` data contains `r n_total` individuals.
 2. `r round(pc_female, 2)`% of the participants are female. 
 3. `r n_treat` of the participants are in 1 of the 3 treatment groups.
 4. `r round(pc_educ_uni, 2)`% of the participants have a university degree.
@@ -1018,16 +1020,18 @@ pc_income_low
 6. `r round(pc_income_low, 2)`% of the participants state that their income is below average. 
 
 
-## Additional resources
+# Related Resources
 
-Introductory R books and scripts: 
+There is no shortage of introductory R books and scripts, but it's helpful if you find one that fits your interests and level of expertise. 
 
-- [YaRrr! The Pirate’s Guide to R](https://bookdown.org/ndphillips/YaRrr/) provides a more detailed and more entertaining introduction to R.  
-- See [Rpository.com/learnR/](http://rpository.com/learnr/) for corresponding exercises (with solutions)
-- R [manuals](https://cran.r-project.org/manuals.html) and [other documentation](www.r-project.org/other-docs.html).  
+- My favorite introduction to R is [YaRrr! The Pirate’s Guide to R](https://bookdown.org/ndphillips/YaRrr/), an ebook by Nathaniel Phillips that provides a more detailed and much more entertaining introduction to R.  (See [Rpository.com/learnR/](http://rpository.com/learnr/) for corresponding exercises with solutions.)
+
+- For many other materials and scripts, see [R manuals](https://cran.r-project.org/manuals.html) and [other documentation](www.r-project.org/other-docs.html).  
+
+- For _help_ on any R command, simply evaluate `?command` (in the Console or Editor) to show R's in-built help on the command with this name. For instance, evaluating `?sum` provides a precise definition and some examples of the function `sum` (introduced above). Even when some parts of the definition are difficult to understand at first, it's typically helpful to examine and run the Examples provided. 
 
 
-## References
+# References
 
 The participant data `p_info` (used in **Exercise 6**) is from: 
 
