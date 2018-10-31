@@ -162,7 +162,7 @@ Nr. | Topic       |
 
 * Taught at the [University of Konstanz](https://www.uni-konstanz.de/) by [Hansjörg Neth](http://neth.de/) (<h.neth@uni.kn>,  [SPDS](https://www.spds.uni-konstanz.de/), office D507).
 * Winter 2018/2019: Mondays, 13:30--15:00, C511. 
-* Links to [ZeUS](https://zeus.uni-konstanz.de/hioserver/pages/startFlow.xhtml?_flowId=detailView-flow&unitId=5101&periodId=78&navigationPosition=hisinoneLehrorganisation,examEventOverviewOwn) and [Ilias](https://ilias.uni-konstanz.de/ilias/goto_ilias_uni_crs_809936.html)
+* Links to current [course syllabus](http://rpository.com/ds4psy/) | [ZeUS](https://zeus.uni-konstanz.de/hioserver/pages/startFlow.xhtml?_flowId=detailView-flow&unitId=5101&periodId=78&navigationPosition=hisinoneLehrorganisation,examEventOverviewOwn) |  [Ilias](https://ilias.uni-konstanz.de/ilias/goto_ilias_uni_crs_809936.html)
 
 ## Preparations
 
@@ -775,7 +775,8 @@ The following exercises are your first weekly programming assignment (**WPA01**)
 
 **Exercise 1.** Evaluate and explain the following results (and correct any errors that may occur):
 
-```{r ex1, echo = FALSE, eval = FALSE}
+```{r ex1, echo = TRUE, eval = FALSE}
+# Note: The following assume the object definitions from above.
 a
 b
 b <- a + a
@@ -791,7 +792,7 @@ o / O / 0
 0 / (o * O)
 0 / (o * 0)
 
-a + b + C
+a + b + C  # are all objects defined?
 
 sum(a, b) - sum(a + b)
 
@@ -888,17 +889,28 @@ x %% y  # remainder of integer division (x mod y)
 **Exercise 4.** Predit the result of the arithmetic expression `x %/% y * y + x %% y`. Then test your prediction by assigning some number to `x` and `y` and evaluating the expression. Finally, explain why the result occurs. 
 
 ```{r ex4_integer_arithmetic, echo = FALSE, eval = FALSE}
-x <- 4711
-y <- 1307
+## Note: The given expression 
+x %/% y * y + x %% y  
+# is identical to: 
+((x %/% y) * y) + (x %% y) 
 
 ## Prediction: 
 x %/% y * y + x %% y  # will evaluate to x.
 
+## Testing the prediction:
+x <- 4711
+y <- 1307
+
+((x %/% y) * y) + (x %% y) == x  # prediction is TRUE
+
 ## Explanation:
-((x %/% y) * y) + (x %% y)
-x %/% y 
-x %/% y * y 
-x %% y
+x %/% y      # yields the integer part of x/y
+x %/% y * y  # multiplies this integer part by y 
+x %% y       # yields the remainder of integer division
+
+# => The sum  
+(x %/% y * y) + (x %% y)
+# yields x.
 ```
 
 
@@ -909,6 +921,7 @@ x %% y
 - a person with an age from 65 to 99 years is classified as a _senior_.
 
 Generate a vector that samples the `age` of 100 people, but contains exactly 20 minors, 50 adults, and 30 seniors. 
+(Hint: Consider using `sample` for first creating 3 separate vectors -- one for each sub-group -- and then creating an longer vector that combines the 3 subgroups.)
 
 Now use some functions on `age` to answer the following questions: 
 

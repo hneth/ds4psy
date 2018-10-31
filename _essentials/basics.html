@@ -155,7 +155,7 @@ Nr. | Topic       |
 <ul>
 <li>Taught at the <a href="https://www.uni-konstanz.de/">University of Konstanz</a> by <a href="http://neth.de/">Hansjörg Neth</a> (<a href="mailto:h.neth@uni.kn">h.neth@uni.kn</a>, <a href="https://www.spds.uni-konstanz.de/">SPDS</a>, office D507).</li>
 <li>Winter 2018/2019: Mondays, 13:30–15:00, C511.</li>
-<li>Links to <a href="https://zeus.uni-konstanz.de/hioserver/pages/startFlow.xhtml?_flowId=detailView-flow&amp;unitId=5101&amp;periodId=78&amp;navigationPosition=hisinoneLehrorganisation,examEventOverviewOwn">ZeUS</a> and <a href="https://ilias.uni-konstanz.de/ilias/goto_ilias_uni_crs_809936.html">Ilias</a></li>
+<li>Links to current <a href="http://rpository.com/ds4psy/">course syllabus</a> | <a href="https://zeus.uni-konstanz.de/hioserver/pages/startFlow.xhtml?_flowId=detailView-flow&amp;unitId=5101&amp;periodId=78&amp;navigationPosition=hisinoneLehrorganisation,examEventOverviewOwn">ZeUS</a> | <a href="https://ilias.uni-konstanz.de/ilias/goto_ilias_uni_crs_809936.html">Ilias</a></li>
 </ul>
 </div>
 <div id="preparations" class="section level2">
@@ -695,6 +695,38 @@ p_info           <span class="co"># prints a summary of the table/tibble</span>
 <h1>Exercises (WPA01)</h1>
 <p>The following exercises are your first weekly programming assignment (<strong>WPA01</strong>). Please submit your solutions (as an <code>.R</code> or <code>.Rmd</code> script that also contains your name) on <a href="https://ilias.uni-konstanz.de/ilias/goto_ilias_uni_crs_809936.html">Ilias</a> by <strong>Wednesday, Nov. 7, 2018</strong>.</p>
 <p><strong>Exercise 1.</strong> Evaluate and explain the following results (and correct any errors that may occur):</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Note: The following assume the object definitions from above.</span>
+a
+b
+b &lt;-<span class="st"> </span>a <span class="op">+</span><span class="st"> </span>a
+a <span class="op">+</span><span class="st"> </span>a <span class="op">==</span><span class="st"> </span>b
+<span class="op">!!</span>a
+
+<span class="kw">sqrt</span>(<span class="dv">2</span>)  <span class="co"># see ?sqrt</span>
+<span class="kw">sqrt</span>(<span class="dv">2</span>)<span class="op">^</span><span class="dv">2</span>
+<span class="kw">sqrt</span>(<span class="dv">2</span>)<span class="op">^</span><span class="dv">2</span> <span class="op">==</span><span class="st"> </span><span class="dv">2</span>  <span class="co"># Why FALSE? </span>
+<span class="co"># Hint: Compute the difference sqrt(2)^2 - 2</span>
+
+o <span class="op">/</span><span class="st"> </span>O <span class="op">/</span><span class="st"> </span><span class="dv">0</span>
+<span class="dv">0</span> <span class="op">/</span><span class="st"> </span>(o <span class="op">*</span><span class="st"> </span>O)
+<span class="dv">0</span> <span class="op">/</span><span class="st"> </span>(o <span class="op">*</span><span class="st"> </span><span class="dv">0</span>)
+
+a <span class="op">+</span><span class="st"> </span>b <span class="op">+</span><span class="st"> </span>C  <span class="co"># are all objects defined?</span>
+
+<span class="kw">sum</span>(a, b) <span class="op">-</span><span class="st"> </span><span class="kw">sum</span>(a <span class="op">+</span><span class="st"> </span>b)
+
+b<span class="op">:</span>a  <span class="co"># divide b by a</span>
+<span class="kw">length</span>(b<span class="op">:</span>a)
+
+i &lt;-<span class="st"> </span>i <span class="op">+</span><span class="st"> </span><span class="dv">1</span>  <span class="co"># increment i by 1</span>
+
+<span class="kw">nchar</span>(d) <span class="op">-</span><span class="st"> </span><span class="kw">length</span>(d)
+
+e
+e <span class="op">+</span><span class="st"> </span>e <span class="op">+</span><span class="st"> </span><span class="op">!!</span>e
+
+e &lt;-<span class="st"> </span>stuff
+<span class="kw">paste</span>(d, e)  <span class="co"># paste &quot;adds&quot; 2 character objects</span></code></pre></div>
 <p><strong>Exercise 2.</strong> With only a little knowledge of R you can perform quite fancy financial arithmetic. Assume that you have won an amount of EUR 1000 and are considering to deposit this amount into a new bank account that offers an annual interest rate of 0.1%.</p>
 <ol style="list-style-type: decimal">
 <li>How much would your account be worth after waiting for 2 full years?</li>
@@ -716,7 +748,7 @@ p_info           <span class="co"># prints a summary of the table/tibble</span>
 <li>a person with an age from 18 to 64 years is classified as an <em>adult</em>,</li>
 <li>a person with an age from 65 to 99 years is classified as a <em>senior</em>.</li>
 </ul>
-<p>Generate a vector that samples the <code>age</code> of 100 people, but contains exactly 20 minors, 50 adults, and 30 seniors.</p>
+<p>Generate a vector that samples the <code>age</code> of 100 people, but contains exactly 20 minors, 50 adults, and 30 seniors. (Hint: Consider using <code>sample</code> for first creating 3 separate vectors – one for each sub-group – and then creating an longer vector that combines the 3 subgroups.)</p>
 <p>Now use some functions on <code>age</code> to answer the following questions:</p>
 <ul>
 <li>What is the average (mean), minimum, and maximum age in this sample?</li>
@@ -735,7 +767,7 @@ p_info           <span class="co"># prints a summary of the table/tibble</span>
 </ol>
 <!-- 
 
-**Answers** to Exercise 6:
+**Answers** to **Exercise 6**:
 
 1. The `p_info` data contains 295 individuals.
 2. 85.08% of the participants are female. 
@@ -761,7 +793,7 @@ p_info           <span class="co"># prints a summary of the table/tibble</span>
 <ul>
 <li>Woodworth, R. J., O’Brien-Malone, A., Diamond, M. R. and Schüz, B. (2018). Data from, ‘Web-based Positive Psychology Interventions: A Reexamination of Effectiveness’. <em>Journal of Open Psychology Data</em>, <em>6</em>: 1. DOI: <a href="https://doi.org/10.5334/jopd.35" class="uri">https://doi.org/10.5334/jopd.35</a></li>
 </ul>
-<p>[Last update on 2018-10-31 07:34:40 by <a href="http://neth.de/">hn</a>.]</p>
+<p>[Last update on 2018-10-31 09:26:54 by <a href="http://neth.de/">hn</a>.]</p>
 <!-- eof. -->
 </div>
 </div>

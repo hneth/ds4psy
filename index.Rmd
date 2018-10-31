@@ -1,7 +1,7 @@
 ---
 title: "Data Science for Psychologists (ds4psy)"
 author: "Hansjörg Neth, SPDS, uni.kn"
-date: "2018 10 29"
+date: "2018 10 31"
 output:
   rmdformats::html_clean:
     highlight: kate
@@ -35,7 +35,7 @@ opts_knit$set(width=75)
 
 * Taught at the [University of Konstanz](https://www.uni-konstanz.de/) by [Hansjörg Neth](http://neth.de/) (<h.neth@uni.kn>,  [SPDS](https://www.spds.uni-konstanz.de/), office D507).
 * Winter 2018/2019: Mondays, 13:30--15:00, C511. 
-* Links to [ZeUS](https://zeus.uni-konstanz.de/hioserver/pages/startFlow.xhtml?_flowId=detailView-flow&unitId=5101&periodId=78&navigationPosition=hisinoneLehrorganisation,examEventOverviewOwn) and [Ilias](https://ilias.uni-konstanz.de/ilias/goto_ilias_uni_crs_809936.html)
+* Links to current [course syllabus](http://rpository.com/ds4psy/) | [ZeUS](https://zeus.uni-konstanz.de/hioserver/pages/startFlow.xhtml?_flowId=detailView-flow&unitId=5101&periodId=78&navigationPosition=hisinoneLehrorganisation,examEventOverviewOwn) |  [Ilias](https://ilias.uni-konstanz.de/ilias/goto_ilias_uni_crs_809936.html) 
 
 
 # Course Description
@@ -71,8 +71,6 @@ Final grades are based on both exercise solutions (A: 33%) and your final exam/p
 
 
 # Schedule 
-
-**Note:** The following schedule was last modified on **Oct. 22, 2018**. 
 
 ## Individual sessions, dates, and topics
 
@@ -125,11 +123,11 @@ Part 2: Wrangle
  **Part 1: Preambulations**
 
  1. 22.10.2018: Introduction: [r4ds Chapters 1 & 2](http://r4ds.had.co.nz) 
- 2. 29.10.2018: [**Basic R concepts and commands: Scalars**](http://rpository.com/ds4psy/R/_essentials/basics.html) and [r4ds Chapters 4/6/8](http://r4ds.had.co.nz) 
+ 2. 29.10.2018: [Basic R concepts and commands: Scalars](http://rpository.com/ds4psy/R/_essentials/basics.html) and [r4ds Chapters 4/6/8](http://r4ds.had.co.nz) 
  
  **Part 1: Explore data**
  
- 3. 05.11.2018: [**Basic R concepts and commands: Vectors and rectangular data**](http://rpository.com/ds4psy/R/_essentials/basics.html) 
+ 3. 05.11.2018: [**Basic R concepts and commands: Vectors and rectangular data**](http://rpository.com/ds4psy/R/_essentials/basics.html) with [WPA01](http://rpository.com/ds4psy/R/_essentials/basics.html#exercises-wpa01). 
  4. 12.11.2018: [Chapter 3: Data visualisation](http://r4ds.had.co.nz/data-visualisation.html): `ggplot2`.  
  5. 19.11.2018: [Chapter 5: Data transformation](http://r4ds.had.co.nz/transform.html): `dplyr`.  
  6. 26.11.2018: [Chapter 7: Exploratory data analysis (EDA)](http://r4ds.had.co.nz/exploratory-data-analysis.html).
@@ -180,7 +178,7 @@ This course mostly uses the so-called _flipped classroom_ paradigm, in which stu
     
     2. Begin with weekly exercises (in random dyads/triples): Copy exercises into your script and solve them in a way that you can discuss/share with other members of the class. 
 
-- _After_ class: Finish exercises at home and submit your solutions to [Ilias](https://ilias.uni-konstanz.de/ilias/goto_ilias_uni_crs_809936.html) by Wednesday of the same week (by 23:59). 
+- _After_ class: Finish exercises at home and submit your solutions to [Ilias](https://ilias.uni-konstanz.de/ilias/goto_ilias_uni_crs_809936.html) by **Wednesday** of the same week (23:59). 
 
 
 
