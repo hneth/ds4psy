@@ -124,7 +124,7 @@ img {
 <div id="header">
 <h1 class="title">Basic R concepts and commands with solutions (ds4psy)</h1>
 <h4 class="author"><em>Hansjörg Neth, SPDS, uni.kn</em></h4>
-<h4 class="date"><em>2018 10 31</em></h4>
+<h4 class="date"><em>2018 11 03</em></h4>
 </div>
 
 <div id="content">
@@ -188,7 +188,7 @@ Nr. | Topic       |
 </li>
 <li>A current version of <a href="http://www.rstudio.com">RStudio</a>;<br />
 </li>
-<li>The R packages comprising the <a href="https://www.tidyverse.org">tidyverse</a>.</li>
+<li>The R packages of the <a href="https://www.tidyverse.org">tidyverse</a>.</li>
 </ol></li>
 <li><p><strong>Readings:</strong> You have read the following chapters of <a href="https://r4ds.had.co.nz/">r4ds</a>:</p>
 <ol style="list-style-type: decimal">
@@ -199,7 +199,7 @@ Nr. | Topic       |
 </ol>
 <p>This implies that you understand and can do the following:</p>
 <ul>
-<li>Enter and run R commands at the prompt in the <em>Console</em> window of RStudio (and check their results);</li>
+<li>Enter and run R commands at the prompt in the <em>Console</em> window of RStudio, and check their results;</li>
 <li>Use R as a calculator for simple arithmetic;</li>
 <li>Assign numeric values and characters to named objects;</li>
 <li>Call simple R functions on objects;<br />
@@ -215,16 +215,16 @@ Nr. | Topic       |
 <li><p>evaluating <em>functions</em> (actions, verbs).</p></li>
 </ol>
 <p>Confusingly, both data and functions in R are <em>objects</em> and evaluating functions typically returns or creates new data objects. To distinguish data from functions, think of data as <em>objects</em> (i.e., material or values that are being measured or manipulated) and functions as <em>procedures</em> (i.e., actions, operations, or verbs) that measure or manipulate data.</p>
-<p>In the following, we will introduce some ways to describe data (by shape and type), learn to create new data objects, and apply some pre-defined functions on these data objects.</p>
+<p>In the following, we will introduce some ways to describe data (by <em>shape</em> and <em>type</em>), learn to create new data objects (by assigning them with <code>&lt;-</code>), and apply some pre-defined functions to these data objects.</p>
 <div id="data" class="section level3">
 <h3>Data</h3>
 <p>In R, different data objects are characterized by their <em>shape</em> and by their <em>type</em>.</p>
 <ol style="list-style-type: decimal">
 <li><p>The most common <em>shapes</em> of data are:</p>
 <ul>
-<li><em>scalars</em>: atomic objects (with a length of 1);<br />
+<li><em>scalars</em>: atomic objects (i.e., a data point, with a length of 1);<br />
 </li>
-<li><em>vectors</em>: a chain/sequence of objects of the same type;<br />
+<li><em>vectors</em>: a chain/sequence of objects of the same type (i.e., extending in 1 dimension: length);<br />
 </li>
 <li><em>data frames</em>/<em>matrices</em>/<em>tibbles</em>: rectangular data (i.e., tables with 2 dimensions: rows vs. columns).</li>
 </ul></li>
@@ -494,7 +494,7 @@ x <span class="op">%/%</span><span class="st"> </span>y <span class="co"># integ
 <span class="co">#&gt; [1] 0</span>
 x <span class="op">%%</span><span class="st"> </span>y  <span class="co"># remainder of integer division (x mod y)</span>
 <span class="co">#&gt; [1] 2</span></code></pre></div>
-<p>The same arithmetic operators also work with numeric <em>vectors</em> (see Exercise 2 below). (See <code>?Arithmetic</code> for help on arithmetic operators and <code>?Syntax</code> for a full list of precedence groups.)</p>
+<p>The same arithmetic operators also work with numeric <em>vectors</em> (see <strong>Exercise 3</strong> below). (See <code>?Arithmetic</code> for help on arithmetic operators and <code>?Syntax</code> for a full list of precedence groups.)</p>
 </div>
 <div id="logical-values-and-operators" class="section level3">
 <h3>Logical values and operators</h3>
@@ -1100,8 +1100,8 @@ x <span class="op">%%</span><span class="st"> </span>y       <span class="co"># 
 <li>a person with an age from 18 to 64 years is classified as an <em>adult</em>,</li>
 <li>a person with an age from 65 to 99 years is classified as a <em>senior</em>.</li>
 </ul>
-<p>Generate a vector that samples the <code>age</code> of 100 people, but contains exactly 20 minors, 50 adults, and 30 seniors.</p>
-<p>Now use some functions on <code>age</code> to answer the following questions:</p>
+<p>Generate a vector with 100 random samples that specifies the <code>age</code> of 100 people (in years), but contains exactly 20 minors, 50 adults, and 30 seniors.</p>
+<p>Now use some functions on your <code>age</code> vector to answer the following questions:</p>
 <ul>
 <li>What is the average (mean), minimum, and maximum age in this sample?</li>
 <li>How many people are younger than 25 years?</li>
@@ -1110,14 +1110,17 @@ x <span class="op">%%</span><span class="st"> </span>y       <span class="co"># 
 </ul>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">set.seed</span>(<span class="dv">42</span>) <span class="co"># for replicable randomness</span>
 
+<span class="co"># Creating 3 groups:</span>
 minor_range  &lt;-<span class="st">  </span><span class="dv">1</span><span class="op">:</span><span class="dv">17</span>
 adult_range  &lt;-<span class="st"> </span><span class="dv">18</span><span class="op">:</span><span class="dv">64</span>
 senior_range &lt;-<span class="st"> </span><span class="dv">64</span><span class="op">:</span><span class="dv">99</span>
 
+<span class="co"># Creating 3 vectors:</span>
 minors  &lt;-<span class="st"> </span><span class="kw">sample</span>(minor_range, <span class="dv">20</span>, <span class="dt">replace =</span> <span class="ot">TRUE</span>)
 adults  &lt;-<span class="st"> </span><span class="kw">sample</span>(adult_range, <span class="dv">50</span>, <span class="dt">replace =</span> <span class="ot">TRUE</span>)
 seniors &lt;-<span class="st"> </span><span class="kw">sample</span>(senior_range, <span class="dv">30</span>, <span class="dt">replace =</span> <span class="ot">TRUE</span>)
 
+<span class="co"># Combining 3 vectors:</span>
 age &lt;-<span class="st"> </span><span class="kw">c</span>(minors, adults, seniors)
 age
 <span class="co">#&gt;  [1] 16 16  5 15 11  9 13  3 12 12  8 13 16  5  8 16 17  2  9 10 60 24 64</span>
@@ -1133,6 +1136,8 @@ age
 <span class="co">#&gt; [1] 2</span>
 <span class="kw">max</span>(age)
 <span class="co">#&gt; [1] 97</span>
+<span class="kw">range</span>(age)
+<span class="co">#&gt; [1]  2 97</span>
 <span class="kw">mean</span>(age)
 <span class="co">#&gt; [1] 47.52</span>
 
@@ -1240,7 +1245,7 @@ pc_income_low
 <h1>Related Resources</h1>
 <p>There is no shortage of introductory R books and scripts, but it’s helpful if you find one that fits your interests and level of expertise.</p>
 <ul>
-<li><p>My favorite introduction to R is <a href="https://bookdown.org/ndphillips/YaRrr/">YaRrr! The Pirate’s Guide to R</a>, an ebook by Nathaniel Phillips that provides a more detailed and much more entertaining introduction to R. (See <a href="http://rpository.com/learnr/">Rpository.com/learnR/</a> for corresponding exercises with solutions.)</p></li>
+<li><p>My favorite introduction to R is <a href="https://bookdown.org/ndphillips/YaRrr/">YaRrr! The Pirate’s Guide to R</a>, an ebook by Nathaniel Phillips that approaches R in a more detailed and much more entertaining fashion. (See <a href="http://rpository.com/learnr/">Rpository.com/learnR/</a> for corresponding exercises with solutions.)</p></li>
 <li><p>For many other materials and scripts, see <a href="https://cran.r-project.org/manuals.html">R manuals</a> and <a href="www.r-project.org/other-docs.html">other documentation</a>.</p></li>
 <li><p>For <em>help</em> on any R command named <code>abc</code>, simply evaluate <code>?abc</code> (in the Console or Editor) to show R’s in-built help on the command with this name. For instance, evaluating <code>?sum</code> provides a precise definition and some examples of the function <code>sum</code> (introduced above). Even when some parts of the definition are difficult to understand at first, it’s typically helpful to examine and run the Examples provided.</p></li>
 </ul>
@@ -1249,9 +1254,9 @@ pc_income_low
 <h1>References</h1>
 <p>The participant data <code>p_info</code> (used in <strong>Exercise 6</strong>) is from:</p>
 <ul>
-<li>Woodworth, R. J., O’Brien-Malone, A., Diamond, M. R. and Schüz, B. (2018). Data from, ‘Web-based Positive Psychology Interventions: A Reexamination of Effectiveness’. <em>Journal of Open Psychology Data</em>, <em>6</em>: 1. DOI: <a href="https://doi.org/10.5334/jopd.35" class="uri">https://doi.org/10.5334/jopd.35</a></li>
+<li>Woodworth, R. J., O’Brien-Malone, A., Diamond, M. R. and Schüz, B. (2018). Data from, ‘Web-based positive psychology interventions: A reexamination of effectiveness’. <em>Journal of Open Psychology Data</em>, <em>6</em>: 1. DOI: <a href="https://doi.org/10.5334/jopd.35" class="uri">https://doi.org/10.5334/jopd.35</a></li>
 </ul>
-<p>[Last update on 2018-10-31 09:28:12 by <a href="http://neth.de/">hn</a>.]</p>
+<p>[Last update on 2018-11-03 09:49:02 by <a href="http://neth.de/">hn</a>.]</p>
 <!-- eof. -->
 </div>
 </div>

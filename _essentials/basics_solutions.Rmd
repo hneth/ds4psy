@@ -1,7 +1,7 @@
 ---
 title: "Basic R concepts and commands with solutions (ds4psy)"
 author: "Hansjörg Neth, SPDS, uni.kn"
-date: "2018 10 31"
+date: "2018 11 03"
 output:
    rmdformats::html_clean: # html_clean html_docco readthedown material #
      code_folding: show # hide
@@ -198,7 +198,7 @@ of [r4ds](https://r4ds.had.co.nz/). Specifically,
 
     1. A current version of [R](https://cloud.r-project.org);   
     2. A current version of [RStudio](http://www.rstudio.com);   
-    3. The R packages comprising the [tidyverse](https://www.tidyverse.org).   
+    3. The R packages of the [tidyverse](https://www.tidyverse.org).   
     
 
 2. **Readings:** You have read the following chapters of [r4ds](https://r4ds.had.co.nz/):
@@ -210,7 +210,7 @@ of [r4ds](https://r4ds.had.co.nz/). Specifically,
 
 This implies that you understand and can do the following:
 
-- Enter and run R commands at the prompt in the _Console_ window of RStudio (and check their results); 
+- Enter and run R commands at the prompt in the _Console_ window of RStudio, and check their results; 
 - Use R as a calculator for simple arithmetic; 
 - Assign numeric values and characters to named objects; 
 - Call simple R functions on objects;  
@@ -225,10 +225,9 @@ Using R and most other programming languages consists in
 
 2. evaluating _functions_ (actions, verbs).  
 
-Confusingly, both data and functions in R are _objects_ and evaluating functions 
-typically returns or creates new data objects. To distinguish data from functions, think of data as _objects_ (i.e., material or values that are being measured or manipulated) and functions as _procedures_ (i.e., actions, operations, or verbs) that measure or manipulate data.
+Confusingly, both data and functions in R are _objects_ and evaluating functions typically returns or creates new data objects. To distinguish data from functions, think of data as _objects_ (i.e., material or values that are being measured or manipulated) and functions as _procedures_ (i.e., actions, operations, or verbs) that measure or manipulate data.
 
-In the following, we will introduce some ways to describe data (by shape and type), learn to create new data objects, and apply some pre-defined functions on these data objects.
+In the following, we will introduce some ways to describe data (by _shape_ and _type_), learn to create new data objects (by assigning them with `<-`), and apply some pre-defined functions to these data objects.
 
 ### Data
 
@@ -236,10 +235,11 @@ In R, different data objects are characterized by their _shape_ and by their _ty
 
 1. The most common _shapes_ of data are:
 
-    - _scalars_: atomic objects (with a length of 1);  
-    - _vectors_: a chain/sequence of objects of the same type;    
-    - _data frames_/_matrices_/_tibbles_: rectangular data (i.e., tables with 2 dimensions: rows vs. columns).  
-    
+    - _scalars_: atomic objects (i.e., a data point, with a length of 1);  
+    - _vectors_: a chain/sequence of objects of the same type (i.e., extending in 1 dimension: length);    
+    - _data frames_/_matrices_/_tibbles_: rectangular data (i.e., tables with 2 dimensions: rows vs. columns).   
+
+
 2. The most common _types_ of data are:
 
     - _numeric_ data (of type `double` or `integer`);  
@@ -458,7 +458,7 @@ x %/% y # integer division
 x %% y  # remainder of integer division (x mod y)
 ```
 
-The same arithmetic operators also work with numeric _vectors_ (see Exercise 2 below). (See `?Arithmetic` for help on arithmetic operators and `?Syntax` for a full list of precedence groups.) 
+The same arithmetic operators also work with numeric _vectors_ (see **Exercise 3** below). (See `?Arithmetic` for help on arithmetic operators and `?Syntax` for a full list of precedence groups.) 
 
 
 ### Logical values and operators
@@ -921,9 +921,9 @@ x %% y       # yields the remainder of integer division
 - a person with an age from 18 to 64 years is classified as an _adult_, 
 - a person with an age from 65 to 99 years is classified as a _senior_.
 
-Generate a vector that samples the `age` of 100 people, but contains exactly 20 minors, 50 adults, and 30 seniors. 
+Generate a vector with 100 random samples that specifies the `age` of 100 people (in years), but contains exactly 20 minors, 50 adults, and 30 seniors. 
 
-Now use some functions on `age` to answer the following questions: 
+Now use some functions on your `age` vector to answer the following questions: 
 
  - What is the average (mean), minimum, and maximum age in this sample? 
  - How many people are younger than 25 years? 
@@ -933,14 +933,17 @@ Now use some functions on `age` to answer the following questions:
 ```{r ex5, echo = TRUE, eval = TRUE}
 set.seed(42) # for replicable randomness
 
+# Creating 3 groups:
 minor_range  <-  1:17
 adult_range  <- 18:64
 senior_range <- 64:99
 
+# Creating 3 vectors:
 minors  <- sample(minor_range, 20, replace = TRUE)
 adults  <- sample(adult_range, 50, replace = TRUE)
 seniors <- sample(senior_range, 30, replace = TRUE)
 
+# Combining 3 vectors:
 age <- c(minors, adults, seniors)
 age
 
@@ -948,6 +951,7 @@ age
 length(age)
 min(age)
 max(age)
+range(age)
 mean(age)
 
 # How many people are younger than 25 years? 
@@ -972,7 +976,7 @@ mean(round_ages)
 5. What is the age range (`min` to `max`) of participants? What is the average (mean and median) age?
 6. Describe the range of `income` levels present in this sample of participants. What percentage of participants self-identifies as a below-average income (i.e., an `income` value of 1)?
 
-```{r ex_p_info, echo = TRUE, eval = TRUE, results = "show", fig.show = "show"}
+```{r ex6_p_info, echo = TRUE, eval = TRUE, results = "show", fig.show = "show"}
 ## Load data (again): 
 p_info <- read_csv(file = "http://rpository.com/ds4psy/data/posPsy_participants.csv")
 # p_info
@@ -1039,7 +1043,7 @@ pc_income_low
 
 There is no shortage of introductory R books and scripts, but it's helpful if you find one that fits your interests and level of expertise. 
 
-- My favorite introduction to R is [YaRrr! The Pirate’s Guide to R](https://bookdown.org/ndphillips/YaRrr/), an ebook by Nathaniel Phillips that provides a more detailed and much more entertaining introduction to R.  (See [Rpository.com/learnR/](http://rpository.com/learnr/) for corresponding exercises with solutions.)
+- My favorite introduction to R is [YaRrr! The Pirate’s Guide to R](https://bookdown.org/ndphillips/YaRrr/), an ebook by Nathaniel Phillips that approaches R in a more detailed and much more entertaining fashion.  (See [Rpository.com/learnR/](http://rpository.com/learnr/) for corresponding exercises with solutions.) 
 
 - For many other materials and scripts, see [R manuals](https://cran.r-project.org/manuals.html) and [other documentation](www.r-project.org/other-docs.html).  
 
@@ -1051,7 +1055,7 @@ There is no shortage of introductory R books and scripts, but it's helpful if yo
 The participant data `p_info` (used in **Exercise 6**) is from: 
 
 - Woodworth, R. J., O’Brien-Malone, A., Diamond, M. R. and Schüz, B. (2018). 
-Data from, ‘Web-based Positive Psychology Interventions: A Reexamination of Effectiveness’. 
+Data from, ‘Web-based positive psychology interventions: A reexamination of effectiveness’. 
 _Journal of Open Psychology Data_, _6_: 1. 
 DOI: <https://doi.org/10.5334/jopd.35> 
 

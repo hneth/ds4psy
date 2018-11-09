@@ -1,7 +1,7 @@
 ---
 title: "Data Science for Psychologists (ds4psy)"
 author: "Hansjörg Neth, SPDS, uni.kn"
-date: "2018 10 31"
+date: "2018 11 08"
 output:
   rmdformats::html_clean:
     highlight: kate
@@ -42,9 +42,9 @@ opts_knit$set(width=75)
 
 ## Overview
 
-Students of psychology and other social sciences are trained to analyze data. But the data they learn to work with (e.g., in courses on statistics and empirical research methods) is typically provided to them and structured in a (rectangular or "tidy") format that presupposes many steps of data processing regarding the aggregation and spatial layout of variables.  When beginning to collect data from other sources, most students struggle with these pre-processing steps which --- even for experienced data scientists --- tend to require more time and effort than choosing and conducting statistical tests. 
+Students of psychology and other social sciences are trained to analyze data. But the data they learn to work with (e.g., in courses on statistics and empirical research methods) is typically provided to them and structured in a (rectangular or "tidy", Wickham, 2014) format that includes and presupposes many steps of data processing regarding the aggregation and spatial layout of variables.  When beginning to collect real-world data from other sources, most students struggle with these pre-processing steps which --- even for experienced data scientists --- tend to require more time and effort than choosing and conducting statistical tests. 
 
-This course develops the foundations of data analysis that allow students to collect data from real-world sources and transform and shape such data to conduct reproducible research and answer scientific and practical questions. Although there are many good introductions to data science (we use [Grolemund & Wickham, 2017](http://r4ds.had.co.nz/)) they typically do not take into account the special needs -- and often anxieties and reservations -- of psychology students. As social scientists are not computer scientists, we introduce new concepts and commands without assuming a mathematical or computational background. Adopting a task-oriented perspective, we begin with a specific problem and then solve it with some combination of data collection, manipulation, modeling, and visualization.
+This course develops the foundations of data analysis that allow students to collect data from real-world sources and transform such data into a shape that allows for answering scientific and practical questions and reproducible research. Although there are many good introductions to data science (we use [Grolemund & Wickham, 2017](http://r4ds.had.co.nz/)) they typically do not cater towards the special background and needs -- and often anxieties and reservations -- of psychology students. As social scientists are not computer scientists, we introduce new concepts and commands without assuming a mathematical or computational background. Our data and examples typically involve people and questions currently of interest in scientific psychology. Adopting a task-oriented perspective, we begin with a specific problem and then solve it with some combination of data collection, manipulation, modeling, and visualization.
 
 
 ## Goals
@@ -54,20 +54,20 @@ Our main goal is to develop a set of useful skills in analyzing real-world data 
 
 ## Requirements
 
-Attending class, continuos preparation (by working through chapters prior to class), and solving and submitting weekly exercises (see Assessment), and final exam OR project.
+Attending class, continuos preparation (by working through the current chapter _before_ coming to class), and solving and submitting weekly programming assignments (WPAs, see Assessment), and final exam OR project.
 
 This course assumes some basic familiarity with statistics and the [R](http://www.r-project.org/) programming language, but enthusiastic programming novices are also welcome.
 
 ## Assessment
 
-A. Submitting solutions to weekly exercises to [Ilias](https://ilias.uni-konstanz.de/ilias/goto_ilias_uni_crs_809936.html) by Wednesday of the same week (by 23:59) on at least 8 out of 11 weeks. 
+A. Submitting solutions to weekly programming assignments (WPAs) to [Ilias](https://ilias.uni-konstanz.de/ilias/goto_ilias_uni_crs_809936.html) by **Wednesday** of the same week (by 23:59) on at least 8 out of 11 weeks. 
 
 B. Final assessment: Vote for 1 of 2 options: 
 
 1. Final exam (on 11.02.2019: 90 mins, open book);  
 2. Final data science project (may be thesis-related, contents to be discussed with instructor). 
 
-Final grades are based on both exercise solutions (A: 33%) and your final exam/project (B: 67%).
+Final grades are based on both solutions to WPAs (A: 33%) and your final exam/project (B: 67%).
 
 
 # Schedule 
@@ -127,8 +127,8 @@ Part 2: Wrangle
  
  **Part 1: Explore data**
  
- 3. 05.11.2018: [**Basic R concepts and commands: Vectors and rectangular data**](http://rpository.com/ds4psy/R/_essentials/basics.html) with [WPA01](http://rpository.com/ds4psy/R/_essentials/basics.html#exercises-wpa01). 
- 4. 12.11.2018: [Chapter 3: Data visualisation](http://r4ds.had.co.nz/data-visualisation.html): `ggplot2`.  
+ 3. 05.11.2018: [**Basic R concepts and commands: Vectors and rectangular data**](http://rpository.com/ds4psy/R/_essentials/basics.html) with  [WPA01](http://rpository.com/ds4psy/R/_essentials/basics.html#exercises-wpa01) ([solutions](http://rpository.com/ds4psy/R/_essentials/basics_solutions.html)). 
+ 4. 12.11.2018: [Chapter 3: Data visualisation](http://r4ds.had.co.nz/data-visualisation.html): `ggplot2`. [WPA02]  
  5. 19.11.2018: [Chapter 5: Data transformation](http://r4ds.had.co.nz/transform.html): `dplyr`.  
  6. 26.11.2018: [Chapter 7: Exploratory data analysis (EDA)](http://r4ds.had.co.nz/exploratory-data-analysis.html).
  

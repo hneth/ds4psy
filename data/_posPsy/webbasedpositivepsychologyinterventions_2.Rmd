@@ -1,0 +1,232 @@
+---
+title: "Web-based Positive Psychology Interventions"
+author: "Lisa-Marie Walther"
+date: "27 Oktober 2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+#Web-based Positive Psychology Interventions: A Reexamination of Effectiveness
+
+**See: **<https://openpsychologydata.metajnl.com/articles/10.5334/jopd.35/>
+
+##Preparation
+```{r, 2, echo = TRUE, eval = TRUE}
+library(tidyverse)
+library(readxl)
+library(knitr)
+library(dbplyr)
+library(ggplot2)
+```
+
+##Study data
+Study data is stored in two seperate files: participant-info.csv & ahi-cesd.csv
+
+###participant-info.csv
+Contains demographic information on participants:
+
+* id:participant id
+* intervention: 1 = “Using Signature Strengths”, 2 = “Three Good Things”, 3 = “Gratitude Visit”, 4 = “Recording early memories” (used as the control condition)
+* sex: 1 = female, 2 = male
+* age: participants age in years
+* educ: 1 = Less than Year 12, 2 = Year 12, 3 = Vocational training, 4 = Bachelor’s degree, 5 = Postgraduate degree
+* income: 1 = Below average, 2 = average, 3 = Above average
+
+###ahi-cesd.csv
+Contains data of Authentic Happiness Inventory (AHI) and Center for Epidemiological Studies Depression (CES-D):
+
+* id: Particpant ID
+* occasion: Measurement occasion: 0 = Pretest, i.e. , at enrolment, 1 = Posttest, i.e. , 7 days after pretest, 2 = 1-week follow-up, i.e. , 14 days after pretest (7 days after posttest), 3 = 1-month follow-up, i.e. , 38 days after pretest (31 days after posttest), 4 = 3-month follow-up, i.e. , 98 days after pretest (91 days after posttest), 5 = 6-month follow-up, i.e. , 189 days after pretest (182 days after posttest).
+* elapsed.days: time since enrolment measured in fractional days	
+* intervention: intervention group
+* ahi01 - ahi24: responses on AHI-items
+* cesd01 - cesd20: responses on cesd-items
+* ahiTotal: total score AHI
+* cesdTotal: total score CESD
+
+###Step 1: Import data
+```{r, 3, echo = TRUE, eval = TRUE}
+ahi_cesd <- read_delim("~/Uni/7. Semester/HiWi/Data/Web-based positive psychology interventions/ahi-cesd.csv", ";", escape_double = FALSE, trim_ws = TRUE)
+
+participant_info <- read_delim("~/Uni/7. Semester/HiWi/Data/Web-based positive psychology interventions/participant-info.csv", ";", escape_double = FALSE, trim_ws = TRUE)
+```
+###Step 2: Inspect data
+```{r, 4, echo = TRUE, eval = TRUE}
+glimpse(ahi_cesd)
+glimpse(participant_info)
+
+participant_info$intervention <- as.character(participant_info$intervention)
+participant_info$educ <- as.character(participant_info$educ)
+participant_info$sex <- as.character(participant_info$sex)
+participant_info$income <- as.character(participant_info$income)
+
+```
+
+
+
+###Step 3: Combine data in one tibble
+
+####Step 3.1.: Edit ahi_cesd: 1 row per participant
+
+```{r, 5, echo = TRUE, eval = TRUE}
+#Create individual tibbles for every observation to later combine them using full_join()
+ahi_cesd_0 <- ahi_cesd%>%
+  group_by(id, occasion)%>%
+  filter(occasion == 0)
+
+ahi_cesd_1 <- ahi_cesd%>%
+  group_by(id, occasion)%>%
+  filter(occasion == 1)
+
+ahi_cesd_2 <- ahi_cesd%>%
+  group_by(id, occasion)%>%
+  filter(occasion == 2)
+
+ahi_cesd_3 <- ahi_cesd%>%
+  group_by(id, occasion)%>%
+  filter(occasion == 3)
+
+ahi_cesd_4 <- ahi_cesd%>%
+  group_by(id, occasion)%>%
+  filter(occasion == 4)
+
+ahi_cesd_5 <- ahi_cesd%>%
+  group_by(id, occasion)%>%
+  filter(occasion == 5)
+
+
+new1 <- full_join(ahi_cesd_0, ahi_cesd_1, by = "id", suffix = c(".0", ".1"))
+new2 <- full_join(new1, ahi_cesd_2, by = "id", suffix = c(".1", ".2"))
+new3 <- full_join(new2, ahi_cesd_3, by = "id", suffix = c(".2", ".3"))
+new4 <- full_join(new3, ahi_cesd_4, by = "id", suffix = c(".3", "4"))
+newfinal <- full_join(new4, ahi_cesd_5, by = "id", suffix = c(".4", ".5"))
+
+View(newfinal)
+```
+
+####Step3.2: Combine data sets
+```{r, 6, echo = TRUE, eval = TRUE}
+completedata <- full_join(participant_info, newfinal, by= "id")
+```
+
+####Step3.3: Delete redundant intervention.xy colums (only retain colum "intervention")
+```{r, 6, echo = TRUE, eval = TRUE}
+completedata <- select(completedata, -intervention.0)
+completedata <- select(completedata, -intervention.1)
+completedata <- select(completedata, -intervention.2)
+completedata <- select(completedata, -intervention.3)
+completedata <- select(completedata, -intervention.4)
+completedata <- select(completedata, -intervention.5)
+
+View(completedata)
+
+##Task:Is there an easier way to handle this?
+```
+
+
+###Step 4: Explore data sets
+####Only participant info data
+```{r, 7, echo = TRUE, eval = TRUE}
+#number of participants
+participant_info%>%
+  count()
+
+#number of participants per intervention group
+participant_info%>%
+  group_by(intervention)%>%
+  summarise(n = n(), 
+            mean_age_i = mean(age, na.rm = TRUE), 
+            min_age_i = min(age, na.rm = TRUE), 
+            max_age_i = max(age, na.rm = TRUE))
+
+#number of male / female participants
+participant_info%>%
+  group_by(sex)%>%
+  summarise(n = n())
+
+#Age distribution
+ggplot(participant_info) +
+  geom_histogram(mapping = aes(age), binwidth = 2)+
+  theme_bw()+
+  ggtitle("Distribution of age")
+  
+ 
+#Age distribution by intervention
+ggplot(participant_info) +
+  geom_histogram(mapping = aes(age), binwidth = 5)+
+  theme_bw()+
+  ggtitle("Distribution of age by intervention")+
+  facet_grid(.~intervention)
+
+#distribution of education
+ggplot(participant_info) +
+  geom_bar(mapping = aes(educ))+
+  ggtitle("Distribution of education")
+  
+
+```
+
+
+
+
+
+```{r, 8, echo = TRUE, eval = TRUE}
+ahi_cesd%>% 
+  group_by(intervention)%>%
+  summarize(mean_ahi_i = mean(ahiTotal, na.rm = TRUE), 
+            mean_cesd_i = mean(cesdTotal, na.rm = TRUE))
+
+#ggplot()
+```
+
+
+```{r, 9, echo = TRUE, eval = TRUE}
+
+#new variable improvement in ahiTotal/cesdTotal
+completedata%>%
+mutate(improve.ahi = ahiTotal.5 - ahiTotal.0)
+
+completedata%>%
+mutate(improve.cesd = cesdTotal.5 - cesdTotal.0)
+
+#add to existing data
+completedata <- completedata%>%
+mutate(improve.ahi = ahiTotal.5 - ahiTotal.0)
+
+
+completedata <- completedata%>%
+mutate(improve.cesd = cesdTotal.5 - cesdTotal.0)
+
+
+#mean improvement (overall)
+completedata%>%
+  summarize(mean_improve_cesd = mean(improve.cesd, na.rm = TRUE), 
+            mean_improve_ahi = mean(improve.ahi, na.rm = TRUE))
+
+#mean improvement (per intervention)
+  ##Which intervention group did improve most in ahi and cesd total scores?
+completedata%>%
+  group_by(intervention)%>%
+  summarize(mean_improve_cesd = mean(improve.cesd, na.rm = TRUE), 
+            mean_improve_ahi = mean(improve.ahi, na.rm = TRUE))
+
+
+  
+```
+
+
+```{r, 10, echo = TRUE, eval = TRUE}
+
+```
+
+
+
+
+
+```{r, 11, echo = TRUE, eval = TRUE}
+
+```
+
+

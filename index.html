@@ -66,7 +66,7 @@ img {
 <div id="header">
 <h1 class="title">Data Science for Psychologists (ds4psy)</h1>
 <h4 class="author"><em>Hansjörg Neth, SPDS, uni.kn</em></h4>
-<h4 class="date"><em>2018 10 31</em></h4>
+<h4 class="date"><em>2018 11 08</em></h4>
 </div>
 
 <div id="content">
@@ -85,8 +85,8 @@ img {
 <h1>Course Description</h1>
 <div id="overview" class="section level2">
 <h2>Overview</h2>
-<p>Students of psychology and other social sciences are trained to analyze data. But the data they learn to work with (e.g., in courses on statistics and empirical research methods) is typically provided to them and structured in a (rectangular or “tidy”) format that presupposes many steps of data processing regarding the aggregation and spatial layout of variables. When beginning to collect data from other sources, most students struggle with these pre-processing steps which — even for experienced data scientists — tend to require more time and effort than choosing and conducting statistical tests.</p>
-<p>This course develops the foundations of data analysis that allow students to collect data from real-world sources and transform and shape such data to conduct reproducible research and answer scientific and practical questions. Although there are many good introductions to data science (we use <a href="http://r4ds.had.co.nz/">Grolemund &amp; Wickham, 2017</a>) they typically do not take into account the special needs – and often anxieties and reservations – of psychology students. As social scientists are not computer scientists, we introduce new concepts and commands without assuming a mathematical or computational background. Adopting a task-oriented perspective, we begin with a specific problem and then solve it with some combination of data collection, manipulation, modeling, and visualization.</p>
+<p>Students of psychology and other social sciences are trained to analyze data. But the data they learn to work with (e.g., in courses on statistics and empirical research methods) is typically provided to them and structured in a (rectangular or “tidy”, Wickham, 2014) format that includes and presupposes many steps of data processing regarding the aggregation and spatial layout of variables. When beginning to collect real-world data from other sources, most students struggle with these pre-processing steps which — even for experienced data scientists — tend to require more time and effort than choosing and conducting statistical tests.</p>
+<p>This course develops the foundations of data analysis that allow students to collect data from real-world sources and transform such data into a shape that allows for answering scientific and practical questions and reproducible research. Although there are many good introductions to data science (we use <a href="http://r4ds.had.co.nz/">Grolemund &amp; Wickham, 2017</a>) they typically do not cater towards the special background and needs – and often anxieties and reservations – of psychology students. As social scientists are not computer scientists, we introduce new concepts and commands without assuming a mathematical or computational background. Our data and examples typically involve people and questions currently of interest in scientific psychology. Adopting a task-oriented perspective, we begin with a specific problem and then solve it with some combination of data collection, manipulation, modeling, and visualization.</p>
 </div>
 <div id="goals" class="section level2">
 <h2>Goals</h2>
@@ -94,19 +94,19 @@ img {
 </div>
 <div id="requirements" class="section level2">
 <h2>Requirements</h2>
-<p>Attending class, continuos preparation (by working through chapters prior to class), and solving and submitting weekly exercises (see Assessment), and final exam OR project.</p>
+<p>Attending class, continuos preparation (by working through the current chapter <em>before</em> coming to class), and solving and submitting weekly programming assignments (WPAs, see Assessment), and final exam OR project.</p>
 <p>This course assumes some basic familiarity with statistics and the <a href="http://www.r-project.org/">R</a> programming language, but enthusiastic programming novices are also welcome.</p>
 </div>
 <div id="assessment" class="section level2">
 <h2>Assessment</h2>
-<p>A. Submitting solutions to weekly exercises to <a href="https://ilias.uni-konstanz.de/ilias/goto_ilias_uni_crs_809936.html">Ilias</a> by Wednesday of the same week (by 23:59) on at least 8 out of 11 weeks.</p>
+<p>A. Submitting solutions to weekly programming assignments (WPAs) to <a href="https://ilias.uni-konstanz.de/ilias/goto_ilias_uni_crs_809936.html">Ilias</a> by <strong>Wednesday</strong> of the same week (by 23:59) on at least 8 out of 11 weeks.</p>
 <p>B. Final assessment: Vote for 1 of 2 options:</p>
 <ol style="list-style-type: decimal">
 <li>Final exam (on 11.02.2019: 90 mins, open book);<br />
 </li>
 <li>Final data science project (may be thesis-related, contents to be discussed with instructor).</li>
 </ol>
-<p>Final grades are based on both exercise solutions (A: 33%) and your final exam/project (B: 67%).</p>
+<p>Final grades are based on both solutions to WPAs (A: 33%) and your final exam/project (B: 67%).</p>
 </div>
 </div>
 <div id="schedule" class="section level1">
@@ -165,8 +165,8 @@ Part 2: Wrangle
 </ol>
 <p><strong>Part 1: Explore data</strong></p>
 <ol start="3" style="list-style-type: decimal">
-<li>05.11.2018: <a href="http://rpository.com/ds4psy/R/_essentials/basics.html"><strong>Basic R concepts and commands: Vectors and rectangular data</strong></a> with <a href="http://rpository.com/ds4psy/R/_essentials/basics.html#exercises-wpa01">WPA01</a>.</li>
-<li>12.11.2018: <a href="http://r4ds.had.co.nz/data-visualisation.html">Chapter 3: Data visualisation</a>: <code>ggplot2</code>.<br />
+<li>05.11.2018: <a href="http://rpository.com/ds4psy/R/_essentials/basics.html"><strong>Basic R concepts and commands: Vectors and rectangular data</strong></a> with <a href="http://rpository.com/ds4psy/R/_essentials/basics.html#exercises-wpa01">WPA01</a> (<a href="http://rpository.com/ds4psy/R/_essentials/basics_solutions.html">solutions</a>).</li>
+<li>12.11.2018: <a href="http://r4ds.had.co.nz/data-visualisation.html">Chapter 3: Data visualisation</a>: <code>ggplot2</code>. [WPA02]<br />
 </li>
 <li>19.11.2018: <a href="http://r4ds.had.co.nz/transform.html">Chapter 5: Data transformation</a>: <code>dplyr</code>.<br />
 </li>
@@ -389,7 +389,7 @@ Sebastopol, Canada: O'Reilly Media, Inc.  [Available online at [http://r4ds.had.
 - <http://www.sharpsightlabs.com/> 
 
 -->
-<p>[This file last updated on 2018-10-31 09:29:10 by <a href="http://neth.de/">hn</a>.]</p>
+<p>[This file last updated on 2018-11-09 18:41:56 by <a href="http://neth.de/">hn</a>.]</p>
 <!-- eof. -->
 </div>
 </div>

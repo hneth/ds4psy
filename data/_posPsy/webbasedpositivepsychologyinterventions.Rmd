@@ -1,0 +1,197 @@
+---
+title: "Web-based Positive Psychology Interventions"
+author: "Lisa-Marie Walther"
+date: "27 Oktober 2018"
+output: html_document
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Web-based Positive Psychology Interventions: A Reexamination of Effectiveness
+
+**See: **<https://openpsychologydata.metajnl.com/articles/10.5334/jopd.35/>
+
+## Preparation
+
+```{r 2_packages, echo = FALSE, eval = TRUE, message = FALSE, warning = FALSE}
+library(tidyverse)
+library(readxl)
+library(knitr)
+library(dbplyr)
+```
+
+## Study data
+
+The study data is stored in 2 seperate files: `participant-info.csv` & `ahi-cesd.csv`
+
+### File `participant-info.csv`
+
+Contains _demographic information_ on participants:
+
+* `id`: participant id
+
+* `intervention`: 
+
+    - 1 = “Using Signature Strengths”, 
+    - 2 = “Three Good Things”, 
+    - 3 = “Gratitude Visit”, 
+    - 4 = “Recording early memories” (control condition)
+
+* `sex`: 1 = female, 2 = male
+
+* `age`: participants age in years
+
+* `educ`: 1 = Less than Year 12, 2 = Year 12, 3 = Vocational training, 4 = Bachelor’s degree, 5 = Postgraduate degree
+
+* `income`: 1 = Below average, 2 = average, 3 = Above average
+
+### File `ahi-cesd.csv`
+
+Contains data of _Authentic Happiness Inventory_ (AHI) and _Center for Epidemiological Studies Depression_ (CES-D):
+
+* `id`: Particpant ID
+
+* `occasion`: Measurement occasion: 
+
+    - 0 = Pretest, i.e. , at enrolment, 
+    - 1 = Posttest, i.e. , 7 days after pretest, 
+    - 2 = 1-week follow-up, i.e. , 14 days after pretest (7 days after posttest), 
+    - 3 = 1-month follow-up, i.e. , 38 days after pretest (31 days after posttest), 
+    - 4 = 3-month follow-up, i.e. , 98 days after pretest (91 days after posttest), 
+    - 5 = 6-month follow-up, i.e. , 189 days after pretest (182 days after posttest).
+
+* `elapsed.days`: time since enrolment measured in fractional days	
+
+* `intervention`: intervention group
+
+* `ahi01` - `ahi24`: responses on AHI-items
+
+* `cesd01` - `cesd20`: responses on cesd-items
+
+* `ahiTotal`: total score AHI
+
+* `cesdTotal`: total score CESD
+
+
+### Step 1: Import data
+
+```{r 3_read_data, echo = TRUE, eval = TRUE}
+## Lisa:
+
+# ahi_cesd <- read_delim("~/Uni/7. Semester/HiWi/Data/Web-based positive psychology interventions/ahi-cesd.csv", ";", escape_double = FALSE, trim_ws = TRUE)
+
+# participant_info <- read_delim("~/Uni/7. Semester/HiWi/Data/Web-based positive psychology interventions/participant-info.csv", ";", escape_double = FALSE, trim_ws = TRUE)
+
+## Hans: 
+
+## Get & set current path:
+# cur.path <- dirname(rstudioapi::getActiveDocumentContext()$path)
+# cur.path
+# setwd(cur.path) # set to current directory
+
+my_path <- "/Users/hneth/Desktop/stuff/Dropbox/_code/R/_teachR/ds4psy/data/_posPsy"
+
+ahi_cesd <- read_delim(paste0(my_path, "/ahi-cesd.csv"), ";", 
+                       escape_double = FALSE, trim_ws = TRUE)
+participant_info <- read_delim(paste0(my_path, "/participant-info.csv"), ";", 
+                               escape_double = FALSE, trim_ws = TRUE)
+
+```
+
+### Step 2: Inspect data
+
+```{r, 4, echo = TRUE, eval = TRUE}
+glimpse(participant_info)
+
+glimpse(ahi_cesd)
+
+## How many occasions (lines) are there for each participant?
+# ahi_cesd
+occasions_pp <- ahi_cesd %>%
+  group_by(id) %>%
+  summarise(n = n())
+
+knitr::kable(head(occasions_pp))
+
+## How many participants with all 6 occasions?
+
+occasions_pp %>%
+  filter(n == 6) %>%
+  nrow()
+```
+
+### Step 3: Combine data in one tibble
+
+#### Step 3.1: Edit `ahi_cesd`: 1 row per participant
+
+Using `dcast` (from package `data.table`): 
+
+```{r, 5, echo = TRUE, eval = TRUE}
+# library(data.table)
+# ahi_cesd2 <- dcast(setDT(ahi_cesd), id~occasion, value.var=c('elapsed.days':'cesdTotal'))
+```
+
+Trying to use `tidyr` to re-format (from long into wide format):
+
+```{r tidyr, echo = TRUE, eval = TRUE}
+ahi_cesd
+
+# ahi_cesd %>%
+#  spread(key = id, value = occasion)
+```
+
+Workaround: `ahi_cesd` consists of several blocks of data (one per `occasion`, including all participants still participating in this occasion).  
+
+Filter each occasion into a separate data file and combine them afterwards:
+
+```{r blockwise}
+# 0. Select only pretest data (i.e., occasion == 0):
+ahi_cesd_occ0 <- ahi_cesd %>%
+  filter(occasion == 0)
+
+ahi_cesd_occ0
+
+# 1. Select posttest data (i.e., occasion == 1):
+ahi_cesd_occ1 <- ahi_cesd %>%
+  filter(occasion == 1)
+
+ahi_cesd_occ1
+```
+
+#### Step 3.2: Combine data sets
+
+```{r, 6, echo = TRUE, eval = TRUE}
+# completedata <- full_join(participant_info, ahi_cesd2, by= "id")
+
+## 1. Combine participant info with pretest (occasion == 0) data:
+data_occ0 <- full_join(participant_info, ahi_cesd_occ0, by= "id")
+data_occ0
+
+# Note some duplicates:  
+all.equal(data_occ0$intervention.x, data_occ0$intervention.y)  # => TRUE
+```
+
+
+```{r, 7, echo = TRUE, eval = TRUE}
+
+```
+
+```{r, 8, echo = TRUE, eval = TRUE}
+
+```
+
+```{r, 9, echo = TRUE, eval = TRUE}
+
+```
+
+```{r, 10, echo = TRUE, eval = TRUE}
+
+```
+
+```{r, 11, echo = TRUE, eval = TRUE}
+
+```
+
+
