@@ -40,12 +40,11 @@ vignettes/*.pdf
 # Others:
 _gitless 
 _book 
-_data/_BBriskStudy/
-_data/_falsePosPsy/
-_data/_Pegel_Bodensee/
-_data/_posPsy/
 _readings
 rsconnect/
-
+data/_BBriskStudy/
+data/_falsePosPsy/
+data/_Pegel_Bodensee/
+data/_posPsy/
 
 # eof. 
