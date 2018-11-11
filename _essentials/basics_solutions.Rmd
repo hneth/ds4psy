@@ -150,11 +150,12 @@ All [ds4psy](http://rpository.com/ds4psy/) essentials:
 
 Nr. | Topic       |
 ---:|:------------| 
-1.  | [Creating and using tibbles](http://rpository.com/ds4psy/R/_essentials/tibble.html) |
-2.  | [Data transformation](http://rpository.com/ds4psy/R/_essentials/transform.html) |
-3.  | [Visualizing data](http://rpository.com/ds4psy/R/_essentials/visualize.html) | 
-4.  | [Exploring data](http://rpository.com/ds4psy/R/_essentials/explore.html) | 
-5.  | [Tidy data](http://rpository.com/ds4psy/R/_essentials/tidy.html) | 
+1.  | [Basic R concepts and commands](http://rpository.com/ds4psy/R/_essentials/basics.html) | 
+2.  | [Visualizing data](http://rpository.com/ds4psy/R/_essentials/visualize.html) | 
+3.  | [Transforming data](http://rpository.com/ds4psy/R/_essentials/transform.html) |
+4.  | [Exploring data (EDA)](http://rpository.com/ds4psy/R/_essentials/EDA.html) | 
+5.  | [Creating and using tibbles](http://rpository.com/ds4psy/R/_essentials/tibble.html) |
+6.  | [Tidying data](http://rpository.com/ds4psy/R/_essentials/tidy.html) |  
 
 -->
 

@@ -1,7 +1,7 @@
 ---
-title: "Essential data visualization and EDA (ds4psy)"
+title: "Visualizing data (ds4psy)"
 author: "Hansjörg Neth, SPDS, uni.kn"
-date: "2018 07 30"
+date: "2018 11 10"
 output:
    rmdformats::html_clean: # html_clean html_docco readthedown material #
      code_folding: show # hide
@@ -143,10 +143,12 @@ All [ds4psy](http://rpository.com/ds4psy/) essentials:
 
 Nr. | Topic       |
 ---:|:------------| 
-1.  | [Creating and using tibbles](http://rpository.com/ds4psy/R/_essentials/tibble.html) |
-2.  | [Data transformation](http://rpository.com/ds4psy/R/_essentials/transform.html) |
-3.  | [Visualizing data](http://rpository.com/ds4psy/R/_essentials/visualize.html) | 
-4.  | [Tidy data](http://rpository.com/ds4psy/R/_essentials/tidy.html) | 
+1.  | [Basic R concepts and commands](http://rpository.com/ds4psy/R/_essentials/basics.html) | 
+2.  | [Visualizing data](http://rpository.com/ds4psy/R/_essentials/visualize.html) | 
+3.  | [Transforming data](http://rpository.com/ds4psy/R/_essentials/transform.html) |
+4.  | [Exploring data (EDA)](http://rpository.com/ds4psy/R/_essentials/EDA.html) | 
+5.  | [Creating and using tibbles](http://rpository.com/ds4psy/R/_essentials/tibble.html) |
+6.  | [Tidying data](http://rpository.com/ds4psy/R/_essentials/tidy.html) |  
 
 ## Course coordinates
 
@@ -157,35 +159,34 @@ Nr. | Topic       |
 <!-- <img src = "./inst/pix/uniKn_logo_s.png" alt = "spds.uni.kn" style = "float: right; border:20;"/> --> 
 </a>
 
-* Course [Data Science for Psychologists](http://rpository.com/ds4psy/) (ds4psy). 
 * Taught at the [University of Konstanz](https://www.uni-konstanz.de/) by [Hansjörg Neth](http://neth.de/) (<h.neth@uni.kn>,  [SPDS](https://www.spds.uni-konstanz.de/), office D507).
-* Spring/summer 2018: Mondays, 13:30--15:00, C511.  
-* Links to [ZeUS](https://zeus.uni-konstanz.de:443/hioserver/pages/startFlow.xhtml?_flowId=showEvent-flow&unitId=5101&termYear=2018&termTypeValueId=1&navigationPosition=hisinoneLehrorganisation,examEventOverviewOwn) and [Ilias](https://ilias.uni-konstanz.de/ilias/goto_ilias_uni_crs_758039.html)
+* Winter 2018/2019: Mondays, 13:30--15:00, C511. 
+* Links to current [course syllabus](http://rpository.com/ds4psy/) | [ZeUS](https://zeus.uni-konstanz.de/hioserver/pages/startFlow.xhtml?_flowId=detailView-flow&unitId=5101&periodId=78&navigationPosition=hisinoneLehrorganisation,examEventOverviewOwn) |  [Ilias](https://ilias.uni-konstanz.de/ilias/goto_ilias_uni_crs_809936.html) 
 
 ## Preparations
 
 Create an R script (`.R`) or an R-Markdown file (`.Rmd`) and load the R packages of the `tidyverse`. (Hint: Structure your script by inserting spaces, meaningful comments, and sections.) 
- 
-```{r layout_template, echo = TRUE, eval = FALSE}
-## Essential commmands | Data science for psychologists
-## 2018 07 06
-## ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ##
 
-## Preparations: ----- 
+```{r layout_template, echo = TRUE, eval = FALSE}
+## Visualizing data | ds4psy
+## 2018 11 12
+## ----------------------------
+
+## Preparations: ----------
 
 library(tidyverse)
 
-## Visualize data and EDA: ggplot2 and dplyr ----- 
+## 1. Topic: ----------
 
-# ...
+# etc.
 
-## ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ##
-## End of file. ----- 
+## End of file (eof). ----------  
 ```
 
 # Visualizing data
 
-In the following, we introduce some essential commands of `ggplot2` in the context of examples. However, the `ggplot2` package extends far beyond this modest introduction -- it is an important pillar (and predecessor) of the `tidyverse` and implements a language for and philosophy of data visualisation. 
+In the following, we assume that you have read and worked through [Chapter 3: Data visualization](http://r4ds.had.co.nz/data-visualisation.html)). 
+Based on this background, we examine some essential commands of `ggplot2` in the context of examples. However, the `ggplot2` package extends far beyond this modest introduction -- it is an important pillar (and predecessor) of the `tidyverse` and implements a language for and philosophy of data visualisation. 
 
 See [Chapter 3: Data visualization](http://r4ds.had.co.nz/data-visualisation.html)) and [Chapter 7: Exploratory data analysis (EDA)](http://r4ds.had.co.nz/exploratory-data-analysis.html) and the links provided below for more detailed information. 
 
@@ -231,12 +232,10 @@ A _histogram_ counts how often specific values of one (typically continuous) var
 ```{r ggplot_template_mpg_hist}
 library(ggplot2)
 
-
-
 # Data: ------ 
-# Using mpg data:
-?ggplot2::mpg
-mpg
+## Using mpg data:
+# ?ggplot2::mpg
+# mpg
 
 # (A) Histogram: ------
 
@@ -884,10 +883,12 @@ All [ds4psy](http://rpository.com/ds4psy/) essentials:
 
 Nr. | Topic       |
 ---:|:------------| 
-1.  | [Creating and using tibbles](http://rpository.com/ds4psy/R/_essentials/tibble.html) |
-2.  | [Data transformation](http://rpository.com/ds4psy/R/_essentials/transform.html) |
-3.  | [Visualizing data](http://rpository.com/ds4psy/R/_essentials/visualize.html) | 
-4.  | [Tidy data](http://rpository.com/ds4psy/R/_essentials/tidy.html) | 
+1.  | [Basic R concepts and commands](http://rpository.com/ds4psy/R/_essentials/basics.html) | 
+2.  | [Visualizing data](http://rpository.com/ds4psy/R/_essentials/visualize.html) | 
+3.  | [Transforming data](http://rpository.com/ds4psy/R/_essentials/transform.html) |
+4.  | [Exploring data (EDA)](http://rpository.com/ds4psy/R/_essentials/EDA.html) | 
+5.  | [Creating and using tibbles](http://rpository.com/ds4psy/R/_essentials/tibble.html) |
+6.  | [Tidying data](http://rpository.com/ds4psy/R/_essentials/tidy.html) | 
 
 [Last update on `r Sys.time()` by [hn](http://neth.de/).]  
 
