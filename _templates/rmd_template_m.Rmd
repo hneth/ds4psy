@@ -1,0 +1,88 @@
+---
+title: "Your Title"
+author: "Your Name"
+date: "Year Month Day"
+output: html_document
+---
+
+This is the _medium_ R Markdown template for our course.  A more extensive introduction is available [here](http://Rpository.com/down/temp/Rmarkdown_basics.html) (and the corresponding `.Rmd` source [here](http://Rpository.com/down/temp/Rmarkdown_basics.Rmd)).
+
+# Preparations
+
+## Specify the Header
+
+Always specify the current topic (or WPA), your name, and the current date in the _header_ of your file.
+
+## Load packages
+
+```{r install_load, echo = FALSE, eval = TRUE}
+# Setting echo = FALSE prevents that this code is displayed in the output document.
+# Setting eval = TRUE ensures that this code chunk is evaluated when knitting the document.
+
+## Install packages (only once):
+#install.packages("rmarkdown") 
+#install.packages("knitr") 
+
+## Load packages explicitly at the beginning of a markdown document:
+library("rmarkdown") 
+library("knitr")
+```
+
+
+# Background
+
+## Basics
+
+Markdown document are simple text documents and can be edited by any text editor --- ideally by a program that interacts with R (like [RStudio](http://www.rstudio.com)). 
+
+You can create a new Markdown document in [RStudio](http://www.rstudio.com) by clicking `File > New File > R Markdown`. At the top of a new file, you will see inputs for a page title, author, date, and the output format. Change the title, author, and date to suit your current document.
+
+
+## Text vs. chunks of R code
+
+There are two basic types of content in a Markdown document:
+
+1. To write _text_, you can just type it into the document and use simple formatting commands 
+(e.g., using _italics_ or __bold__ fonts) to emphasize parts of text.
+
+2. To write and evaluate _R code_ in a Markdown document, you need to enclose the R code into a _code chunk_. 
+
+Here's how a standard code chunk looks: 
+
+```{r chunk_name, echo = TRUE, eval = TRUE}
+# This is a code chunk. Everything in this chunk will be interpreted as R code.
+# Specifying a unique chunk_name helps to keep track of your various chunks later. 
+
+# R will evaluate the code in this chunk and print the result:
+v <- 1:4
+sum(v)
+```
+
+If you use [RStudio](http://www.rstudio.com), the code chunks are marked by a grey background. You can evaluate individual chunks by pressing the buttons on the top right of a chunk window. All code contained in these chunks will be evaluated by R Markdown as R code when you _knit_ the document.
+
+<!-- Note that you can use html commands in Markdown, e.g., for including comments. -->
+
+## Sections
+
+To structure text into sections, the symbol `#` is used as a prefix to section titles. Obviously, this differs from the use of the symbol `#` in R code, where it is used as a prefix for commenting out lines. 
+
+## Some subsection
+
+Subsections (and sub-sub-...-sections) can be created by using 2 (3, or more) `##` symbols.
+
+## Second subsection
+
+Make sure to only introduce new levels of subsections when there are at least 2 headings of a section.  
+
+
+## Knitting
+
+To convert an `.Rmd` source file into an output file (into `.html` or `.pdf` format) you need to "knit" it (assuming that the `knitr` package is installed and loaded). This can be done by pressing the "Knit" button (at the top of your Editor window of RStudio) or the `Command + Shift + K` keyboard shortcut. 
+
+If your R code contains errors, the document will fail to knit (and print an error message that specifies the reason or chunk name with problems). Thus, if your document fails to knit, you need to go through your code (in a chunk-by-chunk fashion) to find and fix the error.
+
+Further information on RMarkdown is available at [http://rmarkdown.rstudio.com](http://rmarkdown.rstudio.com).
+
+[Updated on `r Sys.Date()` by YourName.]
+
+<!-- End of document -->
