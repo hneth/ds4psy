@@ -1,7 +1,7 @@
 ## r4ds: Chapter 3: Data visualisation 
 ## Code for http://r4ds.had.co.nz/data-visualisation.html
 ## hn spds uni.kn
-## 2018 11 10 ------
+## 2018 11 12 ------
 
 
 ## Quotes: ------
