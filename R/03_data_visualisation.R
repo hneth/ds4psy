@@ -1,7 +1,7 @@
 ## r4ds: Chapter 3: Data visualisation 
 ## Code for http://r4ds.had.co.nz/data-visualisation.html
 ## hn spds uni.kn
-## 2018 05 23 ------
+## 2018 11 10 ------
 
 
 ## Quotes: ------
@@ -237,7 +237,7 @@ ggplot(data = mpg) +
 # it has to come at the end of the line, not the start. 
 
 ggplot(data = mpg)   # won't work:
-+ geom_point(mapping = aes(x = displ, y = hwy))
+  + geom_point(mapping = aes(x = displ, y = hwy))
 
 ## Hints:
 # - read error messages
