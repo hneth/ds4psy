@@ -1,0 +1,264 @@
+---
+title: "Data sets (ds4psy)"
+author: "Hansjörg Neth, SPDS, uni.kn"
+date: "2018 11 13"
+output:
+   rmdformats::html_clean: # html_clean html_docco readthedown material #
+     code_folding: show # hide
+     toc_float: true
+     toc_depth: 3
+     highlight: default # textmate default kate haddock monochrome #
+     lightbox: true # true by default
+     fig_width: 8 # in inches
+editor_options: 
+  chunk_output_type: console # inline
+---
+
+<!-- Example of essential commands | ds4psy: Summer 2018 -->
+
+```{r preamble, echo = FALSE, eval = TRUE, cache = FALSE, message = FALSE, warning = FALSE}
+## (a) Housekeeping: -----
+rm(list=ls()) # clean all.
+
+## (b) Current file name and path: ----- 
+# cur.path <- dirname(rstudioapi::getActiveDocumentContext()$path)
+# cur.path
+# setwd(cur.path) # set to current directory
+setwd("~/Desktop/stuff/Dropbox/_code/R/_teachR/ds4psy/_essentials") # set to current directory
+# list.files() # all files + folders in current directory
+fileName <- "data.Rmd"
+
+## (c) Packages: ----- 
+library(knitr)
+library(rmdformats)
+library(tidyverse)
+
+## (d) Global options: ----- 
+options(max.print = "75")
+opts_chunk$set(echo = TRUE,
+	             cache = TRUE,
+               prompt = FALSE,
+               tidy = FALSE,
+               collapse = TRUE, # set TRUE in answers 
+               comment = "#>",
+               message = FALSE,
+               warning = FALSE,
+               ## Default figure options:
+               fig.width = 6, 
+               fig.asp = .618, # golden ratio
+               out.width = "75%",
+               fig.align = "center"
+               )
+opts_knit$set(width = 75)
+
+## (e) Graphics: ----- 
+
+# Defining colors:
+seeblau <- rgb(0, 169, 224, names = "seeblau", maxColorValue = 255) # seeblau.4 (non-transparent)
+
+seeblau.colors <- c(rgb(204, 238, 249, maxColorValue = 255), # seeblau.1
+                    rgb(166, 225, 244, maxColorValue = 255), # seeblau.2 
+                    rgb(89, 199, 235, maxColorValue = 255),  # seeblau.3
+                    rgb(0, 169, 224, maxColorValue = 255),   # seeblau.4 
+                    rgb(0, 0, 0, maxColorValue = 255),       #  5. black
+                    gray(level = 0, alpha = .6),             #  6. gray 60% transparent
+                    gray(level = 0, alpha = .4),             #  7. gray 40% transparent
+                    gray(level = 0, alpha = .2),             #  8. gray 20% transparent
+                    gray(level = 0, alpha = .1),             #  9. gray 10% transparent
+                    rgb(255, 255, 255, maxColorValue = 255)  # 10. white
+                    )
+
+unikn.pal = data.frame(                             ## in one df (for the yarrr package): 
+  "seeblau1" = rgb(204, 238, 249, maxColorValue = 255), #  1. seeblau1 (non-transparent)
+  "seeblau2" = rgb(166, 225, 244, maxColorValue = 255), #  2. seeblau2 (non-transparent)
+  "seeblau3" = rgb( 89, 199, 235, maxColorValue = 255), #  3. seeblau3 (non-transparent)
+  "seeblau4" = rgb(  0, 169, 224, maxColorValue = 255), #  4. seeblau4 (= seeblau base color)
+  "black"    = rgb(  0,   0,   0, maxColorValue = 255), #  5. black
+  "seegrau4" = rgb(102, 102, 102, maxColorValue = 255), #  6. grey40 (non-transparent)
+  "seegrau3" = rgb(153, 153, 153, maxColorValue = 255), #  7. grey60 (non-transparent)
+  "seegrau2" = rgb(204, 204, 204, maxColorValue = 255), #  8. grey80 (non-transparent)
+  "seegrau1" = rgb(229, 229, 229, maxColorValue = 255), #  9. grey90 (non-transparent)
+  "white"    = rgb(255, 255, 255, maxColorValue = 255), # 10. white
+  stringsAsFactors = FALSE)
+
+## (f) Counters: ----- 
+nr <- 0  # task number
+pt <- 0  # point total
+```
+
+# Introduction
+
+## Content
+
+This file contains descriptions of **data sets** used in this course and their sources. 
+
+## Course coordinates
+
+<!-- uni.kn logo and link to SPDS: -->  
+<!-- ![](./inst/pix/uniKn_logo.png) --> 
+<a href="https://www.spds.uni-konstanz.de/">
+<img src = "../inst/pix/uniKn_logo.png" alt = "spds.uni.kn" align = "right" width = "300" style = "width: 300px; float: right; border:20;"/>
+<!-- <img src = "./inst/pix/uniKn_logo_s.png" alt = "spds.uni.kn" style = "float: right; border:20;"/> --> 
+</a>
+
+* Taught at the [University of Konstanz](https://www.uni-konstanz.de/) by [Hansjörg Neth](http://neth.de/) (<h.neth@uni.kn>,  [SPDS](https://www.spds.uni-konstanz.de/), office D507).
+* Winter 2018/2019: Mondays, 13:30--15:00, C511. 
+* Links to current [course syllabus](http://rpository.com/ds4psy/) | [ZeUS](https://zeus.uni-konstanz.de/hioserver/pages/startFlow.xhtml?_flowId=detailView-flow&unitId=5101&periodId=78&navigationPosition=hisinoneLehrorganisation,examEventOverviewOwn) |  [Ilias](https://ilias.uni-konstanz.de/ilias/goto_ilias_uni_crs_809936.html) 
+
+
+# Data sets
+
+## Positive Psychology
+
+### Introduction
+
+Woodworth et al. (2018, DOI: <https://doi.org/10.5334/jopd.35>) examined the long-term effectiveness of different web-based positive psychology interventions (see <https://openpsychologydata.metajnl.com/articles/10.5334/jopd.35/> for details). 
+
+### Data
+
+We can load the participant data into R with the following command (from the package `readr`, which is part of the `tidyverse`):
+
+```{r read_posPsy_data, echo = TRUE, eval = TRUE}
+library(tidyverse)
+
+## (1): Participants only: ---------- 
+
+posPsy_p_info <- readr::read_csv(file = "http://rpository.com/ds4psy/data/posPsy_participants.csv")
+
+dim(posPsy_p_info)        # 295 rows, 6 columns
+# posPsy_p_info           # prints a summary of the table/tibble
+# glimpse(posPsy_p_info)  # shows the first values for 6 variables (columns)
+
+# (2): AHI_CESD (in long format): ---------- 
+
+posPsy_AHI_CESD <- readr::read_csv(file = "http://rpository.com/ds4psy/data/posPsy_AHI_CESD.csv")
+
+dim(posPsy_AHI_CESD)      # 992 rows, 50 columns
+
+# (3). Both data files joined into 1 file (in wide format): ---------- 
+
+posPsy_all <- readr::read_csv(file = "http://rpository.com/ds4psy/data/posPsy_all_data.csv")
+
+dim(posPsy_all)  # => 297 x 300 variables
+
+# ?: Why 297, rather than 295 participants?
+# posPsy_all$id
+posPsy_all$id[duplicated(posPsy_all$id)]  ## => id 8 and 64 appear twice!
+```
+
+### Codebook
+
+Description of the variables and values contained in the file(s):
+
+#### File `posPsy_participants.csv`
+
+The file `posPsy_participants.csv` contains 6 variables with _demographic information_ on 295 participants: 
+
+1. `id`: participant ID
+
+2. `intervention`: 3 positive psychology interventions, plus 1 control condition: 
+
+    - 1 = “Using Signature Strengths”, 
+    - 2 = “Three Good Things”, 
+    - 3 = “Gratitude Visit”, 
+    - 4 = “Recording early memories” (control condition).  
+
+3. `sex`: 
+
+    - 1 = female, 
+    - 2 = male. 
+
+4. `age`: participant's age (in years). 
+
+5. `educ`: level of education:  
+
+    - 1 = Less than Year 12, 
+    - 2 = Year 12,
+    - 3 = Vocational training, 
+    - 4 = Bachelor’s degree, 
+    - 5 = Postgraduate degree.
+
+6. `income`: 
+
+    - 1 = below average, 
+    - 2 = average, 
+    - 3 = above average.
+    
+
+#### File `posPsy_AHI_CESD.csv`
+
+The file `posPsy_AHI_CESD.csv` contains data of the 24 items of the _Authentic Happiness Inventory_ (AHI) and answers to the 20 items of the _Center for Epidemiological Studies Depression_ (CES-D) scale for multiple (up to 6) measurement occasions: 
+
+1. `id`: Particpant ID
+
+2. `occasion`: Measurement occasion: 
+
+    - 0 = Pretest (i.e., at enrolment), 
+    - 1 = Posttest (i.e., 7 days after pretest), 
+    - 2 = 1-week follow-up, (i.e., 14 days after pretest, 7 days after posttest), 
+    - 3 = 1-month follow-up, (i.e., 38 days after pretest, 31 days after posttest), 
+    - 4 = 3-month follow-up, (i.e., 98 days after pretest, 91 days after posttest), 
+    - 5 = 6-month follow-up, (i.e., 189 days after pretest, 182 days after posttest).
+
+3. `elapsed.days`: time since enrolment measured in fractional days	
+
+4. `intervention`: intervention group
+
+5. `ahi01`--`ahi24`: responses on 24 AHI items
+
+6. `cesd01`--`cesd20`: responses on 20 CES-D items
+
+7. `ahiTotal`: total AHI score
+
+8. `cesdTotal`: total CES-D score
+
+
+#### File `posPsy_all_data.csv`
+
+Joined data file (in wide format). Measurement occasions are suffixed by `.0`, `.1`, ..., `.5`. 
+    
+    
+### Reference
+
+- Woodworth, R. J., O’Brien-Malone, A., Diamond, M. R. and Schüz, B. (2018). Data from, ‘Web-based positive psychology interventions: A reexamination of effectiveness’. 
+_Journal of Open Psychology Data_, _6_: 1. DOI: <https://doi.org/10.5334/jopd.35> 
+
+
+
+# More sources of data sets
+
+## Data in base R
+
+```{r base_R_datasets}
+library(help = "datasets")
+
+## Check some dimensions:
+# dim(ChickWeight)
+# dim(iris)
+# dim(sleep)
+# dim(Titanic) # see dim(FFTrees::titanic)
+```
+
+## Packages
+
+Packages of the `tidyverse`:
+
+- `dplyr`: `starwars`
+- `ggplot2`: `diamonds`, `mpg` 
+- `tidyr`: `table1`, etc. 
+
+Other packages with large data sets:
+
+- `babynames`
+- `dslabs`
+- `eurostat`
+- `FFTrees`: `breastcancer`, `car`, `heartdisease`, `mushrooms`, `titanic`, `wine`
+- `ISLR` 
+- `MASS`
+- `nycflights13`
+- `yarrr`: `pirates`, `movies`, `auction`, etc. 
+
+
+[Last update on `r Sys.time()` by [hn](http://neth.de/).]  
+
+<!-- eof. --> 

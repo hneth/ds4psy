@@ -120,7 +120,7 @@ ggplot2::diamonds
 dplyr::starwars
 tidyr::table1 # etc. 
 
-?econonmics # This dataset was produced from US economic time series data available from http://research.stlouisfed.org/fred2. economics is in "wide" format, economics_long is in "long" format.
+?economics # This dataset was produced from US economic time series data available from http://research.stlouisfed.org/fred2. economics is in "wide" format, economics_long is in "long" format.
 ```
 
 ## Data packages
