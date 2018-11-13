@@ -124,7 +124,7 @@ img {
 <div id="header">
 <h1 class="title">Basic R concepts and commands with solutions (ds4psy)</h1>
 <h4 class="author"><em>Hansjörg Neth, SPDS, uni.kn</em></h4>
-<h4 class="date"><em>2018 11 03</em></h4>
+<h4 class="date"><em>2018 11 05</em></h4>
 </div>
 
 <div id="content">
@@ -143,11 +143,12 @@ All [ds4psy](http://rpository.com/ds4psy/) essentials:
 
 Nr. | Topic       |
 ---:|:------------| 
-1.  | [Creating and using tibbles](http://rpository.com/ds4psy/R/_essentials/tibble.html) |
-2.  | [Data transformation](http://rpository.com/ds4psy/R/_essentials/transform.html) |
-3.  | [Visualizing data](http://rpository.com/ds4psy/R/_essentials/visualize.html) | 
-4.  | [Exploring data](http://rpository.com/ds4psy/R/_essentials/explore.html) | 
-5.  | [Tidy data](http://rpository.com/ds4psy/R/_essentials/tidy.html) | 
+1.  | [Basic R concepts and commands](http://rpository.com/ds4psy/R/_essentials/basics.html) | 
+2.  | [Visualizing data](http://rpository.com/ds4psy/R/_essentials/visualize.html) | 
+3.  | [Transforming data](http://rpository.com/ds4psy/R/_essentials/transform.html) |
+4.  | [Exploring data (EDA)](http://rpository.com/ds4psy/R/_essentials/EDA.html) | 
+5.  | [Creating and using tibbles](http://rpository.com/ds4psy/R/_essentials/tibble.html) |
+6.  | [Tidying data](http://rpository.com/ds4psy/R/_essentials/tidy.html) |  
 
 -->
 <div id="course-coordinates" class="section level2">
@@ -937,7 +938,9 @@ p_info           <span class="co"># prints a summary of the table/tibble</span>
 <div id="exercises-wpa01" class="section level1">
 <h1>Exercises (WPA01)</h1>
 <p>The following exercises are your first weekly programming assignment (<strong>WPA01</strong>). Please submit your solutions (as an <code>.R</code> or <code>.Rmd</code> script that also contains your name) on <a href="https://ilias.uni-konstanz.de/ilias/goto_ilias_uni_crs_809936.html">Ilias</a> by <strong>Wednesday, Nov. 7, 2018</strong>.</p>
-<p><strong>Exercise 1.</strong> Evaluate and explain the following results (and correct any errors that may occur):</p>
+<div id="exercise-1" class="section level2">
+<h2>Exercise 1</h2>
+<p>Evaluate and explain the following results (and correct any errors that may occur):</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Note: The following assume the object definitions from above.</span>
 a
 b
@@ -971,7 +974,10 @@ e <span class="op">+</span><span class="st"> </span>e <span class="op">+</span><
 
 e &lt;-<span class="st"> </span>stuff
 <span class="kw">paste</span>(d, e)  <span class="co"># paste &quot;adds&quot; 2 character objects</span></code></pre></div>
-<p><strong>Exercise 2.</strong> With only a little knowledge of R you can perform quite fancy financial arithmetic. Assume that you have won an amount of EUR 1000 and are considering to deposit this amount into a new bank account that offers an annual interest rate of 0.1%.</p>
+</div>
+<div id="exercise-2" class="section level2">
+<h2>Exercise 2</h2>
+<p>With only a little knowledge of R you can perform quite fancy financial arithmetic. Assume that you have won an amount of EUR 1000 and are considering to deposit this amount into a new bank account that offers an annual interest rate of 0.1%.</p>
 <ol style="list-style-type: decimal">
 <li>How much would your account be worth after waiting for 2 full years?</li>
 <li>What would be the time value of your money after 2 full years if the annual inflation rate is 2%?</li>
@@ -1011,7 +1017,10 @@ savings_<span class="dv">0</span> <span class="op">*</span><span class="st"> </s
 <span class="co">#&gt; [1] 1105.116</span>
 savings_<span class="dv">0</span> <span class="op">*</span><span class="st"> </span>(<span class="dv">1</span> <span class="op">+</span><span class="st"> </span>interest <span class="op">-</span><span class="st"> </span>inflation)<span class="op">^</span>n_years  <span class="co"># interest + inflation</span>
 <span class="co">#&gt; [1] 146.8591</span></code></pre></div>
-<p><strong>Exercise 3.</strong> When introducing arithmetic functions above, we showed that they can be used with numeric scalars (i.e., numeric objects with a length of 1).</p>
+</div>
+<div id="exercise-3" class="section level2">
+<h2>Exercise 3</h2>
+<p>When introducing arithmetic functions above, we showed that they can be used with numeric scalars (i.e., numeric objects with a length of 1).</p>
 <ol style="list-style-type: decimal">
 <li>Demonstrate that the same arithmetic functions also work with 2 numeric vectors <code>x</code> and <code>y</code> (of the same length).<br />
 </li>
@@ -1062,7 +1071,10 @@ x <span class="op">%/%</span><span class="st"> </span>y <span class="co"># integ
 <span class="co">#&gt; [1] 2 2 6</span>
 x <span class="op">%%</span><span class="st"> </span>y  <span class="co"># remainder of integer division (x mod y)</span>
 <span class="co">#&gt; [1] 0 0 0</span></code></pre></div>
-<p><strong>Exercise 4.</strong> Predit the result of the arithmetic expression <code>x %/% y * y + x %% y</code>. Then test your prediction by assigning some number to <code>x</code> and <code>y</code> and evaluating the expression. Finally, explain why the result occurs.</p>
+</div>
+<div id="exercise-4" class="section level2">
+<h2>Exercise 4</h2>
+<p>Predit the result of the arithmetic expression <code>x %/% y * y + x %% y</code>. Then test your prediction by assigning some number to <code>x</code> and <code>y</code> and evaluating the expression. Finally, explain why the result occurs.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## Note: The given expression 
 x <span class="op">%/%</span><span class="st"> </span>y <span class="op">*</span><span class="st"> </span>y <span class="op">+</span><span class="st"> </span>x <span class="op">%%</span><span class="st"> </span>y  
 <span class="co">#&gt; [1] 2 4 6</span>
@@ -1093,7 +1105,10 @@ x <span class="op">%%</span><span class="st"> </span>y       <span class="co"># 
 (x <span class="op">%/%</span><span class="st"> </span>y <span class="op">*</span><span class="st"> </span>y) <span class="op">+</span><span class="st"> </span>(x <span class="op">%%</span><span class="st"> </span>y)
 <span class="co">#&gt; [1] 4711</span>
 <span class="co"># yields x.</span></code></pre></div>
-<p><strong>Exercise 5.</strong> Assume the following definitions for a survey:</p>
+</div>
+<div id="exercise-5" class="section level2">
+<h2>Exercise 5</h2>
+<p>Assume the following definitions for a survey:</p>
 <ul>
 <li>A person with an age from 1 to 17 years is classified as a <em>minor</em>,<br />
 </li>
@@ -1155,7 +1170,10 @@ round_ages &lt;-<span class="st"> </span>age[age <span class="op">%%</span><span
 <span class="co">#&gt; [1] 10</span>
 <span class="kw">mean</span>(round_ages)
 <span class="co">#&gt; [1] 53</span></code></pre></div>
-<p><strong>Exercise 6.</strong> Examine the participant information in <code>p_info</code> by describing each of its variables:</p>
+</div>
+<div id="exercise-6" class="section level2">
+<h2>Exercise 6</h2>
+<p>Examine the participant information in <code>p_info</code> by describing each of its variables:</p>
 <ol style="list-style-type: decimal">
 <li>How many individuals are contained in the dataset?</li>
 <li>What percentage of them is female (i.e., has a <code>sex</code> value of 1)?</li>
@@ -1241,6 +1259,7 @@ pc_income_low
 <li>24.75% of the participants state that their income is below average.</li>
 </ol>
 </div>
+</div>
 <div id="related-resources" class="section level1">
 <h1>Related Resources</h1>
 <p>There is no shortage of introductory R books and scripts, but it’s helpful if you find one that fits your interests and level of expertise.</p>
@@ -1256,7 +1275,7 @@ pc_income_low
 <ul>
 <li>Woodworth, R. J., O’Brien-Malone, A., Diamond, M. R. and Schüz, B. (2018). Data from, ‘Web-based positive psychology interventions: A reexamination of effectiveness’. <em>Journal of Open Psychology Data</em>, <em>6</em>: 1. DOI: <a href="https://doi.org/10.5334/jopd.35" class="uri">https://doi.org/10.5334/jopd.35</a></li>
 </ul>
-<p>[Last update on 2018-11-03 09:49:02 by <a href="http://neth.de/">hn</a>.]</p>
+<p>[Last update on 2018-11-13 07:51:55 by <a href="http://neth.de/">hn</a>.]</p>
 <!-- eof. -->
 </div>
 </div>
@@ -1278,7 +1297,14 @@ pc_income_low
         <li><a href="#vectors">Vectors</a></li>
         <li><a href="#rectangular-data">Rectangular data</a></li>
         </ul></li>
-        <li><a href="#exercises-wpa01">Exercises (WPA01)</a></li>
+        <li><a href="#exercises-wpa01">Exercises (WPA01)</a><ul>
+        <li><a href="#exercise-1">Exercise 1</a></li>
+        <li><a href="#exercise-2">Exercise 2</a></li>
+        <li><a href="#exercise-3">Exercise 3</a></li>
+        <li><a href="#exercise-4">Exercise 4</a></li>
+        <li><a href="#exercise-5">Exercise 5</a></li>
+        <li><a href="#exercise-6">Exercise 6</a></li>
+        </ul></li>
         <li><a href="#related-resources">Related Resources</a></li>
         <li><a href="#references">References</a></li>
         </ul>

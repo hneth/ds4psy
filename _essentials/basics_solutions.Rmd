@@ -1,7 +1,7 @@
 ---
 title: "Basic R concepts and commands with solutions (ds4psy)"
 author: "Hansjörg Neth, SPDS, uni.kn"
-date: "2018 11 03"
+date: "2018 11 05"
 output:
    rmdformats::html_clean: # html_clean html_docco readthedown material #
      code_folding: show # hide
@@ -774,7 +774,9 @@ We will examine these variables in **Exercise 6** (below).
 
 The following exercises are your first weekly programming assignment (**WPA01**). Please submit your solutions (as an `.R` or `.Rmd` script that also contains your name) on [Ilias](https://ilias.uni-konstanz.de/ilias/goto_ilias_uni_crs_809936.html) by **Wednesday, Nov. 7, 2018**. 
 
-**Exercise 1.** Evaluate and explain the following results (and correct any errors that may occur):
+## Exercise 1
+
+Evaluate and explain the following results (and correct any errors that may occur):
 
 ```{r ex1, echo = TRUE, eval = FALSE}
 # Note: The following assume the object definitions from above.
@@ -813,7 +815,9 @@ paste(d, e)  # paste "adds" 2 character objects
 ```
 
 
-**Exercise 2.** With only a little knowledge of R you can perform quite fancy financial arithmetic. Assume that you have won an amount of EUR 1000 and are considering to deposit this amount into a new bank account that offers an annual interest rate of 0.1%. 
+## Exercise 2 
+
+With only a little knowledge of R you can perform quite fancy financial arithmetic. Assume that you have won an amount of EUR 1000 and are considering to deposit this amount into a new bank account that offers an annual interest rate of 0.1%. 
 
 1. How much would your account be worth after waiting for 2 full years? 
 2. What would be the time value of your money after 2 full years if the annual inflation rate is 2%?
@@ -852,7 +856,9 @@ savings_0 * (1 + interest - inflation)^n_years  # interest + inflation
 ```
 
 
-**Exercise 3.** When introducing arithmetic functions above, we showed that they can be used with numeric scalars (i.e., numeric objects with a length of 1). 
+## Exercise 3
+
+When introducing arithmetic functions above, we showed that they can be used with numeric scalars (i.e., numeric objects with a length of 1). 
 
 1. Demonstrate that the same arithmetic functions also work with 2 numeric vectors `x` and `y` (of the same length).  
 2. What happens when `x` and `y` have different lengths?
@@ -888,7 +894,9 @@ x %% y  # remainder of integer division (x mod y)
 ```
 
 
-**Exercise 4.** Predit the result of the arithmetic expression `x %/% y * y + x %% y`. Then test your prediction by assigning some number to `x` and `y` and evaluating the expression. Finally, explain why the result occurs. 
+## Exercise 4
+
+Predit the result of the arithmetic expression `x %/% y * y + x %% y`. Then test your prediction by assigning some number to `x` and `y` and evaluating the expression. Finally, explain why the result occurs. 
 
 ```{r ex4_integer_arithmetic, echo = TRUE, eval = TRUE}
 ## Note: The given expression 
@@ -916,7 +924,9 @@ x %% y       # yields the remainder of integer division
 ```
 
 
-**Exercise 5.** Assume the following definitions for a survey: 
+## Exercise 5
+
+Assume the following definitions for a survey: 
 
 - A person with an age from 1 to 17 years is classified as a _minor_,  
 - a person with an age from 18 to 64 years is classified as an _adult_, 
@@ -968,7 +978,9 @@ mean(round_ages)
 ```
 
 
-**Exercise 6.** Examine the participant information in `p_info` by describing each of its variables: 
+## Exercise 6
+
+Examine the participant information in `p_info` by describing each of its variables: 
 
 1. How many individuals are contained in the dataset? 
 2. What percentage of them is female (i.e., has a `sex` value of 1)?
