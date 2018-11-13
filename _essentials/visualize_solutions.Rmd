@@ -990,9 +990,6 @@ ggplot(p_info) +
 ```
 
 
-<!-- eof. -->
-
-
 # More on data visualization
 
 See [Chapter 3: Data visualization](http://r4ds.had.co.nz/data-visualisation.html)) and [Chapter 7: Exploratory data analysis (EDA)](http://r4ds.had.co.nz/exploratory-data-analysis.html) (to be covered in 2 weeks) and complete their exercises. 
@@ -1002,6 +999,13 @@ The following links provide additional information:
 - study the `vignette("ggplot")` and the documentation for `ggplot` and various geoms (e.g., `geom_`);
 - study <https://ggplot2.tidyverse.org/reference/> and its examples; 
 - see the [cheat sheet on data visualization](https://www.rstudio.com/resources/cheatsheets/). 
+
+
+Books or scripts on data visualization: 
+
+- [Data Visualization. A practical introduction](https://socviz.co/), by Kieran Healy
+- [Fundamentals of Data Visualization](https://serialmentor.com/dataviz/), by Claus O. Wilke
+
 
 <!-- # Conclusion --> 
 
