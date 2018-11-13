@@ -10,5 +10,3 @@ purrr
 dplyr
 stringr
 forcats
-ggalluvial
-bindrcpp
