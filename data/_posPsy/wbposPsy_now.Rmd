@@ -1,7 +1,7 @@
 ---
 title: "Web-based Positive Psychology Interventions"
 author: "lmw & hn"
-date: "31 Oktober 2018"
+date: "2018 11 14"
 output: html_document
 ---
 
@@ -27,13 +27,13 @@ DOI: <https://doi.org/10.5334/jopd.35>
 
 ```{r 2_packages, echo = FALSE, eval = TRUE, message = FALSE, warning = FALSE}
 library(tidyverse)
-library(readxl)
+# library(readxl)
 library(knitr)
 ```
 
-## Study data
+## Description of study data
 
-The study data is stored in 2 seperate files: `participant-info.csv` & `ahi-cesd.csv`
+The study data is stored in 2 seperate files: `participant-info.csv` & `ahi-cesd.csv`.
 
 ### File `participant-info.csv`
 
@@ -71,7 +71,7 @@ Contains _demographic information_ on participants:
 
 ### File `ahi-cesd.csv`
 
-Contains data of the 24 items of the _Authentic Happiness Inventory_ (AHI) and to the 20 items of the _Center for Epidemiological Studies Depression_ (CES-D) scale. 
+Contains data of the 24 items of the _Authentic Happiness Inventory_ (AHI) and answers to the 20 items of the _Center for Epidemiological Studies Depression_ (CES-D) scale for (up to 6) measurement occasions. 
 
 * `id`: Particpant ID
 
@@ -97,14 +97,19 @@ Contains data of the 24 items of the _Authentic Happiness Inventory_ (AHI) and t
 * `cesdTotal`: total CES-D score
 
 
-### Step 1: Import data
+
+# Screen and clean data
+
+## Import data
 
 ```{r 3_read_data, echo = TRUE, eval = FALSE}
 ## Lisa:
 
-ahi_cesd <- read_delim("~/Uni/7. Semester/HiWi/Data/Web-based positive psychology interventions/ahi-cesd.csv", ";", escape_double = FALSE, trim_ws = TRUE)
+ahi_cesd <- read_delim("~/Uni/7. Semester/HiWi/Data/Web-based positive psychology interventions/ahi-cesd.csv", ";", 
+                       escape_double = FALSE, trim_ws = TRUE)
 
-participant_info <- read_delim("~/Uni/7. Semester/HiWi/Data/Web-based positive psychology interventions/participant-info.csv", ";", escape_double = FALSE, trim_ws = TRUE)
+participant_info <- read_delim("~/Uni/7. Semester/HiWi/Data/Web-based positive psychology interventions/participant-info.csv", ";", 
+                               escape_double = FALSE, trim_ws = TRUE)
 ```
 
 ```{r 3_read_data_hans, echo = TRUE, eval = TRUE}
@@ -119,219 +124,875 @@ participant_info <- read_delim("~/Uni/7. Semester/HiWi/Data/Web-based positive p
 
 my_path <- "/Users/hneth/Desktop/stuff/Dropbox/_code/R/_teachR/ds4psy/data/_posPsy"
 
-ahi_cesd <- read_delim(paste0(my_path, "/ahi-cesd.csv"), ";", 
-                       escape_double = FALSE, trim_ws = TRUE)
-participant_info <- read_delim(paste0(my_path, "/participant-info.csv"), ";", 
+ahi_cesd <- read_delim(paste0(my_path, "/ahi-cesd.csv"), delim = ",", 
+                       escape_double = FALSE, trim_ws = TRUE, col_types = cols(elapsed.days = col_double()))
+ahi_cesd
+# ahi_cesd$elapsed.days  # is double!
+
+# ahi_cesd_2 <- readr::read_csv(paste0(my_path, "/ahi-cesd.csv"))
+# ahi_cesd_2
+
+participant_info <- read_delim(paste0(my_path, "/participant-info.csv"), ",",
                                escape_double = FALSE, trim_ws = TRUE)
+# participant_info
 
-
+# participant_info_2 <- readr::read_csv(paste0(my_path, "/participant-info.csv"))
+# participant_info_2
+                             
 ## Save data files:
 ## save(participant_info, file = "./data/p_info.RData")
 # write_csv(participant_info, path = "/Users/hneth/Desktop/stuff/Dropbox/_code/R/_teachR/ds4psy/data/posPsy_participants.csv")
+# write_csv(ahi_cesd, path = "/Users/hneth/Desktop/stuff/Dropbox/_code/R/_teachR/ds4psy/data/posPsy_AHI_CESD.csv")
 
-## Restore data files:
+## Restore data files (from online sources): ------ 
+
 # p_info <- read_csv(file = "/Users/hneth/Desktop/stuff/Dropbox/_code/R/_teachR/ds4psy/data/posPsy_participants.csv")
-# p_info <- read_csv(file = "http://rpository.com/ds4psy/data/posPsy_participants.csv")
+p_info <- read_csv(file = "http://rpository.com/ds4psy/data/posPsy_participants.csv")  # online
 # p_info
+all.equal(participant_info, p_info) # should be TRUE
 
-# all.equal(participant_info, p_info)
+
+# AHI_CESD <- read_csv(file = "/Users/hneth/Desktop/stuff/Dropbox/_code/R/_teachR/ds4psy/data/posPsy_AHI_CESD.csv")
+AHI_CESD <- read_csv(file = "http://rpository.com/ds4psy/data/posPsy_AHI_CESD.csv")  # online
+# AHI_CESD
+
+all.equal(ahi_cesd, AHI_CESD) # should be TRUE
 ```
 
-### Step 2: Inspect data
+## Data screening
+
+Run some simple checks: 
+
+- How many occasions are there for each participant?
+
+```{r screening_1}
+## Data:
+# AHI_CESD
+
+id_occ <- AHI_CESD %>%
+  group_by(id, occasion) %>%
+  count()
+id_occ
+
+id_occ %>%
+  filter(n != 1)
+# => Participants with id of 8 and 64: 
+#    2 instances of occasion 2 and 4, respectively.
+
+# Spread by occasion:
+id_occ_2 <- id_occ %>%
+  spread(key = occasion, value = n)
+id_occ_2
+
+id_occ_2 %>%
+  filter(id == 8 | id == 64)
+
+colSums(id_occ_2, na.rm = TRUE)
+
+# occasion:     0     1     2     3     4     5 
+# colSums:    295   147   157   139   134   120 
+```
+
+**Note:** 2 participants (8 and 64) are counted twice for an occasion (2 and 4, respectively).
+
+Compare with Table 1 (p. 4, of Woodworth et al., 2018), which shows the number of participants who responded on each of the 6 measurement occasions):
+As the counts in this table correspond to ours, the repeated instances for some measurement occasions (which could indicate data entry errors, but also be due to large variability in the time inteval between measurements) were not reported in the original analysis (i.e., Table 1). 
+
+
+### Distribution of occasions
+
+**Questions:**
+
+- Which occasions are correct for `id == 8` and `id == 64`?
+
+- How does the number of `elapsed.days` correspond to the measurement occasions?
+
+- How are the measurement times (`elapsed.days`) distributed overall (and relative to the stated times of each occasion)?
+
+```{r screening_2}
+## Data:
+# AHI_CESD
+
+# From Table 1 (p. 4): 
+occ_days <- c(0, 7, 14, 38, 98, 189)
+names(occ_days) <- c("0: pre-test", "1: post-test", "2: 1-week", "3: 2-weeks", "4: 3-months", "5: 6-months")
+occ_days
+
+ggplot(AHI_CESD, aes(x = elapsed.days)) +
+  geom_histogram(fill = "steelblue", binwidth = 1) +
+  geom_vline(xintercept = occ_days, color = "firebrick", linetype = 2) +
+  labs(title = "Distribution of occasions") +
+  theme_bw()
+```
+
+**Note:** First 3 occasions are as expected. However, occasions 4 to 6 appear shifted to the left (i.e., were about 7 days earlier than stated).
+
+- What is the range of measurement times (`elapsed.days`) for each occasion?
+
+(This should show outliers and allow correcting the occasions counted twice for the 2 participants with `id` 8 and 64).
+
+```{r screeening_3}
+## Data: ----- 
+# AHI_CESD
+# occ_days
+
+# Occasion 0: 0 days  ----- 
+
+i <- 0
+AHI_CESD %>%
+  filter(occasion == i) %>%
+  ggplot(aes(x = elapsed.days)) +
+  geom_histogram(fill = "steelblue", binwidth = 1) +
+  geom_vline(xintercept = occ_days[i + 1], color = "firebrick", linetype = 2) +
+  labs(title = paste0("Distribution of occasion ", i, " (", names(occ_days)[i + 1], ")")) +
+  theme_bw()
+# => No variation, all 295 participants start with exactly 0, as expected.
+
+# Occasion 1: 7 days ----- 
+
+i <- 1
+AHI_CESD %>%
+  filter(occasion == i) %>%
+  ggplot(aes(x = elapsed.days)) +
+  geom_histogram(fill = "steelblue", binwidth = 1) +
+  geom_vline(xintercept = occ_days[i + 1], color = "firebrick", linetype = 2) +
+  labs(title = paste0("Distribution of occasion ", i, " (", names(occ_days)[i + 1], ")")) +
+  theme_bw()
+# => Substantial range, 2 outliers (1 at 0 = occasion 0, and 1 at 25).
+
+# Check early outliers:
+AHI_CESD %>%
+  filter(occasion == 1, elapsed.days < 1)
+# id = 144.
+
+# Check late outliers:
+AHI_CESD %>%
+  filter(occasion == 1, elapsed.days > 24)
+# id = 226.
+
+# Occasion 2: 14 days  ----- 
+
+i <- 2
+AHI_CESD %>%
+  filter(occasion == i) %>%
+  ggplot(aes(x = elapsed.days)) +
+  geom_histogram(fill = "steelblue", binwidth = 1) +
+  geom_vline(xintercept = occ_days[i + 1], color = "firebrick", linetype = 2) +
+  labs(title = paste0("Distribution of occasion ", i, " (", names(occ_days)[i + 1], ")")) +
+  theme_bw()
+# => Increasing range, several outliers (2 at 7 days = occasion 1, and 2 in range of 38+ days, i.e., occasion 3).
+
+# Check early outliers:
+AHI_CESD %>%
+  filter(occasion == 2, elapsed.days < 8)
+# id = 144 (as above), and 275 (new).
+
+# Check late outliers:
+AHI_CESD %>%
+  filter(occasion == 2, elapsed.days > 38)
+# id = 8 (noted above), and 232 (new).
+
+
+# Occasion 3: 38 days -----
+
+i <- 3
+AHI_CESD %>%
+  filter(occasion == i) %>%
+  ggplot(aes(x = elapsed.days)) +
+  geom_histogram(fill = "steelblue", binwidth = 1) +
+  geom_vline(xintercept = occ_days[i + 1], color = "firebrick", linetype = 2) +
+  labs(title = paste0("Distribution of occasion ", i, " (", names(occ_days)[i + 1], ")")) +
+  theme_bw()
+# => Marked shift by about 7 days to left (i.e., earlier than stated), 
+#    increasing range, several outliers (but NOT in range of occasions 2 and 4).
+
+# Check early outliers:
+AHI_CESD %>%
+  filter(occasion == 3, elapsed.days < 30)
+# id = 144 (as above), and 76, 275 (new).
+
+# Check late outliers:
+AHI_CESD %>%
+  filter(occasion == 3, elapsed.days > 50)
+# id = 8 and 232 (noted above), and 199 (new).
+
+
+# Occasion 4: 98 days ----- 
+
+i <- 4
+AHI_CESD %>%
+  filter(occasion == i) %>%
+  ggplot(aes(x = elapsed.days)) +
+  geom_histogram(fill = "steelblue", binwidth = 1) +
+  geom_vline(xintercept = occ_days[i + 1], color = "firebrick", linetype = 2) +
+  labs(title = paste0("Distribution of occasion ", i, " (", names(occ_days)[i + 1], ")")) +
+  theme_bw()
+# => Marked shift by about 7 days to left (i.e., earlier than stated), 
+#    increasing range, several outliers (but NOT in range of occasions 3 and 5).
+
+# Check early outliers:
+AHI_CESD %>%
+  filter(occasion == 4, elapsed.days < 90)
+# id = 144 (as above), and 53 (new).
+
+# Check late outliers:
+AHI_CESD %>%
+  filter(occasion == 4, elapsed.days > 120)
+# id = 8 and 232 (noted above), and 64 (noted above), and 180 (new).
+
+
+# Occasion 5: 189 days ----- 
+
+i <- 5
+AHI_CESD %>%
+  filter(occasion == i) %>%
+  ggplot(aes(x = elapsed.days)) +
+  geom_histogram(fill = "steelblue", binwidth = 1) +
+  geom_vline(xintercept = occ_days[i + 1], color = "firebrick", linetype = 2) +
+  labs(title = paste0("Distribution of occasion ", i, " (", names(occ_days)[i + 1], ")")) +
+  theme_bw()
+# => Marked shift by about 7 days to left (i.e., earlier than stated), 
+#    increasing range, several outliers (but NOT in range of earlier occasions).
+
+# Check early outliers:
+AHI_CESD %>%
+  filter(occasion == 5, elapsed.days < 181)
+# => none.
+
+# Check late outliers:
+AHI_CESD %>%
+  filter(occasion == 5, elapsed.days > 209)
+# => 232 (noted above), and 57, 57, 197, 224 (new).
+
+```
+
+**Result:** The following **Table** summarizes early and late outliers (i.e., their `id`) by occasion:  
+
+Occasion  | early | late  |
+--|-------|-------| 
+1 | **144**              | 226 | 
+2 | **144**, **275**     | **8**, **232** | 
+3 | 76, **144**, **275** | **8**, 199, **232** | 
+4 | **144**              | **8**, *64*, 180, **232** | 
+5 | --                   | 57, 197, 224, **232** |
+
+Note that `id` values appearing repeatedly are shown in bold font. The `id` value of 64 is in italics, as this participant was noted above (as having 2 instances of occasion 4).
+
+
+### Inspect individual participants
+
+**Pieces of a puzzle:**
+
+- Being early poses a bigger puzzle than being late. 
+
+- Being consistently late could make perfect sense, if future invites depend on a minimum distance to an earlier occasion.
+
+- Being consistently early could indicate measurement errors.
+
+To decide how to proceed, we first _inspect_ the data of the participants noted repeatedly and _correct_ some (in a `copy` of the data).
+
+```{r inspect_and_correct_data}
+## Data: ----- 
+# AHI_CESD
+# occ_days
+
+## Copy data (to keep original):
+copy <- AHI_CESD
+
+# id == 144: ----- 
+
+AHI_CESD %>% 
+  filter(id == 144) %>%
+  select(id:intervention, ahiTotal, cesdTotal)
+
+# Interpretation:
+# 0 to 4 measurements, 
+# Occasion 0 and 1 (pre- and post-test) were both on the same day (0).
+# However, values are different: 
+
+# Note the BIG decrease (from 18 to 8 points) in cesdTotal from occasion 0 to 1.
+
+# Decision: 
+# Leave as is. 
+
+
+# id == 275: ----- 
+
+AHI_CESD %>% 
+  filter(id == 275) %>%
+  select(id:intervention, ahiTotal, cesdTotal)
+
+# Interpretation:
+# Only 3 measurements, 
+# Occasion 1 (post-test) is missing, 
+# and time point of Occasions 2 and 3 is too early to be possible (and closer to means of earlier occasions than stated ones).
+
+# Decision: 
+# Correct copy by decrementing occasion values 2 and 3 to 1 and 2, respectively. 
+
+copy[(copy$id == 275), ]  # original values
+copy[(copy$id == 275) & (copy$occasion == 2), ]$occasion       # is 2
+copy[(copy$id == 275) & (copy$occasion == 2), ]$occasion <- 1  # correct to 1
+copy[(copy$id == 275) & (copy$occasion == 3), ]$occasion       # is 3
+copy[(copy$id == 275) & (copy$occasion == 3), ]$occasion <- 2  # correct to 2
+copy[(copy$id == 275), ]  # corrected values
+
+
+# id == 8: ----- 
+
+AHI_CESD %>% 
+  filter(id == 8) %>%
+  select(id:intervention, ahiTotal, cesdTotal)
+
+# Interpretation:
+# 6 measurements, but only 5 occasion values (Occasion 2 twice):
+# However, elapsed.days are in order and last 2 measurements too early for Occasions 4 and 5.
+# Thus, the 2nd instance of Occasion 2 could have been Occasion 3, 
+# but current values of 3 and 4 cannot have been 4 and 5.
+
+# Note lower ahiTotal values and larger cesdTotal values than previous participants.
+
+# Decision:
+# Correct copy by removing 2nd instance of Occasion 2, but leave the rest as is.
+# Alternatively, we could select a random instance or average the total values of both Occasion 2 instances. 
+
+copy  # current copy (992 rows)
+copy %>% filter(id == 8)  # original lines
+copy %>% filter(id == 8, occasion == 2, elapsed.days > 30)  # 1 line to be removed
+copy %>% filter(!(id == 8) | !(occasion == 2) | !(elapsed.days > 30))  # the other 991 lines
+
+copy <- copy %>% filter(!(id == 8) | !(occasion == 2) | !(elapsed.days > 30))  # remove 1 line
+copy  # 991 lines remaining (qed).
+
+
+# id == 64: ----- 
+
+AHI_CESD %>% 
+  filter(id == 64) %>%
+  select(id:intervention, ahiTotal, cesdTotal)
+
+# Interpretation:
+# 6 measurements, but only 5 occasion values (Occasion 4 twice):
+# However, elapsed.days are in order and 1st instance of Occasion 4 too late for Occasion 3 (and after start of Occasion 4).
+
+# Decision:
+# Correct copy by removing 2nd instance of Occasion 4, but leave the rest as is.
+# Alternatively, we could select a random instance or average the total values of both Occasion 4 instances. 
+
+copy  # current copy (991 rows)
+copy %>% filter(id == 64)  # original lines
+copy %>% filter(id == 64, occasion == 4, elapsed.days > 130)  # 1 line to be removed
+copy %>% filter(!(id == 64) | !(occasion == 4) | !(elapsed.days > 130))  # the other 990 lines
+
+copy <- copy %>% filter(!(id == 64) | !(occasion == 4) | !(elapsed.days > 130))  # remove 1 line
+copy  # 990 lines remaining (qed).
+
+
+# id == 232: ----- 
+
+AHI_CESD %>% 
+  filter(id == 232) %>%
+  select(id:intervention, ahiTotal, cesdTotal)
+
+# Interpretation:
+# 5 measurements, Occasion 1 missing.
+# However, elapsed.days are in order and correspond to stated occasions 
+# (with the participant being consistently late from Occasion 2 onwards).
+
+# Decision: 
+# Leave as is.
+```
+
+**Correct** or repair data file for 3 participants and save corrected data as a `copy` (done above).
+
+
+### Compare corrected and original data
+
+Compare corrected `copy` with original data (`AHI_CESD`) and save and re-load copy (as `AHI_CESD_2`): 
+
+```{r check_corrected_data}
+## Data: ----- 
+# AHI_CESD
+# copy
+
+# Dimensions: ----- 
+dim(AHI_CESD) # 992 rows
+dim(copy)     # 990 rows (qed)
+
+# Compare details of original data with corrected data in copy: ----- 
+
+AHI_CESD %>% filter(id == 8)
+copy %>% filter(id == 8)      # 1 row dropped
+
+AHI_CESD %>% filter(id == 64)
+copy %>% filter(id == 64)     # 1 row dropped
+
+AHI_CESD %>% filter(id == 275)
+copy %>% filter(id == 275)    # 2 values changed (decremented)
+
+# Save copy data:
+AHI_CESD_corrected <- copy 
+write_csv(AHI_CESD_corrected, path = "/Users/hneth/Desktop/stuff/Dropbox/_code/R/_teachR/ds4psy/data/posPsy_AHI_CESD_corrected.csv")
+
+# AHI_CESD_2 <- read_csv(file = "/Users/hneth/Desktop/stuff/Dropbox/_code/R/_teachR/ds4psy/data/posPsy_AHI_CESD_corrected.csv")  # local
+AHI_CESD_2 <- read_csv(file = "http://rpository.com/ds4psy/data/posPsy_AHI_CESD_corrected.csv")  # online
+dim(AHI_CESD_2)  # 990 x 50
+
+# all.equal(AHI_CESD_corrected, AHI_CESD_2)  # => should be TRUE (except for numeric format of occasion)
+```
+
+
+**Proceed** with _corrected_ and _re-loaded_ version of `AHI_CESD_2` data!
+
+### Inspect corrected data
 
 ```{r inspect_data, echo = TRUE, eval = TRUE}
-glimpse(participant_info)
-
-glimpse(ahi_cesd)
+glimpse(p_info)
+glimpse(AHI_CESD_2)
 
 ## How many occasions (lines) are there for each participant?
-# ahi_cesd
-occasions_pp <- ahi_cesd %>%
+# AHI_CESD_2
+
+occasions_pp <- AHI_CESD_2 %>%
   group_by(id) %>%
   summarise(n = n())
 
 knitr::kable(head(occasions_pp))
 
 ## How many participants with all 6 occasions?
-
 occasions_pp %>%
   filter(n == 6) %>%
   nrow()
 ```
 
-### Step 3: Combine data in one tibble
+
+### Slice and dice (from long to wide format)
 
 Note that `ahi_cesd` consists of several blocks of data (one per `occasion`, including all participants still participating in this occasion).
 
-#### Step 3.1.: Split `ahi_cesd` into parts
+#### Split `ahi_cesd` into 6 parts
 
-Edit `ahi_cesd`: Filter each occasion into a separate data file and combine them afterwards:
+Edit `ahi_cesd`: Filter each occasion into a separate data file and combine them (into a wider format) afterwards:
 
-Goal: 1 block for each `occasion`, 1 row per participant
+**Goal:** Filter 1 block for each `occasion`, containing 1 row per participant: 
 
 ```{r slice_dice, echo = TRUE, eval = TRUE}
 # Create individual tibbles for every observation 
 #  to later combine them using full_join()
-ahi_cesd_0 <- ahi_cesd%>%
-  group_by(id, occasion)%>%
+
+ahi_cesd_0 <- AHI_CESD_2 %>%
+  group_by(id, occasion) %>%
   filter(occasion == 0)
 
-ahi_cesd_1 <- ahi_cesd%>%
-  group_by(id, occasion)%>%
+ahi_cesd_1 <- AHI_CESD_2 %>%
+  group_by(id, occasion) %>%
   filter(occasion == 1)
 
-ahi_cesd_2 <- ahi_cesd%>%
-  group_by(id, occasion)%>%
+ahi_cesd_2 <- AHI_CESD_2 %>%
+  group_by(id, occasion) %>%
   filter(occasion == 2)
 
-ahi_cesd_3 <- ahi_cesd%>%
-  group_by(id, occasion)%>%
+ahi_cesd_3 <- AHI_CESD_2 %>%
+  group_by(id, occasion) %>%
   filter(occasion == 3)
 
-ahi_cesd_4 <- ahi_cesd%>%
-  group_by(id, occasion)%>%
+ahi_cesd_4 <- AHI_CESD_2 %>%
+  group_by(id, occasion) %>%
   filter(occasion == 4)
 
-ahi_cesd_5 <- ahi_cesd%>%
-  group_by(id, occasion)%>%
+ahi_cesd_5 <- AHI_CESD_2 %>%
+  group_by(id, occasion) %>%
   filter(occasion == 5)
 ```
 
-Now we can join the 6 parts by participant `id`:
+#### Join all occasions (6 parts)
+
+Now we can join the 6 parts by participant `id` (in wide format):
 
 ```{r join_1, echo = TRUE, eval = TRUE}
 # Join parts: 
-new1 <- full_join(ahi_cesd_0, ahi_cesd_1, by = "id", suffix = c(".0", ".1"))
-new2 <- full_join(new1, ahi_cesd_2, by = "id", suffix = c(".1", ".2"))
-new3 <- full_join(new2, ahi_cesd_3, by = "id", suffix = c(".2", ".3"))
-new4 <- full_join(new3, ahi_cesd_4, by = "id", suffix = c(".3", "4"))
-
-new_final <- full_join(new4, ahi_cesd_5, by = "id", suffix = c(".4", ".5"))
+block_0_to_1 <- full_join(ahi_cesd_0, ahi_cesd_1, by = "id", suffix = c(".0", ".1"))
+block_0_to_2 <- full_join(block_0_to_1, ahi_cesd_2, by = "id", suffix = c(".1", ".2"))
+block_0_to_3 <- full_join(block_0_to_2, ahi_cesd_3, by = "id", suffix = c(".2", ".3"))
+block_0_to_4 <- full_join(block_0_to_3, ahi_cesd_4, by = "id", suffix = c(".3", ".4"))
+block_0_to_5 <- full_join(block_0_to_4, ahi_cesd_5, by = "id", suffix = c(".4", ".5"))
 
 ## check:
-# new_final 
+dim(block_0_to_5)   # => 295 x 295
 ```
 
-#### Step 3.2: Combine data sets
+#### Join occasions with participant data
 
 Joining `participant_info` with `new_final`: 
 
 ```{r join_2, echo = TRUE, eval = TRUE}
-complete_data <- full_join(participant_info, new_final, by = "id")
+complete_data <- full_join(p_info, block_0_to_5, by = "id")
 
 ## Check:
-# complete_data
-dim(complete_data)
+complete_data
+dim(complete_data)  # => 295 x 300   
+# complete_data$id[duplicated(complete_data$id)]  # => 8 and 64 NO LONGER appear twice
 ```
 
-#### Step 3.3: Remove redundancy
+Using `left_join` instead: 
+
+```{r left_join, echo = TRUE, eval = TRUE}
+### Using left_join instead of full_join 
+left_0 <- left_join(p_info, ahi_cesd_0, by = "id")
+left_1 <- left_join(left_0, ahi_cesd_1, by = "id", suffix = c(".0", ".1"))
+left_2 <- left_join(left_1, ahi_cesd_2, by = "id", suffix = c(".1", ".2"))
+left_3 <- left_join(left_2, ahi_cesd_3, by = "id", suffix = c(".2", ".3"))
+left_4 <- left_join(left_3, ahi_cesd_4, by = "id", suffix = c(".3", ".4"))
+
+complete_data_2 <- left_join(left_4, ahi_cesd_5, by = "id", suffix = c(".4", ".5"))
+
+## Check:
+# complete_data_2
+dim(complete_data_2)  # => 295 x 300
+# complete_data_2$id[duplicated(complete_data_2$id)]  # => 8 and 64 NO LONGER appear twice
+
+# all.equal(complete_data, complete_data_2) # TRUE (except for column names)
+```
+
+Proceed with `complete_data`.
+
+
+#### Check for and remove redundancies
 
 Delete redundant `intervention.*` columns, only retaining the column `intervention`:
 
 ```{r remove_redundancy, echo = TRUE, eval = TRUE}
-# complete_data <- select(complete_data, -intervention.0)
-# complete_data <- select(complete_data, -intervention.1)
-# complete_data <- select(complete_data, -intervention.2)
-# complete_data <- select(complete_data, -intervention.3)
-# complete_data <- select(complete_data, -intervention.4)
-# complete_data <- select(complete_data, -intervention.5)
-# 
-# dim(complete_data)
+dim(complete_data)  # 295 x 300 
 
-## Task:Is there an easier way to handle this?
-## In 1 line:
+all.equal(complete_data$intervention, complete_data$intervention.0)
+all.equal(complete_data$intervention, complete_data$intervention.1)  # only is.NA value mismatches (due to drop outs)
+all.equal(complete_data$intervention, complete_data$intervention.2)  # only is.NA value mismatches (due to drop outs)
+all.equal(complete_data$intervention, complete_data$intervention.3)  # only is.NA value mismatches (due to drop outs)
+all.equal(complete_data$intervention, complete_data$intervention.4)  # only is.NA value mismatches (due to drop outs)
+all.equal(complete_data$intervention, complete_data$intervention.5)  # only is.NA value mismatches (due to drop outs)
+
+## Remove redundant columns:
 complete_data <- select(complete_data, -intervention.0, -intervention.1, -intervention.2, 
                                        -intervention.3, -intervention.4, -intervention.5)
-dim(complete_data)
+dim(complete_data)  # 295 x 294 
 ```
 
+Save `complete_data` as `posPsy_data_wide.csv` and re-load as `data_wide`: 
 
-### Step 4: Explore data sets
+```{r save_and_reload_all_data}
+## Save data files:
+write_csv(complete_data, path = "/Users/hneth/Desktop/stuff/Dropbox/_code/R/_teachR/ds4psy/data/posPsy_data_wide.csv")
 
-#### Only participant info data
+## Restore data files:
+# data_wide <- read_csv(file = "/Users/hneth/Desktop/stuff/Dropbox/_code/R/_teachR/ds4psy/data/posPsy_data_wide.csv")
+data_wide <- read_csv(file = "http://rpository.com/ds4psy/data/posPsy_data_wide.csv")  # online
+data_wide
+all.equal(data_wide, complete_data)  # TRUE (except for numeric type of elapsed.days.0)
 
-```{r explore_participants, echo = TRUE, eval = TRUE}
-# number of participants: 
-participant_info %>%
-  count()
+# all_data$id[duplicated(data_wide$id)]  # => 8 and 64 NO LONGER appear twice
+```
 
-# number of participants per intervention group: 
-participant_info %>%
-  group_by(intervention) %>%
-  summarise(n = n(), 
-            mean_age_i = mean(age, na.rm = TRUE), 
-            min_age_i = min(age, na.rm = TRUE), 
-            max_age_i = max(age, na.rm = TRUE))
+**Proceed** with `data_wide`. 
 
-# number of male / female participants: 
-participant_info %>%
-  group_by(sex) %>%
-  summarise(n = n())
++++ here now +++
 
-# Age distribution: 
+
+# Data visualisation 
+
+Some exercises using the `ggplot2` package.
+
+### Preparation
+
+```{r load_ggplot2, echo = TRUE, eval = TRUE}
+# install.packages("ggplot2")
+library(ggplot2)
+```
+
+### Explore age of participants
+
+```{r explore_age, echo = TRUE, eval = TRUE}
+# Exercise 1: (use participant_info)
+# (1a): Create a histogramm showing the overall distribution of age 
 ggplot(participant_info) +
-  geom_histogram(mapping = aes(age), binwidth = 2, fill = "forestgreen") +
-  theme_bw() +
-  labs(title = "Distribution of age values")
+  geom_histogram(mapping = aes(age), binwidth = 2, fill = "gold", col = "black") +
+  labs(title = "Distribution of age values") +
+  theme_bw()
+
+# (1b): Can you display the distribution also as frequency polygon?
+ggplot(data =  participant_info)+
+  geom_freqpoly(mapping = aes(x = age), binwidth = 4, color = "forestgreen")+ 
+  labs(title = "Distribution of age values",
+       x="Age", y = "Count")+
+  theme_bw()
   
- 
-# Age distribution by intervention: 
-ggplot(participant_info) +
-  geom_histogram(mapping = aes(age), binwidth = 5, fill = "forestgreen") +
-  theme_bw() +
-  labs(title = "Distribution of age values by intervention") +
-  facet_grid(.~intervention)
+# (1c): Create a stacked histogramm showing the distribution of age by intervention
+participant_info$intervention <- as.factor(participant_info$intervention)
 
-# Distribution of education levels: 
 ggplot(participant_info) +
-  geom_bar(mapping = aes(educ), fill = "steelblue") + 
-  labs(title = "Distribution of education levels") + 
+  geom_histogram(mapping = aes(x = age, fill = intervention), color = "black", binwidth = 3) +
+  labs(title = "Distribution of age values by intervention") + 
+  theme_bw()
+
+# (1d): Create 4 histogramms showing the distribution of age by intervention 
+ggplot(participant_info) +
+  geom_histogram(mapping = aes(age), binwidth = 5, fill = "gold", color = "black") +
+  labs(title = "Distribution of age values (by intervention)") +
+  # facet_grid(.~intervention) +
+  facet_wrap(~intervention) + 
+  theme_bw()
+
+
+# (1e): Create a histogramm and a frequency polygon 
+#       showing how age is distributed amongst the male and female participants: 
+
+participant_info$sex <- as.factor(participant_info$sex)
+
+ggplot(data =  participant_info)+
+  geom_histogram(mapping = aes(x = age, fill = sex), binwidth = 1)+
+  labs(title = "Distribution of age",
+       x = "Age", y = "Count")+
+  theme_bw()
+
+ggplot(data = participant_info)+
+  geom_freqpoly(mapping = aes(x=age, color = sex), binwidth = 4)+
+  labs(title = "Distribution of age",
+       x="Age", y = "Count")+
   theme_bw()
 ```
 
 
-#### Explore `ahi_i` and `cesd_i` scores
+### Explore participants per intervention 
 
-```{r 8, echo = TRUE, eval = TRUE}
-ahi_cesd %>% 
-  group_by(intervention) %>%
-  summarize(mean_ahi_i = mean(ahiTotal, na.rm = TRUE), 
-            mean_cesd_i = mean(cesdTotal, na.rm = TRUE))
+Composition of intervention groups
 
-# ggplot()
+```{r explore_interventions, echo = TRUE, eval = TRUE}
+# Exercise 2: Are the participants equally distributed over the 4 intervention categories?
+# (a): in total counts
+# (b): in %
+# (hint: bar chart, can use participant_info data)
+
+# (2a)
+participant_info$intervention <- as.factor(participant_info$intervention)
+
+ggplot(participant_info)+
+  geom_bar(mapping = aes(x = intervention),  fill = "darkblue")+ 
+  labs(title = "Number of participants per intervention", 
+       x = "Intervention", y = "Count") +
+  theme_bw()
+
+# (Additional task): Every bar should have a different color. How do you do this?
+
+ggplot(participant_info)+
+  geom_bar(mapping = aes(x = intervention, fill = intervention))+ 
+  labs(title = "Number of participants per intervention", 
+       x = "Intervention", y = "Count") +
+  theme_bw()
+
+# (2b)
+ggplot(participant_info)+
+  geom_bar(mapping = aes(x = intervention, y = ..prop.., group = 1), fill = "darkblue") + 
+  labs(title = "Number of participants per intervention", 
+       x = "Intervention", y = "Proportion") +
+  theme_bw()
+
+
+# Exercise 3: Is the distribution of females and males similar within the intervention groups?
+
+ggplot(participant_info)+
+  geom_bar(mapping = aes(x = intervention, fill = sex), position = "dodge") + 
+  labs(title = "Participants per intervention group", 
+       x = "Intervention", y = "Count") +
+  theme_bw()
 ```
 
 
-```{r 9, echo = TRUE, eval = TRUE}
+### Explore ahiTotal and cesdTotal scores at different occasions
 
-# new variable improvement in ahiTotal/cesdTotal
-complete_data %>%
-  mutate(improve.ahi = ahiTotal.5 - ahiTotal.0)
+```{r explore_totals, echo = TRUE, eval = TRUE}
+## Data:
+# dim(complete_data)  # Why 297, rather than 295?
 
-complete_data%>%
-  mutate(improve.cesd = cesdTotal.5 - cesdTotal.0)
+# Exercise 4
+# (4a): Show the relationship of ahiTotal and cesdTotal at Occasion 0 using a scatterplot
 
-# add to existing data
-complete_data <- complete_data%>%
-  mutate(improve.ahi = ahiTotal.5 - ahiTotal.0)
+ggplot(data = complete_data) +
+  geom_point(mapping = aes(x = ahiTotal.0, y = cesdTotal.0)) + 
+  # Adding title and axis labels: 
+  labs(title = "Relationship between ahiTotal and cesdTotal (at Occasion = 0)", 
+       x = "ahiTotal", y = "cesdTotal") +
+  theme_bw()
 
 
-complete_data <- complete_data%>%
-  mutate(improve.cesd = cesdTotal.5 - cesdTotal.0)
+# (4b): Add a trend-line to this plot:
+ggplot(data = complete_data, mapping = aes(x = ahiTotal.0, y = cesdTotal.0)) +
+  geom_smooth() +
+  geom_point() + 
+  labs(title = "Relationship between ahiTotal and cesdTotal (at Occasion = 0)", 
+       x = "ahiTotal", y = "cesdTotal")+
+  theme_bw()
 
+# (4c): Make this plot look nicer, for example by using color or changing the pointshape or size.
 
-# mean improvement (overall)
-complete_data %>%
-  summarize(mean_improve_cesd = mean(improve.cesd, na.rm = TRUE), 
-            mean_improve_ahi = mean(improve.ahi, na.rm = TRUE))
+ggplot(data = complete_data, mapping = aes(x = ahiTotal.0, y = cesdTotal.0)) +
+  geom_smooth(color = "firebrick") +
+  geom_point(color = "darkblue", shape = 16, size = 3, alpha = 1/3) + 
+  labs(title = "Relationship between ahiTotal and cesdTotal (at Occasion = 0)", 
+       x ="ahiTotal", y = "cesdTotal") +
+  theme_bw()
 
-# mean improvement (per intervention)
-## Which intervention group did improve most in ahi and cesd total scores?
-complete_data %>%
-  group_by(intervention) %>%
-  summarize(mean_improve_cesd = mean(improve.cesd, na.rm = TRUE), 
-            mean_improve_ahi = mean(improve.ahi, na.rm = TRUE))
+  
+# (4d): Add information on intervention group using 2 different options
+
+## prep: intervention as factor, not as integer:
+complete_data$intervention <- as.factor(complete_data$intervention)
+
+## 1 Plot, 4 colors
+ ggplot(data = complete_data)+
+  geom_point(mapping = aes(x = ahiTotal.0, y = cesdTotal.0, color = intervention))+ 
+  labs(title = "Relationship between ahiTotal and cesdTotal (at Occasion = 0)",
+       x="ahiTotal", y = "cesdTotal") 
+ 
+ ## 4 plots:
+  ggplot(data = complete_data)+
+  geom_point(mapping = aes(x = ahiTotal.0, y = cesdTotal.0))+ 
+  labs(title = "Relationship between ahiTotal and cesdTotal (at Occasion = 0)",
+       x = "ahiTotal", y = "cesdTotal")+
+    theme_minimal()+
+    facet_grid(.~ intervention)
+  
+ 
+# (4e): Let's create 4 plots (hint: facet_grid) for occasion 5 and compare them to the one for occasion 0. What has changed?
+  
+# Relationship ahiTotal and cesdTotal at Occasion = 5 
+# Task: 
+
+  ggplot(data = complete_data)+
+  geom_point(mapping = aes(x = ahiTotal.5, y = cesdTotal.5))+ 
+  labs(title = "Relationship between ahiTotal and cesdTotal at Occasion = 5",
+       x = "ahiTotal", y = "cesdTotal")+
+      theme_minimal() +
+    facet_grid(.~ intervention)
+    
+    
+ggplot(data = complete_data)+
+  geom_point(mapping = aes(x = ahiTotal.5, y = cesdTotal.5, color = intervention))+ 
+  labs(title = "Relationship between ahiTotal and cesdTotal at Occasion = 5",
+       x = "ahiTotal", y = "cesdTotal") +
+          theme_minimal()
 ```
+
+
+
+
+```{r explore_changes, echo = TRUE, eval = TRUE}
+# Exercise 5:
+
+# (5a): Plot the distribution of pre-intervention ahiTotal-scores (Occasion = 0)grouped by income level using a violin plot
+complete_data$income <- as.factor(complete_data$income)
+
+ggplot(data = complete_data, mapping = aes(x = income,y = ahiTotal.0)) +
+  geom_violin() +
+  labs(title = "Comparison of pre-intervention ahiTotal-scores at for income levels", 
+       x = "income category", y = "pre-intervention ahiTotal-scores" )+
+  theme_classic()
+
+# (5b): Can you add information about how the participants are distributed with in each income group using geom_jitter? 
+ggplot(data = complete_data, mapping = aes(x = income,y = ahiTotal.0)) +
+  geom_violin(color = "darkblue") +
+  geom_jitter(color = "lightblue", size = 2) +
+  labs(title = "Comparison of pre-intervention ahiTotal-scores at for income levels", 
+       x = "income category", y = "pre-intervention ahiTotal-scores" )+
+  theme_classic()
+
+# (5c): Can you do the same plot with geom_point, instead of geom_jitter?
+ggplot(data = complete_data, mapping = aes(x = income,y = ahiTotal.0)) +
+  geom_violin() +
+  geom_point(position = "jitter", color = "lightblue", size = 2) +
+  labs(title = "Comparison of pre-intervention ahiTotal-scores at for income levels", 
+       x = "Income category", y = "Pre-intervention ahiTotal-scores") +
+  theme_classic()
+
+# (5d): Let?s see how the pre-intervention cesdTotal-scores are distributed in the income groups
+ggplot(data = complete_data, mapping = aes(x = income,y = cesdTotal.0)) +
+  geom_violin(color = "darkblue")+
+  geom_jitter(color = "lightblue", size = 2)+
+  labs(title = "Comparison of pre-intervention cesdTotal-scores at for income levels", 
+       x = "Income category", y = "Pre-intervention cesdTotal-scores" )+
+  theme_classic()
+
+```
+
+
+### Explore data: ahiTotal scores, cesdTotal scores and age
+
+```{r explore_relationships, echo = TRUE, eval = TRUE}
+# Exercise 6: Create two scatterplot to investigate 
+# if there is an systematic relationship between ahiTotal scores/cesdTotal scores and age.
+
+# (a):ahiTotal scores
+ggplot(complete_data, mapping = aes(x = age, y = ahiTotal.0)) +
+  geom_point(color = "forestgreen", shape = 1, size = 1.5)+
+  labs(title = "Age and ahiTotal scores before start of interventions", 
+       x = "Age", y = "Pre-intervention ahiTotal Score")
+
+# (b): cesdTotal-scores
+ggplot(complete_data, mapping = aes(x = age, y = cesdTotal.0)) +
+  geom_point(color = "forestgreen", shape = 1, size = 1.5)+
+  labs(title = "Age and cesdTotal scores before start of interventions", 
+       x = "Age", y = "Pre-intervention cesdTotal Score")
+```
+
+
+
+
+# Getting data
+
+## Files available
+
+The following files were generated from the original data files (and saved in `.csv` format): 
+
+1. `posPsy_participants.csv`: Original participant data (295 x 6 variables). 
+
+2. `posPsy_AHI_CESD.csv`: Original data of dependent measures in _long_ format (992 x 50 variables).
+
+3. `posPsy_AHI_CESD_corrected.csv`: Corrected version of dependent measures in _long_ format (990 x 50 variables).
+
+4. `posPsy_data_wide.csv`: Corrected version of all data joined in _wide_ format (295 x 294 variables). 
+Different measurement occasions are suffixed by `.0`, `.1`, ..., `.5`. 
+
+We can load the participant data into R with the following command (from the package `readr`, which is part of the `tidyverse`):
+
+
+## Loading data
+
+Reading in these data files from online sources: 
+
+```{r read_posPsy_data, echo = TRUE, eval = TRUE}
+library(readr)
+
+# 1. Participant data: 
+p_info <- read_csv(file = "http://rpository.com/ds4psy/data/posPsy_participants.csv")  # online
+dim(p_info)  # 295 x 6 
+
+# 2. Original DVs in long format:
+AHI_CESD <- read_csv(file = "http://rpository.com/ds4psy/data/posPsy_AHI_CESD.csv")  # online
+dim(AHI_CESD)  # 992 x 50
+
+# 3. Corrected DVs in long format:
+AHI_CESD_2 <- read_csv(file = "http://rpository.com/ds4psy/data/posPsy_AHI_CESD_corrected.csv")  # online
+dim(AHI_CESD_2)  # 990 x 50
+
+# 4. Corrected version of all data in wide format: 
+data_wide <- read_csv(file = "http://rpository.com/ds4psy/data/posPsy_data_wide.csv")  # online
+dim(data_wide)  # 295 x 294 
+```
+
+# Reference
+
+- Woodworth, R. J., O’Brien-Malone, A., Diamond, M. R. and Schüz, B. (2018). 
+Data from, ‘Web-based positive psychology interventions: A reexamination of effectiveness’. 
+_Journal of Open Psychology Data_, _6_: 1. DOI: <https://doi.org/10.5334/jopd.35> 
+
 
 
 <!-- eof. --> 
