@@ -232,11 +232,13 @@ _Journal of Open Psychology Data_, _6_: 1. DOI: <https://doi.org/10.5334/jopd.35
 ```{r base_R_datasets}
 library(help = "datasets")
 
-## Check some dimensions:
+## Check some dimensions: ----- 
+
 # dim(ChickWeight)
 # dim(iris)
-# dim(sleep)
-# dim(Titanic) # see dim(FFTrees::titanic)
+# Nile           # Time series: plot(Nile)
+# dim(sleep)     # Student's Sleep Data
+# dim(Titanic)   # see dim(FFTrees::titanic)
 ```
 
 ## Packages
@@ -244,7 +246,7 @@ library(help = "datasets")
 Packages of the `tidyverse`:
 
 - `dplyr`: `starwars`
-- `ggplot2`: `diamonds`, `mpg` 
+- `ggplot2`: `diamonds`, `mpg`, `msleep`, etc. 
 - `tidyr`: `table1`, etc. 
 
 Other packages with large data sets:
