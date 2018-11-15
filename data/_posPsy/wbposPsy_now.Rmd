@@ -1,17 +1,65 @@
 ---
-title: "Web-based Positive Psychology Interventions"
+title: "Web-based positive psychology interventions: A reexamination of effectiveness"
 author: "lmw & hn"
-date: "2018 11 14"
-output: html_document
+date: "2018 11 15"
+output:
+   html_document:
+     code_folding: show # hide
+     toc: true
+     toc_float: true
+     toc_depth: 3
+     highlight: default # textmate default kate haddock monochrome #
+     lightbox: true # true by default
+     fig_width: 8 # in inches
+editor_options: 
+  chunk_output_type: console # inline
 ---
 
-```{r setup, include = FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+```{r preamble, echo = FALSE, eval = TRUE, cache = FALSE, message = FALSE, warning = FALSE}
+## Packages: ----- 
+library(tidyverse)
+library(knitr)
+# library(rmdformats)
+
+## (d) Global options: ----- 
+options(max.print = "75")
+opts_chunk$set(echo = TRUE,
+	             cache = TRUE,
+               prompt = FALSE,
+               tidy = FALSE,
+               collapse = TRUE, # set TRUE in answers 
+               comment = "#>",
+               message = FALSE,
+               warning = FALSE,
+               ## Default figure options:
+               fig.width = 6, 
+               fig.asp = .618, # golden ratio
+               out.width = "75%",
+               fig.align = "center"
+               )
+opts_knit$set(width = 75)
+
+## (e) Graphics: ----- 
+
+# Defining colors:
+seeblau <- rgb(0, 169, 224, names = "seeblau", maxColorValue = 255) # seeblau.4 (non-transparent)
+
+seeblau.colors <- c(rgb(204, 238, 249, maxColorValue = 255), # seeblau.1
+                    rgb(166, 225, 244, maxColorValue = 255), # seeblau.2 
+                    rgb(89, 199, 235, maxColorValue = 255),  # seeblau.3
+                    rgb(0, 169, 224, maxColorValue = 255),   # seeblau.4 
+                    rgb(0, 0, 0, maxColorValue = 255),       #  5. black
+                    gray(level = 0, alpha = .6),             #  6. gray 60% transparent
+                    gray(level = 0, alpha = .4),             #  7. gray 40% transparent
+                    gray(level = 0, alpha = .2),             #  8. gray 20% transparent
+                    gray(level = 0, alpha = .1),             #  9. gray 10% transparent
+                    rgb(255, 255, 255, maxColorValue = 255)  # 10. white
+                    )
 ```
 
-# Web-based Positive Psychology Interventions: A Reexamination of Effectiveness
+# Source data
 
-## Source
+## Reference and links
 
 - Woodworth, R. J., O’Brien-Malone, A., Diamond, M. R. and Schüz, B. (2018). 
 Data from, ‘Web-based Positive Psychology Interventions: A Reexamination of Effectiveness’. 
@@ -20,7 +68,7 @@ DOI: <https://doi.org/10.5334/jopd.35>
 
 - See <https://openpsychologydata.metajnl.com/articles/10.5334/jopd.35/> for details. 
 
-- The dataset is available from figshare at <https://doi.org/10.6084/m9.figshare.1577563.v1>.
+- The original dataset is available from figshare at <https://doi.org/10.6084/m9.figshare.1577563.v1>.
 
 
 ## Preparation
@@ -97,8 +145,7 @@ Contains data of the 24 items of the _Authentic Happiness Inventory_ (AHI) and a
 * `cesdTotal`: total CES-D score
 
 
-
-# Screen and clean data
+# Screening and cleaning data
 
 ## Import data
 
@@ -701,6 +748,9 @@ all.equal(data_wide, complete_data)  # TRUE (except for numeric type of elapsed.
 
 Some exercises using the `ggplot2` package.
 
+**ToDo:** Put on separate page (and read in required data files).
+
+
 ### Preparation
 
 ```{r load_ggplot2, echo = TRUE, eval = TRUE}
@@ -943,24 +993,43 @@ ggplot(complete_data, mapping = aes(x = age, y = cesdTotal.0)) +
 ```
 
 
+# Data transformation
+
+Some exercises using the `dplyr` package.
+
+**ToDo:** Put on separate page (and read in required data files).
 
 
-# Getting data
+# EDA
+
+Some exercises using the `dplyr` and `ggplot2` packages.
+
+**ToDo:** Put on separate page (and read in required data files).
+
+
+# Getting the data
+
+Some notes on the current data versions and availability of the corresponding files.
 
 ## Files available
 
 The following files were generated from the original data files (and saved in `.csv` format): 
 
-1. `posPsy_participants.csv`: Original participant data (295 x 6 variables). 
+1. `posPsy_participants.csv`: Original participant data (295 x 6 variables): 
+<http://rpository.com/ds4psy/data/posPsy_participants.csv>. 
 
-2. `posPsy_AHI_CESD.csv`: Original data of dependent measures in _long_ format (992 x 50 variables).
+2. `posPsy_AHI_CESD.csv`: Original data of dependent measures in _long_ format (992 x 50 variables): 
+<http://rpository.com/ds4psy/data/posPsy_AHI_CESD.csv>.
 
-3. `posPsy_AHI_CESD_corrected.csv`: Corrected version of dependent measures in _long_ format (990 x 50 variables).
+3. `posPsy_AHI_CESD_corrected.csv`: Corrected version of dependent measures in _long_ format (990 x 50 variables):
+<http://rpository.com/ds4psy/data/posPsy_AHI_CESD_corrected.csv>.
 
-4. `posPsy_data_wide.csv`: Corrected version of all data joined in _wide_ format (295 x 294 variables). 
+4. `posPsy_data_wide.csv`: Corrected version of all data joined in _wide_ format (295 x 294 variables): 
+<http://rpository.com/ds4psy/data/posPsy_data_wide.csv>. 
 Different measurement occasions are suffixed by `.0`, `.1`, ..., `.5`. 
 
-We can load the participant data into R with the following command (from the package `readr`, which is part of the `tidyverse`):
+
+We can load the participant data into R with the following command (from the package `readr`, which is part of the `tidyverse`): 
 
 
 ## Loading data

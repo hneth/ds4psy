@@ -112,11 +112,26 @@ This file contains descriptions of **datasets** used in this course and their so
 
 ### Introduction
 
-Woodworth et al. (2018, DOI: <https://doi.org/10.5334/jopd.35>) examined the long-term effectiveness of different web-based positive psychology interventions (see <https://openpsychologydata.metajnl.com/articles/10.5334/jopd.35/> for details). 
+#### Description
 
-### Description
+**ToDo:** Research question and data structure and contents:
 
-Research question and data structure and contents. 
+Woodworth et al. (2018, DOI: <https://doi.org/10.5334/jopd.35>) examined the long-term effectiveness of different web-based positive psychology interventions (see [this link](https://openpsychologydata.metajnl.com/articles/10.5334/jopd.35/) for details).  
+
+
+#### Reference and data source
+
+- Woodworth, R. J., O’Brien-Malone, A., Diamond, M. R. and Schüz, B. (2018). 
+Data from, ‘Web-based Positive Psychology Interventions: A Reexamination of Effectiveness’. 
+_Journal of Open Psychology Data_, _6_: 1. 
+DOI: <https://doi.org/10.5334/jopd.35> 
+
+- See <https://openpsychologydata.metajnl.com/articles/10.5334/jopd.35/> for details. 
+
+- The original dataset is available from figshare at <https://doi.org/10.6084/m9.figshare.1577563.v1>.
+
+
+
 
 ### Codebook
 
