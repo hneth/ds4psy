@@ -1,5 +1,5 @@
 ---
-title: "Basic R concepts and commands (ds4psy)"
+title: "Basic R concepts and commands, with solutions (ds4psy)"
 author: "Hansjörg Neth, SPDS, uni.kn"
 date: "2018 11 05"
 output:
@@ -135,34 +135,37 @@ add_whats <- function(vec, amount, what = NA){
 
 # Introduction
 
-This file contains a brief introduction into basic concepts and commands when learning R. Knowing some R is not a necessary precondition for reading and learning data science with our textbook ([r4ds](http://r4ds.had.co.nz)), 
+This file contains a brief introduction into basic concepts and commands when learning R **with code outputs and solutions**. 
+Knowing some R is not a necessary precondition for reading and learning data science with our textbook ([r4ds](http://r4ds.had.co.nz)), 
 but certainly helpful. Thus, please work through the examples, try to understand them, and try solving the exercises below. 
 
-<!--
+<!-- Table with links: -->
 
-This file contains **essential commands** from the chapters of [r4ds](http://r4ds.had.co.nz) and corresponding examples. A command is considered "essential" when you really need to _know_ it and need to know _how to use_ it to succeed in this course. 
-
--->
-
-<!-- Table with links: 
-
-All [ds4psy](http://rpository.com/ds4psy/) essentials: 
+All [ds4psy](http://rpository.com/ds4psy/) essentials so far: 
 
 Nr. | Topic       |
 ---:|:------------| 
-1.  | [Creating and using tibbles](http://rpository.com/ds4psy/R/_essentials/tibble.html) |
-2.  | [Data transformation](http://rpository.com/ds4psy/R/_essentials/transform.html) |
-3.  | [Visualizing data](http://rpository.com/ds4psy/R/_essentials/visualize.html) | 
-4.  | [Exploring data](http://rpository.com/ds4psy/R/_essentials/explore.html) | 
-5.  | [Tidy data](http://rpository.com/ds4psy/R/_essentials/tidy.html) | 
+0.  | [Syllabus](http://rpository.com/ds4psy/) | 
+1.  | **Basic R concepts and commands** | 
+2.  | [Visualizing data](http://rpository.com/ds4psy/essentials/visualize.html) | 
 
+<!--
+Nr. | Topic       |
+---:|:------------| 
+0.  | [Syllabus](http://rpository.com/ds4psy/) | 
+1.  | [Basic R concepts and commands](http://rpository.com/ds4psy/essentials/basics.html) | 
+2.  | [Visualizing data](http://rpository.com/ds4psy/essentials/visualize.html) | 
+3.  | [Transforming data](http://rpository.com/ds4psy/essentials/transform.html) |
+4.  | [Exploring data (EDA)](http://rpository.com/ds4psy/essentials/EDA.html) | 
+5.  | [Creating and using tibbles](http://rpository.com/ds4psy/essentials/tibble.html) |
+6.  | [Tidying data](http://rpository.com/ds4psy/essentials/tidy.html) |  
 -->
 
 ## Course coordinates
 
 * Taught at the [University of Konstanz](https://www.uni-konstanz.de/) by [Hansjörg Neth](http://neth.de/) (<h.neth@uni.kn>,  [SPDS](https://www.spds.uni-konstanz.de/), office D507).
 * Winter 2018/2019: Mondays, 13:30--15:00, C511. 
-* Links to current [course syllabus](http://rpository.com/ds4psy/) | [ZeUS](https://zeus.uni-konstanz.de/hioserver/pages/startFlow.xhtml?_flowId=detailView-flow&unitId=5101&periodId=78&navigationPosition=hisinoneLehrorganisation,examEventOverviewOwn) |  [Ilias](https://ilias.uni-konstanz.de/ilias/goto_ilias_uni_crs_809936.html)
+* Links to current [course syllabus](http://rpository.com/ds4psy/) | [ZeUS](https://zeus.uni-konstanz.de/hioserver/pages/startFlow.xhtml?_flowId=detailView-flow&unitId=5101&periodId=78&navigationPosition=hisinoneLehrorganisation,examEventOverviewOwn) |  [Ilias](https://ilias.uni-konstanz.de/ilias/goto_ilias_uni_crs_809936.html) 
 
 ## Preparations
 
@@ -170,7 +173,7 @@ Create an R script (`.R`) or an R-Markdown file (`.Rmd`) and load the R packages
 
 ```{r layout_template, echo = TRUE, eval = FALSE}
 ## Essential commmands | ds4psy
-## 2018 10 30
+## 2018 10 31
 ## ----------------------------
 
 ## Preparations: ----------
@@ -198,7 +201,7 @@ of [r4ds](https://r4ds.had.co.nz/). Specifically,
 
     1. A current version of [R](https://cloud.r-project.org);   
     2. A current version of [RStudio](http://www.rstudio.com);   
-    3. The R packages comprising the [tidyverse](https://www.tidyverse.org).   
+    3. The R packages of the [tidyverse](https://www.tidyverse.org).   
     
 
 2. **Readings:** You have read the following chapters of [r4ds](https://r4ds.had.co.nz/):
@@ -225,8 +228,7 @@ Using R and most other programming languages consists in
 
 2. evaluating _functions_ (actions, verbs).  
 
-Confusingly, both data and functions in R are _objects_ and evaluating functions 
-typically returns or creates new data objects. To distinguish data from functions, think of data as _objects_ (i.e., material or values that are being measured or manipulated) and functions as _procedures_ (i.e., actions, operations, or verbs) that measure or manipulate data.
+Confusingly, both data and functions in R are _objects_ and evaluating functions typically returns or creates new data objects. To distinguish data from functions, think of data as _objects_ (i.e., material or values that are being measured or manipulated) and functions as _procedures_ (i.e., actions, operations, or verbs) that measure or manipulate data.
 
 In the following, we will introduce some ways to describe data (by _shape_ and _type_), learn to create new data objects (by assigning them with `<-`), and apply some pre-defined functions to these data objects.
 
@@ -239,7 +241,7 @@ In R, different data objects are characterized by their _shape_ and by their _ty
     - _scalars_: atomic objects (i.e., a data point, with a length of 1);  
     - _vectors_: a chain/sequence of objects of the same type (i.e., extending in 1 dimension: length);    
     - _data frames_/_matrices_/_tibbles_: rectangular data (i.e., tables with 2 dimensions: rows vs. columns).   
-    
+
 
 2. The most common _types_ of data are:
 
@@ -262,7 +264,7 @@ Here, the function `sum` is applied to 2 numeric arguments `1` and `2`. Evaluati
 
 Evaluate the following expressions and describe what they are doing (in terms of applying functions to arguments to obtain new data):
 
-```{r first_functions, echo = TRUE, eval = FALSE}
+```{r first_functions, echo = TRUE, eval = TRUE}
 min(1, 2, -3, 4)
 paste0("ab", "cd")
 substr("television", start = 5, stop = 10)
@@ -274,7 +276,7 @@ substr("television", 20,  30)  # yields ""
 
 To define a new object `o` as `x`, use the assignment function `o <- x` and note that object names are case-sensitive (i.e., `a` and `A` are different object names). Here are some examples of simple objects and simple arithmetic functions applied to objects:
 
-```{r objects, echo = TRUE, eval = FALSE}
+```{r objects, echo = TRUE, eval = TRUE}
 o <- 10  # assign/set o to 10
 O <- 5   # assign/set O to  5
 
@@ -308,10 +310,9 @@ Recommendations:
 
 We have learned that _scalars_ are objects of length 1 (aka. _atomic_ objects) and how to define objects by assigning names to them. So let's define some scalar objects and then use some generic functions to check their length and type: 
 
-```{r basic_objects, echo = TRUE, eval = FALSE}
+```{r basic_objects, echo = TRUE, eval = TRUE}
 a <- 1     # assign/set a to 1
 a          # print a
-typeof(a)
 a + 2      # evaluate a + 2
 sum(a, 2)  # evaluate the function sum() with arguments a and 2
 
@@ -327,20 +328,16 @@ c
 length(c)       # 1 could indicate a scalar OR the number of digits...
 length(1000)    # Check: also 1 (i.e., NOT number of digits)
 typeof(c)       # numbers are of type "integer" or "double" 
-
 typeof(3.14159) # decimal numbers are of type "double"
 
 d <- "word" # note the quotes ("")
 d
 length(d)  # also a scalar
-nchar(d)
 typeof(d)  # but of type "character"
 
 b
 a
-b < a          # result is neither number nor chacacter:
-b != a
-
+b > a          # result is neither number nor chacacter:
 typeof(a > b)  # yet another type: "logical"
 e <- b > a
 e
@@ -355,7 +352,7 @@ Thus, our exploration has shown that objects `a`, `b` and `c` are _numeric_ obje
 
 To change an existing object, we need to re-assign it. Thus, changing an object works just like creating it: 
 
-```{r reassigning_objects, echo = TRUE, eval = FALSE}
+```{r reassigning_objects, echo = TRUE, eval = TRUE}
 # Check values (defined above):
 a
 b
@@ -383,15 +380,13 @@ Importantly, most functions require specific types of arguments to work (i.e., t
 
 When viewing this requirement from the perspective of existing objects, the type of an object determines which functions can be applied to it:
 
-```{r function_matching_object_types, echo = TRUE, eval = FALSE}
+```{r function_matching_object_types, echo = TRUE, eval = TRUE}
 # Start with numeric objects:
 a
 typeof(a)  # a generic function (working with all object types)
 length(a)  # a scalar
 a + b      
 sum(a, b)  # an arithmetic function (requiring numeric object types)
-
-a + d
 
 # Start with character objects:
 d
@@ -423,10 +418,10 @@ d^2
 
 For numeric objects, we can compute new numeric values by applying arithmetic functions: 
 
-```{r arithmetic_functions, echo = TRUE, eval = FALSE}
+```{r arithmetic_functions, echo = TRUE, eval = TRUE}
 ## (A) Arithmetic operators: ---- 
-+2    # keeping sign
--3    # reversing sign
++ 2    # keeping sign
+- 3    # reversing sign
 1 + 2  # addition
 3 - 1  # subtraction
 2 * 3  # multiplication
@@ -473,7 +468,7 @@ The same arithmetic operators also work with numeric _vectors_ (see **Exercise 3
 
 By comparing numbers and using logical operators, we can obtain logical values (i.e., scalars of type _logical_ that are either `TRUE` or `FALSE`) by conducting tests on numeric values:
 
-```{r logical_comparisons_operators, echo = TRUE, eval = FALSE}
+```{r logical_comparisons_operators, echo = TRUE, eval = TRUE}
 ## Logical comparisons:
 2 > 1   # larger than
 2 >= 2  # larger than or equal to
@@ -499,7 +494,7 @@ _Vectors_ are the most common and most important data type in R. A _vector_ is a
 To create a new vector, we can _combine_ several objects of the _same type_ with the `c()` function, 
 separating vector elements by commas:
 
-```{r creating_vectors, echo = TRUE, eval = FALSE}
+```{r creating_vectors, echo = TRUE, eval = TRUE}
 # Creating vectors: 
 c(1, 2, 3)
 c(a, b)
@@ -542,7 +537,7 @@ typeof(x)  # converted 1 to "1" (as all vector elements must be of the same type
 
 Actually, R has no dedicated type of scalar objects. Instead, individual numbers (of type integer or double) or text strings (of type character) are actually vectors of length 1:
 
-```{r scalar_vectors, echo = TRUE, eval = FALSE}
+```{r scalar_vectors, echo = TRUE, eval = TRUE}
 a
 is.vector(a)
 length(a)
@@ -560,7 +555,7 @@ length(e)
 
 For creating vectors with more than just a few elements (i.e., with larger `length` values), the `c` function becomes impractical. Some useful functions and shortcuts are:
 
-```{r vector_creation, echo = TRUE, eval = FALSE}
+```{r vector_creation, echo = TRUE, eval = TRUE}
 # Sequences (with sep):
 s1 <- seq(0, 100, 1)  # is short for: 
 s2 <- seq(from = 0, to = 100, by = 1)
@@ -596,7 +591,7 @@ sample(x = coin, size = 1000, replace = TRUE)  # flip coin 1000 times
 
 We often store a lot of values in vectors (e.g., the age of 1000 participants), but only need some of them for answering specific questions (e.g., what is the average age of all male participants?). To _select_ only a subset of elements from a vector `v` we can specify the condition or criterion for our selection in (square) brackets `v[...]`.
 
-```{r indexing_vectors, echo = TRUE, eval = FALSE}
+```{r indexing_vectors, echo = TRUE, eval = TRUE}
 # Example 1: Indexing numeric vectors
 x <- 1:10
 x
@@ -625,7 +620,7 @@ By combining several vectors, we get a _rectangular_ data structure.
 
 When a rectangle of data contains data of the same type in all cells, we get a _matrix_ of data:
 
-```{r rectangular_data, echo = TRUE, eval = FALSE}
+```{r rectangular_data, echo = TRUE, eval = TRUE}
 x <- 1:3
 y <- 4:6
 z <- 7:9
@@ -684,7 +679,7 @@ As matrices contain data of only 1 type (e.g., all cells are all numeric, charac
 
 Let's create a data frame from vectors: 
 
-```{r data_frame, echo = TRUE, eval = FALSE}
+```{r data_frame, echo = TRUE, eval = TRUE}
 # Create some vectors (of different types, but same length): -----  
 name <- c("Adam", "Bertha", "Cecily", "Dora", "Eve", "Nero", "Zeno")
 gender <- c("male", "female", "female", "female", "female", "male", "male")
@@ -730,7 +725,7 @@ df$gender[df$height < 170]
 In most cases, we don't generate the data that we analyze, but obtain it from somewhere (e.g., online). For instance, 
 Woodworth et al. (2018, DOI: <https://doi.org/10.5334/jopd.35>) examined the long-term effectiveness of different web-based positive psychology interventions (see [this link](https://openpsychologydata.metajnl.com/articles/10.5334/jopd.35/) for details). We can load their participant data into R with the following command (from the package `readr`, which is part of the `tidyverse`):
 
-```{r read_online_data, echo = TRUE, eval = FALSE}
+```{r read_online_data, echo = TRUE, eval = TRUE}
 library(readr)
 
 p_info <- read_csv(file = "http://rpository.com/ds4psy/data/posPsy_participants.csv")
@@ -797,12 +792,13 @@ sqrt(2)  # see ?sqrt
 sqrt(2)^2
 sqrt(2)^2 == 2  # Why FALSE? 
 # Hint: Compute the difference sqrt(2)^2 - 2
+sqrt(2)^2 - 2   # is not 0
 
-o / O / 0
+o / O / 0   # (using o and O from above)
 0 / (o * O)
 0 / (o * 0)
 
-a + b + C  # are all objects defined?
+a + b + C   # are all objects defined?
 
 sum(a, b) - sum(a + b)
 
@@ -821,7 +817,7 @@ paste(d, e)  # paste "adds" 2 character objects
 ```
 
 
-## Exercise 2
+## Exercise 2 
 
 With only a little knowledge of R you can perform quite fancy financial arithmetic. Assume that you have won an amount of EUR 1000 and are considering to deposit this amount into a new bank account that offers an annual interest rate of 0.1%. 
 
@@ -831,7 +827,7 @@ With only a little knowledge of R you can perform quite fancy financial arithmet
 
 Answer these questions by defining well-named objects and performing simple arithmetic computations on them.
 
-```{r ex2_financial, echo = FALSE, eval = FALSE}
+```{r ex2_financial, echo = TRUE, eval = TRUE}
 # Definitions:
 savings_0 <- 1000    # initial savings (year 0)
 interest  <- .1/100  # interest rate (annual)
@@ -869,7 +865,7 @@ When introducing arithmetic functions above, we showed that they can be used wit
 1. Demonstrate that the same arithmetic functions also work with 2 numeric vectors `x` and `y` (of the same length).  
 2. What happens when `x` and `y` have different lengths?
 
-```{r ex3_arithmetic_vectors, echo = FALSE, eval = FALSE}
+```{r ex3_arithmetic_vectors, echo = TRUE, eval = TRUE}
 ## 1. Arithmetic with vectors of the same length:
 x <- c(2, 4, 6)
 y <- c(1, 2, 3)
@@ -904,7 +900,7 @@ x %% y  # remainder of integer division (x mod y)
 
 Predit the result of the arithmetic expression `x %/% y * y + x %% y`. Then test your prediction by assigning some number to `x` and `y` and evaluating the expression. Finally, explain why the result occurs. 
 
-```{r ex4_integer_arithmetic, echo = FALSE, eval = FALSE}
+```{r ex4_integer_arithmetic, echo = TRUE, eval = TRUE}
 ## Note: The given expression 
 x %/% y * y + x %% y  
 # is identical to: 
@@ -947,7 +943,7 @@ Now use some functions on your `age` vector to answer the following questions:
  - What is the average (mean) age of people older than 50 years?
  - How many people have a round age (i.e., an age that is divisible by 10)? What is their mean age? 
 
-```{r ex5, echo = FALSE, eval = FALSE}
+```{r ex5, echo = TRUE, eval = TRUE}
 set.seed(42) # for replicable randomness
 
 # Creating 3 groups:
@@ -983,6 +979,7 @@ length(round_ages)
 mean(round_ages)
 ```
 
+
 ## Exercise 6
 
 Examine the participant information in `p_info` by describing each of its variables: 
@@ -994,7 +991,7 @@ Examine the participant information in `p_info` by describing each of its variab
 5. What is the age range (`min` to `max`) of participants? What is the average (mean and median) age?
 6. Describe the range of `income` levels present in this sample of participants. What percentage of participants self-identifies as a below-average income (i.e., an `income` value of 1)?
 
-```{r ex6_p_info, echo = FALSE, eval = TRUE, results = "hide", fig.show = "hide"}
+```{r ex6_p_info, echo = TRUE, eval = TRUE, results = "show", fig.show = "show"}
 ## Load data (again): 
 p_info <- read_csv(file = "http://rpository.com/ds4psy/data/posPsy_participants.csv")
 # p_info
@@ -1047,8 +1044,6 @@ pc_income_low <- n_income_low/n_total * 100
 pc_income_low
 ```
 
-<!-- 
-
 **Answers** to **Exercise 6**:
 
 1. The `p_info` data contains `r n_total` individuals.
@@ -1058,13 +1053,12 @@ pc_income_low
 5. Participant's age values range from `r min(p_info$age)` to `r max(p_info$age)` years. Their mean age is `r round(mean(p_info$age), 2)` years, their median age is `r median(p_info$age)` years.  
 6. `r round(pc_income_low, 2)`% of the participants state that their income is below average. 
 
--->
 
 # Related Resources
 
 There is no shortage of introductory R books and scripts, but it's helpful if you find one that fits your interests and level of expertise. 
 
-- My favorite introduction to R is [YaRrr! The Pirate’s Guide to R](https://bookdown.org/ndphillips/YaRrr/), an ebook by Nathaniel Phillips that approaches R in a more detailed and much more entertaining fashion.  (See [Rpository.com/learnR/](http://rpository.com/learnr/) for corresponding exercises with solutions.)
+- My favorite introduction to R is [YaRrr! The Pirate’s Guide to R](https://bookdown.org/ndphillips/YaRrr/), an ebook by Nathaniel Phillips that approaches R in a more detailed and much more entertaining fashion.  (See [Rpository.com/learnR/](http://rpository.com/learnr/) for corresponding exercises with solutions.) 
 
 - For many other materials and scripts, see [R manuals](https://cran.r-project.org/manuals.html) and [other documentation](www.r-project.org/other-docs.html).  
 
@@ -1080,6 +1074,28 @@ Data from, ‘Web-based positive psychology interventions: A reexamination of ef
 _Journal of Open Psychology Data_, _6_: 1. 
 DOI: <https://doi.org/10.5334/jopd.35> 
 
+
+<!-- Table with links: -->
+
+All [ds4psy](http://rpository.com/ds4psy/) essentials so far: 
+
+Nr. | Topic       |
+---:|:------------| 
+0.  | [Syllabus](http://rpository.com/ds4psy/) | 
+1.  | **Basic R concepts and commands** | 
+2.  | [Visualizing data](http://rpository.com/ds4psy/essentials/visualize.html) | 
+
+<!--
+Nr. | Topic       |
+---:|:------------| 
+0.  | [Syllabus](http://rpository.com/ds4psy/) | 
+1.  | [Basic R concepts and commands](http://rpository.com/ds4psy/essentials/basics.html) | 
+2.  | [Visualizing data](http://rpository.com/ds4psy/essentials/visualize.html) | 
+3.  | [Transforming data](http://rpository.com/ds4psy/essentials/transform.html) |
+4.  | [Exploring data (EDA)](http://rpository.com/ds4psy/essentials/EDA.html) | 
+5.  | [Creating and using tibbles](http://rpository.com/ds4psy/essentials/tibble.html) |
+6.  | [Tidying data](http://rpository.com/ds4psy/essentials/tidy.html) |  
+-->
 
 [Last update on `r Sys.time()` by [hn](http://neth.de/).]  
 

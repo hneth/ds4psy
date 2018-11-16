@@ -9,7 +9,7 @@ output:
      toc_depth: 3
      highlight: default # textmate default kate haddock monochrome #
      lightbox: true # true by default
-     fig_width: 8 # in inches
+     fig_width: 7 # in inches
 editor_options: 
   chunk_output_type: console # inline
 ---
@@ -44,7 +44,7 @@ opts_chunk$set(echo = TRUE,
                message = FALSE,
                warning = FALSE,
                ## Default figure options:
-               fig.width = 6, 
+               fig.width = 7, 
                fig.asp = .618, # golden ratio
                out.width = "75%",
                fig.align = "center"
@@ -532,7 +532,7 @@ bp_1
 ## (b) Version with text labels and customized colors: 
 bp_1 + 
   ## prettier plot: 
-  geom_text(aes(label = paste0(round(share * 100, 1), "%"), y = share + .01), 
+  geom_text(aes(label = paste0(round(share * 100, 1), "%"), y = share + .015), 
             position = position_dodge(width = 1), 
             fontface = 2, color = "black") + 
   # Some set of high contrast colors: 
@@ -581,7 +581,7 @@ bp_2 +
 It is typically a good idea to show some measure of variability (e.g., the standard deviation, standard error, confidence interval, etc.) to any bar plots. 
 There is an entire range of geoms that draw error bars: 
 
-```{r bar_plot_error_bar, echo = TRUE, eval = TRUE}
+```{r bar_plot_error_bar, echo = TRUE, eval = TRUE, fig.width = 5, fig.height = 4}
 ## Create data to plot: ----- 
 n_cat <- 6
 set.seed(101)  # for reproducible randomness
@@ -594,33 +594,69 @@ data <- tibble(
 
 ## Error bars: -----
 
+## Error bars: -----
+
 ## x-aesthetic only:
 
 # (a) errorbar: 
 ggplot(data) +
-    geom_bar(aes(x = name, y = value), stat = "identity", fill = "steelblue") +
-    geom_errorbar(aes(x = name, ymin = value - sd, ymax = value + sd), 
-                  width = 0.4, color = "orange", alpha = 1, size = 1.0)
+  geom_bar(aes(x = name, y = value), stat = "identity", fill = "steelblue") +
+  geom_errorbar(aes(x = name, ymin = value - sd, ymax = value + sd), 
+                width = 0.4, color = "orange", alpha = 1, size = 1.0) +
+  labs(title = "Bar plot with error bars") + 
+  theme_bw()
 
 # (b) linerange: 
 ggplot(data) +
-    geom_bar(aes(x = name, y = value), stat = "identity", fill = "olivedrab3") +
-    geom_linerange(aes(x = name, ymin = value - sd, ymax = value + sd), 
-                   color = "firebrick", alpha = 1, size = 2.5)
+  geom_bar(aes(x = name, y = value), stat = "identity", fill = "olivedrab3") +
+  geom_linerange(aes(x = name, ymin = value - sd, ymax = value + sd), 
+                 color = "firebrick", alpha = 1, size = 2.5) + 
+  labs(title = "Bar plot with line range") + 
+  theme_light()
 
 ## Additional y-aesthetic: 
 
 # (c) crossbar:
 ggplot(data) +
-    geom_crossbar(aes(x = name, y = value, ymin = value - sd, ymax = value + sd), 
-                  width = 0.3, color = "sienna1", alpha = 1, size = 1.0)
+  geom_bar(aes(x = name, y = value), stat = "identity", fill = "forestgreen") +
+  geom_crossbar(aes(x = name, y = value, ymin = value - sd, ymax = value + sd), 
+                width = 0.3, color  = "sienna1", alpha = 1, size = 1.0) +
+  labs(title = "Bar plot with crossbars") + 
+  theme_classic()
 
 # (d) pointrange: 
 ggplot(data) +
-    geom_bar(aes(x = name, y = value), stat = "identity", fill = "burlywood4") +
-    geom_pointrange(aes(x = name, y = value, ymin = value - sd, ymax = value + sd), 
-                    color = "gold", alpha = 1.0, size = 1.2)
+  geom_bar(aes(x = name, y = value), stat = "identity", fill = "skyblue") +
+  geom_pointrange(aes(x = name, y = value, ymin = value - sd, ymax = value + sd), 
+                  color = "gold", alpha = 1.0, size = 1.2) +
+  labs(title = "Bar plot with point ranges") + 
+  theme_dark()
 ```
+
+
+### Line graphs
+
+A line graph typically depicts developments of some item over time (or some other factor). To know which variable is to be plotted repeatedly, we need to specify the `group` property. For instance, the following plot shows the growth of orange trees by their age (using the data from `datasets::Orange`): 
+
+```{r lineplot, echo = TRUE, eval = TRUE}
+otrees <- as_tibble(datasets::Orange)
+otrees
+
+# basic version: 
+ggplot(otrees) +
+  geom_line(aes(x = age, y = circumference, group = Tree)) +
+  labs(title = "Growth of orange trees") + 
+  theme_bw()
+
+# prettier version:
+ggplot(otrees, aes(x = age, y = circumference, group = Tree, color = Tree)) +
+  geom_line(size = 1.5) +
+  geom_point(aes(shape = Tree), size = 3) +
+  labs(title = "Growth of orange trees over time", 
+       x = "Age (days elapsed)", "Circumference (in mm)") + 
+  theme_bw()
+```
+
 
 ### Other plots
 

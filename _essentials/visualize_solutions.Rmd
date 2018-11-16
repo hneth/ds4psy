@@ -1,7 +1,7 @@
 ---
 title: "Visualizing data, with solutions (ds4psy)"
 author: "Hansjörg Neth, SPDS, uni.kn"
-date: "2018 11 13"
+date: "2018 11 15"
 output:
    rmdformats::html_clean: # html_clean html_docco readthedown material #
      code_folding: show # hide
@@ -9,7 +9,7 @@ output:
      toc_depth: 3
      highlight: default # textmate default kate haddock monochrome #
      lightbox: true # true by default
-     fig_width: 8 # in inches
+     fig_width: 7 # in inches
 editor_options: 
   chunk_output_type: console # inline
 ---
@@ -44,7 +44,7 @@ opts_chunk$set(echo = TRUE,
                message = FALSE,
                warning = FALSE,
                ## Default figure options:
-               fig.width = 6, 
+               fig.width = 7, 
                fig.asp = .618, # golden ratio
                out.width = "75%",
                fig.align = "center"
@@ -135,7 +135,8 @@ add_whats <- function(vec, amount, what = NA){
 
 # Introduction
 
-This file contains **essential commands** from the chapters of [r4ds](http://r4ds.had.co.nz) and corresponding examples. A command is considered "essential" when you really need to _know_ it and need to know _how to use_ it to succeed in this course. 
+This file contains **essential commands** from [Chapter 3: Data visualisation](https://r4ds.had.co.nz/data-visualisation.html) of the textbook [r4ds](http://r4ds.had.co.nz) and corresponding examples. 
+A command is considered "essential" when you really need to _know_ it and need to know _how to use_ it to succeed in this course. 
 
 <!-- Table with links: -->
 
@@ -531,7 +532,7 @@ bp_1
 ## (b) Version with text labels and customized colors: 
 bp_1 + 
   ## prettier plot: 
-  geom_text(aes(label = paste0(round(share * 100, 1), "%"), y = share + .01), 
+  geom_text(aes(label = paste0(round(share * 100, 1), "%"), y = share + .015), 
             position = position_dodge(width = 1), 
             fontface = 2, color = "black") + 
   # Some set of high contrast colors: 
@@ -580,7 +581,7 @@ bp_2 +
 It is typically a good idea to show some measure of variability (e.g., the standard deviation, standard error, confidence interval, etc.) to any bar plots. 
 There is an entire range of geoms that draw error bars: 
 
-```{r bar_plot_error_bar}
+```{r bar_plot_error_bar, fig.width = 5, fig.height = 4}
 ## Create data to plot: ----- 
 n_cat <- 6
 set.seed(101)  # for reproducible randomness
@@ -597,30 +598,63 @@ data <- tibble(
 
 # (a) errorbar: 
 ggplot(data) +
-    geom_bar(aes(x = name, y = value), stat = "identity", fill = "steelblue") +
-    geom_errorbar(aes(x = name, ymin = value - sd, ymax = value + sd), 
-                  width = 0.4, color = "orange", alpha = 1, size = 1.0)
+  geom_bar(aes(x = name, y = value), stat = "identity", fill = "steelblue") +
+  geom_errorbar(aes(x = name, ymin = value - sd, ymax = value + sd), 
+                width = 0.4, color = "orange", alpha = 1, size = 1.0) +
+  labs(title = "Bar plot with error bars") + 
+  theme_bw()
 
 # (b) linerange: 
 ggplot(data) +
-    geom_bar(aes(x = name, y = value), stat = "identity", fill = "olivedrab3") +
-    geom_linerange(aes(x = name, ymin = value - sd, ymax = value + sd), 
-                   color = "firebrick", alpha = 1, size = 2.5)
+  geom_bar(aes(x = name, y = value), stat = "identity", fill = "olivedrab3") +
+  geom_linerange(aes(x = name, ymin = value - sd, ymax = value + sd), 
+                 color = "firebrick", alpha = 1, size = 2.5) + 
+  labs(title = "Bar plot with line range") + 
+  theme_light()
 
 ## Additional y-aesthetic: 
 
 # (c) crossbar:
 ggplot(data) +
-    geom_bar(aes(x = name, y = value), stat = "identity", fill = "tomato4") +
-    geom_crossbar(aes(x = name, y = value, ymin = value - sd, ymax = value + sd), 
-                  width = 0.3, color = "sienna1", alpha = 1, size = 1.0)
+  geom_bar(aes(x = name, y = value), stat = "identity", fill = "forestgreen") +
+  geom_crossbar(aes(x = name, y = value, ymin = value - sd, ymax = value + sd), 
+                width = 0.3, color  = "sienna1", alpha = 1, size = 1.0) +
+  labs(title = "Bar plot with crossbars") + 
+  theme_classic()
 
 # (d) pointrange: 
 ggplot(data) +
-    geom_bar(aes(x = name, y = value), stat = "identity", fill = "burlywood4") +
-    geom_pointrange(aes(x = name, y = value, ymin = value - sd, ymax = value + sd), 
-                    color = "gold", alpha = 1.0, size = 1.2)
+  geom_bar(aes(x = name, y = value), stat = "identity", fill = "skyblue") +
+  geom_pointrange(aes(x = name, y = value, ymin = value - sd, ymax = value + sd), 
+                  color = "gold", alpha = 1.0, size = 1.2) +
+  labs(title = "Bar plot with point ranges") + 
+  theme_dark()
 ```
+
+### Line graphs
+
+A line graph typically depicts developments of some item over time (or some other factor). To know which variable is to be plotted repeatedly, we need to specify the `group` property. For instance, the following plot shows the growth of orange trees by their age (using the data from `datasets::Orange`): 
+
+```{r lineplot, echo = TRUE, eval = TRUE}
+otrees <- as_tibble(datasets::Orange)
+otrees
+
+# basic version: 
+ggplot(otrees) +
+  geom_line(aes(x = age, y = circumference, group = Tree)) +
+  labs(title = "Growth of orange trees") + 
+  theme_bw()
+
+# prettier version:
+ggplot(otrees, aes(x = age, y = circumference, group = Tree, color = Tree)) +
+  geom_line(size = 1.5) +
+  geom_point(aes(shape = Tree), size = 3) +
+  labs(title = "Growth of orange trees over time", 
+       x = "Age (days elapsed)", "Circumference (in mm)") + 
+  theme_bw()
+```
+
+
 
 ### Other plots
 
@@ -989,6 +1023,7 @@ ggplot(p_info) +
   theme_bw()
 ```
 
+Note that it would be desirable to explain what gender is encoded by the values of `1` and `2`. For this, we need to inspect the codebook and will later learn to encode the variable `sex` as a categorical variable (as a _factor_). 
 
 # More on data visualization
 

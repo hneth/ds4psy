@@ -124,7 +124,7 @@ img {
 <div id="header">
 <h1 class="title">Datasets (ds4psy)</h1>
 <h4 class="author"><em>Hansjörg Neth, SPDS, uni.kn</em></h4>
-<h4 class="date"><em>2018 11 14</em></h4>
+<h4 class="date"><em>2018 11 16</em></h4>
 </div>
 
 <div id="content">
@@ -153,19 +153,22 @@ img {
 <h2>Positive Psychology</h2>
 <div id="introduction-1" class="section level3">
 <h3>Introduction</h3>
-<div id="description" class="section level4">
-<h4>Description</h4>
-<p><strong>ToDo:</strong> Research question and data structure and contents:</p>
-<p>Woodworth et al. (2018, DOI: <a href="https://doi.org/10.5334/jopd.35" class="uri">https://doi.org/10.5334/jopd.35</a>) examined the long-term effectiveness of different web-based positive psychology interventions (see <a href="https://openpsychologydata.metajnl.com/articles/10.5334/jopd.35/">this link</a> for details).</p>
+<!-- Motivation: Research question and data structure and contents: -->
+<p>Seligman, Steen, Park, and Peterson (2005) suggested that positive psychology interventions (PPIs) contain specific, powerful, therapeutic ingredients that effect greater increases in happiness and reductions in depression than a placebo control. The study by Woodworth et al. (2017) re-examined the three PPIs that Seligman et al. found to be most effective when delivered over the internet.</p>
 </div>
-<div id="reference-and-data-source" class="section level4">
-<h4>Reference and data source</h4>
+<div id="references-and-data-source" class="section level3">
+<h3>References and data source</h3>
+<p>Articles reporting original research:</p>
+<ul>
+<li><p>Seligman, M. E., Steen, T. A., Park, N., &amp; Peterson, C. (2005). Positive psychology progress: Empirical validation of interventions. <em>American Psychologist</em>, <em>60</em>(5), 410–421.</p></li>
+<li><p>Woodworth, R. J., O’Brien‐Malone, A., Diamond, M. R., &amp; Schüz, B. (2017). Web‐based positive psychology interventions: A reexamination of effectiveness. <em>Journal of Clinical Psychology</em>, <em>73</em>(3), 218–232.</p></li>
+</ul>
+<p>Article on data used here:</p>
 <ul>
 <li><p>Woodworth, R. J., O’Brien-Malone, A., Diamond, M. R. and Schüz, B. (2018). Data from, ‘Web-based Positive Psychology Interventions: A Reexamination of Effectiveness’. <em>Journal of Open Psychology Data</em>, <em>6</em>: 1. DOI: <a href="https://doi.org/10.5334/jopd.35" class="uri">https://doi.org/10.5334/jopd.35</a></p></li>
 <li><p>See <a href="https://openpsychologydata.metajnl.com/articles/10.5334/jopd.35/" class="uri">https://openpsychologydata.metajnl.com/articles/10.5334/jopd.35/</a> for details.</p></li>
-<li><p>The original dataset is available from figshare at <a href="https://doi.org/10.6084/m9.figshare.1577563.v1" class="uri">https://doi.org/10.6084/m9.figshare.1577563.v1</a>.</p></li>
+<li><p>The dataset is available from figshare at <a href="https://doi.org/10.6084/m9.figshare.1577563.v1" class="uri">https://doi.org/10.6084/m9.figshare.1577563.v1</a>.</p></li>
 </ul>
-</div>
 </div>
 <div id="codebook" class="section level3">
 <h3>Codebook</h3>
@@ -266,10 +269,12 @@ data_wide &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span c
 <span class="co">#&gt; [1] 295 294</span></code></pre></div>
 </div>
 </div>
-<div id="reference" class="section level3">
-<h3>Reference</h3>
+<div id="references" class="section level3">
+<h3>References</h3>
 <ul>
-<li>Woodworth, R. J., O’Brien-Malone, A., Diamond, M. R. and Schüz, B. (2018). Data from, ‘Web-based positive psychology interventions: A reexamination of effectiveness’. <em>Journal of Open Psychology Data</em>, <em>6</em>: 1. DOI: <a href="https://doi.org/10.5334/jopd.35" class="uri">https://doi.org/10.5334/jopd.35</a></li>
+<li><p>Seligman, M. E., Steen, T. A., Park, N., &amp; Peterson, C. (2005). Positive psychology progress: Empirical validation of interventions. <em>American Psychologist</em>, <em>60</em>(5), 410–421.</p></li>
+<li><p>Woodworth, R. J., O’Brien‐Malone, A., Diamond, M. R., &amp; Schüz, B. (2017). Web‐based positive psychology interventions: A reexamination of effectiveness. <em>Journal of Clinical Psychology</em>, <em>73</em>(3), 218–232.</p></li>
+<li><p>Woodworth, R. J., O’Brien-Malone, A., Diamond, M. R. and Schüz, B. (2018). Data from, ‘Web-based positive psychology interventions: A reexamination of effectiveness’. <em>Journal of Open Psychology Data</em>, <em>6</em>: 1. DOI: <a href="https://doi.org/10.5334/jopd.35" class="uri">https://doi.org/10.5334/jopd.35</a></p></li>
 </ul>
 </div>
 </div>
@@ -281,7 +286,6 @@ data_wide &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span c
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(<span class="dt">help =</span> <span class="st">&quot;datasets&quot;</span>)
 
 ## Check some dimensions: ----- 
-
 <span class="co"># dim(ChickWeight)</span>
 <span class="co"># dim(iris)</span>
 <span class="co"># Nile           # Time series: plot(Nile)</span>
@@ -307,7 +311,13 @@ data_wide &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span c
 <li><code>nycflights13</code></li>
 <li><code>yarrr</code>: <code>pirates</code>, <code>movies</code>, <code>auction</code>, etc.</li>
 </ul>
-<p>[Last update on 2018-11-15 18:08:12 by <a href="http://neth.de/">hn</a>.]</p>
+</div>
+<div id="online-sources" class="section level2">
+<h2>Online sources</h2>
+<ul>
+<li><a href="https://toolbox.google.com/datasetsearch">Google dataset search</a></li>
+</ul>
+<p>[Last update on 2018-11-16 19:31:44 by <a href="http://neth.de/">hn</a>.]</p>
 <!-- eof. -->
 </div>
 </div>
@@ -326,14 +336,16 @@ data_wide &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span c
         <li><a href="#datasets">Datasets</a><ul>
         <li><a href="#positive-psychology">Positive Psychology</a><ul>
         <li><a href="#introduction-1">Introduction</a></li>
+        <li><a href="#references-and-data-source">References and data source</a></li>
         <li><a href="#codebook">Codebook</a></li>
         <li><a href="#getting-data">Getting data</a></li>
-        <li><a href="#reference">Reference</a></li>
+        <li><a href="#references">References</a></li>
         </ul></li>
         </ul></li>
         <li><a href="#more-sources-of-datasets">More sources of datasets</a><ul>
         <li><a href="#data-in-base-r">Data in base R</a></li>
         <li><a href="#packages">Packages</a></li>
+        <li><a href="#online-sources">Online sources</a></li>
         </ul></li>
         </ul>
       </div>

@@ -1,5 +1,5 @@
 ---
-title: "Basic R concepts and commands with solutions (ds4psy)"
+title: "Basic R concepts and commands, with solutions (ds4psy)"
 author: "Hansjörg Neth, SPDS, uni.kn"
 date: "2018 11 05"
 output:
