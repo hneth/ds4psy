@@ -1,7 +1,7 @@
 ---
 title: "All Test Questions (ds4psy)"
 author: "Hansjörg Neth, SPDS, uni.kn"
-date: "2018 07 13"
+date: "2018 07 15"
 output:
    rmdformats::html_clean: # html_clean html_docco readthedown material #
      code_folding: show # hide
@@ -24,7 +24,7 @@ rm(list=ls()) # clean all.
 # cur.path <- dirname(rstudioapi::getActiveDocumentContext()$path)
 # cur.path
 # setwd(cur.path) # set to current directory
-setwd("~/Desktop/stuff/Dropbox/_code/R/_teachR/ds4psy/R/_testQuest") # set to current directory
+setwd("~/Desktop/stuff/Dropbox/_code/R/_teachR/ds4psy/_testQuest") # set to current directory
 # list.files() # all files + folders in current directory
 fileName <- "tq_now.Rmd"
 
@@ -151,7 +151,7 @@ This exam contains a total of **XXX tasks** and a maximum score of **YYY points*
 <!-- uni.kn logo and link to SPDS: -->  
 <!-- ![](./inst/pix/uniKn_logo.png) --> 
 <a href="https://www.spds.uni-konstanz.de/">
-<img src = "../../inst/pix/uniKn_logo.png" alt = "spds.uni.kn" align = "right" width = "300" style = "width: 300px; float: right; border:20;"/>
+<img src = "../inst/pix/uniKn_logo.png" alt = "spds.uni.kn" align = "right" width = "300" style = "width: 300px; float: right; border:20;"/>
 <!-- <img src = "./inst/pix/uniKn_logo_s.png" alt = "spds.uni.kn" style = "float: right; border:20;"/> --> 
 </a>
 
