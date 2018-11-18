@@ -1,7 +1,7 @@
 ---
 title: "Datasets (ds4psy)"
 author: "Hansjörg Neth, SPDS, uni.kn"
-date: "2018 11 16"
+date: "2018 11 18"
 output:
    rmdformats::html_clean: # html_clean html_docco readthedown material #
      code_folding: show # hide
@@ -308,7 +308,9 @@ Other packages with large data sets:
 
 ## Online sources
 
-- [Google dataset search](https://toolbox.google.com/datasetsearch)
+- [Google dataset search](https://toolbox.google.com/datasetsearch)  
+
+- [PanTHERIA](http://esapubs.org/archive/ecol/E090/184/): A species-level database of life history, ecology, and geography of extant and recently extinct mammals  
 
 
 [Last update on `r Sys.time()` by [hn](http://neth.de/).]  
