@@ -124,7 +124,7 @@ img {
 <div id="header">
 <h1 class="title">Transforming data, with solutions (ds4psy)</h1>
 <h4 class="author"><em>Hansjörg Neth, SPDS, uni.kn</em></h4>
-<h4 class="date"><em>2018 11 16</em></h4>
+<h4 class="date"><em>2018 11 20</em></h4>
 </div>
 
 <div id="content">
@@ -157,10 +157,6 @@ img {
 <tr class="even">
 <td align="right">3.</td>
 <td align="left"><strong>Transforming data</strong></td>
-</tr>
-<tr class="odd">
-<td align="right">+.</td>
-<td align="left"><a href="http://rpository.com/ds4psy/essentials/datasets.html">Datasets</a></td>
 </tr>
 </tbody>
 </table>
@@ -1479,9 +1475,8 @@ sw <span class="op">%&gt;%</span>
 </ul>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## Data: 
 <span class="co"># ?msleep  # check variables     </span>
-sp &lt;-<span class="st"> </span>ggplot2<span class="op">::</span>msleep
-
-<span class="co"># Check: </span>
+sp &lt;-<span class="st"> </span>ggplot2<span class="op">::</span>msleep</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Check: </span>
 <span class="kw">dim</span>(sp)        <span class="co"># 83 x 11 variables</span>
 <span class="co">#&gt; [1] 83 11</span>
 <span class="kw">glimpse</span>(sp)    <span class="co"># 5 &lt;chr&gt; and 6 &lt;dbl&gt;</span>
@@ -1982,9 +1977,12 @@ out_<span class="dv">2</span> &lt;-<span class="st"> </span>data_out <span class
 <span class="kw">nrow</span>(out_<span class="dv">2</span>) <span class="co"># =&gt; 24 individuals.</span>
 <span class="co">#&gt; [1] 24</span></code></pre></div>
 </div>
-<div id="bonus-task" class="section level4">
-<h4>Bonus task</h4>
-<p>Visualize the raw values and distributions of <code>height</code> for both types of outliers (<code>out_1</code> and <code>out_2</code>) in 2 separate plots and describe the <code>height</code> and <code>sex</code> combination of the individuals shown in each plot.</p>
+<div id="bonus-plots" class="section level4">
+<h4>Bonus plots</h4>
+<ul>
+<li><p>Visualize the raw values and distributions of <code>height</code> for both types of outliers (<code>out_1</code> and <code>out_2</code>) in 2 separate plots.</p></li>
+<li><p>Interpret both plots by describing the <code>height</code> and <code>sex</code> combination of the individuals shown in each plot.</p></li>
+</ul>
 <!-- fig.show options: "asis", "hide", "hold", "animate" -->
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Visualization and interpretation of both types of outliers: </span>
 
@@ -2016,7 +2014,240 @@ out_<span class="dv">2</span> &lt;-<span class="st"> </span>data_out <span class
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">
 <span class="co"># Interpretation: </span>
 <span class="co"># `out_2` contains individuals which are either tall women or short men.</span></code></pre></div>
-<p>+++ here now +++</p>
+</div>
+</div>
+<div id="exercise-4" class="section level2">
+<h2>Exercise 4</h2>
+<p>In <a href="http://rpository.com/ds4psy/essentials/basics.html#exercise-6">Exercise 6 of WPA01</a> and <a href="http://rpository.com/ds4psy/essentials/visualize.html#exercise-5">Exercise 5 of WPA02</a> you used the <code>p_info</code> data (available at <a href="http://rpository.com/ds4psy/data/posPsy_participants.csv" class="uri">http://rpository.com/ds4psy/data/posPsy_participants.csv</a>) from</p>
+<ul>
+<li>Woodworth, R. J., O’Brien-Malone, A., Diamond, M. R. and Schüz, B. (2018). Data from, ‘Web-based positive psychology interventions: A reexamination of effectiveness’. <em>Journal of Open Psychology Data</em>, <em>6</em>: 1. DOI: <a href="https://doi.org/10.5334/jopd.35" class="uri">https://doi.org/10.5334/jopd.35</a></li>
+</ul>
+<p>to explore the participant information and create some corresponding plots.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(readr)
+
+<span class="co"># Read data (from online source):</span>
+p_info &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="dt">file =</span> <span class="st">&quot;http://rpository.com/ds4psy/data/posPsy_participants.csv&quot;</span>)
+
+<span class="co"># p_info</span>
+<span class="kw">dim</span>(p_info)      <span class="co"># 295 rows, 6 columns</span>
+<span class="co">#&gt; [1] 295   6</span></code></pre></div>
+<p>Answer the same questions as in those exercises by transforming your earlier base R commands and graphs (created by using <code>ggplot2</code> commands) into pipes of <code>dplyr</code> commands that provide the same information.</p>
+<div id="from-wpa01-exercise-6" class="section level4">
+<h4>From WPA01: Exercise 6</h4>
+<p>Questions from <a href="http://rpository.com/ds4psy/essentials/basics.html#exercise-6">Exercise 6 of WPA01</a>:</p>
+<p>Examine the participant information in <code>p_info</code> by describing each of its variables:</p>
+<ol style="list-style-type: decimal">
+<li>How many individuals are contained in the dataset?</li>
+<li>What percentage of them is female (i.e., has a <code>sex</code> value of 1)?</li>
+<li>How many participants were in one of the 3 treatment groups (i.e., have an <code>intervention</code> value of 1, 2, or 3)?</li>
+<li>What is the participants’ mean education level? What percentage has a university degree (i.e., an <code>educ</code> value of at least 4)?</li>
+<li>What is the age range (<code>min</code> to <code>max</code>) of participants? What is the average (mean and median) age?</li>
+<li>Describe the range of <code>income</code> levels present in this sample of participants. What percentage of participants self-identifies as a below-average income (i.e., an <code>income</code> value of 1)?</li>
+</ol>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># 1. How many individuals are contained in the dataset? </span>
+N &lt;-<span class="st"> </span><span class="kw">nrow</span>(p_info) <span class="co"># OR </span>
+N  <span class="co"># 295</span>
+<span class="co">#&gt; [1] 295</span>
+
+<span class="co"># Note: </span>
+p_info <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">count</span>()
+<span class="co">#&gt; # A tibble: 1 x 1</span>
+<span class="co">#&gt;       n</span>
+<span class="co">#&gt;   &lt;int&gt;</span>
+<span class="co">#&gt; 1   295</span>
+<span class="co"># would yield a tibble (with only 1 element: 295).</span>
+
+<span class="co"># 2. What percentage of them is female (i.e., has a `sex` value of 1)?</span>
+p_info <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">group_by</span>(sex) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">summarise</span>(<span class="dt">n_sex =</span> <span class="kw">n</span>(),            <span class="co"># number </span>
+            <span class="dt">pc_sex =</span> n_sex<span class="op">/</span>N <span class="op">*</span><span class="st"> </span><span class="dv">100</span>  <span class="co"># percentage</span>
+            )
+<span class="co">#&gt; # A tibble: 2 x 3</span>
+<span class="co">#&gt;     sex n_sex pc_sex</span>
+<span class="co">#&gt;   &lt;int&gt; &lt;int&gt;  &lt;dbl&gt;</span>
+<span class="co">#&gt; 1     1   251   85.1</span>
+<span class="co">#&gt; 2     2    44   14.9</span>
+
+<span class="co"># 3. How many participants were in one of the 3 treatment groups (i.e., have an `intervention` value of 1, 2, or 3)? </span>
+p_info <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">filter</span>(intervention <span class="op">&lt;</span><span class="st"> </span><span class="dv">4</span>) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">count</span>()  
+<span class="co">#&gt; # A tibble: 1 x 1</span>
+<span class="co">#&gt;       n</span>
+<span class="co">#&gt;   &lt;int&gt;</span>
+<span class="co">#&gt; 1   222</span>
+<span class="co"># =&gt; 222 individuals</span>
+
+<span class="co"># OR: </span>
+t_iv &lt;-<span class="st"> </span>p_info <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">group_by</span>(intervention) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">summarise</span>(<span class="dt">n_iv =</span> <span class="kw">n</span>(),           <span class="co"># number </span>
+            <span class="dt">pc_iv =</span> n_iv<span class="op">/</span>N <span class="op">*</span><span class="st"> </span><span class="dv">100</span>  <span class="co"># percentage</span>
+            ) 
+t_iv
+<span class="co">#&gt; # A tibble: 4 x 3</span>
+<span class="co">#&gt;   intervention  n_iv pc_iv</span>
+<span class="co">#&gt;          &lt;int&gt; &lt;int&gt; &lt;dbl&gt;</span>
+<span class="co">#&gt; 1            1    72  24.4</span>
+<span class="co">#&gt; 2            2    76  25.8</span>
+<span class="co">#&gt; 3            3    74  25.1</span>
+<span class="co">#&gt; 4            4    73  24.7</span>
+<span class="kw">sum</span>(t_iv<span class="op">$</span>n_iv[<span class="dv">1</span><span class="op">:</span><span class="dv">3</span>]) 
+<span class="co">#&gt; [1] 222</span>
+<span class="co"># =&gt; 222 in elements 1:3 of vector n_iv </span>
+
+
+<span class="co"># 4. What is the participants' mean education level? </span>
+p_info <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">summarise</span>(<span class="dt">mn_edu =</span> <span class="kw">mean</span>(educ))
+<span class="co">#&gt; # A tibble: 1 x 1</span>
+<span class="co">#&gt;   mn_edu</span>
+<span class="co">#&gt;    &lt;dbl&gt;</span>
+<span class="co">#&gt; 1   3.98</span>
+
+<span class="co"># What percentage has a university degree (i.e., an `educ` value of at least 4)?</span>
+p_info <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">group_by</span>(educ) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">summarise</span>(<span class="dt">n_edu =</span> <span class="kw">n</span>(),            <span class="co"># number </span>
+            <span class="dt">pc_edu =</span> n_edu<span class="op">/</span>N <span class="op">*</span><span class="st"> </span><span class="dv">100</span>  <span class="co"># percentage</span>
+            ) 
+<span class="co">#&gt; # A tibble: 5 x 3</span>
+<span class="co">#&gt;    educ n_edu pc_edu</span>
+<span class="co">#&gt;   &lt;int&gt; &lt;int&gt;  &lt;dbl&gt;</span>
+<span class="co">#&gt; 1     1    14   4.75</span>
+<span class="co">#&gt; 2     2    21   7.12</span>
+<span class="co">#&gt; 3     3    39  13.2 </span>
+<span class="co">#&gt; 4     4   104  35.3 </span>
+<span class="co">#&gt; 5     5   117  39.7</span>
+
+<span class="co"># 5. What is the age range (`min` to `max`) of participants? </span>
+<span class="co">#    What is the average (mean and median) age?</span>
+p_info <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">summarise</span>(<span class="dt">n =</span> <span class="kw">n</span>(),
+            <span class="dt">min_age =</span> <span class="kw">min</span>(age),
+            <span class="dt">mn_age =</span> <span class="kw">mean</span>(age),
+            <span class="dt">max_age =</span> <span class="kw">max</span>(age)) 
+<span class="co">#&gt; # A tibble: 1 x 4</span>
+<span class="co">#&gt;       n min_age mn_age max_age</span>
+<span class="co">#&gt;   &lt;int&gt;   &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt;</span>
+<span class="co">#&gt; 1   295      18   43.8      83</span>
+
+<span class="co"># 6. Describe the range of `income` levels present in this sample of participants. </span>
+<span class="co">#    What percentage of participants self-identifies as a below-average income </span>
+<span class="co">#    (i.e., an `income` value of 1)?</span>
+p_info <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">group_by</span>(income) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">summarise</span>(<span class="dt">n_income =</span> <span class="kw">n</span>(),
+            <span class="dt">pc_income =</span> n_income<span class="op">/</span>N <span class="op">*</span><span class="st"> </span><span class="dv">100</span>) 
+<span class="co">#&gt; # A tibble: 3 x 3</span>
+<span class="co">#&gt;   income n_income pc_income</span>
+<span class="co">#&gt;    &lt;int&gt;    &lt;int&gt;     &lt;dbl&gt;</span>
+<span class="co">#&gt; 1      1       73      24.7</span>
+<span class="co">#&gt; 2      2      136      46.1</span>
+<span class="co">#&gt; 3      3       86      29.2</span></code></pre></div>
+</div>
+<div id="from-wpa02-exercise-5" class="section level4">
+<h4>From WPA02: Exercise 5</h4>
+<p>Questions from <a href="http://rpository.com/ds4psy/essentials/visualize.html#exercise-5">Exercise 5 of WPA02</a></p>
+<p>Use the <code>p_info</code> data to create some plots that descripte the sample of participants:</p>
+<ul>
+<li>A <em>histogram</em> that shows the distribution of participant <code>age</code> in 3 ways:
+<ul>
+<li>overall,</li>
+<li>separately for each <code>sex</code>, and</li>
+<li>separately for each <code>intervention</code>.</li>
+</ul></li>
+</ul>
+<p>When using <code>dplyr</code> instead of <code>ggplot2</code>, we can replace the information contained in the histogram by a table of descriptives:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Age distribution (as a table): </span>
+age_overall &lt;-<span class="st"> </span>p_info <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">summarise</span>(<span class="dt">n =</span> <span class="kw">n</span>(),              <span class="co"># number </span>
+            <span class="dt">min_age =</span> <span class="kw">min</span>(age),   <span class="co"># minimum</span>
+            <span class="dt">mn_age =</span> <span class="kw">mean</span>(age),   <span class="co"># mean</span>
+            <span class="dt">md_age =</span> <span class="kw">median</span>(age), <span class="co"># median           </span>
+            <span class="dt">sd_age =</span> <span class="kw">sd</span>(age),     <span class="co"># standard deviation</span>
+            <span class="dt">max_age =</span> <span class="kw">max</span>(age)    <span class="co"># maximum</span>
+  )
+age_overall
+<span class="co">#&gt; # A tibble: 1 x 6</span>
+<span class="co">#&gt;       n min_age mn_age md_age sd_age max_age</span>
+<span class="co">#&gt;   &lt;int&gt;   &lt;dbl&gt;  &lt;dbl&gt;  &lt;int&gt;  &lt;dbl&gt;   &lt;dbl&gt;</span>
+<span class="co">#&gt; 1   295      18   43.8     44   12.4      83</span>
+
+<span class="co"># Age distribution by sex (as a table): </span>
+age_by_sex &lt;-<span class="st"> </span>p_info <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">group_by</span>(sex) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">summarise</span>(<span class="dt">n =</span> <span class="kw">n</span>(),              <span class="co"># number </span>
+            <span class="dt">min_age =</span> <span class="kw">min</span>(age),   <span class="co"># minimum</span>
+            <span class="dt">mn_age =</span> <span class="kw">mean</span>(age),   <span class="co"># mean</span>
+            <span class="dt">md_age =</span> <span class="kw">median</span>(age), <span class="co"># median           </span>
+            <span class="dt">sd_age =</span> <span class="kw">sd</span>(age),     <span class="co"># standard deviation</span>
+            <span class="dt">max_age =</span> <span class="kw">max</span>(age)    <span class="co"># maximum</span>
+  )
+age_by_sex
+<span class="co">#&gt; # A tibble: 2 x 7</span>
+<span class="co">#&gt;     sex     n min_age mn_age md_age sd_age max_age</span>
+<span class="co">#&gt;   &lt;int&gt; &lt;int&gt;   &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt;</span>
+<span class="co">#&gt; 1     1   251      19   43.9     44   12.1      83</span>
+<span class="co">#&gt; 2     2    44      18   43.0     44   14.1      71</span>
+
+<span class="co"># Age distribution by intervention (as a table): </span>
+age_by_iv &lt;-<span class="st"> </span>p_info <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">group_by</span>(intervention) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">summarise</span>(<span class="dt">n =</span> <span class="kw">n</span>(),              <span class="co"># number </span>
+            <span class="dt">min_age =</span> <span class="kw">min</span>(age),   <span class="co"># minimum</span>
+            <span class="dt">mn_age =</span> <span class="kw">mean</span>(age),   <span class="co"># mean</span>
+            <span class="dt">md_age =</span> <span class="kw">median</span>(age), <span class="co"># median           </span>
+            <span class="dt">sd_age =</span> <span class="kw">sd</span>(age),     <span class="co"># standard deviation</span>
+            <span class="dt">max_age =</span> <span class="kw">max</span>(age)    <span class="co"># maximum</span>
+  )
+age_by_iv
+<span class="co">#&gt; # A tibble: 4 x 7</span>
+<span class="co">#&gt;   intervention     n min_age mn_age md_age sd_age max_age</span>
+<span class="co">#&gt;          &lt;int&gt; &lt;int&gt;   &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt;</span>
+<span class="co">#&gt; 1            1    72      22   44.6   45     12.1      71</span>
+<span class="co">#&gt; 2            2    76      18   45.4   45.5   12.5      83</span>
+<span class="co">#&gt; 3            3    74      19   43.3   44     12.2      71</span>
+<span class="co">#&gt; 4            4    73      19   41.7   40     12.8      75</span></code></pre></div>
+<ul>
+<li>A <em>bar plot</em> that
+<ul>
+<li>shows how many participants took part in each <code>intervention</code>; or</li>
+<li>shows how many participants of each <code>sex</code> took part in each <code>intervention</code>.</li>
+</ul></li>
+</ul>
+<p>Using <code>dplyr</code> instead of <code>ggplot2</code>:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Number of participants per intervention:</span>
+<span class="co"># (was contained in age_by_iv above): </span>
+age_by_iv <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">select</span>(intervention, n)
+<span class="co">#&gt; # A tibble: 4 x 2</span>
+<span class="co">#&gt;   intervention     n</span>
+<span class="co">#&gt;          &lt;int&gt; &lt;int&gt;</span>
+<span class="co">#&gt; 1            1    72</span>
+<span class="co">#&gt; 2            2    76</span>
+<span class="co">#&gt; 3            3    74</span>
+<span class="co">#&gt; 4            4    73</span>
+
+<span class="co"># N and percentage by intervention and sex:</span>
+p_info <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">group_by</span>(intervention, sex) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">summarise</span>(<span class="dt">n_iv_sex  =</span> <span class="kw">n</span>(),              <span class="co"># number </span>
+            <span class="dt">pc_iv_sex =</span> n_iv_sex<span class="op">/</span>N <span class="op">*</span><span class="st"> </span><span class="dv">100</span>  <span class="co"># percentage </span>
+            ) 
+<span class="co">#&gt; # A tibble: 8 x 4</span>
+<span class="co">#&gt; # Groups:   intervention [?]</span>
+<span class="co">#&gt;   intervention   sex n_iv_sex pc_iv_sex</span>
+<span class="co">#&gt;          &lt;int&gt; &lt;int&gt;    &lt;int&gt;     &lt;dbl&gt;</span>
+<span class="co">#&gt; 1            1     1       62     21.0 </span>
+<span class="co">#&gt; 2            1     2       10      3.39</span>
+<span class="co">#&gt; 3            2     1       66     22.4 </span>
+<span class="co">#&gt; 4            2     2       10      3.39</span>
+<span class="co">#&gt; 5            3     1       62     21.0 </span>
+<span class="co">#&gt; 6            3     2       12      4.07</span>
+<span class="co">#&gt; 7            4     1       61     20.7 </span>
+<span class="co">#&gt; 8            4     2       12      4.07</span></code></pre></div>
 </div>
 </div>
 </div>
@@ -2058,10 +2289,6 @@ out_<span class="dv">2</span> &lt;-<span class="st"> </span>data_out <span class
 <td align="right">3.</td>
 <td align="left"><strong>Transforming data</strong></td>
 </tr>
-<tr class="odd">
-<td align="right">+.</td>
-<td align="left"><a href="http://rpository.com/ds4psy/essentials/datasets.html">Datasets</a></td>
-</tr>
 </tbody>
 </table>
 <!--
@@ -2076,7 +2303,7 @@ Nr. | Topic       |
 6.  | [Tidying data](http://rpository.com/ds4psy/essentials/tidy.html) | 
 +.  | [Datasets](http://rpository.com/ds4psy/essentials/datasets.html) | 
 -->
-<p>[Last update on 2018-11-19 09:47:12 by <a href="http://neth.de/">hn</a>.]</p>
+<p>[Last update on 2018-11-19 17:58:01 by <a href="http://neth.de/">hn</a>.]</p>
 <!-- eof. -->
 </div>
 </div>
@@ -2108,6 +2335,7 @@ Nr. | Topic       |
         <li><a href="#exercise-1">Exercise 1</a></li>
         <li><a href="#exercise-2">Exercise 2</a></li>
         <li><a href="#exercise-3">Exercise 3</a></li>
+        <li><a href="#exercise-4">Exercise 4</a></li>
         </ul></li>
         <li><a href="#more-on-data-transformation">More on data transformation</a></li>
         <li><a href="#conclusion">Conclusion</a></li>

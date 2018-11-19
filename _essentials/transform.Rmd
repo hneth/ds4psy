@@ -1,7 +1,7 @@
 ---
 title: "Transforming data, with solutions (ds4psy)"
 author: "Hansjörg Neth, SPDS, uni.kn"
-date: "2018 11 16"
+date: "2018 11 20"
 output:
    rmdformats::html_clean: # html_clean html_docco readthedown material #
      code_folding: show # hide
@@ -148,7 +148,7 @@ Nr. | Topic       |
 1.  | [Basic R concepts and commands](http://rpository.com/ds4psy/essentials/basics.html) | 
 2.  | [Visualizing data](http://rpository.com/ds4psy/essentials/visualize.html) | 
 3.  | **Transforming data** |
-+.  | [Datasets](http://rpository.com/ds4psy/essentials/datasets.html) | 
+
 
 <!--
 Nr. | Topic       |
@@ -878,11 +878,13 @@ The dataset `ggplot2::msleep` contains a mammals sleep dataset (see `?msleep` fo
 
 - Save the data as `sp` and check the dimensions, variable types, and number of missing values in the dataset.
 
-```{r ex_msleep, echo = TRUE, eval = TRUE}
+```{r ex_msleep_data, echo = TRUE, eval = TRUE}
 ## Data: 
 # ?msleep  # check variables     
 sp <- ggplot2::msleep
+```
 
+```{r ex_msleep_check, echo = TRUE, eval = TRUE}
 # Check: 
 dim(sp)        # 83 x 11 variables
 glimpse(sp)    # 5 <chr> and 6 <dbl>
@@ -1190,9 +1192,11 @@ out_2 <- data_out %>%
 nrow(out_2) # => 24 individuals.
 ```
 
-#### Bonus task
+#### Bonus plots
 
-Visualize the raw values and distributions of `height` for both types of outliers (`out_1` and `out_2`) in 2 separate plots and describe the `height` and `sex` combination of the individuals shown in each plot. 
+- Visualize the raw values and distributions of `height` for both types of outliers (`out_1` and `out_2`) in 2 separate plots. 
+
+- Interpret both plots by describing the `height` and `sex` combination of the individuals shown in each plot. 
 
 <!-- fig.show options: "asis", "hide", "hold", "animate" --> 
  
@@ -1227,7 +1231,175 @@ ggplot(out_2, aes(x = sex, y = height)) +
 # `out_2` contains individuals which are either tall women or short men.
 ```
 
-+++ here now +++
+
+## Exercise 4
+
+In [Exercise 6 of WPA01](http://rpository.com/ds4psy/essentials/basics.html#exercise-6) and 
+[Exercise 5 of WPA02](http://rpository.com/ds4psy/essentials/visualize.html#exercise-5) 
+you used the `p_info` data (available at <http://rpository.com/ds4psy/data/posPsy_participants.csv>) from 
+
+- Woodworth, R. J., O’Brien-Malone, A., Diamond, M. R. and Schüz, B. (2018). 
+Data from, ‘Web-based positive psychology interventions: A reexamination of effectiveness’. 
+_Journal of Open Psychology Data_, _6_: 1. 
+DOI: <https://doi.org/10.5334/jopd.35> 
+
+to explore the participant information and create some corresponding plots. 
+
+```{r ex4_read_posPsy_data, echo = TRUE, eval = TRUE}
+library(readr)
+
+# Read data (from online source):
+p_info <- read_csv(file = "http://rpository.com/ds4psy/data/posPsy_participants.csv")
+
+# p_info
+dim(p_info)      # 295 rows, 6 columns
+```
+
+Answer the same questions as in those exercises by transforming your earlier base R commands and graphs (created by using `ggplot2` commands) into pipes of `dplyr` commands that provide the same information. 
+
+#### From WPA01: Exercise 6
+
+Questions from [Exercise 6 of WPA01](http://rpository.com/ds4psy/essentials/basics.html#exercise-6):  
+
+Examine the participant information in `p_info` by describing each of its variables: 
+
+1. How many individuals are contained in the dataset? 
+2. What percentage of them is female (i.e., has a `sex` value of 1)?
+3. How many participants were in one of the 3 treatment groups (i.e., have an `intervention` value of 1, 2, or 3)? 
+4. What is the participants' mean education level? What percentage has a university degree (i.e., an `educ` value of at least 4)?
+5. What is the age range (`min` to `max`) of participants? What is the average (mean and median) age?
+6. Describe the range of `income` levels present in this sample of participants. What percentage of participants self-identifies as a below-average income (i.e., an `income` value of 1)?
+
+```{r ex4_WPA01_ex6, include = TRUE}
+# 1. How many individuals are contained in the dataset? 
+N <- nrow(p_info) # OR 
+N  # 295
+
+# Note: 
+p_info %>% count()
+# would yield a tibble (with only 1 element: 295).
+
+# 2. What percentage of them is female (i.e., has a `sex` value of 1)?
+p_info %>%
+  group_by(sex) %>% 
+  summarise(n_sex = n(),            # number 
+            pc_sex = n_sex/N * 100  # percentage
+            )
+
+# 3. How many participants were in one of the 3 treatment groups (i.e., have an `intervention` value of 1, 2, or 3)? 
+p_info %>%
+  filter(intervention < 4) %>%
+  count()  
+# => 222 individuals
+
+# OR: 
+t_iv <- p_info %>%
+  group_by(intervention) %>% 
+  summarise(n_iv = n(),           # number 
+            pc_iv = n_iv/N * 100  # percentage
+            ) 
+t_iv
+sum(t_iv$n_iv[1:3]) 
+# => 222 in elements 1:3 of vector n_iv 
+
+
+# 4. What is the participants' mean education level? 
+p_info %>%
+  summarise(mn_edu = mean(educ))
+
+# What percentage has a university degree (i.e., an `educ` value of at least 4)?
+p_info %>%
+  group_by(educ) %>% 
+  summarise(n_edu = n(),            # number 
+            pc_edu = n_edu/N * 100  # percentage
+            ) 
+
+# 5. What is the age range (`min` to `max`) of participants? 
+#    What is the average (mean and median) age?
+p_info %>%
+  summarise(n = n(),
+            min_age = min(age),
+            mn_age = mean(age),
+            max_age = max(age)) 
+
+# 6. Describe the range of `income` levels present in this sample of participants. 
+#    What percentage of participants self-identifies as a below-average income 
+#    (i.e., an `income` value of 1)?
+p_info %>%
+  group_by(income) %>%
+  summarise(n_income = n(),
+            pc_income = n_income/N * 100) 
+```
+
+#### From WPA02: Exercise 5
+
+Questions from [Exercise 5 of WPA02](http://rpository.com/ds4psy/essentials/visualize.html#exercise-5)
+
+Use the `p_info` data to create some plots that descripte the sample of participants: 
+
+- A _histogram_ that shows the distribution of participant `age` in 3 ways:  
+    - overall, 
+    - separately for each `sex`, and 
+    - separately for each `intervention`. 
+
+When using `dplyr` instead of `ggplot2`, we can replace the information contained in the histogram by a table of descriptives:     
+
+```{r p_info_WPA02_ex5_age, include = TRUE}
+# Age distribution (as a table): 
+age_overall <- p_info %>%
+  summarise(n = n(),              # number 
+            min_age = min(age),   # minimum
+            mn_age = mean(age),   # mean
+            md_age = median(age), # median           
+            sd_age = sd(age),     # standard deviation
+            max_age = max(age)    # maximum
+  )
+age_overall
+
+# Age distribution by sex (as a table): 
+age_by_sex <- p_info %>%
+  group_by(sex) %>% 
+  summarise(n = n(),              # number 
+            min_age = min(age),   # minimum
+            mn_age = mean(age),   # mean
+            md_age = median(age), # median           
+            sd_age = sd(age),     # standard deviation
+            max_age = max(age)    # maximum
+  )
+age_by_sex
+
+# Age distribution by intervention (as a table): 
+age_by_iv <- p_info %>%
+  group_by(intervention) %>% 
+  summarise(n = n(),              # number 
+            min_age = min(age),   # minimum
+            mn_age = mean(age),   # mean
+            md_age = median(age), # median           
+            sd_age = sd(age),     # standard deviation
+            max_age = max(age)    # maximum
+  )
+age_by_iv
+```
+
+- A _bar plot_ that 
+    - shows how many participants took part in each `intervention`; or 
+    - shows how many participants of each `sex` took part in each `intervention`.
+
+Using `dplyr` instead of `ggplot2`: 
+
+```{r p_info_WPA02_ex5_iv, include = TRUE}
+# Number of participants per intervention:
+# (was contained in age_by_iv above): 
+age_by_iv %>%
+  select(intervention, n)
+
+# N and percentage by intervention and sex:
+p_info %>%
+  group_by(intervention, sex) %>% 
+  summarise(n_iv_sex  = n(),              # number 
+            pc_iv_sex = n_iv_sex/N * 100  # percentage 
+            ) 
+```
 
 
 # More on data transformation 
@@ -1252,7 +1424,6 @@ Nr. | Topic       |
 1.  | [Basic R concepts and commands](http://rpository.com/ds4psy/essentials/basics.html) | 
 2.  | [Visualizing data](http://rpository.com/ds4psy/essentials/visualize.html) | 
 3.  | **Transforming data** |
-+.  | [Datasets](http://rpository.com/ds4psy/essentials/datasets.html) | 
 
 <!--
 Nr. | Topic       |

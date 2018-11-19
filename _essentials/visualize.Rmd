@@ -943,12 +943,11 @@ ggplot(cw, aes(x = Time, fill = Diet)) +
 
 Try re-creating this plot (with `geom_bar` and dodged bar positions).
 
-
 ## Exercise 5
 
-Use the `p_info` data from [WPA01](http://rpository.com/ds4psy/R/_essentials/basics.html#exercises-wpa01) to create some plots that descripte the sample of participants: 
+Use the `p_info` data from [Exercise 6](http://rpository.com/ds4psy/essentials/basics.html#exercise-6) of [WPA01](http://rpository.com/ds4psy/essentials/basics.html#exercises-wpa01) to create some plots that descripte the sample of participants: 
 
-```{r read_online_data, echo = TRUE, eval = TRUE}
+```{r read_posPsy_data, echo = TRUE, eval = TRUE}
 library(readr)
 
 # Read data (from online source):
