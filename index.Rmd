@@ -1,7 +1,7 @@
 ---
 title: "Data Science for Psychologists (ds4psy)"
 author: "Hansjörg Neth, SPDS, uni.kn"
-date: "2018 11 15"
+date: "2018 11 19"
 output:
   rmdformats::html_clean:
     highlight: kate
@@ -123,30 +123,35 @@ Part 2: Wrangle
  **Part 1: Preambulations**
 
  1. 22.10.2018: Introduction: [r4ds Chapters 1 & 2](http://r4ds.had.co.nz) 
- 2. 29.10.2018: [Basic R concepts and commands: Scalars](http://rpository.com/ds4psy/R/_essentials/basics.html) and [r4ds Chapters 4/6/8](http://r4ds.had.co.nz) 
+ 2. 29.10.2018: [Basic R concepts and commands: Scalars](http://rpository.com/ds4psy/essentials/basics.html) and [r4ds Chapters 4/6/8](http://r4ds.had.co.nz) 
  
  **Part 1: Explore data**
  
- 3. 05.11.2018: [Basic R concepts and commands: Vectors and rectangular data](http://rpository.com/ds4psy/R/_essentials/basics.html) 
- ([Script with WPA01 and solutions](http://rpository.com/ds4psy/essentials/basics.html#exercises-wpa01)). 
- 4. 12.11.2018: [Chapter 3: Data visualisation](http://r4ds.had.co.nz/data-visualisation.html): `ggplot2`; 
- ([Essentials with WPA02 and  solutions](http://rpository.com/ds4psy/essentials/visualize.html)).  
- 5. 19.11.2018: [Chapter 5: Data transformation](http://r4ds.had.co.nz/transform.html): `dplyr`.  
- 6. 26.11.2018: [Chapter 7: Exploratory data analysis (EDA)](http://r4ds.had.co.nz/exploratory-data-analysis.html).
+ 3. 05.11.2018: [Basic R concepts and commands: Vectors and rectangular data](http://rpository.com/ds4psy/R/_essentials/basics.html)   
+ ([Essentials with WPA01 and solutions](http://rpository.com/ds4psy/essentials/basics.html)). 
+
+ 4. 12.11.2018: [Chapter 3: Data visualisation](http://r4ds.had.co.nz/data-visualisation.html): `ggplot2`;  
+ ([Essentials with WPA02 and solutions](http://rpository.com/ds4psy/essentials/visualize.html)).  
+
+
+ 5. 19.11.2018: [Chapter 5: Data transformation](http://r4ds.had.co.nz/transform.html): `dplyr`;    
+  (**[Essentials with WPA03](http://rpository.com/ds4psy/essentials/transform_WPA03.html)**).  
+
+ 6. 26.11.2018: [Chapter 7: Exploratory data analysis (EDA)](http://r4ds.had.co.nz/exploratory-data-analysis.html): `dplyr` & `ggplot2`. 
+ 7. 03.12.2019:  **Buffer session**: Rinse and repeat: `dplyr` & `ggplot2`. 
  
  **Part 2: Wrangle data**
- 
- 6. 03.12.2018: [Chapter 10: Tibbles](http://r4ds.had.co.nz/tibbles.html): `tibble`. 
- 7. 10.12.2018: [Chapter 11: Data import](http://r4ds.had.co.nz/data-import.html): `readr`. 
- 8. 17.12.2018: [Chapter 12: Tidy data](http://r4ds.had.co.nz/tidy-data.html): `tidyr`. 
- 9. 07.01.2019: [Chapter 13: Relational data](http://r4ds.had.co.nz/relational-data.html): `dplyr`. 
- 10. 14.01.2019:  **Buffer session**: Rinse and repeat 
+
+ 8. 10.12.2018: [Chapter 10: Tibbles](http://r4ds.had.co.nz/tibbles.html): `tibble`. 
+ 9. 17.12.2018: [Chapter 11: Data import](http://r4ds.had.co.nz/data-import.html): `readr`. 
+ 10. 07.01.2018: [Chapter 12: Tidy data](http://r4ds.had.co.nz/tidy-data.html): `tidyr`. 
+ 11. 14.01.2019: [Chapter 13: Relational data](http://r4ds.had.co.nz/relational-data.html): `dplyr`. 
+
  
  **Part 3: Program**
  
- 11. 14.01.2019: [Chapter 19: Functions](http://r4ds.had.co.nz/functions.html)
- 12. 21.01.2019: [Chapter 20: Vectors](http://r4ds.had.co.nz/vectors.html)
- 13. 28.01.2019: [Chapter 21: Iteration](http://r4ds.had.co.nz/iteration.html)
+ 12. 21.01.2019: [Chapter 19: Functions](http://r4ds.had.co.nz/functions.html)
+ 13. 28.01.2019: [Chapter 20: Vectors](http://r4ds.had.co.nz/vectors.html) and/or [Chapter 21: Iteration](http://r4ds.had.co.nz/iteration.html)
  14. 04.02.2019: **Buffer session**: Exam preparation or discussing **final projects**
  15. 11.02.2019: **Final exam** or beginning **final projects**
 
