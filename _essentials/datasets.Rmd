@@ -1,12 +1,12 @@
 ---
 title: "Datasets (ds4psy)"
 author: "Hansjörg Neth, SPDS, uni.kn"
-date: "2018 11 18"
+date: "2018 11 19"
 output:
    rmdformats::html_clean: # html_clean html_docco readthedown material #
      code_folding: show # hide
      toc_float: true
-     toc_depth: 3
+     toc_depth: 2
      highlight: default # textmate default kate haddock monochrome #
      lightbox: true # true by default
      fig_width: 8 # in inches
@@ -108,7 +108,7 @@ This file contains descriptions of **datasets** used in this course and their so
 
 # Datasets
 
-## Positive Psychology
+## 1. Positive psychology
 
 ### Introduction 
 
@@ -116,7 +116,7 @@ This file contains descriptions of **datasets** used in this course and their so
 
 Seligman, Steen, Park, and Peterson (2005) suggested that positive psychology interventions (PPIs) contain specific, powerful, therapeutic ingredients that effect greater increases in happiness and reductions in depression than a placebo control. The study by Woodworth et al. (2017) re-examined the three PPIs that Seligman et al. found to be most effective when delivered over the internet. 
 
-### References and data source
+### Data sources
 
 Articles reporting original research:
 
@@ -143,9 +143,9 @@ DOI: <https://doi.org/10.5334/jopd.35>
 
 ### Codebook
 
-Description of the variables and values contained in the file(s):
+Description of the variables and values contained in the 2 original data files:
 
-#### File `posPsy_participants.csv`
+#### 1. File `posPsy_participants.csv`
 
 The file `posPsy_participants.csv` contains 6 variables with _demographic information_ on 295 participants: 
 
@@ -180,7 +180,7 @@ The file `posPsy_participants.csv` contains 6 variables with _demographic inform
     - 3 = above average.
     
 
-#### File `posPsy_AHI_CESD.csv`
+#### 2. File `posPsy_AHI_CESD.csv`
 
 The file `posPsy_AHI_CESD.csv` contains data of the 24 items of the _Authentic Happiness Inventory_ (AHI) and answers to the 20 items of the _Center for Epidemiological Studies Depression_ (CES-D) scale for multiple (up to 6) measurement occasions: 
 
@@ -207,33 +207,28 @@ The file `posPsy_AHI_CESD.csv` contains data of the 24 items of the _Authentic H
 
 8. `cesdTotal`: total CES-D score
 
-
-### Getting data
+### Getting the data
 
 #### Files available
 
 The following files were generated from the original data files (and saved in `.csv` format): 
 
-1. `posPsy_participants.csv`: Original participant data (295 x 6 variables): 
-<http://rpository.com/ds4psy/data/posPsy_participants.csv>. 
+1. `posPsy_participants.csv`: Original participant data (295 x 6 variables):   
+<http://rpository.com/ds4psy/data/posPsy_participants.csv>.   
 
-2. `posPsy_AHI_CESD.csv`: Original data of dependent measures in _long_ format (992 x 50 variables): 
-<http://rpository.com/ds4psy/data/posPsy_AHI_CESD.csv>.
+2. `posPsy_AHI_CESD.csv`: Original data of dependent measures in _long_ format (992 x 50 variables):   
+<http://rpository.com/ds4psy/data/posPsy_AHI_CESD.csv>.   
 
-3. `posPsy_AHI_CESD_corrected.csv`: Corrected version of dependent measures in _long_ format (990 x 50 variables):
-<http://rpository.com/ds4psy/data/posPsy_AHI_CESD_corrected.csv>.
+3. `posPsy_AHI_CESD_corrected.csv`: Corrected version of dependent measures in _long_ format (990 x 50 variables):  
+<http://rpository.com/ds4psy/data/posPsy_AHI_CESD_corrected.csv>.   
 
-4. `posPsy_data_wide.csv`: Corrected version of all data joined in _wide_ format (295 x 294 variables): 
-<http://rpository.com/ds4psy/data/posPsy_data_wide.csv>. 
-Different measurement occasions are suffixed by `.0`, `.1`, ..., `.5`. 
-
-
-We can load the participant data into R with the following command (from the package `readr`, which is part of the `tidyverse`):
-
+4. `posPsy_data_wide.csv`: Corrected version of all data joined in _wide_ format (295 x 294 variables):   
+<http://rpository.com/ds4psy/data/posPsy_data_wide.csv>.   
+Different measurement occasions are suffixed by `.0`, `.1`, ..., `.5`.  
 
 #### Loading data
 
-Reading in these data files from online sources: 
+We can load data stored in `csv`-format into R by using the `read_csv` command (from the `readr` package, which is part of the `tidyverse`). Here, we obtain the data files from online sources (at <http://rpository.com/ds4psy/>): 
 
 ```{r read_posPsy_data, echo = TRUE, eval = TRUE}
 library(readr)
@@ -271,23 +266,37 @@ _Journal of Open Psychology Data_, _6_: 1. DOI: <https://doi.org/10.5334/jopd.35
 
 
 
+## 2. False positive psychology
 
-# More sources of datasets
++++ here now +++
+
+### Introduction
+### Data sources
+### Codebook
+### Getting the data
+### References
+
+
+# Other sources
 
 ## Data in base R
 
-```{r base_R_datasets, echo = TRUE}
-library(help = "datasets")
+Every version of R comes with a collection of datasets: 
+
+```{r base_R_datasets, echo = TRUE, eval = FALSE}
+## Get info on included datasets: 
+library(help = "datasets") 
 
 ## Check some dimensions: ----- 
 # dim(ChickWeight)
 # dim(iris)
-# Nile           # Time series: plot(Nile)
+# Nile           # Time series. See plot(Nile)
 # dim(sleep)     # Student's Sleep Data
-# dim(Titanic)   # see dim(FFTrees::titanic)
+# dim(Titanic)   # also see dim(FFTrees::titanic)
 ```
 
-## Packages
+
+## Data in R packages
 
 Packages of the `tidyverse`:
 
@@ -295,7 +304,7 @@ Packages of the `tidyverse`:
 - `ggplot2`: `diamonds`, `mpg`, `msleep`, etc. 
 - `tidyr`: `table1`, etc. 
 
-Other packages with large data sets:
+Other packages with large data sets include:
 
 - `babynames`
 - `dslabs`
@@ -306,9 +315,18 @@ Other packages with large data sets:
 - `nycflights13`
 - `yarrr`: `pirates`, `movies`, `auction`, etc. 
 
+
 ## Online sources
 
+The web is full of data, of course, but most of it needs sound data science and a sound dose of scepticism to be of any use. Here are some good starting points for finding free data: 
+
+Collections:
+
 - [Google dataset search](https://toolbox.google.com/datasetsearch)  
+
+- [Kaggle](https://www.kaggle.com): A place for data science projects (with many large datasets)  
+
+Specific datasets: 
 
 - [PanTHERIA](http://esapubs.org/archive/ecol/E090/184/): A species-level database of life history, ecology, and geography of extant and recently extinct mammals  
 

@@ -642,8 +642,13 @@ Note some details:
 
 - Using `group_by` with `mutate` results in a tibble that has the same number of cases (rows) as the original tibble.  By contrast, using `group_by` with `summarise` results in a new tibble with all combinations of variable levels as its cases (rows). 
 
+## Powerful pipes 
 
-**Practice:** Create some groups and compute descriptive statistics (n, mean, median, standard deviation, ...) for some variables. For instance, 
+The essential `dplyr` commands are quite simple by themselves, but form the verbs of a language for basic data manipulation. These commands become particularly powerful when they are combined into _pipes_ (by using the `%>%` operator, as in the examples above). Stringing together several `dplyr` commands allows slicing and dicing data (tibbles or data frames) in a step-wise fashion to run non-trivial data analyses on the fly. For instance, pipes allow selecting and sorting sub-groups of data, computing descriptive statistics (n, mean, median, standard deviation, etc.), and answering detailed questions about specific variables. 
+
+#### Examples 
+
+Each of the following questions can be answered by a pipe of `dplyr` commands:
 
 - What is the number and mean height and mass of individuals from Tatooine by species and gender? 
 
@@ -675,210 +680,20 @@ sws %>%
 ```
 
 
-## Combining commands
-
-The essential `dplyr` commands are quite simple by themselves, but form the basic verbs of a language for data manipulation. The commands become particularly powerful when they are combined into pipes (by using `%>%`). Stringing together several `dplyr` commands allows slicing and dicing data (tibbles or data frames) in a step-wise fashion to run non-trivial data analyses on the fly. 
-
-**Practice: Tidyverse meets universe**
-
-Answer the following questions about the `dplyr::starwars` dataset by using pipes of essential `dplyr` commands:  
-
-**a.** Basics: 
-
-- Save the tibble `dplyr::starwars` as `sw` and report its dimensions. 
-
-**b.** Missing values and known unknowns:
-
-- How many missing (`NA`) values does `sw` contain?
-
-- Which individuals come from an unknown (missing) `homeworld` but have a known `birth_year` or known `mass`?
-
-<!-- Which variable (column) has the most missing values? --> 
-
-<!-- Replace all missing values of `hair_color` (in the variable `sw$hair_color`) by "bald" (2). -->
-
-
-**c.** Gender issues:
-
-- How many humans are contained in `sw` overall and by gender?
-
-- How many and which individuals in `sw` are neither male nor female?
-
-- Of which species in `sw` exist at least 2 different gender values?
-
-
-**d.** Popular homes and heights:
-
-- From which `homeworld` do the most indidividuals (rows) come from?
-
-- What is the mean `height` of all individuals with orange eyes from the most popular homeworld?
-
-
-**e.** Size and mass issues: 
-
-- Compute the median, mean, and standard deviation of `height` for all droids.
-
-- Compute the average height and mass by species and save the result as `h_m`.
-
-- Sort `h_m` to list the 3 species with the smallest individuals (in terms of mean height).
-
-- Sort `h_m` to list the 3 species with the heaviest individuals (in terms of median mass).
-
-
-**f.** Counting and arranging: 
-
-How many individuals exist of the three most frequent (known) species?
-
-
-**g.** Grouped mutates: 
-
-- Which individuals are more than 20% lighter than the average mass of individuals of their own homeworld? 
-
-
-```{r starwars_practice}
-# library(tidyverse)
-# ?dplyr::starwars
-
-## (a) Basic data properties: ---- 
-sw <- dplyr::starwars
-dim(sw)  # => 87 rows (denoting individuals) x 13 columns (variables) 
-
-## (b) Missing data: ----- 
-
-## (+) How many missing data points?
-sum(is.na(sw))  # => 101 missing values.
-
-# (+) Which individuals come from an unknown (missing) homeworld 
-#     but have a known birth_year or mass? 
-sw %>% 
-  filter(is.na(homeworld), !is.na(mass) | !is.na(birth_year))
-
-
-## (x) Which variable (column) has the most missing values?
-colSums(is.na(sw))  # => birth_year has 44 missing values
-colMeans(is.na(sw)) #    (amounting to 50.1% of all cases). 
-
-## (x) Replace all missing values of `hair_color` (in the variable `sw$hair_color`) by "bald": 
-# sw$hair_color[is.na(sw$hair_color)] <- "bald"
-
-
-## (c) Gender issues: ----- 
-
-# (+) How many humans are there of each gender?
-sw %>% 
-  filter(species == "Human") %>%
-  group_by(gender) %>%
-  count()
-
-## Answer: 35 Humans in total: 9 females, 26 male.
-
-# (+) How many and which individuals are neither male nor female?
-sw %>% 
-  filter(gender != "male", gender != "female")
-
-# (+) Of which species are there at least 2 different gender values?
-sw %>%
-  group_by(species, gender) %>%
-  count() %>%  # table shows species by gender: 
-  group_by(species) %>%  # Which species appear more than once in this table? 
-  count() %>%
-  filter(nn > 1)
-
-## (d) Homeworld issues: ----- 
-
-# (+) Popular homes: From which homeworld do the most indidividuals (rows) come from? 
-sw %>%
-  group_by(homeworld) %>%
-  count() %>%
-  arrange(desc(n))
-# => Naboo (with 11 individuals)
-
-# (+) What is the mean height of all individuals with orange eyes from the most popular homeworld? 
-sw %>% 
-  filter(homeworld == "Naboo", eye_color == "orange") %>%
-  summarise(n = n(),
-            mn_height = mean(height))
-
-## Note: 
-sw %>% filter(eye_color == "orange") # => 8 individuals
-
-
-# (+) What is the mass and homeworld of the smallest droid?
-sw %>% 
-  filter(species == "Droid") %>%
-  arrange(height)
-
-## (e) Size and mass: Group summaries: ----- 
-
-# (+) Compute the median, mean, and standard deviation of `height` for all droids.
-sw %>%
-  filter(species == "Droid") %>%
-  summarise(n = n(),
-            not_NA_h = sum(!is.na(height)),
-            md_height = median(height, na.rm = TRUE),
-            mn_height = mean(height, na.rm = TRUE),
-            sd_height = sd(height, na.rm = TRUE))
-
-# (+) Compute the average height and mass by species and save the result as `h_m`:
-h_m <- sw %>%
-  group_by(species) %>%
-  summarise(n = n(),
-            not_NA_h = sum(!is.na(height)),
-            mn_height = mean(height, na.rm = TRUE),
-            not_NA_m = sum(!is.na(mass)),
-            md_mass = median(mass, na.rm = TRUE)
-            )
-h_m
-
-# (+) Use `h_m` to list the 3 species with the smallest individuals (in terms of mean height)?
-h_m %>% arrange(mn_height) %>% slice(1:3)
-
-# (+) Use `h_m` to list the 3 species with the heaviest individuals (in terms of median mass)?
-h_m %>% arrange(desc(md_mass)) %>%  slice(1:3)
-
-
-## (+) Other questions: ----- 
-
-# (f) How many individuals come from the 3 most frequent (known) species?
-sw %>%
-  group_by(species) %>%
-  count %>%
-  arrange(desc(n)) %>%
-  filter(n > 1)
-
-# (g) Which individuals are more than 20% lighter (in terms of mass) 
-#     than the average mass of individuals of their own homeworld?
-sw %>%
-  select(name, homeworld, mass) %>%
-  group_by(homeworld) %>%
-  mutate(n_notNA_mass = sum(!is.na(mass)),  
-         mn_mass = mean(mass, na.rm = TRUE),
-         lighter = mass < (mn_mass - (.20 * mn_mass))
-         ) %>%
-  filter(lighter == TRUE)
-```
-
 # Exercises (WPA03)
 
-Ideas:
+The following exercises practice the essential `dplyr` commands and aim to show that show that simple pipes of them can solve quite intriguing puzzles about data. 
 
-1. Distinguish between mutate and grouped mutate. 
-
-2. Plot same plot from raw data and aggregated data.
-    - Plot raw data
-    - Then aggregate into table and plot aggregated data.
-
-## Exercise X
+## Exercise 1
 
 #### Star and R wars
 
-Let's tackle the universe with the tidyverse by uncovering even more facts about the `dplyr::starwars` dataset. Answer the following questions by using pipes of basic `dplyr` commands (i.e., arranging, filtering, selecting, grouping, counting, summarizing). 
+Let's tackle the universe/tidyverse by uncovering even more facts about the `dplyr::starwars` dataset. Answer the following questions by using pipes of basic `dplyr` commands (i.e., arranging, filtering, selecting, grouping, counting, summarizing). 
 
 - Save the tibble `dplyr::starwars` as `sw` and report its dimensions. 
 
-
 ```{r, starwars_transformations_1, include = TRUE}
-# library(tidyverse)
+## Data: ----- 
 # ?dplyr::starwars
 
 ## (a) Basic data properties: ---- 
@@ -898,17 +713,17 @@ dim(sw)  # => 87 rows (denoting individuals) x 13 columns (variables)
 
 
 ```{r, starwars_transformations_2, include = TRUE}
-## Missing data:
+## Missing data: ----- 
 
-## (+) How many missing data points?
+# How many missing data points?
 sum(is.na(sw))  # => 101 missing values.
 
-# (+) Which individuals come from an unknown (missing) homeworld 
-#     but have a known birth_year or mass? 
+# Which individuals come from an unknown (missing) homeworld 
+# but have a known birth_year or mass? 
 sw %>% 
   filter(is.na(homeworld), !is.na(mass) | !is.na(birth_year))
 
-## (x) Which variable (column) has the most missing values?
+# Which variable (column) has the most missing values?
 colSums(is.na(sw))  # => birth_year has 44 missing values
 colMeans(is.na(sw)) #    (amounting to 50.1% of all cases). 
 
@@ -1027,12 +842,177 @@ h_m %>% arrange(mn_height) %>% slice(1:3)
 h_m %>% arrange(desc(md_mass)) %>%  slice(1:3)
 ```
 
+#### Bonus tasks
 
-## Exercise Y
+- How many individuals come from the 3 most frequent (known) species?
 
-#### Not all outliers are alike 
+- Which individuals are more than 20% lighter (in terms of mass) than the average mass of individuals of their own homeworld?
 
-This task examines the statistical definition of outliers and uses a generated dataset (entitled `out.csv` and available at <http://rpository.com/ds4psy/data/out.csv>). Use the following `read_csv()` command to obtain and load it into R: 
+```{r, starwars_transformations_6, include = TRUE}
+## Bonus questions: ----- 
+
+# How many individuals come from the 3 most frequent (known) species?
+sw %>%
+  group_by(species) %>%
+  count %>%
+  arrange(desc(n)) %>%
+  filter(n > 1)
+
+# Which individuals are more than 20% lighter (in terms of mass) 
+# than the average mass of individuals of their own homeworld?
+sw %>%
+  select(name, homeworld, mass) %>%
+  group_by(homeworld) %>%
+  mutate(n_notNA_mass = sum(!is.na(mass)),  
+         mn_mass = mean(mass, na.rm = TRUE),
+         lighter = mass < (mn_mass - (.20 * mn_mass))
+         ) %>%
+  filter(lighter == TRUE)
+```
+
+## Exercise 2
+
+#### Sleeping mammals
+
+The dataset `ggplot2::msleep` contains a mammals sleep dataset (see `?msleep` for details and the definition of variables). 
+
+- Save the data as `sp` and check the dimensions, variable types, and number of missing values in the dataset.
+
+```{r ex_msleep, echo = TRUE, eval = TRUE}
+## Data: 
+# ?msleep  # check variables     
+sp <- ggplot2::msleep
+
+# Check: 
+dim(sp)        # 83 x 11 variables
+glimpse(sp)    # 5 <chr> and 6 <dbl>
+sum(is.na(sp)) # 136 missing values
+```
+
+#### Arranging and filtering data
+
+Use the `dplyr`-verbs `arrange`, `group_by`, and `filter` to answer the following questions by creating ordered subsets of the data:
+
+- Arrange the rows (alphabetically) by `vore`, `order`, and `name`, and report the `genus` of the top 3 mammals. 
+
+- What is the most common type of `vore` in the data? How many omnivores are there?  
+
+- What is the most common `order` in the dataset? Are there more exemplars of the `order` "Carnivora" or "Primates"? 
+
+- Which 2 mammals of the order "Primates" have the longest and shortest `sleep_total` times?
+
+```{r ex_msleep_subsets, echo = TRUE, eval = TRUE}
+# Arranging rows:
+sp1 <- sp %>%
+  arrange(vore, order, name)
+sp1$genus[1:3]  # => top 3: "Vulpes"   "Phoca"    "Acinonyx"
+
+# Counting common vores:
+# (a) short solution:
+sp %>%
+  count(vore) %>%
+  arrange(desc(n))  
+
+# (a) is the same as (b): 
+sp %>% 
+  group_by(vore) %>%
+  tally() %>%
+  arrange(desc(n))
+
+# (b) is the same as (c):  
+sp %>% 
+  group_by(vore) %>%
+  summarise(n = n()) %>%
+  arrange(desc(n))
+
+# => 32 herbivores, 20 omnivores
+
+# Counting common orders: 
+sp %>% 
+  count(order) %>%
+  arrange(desc(n)) 
+
+# OR: 
+sp %>% 
+  group_by(order) %>%
+  count() %>%
+  arrange(desc(n)) 
+# => 22 Rodentia, 12 Carnivora = 12 Primates
+
+# Primates with longest and shortest sleep_total times:
+sp %>% 
+  filter(order == "Primates") %>%
+  arrange(desc(sleep_total)) 
+# => max: Owl monkey: 17 hours, min: Human 8 hours.
+```
+
+#### Computing new variables
+
+Solve the following tasks by `mutate`, `group_by`, and `summarise`: 
+
+- Compute a variable `sleep_awake_sum` that adds the `sleep_total` time and the `awake` time of each mammal. What result do you expect and get? 
+
+- Which animals have the smallest and largest brain to body ratio (in terms of weight)? How many mammals have a larger ratio than humans?
+
+- What is the minimum, average (mean), and maximum sleep cycle length for each `vore`? (Hint: First group the data by `group_by`, then use `summarise` on the `sleep_cycle` variable, but also count the number of `NA` values for each `vore`. When computing grouped summaries, `NA` values can be removed by `na.rm = TRUE`.)
+
+- Replace your `summarise` verb in the previous task by `mutate`. What do you get as a result? (Hint: The last two tasks illustrate the difference between `mutate` and _grouped_ `mutate` commands.)
+
+```{r ex_msleep_mutate, echo = TRUE, eval = TRUE}
+# Computing `sleep_awake_sum`: 
+sp2 <- sp %>%
+  mutate(sleep_awake_sum = sleep_total + awake)
+sp2$sleep_awake_sum  # => all 24 hours 
+
+# Computing brain to body ratios:
+sp3 <- sp %>%
+  mutate(brain_to_body_wt = brainwt / bodywt) %>%
+  arrange(brain_to_body_wt)
+
+sp3$name[1] # => smallest ratio: Cow
+
+sp3 %>% 
+  arrange(desc(brain_to_body_wt))
+# => largest ratio: Thirteen-lined ground squirrel, 
+#    9 mammals have larger brain_to_body_wt than Human.
+
+# Computing sleep cycle length for each `vore`: 
+sp %>%
+  group_by(vore) %>%
+  summarise(n = n(),
+            n_NA = sum(is.na(sleep_cycle)), 
+            non_NA = sum(!is.na(sleep_cycle)),
+            min_cyc = min(sleep_cycle, na.rm = TRUE),
+            mn_cyc = mean(sleep_cycle, na.rm = TRUE),
+            max_cyc = max(sleep_cycle, na.rm = TRUE)
+            )
+
+# Replacing summarise by mutate: 
+sp4 <- sp %>%
+  group_by(vore) %>%
+  mutate(n = n(),
+         n_NA = sum(is.na(sleep_cycle)), 
+         non_NA = sum(!is.na(sleep_cycle)),
+         min_cyc = min(sleep_cycle, na.rm = TRUE),
+         mn_cyc = mean(sleep_cycle, na.rm = TRUE),
+         max_cyc = max(sleep_cycle, na.rm = TRUE)
+  )
+
+# => A tibble that contains grouped summaries as 6 new variables: 
+sp4 %>% 
+  select(vore, name, sleep_cycle, n:max_cyc) %>%
+  arrange(vore)
+```
+
+## Exercise 3
+
+#### Outliers
+
+This exercise examines different possibilities for defining _outliers_ and uses a generated dataset (entitled `out.csv` and available at <http://rpository.com/ds4psy/data/out.csv>) to illustate and compare them. It also helps to further disentangle the difference between `mutate` and _grouped_ `mutate` commands.
+
+#### Data on `outliers`
+
+Use the following `read_csv()` command to obtain and load the data into an R object entitled `outliers`: 
 
 ```{r outlier_load_data, echo = TRUE, eval = TRUE}
 ## Load data (as comma-separated file): 
@@ -1041,8 +1021,6 @@ outliers <- read_csv("http://rpository.com/ds4psy/data/out.csv")  # from online 
 ## Alternatively (from local source): 
 # outliers <- read_csv("out.csv")  # from current directory
 ```
-
-An _outlier_ can be defined as an individual whose value in some metric deviates by more than a given criterion (e.g., 2 standard deviations) from the mean. But this definition is incomplete unless it also specifies an appropriate reference group. This task explores the implications of different reference groups. 
 
 ```{r outlier_create_data, echo = FALSE, eval = FALSE}
 # library(tidyverse)
@@ -1080,7 +1058,11 @@ outliers <- read_csv("out.csv")
 outliers
 ```
 
-#### Basics
+#### Not all outliers are alike
+
+An _outlier_ can be defined as an individual whose value in some variable deviates by more than a given criterion (e.g., 2 standard deviations) from the mean of the variable. However, this definition is incomplete unless it also specifies the _reference group_ over which the means and deviations are computed. In the following, we explore the implications of different reference groups. 
+
+#### Basic tasks
 
 - Save the data into a tibble `outliers` and report its number of observations and variables, and their types.
 
@@ -1093,77 +1075,77 @@ outliers
 <!-- fig.show options: "asis", "hide", "hold", "animate" --> 
 
 ```{r outlier_solution_1, include = TRUE, fig.show = "asis"}
-## Basics: ----- 
-
-## (a) Load and inspect data:
+# Load and inspect data:
 # outliers <- read_csv("out.csv") # read in csv-file
 # outliers <- as_tibble(data)   # if data is not already a tibble
 dim(outliers)  # => 1000 observations (rows) x 3 variables (columns)
 
-## (b) Missing data points: 
+# Missing data points: 
 sum(is.na(outliers))  # => 18 missing values
 
-## (c) Gender distribution: 
+# Gender distribution: 
 outliers %>% 
   group_by(sex) %>% 
   count()
 # => 50.7% females, 49.3% males.
 
-## (d) Distributions of `height` as density plot: 
+# Distributions of `height` as density plot: 
 ggplot(outliers, aes(x = height)) +
   geom_density(fill = "gold", alpha = 2/3) +
   geom_density(aes(fill = sex), alpha = 2/5) +
   labs(title = "Distribution of heights overall and by gender", 
        fill = "Gender") + 
-  scale_fill_manual(values = c("firebrick", "steelblue3")) +
+  # scale_fill_manual(values = c("firebrick", "steelblue3")) +
+  scale_fill_brewer(palette = "Set1") +  # using Brewer palette
   theme_bw()
 
-# Note: To avoid the Warning about removing 18 cases with NA-values, 
+# Note: To avoid the warning about removing 18 cases with NA-values, 
 #       we could first filter out those cases:
 # non_NA_data <- filter(outliers, !is.na(height))
 
-## Alternative solution as 2 histograms: 
+# Alternative solution as 2 histograms: 
 ggplot(outliers) +
   facet_wrap(~sex) + 
   geom_histogram(aes(x = height, fill = sex), binwidth = 5, color = "grey10") +
   labs(title = "Distribution of heights by gender",
-       fill = "Gender") +
-  scale_fill_manual(values = c("firebrick", "steelblue3")) +
+       x = "Height", y = "Frequency") +
+  scale_fill_brewer(name = "Gender:", palette = "Set1") +  # using Brewer palette
+  # scale_fill_manual(name = "Gender:", values = c("firebrick", "steelblue3")) + 
   theme_bw()
 ```
 
-#### Outliers
+#### Defining different outliers
 
 Compute 2 new variables that signal and distinguish between 2 types of outliers in terms of `height`: 
 
-1. outliers relative to the `height` of the _overall sample_ (i.e., individuals with `height` values deviating more than 2 SD from the overall mean of `height`);
+1. outliers relative to the `height` of the _overall sample_ (i.e., individuals with `height` values deviating more than 2 SD from the overall mean of `height`); 
 
-2. outliers relative to the `height` of _some subgroup_'s mean and SD. Here, a suitable subgroup to consider is every person's gender 
-(i.e., individuals with `height` values deviating more than 2 SD from the mean `height` of their own gender).
+2. outliers relative to the `height` of _some subgroup_'s mean and SD. Here, a suitable subgroup to consider is every person's gender (i.e., individuals with `height` values deviating more than 2 SD from the mean `height` of their own gender). 
 
 **Hints:** As both variable signal whether or not someone is an outlier they should be defined as logicals (being either `TRUE` or `FALSE`) and added as new columns to `data` (via appropriate `mutate` commands). While the 1st variable can be computed based on the mean and SD of the overall sample, the 2nd variable can be computed after grouping `outliers` by gender and then computing and using the corresponding mean and SD values. The absolute difference between 2 numeric values `x` and `y` is provided by `abs(x - y)`. 
 
-Use the 2 new variables to define and identify 2 subgroups of people: 
+#### Relative outliers
+
+Now use the 2 new outlier variables to define (or `filter`) 2 subsets of the data that contain 2 subgroups of people: 
 
 1. `out_1`: Individuals (females and males) with `height` values that are outliers relative to _both_ the entire sample _and_ the sample of their own gender. How many such individuals are in `outliers`?
 
 2. `out_2`: Individuals (females and males) with `height` values that are _not_ outliers relative to the entire population, but _are_ outliers relative to their own gender. How many such individuals are in `outliers`?
 
-
 ```{r outlier_solution_2, include = TRUE, fig.show = "asis"}
-## Outliers: ----- 
+## Defining different outliers: ----- 
 
-## (+) Included in data_out (below), but also possible to do separately:  
-##     Compute the number, means and SD of height values in 2 ways: 
+# Included in data_out (below), but also possible to do separately:  
+# Compute the number, means and SD of height values in 2 ways: 
 
-## 1. overall: 
+# 1. overall: 
 outliers %>%
   summarise(n = n(),
             n_not_NA = sum(!is.na(height)),
             mn_height = mean(height, na.rm = TRUE),
             sd_height = sd(height, na.rm = TRUE))
 
-## 2. by gender:
+# 2. by gender:
 outliers %>%
   group_by(sex) %>%
   summarise(n = n(),
@@ -1172,8 +1154,8 @@ outliers %>%
             sd_height = sd(height, na.rm = TRUE))
 
 
-## Detecting and marking outliers (by logical variables): 
-## Compute the means, SDs, and corresponding outliers in 2 ways:
+# Detecting and marking outliers (by logical variables): 
+# Compute the means, SDs, and corresponding outliers in 2 ways:
 crit <- 2  # criterion value for detecting outliers (in SD units)
 
 data_out <- outliers %>%      
@@ -1189,17 +1171,18 @@ data_out <- outliers %>%
 
 knitr::kable(head(data_out))
 
+## Relative outliers: ----- 
 
-## Identify 2 types of outliers:
+# Filter specific combinations of outliers:
 
-## 1. Outliers relative to the entire population AND to their own gender: 
+# 1. Outliers relative to the entire population AND to their own gender: 
 out_1 <- data_out %>%
   filter(out_height & out_sex_height) %>%
   arrange(sex, height)
 
 nrow(out_1) # => 21 individuals. 
 
-## 2. Outliers relative to their own gender, but NOT relative to the entire population:
+# 2. Outliers relative to their own gender, but NOT relative to the entire population:
 out_2 <- data_out %>%
   filter(!out_height & out_sex_height) %>%
   arrange(sex, height)  
@@ -1214,11 +1197,9 @@ Visualize the raw values and distributions of `height` for both types of outlier
 <!-- fig.show options: "asis", "hide", "hold", "animate" --> 
  
 ```{r outlier_solution_3, include = TRUE, fig.show = "asis"}
-## Bonus task: -----   
+# Visualization and interpretation of both types of outliers: 
 
-## Visualization and interpretation of both types of outliers: 
-
-## 1. Showing out_1: 
+# 1. Showing out_1: 
 ggplot(out_1, aes(x = sex, y = height)) +
   geom_violin(aes(fill = sex)) + 
   geom_jitter(size = 4, alpha = 2/3) + 
@@ -1232,7 +1213,7 @@ ggplot(out_1, aes(x = sex, y = height)) +
 # `out_1` contains mostly short women (except for 1 tall woman) 
 #  and mostly tall men (except for 2 short men). 
 
-## 2. Showing out_2: 
+# 2. Showing out_2: 
 ggplot(out_2, aes(x = sex, y = height)) +
   geom_violin(aes(fill = sex)) + 
   geom_jitter(size = 4, alpha = 2/3) + 
@@ -1246,8 +1227,7 @@ ggplot(out_2, aes(x = sex, y = height)) +
 # `out_2` contains individuals which are either tall women or short men.
 ```
 
-
-
++++ here now +++
 
 
 # More on data transformation 
