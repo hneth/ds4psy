@@ -112,9 +112,12 @@ This file contains descriptions of **datasets** used in this course and their so
 
 ### Introduction 
 
-<!-- Motivation: Research question and data structure and contents: --> 
+<!-- Motivation: State topic, research question, and contents of data: --> 
 
-Seligman, Steen, Park, and Peterson (2005) suggested that positive psychology interventions (PPIs) contain specific, powerful, therapeutic ingredients that effect greater increases in happiness and reductions in depression than a placebo control. The study by Woodworth et al. (2017) re-examined the three PPIs that Seligman et al. found to be most effective when delivered over the internet. 
+In a 
+Seligman, Steen, Park, and Peterson (2005) suggested that positive psychology interventions (PPIs) contain specific, powerful, therapeutic ingredients that effect greater increases in happiness and reductions in depression than a placebo control. 
+
+The study by Woodworth et al. (2017) re-examined the three PPIs that Seligman et al. found to be most effective when delivered over the internet. 
 
 ### Data sources
 
@@ -122,11 +125,13 @@ Articles reporting original research:
 
 - Seligman, M. E., Steen, T. A., Park, N., & Peterson, C. (2005). 
 Positive psychology progress: Empirical validation of interventions. 
-_American Psychologist_, _60_(5), 410--421.
+_American Psychologist_, _60_(5), 410--421. 
+doi: <https://doi.org/10.1037/0003-066X.60.5.410> 
 
 - Woodworth, R. J., O'Brien‐Malone, A., Diamond, M. R., & Schüz, B. (2017). 
 Web‐based positive psychology interventions: A reexamination of effectiveness. 
-_Journal of Clinical Psychology_, _73_(3), 218--232.
+_Journal of Clinical Psychology_, _73_(3), 218--232. 
+doi: <https://doi.org/10.1002/jclp.22328>
 
 
 Article on data used here: 
@@ -134,7 +139,7 @@ Article on data used here:
 - Woodworth, R. J., O’Brien-Malone, A., Diamond, M. R. and Schüz, B. (2018). 
 Data from, ‘Web-based Positive Psychology Interventions: A Reexamination of Effectiveness’. 
 _Journal of Open Psychology Data_, _6_: 1. 
-DOI: <https://doi.org/10.5334/jopd.35> 
+doi: <https://doi.org/10.5334/jopd.35> 
 
 - See <https://openpsychologydata.metajnl.com/articles/10.5334/jopd.35/> for details. 
 
@@ -151,11 +156,11 @@ The file `posPsy_participants.csv` contains 6 variables with _demographic inform
 
 1. `id`: participant ID
 
-2. `intervention`: 3 positive psychology interventions, plus 1 control condition: 
+2. `intervention`: 3 positive psychology interventions (PPIs), plus 1 control condition: 
 
-    - 1 = “Using Signature Strengths”, 
-    - 2 = “Three Good Things”, 
-    - 3 = “Gratitude Visit”, 
+    - 1 = “Using signature strengths”, 
+    - 2 = “Three good things”, 
+    - 3 = “Gratitude visit”, 
     - 4 = “Recording early memories” (control condition).  
 
 3. `sex`: 
@@ -195,17 +200,18 @@ The file `posPsy_AHI_CESD.csv` contains data of the 24 items of the _Authentic H
     - 4 = 3-month follow-up, (i.e., 98 days after pretest, 91 days after posttest), 
     - 5 = 6-month follow-up, (i.e., 189 days after pretest, 182 days after posttest).
 
-3. `elapsed.days`: time since enrolment measured in fractional days	
+3. `elapsed.days`: Time since enrolment measured in fractional days	
 
-4. `intervention`: intervention group
+4. `intervention`: Intervention group (1 to 4)
 
-5. `ahi01`--`ahi24`: responses on 24 AHI items
+5. `ahi01`--`ahi24`: Responses on 24 AHI items
 
-6. `cesd01`--`cesd20`: responses on 20 CES-D items
+6. `cesd01`--`cesd20`: Responses on 20 CES-D items
 
-7. `ahiTotal`: total AHI score
+7. `ahiTotal`: Total AHI score
 
-8. `cesdTotal`: total CES-D score
+8. `cesdTotal`: Total CES-D score
+
 
 ### Getting the data
 
@@ -264,17 +270,146 @@ _Journal of Clinical Psychology_, _73_(3), 218--232.
 Data from, ‘Web-based positive psychology interventions: A reexamination of effectiveness’. 
 _Journal of Open Psychology Data_, _6_: 1. DOI: <https://doi.org/10.5334/jopd.35> 
 
+- Data at <https://doi.org/10.6084/m9.figshare.1577563.v1>.
 
 
 ## 2. False positive psychology
 
-+++ here now +++
-
 ### Introduction
+
+To highlight problematic research practices within psychology, Simmons, Nelson and Simonsohn (2011) published a controversial article with a necessarily false finding. By conducting simulations and 2 simple behavioral experiments, they show that flexibility in data collection, analysis, and reporting dramatically increases the rate of false-positive findings.
+
 ### Data sources
+
+Articles reporting original research:
+
+- Simmons, J.P., Nelson, L.D., & Simonsohn, U. (2011). 
+False-positive psychology: Undisclosed flexibility in data collection and analysis allows presenting anything as significant. 
+_Psychological Science_, _22_(11), 1359–1366. 
+doi: <https://doi.org/10.1177/0956797611417632> 
+
+Article on data used here: 
+
+- Simmons, J.P., Nelson, L.D., & Simonsohn, U. (2014). 
+Data from paper “False-Positive Psychology: Undisclosed Flexibility in Data Collection and Analysis Allows Presenting Anything as Significant”. 
+_Journal of Open Psychology Data_, _2_(1), e1. 
+doi: <http://doi.org/10.5334/jopd.aa>
+
+See: <https://openpsychologydata.metajnl.com/articles/10.5334/jopd.aa/> for data. 
+
+
 ### Codebook
+
+The study data is stored in 2 seperate files: `study1.xlsx` & `study2.xlsx`. Both data files contain the same information about each participant in 17 variables: 
+
+1. `age`: Days since participant was born (based on their self-reported birthday)  
+
+2. `dad`: Father's age in years  
+
+3. `mom`: Mother's age in years
+
+4. `female`: Is the participant a woman? 
+    + 1 = yes 
+    + 2 = no
+
+5. `root`: Did they geht correctly the square root of 100? 
+    + 1 = yes 
+    + 2 = no
+
+6. `bird`: Imagine a restaurant you really like offered a 30% discount for dining between 4 pm and 6 pm.  How likely would you be to take advantage of that offer?
+    + 1 = very unlikely to 7 = very likely
+
+7. `political`: In the political spectrum, where would you place yourself?   
+    + 1 = very liberal    
+    + 2 = liberal   
+    + 3 = centrist   
+    + 4 = conservative   
+    + 5 = very conservative   
+
+8. `quarterback`: If you had to guess who was chosen the quarterback of the year in Canada last year, which of the following four options would you choose? 
+    + 1 = Dalton Bell 
+    + 2 = Daryll Clark 
+    + 3 = Jarious Jackson 
+    + 4 = Frank Wilczynski
+
+9. `olddays`: How often have you referred to some past part of your life as "the good old days"? 
+    + 11 = Never
+    + 12 = almost never
+    + 13 = sometimes
+    + 14 = often
+    + 15 = very often
+
+10. `potato`: Did the participant hear the song 'Hot Potato' by the Australian band The Wiggles? 
+    + 1 = yes 
+    + 2 = no
+
+11. `when64`: Did the participant hear the song 'When I am 64' by the Beatles?
+    + 1 = yes 
+    + 2 = no
+
+12. `kalimba`: Did the participant hear the song 'Kalimba' by Mr. Scrub?
+    + 1 = yes 
+    + 2 = no
+
+13. `feelold`: How old do you feel?
+    + 1 = very young
+    + 2 = young
+    + 3 = neither young nor old
+    + 4 = old
+    + 5 = very old
+
+14. `computer`: Computers are complicated machines 
+    + 1 = strongly disagree to 5 = strongly agree
+
+15. `diner`: Imagine you were going to a diner for dinner tonight, how much do you think you would like the food?  
+    + 1 = dislike extremely to 9 = like extremely
+
+16. `cond`: In which condition was the participant?
+    + control = Suject heard the song 'Kalimba' by Mr. Scrub
+    + potato = Subject heard the song 'Hot Potato' by the Australian band The Wiggles
+    + 64 = Subject heard the song 'When I am 64' by the Beatles
+
+17. `aged365`: age in years 
+
+
 ### Getting the data
+
+#### Files available
+
+The following file was generated from the original data files (and saved in `.csv` format): 
+
+1. `falsePosPsy_all.csv`: Combines the 2 original datasets in one file:      
+<http://rpository.com/ds4psy/data/falsePosPsy_all.csv>.     
+2 variables that denote the original study (1 vs. 2) and a unique participant `ID` (ranging from 1 to 78) have been added, so that the data file now contains 78 cases and 19 variables. 
+ 
+ 
+#### Loading data
+
+```{r load_falsePosPsy_data}
+falsePosPsy_data <- read_csv(file = "http://rpository.com/ds4psy/data/falsePosPsy_all.csv")  # online
+
+# Check: 
+dim(falsePosPsy_data)  # 78 x 19 
+
+# Any missing values? 
+sum(is.na(falsePosPsy_data))  # 0 (i.e., no missing values).  
+```
+
+<!-- +++ here now +++ --> 
+
 ### References
+
+- Simmons, J.P., Nelson, L.D., & Simonsohn, U. (2011). 
+False-positive psychology: Undisclosed flexibility in data collection and analysis allows presenting anything as significant. 
+_Psychological Science_, _22_(11), 1359–1366. 
+doi: <https://doi.org/10.1177/0956797611417632> 
+
+- Simmons, J.P., Nelson, L.D., & Simonsohn, U. (2014). 
+Data from paper “False-Positive Psychology: Undisclosed Flexibility in Data Collection and Analysis Allows Presenting Anything as Significant”. 
+_Journal of Open Psychology Data_, _2_(1), e1. 
+doi: <http://doi.org/10.5334/jopd.aa>
+
+- Data at <https://openpsychologydata.metajnl.com/articles/10.5334/jopd.aa/>. 
 
 
 # Other sources
