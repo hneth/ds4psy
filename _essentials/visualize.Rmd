@@ -147,6 +147,7 @@ Nr. | Topic       |
 0.  | [Syllabus](http://rpository.com/ds4psy/) | 
 1.  | [Basic R concepts and commands](http://rpository.com/ds4psy/essentials/basics.html) | 
 2.  | **Visualizing data** | 
+3.  | [Transforming data](http://rpository.com/ds4psy/essentials/transform.html) |
 
 <!--
 Nr. | Topic       |
@@ -1058,6 +1059,7 @@ Nr. | Topic       |
 0.  | [Syllabus](http://rpository.com/ds4psy/) | 
 1.  | [Basic R concepts and commands](http://rpository.com/ds4psy/essentials/basics.html) | 
 2.  | **Visualizing data** | 
+3.  | [Transforming data](http://rpository.com/ds4psy/essentials/transform.html) |
 
 <!--
 Nr. | Topic       |

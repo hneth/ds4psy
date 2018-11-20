@@ -147,7 +147,7 @@ Nr. | Topic       |
 ---:|:------------| 
 0.  | [Syllabus](http://rpository.com/ds4psy/) | 
 1.  | **Basic R concepts and commands** | 
-2.  | [Visualizing data](http://rpository.com/ds4psy/essentials/visualize.html) | 
+2.  | [Visualizing data](http://rpository.com/ds4psy/essentials/visualize.html) | 3.  | [Transforming data](http://rpository.com/ds4psy/essentials/transform.html) |
 
 <!--
 Nr. | Topic       |
@@ -1072,7 +1072,7 @@ The participant data `p_info` (used in **Exercise 6**) is from:
 - Woodworth, R. J., O’Brien-Malone, A., Diamond, M. R. and Schüz, B. (2018). 
 Data from, ‘Web-based positive psychology interventions: A reexamination of effectiveness’. 
 _Journal of Open Psychology Data_, _6_: 1. 
-DOI: <https://doi.org/10.5334/jopd.35> 
+doi: <https://doi.org/10.5334/jopd.35> 
 
 
 <!-- Table with links: -->
@@ -1083,7 +1083,7 @@ Nr. | Topic       |
 ---:|:------------| 
 0.  | [Syllabus](http://rpository.com/ds4psy/) | 
 1.  | **Basic R concepts and commands** | 
-2.  | [Visualizing data](http://rpository.com/ds4psy/essentials/visualize.html) | 
+2.  | [Visualizing data](http://rpository.com/ds4psy/essentials/visualize.html) | 3.  | [Transforming data](http://rpository.com/ds4psy/essentials/transform.html) |
 
 <!--
 Nr. | Topic       |
