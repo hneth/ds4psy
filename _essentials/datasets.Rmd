@@ -1,7 +1,7 @@
 ---
 title: "Datasets (ds4psy)"
 author: "Hansjörg Neth, SPDS, uni.kn"
-date: "2018 11 19"
+date: "2018 11 20"
 output:
    rmdformats::html_clean: # html_clean html_docco readthedown material #
      code_folding: show # hide
@@ -114,10 +114,7 @@ This file contains descriptions of **datasets** used in this course and their so
 
 <!-- Motivation: State topic, research question, and contents of data: --> 
 
-In a 
-Seligman, Steen, Park, and Peterson (2005) suggested that positive psychology interventions (PPIs) contain specific, powerful, therapeutic ingredients that effect greater increases in happiness and reductions in depression than a placebo control. 
-
-The study by Woodworth et al. (2017) re-examined the three PPIs that Seligman et al. found to be most effective when delivered over the internet. 
+In a highly-cited publication, Seligman, Steen, Park, and Peterson (2005) suggested that positive psychology interventions (PPIs) contain specific, powerful, therapeutic ingredients that effect greater increases in happiness and reductions in depression than a placebo control. A study by Woodworth et al. (2017) re-examined the three PPIs that Seligman et al. found to be most effective when delivered over the internet. 
 
 ### Data sources
 
@@ -277,7 +274,7 @@ _Journal of Open Psychology Data_, _6_: 1. DOI: <https://doi.org/10.5334/jopd.35
 
 ### Introduction
 
-To highlight problematic research practices within psychology, Simmons, Nelson and Simonsohn (2011) published a controversial article with a necessarily false finding. By conducting simulations and 2 simple behavioral experiments, they show that flexibility in data collection, analysis, and reporting dramatically increases the rate of false-positive findings.
+To highlight problematic research practices within psychology, Simmons, Nelson and Simonsohn (2011) published a controversial article with a necessarily false finding. By conducting simulations and two simple behavioral experiments, the authors show that flexibility in data collection, analysis, and reporting dramatically increases the rate of false-positive findings.
 
 ### Data sources
 
@@ -303,71 +300,70 @@ See: <https://openpsychologydata.metajnl.com/articles/10.5334/jopd.aa/> for data
 The study data is stored in 2 seperate files: `study1.xlsx` & `study2.xlsx`. Both data files contain the same information about each participant in 17 variables: 
 
 1. `age`: Days since participant was born (based on their self-reported birthday)  
-
 2. `dad`: Father's age in years  
 
 3. `mom`: Mother's age in years
 
 4. `female`: Is the participant a woman? 
-    + 1 = yes 
-    + 2 = no
+    + 1: yes 
+    + 2: no
 
 5. `root`: Did they geht correctly the square root of 100? 
-    + 1 = yes 
-    + 2 = no
+    + 1: yes 
+    + 2: no
 
 6. `bird`: Imagine a restaurant you really like offered a 30% discount for dining between 4 pm and 6 pm.  How likely would you be to take advantage of that offer?
-    + 1 = very unlikely to 7 = very likely
+    + 1: very unlikely to 7: very likely
 
 7. `political`: In the political spectrum, where would you place yourself?   
-    + 1 = very liberal    
-    + 2 = liberal   
-    + 3 = centrist   
-    + 4 = conservative   
-    + 5 = very conservative   
+    + 1: very liberal    
+    + 2: liberal   
+    + 3: centrist   
+    + 4: conservative   
+    + 5: very conservative   
 
 8. `quarterback`: If you had to guess who was chosen the quarterback of the year in Canada last year, which of the following four options would you choose? 
-    + 1 = Dalton Bell 
-    + 2 = Daryll Clark 
-    + 3 = Jarious Jackson 
-    + 4 = Frank Wilczynski
+    + 1: Dalton Bell 
+    + 2: Daryll Clark 
+    + 3: Jarious Jackson 
+    + 4: Frank Wilczynski
 
 9. `olddays`: How often have you referred to some past part of your life as "the good old days"? 
-    + 11 = Never
-    + 12 = almost never
-    + 13 = sometimes
-    + 14 = often
-    + 15 = very often
+    + 11: Never
+    + 12: almost never
+    + 13: sometimes
+    + 14: often
+    + 15: very often
 
 10. `potato`: Did the participant hear the song 'Hot Potato' by the Australian band The Wiggles? 
-    + 1 = yes 
-    + 2 = no
+    + 1: yes 
+    + 2: no
 
 11. `when64`: Did the participant hear the song 'When I am 64' by the Beatles?
-    + 1 = yes 
-    + 2 = no
+    + 1: yes 
+    + 2: no
 
 12. `kalimba`: Did the participant hear the song 'Kalimba' by Mr. Scrub?
-    + 1 = yes 
-    + 2 = no
+    + 1: yes 
+    + 2: no
 
 13. `feelold`: How old do you feel?
-    + 1 = very young
-    + 2 = young
-    + 3 = neither young nor old
-    + 4 = old
-    + 5 = very old
+    + 1: very young
+    + 2: young
+    + 3: neither young nor old
+    + 4: old
+    + 5: very old
 
 14. `computer`: Computers are complicated machines 
-    + 1 = strongly disagree to 5 = strongly agree
+    + 1: strongly disagree to 5: strongly agree
 
 15. `diner`: Imagine you were going to a diner for dinner tonight, how much do you think you would like the food?  
-    + 1 = dislike extremely to 9 = like extremely
+    + 1: dislike extremely to 9: like extremely
 
 16. `cond`: In which condition was the participant?
-    + control = Suject heard the song 'Kalimba' by Mr. Scrub
-    + potato = Subject heard the song 'Hot Potato' by the Australian band The Wiggles
-    + 64 = Subject heard the song 'When I am 64' by the Beatles
+    + control: Suject heard the song 'Kalimba' by Mr. Scrub
+    + potato: Subject heard the song 'Hot Potato' by the Australian band The Wiggles
+    + 64: Subject heard the song 'When I am 64' by the Beatles
 
 17. `aged365`: age in years 
 

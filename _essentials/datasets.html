@@ -124,7 +124,7 @@ img {
 <div id="header">
 <h1 class="title">Datasets (ds4psy)</h1>
 <h4 class="author"><em>Hansjörg Neth, SPDS, uni.kn</em></h4>
-<h4 class="date"><em>2018 11 19</em></h4>
+<h4 class="date"><em>2018 11 20</em></h4>
 </div>
 
 <div id="content">
@@ -154,8 +154,7 @@ img {
 <div id="introduction-1" class="section level3">
 <h3>Introduction</h3>
 <!-- Motivation: State topic, research question, and contents of data: -->
-<p>In a Seligman, Steen, Park, and Peterson (2005) suggested that positive psychology interventions (PPIs) contain specific, powerful, therapeutic ingredients that effect greater increases in happiness and reductions in depression than a placebo control.</p>
-<p>The study by Woodworth et al. (2017) re-examined the three PPIs that Seligman et al. found to be most effective when delivered over the internet.</p>
+<p>In a highly-cited publication, Seligman, Steen, Park, and Peterson (2005) suggested that positive psychology interventions (PPIs) contain specific, powerful, therapeutic ingredients that effect greater increases in happiness and reductions in depression than a placebo control. A study by Woodworth et al. (2017) re-examined the three PPIs that Seligman et al. found to be most effective when delivered over the internet.</p>
 </div>
 <div id="data-sources" class="section level3">
 <h3>Data sources</h3>
@@ -288,7 +287,7 @@ data_wide &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span c
 <h2>2. False positive psychology</h2>
 <div id="introduction-2" class="section level3">
 <h3>Introduction</h3>
-<p>To highlight problematic research practices within psychology, Simmons, Nelson and Simonsohn (2011) published a controversial article with a necessarily false finding. By conducting simulations and 2 simple behavioral experiments, they show that flexibility in data collection, analysis, and reporting dramatically increases the rate of false-positive findings.</p>
+<p>To highlight problematic research practices within psychology, Simmons, Nelson and Simonsohn (2011) published a controversial article with a necessarily false finding. By conducting simulations and two simple behavioral experiments, the authors show that flexibility in data collection, analysis, and reporting dramatically increases the rate of false-positive findings.</p>
 </div>
 <div id="data-sources-1" class="section level3">
 <h3>Data sources</h3>
@@ -306,86 +305,87 @@ data_wide &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span c
 <h3>Codebook</h3>
 <p>The study data is stored in 2 seperate files: <code>study1.xlsx</code> &amp; <code>study2.xlsx</code>. Both data files contain the same information about each participant in 17 variables:</p>
 <ol style="list-style-type: decimal">
-<li><p><code>age</code>: Days since participant was born (based on their self-reported birthday)</p></li>
+<li><code>age</code>: Days since participant was born (based on their self-reported birthday)<br />
+</li>
 <li><p><code>dad</code>: Father’s age in years</p></li>
 <li><p><code>mom</code>: Mother’s age in years</p></li>
 <li><code>female</code>: Is the participant a woman?
 <ul>
-<li>1 = yes</li>
-<li>2 = no</li>
+<li>1: yes</li>
+<li>2: no</li>
 </ul></li>
 <li><code>root</code>: Did they geht correctly the square root of 100?
 <ul>
-<li>1 = yes</li>
-<li>2 = no</li>
+<li>1: yes</li>
+<li>2: no</li>
 </ul></li>
 <li><code>bird</code>: Imagine a restaurant you really like offered a 30% discount for dining between 4 pm and 6 pm. How likely would you be to take advantage of that offer?
 <ul>
-<li>1 = very unlikely to 7 = very likely</li>
+<li>1: very unlikely to 7: very likely</li>
 </ul></li>
 <li><code>political</code>: In the political spectrum, where would you place yourself?
 <ul>
-<li>1 = very liberal<br />
+<li>1: very liberal<br />
 </li>
-<li>2 = liberal<br />
+<li>2: liberal<br />
 </li>
-<li>3 = centrist<br />
+<li>3: centrist<br />
 </li>
-<li>4 = conservative<br />
+<li>4: conservative<br />
 </li>
-<li>5 = very conservative</li>
+<li>5: very conservative</li>
 </ul></li>
 <li><code>quarterback</code>: If you had to guess who was chosen the quarterback of the year in Canada last year, which of the following four options would you choose?
 <ul>
-<li>1 = Dalton Bell</li>
-<li>2 = Daryll Clark</li>
-<li>3 = Jarious Jackson</li>
-<li>4 = Frank Wilczynski</li>
+<li>1: Dalton Bell</li>
+<li>2: Daryll Clark</li>
+<li>3: Jarious Jackson</li>
+<li>4: Frank Wilczynski</li>
 </ul></li>
 <li><code>olddays</code>: How often have you referred to some past part of your life as “the good old days”?
 <ul>
-<li>11 = Never</li>
-<li>12 = almost never</li>
-<li>13 = sometimes</li>
-<li>14 = often</li>
-<li>15 = very often</li>
+<li>11: Never</li>
+<li>12: almost never</li>
+<li>13: sometimes</li>
+<li>14: often</li>
+<li>15: very often</li>
 </ul></li>
 <li><code>potato</code>: Did the participant hear the song ‘Hot Potato’ by the Australian band The Wiggles?
 <ul>
-<li>1 = yes</li>
-<li>2 = no</li>
+<li>1: yes</li>
+<li>2: no</li>
 </ul></li>
 <li><code>when64</code>: Did the participant hear the song ‘When I am 64’ by the Beatles?
 <ul>
-<li>1 = yes</li>
-<li>2 = no</li>
+<li>1: yes</li>
+<li>2: no</li>
 </ul></li>
 <li><code>kalimba</code>: Did the participant hear the song ‘Kalimba’ by Mr. Scrub?
 <ul>
-<li>1 = yes</li>
-<li>2 = no</li>
+<li>1: yes</li>
+<li>2: no</li>
 </ul></li>
 <li><code>feelold</code>: How old do you feel?
 <ul>
-<li>1 = very young</li>
-<li>2 = young</li>
-<li>3 = neither young nor old</li>
-<li>4 = old</li>
-<li>5 = very old</li>
+<li>1: very young</li>
+<li>2: young</li>
+<li>3: neither young nor old</li>
+<li>4: old</li>
+<li>5: very old</li>
 </ul></li>
 <li><code>computer</code>: Computers are complicated machines
 <ul>
-<li>1 = strongly disagree to 5 = strongly agree</li>
+<li>1: strongly disagree to 5: strongly agree</li>
 </ul></li>
 <li><code>diner</code>: Imagine you were going to a diner for dinner tonight, how much do you think you would like the food?
 <ul>
-<li>1 = dislike extremely to 9 = like extremely</li>
+<li>1: dislike extremely to 9: like extremely</li>
 </ul></li>
 <li><code>cond</code>: In which condition was the participant?
 <ul>
-<li>control = Suject heard the song ‘Kalimba’ by Mr. Scrub</li>
-<li>potato = Subject heard the song ‘Hot Potato’ by the Australian band The Wiggles</li>
-<li>64 = Subject heard the song ‘When I am 64’ by the Beatles</li>
+<li>control: Suject heard the song ‘Kalimba’ by Mr. Scrub</li>
+<li>potato: Subject heard the song ‘Hot Potato’ by the Australian band The Wiggles</li>
+<li>64: Subject heard the song ‘When I am 64’ by the Beatles</li>
 </ul></li>
 <li><p><code>aged365</code>: age in years</p></li>
 </ol>
@@ -472,7 +472,7 @@ data_wide &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span c
 <ul>
 <li><a href="http://esapubs.org/archive/ecol/E090/184/">PanTHERIA</a>: A species-level database of life history, ecology, and geography of extant and recently extinct mammals</li>
 </ul>
-<p>[Last update on 2018-11-19 11:38:43 by <a href="http://neth.de/">hn</a>.]</p>
+<p>[Last update on 2018-11-20 22:10:38 by <a href="http://neth.de/">hn</a>.]</p>
 <!-- eof. -->
 </div>
 </div>
