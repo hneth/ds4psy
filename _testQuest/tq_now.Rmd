@@ -1411,14 +1411,11 @@ pt <- pt + 7  # increment point total
 
 **Hint:** Use `tidyr::gather` and `separate` to turn `ir` into a tibble that contains only 1 dependent variable for the value of measurements (e.g., `val`), but 2 categorical variables that specify the `part` (Sepal vs. Petal) and `metric` (Length vs. Width) of each observation.
 
-
 **`r nr`g.** Use `ir_long` to recompute the subgroup means (for each combination of species, plant part, and metric) computed in **`r nr`b.**.  Save the resulting table of means as a tibble `im2` and verify that they have not changed from `im1` above. (2&nbsp;points)  
-
 
 **`r nr`h.** Visualize the relationships between the means of `im2` (i.e., the mean measurements by plant part and metric) separately for each species. (2&nbsp;points)  
 
 **Hints:** This task asks for showing the value of a continuous variable (the value of means) as a function of 2 categorical variables (the plant `part` and type of `metric`). Possible solutions could incorporate either `geom_line` or `geom_tile` and use different facets for different `Species`. 
-
 
 **`r nr`i.** **Bonus task:** Re-format your tibble `ir_long` (in long format) into a wider tibble `ir_short` that corresponds to the original `ir` dataset. (2&nbsp;bonus points)  
 
