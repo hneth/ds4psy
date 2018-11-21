@@ -1,7 +1,7 @@
 ---
 title: "Visualizing data, with solutions (ds4psy)"
 author: "Hansjörg Neth, SPDS, uni.kn"
-date: "2018 11 16"
+date: "2018 11 20"
 output:
    rmdformats::html_clean: # html_clean html_docco readthedown material #
      code_folding: show # hide
@@ -233,9 +233,9 @@ The generic template includes the following parts:
 
 - A sequence of optional `<LOOK_GOOD_fun>` adjusts the visual features of plots (e.g., by adding plot themes, titles and text labels, color scales, and setting coordinate systems).
 
-### Scatterplot
+### Scatterplots
 
-A first example of a graph is a _scatterplot_, which maps 2 (typically continuous) variables to the x- and y-dimension of a plot and thus allows judging the relationship between both variables. In `ggplot2`, we can create scatterplots by using `geom_point`. For instance, when exploring the `mpg` dataset, we can ask: How does a car's mileage per gallon (on highways, `hwy`) relate to its engine displacement (`displ`)? 
+The first type of graph we encounter is a _scatterplot_, which maps 2 (typically continuous) variables to the x- and y-dimension of a plot and thus allows judging the relationship between the variables. In `ggplot2`, we can create scatterplots by using `geom_point`. For instance, when exploring the `mpg` dataset, we can ask: How does a car's mileage per gallon (on highways, `hwy`) relate to its engine displacement (`displ`)? 
 
 ```{r ggplot_ex1}
 ## Data:
@@ -369,8 +369,7 @@ ggplot(data = mpg, mapping = aes(x = displ, y = hwy)) +
   theme_bw()
 ```
 
-
-## Plot types
+## Other plot types
 
 Here are some examples that illustrate the use of different geoms and aesthetic features for different types of plots. 
 
@@ -661,16 +660,14 @@ ggplot(otrees, aes(x = age, y = circumference, group = Tree, color = Tree)) +
   theme_bw()
 ```
 
-
-
 ### Other plots
 
-There are many more geoms and additional types of plots (see <https://ggplot2.tidyverse.org/reference/> for more examples). 
+There are many more additional types of plots, some of which we will introduce later (in [Chapter 7: Exploratory data analysis (EDA)](http://r4ds.had.co.nz/exploratory-data-analysis.html) and [Exploring data (EDA)](http://rpository.com/ds4psy/essentials/explore.html)). In addition, see <https://ggplot2.tidyverse.org/reference/> and the references provided below for additional plots and examples. 
 
 
-## Details
+## Details on `ggplot`
 
-Note some details:
+Note some details that characterize and distinguish `ggplot2` commands:
 
 - `ggplot` requires data and maps independent variables to dimensions (e.g., the x- and y-axis) and dependent variables to geometric objects (called "geoms"). It typically assumes that the to-be-plotted `<DATA>` is in a table (data frame or tibble) in long format and contains independent variables as factors. 
 
@@ -680,9 +677,9 @@ Note some details:
 
 - When multiple geoms use the same mappings, their common `aes(<MAPPING>)` can be moved into the initial `ggplot` call (behind `<DATA>`).
 
-- In `ggplot`, a sequence of commands is combined by `+`, rather than `%>%`. 
+- In `ggplot`, a sequence of commands is combined by `+`, rather than `%>%` (the forward pipe operator provided by `magrittr`). The `+` has to be at the end of the current line, rather than at the beginning of the next line. 
 
-- The visual appearance of plots are highly customizable (e.g., by supplying aesthetic arguments, speciying labels and legends, and applying pre-defined themes to plots). 
+The visual appearance of plots is highly customizable (e.g., by supplying aesthetic arguments, speciying labels and legends, and applying pre-defined themes to plots). Tuning plots can be a lot of fun, but keep in mind your current goals and the plot's intended audience.
 
 
 # Exercises (WPA02)

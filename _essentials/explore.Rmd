@@ -26,7 +26,7 @@ rm(list=ls()) # clean all.
 # setwd(cur.path) # set to current directory
 setwd("~/Desktop/stuff/Dropbox/_code/R/_teachR/ds4psy/_essentials") # set to current directory
 # list.files() # all files + folders in current directory
-fileName <- "transform.Rmd"
+fileName <- "explore.Rmd"
 
 ## (c) Packages: ----- 
 library(knitr)
@@ -135,7 +135,7 @@ add_whats <- function(vec, amount, what = NA){
 
 # Introduction
 
-This file contains **essential commands** from [Chapter 5: Data transformation](https://r4ds.had.co.nz/transform.html) of the textbook [r4ds](http://r4ds.had.co.nz) and corresponding examples and exercises. 
+This file contains **essential commands** from [Chapter 7: Exploratory data analysis](https://r4ds.had.co.nz/exploratory-data-analysis.html) of the textbook [r4ds](http://r4ds.had.co.nz) and corresponding examples and exercises. 
 A command is considered "essential" when you really need to _know_ it and need to know _how to use_ it to succeed in this course. 
 
 <!-- Table with links: -->
@@ -147,8 +147,9 @@ Nr. | Topic       |
 0.  | [Syllabus](http://rpository.com/ds4psy/) | 
 1.  | [Basic R concepts and commands](http://rpository.com/ds4psy/essentials/basics.html) | 
 2.  | [Visualizing data](http://rpository.com/ds4psy/essentials/visualize.html) | 
-3.  | **Transforming data** |
-
+3.  | [Transforming data](http://rpository.com/ds4psy/essentials/transform.html) |
+4.  | **Exploring data (EDA)** |
++.  | [Datasets](http://rpository.com/ds4psy/essentials/datasets.html) | 
 
 <!--
 Nr. | Topic       |
@@ -157,7 +158,7 @@ Nr. | Topic       |
 1.  | [Basic R concepts and commands](http://rpository.com/ds4psy/essentials/basics.html) | 
 2.  | [Visualizing data](http://rpository.com/ds4psy/essentials/visualize.html) | 
 3.  | [Transforming data](http://rpository.com/ds4psy/essentials/transform.html) |
-4.  | [Exploring data (EDA)](http://rpository.com/ds4psy/essentials/EDA.html) | 
+4.  | [Exploring data (EDA)](http://rpository.com/ds4psy/essentials/explore.html) | 
 5.  | [Creating and using tibbles](http://rpository.com/ds4psy/essentials/tibble.html) |
 6.  | [Tidying data](http://rpository.com/ds4psy/essentials/tidy.html) |
 +.  | [Datasets](http://rpository.com/ds4psy/essentials/datasets.html) | 
@@ -197,233 +198,145 @@ library(tidyverse)
 ```
 
 
-# Visualizing data
+# Exploring data
 
-In the following, we introduce some essential commands of `ggplot2` in the context of examples. However, the `ggplot2` package extends far beyond this modest introduction -- it is an important pillar (and predecessor) of the `tidyverse` and implements a language for and philosophy of data visualisation. 
+## Introduction
 
-See [Chapter 3: Data visualization](http://r4ds.had.co.nz/data-visualisation.html)) and [Chapter 7: Exploratory data analysis (EDA)](http://r4ds.had.co.nz/exploratory-data-analysis.html) and the links provided below for more detailed information. 
+In the following, we refine and use what we have learned so far. Essentially, this session combines what we have learned about `ggplot2` (in [Chapter 3: Data visualization](http://r4ds.had.co.nz/data-visualisation.html)) and about `dplyr` (in [Chapter 5: Data transformation](https://r4ds.had.co.nz/transform.html)) to explore datasets.  
 
+Important concepts in this session include: 
 
-## Commands and examples 
+- missing values (`NA`)  
+- different measurement levels of variables (e.g., categorical vs. continuous)  
 
-### General structure of `ggplot` calls
+See [Chapter 7: Exploratory data analysis (EDA)](http://r4ds.had.co.nz/exploratory-data-analysis.html) and the links provided below for more detailed information. 
 
-A generic template for creating a graph with `ggplot` is:
+## EDA with `ggplot` and `dplyr`
 
-```{r ggplot_template, eval = FALSE}
-# Generic ggplot template: 
-ggplot(data = <DATA>) + 
-  <GEOM_fun>(mapping = aes(<MAPPING>), <arg_1 = val_1, ..., arg_n = val_n>) +
-  <FACET_fun> +    # optional
-  <LOOK_GOOD_fun>  # optional 
-  
-# Minimal ggplot template:
-ggplot(<DATA>) + 
-  <GEOM_fun>(aes(<MAPPING>) 
-```
+The goal and purpose of _exploratory data analysis_ (EDA) is to gain an overview of a dataset. This includes an idea of its dimensions and the number and types of variables contained in the data, but also a more detailed idea of the distribution of variables, their potential relations to each other, and potential problems (e.g., missing values or outliers). 
 
-The generic template includes the following parts: 
+When using the tools provided by the `tidyverse`, the fastest way to get insights in and an overview of data is a series of `ggplot2` graphs. However, creating good graphs is both an art and a craft. The key to creating good graphs requires answering 2 sets of questions: 
 
-- `<DATA>` is a data frame or tibble that contains the data that is to be plotted.
+1. Knowing the _intended type of plot_.  
+This includes answering _functional_ questions like 
 
-- `<GEOM_fun>` is a function that maps data to a _geometric object_ ("geom") according to an aesthetic mapping that are specified in `aes(<MAPPING>)`. (A "mapping" specifies what goes where.) 
+    - What is the _goal_ or _purpose_ of this plot?
+    - What are _possible_ plot types for this purpose? 
+    - Which of these would be the most _appropriate_ plot here? 
+    
+2. Knowing the _number_ and _type_ of variables to be plotted.  
+This includes answering _data-related_ questions like 
 
-- A geom's visual appearance (e.g., colors, shapes, sizes, ...) can be customized 
-     a. in the aesthetic mapping (when varying visual features according to data properties), or 
-     b. by setting its arguments to specific values in `<arg_1 = val_1, ..., arg_n = val_n>` (when remaining constant).
-
-- An optional `<FACET_fun>` splits a complex plot into multiple subplots. 
-
-- A sequence of optional `<LOOK_GOOD_fun>` adjusts the visual features of plots (e.g., by adding themes, plot titles and labels, color scales, and coordinate systems).
-
-Some examples that illustrate the use of these components are:
-
-### A histogram
-
-A _histogram_ counts how often specific values of one (typically continuous) variable occur in the data. This allows viewing the distribution of values for this variable: 
-
-```{r ggplot_template_mpg_hist}
-library(ggplot2)
-
-# Data: ------ 
-## Using mpg data:
-# ?ggplot2::mpg
-# mpg
-
-# (A) Histogram: ------
-
-# A minimal histogram:
-hi1 <- ggplot(mpg, aes(x = cty)) +  # set mappings for ALL geoms
-  geom_histogram(binwidth = 1) 
-hi1
-
-# The same histogram:
-hi1b <- ggplot(mpg) +
-  geom_histogram(aes(x = cty))      # set mappings for THIS geoms
-hi1b
-
-# (B) Adding aesthetics, labels and themes: ------ 
-
-# Enhanced version of the same plot: 
-hi2 <- ggplot(mpg) +
-  geom_histogram(aes(x = cty), binwidth = 1, fill = "forestgreen", color = "black") +
-  labs(title = "Distribution of fuel economy in city environments", 
-       x = "cty (miles per gallon)",
-       caption = "Data from ggplot2::mpg") +
-  theme_light()
-hi2
-```
-
-### A scatterplot
-
-A _scatterplot_ shows a data point (observation) as a function of 2 (typically continuous) variables `x` and `y`. This allows judging the relationship between `x` and `y` in the data: 
-
-```{r ggplot_template_mpg_scat_min}
-
-# (A) Scatterplot: ------ 
-
-# A minimal scatterplot + reference line:
-sp1 <- ggplot(mpg) +
-  geom_point(aes(x = cty, y = hwy)) +
-  geom_abline()
-sp1
-```
-
-#### Dealing with overplotting 
-
-A common issue with scatterplots is so-called _overplotting_: Multiple points appear on the same position. 
-
-Here are some ways of dealing with this issue: 
-
-1. `jitter` adds randomness to positions;  
-2. `alpha` uses transparency to show frequency of positions;  
-3. `geom_size` allows mapping values (e.g., frequency) to object size; 
-4. `facet_wrap` allows disentangling plots by levels of variables. 
-
-Some examples include: 
-
-```{r ggplot_template_mpg_scat_adv}
-## Dealing with overplotting: ----- 
-
-# 1. One way of dealing with overplotting is 
-#    adding randomness to point positions:  
-sp2 <- ggplot(mpg) +
-  geom_point(aes(x = cty, y = hwy), position = "jitter") +
-  geom_abline()
-sp2
-
-# 2. Another way of dealing with overplotting is 
-#    using transparency (via setting alpha to < 1): 
-sp3 <- ggplot(mpg) +
-  geom_point(aes(x = cty, y = hwy), position = "identity", 
-             pch = 21, fill = "steelblue", alpha = 1/4, size = 4) +
-  geom_abline(linetype = 2, color = "firebrick") # + 
-  # geom_rug(aes(x = cty, y = hwy), position = "jitter", alpha = 1/4, size = 1)
-sp3
-
-# Adding labels and themes to plots: 
-sp4 <- sp3 +   # use the plot defined above
-  labs(title = "Fuel economy on highway vs. city",
-                x = "City (miles per gallon)",
-                y = "Highway (miles per gallon)",
-                caption = "Data from ggplot2::mpg") +
-  # coord_fixed() +
-  theme_bw()
-sp4
-
-# (C) Grouping (by a categorical variable): ------  
-
-# Using facets to avoid overplotting: 
-sp5 <- ggplot(mpg) +
-  geom_point(aes(x = cty, y = hwy)) +
-  geom_abline() + 
-  facet_wrap(~class) +
-  theme_bw()
-sp5
-
-# Grouping by color:
-sp6 <- ggplot(mpg) +
-  geom_point(aes(x = cty, y = hwy, color = class), 
-             position = "jitter", alpha = 1/2, size = 4) +
-  geom_abline(linetype = 2) +
-  theme_bw()
-sp6
-
-# Grouping by facets: 
-sp7 <- ggplot(mpg) +
-  geom_point(aes(x = cty, y = hwy), 
-             position = "jitter", alpha = 1/2, size = 2) +
-  geom_abline(linetype = 2) +
-  facet_wrap(~class) +
-  theme_bw()
-sp7
-```
-
-
-```{r ggplot_template_ex_mw, echo = FALSE, eval = FALSE}
-# UNUSED examples:
-
-# midwest data:
-?ggplot2::midwest
-mw <- ggplot2::midwest
-# mw
-
-# Check some variable types: 
-unique(mw$state)
-unique(mw$inmetro)
-unique(mw$category)
-
-ggplot(mw) +
-  geom_histogram(aes(x = poptotal), binwidth = 10000)
-
-ggplot(mw) +
-  geom_histogram(aes(x = popdensity), binwidth = 500) +
-  facet_wrap(~inmetro) +
-  theme_bw()
-
-ggplot(mw) +
-  geom_histogram(aes(x = popdensity), binwidth = 1000) +
-  facet_wrap(~state) +
-  theme_bw()
-```
-
-See <https://ggplot2.tidyverse.org/reference/> for more examples. 
-
-Note some details:
-
-- `ggplot` requires data and maps independent variables to dimensions (e.g., the x- and y-axis) and dependent variables to geometric objects (called "geoms"). It typically assumes that the to-be-plotted `<DATA>` is in a table (data frame or tibble) in long format and contains independent variables as factors. 
-
-- The arguments `data =` and `mappings =` can be omitted, but an aesthetic mapping `aes(<MAPPING>)` for at least one geom is needed. 
-
-- Different geoms can be combined, but their order matters (as later layers are printed on top of earlier ones).
-
-- When multiple geoms use the same mappings, their common `aes(<MAPPING>)` can be moved into the initial `ggplot` call (behind `<DATA>`).
-
-- In `ggplot`, a sequence of commands is combined by `+`, rather than `%>%`. 
-
-- The visual appearance of plots are highly customizable (e.g., by supplying aesthetic arguments, speciying labels and legends, and applying pre-defined themes to plots). 
-
-
-## EDA 
-
-Creating good graphs is both an art and a craft. 
-The key to creating good graphs requires answering 2 sets of questions: 
-
-1. Knowing the _number_ and _type_ of variables to be plotted.  This includes answering _data-related_ questions like 
-
-    - How many variables are there to plot?  
+    - How many variables are to be plotted and how are they mapped to dimensions and aesthetics?  
     - Are these variables categorical or continuous?  
-    - Do some variables qualify (e.g., group) the values of others?   
+    - Do some variables control or qualify (e.g., group) the values of others?   
 
-2. Knowing the _intended type of plot_.  This includes answering _functional_ questions like 
+Even when the questions of 1. and 2. are answered, creating good graphs with `ggplot` requires a lot of practice and many hours of trial-and-error experimentation. In addition, an new dataset is rarely in a condition and shape to directly allow plotting. Instead, we typically have to interleave commands for plotting and transforming data to wrangle variables into specific shapes or types. Thus, our calls to `ggplot2` usually occur in combination with other `tidyverse` commands (stemming from `dplyr`, `forcats`, `tidyr`, `readr`, `tibble`, etc.). 
 
-    - What is the _purpose_ of this plot?
-    - What are _possible_ plots for this purpose? 
-    - Which of these would be the most _appropriate_ plot? 
+What needs to be done in any specific case depends on the details of the data and your current goals. Also, there is no pre-defined end to an EDA and no clear boundary between the processes of exploration and the confirmation (or falsification) of expectations. Typically, social scientists use EDA to check and understand a dataset, before using statistics to test specific hypotheses.  
 
-Even when the questions of 1. and 2. are answered, creating good graphs with `ggplot` requires a lot of practice and many hours of trial-and-error experimentation. 
+While any actual EDA is tailored to specific data properties and research goals, the following sections highlight some common themes that occur in most cases. 
 
-## Basic plot types
++++ here now +++ 
+
+We illustrate these steps in the context of a dataset that has been used before: ...
+
+
+
+## Screening data
+
+Checking basic properties, the validity of cases and values, and the distributions of variables. 
+
+### Basics
+
+Dimensions, 
+types of variables and values, 
+number, means, and ranges of values.
+
+### Missing values
+
+Missing values are `NA`. Note that `NA` is different from `NULL`: `NULL` represents the null object (i.e., something is undefined). By contrast, `NA` means that some value is absent.
+
+```{r}
+is.null(NULL) # TRUE
+is.null(NA)   # FALSE
+
+is.na(NA)   # TRUE
+is.na(NULL) # 0 (NULL)
+
+```
+
+
+- counting missing values
+- replacing instances of "-77", "-99", etc.
+
+
+### Outliers
+
+Detecting outliers by checking distributions of raw values and descriptive statistics.
+
+Definition depends on content (see exercise). 
+
+- mean & distribution 
+- quartiles
+
+Detection by graphs: 
+
+- histograms
+- trend line (e.g. `geom_smooth`) 
+- scatterplots
+- box plots
+
+
+### Handling invalid cases
+
+- Filtering observations (in rows)
+- Deleting or replacing values (in columns)
+
+
+
+## Understanding data
+
+Using plots to visualize data
+
+### Typical and a-typical values:
+
+##### Histograms
+
+- We covered histograms in [Visualizing data](http://rpository.com/ds4psy/essentials/visualize.html). 
+
+
+### Relations between variables
+
+
+#### 2 categorical variables
+
+
+#### 1 categorical and 1 continuous variable
+
+##### Bar plots
+
+We covered bar plots in [Visualizing data](http://rpository.com/ds4psy/essentials/visualize.html). 
+
+##### Box plots
+##### Violin plots
+##### Pirate plots
+
+
+#### 2 continuous variables
+
+- We covered scatterplots in [Visualizing data](http://rpository.com/ds4psy/essentials/visualize.html). 
+
+### More than 2 variables
+
+##### Tile plots
+##### Size plots
+
+
+
+## OLDER
+
+Basic plot types: 
 
 ### Histograms
 
@@ -907,12 +820,25 @@ All [ds4psy](http://rpository.com/ds4psy/) essentials:
 
 Nr. | Topic       |
 ---:|:------------| 
-1.  | [Basic R concepts and commands](http://rpository.com/ds4psy/R/_essentials/basics.html) | 
-2.  | [Visualizing data](http://rpository.com/ds4psy/R/_essentials/visualize.html) | 
-3.  | [Transforming data](http://rpository.com/ds4psy/R/_essentials/transform.html) |
-4.  | [Exploring data (EDA)](http://rpository.com/ds4psy/R/_essentials/EDA.html) | 
-5.  | [Creating and using tibbles](http://rpository.com/ds4psy/R/_essentials/tibble.html) |
-6.  | [Tidying data](http://rpository.com/ds4psy/R/_essentials/tidy.html) | 
+0.  | [Syllabus](http://rpository.com/ds4psy/) | 
+1.  | [Basic R concepts and commands](http://rpository.com/ds4psy/essentials/basics.html) | 
+2.  | [Visualizing data](http://rpository.com/ds4psy/essentials/visualize.html) | 
+3.  | [Transforming data](http://rpository.com/ds4psy/essentials/transform.html) |
+4.  | **Exploring data (EDA)** | 
++.  | [Datasets](http://rpository.com/ds4psy/essentials/datasets.html) |  
+
+<!--
+Nr. | Topic       |
+---:|:------------| 
+0.  | [Syllabus](http://rpository.com/ds4psy/) | 
+1.  | [Basic R concepts and commands](http://rpository.com/ds4psy/essentials/basics.html) | 
+2.  | [Visualizing data](http://rpository.com/ds4psy/essentials/visualize.html) | 
+3.  | [Transforming data](http://rpository.com/ds4psy/essentials/transform.html) |
+4.  | [Exploring data (EDA)](http://rpository.com/ds4psy/essentials/explore.html) | 
+5.  | [Creating and using tibbles](http://rpository.com/ds4psy/essentials/tibble.html) |
+6.  | [Tidying data](http://rpository.com/ds4psy/essentials/tidy.html) |
++.  | [Datasets](http://rpository.com/ds4psy/essentials/datasets.html) | 
+-->
 
 [Last update on `r Sys.time()` by [hn](http://neth.de/).]  
 
