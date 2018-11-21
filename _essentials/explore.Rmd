@@ -211,36 +211,97 @@ Important concepts in this session include:
 
 See [Chapter 7: Exploratory data analysis (EDA)](http://r4ds.had.co.nz/exploratory-data-analysis.html) and the links provided below for more detailed information. 
 
-## EDA with `ggplot` and `dplyr`
+## What is EDA? 
 
 The goal and purpose of _exploratory data analysis_ (EDA) is to gain an overview of a dataset. This includes an idea of its dimensions and the number and types of variables contained in the data, but also a more detailed idea of the distribution of variables, their potential relations to each other, and potential problems (e.g., missing values or outliers). 
 
-When using the tools provided by the `tidyverse`, the fastest way to get insights in and an overview of data is a series of `ggplot2` graphs. However, creating good graphs is both an art and a craft. The key to creating good graphs requires answering 2 sets of questions: 
+When using the tools provided by the `tidyverse`, the fastest way to gain insights into a dataset is a series of `dplyr` calls and `ggplot2` graphs. However, creating good graphs is both an art and a craft. The key to creating good graphs requires answering 2 sets of questions: 
 
-1. Knowing the _intended type of plot_.  
-This includes answering _functional_ questions like 
+1. Knowing the _intended type of plot_. This includes answering _functional_ questions like 
 
     - What is the _goal_ or _purpose_ of this plot?
     - What are _possible_ plot types for this purpose? 
     - Which of these would be the most _appropriate_ plot here? 
     
-2. Knowing the _number_ and _type_ of variables to be plotted.  
-This includes answering _data-related_ questions like 
+2. Knowing the _number_ and _type_ of variables to be plotted. This includes answering _data-related_ questions like 
 
     - How many variables are to be plotted and how are they mapped to dimensions and aesthetics?  
     - Are these variables categorical or continuous?  
     - Do some variables control or qualify (e.g., group) the values of others?   
 
-Even when the questions of 1. and 2. are answered, creating good graphs with `ggplot` requires a lot of practice and many hours of trial-and-error experimentation. In addition, an new dataset is rarely in a condition and shape to directly allow plotting. Instead, we typically have to interleave commands for plotting and transforming data to wrangle variables into specific shapes or types. Thus, our calls to `ggplot2` usually occur in combination with other `tidyverse` commands (stemming from `dplyr`, `forcats`, `tidyr`, `readr`, `tibble`, etc.). 
+Even when these questions are answered, creating beautiful and informative graphs with `ggplot` requires dedicated practice, experience, and trial-and-error experimentation. In addition, an new dataset is rarely in a condition and shape to directly allow plotting. Instead, we typically have to interleave commands for plotting and transforming data to wrangle variables into specific shapes or types. Thus, calls to `ggplot2` usually occur in combination with other `tidyverse` commands (stemming from `dplyr`, `forcats`, `tidyr`, `readr`, `tibble`, etc.). 
 
 What needs to be done in any specific case depends on the details of the data and your current goals. Also, there is no pre-defined end to an EDA and no clear boundary between the processes of exploration and the confirmation (or falsification) of expectations. Typically, social scientists use EDA to check and understand a dataset, before using statistics to test specific hypotheses.  
 
-While any actual EDA is tailored to specific data properties and research goals, the following sections highlight some common themes that occur in most cases. 
+While any actual EDA is tailored to specific features of the data and current research goals, the following sections highlight some common themes that occur in most cases. We illustrate these steps in the context of a dataset that was collected to measure the short- and long-term effects of positive psychology interventions (see [Dataset: Positive Psychology](http://rpository.com/ds4psy/essentials/datasets.html#positive-psychology) for details).^[The participant part of this data has been used as `p_info` in the previous sessions.]
+
+# Principles and practices
+
+## Starting well
+
+Before embarking on any actual analysis, we should pay tribute to 2 principles that seem so simple that it's easy to overlook their benefits: 
+
+- **Principle 1:** Structure and comment your analysis.
+
+While adhering to this principle may seem unnecessary or trivial at first, it gets more important as analyses get longer and more complicated (e.g., distributed over multiple datasets and scripts) and when sharing your data or scripts with others (or with your future self). 
+
+- **Principle 2:** Start with a clean slate and explicitly load all data and all packages required in your analysis.
+
+Although RStudio IDE provides options for saving your workspace and for loading data or packages by clicking buttons or checking boxes, doing so renders the process of your analysis intransparent for anyone not observing all your actions. To be sure that others and you is able to repeat the same sequence of steps tomorrow or next year, it is a good idea to always start with a clean slate and make it clear which data and packages are required for the current analysis (unless there are good reasons to deviate from them):
+
+```{r clean_and_load}
+# Housekeeping:
+rm(list = ls())  # cleans ALL objects in current R environment (without asking for confirmation)!
+
+# Load packages:
+library(tidyverse)
+library(knitr)
+library(rmarkdown)
+
+# Load data file(s):
+posPsy_wide <- readr::read_csv(file = "http://rpository.com/ds4psy/data/posPsy_data_wide.csv")
+dim(posPsy_wide)  # 295 cases x 294 variables
+
+# Other customizations:
+seeblau <- rgb(0, 169, 224, names = "seeblau", maxColorValue = 255)  # seeblau.4 of uni.kn color scheme 
+```
+
+- **Principle 3:** Make copies (and copies of copies) of your data.  
+
+It is only human to make occasonal errors. To make sure that errors are not too costly, a good habit is to occasionally save intermediate steps. This refers to both your data files and your scripts for analyzing them. Although it may be a good idea to always keep a ``current master version'' of a data file, it is also advisable to occasionally copy your current data and then work on the copy (e.g., before trying out some unfamiliar analysis or command). In R, creating copies and then working on them is very easy --- and can even save yourself from repeatedly typing complicated object names. Most importantly, when working on a copy of your data, you can always recover the last sound version if things go terribly wrong:  
+
+```{r copy_data_kill_recover}
+df <- posPsy_wide  # copy data (and simplify name)
+dim(df)            # 295 cases x 294 variables
+
+sum(is.na(df))  # 37440 missing values
+df$new <- NA    # create a new column with NA values
+df$new          # check the new column
+df <- NA        # create a new column with NA values
+
+# Ooops... 
+df  # looks like we accidentally killed our data!  
+
+# But do not despair:
+df <- posPsy_wide  # Here it is again: 
+dim(df)            # 295 cases x 294 variables
+```
+
+During a long and complicated analysis, it is advisable to save an external copy of your current data when having reached an important intermediate step. While there are many different formats in which data files can be stored, a good option for most files is `csv` (comma-separated-values), which can easily be read by most humans and machines. Importantly, always verify that the external copy preserves the key information contained in your current original:  
+
+```{r write_and_reread_csv_data}
+# Write out current data (in csv-format):
+write_csv(df, path = "my_precious_data.csv")
+
+# Re-read external data (into a different object):
+df_2 <- read_csv(file = "my_precious_data.csv")
+
+# Verify that original and copy are identical:
+all.equal(df, df_2)
+```
+
 
 +++ here now +++ 
-
-We illustrate these steps in the context of a dataset that has been used before: ...
-
 
 
 ## Screening data

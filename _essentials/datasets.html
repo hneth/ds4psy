@@ -124,16 +124,64 @@ img {
 <div id="header">
 <h1 class="title">Datasets (ds4psy)</h1>
 <h4 class="author"><em>Hansjörg Neth, SPDS, uni.kn</em></h4>
-<h4 class="date"><em>2018 11 20</em></h4>
+<h4 class="date"><em>2018 11 21</em></h4>
 </div>
 
 <div id="content">
-<!-- Example of essential commands | ds4psy: Summer 2018 -->
+<!-- Datasets | ds4psy: Winter 2018/2019 -->
 <div id="introduction" class="section level1">
 <h1>Introduction</h1>
 <div id="content" class="section level2">
 <h2>Content</h2>
 <p>This file contains descriptions of <strong>datasets</strong> used in this course and their sources.</p>
+<!-- Table with links: -->
+<p>All <a href="http://rpository.com/ds4psy/">ds4psy</a> essentials so far:</p>
+<table>
+<thead>
+<tr class="header">
+<th align="right">Nr.</th>
+<th align="left">Topic</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">0.</td>
+<td align="left"><a href="http://rpository.com/ds4psy/">Syllabus</a></td>
+</tr>
+<tr class="even">
+<td align="right">1.</td>
+<td align="left"><a href="http://rpository.com/ds4psy/essentials/basics.html">Basic R concepts and commands</a></td>
+</tr>
+<tr class="odd">
+<td align="right">2.</td>
+<td align="left"><a href="http://rpository.com/ds4psy/essentials/visualize.html">Visualizing data</a></td>
+</tr>
+<tr class="even">
+<td align="right">3.</td>
+<td align="left"><a href="http://rpository.com/ds4psy/essentials/transform.html">Transforming data</a></td>
+</tr>
+<tr class="odd">
+<td align="right">4.</td>
+<td align="left"><a href="http://rpository.com/ds4psy/essentials/explore.html">Exploring data (EDA)</a></td>
+</tr>
+<tr class="even">
+<td align="right">+.</td>
+<td align="left"><strong>Datasets</strong></td>
+</tr>
+</tbody>
+</table>
+<!--
+Nr. | Topic       |
+---:|:------------| 
+0.  | [Syllabus](http://rpository.com/ds4psy/) | 
+1.  | [Basic R concepts and commands](http://rpository.com/ds4psy/essentials/basics.html) | 
+2.  | [Visualizing data](http://rpository.com/ds4psy/essentials/visualize.html) | 
+3.  | [Transforming data](http://rpository.com/ds4psy/essentials/transform.html) |
+4.  | [Exploring data (EDA)](http://rpository.com/ds4psy/essentials/explore.html) | 
+5.  | [Creating and using tibbles](http://rpository.com/ds4psy/essentials/tibble.html) |
+6.  | [Tidying data](http://rpository.com/ds4psy/essentials/tidy.html) |
++.  | [Datasets](http://rpository.com/ds4psy/essentials/datasets.html) | 
+-->
 </div>
 <div id="course-coordinates" class="section level2">
 <h2>Course coordinates</h2>
@@ -149,12 +197,15 @@ img {
 </div>
 <div id="datasets" class="section level1">
 <h1>Datasets</h1>
+<!-- (A) Generating random datasets: -->
+<!-- (B) Real datasets: -->
 <div id="positive-psychology" class="section level2">
 <h2>1. Positive psychology</h2>
 <div id="introduction-1" class="section level3">
 <h3>Introduction</h3>
 <!-- Motivation: State topic, research question, and contents of data: -->
-<p>In a highly-cited publication, Seligman, Steen, Park, and Peterson (2005) suggested that positive psychology interventions (PPIs) contain specific, powerful, therapeutic ingredients that effect greater increases in happiness and reductions in depression than a placebo control. A study by Woodworth et al. (2017) re-examined the three PPIs that Seligman et al. found to be most effective when delivered over the internet.</p>
+<p>In a highly-cited publication, Seligman, Steen, Park, and Peterson (2005) suggest that positive psychology interventions (PPIs) contain specific, powerful, therapeutic ingredients that effect greater increases in happiness and reductions in depression than a placebo control. A study by Woodworth et al. (2017) re-examines the three PPIs that Seligman et al. found to be most effective when delivered over the internet.</p>
+<!-- +++ here now +++ -->
 </div>
 <div id="data-sources" class="section level3">
 <h3>Data sources</h3>
@@ -250,27 +301,35 @@ Different measurement occasions are suffixed by <code>.0</code>, <code>.1</code>
 <div id="loading-data" class="section level4">
 <h4>Loading data</h4>
 <p>We can load data stored in <code>csv</code>-format into R by using the <code>read_csv</code> command (from the <code>readr</code> package, which is part of the <code>tidyverse</code>). Here, we obtain the data files from online sources (at <a href="http://rpository.com/ds4psy/" class="uri">http://rpository.com/ds4psy/</a>):</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(readr)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Load csv-data files from online links:</span>
 
 <span class="co"># 1. Participant data: </span>
-p_info &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="dt">file =</span> <span class="st">&quot;http://rpository.com/ds4psy/data/posPsy_participants.csv&quot;</span>)  <span class="co"># online</span>
-<span class="kw">dim</span>(p_info)  <span class="co"># 295 x 6 </span>
+posPsy_p_info &lt;-<span class="st"> </span>readr<span class="op">::</span><span class="kw">read_csv</span>(<span class="dt">file =</span> <span class="st">&quot;http://rpository.com/ds4psy/data/posPsy_participants.csv&quot;</span>)
+<span class="kw">dim</span>(posPsy_p_info)  <span class="co"># 295 x 6 </span>
 <span class="co">#&gt; [1] 295   6</span>
 
 <span class="co"># 2. Original DVs in long format:</span>
-AHI_CESD &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="dt">file =</span> <span class="st">&quot;http://rpository.com/ds4psy/data/posPsy_AHI_CESD.csv&quot;</span>)  <span class="co"># online</span>
-<span class="kw">dim</span>(AHI_CESD)  <span class="co"># 992 x 50</span>
+posPsy_long &lt;-<span class="st"> </span>readr<span class="op">::</span><span class="kw">read_csv</span>(<span class="dt">file =</span> <span class="st">&quot;http://rpository.com/ds4psy/data/posPsy_AHI_CESD.csv&quot;</span>)
+<span class="kw">dim</span>(posPsy_long)  <span class="co"># 992 x 50</span>
 <span class="co">#&gt; [1] 992  50</span>
 
 <span class="co"># 3. Corrected DVs in long format:</span>
-AHI_CESD_<span class="dv">2</span> &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="dt">file =</span> <span class="st">&quot;http://rpository.com/ds4psy/data/posPsy_AHI_CESD_corrected.csv&quot;</span>)  <span class="co"># online</span>
-<span class="kw">dim</span>(AHI_CESD_<span class="dv">2</span>)  <span class="co"># 990 x 50</span>
+posPsy_long2 &lt;-<span class="st"> </span>readr<span class="op">::</span><span class="kw">read_csv</span>(<span class="dt">file =</span> <span class="st">&quot;http://rpository.com/ds4psy/data/posPsy_AHI_CESD_corrected.csv&quot;</span>)
+<span class="kw">dim</span>(posPsy_long2)  <span class="co"># 990 x 50</span>
 <span class="co">#&gt; [1] 990  50</span>
 
 <span class="co"># 4. Corrected version of all data in wide format: </span>
-data_wide &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="dt">file =</span> <span class="st">&quot;http://rpository.com/ds4psy/data/posPsy_data_wide.csv&quot;</span>)  <span class="co"># online</span>
-<span class="kw">dim</span>(data_wide)  <span class="co"># 295 x 294 </span>
-<span class="co">#&gt; [1] 295 294</span></code></pre></div>
+posPsy_wide &lt;-<span class="st"> </span>readr<span class="op">::</span><span class="kw">read_csv</span>(<span class="dt">file =</span> <span class="st">&quot;http://rpository.com/ds4psy/data/posPsy_data_wide.csv&quot;</span>)
+<span class="kw">dim</span>(posPsy_wide)  <span class="co"># 295 x 294 </span>
+<span class="co">#&gt; [1] 295 294</span>
+
+<span class="co"># Check number of missing values: </span>
+<span class="kw">sum</span>(<span class="kw">is.na</span>(posPsy_p_info))  <span class="co">#     0 missing values </span>
+<span class="co">#&gt; [1] 0</span>
+<span class="kw">sum</span>(<span class="kw">is.na</span>(posPsy_long))    <span class="co">#     0 missing values </span>
+<span class="co">#&gt; [1] 0</span>
+<span class="kw">sum</span>(<span class="kw">is.na</span>(posPsy_wide))    <span class="co"># 37440 missing values!  </span>
+<span class="co">#&gt; [1] 37440</span></code></pre></div>
 </div>
 </div>
 <div id="references" class="section level3">
@@ -403,16 +462,16 @@ data_wide &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span c
 </div>
 <div id="loading-data-1" class="section level4">
 <h4>Loading data</h4>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">falsePosPsy_data &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="dt">file =</span> <span class="st">&quot;http://rpository.com/ds4psy/data/falsePosPsy_all.csv&quot;</span>)  <span class="co"># online</span>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Load csv-data files from online links:</span>
+falsePosPsy_all &lt;-<span class="st"> </span>readr<span class="op">::</span><span class="kw">read_csv</span>(<span class="dt">file =</span> <span class="st">&quot;http://rpository.com/ds4psy/data/falsePosPsy_all.csv&quot;</span>)
 
 <span class="co"># Check: </span>
-<span class="kw">dim</span>(falsePosPsy_data)  <span class="co"># 78 x 19 </span>
+<span class="kw">dim</span>(falsePosPsy_all)  <span class="co"># 78 x 19 </span>
 <span class="co">#&gt; [1] 78 19</span>
 
-<span class="co"># Any missing values? </span>
-<span class="kw">sum</span>(<span class="kw">is.na</span>(falsePosPsy_data))  <span class="co"># 0 (i.e., no missing values).  </span>
+<span class="co"># Check number of missing values: </span>
+<span class="kw">sum</span>(<span class="kw">is.na</span>(falsePosPsy_all))  <span class="co"># 0 missing values  </span>
 <span class="co">#&gt; [1] 0</span></code></pre></div>
-<!-- +++ here now +++ -->
 </div>
 </div>
 <div id="references-1" class="section level3">
@@ -472,9 +531,60 @@ data_wide &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span c
 <ul>
 <li><a href="http://esapubs.org/archive/ecol/E090/184/">PanTHERIA</a>: A species-level database of life history, ecology, and geography of extant and recently extinct mammals</li>
 </ul>
-<p>[Last update on 2018-11-20 22:10:38 by <a href="http://neth.de/">hn</a>.]</p>
-<!-- eof. -->
 </div>
+</div>
+<div id="conclusion" class="section level1">
+<h1>Conclusion</h1>
+<!-- Table with links: -->
+<p>All <a href="http://rpository.com/ds4psy/">ds4psy</a> essentials so far:</p>
+<table>
+<thead>
+<tr class="header">
+<th align="right">Nr.</th>
+<th align="left">Topic</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">0.</td>
+<td align="left"><a href="http://rpository.com/ds4psy/">Syllabus</a></td>
+</tr>
+<tr class="even">
+<td align="right">1.</td>
+<td align="left"><a href="http://rpository.com/ds4psy/essentials/basics.html">Basic R concepts and commands</a></td>
+</tr>
+<tr class="odd">
+<td align="right">2.</td>
+<td align="left"><a href="http://rpository.com/ds4psy/essentials/visualize.html">Visualizing data</a></td>
+</tr>
+<tr class="even">
+<td align="right">3.</td>
+<td align="left"><a href="http://rpository.com/ds4psy/essentials/transform.html">Transforming data</a></td>
+</tr>
+<tr class="odd">
+<td align="right">4.</td>
+<td align="left"><a href="http://rpository.com/ds4psy/essentials/explore.html">Exploring data (EDA)</a></td>
+</tr>
+<tr class="even">
+<td align="right">+.</td>
+<td align="left"><strong>Datasets</strong></td>
+</tr>
+</tbody>
+</table>
+<!--
+Nr. | Topic       |
+---:|:------------| 
+0.  | [Syllabus](http://rpository.com/ds4psy/) | 
+1.  | [Basic R concepts and commands](http://rpository.com/ds4psy/essentials/basics.html) | 
+2.  | [Visualizing data](http://rpository.com/ds4psy/essentials/visualize.html) | 
+3.  | [Transforming data](http://rpository.com/ds4psy/essentials/transform.html) |
+4.  | [Exploring data (EDA)](http://rpository.com/ds4psy/essentials/explore.html) | 
+5.  | [Creating and using tibbles](http://rpository.com/ds4psy/essentials/tibble.html) |
+6.  | [Tidying data](http://rpository.com/ds4psy/essentials/tidy.html) |
++.  | [Datasets](http://rpository.com/ds4psy/essentials/datasets.html) | 
+-->
+<p>[Last update on 2018-11-21 17:19:56 by <a href="http://neth.de/">hn</a>.]</p>
+<!-- eof. -->
 </div>
 </div>
 
@@ -497,6 +607,7 @@ data_wide &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span c
         <li><a href="#data-in-r-packages">Data in R packages</a></li>
         <li><a href="#online-sources">Online sources</a></li>
         </ul></li>
+        <li><a href="#conclusion">Conclusion</a></li>
         </ul>
       </div>
     </div>

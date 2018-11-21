@@ -1,7 +1,7 @@
 ---
 title: "Datasets (ds4psy)"
 author: "Hansjörg Neth, SPDS, uni.kn"
-date: "2018 11 20"
+date: "2018 11 21"
 output:
    rmdformats::html_clean: # html_clean html_docco readthedown material #
      code_folding: show # hide
@@ -14,7 +14,7 @@ editor_options:
   chunk_output_type: console # inline
 ---
 
-<!-- Example of essential commands | ds4psy: Summer 2018 -->
+<!-- Datasets | ds4psy: Winter 2018/2019 -->
 
 ```{r preamble, echo = FALSE, eval = TRUE, cache = FALSE, message = FALSE, warning = FALSE}
 ## (a) Housekeeping: -----
@@ -82,8 +82,8 @@ unikn.pal = data.frame(                             ## in one df (for the yarrr 
   stringsAsFactors = FALSE)
 
 ## (f) Counters: ----- 
-nr <- 0  # task number
-pt <- 0  # point total
+# nr <- 0  # task number
+# pt <- 0  # point total
 ```
 
 # Introduction
@@ -91,6 +91,32 @@ pt <- 0  # point total
 ## Content
 
 This file contains descriptions of **datasets** used in this course and their sources. 
+
+<!-- Table with links: -->
+
+All [ds4psy](http://rpository.com/ds4psy/) essentials so far: 
+
+Nr. | Topic       |
+---:|:------------| 
+0.  | [Syllabus](http://rpository.com/ds4psy/) | 
+1.  | [Basic R concepts and commands](http://rpository.com/ds4psy/essentials/basics.html) | 
+2.  | [Visualizing data](http://rpository.com/ds4psy/essentials/visualize.html) | 
+3.  | [Transforming data](http://rpository.com/ds4psy/essentials/transform.html) |
+4.  | [Exploring data (EDA)](http://rpository.com/ds4psy/essentials/explore.html) | 
++.  | **Datasets** | 
+
+<!--
+Nr. | Topic       |
+---:|:------------| 
+0.  | [Syllabus](http://rpository.com/ds4psy/) | 
+1.  | [Basic R concepts and commands](http://rpository.com/ds4psy/essentials/basics.html) | 
+2.  | [Visualizing data](http://rpository.com/ds4psy/essentials/visualize.html) | 
+3.  | [Transforming data](http://rpository.com/ds4psy/essentials/transform.html) |
+4.  | [Exploring data (EDA)](http://rpository.com/ds4psy/essentials/explore.html) | 
+5.  | [Creating and using tibbles](http://rpository.com/ds4psy/essentials/tibble.html) |
+6.  | [Tidying data](http://rpository.com/ds4psy/essentials/tidy.html) |
++.  | [Datasets](http://rpository.com/ds4psy/essentials/datasets.html) | 
+-->
 
 ## Course coordinates
 
@@ -108,13 +134,588 @@ This file contains descriptions of **datasets** used in this course and their so
 
 # Datasets
 
+<!-- (A) Generating random datasets: -->
+
+```{r utility_add_random_NA_values, echo = FALSE, eval = TRUE}
+# Adding a random amount (number or proportion) of NA or other values to a vector:
+
+## Function to replace a random amount (a proportion <= 1 or absolute number > 1) 
+## of vector elements by NA values:  
+add_NAs <- function(vec, amount){
+  
+  stopifnot((is.vector(vec)) & (amount >= 0) & (amount <= length(vec)))
+
+  out <- vec
+  n <- length(vec)
+  
+  amount2 <- ifelse(amount < 1, round(n * amount, 0), amount) # turn amount prop into n
+  
+  out[sample(x = 1:n, size = amount2, replace = FALSE)] <- NA
+  
+  return(out)
+
+}
+
+## Check:
+# add_NAs(1:10, 0)
+# add_NAs(1:10, 3)
+# add_NAs(1:10, .5)
+# add_NAs(letters[1:10], 3)
+
+## Generalization: Replace a random amount of vector elements by what: 
+add_whats <- function(vec, amount, what = NA){
+  
+  stopifnot((is.vector(vec)) & (amount >= 0) & (amount <= length(vec)))
+
+  out <- vec
+  n <- length(vec)
+  
+  amount2 <- ifelse(amount < 1, round(n * amount, 0), amount) # turn amount prop into n
+  
+  out[sample(x = 1:n, size = amount2, replace = FALSE)] <- what
+  
+  return(out)
+
+}
+
+## Check:
+# add_whats(1:10, 3) # default: what = NA
+# add_whats(1:10, 3, what = 99)
+# add_whats(1:10, .5, what = "ABC")
+```
+
+```{r create_outlier_data, echo = FALSE, eval = FALSE}
+## From earlier test question (see file tq_now.Rmd): 
+
+# library(tidyverse)
+
+## Creating a suitable data set: 
+set.seed(123)
+n <- 1000
+id <- paste0("nr.", 1:n) # paste0(sample(LETTERS, 1), sample(LETTERS, 1))
+sex <- sample(x = c(0, 1), size = n, replace = TRUE)
+height <- rep(NA, n)
+noise_0 <- round(rnorm(n, mean = 0, sd = 8), 0)
+noise_1 <- round(rnorm(n, mean = 0, sd = 11), 0)
+height[sex == 0] <- 169 + noise_0[sex == 0]
+height[sex == 1] <- 181 + noise_1[sex == 1]
+
+## Modify data:
+height <- add_NAs(height, amount = 18)  # 1.8% NA values in height
+height[sex == 0] <- add_whats(vec = height[sex == 0], amount = 1, what = 202) # add a tall woman
+# sex <- add_NAs(sex, amount = 3)          # 2  NA values in sex
+
+## Save data as tibble: 
+data <- as_tibble(data_frame(id, sex, height))
+data$sex <- factor(data$sex, labels = c("female", "male"))
+names(data) <- c("id", "sex", "height")
+
+## Check data:
+mean(data$sex == "female", na.rm = TRUE)  # => .507
+mean(data$height, na.rm = TRUE)           # => 174.7006 (with seed 123)
+
+## Writing out data:
+write_csv(data, "out.csv")
+
+## Reading in again (from csv-file):
+data <- read_csv("out.csv")
+data
+```
+
+```{r create_numeracy_data, echo = FALSE, eval = FALSE}
+# Create a (psychological) dataset `numeracy` that allows illustrating contents from all chapters: 
+
+#library(tidyverse)
+
+n <- 1000     # [n]umber of participants
+set.seed(100) # for replicability
+
+## Demographics: -----
+
+## Generate random initials: ----
+r_initials <- function(n) {
+
+  stopifnot(is.numeric(n), n > 0) # check conditions
+  
+  initials <- rep("N.N", n) # initialize output vector
+  
+  for (i in 1:n) {
+    initials[i] <- paste0(paste(sample(LETTERS, 1), sample(LETTERS, 1), sep = "."), ".")
+  }
+  return(initials)
+}
+
+## Check:
+# r_initials(100)
+# length(LETTERS)^2 # => 676 possible sequences
+# length(unique(r_initials(10000))) # => 676 
+initials <- r_initials(n)
+
+## Sex/gender: 
+sex <- sample(x = c(0, 1), size = n, prob = c(.54, .46), replace = TRUE)
+sex <- factor(sex, labels = c("female", "male"))
+
+## Generate a (pseudo) random age distribution: ---- 
+r_ages <- function(n, min = 16, max = 92) {
+  
+  stopifnot(is.numeric(n), n > 0) # check conditions
+
+  ages <- rep(NA, n) # initialize output vector
+  
+  # (a) sample from stepwise distribution: 
+  ages <- sample(size = n, 
+                 x = c(min:max, 18:85, 20:39, 22:36, 24:33, 26:30, 35:63, 44:61, 65:77), # oversampling some regions
+                 replace = TRUE)
+  
+  # (b) smoothing by adding random noise: 
+  ix.not_extreme <- which((ages > (min + 2)) & (ages < (max - 2)))
+  ages[ix.not_extreme] <- ages[ix.not_extreme] + sample(size = length(ix.not_extreme), -2:2, replace = TRUE)
+  
+  return(ages)
+}
+
+ages <- r_ages(n)
+
+## Check:
+ggplot(as_tibble(ages), aes(x = value)) +
+  geom_histogram(binwidth = 1, fill = seeblau) # +
+  # geom_density()
+
+## Big sample: 
+# ggplot(as_tibble(r_ages(100000)), aes(x = value)) +
+#  # geom_density() + 
+#  geom_histogram(binwidth = 1, fill = seeblau)
+
+
+## Convert ages into birthdays: ----
+library(lubridate)
+
+r_bday <- function(ages) {
+  
+  stopifnot(is.numeric(ages), ages > 0) # check conditions
+
+  n <- length(ages)
+  bdays <- rep(NA, n) # initialize output 
+  
+  # Compute bdays as today() - age (in years) - some random day within this year:
+  bdays <- today() - years(ages) - days(sample(size = n, 0:365, replace = TRUE)) 
+  
+  return(bdays)
+  
+}
+
+bdates <- r_bday(ages)
+byears <- year(bdates)
+bmonths <- month(bdates, label = FALSE)
+bdays <- day(bdates) 
+bmdays <- paste0(bmonths, "/", bdays)
+bweekdays <- wday(bdates, label = TRUE)
+
+## Check:
+t <- tibble(id = initials,
+            sex = sex, 
+            age = ages,
+            bdate = bdates,
+            byear = year(bdates),
+            bmonth = month(bdates, label = FALSE),
+            bday = day(bdates), 
+            bmday = paste0(bmonths, "/", bdays), 
+            bweekday = wday(bdates, label = TRUE), 
+            age_y = year(today())- year(bdates)  # Note deviation from ages 
+            # if bday hasn't been reached yet this year
+)
+# t
+
+# t %>% arrange(bdate)
+# t %>% arrange(age)
+
+## Height: ----- 
+## From https://en.wikipedia.org/wiki/List_of_average_human_height_worldwide 
+
+##          Average male:             Average female:
+## -----------------------------------------------------##
+## Germany: 178 cm (5 ft 10 in) 	    165 cm (5 ft 5 in)
+## USA:     175.7 cm (5 ft 9 in) 	    161.8 cm (5 ft 3 1⁄2 in)
+
+heights <- rep(NA, n)
+
+noise_female <- round(rnorm(sum(sex == "female"), mean = 0, sd =  8), 0)
+noise_male   <- round(rnorm(sum(sex == "male"),   mean = 0, sd = 11), 0)
+
+heights[sex == "female"] <- 165 + noise_female
+heights[sex == "male"]   <- 178 + noise_male
+
+## Reduce height by age (1cm per decade): 
+heights[byears < 2000] <- heights[byears < 2000] -  1
+heights[byears < 1990] <- heights[byears < 1990] -  1
+heights[byears < 1980] <- heights[byears < 1980] -  1
+heights[byears < 1970] <- heights[byears < 1970] -  2
+heights[byears < 1960] <- heights[byears < 1960] -  1
+heights[byears < 1950] <- heights[byears < 1950] -  2
+heights[byears < 1940] <- heights[byears < 1940] -  2
+heights[byears < 1930] <- heights[byears < 1930] -  3
+
+## Convert metric (cm) into imperial (feet and inches)...
+
+## Check:
+sex_height <- tibble(sex = sex,
+                     byear = byears, 
+                     height = heights)
+
+## Height by sex:
+ggplot(as_tibble(sex_height), aes(x = sex, y = height, color = sex)) +
+  geom_violin() +
+  geom_jitter(alpha = 1/2) + 
+  theme_bw()
+
+## Height by age:
+ggplot(as_tibble(sex_height), aes(x = byears, y = height)) +
+  # facet_wrap(~sex) +
+  geom_jitter(alpha = 1/3) +
+  geom_smooth() + 
+  theme_bw()
+
+## Height by age and sex:
+ggplot(as_tibble(sex_height), aes(x = byears, y = height)) +
+  facet_wrap(~sex) +
+  geom_jitter(alpha = 1/3) +
+  geom_smooth() + 
+  theme_bw()
+
+
+## Blood type: -----
+## From https://en.wikipedia.org/wiki/Blood_type_distribution_by_country 
+
+## Types:   O+ 	   A+ 	    B+ 	    AB+ 	  O− 	    A− 	    B− 	    AB−
+## --------------------------------------------------------------------- ##
+## Germany:35.0% 	 37.0% 	  9.0% 	  4.0% 	  6.0% 	  6.0% 	  2.0% 	  1.0%
+## USA:    37.4% 	 35.7% 	  8.5% 	  3.4% 	  6.6% 	  6.3% 	  1.5% 	  0.6%
+## World:  38.67%  27.42%  22.02% 	5.88% 	2.55% 	1.99% 	1.11% 	0.36%
+
+blood_types <- c("O+", "A+", "B+", "AB+", "O−", "A−", "B−", "AB−")
+# blood_probs <- c(.35, .37, .09, .04, 	.06, .06,  .02,	.01)  # Germany
+blood_probs <- c(.374, .357, .085, .034, 	.066, .063,  .015,	.006)  # USA
+# sum(blood_probs) # should be 1.00
+
+btypes <- sample(size = n, blood_types, prob = blood_probs, replace = TRUE)
+# table(btypes)
+
+## Other possible IVs: ----- 
+## - education (categorical)
+## - weight (compute via height and BMI distribution)
+
+
+## Combine IVs: ----- 
+IVs <- tibble(name = initials,
+              gender = sex, 
+              bdate = bdates,
+              # byear = byears, 
+              # bmonth = bmonths,
+              # bday = bdays,
+              bweekday = bweekdays,
+              height = heights, 
+              blood_type = btypes
+              )
+# IVs
+
+## DVs: -----
+
+## (1) BNT scores: ---- 
+set.seed(101)  # for replicability
+
+# initialize 4 variables: 
+bnt_1 <- rep(NA, n)
+bnt_2 <- rep(NA, n)
+bnt_3 <- rep(NA, n)
+bnt_4 <- rep(NA, n)
+
+# random values:
+bnt_1 <- sample(x = c(1, 0), size = n, prob = c(.55, .45), replace = TRUE)
+bnt_3 <- sample(x = c(1, 0), size = n, prob = c(.45, .55), replace = TRUE)
+
+# category-specific values: females > males
+bnt_2[sex == "female"] <- sample(x = c(1, 0), size = length(bnt_2[sex == "female"]), prob = c(.68, .32), replace = TRUE)
+bnt_2[sex == "male"] <- sample(x = c(1, 0), size = length(bnt_2[sex == "male"]), prob = c(.42, .58), replace = TRUE)
+
+bnt_4[sex == "female"] <- sample(x = c(1, 0), size = length(bnt_4[sex == "female"]), prob = c(.41, .59), replace = TRUE)
+bnt_4[sex == "male"] <- sample(x = c(1, 0), size = length(bnt_4[sex == "male"]), prob = c(.31, .69), replace = TRUE)
+
+## add some NA values (DO AT THE END):
+# bnt_1 <- add_NAs(bnt_1, amount = .02)
+# bnt_2 <- add_NAs(bnt_2, amount = .01)
+# bnt_3 <- add_NAs(bnt_3, amount = .03)
+# bnt_4 <- add_NAs(bnt_4, amount = .02)
+
+# check: 
+BNT <- tibble(gender = sex, 
+              bnt_1 = bnt_1,
+              bnt_2 = bnt_2,
+              bnt_3 = bnt_3,
+              bnt_4 = bnt_4
+              )
+
+BNT %>%
+  mutate(bnt_sum = bnt_1 + bnt_2 + bnt_3 + bnt_4) %>% 
+  group_by(gender) %>% 
+  summarise(bnt_1_nNA = sum(!is.na(bnt_1)),
+            bnt_1_mn = round(mean(bnt_1, na.rm = TRUE), 3),
+            bnt_2_nNA = sum(!is.na(bnt_2)),
+            bnt_2_mn = round(mean(bnt_2, na.rm = TRUE), 3),
+            bnt_3_nNA = sum(!is.na(bnt_3)),
+            bnt_3_mn = round(mean(bnt_3, na.rm = TRUE), 3),
+            bnt_4_nNA = sum(!is.na(bnt_4)),
+            bnt_4_mn = round(mean(bnt_4, na.rm = TRUE), 3),
+            bnt_sum_nNA = sum(!is.na(bnt_sum)),
+            bnt_sum_mn = round(mean(bnt_sum, na.rm = TRUE), 3)
+            )
+  
+## (2) IQ: general vs. social ---- 
+set.seed(102)  # for replicability
+
+# initialize 2 variables: 
+g_iq <- rep(NA, n)  # genereal IQ
+s_iq <- rep(NA, n)  # social IQ
+
+# moderators on IQ:
+bnt_sum = bnt_1 + bnt_2 + bnt_3 + bnt_4
+# bnt_sum
+# bmonths
+# btypes
+bweekdays
+
+# Random deviations by specific category:
+
+# BNT score: 
+dev_bnt_lo <- round(rnorm(sum(bnt_sum < 2, na.rm = TRUE), mean = -3, sd =  4), 0)
+dev_bnt_hi <- round(rnorm(sum(bnt_sum > 2, na.rm = TRUE), mean = +4, sd =  6), 0)
+
+# seasonal effect:
+dev_bmonth_summer <- round(rnorm(sum((bmonths > 3) & (bmonths < 10)), mean = +5, sd =  6), 0)
+dev_bmonth_winter <- round(rnorm(sum((bmonths < 4) & (bmonths >  9)), mean = -4, sd =  5), 0)
+
+# blood type effect: 
+dev_btype_pos <- round(rnorm(sum(btypes %in% c("O+", "A+", "B+")), mean = +6, sd =  7), 0)
+dev_btype_neg <- round(rnorm(sum(btypes %in% c("O−", "A−", "B−")), mean = -4, sd =  6), 0)
+
+# bweedays effect: 
+dev_weekend <- round(rnorm(bweekdays %in% c("Sat", "Sun"), mean = +6, sd =  6), 0)
+dev_TueThu  <- round(rnorm(bweekdays %in% c("Tue", "Thu"), mean = -5, sd =  5), 0)
+
+
+# Set and adjust values by specific category: 
+
+# (a) general IQ: 
+
+# gender: 
+g_iq[sex == "female"] <- 101
+g_iq[sex == "male"]   <-  99
+
+# BNT score: 
+g_iq[bnt_sum <= 2] <- g_iq[bnt_sum <= 2] + dev_bnt_lo
+g_iq[bnt_sum >  2] <- g_iq[bnt_sum >  2] + dev_bnt_hi
+
+# season: 
+g_iq[(bmonths > 3) & (bmonths < 10)] <- g_iq[(bmonths > 3) & (bmonths < 10)] + dev_bmonth_summer
+g_iq[(bmonths < 4) & (bmonths >  9)] <- g_iq[(bmonths < 4) & (bmonths >  9)] + dev_bmonth_winter
+
+# birthday: 
+g_iq[bweekdays %in% c("Sat", "Sun")] <- g_iq[bweekdays %in% c("Sat", "Sun")] + dev_weekend
+g_iq[bweekdays %in% c("Tue", "Thu")] <- g_iq[bweekdays %in% c("Tue", "Thu")] + dev_TueThu 
+
+
+# (b) social IQ: 
+
+# gender: 
+s_iq[sex == "female"] <- 105
+s_iq[sex == "male"]   <-  95
+
+# reverse seasonal effects by reversing signs: 
+s_iq[(bmonths > 3) & (bmonths < 10)] <- s_iq[(bmonths > 3) & (bmonths < 10)] - dev_bmonth_summer 
+s_iq[(bmonths < 4) & (bmonths >  9)] <- s_iq[(bmonths < 4) & (bmonths >  9)] - dev_bmonth_winter
+
+# blood type effect: 
+s_iq[btypes %in% c("O+", "A+", "B+")] <- s_iq[btypes %in% c("O+", "A+", "B+")] + dev_btype_pos
+s_iq[btypes %in% c("O−", "A−", "B−")] <- s_iq[btypes %in% c("O−", "A−", "B−")] + dev_btype_neg
+
+# Check:
+IQ <- tibble(gender = sex,
+             bnt_sum = bnt_sum, 
+             bmonths = bmonths, 
+             bweekdays = bweekdays, 
+             g_iq = g_iq,
+             s_iq = s_iq
+             )
+
+# gender: 
+IQ %>% 
+  group_by(gender) %>%
+  summarise(n = n(),
+            mn_g_iq = mean(g_iq),
+            mn_s_iq = mean(s_iq)
+  )
+
+# BNT score:
+IQ %>% 
+  group_by(bnt_sum) %>%
+  summarise(n = n(),
+            mn_g_iq = mean(g_iq),
+            mn_s_iq = mean(s_iq)
+  )
+
+# season:
+IQ %>% 
+  mutate(summerborn = (bmonths > 3) & (bmonths < 10)) %>% 
+  group_by(summerborn) %>%
+  summarise(n = n(),
+            mn_g_iq = mean(g_iq),
+            mn_s_iq = mean(s_iq)
+  )
+
+
+# birthday:
+IQ %>% 
+  # mutate(weekend = bweekdays %in% c("Sat", "Sun")) %>% 
+  # group_by(weekend) %>%
+  group_by(bweekdays) %>%
+  summarise(n = n(),
+            mn_g_iq = mean(g_iq),
+            mn_s_iq = mean(s_iq)
+  )
+
+IQ %>% 
+  mutate(weekend = bweekdays %in% c("Sat", "Sun")) %>% 
+  group_by(weekend) %>%
+  summarise(n = n(),
+            mn_g_iq = mean(g_iq),
+            mn_s_iq = mean(s_iq)
+  )
+
+# blood_type:
+IQ %>% 
+  mutate(blood_pos = btypes %in% c("O+", "A+", "B+", "AB+")) %>% 
+  group_by(blood_pos) %>%
+  summarise(n = n(),
+            mn_g_iq = mean(g_iq),
+            mn_s_iq = mean(s_iq)
+  )
+
+
+## (3) Add some NA values (DO AT THE END):
+bnt_1 <- add_NAs(bnt_1, amount = .02)
+bnt_2 <- add_NAs(bnt_2, amount = .01)
+bnt_3 <- add_NAs(bnt_3, amount = .03)
+bnt_4 <- add_NAs(bnt_4, amount = .02)
+
+g_iq <- add_NAs(g_iq, amount = .02)
+s_iq <- add_NAs(s_iq, amount = .03)
+
+## Combine DVs: ----- 
+DVs <- tibble(bnt_1 = bnt_1,
+              bnt_2 = bnt_2,
+              bnt_3 = bnt_3,
+              bnt_4 = bnt_4,
+              g_iq = g_iq,
+              s_iq = s_iq
+              )
+DVs
+
+## Combine data set:
+numeracy <- as_tibble(cbind(IVs, DVs))
+# numeracy
+
+## Writing out data:
+write_csv(numeracy, "numeracy.csv")
+
+## Reading in again (from csv-file):
+numeracy <- read_csv("numeracy.csv")
+numeracy
+
+
+## Tasks: ------ 
+
+## To compute (from IVs):
+## - Age (from byear, but adjusting by bday)
+## - Birth season (spring, summer, autumn, winter)
+## - Zodiac sign (from birthday, using cut() or join functions)
+
+## DVs: 
+## - numeracy (BNT: 4 binary values, 1 categorical type)
+## - intelligence (general vs. social) 
+
+## Other possible DVs:
+## - disposable income (numeric)
+## - health status (numeric, e.g., 1:10 scale)
+## - mood (1:5, on 3 days: Mon, Wed, Fri, and 2 times: 10:00 vs. 18:00)
+```
+
+```{r create_exp_data, echo = FALSE, eval = FALSE}
+n <- 10       # [n]umber of participants
+set.seed(88)  # for replicability
+
+IVs <- data.frame("name" = c("Ann", "Bea", "Cat", "Deb", "Eva", "Fred", "Gary", "Hans", "Ian", "John"),
+                  "gender" = c(rep("f", 5), rep("m", 5)), 
+                  "age" = sample(18:65, n, replace = TRUE)
+                   )
+IVs
+
+## (a) within-subjects conditions (with multiple tasks per person):
+DVs <- data.frame("task_1" = rep(c("red", "blue"), 5),
+                   # "pos_1" = rep(1, n),
+                   "time_1" = sample(10:99, n), 
+                   "task_2" = rep(c("blue", "red"), 5),
+                   # "pos_2" = rep(2, n),
+                   "time_2" = sample(10:99, n)
+                   )
+DVs
+
+
+## (b) between-subjects conditions (with separate variables):
+
+# DVs2 <- data.frame("cond" = c(rep("A", n/2), rep("B", n/2)),
+#                    "A.num1" = c(sample(1:7, n/2), rep(NA, n/2)), 
+#                    "B.num1" = c(rep(NA, n/2), sample(3:9, n/2)),
+#                    "A.chr1" = c(sample(c("ABBA", "Beatles"), n/2, replace = TRUE), rep(NA, n/2)), 
+#                    "B.chr1" = c(rep(NA, n/2), sample(c("ABBA", "Pink Floyd"), n/2, replace = TRUE))
+#                    )
+
+DVs2 <- data.frame("cond" = rep(c("A", "B"), n/2))
+
+DVs2$A.num1 <- NA
+DVs2$A.num1[DVs2$cond == "A"] <- c(sample(1:6, n/2, replace = TRUE))
+DVs2$B.num1 <- NA
+DVs2$B.num1[DVs2$cond == "B"] <- c(sample(4:9, n/2, replace = TRUE))
+
+DVs2$A.chr1 <- NA
+DVs2$A.chr1[DVs2$cond == "A"] <- c(sample(c("Abba", "Beatles"), n/2, replace = TRUE))
+DVs2$B.chr1 <- NA
+DVs2$B.chr1[DVs2$cond == "B"] <- c(sample(c("Beatles", "Zappa"), n/2, replace = TRUE))
+DVs2
+
+# Note that DVs encodes order (or chronological trial position) 
+# implicitly (as 1st vs. 2nd entry) for every case.
+
+## Combine IVs and DVs: 
+exp <- cbind(IVs, DVs)
+exp2 <- cbind(IVs, DVs2)
+
+# exp
+# exp2
+
+dim(exp)   # 10 x 7
+dim(exp2)  # 10 x 8
+```
+
+<!-- (B) Real datasets: -->
+
 ## 1. Positive psychology
 
 ### Introduction 
 
 <!-- Motivation: State topic, research question, and contents of data: --> 
 
-In a highly-cited publication, Seligman, Steen, Park, and Peterson (2005) suggested that positive psychology interventions (PPIs) contain specific, powerful, therapeutic ingredients that effect greater increases in happiness and reductions in depression than a placebo control. A study by Woodworth et al. (2017) re-examined the three PPIs that Seligman et al. found to be most effective when delivered over the internet. 
+In a highly-cited publication, Seligman, Steen, Park, and Peterson (2005) suggest that positive psychology interventions (PPIs) contain specific, powerful, therapeutic ingredients that effect greater increases in happiness and reductions in depression than a placebo control. A study by Woodworth et al. (2017) re-examines the three PPIs that Seligman et al. found to be most effective when delivered over the internet. 
+
+<!-- +++ here now +++ --> 
 
 ### Data sources
 
@@ -234,23 +835,28 @@ Different measurement occasions are suffixed by `.0`, `.1`, ..., `.5`.
 We can load data stored in `csv`-format into R by using the `read_csv` command (from the `readr` package, which is part of the `tidyverse`). Here, we obtain the data files from online sources (at <http://rpository.com/ds4psy/>): 
 
 ```{r read_posPsy_data, echo = TRUE, eval = TRUE}
-library(readr)
+# Load csv-data files from online links:
 
 # 1. Participant data: 
-p_info <- read_csv(file = "http://rpository.com/ds4psy/data/posPsy_participants.csv")  # online
-dim(p_info)  # 295 x 6 
+posPsy_p_info <- readr::read_csv(file = "http://rpository.com/ds4psy/data/posPsy_participants.csv")
+dim(posPsy_p_info)  # 295 x 6 
 
 # 2. Original DVs in long format:
-AHI_CESD <- read_csv(file = "http://rpository.com/ds4psy/data/posPsy_AHI_CESD.csv")  # online
-dim(AHI_CESD)  # 992 x 50
+posPsy_long <- readr::read_csv(file = "http://rpository.com/ds4psy/data/posPsy_AHI_CESD.csv")
+dim(posPsy_long)  # 992 x 50
 
 # 3. Corrected DVs in long format:
-AHI_CESD_2 <- read_csv(file = "http://rpository.com/ds4psy/data/posPsy_AHI_CESD_corrected.csv")  # online
-dim(AHI_CESD_2)  # 990 x 50
+posPsy_long2 <- readr::read_csv(file = "http://rpository.com/ds4psy/data/posPsy_AHI_CESD_corrected.csv")
+dim(posPsy_long2)  # 990 x 50
 
 # 4. Corrected version of all data in wide format: 
-data_wide <- read_csv(file = "http://rpository.com/ds4psy/data/posPsy_data_wide.csv")  # online
-dim(data_wide)  # 295 x 294 
+posPsy_wide <- readr::read_csv(file = "http://rpository.com/ds4psy/data/posPsy_data_wide.csv")
+dim(posPsy_wide)  # 295 x 294 
+
+# Check number of missing values: 
+sum(is.na(posPsy_p_info))  #     0 missing values 
+sum(is.na(posPsy_long))    #     0 missing values 
+sum(is.na(posPsy_wide))    # 37440 missing values!  
 ```
 
 ### References
@@ -382,16 +988,17 @@ The following file was generated from the original data files (and saved in `.cs
 #### Loading data
 
 ```{r load_falsePosPsy_data}
-falsePosPsy_data <- read_csv(file = "http://rpository.com/ds4psy/data/falsePosPsy_all.csv")  # online
+# Load csv-data files from online links:
+falsePosPsy_all <- readr::read_csv(file = "http://rpository.com/ds4psy/data/falsePosPsy_all.csv")
 
 # Check: 
-dim(falsePosPsy_data)  # 78 x 19 
+dim(falsePosPsy_all)  # 78 x 19 
 
-# Any missing values? 
-sum(is.na(falsePosPsy_data))  # 0 (i.e., no missing values).  
+# Check number of missing values: 
+sum(is.na(falsePosPsy_all))  # 0 missing values  
 ```
 
-<!-- +++ here now +++ --> 
+
 
 ### References
 
@@ -461,6 +1068,34 @@ Specific datasets:
 
 - [PanTHERIA](http://esapubs.org/archive/ecol/E090/184/): A species-level database of life history, ecology, and geography of extant and recently extinct mammals  
 
+
+# Conclusion
+
+<!-- Table with links: -->
+
+All [ds4psy](http://rpository.com/ds4psy/) essentials so far: 
+
+Nr. | Topic       |
+---:|:------------| 
+0.  | [Syllabus](http://rpository.com/ds4psy/) | 
+1.  | [Basic R concepts and commands](http://rpository.com/ds4psy/essentials/basics.html) | 
+2.  | [Visualizing data](http://rpository.com/ds4psy/essentials/visualize.html) | 
+3.  | [Transforming data](http://rpository.com/ds4psy/essentials/transform.html) |
+4.  | [Exploring data (EDA)](http://rpository.com/ds4psy/essentials/explore.html) | 
++.  | **Datasets** | 
+
+<!--
+Nr. | Topic       |
+---:|:------------| 
+0.  | [Syllabus](http://rpository.com/ds4psy/) | 
+1.  | [Basic R concepts and commands](http://rpository.com/ds4psy/essentials/basics.html) | 
+2.  | [Visualizing data](http://rpository.com/ds4psy/essentials/visualize.html) | 
+3.  | [Transforming data](http://rpository.com/ds4psy/essentials/transform.html) |
+4.  | [Exploring data (EDA)](http://rpository.com/ds4psy/essentials/explore.html) | 
+5.  | [Creating and using tibbles](http://rpository.com/ds4psy/essentials/tibble.html) |
+6.  | [Tidying data](http://rpository.com/ds4psy/essentials/tidy.html) |
++.  | [Datasets](http://rpository.com/ds4psy/essentials/datasets.html) | 
+-->
 
 [Last update on `r Sys.time()` by [hn](http://neth.de/).]  
 
