@@ -682,7 +682,8 @@ dim(exp2)  # 10 x 8
 
 <!-- Motivation: State topic, research question, and contents of data: --> 
 
-In a highly-cited publication, Seligman, Steen, Park, and Peterson (2005) suggest that positive psychology interventions (PPIs) contain specific, powerful, therapeutic ingredients that effect greater increases in happiness and reductions in depression than a placebo control. A study by Woodworth et al. (2017) re-examines the three PPIs that Seligman et al. found to be most effective when delivered over the internet. 
+In a highly-cited publication, Seligman, Steen, Park, and Peterson (2005) suggest that positive psychology interventions (PPIs) contain specific, powerful, therapeutic ingredients that cause higher increases in happiness and reductions in depression than a placebo control. 
+The study by Woodworth et al. (2017) re-examines this claim by comparing the three most effective PPIs (identical with the interventions used by Seligman et al., 2005) to a placebo control in a web‐based, randomized assignment design. 
 
 <!-- +++ here now +++ --> 
 
