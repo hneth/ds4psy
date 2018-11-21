@@ -51,39 +51,8 @@ opts_chunk$set(echo = TRUE,
                )
 opts_knit$set(width = 75)
 
-## (e) Graphics: ----- 
-
-# Defining colors:
-seeblau <- rgb(0, 169, 224, names = "seeblau", maxColorValue = 255) # seeblau.4 (non-transparent)
-
-seeblau.colors <- c(rgb(204, 238, 249, maxColorValue = 255), # seeblau.1
-                    rgb(166, 225, 244, maxColorValue = 255), # seeblau.2 
-                    rgb(89, 199, 235, maxColorValue = 255),  # seeblau.3
-                    rgb(0, 169, 224, maxColorValue = 255),   # seeblau.4 
-                    rgb(0, 0, 0, maxColorValue = 255),       #  5. black
-                    gray(level = 0, alpha = .6),             #  6. gray 60% transparent
-                    gray(level = 0, alpha = .4),             #  7. gray 40% transparent
-                    gray(level = 0, alpha = .2),             #  8. gray 20% transparent
-                    gray(level = 0, alpha = .1),             #  9. gray 10% transparent
-                    rgb(255, 255, 255, maxColorValue = 255)  # 10. white
-                    )
-
-unikn.pal = data.frame(                             ## in one df (for the yarrr package): 
-  "seeblau1" = rgb(204, 238, 249, maxColorValue = 255), #  1. seeblau1 (non-transparent)
-  "seeblau2" = rgb(166, 225, 244, maxColorValue = 255), #  2. seeblau2 (non-transparent)
-  "seeblau3" = rgb( 89, 199, 235, maxColorValue = 255), #  3. seeblau3 (non-transparent)
-  "seeblau4" = rgb(  0, 169, 224, maxColorValue = 255), #  4. seeblau4 (= seeblau base color)
-  "black"    = rgb(  0,   0,   0, maxColorValue = 255), #  5. black
-  "seegrau4" = rgb(102, 102, 102, maxColorValue = 255), #  6. grey40 (non-transparent)
-  "seegrau3" = rgb(153, 153, 153, maxColorValue = 255), #  7. grey60 (non-transparent)
-  "seegrau2" = rgb(204, 204, 204, maxColorValue = 255), #  8. grey80 (non-transparent)
-  "seegrau1" = rgb(229, 229, 229, maxColorValue = 255), #  9. grey90 (non-transparent)
-  "white"    = rgb(255, 255, 255, maxColorValue = 255), # 10. white
-  stringsAsFactors = FALSE)
-
-## (f) Counters: ----- 
-# nr <- 0  # task number
-# pt <- 0  # point total
+## (e) Custom functions: ----- 
+source(file = "~/Desktop/stuff/Dropbox/_code/R/_teachR/ds4psy/R/custom_functions.R")
 ```
 
 # Introduction
@@ -136,7 +105,7 @@ Nr. | Topic       |
 
 <!-- (A) Generating random datasets: -->
 
-```{r utility_add_random_NA_values, echo = FALSE, eval = TRUE}
+```{r utility_add_random_NA_values, echo = FALSE, eval = FALSE}
 # Adding a random amount (number or proportion) of NA or other values to a vector:
 
 ## Function to replace a random amount (a proportion <= 1 or absolute number > 1) 
