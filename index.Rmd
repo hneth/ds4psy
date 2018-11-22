@@ -1,7 +1,7 @@
 ---
 title: "Data Science for Psychologists (ds4psy)"
 author: "Hansjörg Neth, SPDS, uni.kn"
-date: "2018 11 19"
+date: "2018 11 22"
 output:
   rmdformats::html_clean:
     highlight: kate
@@ -135,7 +135,7 @@ Part 2: Wrangle
 
 
  5. 19.11.2018: [Chapter 5: Data transformation](http://r4ds.had.co.nz/transform.html): `dplyr`;    
-  (**[Essentials with WPA03](http://rpository.com/ds4psy/essentials/transform_WPA03.html)**).  
+  (**[Essentials with WPA03 and solutions](http://rpository.com/ds4psy/essentials/transform.html)**).  
 
  6. 26.11.2018: [Chapter 7: Exploratory data analysis (EDA)](http://r4ds.had.co.nz/exploratory-data-analysis.html): `dplyr` & `ggplot2`. 
  7. 03.12.2019:  **Buffer session**: Rinse and repeat: `dplyr` & `ggplot2`. 
@@ -224,7 +224,7 @@ There is considerable overlap between data science and statistics, but they are 
 - _Data science_ typically begins with messy data from real-world sources. Data literacy (as a basic ability to 
 deal with data) is an essential prerequisite for applying statistics, but does not require statistics to yield meaningful results. Data science can be described as using statistics to solve real-world problems, but pursues a different main goal: understanding the data, rather than testing effects.
 
-In short, statistics mostly summarizes data to test hypotheses, while data science transforms and visualizes data to promote the generation of hypotheses.^[See Donoho (2017) and the surrounding discussions for a vastly more nuanced and diverging views.] 
+In short, statistics mostly summarizes data to test hypotheses, while data science transforms and visualizes data to promote the generation of hypotheses.^[See Donoho (2017) and related posts for a more nuanced and informed discussion.] 
 In science, both objectives are ubiquitous and complementary, but basic data literacy and data science enable us to understand and deal with data before and beyond statistics. Dealing with data in a variety of ways enables new insights (e.g., by visualizing properties and relationships) and allows us to think more clearly about the causes and implications of data.
 
 
@@ -260,9 +260,7 @@ Ultimately, practicing any art, craft or science is also a process of socializat
 
 ### Warning 
 
-Beware of side effects: Becoming a useR will profoundly transform your thinking --- not just about code, but about the data and problems you are analyzing or visualizing.
-
-Programming (in R or any other language) can be enjoyable, but also has addictive potential. Make sure to take regular breaks and keep focused on the questions behind and beyond the data science tools.
+Beware of side effects: Becoming an R user (useR?) will profoundly transform your thinking --- not just about code, but about the data and problems you are trying to grasp and understand. While programming (in R or any other language) can be enjoyable, but also has addictive potential. Make sure to take regular breaks and keep focused on the questions behind and beyond the data science tools.
 
 
 # Links
