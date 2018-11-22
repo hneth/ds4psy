@@ -159,17 +159,19 @@ While any actual EDA is tailored to specific features of the data and current re
 
 # Principles and practices
 
+In the following, we will explain some principles that endorse and promote the ideal of _transparent data analysis_ and _reproducible research_. While such practices are indispensable when working in a team of colleagues and the wider scientific community, organizing your workflow in a more consistent fashion is also beneficial for your future self and other projects.
+
 ## Starting well
 
 Before embarking on any actual analysis, we should pay tribute to 2 principles that seem so simple that it's easy to overlook their benefits: 
 
 - **Principle 1:** Structure and comment your analysis.
 
-While adhering to this principle may seem unnecessary or trivial at first, it gets more important as analyses get longer and more complicated (e.g., distributed over multiple datasets and scripts) and when sharing your data or scripts with others (or with your future self). 
+While adhering to this principle may seem unnecessary or trivial at first, it gets more important as analyses get longer and more complicated (e.g., distributed over multiple datasets and scripts). A consistent document structure, transparent object names, and clear and informative comments are indispensable when sharing your data or scripts with others. Comments structure a longer document into parts and briefly explain the content of each part (_what_), but should primarily focus on the goals and reasons for your decisions (i.e., explain _why_, rather than _how_ you did something).  
 
-- **Principle 2:** Start with a clean slate and explicitly load all data and all packages required in your analysis.
+- **Principle 2:** Start with a clean slate and explicitly load all data and all packages required in this analysis.
 
-Although RStudio IDE provides options for saving your workspace and for loading data or packages by clicking buttons or checking boxes, doing so renders the process of your analysis intransparent for anyone not observing all your actions. To be sure that others and you is able to repeat the same sequence of steps tomorrow or next year, it is a good idea to always start with a clean slate and make it clear which data and packages are required for the current analysis (unless there are good reasons to deviate from them):
+Although RStudio IDE provides options for saving your workspace and for loading data or packages by clicking buttons or checking boxes, doing so renders the process of your analysis intransparent for anyone not observing all your actions. To make sure that others and yourself can repeat the same sequence of steps tomorrow or next year, it is advisable to always start with a clean slate and explicitly state which data and packages are required for the current analysis (unless there are good reasons to deviate from them):^[Actually, listing _everything_ required to execute a file can get quite excessive (check out `sessionInfo()` or the `session_info` and `package_info` functions of `devtools`, in case you're interested, and consider using the `packrat` package in case you want to preserve or share your current setup). Hence, most people only explicitly list and load non-standard packages (in their current version).]
 
 ```{r clean_and_load}
 # Housekeeping:
@@ -822,6 +824,15 @@ Nr. | Topic       |
 6.  | [Tidying data](http://rpository.com/ds4psy/essentials/tidy.html) |
 +.  | [Datasets](http://rpository.com/ds4psy/essentials/datasets.html) | 
 -->
+
+```{r colophon, echo = FALSE, eval = FALSE}
+# This document was built using:
+
+# sessionInfo()
+# devtools::session_info()
+# devtools::package_info()
+```
+
 
 [Last update on `r Sys.time()` by [hn](http://neth.de/).]  
 
