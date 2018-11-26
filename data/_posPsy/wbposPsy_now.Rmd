@@ -1,7 +1,7 @@
 ---
 title: "Web-based positive psychology interventions: A reexamination of effectiveness"
 author: "lmw & hn"
-date: "2018 11 21"
+date: "2018 11 26"
 output:
    html_document:
      code_folding: show # hide
@@ -16,10 +16,22 @@ editor_options:
 ---
 
 ```{r preamble, echo = FALSE, eval = TRUE, cache = FALSE, message = FALSE, warning = FALSE}
-## Packages: ----- 
-library(tidyverse)
+## (a) Housekeeping: -----
+rm(list=ls()) # clean all.
+
+## (b) Current file name and path: ----- 
+# my_path <- dirname(rstudioapi::getActiveDocumentContext()$path)
+# my_path
+# setwd(my_path) # set to current directory
+my_path <- "/Users/hneth/Desktop/stuff/Dropbox/_code/R/_teachR/ds4psy/data/_posPsy"
+setwd(my_path) # set to current directory
+# list.files() # all files + folders in current directory
+fileName <- "wbposPsy_now.Rmd"
+
+## (c) Packages: ----- 
 library(knitr)
-# library(rmdformats)
+library(rmdformats)
+library(tidyverse)
 
 ## (d) Global options: ----- 
 options(max.print = "75")
@@ -32,29 +44,15 @@ opts_chunk$set(echo = TRUE,
                message = FALSE,
                warning = FALSE,
                ## Default figure options:
-               fig.width = 6, 
+               fig.width = 7, 
                fig.asp = .618, # golden ratio
                out.width = "75%",
                fig.align = "center"
                )
 opts_knit$set(width = 75)
 
-## (e) Graphics: ----- 
-
-# Defining colors:
-seeblau <- rgb(0, 169, 224, names = "seeblau", maxColorValue = 255) # seeblau.4 (non-transparent)
-
-seeblau.colors <- c(rgb(204, 238, 249, maxColorValue = 255), # seeblau.1
-                    rgb(166, 225, 244, maxColorValue = 255), # seeblau.2 
-                    rgb(89, 199, 235, maxColorValue = 255),  # seeblau.3
-                    rgb(0, 169, 224, maxColorValue = 255),   # seeblau.4 
-                    rgb(0, 0, 0, maxColorValue = 255),       #  5. black
-                    gray(level = 0, alpha = .6),             #  6. gray 60% transparent
-                    gray(level = 0, alpha = .4),             #  7. gray 40% transparent
-                    gray(level = 0, alpha = .2),             #  8. gray 20% transparent
-                    gray(level = 0, alpha = .1),             #  9. gray 10% transparent
-                    rgb(255, 255, 255, maxColorValue = 255)  # 10. white
-                    )
+## (e) Custom functions: ----- 
+source(file = "~/Desktop/stuff/Dropbox/_code/R/_teachR/ds4psy/R/custom_functions.R")
 ```
 
 # Source data
@@ -149,9 +147,8 @@ Contains data of the 24 items of the _Authentic Happiness Inventory_ (AHI) and a
 
 ## Import data
 
-```{r 3_read_data, echo = TRUE, eval = FALSE}
+```{r read_data_lisa, echo = TRUE, eval = FALSE}
 ## Lisa:
-
 ahi_cesd <- read_delim("~/Uni/7. Semester/HiWi/Data/Web-based positive psychology interventions/ahi-cesd.csv", ";", 
                        escape_double = FALSE, trim_ws = TRUE)
 
@@ -159,7 +156,7 @@ participant_info <- read_delim("~/Uni/7. Semester/HiWi/Data/Web-based positive p
                                escape_double = FALSE, trim_ws = TRUE)
 ```
 
-```{r 3_read_data_hans, echo = TRUE, eval = TRUE}
+```{r read_data_hans, echo = TRUE, eval = TRUE}
 ## Hans: 
 
 # library(data.table)
@@ -743,275 +740,28 @@ all.equal(data_wide, complete_data)  # TRUE (except for numeric type of elapsed.
 
 +++ here now +++
 
+# Datasets
 
-# Data visualisation 
+## Start from scratch
 
-Some exercises using the `ggplot2` package.
+```{r clean_and_load}
+# Housekeeping:
+rm(list = ls())  # cleans ALL objects in current R environment (without asking for confirmation)!
 
-**ToDo:** Put on separate page (and read in required data files).
+# Load packages:
+library(tidyverse)
+library(knitr)
+library(rmarkdown)
 
-
-### Preparation
-
-```{r load_ggplot2, echo = TRUE, eval = TRUE}
-# install.packages("ggplot2")
-library(ggplot2)
+# Other customizations:
+seeblau <- rgb(0, 169, 224, names = "seeblau", maxColorValue = 255)  # seeblau.4 of uni.kn color scheme 
 ```
 
-### Explore age of participants
+## Getting the data
 
-```{r explore_age, echo = TRUE, eval = TRUE}
-# Exercise 1: (use participant_info)
-# (1a): Create a histogramm showing the overall distribution of age 
-ggplot(participant_info) +
-  geom_histogram(mapping = aes(age), binwidth = 2, fill = "gold", col = "black") +
-  labs(title = "Distribution of age values") +
-  theme_bw()
+Some notes on the current data versions and availability of the corresponding files (from file `datasets.Rmd`).
 
-# (1b): Can you display the distribution also as frequency polygon?
-ggplot(data =  participant_info)+
-  geom_freqpoly(mapping = aes(x = age), binwidth = 4, color = "forestgreen")+ 
-  labs(title = "Distribution of age values",
-       x="Age", y = "Count")+
-  theme_bw()
-  
-# (1c): Create a stacked histogramm showing the distribution of age by intervention
-participant_info$intervention <- as.factor(participant_info$intervention)
-
-ggplot(participant_info) +
-  geom_histogram(mapping = aes(x = age, fill = intervention), color = "black", binwidth = 3) +
-  labs(title = "Distribution of age values by intervention") + 
-  theme_bw()
-
-# (1d): Create 4 histogramms showing the distribution of age by intervention 
-ggplot(participant_info) +
-  geom_histogram(mapping = aes(age), binwidth = 5, fill = "gold", color = "black") +
-  labs(title = "Distribution of age values (by intervention)") +
-  # facet_grid(.~intervention) +
-  facet_wrap(~intervention) + 
-  theme_bw()
-
-
-# (1e): Create a histogramm and a frequency polygon 
-#       showing how age is distributed amongst the male and female participants: 
-
-participant_info$sex <- as.factor(participant_info$sex)
-
-ggplot(data =  participant_info)+
-  geom_histogram(mapping = aes(x = age, fill = sex), binwidth = 1)+
-  labs(title = "Distribution of age",
-       x = "Age", y = "Count")+
-  theme_bw()
-
-ggplot(data = participant_info)+
-  geom_freqpoly(mapping = aes(x=age, color = sex), binwidth = 4)+
-  labs(title = "Distribution of age",
-       x="Age", y = "Count")+
-  theme_bw()
-```
-
-
-### Explore participants per intervention 
-
-Composition of intervention groups
-
-```{r explore_interventions, echo = TRUE, eval = TRUE}
-# Exercise 2: Are the participants equally distributed over the 4 intervention categories?
-# (a): in total counts
-# (b): in %
-# (hint: bar chart, can use participant_info data)
-
-# (2a)
-participant_info$intervention <- as.factor(participant_info$intervention)
-
-ggplot(participant_info)+
-  geom_bar(mapping = aes(x = intervention),  fill = "darkblue")+ 
-  labs(title = "Number of participants per intervention", 
-       x = "Intervention", y = "Count") +
-  theme_bw()
-
-# (Additional task): Every bar should have a different color. How do you do this?
-
-ggplot(participant_info)+
-  geom_bar(mapping = aes(x = intervention, fill = intervention))+ 
-  labs(title = "Number of participants per intervention", 
-       x = "Intervention", y = "Count") +
-  theme_bw()
-
-# (2b)
-ggplot(participant_info)+
-  geom_bar(mapping = aes(x = intervention, y = ..prop.., group = 1), fill = "darkblue") + 
-  labs(title = "Number of participants per intervention", 
-       x = "Intervention", y = "Proportion") +
-  theme_bw()
-
-
-# Exercise 3: Is the distribution of females and males similar within the intervention groups?
-
-ggplot(participant_info)+
-  geom_bar(mapping = aes(x = intervention, fill = sex), position = "dodge") + 
-  labs(title = "Participants per intervention group", 
-       x = "Intervention", y = "Count") +
-  theme_bw()
-```
-
-
-### Explore ahiTotal and cesdTotal scores at different occasions
-
-```{r explore_totals, echo = TRUE, eval = TRUE}
-## Data:
-# dim(complete_data)  # Why 297, rather than 295?
-
-# Exercise 4
-# (4a): Show the relationship of ahiTotal and cesdTotal at Occasion 0 using a scatterplot
-
-ggplot(data = complete_data) +
-  geom_point(mapping = aes(x = ahiTotal.0, y = cesdTotal.0)) + 
-  # Adding title and axis labels: 
-  labs(title = "Relationship between ahiTotal and cesdTotal (at Occasion = 0)", 
-       x = "ahiTotal", y = "cesdTotal") +
-  theme_bw()
-
-
-# (4b): Add a trend-line to this plot:
-ggplot(data = complete_data, mapping = aes(x = ahiTotal.0, y = cesdTotal.0)) +
-  geom_smooth() +
-  geom_point() + 
-  labs(title = "Relationship between ahiTotal and cesdTotal (at Occasion = 0)", 
-       x = "ahiTotal", y = "cesdTotal")+
-  theme_bw()
-
-# (4c): Make this plot look nicer, for example by using color or changing the pointshape or size.
-
-ggplot(data = complete_data, mapping = aes(x = ahiTotal.0, y = cesdTotal.0)) +
-  geom_smooth(color = "firebrick") +
-  geom_point(color = "darkblue", shape = 16, size = 3, alpha = 1/3) + 
-  labs(title = "Relationship between ahiTotal and cesdTotal (at Occasion = 0)", 
-       x ="ahiTotal", y = "cesdTotal") +
-  theme_bw()
-
-  
-# (4d): Add information on intervention group using 2 different options
-
-## prep: intervention as factor, not as integer:
-complete_data$intervention <- as.factor(complete_data$intervention)
-
-## 1 Plot, 4 colors
- ggplot(data = complete_data)+
-  geom_point(mapping = aes(x = ahiTotal.0, y = cesdTotal.0, color = intervention))+ 
-  labs(title = "Relationship between ahiTotal and cesdTotal (at Occasion = 0)",
-       x="ahiTotal", y = "cesdTotal") 
- 
- ## 4 plots:
-  ggplot(data = complete_data)+
-  geom_point(mapping = aes(x = ahiTotal.0, y = cesdTotal.0))+ 
-  labs(title = "Relationship between ahiTotal and cesdTotal (at Occasion = 0)",
-       x = "ahiTotal", y = "cesdTotal")+
-    theme_minimal()+
-    facet_grid(.~ intervention)
-  
- 
-# (4e): Let's create 4 plots (hint: facet_grid) for occasion 5 and compare them to the one for occasion 0. What has changed?
-  
-# Relationship ahiTotal and cesdTotal at Occasion = 5 
-# Task: 
-
-  ggplot(data = complete_data)+
-  geom_point(mapping = aes(x = ahiTotal.5, y = cesdTotal.5))+ 
-  labs(title = "Relationship between ahiTotal and cesdTotal at Occasion = 5",
-       x = "ahiTotal", y = "cesdTotal")+
-      theme_minimal() +
-    facet_grid(.~ intervention)
-    
-    
-ggplot(data = complete_data)+
-  geom_point(mapping = aes(x = ahiTotal.5, y = cesdTotal.5, color = intervention))+ 
-  labs(title = "Relationship between ahiTotal and cesdTotal at Occasion = 5",
-       x = "ahiTotal", y = "cesdTotal") +
-          theme_minimal()
-```
-
-
-
-
-```{r explore_changes, echo = TRUE, eval = TRUE}
-# Exercise 5:
-
-# (5a): Plot the distribution of pre-intervention ahiTotal-scores (Occasion = 0)grouped by income level using a violin plot
-complete_data$income <- as.factor(complete_data$income)
-
-ggplot(data = complete_data, mapping = aes(x = income,y = ahiTotal.0)) +
-  geom_violin() +
-  labs(title = "Comparison of pre-intervention ahiTotal-scores at for income levels", 
-       x = "income category", y = "pre-intervention ahiTotal-scores" )+
-  theme_classic()
-
-# (5b): Can you add information about how the participants are distributed with in each income group using geom_jitter? 
-ggplot(data = complete_data, mapping = aes(x = income,y = ahiTotal.0)) +
-  geom_violin(color = "darkblue") +
-  geom_jitter(color = "lightblue", size = 2) +
-  labs(title = "Comparison of pre-intervention ahiTotal-scores at for income levels", 
-       x = "income category", y = "pre-intervention ahiTotal-scores" )+
-  theme_classic()
-
-# (5c): Can you do the same plot with geom_point, instead of geom_jitter?
-ggplot(data = complete_data, mapping = aes(x = income,y = ahiTotal.0)) +
-  geom_violin() +
-  geom_point(position = "jitter", color = "lightblue", size = 2) +
-  labs(title = "Comparison of pre-intervention ahiTotal-scores at for income levels", 
-       x = "Income category", y = "Pre-intervention ahiTotal-scores") +
-  theme_classic()
-
-# (5d): Let?s see how the pre-intervention cesdTotal-scores are distributed in the income groups
-ggplot(data = complete_data, mapping = aes(x = income,y = cesdTotal.0)) +
-  geom_violin(color = "darkblue")+
-  geom_jitter(color = "lightblue", size = 2)+
-  labs(title = "Comparison of pre-intervention cesdTotal-scores at for income levels", 
-       x = "Income category", y = "Pre-intervention cesdTotal-scores" )+
-  theme_classic()
-
-```
-
-
-### Explore data: ahiTotal scores, cesdTotal scores and age
-
-```{r explore_relationships, echo = TRUE, eval = TRUE}
-# Exercise 6: Create two scatterplot to investigate 
-# if there is an systematic relationship between ahiTotal scores/cesdTotal scores and age.
-
-# (a):ahiTotal scores
-ggplot(complete_data, mapping = aes(x = age, y = ahiTotal.0)) +
-  geom_point(color = "forestgreen", shape = 1, size = 1.5)+
-  labs(title = "Age and ahiTotal scores before start of interventions", 
-       x = "Age", y = "Pre-intervention ahiTotal Score")
-
-# (b): cesdTotal-scores
-ggplot(complete_data, mapping = aes(x = age, y = cesdTotal.0)) +
-  geom_point(color = "forestgreen", shape = 1, size = 1.5)+
-  labs(title = "Age and cesdTotal scores before start of interventions", 
-       x = "Age", y = "Pre-intervention cesdTotal Score")
-```
-
-
-# Data transformation
-
-Some exercises using the `dplyr` package.
-
-**ToDo:** Put on separate page (and read in required data files).
-
-
-# EDA
-
-Some exercises using the `dplyr` and `ggplot2` packages.
-
-**ToDo:** Put on separate page (and read in required data files).
-
-
-# Getting the data
-
-Some notes on the current data versions and availability of the corresponding files.
-
-## Files available
+### Files available
 
 The following files were generated from the original data files (and saved in `.csv` format): 
 
@@ -1031,8 +781,7 @@ Different measurement occasions are suffixed by `.0`, `.1`, ..., `.5`.
 
 We can load the participant data into R with the following command (from the package `readr`, which is part of the `tidyverse`): 
 
-
-## Loading data
+### Loading data
 
 Reading in these data files from online sources: 
 
@@ -1052,16 +801,658 @@ AHI_CESD_2 <- read_csv(file = "http://rpository.com/ds4psy/data/posPsy_AHI_CESD_
 dim(AHI_CESD_2)  # 990 x 50
 
 # 4. Corrected version of all data in wide format: 
-data_wide <- read_csv(file = "http://rpository.com/ds4psy/data/posPsy_data_wide.csv")  # online
-dim(data_wide)  # 295 x 294 
+posPsy_wide <- readr::read_csv(file = "http://rpository.com/ds4psy/data/posPsy_data_wide.csv")
+dim(posPsy_wide)  # 295 cases x 294 variables
 ```
 
-# Reference
+# Data visualisation 
+
+Some exercises using the `ggplot2` package.
+
+**ToDo:** Put on separate page (and read in required data files).
+
+
+## Exercise 1: Explore age
+
+```{r exercise_1, echo = TRUE, eval = TRUE}
+# Exercise 1: (use p_info data set)
+
+# (a) Create a histogramm showing the overall distribution of age 
+ggplot(p_info) +
+  geom_histogram(mapping = aes(age), binwidth = 2, fill = "forestgreen") +
+  theme_bw() +
+  labs(title = "Distribution of age values")
+
+# (b) Can you display the distribution also as frequency polygon?
+ggplot(data = p_info) +
+  geom_freqpoly(mapping = aes(x=age), binwidth = 4, fill = "forestgreen", color = "grey") + 
+  labs(title = "Distribution of age",
+       x="Age", y = "Count") +
+  theme_bw()
+  
+# (c) Create a stacked histogramm showing the distribution of age by intervention
+ggplot(p_info) +
+  geom_histogram(mapping = aes(age,  fill = intervention, position = "stack"), binwidth = 3) +
+  theme_bw() +
+  labs(title = "Distribution of age values by intervention")
+
+# (d) Create 4 histogramms showing the distribution of age by intervention 
+ggplot(p_info) +
+  geom_histogram(mapping = aes(age), binwidth = 5, fill = "forestgreen") +
+  theme_bw() +
+  labs(title = "Distribution of age values by intervention") +
+  facet_grid(.~intervention)
+
+# (e) Create a histogramm and a frequency polygon showing how age is distributed amongst the male and female participants
+p_info$sex <- as.factor(p_info$sex)
+
+ggplot(data = p_info) +
+  geom_histogram(mapping = aes(x=age, fill = sex), binwidth = 5) +
+  labs(title = "Distribution of age",
+       x="Age", y = "Count") +
+  theme_bw()
+
+ggplot(data = p_info) +
+  geom_freqpoly(mapping = aes(x=age, color = sex), binwidth = 4) +
+  labs(title = "Distribution of age",
+       x="Age", y = "Count") +
+  theme_bw()
+```
+
+
+## Exercise 2: Explore participants - intervention groups
+
+```{r exercise_2, echo = TRUE, eval = TRUE}
+# Exercise 2: Are the participants equally dirtributed over the 4 intervention categories?
+# (a): in total counts
+# (b): in %
+
+# # use p_info dataset
+# # load data
+# p_info <- read_csv(file = "http://rpository.com/ds4psy/data/posPsy_participants.csv")  
+# dim(p_info)  # 295 x 6 
+
+## (2a)
+p_info$intervention <- as.factor(p_info$intervention)
+ggplot(p_info) +
+  geom_bar(mapping = aes(x = intervention),  fill = "darkblue") + 
+  labs(title = "Participants per intervention group", x="Intervention", y = "Count") +
+  theme_minimal()
+
+
+# (additional task): Every bar should have a different color.How do you do this?
+
+ggplot(p_info) +
+  geom_bar(mapping = aes(x = intervention, fill = intervention)) + 
+  labs(title = "Participants per intervention group", x="Intervention", y = "Count") +
+  theme_minimal()
+
+
+## (2b)
+ggplot(p_info) +
+  geom_bar(mapping = aes(x = intervention,y = ..prop.., group = 1), fill = "darkblue") +   labs(title = "Distribution of participants over intervention groups", x="Intervention", y = "Proportion") +
+  theme_minimal()
+
+```
+
+## Exercise 3: Gender per intervention
+
+Is the distribution of gender similar within the intervention groups?
+
+```{r exercise_3, echo = TRUE, eval = TRUE}
+# Exercise 3: Is the distribution of gender similar within the intervention groups?
+
+ggplot(p_info) +
+  geom_bar(mapping = aes(x = intervention, fill = sex), position = "dodge") + 
+  labs(title = "Participants per intervention group", x="Intervention", y = "Count") +
+  theme_minimal()
+
+```
+
+## Exercise 4: Scores
+
+Explore `ahiTotal` and `cesdTotal` scores at different occasions. 
+
+```{r exercise_4, echo = TRUE, eval = TRUE}
+# Exercise 4
+
+# load data
+data_wide <- read_csv(file = "http://rpository.com/ds4psy/data/posPsy_data_wide.csv") 
+dim(data_wide)  # 295 x 294 
+
+## (4a): Show the relationship of ahiTotal and cesdTotal at Occasion 0 using a scatterplot
+
+ggplot(data = data_wide) +
+  geom_point(mapping = aes(x = ahiTotal.0, y = cesdTotal.0)) + 
+  #adding title and axis labels
+  labs(title = "Relationship between ahiTotal and cesdTotal at Occasion = 0", 
+       x ="ahiTotal", y = "cesdTotal") +
+  theme_minimal()
+
+
+## (4b): Add the trend-line to this plot
+ggplot(data = data_wide, mapping = aes(x = ahiTotal.0, y = cesdTotal.0)) +
+  geom_point() + 
+  geom_smooth() +
+  labs(title = "Relationship between ahiTotal and cesdTotal at Occasion = 0", 
+       x ="ahiTotal", y = "cesdTotal") +
+  theme_minimal()
+
+## (4c): Make this plot look nicer, for example by using color or changing the pointshape or size.
+
+ggplot(data = data_wide) +
+  geom_point(mapping = aes(x = ahiTotal.0, y = cesdTotal.0),color = "darkblue", shape = 18, size=3, alpha = .4) + 
+  labs(title = "Relationship between ahiTotal and cesdTotal at Occasion = 0", 
+       x ="ahiTotal", y = "cesdTotal") +
+  theme_minimal()
+
+  
+## (4d): Add information on intervention group using 2 different options
+
+##prep: intervention as factor not as integer
+data_wide$intervention <- as.factor(data_wide$intervention)
+
+## 1 Plot, 4 colors: 
+ ggplot(data = data_wide) +
+  geom_point(mapping = aes(x = ahiTotal.0, y = cesdTotal.0, color = intervention)) + 
+  labs(title = "Relationship between ahiTotal and cesdTotal at Occasion = 0",
+       x="ahiTotal", y = "cesdTotal") 
+ 
+## 4 plots: 
+ggplot(data = data_wide) +
+  geom_point(mapping = aes(x = ahiTotal.0, y = cesdTotal.0)) + 
+  labs(title = "Relationship between ahiTotal and cesdTotal at Occasion = 0",
+       x="ahiTotal", y = "cesdTotal") +
+    theme_minimal() +
+    facet_grid(.~ intervention)
+  
+ 
+## (4e): Let's create 4 plots (hint: facet_grid) for occasion 5 and compare them to the one for occasion 0. What has changed?
+  
+# Relationship ahiTotal and cesdTotal at Occasion = 5 
+ 
+ggplot(data = data_wide) +
+  geom_point(mapping = aes(x = ahiTotal.5, y = cesdTotal.5)) + 
+  labs(title = "Relationship between ahiTotal and cesdTotal at Occasion = 5",
+       x="ahiTotal", y = "cesdTotal") +
+      theme_minimal() +
+    facet_grid(.~ intervention)
+    
+ggplot(data = data_wide) +
+  geom_point(mapping = aes(x = ahiTotal.5, y = cesdTotal.5, color = intervention)) + 
+  labs(title = "Relationship between ahiTotal and cesdTotal at Occasion = 5",
+       x="ahiTotal", y = "cesdTotal") +
+          theme_minimal()
+```
+
+## Exercise 5: Violins
+
+```{r exercise_5, echo = TRUE, eval = TRUE}
+# Exercise 5:
+
+## load data:
+# data_wide <- read_csv(file = "http://rpository.com/ds4psy/data/posPsy_data_wide.csv") 
+# dim(data_wide)  # 295 x 294 
+
+## (5a): Plot the distribution of pre-intervention ahiTotal-scores (Occasion = 0) grouped by income level using a violin plot
+data_wide$income <- as.factor(data_wide$income)
+ggplot(data = data_wide, mapping = aes(x = income,y = ahiTotal.0)) +
+  geom_violin() +
+  labs(title = "Comparison of pre-intervention ahiTotal-scores at for income levels", x = "income category", y = "pre-intervention ahiTotal-scores" ) +
+  theme_classic()
+
+## (5b): Can you add information about how the participants are distributed with in each income group using geom_jitter? 
+
+ggplot(data = data_wide, mapping = aes(x = income,y = ahiTotal.0)) +
+  geom_violin(color = "darkblue") +
+  geom_jitter(color = "lightblue", size = 2) +
+  labs(title = "Comparison of pre-intervention ahiTotal-scores at for income levels", x = "income category", y = "pre-intervention ahiTotal-scores" ) +
+  theme_classic()
+
+## (5c): Can you do the same plot with geom_point, instead of geom_jitter?
+ggplot(data = data_wide, mapping = aes(x = income,y = ahiTotal.0)) +
+  geom_violin() +
+  geom_point(position = "jitter", color = "lightblue", size = 2) +
+  labs(title = "Comparison of pre-intervention ahiTotal-scores at for income levels", x = "income category", y = "pre-intervention ahiTotal-scores" ) +
+  theme_classic()
+
+## (5d): Let?s see how the pre-intervention cesdTotal-scores are distributed in the income groups
+ggplot(data = data_wide, mapping = aes(x = income,y = cesdTotal.0)) +
+  geom_violin(color = "darkblue") +
+  geom_jitter(color = "lightblue", size = 2) +
+  labs(title = "Comparison of pre-intervention cesdTotal-scores at for income levels", x = "income category", y = "pre-intervention cesdTotal-scores" ) +
+  theme_classic()
+```
+
+## Exercise 6: Scatterplots
+
+Explore data - ahiTotal scores, cesdTotal scores and age
+
+```{r exercise_6, echo = TRUE, eval = TRUE}
+# Exercise 6: Create two scatterplot to investigate if there is an systematic relationship between ahiTotal scores/cesdTotal scores and age.
+
+## load data:
+# data_wide <- read_csv(file = "http://rpository.com/ds4psy/data/posPsy_data_wide.csv") 
+# dim(data_wide)  # 295 x 294
+
+## (6a): ahiTotal scores
+ggplot(data_wide, mapping = aes(x = age, y = ahiTotal.0)) +
+  geom_point(color = "forestgreen", shape = 1, size = 1.5) +
+  labs(title = "Age and ahiTotal scores before start of interventions", x = "age", y = "Pre-intervention ahiTotal Score")
+
+## (6b): cesdTotal-scores
+ggplot(data_wide, mapping = aes(x = age, y = cesdTotal.0)) +
+  geom_point(color = "forestgreen", shape = 1, size = 1.5) +
+  labs(title = "Age and cesdTotal scores before start of interventions", x = "age", y = "Pre-intervention cesdTotal Score")
+
+```
+
+# Data transformation
+
+Some exercises using the `dplyr` package.
+
+**ToDo:** Put on separate page (and read in required data files).
+
+
+# EDA
+
+What is _exploratory data analysis_ (EDA)?
+
+1. Generate questions about your data.
+2. Search for answers by visualising, transforming, and modelling your data.
+3. Use what you learn to refine your questions and/or generate new questions.
+
+
+
+### Exercises on EDA:
+
+Some exercises using the `dplyr` and `ggplot2` packages.
+
+**ToDo:** Put on separate page (and read in required data files).
+
+
+## Exercise 1
+
+a. How many participants are in each intervention group? Are the participants distributed equally? 
+(Find the solution both graphically and by using data transformation.) 
+
+b. Show the distribution of `age` values for both women and men.
+
+c. Provide descriptive statistics (i.e., mean, sd, min, max, etc.) for the `age` values for every intervention group.
+
+```{r ex1_eda, echo = TRUE, eval = TRUE}
+# Exercise 1: 
+
+# Load participant data: 
+p_info <- readr::read_csv(file = "http://rpository.com/ds4psy/data/posPsy_participants.csv")
+dim(p_info)  # 295 x 6 
+
+# (a) How many participants are in each intervention group? Are the participants distributed equally?
+#     (Find the solution both graphically and by using data transformation.) 
+
+ggplot(p_info) +
+  geom_bar(mapping = aes(x = intervention), position = "dodge", fill = "darkblue") + 
+  labs(title = "Participants per intervention group", x = "Intervention", y = "Count") +
+  theme_minimal()
+
+p_info %>%
+  group_by(intervention) %>% 
+  count()
+
+# (b): Show distribution of age for women and men.
+
+p_info$sex <- as.factor(p_info$sex)
+
+ggplot(p_info, mapping = aes(x=age)) +
+  geom_density(aes(color= sex)) +
+  labs(title = "Distribution of age for men and women", x = "Age", y= "Density") +
+  theme_minimal()
+
+# (2c): What is the mean age and sd of age for every intervention group?
+
+p_info %>%
+  group_by(intervention) %>% 
+  summarize(mean_age = mean(age, na.rm = TRUE), 
+            sd_age = sd(age, na.rm = TRUE))
+```
+
+## Exercise 2
+
+- Explore how the distribution of of ahi total scores shifted from occasion 0 to 5. Why? Does that match your expectations?
+- Can you see any unusual patterns? What might explain them? 
+
+```{r ex2_eda, echo = TRUE, eval = TRUE}
+# Exercise 2:  
+## (2a):Explore how the distribution of of ahi total scores shifted from occasion 0 to 5. Why? Does that match your expectations?
+## Can you see any unusual patterns? What might explain them? 
+
+## First, load data in the best suited format and delete redundant colums.
+
+# load data: 
+data_wide <- read_csv(file = "http://rpository.com/ds4psy/data/posPsy_data_wide.csv")  # online
+dim(data_wide) 
+
+# select colums of interest: 
+data_wide <- select(data_wide, id:elapsed.days.0, contains("Total"), contains("occasion"), starts_with("elapsed."))
+
+# View(data_wide)
+
+ggplot(data_wide) +
+  geom_freqpoly(mapping = aes(ahiTotal.0), color = "darkblue", binwidth = 2) +
+  geom_freqpoly(mapping = aes(ahiTotal.5), color = "forestgreen", binwidth = 2) +
+  theme_minimal() +
+  labs(title = "AHI TOTAL SCORE DISTRIBUTION CHANGE", x = "AHI TOTAL SCORES", y = "COUNT")
+```
+
+## Exercise 3
+
+```{r ex3_eda, echo = TRUE, eval = TRUE}
+# Exercise 3:Let`s create plots of the improvement in ahitotal scores and cesdtotal in the course of the study (occasion 0 - occasion 5) with information on intervention groups. 
+
+## In preparation for this expercise load required data.  and create a tibble containing the information needed (mean scores per intervention group for every occasion, info on intervention group, info on occasion)
+ 
+# load data
+AHI_CESD_2 <- read_csv(file = "http://rpository.com/ds4psy/data/posPsy_AHI_CESD_corrected.csv")
+
+
+## (3a): How did the mean ahiscore change in the course of the study?
+a <- AHI_CESD_2 %>% 
+  group_by(occasion) %>% 
+  summarize(mean_ahi = mean(ahiTotal, na.rm = TRUE),
+            mean_cesd = mean(cesdTotal, na.rm = TRUE))
+
+ggplot(a, mapping = aes(x=occasion, y= mean_ahi)) + 
+  geom_point(mapping = aes(size = 1.5), color = "darkblue") +
+  geom_line(color = "grey") +
+  ggtitle("Ahi-scores in course of study") +
+  theme_bw()
+
+## (3b): How did the mean ahiscore change in the course of the study grouped by intervention?
+## Create a tibble containing the information needed first. (mean scores per intervention group for every occasion, info on intervention group, info on occasion). 
+
+# new tibble containing required data
+b <- AHI_CESD_2 %>% 
+  group_by(intervention, occasion) %>% 
+  summarize(mean_ahi = mean(ahiTotal, na.rm = TRUE),
+            mean_cesd = mean(cesdTotal, na.rm = TRUE))
+b
+
+ggplot(b, mapping = aes(x=occasion, y= mean_ahi, color = intervention)) +
+  geom_point(mapping = aes(size = 1.5)) +
+  geom_line() +
+  ggtitle("Mean ahi-score per intervention group over time")
+
+# Why is the coloring not the way we want it to be?
+b$intervention <- as.factor(b$intervention)
+
+# Try again
+ggplot(b, mapping = aes(x=occasion, y= mean_ahi, color = intervention)) +
+  geom_point(mapping = aes(size = 1.5)) +
+  geom_line() +
+  ggtitle("Mean ahi-score per intervention group over time") +
+  theme_minimal()
+
+## (3c): Can you combin both plots in one?
+
+ggplot() +
+  geom_point(b, mapping = aes(x=occasion, y= mean_ahi, size = 1.1, color = intervention)) +
+  geom_line(b, mapping = aes(x=occasion, y= mean_ahi, color = intervention)) +
+  geom_point(a, mapping = aes(x=occasion, y= mean_ahi,size = 1), shape = 15) +
+  geom_line(a, mapping = aes(x=occasion, y= mean_ahi, size = 1)) +
+  ggtitle("Mean ahi-scores over time") +
+  theme_light()
+
+## (3d): What was the intervention for group 3? Is the time course reasonable?
+# Group 3 had to write a thankyou letter and deliver it in person. This can explain the improvement from occasion 0 to 1. Afterwards they did not have any further tasks. The attained happiness through the letter and it`s delivery happens to decrease again. Very interessting that there is an increase from occasion 4 to 5 again. 
+
+## (3e): Create the same plot as in exercise 3c for the cesd scores.
+ggplot() +
+  geom_point(b, mapping = aes(x=occasion, y= mean_cesd, size = 1, color = intervention)) +
+  geom_line(b, mapping = aes(x=occasion, y= mean_cesd, color = intervention)) +
+  geom_point(a, mapping = aes(x=occasion, y= mean_cesd,size = 0.7), shape = 15) +
+  geom_line(a, mapping = aes(x=occasion, y= mean_cesd, size = 0.7)) +
+  ggtitle("Mean cesd-scores over time") +
+  theme_light()
+
+
+## What implies the plot about the interventions?
+## In three groups, the depression scores first decrease but then increas again towards the end. It could be the case that the intervention first succeed, but then they loose their power in course of the time.
+ggplot() +
+  geom_point(b, mapping = aes(x=occasion, y= mean_cesd, size = 1, color = intervention)) +
+  geom_line(b, mapping = aes(x=occasion, y= mean_cesd, color = intervention)) +
+  geom_point(a, mapping = aes(x=occasion, y= mean_cesd,size = 0.7), shape = 15) +
+  geom_line(a, mapping = aes(x=occasion, y= mean_cesd, size = 0.7)) +
+  ggtitle("Mean cesd-scores over time") +
+  theme_light()
+```
+
+## Exercise 4
+
+```{r ex4_eda, echo = TRUE, eval = TRUE}
+# Exercise 4:  
+## (4a): Create new variables indicating the improvement in ahi scores from occasion 0 to occasion 1, from occasion 1 to occasion 2, and so on. 
+## First, load data in the best suited format and delete redundant colums.
+
+#load data
+data_wide <- read_csv(file = "http://rpository.com/ds4psy/data/posPsy_data_wide.csv")  # online
+dim(data_wide) 
+
+#select colums of interest
+data_wide <- select(data_wide, id:elapsed.days.0, contains("Total"), contains("occasion"), starts_with("elapsed."))
+
+#new variables
+
+data_wide <- data_wide %>% 
+  mutate(improve01ahi = ahiTotal.1 - ahiTotal.0, 
+         improve12ahi = ahiTotal.2 - ahiTotal.1, 
+         improve23ahi = ahiTotal.3 - ahiTotal.2,
+         improve34ahi = ahiTotal.4 - ahiTotal.3,
+         improve45ahi = ahiTotal.5 - ahiTotal.4)
+dim(data_wide)#295 35
+
+
+##(4b): Compute the mean improvements per intervention group
+data_wide %>% 
+  group_by(intervention) %>% 
+  summarise(mean_improve01_i = mean(improve01ahi, na.rm = TRUE), 
+            mean_improve12_i = mean(improve12ahi, na.rm = TRUE),
+            mean_improve23_i = mean(improve23ahi, na.rm = TRUE),
+            mean_improve34_i = mean(improve34ahi, na.rm = TRUE),
+            mean_improve45_i = mean(improve45ahi, na.rm = TRUE))
+
+##(4c): What is surprising about the results? 
+#There are also negative improvements.
+
+
+##(4d): Do women and men differ in their improvements?
+#Try to find the solution graphically first. Then have a look on the numbers.
+data_wide %>%
+  group_by(intervention, sex) %>% 
+  summarise(mean_improve01_i = mean(improve01ahi, na.rm = TRUE), 
+            mean_improve12_i = mean(improve12ahi, na.rm = TRUE),
+            mean_improve23_i = mean(improve23ahi, na.rm = TRUE),
+            mean_improve34_i = mean(improve34ahi, na.rm = TRUE),
+            mean_improve45_i = mean(improve45ahi, na.rm = TRUE))
+```
+
+## Exercise 5
+
+```{r exercise 5, echo = TRUE, eval = TRUE}
+# Exercise 5:  
+# (5a): Is there a difference in total improve regarding gender?
+
+d <- data_wide %>%
+  mutate(change_ahi = ahiTotal.5 - ahiTotal.0,
+         change_cesd = cesdTotal.5 - cesdTotal.0)
+
+d %>%
+  group_by(sex) %>% 
+  summarize(mean_change_ahi = mean(change_ahi, na.rm = TRUE), 
+            mean_change_cesd = mean(change_cesd, na.rm = TRUE))
+
+
+# (5c): Are there interventions which are more effective for men or women?
+# Use data transformation commands to find the solution first, then create two plots (one for ahi and one for cesd scores)
+e <- d%>%
+  group_by(sex, intervention) %>% 
+  summarize(mean_change_ahi = mean(change_ahi, na.rm = TRUE), 
+            mean_change_cesd = mean(change_cesd, na.rm = TRUE))
+
+
+# Change in ahi Scores
+e$sex <- as.factor(e$sex)
+ggplot(e) +
+  geom_point(aes(x = intervention, y =mean_change_ahi, color = sex)) +
+  labs(title = "Mean change in ahi scores for men and women", x = "intervention", y = "Change in ahi scores (mean)") +
+  theme_light() +
+  geom_hline(yintercept = 0)
+
+# Change in cesd Scores
+e$sex <- as.factor(e$sex)
+ggplot(e) +
+  geom_point(aes(x = intervention, y =mean_change_cesd, color = sex)) +
+  labs(title = "Mean change in cesd scores for men and women", x = "intervention", y = "Change in cesd scores (mean)") +
+  theme_light() +
+  geom_hline(yintercept = 0)
+
+```
+
+
+## Exercise 6
+
+```{r exercise 6, echo = TRUE, eval = TRUE}
+# Exercise 6: Dropout  
+## (6a): How many participants dropped out at occasion 1, occasion 2, ..., occasion 5? (Dropout means "NA" at all remaining occasions, not only at one)
+
+# load data
+data_wide <- read_csv(file = "http://rpository.com/ds4psy/data/posPsy_data_wide.csv") 
+dim(data_wide) #295 294
+
+
+# Dropout at occasion 1
+
+data_wide %>% 
+  filter(is.na(occasion.1) & is.na(occasion.2) & is.na(occasion.3) & is.na(occasion.4) & is.na(occasion.5)) %>% 
+  count() #93
+
+#Dropout at occasion 2
+
+data_wide %>% 
+  filter(!is.na(occasion.1) & is.na(occasion.2) & is.na(occasion.3) & is.na(occasion.4) & is.na(occasion.5)) %>% 
+  count() #23
+
+#Dropout at occasion 3
+
+data_wide %>% 
+  filter(!is.na(occasion.1) & !is.na(occasion.2) & is.na(occasion.3) & is.na(occasion.4) & is.na(occasion.5)) %>% 
+  count() #8
+
+
+#Dropout at occasion 4
+
+data_wide %>% 
+  filter(!is.na(occasion.1) & !is.na(occasion.2) & !is.na(occasion.3) & is.na(occasion.4) & is.na(occasion.5)) %>% 
+  count() #4
+
+#Dropout at occasion 5
+
+data_wide %>% 
+  filter(!is.na(occasion.1) & !is.na(occasion.2) & !is.na(occasion.3) & !is.na(occasion.4) & is.na(occasion.5)) %>% 
+  count() #15
+
+
+## (6b): How many participants dropped out in total?
+93+23+8+4+5 #133
+```
+
+
+## Exercise 7
+
+```{r exercise 7, echo = TRUE, eval = TRUE}
+#Exercise 7: Participants with stable scores 
+##You computed new variables with information on the changes in ahi and cesd total scores from occasion 0 to occasion 5 in exercise 5. Compute the variables again or take the data from exercise 5
+
+data_wide <- read_csv(file = "http://rpository.com/ds4psy/data/posPsy_data_wide.csv") 
+dim(data_wide) #295 294
+
+data_wide <- select(data_wide, id:elapsed.days.0, contains("Total"), contains("occasion"), starts_with("elapsed."))
+
+e <- data_wide %>% 
+  mutate(change_ahi = ahiTotal.5 - ahiTotal.0,
+         change_cesd = cesdTotal.5 - cesdTotal.0)
+
+##(7a): Are there participants whose ahiTotal scores did not change? If yes: how many are there?
+e %>%
+  filter(change_ahi == 0) #yes
+
+e %>%
+  filter(change_ahi == 0) %>% 
+  count() #5
+
+##(7b): Are there participants whose cesdTotal scores did not change? If yes: how many are there?
+e %>%
+  filter(change_cesd == 0) #yes
+
+e %>%
+  filter(change_cesd == 0) %>% 
+  count() #8
+
+
+##(7c): Are there participants whose ahiTotal score and cesdTotal score did not change? If yes: how many are there?
+e %>%
+  filter(change_cesd == 0, change_ahi == 0) #yes
+
+e %>%
+  filter(change_cesd == 0, change_ahi == 0) %>% 
+  count() #1
+
+
+##(7d): Who is it?
+e %>%
+  filter(change_cesd == 0, change_ahi == 0) %>% 
+  select(id)
+
+#participant with id 113
+
+
+##(7e): For this particpiant plot the scores over time.
+
+AHI_CESD_2 <- read_csv(file = "http://rpository.com/ds4psy/data/posPsy_AHI_CESD_corrected.csv")  
+dim(AHI_CESD_2) #990 50
+
+
+AHI_CESD_2 <- AHI_CESD_2 %>% 
+  filter(id == "113")
+AHI_CESD_2
+
+ggplot(AHI_CESD_2) +
+  geom_point(aes(x = occasion, y = ahiTotal), color = "darkblue", size = 2) +
+  geom_line(aes(x = occasion, y = ahiTotal), color = "darkblue") +
+  geom_point(aes(x = occasion, y = cesdTotal), color = "forestgreen", size = 2) +
+  geom_line(aes(x = occasion, y = cesdTotal), color = "forestgreen") +
+  labs(title = "Participant 113 ahiTotal scores (blue) and cesdTotalscores (green) over time", x = "occasion", y = "Total scores") +
+  theme_light()
+```
+
+
+
+# References
+
+- Seligman, M. E., Steen, T. A., Park, N., & Peterson, C. (2005). 
+Positive psychology progress: Empirical validation of interventions. 
+_American Psychologist_, _60_(5), 410--421.
+
+- Woodworth, R. J., O'Brien‐Malone, A., Diamond, M. R., & Schüz, B. (2017). 
+Web‐based positive psychology interventions: A reexamination of effectiveness. 
+_Journal of Clinical Psychology_, _73_(3), 218--232.
 
 - Woodworth, R. J., O’Brien-Malone, A., Diamond, M. R. and Schüz, B. (2018). 
 Data from, ‘Web-based positive psychology interventions: A reexamination of effectiveness’. 
 _Journal of Open Psychology Data_, _6_: 1. DOI: <https://doi.org/10.5334/jopd.35> 
 
+- Data at <https://doi.org/10.6084/m9.figshare.1577563.v1>. 
 
+
+[Last update on `r Sys.time()` by [hn](http://neth.de/).] 
 
 <!-- eof. --> 
