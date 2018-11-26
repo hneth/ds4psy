@@ -1,7 +1,7 @@
 ---
 title: "Exploring data, with solutions (EDA, ds4psy)"
 author: "Hansjörg Neth, SPDS, uni.kn"
-date: "2018 11 21"
+date: "2018 11 26"
 output:
    rmdformats::html_clean: # html_clean html_docco readthedown material #
      code_folding: show # hide
@@ -21,9 +21,9 @@ editor_options:
 rm(list=ls()) # clean all.
 
 ## (b) Current file name and path: ----- 
-# cur.path <- dirname(rstudioapi::getActiveDocumentContext()$path)
-# cur.path
-# setwd(cur.path) # set to current directory
+# my_path <- dirname(rstudioapi::getActiveDocumentContext()$path)
+# my_path
+# setwd(my_path) # set to current directory
 setwd("~/Desktop/stuff/Dropbox/_code/R/_teachR/ds4psy/_essentials") # set to current directory
 # list.files() # all files + folders in current directory
 fileName <- "explore.Rmd"
@@ -124,7 +124,8 @@ library(tidyverse)
 
 ## Introduction
 
-In the following, we refine and use what we have learned so far. Essentially, this session combines what we have learned about `ggplot2` (in [Chapter 3: Data visualization](http://r4ds.had.co.nz/data-visualisation.html)) and about `dplyr` (in [Chapter 5: Data transformation](https://r4ds.had.co.nz/transform.html)) to explore datasets.  
+In the following, we refine and use what we have learned so far to explore data. 
+Practically, this session combines what we have learned about `ggplot2` (in [Chapter 3: Data visualization](http://r4ds.had.co.nz/data-visualisation.html)) and about `dplyr` (in [Chapter 5: Data transformation](https://r4ds.had.co.nz/transform.html)) to explore datasets.  
 
 Important concepts in this session include: 
 
@@ -135,7 +136,15 @@ See [Chapter 7: Exploratory data analysis (EDA)](http://r4ds.had.co.nz/explorato
 
 ## What is EDA? 
 
-The goal and purpose of _exploratory data analysis_ (EDA) is to gain an overview of a dataset. This includes an idea of its dimensions and the number and types of variables contained in the data, but also a more detailed idea of the distribution of variables, their potential relations to each other, and potential problems (e.g., missing values or outliers). 
+According to [Grolemund & Wickham (2017, Chapter 7)](http://r4ds.had.co.nz/exploratory-data-analysis.html) _exploratory data analysis_ (EDA) primarily is a state of mind. Rather than following a strict set of rules, EDA is an initial phase of familiarising yourself with a new data set by actively engaging in an iterative cycle during which you 
+
+- Generate questions about data.
+- Search for answers by visualising, transforming, and modelling data.
+- Use answers to refine your questions and/or generate new questions.
+
+Philosophically speaking, EDA is a data scientist's way of doing hermeneutics (see [Wikipedia](https://en.wikipedia.org/wiki/Hermeneutics) or [The Stanford Encyclopedia of Philosophy](https://plato.stanford.edu/entries/hermeneutics/) for definitions) to get a grip on data.
+
+The goal and purpose of EDA is to gain an overview of a dataset. This includes an idea of its dimensions and the number and types of variables contained in the data, but also a more detailed idea of the distribution of variables, their potential relations to each other, and potential problems (e.g., missing values or outliers). 
 
 When using the tools provided by the `tidyverse`, the fastest way to gain insights into a dataset is a series of `dplyr` calls and `ggplot2` graphs. However, creating good graphs is both an art and a craft. The key to creating good graphs requires answering 2 sets of questions: 
 
@@ -159,35 +168,55 @@ While any actual EDA is tailored to specific features of the data and current re
 
 # Principles and practices
 
-In the following, we will explain some principles that endorse and promote the ideal of _transparent data analysis_ and _reproducible research_. While such practices are indispensable when working in a team of colleagues and the wider scientific community, organizing your workflow in a more consistent fashion is also beneficial for your future self and other projects.
+In the following, we will explain some principles that endorse and promote the ideal of _transparent data analysis_ and _reproducible research_. While such practices are indispensable when working in a team of colleagues and the wider scientific community, organizing your workflow in a more consistent fashion is also beneficial for your other projects and your future self. 
 
-## Starting well
+## Setting the stage
 
 Before embarking on any actual analysis, we should pay tribute to 2 principles that seem so simple that it's easy to overlook their benefits: 
 
 - **Principle 1:** Structure and comment your analysis.
 
-While adhering to this principle may seem unnecessary or trivial at first, it gets more important as analyses get longer and more complicated (e.g., distributed over multiple datasets and scripts). A consistent document structure, transparent object names, and clear and informative comments are indispensable when sharing your data or scripts with others. Comments structure a longer document into parts and briefly explain the content of each part (_what_), but should primarily focus on the goals and reasons for your decisions (i.e., explain _why_, rather than _how_ you did something).  
+While adhering to this principle may seem superfluous or trivial at first, it is crucial as analyses get longer and more complicated (e.g., distributed over multiple datasets and scripts). A consistent document structure, transparent object names, and clear and informative comments are indispensable when sharing your data or scripts with others. Good comments often structure a longer document into parts and briefly explain the content of each part (_what_), but will primarily focus on the goals and reasons for your decisions (i.e., explain _why_, rather than _how_ you did something).  
 
 - **Principle 2:** Start with a clean slate and explicitly load all data and all packages required in this analysis.
 
 Although RStudio IDE provides options for saving your workspace and for loading data or packages by clicking buttons or checking boxes, doing so renders the process of your analysis intransparent for anyone not observing all your actions. To make sure that others and yourself can repeat the same sequence of steps tomorrow or next year, it is advisable to always start with a clean slate and explicitly state which data and packages are required for the current analysis (unless there are good reasons to deviate from them):^[Actually, listing _everything_ required to execute a file can get quite excessive (check out `sessionInfo()` or the `session_info` and `package_info` functions of `devtools`, in case you're interested, and consider using the `packrat` package in case you want to preserve or share your current setup). Hence, most people only explicitly list and load non-standard packages (in their current version).]
 
-```{r clean_and_load}
+### Cleaning up
+
+Clean your workspace and define some custom objects (like colors or functions): 
+
+```{r clean_custom, , message = FALSE}
 # Housekeeping:
 rm(list = ls())  # cleans ALL objects in current R environment (without asking for confirmation)!
 
+# Customizations:
+seeblau <- rgb(0, 169, 224, names = "seeblau", maxColorValue = 255)  # seeblau.4 of uni.kn color scheme 
+
+# source(file = "my_custom_functions.R")
+```
+
+### Loading packages and data
+
+Load all required packages and data files (see [Dataset: Positive Psychology](http://rpository.com/ds4psy/essentials/datasets.html#positive-psychology) for details): 
+
+```{r get_loaded, message = FALSE}
 # Load packages:
 library(tidyverse)
 library(knitr)
 library(rmarkdown)
 
-# Load data file(s):
-posPsy_wide <- readr::read_csv(file = "http://rpository.com/ds4psy/data/posPsy_data_wide.csv")
-dim(posPsy_wide)  # 295 cases x 294 variables
+# Load csv-data files (from online links):
+# See <http://rpository.com/ds4psy/essentials/datasets.html> for details. 
 
-# Other customizations:
-seeblau <- rgb(0, 169, 224, names = "seeblau", maxColorValue = 255)  # seeblau.4 of uni.kn color scheme 
+# 1. Participant data: 
+posPsy_p_info <- read_csv(file = "http://rpository.com/ds4psy/data/posPsy_participants.csv")
+
+# 2. Original DVs in long format:
+AHI_CESD <- read_csv(file = "http://rpository.com/ds4psy/data/posPsy_AHI_CESD.csv")
+
+# 4. Corrected version of all data in wide format: 
+posPsy_wide <- readr::read_csv(file = "http://rpository.com/ds4psy/data/posPsy_data_wide.csv")
 ```
 
 - **Principle 3:** Make copies (and copies of copies) of your data.  
@@ -225,12 +254,46 @@ all.equal(df, df_2)
 ```
 
 
+## Screening data
+
+Screening data involves checking the dimensions of data, the types of variables, missing or atypical values, and the validity of observations. 
+
+### Basic properties
+
+- **Principle 4:** Know (the dimensions of) your data and (types of) your variables. 
+
+In the following, we first inspect the original data file, which we read in from <http://rpository.com/ds4psy/data/posPsy_AHI_CESD.csv> above: 
+
+```{r screen_inspect}
+df <- AHI_CESD  # copy the data
+
+dim(df)  # 992 cases x 50 variables
+df <- as_tibble(df)  # (in case df isn't a tibble already)
+
+# Get an initial overview: 
+df
+names(df)    # Note variable names
+glimpse(df)  # Note types of variables
+summary(df)  # Note range of values
+```
+
+We note that `AHI_CESD` contains `r dim(AHI_CESD)[1]` observations (rows) and  `r dim(AHI_CESD)[2]` variables (columns). Most of the variables are integers and -- judging from their names -- many belong together (in blocks). Their names and ranges suggest that they stem from questionnaires or scales with fixed answer categories (e.g., from 1 to 5 for `ahi__`, and from 1 to 4 for `cesd__`). 
+Overall, a row of data is a measurement of one participant (characterised by its `id` and an `intervention` value) at one occasion (characterised by the value of `occasion` and `elapsed.days`) on two scales (`ahi` and `cesd`). 
+
+### Missing values
+
+
+
 +++ here now +++ 
 
 
-## Screening data
 
-Checking basic properties, the validity of cases and values, and the distributions of variables. 
+
+Check basic properties, 
+
+
+
+the validity of cases and values (adding filter variables), and the distributions of variables. 
 
 ### Basics
 
@@ -636,7 +699,9 @@ More on barplots:
 
 
 
-### Improving plots
+
+
+## Improving plots
 
 Most default plots can be improved by fine-tuning their visual appearance. 
 Popular levers for "pimping" plots include: 
@@ -646,8 +711,59 @@ Popular levers for "pimping" plots include:
 - legends: can be (re-)moved or edited;  
 - themes: can be selected or modified.  
 
+# Exercises
 
-### Related plots and packages
+**Ideas:**
+
+## Exercise: Transform
+
+Using file `AHI_CESD`: 
+
+- Are the variables `ahiTotal` and `cesdTotal` the sums of all values in `ahi01` to `ahi24` and `cesd01` to `cesd20`, respectively?
+
+```{r ex_ahi_cesd}
+## Data:
+## 2. Original DVs in long format:
+# AHI_CESD <- read_csv(file = "http://rpository.com/ds4psy/data/posPsy_AHI_CESD.csv")
+
+df <- AHI_CESD
+dim(df)  # 992 x 50
+
+# Are the variables `ahiTotal` and `cesdTotal` the sums of all values in `ahi01` to `ahi24` and `cesd01` to `cesd20`, respectively?
+# (a) ahi: 
+ahi <- df %>% 
+  select(ahi01:ahi24)
+
+ahi_sums <- rowSums(ahi)
+sum(ahi_sums == df$ahiTotal)  # 992 (qed)
+all.equal(ahi_sums, df$ahiTotal)  # TRUE
+
+# (b) cesd:
+cesd <- df %>% 
+  select(cesd01:cesd20)
+
+cesd_sums <- rowSums(cesd)
+cesd_sums
+sum(cesd_sums == df$cesdTotal)  # 0 => all different!
+
+
+
+
+
+```
+
+
+## Exercise: Same plot twice
+
+Plot same plot _twice_: 
+    1. from a lot of raw data and 
+    2. from much leaner table of aggregated data.
+    
++++ here now +++
+
+
+
+# Other plots and packages
 
 `ggplot2` comes with a large variety of geoms. Nevertheless, we sometimes want to show or do something that is not included in the standard package. [Chapter 7: Exploratory data analysis](http://r4ds.had.co.nz/exploratory-data-analysis.html) goes beyond standard `ggplot` geoms by touching on `geom_hex` (from the `hexbin` package) and `geom_beeswarm` and `geom_quasirandom` (from the `ggbeeswarm` package). When looking for new forms of visual expression, web sites like 
 
@@ -661,7 +777,7 @@ can inspire and provide many interesting pointers. The site
 
 also provides valuable resources for `ggplot` users, as it shows packages specifically designed to work with `ggplot2`. In the following, we illustrate the package `ggalluvial` that allows showing the transitions between categorical data. 
 
-#### Example 1: Alluvial plot
+### Example 1: Alluvial plot
 
 ```{r alluvial_plots_1, fig.width = 6, fig.height = 8}
 # Preparations: 
@@ -691,7 +807,7 @@ ggplot(as.data.frame(UCBAdmissions),
 An important feature of these diagrams is the meaningfulness of the vertical axis: No gaps are inserted between the strata, so the total height of the diagram reflects the cumulative weight of the observations.^[This is different in _Sankey diagrams_, shown <https://developers.google.com/chart/interactive/docs/gallery/sankey>.]
 
 
-#### Example 2: Parallel set diagram 
+### Example 2: Parallel set diagram 
 
 ```{r alluvial_plots_2, fig.width = 7, fig.height = 7}
 # Preparations: 
@@ -749,7 +865,7 @@ ggplot(as.data.frame(Titanic),
   theme_bw()
 ```
 
-#### Example 3: Data in long format
+### Example 3: Data in long format
 
 ```{r alluvial_plots_3, fig.width = 8, fig.height = 5}
 # Preparations: 
@@ -778,15 +894,7 @@ ggplot(majors,
 See the packages `circlize`, `ggforce`, and `ggparallel` for other types of transition plots. 
 
 
-# Exercises
 
-**Ideas:**
-
-Plot same plot _twice_: 
-    1. from a lot of raw data and 
-    2. from much leaner table of aggregated data.
-    
-+++ here now +++
 
 
 # More on data visualization / EDA

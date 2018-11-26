@@ -124,7 +124,7 @@ img {
 <div id="header">
 <h1 class="title">Exploring data, with solutions (EDA, ds4psy)</h1>
 <h4 class="author"><em>Hansjörg Neth, SPDS, uni.kn</em></h4>
-<h4 class="date"><em>2018 11 21</em></h4>
+<h4 class="date"><em>2018 11 24</em></h4>
 </div>
 
 <div id="content">
@@ -213,7 +213,7 @@ Nr. | Topic       |
 <h1>Exploring data</h1>
 <div id="introduction-1" class="section level2">
 <h2>Introduction</h2>
-<p>In the following, we refine and use what we have learned so far. Essentially, this session combines what we have learned about <code>ggplot2</code> (in <a href="http://r4ds.had.co.nz/data-visualisation.html">Chapter 3: Data visualization</a>) and about <code>dplyr</code> (in <a href="https://r4ds.had.co.nz/transform.html">Chapter 5: Data transformation</a>) to explore datasets.</p>
+<p>In the following, we refine and use what we have learned so far to explore data. Practically, this session combines what we have learned about <code>ggplot2</code> (in <a href="http://r4ds.had.co.nz/data-visualisation.html">Chapter 3: Data visualization</a>) and about <code>dplyr</code> (in <a href="https://r4ds.had.co.nz/transform.html">Chapter 5: Data transformation</a>) to explore datasets.</p>
 <p>Important concepts in this session include:</p>
 <ul>
 <li>missing values (<code>NA</code>)<br />
@@ -224,7 +224,14 @@ Nr. | Topic       |
 </div>
 <div id="what-is-eda" class="section level2">
 <h2>What is EDA?</h2>
-<p>The goal and purpose of <em>exploratory data analysis</em> (EDA) is to gain an overview of a dataset. This includes an idea of its dimensions and the number and types of variables contained in the data, but also a more detailed idea of the distribution of variables, their potential relations to each other, and potential problems (e.g., missing values or outliers).</p>
+<p>According to <a href="http://r4ds.had.co.nz/exploratory-data-analysis.html">Grolemund &amp; Wickham (2017, Chapter 7)</a> <em>exploratory data analysis</em> (EDA) primarily is a state of mind. Rather than following a strict set of rules, EDA is an initial phase of familiarising yourself with a new data set by actively engaging in an iterative cycle during which you</p>
+<ul>
+<li>Generate questions about data.</li>
+<li>Search for answers by visualising, transforming, and modelling data.</li>
+<li>Use answers to refine your questions and/or generate new questions.</li>
+</ul>
+<p>Philosophically speaking, EDA is a data scientist’s way of doing hermeneutics (see <a href="https://en.wikipedia.org/wiki/Hermeneutics">Wikipedia</a> or <a href="https://plato.stanford.edu/entries/hermeneutics/">The Stanford Encyclopedia of Philosophy</a> for definitions) to get a grip on data.</p>
+<p>The goal and purpose of EDA is to gain an overview of a dataset. This includes an idea of its dimensions and the number and types of variables contained in the data, but also a more detailed idea of the distribution of variables, their potential relations to each other, and potential problems (e.g., missing values or outliers).</p>
 <p>When using the tools provided by the <code>tidyverse</code>, the fastest way to gain insights into a dataset is a series of <code>dplyr</code> calls and <code>ggplot2</code> graphs. However, creating good graphs is both an art and a craft. The key to creating good graphs requires answering 2 sets of questions:</p>
 <ol style="list-style-type: decimal">
 <li><p>Knowing the <em>intended type of plot</em>. This includes answering <em>functional</em> questions like</p>
@@ -249,33 +256,57 @@ Nr. | Topic       |
 </div>
 <div id="principles-and-practices" class="section level1">
 <h1>Principles and practices</h1>
-<p>In the following, we will explain some principles that endorse and promote the ideal of <em>transparent data analysis</em> and <em>reproducible research</em>. While such practices are indispensable when working in a team of colleagues and the wider scientific community, organizing your workflow in a more consistent fashion is also beneficial for your future self and other projects.</p>
-<div id="starting-well" class="section level2">
-<h2>Starting well</h2>
+<p>In the following, we will explain some principles that endorse and promote the ideal of <em>transparent data analysis</em> and <em>reproducible research</em>. While such practices are indispensable when working in a team of colleagues and the wider scientific community, organizing your workflow in a more consistent fashion is also beneficial for your other projects and your future self.</p>
+<div id="setting-the-stage" class="section level2">
+<h2>Setting the stage</h2>
 <p>Before embarking on any actual analysis, we should pay tribute to 2 principles that seem so simple that it’s easy to overlook their benefits:</p>
 <ul>
 <li><strong>Principle 1:</strong> Structure and comment your analysis.</li>
 </ul>
-<p>While adhering to this principle may seem unnecessary or trivial at first, it gets more important as analyses get longer and more complicated (e.g., distributed over multiple datasets and scripts). A consistent document structure, transparent object names, and clear and informative comments are indispensable when sharing your data or scripts with others. Comments structure a longer document into parts and briefly explain the content of each part (<em>what</em>), but should primarily focus on the goals and reasons for your decisions (i.e., explain <em>why</em>, rather than <em>how</em> you did something).</p>
+<p>While adhering to this principle may seem superfluous or trivial at first, it is crucial as analyses get longer and more complicated (e.g., distributed over multiple datasets and scripts). A consistent document structure, transparent object names, and clear and informative comments are indispensable when sharing your data or scripts with others. Good comments often structure a longer document into parts and briefly explain the content of each part (<em>what</em>), but will primarily focus on the goals and reasons for your decisions (i.e., explain <em>why</em>, rather than <em>how</em> you did something).</p>
 <ul>
 <li><strong>Principle 2:</strong> Start with a clean slate and explicitly load all data and all packages required in this analysis.</li>
 </ul>
 <p>Although RStudio IDE provides options for saving your workspace and for loading data or packages by clicking buttons or checking boxes, doing so renders the process of your analysis intransparent for anyone not observing all your actions. To make sure that others and yourself can repeat the same sequence of steps tomorrow or next year, it is advisable to always start with a clean slate and explicitly state which data and packages are required for the current analysis (unless there are good reasons to deviate from them):<a href="#fn2" class="footnoteRef" id="fnref2"><sup>2</sup></a></p>
+<div id="cleaning-up" class="section level3">
+<h3>Cleaning up</h3>
+<p>Clean your workspace and define some custom objects (like colors or functions):</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Housekeeping:</span>
 <span class="kw">rm</span>(<span class="dt">list =</span> <span class="kw">ls</span>())  <span class="co"># cleans ALL objects in current R environment (without asking for confirmation)!</span>
 
-<span class="co"># Load packages:</span>
+<span class="co"># Customizations:</span>
+seeblau &lt;-<span class="st"> </span><span class="kw">rgb</span>(<span class="dv">0</span>, <span class="dv">169</span>, <span class="dv">224</span>, <span class="dt">names =</span> <span class="st">&quot;seeblau&quot;</span>, <span class="dt">maxColorValue =</span> <span class="dv">255</span>)  <span class="co"># seeblau.4 of uni.kn color scheme </span>
+
+<span class="co"># source(file = &quot;my_custom_functions.R&quot;)</span></code></pre></div>
+</div>
+<div id="loading-packages-and-data" class="section level3">
+<h3>Loading packages and data</h3>
+<p>Load all required packages and data files:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Load packages:</span>
 <span class="kw">library</span>(tidyverse)
 <span class="kw">library</span>(knitr)
 <span class="kw">library</span>(rmarkdown)
 
-<span class="co"># Load data file(s):</span>
-posPsy_wide &lt;-<span class="st"> </span>readr<span class="op">::</span><span class="kw">read_csv</span>(<span class="dt">file =</span> <span class="st">&quot;http://rpository.com/ds4psy/data/posPsy_data_wide.csv&quot;</span>)
-<span class="kw">dim</span>(posPsy_wide)  <span class="co"># 295 cases x 294 variables</span>
-<span class="co">#&gt; [1] 295 294</span>
+<span class="co"># Load csv-data files (from online links):</span>
 
-<span class="co"># Other customizations:</span>
-seeblau &lt;-<span class="st"> </span><span class="kw">rgb</span>(<span class="dv">0</span>, <span class="dv">169</span>, <span class="dv">224</span>, <span class="dt">names =</span> <span class="st">&quot;seeblau&quot;</span>, <span class="dt">maxColorValue =</span> <span class="dv">255</span>)  <span class="co"># seeblau.4 of uni.kn color scheme </span></code></pre></div>
+<span class="co"># 1. Participant data: </span>
+posPsy_p_info &lt;-<span class="st"> </span>readr<span class="op">::</span><span class="kw">read_csv</span>(<span class="dt">file =</span> <span class="st">&quot;http://rpository.com/ds4psy/data/posPsy_participants.csv&quot;</span>)
+<span class="kw">dim</span>(posPsy_p_info)  <span class="co"># 295 x 6 </span>
+<span class="co">#&gt; [1] 295   6</span>
+
+<span class="co"># 2. Original DVs in long format:</span>
+posPsy_long &lt;-<span class="st"> </span>readr<span class="op">::</span><span class="kw">read_csv</span>(<span class="dt">file =</span> <span class="st">&quot;http://rpository.com/ds4psy/data/posPsy_AHI_CESD.csv&quot;</span>)
+<span class="kw">dim</span>(posPsy_long)  <span class="co"># 992 x 50</span>
+<span class="co">#&gt; [1] 992  50</span>
+
+## 3. Corrected DVs in long format:
+<span class="co"># posPsy_long2 &lt;- readr::read_csv(file = &quot;http://rpository.com/ds4psy/data/posPsy_AHI_CESD_corrected.csv&quot;)</span>
+<span class="co"># dim(posPsy_long2)  # 990 x 50</span>
+
+<span class="co"># 4. Corrected version of all data in wide format: </span>
+posPsy_wide &lt;-<span class="st"> </span>readr<span class="op">::</span><span class="kw">read_csv</span>(<span class="dt">file =</span> <span class="st">&quot;http://rpository.com/ds4psy/data/posPsy_data_wide.csv&quot;</span>)
+<span class="kw">dim</span>(posPsy_wide)  <span class="co"># 295 x 294 </span>
+<span class="co">#&gt; [1] 295 294</span></code></pre></div>
 <ul>
 <li><strong>Principle 3:</strong> Make copies (and copies of copies) of your data.</li>
 </ul>
@@ -315,9 +346,10 @@ df_<span class="dv">2</span> &lt;-<span class="st"> </span><span class="kw">read
 <span class="co">#&gt; [1] TRUE</span></code></pre></div>
 <p>+++ here now +++</p>
 </div>
+</div>
 <div id="screening-data" class="section level2">
 <h2>Screening data</h2>
-<p>Checking basic properties, the validity of cases and values, and the distributions of variables.</p>
+<p>Check basic properties, the validity of cases and values (adding filter variables), and the distributions of variables.</p>
 <div id="basics" class="section level3">
 <h3>Basics</h3>
 <p>Dimensions, types of variables and values, number, means, and ranges of values.</p>
@@ -1032,7 +1064,7 @@ Nr. | Topic       |
 6.  | [Tidying data](http://rpository.com/ds4psy/essentials/tidy.html) |
 +.  | [Datasets](http://rpository.com/ds4psy/essentials/datasets.html) | 
 -->
-<p>[Last update on 2018-11-22 20:00:42 by <a href="http://neth.de/">hn</a>.]</p>
+<p>[Last update on 2018-11-26 09:00:45 by <a href="http://neth.de/">hn</a>.]</p>
 <!-- eof. -->
 </div>
 <div class="footnotes">
@@ -1060,7 +1092,10 @@ Nr. | Topic       |
         <li><a href="#what-is-eda">What is EDA?</a></li>
         </ul></li>
         <li><a href="#principles-and-practices">Principles and practices</a><ul>
-        <li><a href="#starting-well">Starting well</a></li>
+        <li><a href="#setting-the-stage">Setting the stage</a><ul>
+        <li><a href="#cleaning-up">Cleaning up</a></li>
+        <li><a href="#loading-packages-and-data">Loading packages and data</a></li>
+        </ul></li>
         <li><a href="#screening-data">Screening data</a><ul>
         <li><a href="#basics">Basics</a></li>
         <li><a href="#missing-values">Missing values</a></li>

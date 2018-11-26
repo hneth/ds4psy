@@ -1,7 +1,7 @@
 ---
 title: "Datasets (ds4psy)"
 author: "Hansjörg Neth, SPDS, uni.kn"
-date: "2018 11 21"
+date: "2018 11 26"
 output:
    rmdformats::html_clean: # html_clean html_docco readthedown material #
      code_folding: show # hide
@@ -812,12 +812,12 @@ posPsy_p_info <- readr::read_csv(file = "http://rpository.com/ds4psy/data/posPsy
 dim(posPsy_p_info)  # 295 x 6 
 
 # 2. Original DVs in long format:
-posPsy_long <- readr::read_csv(file = "http://rpository.com/ds4psy/data/posPsy_AHI_CESD.csv")
-dim(posPsy_long)  # 992 x 50
+AHI_CESD <- readr::read_csv(file = "http://rpository.com/ds4psy/data/posPsy_AHI_CESD.csv")
+dim(AHI_CESD)  # 992 x 50
 
 # 3. Corrected DVs in long format:
-posPsy_long2 <- readr::read_csv(file = "http://rpository.com/ds4psy/data/posPsy_AHI_CESD_corrected.csv")
-dim(posPsy_long2)  # 990 x 50
+posPsy_long <- readr::read_csv(file = "http://rpository.com/ds4psy/data/posPsy_AHI_CESD_corrected.csv")
+dim(posPsy_long)  # 990 x 50
 
 # 4. Corrected version of all data in wide format: 
 posPsy_wide <- readr::read_csv(file = "http://rpository.com/ds4psy/data/posPsy_data_wide.csv")
