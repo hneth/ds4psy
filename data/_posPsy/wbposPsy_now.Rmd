@@ -203,6 +203,7 @@ AHI_CESD <- read_csv(file = "http://rpository.com/ds4psy/data/posPsy_AHI_CESD.cs
 all.equal(ahi_cesd, AHI_CESD) # should be TRUE
 ```
 
+
 ## Data screening
 
 Run some simple checks: 

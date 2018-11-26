@@ -260,9 +260,13 @@ Screening data involves checking the dimensions of data, the types of variables,
 
 ### Basic properties
 
-- **Principle 4:** Know (the dimensions of) your data and (types of) your variables. 
+- **Principle 4:** Know your data (variables and observations). 
 
-In the following, we first inspect the original data file, which we read in from <http://rpository.com/ds4psy/data/posPsy_AHI_CESD.csv> above: 
+This principle is short version of the following: 
+
+- Know (the dimensions of) your data, (the types of) your variables, and (the meaning of) your observations. 
+
+Here, we first inspect the original data file, which we read in from <http://rpository.com/ds4psy/data/posPsy_AHI_CESD.csv> above: 
 
 ```{r screen_inspect}
 df <- AHI_CESD  # copy the data
@@ -282,9 +286,28 @@ Overall, a row of data is a measurement of one participant (characterised by its
 
 ### Missing values
 
+- **Principle 5:** Know and deal with missing values. 
 
+In R, missing values are identified by `NA`. Note that `NA` is different from `NULL`: `NULL` represents the null object (i.e., something is undefined). By contrast, `NA` means that some value is absent:
+
+```{r NA_vs_NULL}
+# Notes:
+all.equal(NULL, NA) # Note: NULL vs. logical
+all.equal("", NA)   # Note: character vs. logical
+
+is.null(NULL) # TRUE
+is.null(NA)   # FALSE
+
+is.na(NA)   # TRUE
+is.na(NULL) # 0 (NULL)
+```
 
 +++ here now +++ 
+
+- counting missing values
+- replacing instances of "-77", "-99", etc.
+
+
 
 
 
@@ -301,22 +324,7 @@ Dimensions,
 types of variables and values, 
 number, means, and ranges of values.
 
-### Missing values
 
-Missing values are `NA`. Note that `NA` is different from `NULL`: `NULL` represents the null object (i.e., something is undefined). By contrast, `NA` means that some value is absent.
-
-```{r}
-is.null(NULL) # TRUE
-is.null(NA)   # FALSE
-
-is.na(NA)   # TRUE
-is.na(NULL) # 0 (NULL)
-
-```
-
-
-- counting missing values
-- replacing instances of "-77", "-99", etc.
 
 
 ### Outliers

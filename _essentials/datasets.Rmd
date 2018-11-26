@@ -800,6 +800,7 @@ The following files were generated from the original data files (and saved in `.
 <http://rpository.com/ds4psy/data/posPsy_data_wide.csv>.   
 Different measurement occasions are suffixed by `.0`, `.1`, ..., `.5`.  
 
+
 #### Loading data
 
 We can load data stored in `csv`-format into R by using the `read_csv` command (from the `readr` package, which is part of the `tidyverse`). Here, we obtain the data files from online sources (at <http://rpository.com/ds4psy/>): 
