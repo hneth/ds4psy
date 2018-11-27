@@ -704,7 +704,7 @@ dim(p_info_old)    #   6 participants           x 7 variables
 
 ## Viewing relationships 
 
-Most research hypotheses involve _relationships_ between 2 or more variables. This brings us to another principle: 
+Most research hypotheses involve _relationships_ or measures of _correspondence_ between 2 or more variables. This brings us to another principle: 
 
 - **Principle 8:** Inspect relationships between (continuous or categorical) variables. 
 
@@ -736,14 +736,14 @@ ggplot(df) +
 
 ### Violin and box plots
 
-Viewing the distribution of a continuous variable by the levels of a categorical variable: 
+Other measures of correspondence: 
 
-
-
-
-Box- or violin plots
+A common case: Viewing the distribution of a continuous variable by the levels of a categorical variable: 
 
 +++ here now +++ 
+
+### Dot and tile plots
+
 
 
 
