@@ -71,7 +71,7 @@ Nr. | Topic       |
 1.  | [Basic R concepts and commands](http://rpository.com/ds4psy/essentials/basics.html) | 
 2.  | **Visualizing data** | 
 3.  | [Transforming data](http://rpository.com/ds4psy/essentials/transform.html) |
-4.  | [Exploring data (EDA)](http://rpository.com/ds4psy/essentials/EDA.html) | 
+4.  | [Exploring data (EDA)](http://rpository.com/ds4psy/essentials/explore.html) | 
 +.  | [Datasets](http://rpository.com/ds4psy/essentials/datasets.html) | 
 
 <!--
@@ -81,7 +81,7 @@ Nr. | Topic       |
 1.  | [Basic R concepts and commands](http://rpository.com/ds4psy/essentials/basics.html) | 
 2.  | [Visualizing data](http://rpository.com/ds4psy/essentials/visualize.html) | 
 3.  | [Transforming data](http://rpository.com/ds4psy/essentials/transform.html) |
-4.  | [Exploring data (EDA)](http://rpository.com/ds4psy/essentials/EDA.html) | 
+4.  | [Exploring data (EDA)](http://rpository.com/ds4psy/essentials/explore.html) | 
 5.  | [Creating and using tibbles](http://rpository.com/ds4psy/essentials/tibble.html) |
 6.  | [Tidying data](http://rpository.com/ds4psy/essentials/tidy.html) |  
 -->
@@ -982,7 +982,7 @@ Nr. | Topic       |
 1.  | [Basic R concepts and commands](http://rpository.com/ds4psy/essentials/basics.html) | 
 2.  | **Visualizing data** | 
 3.  | [Transforming data](http://rpository.com/ds4psy/essentials/transform.html) |
-4.  | [Exploring data (EDA)](http://rpository.com/ds4psy/essentials/EDA.html) | 
+4.  | [Exploring data (EDA)](http://rpository.com/ds4psy/essentials/explore.html) | 
 +.  | [Datasets](http://rpository.com/ds4psy/essentials/datasets.html) | 
 
 <!--
@@ -992,7 +992,7 @@ Nr. | Topic       |
 1.  | [Basic R concepts and commands](http://rpository.com/ds4psy/essentials/basics.html) | 
 2.  | [Visualizing data](http://rpository.com/ds4psy/essentials/visualize.html) | 
 3.  | [Transforming data](http://rpository.com/ds4psy/essentials/transform.html) |
-4.  | [Exploring data (EDA)](http://rpository.com/ds4psy/essentials/EDA.html) | 
+4.  | [Exploring data (EDA)](http://rpository.com/ds4psy/essentials/explore.html) | 
 5.  | [Creating and using tibbles](http://rpository.com/ds4psy/essentials/tibble.html) |
 6.  | [Tidying data](http://rpository.com/ds4psy/essentials/tidy.html) |  
 +.  | [Datasets](http://rpository.com/ds4psy/essentials/datasets.html) | 

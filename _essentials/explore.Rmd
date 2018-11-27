@@ -9,7 +9,7 @@ output:
      toc_depth: 3
      highlight: default # textmate default kate haddock monochrome #
      lightbox: true # true by default
-     fig_width: 7 # in inches
+     fig_width: 6 # in inches
 editor_options: 
   chunk_output_type: console # inline
 ---
@@ -44,7 +44,7 @@ opts_chunk$set(echo = TRUE,
                message = FALSE,
                warning = FALSE,
                ## Default figure options:
-               fig.width = 7, 
+               fig.width = 6, 
                fig.asp = .618, # golden ratio
                out.width = "75%",
                fig.align = "center"
@@ -203,6 +203,7 @@ Load all required packages and data files (see [Dataset: Positive Psychology](ht
 ```{r load_packages_data, message = FALSE}
 # Load packages:
 library(tidyverse)
+library(knitr)
 
 # Load csv-data files (from online links):
 # See <http://rpository.com/ds4psy/essentials/datasets.html> for details. 
@@ -810,7 +811,9 @@ ggplot(df, aes(x = factor(intervention), y = ahiTotal, color = factor(interventi
 When using multiple geoms in one plot, their order matters, as later geoms are printed on top of earlier ones. 
 In addition, combining geoms typically requires playing with aesthetics. Incidentally, note how the last plot moved some redundant aesthetic mappings (i.e., `x`, `y`, and `color`) from the geoms to the 1st line of the command (i.e., from the `mapping` argument of the geoms to the general `mapping` argument). 
 
-### Dot and tile plots
+### Tile and point size plots
+
+We already discovered that _bar plots_ can either count cases or show some pre-computed values (when using `stat = "identity"`, see [Bar plots](http://rpository.com/ds4psy/essentials/visualize.html#bar-plots) in [Visualizing data](http://rpository.com/ds4psy/essentials/visualize.html). In the following, we show that we can also compute summary tables and then display their values by the color `fill` gradient of tiles, or by the `size` of points: 
 
 ```{r tile_plots}
 # Frequency of observations by occasion (x) and intervention (y):
@@ -819,6 +822,8 @@ df <- AHI_CESD
 # dim(df)  # 992 50
 # df
 
+# Table 1: 
+# Frequency n, mean ahiTotal, and mean cesdTotal by occasion: 
 df %>%
   group_by(occasion) %>%
   summarise(n = n(),
@@ -826,51 +831,88 @@ df %>%
             cesdTotal_mn = mean(cesdTotal)
             )
 
+# Table 2: 
+# n, ahiTotal_mn, and cesdTotal_mn by occasion x intervention: 
 summary <- df %>%
   group_by(occasion, intervention) %>%
   summarise(n = n(),
             ahiTotal_mn = mean(ahiTotal), 
             cesdTotal_mn = mean(cesdTotal)
             )
-head(summary)
+knitr::kable(head(summary))
 
-# Tile plot: Frequency (n)
+# Tile plot 1: 
+# Frequency (n) of each interventin by occasion:
 ggplot(summary, aes(x = occasion, y = intervention)) +
-  geom_tile(aes(fill = n), color = "white") + 
+  geom_tile(aes(fill = n), color = "white", size = .1) + 
+  geom_text(aes(label = n), color = "white") +
   labs(title = "Frequency of each intervention by occasion (tile)", 
        x = "Occasion", y = "Intervention", fill = "Frequency:") + 
   theme_bw()
 
-# Tile plot: ahiTotal_mn 
+# Tile plot 2: 
+# ahiTotal_mn of each interventin by occasion:
 ggplot(summary, aes(x = occasion, y = intervention)) +
-  geom_tile(aes(fill = ahiTotal_mn)) + 
+  geom_tile(aes(fill = ahiTotal_mn), color = "grey75", size = 1) + 
   labs(title = "Mean ahiTotal score of each intervention by occasion (tile)", 
        x = "Occasion", y = "Intervention", fill = "ahiTotal_mn:") + 
-  scale_fill_gradient(low = "black", high = "green3") +
+  scale_fill_gradient(low = "black", high = "gold") +
   theme_bw()
 ```
 
-+++ here now +++ 
+Note the fancy color gradient of the last tile plot: The lowest average scores of happiness (or `ahiTotal_mn`) are shown in `"black"`, the highest ones in `"gold"`. 
+
+A similar way of expressing the value of a continuous variable -- like a frequency `n` or an average score `ahiTotal_mn` -- is by mapping it to the size dimension of a point. In the following, we create the same plot twice: first from raw data (`df` and `geom_count`) and then from our summary table (`summary` and `geom_point` with `size` mapped to the frequency `n`):
+
+```{r point_size_plots}
+# Point plot 1a:
+# Count frequency of values for each interventin by occasion:
+ggplot(df, aes(x = occasion, y = intervention)) +
+  geom_count(color = seeblau) + 
+  labs(title = "Frequency of each intervention by occasion (count)", 
+       x = "Occasion", y = "Intervention", size = "Count:") + 
+  theme_bw()
+
+# Point plot 1b:
+# Frequency (n mapped to size) of each interventin by occasion:
+ggplot(summary, aes(x = occasion, y = intervention)) +
+  geom_point(aes(size = n), color = seeblau) + 
+  labs(title = "Frequency of each intervention by occasion (point size)", 
+       x = "Occasion", y = "Intervention", size = "Frequency:") + 
+  theme_bw()
+```
+
+By combining the `geom_tile` and `geom_point` plots from above with `geom_text(aes(label = n), ...` we could simultaneously express 2 different continuous variables on 2 different dimensions (here `fill` color or `size` vs. the value shown by a `label` of text): 
+
+```{r combo_plots}
+# Combo plot 1: 
+# ahiTotal_mn of each interventin by occasion:
+ggplot(summary, aes(x = occasion, y = intervention)) +
+  geom_tile(aes(fill = ahiTotal_mn), color = "grey95", size = 1) + 
+  geom_text(aes(label = n), color = "white", size = 5, fontface = 2) +
+  labs(title = "Mean ahiTotal score of each intervention by occasion (tile)", 
+       x = "Occasion", y = "Intervention", fill = "ahiTotal_mn:") + 
+  scale_fill_gradient(low = "grey30", high = "gold") +
+  theme_bw()
+
+# Combo plot 2b:
+# ahiTotal_mn (mapped to point size) and n (text label) for each intervention x occasion:
+ggplot(summary, aes(x = occasion, y = intervention)) +
+  geom_point(aes(size = ahiTotal_mn), color = "forestgreen") + 
+  geom_text(aes(label = n), color = "white", size = 3, fontface = 2) +
+  labs(title = "ahiTotal_mn and n by intervention x occasion (point size + text label)", 
+       x = "Occasion", y = "Intervention", size = "Frequency:") + 
+  scale_size_continuous(range = c(5, 11)) +
+  theme_bw()
+```
+
+However, this probably gets too confusing --- so we should better use 2 separate plots when expressing multiple relationships. This brings us to:
+
+- **Principle 9:** Any plot should be as clear as possible, so don't try doing too much in one plot! 
+
+<!-- +++ here now +++ --> 
 
 <!-- 
-
-
-
-### Checking ranges and distributions
-
-- Scatterplot: detect relationships 
-- Box plot: view distributions 
-
-
-Check basic properties, unusual values, the validity of cases and values (adding filter variables), and the distributions of variables. 
-
-### Basics
-
-Dimensions, 
-types of variables and values, 
-number, means, and ranges of values.
-
-
 
 ### Outliers
 
@@ -888,13 +930,10 @@ Detection by graphs:
 - scatterplots
 - box plots
 
-
 ### Handling invalid cases
 
 - Filtering observations (in rows)
 - Deleting or replacing values (in columns)
-
-
 
 ## Understanding data
 
@@ -913,29 +952,9 @@ Using plots to visualize data
 #### 2 categorical variables
 
 
-#### 1 categorical and 1 continuous variable
-
-##### Bar plots
-
-We covered bar plots in [Visualizing data](http://rpository.com/ds4psy/essentials/visualize.html). 
-
-##### Box plots
-##### Violin plots
-##### Pirate plots
 
 
-#### 2 continuous variables
-
-- We covered scatterplots in [Visualizing data](http://rpository.com/ds4psy/essentials/visualize.html). 
-
-### More than 2 variables
-
-##### Tile plots
-##### Size plots
-
-
-
-## OLDER
+## OLDER EXAMPLES: 
 
 Basic plot types: 
 
