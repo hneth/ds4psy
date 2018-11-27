@@ -1,7 +1,7 @@
 ---
-title: "Exploring data, with solutions (EDA, ds4psy)"
+title: "Exploring data (EDA, ds4psy)"
 author: "Hansjörg Neth, SPDS, uni.kn"
-date: "2018 11 26"
+date: "2018 11 27"
 output:
    rmdformats::html_clean: # html_clean html_docco readthedown material #
      code_folding: show # hide
@@ -186,7 +186,7 @@ Although RStudio IDE provides options for saving your workspace and for loading 
 
 Clean your workspace and define some custom objects (like colors or functions): 
 
-```{r clean_custom, , message = FALSE}
+```{r clean_customize, message = FALSE}
 # Housekeeping:
 rm(list = ls())  # cleans ALL objects in current R environment (without asking for confirmation)!
 
@@ -200,11 +200,9 @@ seeblau <- rgb(0, 169, 224, names = "seeblau", maxColorValue = 255)  # seeblau.4
 
 Load all required packages and data files (see [Dataset: Positive Psychology](http://rpository.com/ds4psy/essentials/datasets.html#positive-psychology) for details): 
 
-```{r get_loaded, message = FALSE}
+```{r load_packages_data, message = FALSE}
 # Load packages:
 library(tidyverse)
-library(knitr)
-library(rmarkdown)
 
 # Load csv-data files (from online links):
 # See <http://rpository.com/ds4psy/essentials/datasets.html> for details. 
@@ -260,11 +258,15 @@ Screening data involves checking the dimensions of data, the types of variables,
 
 ### Basic properties
 
+What do you want to know immediately after loading a data file? 
+
 - **Principle 4:** Know your data (variables and observations). 
 
-This principle is short version of the following: 
+This principle is a short version of the following: You really want to know 
 
-- Know (the dimensions of) your data, (the types of) your variables, and (the meaning of) your observations. 
+    - the dimensions of your data, 
+    - the types of your variables (columns), and 
+    - the semantics of your observations (rows). 
 
 Here, we first inspect the original data file, which we read in from <http://rpository.com/ds4psy/data/posPsy_AHI_CESD.csv> above: 
 
@@ -276,54 +278,492 @@ df <- as_tibble(df)  # (in case df isn't a tibble already)
 
 # Get an initial overview: 
 df
-names(df)    # Note variable names
-glimpse(df)  # Note types of variables
-summary(df)  # Note range of values
+
+## Other ways to probe df: 
+# names(df)    # Note variable names
+# glimpse(df)  # Note types of variables
+# summary(df)  # Note range of values
 ```
 
 We note that `AHI_CESD` contains `r dim(AHI_CESD)[1]` observations (rows) and  `r dim(AHI_CESD)[2]` variables (columns). Most of the variables are integers and -- judging from their names -- many belong together (in blocks). Their names and ranges suggest that they stem from questionnaires or scales with fixed answer categories (e.g., from 1 to 5 for `ahi__`, and from 1 to 4 for `cesd__`). 
 Overall, a row of data is a measurement of one participant (characterised by its `id` and an `intervention` value) at one occasion (characterised by the value of `occasion` and `elapsed.days`) on two scales (`ahi` and `cesd`). 
 
-### Missing values
+### Unusual values
 
-- **Principle 5:** Know and deal with missing values. 
+- **Principle 5:** Know and deal with unusual values.
 
-In R, missing values are identified by `NA`. Note that `NA` is different from `NULL`: `NULL` represents the null object (i.e., something is undefined). By contrast, `NA` means that some value is absent:
+Unusual values include:  
 
-```{r NA_vs_NULL}
-# Notes:
-all.equal(NULL, NA) # Note: NULL vs. logical
-all.equal("", NA)   # Note: character vs. logical
+    - missing values (`NA` or `-77`, etc.),  
+    - extreme values (outliers), 
+    - other unusual values (e.g., unexpected and impossible values). 
 
-is.null(NULL) # TRUE
-is.null(NA)   # FALSE
+#### Missing values
 
+What are missing values? In R, missing values are identified by `NA`. Note that `NA` is different from `NULL`: `NULL` represents the null object (i.e., something is undefined). By contrast, `NA` means that some value is absent.
+
+Both `NA` and `NULL` are yet to be distinguished from `NaN` values. 
+
+```{r NA_vs_NULL_etc}
+## Checking for NA, NULL, and NaN:
+
+# NA: 
 is.na(NA)   # TRUE
 is.na(NULL) # 0 (NULL)
+is.na(NaN)  # TRUE!
+
+# NULL:
+is.null(NULL) # TRUE
+is.null(NA)   # FALSE
+is.null(NaN)  # FALSE
+
+# NaN:
+is.nan(NaN)  # TRUE 
+is.nan(0/0)  # TRUE
+is.nan(1/0)  # FALSE, as it is +Inf
+is.nan(-1/0) # FALSE, as it is -Inf
+is.nan(0/1)  # FALSE (as it is 0)
+is.nan(NA)   # FALSE
+is.nan(NULL) # 0 (logical)
+
+# Note different modes:
+all.equal(NULL, NA) # Note: NULL vs. logical
+all.equal("", NA)   # Note: character vs. logical
+all.equal(NA, NaN)  # Note: logical vs. numeric 
 ```
+
+Missing data values require attention and special treatment. They should be identified, counted and/or visualized, and often removed or recoded (e.g., replaced by other values). 
+
+Counting `NA` values:
+
+```{r count_NA_values}
+df <- AHI_CESD  # copy the data
+
+is.na(df)       # asks is.na() for every value in df 
+sum(is.na(df))  # sum of all instances of TRUE
+```
+
+Since `df` does not seem to include any `NA` values, we create a tibble `tb` that does:
+
+```{r create_df_NA, include = TRUE}
+# Create a df with NA values:
+set.seed(42) # for replicability
+nrows <- 6
+ncols <- 6
+tb <- as_tibble(matrix(sample(c(1:12, -66, -77), nrows * ncols, replace = TRUE), nrows, ncols)) # create some df
+tb[tb > 9] <- NA # SET certain values to NA
+# tb
+```
+
+Counting and recoding `NA` values:
+
+```{r count_NA_recode}
+# Count NA values:
+sum(is.na(tb))  # => 10 NA values
+
+# The function `complete.cases(x)` returns a logical vector indicating which cases in tb are complete:
+complete.cases(tb)         # test every row/case for completeness
+sum(complete.cases(tb))    # count cases/rows with complete cases
+which(complete.cases(tb))  # indices of case(s)/row(s) with complete cases
+
+tb[complete.cases(tb), ]  # list all complete rows/cases in tb
+tb[!complete.cases(tb), ] # list all rows/cases with NA values in tb
+
+# Recode all instances of NA as -99:
+tb
+tb[is.na(tb)] <- -99  # recode NA values as - 99
+tb
+```
+
+More frequently, special values (like `-66`, `-77` and `-99`) indicate missing values. 
+To deal with them in R, we recode all instances of these values in `tb` as `NA`:
+
+```{r recode_values_as_NA}
+tb
+
+# Recode -66, -77, and -99 as NA: 
+tb[tb == -66 | tb == -77 | tb == -99 ] <- NA
+
+tb
+
+sum(is.na(tb))  # => 19 NA values
+```
+
+For more sophisticated ways of dealing with (and visualising) `NA` values, see the R packages `mice` (Multivariate Imputation by Chained Equations), `VIM` (Visualization and Imputation of Missing Values) and `Amelia II`.
+
+
+#### Other unusual values: Unexpected values, outliers, etc.
+
+While dealing with missing values is a routine task, finding other unusual values involves some hard thinking, but can also be fun, as it requires the state of mind of a detective who gradually uncovers facts -- and aims to ultimately reveal the truth -- by questioning a witness or suspect. In principle, we can detect atypical values and outliers (see [Exercise 3 of WPA03](http://rpository.com/ds4psy/essentials/transform.html#exercise-3) for different definitions) by counting values, computing descriptive statistics, or by checking the distributions of raw values. To illustrate this, let's inspect the data of `AHI_CESD` further. Since participants in this study were measured repeatedly over a range of several months, two good questions to start with are: 
+
+- How many participants are there for each occasion? 
+- How many occasions are there for each participant?  
+
+The first question can easily be answered with `dplyr` or by `ggplot`:
+
+```{r screening_1}
+# How many participants are there for each occasion? 
+
+# Data:
+df <- AHI_CESD
+
+# (1) Summary table of grouped counts:
+# Using dplyr pipe: 
+id_by_occ <- df %>% 
+  group_by(occasion) %>%
+  count()
+id_by_occ
+
+# (2) Plot summary table:
+
+# (a) Using raw data as input:
+ggplot(df, aes(x = occasion)) +
+  geom_bar(fill = seeblau) + 
+  labs(title = "Number of participants by occasion (from raw data)") +
+  theme_bw()
+
+# (b) Using id_by_occ from (1) as input: 
+ggplot(id_by_occ, aes(x = occasion)) +
+  geom_bar(aes(y = n), stat = "identity", fill = seeblau) + 
+  labs(title = "Number of participants by occasion (from summary table)") +
+  theme_bw()
+```
+
+Note the similarities and differences between these two bar plots. Although they look almost the same (except for the label on the y-axis and their title), they use completely different data as inputs. Which of the 2 plot versions would make it easier to add additional information (like error bars, a line indicating the mean counts of participants, or text labels showing the count values for each category)? 
+
+```{r screening_2}
+# How many occasions are there for each participant?
+
+# Data:
+df <- AHI_CESD
+
+# Graphical solution (with ggplot):
+ggplot(df) +
+  geom_bar(aes(x = id), fill = seeblau) +
+  labs(title = "Number of occasions by participant (raw)") +
+  theme_bw()
+
+# This does the trick, but looks messy. 
+# A cleaner solution uses 2 steps:
+
+# (1) Summary table of grouped counts: 
+occ_by_id <- df %>%
+  group_by(id) %>%
+  count()
+occ_by_id
+
+# (2) Plot summary table:
+
+# (a) re-create previous plot (by now from occ_by_id):
+ggplot(occ_by_id) +
+  geom_bar(aes(x = id, y = n), stat = "identity", fill = seeblau) +
+  labs(title = "Number of occasions by participant (2a)") +
+  theme_bw()
+
+# (b) reordering id by count n:
+ggplot(occ_by_id) +
+  geom_bar(aes(x = reorder(id, n), y = n), stat = "identity", fill = seeblau) +
+  labs(title = "Number of occasions by participant (2b)") +
+  theme_bw()
+
+# (c) more efficient solution:
+occ_by_id_2 <- occ_by_id %>% 
+  arrange(n)
+occ_by_id_2
+
+## (+) Add rownames (1:n) as a column:
+# occ_by_id_2 <- rownames_to_column(occ_by_id_2)  # rowname is character variable!
+
+## (+) Add a variable row that contains index of current row:
+occ_by_id_2$row <- 1:nrow(occ_by_id_2)
+occ_by_id_2
+
+ggplot(occ_by_id_2) +
+  geom_bar(aes(x = row, y = n), stat = "identity", fill = seeblau) +
+  labs(title = "Number of occasions by participant (2c)") +
+  theme_bw()
+```
+
+Our exploration shows that every participant was measured on at least 1 and at most 6 occasions (check `range(occ_by_id$n)` to verify this). 
+This raises two additional questions:
+
+- Was every participant measured on occasion 0 (i.e., the _pre-test_)?  
+- Was every participant measured only _once_ per occasion?  
+
+The first question may seem a bit picky, but do you really know that nobody showed up late (i.e., missed occasion 0) for the study? 
+Actually, we do already know this, since we counted the number of participants and the number of participants per occasion above: 
+
+- the study sample contains `r nrow(posPsy_p_info)` participants (check `nrow(posPsy_p_info)`), and 
+- the count of participants per occasion showed a value of `r id_by_occ$n[1]` for occasion 0 in `id_by_occ`. 
+
+For the record, we testify that:
+
+```{r screening_3}
+nrow(posPsy_p_info)  # 295 participants
+id_by_occ$n[1]       # 295 participants counted (as n) in 1st line of id_by_occ
+nrow(posPsy_p_info) == id_by_occ$n[1]  # TRUE (qed)
+```
+
+To answer the second question, we can count the number of lines in `df` per `id` _and_ `occasion` and then check whether any unexpected values (different from 1, i.e., `n != 1`) occur:
+
+```{r screening_4}
+# Summary table (with dplyr):
+id_occ <- df %>%
+  group_by(id, occasion) %>%
+  count()
+id_occ
+
+summary(id_occ$occasion)
+summary(id_occ$n)  # Max is 2 (not 1)!
+
+# Do some occasions occur with other counts than 1?
+id_occ %>%
+  filter(n != 1)
+
+# => Participants with id of 8 and 64: 
+#    2 instances of occasion 2 and 4, respectively.
+```
+
+Importantly, 2 participants (8 and 64) are counted _twice_ for an occasion (2 and 4, respectively). 
+
+```{r screening_5, echo = FALSE, eval = FALSE}
+# Using spread: 
+
+# Spread by occasion:
+id_occ_2 <- id_occ %>%
+  spread(key = occasion, value = n)
+id_occ_2
+
+id_occ_2 %>%
+  filter(id == 8 | id == 64)
+
+# How often does each occasion occur?
+colSums(id_occ_2, na.rm = TRUE)
+
+# occasion:     0     1     2     3     4     5 
+# colSums:    295   147   157   139   134   120
+```
+
+Compare our counts of `id_by_occ` with **Table 1** (p. 4, of Woodworth et al., 2018), which also shows the number of participants who responded on each of the 6 measurement occasions): As the counts in this table correspond to ours, the repeated instances for some measurement occasions (which could indicate data entry errors, but also be due to large variability in the time inteval between measurements) were not reported in the original analysis (i.e., **Table 1**). This suggests that the 2 participants with repeated occasions were simply counted and measured twice on one occasion and missing from another one. 
+
+Another good question to ask is: 
+
+- How does the number of `elapsed.days` correspond to the measurement occasions? 
+
+This brings us to a more general principle and corresponding practice that involves different ways of viewing distributions of values. 
+
+
+## Viewing distributions
+
+- **Principle 6:** Inspect the distributions of (continuous) variables.
+
+Plotting the distribution of individual variables (e.g., with histograms or frequency polygons) provides a good overview over the values present in the data and any unusual or unexpected values. 
+
+### Histograms
+
+A _histogram_ provides a cumulative overview of a variable's values along one dimension (see our examples in [visualizing data](http://rpository.com/ds4psy/essentials/visualize.html)). Here, we use a histogram of `elapsed.days` to address the question:
+
+- How are the measurement times (`elapsed.days`) distributed overall (and relative to the stated times of each `occasion`)?
+
+```{r distribution_histogram}
+## Data:
+df <- AHI_CESD
+
+# From Table 1 (p. 4): 
+occ_days <- c(0, 7, 14, 38, 98, 189)
+names(occ_days) <- c("0: pre-test", "1: post-test", "2: 1-week", "3: 2-weeks", "4: 3-months", "5: 6-months")
+occ_days
+
+# (a) Histogram: 
+ggplot(df, aes(x = elapsed.days)) +
+  geom_histogram(fill = seeblau, binwidth = 1) +
+  geom_vline(xintercept = occ_days, color = "firebrick", linetype = 2) + 
+  labs(title = "Distribution of occasions (a: histogram)") +
+  theme_bw()
+```
+
+**Note:** The first 3 occasions are as expected. However, occasions 4 to 6 appear shifted to the left (i.e., were about 7 days earlier than stated). 
+
+### Alternative ways of viewing distributions
+
+Alternative ways to plot cumulative distributions of values include _frequency polygons_, _density plots_, and _rug plots_. 
+
+```{r distribution_alternatives}
+# (b) frequency polygon:
+ggplot(df, aes(x = elapsed.days)) +
+  # geom_histogram(fill = seeblau, binwidth = 1) +
+  geom_freqpoly(binwidth = 7, color = seeblau) +
+  geom_vline(xintercept = occ_days, color = "firebrick", linetype = 2) + 
+  labs(title = "Distribution of occasions (b: frequency polygon)") +
+  theme_bw()
+
+# (c) density plot:
+ggplot(df, aes(x = elapsed.days)) +
+  # geom_histogram(fill = seeblau, binwidth = 1) +
+  geom_density(fill = seeblau) +
+  geom_vline(xintercept = occ_days, color = "firebrick", linetype = 2) + 
+  labs(title = "Distribution of occasions (c: density plot)") +
+  theme_bw()
+
+# (d) rug plot:
+ggplot(df, aes(x = elapsed.days)) +
+  geom_freqpoly(binwidth = 7, color = seeblau) +
+  geom_rug(size = 1, color = "black", alpha = 1/4) +
+  geom_vline(xintercept = occ_days, color = "firebrick", linetype = 2) + 
+  labs(title = "Distribution of occasions (d: frequency polygon with rug plot)") +
+  theme_bw()
+```
+
+## Filtering values
+
+Once we have detected something noteworthy or strange, we may want to mark or exclude some observations (rows) or variables (columns). 
+As we can easily select rows and filter cases (see `dplyr::select` and `dplyr::filter` in the last session), it may be good to create and include some dedicated filter variables in our data. Let's use the participant data `posPsy_p_info` to illustrate how we can create filter variables and then filter cases:
+
+```{r copy_p_info}
+# Data:
+p_info <- posPsy_p_info
+dim(p_info)  # 295 x 6
+```
+
+In previous exercises (see [Exercise 5 of WPA02](http://rpository.com/ds4psy/essentials/visualize.html#exercise-5) and [Exercise 4 of WPA03](http://rpository.com/ds4psy/essentials/transform.html#exercise-4)), we answered the question: 
+
+- What is the `age` range of participants (overall and by `intervention`)?
+
+by using both `ggplot` and `dplyr` pipes. 
+For instance, we can answer questions about the distribution of `age` values by plotting histograms: 
+
+```{r histogram_age}
+# Age range:
+range(p_info$age)
+summary(p_info$age)
+
+# Histogramm showing the overall distribution of age 
+ggplot(p_info) +
+  geom_histogram(mapping = aes(age), binwidth = 2, fill = "gold", col = "black") +
+  theme_bw() +
+  labs(title = "Distribution of age values (overall)")
+
+# Create 4 histogramms showing the distribution of age by intervention:  
+ggplot(p_info) +
+  geom_histogram(mapping = aes(age), binwidth = 5, fill = seeblau, col = "black") +
+  theme_bw() +
+  labs(title = "Distribution of age values by intervention (all data)") +
+  facet_grid(.~intervention)
+```
+
+For practice purposes, suppose we only wanted to include participants up to an age of 70 years in some analysis. Rather than dropping these participants from the file, we can introduce a filter variable that is `TRUE` when some criterion (here: `age > 70`) is satisfied, and otherwise `FALSE`:
+
+- **Principle 7:** Use filter variables to identify sub-sets of observations (rows). 
+
+```{r add_filter_variable}
+# How many participants are over 70?
+sum(p_info$age > 70)  # 6 people with age > 70
+
+# Which ones?
+which(p_info$age > 70)  #  51  83 114 155 215 244
+
+# Show their details (using dplyr): 
+p_info %>%
+  filter(age > 70)
+
+# Add a corresponding filter variable to df:
+p_info <- p_info %>%
+  mutate(over_70 = (age > 70))
+
+dim(p_info) # => 7 variables (now including over_70 as a logical variable): 
+head(p_info)
+
+# Check details again (but applying filter to over_70):
+p_info %>%
+  filter(over_70)
+```
+
+In the present case, `filter(over_70)` is about as long and complicated as `filter(age > 70)` and thus not really necessary. However, defining explicit filter variables can pay off when constructing more complex filter conditions or when needing several sub-sets of the data (e.g., for cross-validation purposes). Given an explicit filter variable, we can later filter any analysis (or plot) on the fly:
+
+```{r use_filter_over_70}
+# Age distribution of participants up to 70 (i.e., not over 70):
+p_info %>% 
+  filter(over_70 == FALSE) %>%
+  ggplot() +
+  geom_histogram(mapping = aes(age), binwidth = 5, fill = "olivedrab3", col = "black") +
+  theme_bw() +
+  labs(title = "Distribution of age values by intervention (without participants over 70)") +
+  facet_grid(.~intervention)
+
+# Alternatively, we can quickly create sub-sets of the data:
+p_info_young <- p_info %>% 
+  filter(over_70 == FALSE)
+
+p_info_old <- p_info %>% 
+  filter(over_70 == TRUE)
+
+dim(p_info_young)  # 289 participants (295 - 6) x 7 variables 
+dim(p_info_old)    #   6 participants           x 7 variables 
+```
+
+
+## Viewing relationships 
+
+Most research hypotheses involve _relationships_ between 2 or more variables. This brings us to another principle: 
+
+- **Principle 8:** Inspect relationships between (continuous or categorical) variables. 
+
+### Scatterplots
+
+A scatterplot shows the relationship between 2 (typically continuous) variables:
+
+```{r scatterplot}
+## Data:
+df <- AHI_CESD
+dim(df)
+df
+
+ggplot(df) +
+  geom_point(aes(x = ahiTotal, y = cesdTotal), size = 2, alpha = 1/4) + 
+  geom_abline(intercept = 100, slope = -1, col = seeblau) +
+  labs(title = "Relationship between ahiTotal and cesdTotal (overall)", 
+       x = "ahiTotal", y = "cesdTotal") +
+  theme_bw()
+
+ggplot(df) +
+  geom_point(aes(x = ahiTotal, y = cesdTotal), size = 1, alpha = 1/3) + 
+  geom_abline(intercept = 100, slope = -1, col = seeblau) +
+  labs(title = "Relationship between ahiTotal and cesdTotal (by intervention)", 
+       x = "ahiTotal", y = "cesdTotal") +
+  facet_wrap(~intervention) + 
+  theme_bw()
+```
+
+### Violin and box plots
+
+Viewing the distribution of a continuous variable by the levels of a categorical variable: 
+
+
+
+
+Box- or violin plots
 
 +++ here now +++ 
 
-- counting missing values
-- replacing instances of "-77", "-99", etc.
+
+
+<!-- 
 
 
 
+### Checking ranges and distributions
+
+- Scatterplot: detect relationships 
+- Box plot: view distributions 
 
 
-
-Check basic properties, 
-
-
-
-the validity of cases and values (adding filter variables), and the distributions of variables. 
+Check basic properties, unusual values, the validity of cases and values (adding filter variables), and the distributions of variables. 
 
 ### Basics
 
 Dimensions, 
 types of variables and values, 
 number, means, and ranges of values.
-
 
 
 
@@ -706,9 +1146,6 @@ More on barplots:
 - show medians, quartiles, distribution, and outliers
 
 
-
-
-
 ## Improving plots
 
 Most default plots can be improved by fine-tuning their visual appearance. 
@@ -719,13 +1156,13 @@ Popular levers for "pimping" plots include:
 - legends: can be (re-)moved or edited;  
 - themes: can be selected or modified.  
 
-# Exercises
 
-**Ideas:**
 
-## Exercise: Transform
+# Exercises (WPA04)
 
-Using file `AHI_CESD`: 
+## Exercise 1
+
+Use data transformation on the file `AHI_CESD` to answer the following question: 
 
 - Are the variables `ahiTotal` and `cesdTotal` the sums of all values in `ahi01` to `ahi24` and `cesd01` to `cesd20`, respectively?
 
@@ -902,10 +1339,9 @@ ggplot(majors,
 See the packages `circlize`, `ggforce`, and `ggparallel` for other types of transition plots. 
 
 
+-->
 
-
-
-# More on data visualization / EDA
+# More on EDA
 
 - study `vignette("ggplot")` and the documentation for `ggplot` and various geoms (e.g., `geom_`);
 - study <https://ggplot2.tidyverse.org/reference/> and its examples; 
