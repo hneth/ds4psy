@@ -925,11 +925,10 @@ dim(data_wide)  # 295 x 294
 
 ggplot(data = data_wide) +
   geom_point(mapping = aes(x = ahiTotal.0, y = cesdTotal.0)) + 
-  #adding title and axis labels
+  # adding title and axis labels: 
   labs(title = "Relationship between ahiTotal and cesdTotal at Occasion = 0", 
        x ="ahiTotal", y = "cesdTotal") +
   theme_minimal()
-
 
 ## (4b): Add the trend-line to this plot
 ggplot(data = data_wide, mapping = aes(x = ahiTotal.0, y = cesdTotal.0)) +
@@ -939,8 +938,7 @@ ggplot(data = data_wide, mapping = aes(x = ahiTotal.0, y = cesdTotal.0)) +
        x ="ahiTotal", y = "cesdTotal") +
   theme_minimal()
 
-## (4c): Make this plot look nicer, for example by using color or changing the pointshape or size.
-
+## (4c): Make this plot look nicer, for example by using color or changing the shape or size of points:
 ggplot(data = data_wide) +
   geom_point(mapping = aes(x = ahiTotal.0, y = cesdTotal.0),color = "darkblue", shape = 18, size=3, alpha = .4) + 
   labs(title = "Relationship between ahiTotal and cesdTotal at Occasion = 0", 
@@ -1029,6 +1027,9 @@ ggplot(data = data_wide, mapping = aes(x = income,y = cesdTotal.0)) +
 
 Explore data - ahiTotal scores, cesdTotal scores and age
 
+Create two scatterplot to investigate if there is an systematic relationship between `age` and the initial `ahiTotal.0` scores/`cesdTotal.0` scores (i.e., before the intervention).
+
+
 ```{r exercise_6, echo = TRUE, eval = TRUE}
 # Exercise 6: Create two scatterplot to investigate if there is an systematic relationship between ahiTotal scores/cesdTotal scores and age.
 
@@ -1038,15 +1039,22 @@ Explore data - ahiTotal scores, cesdTotal scores and age
 
 ## (6a): ahiTotal scores
 ggplot(data_wide, mapping = aes(x = age, y = ahiTotal.0)) +
-  geom_point(color = "forestgreen", shape = 1, size = 1.5) +
-  labs(title = "Age and ahiTotal scores before start of interventions", x = "age", y = "Pre-intervention ahiTotal Score")
+  geom_point(color = "steelblue", shape = 16, size = 1.5) +
+  geom_smooth(color = "firebrick") +
+  labs(title = "Age and ahiTotal scores before start of interventions", 
+       x = "Age", y = "ahiTotal Score (pre-intervention)") + 
+  theme_bw()
 
 ## (6b): cesdTotal-scores
 ggplot(data_wide, mapping = aes(x = age, y = cesdTotal.0)) +
-  geom_point(color = "forestgreen", shape = 1, size = 1.5) +
-  labs(title = "Age and cesdTotal scores before start of interventions", x = "age", y = "Pre-intervention cesdTotal Score")
-
+  geom_point(color = "forestgreen", shape = 16, size = 1.5) +
+  geom_smooth(color = "firebrick") +
+  labs(title = "Age and cesdTotal scores before start of interventions", 
+       x = "Age", y = "cesdTotal Score (pre-intervention)") +
+  theme_bw()
 ```
+
+
 
 # Data transformation
 
