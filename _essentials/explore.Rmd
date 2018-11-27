@@ -812,8 +812,45 @@ In addition, combining geoms typically requires playing with aesthetics. Inciden
 
 ### Dot and tile plots
 
-+++ here now +++ 
+```{r tile_plots}
+# Frequency of observations by occasion (x) and intervention (y):
+# Data:
+df <- AHI_CESD
+# dim(df)  # 992 50
+# df
 
+df %>%
+  group_by(occasion) %>%
+  summarise(n = n(),
+            ahiTotal_mn = mean(ahiTotal), 
+            cesdTotal_mn = mean(cesdTotal)
+            )
+
+summary <- df %>%
+  group_by(occasion, intervention) %>%
+  summarise(n = n(),
+            ahiTotal_mn = mean(ahiTotal), 
+            cesdTotal_mn = mean(cesdTotal)
+            )
+head(summary)
+
+# Tile plot: Frequency (n)
+ggplot(summary, aes(x = occasion, y = intervention)) +
+  geom_tile(aes(fill = n), color = "white") + 
+  labs(title = "Frequency of each intervention by occasion (tile)", 
+       x = "Occasion", y = "Intervention", fill = "Frequency:") + 
+  theme_bw()
+
+# Tile plot: ahiTotal_mn 
+ggplot(summary, aes(x = occasion, y = intervention)) +
+  geom_tile(aes(fill = ahiTotal_mn)) + 
+  labs(title = "Mean ahiTotal score of each intervention by occasion (tile)", 
+       x = "Occasion", y = "Intervention", fill = "ahiTotal_mn:") + 
+  scale_fill_gradient(low = "black", high = "green3") +
+  theme_bw()
+```
+
++++ here now +++ 
 
 <!-- 
 
