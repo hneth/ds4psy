@@ -712,12 +712,13 @@ Most research hypotheses involve _relationships_ or measures of _correspondence_
 
 A scatterplot shows the relationship between 2 (typically continuous) variables:
 
-```{r scatterplot}
-## Data:
+```{r relate_scatterplots}
+# Data:
 df <- AHI_CESD
-dim(df)
-df
+dim(df)  # 992 50
+# df
 
+# Scatterplot (overall):
 ggplot(df) +
   geom_point(aes(x = ahiTotal, y = cesdTotal), size = 2, alpha = 1/4) + 
   geom_abline(intercept = 100, slope = -1, col = seeblau) +
@@ -725,6 +726,7 @@ ggplot(df) +
        x = "ahiTotal", y = "cesdTotal") +
   theme_bw()
 
+# Scatterplot (with facets):
 ggplot(df) +
   geom_point(aes(x = ahiTotal, y = cesdTotal), size = 1, alpha = 1/3) + 
   geom_abline(intercept = 100, slope = -1, col = seeblau) +
@@ -734,17 +736,83 @@ ggplot(df) +
   theme_bw()
 ```
 
-### Violin and box plots
+### Jitter, box and violin plots
 
-Other measures of correspondence: 
+A measure of correspondence that is common in psychology asks whether the values of some continuous variable vary as a function of the levels of a categorical variable. 
+With regard to our data in `AHI_CESD` we may wonder:
 
-A common case: Viewing the distribution of a continuous variable by the levels of a categorical variable: 
+- Do the happiness scores (`ahiTotal`) vary by `intervention`?
 
-+++ here now +++ 
+To visualize the relationship, we cannot use a scatterplot with the mapping `x = intervention` and `y = ahiTotal`, as there would only be 4 distinct values for `x` (go ahead plotting it, if you want to see it). Fortunately, there's a range of alternatives that allow plotting the raw values and distributions of a continuous variable as a function of a categorical one: 
+
+```{r relate_jitter_box_violin}
+## Data:
+# df <- AHI_CESD
+# dim(df)  # 992 50
+# df
+
+# (a) Jitterplot:
+ggplot(df) +
+  geom_jitter(aes(x = intervention, y = ahiTotal), width = .1, size = 2, alpha = 1/4) + 
+  labs(title = "Values of ahiTotal by intervention (a: jitter)", 
+       x = "intervention", y = "ahiTotal") +
+  theme_bw()
+
+# (b) Box plot:
+ggplot(df) +
+  geom_boxplot(aes(x = factor(intervention), y = ahiTotal), color = seeblau, fill = "grey95") + 
+  labs(title = "Values of ahiTotal by intervention (b: boxplot)", 
+       x = "intervention", y = "ahiTotal") +
+  theme_bw()
+
+# Note that we use factor(intervention), as intervention is an integer (i.e., contiuous) variable.
+
+# (c) Violin plot:
+ggplot(df) +
+  geom_violin(aes(x = factor(intervention), y = ahiTotal), size = 1.5, color = seeblau, fill = "whitesmoke") + 
+  labs(title = "Values of ahiTotal by intervention (c: violin)", 
+       x = "intervention", y = "ahiTotal") +
+  theme_bw()
+```
+
+Note that we sometimes use `factor(intervention)`, as `intervention` in is an integer (i.e., contiuous) variable.
+
+Sometimes combining 2 or more geoms can be more informative than just using one: 
+
+```{r relate_jitterbox_violinjitter}
+# (d) Combining jitter with boxplot:
+ggplot(df) +
+  geom_boxplot(aes(x = factor(intervention), y = ahiTotal), color = seeblau, fill = "grey95", alpha = 1) + 
+  geom_jitter(aes(x = intervention, y = ahiTotal), width = .1, size = 2, alpha = 1/4) + 
+  labs(title = "Values of ahiTotal by intervention (d: jittered boxes)", 
+       x = "intervention", y = "ahiTotal") +
+  theme_bw()
+
+# (e) Combining violin plot with jitter:
+ggplot(df) +
+  geom_violin(aes(x = factor(intervention), y = ahiTotal), size = 1.5, color = seeblau) +
+  geom_jitter(aes(x = intervention, y = ahiTotal), width = .1, size = 2, alpha = 1/4) + 
+  labs(title = "Values of ahiTotal by intervention (e: jittered violins)", 
+       x = "intervention", y = "ahiTotal") +
+  theme_bw()
+
+# (f) Combining violin plot with boxplot and jitter:
+ggplot(df, aes(x = factor(intervention), y = ahiTotal, color = factor(intervention))) +
+  geom_violin(size = 1.5, color = seeblau) +
+  geom_boxplot(width = .30, color = "grey20", fill = "grey90") + 
+  geom_jitter(width = .05, size = 2, alpha = 1/3) + 
+  labs(title = "Values of ahiTotal by intervention (f: jittered violins with boxes)", 
+       x = "intervention", y = "ahiTotal", color = "Intervention:") + 
+  scale_color_brewer(palette = "Set1") +
+  theme_bw()
+```
+
+When using multiple geoms in one plot, their order matters, as later geoms are printed on top of earlier ones. 
+In addition, combining geoms typically requires playing with aesthetics. Incidentally, note how the last plot moved some redundant aesthetic mappings (i.e., `x`, `y`, and `color`) from the geoms to the 1st line of the command (i.e., from the `mapping` argument of the geoms to the general `mapping` argument). 
 
 ### Dot and tile plots
 
-
++++ here now +++ 
 
 
 <!-- 
