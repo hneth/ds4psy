@@ -71,6 +71,8 @@ Nr. | Topic       |
 1.  | [Basic R concepts and commands](http://rpository.com/ds4psy/essentials/basics.html) | 
 2.  | [Visualizing data](http://rpository.com/ds4psy/essentials/visualize.html) | 
 3.  | **Transforming data** |
+4.  | [Exploring data (EDA)](http://rpository.com/ds4psy/essentials/EDA.html) | 
++.  | [Datasets](http://rpository.com/ds4psy/essentials/datasets.html) | 
 
 
 <!--
@@ -1347,6 +1349,8 @@ Nr. | Topic       |
 1.  | [Basic R concepts and commands](http://rpository.com/ds4psy/essentials/basics.html) | 
 2.  | [Visualizing data](http://rpository.com/ds4psy/essentials/visualize.html) | 
 3.  | **Transforming data** |
+4.  | [Exploring data (EDA)](http://rpository.com/ds4psy/essentials/EDA.html) | 
++.  | [Datasets](http://rpository.com/ds4psy/essentials/datasets.html) | 
 
 <!--
 Nr. | Topic       |
