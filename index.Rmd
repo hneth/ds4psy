@@ -1,7 +1,7 @@
 ---
 title: "Data Science for Psychologists (ds4psy)"
 author: "Hansjörg Neth, SPDS, uni.kn"
-date: "2018 11 22"
+date: "2018 11 25"
 output:
   rmdformats::html_clean:
     highlight: kate
@@ -125,6 +125,7 @@ Part 2: Wrangle
  1. 22.10.2018: Introduction: [r4ds Chapters 1 & 2](http://r4ds.had.co.nz) 
  2. 29.10.2018: [Basic R concepts and commands: Scalars](http://rpository.com/ds4psy/essentials/basics.html) and [r4ds Chapters 4/6/8](http://r4ds.had.co.nz) 
  
+ 
  **Part 1: Explore data**
  
  3. 05.11.2018: [Basic R concepts and commands: Vectors and rectangular data](http://rpository.com/ds4psy/R/_essentials/basics.html)   
@@ -133,12 +134,14 @@ Part 2: Wrangle
  4. 12.11.2018: [Chapter 3: Data visualisation](http://r4ds.had.co.nz/data-visualisation.html): `ggplot2`;  
  ([Essentials with WPA02 and solutions](http://rpository.com/ds4psy/essentials/visualize.html)).  
 
-
  5. 19.11.2018: [Chapter 5: Data transformation](http://r4ds.had.co.nz/transform.html): `dplyr`;    
-  (**[Essentials with WPA03 and solutions](http://rpository.com/ds4psy/essentials/transform.html)**).  
+  ([Essentials with WPA03 and solutions](http://rpository.com/ds4psy/essentials/transform.html)).  
 
- 6. 26.11.2018: [Chapter 7: Exploratory data analysis (EDA)](http://r4ds.had.co.nz/exploratory-data-analysis.html): `dplyr` & `ggplot2`. 
- 7. 03.12.2019:  **Buffer session**: Rinse and repeat: `dplyr` & `ggplot2`. 
+ 6. 26.11.2018: [Chapter 7: Exploratory data analysis (EDA)](http://r4ds.had.co.nz/exploratory-data-analysis.html): `dplyr` & `ggplot2`;    
+  (**[Essentials of EDA](http://rpository.com/ds4psy/essentials/explore.html)**). 
+ 
+ 7. 03.12.2019:  **Buffer session (WPA04)**: Rinse and repeat: EDA, `dplyr` & `ggplot2`. 
+ 
  
  **Part 2: Wrangle data**
 
@@ -156,17 +159,30 @@ Part 2: Wrangle
  15. 11.02.2019: **Final exam** or beginning **final projects**
 
 
-<!-- Table with links: 
+<!-- Table with links: -->
 
-All [ds4psy](http://rpository.com/ds4psy/) essentials: 
+All [ds4psy](http://rpository.com/ds4psy/) essentials so far: 
 
 Nr. | Topic       |
 ---:|:------------| 
-1.  | [Creating and using tibbles](http://rpository.com/ds4psy/R/_essentials/tibble.html) |
-2.  | [Data transformation](http://rpository.com/ds4psy/R/_essentials/transform.html) |
-3.  | [Visualizing data](http://rpository.com/ds4psy/R/_essentials/visualize.html) | 
-4.  | [Tidy data](http://rpository.com/ds4psy/R/_essentials/tidy.html) |
+0.  | **Syllabus** | 
+1.  | [Basic R concepts and commands](http://rpository.com/ds4psy/essentials/basics.html) | 
+2.  | [Visualizing data](http://rpository.com/ds4psy/essentials/visualize.html) | 
+3.  | [Transforming data](http://rpository.com/ds4psy/essentials/transform.html) |
+4.  | [Exploring data (EDA)](http://rpository.com/ds4psy/essentials/explore.html) | 
++.  | [Datasets](http://rpository.com/ds4psy/essentials/datasets.html) | 
 
+<!--
+Nr. | Topic       |
+---:|:------------| 
+0.  | [Syllabus](http://rpository.com/ds4psy/) | 
+1.  | [Basic R concepts and commands](http://rpository.com/ds4psy/essentials/basics.html) | 
+2.  | [Visualizing data](http://rpository.com/ds4psy/essentials/visualize.html) | 
+3.  | [Transforming data](http://rpository.com/ds4psy/essentials/transform.html) |
+4.  | [Exploring data (EDA)](http://rpository.com/ds4psy/essentials/explore.html) | 
+5.  | [Creating and using tibbles](http://rpository.com/ds4psy/essentials/tibble.html) |
+6.  | [Tidying data](http://rpository.com/ds4psy/essentials/tidy.html) |
++.  | [Datasets](http://rpository.com/ds4psy/essentials/datasets.html) | 
 -->
 
 ## Structure of each week and session
