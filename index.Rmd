@@ -283,18 +283,46 @@ Beware of side effects: Becoming an R user (useR?) will profoundly transform you
 
 <!-- ## Essential commands and examples --> 
 
-<!-- Table with links: 
+## Essentials
+
+<!-- Table with links: -->
 
 All [ds4psy](http://rpository.com/ds4psy/) essentials: 
 
 Nr. | Topic       |
 ---:|:------------| 
-1.  | [Creating and using tibbles](http://rpository.com/ds4psy/R/_essentials/tibble.html) |
-2.  | [Data transformation](http://rpository.com/ds4psy/R/_essentials/transform.html) |
-3.  | [Visualizing data](http://rpository.com/ds4psy/R/_essentials/visualize.html) | 
-4.  | [Tidy data](http://rpository.com/ds4psy/R/_essentials/tidy.html) |
+0.  | **Syllabus** | 
+1.  | [Basic R concepts and commands](http://rpository.com/ds4psy/essentials/basics.html) | 
+2.  | [Visualizing data](http://rpository.com/ds4psy/essentials/visualize.html) | 
+3.  | [Transforming data](http://rpository.com/ds4psy/essentials/transform.html) |
+4.  | [Exploring data (EDA)](http://rpository.com/ds4psy/essentials/explore.html) | 
++.  | [Datasets](http://rpository.com/ds4psy/essentials/datasets.html) | 
 
+
+## R Markdown
+
+For instructions on combining text and code, see [Chapter 27: R Markdown](https://r4ds.had.co.nz/r-markdown.html) of our textbook, or use one of the following templates: 
+
+- minimal template:  `rmd_template_s` [in [.Rmd](http://rpository.com/down/temp/rmd_template_s.Rmd) | [.html](http://rpository.com/down/temp/rmd_template_s.html) format]
+
+- medium template: `rmd_template_m` [in [.Rmd](http://rpository.com/down/temp/rmd_template_m.Rmd) | [.html](http://rpository.com/down/temp/rmd_template_m.html) format]
+
+- explicit explanations: `Rmarkdown_basics` [in [.Rmd](http://rpository.com/down/temp/Rmarkdown_basics.Rmd) | [.html](http://rpository.com/down/temp/Rmarkdown_basics.html) format]
+
+
+<!--
+Nr. | Topic       |
+---:|:------------| 
+0.  | [Syllabus](http://rpository.com/ds4psy/) | 
+1.  | [Basic R concepts and commands](http://rpository.com/ds4psy/essentials/basics.html) | 
+2.  | [Visualizing data](http://rpository.com/ds4psy/essentials/visualize.html) | 
+3.  | [Transforming data](http://rpository.com/ds4psy/essentials/transform.html) |
+4.  | [Exploring data (EDA)](http://rpository.com/ds4psy/essentials/explore.html) | 
+5.  | [Creating and using tibbles](http://rpository.com/ds4psy/essentials/tibble.html) |
+6.  | [Tidying data](http://rpository.com/ds4psy/essentials/tidy.html) |
++.  | [Datasets](http://rpository.com/ds4psy/essentials/datasets.html) | 
 -->
+
 
 <!-- The following links allow you to get started. -->
 

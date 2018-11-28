@@ -121,7 +121,7 @@ library(tidyverse)
 ```
 
 To use **R Markdown**, create a corresponding file and save it with the `.Rmd` extension (e.g., by selecting `File > New File > R Markdown`). 
-For instructions on combining text and code, see [Chapter 27: R Markdown](https://r4ds.had.co.nz/r-markdown.html) of our textbook or use one of the following **templates**:
+For instructions on combining text and code, see [Chapter 27: R Markdown](https://r4ds.had.co.nz/r-markdown.html) of our textbook, or use one of the following templates:  
 
 - minimal template:  `rmd_template_s` [in [.Rmd](http://rpository.com/down/temp/rmd_template_s.Rmd) | [.html](http://rpository.com/down/temp/rmd_template_s.html) format]
 
