@@ -124,7 +124,7 @@ img {
 <div id="header">
 <h1 class="title">Datasets (ds4psy)</h1>
 <h4 class="author"><em>Hansjörg Neth, SPDS, uni.kn</em></h4>
-<h4 class="date"><em>2018 11 26</em></h4>
+<h4 class="date"><em>2018 11 28</em></h4>
 </div>
 
 <div id="content">
@@ -301,25 +301,28 @@ Different measurement occasions are suffixed by <code>.0</code>, <code>.1</code>
 <div id="loading-data" class="section level4">
 <h4>Loading data</h4>
 <p>We can load data stored in <code>csv</code>-format into R by using the <code>read_csv</code> command (from the <code>readr</code> package, which is part of the <code>tidyverse</code>). Here, we obtain the data files from online sources (at <a href="http://rpository.com/ds4psy/" class="uri">http://rpository.com/ds4psy/</a>):</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Load csv-data files from online links:</span>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Packages:</span>
+<span class="kw">library</span>(tidyverse)
+
+<span class="co"># Load csv-data files from online links:</span>
 
 <span class="co"># 1. Participant data: </span>
-posPsy_p_info &lt;-<span class="st"> </span>readr<span class="op">::</span><span class="kw">read_csv</span>(<span class="dt">file =</span> <span class="st">&quot;http://rpository.com/ds4psy/data/posPsy_participants.csv&quot;</span>)
+posPsy_p_info &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="dt">file =</span> <span class="st">&quot;http://rpository.com/ds4psy/data/posPsy_participants.csv&quot;</span>)
 <span class="kw">dim</span>(posPsy_p_info)  <span class="co"># 295 x 6 </span>
 <span class="co">#&gt; [1] 295   6</span>
 
 <span class="co"># 2. Original DVs in long format:</span>
-AHI_CESD &lt;-<span class="st"> </span>readr<span class="op">::</span><span class="kw">read_csv</span>(<span class="dt">file =</span> <span class="st">&quot;http://rpository.com/ds4psy/data/posPsy_AHI_CESD.csv&quot;</span>)
+AHI_CESD &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="dt">file =</span> <span class="st">&quot;http://rpository.com/ds4psy/data/posPsy_AHI_CESD.csv&quot;</span>)
 <span class="kw">dim</span>(AHI_CESD)  <span class="co"># 992 x 50</span>
 <span class="co">#&gt; [1] 992  50</span>
 
 <span class="co"># 3. Corrected DVs in long format:</span>
-posPsy_long &lt;-<span class="st"> </span>readr<span class="op">::</span><span class="kw">read_csv</span>(<span class="dt">file =</span> <span class="st">&quot;http://rpository.com/ds4psy/data/posPsy_AHI_CESD_corrected.csv&quot;</span>)
+posPsy_long &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="dt">file =</span> <span class="st">&quot;http://rpository.com/ds4psy/data/posPsy_AHI_CESD_corrected.csv&quot;</span>)
 <span class="kw">dim</span>(posPsy_long)  <span class="co"># 990 x 50</span>
 <span class="co">#&gt; [1] 990  50</span>
 
-<span class="co"># 4. Corrected version of all data in wide format: </span>
-posPsy_wide &lt;-<span class="st"> </span>readr<span class="op">::</span><span class="kw">read_csv</span>(<span class="dt">file =</span> <span class="st">&quot;http://rpository.com/ds4psy/data/posPsy_data_wide.csv&quot;</span>)
+<span class="co"># 4. Transformed and corrected version of all data (in wide format): </span>
+posPsy_wide &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="dt">file =</span> <span class="st">&quot;http://rpository.com/ds4psy/data/posPsy_data_wide.csv&quot;</span>)
 <span class="kw">dim</span>(posPsy_wide)  <span class="co"># 295 x 294 </span>
 <span class="co">#&gt; [1] 295 294</span>
 
@@ -583,7 +586,7 @@ Nr. | Topic       |
 6.  | [Tidying data](http://rpository.com/ds4psy/essentials/tidy.html) |
 +.  | [Datasets](http://rpository.com/ds4psy/essentials/datasets.html) | 
 -->
-<p>[Last update on 2018-11-26 13:24:54 by <a href="http://neth.de/">hn</a>.]</p>
+<p>[Last update on 2018-11-28 15:39:52 by <a href="http://neth.de/">hn</a>.]</p>
 <!-- eof. -->
 </div>
 </div>

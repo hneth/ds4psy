@@ -1,7 +1,7 @@
 ---
 title: "Exploring data (EDA, ds4psy)"
 author: "Hansjörg Neth, SPDS, uni.kn"
-date: "2018 11 27"
+date: "2018 11 28"
 output:
    rmdformats::html_clean: # html_clean html_docco readthedown material #
      code_folding: show # hide
@@ -188,7 +188,7 @@ Before embarking on any actual analysis, we should pay tribute to 2 principles t
 
 While adhering to this principle may seem superfluous or trivial at first, it is crucial as analyses get longer and more complicated (e.g., distributed over multiple datasets and scripts). A consistent document structure, transparent object names, and clear and informative comments are indispensable when sharing your data or scripts with others. Good comments often structure a longer document into parts and briefly explain the content of each part (_what_), but will primarily focus on the goals and reasons for your decisions (i.e., explain _why_, rather than _how_ you did something).  
 
-- **Principle 2:** Start with a clean slate and explicitly load all data and all packages required in this analysis.
+- **Principle 2:** Start with a clean slate and explicitly load all data and all packages required.
 
 Although RStudio IDE provides options for saving your workspace and for loading data or packages by clicking buttons or checking boxes, doing so renders the process of your analysis intransparent for anyone not observing all your actions. To make sure that others and yourself can repeat the same sequence of steps tomorrow or next year, it is advisable to always start with a clean slate and explicitly state which data and packages are required for the current analysis (unless there are good reasons to deviate from them):^[Actually, listing _everything_ required to execute a file can get quite excessive (check out `sessionInfo()` or the `session_info` and `package_info` functions of `devtools`, in case you're interested, and consider using the `packrat` package in case you want to preserve or share your current setup). Hence, most people only explicitly list and load non-standard packages (in their current version).]
 
@@ -224,8 +224,8 @@ posPsy_p_info <- read_csv(file = "http://rpository.com/ds4psy/data/posPsy_partic
 # 2. Original DVs in long format:
 AHI_CESD <- read_csv(file = "http://rpository.com/ds4psy/data/posPsy_AHI_CESD.csv")
 
-# 4. Corrected version of all data in wide format: 
-posPsy_wide <- readr::read_csv(file = "http://rpository.com/ds4psy/data/posPsy_data_wide.csv")
+# 4. Transformed and corrected version of all data (in wide format): 
+posPsy_wide <- read_csv(file = "http://rpository.com/ds4psy/data/posPsy_data_wide.csv")
 ```
 
 - **Principle 3:** Make copies (and copies of copies) of your data.  
@@ -418,7 +418,7 @@ The first question concerns a _trend_ (i.e., development over time) and can easi
 # Data:
 df <- AHI_CESD
 
-# (1) Summary table of grouped counts:
+# (1) Table of grouped counts:
 # Using dplyr pipe: 
 id_by_occ <- df %>% 
   group_by(occasion) %>%
@@ -436,7 +436,7 @@ ggplot(df, aes(x = occasion)) +
 # (b) Using id_by_occ from (1) as input: 
 ggplot(id_by_occ, aes(x = occasion)) +
   geom_bar(aes(y = n), stat = "identity", fill = seeblau) + 
-  labs(title = "Number of participants by occasion (from summary table)") +
+  labs(title = "Number of participants by occasion (from table)") +
   theme_bw()
 ```
 
@@ -457,13 +457,13 @@ ggplot(df) +
 # This does the trick, but looks messy. 
 # A cleaner solution uses 2 steps:
 
-# (1) Summary table of grouped counts: 
+# (1) Table of grouped counts: 
 occ_by_id <- df %>%
   group_by(id) %>%
   count()
 occ_by_id
 
-# (2) Plot summary table:
+# (2) Plot table:
 
 # (a) re-create previous plot (by now from occ_by_id):
 ggplot(occ_by_id) +
@@ -518,7 +518,7 @@ nrow(posPsy_p_info) == id_by_occ$n[1]  # TRUE (qed)
 To answer the second question, we can count the number of lines in `df` per `id` _and_ `occasion` and then check whether any unexpected values (different from 1, i.e., `n != 1`) occur:
 
 ```{r screening_4}
-# Summary table (with dplyr):
+# Table (with dplyr):
 id_occ <- df %>%
   group_by(id, occasion) %>%
   count()
@@ -566,9 +566,9 @@ This brings us to a more general principle and corresponding practice that invol
 
 ## Viewing distributions
 
-- **Principle 6:** Inspect the distributions of (continuous) variables.
+- **Principle 6:** Inspect the distributions of variables.
 
-Plotting the distribution of individual variables (e.g., with histograms or frequency polygons) provides a good overview over the values present in the data and any unusual or unexpected values. 
+A simple way to get an initial idea about the range of a variable `x` is to compute `summary(x)`. However, plotting the distribution of individual variables (e.g., with histograms or frequency polygons) provides a more informative overview over the distributions of values present in the data (e.g., whether the assumptions of statistical tests are met) and can provide valuable hints regarding unusual or unexpected values. 
 
 ### Histograms
 
@@ -580,7 +580,9 @@ A _histogram_ provides a cumulative overview of a variable's values along one di
 ## Data:
 df <- AHI_CESD
 
-# From Table 1 (p. 4): 
+summary(df$elapsed.days)  # provides range information:
+
+# Vector of official measurement days [based on Table 1 (p. 4)]: 
 occ_days <- c(0, 7, 14, 38, 98, 189)
 names(occ_days) <- c("0: pre-test", "1: post-test", "2: 1-week", "3: 2-weeks", "4: 3-months", "5: 6-months")
 occ_days
@@ -594,6 +596,7 @@ ggplot(df, aes(x = elapsed.days)) +
 ```
 
 **Note:** The first 3 occasions are as expected. However, occasions 4 to 6 appear shifted to the left (i.e., were about 7 days earlier than stated). 
+
 
 ### Alternative ways of viewing distributions
 
@@ -664,7 +667,7 @@ ggplot(p_info) +
 
 For practice purposes, suppose we only wanted to include participants up to an age of 70 years in some analysis. Rather than dropping these participants from the file, we can introduce a filter variable that is `TRUE` when some criterion (here: `age > 70`) is satisfied, and otherwise `FALSE`:
 
-- **Principle 7:** Use filter variables to identify sub-sets of observations (rows). 
+- **Principle 7:** Use filter variables to identify and select sub-sets of observations and variables. 
 
 ```{r add_filter_variable}
 # How many participants are over 70?
@@ -715,9 +718,10 @@ dim(p_info_old)    #   6 participants           x 7 variables
 
 ## Viewing relationships 
 
-Most research hypotheses involve _relationships_ or measures of _correspondence_ between 2 or more variables. This brings us to another principle: 
+Most research hypotheses involve _relationships_ or measures of _correspondence_ between 2 or more (continuous or categorical) variables. 
+This brings us to another principle: 
 
-- **Principle 8:** Inspect relationships between (continuous or categorical) variables. 
+- **Principle 8:** Inspect relationships between variables. 
 
 ### Scatterplots
 
@@ -919,22 +923,36 @@ When viewing and contrasting the trends of groups, we can always zoom in further
 
 - How does this look for individual participants?
 
-Well, how nice of you to ask -- so let's see:
+Well, how nice of you to ask -- so let's see: We can plot individual trends by `occasion` or by `elapsed days`. As there are `r nrow(posPsy_p_info)` participants, we use transparency and different facets (by `intervention`) to help de-cluttering the plot:
 
 ```{r trends_individuals}
 # Data:
 df <- AHI_CESD
 dim(df)  # 992 50
-# df
+df
 
+# Individual trends of ahiTotal by occasion and intervention: 
+ggplot(df, aes(x = occasion, y = ahiTotal, group = id, color = factor(intervention))) +
+  geom_line(size = .5, alpha = .33) + 
+  facet_wrap(~intervention) +
+  labs(title = "Individual's ahiTotal by occasion for each intervention", 
+       color = "Intervention:") +
+  scale_color_brewer(palette = "Set1") +
+  theme_bw()
 
-# +++ here now +++
-
+# Individual trends of ahiTotal by elapsed.days and intervention: 
+ggplot(df, aes(x = elapsed.days, y = ahiTotal, group = id, color = factor(intervention))) +
+  geom_line(size = .5, alpha = .33) + 
+  facet_wrap(~intervention) +
+  labs(title = "Individual's ahiTotal by elapsed.days for each intervention",
+       color = "Intervention:") +
+  scale_color_brewer(palette = "Set1") +
+  theme_bw()
 ```
 
+While it is difficult to detect any clear pattern in these plots, it is possible to see some interesting cases that may require closer scrutiny.
 
-
-
+**Practice:** Create the same plots for the individual trends in depression scores `cesdTotal`. What do you see?
 
 
 ### Jitter, box, and violin plots
@@ -1018,6 +1036,7 @@ We already discovered that _bar plots_ can either count cases or show some pre-c
 
 ```{r tile_plots}
 # Frequency of observations by occasion (x) and intervention (y):
+
 # Data:
 df <- AHI_CESD
 # dim(df)  # 992 50
@@ -1078,12 +1097,19 @@ ggplot(tab_scores_by_occ_iv, aes(x = occasion, y = intervention)) +
 Another way of expressing the value of a continuous variable -- like a frequency `n` or an average score `ahiTotal_mn` -- as a function of 2 categorical variables is by mapping it to the `size` dimension of a point. In the following, we illustrate this by creating the same plot twice: First from raw data (`df`, using `geom_count`) and then from our summary table (`tab_scores_by_occ_iv` from above, using `geom_point` with `size` mapped to our frequency count `n`):
 
 ```{r point_size_plots}
+# Data:
+df <- AHI_CESD
+# dim(df)  # 992 50
+# df
+
 # Point plot 1a:
 # Count frequency of values for each interventin by occasion:
 ggplot(df, aes(x = occasion, y = intervention)) +
   geom_count(color = seeblau) + 
   labs(title = "Frequency of each intervention by occasion (count)", 
        x = "Occasion", y = "Intervention", size = "Count:") + 
+  scale_size_area(max_size = 25) +
+  scale_y_continuous(limits = c(.5, 4.5)) +
   theme_bw()
 
 # Point plot 1b:
@@ -1092,6 +1118,8 @@ ggplot(tab_scores_by_occ_iv, aes(x = occasion, y = intervention)) +
   geom_point(aes(size = n), color = seeblau) + 
   labs(title = "Frequency of each intervention by occasion (point size)", 
        x = "Occasion", y = "Intervention", size = "Frequency:") + 
+  scale_size_area(max_size = 25) +
+  scale_y_continuous(limits = c(.5, 4.5)) +
   theme_bw()
 ```
 
@@ -1102,7 +1130,7 @@ By combining the `geom_tile` and `geom_point` plots from above with `geom_text(a
 ```{r combo_plots}
 # Combo plot 1: 
 # ahiTotal_mn of each interventin by occasion:
-ggplot(summary, aes(x = occasion, y = intervention)) +
+ggplot(tab_scores_by_occ_iv, aes(x = occasion, y = intervention)) +
   geom_tile(aes(fill = ahiTotal_mn), color = "grey95", size = 1) + 
   geom_text(aes(label = n), color = "white", size = 5, fontface = 2) +
   labs(title = "Mean ahiTotal score of each intervention by occasion (tile)", 
@@ -1112,12 +1140,13 @@ ggplot(summary, aes(x = occasion, y = intervention)) +
 
 # Combo plot 2b:
 # ahiTotal_mn (mapped to point size) and n (text label) for each intervention x occasion:
-ggplot(summary, aes(x = occasion, y = intervention)) +
+ggplot(tab_scores_by_occ_iv, aes(x = occasion, y = intervention)) +
   geom_point(aes(size = ahiTotal_mn), color = "forestgreen") + 
   geom_text(aes(label = n), color = "white", size = 3, fontface = 2) +
   labs(title = "ahiTotal_mn and n by intervention x occasion (point size + text label)", 
        x = "Occasion", y = "Intervention", size = "Frequency:") + 
   scale_size_continuous(range = c(5, 11)) +
+  scale_y_continuous(limits = c(.5, 4.5)) +
   theme_bw()
 ```
 
@@ -1132,15 +1161,52 @@ Our last examples have shown that we should better create 2 separate graphics wh
 So go ahead and use the awesome `ggplot` machine to combine multiple geoms and adjust their aesthetics for as long as this makes your plot prettier. However, rather than getting carried away by the plethora of options, always keep in mind the message that you want to convey. If additional fiddling with aesthetics does not help to clarify your point, you are probably wasting your time by trying to do too much.
 
 
+## 10 principles of EDA
+
+Here is a list of the 10 principles covered above:
+
+1. Structure and comment your analysis.
+
+2. Start with a clean slate and explicitly load all data and all packages required.
+
+3. Make copies (and copies of copies) of your data.  
+
+4. Know your data (variables and observations). 
+
+5. Know and deal with unusual values.
+
+6. Inspect the distributions of variables.
+
+7. Use filter variables to identify and select sub-sets of observations and variables. 
+
+8. Inspect relationships between variables. 
+
+9. Inspect trends over time or repeated measurements.
+
+10. A plot should convey its message as clearly as possible.
+
+Adhering to these principles does not guarantee an interesting result, but minimizes the risk of missing something important or violating key assumptions of statistical tests. 
+
+
 # Exercises (WPA04)
 
-Working through the above examples should have provided you with a pretty clear picture of the data in `AHI_CESD`. 
+Working through the above examples should have provided you with a pretty clear picture of the data and results of `AHI_CESD`. 
 However, we haven't touched the data contained in `posPsy_wide` yet. 
-Given that this is described as a modified and corrected version of `AHI_CESD`, we should not expect to find completely different results in it. 
-So let's use `posPsy_wide` to exercise and improve our skills in EDA. 
+Given that this file was described as a transformed and corrected version of `AHI_CESD`, we should not expect to find completely different results in it. 
+So let's use `posPsy_wide` in some exercises to improve our skills in EDA. 
 
+```{r load_packages_data_exercise, message = FALSE}
+# Packages:
+library(tidyverse)
+library(knitr)
+
+# Data:
+# 4. Transformed and corrected version of all data (in wide format): 
+posPsy_wide <- read_csv(file = "http://rpository.com/ds4psy/data/posPsy_data_wide.csv")
+```
 
 <!-- +++ here now +++ --> 
+
 
 <!-- 
 
