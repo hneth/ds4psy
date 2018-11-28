@@ -1,0 +1,1864 @@
+---
+title: "Exploring data (EDA, ds4psy)"
+author: "Hansjörg Neth, SPDS, uni.kn"
+date: "2018 11 28"
+output:
+   rmdformats::html_clean: # html_clean html_docco readthedown material #
+     code_folding: show # hide
+     toc_float: true
+     toc_depth: 3
+     highlight: default # textmate default kate haddock monochrome #
+     lightbox: true # true by default
+     fig_width: 7 # in inches
+editor_options: 
+  chunk_output_type: console # inline
+---
+
+<!-- Example of essential commands | ds4psy: Winter 2018 -->
+
+```{r preamble, echo = FALSE, eval = TRUE, cache = FALSE, message = FALSE, warning = FALSE}
+## (a) Housekeeping: -----
+rm(list=ls()) # clean all.
+
+## (b) Current file name and path: ----- 
+# my_path <- dirname(rstudioapi::getActiveDocumentContext()$path)
+# my_path
+# setwd(my_path) # set to current directory
+setwd("~/Desktop/stuff/Dropbox/_code/R/_teachR/ds4psy/_essentials") # set to current directory
+# list.files() # all files + folders in current directory
+fileName <- "explore_WPA04.Rmd"
+
+## (c) Packages: ----- 
+library(knitr)
+library(rmdformats)
+library(tidyverse)
+
+## (d) Global options: ----- 
+options(max.print = "75")
+opts_chunk$set(echo = TRUE,
+	             cache = TRUE,
+               prompt = FALSE,
+               tidy = FALSE,
+               collapse = TRUE, # set TRUE in answers 
+               comment = "#>",
+               message = FALSE,
+               warning = FALSE,
+               ## Default figure options:
+               fig.width = 7, 
+               fig.asp = .618, # golden ratio
+               out.width = "75%",
+               fig.align = "center"
+               )
+opts_knit$set(width = 75)
+
+## (e) Custom functions: ----- 
+source(file = "~/Desktop/stuff/Dropbox/_code/R/_teachR/ds4psy/R/custom_functions.R")
+```
+
+# Introduction
+
+This file contains **essential commands** from [Chapter 7: Exploratory data analysis](https://r4ds.had.co.nz/exploratory-data-analysis.html) of the textbook [r4ds](http://r4ds.had.co.nz) and corresponding examples and exercises. 
+A command is considered "essential" when you really need to _know_ it and need to know _how to use_ it to succeed in this course. 
+
+<!-- Table with links: -->
+
+All [ds4psy](http://rpository.com/ds4psy/) essentials so far: 
+
+Nr. | Topic       |
+---:|:------------| 
+0.  | [Syllabus](http://rpository.com/ds4psy/) | 
+1.  | [Basic R concepts and commands](http://rpository.com/ds4psy/essentials/basics.html) | 
+2.  | [Visualizing data](http://rpository.com/ds4psy/essentials/visualize.html) | 
+3.  | [Transforming data](http://rpository.com/ds4psy/essentials/transform.html) |
+4.  | **Exploring data (EDA)** |
++.  | [Datasets](http://rpository.com/ds4psy/essentials/datasets.html) | 
+
+<!--
+Nr. | Topic       |
+---:|:------------| 
+0.  | [Syllabus](http://rpository.com/ds4psy/) | 
+1.  | [Basic R concepts and commands](http://rpository.com/ds4psy/essentials/basics.html) | 
+2.  | [Visualizing data](http://rpository.com/ds4psy/essentials/visualize.html) | 
+3.  | [Transforming data](http://rpository.com/ds4psy/essentials/transform.html) |
+4.  | [Exploring data (EDA)](http://rpository.com/ds4psy/essentials/explore.html) | 
+5.  | [Creating and using tibbles](http://rpository.com/ds4psy/essentials/tibble.html) |
+6.  | [Tidying data](http://rpository.com/ds4psy/essentials/tidy.html) |
++.  | [Datasets](http://rpository.com/ds4psy/essentials/datasets.html) | 
+-->
+
+## Course coordinates
+
+<!-- uni.kn logo and link to SPDS: -->  
+<!-- ![](./inst/pix/uniKn_logo.png) --> 
+<a href="https://www.spds.uni-konstanz.de/">
+<img src = "../inst/pix/uniKn_logo.png" alt = "spds.uni.kn" align = "right" width = "300" style = "width: 300px; float: right; border:20;"/>
+<!-- <img src = "./inst/pix/uniKn_logo_s.png" alt = "spds.uni.kn" style = "float: right; border:20;"/> --> 
+</a>
+
+* Taught at the [University of Konstanz](https://www.uni-konstanz.de/) by [Hansjörg Neth](http://neth.de/) (<h.neth@uni.kn>,  [SPDS](https://www.spds.uni-konstanz.de/), office D507).
+* Winter 2018/2019: Mondays, 13:30--15:00, C511. 
+* Links to current [course syllabus](http://rpository.com/ds4psy/) | [ZeUS](https://zeus.uni-konstanz.de/hioserver/pages/startFlow.xhtml?_flowId=detailView-flow&unitId=5101&periodId=78&navigationPosition=hisinoneLehrorganisation,examEventOverviewOwn) |  [Ilias](https://ilias.uni-konstanz.de/ilias/goto_ilias_uni_crs_809936.html) 
+
+
+## Preparations
+
+Create an R script (`.R`) or an R-Markdown file (`.Rmd`) and load the R packages of the `tidyverse`. (**Hint:** Structure your script by inserting spaces, meaningful comments, and sections.) 
+
+```{r layout_template, echo = TRUE, eval = FALSE}
+## Exploring data (EDA) | ds4psy
+## 2018 11 28
+## ----------------------------
+
+## Preparations: ----------
+
+library(tidyverse)
+
+## 1. Topic: ----------
+
+# etc.
+
+## End of file (eof). ----------  
+```
+
+To use **R Markdown**, create a corresponding file and save it with the `.Rmd` extension (e.g., by selecting `File > New File > R Markdown`). 
+For instructions on combining text and code, see [Chapter 27: R Markdown](https://r4ds.had.co.nz/r-markdown.html) of our textbook, or use one of the following templates:  
+
+- minimal template:  `rmd_template_s` [in [.Rmd](http://rpository.com/down/temp/rmd_template_s.Rmd) | [.html](http://rpository.com/down/temp/rmd_template_s.html) format]
+
+- medium template: `rmd_template_m` [in [.Rmd](http://rpository.com/down/temp/rmd_template_m.Rmd) | [.html](http://rpository.com/down/temp/rmd_template_m.html) format]
+
+- explicit explanations: `Rmarkdown_basics` [in [.Rmd](http://rpository.com/down/temp/Rmarkdown_basics.Rmd) | [.html](http://rpository.com/down/temp/Rmarkdown_basics.html) format]
+
+**Hint:** Try to _knit_ your `.Rmd` file immediately after saving it and marvel at the beauty of the resulting `.html`-file. If this works, keep doing this routinely from now on, putting all your R-code into code chunks, and any text (like headings or conclusions) that describes or explains what you are doing outside of them. From now on, you can share your `.html` output files, rather than your `.Rmd` source files when showing off your R and data science skills.
+
+
+# Exploring data
+
+## Introduction
+
+In the following, we refine and use what we have learned so far to explore data. 
+Practically, this session combines what we have learned about `ggplot2` (in [Chapter 3: Data visualization](http://r4ds.had.co.nz/data-visualisation.html)) and about `dplyr` (in [Chapter 5: Data transformation](https://r4ds.had.co.nz/transform.html)) to explore datasets.  
+
+## Key concepts
+
+Important concepts in this session include: 
+
+- missing values (`NA`)  vs. unusual and extreme values (e.g., outliers), 
+- different types of variables (e.g., continuous vs. categorical variables),  
+- relationships between variables (of different types),  
+- trends (i.e., developments over time), and 
+- many different types of plots.
+
+See [Chapter 7: Exploratory data analysis (EDA)](http://r4ds.had.co.nz/exploratory-data-analysis.html) and the links provided below for additional information. 
+
+## What is EDA? 
+
+According to [Grolemund & Wickham (2017, Chapter 7)](http://r4ds.had.co.nz/exploratory-data-analysis.html) _exploratory data analysis_ (EDA) primarily is a state of mind. Rather than following a strict set of rules, EDA is an initial phase of familiarising yourself with a new data set by actively engaging in an iterative cycle during which you 
+
+- Generate questions about data.  
+- Search for answers by visualising, transforming, and modelling data.  
+- Use answers to refine your questions and/or generate new questions.  
+
+Philosophically speaking, EDA is a data scientist's way of doing hermeneutics (see [Wikipedia](https://en.wikipedia.org/wiki/Hermeneutics) or [The Stanford Encyclopedia of Philosophy](https://plato.stanford.edu/entries/hermeneutics/) for definitions) to get a grip on data. 
+
+The goal and purpose of EDA is to gain an overview of a dataset. This includes an idea of its dimensions and the number and types of variables contained in the data, but also a more detailed idea of the distribution of variables, their potential relations to each other, and potential problems (e.g., missing values or outliers). 
+
+When using the tools provided by the `tidyverse`, the fastest way to gain insights into a dataset is a series of `dplyr` calls and `ggplot2` graphs. However, creating good graphs is both an art and a craft. The key to creating good graphs requires answering 2 sets of questions: 
+
+1. Knowing the _intended type of plot_. This includes answering _functional_ questions like 
+
+    - What is the _goal_ or _purpose_ of this plot?
+    - What are _possible_ plot types for this purpose? 
+    - Which of these would be the most _appropriate_ plot here? 
+    
+2. Knowing the _number_ and _type_ of variables to be plotted. This includes answering _data-related_ questions like 
+
+    - How many variables are to be plotted and how are they mapped to dimensions and aesthetics?  
+    - Are these variables categorical or continuous?  
+    - Do some variables control or qualify (e.g., group) the values of others?   
+
+Even when these questions are answered, creating beautiful and informative graphs with `ggplot` requires dedicated practice, experience, and trial-and-error experimentation. In addition, an new dataset is rarely in a condition and shape to directly allow plotting. Instead, we typically have to interleave commands for plotting and transforming data to wrangle variables into specific shapes or types. Thus, calls to `ggplot2` usually occur in combination with other `tidyverse` commands (stemming from `dplyr`, `forcats`, `tidyr`, `readr`, `tibble`, etc.). 
+
+What needs to be done in any specific case depends on the details of the data and your current goals. Also, there is no pre-defined end to an EDA and no clear boundary between the processes of exploration and the confirmation (or falsification) of expectations. Typically, social scientists use EDA to check and understand a dataset, before using statistics to test specific hypotheses.  
+
+While any actual EDA is tailored to specific features of the data and current research goals, this session highlights some common themes that occur in most cases. As we will see, the packages `dplyr` and `ggplot` provide a powerful set of tools that allow us to puzzle about data by asking and answering 
+questions. Ideally, you will soon experience that actively engaging in EDA really feels like "doing research", as it requires us to probe and scrutinize data and follow up on the ideas and hypotheses that we may discover along the way. 
+
+To illustrate the process and spirit of EDA, we will use a real and fairly complex data set, which was collected to measure the short- and long-term effects of positive psychology interventions (see [Dataset: Positive Psychology](http://rpository.com/ds4psy/essentials/datasets.html#positive-psychology) for details).^[The participant part of this data has been used as `p_info` in the previous sessions.] 
+And while it's understandable that you're mostly focusing on the code and commands, let's try to keep an eye on the meaning of our data and stay curious about the results that we may find. 
+
+
+# Principles and practices
+
+In the following, we will explain some principles that endorse and promote the ideal of _transparent data analysis_ and _reproducible research_. While such practices are indispensable when working in a team of colleagues and the wider scientific community, organizing your workflow in a more consistent fashion is also beneficial for your other projects and your future self. 
+
+## Setting the stage
+
+Before embarking on any actual analysis, we should pay tribute to 2 principles that seem so simple that it's easy to overlook their benefits: 
+
+- **Principle 1:** Structure and comment your analysis.
+
+While adhering to this principle may seem superfluous or trivial at first, it is crucial as analyses get longer and more complicated (e.g., distributed over multiple datasets and scripts). A consistent document structure, transparent object names, and clear and informative comments are indispensable when sharing your data or scripts with others. Good comments often structure a longer document into parts and briefly explain the content of each part (_what_), but will primarily focus on the goals and reasons for your decisions (i.e., explain _why_, rather than _how_ you did something).  
+
+- **Principle 2:** Start with a clean slate and explicitly load all data and all packages required.
+
+Although RStudio IDE provides options for saving your workspace and for loading data or packages by clicking buttons or checking boxes, doing so renders the process of your analysis intransparent for anyone not observing all your actions. To make sure that others and yourself can repeat the same sequence of steps tomorrow or next year, it is advisable to always start with a clean slate and explicitly state which data and packages are required for the current analysis (unless there are good reasons to deviate from them):^[Actually, listing _everything_ required to execute a file can get quite excessive (check out `sessionInfo()` or the `session_info` and `package_info` functions of `devtools`, in case you're interested, and consider using the `packrat` package in case you want to preserve or share your current setup). Hence, most people only explicitly list and load non-standard packages (in their current version).]
+
+### Cleaning up
+
+Clean your workspace and define some custom objects (like colors or functions): 
+
+```{r clean_customize, message = FALSE}
+# Housekeeping:
+rm(list = ls())  # cleans ALL objects in current R environment (without asking for confirmation)!
+
+# Customizations:
+seeblau <- rgb(0, 169, 224, names = "seeblau", maxColorValue = 255)  # seeblau.4 of uni.kn color scheme 
+
+# source(file = "my_custom_functions.R")
+```
+
+### Loading packages and data
+
+Load all required packages and data files (see [Dataset: Positive Psychology](http://rpository.com/ds4psy/essentials/datasets.html#positive-psychology) for details): 
+
+```{r load_packages_data, message = FALSE}
+# Load packages:
+library(tidyverse)
+library(knitr)
+library(rmarkdown)
+
+# Load csv-data files (from online links):
+# See <http://rpository.com/ds4psy/essentials/datasets.html> for details. 
+
+# 1. Participant data: 
+posPsy_p_info <- read_csv(file = "http://rpository.com/ds4psy/data/posPsy_participants.csv")
+
+# 2. Original DVs in long format:
+AHI_CESD <- read_csv(file = "http://rpository.com/ds4psy/data/posPsy_AHI_CESD.csv")
+
+# 4. Transformed and corrected version of all data (in wide format): 
+posPsy_wide <- read_csv(file = "http://rpository.com/ds4psy/data/posPsy_data_wide.csv")
+```
+
+- **Principle 3:** Make copies (and copies of copies) of your data.  
+
+It is only human to make occasonal errors. To make sure that errors are not too costly, a good habit is to occasionally save intermediate steps. This refers to both your data files and your scripts for analyzing them. Although it may be a good idea to always keep a ``current master version'' of a data file, it is also advisable to occasionally copy your current data and then work on the copy (e.g., before trying out some unfamiliar analysis or command). In R, creating copies and then working on them is very easy --- and can even save yourself from repeatedly typing complicated object names. Most importantly, when working on a copy of your data, you can always recover the last sound version if things go terribly wrong:  
+
+```{r copy_data_kill_recover}
+df <- posPsy_wide  # copy data (and simplify name)
+dim(df)            # 295 cases x 294 variables
+
+sum(is.na(df))  # 37440 missing values
+df$new <- NA    # create a new column with NA values
+df$new          # check the new column
+df <- NA        # create a new column with NA values
+
+# Ooops... 
+df  # looks like we accidentally killed our data!  
+
+# But do not despair:
+df <- posPsy_wide  # Here it is again: 
+dim(df)            # 295 cases x 294 variables
+```
+
+During a long and complicated analysis, it is advisable to save an external copy of your current data when having reached an important intermediate step. While there are many different formats in which data files can be stored, a good option for most files is `csv` (comma-separated-values), which can easily be read by most humans and machines. Importantly, always verify that the external copy preserves the key information contained in your current original:  
+
+```{r write_and_reread_csv_data}
+# Write out current data (in csv-format):
+write_csv(df, path = "my_precious_data.csv")
+
+# Re-read external data (into a different object):
+df_2 <- read_csv(file = "my_precious_data.csv")
+
+# Verify that original and copy are identical:
+all.equal(df, df_2)
+```
+
+
+## Screening data
+
+Screening data involves checking the dimensions of data, the types of variables, missing or atypical values, and the validity of observations. 
+
+### Basic properties
+
+What do you want to know immediately after loading a data file? 
+
+- **Principle 4:** Know your data (variables and observations). 
+
+This principle is a short version of the following: You really want to know 
+
+    - the dimensions of your data, 
+    - the types of your variables (columns), and 
+    - the semantics of your observations (rows). 
+
+Here, we first inspect the original data file, which we read in from <http://rpository.com/ds4psy/data/posPsy_AHI_CESD.csv> above: 
+
+```{r screen_inspect}
+df <- AHI_CESD  # copy the data
+
+dim(df)  # 992 cases x 50 variables
+df <- as_tibble(df)  # (in case df isn't a tibble already)
+
+# Get an initial overview: 
+df
+
+## Other ways to probe df: 
+# names(df)    # Note variable names
+# glimpse(df)  # Note types of variables
+# summary(df)  # Note range of values
+```
+
+We note that `AHI_CESD` contains `r dim(AHI_CESD)[1]` observations (rows) and  `r dim(AHI_CESD)[2]` variables (columns). Most of the variables are integers and -- judging from their names -- many belong together (in blocks). Their names and ranges suggest that they stem from questionnaires or scales with fixed answer categories (e.g., from 1 to 5 for `ahi__`, and from 1 to 4 for `cesd__`). 
+Overall, a row of data is a measurement of one participant (characterised by its `id` and an `intervention` value) at one occasion (characterised by the value of `occasion` and `elapsed.days`) on two scales (`ahi` and `cesd`). 
+
+### Unusual values
+
+- **Principle 5:** Know and deal with unusual values.
+
+Unusual values include:  
+
+    - missing values (`NA` or `-77`, etc.),  
+    - extreme values (outliers), 
+    - other unusual values (e.g., unexpected and impossible values). 
+
+#### Missing values
+
+What are missing values? In R, missing values are identified by `NA`. Note that `NA` is different from `NULL`: `NULL` represents the null object (i.e., something is undefined). By contrast, `NA` means that some value is absent.
+
+Both `NA` and `NULL` are yet to be distinguished from `NaN` values. 
+
+```{r NA_vs_NULL_etc}
+## Checking for NA, NULL, and NaN:
+
+# NA: 
+is.na(NA)   # TRUE
+is.na(NULL) # 0 (NULL)
+is.na(NaN)  # TRUE!
+
+# NULL:
+is.null(NULL) # TRUE
+is.null(NA)   # FALSE
+is.null(NaN)  # FALSE
+
+# NaN:
+is.nan(NaN)  # TRUE 
+is.nan(0/0)  # TRUE
+is.nan(1/0)  # FALSE, as it is +Inf
+is.nan(-1/0) # FALSE, as it is -Inf
+is.nan(0/1)  # FALSE (as it is 0)
+is.nan(NA)   # FALSE
+is.nan(NULL) # 0 (logical)
+
+# Note different modes:
+all.equal(NULL, NA) # Note: NULL vs. logical
+all.equal("", NA)   # Note: character vs. logical
+all.equal(NA, NaN)  # Note: logical vs. numeric 
+```
+
+Missing data values require attention and special treatment. They should be identified, counted and/or visualized, and often removed or recoded (e.g., replaced by other values). 
+
+Counting `NA` values:
+
+```{r count_NA_values}
+df <- AHI_CESD  # copy the data
+
+is.na(df)       # asks is.na() for every value in df 
+sum(is.na(df))  # sum of all instances of TRUE
+```
+
+Since `df` does not seem to include any `NA` values, we create a tibble `tb` that does:
+
+```{r create_df_NA, include = TRUE}
+# Create a df with NA values:
+set.seed(42) # for replicability
+nrows <- 6
+ncols <- 6
+tb <- as_tibble(matrix(sample(c(1:12, -66, -77), nrows * ncols, replace = TRUE), nrows, ncols)) # create some df
+tb[tb > 9] <- NA # SET certain values to NA
+# tb
+```
+
+Counting and recoding `NA` values:
+
+```{r count_NA_recode}
+# Count NA values:
+sum(is.na(tb))  # => 10 NA values
+
+# The function `complete.cases(x)` returns a logical vector indicating which cases in tb are complete:
+complete.cases(tb)         # test every row/case for completeness
+sum(complete.cases(tb))    # count cases/rows with complete cases
+which(complete.cases(tb))  # indices of case(s)/row(s) with complete cases
+
+tb[complete.cases(tb), ]  # list all complete rows/cases in tb
+tb[!complete.cases(tb), ] # list all rows/cases with NA values in tb
+
+# Recode all instances of NA as -99:
+tb
+tb[is.na(tb)] <- -99  # recode NA values as - 99
+tb
+```
+
+More frequently, special values (like `-66`, `-77` and `-99`) indicate missing values. 
+To deal with them in R, we recode all instances of these values in `tb` as `NA`:
+
+```{r recode_values_as_NA}
+tb
+
+# Recode -66, -77, and -99 as NA: 
+tb[tb == -66 | tb == -77 | tb == -99 ] <- NA
+
+tb
+
+sum(is.na(tb))  # => 19 NA values
+```
+
+For more sophisticated ways of dealing with (and visualising) `NA` values, see the R packages `mice` (Multivariate Imputation by Chained Equations), `VIM` (Visualization and Imputation of Missing Values) and `Amelia II`.
+
+
+#### Other unusual values: Unexpected values, outliers, etc.
+
+While dealing with missing values is a routine task, finding other unusual values involves some hard thinking, but can also be fun, as it requires the state of mind of a detective who gradually uncovers facts -- and aims to ultimately reveal the truth -- by questioning a witness or suspect. In principle, we can detect atypical values and outliers (see [Exercise 3 of WPA03](http://rpository.com/ds4psy/essentials/transform.html#exercise-3) for different definitions) by counting values, computing descriptive statistics, or by checking the distributions of raw values. To illustrate this, let's inspect the data of `AHI_CESD` further. Since participants in this study were measured repeatedly over a range of several months, two good questions to start with are: 
+
+- How many participants are there for each occasion? 
+- How many occasions are there for each participant?  
+
+The first question concerns a _trend_ (i.e., development over time) and can easily be answered by using `dplyr` or `ggplot`:
+
+```{r screening_1}
+# How many participants are there for each occasion? 
+
+# Data:
+df <- AHI_CESD
+
+# (1) Table of grouped counts:
+# Using dplyr pipe: 
+id_by_occ <- df %>% 
+  group_by(occasion) %>%
+  count()
+id_by_occ
+
+# (2) Plot count of IDs by occasion as bar plot:
+
+# (a) Using raw data as input:
+ggplot(df, aes(x = occasion)) +
+  geom_bar(fill = seeblau) + 
+  labs(title = "Number of participants by occasion (from raw data)") +
+  theme_bw()
+
+# (b) Using id_by_occ from (1) as input: 
+ggplot(id_by_occ, aes(x = occasion)) +
+  geom_bar(aes(y = n), stat = "identity", fill = seeblau) + 
+  labs(title = "Number of participants by occasion (from table)") +
+  theme_bw()
+```
+
+Note the similarities and differences between these two bar plots. Although they look almost the same (except for the label on the y-axis and their title), they use completely different data as inputs. Which of the 2 plot versions would make it easier to add additional information (like error bars, a line indicating the mean counts of participants, or text labels showing the count values for each category)? 
+
+```{r screening_2}
+# How many occasions are there for each participant?
+
+# Data:
+df <- AHI_CESD
+
+# Graphical solution (with ggplot):
+ggplot(df) +
+  geom_bar(aes(x = id), fill = seeblau) +
+  labs(title = "Number of occasions by participant (raw)") +
+  theme_bw()
+
+# This does the trick, but looks messy. 
+# A cleaner solution uses 2 steps:
+
+# (1) Table of grouped counts: 
+occ_by_id <- df %>%
+  group_by(id) %>%
+  count()
+occ_by_id
+
+# (2) Plot table:
+
+# (a) re-create previous plot (by now from occ_by_id):
+ggplot(occ_by_id) +
+  geom_bar(aes(x = id, y = n), stat = "identity", fill = seeblau) +
+  labs(title = "Number of occasions by participant (2a)") +
+  theme_bw()
+
+# (b) reordering id by count n:
+ggplot(occ_by_id) +
+  geom_bar(aes(x = reorder(id, n), y = n), stat = "identity", fill = seeblau) +
+  labs(title = "Number of occasions by participant (2b)") +
+  theme_bw()
+
+# (c) more efficient solution:
+occ_by_id_2 <- occ_by_id %>% 
+  arrange(n)
+occ_by_id_2
+
+## (+) Add rownames (1:n) as a column:
+# occ_by_id_2 <- rownames_to_column(occ_by_id_2)  # rowname is character variable!
+
+## (+) Add a variable row that contains index of current row:
+occ_by_id_2$row <- 1:nrow(occ_by_id_2)
+occ_by_id_2
+
+ggplot(occ_by_id_2) +
+  geom_bar(aes(x = row, y = n), stat = "identity", fill = seeblau) +
+  labs(title = "Number of occasions by participant (2c)") +
+  theme_bw()
+```
+
+Our exploration shows that every participant was measured on at least 1 and at most 6 occasions (check `range(occ_by_id$n)` to verify this). 
+This raises two additional questions:
+
+- Was every participant measured on occasion 0 (i.e., the _pre-test_)?  
+- Was every participant measured only _once_ per occasion?  
+
+The first question may seem a bit picky, but do you really know that nobody showed up late (i.e., missed occasion 0) for the study? 
+Actually, we do already know this, since we counted the number of participants and the number of participants per occasion above: 
+
+- the study sample contains `r nrow(posPsy_p_info)` participants (check `nrow(posPsy_p_info)`), and 
+- the count of participants per occasion showed a value of `r id_by_occ$n[1]` for occasion 0 in `id_by_occ`. 
+
+For the record, we testify that:
+
+```{r screening_3}
+nrow(posPsy_p_info)  # 295 participants
+id_by_occ$n[1]       # 295 participants counted (as n) in 1st line of id_by_occ
+nrow(posPsy_p_info) == id_by_occ$n[1]  # TRUE (qed)
+```
+
+To answer the second question, we can count the number of lines in `df` per `id` _and_ `occasion` and then check whether any unexpected values (different from 1, i.e., `n != 1`) occur:
+
+```{r screening_4}
+# Table (with dplyr):
+id_occ <- df %>%
+  group_by(id, occasion) %>%
+  count()
+id_occ
+
+summary(id_occ$occasion)
+summary(id_occ$n)  # Max is 2 (not 1)!
+
+# Do some occasions occur with other counts than 1?
+id_occ %>%
+  filter(n != 1)
+
+# => Participants with id of 8 and 64: 
+#    2 instances of occasion 2 and 4, respectively.
+```
+
+Importantly, 2 participants (8 and 64) are counted _twice_ for an occasion (2 and 4, respectively). 
+
+```{r screening_5, echo = FALSE, eval = FALSE}
+# Using spread: 
+
+# Spread by occasion:
+id_occ_2 <- id_occ %>%
+  spread(key = occasion, value = n)
+id_occ_2
+
+id_occ_2 %>%
+  filter(id == 8 | id == 64)
+
+# How often does each occasion occur?
+colSums(id_occ_2, na.rm = TRUE)
+
+# occasion:     0     1     2     3     4     5 
+# colSums:    295   147   157   139   134   120
+```
+
+Compare our counts of `id_by_occ` with **Table 1** (p. 4, of Woodworth et al., 2018), which also shows the number of participants who responded on each of the 6 measurement occasions): As the counts in this table correspond to ours, the repeated instances for some measurement occasions (which could indicate data entry errors, but also be due to large variability in the time inteval between measurements) were not reported in the original analysis (i.e., **Table 1**). This suggests that the 2 participants with repeated occasions were simply counted and measured twice on one occasion and missing from another one. 
+
+Another good question to ask is: 
+
+- How does the number of `elapsed.days` correspond to the measurement occasions? 
+
+This brings us to a more general principle and corresponding practice that involves different ways of viewing distributions of values. 
+
+
+## Viewing distributions
+
+- **Principle 6:** Inspect the distributions of variables.
+
+A simple way to get an initial idea about the range of a variable `x` is to compute `summary(x)`. However, plotting the distribution of individual variables (e.g., with histograms or frequency polygons) provides a more informative overview over the distributions of values present in the data (e.g., whether the assumptions of statistical tests are met) and can provide valuable hints regarding unusual or unexpected values. 
+
+### Histograms
+
+A _histogram_ provides a cumulative overview of a variable's values along one dimension (see our examples in [visualizing data](http://rpository.com/ds4psy/essentials/visualize.html)). Here, we use a histogram of `elapsed.days` to address the question:
+
+- How are the measurement times (`elapsed.days`) distributed overall (and relative to the stated times of each `occasion`)?
+
+```{r distribution_histogram}
+## Data:
+df <- AHI_CESD
+
+summary(df$elapsed.days)  # provides range information:
+
+# Vector of official measurement days [based on Table 1 (p. 4)]: 
+occ_days <- c(0, 7, 14, 38, 98, 189)
+names(occ_days) <- c("0: pre-test", "1: post-test", "2: 1-week", "3: 2-weeks", "4: 3-months", "5: 6-months")
+occ_days
+
+# (a) Histogram: 
+ggplot(df, aes(x = elapsed.days)) +
+  geom_histogram(fill = seeblau, binwidth = 1) +
+  geom_vline(xintercept = occ_days, color = "firebrick", linetype = 2) + 
+  labs(title = "Distribution of occasions (a: histogram)") +
+  theme_bw()
+```
+
+**Note:** The first 3 occasions are as expected. However, occasions 4 to 6 appear shifted to the left (i.e., were about 7 days earlier than stated). 
+
+
+### Alternative ways of viewing distributions
+
+Alternative ways to plot cumulative distributions of values include _frequency polygons_, _density plots_, and _rug plots_. 
+
+```{r distribution_alternatives}
+# (b) frequency polygon:
+ggplot(df, aes(x = elapsed.days)) +
+  # geom_histogram(fill = seeblau, binwidth = 1) +
+  geom_freqpoly(binwidth = 7, color = seeblau) +
+  geom_vline(xintercept = occ_days, color = "firebrick", linetype = 2) + 
+  labs(title = "Distribution of occasions (b: frequency polygon)") +
+  theme_bw()
+
+# (c) density plot:
+ggplot(df, aes(x = elapsed.days)) +
+  # geom_histogram(fill = seeblau, binwidth = 1) +
+  geom_density(fill = seeblau) +
+  geom_vline(xintercept = occ_days, color = "firebrick", linetype = 2) + 
+  labs(title = "Distribution of occasions (c: density plot)") +
+  theme_bw()
+
+# (d) rug plot:
+ggplot(df, aes(x = elapsed.days)) +
+  geom_freqpoly(binwidth = 7, color = seeblau) +
+  geom_rug(size = 1, color = "black", alpha = 1/4) +
+  geom_vline(xintercept = occ_days, color = "firebrick", linetype = 2) + 
+  labs(title = "Distribution of occasions (d: frequency polygon with rug plot)") +
+  theme_bw()
+```
+
+## Filtering values
+
+Once we have detected something noteworthy or strange, we may want to mark or exclude some observations (rows) or variables (columns). 
+As we can easily select rows and filter cases (see `dplyr::select` and `dplyr::filter` in the last session), it may be good to create and include some dedicated filter variables in our data. Let's use the participant data `posPsy_p_info` to illustrate how we can create filter variables and then filter cases:
+
+```{r copy_p_info}
+# Data:
+p_info <- posPsy_p_info
+dim(p_info)  # 295 x 6
+```
+
+In previous exercises (see [Exercise 5 of WPA02](http://rpository.com/ds4psy/essentials/visualize.html#exercise-5) and [Exercise 4 of WPA03](http://rpository.com/ds4psy/essentials/transform.html#exercise-4)), we answered the question: 
+
+- What is the `age` range of participants (overall and by `intervention`)?
+
+by using both `ggplot` and `dplyr` pipes. 
+For instance, we can answer questions about the distribution of `age` values by plotting histograms: 
+
+```{r histogram_age}
+# Age range:
+range(p_info$age)
+summary(p_info$age)
+
+# Histogramm showing the overall distribution of age 
+ggplot(p_info) +
+  geom_histogram(mapping = aes(age), binwidth = 2, fill = "gold", col = "black") +
+  theme_bw() +
+  labs(title = "Distribution of age values (overall)")
+
+# Create 4 histogramms showing the distribution of age by intervention:  
+ggplot(p_info) +
+  geom_histogram(mapping = aes(age), binwidth = 5, fill = seeblau, col = "black") +
+  theme_bw() +
+  labs(title = "Distribution of age values by intervention (all data)") +
+  facet_grid(.~intervention)
+```
+
+For practice purposes, suppose we only wanted to include participants up to an age of 70 years in some analysis. Rather than dropping these participants from the file, we can introduce a filter variable that is `TRUE` when some criterion (here: `age > 70`) is satisfied, and otherwise `FALSE`:
+
+- **Principle 7:** Use filter variables to identify and select sub-sets of observations and variables. 
+
+```{r add_filter_variable}
+# How many participants are over 70?
+sum(p_info$age > 70)  # 6 people with age > 70
+
+# Which ones?
+which(p_info$age > 70)  #  51  83 114 155 215 244
+
+# Show their details (using dplyr): 
+p_info %>%
+  filter(age > 70)
+
+# Add a corresponding filter variable to df:
+p_info <- p_info %>%
+  mutate(over_70 = (age > 70))
+
+dim(p_info) # => 7 variables (now including over_70 as a logical variable): 
+head(p_info)
+
+# Check details again (but applying filter to over_70):
+p_info %>%
+  filter(over_70)
+```
+
+In the present case, `filter(over_70)` is about as long and complicated as `filter(age > 70)` and thus not really necessary. However, defining explicit filter variables can pay off when constructing more complex filter conditions or when needing several sub-sets of the data (e.g., for cross-validation purposes). Given an explicit filter variable, we can later filter any analysis (or plot) on the fly:
+
+```{r use_filter_over_70}
+# Age distribution of participants up to 70 (i.e., not over 70):
+p_info %>% 
+  filter(over_70 == FALSE) %>%
+  ggplot() +
+  geom_histogram(mapping = aes(age), binwidth = 5, fill = "olivedrab3", col = "black") +
+  theme_bw() +
+  labs(title = "Distribution of age values by intervention (without participants over 70)") +
+  facet_grid(.~intervention)
+
+# Alternatively, we can quickly create sub-sets of the data:
+p_info_young <- p_info %>% 
+  filter(over_70 == FALSE)
+
+p_info_old <- p_info %>% 
+  filter(over_70 == TRUE)
+
+dim(p_info_young)  # 289 participants (295 - 6) x 7 variables 
+dim(p_info_old)    #   6 participants           x 7 variables 
+```
+
+
+## Viewing relationships 
+
+Most research hypotheses involve _relationships_ or measures of _correspondence_ between 2 or more (continuous or categorical) variables. 
+This brings us to another principle: 
+
+- **Principle 8:** Inspect relationships between variables. 
+
+### Scatterplots
+
+A scatterplot shows the relationship between 2 (typically continuous) variables:
+
+```{r relate_scatterplots}
+# Data:
+df <- AHI_CESD
+dim(df)  # 992 50
+# df
+
+# Scatterplot (overall):
+ggplot(df) +
+  geom_point(aes(x = ahiTotal, y = cesdTotal), size = 2, alpha = 1/4) + 
+  geom_abline(intercept = 100, slope = -1, col = seeblau) +
+  labs(title = "Relationship between ahiTotal and cesdTotal (overall)", 
+       x = "ahiTotal", y = "cesdTotal") +
+  theme_bw()
+
+# Scatterplot (with facets):
+ggplot(df) +
+  geom_point(aes(x = ahiTotal, y = cesdTotal), size = 1, alpha = 1/3) + 
+  geom_abline(intercept = 100, slope = -1, col = seeblau) +
+  labs(title = "Relationship between ahiTotal and cesdTotal (by intervention)", 
+       x = "ahiTotal", y = "cesdTotal") +
+  facet_wrap(~intervention) + 
+  theme_bw()
+```
+
+### Bar plots and line graphs
+
+A relationship often of interest in psychology and other sciences are _trends_ or _developments_ over time. When studying trends or developments, the time variable is not always explicitly expressed in units of time (e.g., days, weeks, months), but often encoded implicitly (e.g., as repeated measurements). 
+
+- **Principle 9:** Inspect trends over time or repeated measurements.
+
+Trends can be expressed in many ways. Any data that measures some variable more than once and uses some unit of time (e.g., in `AHI_CESD` we have a choice between `occasion` vs. `elapsed.days`) can be used to address the question:
+
+- How do values change over time?
+
+To visualize trends, we typically map the temporal variable (in units of time or the counts of repeated measurements) to the x-axis of a plot. If this is the case, many different types of plots can express developments over time. In our session on in [visualizing data](http://rpository.com/ds4psy/essentials/visualize.html), we have already encountered [bar plots](http://rpository.com/ds4psy/essentials/visualize.html#bar-plots) and 
+[line graphs](http://rpository.com/ds4psy/essentials/visualize.html#line-graphs), which are well-suited to plot trends. 
+Actually, our bar plots above (using either the raw data of `AHI_CESD` or our summary table `id_by_occ` to show the number of participants by occasion) expressed a trend: How many participants dropped out of the study from `occasion` 0 to 6. 
+We can make the same point in a line plot:
+
+```{r relate_trends_1}
+# Data:
+df <- AHI_CESD
+dim(df)  # 992 50
+df
+
+knitr::kable(id_by_occ)
+
+# Plot count of IDs by occasion as line graph:
+
+# Line plot: Using id_by_occ (from above) as input: 
+line_dropouts <- ggplot(id_by_occ, aes(x = occasion)) +
+  geom_line(aes(y = n), size = 1.5, color = "gold") + 
+  geom_point(aes(y = n), shape = 21, size = 4, stroke = 1, color = "black", fill = "gold") + 
+  labs(title = "Number of participants by occasion (line)") +
+  theme_bw()
+line_dropouts
+```
+
+When comparing this plot with our corresponding bar plot above, we note that `ggplot` has automatically scaled the y-axis to a range around our frequency values `n` (here: from about 110 to 300). As a consequence, the number of dropouts over occasions looks more dramatic in the line graph than it did in the bar plot. We can correct for this difference by explicitly scaling the y-axis of the line graph or by plotting both geoms in one plot. And whenever  combining multiple geoms in the same plot, we can move common aesthetic elements (e.g., `y = n`) to the 1st line of our `ggplot` command, so that we don't have to repeat them and can only list the specific aesthetics of each geom later:
+
+```{r relate_trends_2}
+## Data:
+# knitr::kable(id_by_occ)
+
+# Line plot (from above) with corrected y-scale:
+line_dropouts + 
+  scale_y_continuous(limits = c(0, 300))
+
+# Multiple geoms: 
+# Bar + line plot: Using id_by_occ (from above) as input:  
+ggplot(id_by_occ, aes(x = occasion, y = n)) +
+  geom_bar(stat = "identity", fill = seeblau) + 
+  geom_line(size = 1.5, color = "gold") + 
+  geom_point(shape = 21, size = 4, stroke = 1, color = "black", fill = "gold") + 
+  labs(title = "Number of participants by occasion (bar + line)") +
+  theme_bw()
+```
+
+Two key questions in the context of our study are:
+
+- How do participants' scores of happiness (`ahiTotal`) and depression (`cesdTotal`) change over time?   
+- Do these trends over time vary by a participant's type of `intervention`?  
+
+Visualizing these trends will take us more than half-way towards our conclusion, except for a few statistical tests. 
+To answer the first question for the happiness scores (`ahiTotal`), we compute our desired values with `dplyr` and then plot the resulting table as a line graph (with an automatic and a full y-scale):
+
+```{r relate_trends_3}
+# Data:
+df <- AHI_CESD
+dim(df)  # 992 50
+# df
+
+# Table 1: 
+# Frequency n, mean ahiTotal, and mean cesdTotal by occasion: 
+tab_scores_by_occ <- df %>%
+  group_by(occasion) %>%
+  summarise(n = n(),
+            ahiTotal_mn = mean(ahiTotal), 
+            cesdTotal_mn = mean(cesdTotal)
+            )
+knitr::kable(head(tab_scores_by_occ))
+
+# Line graph of scores over occasions:
+plot_ahi_trend <- ggplot(tab_scores_by_occ, aes(x = occasion, y = ahiTotal_mn)) +
+  # geom_bar(aes(y = n), stat = "identity", fill = seeblau) + 
+  geom_line(size = 1.5, color = "forestgreen") + 
+  geom_point(shape = 21, size = 4, stroke = 1, color = "black", fill = "forestgreen") + 
+  labs(title = "ahiTotal_mn by occasion (line)") +
+  theme_bw()
+plot_ahi_trend
+
+# Line graph with corrected y-scale:
+plot_ahi_trend + 
+  scale_y_continuous(limits = c(0, 80))
+```
+
+**Practice:** Create the same plots for mean depression scores `cesdTotal`. Can you plot both lines in the same plot? What do you see?
+
+To study the trends of scores by participant's type of `intervention`, we need to slightly adjust our workflow by adding the `intervention` variable into our summary table, so that we can later use it in our plotting commands. As before, we will take care of happiness (`ahiTotal`) and leave it to you to practice on depression (`cesdTotal`):
+
+```{r relate_trends_4}
+# Data:
+df <- AHI_CESD
+dim(df)  # 992 50
+# df
+
+# Table 2: 
+# Scores (n, ahiTotal_mn, and cesdTotal_mn) by occasion AND intervention: 
+tab_scores_by_occ_iv <- df %>%
+  group_by(occasion, intervention) %>%
+  summarise(n = n(),
+            ahiTotal_mn = mean(ahiTotal), 
+            cesdTotal_mn = mean(cesdTotal)
+            )
+dim(tab_scores_by_occ_iv)  # 24 x 5
+
+knitr::kable(head(tab_scores_by_occ_iv))  # print table
+
+# Line graph of scores over occasions AND interventions:
+ggplot(tab_scores_by_occ_iv, aes(x = occasion, y = ahiTotal_mn, 
+                                 group = intervention)) +
+  geom_line(size = 1.5, color = "forestgreen") + 
+  geom_point(shape = 21, size = 4, stroke = 1, color = "black", fill = "forestgreen") + 
+  labs(title = "ahiTotal_mn by occasion and intervention (a: lines + points)") +
+  theme_bw()
+```
+
+Note that we added `group = intervention` to the general aesthetics to instruct `geom_line` to interpret instances of the same `intervention` but different `occasions` as belonging together (i.e., to the same line). When using multiple lines, our previous color settings (in `geom_line` and `geom_point`) no longer make sense. Instead, we would like to vary the color of our lines and points by `intervention`. We can achieve this by also moving these aesthetics to the general `aes()` of the plot:
+
+```{r relate_trends_5}
+# Line graph of scores over occasions AND interventions:
+ggplot(tab_scores_by_occ_iv, aes(x = occasion, y = ahiTotal_mn, 
+                                 group = intervention, 
+                                 color = intervention, 
+                                 fill = intervention)) +
+  geom_line(size = 1.5) + 
+  geom_point(shape = 21, size = 4, stroke = 1, color = "black") + 
+  labs(title = "ahiTotal_mn by occasion and intervention (b: lines + points)") +
+  theme_bw()
+```
+
+The resulting plot is still suboptimal. The automatic choice of a color scale (in "shades of blue") and the corresponding legend (on the right) indicates that `intervention` (i.e., a variable of type integer in `df` and `tab_scores_by_occ_iv`) was interpreted as a continuous variable. To turn it into a discrete variable, we can use `factor(intervention)` for both the `color` and the `fill` aesthetics: 
+
+```{r relate_trends_6}
+# Line graph of scores over occasions AND interventions:
+plot_ahi_by_occ_iv <- ggplot(tab_scores_by_occ_iv, 
+                             aes(x = occasion, y = ahiTotal_mn, 
+                                 group = intervention, 
+                                 color = factor(intervention), 
+                                 fill = factor(intervention))) +
+  geom_line(size = 1.5) + 
+  geom_point(shape = 21, size = 4, stroke = 1, color = "black") + 
+  labs(title = "ahiTotal_mn by occasion and intervention (c: lines + points, IVs by color)") +
+  theme_bw()
+plot_ahi_by_occ_iv
+```
+
+An more honest version of the same plot could manually set a different color scheme, but would still look a lot more sobering: 
+
+```{r relate_trends_7}
+# Line graph of scores over occasions AND interventions:
+plot_ahi_by_occ_iv + 
+  scale_y_continuous(limits = c(0, 80)) + 
+  scale_color_brewer(palette = "Set1") + 
+  scale_fill_brewer(palette = "Set1") + 
+  labs(title = "Mean ahiTotal scores by occasion and intervention (d)",
+       x = "Occasion", y = "Happiness (mean ahiTotal)", 
+       color = "Intervention:", fill = "Intervention:")
+```
+
+**Practice:** Create the same plots for mean depression scores `cesdTotal`. What do you see?
+
+When viewing and contrasting the trends of groups, we can always zoom in further:
+
+- How does this look for individual participants?
+
+Well, how nice of you to ask -- so let's see: We can plot individual trends by `occasion` or by `elapsed days`. As there are `r nrow(posPsy_p_info)` participants, we use transparency and different facets (by `intervention`) to help de-cluttering the plot:
+
+```{r trends_individuals}
+# Data:
+df <- AHI_CESD
+dim(df)  # 992 50
+df
+
+# Individual trends of ahiTotal by occasion and intervention: 
+ggplot(df, aes(x = occasion, y = ahiTotal, group = id, color = factor(intervention))) +
+  geom_line(size = .5, alpha = .33) + 
+  facet_wrap(~intervention) +
+  labs(title = "Individual's ahiTotal by occasion for each intervention", 
+       color = "Intervention:") +
+  scale_color_brewer(palette = "Set1") +
+  theme_bw()
+
+# Individual trends of ahiTotal by elapsed.days and intervention: 
+ggplot(df, aes(x = elapsed.days, y = ahiTotal, group = id, color = factor(intervention))) +
+  geom_line(size = .5, alpha = .33) + 
+  facet_wrap(~intervention) +
+  labs(title = "Individual's ahiTotal by elapsed.days for each intervention",
+       color = "Intervention:") +
+  scale_color_brewer(palette = "Set1") +
+  theme_bw()
+```
+
+While it is difficult to detect any clear pattern in these plots, it is possible to see some interesting cases that may require closer scrutiny.
+
+**Practice:** Create the same plots for the individual trends in depression scores `cesdTotal`. What do you see?
+
+
+### Jitter, box, and violin plots
+
+A measure of correspondence that is common in psychology asks whether the values of some continuous variable vary as a function of the levels of a categorical variable. 
+With regard to our data in `AHI_CESD` we may wonder:
+
+- Do the happiness scores (`ahiTotal`) vary by `intervention`?
+
+To visualize the relationship, we cannot use a scatterplot with the mapping `x = intervention` and `y = ahiTotal`, as there would only be 4 distinct values for `x` (go ahead plotting it, if you want to see it). Fortunately, there's a range of alternatives that allow plotting the raw values and distributions of a continuous variable as a function of a categorical one: 
+
+```{r relate_jitter_box_violin}
+## Data:
+# df <- AHI_CESD
+# dim(df)  # 992 50
+# df
+
+# (a) Jitterplot:
+ggplot(df) +
+  geom_jitter(aes(x = intervention, y = ahiTotal), width = .1, size = 2, alpha = 1/4) + 
+  labs(title = "Values of ahiTotal by intervention (a: jitter)", 
+       x = "intervention", y = "ahiTotal") +
+  theme_bw()
+
+# (b) Box plot:
+ggplot(df) +
+  geom_boxplot(aes(x = factor(intervention), y = ahiTotal), color = seeblau, fill = "grey95") + 
+  labs(title = "Values of ahiTotal by intervention (b: boxplot)", 
+       x = "intervention", y = "ahiTotal") +
+  theme_bw()
+
+# Note that we use factor(intervention), as intervention is an integer (i.e., contiuous) variable.
+
+# (c) Violin plot:
+ggplot(df) +
+  geom_violin(aes(x = factor(intervention), y = ahiTotal), size = 1.5, color = seeblau, fill = "whitesmoke") + 
+  labs(title = "Values of ahiTotal by intervention (c: violin)", 
+       x = "intervention", y = "ahiTotal") +
+  theme_bw()
+```
+
+Note that we sometimes use `factor(intervention)`, as `intervention` in is an integer (i.e., contiuous) variable.
+
+Sometimes combining 2 or more geoms can be more informative than just using one: 
+
+```{r relate_jitterbox_violinjitter}
+# (d) Combining jitter with boxplot:
+ggplot(df) +
+  geom_boxplot(aes(x = factor(intervention), y = ahiTotal), color = seeblau, fill = "grey95", alpha = 1) + 
+  geom_jitter(aes(x = intervention, y = ahiTotal), width = .1, size = 2, alpha = 1/4) + 
+  labs(title = "Values of ahiTotal by intervention (d: jittered boxes)", 
+       x = "intervention", y = "ahiTotal") +
+  theme_bw()
+
+# (e) Combining violin plot with jitter:
+ggplot(df) +
+  geom_violin(aes(x = factor(intervention), y = ahiTotal), size = 1.5, color = seeblau) +
+  geom_jitter(aes(x = intervention, y = ahiTotal), width = .1, size = 2, alpha = 1/4) + 
+  labs(title = "Values of ahiTotal by intervention (e: jittered violins)", 
+       x = "intervention", y = "ahiTotal") +
+  theme_bw()
+
+# (f) Combining violin plot with boxplot and jitter:
+ggplot(df, aes(x = factor(intervention), y = ahiTotal, color = factor(intervention))) +
+  geom_violin(size = 1.5, color = seeblau) +
+  geom_boxplot(width = .30, color = "grey20", fill = "grey90") + 
+  geom_jitter(width = .05, size = 2, alpha = 1/3) + 
+  labs(title = "Values of ahiTotal by intervention (f: jittered violins with boxes)", 
+       x = "intervention", y = "ahiTotal", color = "Intervention:") + 
+  scale_color_brewer(palette = "Set1") +
+  theme_bw()
+```
+
+When using multiple geoms in one plot, their order matters, as later geoms are printed on top of earlier ones. 
+In addition, combining geoms typically requires playing with aesthetics. Incidentally, note how the last plot moved some redundant aesthetic mappings (i.e., `x`, `y`, and `color`) from the geoms to the 1st line of the command (i.e., from the `mapping` argument of the geoms to the general `mapping` argument). 
+
+
+### Tile plots
+
+We already discovered that _bar plots_ can either count cases or show some pre-computed values (when using `stat = "identity"`, see [Bar plots](http://rpository.com/ds4psy/essentials/visualize.html#bar-plots) in [Visualizing data](http://rpository.com/ds4psy/essentials/visualize.html). In the following, we show that we can also compute summary tables and then display their values by the color `fill` gradient of tiles, or by the `size` of points: 
+
+```{r tile_plots}
+# Frequency of observations by occasion (x) and intervention (y):
+
+# Data:
+df <- AHI_CESD
+# dim(df)  # 992 50
+# df
+
+# Table 1: 
+# Frequency n, mean ahiTotal, and mean cesdTotal by occasion: 
+# Use tab_scores_by_occ (from above): 
+knitr::kable(head(tab_scores_by_occ))
+
+# Table 2: 
+# Scores (n, ahiTotal_mn, and cesdTotal_mn) by occasion AND intervention: 
+# Use tab_scores_by_occ_iv (from above):
+knitr::kable(head(tab_scores_by_occ_iv))
+
+# Tile plot 1: 
+# Frequency (n) of each interventin by occasion:
+ggplot(tab_scores_by_occ_iv, aes(x = occasion, y = intervention)) +
+  geom_tile(aes(fill = n), color = "white", size = .1) + 
+  geom_text(aes(label = n), color = "white") +
+  labs(title = "Frequency of each intervention by occasion (tile)", 
+       x = "Occasion", y = "Intervention", fill = "Frequency:") + 
+  theme_bw()
+
+# Tile plot 2: 
+# ahiTotal_mn of each interventin by occasion:
+ggplot(tab_scores_by_occ_iv, aes(x = occasion, y = intervention)) +
+  geom_tile(aes(fill = ahiTotal_mn), color = "grey75", size = 1) + 
+  labs(title = "Mean ahiTotal score of each intervention by occasion (tile)", 
+       x = "Occasion", y = "Intervention", fill = "ahiTotal_mn:") + 
+  scale_fill_gradient(low = "black", high = "gold") +
+  theme_bw()
+```
+
+Note the fancy color gradient of the last tile plot: The lowest average scores of happiness (or `ahiTotal_mn`) are shown in `"black"`, the highest ones in `"gold"`. As the scores vary on a continuous scale, using a continuous color scale is appropriate here. And assigning high happiness to "gold" hopefully makes the plot easier to interpret.
+
+**Practice:** Create a tile plot that shows the developments of mean depression scores `cesdTotal` by measurement `occasion` and `intervention`. Choose a color scale that you find appropriate. What do you see?  
+
+**Hint:** Your result could look like the following plot:
+
+```{r tile_depression, echo = FALSE, eval = TRUE}
+## Data:
+# tab_scores_by_occ_iv
+
+# Tile plot 2 for depression scores:
+# ahiTotal_mn of each interventin by occasion:
+ggplot(tab_scores_by_occ_iv, aes(x = occasion, y = intervention)) +
+  geom_tile(aes(fill = cesdTotal_mn), color = "grey50", size = .2) + 
+  geom_text(aes(label = round(cesdTotal_mn, 1)), color = "white") +
+  labs(title = "Mean cesdTotal_mn score of each intervention by occasion (tile)", 
+       x = "Occasion", y = "Intervention", fill = "cesdTotal_mn:") + 
+  scale_fill_gradient(low = "forestgreen", high = "black") +
+  theme_bw()
+```
+
+### Point size plots
+
+Another way of expressing the value of a continuous variable -- like a frequency `n` or an average score `ahiTotal_mn` -- as a function of 2 categorical variables is by mapping it to the `size` dimension of a point. In the following, we illustrate this by creating the same plot twice: First from raw data (`df`, using `geom_count`) and then from our summary table (`tab_scores_by_occ_iv` from above, using `geom_point` with `size` mapped to our frequency count `n`):
+
+```{r point_size_plots}
+# Data:
+df <- AHI_CESD
+# dim(df)  # 992 50
+# df
+
+# Point plot 1a:
+# Count frequency of values for each interventin by occasion:
+ggplot(df, aes(x = occasion, y = intervention)) +
+  geom_count(color = seeblau) + 
+  labs(title = "Frequency of each intervention by occasion (count)", 
+       x = "Occasion", y = "Intervention", size = "Count:") + 
+  scale_size_area(max_size = 12) +
+  scale_y_continuous(limits = c(.5, 4.5)) +
+  theme_bw()
+
+# Point plot 1b:
+# Frequency (n mapped to size) of each interventin by occasion:
+ggplot(tab_scores_by_occ_iv, aes(x = occasion, y = intervention)) +
+  geom_point(aes(size = n), color = seeblau) + 
+  labs(title = "Frequency of each intervention by occasion (point size)", 
+       x = "Occasion", y = "Intervention", size = "Frequency:") + 
+  scale_size_area(max_size = 12) +
+  scale_y_continuous(limits = c(.5, 4.5)) +
+  theme_bw()
+```
+
+### Tuning plots
+
+As the examples above have shown, most default plots can be modified -- and ideally improved -- by fine-tuning their visual appearance. 
+In `ggplot2`, this means setting different aesthetics (or `aes()` arguments) and `scale` options (which take different arguments, depending on the type of aesthetic involved). Popular levers for prettifying your plots include: 
+
+- _colors_: can be set by the `color` or `fill` arguments of geoms (variable when inside `aes(...)`, fixed outside), or by choosing or designing specific color scales (with `scale_color`);  
+- _labels_: `labs(...)` allows setting titles, captions, axis and legend labels, etc.;  
+- _legends_: can be (re-)moved or edited;  
+- _themes_: can be selected or modified.  
+
+### Mixing geoms and aesthetics
+
+By combining the `geom_tile` and `geom_point` plots from above with `geom_text(aes(label = n)` we could simultaneously express 2 different continuous variables on 2 different dimensions (here `fill` color or `size` vs. the value shown by a `label` of text): 
+
+```{r combo_plots}
+# Combo plot 1: 
+# ahiTotal_mn of each interventin by occasion:
+ggplot(tab_scores_by_occ_iv, aes(x = occasion, y = intervention)) +
+  geom_tile(aes(fill = ahiTotal_mn), color = "grey95", size = 1) + 
+  geom_text(aes(label = n), color = "white", size = 5, fontface = 2) +
+  labs(title = "Mean ahiTotal score of each intervention by occasion (tile)", 
+       x = "Occasion", y = "Intervention", fill = "ahiTotal_mn:") + 
+  scale_fill_gradient(low = "grey30", high = "gold") +
+  theme_bw()
+
+# Combo plot 2b:
+# ahiTotal_mn (mapped to point size) and n (text label) for each intervention x occasion:
+ggplot(tab_scores_by_occ_iv, aes(x = occasion, y = intervention)) +
+  geom_point(aes(size = ahiTotal_mn), color = "forestgreen") + 
+  geom_text(aes(label = n), color = "white", size = 3, fontface = 2) +
+  labs(title = "ahiTotal_mn and n by intervention x occasion (point size + text label)", 
+       x = "Occasion", y = "Intervention", size = "Frequency:") + 
+  scale_size_continuous(range = c(5, 11)) +
+  scale_y_continuous(limits = c(.5, 4.5)) +
+  theme_bw()
+```
+
+However, this mix of multiple dimensions tends to get too confusing, even for `ggplot` enthusiasts. So let's conclude by a cautionary note. 
+
+## Plotting with a purpose
+
+Our last examples have shown that we should better create 2 separate graphics when making multiple points or expressing more than a single relationship in a plot. This brings us to: 
+
+- **Principle 10:** A plot should convey its message as clearly as possible. 
+
+So go ahead and use the awesome `ggplot` machine to combine multiple geoms and adjust their aesthetics for as long as this makes your plot prettier. However, rather than getting carried away by the plethora of options, always keep in mind the message that you want to convey. If additional fiddling with aesthetics does not help to clarify your point, you are probably wasting your time by trying to do too much.
+
+
+## 10 principles of EDA
+
+Here is a list of the 10 principles covered above:
+
+1. Structure and comment your analysis.
+
+2. Start with a clean slate and explicitly load all data and all packages required.
+
+3. Make copies (and copies of copies) of your data.  
+
+4. Know your data (variables and observations). 
+
+5. Know and deal with unusual values.
+
+6. Inspect the distributions of variables.
+
+7. Use filter variables to identify and select sub-sets of observations and variables. 
+
+8. Inspect relationships between variables. 
+
+9. Inspect trends over time or repeated measurements.
+
+10. A plot should convey its message as clearly as possible.
+
+Adhering to these principles does not guarantee an interesting result, but minimizes the risk of missing something important or violating key assumptions of statistical tests. 
+
+
+# Exercises (WPA04)
+
+Working through the above examples should have provided you with a pretty clear picture of the data and results of `AHI_CESD`. 
+However, we haven't touched the data contained in `posPsy_wide` yet. 
+Given that this file was described as a transformed and corrected version of `AHI_CESD`, we should not expect to find completely different results in it. 
+So let's use `posPsy_wide` in some exercises to improve our skills in EDA. 
+
+```{r load_packages_data_exercise, message = FALSE}
+# Packages:
+library(tidyverse)
+library(knitr)
+
+# Data:
+# 4. Transformed and corrected version of all data (in wide format): 
+posPsy_wide <- read_csv(file = "http://rpository.com/ds4psy/data/posPsy_data_wide.csv")
+```
+
+
+# Exercises (WPA04)
+
+## Exercise: Total scores?
+
+Use data transformation on the file `AHI_CESD` to answer the following question: 
+
+- Are the variables `ahiTotal` and `cesdTotal` the sums of all values in `ahi01` to `ahi24` and `cesd01` to `cesd20`, respectively?
+
+```{r ex_ahi_cesd}
+## Data:
+## 2. Original DVs in long format:
+# AHI_CESD <- read_csv(file = "http://rpository.com/ds4psy/data/posPsy_AHI_CESD.csv")
+
+df <- AHI_CESD
+dim(df)  # 992 x 50
+
+# Are the variables `ahiTotal` and `cesdTotal` the sums of all values in `ahi01` to `ahi24` and `cesd01` to `cesd20`, respectively?
+# (a) ahi: 
+ahi <- df %>% 
+  select(ahi01:ahi24)
+
+ahi_sums <- rowSums(ahi)
+sum(ahi_sums == df$ahiTotal)  # 992 (qed)
+all.equal(ahi_sums, df$ahiTotal)  # TRUE
+
+# (b) cesd:
+cesd <- df %>% 
+  select(cesd01:cesd20)
+
+cesd_sums <- rowSums(cesd)
+cesd_sums
+sum(cesd_sums == df$cesdTotal)  # 0 => all different!
+
+
+
+
+
+```
+
+## Exercise: Explore `posPsy_wide` 
+
+Load the data `posPsy_wide` (if you haven't done so above) and explore it.
+
+- What are its dimensions, variables, and types of variables?
+
+```{r load_data_wide, message = FALSE}
+# Load data:
+
+# 4. Transformed and corrected version of all data (in wide format): 
+posPsy_wide <- read_csv(file = "http://rpository.com/ds4psy/data/posPsy_data_wide.csv")
+
+df <- posPsy_wide
+
+# Checking: 
+df
+dim(df)  # 295 observations (participants) x 294 variables
+names(df)
+# glimpse(df)
+```
+
+
+
+
+## Exercise: Same plot twice
+
+Plot same plot _twice_: 
+    1. from a lot of raw data and 
+    2. from much leaner table of aggregated data.
+    
++++ here now +++
+
+
+
+
+
+<!-- +++ here now +++ --> 
+
+
+<!-- 
+
+### Outliers
+
+Detecting outliers by checking distributions of raw values and descriptive statistics.
+
+Definition depends on content (see exercise). 
+
+- mean & distribution 
+- quartiles
+
+Detection by graphs: 
+
+- histograms
+- trend line (e.g. `geom_smooth`) 
+- scatterplots
+- box plots
+
+### Handling invalid cases
+
+- Filtering observations (in rows)
+- Deleting or replacing values (in columns)
+
+## Understanding data
+
+Using plots to visualize data
+
+### Typical and a-typical values:
+
+##### Histograms
+
+- We covered histograms in [Visualizing data](http://rpository.com/ds4psy/essentials/visualize.html). 
+
+
+### Relations between variables
+
+
+#### 2 categorical variables
+
+
+
+
+## OLDER EXAMPLES: 
+
+Basic plot types: 
+
+### Histograms
+
+A histogram shows counts of the values of 1 (typically continuous) variable. This is useful for evaluating the distribution of the variable:
+
+```{r histograms}
+library(ggplot2)
+ 
+# Create data: 
+tb <- tibble(iq = rnorm(n = 1000, mean = 100, sd = 15))
+ 
+# Basic histogram:
+ggplot(tb) + 
+  geom_histogram(aes(x = iq), binwidth = 5)
+
+# Pimped histogram: 
+ggplot(tb) + 
+  geom_histogram(aes(x = iq), binwidth = 5, 
+                 fill = "gold", color = "black") +
+  labs(title = "Histogram", x = "IQ values", y = "Frequency in sample (n)",
+       caption = "[Using random iq data.]") +
+  theme_classic()
+```
+
+More on histograms: 
+
+- <https://www.r-graph-gallery.com/histogram/>
+
+### Scatterplots
+
+A scatterplot shows the relationship between 2 (typically continuous) variables:
+
+```{r scatterplots}
+# Data:
+ir <- as_tibble(iris)
+ir
+
+# Basic scatterplot:
+ggplot(ir) +
+  geom_point(aes(x = Petal.Length, y = Petal.Width, color = Species, shape = Species))
+
+# Using 3 different facets:
+ggplot(ir) +
+  geom_point(aes(x = Petal.Length, y = Petal.Width, color = Species)) +
+  facet_wrap(~Species)
+
+# Pimped scatterplot:
+ggplot(ir) +
+  geom_point(aes(x = Petal.Length, y = Petal.Width, fill = Species), pch = 21, color = "black", size = 2, alpha = 1/2) +
+  facet_wrap(~Species) +
+  # coord_fixed() + 
+  labs(title = "Scatterplot", x = "Length of petal", y = "Width of petal",
+       caption = "[Using iris data.]") + 
+  theme_bw() +
+  theme(legend.position = "none")
+```
+
+More on scatterplots: 
+
+- <https://www.r-graph-gallery.com/scatterplot/>
+
+
+### Bar plots
+
+Another common type of plot shows the values (across different levels of some variable as the height of bars. As this plot type can use both categorical or continuous variables, it turns out to be surprisingly complex to create good bar charts. To us get started, here are only a few examples: 
+
+#### Counts of cases
+
+By default, `geom_bar` computes summary statistics of the data. When nothing else is specified, `geom_bar` _counts_ the number or frequency of values (i.e., `stat = "count"`) and maps this count to the `y` (i.e., `y = ..count..`): 
+
+```{r bar_plot_count}
+library(ggplot2)
+
+## Data: 
+ggplot2::mpg
+
+# (1) Count number of cases by class: 
+ggplot(mpg) + 
+  geom_bar(aes(x = class))
+
+# (b) is the same as: 
+ggplot(mpg) + 
+  geom_bar(aes(x = class, y = ..count..))
+
+# (c) is the same as:
+ggplot(mpg) + 
+  geom_bar(aes(x = class), stat = "count")
+
+# (d) is the same as:
+ggplot(mpg) + 
+  geom_bar(aes(x = class, y = ..count..), stat = "count")
+
+# (e) pimped version:
+ggplot(mpg) + 
+  geom_bar(aes(x = class, fill = class), 
+           # stat = "count", 
+           color = "black") + 
+  labs(title = "Counts of cars by class",
+       x = "Class of car", y = "Frequency") + 
+  scale_fill_brewer(name = "Class:", palette = "Blues") + 
+  theme_bw()
+```
+
+**Practice:** Plot the _number_ or _frequency of cases_ in the `mpg` data by `cyl` (in at least 3 different ways). 
+
+```{r bar_plot_count_ex, echo = FALSE, eval = FALSE}
+# (2) Count number of cases by cylinders: 
+ggplot(mpg) + 
+  geom_bar(aes(x = cyl))
+
+ggplot(mpg) + 
+  geom_bar(aes(x = cyl, y = ..count..))
+
+ggplot(mpg) + 
+  geom_bar(aes(x = cyl), stat = "count")
+
+
+# pimped version:
+ggplot(mpg) + 
+  geom_bar(aes(x = cyl, fill = as.factor(cyl)), 
+           stat = "count",
+           color = "black") + 
+  labs(title = "Counts of cars by class",
+       x = "Cylinders", y = "Frequency") + 
+  scale_fill_brewer(name = "Cylinders:", palette = "Spectral") + 
+  # coord_flip() + 
+  theme_bw()
+```
+
+
+#### Proportion of cases
+
+An alternative to showing the count or frequency of cases is showing the corresponding _proportion_ of cases: 
+
+```{r bar_plot_prop}
+library(ggplot2)
+
+## Data: 
+ggplot2::mpg
+
+# (1) Proportion of cases by class: 
+ggplot(mpg) + 
+  geom_bar(aes(x = class, y = ..prop.., group = 1))
+
+# is the same as: 
+ggplot(mpg) + 
+  geom_bar(aes(x = class, y = ..count../sum(..count..)))
+```
+
+**Practice:** Plot the _proportion of cases_ in the `mpg` data by `cyl` (in at least 3 different ways). 
+
+
+#### Bar plots of existing values
+
+A common difficulty occurs when the table to plot already contains the values to be shown as bars. 
+As there is nothing to be computed in this case, we need to specify `stat = "identity"` for `geom_bar` (to override its default of `stat = "count"`). 
+
+For instance, let's plot a bar chart that shows the election data from the following tibble `de`:
+
+```{r election_data, echo = FALSE, eval = TRUE}
+library(knitr)
+library(tidyverse)
+
+## (a) Create a tibble of data: 
+de_org <- tibble(
+    party = c("CDU/CSU", "SPD", "Others"),
+    share_2013 = c((.341 + .074), .257, (1 - (.341 + .074) - .257)), 
+    share_2017 = c((.268 + .062), .205, (1 - (.268 + .062) - .205))
+  )
+de_org$party <- factor(de_org$party, levels = c("CDU/CSU", "SPD", "Others"))  # optional
+# de_org
+
+## Check that columns add to 100:
+# sum(de_org$share_2013)  # => 1 (qed)
+# sum(de_org$share_2017)  # => 1 (qed)
+
+## (b) Converting de into a tidy data table:
+de <- de_org %>%
+  gather(share_2013:share_2017, key = "election", value = "share") %>%
+  separate(col = "election", into = c("dummy", "year")) %>%
+  select(year, party, share)
+kable(de)
+```
+
+1. A version with 2 x 3 separate bars (using `position = "dodge"`): 
+
+```{r bar_plot_stat_identity_dodge}
+## Data: ----- 
+de  # => 6 x 3 tibble
+
+## Note that year is of type character, which could be changed by:
+# de$year <- parse_integer(de$year)
+
+## (1) Bar chart with  side-by-side bars (dodge): ----- 
+
+## (a) minimal version: 
+bp_1 <- ggplot(de, aes(x = year, y = share, fill = party)) +
+  ## (A) 3 bars per election (position = "dodge"):  
+  geom_bar(stat = "identity", position = "dodge", color = "black") # 3 bars next to each other
+bp_1
+
+## (b) Version with text labels and customized colors: 
+bp_1 + 
+  ## pimping plot: 
+  geom_text(aes(label = paste0(round(share * 100, 1), "%"), y = share + .01), 
+            position = position_dodge(width = 1), 
+            fontface = 2, color = "black") + 
+  # Some set of high contrast colors: 
+  scale_fill_manual(name = "Party:", values = c("black", "red3", "gold")) + 
+  # Titles and labels: 
+  labs(title = "Partial results of the German general elections 2013 and 2017", 
+       x = "Year of election", y = "Share of votes", 
+       caption = "Data from www.bundeswahlleiter.de.") + 
+  # coord_flip() + 
+  theme_bw()
+```
+
+2. A version with 2 bars with 3 segments (using `position = "stack"`): 
+
+```{r bar_plot_stat_identity_stack}
+## Data: ----- 
+de  # => 6 x 3 tibble
+
+## (2) Bar chart with stacked bars: -----  
+
+## (a) minimal version: 
+bp_2 <- ggplot(de, aes(x = year, y = share, fill = party)) +
+  ## (B) 1 bar per election (position = "stack"):
+  geom_bar(stat = "identity", position = "stack") # 1 bar per election
+bp_2
+
+## (b) Version with text labels and customized colors: 
+bp_2 +   
+  ## Pimping plot: 
+  geom_text(aes(label = paste0(round(share * 100, 1), "%")), 
+            position = position_stack(vjust = .5),
+            color = rep(c("black", "white", "white"), 2), 
+            fontface = 2) + 
+  # Some set of high contrast colors: 
+  scale_fill_manual(name = "Party:", values = c("black", "red3", "gold")) + 
+  # Titles and labels: 
+  labs(title = "Partial results of the German general elections 2013 and 2017", 
+       x = "Year of election", y = "Share of votes", 
+       caption = "Data from www.bundeswahlleiter.de.") + 
+  # coord_flip() + 
+  theme_classic()
+```
+
+#### Bar plots with error bars
+
+It is typically a good idea to show some measure of variability (e.g., the standard deviation, standard error, confidence interval, etc.) to any bar plots. 
+There is an entire range of geoms that draw error bars: 
+
+```{r bar_plot_error_bar}
+## Create data to plot: ----- 
+n_cat <- 6
+set.seed(101)
+
+data <- tibble(
+  name = LETTERS[1:n_cat],
+  value = sample(seq(25, 50), n_cat),
+  sd = rnorm(n = n_cat, mean = 0, sd = 8))
+data
+
+## Error bars: -----
+
+## x-aesthetic only:
+
+# (a) errorbar: 
+ggplot(data) +
+    geom_bar(aes(x = name, y = value), stat = "identity", fill = seeblau) +
+    geom_errorbar(aes(x = name, ymin = value - sd, ymax = value + sd), 
+                  width = 0.4, color = "orange", alpha = 1, size = 1.0)
+
+# (b) linerange: 
+ggplot(data) +
+    geom_bar(aes(x = name, y = value), stat = "identity", fill = "olivedrab3") +
+    geom_linerange(aes(x = name, ymin = value - sd, ymax = value + sd), 
+                   color = "firebrick", alpha = 1, size = 2.5)
+
+## Additional y-aesthetic: 
+
+# (c) crossbar:
+ggplot(data) +
+    geom_bar(aes(x = name, y = value), stat = "identity", fill = "tomato4") +
+    geom_crossbar(aes(x = name, y = value, ymin = value - sd, ymax = value + sd), 
+                  width = 0.3, color = "sienna1", alpha = 1, size = 1.0)
+
+# (d) pointrange: 
+ggplot(data) +
+    geom_bar(aes(x = name, y = value), stat = "identity", fill = "burlywood4") +
+    geom_pointrange(aes(x = name, y = value, ymin = value - sd, ymax = value + sd), 
+                    color = "gold", alpha = 1.0, size = 1.2)
+```
+
+More on barplots:
+
+- <https://www.r-graph-gallery.com/barplot/>. 
+
+### Drawing curves and lines
+
+**ToDo:**
+
+- adding trendlines
+- lines of data (e.g., means)
+
+### Box plots
+
+**ToDo:** 
+
+- show medians, quartiles, distribution, and outliers
+
+
+## Improving plots
+
+Most default plots can be improved by fine-tuning their visual appearance. 
+Popular levers for "pimping" plots include: 
+
+- colors: can be set withing geoms (variable when inside `aes(...)`, fixed outside), choosing or designing specific color scales;  
+- labels: `labs(...)` allows setting titles, captions, axis labels, etc.;  
+- legends: can be (re-)moved or edited;  
+- themes: can be selected or modified.  
+
+
+
+
+
+
+
+# Other plots and packages
+
+`ggplot2` comes with a large variety of geoms. Nevertheless, we sometimes want to show or do something that is not included in the standard package. [Chapter 7: Exploratory data analysis](http://r4ds.had.co.nz/exploratory-data-analysis.html) goes beyond standard `ggplot` geoms by touching on `geom_hex` (from the `hexbin` package) and `geom_beeswarm` and `geom_quasirandom` (from the `ggbeeswarm` package). When looking for new forms of visual expression, web sites like 
+
+- [Data Visualization Catalogue](https://datavizcatalogue.com)
+- [Google charts](https://developers.google.com/chart/)
+- [R-graph gallery](http://www.r-graph-gallery.com)
+
+can inspire and provide many interesting pointers. The site 
+
+- [ggplot2-exts.org](https://www.ggplot2-exts.org/) 
+
+also provides valuable resources for `ggplot` users, as it shows packages specifically designed to work with `ggplot2`. In the following, we illustrate the package `ggalluvial` that allows showing the transitions between categorical data. 
+
+### Example 1: Alluvial plot
+
+```{r alluvial_plots_1, fig.width = 6, fig.height = 8}
+# Preparations: 
+library(tidyverse)
+# install.packages("ggalluvial")
+library(ggalluvial)
+
+# Example 1 (adapted from vignette): ----- 
+
+as_tibble(as.data.frame(UCBAdmissions))
+is_alluvial(as.data.frame(UCBAdmissions), logical = FALSE, silent = TRUE)
+
+ggplot(as.data.frame(UCBAdmissions),
+       aes(weight = Freq, axis1 = Gender, axis2 = Dept)) +
+  geom_alluvium(aes(fill = Admit), width = .10, color = "grey10") +
+  geom_stratum(width = .10, 
+               fill = c("firebrick", "steelblue4", "grey10", "grey80", "grey30", "grey50", "grey70", "grey20"), 
+               color = "grey10") +
+  geom_label(stat = "stratum", label.strata = TRUE) +
+  scale_x_continuous(breaks = 1:2, labels = c("Gender", "Department")) +
+  # scale_fill_brewer(type = "qual", palette = "Set2") +
+  scale_fill_manual(name = "Admissions:", values = c("forestgreen", "gold2")) + 
+  ggtitle("UC Berkeley admissions and rejections") +
+  theme_light()
+```
+
+An important feature of these diagrams is the meaningfulness of the vertical axis: No gaps are inserted between the strata, so the total height of the diagram reflects the cumulative weight of the observations.^[This is different in _Sankey diagrams_, shown <https://developers.google.com/chart/interactive/docs/gallery/sankey>.]
+
+
+### Example 2: Parallel set diagram 
+
+```{r alluvial_plots_2, fig.width = 7, fig.height = 7}
+# Preparations: 
+library(ggalluvial)
+
+# Example 2 (adapted from vignette): ----- 
+
+as_tibble(as.data.frame(Titanic))
+
+ggplot(as.data.frame(Titanic),
+       aes(weight = Freq,
+           axis1 = Survived, axis2 = Sex, axis3 = Class)) +
+  geom_alluvium(aes(fill = Class),
+                width = 0, knot.pos = 0, reverse = FALSE) +
+  guides(fill = FALSE) +
+  geom_stratum(width = 1/12, reverse = FALSE) +
+  geom_text(stat = "stratum", label.strata = TRUE, reverse = FALSE) +
+  scale_x_continuous(breaks = 1:3, labels = c("Survived", "Gender", "Class")) +
+  coord_flip() +
+  ggtitle("Titanic survival by class and gender (1)") +
+  scale_fill_brewer(type = "qual", palette = "Dark2") +
+  theme_bw()
+
+# Switching order of axes (to put Survived in the middle):
+# Fill alluvium by Survived: 
+ggplot(as.data.frame(Titanic),
+       aes(weight = Freq,
+           axis1 = Sex, axis2 = Survived, axis3 = Class)) +
+  geom_alluvium(aes(fill = Survived), # rather than Class
+                width = 0, knot.pos = 0, reverse = FALSE) +
+  guides(fill = FALSE) +
+  geom_stratum(width = 1/12, reverse = FALSE) +
+  geom_text(stat = "stratum", label.strata = TRUE, reverse = FALSE) +
+  scale_x_continuous(breaks = 1:3, labels = c("Gender", "Survived", "Class")) +
+  coord_flip() +
+  ggtitle("Titanic survival by class and gender (2)") +
+  # scale_fill_brewer(type = "qual", palette = "Set1") +
+  scale_fill_manual(name = "Survival:", values = c("black", "forestgreen")) +
+  theme_bw()
+
+# Fill alluvium by gender:
+ggplot(as.data.frame(Titanic),
+       aes(weight = Freq,
+           axis1 = Class, axis2 = Survived, axis3 = Sex)) +
+  geom_alluvium(aes(fill = Sex), 
+                width = 0, knot.pos = 0, reverse = FALSE) +
+  guides(fill = FALSE) +
+  geom_stratum(width = 1/12, reverse = FALSE) +
+  geom_text(stat = "stratum", label.strata = TRUE, reverse = FALSE) +
+  scale_x_continuous(breaks = 1:3, labels = c("Class", "Survived", "Gender")) +
+  coord_flip() +
+  ggtitle("Titanic survival by class and gender (3)") +
+  # scale_fill_brewer(type = "qual", palette = "Paired") +
+  scale_fill_manual(values = c("steelblue", "firebrick")) + 
+  theme_bw()
+```
+
+### Example 3: Data in long format
+
+```{r alluvial_plots_3, fig.width = 8, fig.height = 5}
+# Preparations: 
+library(ggalluvial)
+
+# Example 3 (adapted from vignette): ----- 
+
+?majors
+data(majors)
+as_tibble(majors) # illustrating lode format 
+majors$curriculum <- as.factor(majors$curriculum)
+
+ggplot(majors,
+       aes(x = semester, stratum = curriculum, alluvium = student,
+           fill = curriculum, label = curriculum)) +
+  scale_fill_brewer(type = "qual", palette = "Pastel2") +
+  geom_flow(stat = "alluvium", 
+            lode.guidance = "rightleft",
+            color = "darkgray") +
+  geom_stratum() +
+  theme(legend.position = "right") + # "bottom" "top"
+  ggtitle("Student curricula across several semesters") +
+  theme_light()
+```
+
+See the packages `circlize`, `ggforce`, and `ggparallel` for other types of transition plots. 
+
+
+-->
+
+# More on EDA
+
+- study `vignette("ggplot")` and the documentation for `ggplot` and various geoms (e.g., `geom_`);
+- study <https://ggplot2.tidyverse.org/reference/> and its examples; 
+- see the [cheat sheet on data visualization](https://www.rstudio.com/resources/cheatsheets/); 
+- read [Chapter 3: Data visualization](http://r4ds.had.co.nz/data-visualisation.html) and [Chapter 7: Exploratory data analysis (EDA)](http://r4ds.had.co.nz/exploratory-data-analysis.html) and complete their exercises. 
+
+
+# Conclusion 
+
+<!-- Table with links: -->
+
+All [ds4psy](http://rpository.com/ds4psy/) essentials: 
+
+Nr. | Topic       |
+---:|:------------| 
+0.  | [Syllabus](http://rpository.com/ds4psy/) | 
+1.  | [Basic R concepts and commands](http://rpository.com/ds4psy/essentials/basics.html) | 
+2.  | [Visualizing data](http://rpository.com/ds4psy/essentials/visualize.html) | 
+3.  | [Transforming data](http://rpository.com/ds4psy/essentials/transform.html) |
+4.  | **Exploring data (EDA)** | 
++.  | [Datasets](http://rpository.com/ds4psy/essentials/datasets.html) |  
+
+<!--
+Nr. | Topic       |
+---:|:------------| 
+0.  | [Syllabus](http://rpository.com/ds4psy/) | 
+1.  | [Basic R concepts and commands](http://rpository.com/ds4psy/essentials/basics.html) | 
+2.  | [Visualizing data](http://rpository.com/ds4psy/essentials/visualize.html) | 
+3.  | [Transforming data](http://rpository.com/ds4psy/essentials/transform.html) |
+4.  | [Exploring data (EDA)](http://rpository.com/ds4psy/essentials/explore.html) | 
+5.  | [Creating and using tibbles](http://rpository.com/ds4psy/essentials/tibble.html) |
+6.  | [Tidying data](http://rpository.com/ds4psy/essentials/tidy.html) |
++.  | [Datasets](http://rpository.com/ds4psy/essentials/datasets.html) | 
+-->
+
+```{r colophon, echo = FALSE, eval = FALSE}
+# This document was built using:
+
+# sessionInfo()
+# devtools::session_info()
+# devtools::package_info()
+```
+
+
+[Last update on `r Sys.time()` by [hn](http://neth.de/).]  
+
+<!-- eof. --> 

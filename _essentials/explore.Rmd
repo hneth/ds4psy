@@ -9,7 +9,7 @@ output:
      toc_depth: 3
      highlight: default # textmate default kate haddock monochrome #
      lightbox: true # true by default
-     fig_width: 6 # in inches
+     fig_width: 7 # in inches
 editor_options: 
   chunk_output_type: console # inline
 ---
@@ -44,7 +44,7 @@ opts_chunk$set(echo = TRUE,
                message = FALSE,
                warning = FALSE,
                ## Default figure options:
-               fig.width = 6, 
+               fig.width = 7, 
                fig.asp = .618, # golden ratio
                out.width = "75%",
                fig.align = "center"
@@ -1121,7 +1121,7 @@ ggplot(df, aes(x = occasion, y = intervention)) +
   geom_count(color = seeblau) + 
   labs(title = "Frequency of each intervention by occasion (count)", 
        x = "Occasion", y = "Intervention", size = "Count:") + 
-  scale_size_area(max_size = 25) +
+  scale_size_area(max_size = 12) +
   scale_y_continuous(limits = c(.5, 4.5)) +
   theme_bw()
 
@@ -1131,7 +1131,7 @@ ggplot(tab_scores_by_occ_iv, aes(x = occasion, y = intervention)) +
   geom_point(aes(size = n), color = seeblau) + 
   labs(title = "Frequency of each intervention by occasion (point size)", 
        x = "Occasion", y = "Intervention", size = "Frequency:") + 
-  scale_size_area(max_size = 25) +
+  scale_size_area(max_size = 12) +
   scale_y_continuous(limits = c(.5, 4.5)) +
   theme_bw()
 ```
