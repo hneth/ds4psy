@@ -400,7 +400,7 @@ While dealing with missing values is a routine task, finding other unusual value
 - How many participants are there for each occasion? 
 - How many occasions are there for each participant?  
 
-The first question can easily be answered with `dplyr` or by `ggplot`:
+The first question concerns a _trend_ (i.e., development over time) and can easily be answered by using `dplyr` or `ggplot`:
 
 ```{r screening_1}
 # How many participants are there for each occasion? 
@@ -415,7 +415,7 @@ id_by_occ <- df %>%
   count()
 id_by_occ
 
-# (2) Plot summary table:
+# (2) Plot count of IDs by occasion as bar plot:
 
 # (a) Using raw data as input:
 ggplot(df, aes(x = occasion)) +
@@ -737,7 +737,197 @@ ggplot(df) +
   theme_bw()
 ```
 
-### Jitter, box and violin plots
+### Bar plots and line graphs
+
+A relationship often of interest in psychology and other sciences are _trends_ or _developments_ over time. When studying trends or developments, the time variable is not always explicitly expressed in units of time (e.g., days, weeks, months), but often encoded implicitly (e.g., as repeated measurements). 
+
+- **Principle 9:** Inspect trends over time or repeated measurements.
+
+Trends can be expressed in many ways. Any data that measures some variable more than once and uses some unit of time (e.g., in `AHI_CESD` we have a choice between `occasion` vs. `elapsed.days`) can be used to address the question:
+
+- How do values change over time?
+
+To visualize trends, we typically map the temporal variable (in units of time or the counts of repeated measurements) to the x-axis of a plot. If this is the case, many different types of plots can express developments over time. In our session on in [visualizing data](http://rpository.com/ds4psy/essentials/visualize.html), we have already encountered [bar plots](http://rpository.com/ds4psy/essentials/visualize.html#bar-plots) and 
+[line graphs](http://rpository.com/ds4psy/essentials/visualize.html#line-graphs), which are well-suited to plot trends. 
+Actually, our bar plots above (using either the raw data of `AHI_CESD` or our summary table `id_by_occ` to show the number of participants by occasion) expressed a trend: How many participants dropped out of the study from `occasion` 0 to 6. 
+We can make the same point in a line plot:
+
+```{r relate_trends_1}
+# Data:
+df <- AHI_CESD
+dim(df)  # 992 50
+df
+
+knitr::kable(id_by_occ)
+
+# Plot count of IDs by occasion as line graph:
+
+# Line plot: Using id_by_occ (from above) as input: 
+line_dropouts <- ggplot(id_by_occ, aes(x = occasion)) +
+  geom_line(aes(y = n), size = 1.5, color = "gold") + 
+  geom_point(aes(y = n), shape = 21, size = 4, stroke = 1, color = "black", fill = "gold") + 
+  labs(title = "Number of participants by occasion (line)") +
+  theme_bw()
+line_dropouts
+```
+
+When comparing this plot with our corresponding bar plot above, we note that `ggplot` has automatically scaled the y-axis to a range around our frequency values `n` (here: from about 110 to 300). As a consequence, the number of dropouts over occasions looks more dramatic in the line graph than it did in the bar plot. We can correct for this difference by explicitly scaling the y-axis of the line graph or by plotting both geoms in one plot. And whenever  combining multiple geoms in the same plot, we can move common aesthetic elements (e.g., `y = n`) to the 1st line of our `ggplot` command, so that we don't have to repeat them and can only list the specific aesthetics of each geom later:
+
+```{r relate_trends_2}
+## Data:
+# knitr::kable(id_by_occ)
+
+# Line plot (from above) with corrected y-scale:
+line_dropouts + 
+  scale_y_continuous(limits = c(0, 300))
+
+# Multiple geoms: 
+# Bar + line plot: Using id_by_occ (from above) as input:  
+ggplot(id_by_occ, aes(x = occasion, y = n)) +
+  geom_bar(stat = "identity", fill = seeblau) + 
+  geom_line(size = 1.5, color = "gold") + 
+  geom_point(shape = 21, size = 4, stroke = 1, color = "black", fill = "gold") + 
+  labs(title = "Number of participants by occasion (bar + line)") +
+  theme_bw()
+```
+
+Two key questions in the context of our study are:
+
+- How do participants' scores of happiness (`ahiTotal`) and depression (`cesdTotal`) change over time?   
+- Do these trends over time vary by a participant's type of `intervention`?  
+
+Visualizing these trends will take us more than half-way towards our conclusion, except for a few statistical tests. 
+To answer the first question for the happiness scores (`ahiTotal`), we compute our desired values with `dplyr` and then plot the resulting table as a line graph (with an automatic and a full y-scale):
+
+```{r relate_trends_3}
+# Data:
+df <- AHI_CESD
+dim(df)  # 992 50
+# df
+
+# Table 1: 
+# Frequency n, mean ahiTotal, and mean cesdTotal by occasion: 
+tab_scores_by_occ <- df %>%
+  group_by(occasion) %>%
+  summarise(n = n(),
+            ahiTotal_mn = mean(ahiTotal), 
+            cesdTotal_mn = mean(cesdTotal)
+            )
+knitr::kable(head(tab_scores_by_occ))
+
+# Line graph of scores over occasions:
+plot_ahi_trend <- ggplot(tab_scores_by_occ, aes(x = occasion, y = ahiTotal_mn)) +
+  # geom_bar(aes(y = n), stat = "identity", fill = seeblau) + 
+  geom_line(size = 1.5, color = "forestgreen") + 
+  geom_point(shape = 21, size = 4, stroke = 1, color = "black", fill = "forestgreen") + 
+  labs(title = "ahiTotal_mn by occasion (line)") +
+  theme_bw()
+plot_ahi_trend
+
+# Line graph with corrected y-scale:
+plot_ahi_trend + 
+  scale_y_continuous(limits = c(0, 80))
+```
+
+**Practice:** Create the same plots for mean depression scores `cesdTotal`. Can you plot both lines in the same plot? What do you see?
+
+To study the trends of scores by participant's type of `intervention`, we need to slightly adjust our workflow by adding the `intervention` variable into our summary table, so that we can later use it in our plotting commands. As before, we will take care of happiness (`ahiTotal`) and leave it to you to practice on depression (`cesdTotal`):
+
+```{r relate_trends_4}
+# Data:
+df <- AHI_CESD
+dim(df)  # 992 50
+# df
+
+# Table 2: 
+# Scores (n, ahiTotal_mn, and cesdTotal_mn) by occasion AND intervention: 
+tab_scores_by_occ_iv <- df %>%
+  group_by(occasion, intervention) %>%
+  summarise(n = n(),
+            ahiTotal_mn = mean(ahiTotal), 
+            cesdTotal_mn = mean(cesdTotal)
+            )
+dim(tab_scores_by_occ_iv)  # 24 x 5
+
+knitr::kable(head(tab_scores_by_occ_iv))  # print table
+
+# Line graph of scores over occasions AND interventions:
+ggplot(tab_scores_by_occ_iv, aes(x = occasion, y = ahiTotal_mn, 
+                                 group = intervention)) +
+  geom_line(size = 1.5, color = "forestgreen") + 
+  geom_point(shape = 21, size = 4, stroke = 1, color = "black", fill = "forestgreen") + 
+  labs(title = "ahiTotal_mn by occasion and intervention (a: lines + points)") +
+  theme_bw()
+```
+
+Note that we added `group = intervention` to the general aesthetics to instruct `geom_line` to interpret instances of the same `intervention` but different `occasions` as belonging together (i.e., to the same line). When using multiple lines, our previous color settings (in `geom_line` and `geom_point`) no longer make sense. Instead, we would like to vary the color of our lines and points by `intervention`. We can achieve this by also moving these aesthetics to the general `aes()` of the plot:
+
+```{r relate_trends_5}
+# Line graph of scores over occasions AND interventions:
+ggplot(tab_scores_by_occ_iv, aes(x = occasion, y = ahiTotal_mn, 
+                                 group = intervention, 
+                                 color = intervention, 
+                                 fill = intervention)) +
+  geom_line(size = 1.5) + 
+  geom_point(shape = 21, size = 4, stroke = 1, color = "black") + 
+  labs(title = "ahiTotal_mn by occasion and intervention (b: lines + points)") +
+  theme_bw()
+```
+
+The resulting plot is still suboptimal. The automatic choice of a color scale (in "shades of blue") and the corresponding legend (on the right) indicates that `intervention` (i.e., a variable of type integer in `df` and `tab_scores_by_occ_iv`) was interpreted as a continuous variable. To turn it into a discrete variable, we can use `factor(intervention)` for both the `color` and the `fill` aesthetics: 
+
+```{r relate_trends_6}
+# Line graph of scores over occasions AND interventions:
+plot_ahi_by_occ_iv <- ggplot(tab_scores_by_occ_iv, 
+                             aes(x = occasion, y = ahiTotal_mn, 
+                                 group = intervention, 
+                                 color = factor(intervention), 
+                                 fill = factor(intervention))) +
+  geom_line(size = 1.5) + 
+  geom_point(shape = 21, size = 4, stroke = 1, color = "black") + 
+  labs(title = "ahiTotal_mn by occasion and intervention (c: lines + points, IVs by color)") +
+  theme_bw()
+plot_ahi_by_occ_iv
+```
+
+An more honest version of the same plot could manually set a different color scheme, but would still look a lot more sobering: 
+
+```{r relate_trends_7}
+# Line graph of scores over occasions AND interventions:
+plot_ahi_by_occ_iv + 
+  scale_y_continuous(limits = c(0, 80)) + 
+  scale_color_brewer(palette = "Set1") + 
+  scale_fill_brewer(palette = "Set1") + 
+  labs(title = "Mean ahiTotal scores by occasion and intervention (d)",
+       x = "Occasion", y = "Happiness (mean ahiTotal)", 
+       color = "Intervention:", fill = "Intervention:")
+```
+
+**Practice:** Create the same plots for mean depression scores `cesdTotal`. What do you see?
+
+When viewing and contrasting the trends of groups, we can always zoom in further:
+
+- How does this look for individual participants?
+
+Well, how nice of you to ask -- so let's see:
+
+```{r trends_individuals}
+# Data:
+df <- AHI_CESD
+dim(df)  # 992 50
+# df
+
+
+# +++ here now +++
+
+```
+
+
+
+
+
+
+### Jitter, box, and violin plots
 
 A measure of correspondence that is common in psychology asks whether the values of some continuous variable vary as a function of the levels of a categorical variable. 
 With regard to our data in `AHI_CESD` we may wonder:
@@ -811,7 +1001,8 @@ ggplot(df, aes(x = factor(intervention), y = ahiTotal, color = factor(interventi
 When using multiple geoms in one plot, their order matters, as later geoms are printed on top of earlier ones. 
 In addition, combining geoms typically requires playing with aesthetics. Incidentally, note how the last plot moved some redundant aesthetic mappings (i.e., `x`, `y`, and `color`) from the geoms to the 1st line of the command (i.e., from the `mapping` argument of the geoms to the general `mapping` argument). 
 
-### Tile and point size plots
+
+### Tile plots
 
 We already discovered that _bar plots_ can either count cases or show some pre-computed values (when using `stat = "identity"`, see [Bar plots](http://rpository.com/ds4psy/essentials/visualize.html#bar-plots) in [Visualizing data](http://rpository.com/ds4psy/essentials/visualize.html). In the following, we show that we can also compute summary tables and then display their values by the color `fill` gradient of tiles, or by the `size` of points: 
 
@@ -824,26 +1015,17 @@ df <- AHI_CESD
 
 # Table 1: 
 # Frequency n, mean ahiTotal, and mean cesdTotal by occasion: 
-df %>%
-  group_by(occasion) %>%
-  summarise(n = n(),
-            ahiTotal_mn = mean(ahiTotal), 
-            cesdTotal_mn = mean(cesdTotal)
-            )
+# Use tab_scores_by_occ (from above): 
+knitr::kable(head(tab_scores_by_occ))
 
 # Table 2: 
-# n, ahiTotal_mn, and cesdTotal_mn by occasion x intervention: 
-summary <- df %>%
-  group_by(occasion, intervention) %>%
-  summarise(n = n(),
-            ahiTotal_mn = mean(ahiTotal), 
-            cesdTotal_mn = mean(cesdTotal)
-            )
-knitr::kable(head(summary))
+# Scores (n, ahiTotal_mn, and cesdTotal_mn) by occasion AND intervention: 
+# Use tab_scores_by_occ_iv (from above):
+knitr::kable(head(tab_scores_by_occ_iv))
 
 # Tile plot 1: 
 # Frequency (n) of each interventin by occasion:
-ggplot(summary, aes(x = occasion, y = intervention)) +
+ggplot(tab_scores_by_occ_iv, aes(x = occasion, y = intervention)) +
   geom_tile(aes(fill = n), color = "white", size = .1) + 
   geom_text(aes(label = n), color = "white") +
   labs(title = "Frequency of each intervention by occasion (tile)", 
@@ -852,7 +1034,7 @@ ggplot(summary, aes(x = occasion, y = intervention)) +
 
 # Tile plot 2: 
 # ahiTotal_mn of each interventin by occasion:
-ggplot(summary, aes(x = occasion, y = intervention)) +
+ggplot(tab_scores_by_occ_iv, aes(x = occasion, y = intervention)) +
   geom_tile(aes(fill = ahiTotal_mn), color = "grey75", size = 1) + 
   labs(title = "Mean ahiTotal score of each intervention by occasion (tile)", 
        x = "Occasion", y = "Intervention", fill = "ahiTotal_mn:") + 
@@ -860,9 +1042,30 @@ ggplot(summary, aes(x = occasion, y = intervention)) +
   theme_bw()
 ```
 
-Note the fancy color gradient of the last tile plot: The lowest average scores of happiness (or `ahiTotal_mn`) are shown in `"black"`, the highest ones in `"gold"`. 
+Note the fancy color gradient of the last tile plot: The lowest average scores of happiness (or `ahiTotal_mn`) are shown in `"black"`, the highest ones in `"gold"`. As the scores vary on a continuous scale, using a continuous color scale is appropriate here. And assigning high happiness to "gold" hopefully makes the plot easier to interpret.
 
-A similar way of expressing the value of a continuous variable -- like a frequency `n` or an average score `ahiTotal_mn` -- is by mapping it to the size dimension of a point. In the following, we create the same plot twice: first from raw data (`df` and `geom_count`) and then from our summary table (`summary` and `geom_point` with `size` mapped to the frequency `n`):
+**Practice:** Create a tile plot that shows the developments of mean depression scores `cesdTotal` by measurement `occasion` and `intervention`. Choose a color scale that you find appropriate. What do you see?  
+
+**Hint:** Your result could look like the following plot:
+
+```{r tile_depression, echo = FALSE, eval = TRUE}
+# Data:
+tab_scores_by_occ_iv
+
+# Tile plot 2 for depression scores:
+# ahiTotal_mn of each interventin by occasion:
+ggplot(tab_scores_by_occ_iv, aes(x = occasion, y = intervention)) +
+  geom_tile(aes(fill = cesdTotal_mn), color = "grey50", size = .2) + 
+  geom_text(aes(label = round(cesdTotal_mn, 1)), color = "white") +
+  labs(title = "Mean cesdTotal_mn score of each intervention by occasion (tile)", 
+       x = "Occasion", y = "Intervention", fill = "cesdTotal_mn:") + 
+  scale_fill_gradient(low = "forestgreen", high = "black") +
+  theme_bw()
+```
+
+### Point size plots
+
+Another way of expressing the value of a continuous variable -- like a frequency `n` or an average score `ahiTotal_mn` -- as a function of 2 categorical variables is by mapping it to the `size` dimension of a point. In the following, we illustrate this by creating the same plot twice: First from raw data (`df`, using `geom_count`) and then from our summary table (`tab_scores_by_occ_iv` from above, using `geom_point` with `size` mapped to our frequency count `n`):
 
 ```{r point_size_plots}
 # Point plot 1a:
@@ -875,12 +1078,14 @@ ggplot(df, aes(x = occasion, y = intervention)) +
 
 # Point plot 1b:
 # Frequency (n mapped to size) of each interventin by occasion:
-ggplot(summary, aes(x = occasion, y = intervention)) +
+ggplot(tab_scores_by_occ_iv, aes(x = occasion, y = intervention)) +
   geom_point(aes(size = n), color = seeblau) + 
   labs(title = "Frequency of each intervention by occasion (point size)", 
        x = "Occasion", y = "Intervention", size = "Frequency:") + 
   theme_bw()
 ```
+
+### Mixing geoms with multiple aesthetics
 
 By combining the `geom_tile` and `geom_point` plots from above with `geom_text(aes(label = n), ...` we could simultaneously express 2 different continuous variables on 2 different dimensions (here `fill` color or `size` vs. the value shown by a `label` of text): 
 
@@ -906,9 +1111,24 @@ ggplot(summary, aes(x = occasion, y = intervention)) +
   theme_bw()
 ```
 
-However, this probably gets too confusing --- so we should better use 2 separate plots when expressing multiple relationships. This brings us to:
+However, this mix of multiple dimensions tends to get too confusing, even for `ggplot` enthusiasts. So let's conclude by a cautionary note. 
 
-- **Principle 9:** Any plot should be as clear as possible, so don't try doing too much in one plot! 
+## Plotting with a purpose
+
+Our last examples have shown that we should better create 2 separate graphics when making multiple points or expressing more than a single relationship in a plot. This brings us to: 
+
+- **Principle 10:** A plot should convey its message as clearly as possible. 
+
+So go ahead and use the awesome `ggplot` machine to combine multiple geoms and adjust their aesthetics for as long as this makes your plot prettier. However, rather than getting carried away by the plethora of options, always keep in mind the message that you want to convey. If additional fiddling with aesthetics does not help to clarify your point, you are probably wasting your time by trying to do too much.
+
+
+# Exercises (WPA04)
+
+Working through the above examples should have provided you with a pretty clear picture of the data in `AHI_CESD`. 
+However, we haven't touched the data contained in `posPsy_wide` yet. 
+Given that this is described as a modified and corrected version of `AHI_CESD`, we should not expect to find completely different results in it. 
+So let's use `posPsy_wide` to exercise and improve our skills in EDA. 
+
 
 <!-- +++ here now +++ --> 
 
