@@ -28,7 +28,6 @@ library("rmarkdown")
 library("knitr")
 ```
 
-
 # Background
 
 ## Basics
@@ -36,7 +35,6 @@ library("knitr")
 Markdown document are simple text documents and can be edited by any text editor --- ideally by a program that interacts with R (like [RStudio](http://www.rstudio.com)). 
 
 You can create a new Markdown document in [RStudio](http://www.rstudio.com) by clicking `File > New File > R Markdown`. At the top of a new file, you will see inputs for a page title, author, date, and the output format. Change the title, author, and date to suit your current document.
-
 
 ## Text vs. chunks of R code
 

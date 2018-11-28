@@ -1,7 +1,7 @@
 ---
 title: "R Markdown Basics"
 author: "Author Name"
-date: "2018 November 11"
+date: "2018 November 28"
 output: html_document
 ---
 
