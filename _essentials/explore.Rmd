@@ -99,13 +99,14 @@ Nr. | Topic       |
 * Winter 2018/2019: Mondays, 13:30--15:00, C511. 
 * Links to current [course syllabus](http://rpository.com/ds4psy/) | [ZeUS](https://zeus.uni-konstanz.de/hioserver/pages/startFlow.xhtml?_flowId=detailView-flow&unitId=5101&periodId=78&navigationPosition=hisinoneLehrorganisation,examEventOverviewOwn) |  [Ilias](https://ilias.uni-konstanz.de/ilias/goto_ilias_uni_crs_809936.html) 
 
+
 ## Preparations
 
-Create an R script (`.R`) or an R-Markdown file (`.Rmd`) and load the R packages of the `tidyverse`. (Hint: Structure your script by inserting spaces, meaningful comments, and sections.) 
+Create an R script (`.R`) or an R-Markdown file (`.Rmd`) and load the R packages of the `tidyverse`. (**Hint:** Structure your script by inserting spaces, meaningful comments, and sections.) 
 
 ```{r layout_template, echo = TRUE, eval = FALSE}
 ## Exploring data (EDA) | ds4psy
-## 2018 11 26
+## 2018 11 28
 ## ----------------------------
 
 ## Preparations: ----------
@@ -118,6 +119,17 @@ library(tidyverse)
 
 ## End of file (eof). ----------  
 ```
+
+To use **R Markdown**, create a corresponding file and save it with the `.Rmd` extension (e.g., by selecting `File > New File > R Markdown`). 
+For instructions on combining text and code, see [Chapter 27: R Markdown](https://r4ds.had.co.nz/r-markdown.html) of our textbook or use one of the following **templates**:
+
+- minimal template:  `rmd_template_s` [in [.Rmd](http://rpository.com/down/temp/rmd_template_s.Rmd) | [.html](http://rpository.com/down/temp/rmd_template_s.html) format]
+
+- medium template: `rmd_template_m` [in [.Rmd](http://rpository.com/down/temp/rmd_template_m.Rmd) | [.html](http://rpository.com/down/temp/rmd_template_m.html) format]
+
+- explicit explanations: `Rmarkdown_basics` [in [.Rmd](http://rpository.com/down/temp/Rmarkdown_basics.Rmd) | [.html](http://rpository.com/down/temp/Rmarkdown_basics.html) format]
+
+**Hint:** Try to _knit_ your `.Rmd` file immediately after saving it and marvel at the beauty of the resulting `.html`-file. If this works, keep doing this routinely from now on, putting all your R-code into code chunks, and any text (like headings or conclusions) that describes or explains what you are doing outside of them. From now on, you can share your `.html` output files, rather than your `.Rmd` source files when showing off your R and data science skills.
 
 
 # Exploring data
@@ -214,6 +226,7 @@ Load all required packages and data files (see [Dataset: Positive Psychology](ht
 # Load packages:
 library(tidyverse)
 library(knitr)
+library(rmarkdown)
 
 # Load csv-data files (from online links):
 # See <http://rpository.com/ds4psy/essentials/datasets.html> for details. 
@@ -1078,8 +1091,8 @@ Note the fancy color gradient of the last tile plot: The lowest average scores o
 **Hint:** Your result could look like the following plot:
 
 ```{r tile_depression, echo = FALSE, eval = TRUE}
-# Data:
-tab_scores_by_occ_iv
+## Data:
+# tab_scores_by_occ_iv
 
 # Tile plot 2 for depression scores:
 # ahiTotal_mn of each interventin by occasion:
