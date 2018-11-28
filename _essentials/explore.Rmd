@@ -127,22 +127,27 @@ library(tidyverse)
 In the following, we refine and use what we have learned so far to explore data. 
 Practically, this session combines what we have learned about `ggplot2` (in [Chapter 3: Data visualization](http://r4ds.had.co.nz/data-visualisation.html)) and about `dplyr` (in [Chapter 5: Data transformation](https://r4ds.had.co.nz/transform.html)) to explore datasets.  
 
+## Key concepts
+
 Important concepts in this session include: 
 
-- missing values (`NA`)  
-- different measurement levels of variables (e.g., categorical vs. continuous)  
+- missing values (`NA`)  vs. unusual and extreme values (e.g., outliers), 
+- different types of variables (e.g., continuous vs. categorical variables),  
+- relationships between variables (of different types),  
+- trends (i.e., developments over time), and 
+- many different types of plots.
 
-See [Chapter 7: Exploratory data analysis (EDA)](http://r4ds.had.co.nz/exploratory-data-analysis.html) and the links provided below for more detailed information. 
+See [Chapter 7: Exploratory data analysis (EDA)](http://r4ds.had.co.nz/exploratory-data-analysis.html) and the links provided below for additional information. 
 
 ## What is EDA? 
 
 According to [Grolemund & Wickham (2017, Chapter 7)](http://r4ds.had.co.nz/exploratory-data-analysis.html) _exploratory data analysis_ (EDA) primarily is a state of mind. Rather than following a strict set of rules, EDA is an initial phase of familiarising yourself with a new data set by actively engaging in an iterative cycle during which you 
 
-- Generate questions about data.
-- Search for answers by visualising, transforming, and modelling data.
-- Use answers to refine your questions and/or generate new questions.
+- Generate questions about data.  
+- Search for answers by visualising, transforming, and modelling data.  
+- Use answers to refine your questions and/or generate new questions.  
 
-Philosophically speaking, EDA is a data scientist's way of doing hermeneutics (see [Wikipedia](https://en.wikipedia.org/wiki/Hermeneutics) or [The Stanford Encyclopedia of Philosophy](https://plato.stanford.edu/entries/hermeneutics/) for definitions) to get a grip on data.
+Philosophically speaking, EDA is a data scientist's way of doing hermeneutics (see [Wikipedia](https://en.wikipedia.org/wiki/Hermeneutics) or [The Stanford Encyclopedia of Philosophy](https://plato.stanford.edu/entries/hermeneutics/) for definitions) to get a grip on data. 
 
 The goal and purpose of EDA is to gain an overview of a dataset. This includes an idea of its dimensions and the number and types of variables contained in the data, but also a more detailed idea of the distribution of variables, their potential relations to each other, and potential problems (e.g., missing values or outliers). 
 
@@ -164,7 +169,12 @@ Even when these questions are answered, creating beautiful and informative graph
 
 What needs to be done in any specific case depends on the details of the data and your current goals. Also, there is no pre-defined end to an EDA and no clear boundary between the processes of exploration and the confirmation (or falsification) of expectations. Typically, social scientists use EDA to check and understand a dataset, before using statistics to test specific hypotheses.  
 
-While any actual EDA is tailored to specific features of the data and current research goals, the following sections highlight some common themes that occur in most cases. We illustrate these steps in the context of a dataset that was collected to measure the short- and long-term effects of positive psychology interventions (see [Dataset: Positive Psychology](http://rpository.com/ds4psy/essentials/datasets.html#positive-psychology) for details).^[The participant part of this data has been used as `p_info` in the previous sessions.]
+While any actual EDA is tailored to specific features of the data and current research goals, this session highlights some common themes that occur in most cases. As we will see, the packages `dplyr` and `ggplot` provide a powerful set of tools that allow us to puzzle about data by asking and answering 
+questions. Ideally, you will soon experience that actively engaging in EDA really feels like "doing research", as it requires us to probe and scrutinize data and follow up on the ideas and hypotheses that we may discover along the way. 
+
+To illustrate the process and spirit of EDA, we will use a real and fairly complex data set, which was collected to measure the short- and long-term effects of positive psychology interventions (see [Dataset: Positive Psychology](http://rpository.com/ds4psy/essentials/datasets.html#positive-psychology) for details).^[The participant part of this data has been used as `p_info` in the previous sessions.] 
+And while it's understandable that you're mostly focusing on the code and commands, let's try to keep an eye on the meaning of our data and stay curious about the results that we may find. 
+
 
 # Principles and practices
 
