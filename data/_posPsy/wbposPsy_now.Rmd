@@ -1,7 +1,7 @@
 ---
 title: "Web-based positive psychology interventions: A reexamination of effectiveness"
 author: "lmw & hn"
-date: "2018 11 28"
+date: "2018 11 29"
 output:
    html_document:
      code_folding: show # hide
@@ -1171,7 +1171,7 @@ ggplot(data_wide) +
   labs(title = "AHI TOTAL SCORE DISTRIBUTION CHANGE", x = "AHI TOTAL SCORES", y = "COUNT")
 ```
 
-## Exercise 3
+## Exercise 3 
 
 ```{r ex3_eda, echo = TRUE, eval = TRUE}
 # Exercise 3:Let`s create plots of the improvement in ahitotal scores and cesdtotal in the course of the study (occasion 0 - occasion 5) with information on intervention groups. 
@@ -1188,7 +1188,7 @@ a <- AHI_CESD_2 %>%
   summarize(mean_ahi = mean(ahiTotal, na.rm = TRUE),
             mean_cesd = mean(cesdTotal, na.rm = TRUE))
 
-ggplot(a, mapping = aes(x=occasion, y= mean_ahi)) + 
+ggplot(a, mapping = aes(x = occasion, y = mean_ahi)) + 
   geom_point(mapping = aes(size = 1.5), color = "darkblue") +
   geom_line(color = "grey") +
   ggtitle("Ahi-scores in course of study") +
@@ -1204,7 +1204,7 @@ b <- AHI_CESD_2 %>%
             mean_cesd = mean(cesdTotal, na.rm = TRUE))
 b
 
-ggplot(b, mapping = aes(x=occasion, y= mean_ahi, color = intervention)) +
+ggplot(b, mapping = aes(x=occasion, y = mean_ahi, color = intervention)) +
   geom_point(mapping = aes(size = 1.5)) +
   geom_line() +
   ggtitle("Mean ahi-score per intervention group over time")
@@ -1256,43 +1256,45 @@ ggplot() +
 ## Exercise 4
 
 ```{r ex4_eda, echo = TRUE, eval = TRUE}
-# Exercise 4:  
-## (4a): Create new variables indicating the improvement in ahi scores from occasion 0 to occasion 1, from occasion 1 to occasion 2, and so on. 
-## First, load data in the best suited format and delete redundant colums.
 
-#load data
+## Exercise 4:  
+
+# (4a): Create new variables indicating the improvement in ahi scores from occasion 0 to occasion 1, from occasion 1 to occasion 2, and so on. 
+# First, load data in the best suited format and delete redundant colums: 
+
+# load data: 
 data_wide <- read_csv(file = "http://rpository.com/ds4psy/data/posPsy_data_wide.csv")  # online
 dim(data_wide) 
 
-#select colums of interest
+# select colums of interest: 
 data_wide <- select(data_wide, id:elapsed.days.0, contains("Total"), contains("occasion"), starts_with("elapsed."))
 
-#new variables
-
+# new variables: 
 data_wide <- data_wide %>% 
   mutate(improve01ahi = ahiTotal.1 - ahiTotal.0, 
          improve12ahi = ahiTotal.2 - ahiTotal.1, 
          improve23ahi = ahiTotal.3 - ahiTotal.2,
          improve34ahi = ahiTotal.4 - ahiTotal.3,
          improve45ahi = ahiTotal.5 - ahiTotal.4)
-dim(data_wide)#295 35
+
+dim(data_wide) # 295 35. 
 
 
-##(4b): Compute the mean improvements per intervention group
+# (4b): Compute the mean improvements per intervention group: 
 data_wide %>% 
   group_by(intervention) %>% 
-  summarise(mean_improve01_i = mean(improve01ahi, na.rm = TRUE), 
-            mean_improve12_i = mean(improve12ahi, na.rm = TRUE),
-            mean_improve23_i = mean(improve23ahi, na.rm = TRUE),
-            mean_improve34_i = mean(improve34ahi, na.rm = TRUE),
+  summarise(mean_improve01_i = mean(improve01ahi, na.rm = TRUE),    
+            mean_improve12_i = mean(improve12ahi, na.rm = TRUE),  # here is something interesting. 
+            mean_improve23_i = mean(improve23ahi, na.rm = TRUE),  
+            mean_improve34_i = mean(improve34ahi, na.rm = TRUE),  
             mean_improve45_i = mean(improve45ahi, na.rm = TRUE))
 
-##(4c): What is surprising about the results? 
-#There are also negative improvements.
+# (4c): What is surprising about the results? 
+# There are also negative improvements.
 
 
-##(4d): Do women and men differ in their improvements?
-#Try to find the solution graphically first. Then have a look on the numbers.
+# (4d): Do women and men differ in their improvements?
+#       Try to find the solution graphically first. Then have a look on the numbers: 
 data_wide %>%
   group_by(intervention, sex) %>% 
   summarise(mean_improve01_i = mean(improve01ahi, na.rm = TRUE), 
@@ -1313,8 +1315,8 @@ d <- data_wide %>%
          change_cesd = cesdTotal.5 - cesdTotal.0)
 
 d %>%
-  group_by(sex) %>% 
-  summarize(mean_change_ahi = mean(change_ahi, na.rm = TRUE), 
+  group_by(sex) %>%
+  summarize(mean_change_ahi = mean(change_ahi, na.rm = TRUE),
             mean_change_cesd = mean(change_cesd, na.rm = TRUE))
 
 
@@ -1328,9 +1330,11 @@ e <- d%>%
 
 # Change in ahi Scores
 e$sex <- as.factor(e$sex)
+
 ggplot(e) +
   geom_point(aes(x = intervention, y =mean_change_ahi, color = sex)) +
-  labs(title = "Mean change in ahi scores for men and women", x = "intervention", y = "Change in ahi scores (mean)") +
+  labs(title = "Mean change in ahi scores for men and women", 
+       x = "intervention",           y = "Change in ahi scores (mean)") +
   theme_light() +
   geom_hline(yintercept = 0)
 
@@ -1338,7 +1342,8 @@ ggplot(e) +
 e$sex <- as.factor(e$sex)
 ggplot(e) +
   geom_point(aes(x = intervention, y =mean_change_cesd, color = sex)) +
-  labs(title = "Mean change in cesd scores for men and women", x = "intervention", y = "Change in cesd scores (mean)") +
+  labs(title = "Mean change in cesd scores for men and women", 
+       x = "intervention", y = "Change in cesd scores (mean)") +
   theme_light() +
   geom_hline(yintercept = 0)
 
@@ -1427,7 +1432,7 @@ e %>%
 
 ##(7c): Are there participants whose ahiTotal score and cesdTotal score did not change? If yes: how many are there?
 e %>%
-  filter(change_cesd == 0, change_ahi == 0) #yes
+  filter(change_cesd == 0, change_ahi == 0) # yes
 
 e %>%
   filter(change_cesd == 0, change_ahi == 0) %>% 

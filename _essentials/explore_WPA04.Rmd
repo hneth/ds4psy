@@ -209,7 +209,7 @@ Clean your workspace and define some custom objects (like colors or functions):
 rm(list = ls())  # cleans ALL objects in current R environment (without asking for confirmation)!
 
 # Customizations:
-seeblau <- rgb(0, 169, 224, names = "seeblau",       maxColorValue = 255)  # seeblau.4 of uni.kn color scheme
+seeblau <- rgb(0, 169, 224, names = "seeblau", maxColorValue = 255)  # seeblau.4 of uni.kn color scheme
 
 # source(file = "my_custom_functions.R")
 ```
@@ -314,11 +314,11 @@ What do you want to know immediately after loading a data file?
 
 - **Principle 4:** Know your data (variables and observations). 
 
-This principle is a short version of the following: You really want to know 
+This principle is a short version of the following: Directly after loading a new file, you typically want to know 
 
-    - the dimensions of your data, 
-    - the types of your variables (columns), and 
-    - the semantics of your observations (rows). 
+- the dimensions of your data, 
+- the types of your variables (columns), and 
+- the semantics of your observations (rows). 
 
 Here, we first inspect the original data file, which we read in from <http://rpository.com/ds4psy/data/posPsy_AHI_CESD.csv> above: 
 
@@ -337,8 +337,7 @@ df
 # summary(df)  # Note range of values
 ```
 
-We note that `AHI_CESD` contains `r dim(AHI_CESD)[1]` observations (rows) and  `r dim(AHI_CESD)[2]` variables (columns). Most of the variables are integers and -- judging from their names -- many belong together (in blocks). Their names and ranges suggest that they stem from questionnaires or scales with fixed answer categories (e.g., from 1 to 5 for `ahi__`, and from 1 to 4 for `cesd__`). 
-Overall, a row of data is a measurement of one participant (characterised by its `id` and an `intervention` value) at one occasion (characterised by the value of `occasion` and `elapsed.days`) on two scales (`ahi` and `cesd`). 
+We note that `AHI_CESD` contains `r dim(AHI_CESD)[1]` observations (rows) and  `r dim(AHI_CESD)[2]` variables (columns). Most of the variables are integers and -- judging from their names -- many belong together (in blocks). Their names and ranges suggest that they stem from questionnaires or scales with fixed answer categories (e.g., from 1 to 5 for `ahi__`, and from 1 to 4 for `cesd__`). Overall, a row of data is a measurement of one participant (characterised by its `id` and an `intervention` value) at one occasion (characterised by the value of `occasion` and `elapsed.days`) on two scales (`ahi` and `cesd`). 
 
 ### Unusual values
 
@@ -804,8 +803,7 @@ Trends can be expressed in many ways. Any data that measures some variable more 
 
 To visualize trends, we typically map the temporal variable (in units of time or the counts of repeated measurements) to the x-axis of a plot. If this is the case, many different types of plots can express developments over time. In our session on in [visualizing data](http://rpository.com/ds4psy/essentials/visualize.html), we have already encountered [bar plots](http://rpository.com/ds4psy/essentials/visualize.html#bar-plots) and 
 [line graphs](http://rpository.com/ds4psy/essentials/visualize.html#line-graphs), which are well-suited to plot trends. 
-Actually, our bar plots above (using either the raw data of `AHI_CESD` or our summary table `id_by_occ` to show the number of participants by occasion) expressed a trend: How many participants dropped out of the study from `occasion` 0 to 6. 
-We can make the same point in a line plot:
+Actually, our bar plots above (using either the raw data of `AHI_CESD` or our summary table `id_by_occ` to show the number of participants by occasion) expressed a trend: How many participants dropped out of the study from `occasion` 0 to 6. We can make the same point in a line plot: 
 
 ```{r relate_trends_1}
 # Data:
@@ -1259,7 +1257,171 @@ posPsy_wide <- read_csv(file = "http://rpository.com/ds4psy/data/posPsy_data_wid
 
 # Exercises (WPA04)
 
-## Exercise: Total scores?
+
+## Exercise 1: Explore `posPsy_wide` 
+
+Load the data stored as <http://rpository.com/ds4psy/data/posPsy_data_wide.csv> into `posPsy_wide` (if you haven't done so above) and explore it.
+
+1. What are the data's dimensions, variables, and types of variables?  How would you describe the structure of this dataset?  
+
+```{r load_data_wide, message = FALSE}
+# Load packages:
+library(tidyverse)
+
+# Load data:
+# 4. Transformed and corrected version of all data (in wide format): 
+posPsy_wide <- read_csv(file = "http://rpository.com/ds4psy/data/posPsy_data_wide.csv")
+
+df <- posPsy_wide  # copy data
+
+## Checking: 
+df
+dim(df)  # 295 observations (participants) x 294 variables
+# names(df)
+# glimpse(df)
+```
+
+**Structure:**
+
+- `posPsy_wide` contains 295 observations (participants) and 294 variables. 
+
+- The first 6 variables (from `id` to `income`) describe each particpant, while the rest contains 6 blocks of 48 variables (from `occasion.`_i_ to `cesdTotal.`_i_, and $i = 0, 1,... 5$). [Check: $6$ variables $+ 6 \cdot\ 48$ variables $= 294$ variables.] 
+
+- Most variables are numbers of type integer, except for `elapsed.days.1` to `elapsed.days.5`, which are numeric of type double.
+
+Thus, we suspect that the data combines the information contained in `posPsy_p_info` and `AHI_CESD`, but -- in contrast to `AHI_CESD` -- presents it in _wide_ format (1 row per participant) rather than _long_ format (1 row per measurement).
+
+
+2. Verify that `posPsy_wide` contains the same participants as `posPsy_p_info`.
+
+```{r ex_verify_participants, echo = TRUE, eval = TRUE}
+# Select the first 6 variables of posPsy_wide:
+p_info_2 <- posPsy_wide %>%
+  select(id:income)
+
+# Verify that they are equal to posPsy_p_info: 
+all.equal(p_info_2, posPsy_p_info)
+```
+
+3. Inspect `posPsy_wide` for missing values. Do you see some systematic pattern to them?
+
+```{r ex_missing_values, echo = TRUE, eval = TRUE}
+df <- posPsy_wide  # copy data
+df
+sum(is.na(df))  # 37440
+
+# Hypothesis 1: ------ 
+# When an occasion is missing, all corresponding variables are missing as well.
+
+# Test for occasion.1: 
+df %>%
+  filter(is.na(occasion.1)) %>%       # occasion.1 is missing: 
+  select(occasion.1:cesdTotal.1) %>%  # block of 48 variables corresponding to this occasion
+  sum(., na.rm = TRUE)                # => 0 (i.e., only NA values left).
+
+# Test for occasion.2:
+df %>%
+  filter(is.na(occasion.2)) %>%       # occasion.2 is missing: 
+  select(occasion.2:cesdTotal.2) %>%  # block of 48 variables corresponding to this occasion
+  sum(., na.rm = TRUE)                # => 0 (i.e., only NA values left).
+
+# Test for occasion.3:
+df %>%
+  filter(is.na(occasion.3)) %>%       # occasion.3 is missing: 
+  select(occasion.3:cesdTotal.3) %>%  # block of 48 variables corresponding to this occasion
+  sum(., na.rm = TRUE)                # => 0 (i.e., only NA values left).
+
+# Test for occasion.4:
+df %>%
+  filter(is.na(occasion.4)) %>%       # occasion.4 is missing: 
+  select(occasion.4:cesdTotal.4) %>%  # block of 48 variables corresponding to this occasion
+  sum(., na.rm = TRUE)                # => 0 (i.e., only NA values left).
+
+# Test for occasion.5:
+df %>%
+  filter(is.na(occasion.5)) %>%       # occasion.5 is missing: 
+  select(occasion.5:cesdTotal.5) %>%  # block of 48 variables corresponding to this occasion
+  sum(., na.rm = TRUE)                # => 0 (i.e., only NA values left).
+
+# Hypothesis 2: ------ 
+# If missing measurements are the ONLY reason for NA values, 
+# there should be no other missing values (e.g., individual NA values within measurements).
+
+# Test whether missing occasions account for all NA values:
+all_missings <- sum(is.na(df))  # 37440
+occ_missings <- sum(is.na(df$occasion.1), is.na(df$occasion.2), is.na(df$occasion.3), 
+                    is.na(df$occasion.4), is.na(df$occasion.5)) * 48 
+occ_missings == all_missings    # TRUE (qed).
+```
+
+## Exercise 2: Income
+
+1. Transform the data in `posPsy_wide` to compute the distribution of `income` levels and compare your results to those of [WPA03: Exercise 4](http://rpository.com/ds4psy/essentials/transform.html#exercise-4) and [WPA01: Exercise 6](http://rpository.com/ds4psy/essentials/basics.html#exercise-6), which both used the `p_info` data file <http://rpository.com/ds4psy/data/posPsy_participants.csv>.  
+
+```{r ex_income_1}
+df <- posPsy_wide
+
+# 1. Table showing a distribution of income levels: ------ 
+df %>%
+  group_by(income) %>%
+  summarise(n = n(),
+            pc = n/nrow(df) * 100
+            )
+
+# Compare with results from other data set:
+p_info <- read_csv(file = "http://rpository.com/ds4psy/data/posPsy_participants.csv")
+
+# Using dplyr on p_info data [WPA03 Exercise 4]:
+p_info %>%
+  group_by(income) %>%
+  summarise(n = n(),
+            pc = n/nrow(p_info) * 100) 
+
+# Using p_info and base R [WPA01, Exercise 6]:
+n_income_low <- sum(p_info$income < 2)
+pc_income_low <- n_income_low/nrow(p_info) * 100
+pc_income_low  # 24.74576 
+
+# => Results seem to be identical, which is good. 
+```
+
+2. Visualize the distributions of `income` levels overall and separately for each `intervention` 
+(**Hints:** Use `dplyr` to compute a corresponding summary table before using calling `ggplot`. 
+To create separate plots, use facet (e.g., `facet_wrap(~intervention)`) on the overall plot.) 
+
+```{r ex_income_2}
+# 2. Visualizations: ------ 
+
+# Plot of income levels overall: 
+df %>% 
+  group_by(income) %>%
+  count() %>%
+  ggplot(., aes(fill = factor(income))) + 
+    geom_bar(aes(x = income, y = n), stat = "identity") +
+    labs(title = "Income levels (a: overall)", 
+         x = "Income level", y = "Number", fill = "Income:") + 
+    scale_fill_brewer(palette = "Set1") +
+    theme_bw()
+
+# Plot of income levels by intervention: 
+df %>%
+  group_by(intervention, income) %>%
+  count() %>%
+  ggplot(., aes(fill = factor(income))) + 
+    geom_bar(aes(x = income, y = n), stat = "identity") +
+    labs(title = "Income levels (b: by intervention)", 
+         x = "Income level", y = "Number", fill = "Income:") + 
+    scale_fill_brewer(palette = "Set1") +
+    theme_bw() +
+    facet_wrap(~intervention)
+```
+
+3. Plot some initial variables (happiness or depression) by `income`.
+
++++ here now +++
+
+
+## Exercise +: Total scores?
 
 Use data transformation on the file `AHI_CESD` to answer the following question: 
 
@@ -1289,47 +1451,15 @@ cesd <- df %>%
 cesd_sums <- rowSums(cesd)
 cesd_sums
 sum(cesd_sums == df$cesdTotal)  # 0 => all different!
-
-
-
-
-
-```
-
-## Exercise: Explore `posPsy_wide` 
-
-Load the data `posPsy_wide` (if you haven't done so above) and explore it.
-
-- What are its dimensions, variables, and types of variables?
-
-```{r load_data_wide, message = FALSE}
-# Load data:
-
-# 4. Transformed and corrected version of all data (in wide format): 
-posPsy_wide <- read_csv(file = "http://rpository.com/ds4psy/data/posPsy_data_wide.csv")
-
-df <- posPsy_wide
-
-# Checking: 
-df
-dim(df)  # 295 observations (participants) x 294 variables
-names(df)
-# glimpse(df)
 ```
 
 
-
-
-## Exercise: Same plot twice
+## Exercise +: Same plot twice
 
 Plot same plot _twice_: 
     1. from a lot of raw data and 
     2. from much leaner table of aggregated data.
     
-+++ here now +++
-
-
-
 
 
 <!-- +++ here now +++ --> 
