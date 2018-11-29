@@ -120,7 +120,7 @@ library(tidyverse)
 ## End of file (eof). ----------  
 ```
 
-To use **R Markdown**, create a corresponding file and save it with the `.Rmd` extension (e.g., by selecting `File > New File > R Markdown`). 
+To use [R Markdown](https://rmarkdown.rstudio.com), create a corresponding file and save it with the `.Rmd` extension (e.g., by selecting `File > New File > R Markdown`). 
 For instructions on combining text and code, see [Chapter 27: R Markdown](https://r4ds.had.co.nz/r-markdown.html) of our textbook, or use one of the following templates:  
 
 - minimal template:  `rmd_template_s` [in [.Rmd](http://rpository.com/down/temp/rmd_template_s.Rmd) | [.html](http://rpository.com/down/temp/rmd_template_s.html) format]
@@ -196,15 +196,11 @@ In the following, we will explain some principles that endorse and promote the i
 
 Before embarking on any actual analysis, we should pay tribute to 2 principles that seem so simple that it's easy to overlook their benefits: 
 
-- **Principle 1:** Structure and comment your analysis.
-
-While adhering to this principle may seem superfluous or trivial at first, it is crucial as analyses get longer and more complicated (e.g., distributed over multiple datasets and scripts). A consistent document structure, transparent object names, and clear and informative comments are indispensable when sharing your data or scripts with others. Good comments often structure a longer document into parts and briefly explain the content of each part (_what_), but will primarily focus on the goals and reasons for your decisions (i.e., explain _why_, rather than _how_ you did something).  
-
-- **Principle 2:** Start with a clean slate and explicitly load all data and all packages required.
+- **Principle 1:** Start with a clean slate and explicitly load all data and all packages required.
 
 Although RStudio IDE provides options for saving your workspace and for loading data or packages by clicking buttons or checking boxes, doing so renders the process of your analysis intransparent for anyone not observing all your actions. To make sure that others and yourself can repeat the same sequence of steps tomorrow or next year, it is advisable to always start with a clean slate and explicitly state which data and packages are required for the current analysis (unless there are good reasons to deviate from them):^[Actually, listing _everything_ required to execute a file can get quite excessive (check out `sessionInfo()` or the `session_info` and `package_info` functions of `devtools`, in case you're interested, and consider using the `packrat` package in case you want to preserve or share your current setup). Hence, most people only explicitly list and load non-standard packages (in their current version).]
 
-### Cleaning up
+#### Cleaning up
 
 Clean your workspace and define some custom objects (like colors or functions): 
 
@@ -213,12 +209,12 @@ Clean your workspace and define some custom objects (like colors or functions):
 rm(list = ls())  # cleans ALL objects in current R environment (without asking for confirmation)!
 
 # Customizations:
-seeblau <- rgb(0, 169, 224, names = "seeblau", maxColorValue = 255)  # seeblau.4 of uni.kn color scheme 
+seeblau <- rgb(0, 169, 224, names = "seeblau",       maxColorValue = 255)  # seeblau.4 of uni.kn color scheme
 
 # source(file = "my_custom_functions.R")
 ```
 
-### Loading packages and data
+#### Loading packages and data
 
 Load all required packages and data files (see [Dataset: Positive Psychology](http://rpository.com/ds4psy/essentials/datasets.html#positive-psychology) for details): 
 
@@ -241,9 +237,39 @@ AHI_CESD <- read_csv(file = "http://rpository.com/ds4psy/data/posPsy_AHI_CESD.cs
 posPsy_wide <- read_csv(file = "http://rpository.com/ds4psy/data/posPsy_data_wide.csv")
 ```
 
+## Clarity
+
+Our second principle is just as innocuous, but becomes crucial as your analyses get longer and more complicated: 
+
+- **Principle 2:** Structure and comment your analysis.
+
+While mentioning or adhering to this principle may seem superfluous at first, you and your collaborators will benefit from transparent structure and clear comments as things get longer, messier, and tougher (e.g., when analyses involve different tests or are distributed over multiple datasets and scripts). A consistent document structure, meaningful object names, and clear comments are indispensable when sharing your data or scripts with others. Using [R Markdown](https://rmarkdown.rstudio.com) (see the links and templates above) encourages and facilitates structuring a document, provided that you use some consistent way of combining text and code chunks. Good comments can structure a longer sequences of text or code into parts and briefly state the content of each part (_what_). More importantly, however, comments should note the goals and reasons for your decisions (i.e., explain _why_, rather than _how_ you did something).
+
+When trying to be clear, even seemingly trivial and tiny things matter. Some examples include: 
+
+- Your text should contain clear _headings_, which includes using consistent levels and lengths, as well as brief paragraphs of text that motivate code chunks and summarize intermediate results and conclusions.  
+
+- Messy code often works, but is just as annoying as bad spelling: yucAnlivewith outit, but it sure makes life a lot easier. 
+So do yourself and others a favor by writing human-readable code (e.g., putting spaces between operators and objects, putting new steps on new lines, and indenting your code according to the structure of its syntax.[^1] Incidentally, one of the most powerful ways to increase the clarity of code is by using _space_: While adding horizontal space seperates symbols and allows structuring things into levels and columns, adding vertical space structures code/text into different steps/sentences, chunks/paragraphs, or larger functional units/sections. And whereas printed media typically need to cut and save characters, space comes for free in electronic documents -- so make use of this great resource! 
+
+[^1]: RStudio helps with writing well-structured and clean code by providing foldable sections (by typing repeated characters, like `----`) or automatic shortcuts (e.g., see the keyboard shortcuts for automatic indenting and un-/commenting). 
+
+- Use clear and consistent _punctuation_ in your comments: A heading or comment that refers to subsequent lines should end with a colon (":"), whereas a comment or conclusion that refers to something before or above itself should end with a period ("."). 
+
+Yes, all this sounds terribly pedantic and nitpicky, but trust me: As soon as you're trying to read someone else's code, you will be grateful if they tried to be clear and consistent.
+
+## Safety
+
+It is only human to make occasonal errors. To make sure that errors are not too costly, a good habit is to occasionally save intermediate steps. 
+As we have seen, R allows us to create a copy `y` of some object `x` as simply as `y <- x`. This motivates:  
+
 - **Principle 3:** Make copies (and copies of copies) of your data.  
 
-It is only human to make occasonal errors. To make sure that errors are not too costly, a good habit is to occasionally save intermediate steps. This refers to both your data files and your scripts for analyzing them. Although it may be a good idea to always keep a ``current master version'' of a data file, it is also advisable to occasionally copy your current data and then work on the copy (e.g., before trying out some unfamiliar analysis or command). In R, creating copies and then working on them is very easy --- and can even save yourself from repeatedly typing complicated object names. Most importantly, when working on a copy of your data, you can always recover the last sound version if things go terribly wrong:  
+Making copies (or spanning some similar safety net) is useful for your objects, data files, and your scripts for analyzing them. Although it also is a good idea to always keep a ``current master version'' of a data file, it is advisable to occasionally copy your current data and then work on the copy (e.g., before trying out some unfamiliar analysis or command). As creating copies and then working on them is so easy, it can even save you from remembering and repeatedly typing complicated object names (e.g., plotting some variables of `df` rather than `posPsy_p_info`). 
+
+#### Copies of objects
+
+Most importantly, however, working on a copy of data allways allows recovering the last sound version if things go terribly wrong. Here's an example: 
 
 ```{r copy_data_kill_recover}
 df <- posPsy_wide  # copy data (and simplify name)
@@ -252,7 +278,7 @@ dim(df)            # 295 cases x 294 variables
 sum(is.na(df))  # 37440 missing values
 df$new <- NA    # create a new column with NA values
 df$new          # check the new column
-df <- NA        # create a new column with NA values
+df     <- NA    # create another column with NA values
 
 # Ooops... 
 df  # looks like we accidentally killed our data!  
@@ -261,6 +287,8 @@ df  # looks like we accidentally killed our data!
 df <- posPsy_wide  # Here it is again: 
 dim(df)            # 295 cases x 294 variables
 ```
+
+#### Copies of data
 
 During a long and complicated analysis, it is advisable to save an external copy of your current data when having reached an important intermediate step. While there are many different formats in which data files can be stored, a good option for most files is `csv` (comma-separated-values), which can easily be read by most humans and machines. Importantly, always verify that the external copy preserves the key information contained in your current original:  
 
@@ -1188,9 +1216,9 @@ So go ahead and use the awesome `ggplot` machine to combine multiple geoms and a
 
 Here is a list of the 10 principles covered above:
 
-1. Structure and comment your analysis.
+1. Start with a clean slate and explicitly load all data and all packages required.
 
-2. Start with a clean slate and explicitly load all data and all packages required.
+2. Structure and comment your analysis.
 
 3. Make copies (and copies of copies) of your data.  
 
@@ -1219,11 +1247,11 @@ Given that this file was described as a transformed and corrected version of `AH
 So let's use `posPsy_wide` in some exercises to improve our skills in EDA. 
 
 ```{r load_packages_data_exercise, message = FALSE}
-# Packages:
+# Load packages:
 library(tidyverse)
 library(knitr)
 
-# Data:
+# Load data:
 # 4. Transformed and corrected version of all data (in wide format): 
 posPsy_wide <- read_csv(file = "http://rpository.com/ds4psy/data/posPsy_data_wide.csv")
 ```
