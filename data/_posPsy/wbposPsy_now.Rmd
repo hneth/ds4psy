@@ -1,7 +1,7 @@
 ---
 title: "Web-based positive psychology interventions: A reexamination of effectiveness"
 author: "lmw & hn"
-date: "2018 11 29"
+date: "2018 11 30"
 output:
    html_document:
      code_folding: show # hide
@@ -954,7 +954,7 @@ ggplot(data_wide, mapping = aes(x = age, y = cesdTotal.0)) +
 
 ## Exercise 5: Violins
 
-Using `data_wide`: Initial scores by `income`?
+Using `data_wide`: Do the initial happiness scores (`ahiTotal.0`) or depression (`cesdTotal.0`) vary by the levels of `income`?
 
 ```{r exercise_5, echo = TRUE, eval = TRUE}
 # Exercise 5:
@@ -1097,7 +1097,6 @@ Some exercises using the `dplyr` and `ggplot2` packages.
 
 **ToDo:** Put on separate page (and read in required data files).
 
-
 ## Exercise 1
 
 a. How many participants are in each intervention group? Are the participants distributed equally? 
@@ -1143,9 +1142,10 @@ p_info %>%
             sd_age = sd(age, na.rm = TRUE))
 ```
 
-## Exercise 2
 
-- Explore how the distribution of of ahi total scores shifted from occasion 0 to 5. Why? Does that match your expectations?
+## Exercise 2: Distributions 
+
+- Explore how the _distribution_ of of ahi total scores shifted from occasion 0 to 5. Why? Does that match your expectations?
 - Can you see any unusual patterns? What might explain them? 
 
 ```{r ex2_eda, echo = TRUE, eval = TRUE}
@@ -1171,7 +1171,11 @@ ggplot(data_wide) +
   labs(title = "AHI TOTAL SCORE DISTRIBUTION CHANGE", x = "AHI TOTAL SCORES", y = "COUNT")
 ```
 
-## Exercise 3 
+## Exercise 3: Trends
+
+Trends of happiness and depression 
+
+Let`s create plots of the improvement in `ahiTotal` scores and `cesdTotal` over the course of the study (occasion 0 - occasion 5) with information on the `intervention` groups.
 
 ```{r ex3_eda, echo = TRUE, eval = TRUE}
 # Exercise 3:Let`s create plots of the improvement in ahitotal scores and cesdtotal in the course of the study (occasion 0 - occasion 5) with information on intervention groups. 
@@ -1253,7 +1257,9 @@ ggplot() +
   theme_light()
 ```
 
-## Exercise 4
+## Exercise 4: Improvements
+
+Measuring improvements between occasions. 
 
 ```{r ex4_eda, echo = TRUE, eval = TRUE}
 
@@ -1304,7 +1310,8 @@ data_wide %>%
             mean_improve45_i = mean(improve45ahi, na.rm = TRUE))
 ```
 
-## Exercise 5
+
+## Exercise 5: Gender effects 
 
 ```{r exercise 5, echo = TRUE, eval = TRUE}
 # Exercise 5:  
@@ -1349,8 +1356,7 @@ ggplot(e) +
 
 ```
 
-
-## Exercise 6
+## Exercise 6: Dropouts 
 
 ```{r exercise 6, echo = TRUE, eval = TRUE}
 # Exercise 6: Dropout  
@@ -1361,48 +1367,41 @@ data_wide <- read_csv(file = "http://rpository.com/ds4psy/data/posPsy_data_wide.
 dim(data_wide) #295 294
 
 
-# Dropout at occasion 1
-
+# Dropout at occasion 1:
 data_wide %>% 
   filter(is.na(occasion.1) & is.na(occasion.2) & is.na(occasion.3) & is.na(occasion.4) & is.na(occasion.5)) %>% 
   count() #93
 
-#Dropout at occasion 2
-
+# Dropout at occasion 2: 
 data_wide %>% 
   filter(!is.na(occasion.1) & is.na(occasion.2) & is.na(occasion.3) & is.na(occasion.4) & is.na(occasion.5)) %>% 
   count() #23
 
-#Dropout at occasion 3
-
+# Dropout at occasion 3: 
 data_wide %>% 
   filter(!is.na(occasion.1) & !is.na(occasion.2) & is.na(occasion.3) & is.na(occasion.4) & is.na(occasion.5)) %>% 
   count() #8
 
 
-#Dropout at occasion 4
-
+# Dropout at occasion 4: 
 data_wide %>% 
   filter(!is.na(occasion.1) & !is.na(occasion.2) & !is.na(occasion.3) & is.na(occasion.4) & is.na(occasion.5)) %>% 
   count() #4
 
-#Dropout at occasion 5
-
+# Dropout at occasion 5: 
 data_wide %>% 
   filter(!is.na(occasion.1) & !is.na(occasion.2) & !is.na(occasion.3) & !is.na(occasion.4) & is.na(occasion.5)) %>% 
   count() #15
-
 
 ## (6b): How many participants dropped out in total?
 93+23+8+4+5 #133
 ```
 
-
-## Exercise 7
+## Exercise 7: Stable scores
 
 ```{r exercise 7, echo = TRUE, eval = TRUE}
-#Exercise 7: Participants with stable scores 
-##You computed new variables with information on the changes in ahi and cesd total scores from occasion 0 to occasion 5 in exercise 5. Compute the variables again or take the data from exercise 5
+# Exercise 7: Participants with stable scores 
+## You computed new variables with information on the changes in ahi and cesd total scores from occasion 0 to occasion 5 in exercise 5. Compute the variables again or take the data from exercise 5
 
 data_wide <- read_csv(file = "http://rpository.com/ds4psy/data/posPsy_data_wide.csv") 
 dim(data_wide) #295 294
@@ -1413,7 +1412,7 @@ e <- data_wide %>%
   mutate(change_ahi = ahiTotal.5 - ahiTotal.0,
          change_cesd = cesdTotal.5 - cesdTotal.0)
 
-##(7a): Are there participants whose ahiTotal scores did not change? If yes: how many are there?
+## (7a): Are there participants whose ahiTotal scores did not change? If yes: how many are there?
 e %>%
   filter(change_ahi == 0) #yes
 
@@ -1421,7 +1420,7 @@ e %>%
   filter(change_ahi == 0) %>% 
   count() #5
 
-##(7b): Are there participants whose cesdTotal scores did not change? If yes: how many are there?
+## (7b): Are there participants whose cesdTotal scores did not change? If yes: how many are there?
 e %>%
   filter(change_cesd == 0) #yes
 
@@ -1430,7 +1429,7 @@ e %>%
   count() #8
 
 
-##(7c): Are there participants whose ahiTotal score and cesdTotal score did not change? If yes: how many are there?
+## (7c): Are there participants whose ahiTotal score and cesdTotal score did not change? If yes: how many are there?
 e %>%
   filter(change_cesd == 0, change_ahi == 0) # yes
 
@@ -1439,15 +1438,15 @@ e %>%
   count() #1
 
 
-##(7d): Who is it?
+## (7d): Who is it?
 e %>%
   filter(change_cesd == 0, change_ahi == 0) %>% 
   select(id)
 
-#participant with id 113
+# participant with id 113
 
 
-##(7e): For this particpiant plot the scores over time.
+## (7e): For this particpiant plot the scores over time.
 
 AHI_CESD_2 <- read_csv(file = "http://rpository.com/ds4psy/data/posPsy_AHI_CESD_corrected.csv")  
 dim(AHI_CESD_2) #990 50
@@ -1465,6 +1464,7 @@ ggplot(AHI_CESD_2) +
   labs(title = "Participant 113 ahiTotal scores (blue) and cesdTotalscores (green) over time", x = "occasion", y = "Total scores") +
   theme_light()
 ```
+
 
 
 

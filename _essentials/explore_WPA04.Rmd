@@ -1212,7 +1212,7 @@ So go ahead and use the awesome `ggplot` machine to combine multiple geoms and a
 
 ## 10 principles of EDA
 
-Here is a list of the 10 principles covered above:
+As a quick summary, here are the 10 principles covered above:
 
 1. Start with a clean slate and explicitly load all data and all packages required.
 
@@ -1234,8 +1234,8 @@ Here is a list of the 10 principles covered above:
 
 10. A plot should convey its message as clearly as possible.
 
-Adhering to these principles does not guarantee an interesting result, but minimizes the risk of missing something important or violating key assumptions of statistical tests. 
-
+Adhering to these principles does not guarantee any results, but provides valuable insights into the structure and contents of a dataset. 
+Gaining such insights before embarking on statistical tests minimizes the risk of missing something important or violating key assumptions. 
 
 # Exercises (WPA04)
 
@@ -1254,9 +1254,7 @@ library(knitr)
 posPsy_wide <- read_csv(file = "http://rpository.com/ds4psy/data/posPsy_data_wide.csv")
 ```
 
-
 # Exercises (WPA04)
-
 
 ## Exercise 1: Explore `posPsy_wide` 
 
@@ -1264,7 +1262,7 @@ Load the data stored as <http://rpository.com/ds4psy/data/posPsy_data_wide.csv> 
 
 1. What are the data's dimensions, variables, and types of variables?  How would you describe the structure of this dataset?  
 
-```{r load_data_wide, message = FALSE}
+```{r ex1_load_data, echo = TRUE, eval = TRUE, message = FALSE}
 # Load packages:
 library(tidyverse)
 
@@ -1281,6 +1279,8 @@ dim(df)  # 295 observations (participants) x 294 variables
 # glimpse(df)
 ```
 
+<!-- Answer/result: -->
+
 **Structure:**
 
 - `posPsy_wide` contains 295 observations (participants) and 294 variables. 
@@ -1291,10 +1291,11 @@ dim(df)  # 295 observations (participants) x 294 variables
 
 Thus, we suspect that the data combines the information contained in `posPsy_p_info` and `AHI_CESD`, but -- in contrast to `AHI_CESD` -- presents it in _wide_ format (1 row per participant) rather than _long_ format (1 row per measurement).
 
-
 2. Verify that `posPsy_wide` contains the same participants as `posPsy_p_info`.
 
-```{r ex_verify_participants, echo = TRUE, eval = TRUE}
+**Hint:** In R, the equality of 2 objects `x` and `y` can be checked by `all.equal(x, y)`. 
+
+```{r ex1_verify_participants, echo = TRUE, eval = TRUE}
 # Select the first 6 variables of posPsy_wide:
 p_info_2 <- posPsy_wide %>%
   select(id:income)
@@ -1303,11 +1304,11 @@ p_info_2 <- posPsy_wide %>%
 all.equal(p_info_2, posPsy_p_info)
 ```
 
-3. Inspect `posPsy_wide` for missing values. Do you see some systematic pattern to them?
+3. Inspect `posPsy_wide` for missing (`NA`) values. Do you see some systematic pattern to them?
 
-```{r ex_missing_values, echo = TRUE, eval = TRUE}
+```{r ex1_missing_values, echo = TRUE, eval = TRUE}
 df <- posPsy_wide  # copy data
-df
+# df
 sum(is.na(df))  # 37440
 
 # Hypothesis 1: ------ 
@@ -1354,12 +1355,16 @@ occ_missings <- sum(is.na(df$occasion.1), is.na(df$occasion.2), is.na(df$occasio
 occ_missings == all_missings    # TRUE (qed).
 ```
 
-## Exercise 2: Income
+## Exercise 2: 
 
-1. Transform the data in `posPsy_wide` to compute the distribution of `income` levels and compare your results to those of [WPA03: Exercise 4](http://rpository.com/ds4psy/essentials/transform.html#exercise-4) and [WPA01: Exercise 6](http://rpository.com/ds4psy/essentials/basics.html#exercise-6), which both used the `p_info` data file <http://rpository.com/ds4psy/data/posPsy_participants.csv>.  
+We checked the `age` and `sex` distributions of participants. But are the participants in the 4 `intervention` groups balanced in terms of their `income` levels? And could the initial scores of the participants at occasion 0 (i.e., before any intervention took place) vary as a function of their `income`? Let's find out... 
 
-```{r ex_income_1}
+1. Transform the data in `posPsy_wide` to summarise the overall distribution of `income` levels (i.e., the frequency or percentage of each level) and compare your results to those of [WPA03: Exercise 4](http://rpository.com/ds4psy/essentials/transform.html#exercise-4) and [WPA01: Exercise 6](http://rpository.com/ds4psy/essentials/basics.html#exercise-6), which both used the `p_info` data file <http://rpository.com/ds4psy/data/posPsy_participants.csv>.  
+
+```{r ex2_income_counts, echo = TRUE, eval = FALSE}
+## Data: 
 df <- posPsy_wide
+# df
 
 # 1. Table showing a distribution of income levels: ------ 
 df %>%
@@ -1385,41 +1390,127 @@ pc_income_low  # 24.74576
 # => Results seem to be identical, which is good. 
 ```
 
-2. Visualize the distributions of `income` levels overall and separately for each `intervention` 
-(**Hints:** Use `dplyr` to compute a corresponding summary table before using calling `ggplot`. 
-To create separate plots, use facet (e.g., `facet_wrap(~intervention)`) on the overall plot.) 
+2. Use 2 different ways to visualise the distributions of `income` levels (a) overall, and (b) separately for each `intervention`.  
 
-```{r ex_income_2}
+**Hints:** You can either directly plot the data contained in `posPsy_wide` (e.g., by selecting some of its variables) or first use `dplyr` to create a summary table that can be piped into (or used as the `data` of) a `ggplot` command. To create separate plots by `intervention`, use facetting on the overall plot. 
+
+```{r ex2_income_dist, echo = TRUE, eval = TRUE}
+## Data: 
+df <- posPsy_wide
+# df
+
 # 2. Visualizations: ------ 
 
 # Plot of income levels overall: 
-df %>% 
-  group_by(income) %>%
-  count() %>%
-  ggplot(., aes(fill = factor(income))) + 
-    geom_bar(aes(x = income, y = n), stat = "identity") +
+
+# (a) Histogram:
+plot_income_hist <- df %>%
+  select(id:income) %>%
+  ggplot(.) +
+    geom_histogram(aes(x = income, fill = factor(income)), binwidth = 1) + 
     labs(title = "Income levels (a: overall)", 
          x = "Income level", y = "Number", fill = "Income:") + 
     scale_fill_brewer(palette = "Set1") +
     theme_bw()
+plot_income_hist
 
-# Plot of income levels by intervention: 
-df %>%
-  group_by(intervention, income) %>%
+# (b) Bar chart:
+df %>% 
+  group_by(income) %>%
   count() %>%
   ggplot(., aes(fill = factor(income))) + 
-    geom_bar(aes(x = income, y = n), stat = "identity") +
+    geom_bar(aes(x = income, y = n), stat = "identity", color = "grey10") +
+    labs(title = "Income levels (a: overall)", 
+         x = "Income level", y = "Number", fill = "Income:") + 
+    scale_fill_brewer(palette = "Blues") +
+    theme_bw()
+
+# Plot of income levels by intervention:
+
+# (a) Histogram with facets:
+plot_income_hist +   # use plot from above
+    facet_wrap(~intervention) +
+    labs(title = "Income levels (b: by intervention)")  # change title
+  
+# (b) Bar chart with facets:  
+df %>%
+  group_by(intervention, income) %>%  # include intervention in table
+  count() %>%
+  ggplot(., aes(fill = factor(income))) + 
+    geom_bar(aes(x = income, y = n), stat = "identity", color = "grey10") +
     labs(title = "Income levels (b: by intervention)", 
          x = "Income level", y = "Number", fill = "Income:") + 
-    scale_fill_brewer(palette = "Set1") +
+    scale_fill_brewer(palette = "Blues") +
     theme_bw() +
     facet_wrap(~intervention)
 ```
 
-3. Plot some initial variables (happiness or depression) by `income`.
+3. Do the initial scores of happiness (`ahiTotal.0`) or depression (`cesdTotal.0`) vary by the levels of `income`? 
+
+Examine this (a) by using `dplyr` to compute corresponding summary tables, and (b) by using `ggplot2` to visualise all raw values, their means, and distributions per level of `income`. Check whether the summary scores in your table (a) correspond to those shown in your plot (b) and interpret your plots (e.g., do you see any potential outliers?). 
+
+**Hint:** Use `factor(income)` to turn `income` from an integer into a categorical variable (factor). 
+
+```{r ex2_income_scores, echo = TRUE, eval = TRUE}
+## Data: 
+df <- posPsy_wide
+# df
+
+# Table: ------ 
+# Summarise ahiTotal.0 and cesdTotal.0 by income:
+tb_initial_scores_by_income <- df %>%
+  group_by(income) %>%
+  summarise(n = n(),
+            ahiTotal.0_mn = mean(ahiTotal.0),
+            ahiTotal.0_sd = sd(ahiTotal.0),
+            cesdTotal.0_mn = mean(cesdTotal.0),
+            cesdTotal.0_sd = sd(cesdTotal.0)
+            )
+
+knitr::kable(tb_initial_scores_by_income)  # print table
+
+# Visualizations: ------ 
+
+# Select a subset of needed variables: 
+df_part <- df %>%
+  select(id, income, ahiTotal.0, cesdTotal.0)
+
+df_part$income <- factor(df_part$income)  # turn income into a factor
+df_part
+
+# Plot ahiTotal.0 by income: 
+ggplot(df_part, aes(x = income, y = ahiTotal.0, color = income)) +
+  geom_violin(width = .5, size = 1) +
+  geom_boxplot(width = .2, color = "grey20") +
+  geom_jitter(color = "black", width = .1, alpha = 1/4) +
+  labs(title = "Initial happiness scores (ahiTotal.0) by level of income ", 
+         x = "Income level", y = "Happiness (ahiTotal.0)", fill = "Income:") + 
+    scale_color_brewer(palette = "Set1") +
+    theme_bw()
+
+# Plot cesdTotal.0 by income: 
+ggplot(df_part, aes(x = income, y = cesdTotal.0, color = income)) +
+  geom_violin(width = .6, size = .3, color = "grey50") +
+  geom_boxplot(width = .2, size = 1) +
+  geom_jitter(color = "black", width = .1, alpha = 1/4) +
+  labs(title = "Initial depression scores (cesdTotal.0) by level of income ", 
+         x = "Income level", y = "Depression (cesdTotal.0)", fill = "Income:") + 
+    scale_color_brewer(palette = "Dark2") +
+    theme_bw()
+```
+
+<!-- Answer/result: -->
+
+**Interpretation:** 
+
+- The scores in the table correspond to those in the plots.
+
+- Happiness appears to (slightly) increase with income, whereas depression slightly decreases with income. 
+
+- However, these trends are small (note the scale) and the range of values is large. Also, the distribution of initial depression scores shows potential outliers (with high scores at the low and medium income level).
+
 
 +++ here now +++
-
 
 ## Exercise +: Total scores?
 
@@ -1452,6 +1543,45 @@ cesd_sums <- rowSums(cesd)
 cesd_sums
 sum(cesd_sums == df$cesdTotal)  # 0 => all different!
 ```
+
+
+## Exercise +: Changes
+
+General idea: 
+- Compare main trend: 1st vs. last occasion by `intervention`. 
+- Then check 1st vs. 2nd occasion. What do you see? 
+
+1. Distributions 
+
+- Explore how the _distribution_ of of ahi total scores shifted from occasion 0 to 5. Why? Does that match your expectations?
+- Can you see any unusual patterns? What might explain them? 
+
+```{r ex_changes_dist, echo = TRUE, eval = TRUE}
+# Exercise 2:  
+## (2a):Explore how the distribution of of ahi total scores shifted from occasion 0 to 5. Why? Does that match your expectations?
+## Can you see any unusual patterns? What might explain them? 
+
+## First, load data in the best suited format and delete redundant colums.
+
+# load data: 
+# data_wide <- read_csv(file = "http://rpository.com/ds4psy/data/posPsy_data_wide.csv")  # online
+# dim(data_wide) 
+
+# select columns of interest: 
+data_sub <- select(data_wide, id:elapsed.days.0, contains("Total"), contains("occasion"), starts_with("elapsed."))
+
+# View(data_wide)
+
+ggplot(data_sub) +
+  geom_freqpoly(mapping = aes(ahiTotal.0), color = "darkblue", binwidth = 2) +
+  geom_freqpoly(mapping = aes(ahiTotal.5), color = "forestgreen", binwidth = 2) +
+  theme_minimal() +
+  labs(title = "AHI TOTAL SCORE DISTRIBUTION CHANGE", 
+       x = "AHI TOTAL SCORES", y = "COUNT")
+```
+
+2. Means 
+
 
 
 ## Exercise +: Same plot twice
