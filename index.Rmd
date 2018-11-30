@@ -1,7 +1,7 @@
 ---
 title: "Data Science for Psychologists (ds4psy)"
 author: "Hansjörg Neth, SPDS, uni.kn"
-date: "2018 11 26"
+date: "2018 11 30"
 output:
   rmdformats::html_clean:
     highlight: kate
@@ -138,10 +138,10 @@ Part 2: Wrangle
   ([Essentials with WPA03 and solutions](http://rpository.com/ds4psy/essentials/transform.html)).  
 
  6. 26.11.2018: [Chapter 7: Exploratory data analysis (EDA)](http://r4ds.had.co.nz/exploratory-data-analysis.html): `dplyr` & `ggplot2`;    
-  (**[Essentials of EDA](http://rpository.com/ds4psy/essentials/explore.html)**). 
+  ([Essentials of EDA](http://rpository.com/ds4psy/essentials/explore.html)). 
  
- 7. 03.12.2019:  **Buffer session (WPA04)**: Rinse and repeat: EDA, `dplyr` & `ggplot2`. 
- 
+ 7. 03.12.2019:  **Buffer session (WPA04)**: Rinse and repeat: EDA, `dplyr` & `ggplot2`;  
+  (**[Essentials of EDA and WPA04](http://rpository.com/ds4psy/essentials/explore.html)**).  
  
  **Part 2: Wrangle data**
 
@@ -276,7 +276,7 @@ Ultimately, practicing any art, craft or science is also a process of socializat
 
 ### Warning 
 
-Beware of side effects: Becoming an R user (useR?) will profoundly transform your thinking --- not just about code, but about the data and problems you are trying to grasp and understand. While programming (in R or any other language) can be enjoyable, but also has addictive potential. Make sure to take regular breaks and keep focused on the questions behind and beyond the data science tools.
+Beware of side effects: Becoming an R user (useR?) will profoundly transform your thinking --- not just about code, but about the data and problems you are trying to grasp and understand. While programming (in R or any other language) can be enjoyable, but also has addictive potential. Make sure to take regular breaks and keep focused on the research questions behind and beyond the data science tools.
 
 
 # Links
