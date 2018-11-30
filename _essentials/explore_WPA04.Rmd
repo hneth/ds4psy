@@ -136,15 +136,16 @@ For instructions on combining text and code, see [Chapter 27: R Markdown](https:
 
 ## Introduction
 
-In the following, we refine and use what we have learned so far to explore data. 
-Practically, this session combines what we have learned about `ggplot2` (in [Chapter 3: Data visualization](http://r4ds.had.co.nz/data-visualisation.html)) and about `dplyr` (in [Chapter 5: Data transformation](https://r4ds.had.co.nz/transform.html)) to explore datasets.  
+In the following, we refine and use what we have learned so far to explore and think about data. 
+Practically, this session combines our knowledge and skills regarding `ggplot2` (in [Chapter 3: Data visualization](http://r4ds.had.co.nz/data-visualisation.html)) with our recent introduction to `dplyr` (in [Chapter 5: Data transformation](https://r4ds.had.co.nz/transform.html)) to quiz and probe data. 
 
 ## Key concepts
 
 Important concepts in this session include: 
 
-- missing values (`NA`)  vs. unusual and extreme values (e.g., outliers), 
+- unusual values: missing values (`NA`)  vs. erroneous or extreme values (e.g., outliers), 
 - different types of variables (e.g., continuous vs. categorical variables),  
+- dropouts (i.e., observations missing at some measurement occasions, which can be random or systematic), 
 - relationships between variables (of different types),  
 - trends (i.e., developments over time), and 
 - many different types of plots.
@@ -153,52 +154,62 @@ See [Chapter 7: Exploratory data analysis (EDA)](http://r4ds.had.co.nz/explorato
 
 ## What is EDA? 
 
-According to [Grolemund & Wickham (2017, Chapter 7)](http://r4ds.had.co.nz/exploratory-data-analysis.html) _exploratory data analysis_ (EDA) primarily is a state of mind. Rather than following a strict set of rules, EDA is an initial phase of familiarising yourself with a new data set by actively engaging in an iterative cycle during which you 
+According to [Grolemund & Wickham (2017, Chapter 7)](http://r4ds.had.co.nz/exploratory-data-analysis.html) _exploratory data analysis_ (EDA) primarily is a state of mind. Rather than following a strict set of rules, EDA is a phase of familiarising yourself with a new data set by actively engaging in an iterative cycle during which you 
 
 - Generate questions about data.  
+
 - Search for answers by visualising, transforming, and modelling data.  
+
 - Use answers to refine your questions and/or generate new questions.  
 
-Philosophically speaking, EDA is a data scientist's way of doing hermeneutics (see [Wikipedia](https://en.wikipedia.org/wiki/Hermeneutics) or [The Stanford Encyclopedia of Philosophy](https://plato.stanford.edu/entries/hermeneutics/) for definitions) to get a grip on data. 
+Philosophically speaking, EDA is a data scientist's way of doing hermeneutics (see [Wikipedia](https://en.wikipedia.org/wiki/Hermeneutics) or [The Stanford Encyclopedia of Philosophy](https://plato.stanford.edu/entries/hermeneutics/) for definitions) to get a grip on some dataset. 
 
 The goal and purpose of EDA is to gain an overview of a dataset. This includes an idea of its dimensions and the number and types of variables contained in the data, but also a more detailed idea of the distribution of variables, their potential relations to each other, and potential problems (e.g., missing values or outliers). 
 
 When using the tools provided by the `tidyverse`, the fastest way to gain insights into a dataset is a series of `dplyr` calls and `ggplot2` graphs. However, creating good graphs is both an art and a craft. The key to creating good graphs requires answering 2 sets of questions: 
 
-1. Knowing the _intended type of plot_. This includes answering _functional_ questions like 
+1. Knowing a suitable _type of plot_. This includes answering _functional_ questions like 
 
-    - What is the _goal_ or _purpose_ of this plot?
-    - What are _possible_ plot types for this purpose? 
-    - Which of these would be the most _appropriate_ plot here? 
+    - What is the _goal_ or _purpose_ of a plot?
+    - What are _possible_ plot types that are suited for this purpose? 
+    - Which of these would be the _most appropriate_ plot here? 
     
 2. Knowing the _number_ and _type_ of variables to be plotted. This includes answering _data-related_ questions like 
 
-    - How many variables are to be plotted and how are they mapped to dimensions and aesthetics?  
-    - Are these variables categorical or continuous?  
+    - How many variables are to be plotted and how should they be mapped to dimensions and aesthetics?  
+    - Are these variables continuous or discrete (categorical, factors)?  
     - Do some variables control or qualify (e.g., group) the values of others?   
 
-Even when these questions are answered, creating beautiful and informative graphs with `ggplot` requires dedicated practice, experience, and trial-and-error experimentation. In addition, an new dataset is rarely in a condition and shape to directly allow plotting. Instead, we typically have to interleave commands for plotting and transforming data to wrangle variables into specific shapes or types. Thus, calls to `ggplot2` usually occur in combination with other `tidyverse` commands (stemming from `dplyr`, `forcats`, `tidyr`, `readr`, `tibble`, etc.). 
+Even when these questions are answered, creating informative and beautiful graphs with `ggplot` requires experience, trial-and-error experimentation, and lots of dedicated practice. In addition, an new dataset is rarely in a condition and shape to directly allow plotting. Instead, we typically have to interleave commands for plotting and transforming data to wrangle variables into specific shapes or types. Thus, calls to `ggplot2` typically occur in combination with other `tidyverse` commands (stemming from `dplyr`, `forcats`, `tidyr`, `readr`, `tibble`, etc.). 
 
-What needs to be done in any specific case depends on the details of the data and your current goals. Also, there is no pre-defined end to an EDA and no clear boundary between the processes of exploration and the confirmation (or falsification) of expectations. Typically, social scientists use EDA to check and understand a dataset, before using statistics to test specific hypotheses.  
+## Our session and data
 
-While any actual EDA is tailored to specific features of the data and current research goals, this session highlights some common themes that occur in most cases. As we will see, the packages `dplyr` and `ggplot` provide a powerful set of tools that allow us to puzzle about data by asking and answering 
-questions. Ideally, you will soon experience that actively engaging in EDA really feels like "doing research", as it requires us to probe and scrutinize data and follow up on the ideas and hypotheses that we may discover along the way. 
+While any actual EDA is tailored to specific features of the data and current research goals, this session highlights some common themes that occur in most cases. 
+As we will see, the packages `dplyr` and `ggplot` provide a powerful foundation that allow us to puzzle about data by asking and answering questions. 
+Ideally, you will soon experience that actively engaging in EDA really feels like "doing research", as it requires us to question and scrutinize data and follow up on the answers and new hypotheses that we gather along the way. 
 
 To illustrate the process and spirit of EDA, we will use a real and fairly complex data set, which was collected to measure the short- and long-term effects of positive psychology interventions (see [Dataset: Positive Psychology](http://rpository.com/ds4psy/essentials/datasets.html#positive-psychology) for details).^[The participant part of this data has been used as `p_info` in the previous sessions.] 
-And while it's understandable that you're mostly focusing on the code and commands, let's try to keep an eye on the meaning of our data and stay curious about the results that we may find. 
+And while it's understandable that you're mostly focusing on the code and commands, try to always keep an eye on the meaning of the data and stay curious about the results that you discover. Before we start, however, we need to address an important issue regarding the difference between exploration and confirmation.
 
+## Exploration vs. confirmation
+
+The precise sequence of steps indicated for a specific dataset will always depend on the nature of the data, your research question, and your current goals. In many cases, there is no pre-defined end to an EDA and no clear-cut boundary between the processes of exploration and the confirmation (or falsification) of expectations. On the one hand, scientists use EDA to check and understand a dataset, before using statistics to test specific hypotheses. On the other hand, this does not mean that we should blur the distinction between _exploration_ and _confirmation_. On the contrary: Although the processes of exploring and testing hypotheses tend to involve the same steps and tools, we must never confuse our curious explorations with theoretically motivated predictions. Given the exploratory mind-set of EDA, the availability of powerful tools, and an abundance of data allowing for many different comparisons, there is a very high chance of _false positive results_ (i.e., illusory or transient effects that are not based on systematic patterns, but due to freak coincidences and random fluctuations). Even when we are aware of this, it is hard to resist the lure of a cute effect and easy to kid ourselves into thinking that we found something significant. So let's try to stay honest and firm and do not get carried away every time we spot some pattern or possible effect. This cautionary note can be summarized as an important scientific principle: 
+
+- **Science 101:** To really find something, we need to _predict_ it -- and ideally _replicate_ it under different conditions. 
+
+EDA _is_ an important component of data analysis, but is _not_ a replacement for scientific theory and sound methodology. And although it's possible to abuse EDA (e.g., when exploration turns into fishing for results), the method should not be discredited just because it can be abused. In the end, the benefits and dangers of EDA are just like those of any other scientific tool (e.g., collecting data or statistical testing): The validity and trustworthiness of our findings depend on the integrity of the people using them. To allow others to evaluate our integrity and the validity of our results, our data and analysis should be communicated in a clear and transparent fashion. Thus, being _transparent_ about the details of our data analysis is a big step towards _responsible_ and _reproducible_ research practices. 
 
 # Principles and practices
 
-In the following, we will explain some principles that endorse and promote the ideal of _transparent data analysis_ and _reproducible research_. While such practices are indispensable when working in a team of colleagues and the wider scientific community, organizing your workflow in a more consistent fashion is also beneficial for your other projects and your future self. 
+In the following, we endorse and explain some principles of EDA that promote the ideal of _transparent data analysis_ and _reproducible research_. While such practices are indispensable when working in a team of colleagues and the wider scientific community, organizing your workflow in a clear and consistent fashion is also beneficial for your own projects and your future self. 
 
 ## Setting the stage
 
-Before embarking on any actual analysis, we should pay tribute to 2 principles that seem so simple that it's easy to overlook their benefits: 
+Before embarking on any actual analysis, we should pay tribute to 2 principles that may appear to be so simple that it their benefits are easily overlooked:  
 
-- **Principle 1:** Start with a clean slate and explicitly load all data and all packages required.
+- **Principle 1:** Start with a clean slate and explicitly load all data and all packages required.  
 
-Although RStudio IDE provides options for saving your workspace and for loading data or packages by clicking buttons or checking boxes, doing so renders the process of your analysis intransparent for anyone not observing all your actions. To make sure that others and yourself can repeat the same sequence of steps tomorrow or next year, it is advisable to always start with a clean slate and explicitly state which data and packages are required for the current analysis (unless there are good reasons to deviate from them):^[Actually, listing _everything_ required to execute a file can get quite excessive (check out `sessionInfo()` or the `session_info` and `package_info` functions of `devtools`, in case you're interested, and consider using the `packrat` package in case you want to preserve or share your current setup). Hence, most people only explicitly list and load non-standard packages (in their current version).]
+Although RStudio IDE provides options for saving your workspace and for loading data or packages by clicking buttons or checking boxes, doing so renders the process of your analysis intransparent for anyone not observing your actions. To make sure that others and yourself can repeat the same sequence of steps tomorrow or next year, it is advisable to always start with a clean slate and explicitly state which packages and which datasets are required for the current analysis (unless there are good reasons to deviate from them):^[Actually, listing _everything_ required to execute a file can get quite excessive (check out `sessionInfo()` or the `session_info` and `package_info` functions of `devtools`, in case you're interested, and consider using the `packrat` package in case you want to preserve or share your current setup). Hence, most people only explicitly list and load non-standard packages (in their currently installed version).]
 
 #### Cleaning up
 
@@ -345,9 +356,9 @@ We note that `AHI_CESD` contains `r dim(AHI_CESD)[1]` observations (rows) and  `
 
 Unusual values include:  
 
-    - missing values (`NA` or `-77`, etc.),  
-    - extreme values (outliers), 
-    - other unusual values (e.g., unexpected and impossible values). 
+  - missing values (`NA` or `-77`, etc.),   
+  - extreme values (outliers),   
+  - other unexpected values (e.g., erroneous and impossible values).  
 
 #### Missing values
 
@@ -443,14 +454,14 @@ sum(is.na(tb))  # => 19 NA values
 For more sophisticated ways of dealing with (and visualising) `NA` values, see the R packages `mice` (Multivariate Imputation by Chained Equations), `VIM` (Visualization and Imputation of Missing Values) and `Amelia II`.
 
 
-#### Other unusual values: Unexpected values, outliers, etc.
+#### Other unusual values: Dropouts, outliers, and unexpected values  
 
 While dealing with missing values is a routine task, finding other unusual values involves some hard thinking, but can also be fun, as it requires the state of mind of a detective who gradually uncovers facts -- and aims to ultimately reveal the truth -- by questioning a witness or suspect. In principle, we can detect atypical values and outliers (see [Exercise 3 of WPA03](http://rpository.com/ds4psy/essentials/transform.html#exercise-3) for different definitions) by counting values, computing descriptive statistics, or by checking the distributions of raw values. To illustrate this, let's inspect the data of `AHI_CESD` further. Since participants in this study were measured repeatedly over a range of several months, two good questions to start with are: 
 
-- How many participants are there for each occasion? 
+- How many participants were measured at each occasion?    
 - How many occasions are there for each participant?  
 
-The first question concerns a _trend_ (i.e., development over time) and can easily be answered by using `dplyr` or `ggplot`:
+The first question (about participants per occasion) concerns a _trend_ (i.e., development over time) that also addresses the issue of _dropouts_ (observations present at some, but absent at other occasions). The number of participants per occaion can easily be computed by using `dplyr` or `ggplot`: 
 
 ```{r screening_1}
 # How many participants are there for each occasion? 
@@ -480,7 +491,7 @@ ggplot(id_by_occ, aes(x = occasion)) +
   theme_bw()
 ```
 
-Note the similarities and differences between these two bar plots. Although they look almost the same (except for the label on the y-axis and their title), they use completely different data as inputs. Which of the 2 plot versions would make it easier to add additional information (like error bars, a line indicating the mean counts of participants, or text labels showing the count values for each category)? 
+Note the similarities and differences between these 2 bar plots. Although they look almost the same (except for the label on the y-axis and their title), they use completely different data as inputs. Which of the 2 plot versions would make it easier to add additional information (like error bars, a line indicating the mean counts of participants, or text labels showing the count values for each category)? 
 
 ```{r screening_2}
 # How many occasions are there for each participant?
@@ -503,6 +514,9 @@ occ_by_id <- df %>%
   count()
 occ_by_id
 
+# Summary of number of occasions per participant: 
+summary(occ_by_id$n)
+
 # (2) Plot table:
 
 # (a) re-create previous plot (by now from occ_by_id):
@@ -511,15 +525,15 @@ ggplot(occ_by_id) +
   labs(title = "Number of occasions by participant (2a)") +
   theme_bw()
 
-# (b) reordering id by count n:
+# (b) reordering id by count -n (i.e., from large to small n):
 ggplot(occ_by_id) +
-  geom_bar(aes(x = reorder(id, n), y = n), stat = "identity", fill = seeblau) +
+  geom_bar(aes(x = reorder(id, -n), y = n), stat = "identity", fill = seeblau) +
   labs(title = "Number of occasions by participant (2b)") +
   theme_bw()
 
 # (c) more efficient solution:
 occ_by_id_2 <- occ_by_id %>% 
-  arrange(n)
+  arrange(desc(n))
 occ_by_id_2
 
 ## (+) Add rownames (1:n) as a column:
@@ -597,11 +611,14 @@ colSums(id_occ_2, na.rm = TRUE)
 
 Compare our counts of `id_by_occ` with **Table 1** (p. 4, of Woodworth et al., 2018), which also shows the number of participants who responded on each of the 6 measurement occasions): As the counts in this table correspond to ours, the repeated instances for some measurement occasions (which could indicate data entry errors, but also be due to large variability in the time inteval between measurements) were not reported in the original analysis (i.e., **Table 1**). This suggests that the 2 participants with repeated occasions were simply counted and measured twice on one occasion and missing from another one. 
 
-Another good question to ask is: 
+Our exploration so far motivates at least 2 related questions: 
+
+- Are the _dropouts_ (i.e., people present at first, but absent at one or more later measurements) random or systematic? 
 
 - How does the number of `elapsed.days` correspond to the measurement occasions? 
 
-This brings us to a more general principle and corresponding practice that involves different ways of viewing distributions of values. 
+We'll save the 1st of these questions for practice purposes (see [Exercises](http://rpository.com/ds4psy/essentials/explore.html#exercises-wpa04) below). 
+The 2nd question directs our attention to the temporal features of measurements and motivates a general principle and corresponding practice that concerns different ways of viewing distributions of values. 
 
 
 ## Viewing distributions
@@ -1210,7 +1227,7 @@ Our last examples have shown that we should better create 2 separate graphics wh
 So go ahead and use the awesome `ggplot` machine to combine multiple geoms and adjust their aesthetics for as long as this makes your plot prettier. However, rather than getting carried away by the plethora of options, always keep in mind the message that you want to convey. If additional fiddling with aesthetics does not help to clarify your point, you are probably wasting your time by trying to do too much.
 
 
-## 10 principles of EDA
+## The principles of EDA
 
 As a quick summary, here are the 10 principles covered above:
 
@@ -1236,6 +1253,10 @@ As a quick summary, here are the 10 principles covered above:
 
 Adhering to these principles does not guarantee any results, but provides valuable insights into the structure and contents of a dataset. 
 Gaining such insights before embarking on statistical tests minimizes the risk of missing something important or violating key assumptions. 
+But always keep in mind: 
+
+- **Science 101:** To really find something, we need to _predict_ it -- and ideally _replicate_ it under different conditions. 
+
 
 # Exercises (WPA04)
 
@@ -1254,9 +1275,9 @@ library(knitr)
 posPsy_wide <- read_csv(file = "http://rpository.com/ds4psy/data/posPsy_data_wide.csv")
 ```
 
-# Exercises (WPA04)
+## Exercise 1
 
-## Exercise 1: Explore `posPsy_wide` 
+#### Explore `posPsy_wide` 
 
 Load the data stored as <http://rpository.com/ds4psy/data/posPsy_data_wide.csv> into `posPsy_wide` (if you haven't done so above) and explore it.
 
@@ -1273,7 +1294,7 @@ posPsy_wide <- read_csv(file = "http://rpository.com/ds4psy/data/posPsy_data_wid
 df <- posPsy_wide  # copy data
 
 ## Checking: 
-df
+# df
 dim(df)  # 295 observations (participants) x 294 variables
 # names(df)
 # glimpse(df)
@@ -1281,7 +1302,7 @@ dim(df)  # 295 observations (participants) x 294 variables
 
 <!-- Answer/result: -->
 
-**Structure:**
+**Answer:**
 
 - `posPsy_wide` contains 295 observations (participants) and 294 variables. 
 
@@ -1355,13 +1376,270 @@ occ_missings <- sum(is.na(df$occasion.1), is.na(df$occasion.2), is.na(df$occasio
 occ_missings == all_missings    # TRUE (qed).
 ```
 
-## Exercise 2: 
+<!-- Answer/result: -->
 
-We checked the `age` and `sex` distributions of participants. But are the participants in the 4 `intervention` groups balanced in terms of their `income` levels? And could the initial scores of the participants at occasion 0 (i.e., before any intervention took place) vary as a function of their `income`? Let's find out... 
+**Answer:**
+
+The `r sum(is.na(df))` missing values in `posPsy_wide` are due to _dropouts_: People present at the pre-test (`occasion.0`), but not showing up for one or more measurements at later occasions. When an occasion value (e.g., `occasion.1`) is `NA`, all corresponding measurements of that person are missing as well. Thus, all `NA` values are accounted for by dropouts. 
+
+
+## Exercise 2 
+
+#### Selective dropouts?
+
+Above, we have checked and plotted both the number of occasions per particiant and the number of participants per occasion. 
+Theoretically, the presence of _dropouts_ -- which we can define here as people being present initially, but missing one or more measurements at later occasions -- raises an important issue: Are the dropouts _random_ (due to chance) or _systematic_ (due to some other factor)? Let's explore this issue in a sequence of 4 steps: 
+
+1. Create a new variable `dropout` that is `FALSE` when a person was measured on _all_ occasions and `TRUE` when a person missed one or more occasions and add it to the data. 
+```{r ex2_dropout_def, echo = TRUE, eval = TRUE}
+## Data: 
+df <- posPsy_wide
+# df
+
+# Base R solution: ------ 
+df$dropout <- NA        # Create a new variable and initialize with NA. 
+sum(is.na(df$dropout))  # Check: Start with 295 values of NA.
+
+# Identify dropouts:
+df$dropout[is.na(df$occasion.0) | is.na(df$occasion.1) | is.na(df$occasion.2) | 
+           is.na(df$occasion.3) | is.na(df$occasion.4) | is.na(df$occasion.5) ] <- TRUE
+# Identify non-dropouts:
+df$dropout[!is.na(df$occasion.0) & !is.na(df$occasion.1) & !is.na(df$occasion.2) & 
+           !is.na(df$occasion.3) & !is.na(df$occasion.4) & !is.na(df$occasion.5) ] <- FALSE
+
+# Sums:
+sum(is.na(df$dropout))    #   0 values of NA left.
+sum(df$dropout == TRUE)   # 223 people with at least 1 NA value
+sum(df$dropout == FALSE)  #  72 people without any NA values
+
+  
+# dplyr solution: ------ 
+# Compute number of occasions per participant:
+df %>%
+  group_by(id) %>%
+  mutate(nr_occ_NA = sum(is.na(occasion.0), is.na(occasion.1), is.na(occasion.2), 
+                         is.na(occasion.3), is.na(occasion.4), is.na(occasion.5)), 
+         nr_occ =   sum(!is.na(occasion.0), !is.na(occasion.1), !is.na(occasion.2), 
+                        !is.na(occasion.3), !is.na(occasion.4), !is.na(occasion.5)) 
+         
+  ) %>%
+  group_by(nr_occ) %>%
+  count()
+
+# => 72 people without any NA values
+```
+
+
+2. Use the `dropout` variable to ask whether you see any group differences between dropouts and non-dropouts in their independent variables (`sex`, `age`, `educ`, and `income`). This would imply that some of these factors may have co-determined whether a participant completed the study or dropped out. 
+
+**Hints:** 
+
+- For _categorical_ variables (here: `sex`, `educ`, `income`), the question essentially asks you to compare the relative proportions (e.g., of females vs. males) in the dropout vs. non-dropout groups. You _can_ do this with computing appropriate summary tables in `dplyr`. However, it's much easier to visually judge the similarity of graphs (e.g., by using bar charts in which stacked bars are scaled to 100% for each bar, i.e., `pos = "fill"`). 
+
+- For _continuous_ variables (here: `age`), it's easiest to visualize their distributions (as histograms or density plots) with group-specific aesthetics or facets for the variables to be compared.
+
+```{r ex2_dropout_iv, echo = TRUE, eval = TRUE}
+## Data:
+df_drop <- df %>% 
+  select(id:income, 
+         ahiTotal.0, cesdTotal.0, 
+         ahiTotal.1, cesdTotal.1, 
+         ahiTotal.5, cesdTotal.5, 
+         dropout)
+df_drop
+
+# (a) Dropouts by sex: ----- 
+
+# Compute with dplyr:
+df_drop %>% 
+  mutate(male = sex - 1) %>%  # recode sex (1: female, 2: male) as male (0 vs. 1)
+  group_by(male, dropout) %>%
+  summarise(n_drop  = n(),
+            pc_drop = n_drop/nrow(df_drop) * 100)
+
+# From Table:  
+# Dropouts among females:
+61/(61 + 190)  # 24.3%
+# Dropouts among males:
+11/(11 + 33)   # 25.0%
+
+# Visually: 
+ggplot(df_drop) +
+  geom_bar(aes(x = dropout, fill = factor(sex)), pos = "fill") +
+  labs(title = "Sex ratio by dropouts", 
+       x = "Dropout", fill = "Sex:") + 
+  scale_fill_brewer(palette = "Set1") +
+  theme_bw()
+
+
+# (b) Dropouts by age: ------ 
+
+# To compute distribution, we would need to categorize age values into bins (e.g., of 10 years).
+# Rather than doing this manually, we can easily do this visually: 
+ggplot(df_drop) + 
+  geom_histogram(aes(x = age, fill = dropout), binwidth = 10) + 
+  facet_grid(~dropout) + 
+  labs(title = "Age distribution by dropouts", 
+       x = "Age", fill = "Dropout:") + 
+  scale_fill_brewer(palette = "Set1") +
+  theme_bw()
+
+# Overlapping density plots: 
+ggplot(df_drop) + 
+  geom_density(aes(x = age, group = dropout, color = dropout, fill = dropout), size = 1, alpha = .3) + 
+  # facet_grid(~dropout) + 
+  labs(title = "Age distribution by dropouts", 
+       x = "Age", color = "Dropout:", fill = "Dropout:") + 
+  scale_fill_brewer(palette = "Set1") +
+  theme_bw()
+
+
+# (c) Dropouts by educ: ------  
+
+# Note: educ ranges from 1 (less than 12 years) to 5 (postgraduate degree).
+
+# Compute with dplyr:
+df_drop %>% 
+  group_by(educ, dropout) %>%
+  summarise(n_drop  = n(),
+            pc_drop = n_drop/nrow(df_drop) * 100)
+
+# From Table:  
+# Difficult to interpret.
+
+# Visually: 
+ggplot(df_drop) +
+  geom_bar(aes(x = dropout, fill = factor(educ)), pos = "fill") +
+  labs(title = "Sex ratio by dropouts", 
+       x = "Dropout", fill = "Education level:") + 
+  scale_fill_brewer(palette = "Set1") +
+  theme_bw()
+
+
+# (d) Dropouts by income: ------  
+
+# Note: income ranges from 1 (below average) to 3 (above average).
+
+# Compute with dplyr:
+df_drop %>% 
+  group_by(income, dropout) %>%
+  summarise(n_drop  = n(),
+            pc_drop = n_drop/nrow(df_drop) * 100)
+
+# From Table:  
+# Difficult to interpret.
+
+# Visually: 
+ggplot(df_drop) +
+  geom_bar(aes(x = dropout, fill = factor(income)), pos = "fill") +
+  labs(title = "Income level by dropouts", 
+       x = "Dropout", fill = "Income level:") + 
+  scale_fill_brewer(palette = "Set1") +
+  theme_bw()
+```
+
+<!-- Answer/result: -->
+
+**Answer:** We see no systematic differences in the independent variables (`sex`, `age`, `educ`, `income`) of dropouts vs. non-dropouts. 
+
+3. Do you see any systematic differences between dropouts and non-dropouts by `intervention`? 
+This would imply that the type of `intervention` may have co-determined whether a participant completed the study or dropped out. 
+
+```{r ex2_dropout_treat, echo = TRUE, eval = TRUE}
+## Data:
+df_drop
+
+# Table:
+df_drop %>%
+  group_by(intervention, dropout) %>%
+  summarise(n = n())
+
+# Note: 
+24 / (24 + 52)  # 31.2% in Intervention 2 did not drop out.
+11 / (11 + 63)  # 14.9% in Intervention 3 did not drop out. 
+20 / (20 + 53)  # 27.4% in Intervention 4 did not drop out (= control group).
+
+# Visually: 
+ggplot(df_drop) +
+  geom_bar(aes(x = intervention, fill = factor(dropout)), pos = "fill") +
+  labs(title = "Dropouts by intervention", 
+       x = "Intervention", fill = "Dropouts:") + 
+  scale_fill_brewer(palette = "Dark2") +
+  theme_bw()
+```
+
+<!-- Answer/result: -->
+
+**Answer:** The completion rate in the different intervention groups varies from 14.9% (for Intervention 3: “Gratitude visit”) to 31.2% (Intervention 2: “Three good things”). The control condition (Intervention 4: “Recording early memories”) had an intermediate completion rate of 27.4%.   
+
+
+4. Do dropouts vs. non-dropouts show any systematic differences in the dependent variables (i.e., happiness or depression scores)? 
+This would imply that any changes in these scores -- which were the main focus of this study -- could have been co-determined by the fact that a participant completed the study vs. dropped out. 
+
+**Hint:** As this question addresses changes in scores between different measurement occasions, it could be operationalized in many ways. In our analysis of the number of participants per occasion above, we saw that only 148 of 295 pre-test participants (i.e., 50.2%) were present at Occasion 1. Hence, compare the (mean and raw) scores at the pre-test (Occasion 0) of the dropouts vs. non-dropouts of Occasion 1  (i.e., compare participants' initial `ahiTotal.0` and `cesdTotal.0` scores based on their absence/presence at Occasion 1).
+
+```{r ex2_dropout_dv, echo = TRUE, eval = TRUE}
+## Data:
+df <- posPsy_wide
+# df
+
+# Create and add a filter variable: ------ 
+df <- df %>%
+  mutate(occ1_present = !is.na(occasion.1))
+
+# Table of means: ------ 
+
+tb_occ0_scores <- df %>%
+  mutate(occ1_present = !is.na(occasion.1)) %>%
+  group_by(occ1_present) %>%
+  summarise(n = n(),
+            pc = n/nrow(df) * 100,
+            ahiTotal.0_mn = mean(ahiTotal.0), 
+            cesdTotal.0_mn = mean(cesdTotal.0)
+            )
+knitr::kable(tb_occ0_scores)  # print table
+
+# Visualizations: ------ 
+
+# (a) Initial happiness scores (ahiTotal.0) by dropouts at Occasion 1:
+ggplot(df, aes(x = occ1_present, y = ahiTotal.0)) +
+  geom_violin(aes(color = occ1_present), size = 1, width = .3) +
+  geom_boxplot(width = .2) +
+  geom_jitter(width = .05, alpha = 1/3) + 
+  labs(title = "Initial happiness scores (ahiTotal.0) by Occasion 1 dropouts", 
+       x = "Present at Occasion 1?", y = "Initial happiness (ahiTotal.0)",  
+       color = "Present at Occasion 1?") + 
+  scale_color_brewer(palette = "Set1") +
+  theme_bw()
+
+# (b) Initial depression scores (cesdTotal.0) by dropouts at Occasion 1:
+ggplot(df, aes(x = occ1_present, y = cesdTotal.0)) +
+  geom_violin(aes(color = occ1_present), size = 1, width = .3) +
+  geom_boxplot(width = .1) +
+  geom_jitter(width = .05, alpha = 1/3) + 
+  labs(title = "Initial depression scores (cesdTotal.0) by Occasion 1 dropouts", 
+       x = "Present at Occasion 1?", y = "Initial depression (cesdTotal.0)", 
+       color = "Present at Occasion 1?") + 
+  scale_color_brewer(palette = "Dark2") +
+  theme_bw()
+```
+
+<!-- Answer/result: -->
+
+**Answer:** We find no evidence for selective dropouts from Occasion 0 to Occasion 1 based on initial happiness or depression scores. 
+The initial range of scores seems to be somewhat larger for dropouts, but the group means and distributions seem comparable. 
+
+
+## Exercise 3
+
+#### Effects of `income`
+
+In previous sessions, we already examined the `age` and `sex` distributions of participants. But are the participants in the 4 `intervention` groups also balanced in terms of their `income` levels? 
+And could the initial scores of the participants at occasion 0 (i.e., before any intervention took place) vary as a function of their `income`? Let's find out... 
 
 1. Transform the data in `posPsy_wide` to summarise the overall distribution of `income` levels (i.e., the frequency or percentage of each level) and compare your results to those of [WPA03: Exercise 4](http://rpository.com/ds4psy/essentials/transform.html#exercise-4) and [WPA01: Exercise 6](http://rpository.com/ds4psy/essentials/basics.html#exercise-6), which both used the `p_info` data file <http://rpository.com/ds4psy/data/posPsy_participants.csv>.  
 
-```{r ex2_income_counts, echo = TRUE, eval = FALSE}
+```{r ex3_income_counts, echo = TRUE, eval = FALSE}
 ## Data: 
 df <- posPsy_wide
 # df
@@ -1394,7 +1672,7 @@ pc_income_low  # 24.74576
 
 **Hints:** You can either directly plot the data contained in `posPsy_wide` (e.g., by selecting some of its variables) or first use `dplyr` to create a summary table that can be piped into (or used as the `data` of) a `ggplot` command. To create separate plots by `intervention`, use facetting on the overall plot. 
 
-```{r ex2_income_dist, echo = TRUE, eval = TRUE}
+```{r ex3_income_dist, echo = TRUE, eval = TRUE}
 ## Data: 
 df <- posPsy_wide
 # df
@@ -1451,7 +1729,7 @@ Examine this (a) by using `dplyr` to compute corresponding summary tables, and (
 
 **Hint:** Use `factor(income)` to turn `income` from an integer into a categorical variable (factor). 
 
-```{r ex2_income_scores, echo = TRUE, eval = TRUE}
+```{r ex3_income_scores, echo = TRUE, eval = TRUE}
 ## Data: 
 df <- posPsy_wide
 # df
@@ -1484,9 +1762,9 @@ ggplot(df_part, aes(x = income, y = ahiTotal.0, color = income)) +
   geom_boxplot(width = .2, color = "grey20") +
   geom_jitter(color = "black", width = .1, alpha = 1/4) +
   labs(title = "Initial happiness scores (ahiTotal.0) by level of income ", 
-         x = "Income level", y = "Happiness (ahiTotal.0)", fill = "Income:") + 
-    scale_color_brewer(palette = "Set1") +
-    theme_bw()
+       x = "Income level", y = "Happiness (ahiTotal.0)", fill = "Income:") + 
+  scale_color_brewer(palette = "Set1") +
+  theme_bw()
 
 # Plot cesdTotal.0 by income: 
 ggplot(df_part, aes(x = income, y = cesdTotal.0, color = income)) +
@@ -1495,8 +1773,8 @@ ggplot(df_part, aes(x = income, y = cesdTotal.0, color = income)) +
   geom_jitter(color = "black", width = .1, alpha = 1/4) +
   labs(title = "Initial depression scores (cesdTotal.0) by level of income ", 
          x = "Income level", y = "Depression (cesdTotal.0)", fill = "Income:") + 
-    scale_color_brewer(palette = "Dark2") +
-    theme_bw()
+  scale_color_brewer(palette = "Dark2") +
+  theme_bw()
 ```
 
 <!-- Answer/result: -->
@@ -1510,35 +1788,61 @@ ggplot(df_part, aes(x = income, y = cesdTotal.0, color = income)) +
 - However, these trends are small (note the scale) and the range of values is large. Also, the distribution of initial depression scores shows potential outliers (with high scores at the low and medium income level).
 
 
+## Exercise 4 
+
 +++ here now +++
 
+#### Changes in scores (overall and by intervention)
 
-**Selective dropouts?**
+General idea: 
+- Compare main trend: 1st vs. last occasion by `intervention`. 
+- Then check 1st vs. 2nd occasion. What do you see? 
 
-**ToDo:** Re-sort dropout graphs above (from high to low number of measurements).
+1. Compare distributions 
 
-- Add question about selective dropouts above (point to Exercise). 
+- Explore how the _distribution_ of of ahi total scores shifted from occasion 0 to 5. Why? Does that match your expectations?
+- Can you see any unusual patterns? What might explain them? 
 
-- Create a new variable: all vs. at least one missing occasion.
-- Any group differences in age, sex, income, happiness or depression scores?
+```{r ex4_changes_dist, echo = TRUE, eval = TRUE}
+# Exercise 4:  
+## (4a):Explore how the distribution of of ahi total scores shifted from occasion 0 to 5. Why? Does that match your expectations?
+## Can you see any unusual patterns? What might explain them? 
+
+## First, load data in the best suited format and delete redundant colums.
+
+## Data: 
+df <- posPsy_wide
+# df
+
+# select columns of interest: 
+df_part <- select(df, id:elapsed.days.0, contains("Total"), contains("occasion"), starts_with("elapsed."))
+
+# View(data_wide)
+
+ggplot(df_part) +
+  geom_freqpoly(mapping = aes(ahiTotal.0), color = "darkblue", binwidth = 2) +
+  geom_freqpoly(mapping = aes(ahiTotal.5), color = "forestgreen", binwidth = 2) +
+  theme_minimal() +
+  labs(title = "AHI TOTAL SCORE DISTRIBUTION CHANGE", 
+       x = "AHI TOTAL SCORES", y = "COUNT")
+```
+
+2. Compare means from Occasion 0 to 5
+
+
+3. Compare means from Occasion 0 to 1.
 
 
 
-**Important Note:** 
+## Exercise 5: 
 
-Distinguish _exploration_ from _confirmation_: 
-Beware of exploratory nature of EDA. Given the convenience of powerful software tools and the vast abundance of possible comparisons: There is a high chance of false positive results. 
-
-So don't get too excited every time you spot an effect or pattern: Easy to kid others and yourself into thinking you found something. To _really_ find something, you need to predict and replicate it (ideally others too)!
-
-
-## Exercise +: Total scores?
+#### Computation of total scores 
 
 Use data transformation on the file `AHI_CESD` to answer the following question: 
 
 - Are the variables `ahiTotal` and `cesdTotal` the sums of all values in `ahi01` to `ahi24` and `cesd01` to `cesd20`, respectively?
 
-```{r ex_ahi_cesd}
+```{r ex5_ahi_cesd}
 ## Data:
 ## 2. Original DVs in long format:
 # AHI_CESD <- read_csv(file = "http://rpository.com/ds4psy/data/posPsy_AHI_CESD.csv")
@@ -1565,50 +1869,14 @@ sum(cesd_sums == df$cesdTotal)  # 0 => all different!
 ```
 
 
-## Exercise +: Changes
+## Exercise 6: 
 
-General idea: 
-- Compare main trend: 1st vs. last occasion by `intervention`. 
-- Then check 1st vs. 2nd occasion. What do you see? 
+#### Same plot twice
 
-1. Distributions 
+Use `ggplot` and a pipe of `dplyr` + `ggplot` to create the same plot _twice_:  
 
-- Explore how the _distribution_ of of ahi total scores shifted from occasion 0 to 5. Why? Does that match your expectations?
-- Can you see any unusual patterns? What might explain them? 
-
-```{r ex_changes_dist, echo = TRUE, eval = TRUE}
-# Exercise 2:  
-## (2a):Explore how the distribution of of ahi total scores shifted from occasion 0 to 5. Why? Does that match your expectations?
-## Can you see any unusual patterns? What might explain them? 
-
-## First, load data in the best suited format and delete redundant colums.
-
-## Data: 
-df <- posPsy_wide
-# df
-
-# select columns of interest: 
-df_part <- select(df, id:elapsed.days.0, contains("Total"), contains("occasion"), starts_with("elapsed."))
-
-# View(data_wide)
-
-ggplot(df_part) +
-  geom_freqpoly(mapping = aes(ahiTotal.0), color = "darkblue", binwidth = 2) +
-  geom_freqpoly(mapping = aes(ahiTotal.5), color = "forestgreen", binwidth = 2) +
-  theme_minimal() +
-  labs(title = "AHI TOTAL SCORE DISTRIBUTION CHANGE", 
-       x = "AHI TOTAL SCORES", y = "COUNT")
-```
-
-2. Means 
-
-
-
-## Exercise +: Same plot twice
-
-Plot same plot _twice_: 
-    1. from a lot of raw data and 
-    2. from much leaner table of aggregated data.
+    1. from raw data and  
+    2. from much leaner table of aggregated data.   
     
 
 
