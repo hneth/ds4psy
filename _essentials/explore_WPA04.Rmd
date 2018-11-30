@@ -1,7 +1,7 @@
 ---
 title: "Exploring data (EDA, ds4psy)"
 author: "Hansjörg Neth, SPDS, uni.kn"
-date: "2018 11 28"
+date: "2018 11 30"
 output:
    rmdformats::html_clean: # html_clean html_docco readthedown material #
      code_folding: show # hide
@@ -1512,6 +1512,26 @@ ggplot(df_part, aes(x = income, y = cesdTotal.0, color = income)) +
 
 +++ here now +++
 
+
+**Selective dropouts?**
+
+**ToDo:** Re-sort dropout graphs above (from high to low number of measurements).
+
+- Add question about selective dropouts above (point to Exercise). 
+
+- Create a new variable: all vs. at least one missing occasion.
+- Any group differences in age, sex, income, happiness or depression scores?
+
+
+
+**Important Note:** 
+
+Distinguish _exploration_ from _confirmation_: 
+Beware of exploratory nature of EDA. Given the convenience of powerful software tools and the vast abundance of possible comparisons: There is a high chance of false positive results. 
+
+So don't get too excited every time you spot an effect or pattern: Easy to kid others and yourself into thinking you found something. To _really_ find something, you need to predict and replicate it (ideally others too)!
+
+
 ## Exercise +: Total scores?
 
 Use data transformation on the file `AHI_CESD` to answer the following question: 
@@ -1563,16 +1583,16 @@ General idea:
 
 ## First, load data in the best suited format and delete redundant colums.
 
-# load data: 
-# data_wide <- read_csv(file = "http://rpository.com/ds4psy/data/posPsy_data_wide.csv")  # online
-# dim(data_wide) 
+## Data: 
+df <- posPsy_wide
+# df
 
 # select columns of interest: 
-data_sub <- select(data_wide, id:elapsed.days.0, contains("Total"), contains("occasion"), starts_with("elapsed."))
+df_part <- select(df, id:elapsed.days.0, contains("Total"), contains("occasion"), starts_with("elapsed."))
 
 # View(data_wide)
 
-ggplot(data_sub) +
+ggplot(df_part) +
   geom_freqpoly(mapping = aes(ahiTotal.0), color = "darkblue", binwidth = 2) +
   geom_freqpoly(mapping = aes(ahiTotal.5), color = "forestgreen", binwidth = 2) +
   theme_minimal() +
