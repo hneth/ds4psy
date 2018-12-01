@@ -1,7 +1,7 @@
 ---
 title: "Exploring data (EDA, ds4psy)"
 author: "Hansjörg Neth, SPDS, uni.kn"
-date: "2018 11 30"
+date: "2018 12 01"
 output:
    rmdformats::html_clean: # html_clean html_docco readthedown material #
      code_folding: show # hide
@@ -960,7 +960,7 @@ plot_ahi_by_occ_iv <- ggplot(tab_scores_by_occ_iv,
 plot_ahi_by_occ_iv
 ```
 
-An more honest version of the same plot could manually set a different color scheme, but would still look a lot more sobering: 
+The plot shows that the mean happiness scores increase over occasions in all groups. This is interesting, but also a bit puzzling, given that participants in the control condition (i.e., intervention 4) shows similar improvements as the three treatment conditions (interventions 1 to 3). Also, keep in mind that a positive trend is not the same as a significant or practically meaningful effect. In order to establish the latter, we would need to do statistics and discuss the scope and relevance of effect sizes. So before we get too excited, let's remind ourselves that a more honest version of the same plot would look a lot more sobering (despite manually choosing a new color scheme): 
 
 ```{r relate_trends_7}
 # Line graph of scores over occasions AND interventions:
@@ -1090,7 +1090,7 @@ In addition, combining geoms typically requires playing with aesthetics. Inciden
 
 We already discovered that _bar plots_ can either count cases or show some pre-computed values (when using `stat = "identity"`, see [Bar plots](http://rpository.com/ds4psy/essentials/visualize.html#bar-plots) in [Visualizing data](http://rpository.com/ds4psy/essentials/visualize.html). In the following, we show that we can also compute summary tables and then display their values by the color `fill` gradient of tiles, or by the `size` of points: 
 
-```{r tile_plots}
+```{r tile_plots_1}
 # Frequency of observations by occasion (x) and intervention (y):
 
 # Data:
@@ -1117,6 +1117,15 @@ ggplot(tab_scores_by_occ_iv, aes(x = occasion, y = intervention)) +
        x = "Occasion", y = "Intervention", fill = "Frequency:") + 
   theme_bw()
 
+# Note the sharp drop in participants from Occasion 0 to 1:
+24/74  # Intervention 3: Only 32.4% of original participants are present at Occasion 1.
+```
+
+The abrupt color change from Occasion 0 to Occasion 1 (from a brighter to darker hue of blue) illustrates the sharp drop of participant numbers in all 4 treatment conditions.  The proportion of dropouts is particularly high in Intervention 3, where only 24 of 74 participants (32.4%) are present at Occasion 1. By contrast, the participant numbers per group from Occasions 1 to 5 appear to be fairly stable. (Exercise 2 below addresses the issue of potentially selective dropouts.)
+
+Let's create a corresponding plot that maps a dependent measure (here: mean happiness scores `ahiTotal_mn`) to the `fill` color of tiles:
+
+```{r tile_plots_2}
 # Tile plot 2: 
 # ahiTotal_mn of each interventin by occasion:
 ggplot(tab_scores_by_occ_iv, aes(x = occasion, y = intervention)) +
@@ -1127,9 +1136,11 @@ ggplot(tab_scores_by_occ_iv, aes(x = occasion, y = intervention)) +
   theme_bw()
 ```
 
-Note the fancy color gradient of the last tile plot: The lowest average scores of happiness (or `ahiTotal_mn`) are shown in `"black"`, the highest ones in `"gold"`. As the scores vary on a continuous scale, using a continuous color scale is appropriate here. And assigning high happiness to "gold" hopefully makes the plot easier to interpret.
+To facilitate the interpretation of this plot, we changed the color gradient (by setting the `scale_fill_gradient` option): The lowest average scores of happiness (or `ahiTotal_mn`) are shown in `"black"`, the highest ones in `"gold"`. As the scores vary on a continuous scale, using a continuous color scale is appropriate here. And assigning high happiness to "gold" hopefully makes the plot easier to interpret. The plot shows that all intervention conditions score higher happiness values as the number of occasions increase. Whereas Interventions 2 to 4 show a marked increase from Occasion 0 to 1, Intervention 1 makes its biggest step from Occasion 2 to 3. 
 
-**Practice:** Create a tile plot that shows the developments of mean depression scores `cesdTotal` by measurement `occasion` and `intervention`. Choose a color scale that you find appropriate. What do you see?  
+Note that our previous line plot (called `plot_ahi_by_occ_iv` above) showed the same trends as this tile plot. But whereas the line plot (by mapping happiness to height `y`) makes it easy to see differences in the upward trends between groups, the tile plot (by mapping happiness to `fill`) facilitates row- and column-wise comparisons on the same dimension (color hue). Thus, informationally equivalent plots can suggest and support different interpretations and it is important to choose the right plot from a variety of options.  
+
+**Practice:** Create a tile plot that shows the developments of mean depression scores `cesdTotal` by measurement `occasion` and `intervention`. Choose a color scale that you find appropriate and easy to interpret. What do you see?  
 
 **Hint:** Your result could look like the following plot:
 
@@ -1570,8 +1581,7 @@ ggplot(df_drop) +
 
 <!-- Answer/result: -->
 
-**Answer:** The completion rate in the different intervention groups varies from 14.9% (for Intervention 3: “Gratitude visit”) to 31.2% (Intervention 2: “Three good things”). The control condition (Intervention 4: “Recording early memories”) had an intermediate completion rate of 27.4%.   
-
+**Answer:** The completion rate (i.e., rate of participants being present at all 6 occasions) in the different intervention groups varies from a minimum of 14.9% (for Intervention 3: “Gratitude visit”) to a maximum of 31.2% (Intervention 2: “Three good things”). The control condition (Intervention 4: “Recording early memories”) had an intermediate completion rate of 27.4%.   
 
 4. Do dropouts vs. non-dropouts show any systematic differences in the dependent variables (i.e., happiness or depression scores)? 
 This would imply that any changes in these scores -- which were the main focus of this study -- could have been co-determined by the fact that a participant completed the study vs. dropped out. 
@@ -1639,7 +1649,7 @@ And could the initial scores of the participants at occasion 0 (i.e., before any
 
 1. Transform the data in `posPsy_wide` to summarise the overall distribution of `income` levels (i.e., the frequency or percentage of each level) and compare your results to those of [WPA03: Exercise 4](http://rpository.com/ds4psy/essentials/transform.html#exercise-4) and [WPA01: Exercise 6](http://rpository.com/ds4psy/essentials/basics.html#exercise-6), which both used the `p_info` data file <http://rpository.com/ds4psy/data/posPsy_participants.csv>.  
 
-```{r ex3_income_counts, echo = TRUE, eval = FALSE}
+```{r ex3_income_counts, echo = TRUE, eval = TRUE}
 ## Data: 
 df <- posPsy_wide
 # df
@@ -1788,7 +1798,7 @@ ggplot(df_part, aes(x = income, y = cesdTotal.0, color = income)) +
 - However, these trends are small (note the scale) and the range of values is large. Also, the distribution of initial depression scores shows potential outliers (with high scores at the low and medium income level).
 
 
-## Exercise 4 
+## Exercise 4: 
 
 +++ here now +++
 
@@ -1827,22 +1837,24 @@ ggplot(df_part) +
        x = "AHI TOTAL SCORES", y = "COUNT")
 ```
 
-2. Compare means from Occasion 0 to 5
+2. Compare the means from Occasion 0 to 5
+
+3. Compare the means from Occasion 0 to 1.
 
 
-3. Compare means from Occasion 0 to 1.
 
+## Exercise 5  
 
+#### Verify the computation of total scores 
 
-## Exercise 5: 
+<!--- Note: Consider moving this exercise to previous session (on data transformation)  
+            OR find a graphical solution for it (e.g., positive and negative bars that add up to total scores)!  ---> 
 
-#### Computation of total scores 
+Use data transformation on the data in `AHI_CESD` (in long format) to answer the following questions: 
 
-Use data transformation on the file `AHI_CESD` to answer the following question: 
+1. Is the total happiness score (`ahiTotal`) the sum of all 24 corresponding scale values (`ahi01` to `ahi24`) at each measurement occasion? 
 
-- Are the variables `ahiTotal` and `cesdTotal` the sums of all values in `ahi01` to `ahi24` and `cesd01` to `cesd20`, respectively?
-
-```{r ex5_ahi_cesd}
+```{r ex5_1_AHI_check}
 ## Data:
 ## 2. Original DVs in long format:
 # AHI_CESD <- read_csv(file = "http://rpository.com/ds4psy/data/posPsy_AHI_CESD.csv")
@@ -1851,21 +1863,101 @@ df <- AHI_CESD
 dim(df)  # 992 x 50
 
 # Are the variables `ahiTotal` and `cesdTotal` the sums of all values in `ahi01` to `ahi24` and `cesd01` to `cesd20`, respectively?
-# (a) ahi: 
-ahi <- df %>% 
+# 1. AHI part only: 
+AHI <- df %>% 
   select(ahi01:ahi24)
 
-ahi_sums <- rowSums(ahi)
-sum(ahi_sums == df$ahiTotal)  # 992 (qed)
+ahi_sums <- rowSums(AHI)
+sum(ahi_sums == df$ahiTotal)      # 992 (qed)
 all.equal(ahi_sums, df$ahiTotal)  # TRUE
 
-# (b) cesd:
-cesd <- df %>% 
+# => Yes, ahiTotal is the sum of 24 ahi items at each measurement occasion.
+```
+
+2. Is the total depression score (`cesdTotal`) the sum of all 20 corresponding scale values (`cesd01` to `cesd20`) at each measurement occasion? 
+
+```{r ex5_2_CESD_fail}
+## Data:
+df <- AHI_CESD
+dim(df)  # 992 x 50
+
+# 2. CESD part only:
+CESD <- df %>% 
   select(cesd01:cesd20)
 
-cesd_sums <- rowSums(cesd)
+cesd_sums <- rowSums(CESD)
 cesd_sums
-sum(cesd_sums == df$cesdTotal)  # 0 => all different!
+sum(cesd_sums == df$cesdTotal)  # 0 
+
+# => No, all cesdTotal values are different from the sum at each measurement occasion.
+```
+
+3. Assuming that your answer to 2. is negative, please find out and verify how the `cesdTotal` scores are computed from the individual values (`cesd01` to `cesd20`). 
+To find out how the overall depression scores are computed, you need additional background information on the CES-D scale. 
+The original reference for this scale (with over 40,000 citations) is  
+
+- Radloff, L. S. (1977). 
+The CES-D scale: A self report depression scale for research in the general population. 
+_Applied Psychological Measurement_, _1_, 385--401. 
+doi: <https://doi.org/10.1177/014662167700100306>
+
+but you will find plenty of scale-related information online. 
+
+**Hint:** Some scale items are reverse-coded, so they should be _subtracted_ from the sum of the other items, rather than added to them.
+
+```{r ex5_3_CESD_correct}
+# Check scale at <http://www.midss.org/content/center-epidemiologic-studies-depression-scale-ces-d>
+# Article at doi: <https://doi.org/10.1177/014662167700100306>
+
+# Note: 
+# - 4 items (Item 4, 8, 12, and 16) are reverse-coded!
+# [- Items are to be scored as 0 to 3 (rather than 1 to 4)]
+
+# Check ranges: 
+range(CESD$cesd01)  # => scores from 1 to 4.
+range(CESD$cesd04)  # => scores from 1 to 4.
+
+# Extract 16 of 20 depression items:
+CESD_16 <- CESD %>%
+  select(cesd01:cesd03, cesd05:cesd07, cesd09:cesd11, cesd13:cesd15, cesd17:cesd20)
+
+# Extract 4 of 20 anhedonia (reverse-coded) items:
+CESD_4r <- CESD %>%
+  select(cesd04, cesd08, cesd12, cesd16)
+
+# ## Adjust ranges: ------ 
+# range(CESD_16)              # from 1 to 4
+# CESD_16_m1 <- (CESD_16 - 1) # subtract 1 from every cell (to score from 0 to 3)
+# range(CESD_16_m1)           # from 0 to 3
+# 
+# range(CESD_4r)              # from 1 to 4
+# CESD_4r_m1 <- (CESD_4r - 1) # subtract 1 from every cell (to score from 0 to 3)
+# range(CESD_4r_m1)           # from 0 to 3
+# 
+# # Compute sums for each subset:
+# CESD_16_m1_sums <- rowSums(CESD_16_m1)
+# CESD_4r_m1_sums <- rowSums(CESD_4r_m1)
+# 
+# # Difference between both subsets:
+# CESD_20_m1_diff <- CESD_16_m1_sums - CESD_4r_m1_sums
+# 
+# sum(CESD_20_m1_diff == df$cesdTotal)  # still 0, all different
+
+## Without any range correction (i.e. leave range from 1 to 4): ------ 
+
+# Compute sums for each subset:
+CESD_16_sums <- rowSums(CESD_16)
+CESD_4r_sums <- rowSums(CESD_4r)
+
+# Compute their difference: 
+CESD_20_diff <- CESD_16_sums - CESD_4r_sums
+
+sum(CESD_20_diff == df$cesdTotal)      # 992 (qed)
+all.equal(CESD_20_diff, df$cesdTotal)  # TRUE
+
+# => cesdTotal is the sum of 16 items 
+#    minus the sum of 4 reverse-coded items (Items 4, 8, 12, 16) 
+#    at each measurement occasion.
 ```
 
 
@@ -1878,8 +1970,6 @@ Use `ggplot` and a pipe of `dplyr` + `ggplot` to create the same plot _twice_:
     1. from raw data and  
     2. from much leaner table of aggregated data.   
     
-
-
 <!-- +++ here now +++ --> 
 
 

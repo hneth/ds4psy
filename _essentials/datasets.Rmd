@@ -1,7 +1,7 @@
 ---
 title: "Datasets (ds4psy)"
 author: "Hansjörg Neth, SPDS, uni.kn"
-date: "2018 11 28"
+date: "2018 12 01"
 output:
    rmdformats::html_clean: # html_clean html_docco readthedown material #
      code_folding: show # hide
@@ -755,7 +755,10 @@ The file `posPsy_participants.csv` contains 6 variables with _demographic inform
 
 #### 2. File `posPsy_AHI_CESD.csv`
 
-The file `posPsy_AHI_CESD.csv` contains data of the 24 items of the _Authentic Happiness Inventory_ (AHI) and answers to the 20 items of the _Center for Epidemiological Studies Depression_ (CES-D) scale for multiple (up to 6) measurement occasions: 
+The file `posPsy_AHI_CESD.csv` contains 
+answers to the 24 items of the _Authentic Happiness Inventory_ (AHI) and 
+answers to the 20 items of the _Center for Epidemiological Studies Depression_ (CES-D) scale (see Radloff, 1977) 
+for multiple (1 to 6) measurement occasions: 
 
 1. `id`: Particpant ID
 
@@ -835,6 +838,11 @@ sum(is.na(posPsy_wide))    # 37440 missing values!
 
 ### References
 
+- Radloff, L. S. (1977). 
+The CES-D scale: A self report depression scale for research in the general population. 
+_Applied Psychological Measurement_, _1_, 385--401. 
+doi: <https://doi.org/10.1177/014662167700100306>
+
 - Seligman, M. E., Steen, T. A., Park, N., & Peterson, C. (2005). 
 Positive psychology progress: Empirical validation of interventions. 
 _American Psychologist_, _60_(5), 410--421.
@@ -845,7 +853,8 @@ _Journal of Clinical Psychology_, _73_(3), 218--232.
 
 - Woodworth, R. J., O’Brien-Malone, A., Diamond, M. R. and Schüz, B. (2018). 
 Data from, ‘Web-based positive psychology interventions: A reexamination of effectiveness’. 
-_Journal of Open Psychology Data_, _6_: 1. DOI: <https://doi.org/10.5334/jopd.35> 
+_Journal of Open Psychology Data_, _6_: 1. 
+doi: <https://doi.org/10.5334/jopd.35> 
 
 - Data at <https://doi.org/10.6084/m9.figshare.1577563.v1>.
 
