@@ -820,23 +820,25 @@ Trends can be expressed in many ways. Any data that measures some variable more 
 
 To visualize trends, we typically map the temporal variable (in units of time or the counts of repeated measurements) to the x-axis of a plot. If this is the case, many different types of plots can express developments over time. In our session on in [visualizing data](http://rpository.com/ds4psy/essentials/visualize.html), we have already encountered [bar plots](http://rpository.com/ds4psy/essentials/visualize.html#bar-plots) and 
 [line graphs](http://rpository.com/ds4psy/essentials/visualize.html#line-graphs), which are well-suited to plot trends. 
-Actually, our bar plots above (using either the raw data of `AHI_CESD` or our summary table `id_by_occ` to show the number of participants by occasion) expressed a trend: How many participants dropped out of the study from `occasion` 0 to 6. We can make the same point in a line plot: 
+Actually, our bar plots above (using either the raw data of `AHI_CESD` or our summary table `id_by_occ` to show the number of participants by occasion) expressed a trend: How many participants dropped out of the study from `occasion` 0 to 6. A table showing this trend as a column of summary values was computed (and saved as `id_by_occ`) above:  
+
+```{r relate_trends_table}
+knitr::kable(id_by_occ)
+```
+
+We can make the same point in a line plot: 
 
 ```{r relate_trends_1}
-# Data:
-df <- AHI_CESD
-dim(df)  # 992 50
-df
-
-knitr::kable(id_by_occ)
-
 # Plot count of IDs by occasion as line graph:
+
+# Data used:
+id_by_occ
 
 # Line plot: Using id_by_occ (from above) as input: 
 line_dropouts <- ggplot(id_by_occ, aes(x = occasion)) +
   geom_line(aes(y = n), size = 1.5, color = "gold") + 
   geom_point(aes(y = n), shape = 21, size = 4, stroke = 1, color = "black", fill = "gold") + 
-  labs(title = "Number of participants by occasion (line)") +
+  labs(title = "Number of participants per occasion (line)") +
   theme_bw()
 line_dropouts
 ```
@@ -857,16 +859,45 @@ ggplot(id_by_occ, aes(x = occasion, y = n)) +
   geom_bar(stat = "identity", fill = seeblau) + 
   geom_line(size = 1.5, color = "gold") + 
   geom_point(shape = 21, size = 4, stroke = 1, color = "black", fill = "gold") + 
-  labs(title = "Number of participants by occasion (bar + line)") +
+  labs(title = "Number of participants per occasion (bar + line)") +
   theme_bw()
 ```
+
+**Practice:** The line plot just shown used a tiny summary table (`id_by_occ`) as its data input. 
+Can you draw the same line plot from the `AHI_CESD` data? If yes, please make it look like the following (and remember that -- irrespective of appearances -- these plots do not show your last 6 purchases at Ikea):
+
+```{r practice_line_plot_from_raw_data, echo = FALSE, eval = TRUE}
+# Data:
+df <- AHI_CESD
+# dim(df)  # 992 50
+# df
+
+# Minimal version:
+line_raw_data <- ggplot(df, aes(x = occasion)) +
+  geom_line(aes(y = ..count..), stat = "bin", binwidth = 1, size = 1.5, color = seeblau) 
+# line_raw_data
+
+# Adding bars, colored points, and adjusting scales:
+ggplot(df, aes(x = occasion, y = ..count..)) +
+  geom_bar(stat = "count", fill = "gold") + 
+  geom_line(stat = "bin", binwidth = 1, size = 1.5, color = seeblau) +
+  geom_point(stat = "bin", binwidth = 1, shape = 21, size = 4, stroke = 1, color = "black", fill = seeblau) +
+  # scale_y_continuous(limits = c(0, 300)) +   # not needed when geom_bar is present
+  labs(title = "Number of participants per occasion (using raw data)", 
+       caption = "Data from AHI_CESD") +
+  theme_bw()
+```
+
+
+
+### Trends by group
 
 Two key questions in the context of our study are:
 
 - How do participants' scores of happiness (`ahiTotal`) and depression (`cesdTotal`) change over time?   
 - Do these trends over time vary by a participant's type of `intervention`?  
 
-Visualizing these trends will take us more than half-way towards our conclusion, except for a few statistical tests. 
+Visualizing these trends will bring us quite close towards drawing potential conclusions, except for a few statistical tests. 
 To answer the first question for the happiness scores (`ahiTotal`), we compute our desired values with `dplyr` and then plot the resulting table as a line graph (with an automatic and a full y-scale):
 
 ```{r relate_trends_3}
