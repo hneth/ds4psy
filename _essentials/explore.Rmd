@@ -1,7 +1,7 @@
 ---
 title: "Exploring data (EDA), with solutions (ds4psy)"
 author: "Hansjörg Neth, SPDS, uni.kn"
-date: "2018 12 04"
+date: "2018 12 02"
 output:
    rmdformats::html_clean: # html_clean html_docco readthedown material #
      code_folding: show # hide
@@ -1447,7 +1447,8 @@ The `r sum(is.na(df))` missing values in `posPsy_wide` are due to _dropouts_: Pe
 Above, we have checked and plotted both the number of occasions per particiant and the number of participants per occasion. 
 Theoretically, the presence of _dropouts_ -- which we can define here as people being present initially, but missing one or more measurements at later occasions -- raises an important issue: Are the dropouts _random_ (due to chance) or _systematic_ (due to some other factor)? Let's explore this issue in a sequence of 4 steps: 
 
-1. Create a new variable `dropout` that is `FALSE` when a person was measured on _all_ occasions and `TRUE` when a person missed one or more occasions and add it to the data. 
+1. Create a new filter variable `dropout` (e.g., so that `dropout` is `FALSE` when a person was measured on _all_ occasions and `TRUE` when a person missed one or more occasions) and add it to the data. 
+
 ```{r ex2_dropout_def, echo = TRUE, eval = TRUE}
 ## Data: 
 df <- posPsy_wide
@@ -1482,10 +1483,8 @@ df %>%
   ) %>%
   group_by(nr_occ) %>%
   count()
-
 # => 72 people without any NA values
 ```
-
 
 2. Use the `dropout` variable to ask whether you see any group differences between dropouts and non-dropouts in their independent variables (`sex`, `age`, `educ`, and `income`). This would imply that some of these factors may have co-determined whether a participant completed the study or dropped out. 
 
@@ -1813,7 +1812,7 @@ df_part <- df %>%
 df_part$income <- factor(df_part$income)  # turn income into a factor
 # df_part
 
-# Plot ahiTotal.0 by income: 
+# Plot initial happiness (ahiTotal.0) by income: 
 ggplot(df_part, aes(x = income, y = ahiTotal.0, color = income)) +
   geom_violin(width = .5, size = 1) +
   geom_boxplot(width = .2, color = "grey20") +
@@ -1823,7 +1822,7 @@ ggplot(df_part, aes(x = income, y = ahiTotal.0, color = income)) +
   scale_color_brewer(palette = "Set1") +
   theme_bw()
 
-# Plot cesdTotal.0 by income: 
+# Plot initial depression (cesdTotal.0) by income: 
 ggplot(df_part, aes(x = income, y = cesdTotal.0, color = income)) +
   geom_violin(width = .6, size = .3, color = "grey50") +
   geom_boxplot(width = .2, size = 1) +
