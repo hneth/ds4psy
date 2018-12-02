@@ -1,7 +1,7 @@
 ---
 title: "Transforming data, with solutions (ds4psy)"
 author: "Hansjörg Neth, SPDS, uni.kn"
-date: "2018 11 22"
+date: "2018 12 02"
 output:
    rmdformats::html_clean: # html_clean html_docco readthedown material #
      code_folding: show # hide
@@ -122,7 +122,7 @@ library(tidyverse)
 ```
 
 
-# Visualizing data
+# Transforming data
 
 In the following, we assume that you have read and worked through [Chapter 5: Data transformation](https://r4ds.had.co.nz/transform.html).  
 Based on this background, we examine some essential commands of `dplyr` in the context of examples. However, the `dplyr` package extends beyond this introduction -- and will appear again later (e.g., in [Chapter 13: Relational data](https://r4ds.had.co.nz/relational-data.html)). 

@@ -282,7 +282,7 @@ As we have seen, R allows us to create a copy `y` of some object `x` as simply a
 
 - **Principle 3:** Make copies (and copies of copies) of your data.  
 
-Making copies (or spanning some similar safety net) is useful for your objects, data files, and your scripts for analyzing them. Although it also is a good idea to always keep a ``current master version'' of a data file, it is advisable to occasionally copy your current data and then work on the copy (e.g., before trying out some unfamiliar analysis or command). As creating copies and then working on them is so easy, it can even save you from remembering and repeatedly typing complicated object names (e.g., plotting some variables of `df` rather than `posPsy_p_info`). 
+Making copies (or spanning some similar safety net) is useful for your objects, data files, and your scripts for analyzing them. Although it also is a good idea to always keep a "current master version" of a data file, it is advisable to occasionally copy your current data and then work on the copy (e.g., before trying out some unfamiliar analysis or command). As creating copies and then working on them is so easy, it can even save you from remembering and repeatedly typing complicated object names (e.g., plotting some variables of `df` rather than `posPsy_p_info`). 
 
 #### Copies of objects
 
@@ -1336,16 +1336,14 @@ Load the data stored as <http://rpository.com/ds4psy/data/posPsy_data_wide.csv> 
 
 1. What are the data's dimensions, variables, and types of variables?  How would you describe the structure of this dataset?  
 
-```{r ex1_load_data, echo = TRUE, eval = TRUE, message = FALSE}
+```{r ex1_load_data, echo = FALSE, eval = FALSE, message = FALSE}
 # Load packages:
 library(tidyverse)
 
 # Load data:
 # 4. Transformed and corrected version of all data (in wide format): 
 posPsy_wide <- read_csv(file = "http://rpository.com/ds4psy/data/posPsy_data_wide.csv")
-```
 
-```{r ex1_basics, echo = FALSE, eval = FALSE, message = FALSE}
 df <- posPsy_wide  # copy data
 
 ## Checking: 
