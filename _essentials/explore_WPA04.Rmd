@@ -1,7 +1,7 @@
 ---
 title: "Exploring data (EDA, ds4psy)"
 author: "Hansjörg Neth, SPDS, uni.kn"
-date: "2018 12 01"
+date: "2018 12 02"
 output:
    rmdformats::html_clean: # html_clean html_docco readthedown material #
      code_folding: show # hide
@@ -154,7 +154,7 @@ See [Chapter 7: Exploratory data analysis (EDA)](http://r4ds.had.co.nz/explorato
 
 ## What is EDA? 
 
-According to [Grolemund & Wickham (2017, Chapter 7)](http://r4ds.had.co.nz/exploratory-data-analysis.html) _exploratory data analysis_ (EDA) primarily is a state of mind. Rather than following a strict set of rules, EDA is a phase of familiarising yourself with a new data set by actively engaging in an iterative cycle during which you 
+According to [Grolemund & Wickham (2017, Chapter 7)](http://r4ds.had.co.nz/exploratory-data-analysis.html), _exploratory data analysis_ (EDA) is primarily a state of mind. EDA is an active process in which you are familiarising yourself with a new data set. Rather than following a strict set of rules, you are actively engaging in an iterative cycle during which you 
 
 - Generate questions about data.  
 
@@ -162,25 +162,29 @@ According to [Grolemund & Wickham (2017, Chapter 7)](http://r4ds.had.co.nz/explo
 
 - Use answers to refine your questions and/or generate new questions.  
 
-Philosophically speaking, EDA is a data scientist's way of doing hermeneutics (see [Wikipedia](https://en.wikipedia.org/wiki/Hermeneutics) or [The Stanford Encyclopedia of Philosophy](https://plato.stanford.edu/entries/hermeneutics/) for definitions) to get a grip on some dataset. 
+Importantly, generating and refining questions about data does _not_ depend on tools or technology, but rather on your intellectual curiosity and interests. The tools of data science should only facilitate the process of considering evidence that speaks to your questions and -- hopefully -- finding some answers. 
+Philosophically speaking, EDA is a data scientist's way of doing _hermeneutics_ (see [Wikipedia](https://en.wikipedia.org/wiki/Hermeneutics) or [The Stanford Encyclopedia of Philosophy](https://plato.stanford.edu/entries/hermeneutics/) for definitions) to get a grip on some dataset. 
 
-The goal and purpose of EDA is to gain an overview of a dataset. This includes an idea of its dimensions and the number and types of variables contained in the data, but also a more detailed idea of the distribution of variables, their potential relations to each other, and potential problems (e.g., missing values or outliers). 
+The goal and purpose of EDA is to gain an overview of a dataset. This includes an idea of its dimensions and the number and types of variables contained in the data, but also more detailed ideas about the distribution of variables, their potential relations to each other, and potential problems of the data (e.g., missing values, outliers, or confounds between variables). 
 
-When using the tools provided by the `tidyverse`, the fastest way to gain insights into a dataset is a series of `dplyr` calls and `ggplot2` graphs. However, creating good graphs is both an art and a craft. The key to creating good graphs requires answering 2 sets of questions: 
+When using the tools provided by the `tidyverse`, the fastest way to gain insights into a dataset is a combination of `dplyr` calls (to create new variables and summary tables) and `ggplot2` commands (for visualizations). However, creating good representations (variables, tables, or graphs) is both an art and a craft. The key to creating good visualizations requires answering 2 sets of questions: 
 
-1. Knowing a suitable _type of plot_. This includes answering _functional_ questions like 
+1. Knowing suitable _plot types_. This includes answering _functional_ questions like 
 
     - What is the _goal_ or _purpose_ of a plot?
     - What are _possible_ plot types that are suited for this purpose? 
     - Which of these would be the _most appropriate_ plot here? 
     
-2. Knowing the _number_ and _type_ of variables to be plotted. This includes answering _data-related_ questions like 
+2. Knowing the number and type of the _variables_ to be plotted. This includes answering _data-related_ questions like 
 
-    - How many variables are to be plotted and how should they be mapped to dimensions and aesthetics?  
+    - Which variables are to be plotted and how should they be mapped to dimensions and aesthetics?  
+    - In which format are these variables stored?  
     - Are these variables continuous or discrete (categorical, factors)?  
     - Do some variables control or qualify (e.g., group) the values of others?   
 
-Even when these questions are answered, creating informative and beautiful graphs with `ggplot` requires experience, trial-and-error experimentation, and lots of dedicated practice. In addition, an new dataset is rarely in a condition and shape to directly allow plotting. Instead, we typically have to interleave commands for plotting and transforming data to wrangle variables into specific shapes or types. Thus, calls to `ggplot2` typically occur in combination with other `tidyverse` commands (stemming from `dplyr`, `forcats`, `tidyr`, `readr`, `tibble`, etc.). 
+Even when these sets of inter-related questions are answered, creating informative and beautiful graphs with `ggplot` requires experience, trial-and-error experimentation, and lots of dedicated practice. 
+
+Unfortunately, a new dataset is rarely in a condition and shape to directly allow plotting. Instead, we typically have to interleave commands for plotting with efforts in transforming data to wrangle variables into specific shapes or types. Thus, calls to `ggplot2` typically occur in combination with other `tidyverse` commands (stemming from `dplyr`, `forcats`, `tidyr`, `readr`, `tibble`, etc.). 
 
 ## Our session and data
 
@@ -890,8 +894,6 @@ ggplot(df, aes(x = occasion, y = ..count..)) +
   theme_bw()
 ```
 
-
-
 ### Trends by group
 
 Two key questions in the context of our study are:
@@ -934,7 +936,7 @@ plot_ahi_trend +
 
 **Practice:** Create the same plots for mean depression scores `cesdTotal`. Can you plot both lines in the same plot? What do you see?
 
-To study the trends of scores by participant's type of `intervention`, we need to slightly adjust our workflow by adding the `intervention` variable into our summary table, so that we can later use it in our plotting commands. As before, we will take care of happiness (`ahiTotal`) and leave it to you to practice on depression (`cesdTotal`):
+To study the trends of scores by participant's type of `intervention`, we need to slightly adjust our workflow by adding the `intervention` variable to our first summary table, so that we can later use it in our plotting commands. As before, we will take care of happiness (`ahiTotal`) and leave it to you to practice on depression (`cesdTotal`):
 
 ```{r relate_trends_4}
 # Data:
@@ -1008,9 +1010,12 @@ plot_ahi_by_occ_iv +
 
 **Practice:** Create the same plots for mean depression scores `cesdTotal`. What do you see?
 
-When viewing and contrasting the trends of groups, we can always zoom in further:
 
-- How does this look for individual participants?
+### Trends of individuals 
+
+Whenever viewing and contrasting the trends of groups, we could decide to zoom in further:
+
+- How does this look for _individual_ participants?
 
 Well, how nice of you to ask -- so let's see: We can plot individual trends by `occasion` or by `elapsed days`. As there are `r nrow(posPsy_p_info)` participants, we use transparency and different facets (by `intervention`) to help de-cluttering the plot:
 
@@ -1018,7 +1023,7 @@ Well, how nice of you to ask -- so let's see: We can plot individual trends by `
 # Data:
 df <- AHI_CESD
 dim(df)  # 992 50
-df
+# df
 
 # Individual trends of ahiTotal by occasion and intervention: 
 ggplot(df, aes(x = occasion, y = ahiTotal, group = id, color = factor(intervention))) +
@@ -1307,7 +1312,7 @@ But always keep in mind:
 Working through the above examples should have provided you with a pretty clear picture of the data and results of `AHI_CESD`. 
 However, we haven't touched the data contained in `posPsy_wide` yet. 
 Given that this file was described as a transformed and corrected version of `AHI_CESD`, we should not expect to find completely different results in it. 
-So let's use `posPsy_wide` in some exercises to improve our skills in EDA. 
+So let's use `posPsy_wide` to exercise our skills in EDA, but also to answer some interesting questions about this study. 
 
 ```{r load_packages_data_exercise, message = FALSE}
 # Load packages:
@@ -1797,7 +1802,7 @@ df_part <- df %>%
   select(id, income, ahiTotal.0, cesdTotal.0)
 
 df_part$income <- factor(df_part$income)  # turn income into a factor
-df_part
+# df_part
 
 # Plot ahiTotal.0 by income: 
 ggplot(df_part, aes(x = income, y = ahiTotal.0, color = income)) +
@@ -1831,15 +1836,109 @@ ggplot(df_part, aes(x = income, y = cesdTotal.0, color = income)) +
 - However, these trends are small (note the scale) and the range of values is large. Also, the distribution of initial depression scores shows potential outliers (with high scores at the low and medium income level).
 
 
-## Exercise 4: 
+## Exercise 4
 
-+++ here now +++
+#### Showing results
 
-#### Changes in scores (overall and by intervention)
+We have seen many plots that showed trends of happiness and depression scores for different interventions over measurement occasions. 
+Now it's time to take a stance: What are the main findings of the study? 
+
+- Summarize the main results as clearly as possible in 1 or 2 graphs.  
+- Justify your choice of graph (prior to plotting it).  
+- Interpret your graph. What does it show? What does it not show?   
+
+**Hint:** You may use the data in `posPsy_wide` (in wide format) or that in `AHI_CESD` (in long format).
+
+<!-- Answer/result: -->
+
+**Solution 1: Main trends ** 
+The main goal of the study is to measure and contrast the effects of the _4 interventions_ (with 4 being a control condition) over time. There are 2 dependent measures that indicate participant's psychological status (or level of well-being): _happiness_ (operationalized by AHI scores) and _depression_ (operationalized by CES-D scores). Both of these constructs are measured repeatedly (with Occasion 0 being a _pre-test_, and Occasions 1 to Occasion 5 _post-intervention_ with increasing time intervals) for each participant (provided that the participant responded at an occasion).
+
+Thus, we plot the trends of average happiness (mean `AHI` score per intervention) and average depression (mean `CES-D` score per intervention) over time (occasions) by `intervention`. We choose _line graphs_, as this allows grouping the trends by `intervention`, facilitating comparisons between them. However, we realize that we only have point measurements at various occasions, rather than continuous data (between occasions). To account for this, we could also use _bar plots_ to visualize the trends. We partly acknowledge the lack of continuous measurements by making our lines transparent.
+
+```{r ex4_main_results_1}
+# Data:
+df <- AHI_CESD
+dim(df)  # 992 50
+# df
+
+# Table 2: 
+# Compute mean scores (n, ahiTotal_mn, and cesdTotal_mn) by occasion AND intervention: 
+tab_scores_by_iv <- df %>%
+  group_by(occasion, intervention) %>%
+  summarise(n = n(),
+            ahiTotal_mn = mean(ahiTotal), 
+            cesdTotal_mn = mean(cesdTotal)
+  )
+dim(tab_scores_by_iv)  # 24 x 5
+
+# Make occasion and intervention discrete factors (rather than continuous integers):
+tab_scores_by_iv$occasion <- factor(tab_scores_by_iv$occasion)
+tab_scores_by_iv$intervention <- factor(tab_scores_by_iv$intervention)
+# tab_scores_by_iv
+
+# Print table: 
+knitr::kable(head(tab_scores_by_iv))  
+
+# Plot 1:
+# Line graph of mean AHI scores over occasions AND interventions:
+ggplot(tab_scores_by_iv, 
+       aes(x = occasion, y = ahiTotal_mn, 
+           group = intervention, color = intervention, fill = intervention)) +
+  geom_line(size = 1, alpha = 1/2) + 
+  geom_point(aes(shape = intervention), size = 3, alpha = 1) + 
+  scale_y_continuous(limits = c(65, 80)) + 
+  labs(tag = "A", title = "Happiness (mean ahiTotal) by occasion and intervention",
+       x = "Measurement occasion", y = "Happiness (mean AHI)", 
+       caption = "Using AHI_CESD data.", 
+       fill = "Intervention:", color = "Intervention:", shape = "Intervention:") +
+  scale_color_manual(values = c("red3", "steelblue", "forestgreen", "grey25")) +
+  theme_bw()
+
+# Plot 2:
+# Line graph of mean CES-D scores over occasions AND interventions:
+ggplot(tab_scores_by_iv, 
+       aes(x = occasion, y = cesdTotal_mn, 
+           group = intervention, color = intervention, fill = intervention)) +
+  geom_line(size = 1, alpha = 1/2) + 
+  geom_point(aes(shape = intervention), size = 3, alpha = 1) + 
+  scale_y_continuous(limits = c(5, 18)) + 
+  labs(tag = "B", title = "Depression (mean cesdTotal_mn) by occasion and intervention",
+       x = "Measurement occasion", y = "Depression (mean CES-D)", 
+       caption = "Using AHI_CESD data.", 
+       fill = "Intervention:", color = "Intervention:", shape = "Intervention:") +
+  scale_color_manual(values = c("red3", "steelblue", "forestgreen", "grey25")) +
+  theme_bw()
+```
+
+**Interpretation: ** 
+Panel A shows that participants' mean level of happiness increases over measurement occasions in all 4 intervention groups. 
+Panel B shows that participants' mean level of depression tends to decrease over measurement occasions in all 4 intervention groups, but there is more fluctuation within groups, a tendency to fade out over time or perhaps even score reversals at later occasions. 
+
+Overall, the combination of a tendency towards increased happiness and reduced depression over time may suggest that the interventions work, if it wasn't for the fact that the control condition (intervention 4) showed at least as large effects on both measures as any other condition. Assuming that the treatment of the control condition was a placebo (i.e., looked like a treatment without providing some crucial ingredient of an actual treatment), we can conclude that the benefits observed are not due to any treatment-specific mechanisms. 
+Instead, the study suggests that participating in a long-term study on psychological well-being has benefits for psychological well-being. 
+
+**Limitations: ** 
+Note that the y-scales are truncated (do not start at zero), which makes the changes between occasions appear larger than they are. 
+More generally , keep in mind that we are only looking at group trends and speculating about them. This has several limitations: 
+
+- As we have _not_ conducted any _statistical tests_, we don't know whether any of them are systematic (or statistically significant). 
+
+- A statistical interpretation of the plot would also require some measure of _variability_ in the plots. For instance, we could compute _confidence intervals_ around the means and add them with error bars. 
+
+- Even if the effects turned out to be statistically significant, we would need to discuss _effect sizes_ to decide whether any of the hypothesized effects are practically meaningful.
+
+- _Individual_ participants may show different developments than the mean trend of their intervention group. (Actually, we have seen this in our line graphs of individuals above.)
+
+
+<!-- +++ here now +++ --> 
+
+<!-- **Solution 2: ** 
+More abstract: Compare effects caused by (or rather attributed to) the interventions, rather than the absolute scores.
 
 General idea: 
-- Compare main trend: 1st vs. last occasion by `intervention`. 
-- Then check 1st vs. 2nd occasion. What do you see? 
+- Compare main trend: Change from 1st vs. last occasion by `intervention`. 
+- Then check immediate change: 1st vs. 2nd occasion. What do you see? 
 
 1. Compare distributions 
 
@@ -1852,6 +1951,8 @@ General idea:
 ## Can you see any unusual patterns? What might explain them? 
 
 ## First, load data in the best suited format and delete redundant colums.
+
+
 
 ## Data: 
 df <- posPsy_wide
@@ -1874,7 +1975,7 @@ ggplot(df_part) +
 
 3. Compare the means from Occasion 0 to 1.
 
-
+-->
 
 ## Exercise 5  
 
@@ -1925,8 +2026,8 @@ sum(cesd_sums == df$cesdTotal)  # 0
 # => No, all cesdTotal values are different from the sum at each measurement occasion.
 ```
 
-3. Assuming that your answer to 2. is negative, please find out and verify how the `cesdTotal` scores are computed from the individual values (`cesd01` to `cesd20`). 
-To find out how the overall depression scores are computed, you need additional background information on the CES-D scale. 
+3. Assuming that your answer to the previous question (2.) is negative, please verify how the `cesdTotal` scores are computed from the individual values (`cesd01` to `cesd20`). 
+To find out how the overall depression scores are computed, you need to consult background information on the CES-D scale. 
 The original reference for this scale (with over 40,000 citations) is  
 
 - Radloff, L. S. (1977). 
@@ -1934,7 +2035,7 @@ The CES-D scale: A self report depression scale for research in the general popu
 _Applied Psychological Measurement_, _1_, 385--401. 
 doi: <https://doi.org/10.1177/014662167700100306>
 
-but you will find plenty of scale-related information online. 
+but you can find plenty of scale-related information online. 
 
 **Hint:** Some scale items are reverse-coded, so they should be _subtracted_ from the sum of the other items, rather than added to them.
 
@@ -1994,14 +2095,20 @@ all.equal(CESD_20_diff, df$cesdTotal)  # TRUE
 ```
 
 
+<!-- 
+
 ## Exercise 6: 
 
 #### Same plot twice
 
 Use `ggplot` and a pipe of `dplyr` + `ggplot` to create the same plot _twice_:  
 
-    1. from raw data and  
-    2. from much leaner table of aggregated data.   
+  1. from raw data and  
+  2. from much leaner table of aggregated data.   
+
+(done repeatedly in main parts above). 
+    
+-->
     
 <!-- +++ here now +++ --> 
 
