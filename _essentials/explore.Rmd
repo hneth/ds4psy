@@ -1,7 +1,7 @@
 ---
 title: "Exploring data (EDA), with solutions (ds4psy)"
 author: "Hansjörg Neth, SPDS, uni.kn"
-date: "2018 12 02"
+date: "2018 12 03"
 output:
    rmdformats::html_clean: # html_clean html_docco readthedown material #
      code_folding: show # hide
