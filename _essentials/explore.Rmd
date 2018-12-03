@@ -106,7 +106,7 @@ Create an R script (`.R`) or an R-Markdown file (`.Rmd`) and load the R packages
 
 ```{r layout_template, echo = TRUE, eval = FALSE}
 ## Exploring data (EDA) | ds4psy
-## 2018 11 28
+## 2018 12 03
 ## ----------------------------
 
 ## Preparations: ----------
