@@ -626,7 +626,7 @@ Our exploration so far motivates at least 2 related questions:
 - How does the number of `elapsed.days` correspond to the measurement occasions? 
 
 We'll save the 1st of these questions for practice purposes (see [Exercises](http://rpository.com/ds4psy/essentials/explore.html#exercises-wpa04) below). 
-The 2nd question directs our attention to the temporal features of measurements and motivates a general principle and corresponding practice that concerns different ways of viewing distributions of values. 
+The 2nd question directs our attention to the temporal features of measurements and motivates a general principle and corresponding practice that motivates different ways of viewing the distributions of values. 
 
 
 ## Viewing distributions
