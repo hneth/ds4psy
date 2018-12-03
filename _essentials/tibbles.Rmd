@@ -1,32 +1,31 @@
 ---
-title: "Essential tibble commands (ds4psy)"
+title: "Tibbles, with solutions (ds4psy)"
 author: "Hansjörg Neth, SPDS, uni.kn"
-date: "2018 06 24"
+date: "2018 12 03"
 output:
    rmdformats::html_clean: # html_clean html_docco readthedown material #
      code_folding: show # hide
      toc_float: true
      toc_depth: 3
-     highlight: kate # textmate default kate haddock monochrome #
+     highlight: default # textmate default kate haddock monochrome #
      lightbox: true # true by default
-     fig_width: 8 # in inches
+     fig_width: 7 # in inches
 editor_options: 
   chunk_output_type: console # inline
 ---
-
-<!-- Example of essential commands | ds4psy: Summer 2018 -->
+<!-- Example of essential commands | ds4psy: Winter 2018 -->
 
 ```{r preamble, echo = FALSE, eval = TRUE, cache = FALSE, message = FALSE, warning = FALSE}
 ## (a) Housekeeping: -----
 rm(list=ls()) # clean all.
 
 ## (b) Current file name and path: ----- 
-# cur.path <- dirname(rstudioapi::getActiveDocumentContext()$path)
-# cur.path
-# setwd(cur.path) # set to current directory
-setwd("~/Desktop/stuff/Dropbox/_code/R/_teachR/ds4psy/R/_essentials") # set to current directory
+# my_path <- dirname(rstudioapi::getActiveDocumentContext()$path)
+# my_path
+# setwd(my_path) # set to current directory
+setwd("~/Desktop/stuff/Dropbox/_code/R/_teachR/ds4psy/_essentials") # set to current directory
 # list.files() # all files + folders in current directory
-fileName <- "tibble.Rmd"
+fileName <- "tibbles.Rmd"
 
 ## (c) Packages: ----- 
 library(knitr)
@@ -44,145 +43,94 @@ opts_chunk$set(echo = TRUE,
                message = FALSE,
                warning = FALSE,
                ## Default figure options:
-               fig.width = 8, 
+               fig.width = 7, 
                fig.asp = .618, # golden ratio
                out.width = "75%",
                fig.align = "center"
                )
 opts_knit$set(width = 75)
 
-## (e) Graphics: ----- 
-
-# Defining colors:
-seeblau <- rgb(0, 169, 224, names = "seeblau", maxColorValue = 255) # seeblau.4 (non-transparent)
-
-seeblau.colors <- c(rgb(204, 238, 249, maxColorValue = 255), # seeblau.1
-                    rgb(166, 225, 244, maxColorValue = 255), # seeblau.2 
-                    rgb(89, 199, 235, maxColorValue = 255),  # seeblau.3
-                    rgb(0, 169, 224, maxColorValue = 255),   # seeblau.4 
-                    rgb(0, 0, 0, maxColorValue = 255),       #  5. black
-                    gray(level = 0, alpha = .6),             #  6. gray 60% transparent
-                    gray(level = 0, alpha = .4),             #  7. gray 40% transparent
-                    gray(level = 0, alpha = .2),             #  8. gray 20% transparent
-                    gray(level = 0, alpha = .1),             #  9. gray 10% transparent
-                    rgb(255, 255, 255, maxColorValue = 255)  # 10. white
-                    )
-
-unikn.pal = data.frame(                             ## in one df (for the yarrr package): 
-  "seeblau1" = rgb(204, 238, 249, maxColorValue = 255), #  1. seeblau1 (non-transparent)
-  "seeblau2" = rgb(166, 225, 244, maxColorValue = 255), #  2. seeblau2 (non-transparent)
-  "seeblau3" = rgb( 89, 199, 235, maxColorValue = 255), #  3. seeblau3 (non-transparent)
-  "seeblau4" = rgb(  0, 169, 224, maxColorValue = 255), #  4. seeblau4 (= seeblau base color)
-  "black"    = rgb(  0,   0,   0, maxColorValue = 255), #  5. black
-  "seegrau4" = rgb(102, 102, 102, maxColorValue = 255), #  6. grey40 (non-transparent)
-  "seegrau3" = rgb(153, 153, 153, maxColorValue = 255), #  7. grey60 (non-transparent)
-  "seegrau2" = rgb(204, 204, 204, maxColorValue = 255), #  8. grey80 (non-transparent)
-  "seegrau1" = rgb(229, 229, 229, maxColorValue = 255), #  9. grey90 (non-transparent)
-  "white"    = rgb(255, 255, 255, maxColorValue = 255), # 10. white
-  stringsAsFactors = FALSE)
-
-## (f) Counters: ----- 
-nr <- 0  # task number
-pt <- 0  # point total
-```
-
-```{r utility_add_random_NA_values, echo = FALSE, eval = TRUE}
-# Adding a random amount (number or proportion) of NA or other values to a vector:
-
-## Function to replace a random amount of vector elements by NA values:  
-add_NAs <- function(vec, amount){
-  
-  stopifnot((is.vector(vec)) & (amount >= 0) & (amount <= length(vec)))
-
-  out <- vec
-  n <- length(vec)
-  
-  amount2 <- ifelse(amount < 1, round(n * amount, 0), amount) # turn amount prop into n
-  
-  out[sample(x = 1:n, size = amount2, replace = FALSE)] <- NA
-  
-  return(out)
-
-}
-
-## Check:
-# add_NAs(1:10, 0)
-# add_NAs(1:10, 3)
-# add_NAs(1:10, .5)
-# add_NAs(letters[1:10], 3)
-
-## Generalization: Replace a random amount of vector elements by what: 
-add_whats <- function(vec, amount, what = NA){
-  
-  stopifnot((is.vector(vec)) & (amount >= 0) & (amount <= length(vec)))
-
-  out <- vec
-  n <- length(vec)
-  
-  amount2 <- ifelse(amount < 1, round(n * amount, 0), amount) # turn amount prop into n
-  
-  out[sample(x = 1:n, size = amount2, replace = FALSE)] <- what
-  
-  return(out)
-
-}
-
-## Check:
-# add_whats(1:10, 3) # default: what = NA
-# add_whats(1:10, 3, what = 99)
-# add_whats(1:10, .5, what = "ABC")
+## (e) Custom functions: ----- 
+source(file = "~/Desktop/stuff/Dropbox/_code/R/_teachR/ds4psy/R/custom_functions.R")
 ```
 
 # Introduction
 
-This file contains **essential commands** from the chapters of [r4ds](http://r4ds.had.co.nz) and corresponding examples. A command is considered "essential" when you really need to _know_ it and need to know _how to use_ it to succeed in this course. 
+This file contains **essential commands** from [Chapter 10: Tibbles](https://r4ds.had.co.nz/tibbles.html) of the textbook [r4ds](http://r4ds.had.co.nz) and corresponding examples and exercises. 
+A command is considered "essential" when you really need to _know_ it and need to know _how to use_ it to succeed in this course. 
 
 <!-- Table with links: -->
 
-All [ds4psy](http://rpository.com/ds4psy/) essentials: 
+All [ds4psy](http://rpository.com/ds4psy/) essentials so far: 
 
 Nr. | Topic       |
 ---:|:------------| 
-1.  | [Creating and using tibbles](http://rpository.com/ds4psy/R/_essentials/tibble.html) |
-2.  | [Data transformation](http://rpository.com/ds4psy/R/_essentials/transform.html) |
-3.  | [Visualizing data](http://rpository.com/ds4psy/R/_essentials/visualize.html) | 
-4.  | [Tidy data](http://rpository.com/ds4psy/R/_essentials/tidy.html) | 
+0.  | [Syllabus](http://rpository.com/ds4psy/) | 
+1.  | [Basic R concepts and commands](http://rpository.com/ds4psy/essentials/basics.html) | 
+2.  | [Visualizing data](http://rpository.com/ds4psy/essentials/visualize.html) | 
+3.  | [Transforming data](http://rpository.com/ds4psy/essentials/transform.html) |
+4.  | [Exploring data (EDA)](http://rpository.com/ds4psy/essentials/explore.html) | 
+5.  | **Tibbles** |
++.  | [Datasets](http://rpository.com/ds4psy/essentials/datasets.html) | 
 
+<!--
+Nr. | Topic       |
+---:|:------------| 
+0.  | [Syllabus](http://rpository.com/ds4psy/) | 
+1.  | [Basic R concepts and commands](http://rpository.com/ds4psy/essentials/basics.html) | 
+2.  | [Visualizing data](http://rpository.com/ds4psy/essentials/visualize.html) | 
+3.  | [Transforming data](http://rpository.com/ds4psy/essentials/transform.html) |
+4.  | [Exploring data (EDA)](http://rpository.com/ds4psy/essentials/explore.html) | 
+5.  | [Tibbles](http://rpository.com/ds4psy/essentials/tibbles.html) |
+6.  | [Tidying data](http://rpository.com/ds4psy/essentials/tidy.html) |
++.  | [Datasets](http://rpository.com/ds4psy/essentials/datasets.html) | 
+-->
 
 ## Course coordinates
 
 <!-- uni.kn logo and link to SPDS: -->  
 <!-- ![](./inst/pix/uniKn_logo.png) --> 
 <a href="https://www.spds.uni-konstanz.de/">
-<img src = "../../inst/pix/uniKn_logo.png" alt = "spds.uni.kn" align = "right" width = "300" style = "width: 300px; float: right; border:20;"/>
+<img src = "../inst/pix/uniKn_logo.png" alt = "spds.uni.kn" align = "right" width = "300" style = "width: 300px; float: right; border:20;"/>
 <!-- <img src = "./inst/pix/uniKn_logo_s.png" alt = "spds.uni.kn" style = "float: right; border:20;"/> --> 
 </a>
 
-* Course [Data Science for Psychologists](http://rpository.com/ds4psy/) (ds4psy). 
 * Taught at the [University of Konstanz](https://www.uni-konstanz.de/) by [Hansjörg Neth](http://neth.de/) (<h.neth@uni.kn>,  [SPDS](https://www.spds.uni-konstanz.de/), office D507).
-* Spring/summer 2018: Mondays, 13:30--15:00, C511.  
-* Links to [ZeUS](https://zeus.uni-konstanz.de:443/hioserver/pages/startFlow.xhtml?_flowId=showEvent-flow&unitId=5101&termYear=2018&termTypeValueId=1&navigationPosition=hisinoneLehrorganisation,examEventOverviewOwn) and [Ilias](https://ilias.uni-konstanz.de/ilias/goto_ilias_uni_crs_758039.html)
+* Winter 2018/2019: Mondays, 13:30--15:00, C511. 
+* Links to current [course syllabus](http://rpository.com/ds4psy/) | [ZeUS](https://zeus.uni-konstanz.de/hioserver/pages/startFlow.xhtml?_flowId=detailView-flow&unitId=5101&periodId=78&navigationPosition=hisinoneLehrorganisation,examEventOverviewOwn) |  [Ilias](https://ilias.uni-konstanz.de/ilias/goto_ilias_uni_crs_809936.html) 
+
 
 ## Preparations
 
-Create an R script (`.R`) or an R-Markdown file (`.Rmd`) and load the R packages of the `tidyverse`. (Hint: Structure your script by inserting spaces, meaningful comments, and sections.) 
- 
-```{r layout_template, echo = TRUE, eval = FALSE}
-## Essential commmands | Data science for psychologists
-## 2018 06 18
-## ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ##
+Create an R script (`.R`) or an R-Markdown file (`.Rmd`) and load the R packages of the `tidyverse`. (**Hint:** Structure your script by inserting spaces, meaningful comments, and sections.) 
 
-## Preparations: ----- 
+```{r layout_template, echo = TRUE, eval = FALSE}
+## Tibbles | ds4psy
+## 2018 12 10
+## ----------------------------
+
+## Preparations: ----------
 
 library(tidyverse)
 
-## Tibbles: ----- 
+## 1. Topic: ----------
 
-# ...
+# etc.
 
-## ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ##
-## End of file. ----- 
+## End of file (eof). ----------  
 ```
+
+To use [R Markdown](https://rmarkdown.rstudio.com), create a corresponding file and save it with the `.Rmd` extension (e.g., by selecting `File > New File > R Markdown`). 
+For instructions on combining text and code, see [Chapter 27: R Markdown](https://r4ds.had.co.nz/r-markdown.html) of our textbook, or use one of the following templates:  
+
+- minimal template:  `rmd_template_s` [in [.Rmd](http://rpository.com/down/temp/rmd_template_s.Rmd) | [.html](http://rpository.com/down/temp/rmd_template_s.html) format]
+
+- medium template: `rmd_template_m` [in [.Rmd](http://rpository.com/down/temp/rmd_template_m.Rmd) | [.html](http://rpository.com/down/temp/rmd_template_m.html) format]
+
+- explicit explanations: `Rmarkdown_basics` [in [.Rmd](http://rpository.com/down/temp/Rmarkdown_basics.Rmd) | [.html](http://rpository.com/down/temp/Rmarkdown_basics.html) format]
+
+**Hint:** Try to _knit_ your `.Rmd` file immediately after saving it and marvel at the beauty of the resulting `.html`-file. If this works, keep doing this routinely from now on, putting all your R-code into code chunks, and any text (like headings or conclusions) that describes or explains what you are doing outside of them. From now on, you can share your `.html` output files, rather than your `.Rmd` source files when showing off your R and data science skills.
+
 
 # Tibbles
 
@@ -200,7 +148,8 @@ There are 3 basic commands for creating tibbles:
 
 3. `tribble` converts a table (entered row-by-row) into a tibble. 
 
-**Check**: 
+#### Check
+
 The 3 commands yield the same type of output (i.e., a tibble), but require different inputs. Ask yourself which kind of input each command takes and how this input needs to be structured and formatted (e.g., with commas).
 
 
@@ -233,7 +182,8 @@ head(tb)
 glimpse(tb)
 ```
 
-**Practice:** 
+#### Practice 
+
 Convert the data frames `datasets::attitude` and `datasets::iris` into tibbles and inspect their dimensions and contents. What types of variables do they contain? 
 
 ### 2. `tibble`
@@ -299,7 +249,8 @@ abc <- tibble(
 abc  # prints the tibble: 
 ```
 
-**Practice:** 
+#### Practice 
+
 Find some tabular data online (e.g., on [Wikipedia](https://en.wikipedia.org)) and enter it as a tibble.
 
 
@@ -334,14 +285,18 @@ Note some details:
 - The type of each column is determined by the type of the corresponding cell values. For instance, the NA values in `fm2` are missing character values because the entries above were characters (entered in quotes).
 
 
-**Check**: If `tibble` and `tribble` really are alternative commands, then the contents of our objects `fm` and `fm2` should be identical: 
+#### Check 
+
+If `tibble` and `tribble` really are alternative commands, then the contents of our objects `fm` and `fm2` should be identical: 
 
 ```{r check_equality, echo = TRUE, eval = TRUE}
 # Are fm and fm2 equal?
 all.equal(fm, fm2)
 ```
 
-**Practice:** Enter the tibble `abc` by using `tribble`. 
+#### Practice  
+
+Enter the tibble `abc` by using `tribble`. 
 
 
 ## Accessing parts of a tibble 
@@ -375,7 +330,9 @@ select(fm, 3)
 select(fm, age)
 ```
 
-**Practice:** Extract the `price` column of `ggplot2::diamonds` in at least 3 different ways and verify that they all yield the same mean price. 
+#### Practice  
+
+Extract the `price` column of `ggplot2::diamonds` in at least 3 different ways and verify that they all yield the same mean price. 
 
 ```{r tibble_col_ex, echo = FALSE, eval = FALSE}
 # Save data ggplot2::diamonds as dm: 
@@ -433,8 +390,9 @@ mean(dm_2[[7]])  # => US-$ 14843.66
 
 Accessing the values of individual tibble cells is relatively rare, but can be achieved by 
 
-    a. explicitly providing both row number `r` and column number `c` (as `[r, c]`), or by  
-    b. first extracting the column (as a vector `v`) and then providing the desired row number `r` (`v[r]`). 
+1. explicitly providing both row number `r` and column number `c` (as `[r, c]`), or by  
+
+2. first extracting the column (as a vector `v`) and then providing the desired row number `r` (`v[r]`). 
 
 ```{r tibble_cells}
 fm  # family tibble (defined above): 
@@ -486,8 +444,9 @@ fm[is.na(fm)] <- "A MISSING value!"
 fm
 ```
 
+#### Practice  
 
-**Practice:** Determine the number and the percentage of missing values in the datasets `dplyr::starwars` and `dplyr::storms`.
+Determine the number and the percentage of missing values in the datasets `dplyr::starwars` and `dplyr::storms`.
 
 ```{r missing_values_ex, echo = FALSE, eval = FALSE}
 sum(is.na(dplyr::starwars))   # => 101 missing values
@@ -500,7 +459,28 @@ mean(is.na(dplyr::storms))    # => 10.03%
 More advanced operations on tibbles are covered in [Chapter 5: Data transformation](http://r4ds.had.co.nz/transform.html) and involve using the `dplyr` commands `arrange`, `filter`, and `select`. 
 
 
-## More on tibbles
+# Exercises (WPA05)
+
+## Exercise 1
+
+**ToDo**
+
+- Turn rectangle into a tibble 
+- Turn columns into a tibble
+- Turn rows into tibble
+- Turn web data into a tibble
+
+
+Name      | Mon | Tue | Wed | Thu | Fri | Sat | Sun |
+:-------- |:--- |:--- |:--- |:--- |:--- |:--- |:--- |
+Ada   | Bread: \$2.50  | Cookies: \$3.00 | Pencils: \$3.20   |  Juice: \$4.00 | Bread: \$2.50 | Coke: \$6.00  | Cake: \$12.50 | 
+   |   | Cheese: \$4.20 | Pasta: \$4.50   | Newspaper: \$3.00 |              | Butter: \$2.00 |            | Cream: \$3.90 |  
+Bruce | Chips: \$4.20 | Beer: \$12.00 | Steak: \$16.20 | Beer: \$8.00 | Toilet paper: \$4.50 | Cleaning supplies: \$8.60 | -- |  
+Cecil | Fruit: \$6.00 | Batteries: \$6.10 | Drinks: \$12.40 | Bread: \$3.50 | Honey: \$3.00  | Chips: \$5.20   | Wine: \$12.80  |   
+
+
+
+# More on tibbles
 
 For more details on tibbles, 
 
@@ -518,10 +498,26 @@ All [ds4psy](http://rpository.com/ds4psy/) essentials:
 
 Nr. | Topic       |
 ---:|:------------| 
-1.  | [Creating and using tibbles](http://rpository.com/ds4psy/R/_essentials/tibble.html) |
-2.  | [Data transformation](http://rpository.com/ds4psy/R/_essentials/transform.html) |
-3.  | [Visualizing data](http://rpository.com/ds4psy/R/_essentials/visualize.html) | 
-4.  | [Tidy data](http://rpository.com/ds4psy/R/_essentials/tidy.html) | 
+0.  | [Syllabus](http://rpository.com/ds4psy/) | 
+1.  | [Basic R concepts and commands](http://rpository.com/ds4psy/essentials/basics.html) | 
+2.  | [Visualizing data](http://rpository.com/ds4psy/essentials/visualize.html) | 
+3.  | [Transforming data](http://rpository.com/ds4psy/essentials/transform.html) |
+4.  | [Exploring data (EDA)](http://rpository.com/ds4psy/essentials/explore.html) | 
+5.  | **Tibbles** |
++.  | [Datasets](http://rpository.com/ds4psy/essentials/datasets.html) | 
+
+<!--
+Nr. | Topic       |
+---:|:------------| 
+0.  | [Syllabus](http://rpository.com/ds4psy/) | 
+1.  | [Basic R concepts and commands](http://rpository.com/ds4psy/essentials/basics.html) | 
+2.  | [Visualizing data](http://rpository.com/ds4psy/essentials/visualize.html) | 
+3.  | [Transforming data](http://rpository.com/ds4psy/essentials/transform.html) |
+4.  | [Exploring data (EDA)](http://rpository.com/ds4psy/essentials/explore.html) | 
+5.  | [Tibbles](http://rpository.com/ds4psy/essentials/tibbles.html) |
+6.  | [Tidying data](http://rpository.com/ds4psy/essentials/tidy.html) |
++.  | [Datasets](http://rpository.com/ds4psy/essentials/datasets.html) | 
+-->
 
 
 [Last update on `r Sys.time()` by [hn](http://neth.de/).]  
