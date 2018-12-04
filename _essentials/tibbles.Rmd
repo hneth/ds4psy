@@ -1,7 +1,7 @@
 ---
 title: "Tibbles, with solutions (ds4psy)"
 author: "Hansjörg Neth, SPDS, uni.kn"
-date: "2018 12 03"
+date: "2018 12 04"
 output:
    rmdformats::html_clean: # html_clean html_docco readthedown material #
      code_folding: show # hide
@@ -470,7 +470,6 @@ More advanced operations on tibbles are covered in [Chapter 5: Data transformati
 - Turn rows into tibble
 - Turn web data into a tibble
 
-
 Name      | Mon | Tue | Wed | Thu | Fri | Sat | Sun |
 :-------- |:--- |:--- |:--- |:--- |:--- |:--- |:--- |
 Ada   | Bread: \$2.50  | Cookies: \$3.00 | Pencils: \$3.20   |  Juice: \$4.00 | Bread: \$2.50 | Coke: \$6.00  | Cake: \$12.50 | 
@@ -478,6 +477,12 @@ Ada   | Bread: \$2.50  | Cookies: \$3.00 | Pencils: \$3.20   |  Juice: \$4.00 | 
 Bruce | Chips: \$4.20 | Beer: \$12.00 | Steak: \$16.20 | Beer: \$8.00 | Toilet paper: \$4.50 | Cleaning supplies: \$8.60 | -- |  
 Cecil | Fruit: \$6.00 | Batteries: \$6.10 | Drinks: \$12.40 | Bread: \$3.50 | Honey: \$3.00  | Chips: \$5.20   | Wine: \$12.80  |   
 
+```{r table_list}
+name <- c("Ada", "Bruce", "Cecil", "Dave")
+
+buy <- list("Ada", "bread", 2.50, "Mon")
+
+```
 
 
 # More on tibbles
