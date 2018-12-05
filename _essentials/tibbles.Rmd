@@ -1,7 +1,7 @@
 ---
 title: "Tibbles, with solutions (ds4psy)"
 author: "Hansjörg Neth, SPDS, uni.kn"
-date: "2018 12 04"
+date: "2018 12 05"
 output:
    rmdformats::html_clean: # html_clean html_docco readthedown material #
      code_folding: show # hide
@@ -470,17 +470,54 @@ More advanced operations on tibbles are covered in [Chapter 5: Data transformati
 - Turn rows into tibble
 - Turn web data into a tibble
 
+## Exercise X: 
+
+Use `iris` data and conduct an EDA on it.
+
+
+## Exercise X: 
+
+#### Entering data
+
+Ada, Bruce, and Cecil are sharing a house and keep a record of the items that each of them purchased for the community. 
+At the end of each week, they use this data to balance their account. As an aspiring data scientist, you offer your help. 
+Here's last week's data: 
+
+
 Name      | Mon | Tue | Wed | Thu | Fri | Sat | Sun |
 :-------- |:--- |:--- |:--- |:--- |:--- |:--- |:--- |
-Ada   | Bread: \$2.50  | Cookies: \$3.00 | Pencils: \$3.20   |  Juice: \$4.00 | Bread: \$2.50 | Coke: \$6.00  | Cake: \$12.50 | 
-   |   | Cheese: \$4.20 | Pasta: \$4.50   | Newspaper: \$3.00 |              | Butter: \$2.00 |            | Cream: \$3.90 |  
-Bruce | Chips: \$4.20 | Beer: \$12.00 | Steak: \$16.20 | Beer: \$8.00 | Toilet paper: \$4.50 | Cleaning supplies: \$8.60 | -- |  
-Cecil | Fruit: \$6.00 | Batteries: \$6.10 | Drinks: \$12.40 | Bread: \$3.50 | Honey: \$3.00  | Chips: \$5.20   | Wine: \$12.80  |   
+Ada   | Bread: \$2.50  | Pasta: \$4.50 | Pencils: \$3.25   | Milk: \$3.80 |  | Cookies: \$4.40  | Cake: \$12.50 | 
+   |   |  Butter: \$2.00  |  |  | |  |  | Cream: \$3.90 |  
+Bruce | Chips: \$4.20 | Beer: \$12.00 | Steak: \$16.20 | -- | Toilet paper: \$4.50 |  -- | Wine: \$8.80 |  
+Cecil | Fruit: \$6.00 | Batteries: \$6.10 | -- | Newspaper: \$3.00 | Honey: \$3.00  | Detergent: \$9.95   | --  |   
+
++++ here now +++
+
+What are the observations here? 
+What are variables? 
+
+Enter this data into a tibble and then do the following graphs.
 
 ```{r table_list}
 name <- c("Ada", "Bruce", "Cecil", "Dave")
 
 buy <- list("Ada", "bread", 2.50, "Mon")
+
+# who? what? cost? when?
+# ~~~~~~~~~~~~~~~~~~~~~~
+# Ada  Bread 2.50  Mon  
+
+library(tidyverse)
+
+wg <- tribble(
+   ~name, ~day, ~what, ~cost,   
+  #------|-----|-----|------|
+  "Ada", "Mon", "Bread",  2.50, 
+  "Ada", "Mon", "Butter", 2.00,
+  "Ada", "Tue", "Pasta",  4.50
+ )
+
+wg  
 
 ```
 

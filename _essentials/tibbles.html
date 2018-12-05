@@ -124,7 +124,7 @@ img {
 <div id="header">
 <h1 class="title">Tibbles, with solutions (ds4psy)</h1>
 <h4 class="author"><em>Hansjörg Neth, SPDS, uni.kn</em></h4>
-<h4 class="date"><em>2018 12 04</em></h4>
+<h4 class="date"><em>2018 12 05</em></h4>
 </div>
 
 <div id="content">
@@ -737,6 +737,16 @@ fm
 <li>Turn rows into tibble</li>
 <li>Turn web data into a tibble</li>
 </ul>
+</div>
+<div id="exercise-x" class="section level2">
+<h2>Exercise X:</h2>
+<p>Use <code>iris</code> data and conduct EDA on it.</p>
+</div>
+<div id="exercise-x-1" class="section level2">
+<h2>Exercise X:</h2>
+<div id="entering-data" class="section level4">
+<h4>Entering data</h4>
+<p>Ada, Bruce, and Cecil are sharing a house and keep a record of the items that each of them purchased for the community. At the end of each week, they use this data to balance their account. As an aspiring data scientist, you offer your help. Here’s last week’s data:</p>
 <table style="width:62%;">
 <colgroup>
 <col width="13%"></col>
@@ -764,20 +774,20 @@ fm
 <tr class="odd">
 <td align="left">Ada</td>
 <td align="left">Bread: $2.50</td>
-<td align="left">Cookies: $3.00</td>
-<td align="left">Pencils: $3.20</td>
-<td align="left">Juice: $4.00</td>
-<td align="left">Bread: $2.50</td>
-<td align="left">Coke: $6.00</td>
+<td align="left">Pasta: $4.50</td>
+<td align="left">Pencils: $3.25</td>
+<td align="left">Milk: $3.80</td>
+<td align="left"></td>
+<td align="left">Cookies: $4.40</td>
 <td align="left">Cake: $12.50</td>
 </tr>
 <tr class="even">
 <td align="left"></td>
-<td align="left">Cheese: $4.20</td>
-<td align="left">Pasta: $4.50</td>
-<td align="left">Newspaper: $3.00</td>
-<td align="left"></td>
 <td align="left">Butter: $2.00</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
 <td align="left"></td>
 <td align="left">Cream: $3.90</td>
 </tr>
@@ -786,26 +796,51 @@ fm
 <td align="left">Chips: $4.20</td>
 <td align="left">Beer: $12.00</td>
 <td align="left">Steak: $16.20</td>
-<td align="left">Beer: $8.00</td>
-<td align="left">Toilet paper: $4.50</td>
-<td align="left">Cleaning supplies: $8.60</td>
 <td align="left">–</td>
+<td align="left">Toilet paper: $4.50</td>
+<td align="left">–</td>
+<td align="left">Wine: $8.80</td>
 </tr>
 <tr class="even">
 <td align="left">Cecil</td>
 <td align="left">Fruit: $6.00</td>
 <td align="left">Batteries: $6.10</td>
-<td align="left">Drinks: $12.40</td>
-<td align="left">Bread: $3.50</td>
+<td align="left">–</td>
+<td align="left">Newspaper: $3.00</td>
 <td align="left">Honey: $3.00</td>
-<td align="left">Chips: $5.20</td>
-<td align="left">Wine: $12.80</td>
+<td align="left">Detergent: $9.95</td>
+<td align="left">–</td>
 </tr>
 </tbody>
 </table>
+<p>What are the observations here? What are variables?</p>
+<p>Enter this data into a tibble and then do the following graphs.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">name &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;Ada&quot;</span>, <span class="st">&quot;Bruce&quot;</span>, <span class="st">&quot;Cecil&quot;</span>, <span class="st">&quot;Dave&quot;</span>)
 
-buy &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="st">&quot;Ada&quot;</span>, <span class="st">&quot;bread&quot;</span>, <span class="fl">2.50</span>, <span class="st">&quot;Mon&quot;</span>)</code></pre></div>
+buy &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="st">&quot;Ada&quot;</span>, <span class="st">&quot;bread&quot;</span>, <span class="fl">2.50</span>, <span class="st">&quot;Mon&quot;</span>)
+
+<span class="co"># who? what? cost? when?</span>
+<span class="co"># ~~~~~~~~~~~~~~~~~~~~~~</span>
+<span class="co"># Ada  Bread 2.50  Mon  </span>
+
+<span class="kw">library</span>(tidyverse)
+
+wg &lt;-<span class="st"> </span><span class="kw">tribble</span>(
+   <span class="op">~</span>name, <span class="op">~</span>day, <span class="op">~</span>what, <span class="op">~</span>cost,   
+  <span class="co">#------|-----|-----|------|</span>
+  <span class="st">&quot;Ada&quot;</span>, <span class="st">&quot;Mon&quot;</span>, <span class="st">&quot;Bread&quot;</span>,  <span class="fl">2.50</span>, 
+  <span class="st">&quot;Ada&quot;</span>, <span class="st">&quot;Mon&quot;</span>, <span class="st">&quot;Butter&quot;</span>, <span class="fl">2.00</span>,
+  <span class="st">&quot;Ada&quot;</span>, <span class="st">&quot;Tue&quot;</span>, <span class="st">&quot;Pasta&quot;</span>,  <span class="fl">4.50</span>
+ )
+
+wg  
+<span class="co">#&gt; # A tibble: 3 x 4</span>
+<span class="co">#&gt;   name  day   what    cost</span>
+<span class="co">#&gt;   &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;  &lt;dbl&gt;</span>
+<span class="co">#&gt; 1 Ada   Mon   Bread    2.5</span>
+<span class="co">#&gt; 2 Ada   Mon   Butter   2  </span>
+<span class="co">#&gt; 3 Ada   Tue   Pasta    4.5</span></code></pre></div>
+</div>
 </div>
 </div>
 <div id="more-on-tibbles" class="section level1">
@@ -871,7 +906,7 @@ Nr. | Topic       |
 6.  | [Tidying data](http://rpository.com/ds4psy/essentials/tidy.html) |
 +.  | [Datasets](http://rpository.com/ds4psy/essentials/datasets.html) | 
 -->
-<p>[Last update on 2018-12-04 19:13:10 by <a href="http://neth.de/">hn</a>.]</p>
+<p>[Last update on 2018-12-05 09:29:03 by <a href="http://neth.de/">hn</a>.]</p>
 <!-- eof. -->
 </div>
 </div>
@@ -901,6 +936,8 @@ Nr. | Topic       |
         </ul></li>
         <li><a href="#exercises-wpa05">Exercises (WPA05)</a><ul>
         <li><a href="#exercise-1">Exercise 1</a></li>
+        <li><a href="#exercise-x">Exercise X:</a></li>
+        <li><a href="#exercise-x-1">Exercise X:</a></li>
         </ul></li>
         <li><a href="#more-on-tibbles">More on tibbles</a></li>
         <li><a href="#conclusion">Conclusion</a></li>
