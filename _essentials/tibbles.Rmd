@@ -472,52 +472,120 @@ More advanced operations on tibbles are covered in [Chapter 5: Data transformati
 
 ## Exercise X: 
 
-Use `iris` data and conduct an EDA on it.
-
+Use the `iris` data, turn into tibble, and conduct an EDA on it.
 
 ## Exercise X: 
 
 #### Entering data
 
-Ada, Bruce, and Cecil are sharing a house and keep a record of the items that each of them purchased for the community. 
+Ada, Brian, and Cecil are sharing a house and keep a record of the items that each of them purchased for the household.  
 At the end of each week, they use this data to balance their account. As an aspiring data scientist, you offer your help. 
 Here's last week's data: 
 
 
 Name      | Mon | Tue | Wed | Thu | Fri | Sat | Sun |
 :-------- |:--- |:--- |:--- |:--- |:--- |:--- |:--- |
-Ada   | Bread: \$2.50  | Pasta: \$4.50 | Pencils: \$3.25   | Milk: \$3.80 |  | Cookies: \$4.40  | Cake: \$12.50 | 
+Ada   | Bread: \$2.50  | Pasta: \$4.50 | Pencils: \$3.25   | Milk: \$3.80 | -- | Cookies: \$4.40  | Cake: \$12.50 | 
    |   |  Butter: \$2.00  |  |  | |  |  | Cream: \$3.90 |  
-Bruce | Chips: \$4.20 | Beer: \$12.00 | Steak: \$16.20 | -- | Toilet paper: \$4.50 |  -- | Wine: \$8.80 |  
-Cecil | Fruit: \$6.00 | Batteries: \$6.10 | -- | Newspaper: \$3.00 | Honey: \$3.00  | Detergent: \$9.95   | --  |   
+Brian | Chips: \$3.80 | Beer: \$11.80 | Steak: \$16.20 | -- | Toilet paper: \$4.50 |  -- | Wine: \$8.80 |  
+Cecil | Fruit: \$6.30 | Batteries: \$6.10 | -- | Newspaper: \$2.90 | Honey: \$3.20  | Detergent: \$9.95   | --  |   
 
 +++ here now +++
 
-What are the observations here? 
-What are variables? 
+- What are the variables and what are the observations here? 
 
-Enter this data into a tibble and then do the following graphs.
+- Enter this data into a tibble `dec_1` and then answer the following questions (by using `dplyr` to create tables that contain the answer):
+
+  - How many items did each person purchase? 
+  - How much did each person pay overall?
+  - Who buys the cheapest/most expensive items (on average)?
+  - How much is being spent on each day of the week (overall and on average)? 
+  - What is the order of days sorted by the overall amount spent (from most expensive to least expensive)?
 
 ```{r table_list}
-name <- c("Ada", "Bruce", "Cecil", "Dave")
-
-buy <- list("Ada", "bread", 2.50, "Mon")
-
-# who? what? cost? when?
-# ~~~~~~~~~~~~~~~~~~~~~~
-# Ada  Bread 2.50  Mon  
-
 library(tidyverse)
 
-wg <- tribble(
-   ~name, ~day, ~what, ~cost,   
+## Entering data into tibble: ------ 
+
+dec_1 <- tribble(
+  ~name, ~day, ~what, ~paid,   
   #------|-----|-----|------|
   "Ada", "Mon", "Bread",  2.50, 
   "Ada", "Mon", "Butter", 2.00,
-  "Ada", "Tue", "Pasta",  4.50
- )
+  "Ada", "Tue", "Pasta",  4.50,
+  "Ada", "Wed", "Pencils",  3.25,
+  "Ada", "Wed", "Cream",  3.90,
+  "Ada", "Thu", "Milk",  3.80,
+  "Ada", "Sat", "Cookies",  4.40,
+  "Ada", "Sun", "Cake",  12.50,
+  "Brian", "Mon", "Chips", 3.80, 
+  "Brian", "Tue", "Beer", 11.80, 
+  "Brian", "Wed", "Steak", 16.20, 
+  "Brian", "Fri", "Toilet paper", 4.50, 
+  "Brian", "Sun", "Wine", 8.80,   
+  "Brian", "Fri", "Toilet paper", 4.50, 
+  "Cecil", "Mon", "Fruit", 6.30,
+  "Cecil", "Tue", "Batteries", 6.10,
+  "Cecil", "Thu", "Newspaper", 2.90,
+  "Cecil", "Fri", "Honey", 3.20,
+  "Cecil", "Sat", "Detergent", 9.95
+)
+dec_1
 
-wg  
+## Transformations: ------ 
+
+# (1) Purchases by name: 
+buy_by_name <- dec_1 %>%
+  group_by(name) %>%
+  summarise(n = n(),
+            sm_pay = sum(paid),
+            mn_pay = sm_pay/n)
+knitr::kable(buy_by_name)
+
+# (2) Purchases by day:
+
+# Turn day into an ordered factor (to preserve order):
+dec_1$day <- factor(dec_1$day, levels = c("Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"), ordered = TRUE)
+
+# Purchases by day: 
+buy_by_day <- dec_1 %>%
+  group_by(day) %>%
+  summarise(n = n(),
+            sm_pay = sum(paid),
+            mn_pay = sm_pay/n)
+knitr::kable(buy_by_day)
+
+# Arrange by overall expense: 
+buy_by_day %>% arrange(desc(sm_pay))
+
+## Visualizations: ------ 
+
+ggplot(dec_1) +
+  geom_bar(aes(x = day, fill = name)) +
+  labs(title = "Number of purchases per person by day") +
+  scale_fill_brewer(palette = "Set1")
+
+ggplot(dec_1) +
+  geom_bar(aes(x = day, y = paid, fill = name), stat = "identity") +
+  labs(title = "Amount paid (overall and per person) by day") +
+  scale_fill_brewer(palette = "Set1")
+
+# Line graph of individual purchases:
+ggplot(dec_1, aes(x = day)) +
+  geom_point(aes(y = paid, color = name)) + 
+  geom_line(aes(y = paid, group = name, color = name))
+  
+# Step function of cumulative purchases:
+
+# +++ here now +++
+
+## Note: ------ 
+# A more natural format would have been: 
+
+buy  <- list("Ada", "Mon", "Bread", 2.50)  # by purchase
+
+# but as vectors don't allow mixing data types (e.g., characters and numbers), 
+# we entered the purchases as rows of a table/tibble.
 
 ```
 
