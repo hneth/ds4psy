@@ -153,7 +153,7 @@ There are 3 basic commands for creating tibbles:
 The 3 commands yield the same type of output (i.e., a tibble), but require different inputs. Ask yourself which kind of input each command takes and how this input needs to be structured and formatted (e.g., with parentheses, commas, etc.).
 
 
-### 1. `as_tibble`: rectangular data
+### 1. `as_tibble` (rectangles)
 
 Use `as_tibble` when the data to be used is already in rectangular format (e.g., the rows and columns of a data frame or a matrix):  
 
@@ -184,9 +184,11 @@ glimpse(tb)
 
 #### Practice 
 
-Convert the data frames `datasets::attitude` and `datasets::iris` into tibbles and inspect their dimensions and contents. What types of variables do they contain? 
+Convert the data frames `datasets::attitude`, `datasets::mtcars`, and `datasets::Orange` into tibbles and inspect their dimensions and contents. 
+What types of variables do they contain? What is the basic unit of an observation? 
 
-### 2. `tibble`: columns of data
+
+### 2. `tibble` (columns)
 
 Use `tibble` when the data to be used appears as a collection of columns. 
 For instance, imagine we have the following information about a family: 
@@ -254,7 +256,7 @@ abc  # prints the tibble:
 Find some tabular data online (e.g., on [Wikipedia](https://en.wikipedia.org)) and enter it as a tibble.
 
 
-### 3. `tribble`: rows of data
+### 3. `tribble` (rows)
 
 Use `tribble` when the data to be used appears as a collection of rows (or already is in tabular form). 
 
@@ -472,13 +474,195 @@ More advanced operations on tibbles are covered in [Chapter 5: Data transformati
 
 ## Exercise X: 
 
-Use the `iris` data, turn into tibble, and conduct an EDA on it.
+#### Flower power
+
+Let's turn the `iris` data -- contained in R datasets -- into a tibble and conduct an EDA on it. 
+
+Evaluate `?iris` to read a description of the dataset: `iris` provides the measurements (in cm) of plant parts (length and width of _sepal_ and _petal_ parts) for 50 flowers from each of 3 iris species (called _setosa_, _versicolor_, and _virginica_).
+
+<!-- Exploratory data analysis (EDA): --> 
+
+1. Save `datasets::iris` a tibble `ir` that contains this data and inspect it. Are there any missing values?
+
+2. Compute a summary table that shows the means of the 4 measurement columns (`Sepal.Length`, `Sepal.Width`, `Petal.Length`, `Petal.Width`) for each of the 3 `Species` (in rows). Save the resulting table of means as a tibble `im1`. 
+
+3. Create a histogram that shows the distribution of `Sepal.Width` values across the three species.
+
+4. Create a plot that shows the shape of the distribution of `Sepal.Width` values for each species.
+
+5. Create a plot that shows `Petal.Width` as a function of `Sepal.Width` separately (i.e., in 3 facets) for each species.
+
+```{r ex_iris_EDA, fig.show = "asis"}
+# ?iris
+
+## (a) Turn into tibble and inspect: ----- 
+ir <- as_tibble(datasets::iris)
+dim(ir)         # 150 observations (rows) x 5 variables (columns)
+
+sum(is.na(ir))  # 0 missing values
+
+## (b) Compute counts and means by species: ----- 
+im1 <- ir %>%
+  group_by(Species) %>%
+  summarise(n = n(),
+            mn_sep.len = mean(Sepal.Length),
+            mn_sep.wid = mean(Sepal.Width),
+            mn_pet.len = mean(Petal.Length),
+            mn_pet.wid = mean(Petal.Width)
+            )
+
+# Print im1 (as table with 4 variables of means): 
+knitr::kable(im1, caption = "Table: Average iris measures (4 variables of mean values).") 
+
+## Graphical exploration: ----- 
+
+## Distribution of 1 (continuous) variable:
+
+## (c) Distribution of Sepal.Width across species:
+ggplot(ir, aes(x = Sepal.Width)) +
+  geom_histogram(binwidth = .1, fill = "skyblue", color = "black") + 
+  labs(title = "Distribution of sepal width across iris species") +
+  theme_bw()
+
+## Distributions/relationships between 2 variables (1 categorical, 1 continuous):
+
+## (d) The distributions of Sepal.Width by species:
+ggplot(ir, aes(x = Species, y = Sepal.Width)) +
+  geom_violin(fill = "grey90", linetype = 0, alpha = 2/3, width = .5) +
+  geom_jitter(aes(color = Species, shape = Species), size = 3, alpha = 1/2, width = .10) +
+  labs(title = "Distributions of sepal width by iris species") +
+  theme_bw()
+
+## Alternative solution using density plots: 
+ggplot(ir, aes(x = Sepal.Width, fill = Species)) +
+  facet_wrap(~Species) + 
+  geom_density() +
+  labs(title = "Distributions of sepal width by iris species") + 
+  coord_fixed() +
+  theme_bw()
+
+## Relationships between 2 variables (2 continuous):
+
+## (e) Petal.Width as a function of Sepal.Width by iris species: 
+ggplot(ir, aes(x = Sepal.Width, y = Petal.Width, color = Species, shape = Species)) +
+  facet_wrap(~Species) +
+  geom_jitter(size = 3, alpha = 2/3) +
+  # geom_density2d() +
+  coord_fixed() +
+  labs(title = "Petal width as a function of sepal width by iris species") +
+  theme_bw()
+
+## next step: 
+## Turn iris df into long format using tidyr::gather ----- 
+## (see tidyr session)
+```
+
+<!-- Tidy data --> 
+
+<!-- 
+
+- Re-format your tibble `ir` into a tibble `ir_long` which in "long format". 
+
+**Hint:** Use `tidyr::gather` and `separate` to turn `ir` into a tibble that contains only 1 dependent variable for the value of measurements (e.g., `val`), but 2 categorical variables that specify the `part` (Sepal vs. Petal) and `metric` (Length vs. Width) of each observation. 
+
+- Use `ir_long` to recompute the subgroup means (for each combination of species, plant part, and metric) computed in **`r nr`b.**.  Save the resulting table of means as a tibble `im2` and verify that they have not changed from `im1` above.  
+
+- Visualize the relationships between the means of `im2` (i.e., the mean measurements by plant part and metric) separately for each species. 
+
+**Hints:** This task asks for showing the value of a continuous variable (the value of means) as a function of 2 categorical variables (the plant `part` and type of `metric`). Possible solutions could incorporate either `geom_line` or `geom_tile` and use different facets for different `Species`. 
+
+- **Bonus task:** Re-format your tibble `ir_long` (in long format) into a wider tibble `ir_short` that corresponds to the original `ir` dataset.   
+
+**Hints:** This task calls for applying `tidyr::spread` and `unite` commands to `ir_long`. 
+However, `spread` will encounter an error unless every individual plant is identified by a unique variable (e.g., `id` number). This can be achieved by adding a numeric counter variable `id` (with values of `rep(1:50, 3)`) to `ir` _before_ creating `ir_long`. 
+
+```{r ex_iris_tidyr}
+## Data (from above): 
+# ?iris
+# ir <- as_tibble(datasets::iris)
+# ir
+
+## (f) Re-format ir into long format (using tidyr::gather) ----- 
+ir_long <- ir %>% 
+  mutate(id = rep(1:50, 3)) %>%   # add a unique id to each plant [to enable (i) below]
+  gather(Sepal.Length:Petal.Width, key = "type", value = "val") %>%
+  separate("type", into = c("part", "metric"), sep = "\\.")
+
+ir_long
+dim(ir_long) # => 600 rows x 5 columns
+
+## (g) Recompute group counts and means from ir_long: ----- 
+im2 <- ir_long %>%
+  group_by(Species, part, metric) %>%
+  summarise(n = n(),
+            mn_val = mean(val)
+            )
+
+# Print im2 (as table with 4 variables of means): 
+knitr::kable(im2, caption = "Average iris measures (1 variable of mean values).")
+
+## Check: Compare sums of all means in im1 vs. im2: 
+sum1 <- sum(im1$mn_sep.len) + sum(im1$mn_sep.wid) + 
+        sum(im1$mn_pet.len) + sum(im1$mn_pet.wid)  # => 41.574
+sum2 <- sum(im2$mn_val)  # => 41.574
+sum1 == sum2             # => TRUE (qed)
+
+
+## Showing the value of a continuous variable by 2 categorical variables: ----- 
+
+## (h) Visualize the means of im2 (i.e., mean measurements by plant part and metric) 
+##     as a line plot separately for each species:
+ggplot(im2, aes(x = part, y = mn_val, group = metric, color = metric)) +
+  facet_wrap(~Species) +
+  geom_point(aes(shape = metric), size = 3) +
+  geom_line(aes(linetype = metric)) +
+  labs(title = "Mean petal and sepal lengths and widths by iris species") + 
+  theme_bw()
+
+## Alternative solution using tile plots:
+ggplot(im2, aes(x = part, y = metric)) +
+  facet_wrap(~Species) +
+  geom_tile(aes(fill = mn_val)) +
+  geom_text(aes(label = mn_val), color = "white") + 
+  labs(title = "Mean petal and sepal lengths and widths by iris species") + 
+  theme_bw()
+
+## Alternative: Using raw values (ir_long) to visualize the distributions 
+##              of val as a function of Species, plant part, and metric:
+ggplot(ir_long, aes(x = part, y = val, fill = Species)) + 
+  facet_wrap(~Species) +
+  geom_violin() +
+  geom_jitter(aes(shape = metric), size = 2, alpha = 2/3) + 
+  labs(title = "Mean petal and sepal lengths and widths by iris species") + 
+  theme_bw()
+
+## (i) Bonus task: ----- 
+
+## See (f) above for the additional id-column for each plant:
+## mutate(id = rep(1:50, 3)) %>% ...
+
+## Re-format ir_long into shorter format (using tidyr::spread) ----- 
+ir_short <- ir_long %>%
+  unite(type, part, metric, sep = ".") %>%  # unite part and metric into "type" column
+  spread(key = type, value = val) %>%       # spread "type" variable into multiple columns
+  arrange(Species, id)
+
+ir_short
+
+## Verify identity of all measurement values in ir and ir_short: 
+all.equal(ir$Sepal.Length, ir_short$Sepal.Length) & 
+all.equal(ir$Sepal.Width,  ir_short$Sepal.Width)  &
+all.equal(ir$Petal.Length, ir_short$Petal.Length) & 
+all.equal(ir$Petal.Width,  ir_short$Petal.Width)  # => TRUE (qed) 
+```
+
+-->
 
 ## Exercise X: 
 
-#### Accounting
+#### Rental accounting
 
-Ada, Brian, and Cecil are sharing a house and keep a record of the items that each of them purchased for the household.  
+Ada, Brian, and Cecil are sharing a flat and keep a record of the items that each of them purchased for the household.  
 At the end of each week, they use this data to balance their account. As an aspiring data scientist, you offer your help. 
 Here's last week's data: 
 
