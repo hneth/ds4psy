@@ -1,7 +1,7 @@
 ---
 title: "Tibbles, with solutions (ds4psy)"
 author: "Hansjörg Neth, SPDS, uni.kn"
-date: "2018 12 05"
+date: "2018 12 07"
 output:
    rmdformats::html_clean: # html_clean html_docco readthedown material #
      code_folding: show # hide
@@ -142,7 +142,7 @@ Whenever working with rectangular data structures -- data consisting of multiple
 
 There are 3 basic commands for creating tibbles:
 
-1. `as_tibble` converts (or coerces) an existing data frame into a tibble.
+1. `as_tibble` converts (or coerces) an existing rectangle of data (e.g., a data frame) into a tibble.
 
 2. `tibble` converts several vectors into (the columns of) a tibble.
 
@@ -150,12 +150,12 @@ There are 3 basic commands for creating tibbles:
 
 #### Check
 
-The 3 commands yield the same type of output (i.e., a tibble), but require different inputs. Ask yourself which kind of input each command takes and how this input needs to be structured and formatted (e.g., with commas).
+The 3 commands yield the same type of output (i.e., a tibble), but require different inputs. Ask yourself which kind of input each command takes and how this input needs to be structured and formatted (e.g., with parentheses, commas, etc.).
 
 
-### 1. `as_tibble`
+### 1. `as_tibble`: rectangular data
 
-Use `as_tibble` when the data to be used already is in a data frame (or matrix):
+Use `as_tibble` when the data to be used is already in rectangular format (e.g., the rows and columns of a data frame or a matrix):  
 
 ```{r as_tibble}
 ## Using the data frame `sleep`: ------ 
@@ -186,7 +186,7 @@ glimpse(tb)
 
 Convert the data frames `datasets::attitude` and `datasets::iris` into tibbles and inspect their dimensions and contents. What types of variables do they contain? 
 
-### 2. `tibble`
+### 2. `tibble`: columns of data
 
 Use `tibble` when the data to be used appears as a collection of columns. 
 For instance, imagine we have the following information about a family: 
@@ -202,7 +202,7 @@ tb <- tribble(
   4,  "Yota", 19,  "female",  TRUE,      NA, 
   5,  "Zack", 17,  "male",    FALSE,     NA      )
 
-knitr::kable(tb, caption = "Example data of some family.")
+knitr::kable(tb, caption = "**Table 1:** Example data of some family.")
 ```
 
 One way of viewing this table is as a series of columns. Each column consists of a variable name and the same number of (here: 5) values, which can be of different types (here: numbers, characters, or Boolean truth values).  Each column may or may not contain missing values (entered as `NA`). 
@@ -254,7 +254,7 @@ abc  # prints the tibble:
 Find some tabular data online (e.g., on [Wikipedia](https://en.wikipedia.org)) and enter it as a tibble.
 
 
-### 3. `tribble`
+### 3. `tribble`: rows of data
 
 Use `tribble` when the data to be used appears as a collection of rows (or already is in tabular form). 
 
@@ -476,7 +476,7 @@ Use the `iris` data, turn into tibble, and conduct an EDA on it.
 
 ## Exercise X: 
 
-#### Entering data
+#### Accounting
 
 Ada, Brian, and Cecil are sharing a house and keep a record of the items that each of them purchased for the household.  
 At the end of each week, they use this data to balance their account. As an aspiring data scientist, you offer your help. 
@@ -492,15 +492,20 @@ Cecil | Fruit: \$6.30 | Batteries: \$6.10 | -- | Newspaper: \$2.90 | Honey: \$3.
 
 +++ here now +++
 
-- What are the variables and what are the observations here? 
+1. Which variables and which observations would you define here? 
 
-- Enter this data into a tibble `dec_1` and then answer the following questions (by using `dplyr` to create tables that contain the answer):
+2. Enter this data into a tibble `dec_1` and then answer the following questions (by using `dplyr` to create tables that contain the answer):
 
   - How many items did each person purchase? 
   - How much did each person pay overall?
   - Who buys the cheapest/most expensive items (on average)?
   - How much is being spent on each day of the week (overall and on average)? 
   - What is the order of days sorted by the overall amount spent (from most expensive to least expensive)?
+  
+3. Interpret and re-create the following graphs (using `ggplot` and possibly `dplyr`):
+
+  - Bar plots  
+  - Cumulative amount paid per person over the week   
 
 ```{r table_list}
 library(tidyverse)
@@ -523,7 +528,6 @@ dec_1 <- tribble(
   "Brian", "Wed", "Steak", 16.20, 
   "Brian", "Fri", "Toilet paper", 4.50, 
   "Brian", "Sun", "Wine", 8.80,   
-  "Brian", "Fri", "Toilet paper", 4.50, 
   "Cecil", "Mon", "Fruit", 6.30,
   "Cecil", "Tue", "Batteries", 6.10,
   "Cecil", "Thu", "Newspaper", 2.90,
@@ -539,7 +543,8 @@ buy_by_name <- dec_1 %>%
   group_by(name) %>%
   summarise(n = n(),
             sm_pay = sum(paid),
-            mn_pay = sm_pay/n)
+            mn_pay = sm_pay/n
+            )
 knitr::kable(buy_by_name)
 
 # (2) Purchases by day:
@@ -556,26 +561,61 @@ buy_by_day <- dec_1 %>%
 knitr::kable(buy_by_day)
 
 # Arrange by overall expense: 
-buy_by_day %>% arrange(desc(sm_pay))
+buy_by_day %>% 
+  arrange(desc(sm_pay))
 
 ## Visualizations: ------ 
 
+# (A) Bar charts: ---- 
 ggplot(dec_1) +
   geom_bar(aes(x = day, fill = name)) +
   labs(title = "Number of purchases per person by day") +
-  scale_fill_brewer(palette = "Set1")
+  scale_fill_brewer(palette = "Set1") +
+  theme_classic()
 
 ggplot(dec_1) +
   geom_bar(aes(x = day, y = paid, fill = name), stat = "identity") +
   labs(title = "Amount paid (overall and per person) by day") +
-  scale_fill_brewer(palette = "Set1")
+  scale_fill_brewer(palette = "Set1") +
+  theme_classic()
 
-# Line graph of individual purchases:
+
+# (B) Line charts: ---- 
+# Line graphs of individual purchases:
 ggplot(dec_1, aes(x = day)) +
   geom_point(aes(y = paid, color = name)) + 
-  geom_line(aes(y = paid, group = name, color = name))
+  geom_line(aes(y = paid, group = name, color = name)) +
+  theme_classic()
+
+# As step function:
+ggplot(dec_1, aes(x = day)) +
+  geom_point(aes(y = paid, color = name)) + 
+  geom_step(aes(y = paid, group = name, color = name)) +
+  theme_classic()
+
+
+# (C) Step function of cumulative purchases: ---- 
+
+# (a) Cumulative sum for each person over time (day):
+cum_by_day <- dec_1 %>%
+  group_by(day, name) %>%
+  summarise(n = n(),
+            sm_pay = sum(paid)) %>%
+  group_by(name) %>%
+  mutate(cum_sum = cumsum(sm_pay))
+knitr::kable(cum_by_day)
   
-# Step function of cumulative purchases:
+# (b) Plot summary table of cumulative purchases:
+ggplot(cum_by_day, aes(x = day, y = cum_sum, group = name, color = name)) +
+  geom_step(size = 1, alpha = 2/3) +
+  geom_point(aes(shape = name), size = 3, alpha = 1) +
+  labs(title = "Cumulative amount paid (per person and day)",
+       x = "Day", y = "Cumulative sum paid", color = "Name:", shape = "Name:") +
+  scale_color_brewer(palette = "Set1") + 
+  theme_classic() +
+  theme(legend.position = c(.90, .20),  # position legend in plot
+        legend.background = element_rect(fill = "grey95", color = "grey10", line = 1)  # light grey box with dark grey border
+        )
 
 # +++ here now +++
 
