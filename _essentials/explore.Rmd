@@ -1567,7 +1567,7 @@ df_drop %>%
 # Visually: 
 ggplot(df_drop) +
   geom_bar(aes(x = dropout, fill = factor(educ)), pos = "fill") +
-  labs(title = "Sex ratio by dropouts", 
+  labs(title = "Education level by dropouts", 
        x = "Dropout", fill = "Education level:") + 
   scale_fill_brewer(palette = "Set1") +
   theme_bw()
