@@ -1,7 +1,7 @@
 ---
 title: "Tibbles, with solutions (ds4psy)"
 author: "Hansjörg Neth, SPDS, uni.kn"
-date: "2018 12 07"
+date: "2018 12 08"
 output:
    rmdformats::html_clean: # html_clean html_docco readthedown material #
      code_folding: show # hide
@@ -142,50 +142,67 @@ Whenever working with rectangular data structures -- data consisting of multiple
 
 There are 3 basic commands for creating tibbles:
 
-1. `as_tibble` converts (or coerces) an existing rectangle of data (e.g., a data frame) into a tibble.
+1. `as_tibble` converts (or coerces) an existing _rectangle_ of data (e.g., a data frame) into a tibble.
 
-2. `tibble` converts several vectors into (the columns of) a tibble.
+2. `tibble` converts several _vectors_ into (the columns of) a tibble.
 
-3. `tribble` converts a table (entered row-by-row) into a tibble. 
+3. `tribble` converts a _table_ (entered row-by-row) into a tibble. 
 
 #### Check
 
 The 3 commands yield the same type of output (i.e., a tibble), but require different inputs. Ask yourself which kind of input each command takes and how this input needs to be structured and formatted (e.g., with parentheses, commas, etc.).
 
-
 ### 1. `as_tibble` (rectangles)
 
 Use `as_tibble` when the data to be used is already in rectangular format (e.g., the rows and columns of a data frame or a matrix):  
 
-```{r as_tibble}
+1. From an exisiting data frame:
+
+```{r as_tibble_df}
 ## Using the data frame `sleep`: ------ 
 
 # ?datasets::sleep # provides background information on the data set.
 
-# Save the sleep data frame as df: 
+# Save the sleep data frame (as df): 
 df <- datasets::sleep
 
-# Convert df into a tibble tb: 
+# Convert df into a tibble (tb): 
 tb <- as_tibble(df)
 
-# Inspect the data frame df: 
+# Inspect the data frame df: ----  
 dim(df)
 is.data.frame(df)
 head(df)
 str(df)
 
-# Inspect the tibble tb:
+# Inspect the tibble tb: ---- 
 dim(tb)
 is.tibble(tb)
-is.data.frame(tb) # => tibbles ARE data frames.
+is.data.frame(tb)  # => tibbles ARE data frames.
+tb
 head(tb)
 glimpse(tb)
 ```
 
+2. From an existing matrix:
+
+```{r as_tibble_matrix}
+## Coercing a matrix into a tibble: ------ 
+mx <- matrix(rnorm(n = 20, mean = 100, sd = 10), nrow = 5, ncol = 4)  # create a matrix (of random numbers)
+
+# Convert mx into a tibble: 
+t2 <- as_tibble(mx)
+t2
+
+names(t2)  # variables have been named (by default)
+```
+
 #### Practice 
 
-Convert the data frames `datasets::attitude`, `datasets::mtcars`, and `datasets::Orange` into tibbles and inspect their dimensions and contents. 
-What types of variables do they contain? What is the basic unit of an observation? 
+Convert some other R datasets (e.g., `datasets::attitude`, `datasets::mtcars`, and `datasets::Orange`) into tibbles and inspect their dimensions and contents. 
+
+- What types of _variables_ (columns) do they contain?  
+- What is the basic unit of an _observation_ (row)?  
 
 
 ### 2. `tibble` (columns)
@@ -225,7 +242,7 @@ fm <- tibble(
 fm  # prints the tibble: 
 ```
 
-Note some details: 
+Note some **details**: 
 
 - Each vector is labeled by the variable (column) name, which is _not_ put into quotes; 
 
@@ -242,10 +259,10 @@ When using `tibble`, later vectors may use the values of earlier vectors:
 ```{r tibble_use_early_v}
 # Using earlier vectors when defining later ones:
 abc <- tibble(
-  ltr = LETTERS[1:5],
-  num = 1:5,
-  l_n = paste(ltr, num, sep = "_"),  # combining abc with num
-  nsq = num^2                        # squaring num
+  ltr  = LETTERS[1:5],
+  n    = 1:5,
+  l_n  = paste(ltr, n, sep = "_"),  # combining abc with num
+  n_sq = n^2                        # squaring num
   )
 
 abc  # prints the tibble: 
@@ -276,13 +293,13 @@ fm2 <- tribble(
 fm2  # prints the tibble: 
 ```
 
-Note some details: 
+Note some **details**: 
 
 - The column names are preceded by `~`; 
 
 - Consecutive entries are separated by a comma (but there is no comma after the final entry); 
 
-- The line `#--|------|-----|--------|----------|----------|` is commented out and can be omitted; 
+- The line `#--|-----|-----|-----|--------|--------|` is commented out and can be omitted; 
 
 - The type of each column is determined by the type of the corresponding cell values. For instance, the NA values in `fm2` are missing character values because the entries above were characters (entered in quotes).
 
@@ -296,7 +313,7 @@ If `tibble` and `tribble` really are alternative commands, then the contents of 
 all.equal(fm, fm2)
 ```
 
-#### Practice  
+#### Practice
 
 Enter the tibble `abc` by using `tribble`. 
 
@@ -307,10 +324,11 @@ Once we have an R object that is a tibble, we often want to access individual pa
 
 ### 1. Variables (columns) 
 
-As each column of a tibble is a vector, obtaining a column amounts to obtaining the corresponding vector. We can access this vector by its name (label) or by its number (column position):
+As each column of a tibble is a vector, obtaining a column amounts to obtaining the corresponding vector. 
+We can access this vector by its name (label) or by its number (column position):
 
 ```{r tibble_cols}
-fm  # family tibble (defined above): 
+fm  # family tibble (defined above)
 
 # Get the name column of fm:
 fm$name       # by label (with $)
@@ -345,7 +363,7 @@ dm
 mean(dm$price)
 mean(dm[["price"]])
 mean(dm[[7]])  # => US-$ 3932.80 
-mean(as_vector(select(dm, price))) 
+mean(as_vector(select(dm, price)))
 ```
 
 ### 2. Cases (rows)
@@ -365,13 +383,20 @@ fm[fm$id > 2, ]
 fm[fm$age < 18, ]
 fm[fm$drives == TRUE, ]
 
-# The same filters by providing specific row numbers:
+# The same rows by using slice (providing specific row numbers):
+fm %>% slice(3:5)
 fm[3:5, ]  # getting rows 3 to 5 of fm
+
+fm %>% slice(5)
 fm[5, ]    # getting row 5 of fm
+
+fm %>% slice(c(1, 2, 4))
 fm[c(1, 2, 4), ]  # getting rows 1, 2, and 4 of fm
 ```
 
-**Practice:** Extract all diamonds from `ggplot2::diamonds` that have at least 2 carat. How many of them are there and what is their mean price? 
+#### Practice 
+
+Extract all diamonds from `ggplot2::diamonds` that have at least 2 carat. How many of them are there and what is their mean price? 
 
 ```{r tibble_row_ex, echo = FALSE, eval = FALSE}
 # Save data ggplot2::diamonds as dm: 
@@ -397,7 +422,7 @@ Accessing the values of individual tibble cells is relatively rare, but can be a
 2. first extracting the column (as a vector `v`) and then providing the desired row number `r` (`v[r]`). 
 
 ```{r tibble_cells}
-fm  # family tibble (defined above): 
+fm  # family tibble (defined above):
 
 # Getting specific cell values:
 fm$name[4]  # getting the name of the 4th row
@@ -410,14 +435,14 @@ which(fm$name == "Yota") # getting the row number that contains the name "Yota"
 In practice, accessing individual cell values is mostly needed to _check_ for specific cell values and to _change_ or _correct_ erroneous entries by re-assigning them to a different value.
 
 ```{r tibble_cells_check_change}
-# Checking and changing cell values:
+# Checking and changing cell values: ------ 
 
-# Check: "Who is Xaxi's spouse?" in 3 different ways:
+# Check: "Who is Xaxi's spouse?" (in 3 different ways):
 fm[fm$name == "Xaxi", ]$married_2
 fm$married_2[3]
 fm[3, 6]
 
-# Change: "Zenon" is actually "Zeus" in 3 different ways:
+# Change: "Zenon" is actually "Zeus" (in 3 different ways):
 fm[fm$name == "Xaxi", ]$married_2 <- "Zeus"
 fm$married_2[3] <- "Zeus"
 fm[3, 6] <- "Zeus"
@@ -426,10 +451,11 @@ fm[3, 6] <- "Zeus"
 fm
 ```
 
-By contrast, a relatively common task is to check an entire tibble for missing values, count them, or replace them by some other value: 
+By contrast, a relatively common task is to check an entire tibble 
+(e.g., for the existence or count of missing values, or to replace them by some other value): 
 
 ```{r tibble_missing_values}
-# Checking for, counting, and changing missing values:
+# Checking for, counting, and changing missing values: ------ 
 
 fm  # family tibble (defined above): 
 
@@ -451,11 +477,11 @@ fm
 Determine the number and the percentage of missing values in the datasets `dplyr::starwars` and `dplyr::storms`.
 
 ```{r missing_values_ex, echo = FALSE, eval = FALSE}
-sum(is.na(dplyr::starwars))   # => 101 missing values
-mean(is.na(dplyr::starwars))  # => 8.93%
+sum(is.na(dplyr::starwars))   # 101 missing values
+mean(is.na(dplyr::starwars))  # 8.93%
 
-sum(is.na(dplyr::storms))     # => 13056 missing values
-mean(is.na(dplyr::storms))    # => 10.03% 
+sum(is.na(dplyr::storms))     # 13056 missing values
+mean(is.na(dplyr::storms))    # 10.03% 
 ```
 
 More advanced operations on tibbles are covered in [Chapter 5: Data transformation](http://r4ds.had.co.nz/transform.html) and involve using the `dplyr` commands `arrange`, `filter`, and `select`. 
@@ -472,36 +498,32 @@ More advanced operations on tibbles are covered in [Chapter 5: Data transformati
 - Turn rows into tibble
 - Turn web data into a tibble
 
-## Exercise X: 
+## Exercise 1
 
 #### Flower power
 
-Let's turn the `iris` data -- contained in R datasets -- into a tibble and conduct an EDA on it. 
+Turn the `iris` data -- contained in R datasets -- into a tibble and conduct an EDA on it. 
 
-Evaluate `?iris` to read a description of the dataset: `iris` provides the measurements (in cm) of plant parts (length and width of _sepal_ and _petal_ parts) for 50 flowers from each of 3 iris species (called _setosa_, _versicolor_, and _virginica_).
+**Hint:** `iris` provides the measurements (in cm) of plant parts (length and width of _sepal_ and _petal_ parts) for 50 flowers from each of 3 iris species (called _setosa_, _versicolor_, and _virginica_). (Evaluate `?iris` to obtain a description of the dataset.) 
 
 <!-- Exploratory data analysis (EDA): --> 
 
 1. Save `datasets::iris` a tibble `ir` that contains this data and inspect it. Are there any missing values?
 
-2. Compute a summary table that shows the means of the 4 measurement columns (`Sepal.Length`, `Sepal.Width`, `Petal.Length`, `Petal.Width`) for each of the 3 `Species` (in rows). Save the resulting table of means as a tibble `im1`. 
-
-3. Create a histogram that shows the distribution of `Sepal.Width` values across the three species.
-
-4. Create a plot that shows the shape of the distribution of `Sepal.Width` values for each species.
-
-5. Create a plot that shows `Petal.Width` as a function of `Sepal.Width` separately (i.e., in 3 facets) for each species.
-
-```{r ex_iris_EDA, fig.show = "asis"}
+```{r ex_iris_EDA_1, echo = TRUE, eval = TRUE}
 # ?iris
 
-## (a) Turn into tibble and inspect: ----- 
+# 1. Turn into tibble and inspect: ----- 
 ir <- as_tibble(datasets::iris)
 dim(ir)         # 150 observations (rows) x 5 variables (columns)
 
 sum(is.na(ir))  # 0 missing values
+```
 
-## (b) Compute counts and means by species: ----- 
+2. Compute a summary table that shows the means of the 4 measurement columns (`Sepal.Length`, `Sepal.Width`, `Petal.Length`, `Petal.Width`) for each of the 3 `Species` (in rows). Save the resulting table of means as a tibble `im1`. 
+
+```{r ex_iris_EDA_2, echo = TRUE, eval = TRUE}
+# 2. Compute counts and means by species: ----- 
 im1 <- ir %>%
   group_by(Species) %>%
   summarise(n = n(),
@@ -513,20 +535,28 @@ im1 <- ir %>%
 
 # Print im1 (as table with 4 variables of means): 
 knitr::kable(im1, caption = "Table: Average iris measures (4 variables of mean values).") 
+```
 
+3. Create a histogram that shows the distribution of `Sepal.Width` values across all species.
+
+```{r ex_iris_EDA_3, echo = TRUE, eval = TRUE}
 ## Graphical exploration: ----- 
 
 ## Distribution of 1 (continuous) variable:
 
-## (c) Distribution of Sepal.Width across species:
+# 3. Distribution of Sepal.Width across species:
 ggplot(ir, aes(x = Sepal.Width)) +
   geom_histogram(binwidth = .1, fill = "skyblue", color = "black") + 
   labs(title = "Distribution of sepal width across iris species") +
   theme_bw()
+```
 
+4. Create a plot that shows the shape of the distribution of `Sepal.Width` values for each species.
+
+```{r ex_iris_EDA_4, echo = TRUE, eval = TRUE}
 ## Distributions/relationships between 2 variables (1 categorical, 1 continuous):
 
-## (d) The distributions of Sepal.Width by species:
+## 4. The distributions of Sepal.Width by species:
 ggplot(ir, aes(x = Species, y = Sepal.Width)) +
   geom_violin(fill = "grey90", linetype = 0, alpha = 2/3, width = .5) +
   geom_jitter(aes(color = Species, shape = Species), size = 3, alpha = 1/2, width = .10) +
@@ -540,10 +570,14 @@ ggplot(ir, aes(x = Sepal.Width, fill = Species)) +
   labs(title = "Distributions of sepal width by iris species") + 
   coord_fixed() +
   theme_bw()
+```
 
+5. Create a plot that shows `Petal.Width` as a function of `Sepal.Width` separately (i.e., in 3 facets) for each species.
+
+```{r ex_iris_EDA_5, echo = TRUE, eval = TRUE}
 ## Relationships between 2 variables (2 continuous):
 
-## (e) Petal.Width as a function of Sepal.Width by iris species: 
+## 5. Petal.Width as a function of Sepal.Width by iris species: 
 ggplot(ir, aes(x = Sepal.Width, y = Petal.Width, color = Species, shape = Species)) +
   facet_wrap(~Species) +
   geom_jitter(size = 3, alpha = 2/3) +
@@ -658,67 +692,67 @@ all.equal(ir$Petal.Width,  ir_short$Petal.Width)  # => TRUE (qed)
 
 -->
 
++++ here now +++
+
 ## Exercise X: 
 
 #### Rental accounting
 
-Ada, Brian, and Cecil are sharing a flat and keep a record of the items that each of them purchased for the household.  
+Anna, Brian, and Caro are sharing a flat and keep a record of the items that each of them purchased for the household.  
 At the end of each week, they use this data to balance their account. As an aspiring data scientist, you offer your help. 
 Here's last week's data: 
 
-
 Name      | Mon | Tue | Wed | Thu | Fri | Sat | Sun |
 :-------- |:--- |:--- |:--- |:--- |:--- |:--- |:--- |
-Ada   | Bread: \$2.50  | Pasta: \$4.50 | Pencils: \$3.25   | Milk: \$3.80 | -- | Cookies: \$4.40  | Cake: \$12.50 | 
+Anna   | Bread: \$2.50  | Pasta: \$4.50 | Pencils: \$3.25   | Milk: \$4.80 | -- | Cookies: \$4.40  | Cake: \$12.50 | 
    |   |  Butter: \$2.00  |  |  | |  |  | Cream: \$3.90 |  
 Brian | Chips: \$3.80 | Beer: \$11.80 | Steak: \$16.20 | -- | Toilet paper: \$4.50 |  -- | Wine: \$8.80 |  
-Cecil | Fruit: \$6.30 | Batteries: \$6.10 | -- | Newspaper: \$2.90 | Honey: \$3.20  | Detergent: \$9.95   | --  |   
+Caro | Fruit: \$6.30 | Batteries: \$6.10 | -- | Newspaper: \$2.90 | Honey: \$3.20  | Detergent: \$9.95   | --  |   
 
-+++ here now +++
 
-1. Which variables and which observations would you define here? 
+1. Which _variables_ and which _observations_ would you define here?  Go ahead and enter the data into a tibble `dec_1`. 
 
-2. Enter this data into a tibble `dec_1` and then answer the following questions (by using `dplyr` to create tables that contain the answer):
-
-  - How many items did each person purchase? 
-  - How much did each person pay overall?
-  - Who buys the cheapest/most expensive items (on average)?
-  - How much is being spent on each day of the week (overall and on average)? 
-  - What is the order of days sorted by the overall amount spent (from most expensive to least expensive)?
-  
-3. Interpret and re-create the following graphs (using `ggplot` and possibly `dplyr`):
-
-  - Bar plots  
-  - Cumulative amount paid per person over the week   
-
-```{r table_list}
-library(tidyverse)
-
+```{r accounting_tibble, echo = TRUE, eval = TRUE}
 ## Entering data into tibble: ------ 
 
 dec_1 <- tribble(
   ~name, ~day, ~what, ~paid,   
   #------|-----|-----|------|
-  "Ada", "Mon", "Bread",  2.50, 
-  "Ada", "Mon", "Butter", 2.00,
-  "Ada", "Tue", "Pasta",  4.50,
-  "Ada", "Wed", "Pencils",  3.25,
-  "Ada", "Wed", "Cream",  3.90,
-  "Ada", "Thu", "Milk",  3.80,
-  "Ada", "Sat", "Cookies",  4.40,
-  "Ada", "Sun", "Cake",  12.50,
-  "Brian", "Mon", "Chips", 3.80, 
-  "Brian", "Tue", "Beer", 11.80, 
-  "Brian", "Wed", "Steak", 16.20, 
+  "Anna",  "Mon", "Bread",   2.50, 
+  "Anna",  "Mon", "Butter",  2.00,
+  "Anna",  "Tue", "Pasta",   4.50,
+  "Anna",  "Wed", "Pencils", 3.25,
+  "Anna",  "Wed", "Cream",   3.90,
+  "Anna",  "Thu", "Milk",    4.80,
+  "Anna",  "Sat", "Cookies", 4.40,
+  "Anna",  "Sun", "Cake",   12.50,
+  "Brian", "Mon", "Chips",   3.80, 
+  "Brian", "Tue", "Beer",   11.80, 
+  "Brian", "Wed", "Steak",  16.20, 
   "Brian", "Fri", "Toilet paper", 4.50, 
-  "Brian", "Sun", "Wine", 8.80,   
-  "Cecil", "Mon", "Fruit", 6.30,
-  "Cecil", "Tue", "Batteries", 6.10,
-  "Cecil", "Thu", "Newspaper", 2.90,
-  "Cecil", "Fri", "Honey", 3.20,
-  "Cecil", "Sat", "Detergent", 9.95
-)
-dec_1
+  "Brian", "Sun", "Wine",      8.80,   
+  "Caro",  "Mon", "Fruit",     6.30,
+  "Caro",  "Tue", "Batteries", 6.10,
+  "Caro",  "Thu", "Newspaper", 2.90,
+  "Caro",  "Fri", "Honey",     3.20,
+  "Caro",  "Sat", "Detergent", 9.95 )
+
+knitr::kable(dec_1, caption = "Table with purchases as observations.")
+```
+
+2. Use `dec_1` to answer the following questions (by using `dplyr` for creating tables that contain the answer):
+
+  - How much money was spent this week?
+  - Which percentage of the overall amount was spent by each person? 
+  - How many items did each person purchase? 
+  - How much did each person pay overall?  
+  - Who buys the cheapest/most expensive items (on average)?  
+  - How much is being spent on each day of the week (overall and on average)?   
+  - What is the order of days sorted by the overall amount spent (from most expensive to least expensive)?  
+
+```{r accounting_tables, echo = TRUE, eval = TRUE}
+total_paid <- sum(dec_1$paid)
+total_paid 
 
 ## Transformations: ------ 
 
@@ -727,9 +761,10 @@ buy_by_name <- dec_1 %>%
   group_by(name) %>%
   summarise(n = n(),
             sm_pay = sum(paid),
-            mn_pay = sm_pay/n
-            )
-knitr::kable(buy_by_name)
+            mn_pay = sm_pay/n,
+            pc_pay = sm_pay/total_paid * 100
+            ) 
+knitr::kable(buy_by_name, caption = "Purchases by name.")
 
 # (2) Purchases by day:
 
@@ -742,12 +777,16 @@ buy_by_day <- dec_1 %>%
   summarise(n = n(),
             sm_pay = sum(paid),
             mn_pay = sm_pay/n)
-knitr::kable(buy_by_day)
+knitr::kable(buy_by_day, caption = "Purchases by day.")
 
-# Arrange by overall expense: 
+# Arrange buy_by_day by overall expense: 
 buy_by_day %>% 
   arrange(desc(sm_pay))
+```
 
+3. Interpret and re-create the following graphs (using `ggplot` and possibly `dplyr`):
+
+```{r accounting_plots, echo = TRUE, eval = TRUE}
 ## Visualizations: ------ 
 
 # (A) Bar charts: ---- 
@@ -762,8 +801,9 @@ ggplot(dec_1) +
   labs(title = "Amount paid (overall and per person) by day") +
   scale_fill_brewer(palette = "Set1") +
   theme_classic()
+```
 
-
+```{r accounting_lines, echo = FALSE, eval = FALSE}
 # (B) Line charts: ---- 
 # Line graphs of individual purchases:
 ggplot(dec_1, aes(x = day)) +
@@ -776,7 +816,14 @@ ggplot(dec_1, aes(x = day)) +
   geom_point(aes(y = paid, color = name)) + 
   geom_step(aes(y = paid, group = name, color = name)) +
   theme_classic()
+```
 
+4. **Bonus tasks:* What do the following plots show? Try re-creating the plots from the data in `dec_1`.  
+
+**Hint:** The plots are created with `geom_step` and `geom_area`. However, rather than directly calling `ggplot`, consider first using `dplyr` to transform `dec_1` into summary tables that contain all values needed for the plots. You may have to combine multiple `group_by` and `mutate` commands to compute all required variables. 
+
+```{r accounting_steps, echo = FALSE, eval = TRUE}
+# The plot shows the cumulative amount paid per person over the week  
 
 # (C) Step function of cumulative purchases: ---- 
 
@@ -787,7 +834,8 @@ cum_by_day <- dec_1 %>%
             sm_pay = sum(paid)) %>%
   group_by(name) %>%
   mutate(cum_sum = cumsum(sm_pay))
-knitr::kable(cum_by_day)
+
+knitr::kable(cum_by_day, caption = "Purchases by day and name (with cum sum by name).")  # print the table
   
 # (b) Plot summary table of cumulative purchases:
 ggplot(cum_by_day, aes(x = day, y = cum_sum, group = name, color = name)) +
@@ -800,17 +848,78 @@ ggplot(cum_by_day, aes(x = day, y = cum_sum, group = name, color = name)) +
   theme(legend.position = c(.90, .20),  # position legend in plot
         legend.background = element_rect(fill = "grey95", color = "grey10", line = 1)  # light grey box with dark grey border
         )
+```
 
-# +++ here now +++
+```{r accounting_area, echo = FALSE, eval = TRUE}
+# Note: The tibble 
+dec_1
+# does not contain rows for a person and day without a purchase.
+# As a consequence, the summary tables (above) with  
+# group_by(day, name) do not contain 7 x 3 = 21 variables.
 
-## Note: ------ 
-# A more natural format would have been: 
+# Adding additional data points for 0 purchases per person/day: ------ 
+zero_buy <- tribble(
+  ~name, ~day, ~what, ~paid,   
+  #------|-----|-----|------|
+  "Anna",  "Fri", "",   0,
+  "Brian", "Thu", "",   0,  
+  "Brian", "Sat", "",   0,  
+  "Caro",  "Wed", "",   0,
+  "Caro",  "Sun", "",   0)
 
-buy  <- list("Ada", "Mon", "Bread", 2.50)  # by purchase
+# Combine dec_1 and zero_buy:  
+all <- full_join(dec_1, zero_buy) %>% 
+  select(day, name, everything()) %>%
+  arrange(day, name)
 
-# but as vectors don't allow mixing data types (e.g., characters and numbers), 
-# we entered the purchases as rows of a table/tibble.
+# all  
 
+# Turn day into an ordered factor (to preserve order):
+all$day <- factor(all$day, levels = c("Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"), ordered = TRUE)
+
+# all %>% arrange(day, name)
+
+# Transform into summary table with cumulative sums: ------ 
+cum_sum_by_day <- all %>%
+  group_by(day, name) %>%
+  summarise(n = n(),
+            sum_name_day = sum(paid)) %>%
+  group_by(name) %>%
+  mutate(cum_sum_name = cumsum(sum_name_day)) %>%
+  group_by(day) %>%
+  mutate(cum_sum_day = sum(cum_sum_name),
+         pc_name = cum_sum_name/cum_sum_day * 100)
+  
+knitr::kable(cum_sum_by_day, caption = "Cumulative sums (by day and name).")
+
+# Visualizations: ------ 
+
+area_total <- ggplot(cum_sum_by_day) +
+  geom_area(aes(x = day, y = cum_sum_name, group = name, fill = name)) +
+  labs(title = "Cumulative amount paid (per person and day)",
+       x = "Day", y = "Sum of total expenses", fill = "Name:") +
+  scale_fill_brewer(palette = "Set1") + 
+  theme_classic()
+# area_total
+
+area_pc <- ggplot(cum_sum_by_day) +
+  geom_area(aes(x = day, y = pc_name, group = name, fill = name)) +
+  labs(title = "Percentage of total expenses paid (per person and day)",
+       x = "Day", y = "Percentage of total expenses", fill = "Name:") +
+  scale_fill_brewer(palette = "Set1") + 
+  theme_classic()
+area_pc
+```
+
+**Note:** An alternative way to represent the purchases would as a list (an R data structure that -- in contrast to vectors -- allows a mix of different data types): 
+
+```{r accounting_note, echo = TRUE, eval = TRUE}
+# A more natural format (to represent a purchase) would have been: 
+
+buy  <- list("Anna", "Mon", "Bread", 2.50)  # by purchase
+
+# but as column vectors don't allow mixing data types (e.g., characters and numbers), 
+# we represented the purchases as the rows of a table/tibble above.
 ```
 
 
