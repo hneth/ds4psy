@@ -1033,11 +1033,150 @@ ggplot(my_tbl_3, aes(x = occasion, y = mean_cesd, group = intervention,
 
 ## Exercise 4
 
-+++ here now +++
+#### False-positive psychology
 
+Having considered the benefits of positive psychology, we can now consider the pitfalls of false-positive psychology. 
+The following article reports noteworthy results based on 2 datasets: 
 
+- Simmons, J.P., Nelson, L.D., & Simonsohn, U. (2011). 
+False-positive psychology: Undisclosed flexibility in data collection and analysis allows presenting anything as significant. 
+_Psychological Science_, _22_(11), 1359–1366. 
+doi: <https://doi.org/10.1177/0956797611417632> 
 
+You can find background information on this article and its data at [Datasets: False positive psychology](http://rpository.com/ds4psy/essentials/datasets.html#false-positive-psychology). 
 
+The following table was created from the data of both studies. 
+It reports the mean, minimum, and maximum age of participants per condition `cond`, as well as the number of people in those conditions who reported to feel a certain age (from very young to very old): 
+
+```{r ex4_load_data_create_tbl, echo = FALSE, eval = TRUE, message = FALSE, warning = FALSE}
+# (1) Import the dataset: 
+falsePosPsy_all <- read_csv(file = "http://rpository.com/ds4psy/data/falsePosPsy_all.csv")  # online
+
+## Verify that import was successful:
+# dim(falsePosPsy_all)   # 78 19
+# str(falsePosPsy_all)
+
+# (2) Creating the tibble:
+tbl <- falsePosPsy_all %>%
+  group_by(cond) %>%
+  summarise(n = n(),
+            mean_age = round(mean(aged365, na.rm = TRUE), digits = 2), 
+            youngest = round(min(aged365, na.rm = TRUE), digits = 2),
+            oldest = round(max(aged365, na.rm = TRUE), digits = 2),
+            feel_vyoung = sum(feelold == 1),
+            feel_young = sum(feelold == 2),
+            feel_neither = sum(feelold == 3),
+            feel_old = sum(feelold == 4),
+            feel_vold = sum(feelold == 5)
+            )
+# tbl
+
+# Printing the tibble in the output:
+knitr::kable(tbl, caption = "Table: Age-related data from Simmons et al. (2011).")
+
+# knitr::kable(tbl, format = "html") %>%
+#   kable_styling(bootstrap_options = c("striped", "hover")) %>%
+#   column_spec(1, bold = T, border_right = T) 
+```
+
+1. Enter this data as a tibble `tbl_1` (by using the `tibble` or the `tribble` command). 
+
+```{r ex4_falsePos_1, echo = TRUE, eval = TRUE}
+# (a) Using tibble:
+tbl_1 <- tibble(
+  cond = c("64", "control", "potato"),  
+  n = c(25, 22, 31), 
+  mean_age = c(21.09, 20.80, 20.60), 
+  youngest = c(18.30, 18.53, 18.18), 
+  oldest = c(38.24, 27.23, 27.37), 
+  feel_vyoung = c(0, 3, 1),
+  feel_young = c(13, 15, 17),
+  feel_neither = c(10, 3, 11),
+  feel_old = c(2, 1, 2),
+  feel_vold = c(0, 0, 0) )
+
+knitr::kable(tbl_1, caption = "Data entered (by using tibble).")
+
+# (b) Using tribble:
+tbl_2 <- tribble(~cond, ~n, ~mean_age, ~youngest, ~oldest,	
+                 ~feel_vyoung, ~feel_young, ~feel_neither, ~feel_old,	~feel_vold,
+                 #--------|----|------|------|------|---|---|---|---|---|
+                 "64",	    25, 21.09, 18.30,	38.24,	0, 13, 10,  2,  0,
+                 "control",	22,	20.80, 18.53,	27.23,	3, 15,  3,  1,  0,
+                 "potato",	31,	20.60, 18.18,	27.37,	1, 17, 11,  2,  0 )
+
+knitr::kable(tbl_2, caption = "Data entered (by using tribble).")
+
+## Check identity: 
+# all.equal(tbl, tbl_1)   # same, except for type differences
+all.equal(tbl_1,  tbl_2)  # TRUE
+```
+
+2. Import the original dataset from <http://rpository.com/ds4psy/data/falsePosPsy_all.csv> and re-create the data of `tbl_1` from the original data as a new tibble `tbl_org` (by using a `dplyr` pipe).
+
+```{r ex4_falsePos_2_data, echo = TRUE, eval = TRUE}
+# Import the dataset:
+falsePosPsy_all <- read_csv(file = "http://rpository.com/ds4psy/data/falsePosPsy_all.csv")
+```
+
+**Hints:** Check the codebook at [Datasets: False positive psychology](http://rpository.com/ds4psy/essentials/datasets.html#false-positive-psychology) to understand the variables of the dataset. 
+For instance, participants' age in years is stored in a variable called `aged365`. 
+
+```{r ex_falsePos_2_recreate_tbl, echo = TRUE, eval = TRUE}
+# Re-creating the data in tbl_1 from the original data:
+tbl_org <- falsePosPsy_all %>%
+  group_by(cond) %>%
+  summarise(n = n(),
+            mean_age = round(mean(aged365, na.rm = TRUE), digits = 2), 
+            youngest = round(min(aged365, na.rm = TRUE), digits = 2),
+            oldest = round(max(aged365, na.rm = TRUE), digits = 2),
+            feel_vyoung = sum(feelold == 1),
+            feel_young = sum(feelold == 2),
+            feel_neither = sum(feelold == 3),
+            feel_old = sum(feelold == 4),
+            feel_vold = sum(feelold == 5)
+            )
+knitr::kable(tbl_org, caption = "Same data re-created from raw data.")
+
+## Verify identity:
+# all.equal(tbl_1,  tbl_org)  # TRUE, except for different column types (numeric vs. integer).
+```
+
+3. Visualize some aspects of the data: 
+
+- Use the tibble `tbl_org` to plot the number of participants per condition (e.g., as a bar plot). 
+
+- Plot the mean age per condition with the minimum and the maximum age (e.g., by using `geom_pointrange`).
+
+```{r ex_falsePos_3, echo = TRUE, eval = TRUE}
+## Plotting the number of participants per condition:
+ggplot(tbl_org, aes(x = cond, y = n)) +
+  geom_bar(stat = "identity", fill = seeblau) +
+  labs(title = "Distribution of participants per condition",
+       x = "Condition", y = "Number of participants") + 
+  theme_bw()
+
+## Plotting mean age per condition with the minimum and the maximum age:
+ggplot(tbl_org, aes(x = cond, y = mean_age, color = cond)) +
+  geom_pointrange(aes(ymin = youngest, ymax = oldest), size = 1, shape = 19) +
+  labs(title = "Mean age per condition with minimum and maximum age",
+       x = "Condition", y = "Age (in years)") + 
+  scale_color_brewer(palette = "Set1") +
+  theme_bw()
+
+## Compare with a plot from raw data: ------- 
+# falsePosPsy_all
+
+ggplot(falsePosPsy_all, aes(x = cond, y = aged365, color = cond)) +
+  geom_violin(width = .40) + 
+  geom_boxplot(width = .20) + 
+  geom_jitter(width = .10, color = "black", alpha = 1/2) + 
+  labs(title = "Age values per condition",
+       x = "Condition", y = "Age (in years)",
+       color = "Condition:") + 
+  scale_color_brewer(palette = "Set1") +
+  theme_bw()
+```
 
 
 # More on tibbles
@@ -1047,7 +1186,6 @@ For more details on tibbles,
 - study `vignette("tibble")` and the documentation for `?tibble`;
 - study <https://tibble.tidyverse.org/> and its examples; 
 - read [Chapter 10: Tibbles](http://r4ds.had.co.nz/tibbles.html) and complete its exercises. 
-
 
 
 # Conclusion
