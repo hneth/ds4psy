@@ -1,7 +1,7 @@
 ---
 title: "Tibbles, with solutions (ds4psy)"
 author: "Hansjörg Neth, SPDS, uni.kn"
-date: "2018 12 08"
+date: "2018 12 09"
 output:
    rmdformats::html_clean: # html_clean html_docco readthedown material #
      code_folding: show # hide
@@ -692,9 +692,7 @@ all.equal(ir$Petal.Width,  ir_short$Petal.Width)  # => TRUE (qed)
 
 -->
 
-+++ here now +++
-
-## Exercise X: 
+## Exercise 2
 
 #### Rental accounting
 
@@ -921,6 +919,125 @@ buy  <- list("Anna", "Mon", "Bread", 2.50)  # by purchase
 # but as column vectors don't allow mixing data types (e.g., characters and numbers), 
 # we represented the purchases as the rows of a table/tibble above.
 ```
+
+
+## Exercise 3
+
+#### Positive psychology tibbles
+
+In this exercise, we will enter some results from our previous session (on [Exploring data (EDA)](http://rpository.com/ds4psy/essentials/explore.html)) as a tibble, before re-computing the results from the raw data and visualizing the results.
+
+To do this exercise, re-load the following data files (into R objects `posPsy_wide` and `posPsy_long`): 
+
+```{r ex3_load_data}
+# Load data: 
+posPsy_wide <- read_csv(file = "http://rpository.com/ds4psy/data/posPsy_data_wide.csv")
+dim(posPsy_wide)  # 295 294
+
+# 3. Corrected DVs in long format:
+posPsy_long <- read_csv(file = "http://rpository.com/ds4psy/data/posPsy_AHI_CESD_corrected.csv")
+dim(posPsy_long)  # 990 x 50
+```
+
+The following table shows the mean depression scores per intervention for each of the 5 occasions (with means rounded to 1 decimal): 
+
+```{r ex3_create_tbl, echo = FALSE, eval = TRUE}
+tbl_org <- posPsy_wide %>%
+  group_by(intervention) %>%
+  summarise(mn_cesd_0 = round(mean(cesdTotal.0, na.rm = TRUE), 1), 
+            mn_cesd_1 = round(mean(cesdTotal.1, na.rm = TRUE), 1), 
+            mn_cesd_2 = round(mean(cesdTotal.2, na.rm = TRUE), 1),
+            mn_cesd_3 = round(mean(cesdTotal.3, na.rm = TRUE), 1),
+            mn_cesd_4 = round(mean(cesdTotal.4, na.rm = TRUE), 1),
+            mn_cesd_5 = round(mean(cesdTotal.5, na.rm = TRUE), 1)
+            )
+
+# tbl_org
+
+# Print tbl_org: 
+knitr::kable(tbl_org, caption = "Table: Mean depression scores by intervention and occasion.")
+
+# knitr::kable(tbl_org, format = "html") %>%
+#  kable_styling(bootstrap_options = c("striped", "hover")) %>%
+#  column_spec(1, bold = TRUE, border_right = TRUE)
+```
+
+1. Enter this data directly into a tibble `my_tbl` (by using either the `tibble` or the `tribble` command). 
+
+```{r ex3_create_my_tbl}
+# (1a): Create the tibble displayed above. 
+my_tbl <- tibble(intervention = c(1:4),
+                 mn_cesd_0 = c(15.1, 16.2, 16.1, 12.8),
+                 mn_cesd_1 = c(15.3, 14.6, 12.3, 9.9),
+                 mn_cesd_2 = c(13.6, 11.4, 14.8, 9.5),
+                 mn_cesd_3 = c(12.0, 12.5, 13.9, 9.1),
+                 mn_cesd_4 = c(11.2, 13.4, 14.9, 7.7),
+                 mn_cesd_5 = c(13.5, 14.6, 13.0, 10.2) )
+
+my_tbl
+```
+
+2. Re-compute an identical tibble `my_tbl_2` by transforming one of the `posPsy_...` datasets (using `dplyr`) and verify that `my_tbl` and `my_tbl_2` are equal. 
+
+```{r ex3_create_my_tbl_2, echo = TRUE, eval = TRUE}
+my_tbl_2 <- posPsy_wide %>%
+  group_by(intervention) %>%
+  summarise(mn_cesd_0 = round(mean(cesdTotal.0, na.rm = TRUE), 1), 
+            mn_cesd_1 = round(mean(cesdTotal.1, na.rm = TRUE), 1), 
+            mn_cesd_2 = round(mean(cesdTotal.2, na.rm = TRUE), 1),
+            mn_cesd_3 = round(mean(cesdTotal.3, na.rm = TRUE), 1),
+            mn_cesd_4 = round(mean(cesdTotal.4, na.rm = TRUE), 1),
+            mn_cesd_5 = round(mean(cesdTotal.5, na.rm = TRUE), 1) )
+
+# my_tbl_2
+
+# Verify that they are equal:
+all.equal(my_tbl, my_tbl_2)  # TRUE
+```
+
+3. Visualize the information expressed by `my_tbl` in a transparent way (e.g., by creating a bar or line plot).  
+
+**Hint:** If this is difficult by using `data = my_tbl` in `ggplot`, use a data file that is better suited for this purpose. 
+_Why_ can't you just directly plot `my_tbl`?
+
+```{r ex3_visualize_tbl, echo = TRUE, eval = TRUE}
+# Problem: 
+# my_tbl contains the results, but distributed over 6 different variables.
+# To plot this data, we would need a format with only 1 dependent variable.
+
+# Using the data from posPsy_long 
+# (in which cesdTotal is only 1 variable, which we can group by occasion and intervention): 
+my_tbl_3 <- posPsy_long %>%
+  group_by(occasion, intervention) %>%
+  summarize(mean_cesd = round(mean(cesdTotal), 1))
+# my_tbl_3
+
+# Turn intervention from an integer into a factor: 
+my_tbl_3$intervention <- factor(my_tbl_3$intervention)
+# my_tbl_3
+
+# Note the difference: 
+knitr::kable(my_tbl_3, caption = "Table: This table contains our key dependent variable (mean_cesd) in 1 column.")
+
+# Visualize summary table as line graph: 
+ggplot(my_tbl_3, aes(x = occasion, y = mean_cesd, group = intervention,  
+                     color = intervention, shape = intervention)) +   
+  geom_line(size = 1, color = "black", alpha = .20) +
+  geom_point(size = 4) +
+  labs(title = "Mean depression scores by intervention and occasion",
+       x = "Occasion", y = "Mean CES-D score") +
+  scale_color_brewer(palette = "Set1") +
+  theme_bw()
+```
+
+
+## Exercise 4
+
++++ here now +++
+
+
+
+
 
 
 # More on tibbles
