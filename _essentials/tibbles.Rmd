@@ -13,6 +13,7 @@ output:
 editor_options: 
   chunk_output_type: console # inline
 ---
+
 <!-- Example of essential commands | ds4psy: Winter 2018 -->
 
 ```{r preamble, echo = FALSE, eval = TRUE, cache = FALSE, message = FALSE, warning = FALSE}
