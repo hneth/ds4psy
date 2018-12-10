@@ -822,7 +822,7 @@ ggplot(dec_1, aes(x = day)) +
   theme_classic()
 ```
 
-4. **Bonus tasks:* What do the following plots show? Try re-creating the plots from the data in `dec_1`.  
+4. **Bonus task:** What do the following plots show? Try re-creating the plots from the data in `dec_1`.  
 
 **Hint:** The plots are created with `geom_step` and `geom_area`. However, rather than directly calling `ggplot`, consider first using `dplyr` to transform `dec_1` into summary tables that contain all values needed for the plots. You may have to combine multiple `group_by` and `mutate` commands to compute all required variables. 
 

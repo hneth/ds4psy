@@ -72,6 +72,7 @@ Nr. | Topic       |
 2.  | **Visualizing data** | 
 3.  | [Transforming data](http://rpository.com/ds4psy/essentials/transform.html) |
 4.  | [Exploring data (EDA)](http://rpository.com/ds4psy/essentials/explore.html) | 
+5.  | [Tibbles](http://rpository.com/ds4psy/essentials/tibbles.html) |
 +.  | [Datasets](http://rpository.com/ds4psy/essentials/datasets.html) | 
 
 <!--
@@ -82,8 +83,9 @@ Nr. | Topic       |
 2.  | [Visualizing data](http://rpository.com/ds4psy/essentials/visualize.html) | 
 3.  | [Transforming data](http://rpository.com/ds4psy/essentials/transform.html) |
 4.  | [Exploring data (EDA)](http://rpository.com/ds4psy/essentials/explore.html) | 
-5.  | [Creating and using tibbles](http://rpository.com/ds4psy/essentials/tibble.html) |
+5.  | [Tibbles](http://rpository.com/ds4psy/essentials/tibbles.html) |
 6.  | [Tidying data](http://rpository.com/ds4psy/essentials/tidy.html) |  
++.  | [Datasets](http://rpository.com/ds4psy/essentials/datasets.html) | 
 -->
 
 ## Course coordinates
@@ -983,6 +985,7 @@ Nr. | Topic       |
 2.  | **Visualizing data** | 
 3.  | [Transforming data](http://rpository.com/ds4psy/essentials/transform.html) |
 4.  | [Exploring data (EDA)](http://rpository.com/ds4psy/essentials/explore.html) | 
+5.  | [Tibbles](http://rpository.com/ds4psy/essentials/tibbles.html) | 
 +.  | [Datasets](http://rpository.com/ds4psy/essentials/datasets.html) | 
 
 <!--
@@ -993,7 +996,7 @@ Nr. | Topic       |
 2.  | [Visualizing data](http://rpository.com/ds4psy/essentials/visualize.html) | 
 3.  | [Transforming data](http://rpository.com/ds4psy/essentials/transform.html) |
 4.  | [Exploring data (EDA)](http://rpository.com/ds4psy/essentials/explore.html) | 
-5.  | [Creating and using tibbles](http://rpository.com/ds4psy/essentials/tibble.html) |
+5.  | [Tibbles](http://rpository.com/ds4psy/essentials/tibbles.html) | 
 6.  | [Tidying data](http://rpository.com/ds4psy/essentials/tidy.html) |  
 +.  | [Datasets](http://rpository.com/ds4psy/essentials/datasets.html) | 
 -->
