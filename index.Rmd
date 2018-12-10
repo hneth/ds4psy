@@ -46,11 +46,9 @@ Students of psychology and other social sciences are trained to analyze data. Bu
 
 This course develops the foundations of data analysis that allow students to collect data from real-world sources and transform such data into a shape that allows for answering scientific and practical questions and reproducible research. Although there are many good introductions to data science (we use [Grolemund & Wickham, 2017](http://r4ds.had.co.nz/)) they typically do not cater towards the special background and needs -- and often anxieties and reservations -- of psychology students. As social scientists are not computer scientists, we introduce new concepts and commands without assuming a mathematical or computational background. Our data and examples typically involve people and questions currently of interest in scientific psychology. Adopting a task-oriented perspective, we begin with a specific problem and then solve it with some combination of data collection, manipulation, modeling, and visualization.
 
-
 ## Goals
 
 Our main goal is to develop a set of useful skills in analyzing real-world data and conducting reproducible research. Upon completing this course, you will be able to read, transform, analyze, and visualize data of various types. Many interactive exercises will allow students to check their understanding, monitor their progress, and practice their skills.
-
 
 ## Requirements
 
@@ -60,12 +58,16 @@ This course assumes some basic familiarity with statistics and the [R](http://ww
 
 ## Assessment
 
-A. Submitting solutions to weekly programming assignments (WPAs) to [Ilias](https://ilias.uni-konstanz.de/ilias/goto_ilias_uni_crs_809936.html) by **Wednesday** of the same week (by 23:59) on at least 8 out of 11 weeks. 
+A. Submitting solutions to weekly programming assignments (WPAs) to [Ilias](https://ilias.uni-konstanz.de/ilias/goto_ilias_uni_crs_809936.html) by **Thursday** of the same week (by 23:59) on at least 8 out of 11 weeks. 
 
-B. Final assessment: Vote for 1 of 2 options: 
+B. Final assessment: Final data science project (may be thesis-related, contents to be discussed with instructor). 
+
+<!-- Vote for 1 of 2 options: 
 
 1. Final exam (on 11.02.2019: 90 mins, open book);  
 2. Final data science project (may be thesis-related, contents to be discussed with instructor). 
+
+-->
 
 Final grades are based on both solutions to WPAs (A: 33%) and your final exam/project (B: 67%).
 
@@ -148,17 +150,22 @@ Part 2: Wrangle
  8. 10.12.2018: [Chapter 10: Tibbles](http://r4ds.had.co.nz/tibbles.html): `tibble`;   
  (**[Essentials and WPA05](http://rpository.com/ds4psy/essentials/tibbles.html)**). 
  
- 9. 17.12.2018: [Chapter 11: Data import](http://r4ds.had.co.nz/data-import.html): `readr`. 
+ 9. 17.12.2018: [Chapter 11: Data import](http://r4ds.had.co.nz/data-import.html): `readr`.
+ 
  10. 07.01.2018: [Chapter 12: Tidy data](http://r4ds.had.co.nz/tidy-data.html): `tidyr`. 
+ 
  11. 14.01.2019: [Chapter 13: Relational data](http://r4ds.had.co.nz/relational-data.html): `dplyr`. 
 
  
  **Part 3: Program**
  
  12. 21.01.2019: [Chapter 19: Functions](http://r4ds.had.co.nz/functions.html)
+ 
  13. 28.01.2019: [Chapter 20: Vectors](http://r4ds.had.co.nz/vectors.html) and/or [Chapter 21: Iteration](http://r4ds.had.co.nz/iteration.html)
- 14. 04.02.2019: **Buffer session**: Exam preparation or discussing **final projects**
- 15. 11.02.2019: **Final exam** or beginning **final projects**
+ 
+ 14. 04.02.2019: **Buffer session**: Preparing exam or **final projects**
+ 
+ 15. 11.02.2019: Starting your **final project** <!-- or **Final exam** -->
 
 
 <!-- Table with links: -->
@@ -204,9 +211,7 @@ This course mostly uses the so-called _flipped classroom_ paradigm, in which stu
     
     2. Begin with weekly exercises (in random dyads/triples): Copy exercises into your script and solve them in a way that you can discuss/share with other members of the class. 
 
-- _After_ class: Finish exercises at home and submit your solutions to [Ilias](https://ilias.uni-konstanz.de/ilias/goto_ilias_uni_crs_809936.html) by **Wednesday** of the same week (23:59). 
-
-
+- _After_ class: Finish exercises at home and submit your solutions to [Ilias](https://ilias.uni-konstanz.de/ilias/goto_ilias_uni_crs_809936.html) by **Thursday** of the same week (23:59). 
 
 
 # Details
