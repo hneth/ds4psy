@@ -1,5 +1,5 @@
 ---
-title: "Tibbles, with solutions (ds4psy)"
+title: "Tibbles, with WPA05 (ds4psy)"
 author: "Hansjörg Neth, SPDS, uni.kn"
 date: "2018 12 10"
 output:
@@ -516,7 +516,7 @@ Turn the `iris` data -- contained in R datasets -- into a tibble and conduct an 
 
 1. Save `datasets::iris` a tibble `ir` that contains this data and inspect it. Are there any missing values?
 
-```{r ex_iris_EDA_1, echo = TRUE, eval = TRUE}
+```{r ex_iris_EDA_1, echo = FALSE, eval = FALSE}
 # ?iris
 
 # 1. Turn into tibble and inspect: ----- 
@@ -528,7 +528,7 @@ sum(is.na(ir))  # 0 missing values
 
 2. Compute a summary table that shows the means of the 4 measurement columns (`Sepal.Length`, `Sepal.Width`, `Petal.Length`, `Petal.Width`) for each of the 3 `Species` (in rows). Save the resulting table of means as a tibble `im1`. 
 
-```{r ex_iris_EDA_2, echo = TRUE, eval = TRUE}
+```{r ex_iris_EDA_2, echo = FALSE, eval = FALSE}
 # 2. Compute counts and means by species: ----- 
 im1 <- ir %>%
   group_by(Species) %>%
@@ -545,7 +545,7 @@ knitr::kable(im1, caption = "Table: Average iris measures (4 variables of mean v
 
 3. Create a histogram that shows the distribution of `Sepal.Width` values across all species.
 
-```{r ex_iris_EDA_3, echo = TRUE, eval = TRUE}
+```{r ex_iris_EDA_3, echo = FALSE, eval = FALSE}
 ## Graphical exploration: ----- 
 
 ## Distribution of 1 (continuous) variable:
@@ -559,7 +559,7 @@ ggplot(ir, aes(x = Sepal.Width)) +
 
 4. Create a plot that shows the shape of the distribution of `Sepal.Width` values for each species.
 
-```{r ex_iris_EDA_4, echo = TRUE, eval = TRUE}
+```{r ex_iris_EDA_4, echo = FALSE, eval = FALSE}
 ## Distributions/relationships between 2 variables (1 categorical, 1 continuous):
 
 ## 4. The distributions of Sepal.Width by species:
@@ -580,7 +580,7 @@ ggplot(ir, aes(x = Sepal.Width, fill = Species)) +
 
 5. Create a plot that shows `Petal.Width` as a function of `Sepal.Width` separately (i.e., in 3 facets) for each species.
 
-```{r ex_iris_EDA_5, echo = TRUE, eval = TRUE}
+```{r ex_iris_EDA_5, echo = FALSE, eval = FALSE}
 ## Relationships between 2 variables (2 continuous):
 
 ## 5. Petal.Width as a function of Sepal.Width by iris species: 
@@ -616,10 +616,10 @@ ggplot(ir, aes(x = Sepal.Width, y = Petal.Width, color = Species, shape = Specie
 **Hints:** This task calls for applying `tidyr::spread` and `unite` commands to `ir_long`. 
 However, `spread` will encounter an error unless every individual plant is identified by a unique variable (e.g., `id` number). This can be achieved by adding a numeric counter variable `id` (with values of `rep(1:50, 3)`) to `ir` _before_ creating `ir_long`. 
 
-```{r ex_iris_tidyr}
+```{r ex_iris_tidyr, echo = FALSE, eval = FALSE}
 ## Data (from above): 
 # ?iris
-# ir <- as_tibble(datasets::iris)
+ir <- as_tibble(datasets::iris)
 # ir
 
 ## (f) Re-format ir into long format (using tidyr::gather) ----- 
@@ -716,7 +716,7 @@ Caro | Fruit: \$6.30 | Batteries: \$6.10 | -- | Newspaper: \$2.90 | Honey: \$3.2
 
 1. Which _variables_ and which _observations_ would you define here?  Go ahead and enter the data into a tibble `dec_1`. 
 
-```{r accounting_tibble, echo = TRUE, eval = TRUE}
+```{r accounting_tibble, echo = FALSE, eval = TRUE}
 ## Entering data into tibble: ------ 
 
 dec_1 <- tribble(
@@ -741,7 +741,7 @@ dec_1 <- tribble(
   "Caro",  "Fri", "Honey",     3.20,
   "Caro",  "Sat", "Detergent", 9.95 )
 
-knitr::kable(dec_1, caption = "Table with purchases as observations.")
+# knitr::kable(dec_1, caption = "Table with purchases as observations.")
 ```
 
 2. Use `dec_1` to answer the following questions (by using `dplyr` for creating tables that contain the answer):
@@ -754,7 +754,7 @@ knitr::kable(dec_1, caption = "Table with purchases as observations.")
   - How much is being spent on each day of the week (overall and on average)?   
   - What is the order of days sorted by the overall amount spent (from most expensive to least expensive)?  
 
-```{r accounting_tables, echo = TRUE, eval = TRUE}
+```{r accounting_tables, echo = FALSE, eval = FALSE}
 total_paid <- sum(dec_1$paid)
 total_paid 
 
@@ -790,7 +790,7 @@ buy_by_day %>%
 
 3. Interpret and re-create the following graphs (using `ggplot` and possibly `dplyr`):
 
-```{r accounting_plots, echo = TRUE, eval = TRUE}
+```{r accounting_plots, echo = FALSE, eval = TRUE}
 ## Visualizations: ------ 
 
 # (A) Bar charts: ---- 
@@ -822,7 +822,7 @@ ggplot(dec_1, aes(x = day)) +
   theme_classic()
 ```
 
-4. **Bonus tasks:* What do the following plots show? Try re-creating the plots from the data in `dec_1`.  
+4. **Bonus tasks:** What do the following plots show? Try re-creating the plots from the data in `dec_1`.  
 
 **Hint:** The plots are created with `geom_step` and `geom_area`. However, rather than directly calling `ggplot`, consider first using `dplyr` to transform `dec_1` into summary tables that contain all values needed for the plots. You may have to combine multiple `group_by` and `mutate` commands to compute all required variables. 
 
@@ -839,7 +839,7 @@ cum_by_day <- dec_1 %>%
   group_by(name) %>%
   mutate(cum_sum = cumsum(sm_pay))
 
-knitr::kable(cum_by_day, caption = "Purchases by day and name (with cum sum by name).")  # print the table
+# knitr::kable(cum_by_day, caption = "Purchases by day and name (with cum sum by name).")  # print the table
   
 # (b) Plot summary table of cumulative purchases:
 ggplot(cum_by_day, aes(x = day, y = cum_sum, group = name, color = name)) +
@@ -855,8 +855,8 @@ ggplot(cum_by_day, aes(x = day, y = cum_sum, group = name, color = name)) +
 ```
 
 ```{r accounting_area, echo = FALSE, eval = TRUE}
-# Note: The tibble 
-dec_1
+## Note: The tibble 
+# dec_1
 # does not contain rows for a person and day without a purchase.
 # As a consequence, the summary tables (above) with  
 # group_by(day, name) do not contain 7 x 3 = 21 variables.
@@ -894,7 +894,7 @@ cum_sum_by_day <- all %>%
   mutate(cum_sum_day = sum(cum_sum_name),
          pc_name = cum_sum_name/cum_sum_day * 100)
   
-knitr::kable(cum_sum_by_day, caption = "Cumulative sums (by day and name).")
+# knitr::kable(cum_sum_by_day, caption = "Cumulative sums (by day and name).")
 
 # Visualizations: ------ 
 
@@ -917,7 +917,7 @@ area_pc
 
 **Note:** An alternative way to represent the purchases would as a list (an R data structure that -- in contrast to vectors -- allows a mix of different data types): 
 
-```{r accounting_note, echo = TRUE, eval = TRUE}
+```{r accounting_note, echo = FALSE, eval = FALSE}
 # A more natural format (to represent a purchase) would have been: 
 
 buy  <- list("Anna", "Mon", "Bread", 2.50)  # by purchase
@@ -970,7 +970,7 @@ knitr::kable(tbl_org, caption = "Table: Mean depression scores by intervention a
 
 1. Enter this data directly into a tibble `my_tbl` (by using either the `tibble` or the `tribble` command). 
 
-```{r ex3_create_my_tbl}
+```{r ex3_create_my_tbl, echo = FALSE, eval = FALSE}
 # (1a): Create the tibble displayed above. 
 my_tbl <- tibble(intervention = c(1:4),
                  mn_cesd_0 = c(15.1, 16.2, 16.1, 12.8),
@@ -985,7 +985,7 @@ my_tbl
 
 2. Re-compute an identical tibble `my_tbl_2` by transforming one of the `posPsy_...` datasets (using `dplyr`) and verify that `my_tbl` and `my_tbl_2` are equal. 
 
-```{r ex3_create_my_tbl_2, echo = TRUE, eval = TRUE}
+```{r ex3_create_my_tbl_2, echo = FALSE, eval = FALSE}
 my_tbl_2 <- posPsy_wide %>%
   group_by(intervention) %>%
   summarise(mn_cesd_0 = round(mean(cesdTotal.0, na.rm = TRUE), 1), 
@@ -1006,7 +1006,7 @@ all.equal(my_tbl, my_tbl_2)  # TRUE
 **Hint:** If this is difficult by using `data = my_tbl` in `ggplot`, use a data file that is better suited for this purpose. 
 _Why_ can't you just directly plot `my_tbl`?
 
-```{r ex3_visualize_tbl, echo = TRUE, eval = TRUE}
+```{r ex3_visualize_tbl, echo = FALSE, eval = FALSE}
 # Problem: 
 # my_tbl contains the results, but distributed over 6 different variables.
 # To plot this data, we would need a format with only 1 dependent variable.
@@ -1054,6 +1054,15 @@ You can find background information on this article and its data at [Datasets: F
 The following table was created from the data of both studies. 
 It reports the mean, minimum, and maximum age of participants per condition `cond`, as well as the number of people in those conditions who reported to feel a certain age (from very young to very old): 
 
+```{r ex4_load_data_only, echo = FALSE, eval = FALSE, message = FALSE, warning = FALSE}
+# (1) Import the dataset: 
+falsePosPsy_all <- read_csv(file = "http://rpository.com/ds4psy/data/falsePosPsy_all.csv")  # online
+
+## Verify that import was successful:
+dim(falsePosPsy_all)   # 78 19
+# str(falsePosPsy_all)
+```
+
 ```{r ex4_load_data_create_tbl, echo = FALSE, eval = TRUE, message = FALSE, warning = FALSE}
 # (1) Import the dataset: 
 falsePosPsy_all <- read_csv(file = "http://rpository.com/ds4psy/data/falsePosPsy_all.csv")  # online
@@ -1087,7 +1096,7 @@ knitr::kable(tbl, caption = "Table: Age-related data from Simmons et al. (2011).
 
 1. Enter this data as a tibble `tbl_1` (by using the `tibble` or the `tribble` command). 
 
-```{r ex4_falsePos_1, echo = TRUE, eval = TRUE}
+```{r ex4_falsePos_1, echo = FALSE, eval = FALSE}
 # (a) Using tibble:
 tbl_1 <- tibble(
   cond = c("64", "control", "potato"),  
@@ -1128,7 +1137,7 @@ falsePosPsy_all <- read_csv(file = "http://rpository.com/ds4psy/data/falsePosPsy
 **Hints:** Check the codebook at [Datasets: False positive psychology](http://rpository.com/ds4psy/essentials/datasets.html#false-positive-psychology) to understand the variables of the dataset. 
 For instance, participants' age in years is stored in a variable called `aged365`. 
 
-```{r ex_falsePos_2_recreate_tbl, echo = TRUE, eval = TRUE}
+```{r ex_falsePos_2_recreate_tbl, echo = FALSE, eval = FALSE}
 # Re-creating the data in tbl_1 from the original data:
 tbl_org <- falsePosPsy_all %>%
   group_by(cond) %>%
@@ -1154,7 +1163,7 @@ knitr::kable(tbl_org, caption = "Same data re-created from raw data.")
 
 - Plot the mean age per condition with the minimum and the maximum age (e.g., by using `geom_pointrange`).
 
-```{r ex_falsePos_3, echo = TRUE, eval = TRUE}
+```{r ex_falsePos_3, echo = FALSE, eval = FALSE}
 ## Plotting the number of participants per condition:
 ggplot(tbl_org, aes(x = cond, y = n)) +
   geom_bar(stat = "identity", fill = seeblau) +
