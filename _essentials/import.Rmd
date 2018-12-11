@@ -1,0 +1,236 @@
+---
+title: "Importing files, with solutions (ds4psy)"
+author: "Hansjörg Neth, SPDS, uni.kn"
+date: "2018 12 11"
+output:
+   rmdformats::html_clean: # html_clean html_docco readthedown material #
+     code_folding: show # hide
+     toc_float: true
+     toc_depth: 3
+     highlight: default # textmate default kate haddock monochrome #
+     lightbox: true # true by default
+     fig_width: 7 # in inches
+editor_options: 
+  chunk_output_type: console # inline
+---
+
+<!-- Example of essential commands | ds4psy: Winter 2018 -->
+
+```{r preamble, echo = FALSE, eval = TRUE, cache = FALSE, message = FALSE, warning = FALSE}
+## (a) Housekeeping: -----
+rm(list=ls()) # clean all.
+
+## (b) Current file name and path: ----- 
+# my_path <- dirname(rstudioapi::getActiveDocumentContext()$path)
+# my_path
+# setwd(my_path) # set to current directory
+setwd("~/Desktop/stuff/Dropbox/_code/R/_teachR/ds4psy/_essentials") # set to current directory
+# list.files() # all files + folders in current directory
+fileName <- "import.Rmd"
+
+## (c) Packages: ----- 
+library(knitr)
+library(rmdformats)
+library(tidyverse)
+
+## (d) Global options: ----- 
+options(max.print = "75")
+opts_chunk$set(echo = TRUE,
+	             cache = TRUE,
+               prompt = FALSE,
+               tidy = FALSE,
+               collapse = TRUE, # set TRUE in answers 
+               comment = "#>",
+               message = FALSE,
+               warning = FALSE,
+               ## Default figure options:
+               fig.width = 7, 
+               fig.asp = .618, # golden ratio
+               out.width = "75%",
+               fig.align = "center"
+               )
+opts_knit$set(width = 75)
+
+## (e) Custom functions: ----- 
+source(file = "~/Desktop/stuff/Dropbox/_code/R/_teachR/ds4psy/R/custom_functions.R")
+```
+
+# Introduction
+
+This file contains **essential commands** from [Chapter 11: Data import](https://r4ds.had.co.nz/data-import.html) of the textbook [r4ds](http://r4ds.had.co.nz) and corresponding examples and exercises. 
+A command is considered "essential" when you really need to _know_ it and need to know _how to use_ it to succeed in this course. 
+
+<!-- Table with links: -->
+
+All [ds4psy](http://rpository.com/ds4psy/) essentials so far: 
+
+Nr. | Topic       |
+---:|:------------| 
+0.  | [Syllabus](http://rpository.com/ds4psy/) | 
+1.  | [Basic R concepts and commands](http://rpository.com/ds4psy/essentials/basics.html) | 
+2.  | [Visualizing data](http://rpository.com/ds4psy/essentials/visualize.html) | 
+3.  | [Transforming data](http://rpository.com/ds4psy/essentials/transform.html) |
+4.  | [Exploring data (EDA)](http://rpository.com/ds4psy/essentials/explore.html) | 
+5.  | [Tibbles](http://rpository.com/ds4psy/essentials/tibbles.html) |
+6.  |  **Importing data** |
++.  | [Datasets](http://rpository.com/ds4psy/essentials/datasets.html) | 
+
+<!--
+Nr. | Topic       |
+---:|:------------| 
+0.  | [Syllabus](http://rpository.com/ds4psy/) | 
+1.  | [Basic R concepts and commands](http://rpository.com/ds4psy/essentials/basics.html) | 
+2.  | [Visualizing data](http://rpository.com/ds4psy/essentials/visualize.html) | 
+3.  | [Transforming data](http://rpository.com/ds4psy/essentials/transform.html) |
+4.  | [Exploring data (EDA)](http://rpository.com/ds4psy/essentials/explore.html) | 
+5.  | [Tibbles](http://rpository.com/ds4psy/essentials/tibbles.html) |
+6.  | [Importing data](http://rpository.com/ds4psy/essentials/import.html) |
+7.  | [Tidying data](http://rpository.com/ds4psy/essentials/tidy.html) |
++.  | [Datasets](http://rpository.com/ds4psy/essentials/datasets.html) | 
+-->
+
+## Course coordinates
+
+<!-- uni.kn logo and link to SPDS: -->  
+<!-- ![](./inst/pix/uniKn_logo.png) --> 
+<a href="https://www.spds.uni-konstanz.de/">
+<img src = "../inst/pix/uniKn_logo.png" alt = "spds.uni.kn" align = "right" width = "300" style = "width: 300px; float: right; border:20;"/>
+<!-- <img src = "./inst/pix/uniKn_logo_s.png" alt = "spds.uni.kn" style = "float: right; border:20;"/> --> 
+</a>
+
+* Taught at the [University of Konstanz](https://www.uni-konstanz.de/) by [Hansjörg Neth](http://neth.de/) (<h.neth@uni.kn>,  [SPDS](https://www.spds.uni-konstanz.de/), office D507).
+* Winter 2018/2019: Mondays, 13:30--15:00, C511. 
+* Links to current [course syllabus](http://rpository.com/ds4psy/) | [ZeUS](https://zeus.uni-konstanz.de/hioserver/pages/startFlow.xhtml?_flowId=detailView-flow&unitId=5101&periodId=78&navigationPosition=hisinoneLehrorganisation,examEventOverviewOwn) |  [Ilias](https://ilias.uni-konstanz.de/ilias/goto_ilias_uni_crs_809936.html) 
+
+
+## Preparations
+
+Create an R script (`.R`) or an R-Markdown file (`.Rmd`) and load the R packages of the `tidyverse`. (**Hint:** Structure your script by inserting spaces, meaningful comments, and sections.) 
+
+```{r layout_template, echo = TRUE, eval = FALSE}
+## Importing data | ds4psy
+## 2018 12 17
+## ----------------------------
+
+## Preparations: ----------
+
+library(tidyverse)
+
+## 1. Topic: ----------
+
+# etc.
+
+## End of file (eof). ----------  
+```
+
+To use [R Markdown](https://rmarkdown.rstudio.com), create a corresponding file and save it with the `.Rmd` extension (e.g., by selecting `File > New File > R Markdown`). 
+For instructions on combining text and code, see [Chapter 27: R Markdown](https://r4ds.had.co.nz/r-markdown.html) of our textbook, or use one of the following templates:  
+
+- minimal template:  `rmd_template_s` [in [.Rmd](http://rpository.com/down/temp/rmd_template_s.Rmd) | [.html](http://rpository.com/down/temp/rmd_template_s.html) format]
+
+- medium template: `rmd_template_m` [in [.Rmd](http://rpository.com/down/temp/rmd_template_m.Rmd) | [.html](http://rpository.com/down/temp/rmd_template_m.html) format]
+
+- explicit explanations: `Rmarkdown_basics` [in [.Rmd](http://rpository.com/down/temp/Rmarkdown_basics.Rmd) | [.html](http://rpository.com/down/temp/Rmarkdown_basics.html) format]
+
+**Hint:** Try to _knit_ your `.Rmd` file immediately after saving it and marvel at the beauty of the resulting `.html`-file. If this works, keep doing this routinely from now on, putting all your R-code into code chunks, and any text (like headings or conclusions) that describes or explains what you are doing outside of them. From now on, you can share your `.html` output files, rather than your `.Rmd` source files when showing off your R and data science skills.
+
+
+# Importing data
+
+Where does a _data frame_ or _tibble_ come from? If we don't enter it ourselves (e.g., with the `tibble` or `tribble` commands from our session on [Tibbles](http://rpository.com/ds4psy/essentials/tibbles.html)) we need to import it from an external source. 
+This session discusses some essential options and pitfalls when using the tidyverse package `readr` for data import. 
+`readr` provides a fast and friendly way to read rectangular data files (like `csv`, `tsv`, and `fwf`). 
+
+
+## Parsing vectors
+
+## Parsing files
+
+## Writing files
+
+
+## Importing data from other programs
+
+For _rectangular_ data: 
+
+### From Excel (`xls`)
+
+`readxl` reads excel files (both .xls and .xlsx).
+
+### From SPSS (`sav`)
+
+`haven` reads SPSS, Stata, and SAS files.
+
+
+For _hierarchical_ data: 
+
+Use `jsonlite` for json, and `xml2` for XML. 
+
+
+
+# Exercises (WPA06)
+
+<!-- 
+
+## Agenda
+
+**ToDo:**
+
+- Import the same table from different data formats (e.g., US vs. EU)
+
+- Import a table with corrupt variables and values (e.g., "ten" as a number)
+
+- Realize the limitations of rectangular data (e.g., multiple entries per cell, multiple dependent variables, etc.)
+
+--> 
+
+## Exercise X
+
+
+
+# More on data import
+
+For more details on importing data, 
+
+- study the `vignette("readr")` and `vignette("locales")`;
+- study <https://readr.tidyverse.org/> and its examples; 
+- read [Chapter 11: Data import](https://r4ds.had.co.nz/data-import.html) and complete its exercises. 
+
+See the R package [Datapasta](https://CRAN.R-project.org/package=datapasta) and its [vignette](https://cran.r-project.org/web/packages/datapasta/vignettes/how-to-datapasta.html) for a clipboard-based solution for cut-and-pasting data into [RStudio](https://www.rstudio.com/). 
+
+
+# Conclusion
+
+<!-- Table with links: -->
+
+All [ds4psy](http://rpository.com/ds4psy/) essentials so far: 
+
+Nr. | Topic       |
+---:|:------------| 
+0.  | [Syllabus](http://rpository.com/ds4psy/) | 
+1.  | [Basic R concepts and commands](http://rpository.com/ds4psy/essentials/basics.html) | 
+2.  | [Visualizing data](http://rpository.com/ds4psy/essentials/visualize.html) | 
+3.  | [Transforming data](http://rpository.com/ds4psy/essentials/transform.html) |
+4.  | [Exploring data (EDA)](http://rpository.com/ds4psy/essentials/explore.html) | 
+5.  | [Tibbles](http://rpository.com/ds4psy/essentials/tibbles.html) |
+6.  |  **Importing data** |
++.  | [Datasets](http://rpository.com/ds4psy/essentials/datasets.html) | 
+
+
+<!--
+Nr. | Topic       |
+---:|:------------| 
+0.  | [Syllabus](http://rpository.com/ds4psy/) | 
+1.  | [Basic R concepts and commands](http://rpository.com/ds4psy/essentials/basics.html) | 
+2.  | [Visualizing data](http://rpository.com/ds4psy/essentials/visualize.html) | 
+3.  | [Transforming data](http://rpository.com/ds4psy/essentials/transform.html) |
+4.  | [Exploring data (EDA)](http://rpository.com/ds4psy/essentials/explore.html) | 
+5.  | [Tibbles](http://rpository.com/ds4psy/essentials/tibbles.html) |
+6.  | [Importing data](http://rpository.com/ds4psy/essentials/import.html) |
+7.  | [Tidying data](http://rpository.com/ds4psy/essentials/tidy.html) |
++.  | [Datasets](http://rpository.com/ds4psy/essentials/datasets.html) | 
+-->
+
+[Last update on `r Sys.time()` by [hn](http://neth.de/).]  
+
+<!-- eof. --> 
