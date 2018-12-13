@@ -1,7 +1,7 @@
 ---
 title: "Tidy data, with solutions (ds4psy)"
 author: "Hansjörg Neth, SPDS, uni.kn"
-date: "2018 12 10"
+date: "2018 12 12"
 output:
    rmdformats::html_clean: # html_clean html_docco readthedown material #
      code_folding: show # hide
@@ -670,46 +670,139 @@ st_long %>%
   mutate(day_nr = parse_integer(str_sub(day, 2, 2))) # optional: get day_nr as integer variable
 ```
 
-## Exercises / Rtudes
+# Exercises (WPAxx)
+
+## Exercise X:
 
 - Using `reshape` to transform data (with multiple DVs and multiple measurements) from wide to long format:
 
-```{r resphape_test}
+A general problem and 2 solutions: 
+Transform data (with multiple DVs and measurements per DV) from wide into long format:
+
+```{r reshape_test_and_solutions, echo = TRUE, eval = TRUE}
+## A very general problem: 
+
+## Setting:  We have a dataset in _wide_ format that contains 
+## - multiple DVs (as columns), 
+## - each of which has multiple measurements (columns).
+
+## Goal: We want the same data in _long_ format (i.e., each DV in 1 column, 
+##       but with additional qualifying variables that uniquely identify each value). 
+
+## (0) Generate test data:
 set.seed(101)
 
 p1 <- sample(x = c(0, 1), size = 5, replace = TRUE)
 p2 = ((p1 - 1) * -1)
 
 # 5 subjects with 3 DVs each 2 times:
-data_wide <- data.frame("subj" = 1:5,
-                        "c1" = sample(x = c(TRUE, FALSE), size = 5, replace = TRUE),
-                        "c2" = sample(x = c(TRUE, FALSE), size = 5, replace = TRUE),
-                        "t1" = round(runif(5, min = 0, max = 3000), 1),
-                        "t2" = round(runif(5, min = 0, max = 3000), 1),
-                        "p1" = p1,
-                        "p2" = p2)
+test_data_wide <- data.frame("subj" = 1:5,
+                             "c1" = sample(x = c(TRUE, FALSE), size = 5, replace = TRUE),
+                             "c2" = sample(x = c(TRUE, FALSE), size = 5, replace = TRUE),
+                             "t1" = round(runif(5, min = 0, max = 3000), 1),
+                             "t2" = round(runif(5, min = 0, max = 3000), 1),
+                             "p1" = p1,
+                             "p2" = p2)
 
-data_wide
+test_data_wide
+
+## 2 alternative strategies: -----
+
+# (1) Base R solution: ---- 
 
 # Using stats::reshape
-data_long <- reshape(data_wide, varying = list(c = c("c1", "c2"),
-                                               t = paste0("t", 1:2),
-                                               p = paste0("p", 1:2)),
-                     direction = "long",
-                     v.names = c("c", "t", "p"), # wenn man in dem Schritt auch gleich umbennen will
-                     timevar = "p",              # wenn position den Zeitpunkt angibt (bei mir nicht, da eine Zufallszahl
-                     idvar = "subj")             # wird ansonsten neu eingefügt.
+test_data_long <- reshape(test_data_wide, 
+                          varying = list(c = c("c1", "c2"),
+                                         t = paste0("t", 1:2),
+                                         p = paste0("p", 1:2)),
+                          direction = "long",
+                          v.names = c("choice", "time", "position"),  # to rename variables
+                          timevar = "position",    # if position Zeitpunkt angibt (!)
+                          idvar = "subj"           # otherwise added as new variable
+                          )      
 
-data_long %>% arrange(subj)
+solution_long_1 <- test_data_long %>% arrange(subj, position)
+solution_long_1
 
-# Using tidyr::gather
-data_wide
+# (2) tidyverse solution: ---- 
 
+# Problem: We have 3 sets of DVs, but can only specify 1 in gather command.
+# Thus, we proceed in 2 steps:
+# (A) Use gather 3 times (on each set of DVs) to generate 3 long tibbles.
+# (B) Combine the relevant DVs from the 3 tibbles into 1 tibble.
+
+# (A) Using tidyr::gather 3 times:
+#    1. DV = choice variables (12 variables: dec_01:dec_09)
+#    2. DV = position         (12 variables: task_number_1:task_number_12)
+#    3. DV = time             (12 variables: pg_time_1:pg_time_12)
+# Use a pipe with gather, mutate (to determine i_num as integer), and arrange
+
+# => 3 separate tibbles in long format, each sorted the same way!
+
+test_data_wide
+
+# (a) c => choice:
+test_long_c <- test_data_wide %>%
+  gather(c1:c2, key = "source_item", value = "choice") %>% 
+  arrange(subj) %>%
+  mutate(i_char = substr(source_item, (nchar("c") + 1), nchar(source_item)), # i_num as character   
+         i_num = as.integer(i_char)  # i_num as integer
+         ) %>% 
+  arrange(subj, i_num)
+test_long_c
+
+# (b) t => time:
+test_long_t <- test_data_wide %>%
+  gather(t1:t2, key = "source_item", value = "time") %>% 
+  arrange(subj) %>%
+  mutate(i_char = substr(source_item, (nchar("c") + 1), nchar(source_item)), # i_num as character   
+         i_num = as.integer(i_char)  # i_num as integer
+         ) %>% 
+  arrange(subj, i_num)
+test_long_t
+
+# (c) p => position:
+test_long_p <- test_data_wide %>%
+  gather(p1:p2, key = "source_item", value = "position") %>% 
+  arrange(subj) %>%
+  mutate(i_char = substr(source_item, (nchar("c") + 1), nchar(source_item)), # i_num as character   
+         i_num = as.integer(i_char)  # i_num as integer
+         ) %>% 
+  arrange(subj, i_num)
+test_long_p
+
+# (B) Slicing and dicing:
+# - Start with main tibble test_long_c (copied to solution_2); 
+# - Add additional columns (key variables) from test_long_t and test_long_p to it;  
+# - Select relevant columns from solution_2.
+
+## Use cbind.data.frame to paste 2 new columns to existing df: 
+# test_tbl_1 <- test_long_c          # basic tibble
+# test_col_1 <- test_long_t$time     # key column from test_long_t
+# test_col_2 <- test_long_p$position # key column from test_long_t
+# test_all <- cbind.data.frame(test_tbl_1, test_col_1, test_col_2) 
+## => Problem: Changes names of new columns!
+
+# Simpler: Just assign 2 new columns to existing tibble: 
+test_all <- test_long_c  # start with basic tibble
+test_all$time     <- test_long_t$time      # key column from test_long_t
+test_all$position <- test_long_p$position  # key column from test_long_t
+
+# Solution 2 by re-sorting variable columns:
+solution_long_2 <- test_all %>%
+  select(subj, position, choice, time)
+
+# Check equality of solutions:
+s1 <- as_tibble(solution_long_1)  # turn into tibble (to adjust variable types)
+s2 <- as_tibble(solution_long_2)
+all.equal(s1, s2)  # TRUE (qed).
 ```
 
-- Plotting one DV against many others: 
+## Exercise Y:
 
-```{r explain_gather_plot}
+- Plotting one DV against many others: See and explain how this works... 
+
+```{r explain_gather_plot,  echo = TRUE, eval = TRUE}
 # From https://www.r-bloggers.com/plot-some-variables-against-many-others-with-tidyr-and-ggplot2/ 
 
 # Showing 1 DV (mpg) and 2 more factor variables (hp and cyl): 
@@ -741,7 +834,6 @@ mtcars %>%
 mtcars %>%
   gather(-mpg, -hp, -cyl, key = "var", value = "value")
 ```
-
 
 ## More on tidy data
 
