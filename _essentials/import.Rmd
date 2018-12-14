@@ -145,16 +145,29 @@ This session discusses some essential options and pitfalls when using the tidyve
 
 ```{r create_data_file}
 n <- 10
-v1 <- random_symbols(n = n, set = LETTERS, len = 4)
-v2 <- random_symbols(n = n, set = as.character(0:9), len = 4)
-v3 <- random_symbols(n = n, set = letters, len = 4)  
+v1 <- random_symbols(n = n, set = LETTERS, len = 2)
+v2 <- round(runif(n = n, min = 18, max = 88), 0)
+v3 <- random_symbols(n = n, set = as.character(0:9), len = 8)
+v4 <- random_symbols(n = n, set = letters, len = 6)  
 
-tibble(c1 = v1,
-       c2 = v2,
-       c3 = v3)
+tbl <- tibble(ini = v1,
+              age = v2,
+              tel = v3,
+              pwd = v4)
+tbl
 
+# Writing out: 
+write_delim(tbl, path = "../data/data.dat", delim = ".", na = "NA", col_names = FALSE)
 
+# Reading in:
+my_file <- "../data/data.dat"
 
+read_delim(my_file, delim = ".", col_names = FALSE)
+
+read_fwf(my_file, fwf_cols(ini = c(1, 2), 
+                           age = c(4, 5), 
+                           nr = c(7, 14), 
+                           pwd = c(16, 21) ))
 ```
 
 

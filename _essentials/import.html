@@ -124,7 +124,7 @@ img {
 <div id="header">
 <h1 class="title">Importing files, with solutions (ds4psy)</h1>
 <h4 class="author"><em>Hansjörg Neth, SPDS, uni.kn</em></h4>
-<h4 class="date"><em>2018 12 11</em></h4>
+<h4 class="date"><em>2018 12 14</em></h4>
 </div>
 
 <div id="content">
@@ -227,9 +227,73 @@ Nr. | Topic       |
 </div>
 <div id="importing-data" class="section level1">
 <h1>Importing data</h1>
-<p>Where does a <em>data frame</em> or <em>tibble</em> come from? If we don’t enter it ourselves (e.g., with the <code>tibble</code> or <code>tribble</code> commands from our session on <a href="http://rpository.com/ds4psy/essentials/tibbles.html">Tibbles</a>) we need to import it from an external source. This session discusses some essential options and pitfalls when using the tidyverse package <code>readr</code> for data import. <code>readr</code> provides a fast and friendly way to read rectangular data files (like <code>csv</code>, <code>tsv</code>, and <code>fwf</code>).</p>
+<p>Where does data (e.g., a <em>data frame</em> or <em>tibble</em>) come from? If we don’t enter it ourselves (e.g., with the <code>tibble</code> or <code>tribble</code> commands (see our session on <a href="http://rpository.com/ds4psy/essentials/tibbles.html">Tibbles</a>) we typically import it from an external source. The scope of such sources is vast and we only cover the most common candidates: Data that is already stored in text form or other file formats that can easily be coerced into linear or rectangular data structures.</p>
+<p>This session discusses some essential options and pitfalls when using the tidyverse package <code>readr</code> for data import. <code>readr</code> provides a fast and friendly way to read vectors and rectangular data files (like <code>csv</code>, <code>tsv</code>, and <code>fwf</code>).</p>
 <div id="parsing-vectors" class="section level2">
 <h2>Parsing vectors</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">n &lt;-<span class="st"> </span><span class="dv">10</span>
+v1 &lt;-<span class="st"> </span><span class="kw">random_symbols</span>(<span class="dt">n =</span> n, <span class="dt">set =</span> LETTERS, <span class="dt">len =</span> <span class="dv">2</span>)
+v2 &lt;-<span class="st"> </span><span class="kw">round</span>(<span class="kw">runif</span>(<span class="dt">n =</span> n, <span class="dt">min =</span> <span class="dv">18</span>, <span class="dt">max =</span> <span class="dv">88</span>), <span class="dv">0</span>)
+v3 &lt;-<span class="st"> </span><span class="kw">random_symbols</span>(<span class="dt">n =</span> n, <span class="dt">set =</span> <span class="kw">as.character</span>(<span class="dv">0</span><span class="op">:</span><span class="dv">9</span>), <span class="dt">len =</span> <span class="dv">8</span>)
+v4 &lt;-<span class="st"> </span><span class="kw">random_symbols</span>(<span class="dt">n =</span> n, <span class="dt">set =</span> letters, <span class="dt">len =</span> <span class="dv">6</span>)  
+
+tbl &lt;-<span class="st"> </span><span class="kw">tibble</span>(<span class="dt">ini =</span> v1,
+              <span class="dt">age =</span> v2,
+              <span class="dt">tel =</span> v3,
+              <span class="dt">pwd =</span> v4)
+tbl
+<span class="co">#&gt; # A tibble: 10 x 4</span>
+<span class="co">#&gt;    ini     age tel      pwd   </span>
+<span class="co">#&gt;    &lt;chr&gt; &lt;dbl&gt; &lt;chr&gt;    &lt;chr&gt; </span>
+<span class="co">#&gt;  1 LK       41 43342243 ivaufa</span>
+<span class="co">#&gt;  2 KJ       87 92150689 zsqzje</span>
+<span class="co">#&gt;  3 AP       24 90559951 svlrxo</span>
+<span class="co">#&gt;  4 TG       33 97019641 loucez</span>
+<span class="co">#&gt;  5 HE       69 39932000 ipqcnt</span>
+<span class="co">#&gt;  6 SL       71 98141638 oygcye</span>
+<span class="co">#&gt;  7 LI       70 16027841 czirox</span>
+<span class="co">#&gt;  8 EU       30 85693941 xnrlpo</span>
+<span class="co">#&gt;  9 FY       37 23225555 tanwvu</span>
+<span class="co">#&gt; 10 OS       45 59123244 adxdlg</span>
+
+<span class="co"># Writing out: </span>
+<span class="kw">write_delim</span>(tbl, <span class="dt">path =</span> <span class="st">&quot;../data/data.dat&quot;</span>, <span class="dt">delim =</span> <span class="st">&quot;.&quot;</span>, <span class="dt">na =</span> <span class="st">&quot;NA&quot;</span>, <span class="dt">col_names =</span> <span class="ot">FALSE</span>)
+
+<span class="co"># Reading in:</span>
+my_file &lt;-<span class="st"> &quot;../data/data.dat&quot;</span>
+
+<span class="kw">read_delim</span>(my_file, <span class="dt">delim =</span> <span class="st">&quot;.&quot;</span>, <span class="dt">col_names =</span> <span class="ot">FALSE</span>)
+<span class="co">#&gt; # A tibble: 10 x 4</span>
+<span class="co">#&gt;    X1       X2       X3 X4    </span>
+<span class="co">#&gt;    &lt;chr&gt; &lt;int&gt;    &lt;int&gt; &lt;chr&gt; </span>
+<span class="co">#&gt;  1 LK       41 43342243 ivaufa</span>
+<span class="co">#&gt;  2 KJ       87 92150689 zsqzje</span>
+<span class="co">#&gt;  3 AP       24 90559951 svlrxo</span>
+<span class="co">#&gt;  4 TG       33 97019641 loucez</span>
+<span class="co">#&gt;  5 HE       69 39932000 ipqcnt</span>
+<span class="co">#&gt;  6 SL       71 98141638 oygcye</span>
+<span class="co">#&gt;  7 LI       70 16027841 czirox</span>
+<span class="co">#&gt;  8 EU       30 85693941 xnrlpo</span>
+<span class="co">#&gt;  9 FY       37 23225555 tanwvu</span>
+<span class="co">#&gt; 10 OS       45 59123244 adxdlg</span>
+
+<span class="kw">read_fwf</span>(my_file, <span class="kw">fwf_cols</span>(<span class="dt">ini =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">2</span>), 
+                           <span class="dt">age =</span> <span class="kw">c</span>(<span class="dv">4</span>, <span class="dv">5</span>), 
+                           <span class="dt">nr =</span> <span class="kw">c</span>(<span class="dv">7</span>, <span class="dv">14</span>), 
+                           <span class="dt">pwd =</span> <span class="kw">c</span>(<span class="dv">16</span>, <span class="dv">21</span>) ))
+<span class="co">#&gt; # A tibble: 10 x 4</span>
+<span class="co">#&gt;    ini     age       nr pwd   </span>
+<span class="co">#&gt;    &lt;chr&gt; &lt;int&gt;    &lt;int&gt; &lt;chr&gt; </span>
+<span class="co">#&gt;  1 LK       41 43342243 ivaufa</span>
+<span class="co">#&gt;  2 KJ       87 92150689 zsqzje</span>
+<span class="co">#&gt;  3 AP       24 90559951 svlrxo</span>
+<span class="co">#&gt;  4 TG       33 97019641 loucez</span>
+<span class="co">#&gt;  5 HE       69 39932000 ipqcnt</span>
+<span class="co">#&gt;  6 SL       71 98141638 oygcye</span>
+<span class="co">#&gt;  7 LI       70 16027841 czirox</span>
+<span class="co">#&gt;  8 EU       30 85693941 xnrlpo</span>
+<span class="co">#&gt;  9 FY       37 23225555 tanwvu</span>
+<span class="co">#&gt; 10 OS       45 59123244 adxdlg</span></code></pre></div>
 </div>
 <div id="parsing-files" class="section level2">
 <h2>Parsing files</h2>
@@ -340,7 +404,7 @@ Nr. | Topic       |
 7.  | [Tidying data](http://rpository.com/ds4psy/essentials/tidy.html) |
 +.  | [Datasets](http://rpository.com/ds4psy/essentials/datasets.html) | 
 -->
-<p>[Last update on 2018-12-11 07:57:52 by <a href="http://neth.de/">hn</a>.]</p>
+<p>[Last update on 2018-12-14 16:00:56 by <a href="http://neth.de/">hn</a>.]</p>
 <!-- eof. -->
 </div>
 </div>
