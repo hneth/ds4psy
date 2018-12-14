@@ -1,7 +1,7 @@
 ---
 title: "Importing files, with solutions (ds4psy)"
 author: "Hansjörg Neth, SPDS, uni.kn"
-date: "2018 12 11"
+date: "2018 12 14"
 output:
    rmdformats::html_clean: # html_clean html_docco readthedown material #
      code_folding: show # hide
@@ -137,12 +137,27 @@ For instructions on combining text and code, see [Chapter 27: R Markdown](https:
 
 # Importing data
 
-Where does a _data frame_ or _tibble_ come from? If we don't enter it ourselves (e.g., with the `tibble` or `tribble` commands from our session on [Tibbles](http://rpository.com/ds4psy/essentials/tibbles.html)) we need to import it from an external source. 
-This session discusses some essential options and pitfalls when using the tidyverse package `readr` for data import. 
-`readr` provides a fast and friendly way to read rectangular data files (like `csv`, `tsv`, and `fwf`). 
+Where does data (e.g., a _data frame_ or _tibble_) come from? If we don't enter it ourselves (e.g., with the `tibble` or `tribble` commands (see our session on [Tibbles](http://rpository.com/ds4psy/essentials/tibbles.html)) we typically import it from an external source. The scope of such sources is vast and we only cover the most common candidates: Data that is already stored in text form or other file formats that can easily be coerced into linear or rectangular data structures. 
 
+This session discusses some essential options and pitfalls when using the tidyverse package `readr` for data import. `readr` provides a fast and friendly way to read vectors and rectangular data files (like `csv`, `tsv`, and `fwf`). 
 
 ## Parsing vectors
+
+```{r create_data_file}
+n <- 10
+v1 <- random_symbols(n = n, set = LETTERS, len = 4)
+v2 <- random_symbols(n = n, set = as.character(0:9), len = 4)
+v3 <- random_symbols(n = n, set = letters, len = 4)  
+
+tibble(c1 = v1,
+       c2 = v2,
+       c3 = v3)
+
+
+
+```
+
+
 
 ## Parsing files
 
