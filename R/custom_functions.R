@@ -1,5 +1,5 @@
 ## custom_functions.R | ds4psy
-## hn | uni.kn | 2018 11 21
+## hn | uni.kn | 2018 12 14
 ## ---------------------------
 
 
@@ -34,9 +34,56 @@ unikn.pal = data.frame(                             ## in one df (for the yarrr 
   stringsAsFactors = FALSE)
 
 
-
 ## (2) Generating random datasets: ---------- 
   
+## Random binary values: ------ 
+
+random_bin_value <- function(x = c(0, 1), n = 1, replace = TRUE) {
+  
+  if (length(x) != 2) {
+    warning("x should be binary.")
+  }
+  
+  sample(x = x, size = n, replace = replace)  
+  
+}
+
+## Check: 
+# random_bin_value(n = 10)
+# random_bin_value(x = c("m", "f"), n = 100)
+ 
+## n random sequence of len symbols from some set: ----- 
+
+random_symbols <- function(n = 1, set = letters, len = 1, sep = "") {
+  
+  stopifnot(is.numeric(n), n > 0) # check conditions
+  
+  out <- rep(NA, n) # initialize output vector
+  
+  for (i in 1:n) {
+    
+    i_th <- ""  # initialize
+    
+    for (j in 1:len) {
+      
+     j_th <- sample(set, 1, replace = TRUE)
+     i_th <- paste0(i_th, j_th, sep = sep)
+     
+    }
+    
+    out[i] <- i_th
+    
+  }
+  return(out)
+}
+
+## Check:
+# random_symbols(n = 10, len = 4)
+# random_symbols(n = 10, len = 10)
+# random_symbols(n = 10, set = as.character(0:9), len = 4)
+
+
+
 ## Goal: Adding a random amount (number or proportion) of NA or other values to a vector:
 
 ## add_NAs: ----- 
