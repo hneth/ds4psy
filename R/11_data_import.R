@@ -54,7 +54,7 @@ library(tidyverse)
 # the path to the file to read:
 
 dep <- read_csv("data/_FieldEtAl12_DiscoveringStatisticsUsingR/data/Depression.csv")
-dep <- read_csv("data/Depression.csv") # copied version (in "data" subdirectory)
+dep <- read_csv("../data/Depression.csv") # copied version (in "data" subdirectory)
 dep
 
 # EDA: [test.quest]
