@@ -244,15 +244,16 @@ Nr. | Topic       |
 my_wd &lt;-<span class="st"> </span><span class="kw">getwd</span>()
 my_wd 
 <span class="co">#&gt; [1] &quot;/Users/hneth/Desktop/stuff/Dropbox/_code/R/_teachR/ds4psy/_essentials&quot;</span></code></pre></div>
-<p>Note that <code>getwd</code> function returns a character string and – depending on your operating system – uses either forward slashes (<code>/</code>) or backward slashes (<code>\</code>) to separate the hierarchy levels of different directories.</p>
-<p>Similarly, the function <code>setwd</code> (with its only argument <code>dir</code> specifying a string that points to an existing location on your computer) allows changing your current working directory:</p>
+<p>Note that <code>getwd</code> function returns a character string and – depending on your operating system – uses either forward slashes (<code>/</code>) or backward slashes (<code>\</code>) to separate the hierarchy levels of different directories. This character string represents the address of your current working directory.</p>
+<p>Corresponding to <code>getwd</code>, the function <code>setwd</code> (with its only argument <code>dir</code> specifying a string that points to an existing location on your computer) allows changing your current working directory to <code>dir</code>:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Set current working directory:</span>
-<span class="kw">setwd</span>(my_wd)  <span class="co"># set dir to my_wd (set above)  </span>
-<span class="kw">getwd</span>()       <span class="co"># still the same wd as above</span>
+<span class="kw">setwd</span>(<span class="dt">dir =</span> my_wd)  <span class="co"># set dir to my_wd (set above)  </span>
+<span class="kw">getwd</span>()             <span class="co"># same dir (as set to my_wd)</span>
 <span class="co">#&gt; [1] &quot;/Users/hneth/Desktop/stuff/Dropbox/_code/R/_teachR/ds4psy/_essentials&quot;</span></code></pre></div>
 <p>And <code>list.files()</code> provides a list of all files and directories in the current working directory:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># List files and directories in current working directory: </span>
-<span class="kw">list.files</span>() </code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># List files and directories: </span>
+<span class="kw">list.files</span>()       <span class="co"># in current working directory</span>
+<span class="kw">list.files</span>(my_wd)  <span class="co"># in some specific directory</span></code></pre></div>
 </div>
 <div id="importing-data-1" class="section level3">
 <h3>Importing data</h3>
@@ -305,59 +306,41 @@ t0 &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="s
 <div id="sharing-scripts-and-data-files" class="section level3">
 <h3>Sharing scripts and data files</h3>
 <p>To share your R scripts and data files with others it is best to work with an <a href="https://www.rstudio.com/">RStudio</a> <em>project</em> and store all scripts and files within this project. Alternatively, keep all your R scripts in a specific directory (e.g., called <code>R</code>), and read all data files from either the same or some dedicated data directory (e.g., <code>data</code>). Importantly, using only <em>relative</em> file paths (i.e., relative to the current script or to the project’s working directory) also allows transferring your scripts and data files. By archiving your entire project folder (e.g., as <code>my_project.zip</code>, or a folder that includes the subfolders <code>R</code> and <code>data</code>), you can transfer your archive to another person or computer and the scripts will keep working.</p>
-<p>+++ here now +++</p>
 </div>
 </div>
 <div id="parsing-vectors" class="section level2">
 <h2>Parsing vectors</h2>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">set.seed</span>(<span class="dv">2</span>)
+<p>+++ here now +++</p>
+</div>
+<div id="parsing-files" class="section level2">
+<h2>Parsing files</h2>
+<div id="read_csv" class="section level3">
+<h3><code>read_csv</code></h3>
+</div>
+<div id="read_csv2" class="section level3">
+<h3><code>read_csv2</code></h3>
+</div>
+<div id="read_delim" class="section level3">
+<h3><code>read_delim</code></h3>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Create data (with NA values): </span>
+<span class="kw">set.seed</span>(<span class="dv">2</span>)
 n &lt;-<span class="st"> </span><span class="dv">100</span>
 v1 &lt;-<span class="st"> </span><span class="kw">random_symbols</span>(<span class="dt">n =</span> n, <span class="dt">set =</span> LETTERS, <span class="dt">len =</span> <span class="dv">2</span>)
 v2 &lt;-<span class="st"> </span><span class="kw">round</span>(<span class="kw">runif</span>(<span class="dt">n =</span> n, <span class="dt">min =</span> <span class="dv">18</span>, <span class="dt">max =</span> <span class="dv">88</span>), <span class="dv">0</span>)
 v3 &lt;-<span class="st"> </span><span class="kw">add_whats</span>(<span class="dt">vec =</span> <span class="kw">random_symbols</span>(<span class="dt">n =</span> n, <span class="dt">set =</span> <span class="kw">as.character</span>(<span class="dv">0</span><span class="op">:</span><span class="dv">9</span>), <span class="dt">len =</span> <span class="dv">8</span>), 
-                <span class="dt">amount =</span> .<span class="dv">05</span>, <span class="dt">what =</span> <span class="op">-</span><span class="dv">99</span>)
+                <span class="dt">amount =</span> .<span class="dv">05</span>, <span class="dt">what =</span> <span class="op">-</span><span class="dv">99</span>)  <span class="co"># add -99 as NA values</span>
 
 v4 &lt;-<span class="st"> </span><span class="kw">add_whats</span>(<span class="dt">vec =</span> <span class="kw">random_symbols</span>(<span class="dt">n =</span> n, <span class="dt">set =</span> <span class="kw">c</span>(letters, LETTERS), <span class="dt">len =</span> <span class="dv">6</span>), 
-                <span class="dt">amount =</span> .<span class="dv">10</span>, <span class="dt">what =</span> <span class="op">-</span><span class="dv">77</span>)
+                <span class="dt">amount =</span> .<span class="dv">10</span>, <span class="dt">what =</span> <span class="op">-</span><span class="dv">77</span>)  <span class="co"># add -77 as NA values</span>
 
-tbl &lt;-<span class="st"> </span><span class="kw">tibble</span>(<span class="dt">ini =</span> v1,
-              <span class="dt">age =</span> v2,
-              <span class="dt">tel =</span> <span class="kw">as.numeric</span>(v3),
-              <span class="dt">pwd =</span> v4)
-tbl
-<span class="co">#&gt; # A tibble: 100 x 4</span>
-<span class="co">#&gt;    ini     age      tel pwd   </span>
-<span class="co">#&gt;    &lt;chr&gt; &lt;dbl&gt;    &lt;dbl&gt; &lt;chr&gt; </span>
-<span class="co">#&gt;  1 ES       78 84487016 mVZwyO</span>
-<span class="co">#&gt;  2 OE       63 80047160 SnjYqW</span>
-<span class="co">#&gt;  3 YY       60 64716120 xDNOul</span>
-<span class="co">#&gt;  4 DV       86 32620018 fWreff</span>
-<span class="co">#&gt;  5 MO       44 93001588 mWSZDV</span>
-<span class="co">#&gt;  6 OG       75 88705369 YStupT</span>
-<span class="co">#&gt;  7 TE       34 14253818 VNXBQy</span>
-<span class="co">#&gt;  8 KW       32 76061210 VTOgpS</span>
-<span class="co">#&gt;  9 ZF       32 62107080 rBjPDV</span>
-<span class="co">#&gt; 10 LB       35 56662960 WpwMXt</span>
-<span class="co">#&gt; # ... with 90 more rows</span>
-
-<span class="co"># Writing out: </span>
-<span class="kw">write_delim</span>(tbl, <span class="dt">path =</span> <span class="st">&quot;../data/data.dat&quot;</span>, <span class="dt">delim =</span> <span class="st">&quot;.&quot;</span>, <span class="dt">na =</span> <span class="st">&quot;NA&quot;</span>, <span class="dt">col_names =</span> <span class="ot">FALSE</span>)
-
-<span class="co"># Reading in:</span>
-my_file &lt;-<span class="st"> &quot;../data/data.dat&quot;</span>
-
-<span class="co"># Reading back in:</span>
-
-<span class="co"># (a) read_delim: </span>
-data_<span class="dv">2</span> &lt;-<span class="st"> </span><span class="kw">read_delim</span>(my_file, <span class="dt">delim =</span> <span class="st">&quot;.&quot;</span>, 
-                     <span class="dt">col_names =</span> <span class="kw">c</span>(<span class="st">&quot;initials&quot;</span>, <span class="st">&quot;age&quot;</span>, <span class="st">&quot;tel&quot;</span>, <span class="st">&quot;pwd&quot;</span>), 
-                     <span class="dt">na =</span> <span class="kw">c</span>(<span class="st">&quot;-77&quot;</span>, <span class="st">&quot;-99&quot;</span>))
-<span class="kw">sum</span>(<span class="kw">is.na</span>(data_<span class="dv">2</span>))
-<span class="co">#&gt; [1] 15</span>
-data_<span class="dv">2</span>
+tbl_<span class="dv">1</span> &lt;-<span class="st"> </span><span class="kw">tibble</span>(<span class="dt">initials =</span> v1,
+                <span class="dt">age =</span> v2,
+                <span class="dt">tel =</span> <span class="kw">as.numeric</span>(v3),
+                <span class="dt">pwd =</span> v4)
+tbl_<span class="dv">1</span>
 <span class="co">#&gt; # A tibble: 100 x 4</span>
 <span class="co">#&gt;    initials   age      tel pwd   </span>
-<span class="co">#&gt;    &lt;chr&gt;    &lt;int&gt;    &lt;int&gt; &lt;chr&gt; </span>
+<span class="co">#&gt;    &lt;chr&gt;    &lt;dbl&gt;    &lt;dbl&gt; &lt;chr&gt; </span>
 <span class="co">#&gt;  1 ES          78 84487016 mVZwyO</span>
 <span class="co">#&gt;  2 OE          63 80047160 SnjYqW</span>
 <span class="co">#&gt;  3 YY          60 64716120 xDNOul</span>
@@ -368,8 +351,59 @@ data_<span class="dv">2</span>
 <span class="co">#&gt;  8 KW          32 76061210 VTOgpS</span>
 <span class="co">#&gt;  9 ZF          32 62107080 rBjPDV</span>
 <span class="co">#&gt; 10 LB          35 56662960 WpwMXt</span>
-<span class="co">#&gt; # ... with 90 more rows</span></code></pre></div>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">set.seed</span>(<span class="dv">3</span>)
+<span class="co">#&gt; # ... with 90 more rows</span>
+
+<span class="co"># Writing out: </span>
+<span class="kw">write_delim</span>(tbl_<span class="dv">1</span>, <span class="dt">path =</span> <span class="st">&quot;../data/data_1.dat&quot;</span>, <span class="dt">delim =</span> <span class="st">&quot;.&quot;</span>, <span class="dt">na =</span> <span class="st">&quot;NA&quot;</span>, <span class="dt">col_names =</span> <span class="ot">FALSE</span>)
+
+<span class="co"># Reading in:</span>
+my_file &lt;-<span class="st"> &quot;../data/data_1.dat&quot;</span>
+
+<span class="co"># Reading back in:</span>
+
+<span class="co"># (a) read_delim: </span>
+data_<span class="dv">1</span> &lt;-<span class="st"> </span><span class="kw">read_delim</span>(my_file, <span class="dt">delim =</span> <span class="st">&quot;.&quot;</span>, 
+                     <span class="dt">col_names =</span> <span class="kw">c</span>(<span class="st">&quot;initials&quot;</span>, <span class="st">&quot;age&quot;</span>, <span class="st">&quot;tel&quot;</span>, <span class="st">&quot;pwd&quot;</span>), 
+                     <span class="dt">na =</span> <span class="kw">c</span>(<span class="st">&quot;-77&quot;</span>, <span class="st">&quot;-99&quot;</span>))
+<span class="kw">sum</span>(<span class="kw">is.na</span>(data_<span class="dv">1</span>))  <span class="co"># 15 NA values</span>
+<span class="co">#&gt; [1] 15</span>
+data_<span class="dv">1</span>
+<span class="co">#&gt; # A tibble: 100 x 4</span>
+<span class="co">#&gt;    initials   age      tel pwd   </span>
+<span class="co">#&gt;    &lt;chr&gt;    &lt;dbl&gt;    &lt;dbl&gt; &lt;chr&gt; </span>
+<span class="co">#&gt;  1 ES          78 84487016 mVZwyO</span>
+<span class="co">#&gt;  2 OE          63 80047160 SnjYqW</span>
+<span class="co">#&gt;  3 YY          60 64716120 xDNOul</span>
+<span class="co">#&gt;  4 DV          86 32620018 fWreff</span>
+<span class="co">#&gt;  5 MO          44 93001588 mWSZDV</span>
+<span class="co">#&gt;  6 OG          75 88705369 YStupT</span>
+<span class="co">#&gt;  7 TE          34 14253818 VNXBQy</span>
+<span class="co">#&gt;  8 KW          32 76061210 VTOgpS</span>
+<span class="co">#&gt;  9 ZF          32 62107080 rBjPDV</span>
+<span class="co">#&gt; 10 LB          35 56662960 WpwMXt</span>
+<span class="co">#&gt; # ... with 90 more rows</span>
+
+
+<span class="co"># Check equality: </span>
+<span class="kw">all.equal</span>(tbl_<span class="dv">1</span>, data_<span class="dv">1</span>)
+<span class="co">#&gt; [1] &quot;Rows in x but not y: 98, 93, 92, 80, 71, 70, 64, 59, 38, 33, 30[...]. Rows in y but not x: 98, 93, 92, 71, 70, 59, 38, 30, 26, 23, 20[...]. &quot;</span>
+
+<span class="co"># Hypothesis: Differences come from different NA encodings.</span>
+
+<span class="co"># Recode -99 and -77 in tbl_1 as NA:</span>
+tbl_<span class="dv">1</span>[tbl_<span class="dv">1</span> <span class="op">==</span><span class="st"> </span><span class="op">-</span><span class="dv">99</span>] &lt;-<span class="st"> </span><span class="ot">NA</span>
+tbl_<span class="dv">1</span>[tbl_<span class="dv">1</span> <span class="op">==</span><span class="st"> &quot;-77&quot;</span>] &lt;-<span class="st"> </span><span class="ot">NA</span>
+<span class="kw">sum</span>(<span class="kw">is.na</span>(tbl_<span class="dv">1</span>))
+<span class="co">#&gt; [1] 15</span>
+
+<span class="co"># Check equality: </span>
+<span class="kw">all.equal</span>(tbl_<span class="dv">1</span>, data_<span class="dv">1</span>)  <span class="co"># TRUE (qed).</span>
+<span class="co">#&gt; [1] TRUE</span></code></pre></div>
+</div>
+<div id="read_fwf" class="section level3">
+<h3><code>read_fwf</code></h3>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Create data (without NA values): </span>
+<span class="kw">set.seed</span>(<span class="dv">3</span>)
 n &lt;-<span class="st"> </span><span class="dv">100</span>
 v1 &lt;-<span class="st"> </span><span class="kw">random_symbols</span>(<span class="dt">n =</span> n, <span class="dt">set =</span> LETTERS, <span class="dt">len =</span> <span class="dv">2</span>)
 v2 &lt;-<span class="st"> </span><span class="kw">round</span>(<span class="kw">runif</span>(<span class="dt">n =</span> n, <span class="dt">min =</span> <span class="dv">18</span>, <span class="dt">max =</span> <span class="dv">80</span>), <span class="dv">0</span>)
@@ -397,35 +431,35 @@ tbl_<span class="dv">2</span>
 <span class="co">#&gt; # ... with 90 more rows</span>
 
 <span class="co"># Writing out: </span>
-<span class="kw">write_delim</span>(tbl, <span class="dt">path =</span> <span class="st">&quot;../data/data_2.dat&quot;</span>, <span class="dt">delim =</span> <span class="st">&quot;&gt;&quot;</span>, <span class="dt">na =</span> <span class="st">&quot;NA&quot;</span>, <span class="dt">col_names =</span> <span class="ot">FALSE</span>)
+<span class="kw">write_delim</span>(tbl_<span class="dv">2</span>, <span class="dt">path =</span> <span class="st">&quot;../data/data_2.dat&quot;</span>, <span class="dt">delim =</span> <span class="st">&quot;$&quot;</span>, <span class="dt">na =</span> <span class="st">&quot;NA&quot;</span>, <span class="dt">col_names =</span> <span class="ot">FALSE</span>)
 
 <span class="co"># (b) read_fwf: </span>
-data_<span class="dv">2</span> &lt;-<span class="st"> </span><span class="kw">read_fwf</span>(my_file, <span class="kw">fwf_cols</span>(<span class="dt">ini =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">2</span>), 
-                                     <span class="dt">age =</span> <span class="kw">c</span>(<span class="dv">4</span>, <span class="dv">5</span>), 
-                                     <span class="dt">nr =</span> <span class="kw">c</span>(<span class="dv">7</span>, <span class="dv">14</span>), 
-                                     <span class="dt">pwd =</span> <span class="kw">c</span>(<span class="dv">16</span>, <span class="dv">21</span>)), 
-                   <span class="dt">na =</span> <span class="kw">c</span>(<span class="st">&quot;-77&quot;</span>, <span class="st">&quot;-99&quot;</span>))
+data_<span class="dv">2</span> &lt;-<span class="st"> </span><span class="kw">read_fwf</span>(<span class="st">&quot;../data/data_2.dat&quot;</span>, 
+                   <span class="kw">fwf_cols</span>(<span class="dt">ini =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">2</span>), 
+                            <span class="dt">age =</span> <span class="kw">c</span>(<span class="dv">4</span>, <span class="dv">5</span>), 
+                            <span class="dt">tel =</span> <span class="kw">c</span>(<span class="dv">7</span>, <span class="dv">10</span>), 
+                            <span class="dt">pwd =</span> <span class="kw">c</span>(<span class="dv">12</span>, <span class="dv">17</span>)))
 
-data_<span class="dv">2</span><span class="op">$</span>nr 
-<span class="co">#&gt;  [1] &quot;84487016&quot; &quot;80047160&quot; &quot;64716120&quot; &quot;32620018&quot; &quot;93001588&quot; &quot;88705369&quot;</span>
-<span class="co">#&gt;  [7] &quot;14253818&quot; &quot;76061210&quot; &quot;62107080&quot; &quot;56662960&quot; &quot;14420635&quot; &quot;87793121&quot;</span>
-<span class="co">#&gt; [13] &quot;18276510&quot; &quot;98531867&quot; &quot;40367457&quot; &quot;80269105&quot; &quot;50698308&quot; &quot;18946175&quot;</span>
-<span class="co">#&gt; [19] &quot;26955267&quot; &quot;-99.ksUf&quot; &quot;90042747&quot; &quot;4142067.&quot; &quot;50284797&quot; &quot;84747926&quot;</span>
-<span class="co">#&gt; [25] &quot;59623935&quot; &quot;-99.OSKd&quot; &quot;86603435&quot; &quot;85489047&quot; &quot;30062809&quot; &quot;91677248&quot;</span>
-<span class="co">#&gt; [31] &quot;9495017.&quot; &quot;57934585&quot; &quot;35599074&quot; &quot;83259195&quot; &quot;88589041&quot; &quot;11755740&quot;</span>
-<span class="co">#&gt; [37] &quot;97346007&quot; &quot;2203032.&quot; &quot;81027673&quot; &quot;52828629&quot; &quot;66333008&quot; &quot;22638656&quot;</span>
-<span class="co">#&gt; [43] &quot;51443982&quot; &quot;86676174&quot; &quot;83949631&quot; &quot;85494070&quot; &quot;80337048&quot; &quot;98615163&quot;</span>
-<span class="co">#&gt; [49] &quot;2557640.&quot; &quot;30827665&quot; &quot;98753094&quot; &quot;90911272&quot; &quot;75529893&quot; &quot;37390316&quot;</span>
-<span class="co">#&gt; [55] &quot;39833552&quot; &quot;43962486&quot; &quot;42234994&quot; &quot;50793429&quot; &quot;56249501&quot; &quot;53419773&quot;</span>
-<span class="co">#&gt; [61] &quot;53968080&quot; &quot;41671182&quot; &quot;57874502&quot; &quot;-99.LRvL&quot; &quot;28048558&quot; &quot;50105010&quot;</span>
-<span class="co">#&gt; [67] &quot;48008515&quot; &quot;98667511&quot; &quot;98709481&quot; &quot;-99.ttaG&quot; &quot;14391898&quot; &quot;54413956&quot;</span>
-<span class="co">#&gt; [73] &quot;45350031&quot; &quot;1655947.&quot; &quot;21800164&quot;</span>
-<span class="co">#&gt;  [ reached getOption(&quot;max.print&quot;) -- omitted 25 entries ]</span>
-<span class="co"># Note: Doesn't work, as NA values (-77 and -99) are of different length</span>
-<span class="co">#       than regular values of the same variables. </span></code></pre></div>
+data_<span class="dv">2</span>
+<span class="co">#&gt; # A tibble: 100 x 4</span>
+<span class="co">#&gt;    ini     age tel   pwd   </span>
+<span class="co">#&gt;    &lt;chr&gt; &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; </span>
+<span class="co">#&gt;  1 EU       63 0397  aZAIGM</span>
+<span class="co">#&gt;  2 KI       71 6685  IHEMCK</span>
+<span class="co">#&gt;  3 PP       39 8950  baWzHb</span>
+<span class="co">#&gt;  4 DH       49 5619  IdOCIm</span>
+<span class="co">#&gt;  5 PQ       71 0896  bYheST</span>
+<span class="co">#&gt;  6 NN       42 2282  ZWpRIi</span>
+<span class="co">#&gt;  7 NO       63 8598  YNwjVD</span>
+<span class="co">#&gt;  8 WV       60 9975  pQmewr</span>
+<span class="co">#&gt;  9 CS       70 8119  rBPelh</span>
+<span class="co">#&gt; 10 XH       20 7081  jaItZx</span>
+<span class="co">#&gt; # ... with 90 more rows</span>
+
+<span class="co"># Check equality: </span>
+<span class="kw">all.equal</span>(tbl_<span class="dv">2</span>, data_<span class="dv">2</span>)
+<span class="co">#&gt; [1] TRUE</span></code></pre></div>
 </div>
-<div id="parsing-files" class="section level2">
-<h2>Parsing files</h2>
 </div>
 <div id="writing-files" class="section level2">
 <h2>Writing files</h2>
@@ -600,7 +634,7 @@ Nr. | Topic       |
 7.  | [Tidying data](http://rpository.com/ds4psy/essentials/tidy.html) |
 +.  | [Datasets](http://rpository.com/ds4psy/essentials/datasets.html) | 
 -->
-<p>[Last update on 2018-12-16 21:00:20 by <a href="http://neth.de/">hn</a>.]</p>
+<p>[Last update on 2018-12-16 21:51:35 by <a href="http://neth.de/">hn</a>.]</p>
 <!-- eof. -->
 </div>
 </div>
@@ -622,7 +656,12 @@ Nr. | Topic       |
         <li><a href="#sharing-scripts-and-data-files">Sharing scripts and data files</a></li>
         </ul></li>
         <li><a href="#parsing-vectors">Parsing vectors</a></li>
-        <li><a href="#parsing-files">Parsing files</a></li>
+        <li><a href="#parsing-files">Parsing files</a><ul>
+        <li><a href="#read_csv"><code>read_csv</code></a></li>
+        <li><a href="#read_csv2"><code>read_csv2</code></a></li>
+        <li><a href="#read_delim"><code>read_delim</code></a></li>
+        <li><a href="#read_fwf"><code>read_fwf</code></a></li>
+        </ul></li>
         <li><a href="#writing-files">Writing files</a></li>
         <li><a href="#importing-data-from-other-programs">Importing data from other programs</a><ul>
         <li><a href="#from-excel-xls">From Excel (<code>xls</code>)</a></li>

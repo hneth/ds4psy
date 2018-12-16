@@ -158,21 +158,22 @@ my_wd <- getwd()
 my_wd 
 ```
 
-Note that `getwd` function returns a character string and -- depending on your operating system -- uses either forward slashes (`/`) or backward slashes (`\`) to separate the hierarchy levels of different directories. 
+Note that `getwd` function returns a character string and -- depending on your operating system -- uses either forward slashes (`/`) or backward slashes (`\`) to separate the hierarchy levels of different directories. This character string represents the address of your current working directory.
 
-Similarly, the function `setwd` (with its only argument `dir` specifying a string that points to an existing location on your computer) allows changing your current working directory:
+Corresponding to `getwd`, the function `setwd` (with its only argument `dir` specifying a string that points to an existing location on your computer) allows changing your current working directory to `dir`:
 
 ```{r setwd}
 # Set current working directory:
-setwd(my_wd)  # set dir to my_wd (set above)  
-getwd()       # still the same wd as above
+setwd(dir = my_wd)  # set dir to my_wd (set above)  
+getwd()             # same dir (as set to my_wd)
 ```
 
 And `list.files()` provides a list of all files and directories in the current working directory:
 
 ```{r list.files, eval = FALSE}
-# List files and directories in current working directory: 
-list.files() 
+# List files and directories: 
+list.files()       # in current working directory
+list.files(my_wd)  # in some specific directory
 ```
 
 ### Importing data
@@ -233,44 +234,72 @@ all.equal(t3, t4)
 
 To share your R scripts and data files with others it is best to work with an [RStudio](https://www.rstudio.com/) _project_ and store all scripts and files within this project. Alternatively, keep all your R scripts in a specific directory (e.g., called `R`), and read all data files from either the same or some dedicated data directory (e.g., `data`). Importantly, using only _relative_ file paths (i.e., relative to the current script or to the project's working directory) also allows transferring your scripts and data files. By archiving your entire project folder (e.g., as `my_project.zip`, or a folder that includes the subfolders `R` and `data`), you can transfer your archive to another person or computer and the scripts will keep working. 
 
-+++ here now +++ 
+
 
 ## Parsing vectors
 
++++ here now +++ 
+
+## Parsing files
+
+### 1. `read_csv`
+
+### 2. `read_csv2`
+
+### 3. `read_delim`
+
 ```{r create_data_delim}
+# Create data (with NA values): 
 set.seed(2)
 n <- 100
 v1 <- random_symbols(n = n, set = LETTERS, len = 2)
 v2 <- round(runif(n = n, min = 18, max = 88), 0)
 v3 <- add_whats(vec = random_symbols(n = n, set = as.character(0:9), len = 8), 
-                amount = .05, what = -99)
+                amount = .05, what = -99)  # add -99 as NA values
 
 v4 <- add_whats(vec = random_symbols(n = n, set = c(letters, LETTERS), len = 6), 
-                amount = .10, what = -77)
+                amount = .10, what = -77)  # add -77 as NA values
 
-tbl <- tibble(ini = v1,
-              age = v2,
-              tel = as.numeric(v3),
-              pwd = v4)
-tbl
+tbl_1 <- tibble(initials = v1,
+                age = v2,
+                tel = as.numeric(v3),
+                pwd = v4)
+tbl_1
 
 # Writing out: 
-write_delim(tbl, path = "../data/data.dat", delim = ".", na = "NA", col_names = FALSE)
+write_delim(tbl_1, path = "../data/data_1.dat", delim = ".", na = "NA", col_names = FALSE)
 
 # Reading in:
-my_file <- "../data/data.dat"
+my_file <- "../data/data_1.dat"
 
 # Reading back in:
 
 # (a) read_delim: 
-data_2 <- read_delim(my_file, delim = ".", 
+data_1 <- read_delim(my_file, delim = ".", 
                      col_names = c("initials", "age", "tel", "pwd"), 
                      na = c("-77", "-99"))
-sum(is.na(data_2))
-data_2
+sum(is.na(data_1))  # 15 NA values
+data_1
+
+
+# Check equality: 
+all.equal(tbl_1, data_1)
+
+# Hypothesis: Differences come from different NA encodings.
+
+# Recode -99 and -77 in tbl_1 as NA:
+tbl_1[tbl_1 == -99] <- NA
+tbl_1[tbl_1 == "-77"] <- NA
+sum(is.na(tbl_1))
+
+# Check equality: 
+all.equal(tbl_1, data_1)  # TRUE (qed).
 ```
 
+### 4. `read_fwf`
+
 ```{r create_data_fwf}
+# Create data (without NA values): 
 set.seed(3)
 n <- 100
 v1 <- random_symbols(n = n, set = LETTERS, len = 2)
@@ -285,23 +314,23 @@ tbl_2 <- tibble(ini = v1,
 tbl_2
 
 # Writing out: 
-write_delim(tbl, path = "../data/data_2.dat", delim = ">", na = "NA", col_names = FALSE)
+write_delim(tbl_2, path = "../data/data_2.dat", delim = "$", na = "NA", col_names = FALSE)
 
 # (b) read_fwf: 
-data_2 <- read_fwf(my_file, fwf_cols(ini = c(1, 2), 
-                                     age = c(4, 5), 
-                                     nr = c(7, 14), 
-                                     pwd = c(16, 21)), 
-                   na = c("-77", "-99"))
+data_2 <- read_fwf("../data/data_2.dat", 
+                   fwf_cols(ini = c(1, 2), 
+                            age = c(4, 5), 
+                            tel = c(7, 10), 
+                            pwd = c(12, 17)))
 
-data_2$nr 
-# Note: Doesn't work, as NA values (-77 and -99) are of different length
-#       than regular values of the same variables. 
+data_2
+
+# Check equality: 
+all.equal(tbl_2, data_2)
 ```
 
 
 
-## Parsing files
 
 ## Writing files
 
