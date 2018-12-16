@@ -33,8 +33,8 @@ library(tidyverse)
 
 # 2. read_fwf() reads fixed width files. You can specify fields either by their
 #               widths with fwf_widths() or their position with fwf_positions(). 
-#    read_table() reads a common variation of fixed width files where columns are separated by
-#                 white space.
+#    read_table() reads a common variation of fixed width files 
+#    where columns are separated by white space.
 
 # 3. read_log() reads Apache style log files. 
 #    (But also check out webreadr which is built on top of 

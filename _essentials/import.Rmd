@@ -1,7 +1,7 @@
 ---
 title: "Importing files, with solutions (ds4psy)"
 author: "Hansjörg Neth, SPDS, uni.kn"
-date: "2018 12 14"
+date: "2018 12 15"
 output:
    rmdformats::html_clean: # html_clean html_docco readthedown material #
      code_folding: show # hide
@@ -57,8 +57,7 @@ source(file = "~/Desktop/stuff/Dropbox/_code/R/_teachR/ds4psy/R/custom_functions
 
 # Introduction
 
-This file contains **essential commands** from [Chapter 11: Data import](https://r4ds.had.co.nz/data-import.html) of the textbook [r4ds](http://r4ds.had.co.nz) and corresponding examples and exercises. 
-A command is considered "essential" when you really need to _know_ it and need to know _how to use_ it to succeed in this course. 
+This file contains **essential commands** from [Chapter 11: Data import](https://r4ds.had.co.nz/data-import.html) of the textbook [r4ds](http://r4ds.had.co.nz) and corresponding examples and exercises. A command is considered "essential" when you really need to _know_ it and need to know _how to use_ it to succeed in this course. 
 
 <!-- Table with links: -->
 
@@ -137,22 +136,121 @@ For instructions on combining text and code, see [Chapter 27: R Markdown](https:
 
 # Importing data
 
-Where does data (e.g., a _data frame_ or _tibble_) come from? If we don't enter it ourselves (e.g., with the `tibble` or `tribble` commands (see our session on [Tibbles](http://rpository.com/ds4psy/essentials/tibbles.html)) we typically import it from an external source. The scope of such sources is vast and we only cover the most common candidates: Data that is already stored in text form or other file formats that can easily be coerced into linear or rectangular data structures. 
+Where does data (e.g., a _data frame_ or _tibble_) come from? If we don't enter it ourselves (e.g., with the `tibble` or `tribble` commands (see our session on [Tibbles](http://rpository.com/ds4psy/essentials/tibbles.html)) we usually import it from an external source. The scope of such sources is vast and here we only cover the most common candidates: Data that is already stored in text form or other file formats that can easily be coerced into linear or rectangular data structures. 
 
-This session discusses some essential options and pitfalls when using the tidyverse package `readr` for data import. `readr` provides a fast and friendly way to read vectors and rectangular data files (like `csv`, `tsv`, and `fwf`). 
+This session discusses options and potential pitfalls when using the tidyverse package `readr` for data import. `readr` provides a fast and friendly way to read vectors and rectangular data files (like `csv`, `tsv`, and `fwf`).
+
+## File names and paths
+
+An important pre-requisite to loading data is that we are able to orient ourselves on our computer and can navigate or point to the location at which data files may be stored. Two important questions to ask and answer prior to reading or writing data is: 
+
+- Where am I?  
+- Where is my data?  
+
+### Working directory
+
+The 1st questions ("Where am I?") addresses the notion of the current _working directory_. 
+This is typically the directory on your computer in which you started your R environment, the location of your current R script, or -- if you're working with [RStudio](https://www.rstudio.com/) _projects_ -- the home directory of your current project. Use the function `getwd` to find out your current working directory:  
+
+```{r getwd}
+# Get current working directory (wd):
+my_wd <- getwd()
+my_wd 
+```
+
+Note that `getwd` function returns a character string and -- depending on your operating system -- uses either forward slashes (`/`) or backward slashes (`\`) to separate the hierarchy levels of different directories. 
+
+Similarly, the function `setwd` (with its only argument `dir` specifying a string that points to an existing location on your computer) allows changing your current working directory:
+
+```{r setwd}
+# Set current working directory:
+setwd(my_wd)  # set dir to my_wd (set above)  
+getwd()       # still the same wd as above
+```
+
+And `list.files()` provides a list of all files and directories in the current working directory:
+
+```{r list.files, eval = FALSE}
+# List files and directories in current working directory: 
+list.files() 
+```
+
+### Importing data
+
+The 2nd question ("Where is my data?") implies that data doesn't necessarily need to be stored at the same location as your current working directory. Let's suppose that you want to load some data file (called `data_t1.csv`), which you downloaded from an online source at <http://rpository.com/ds4psy/data/data_t1.csv>. But rather than saving it in your current working directory `my_wd`, the file `data_t1.csv` was saved in some parallel directory `data`. 
+In this case, there are 2 principle ways to load your data file:
+
+1. Change your current working directory to the data directory: 
+
+```{r}
+# Get working directory:
+my_wd <- getwd()
+my_wd  # prints the current wd:
+
+# Change current working directory: 
+setwd("/Users/hneth/Desktop/stuff/Dropbox/_code/R/_teachR/ds4psy/data")
+getwd()
+
+# Read data from the NEW working directory: 
+t1 <- read_csv("data_t1.csv")  # read csv data file
+
+# Return to the original working directory: 
+setwd(my_wd)  # setwd to original directory
+getwd()       # back in my_wd
+```
+
+2. Keep your current working directory, but read the data from a different directory:
+
+```{r}
+# Read data from another directory:
+
+# (a) provide absolute/full path of data file:
+t2 <- read_csv("/Users/hneth/Desktop/stuff/Dropbox/_code/R/_teachR/ds4psy/data/data_t1.csv")
+
+# (b) provide relative path of data file:
+t3 <- read_csv("./../data/data_t1.csv")
+
+# (c) relative to (platform dependent) home directory:
+t4 <- read_csv("~/Desktop/stuff/Dropbox/_code/R/_teachR/ds4psy/data/data_t1.csv")
+
+# (d) provide path to the online source of the data file:
+t0 <- read_csv("http://rpository.com/ds4psy/data/data_t1.csv")
+```
+
+As you see, there are many different ways of pointing to the location of a data file. Due to this flexibility we recommend not changing your working directory to load data, but rather reading the file from a different directory. 
+
+Let's verify that all of the above methods actually loaded the same data:
+
+```{r}
+# Check whether t0 to t4 are all equal:
+all.equal(t0, t1) & 
+all.equal(t1, t2) & 
+all.equal(t2, t3) & 
+all.equal(t3, t4)
+```
+
+### Sharing scripts and data files
+
+To share your R scripts and data files with others it is best to work with an [RStudio](https://www.rstudio.com/) _project_ and store all scripts and files within this project. Alternatively, keep all your R scripts in a specific directory (e.g., called `R`), and read all data files from either the same or some dedicated data directory (e.g., `data`). Importantly, using only _relative_ file paths (i.e., relative to the current script or to the project's working directory) also allows transferring your scripts and data files. By archiving your entire project folder (e.g., as `my_project.zip`, or a folder that includes the subfolders `R` and `data`), you can transfer your archive to another person or computer and the scripts will keep working. 
+
++++ here now +++ 
 
 ## Parsing vectors
 
-```{r create_data_file}
-n <- 10
+```{r create_data_delim}
+set.seed(2)
+n <- 100
 v1 <- random_symbols(n = n, set = LETTERS, len = 2)
 v2 <- round(runif(n = n, min = 18, max = 88), 0)
-v3 <- random_symbols(n = n, set = as.character(0:9), len = 8)
-v4 <- random_symbols(n = n, set = letters, len = 6)  
+v3 <- add_whats(vec = random_symbols(n = n, set = as.character(0:9), len = 8), 
+                amount = .05, what = -99)
+
+v4 <- add_whats(vec = random_symbols(n = n, set = c(letters, LETTERS), len = 6), 
+                amount = .10, what = -77)
 
 tbl <- tibble(ini = v1,
               age = v2,
-              tel = v3,
+              tel = as.numeric(v3),
               pwd = v4)
 tbl
 
@@ -162,12 +260,43 @@ write_delim(tbl, path = "../data/data.dat", delim = ".", na = "NA", col_names = 
 # Reading in:
 my_file <- "../data/data.dat"
 
-read_delim(my_file, delim = ".", col_names = FALSE)
+# Reading back in:
 
-read_fwf(my_file, fwf_cols(ini = c(1, 2), 
-                           age = c(4, 5), 
-                           nr = c(7, 14), 
-                           pwd = c(16, 21) ))
+# (a) read_delim: 
+data_2 <- read_delim(my_file, delim = ".", 
+                     col_names = c("initials", "age", "tel", "pwd"), 
+                     na = c("-77", "-99"))
+sum(is.na(data_2))
+data_2
+```
+
+```{r create_data_fwf}
+set.seed(3)
+n <- 100
+v1 <- random_symbols(n = n, set = LETTERS, len = 2)
+v2 <- round(runif(n = n, min = 18, max = 80), 0)
+v3 <- random_symbols(n = n, set = as.character(0:9), len = 4)
+v4 <- random_symbols(n = n, set = c(letters, LETTERS), len = 6)
+
+tbl_2 <- tibble(ini = v1,
+                age = v2,
+                tel = v3,
+                pwd = v4)
+tbl_2
+
+# Writing out: 
+write_delim(tbl, path = "../data/data_2.dat", delim = ">", na = "NA", col_names = FALSE)
+
+# (b) read_fwf: 
+data_2 <- read_fwf(my_file, fwf_cols(ini = c(1, 2), 
+                                     age = c(4, 5), 
+                                     nr = c(7, 14), 
+                                     pwd = c(16, 21)), 
+                   na = c("-77", "-99"))
+
+data_2$nr 
+# Note: Doesn't work, as NA values (-77 and -99) are of different length
+#       than regular values of the same variables. 
 ```
 
 
@@ -212,7 +341,32 @@ Use `jsonlite` for json, and `xml2` for XML.
 
 --> 
 
-## Exercise X
+## Exercise 1
+
+1. Find out your current working directory and list all files and folders contained in it. 
+
+```{r ex1_getwd, echo = TRUE, eval = TRUE}
+my_wd <- getwd()
+my_wd
+
+list.files(my_wd)
+```
+
+2. Change your working directory and list all the files and folders in this directory.
+
+```{r ex1_setwd, echo = TRUE, eval = TRUE}
+setwd("./../data")
+getwd()
+list.files()
+```
+
+3. Return to your original working directory. 
+
+```{r ex1_setwd_back, echo = TRUE, eval = TRUE}
+setwd(my_wd)
+getwd()
+```
+
 
 
 
