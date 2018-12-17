@@ -147,7 +147,7 @@ An important pre-requisite to loading data is that we are able to orient ourselv
 - Where am I?  
 - Where is my data?  
 
-### Working directory
+#### Working directory
 
 The 1st questions ("Where am I?") addresses the notion of the current _working directory_. 
 This is typically the directory on your computer in which you started your R environment, the location of your current R script, or -- if you're working with [RStudio](https://www.rstudio.com/) _projects_ -- the home directory of your current project. Use the function `getwd` to find out your current working directory:  
@@ -176,14 +176,16 @@ list.files()       # in current working directory
 list.files(my_wd)  # in some specific directory
 ```
 
-### Importing data
+#### File paths
 
-The 2nd question ("Where is my data?") implies that data doesn't necessarily need to be stored at the same location as your current working directory. Let's suppose that you want to load some data file (called `data_t1.csv`), which you downloaded from an online source at <http://rpository.com/ds4psy/data/data_t1.csv>. But rather than saving it in your current working directory `my_wd`, the file `data_t1.csv` was saved in some parallel directory `data`. 
-In this case, there are 2 principle ways to load your data file:
+The 2nd question ("Where is my data?") implies that data doesn't necessarily need to be stored at the same location as our current working directory. Let's suppose that we want to load some data file (called `data_t1.csv`), which we  downloaded from an online source at <http://rpository.com/ds4psy/data/data_t1.csv>. But rather than saving it in our current working directory `my_wd`, the file `data_t1.csv` is stored in some parallel directory (called `data`). 
+In this case, there are 2 principle ways to load our data file:
 
-1. Change your current working directory to the data directory: 
+1. Change our current working directory to the data directory: 
 
 ```{r}
+# (1) Changing working directory to load data: 
+
 # Get working directory:
 my_wd <- getwd()
 my_wd  # prints the current wd:
@@ -200,26 +202,25 @@ setwd(my_wd)  # setwd to original directory
 getwd()       # back in my_wd
 ```
 
-2. Keep your current working directory, but read the data from a different directory:
+2. Keep our current working directory, but read the data from a different directory:
 
 ```{r}
-# Read data from another directory:
+# (2) Reading data from another directory:
 
-# (a) provide absolute/full path of data file:
+# (a) provide absolute/full path of the data file:
 t2 <- read_csv("/Users/hneth/Desktop/stuff/Dropbox/_code/R/_teachR/ds4psy/data/data_t1.csv")
 
-# (b) provide relative path of data file:
+# (b) provide relative path of the data file:
 t3 <- read_csv("./../data/data_t1.csv")
 
 # (c) relative to (platform dependent) home directory:
 t4 <- read_csv("~/Desktop/stuff/Dropbox/_code/R/_teachR/ds4psy/data/data_t1.csv")
 
-# (d) provide path to the online source of the data file:
+# (d) provide path to an online source of the data file:
 t0 <- read_csv("http://rpository.com/ds4psy/data/data_t1.csv")
 ```
 
-As you see, there are many different ways of pointing to the location of a data file. Due to this flexibility we recommend not changing your working directory to load data, but rather reading the file from a different directory. 
-
+We see that there are many different ways of pointing to the location of a data file. Due to this flexibility, it's typically best to not change our working directory to load data, but rather reading the file from a different directory. 
 Let's verify that all of the above methods actually loaded the same data:
 
 ```{r}
@@ -235,14 +236,167 @@ all.equal(t3, t4)
 To share your R scripts and data files with others it is best to work with an [RStudio](https://www.rstudio.com/) _project_ and store all scripts and files within this project. Alternatively, keep all your R scripts in a specific directory (e.g., called `R`), and read all data files from either the same or some dedicated data directory (e.g., `data`). Importantly, using only _relative_ file paths (i.e., relative to the current script or to the project's working directory) also allows transferring your scripts and data files. By archiving your entire project folder (e.g., as `my_project.zip`, or a folder that includes the subfolders `R` and `data`), you can transfer your archive to another person or computer and the scripts will keep working. 
 
 
-
 ## Parsing vectors
 
-+++ here now +++ 
+The process of reading some data structure is known as _parsing_. We usually want to parse entire files of data. However, as our data files typically consist of columns of variables, we also need to consider how individual vectors are parsed.
+
+We only cover the most common `parse` commands here (see [11.3 Parsing a vector](https://r4ds.had.co.nz/data-import.html#parsing-a-vector) for details).  
+
+The `parse_` functions provided by `readr` take a _character_ vector as their main input argument and return a more specialised vector (e.g., logical, integer, or date) as output vector. Some examples are: 
+
+```{r}
+# Parse logical values:
+v1 <- parse_logical(c("TRUE", "FALSE", "NA", "TRUE"))
+v1
+str(v1)
+
+# Parse integers:
+v2 <- parse_integer(c("1", "2", "3", "NA", "5"))
+v2
+str(v2)
+
+# Parse doubles:
+
+
+# Parse dates: 
+v3 <- parse_date(c("2018-12-17", "2018-12-24", "NA", "2018-12-31"))
+v3
+str(v3)
+```
+
+A uniform `na` argument allows specifying which string should be treated as missing data: 
+  
+```{r}
+parse_integer(c("12", "34", "?", "78"), na = "?")
+```
+
+If the process of parsing fails for an element, a _warning_ is issued and the problematic element is missing (`NA`) in the output vector:
+
+```{r}
+v4 <- parse_integer(c("12", "34", "xy", "78"))
+v4
+```
+
+We can use `problems()` on the parsed vector to see which problems occurred during parsing:
+
+```{r}
+problems(v4)
+```
+
+The range of important parsers matches the range of data types that we typically deal with. Important parsers include the following:
+
+1. `parse_logical()` parses logical values (`TRUE` vs. `FALSE`); 
+
+2. `parse_integer()` parses integer numbers (`r 1:3`, etc.); 
+
+3. `parse_double()` is a strict numeric parser; 
+
+```{r}
+parse_double(as.character(1:3))
+parse_double(c("1.23", "3.14"))
+```
+
+When using a _decimal mark_ different from "." (used in the U.S.) we need to specify this by providing the `locale` argument: 
+
+```{r}
+parse_double(c("1,23", "3,14"))  # issues a warning
+
+parse_double(c("1,23", "3,14"), locale = locale(decimal_mark = ","))  # works
+```
+
+4. `parse_number()` is a more flexible numeric parser, which ignores prefixes and postfixes, but only reads the first number of a character string:
+
+```{r}
+parse_number(c("1%", "is less than 2%", "and 3% is less than 4%"))
+```
+
+In addition, `parse_number` allows specifying both a `decimal_mark` and `grouping_mark` in its `locale` argument for reading country-specific number formats: 
+
+```{r}
+# Used in the US: 
+parse_number("$1,000.99")
+
+# Used in Germany (and the EU): 
+parse_number("EUR1.000,99", locale = locale(decimal_mark = ",", grouping_mark = "."))
+
+# Used in Switzerland:
+parse_number("CHF1'000,99", locale = locale(decimal_mark = ",", grouping_mark = "'"))
+```
+
+5. `parse_character()` seems trivial, but allows dealing with different character encodings:
+
+```{r}
+parse_character(c("très difficile", "mon chérie"), 
+                locale = locale(encoding = "UTF-8"))
+parse_character("\x82\xb1\x82\xf1\x82\xc9\x82\xbf\x82\xcd", 
+                locale = locale(encoding = "Shift-JIS"))
+
+french <- "très difficile"
+parse_character(french, locale = locale(encoding = "UTF-8"))
+guess_encoding(charToRaw("très difficile"))
+```
+
+6. `parse_factor()` creates factors, a data structure often used to represent categorical variables with fixed and known values (e.g., the different conditions or treatment levels of an experiment): 
+
+```{r}
+treatments <- c("therapy", "medication", "placebo")  # define factor levels
+
+parse_factor(c("medication", "placebo", "therapy", "medication"), levels = treatments)
+```
+
+7. `parse_datetime()`, `parse_date()`, and `parse_time()` allow parsing various date and time specifications.
+
+```{r}
+# Current date and time:
+Sys.Date()
+Sys.time()
+
+parse_date(c("2018-12-17", "2018-12-24", "2018-12-31"))
+parse_datetime("2018-12-17 07:38:01", locale = locale("de"))
+```
+
+Reading dates and times often requires specifying the details of the current date-time `format` (see the documentation to `?parse_datetime` for details). 
+
+In R, _dates_ are typically represented by a 4-digit year (`%Y`), a 2-digit month (`%m`), and a 2-digit day (`%d`), all separated by either "-" or "/":
+
+```{r}
+parse_date("2018/12/10")
+parse_date("2018-12-10")
+```
+
+Note the ambiguity of a date string like `"2018-12-10"` (in which month and day could be confused) or even `"08/10/12"` (in which even the year is unclear):
+
+```{r}
+# When was "2018-12-10"?
+parse_date("2018-12-10", format = "%Y-%m-%d")
+parse_date("2018-12-10", format = "%Y-%d-%m")
+
+# When was "08/10/12"?
+parse_date(c("08/10/12"), "%d/%m/%y")
+parse_date(c("08/10/12"), "%m/%d/%y")
+parse_date(c("08/10/12"), "%y/%m/%d")
+parse_date(c("08/10/12"), "%y/%d/%m")
+```
 
 ## Parsing files
 
++++ here now +++
+
+Loading a data file 
+
 ### 1. `read_csv`
+
+What’s the difference between read_csv() and read_csv2()?
+
+?read_csv2()
+
+`read_csv()` and `read_tsv()` are special cases of the general `read_delim()`.
+They're useful for reading the most common types of flat file data, 
+comma separated values and tab separated values, respectively.
+
+`read_csv2()` uses ";" for separators, instead of ",". 
+This is common in European countries which use , as the decimal separator.
+
 
 ### 2. `read_csv2`
 
@@ -395,6 +549,43 @@ list.files()
 setwd(my_wd)
 getwd()
 ```
+
+## Exercise 2
+
+Look at your ID card and type your birthday as a string as it's written on the card (including any spaces or punctuation symbols). For instance, if you were Erika Mustermann (see <https://de.wikipedia.org/wiki/Personalausweis_(Deutschland)>) you would write the character string "12.08.1964". 
+
+1. Use an appropriate `parse_` command to read this character string into R. 
+
+2. Now read out the date in German (i.e., "12. August 1964") and use another command to parse this string into R. 
+
+3. Use [Google Translate](https://translate.google.com/) to translate this character string into French, Italian, and Spanish and use appropriate R commands to parse these strings into R. 
+
+**Hint:** Consult `vignette("locales")` for specifying languages. 
+
+```{r birthday, echo = TRUE, eval = TRUE}
+parse_date("12.08.1964", "%d.%m.%Y")
+
+parse_date("12. August 1964", "%d. %B %Y", locale = locale("de"))
+
+parse_date("12. août 1964", "%d. %B %Y", locale = locale("fr"))
+parse_date("12. Agosto 1964", "%d. %B %Y", locale = locale("it"))
+parse_date("12 de agosto de 1964.", "%d de %B de %Y.", locale = locale("es"))
+```
+
+
+
+
+Use a `parse_` command (with an appropriate `locale`) to parse the following character strings into the desired data format: 
+
+- `"US$1,099.95"` as a number;
+- `"EUR1.099,95"` as a number;
+
+
+```{r}
+parse_number("US$1,099.95") 
+parse_number("EUR1.099,95", locale = locale(grouping_mark = "."))
+```
+
 
 
 

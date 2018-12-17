@@ -237,8 +237,8 @@ Nr. | Topic       |
 </li>
 <li>Where is my data?</li>
 </ul>
-<div id="working-directory" class="section level3">
-<h3>Working directory</h3>
+<div id="working-directory" class="section level4">
+<h4>Working directory</h4>
 <p>The 1st questions (“Where am I?”) addresses the notion of the current <em>working directory</em>. This is typically the directory on your computer in which you started your R environment, the location of your current R script, or – if you’re working with <a href="https://www.rstudio.com/">RStudio</a> <em>projects</em> – the home directory of your current project. Use the function <code>getwd</code> to find out your current working directory:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Get current working directory (wd):</span>
 my_wd &lt;-<span class="st"> </span><span class="kw">getwd</span>()
@@ -255,13 +255,15 @@ my_wd
 <span class="kw">list.files</span>()       <span class="co"># in current working directory</span>
 <span class="kw">list.files</span>(my_wd)  <span class="co"># in some specific directory</span></code></pre></div>
 </div>
-<div id="importing-data-1" class="section level3">
-<h3>Importing data</h3>
-<p>The 2nd question (“Where is my data?”) implies that data doesn’t necessarily need to be stored at the same location as your current working directory. Let’s suppose that you want to load some data file (called <code>data_t1.csv</code>), which you downloaded from an online source at <a href="http://rpository.com/ds4psy/data/data_t1.csv" class="uri">http://rpository.com/ds4psy/data/data_t1.csv</a>. But rather than saving it in your current working directory <code>my_wd</code>, the file <code>data_t1.csv</code> was saved in some parallel directory <code>data</code>. In this case, there are 2 principle ways to load your data file:</p>
+<div id="file-paths" class="section level4">
+<h4>File paths</h4>
+<p>The 2nd question (“Where is my data?”) implies that data doesn’t necessarily need to be stored at the same location as our current working directory. Let’s suppose that we want to load some data file (called <code>data_t1.csv</code>), which we downloaded from an online source at <a href="http://rpository.com/ds4psy/data/data_t1.csv" class="uri">http://rpository.com/ds4psy/data/data_t1.csv</a>. But rather than saving it in our current working directory <code>my_wd</code>, the file <code>data_t1.csv</code> is stored in some parallel directory (called <code>data</code>). In this case, there are 2 principle ways to load our data file:</p>
 <ol style="list-style-type: decimal">
-<li>Change your current working directory to the data directory:</li>
+<li>Change our current working directory to the data directory:</li>
 </ol>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Get working directory:</span>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># (1) Changing working directory to load data: </span>
+
+<span class="co"># Get working directory:</span>
 my_wd &lt;-<span class="st"> </span><span class="kw">getwd</span>()
 my_wd  <span class="co"># prints the current wd:</span>
 <span class="co">#&gt; [1] &quot;/Users/hneth/Desktop/stuff/Dropbox/_code/R/_teachR/ds4psy/_essentials&quot;</span>
@@ -279,23 +281,22 @@ t1 &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="s
 <span class="kw">getwd</span>()       <span class="co"># back in my_wd</span>
 <span class="co">#&gt; [1] &quot;/Users/hneth/Desktop/stuff/Dropbox/_code/R/_teachR/ds4psy/_essentials&quot;</span></code></pre></div>
 <ol start="2" style="list-style-type: decimal">
-<li>Keep your current working directory, but read the data from a different directory:</li>
+<li>Keep our current working directory, but read the data from a different directory:</li>
 </ol>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Read data from another directory:</span>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># (2) Reading data from another directory:</span>
 
-<span class="co"># (a) provide absolute/full path of data file:</span>
+<span class="co"># (a) provide absolute/full path of the data file:</span>
 t2 &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;/Users/hneth/Desktop/stuff/Dropbox/_code/R/_teachR/ds4psy/data/data_t1.csv&quot;</span>)
 
-<span class="co"># (b) provide relative path of data file:</span>
+<span class="co"># (b) provide relative path of the data file:</span>
 t3 &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;./../data/data_t1.csv&quot;</span>)
 
 <span class="co"># (c) relative to (platform dependent) home directory:</span>
 t4 &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;~/Desktop/stuff/Dropbox/_code/R/_teachR/ds4psy/data/data_t1.csv&quot;</span>)
 
-<span class="co"># (d) provide path to the online source of the data file:</span>
+<span class="co"># (d) provide path to an online source of the data file:</span>
 t0 &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;http://rpository.com/ds4psy/data/data_t1.csv&quot;</span>)</code></pre></div>
-<p>As you see, there are many different ways of pointing to the location of a data file. Due to this flexibility we recommend not changing your working directory to load data, but rather reading the file from a different directory.</p>
-<p>Let’s verify that all of the above methods actually loaded the same data:</p>
+<p>We see that there are many different ways of pointing to the location of a data file. Due to this flexibility, it’s typically best to not change our working directory to load data, but rather reading the file from a different directory. Let’s verify that all of the above methods actually loaded the same data:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Check whether t0 to t4 are all equal:</span>
 <span class="kw">all.equal</span>(t0, t1) <span class="op">&amp;</span><span class="st"> </span>
 <span class="kw">all.equal</span>(t1, t2) <span class="op">&amp;</span><span class="st"> </span>
@@ -310,18 +311,170 @@ t0 &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="s
 </div>
 <div id="parsing-vectors" class="section level2">
 <h2>Parsing vectors</h2>
-<p>+++ here now +++</p>
+<p>The process of reading some data structure is known as <em>parsing</em>. We usually want to parse entire files of data. However, as our data files typically consist of columns of variables, we also need to consider how individual vectors are parsed.</p>
+<p>We only cover the most common <code>parse</code> commands here (see <a href="https://r4ds.had.co.nz/data-import.html#parsing-a-vector">11.3 Parsing a vector</a> for details).</p>
+<p>The <code>parse_</code> functions provided by <code>readr</code> take a <em>character</em> vector as their main input argument and return a more specialised vector (e.g., logical, integer, or date) as output vector. Some examples are:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Parse logical values:</span>
+v1 &lt;-<span class="st"> </span><span class="kw">parse_logical</span>(<span class="kw">c</span>(<span class="st">&quot;TRUE&quot;</span>, <span class="st">&quot;FALSE&quot;</span>, <span class="st">&quot;NA&quot;</span>, <span class="st">&quot;TRUE&quot;</span>))
+v1
+<span class="co">#&gt; [1]  TRUE FALSE    NA  TRUE</span>
+<span class="kw">str</span>(v1)
+<span class="co">#&gt;  logi [1:4] TRUE FALSE NA TRUE</span>
+
+<span class="co"># Parse integers:</span>
+v2 &lt;-<span class="st"> </span><span class="kw">parse_integer</span>(<span class="kw">c</span>(<span class="st">&quot;1&quot;</span>, <span class="st">&quot;2&quot;</span>, <span class="st">&quot;3&quot;</span>, <span class="st">&quot;NA&quot;</span>, <span class="st">&quot;5&quot;</span>))
+v2
+<span class="co">#&gt; [1]  1  2  3 NA  5</span>
+<span class="kw">str</span>(v2)
+<span class="co">#&gt;  int [1:5] 1 2 3 NA 5</span>
+
+<span class="co"># Parse doubles:</span>
+
+
+<span class="co"># Parse dates: </span>
+v3 &lt;-<span class="st"> </span><span class="kw">parse_date</span>(<span class="kw">c</span>(<span class="st">&quot;2018-12-17&quot;</span>, <span class="st">&quot;2018-12-24&quot;</span>, <span class="st">&quot;NA&quot;</span>, <span class="st">&quot;2018-12-31&quot;</span>))
+v3
+<span class="co">#&gt; [1] &quot;2018-12-17&quot; &quot;2018-12-24&quot; NA           &quot;2018-12-31&quot;</span>
+<span class="kw">str</span>(v3)
+<span class="co">#&gt;  Date[1:4], format: &quot;2018-12-17&quot; &quot;2018-12-24&quot; NA &quot;2018-12-31&quot;</span></code></pre></div>
+<p>A uniform <code>na</code> argument allows specifying which string should be treated as missing data:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">parse_integer</span>(<span class="kw">c</span>(<span class="st">&quot;12&quot;</span>, <span class="st">&quot;34&quot;</span>, <span class="st">&quot;?&quot;</span>, <span class="st">&quot;78&quot;</span>), <span class="dt">na =</span> <span class="st">&quot;?&quot;</span>)
+<span class="co">#&gt; [1] 12 34 NA 78</span></code></pre></div>
+<p>If the process of parsing fails for an element, a <em>warning</em> is issued and the problematic element is missing (<code>NA</code>) in the output vector:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">v4 &lt;-<span class="st"> </span><span class="kw">parse_integer</span>(<span class="kw">c</span>(<span class="st">&quot;12&quot;</span>, <span class="st">&quot;34&quot;</span>, <span class="st">&quot;xy&quot;</span>, <span class="st">&quot;78&quot;</span>))
+v4
+<span class="co">#&gt; [1] 12 34 NA 78</span>
+<span class="co">#&gt; attr(,&quot;problems&quot;)</span>
+<span class="co">#&gt; # A tibble: 1 x 4</span>
+<span class="co">#&gt;     row   col expected   actual</span>
+<span class="co">#&gt;   &lt;int&gt; &lt;int&gt; &lt;chr&gt;      &lt;chr&gt; </span>
+<span class="co">#&gt; 1     3    NA an integer xy</span></code></pre></div>
+<p>We can use <code>problems()</code> on the parsed vector to see which problems occurred during parsing:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">problems</span>(v4)
+<span class="co">#&gt; # A tibble: 1 x 4</span>
+<span class="co">#&gt;     row   col expected   actual</span>
+<span class="co">#&gt;   &lt;int&gt; &lt;int&gt; &lt;chr&gt;      &lt;chr&gt; </span>
+<span class="co">#&gt; 1     3    NA an integer xy</span></code></pre></div>
+<p>The range of important parsers matches the range of data types that we typically deal with. Important parsers include the following:</p>
+<ol style="list-style-type: decimal">
+<li><p><code>parse_logical()</code> parses logical values (<code>TRUE</code> vs. <code>FALSE</code>);</p></li>
+<li><p><code>parse_integer()</code> parses integer numbers (1, 2, 3, etc.);</p></li>
+<li><p><code>parse_double()</code> is a strict numeric parser;</p></li>
+</ol>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">parse_double</span>(<span class="kw">as.character</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">3</span>))
+<span class="co">#&gt; [1] 1 2 3</span>
+<span class="kw">parse_double</span>(<span class="kw">c</span>(<span class="st">&quot;1.23&quot;</span>, <span class="st">&quot;3.14&quot;</span>))
+<span class="co">#&gt; [1] 1.23 3.14</span></code></pre></div>
+<p>When using a <em>decimal mark</em> different from “.” (used in the U.S.) we need to specify this by providing the <code>locale</code> argument:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">parse_double</span>(<span class="kw">c</span>(<span class="st">&quot;1,23&quot;</span>, <span class="st">&quot;3,14&quot;</span>))  <span class="co"># issues a warning</span>
+<span class="co">#&gt; [1] NA NA</span>
+<span class="co">#&gt; attr(,&quot;problems&quot;)</span>
+<span class="co">#&gt; # A tibble: 2 x 4</span>
+<span class="co">#&gt;     row   col expected               actual</span>
+<span class="co">#&gt;   &lt;int&gt; &lt;int&gt; &lt;chr&gt;                  &lt;chr&gt; </span>
+<span class="co">#&gt; 1     1    NA no trailing characters ,23   </span>
+<span class="co">#&gt; 2     2    NA no trailing characters ,14</span>
+
+<span class="kw">parse_double</span>(<span class="kw">c</span>(<span class="st">&quot;1,23&quot;</span>, <span class="st">&quot;3,14&quot;</span>), <span class="dt">locale =</span> <span class="kw">locale</span>(<span class="dt">decimal_mark =</span> <span class="st">&quot;,&quot;</span>))  <span class="co"># works</span>
+<span class="co">#&gt; [1] 1.23 3.14</span></code></pre></div>
+<ol start="4" style="list-style-type: decimal">
+<li><code>parse_number()</code> is a more flexible numeric parser, which ignores prefixes and postfixes, but only reads the first number of a character string:</li>
+</ol>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">parse_number</span>(<span class="kw">c</span>(<span class="st">&quot;1%&quot;</span>, <span class="st">&quot;is less than 2%&quot;</span>, <span class="st">&quot;and 3% is less than 4%&quot;</span>))
+<span class="co">#&gt; [1] 1 2 3</span></code></pre></div>
+<p>In addition, <code>parse_number</code> allows specifying both a <code>decimal_mark</code> and <code>grouping_mark</code> in its <code>locale</code> argument for reading country-specific number formats:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Used in the US: </span>
+<span class="kw">parse_number</span>(<span class="st">&quot;$1,000.99&quot;</span>)
+<span class="co">#&gt; [1] 1000.99</span>
+
+<span class="co"># Used in Germany (and the EU): </span>
+<span class="kw">parse_number</span>(<span class="st">&quot;EUR1.000,99&quot;</span>, <span class="dt">locale =</span> <span class="kw">locale</span>(<span class="dt">decimal_mark =</span> <span class="st">&quot;,&quot;</span>, <span class="dt">grouping_mark =</span> <span class="st">&quot;.&quot;</span>))
+<span class="co">#&gt; [1] 1000.99</span>
+
+<span class="co"># Used in Switzerland:</span>
+<span class="kw">parse_number</span>(<span class="st">&quot;CHF1'000,99&quot;</span>, <span class="dt">locale =</span> <span class="kw">locale</span>(<span class="dt">decimal_mark =</span> <span class="st">&quot;,&quot;</span>, <span class="dt">grouping_mark =</span> <span class="st">&quot;'&quot;</span>))
+<span class="co">#&gt; [1] 1000.99</span></code></pre></div>
+<ol start="5" style="list-style-type: decimal">
+<li><code>parse_character()</code> seems trivial, but allows dealing with different character encodings:</li>
+</ol>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">parse_character</span>(<span class="kw">c</span>(<span class="st">&quot;très difficile&quot;</span>, <span class="st">&quot;mon chérie&quot;</span>), 
+                <span class="dt">locale =</span> <span class="kw">locale</span>(<span class="dt">encoding =</span> <span class="st">&quot;UTF-8&quot;</span>))
+<span class="co">#&gt; [1] &quot;très difficile&quot; &quot;mon chérie&quot;</span>
+<span class="kw">parse_character</span>(<span class="st">&quot;</span><span class="ch">\x82\xb1\x82\xf1\x82\xc9\x82\xbf\x82\xcd</span><span class="st">&quot;</span>, 
+                <span class="dt">locale =</span> <span class="kw">locale</span>(<span class="dt">encoding =</span> <span class="st">&quot;Shift-JIS&quot;</span>))
+<span class="co">#&gt; [1] &quot;こんにちは&quot;</span>
+
+french &lt;-<span class="st"> &quot;très difficile&quot;</span>
+<span class="kw">parse_character</span>(french, <span class="dt">locale =</span> <span class="kw">locale</span>(<span class="dt">encoding =</span> <span class="st">&quot;UTF-8&quot;</span>))
+<span class="co">#&gt; [1] &quot;très difficile&quot;</span>
+<span class="kw">guess_encoding</span>(<span class="kw">charToRaw</span>(<span class="st">&quot;très difficile&quot;</span>))
+<span class="co">#&gt; # A tibble: 4 x 2</span>
+<span class="co">#&gt;   encoding   confidence</span>
+<span class="co">#&gt;   &lt;chr&gt;           &lt;dbl&gt;</span>
+<span class="co">#&gt; 1 UTF-8            0.8 </span>
+<span class="co">#&gt; 2 ISO-8859-1       0.37</span>
+<span class="co">#&gt; 3 ISO-8859-2       0.37</span>
+<span class="co">#&gt; 4 ISO-8859-9       0.37</span></code></pre></div>
+<ol start="6" style="list-style-type: decimal">
+<li><code>parse_factor()</code> creates factors, a data structure often used to represent categorical variables with fixed and known values (e.g., the different conditions or treatment levels of an experiment):</li>
+</ol>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">treatments &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;therapy&quot;</span>, <span class="st">&quot;medication&quot;</span>, <span class="st">&quot;placebo&quot;</span>)  <span class="co"># define factor levels</span>
+
+<span class="kw">parse_factor</span>(<span class="kw">c</span>(<span class="st">&quot;medication&quot;</span>, <span class="st">&quot;placebo&quot;</span>, <span class="st">&quot;therapy&quot;</span>, <span class="st">&quot;medication&quot;</span>), <span class="dt">levels =</span> treatments)
+<span class="co">#&gt; [1] medication placebo    therapy    medication</span>
+<span class="co">#&gt; Levels: therapy medication placebo</span></code></pre></div>
+<ol start="7" style="list-style-type: decimal">
+<li><code>parse_datetime()</code>, <code>parse_date()</code>, and <code>parse_time()</code> allow parsing various date and time specifications.</li>
+</ol>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Current date and time:</span>
+<span class="kw">Sys.Date</span>()
+<span class="co">#&gt; [1] &quot;2018-12-17&quot;</span>
+<span class="kw">Sys.time</span>()
+<span class="co">#&gt; [1] &quot;2018-12-17 08:57:28 CET&quot;</span>
+
+<span class="kw">parse_date</span>(<span class="kw">c</span>(<span class="st">&quot;2018-12-17&quot;</span>, <span class="st">&quot;2018-12-24&quot;</span>, <span class="st">&quot;2018-12-31&quot;</span>))
+<span class="co">#&gt; [1] &quot;2018-12-17&quot; &quot;2018-12-24&quot; &quot;2018-12-31&quot;</span>
+<span class="kw">parse_datetime</span>(<span class="st">&quot;2018-12-17 07:38:01&quot;</span>, <span class="dt">locale =</span> <span class="kw">locale</span>(<span class="st">&quot;de&quot;</span>))
+<span class="co">#&gt; [1] &quot;2018-12-17 07:38:01 UTC&quot;</span></code></pre></div>
+<p>Reading dates and times often requires specifying the details of the current date-time <code>format</code> (see the documentation to <code>?parse_datetime</code> for details).</p>
+<p>In R, <em>dates</em> are typically represented by a 4-digit year (<code>%Y</code>), a 2-digit month (<code>%m</code>), and a 2-digit day (<code>%d</code>), all separated by either “-” or “/”:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">parse_date</span>(<span class="st">&quot;2018/12/10&quot;</span>)
+<span class="co">#&gt; [1] &quot;2018-12-10&quot;</span>
+<span class="kw">parse_date</span>(<span class="st">&quot;2018-12-10&quot;</span>)
+<span class="co">#&gt; [1] &quot;2018-12-10&quot;</span></code></pre></div>
+<p>Note the ambiguity of a date string like <code>&quot;2018-12-10&quot;</code> (in which month and day could be confused) or even <code>&quot;08/10/12&quot;</code> (in which even the year is unclear):</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># When was &quot;2018-12-10&quot;?</span>
+<span class="kw">parse_date</span>(<span class="st">&quot;2018-12-10&quot;</span>, <span class="dt">format =</span> <span class="st">&quot;%Y-%m-%d&quot;</span>)
+<span class="co">#&gt; [1] &quot;2018-12-10&quot;</span>
+<span class="kw">parse_date</span>(<span class="st">&quot;2018-12-10&quot;</span>, <span class="dt">format =</span> <span class="st">&quot;%Y-%d-%m&quot;</span>)
+<span class="co">#&gt; [1] &quot;2018-10-12&quot;</span>
+
+<span class="co"># When was &quot;08/10/12&quot;?</span>
+<span class="kw">parse_date</span>(<span class="kw">c</span>(<span class="st">&quot;08/10/12&quot;</span>), <span class="st">&quot;%d/%m/%y&quot;</span>)
+<span class="co">#&gt; [1] &quot;2012-10-08&quot;</span>
+<span class="kw">parse_date</span>(<span class="kw">c</span>(<span class="st">&quot;08/10/12&quot;</span>), <span class="st">&quot;%m/%d/%y&quot;</span>)
+<span class="co">#&gt; [1] &quot;2012-08-10&quot;</span>
+<span class="kw">parse_date</span>(<span class="kw">c</span>(<span class="st">&quot;08/10/12&quot;</span>), <span class="st">&quot;%y/%m/%d&quot;</span>)
+<span class="co">#&gt; [1] &quot;2008-10-12&quot;</span>
+<span class="kw">parse_date</span>(<span class="kw">c</span>(<span class="st">&quot;08/10/12&quot;</span>), <span class="st">&quot;%y/%d/%m&quot;</span>)
+<span class="co">#&gt; [1] &quot;2008-12-10&quot;</span></code></pre></div>
 </div>
 <div id="parsing-files" class="section level2">
 <h2>Parsing files</h2>
+<p>+++ here now +++</p>
+<p>Loading a data file</p>
 <div id="read_csv" class="section level3">
-<h3><code>read_csv</code></h3>
+<h3>1. <code>read_csv</code></h3>
+<p>What’s the difference between read_csv() and read_csv2()?</p>
+<p>?read_csv2()</p>
+<p><code>read_csv()</code> and <code>read_tsv()</code> are special cases of the general <code>read_delim()</code>. They’re useful for reading the most common types of flat file data, comma separated values and tab separated values, respectively.</p>
+<p><code>read_csv2()</code> uses “;” for separators, instead of “,”. This is common in European countries which use , as the decimal separator.</p>
 </div>
 <div id="read_csv2" class="section level3">
-<h3><code>read_csv2</code></h3>
+<h3>2. <code>read_csv2</code></h3>
 </div>
 <div id="read_delim" class="section level3">
-<h3><code>read_delim</code></h3>
+<h3>3. <code>read_delim</code></h3>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Create data (with NA values): </span>
 <span class="kw">set.seed</span>(<span class="dv">2</span>)
 n &lt;-<span class="st"> </span><span class="dv">100</span>
@@ -401,7 +554,7 @@ tbl_<span class="dv">1</span>[tbl_<span class="dv">1</span> <span class="op">==<
 <span class="co">#&gt; [1] TRUE</span></code></pre></div>
 </div>
 <div id="read_fwf" class="section level3">
-<h3><code>read_fwf</code></h3>
+<h3>4. <code>read_fwf</code></h3>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Create data (without NA values): </span>
 <span class="kw">set.seed</span>(<span class="dv">3</span>)
 n &lt;-<span class="st"> </span><span class="dv">100</span>
@@ -564,6 +717,37 @@ my_wd
 <span class="kw">getwd</span>()
 <span class="co">#&gt; [1] &quot;/Users/hneth/Desktop/stuff/Dropbox/_code/R/_teachR/ds4psy/_essentials&quot;</span></code></pre></div>
 </div>
+<div id="exercise-2" class="section level2">
+<h2>Exercise 2</h2>
+<p>Look at your ID card and type your birthday as a string as it’s written on the card (including any spaces or punctuation symbols). For instance, if you were Erika Mustermann (see <a href="https://de.wikipedia.org/wiki/Personalausweis_(Deutschland)" class="uri">https://de.wikipedia.org/wiki/Personalausweis_(Deutschland)</a>) you would write the character string “12.08.1964”.</p>
+<ol style="list-style-type: decimal">
+<li><p>Use an appropriate <code>parse_</code> command to read this character string into R.</p></li>
+<li><p>Now read out the date in German (i.e., “12. August 1964”) and use another command to parse this string into R.</p></li>
+<li><p>Use <a href="https://translate.google.com/">Google Translate</a> to translate this character string into French, Italian, and Spanish and use appropriate R commands to parse these strings into R.</p></li>
+</ol>
+<p><strong>Hint:</strong> Consult <code>vignette(&quot;locales&quot;)</code> for specifying languages.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">parse_date</span>(<span class="st">&quot;12.08.1964&quot;</span>, <span class="st">&quot;%d.%m.%Y&quot;</span>)
+<span class="co">#&gt; [1] &quot;1964-08-12&quot;</span>
+
+<span class="kw">parse_date</span>(<span class="st">&quot;12. August 1964&quot;</span>, <span class="st">&quot;%d. %B %Y&quot;</span>, <span class="dt">locale =</span> <span class="kw">locale</span>(<span class="st">&quot;de&quot;</span>))
+<span class="co">#&gt; [1] &quot;1964-08-12&quot;</span>
+
+<span class="kw">parse_date</span>(<span class="st">&quot;12. août 1964&quot;</span>, <span class="st">&quot;%d. %B %Y&quot;</span>, <span class="dt">locale =</span> <span class="kw">locale</span>(<span class="st">&quot;fr&quot;</span>))
+<span class="co">#&gt; [1] &quot;1964-08-12&quot;</span>
+<span class="kw">parse_date</span>(<span class="st">&quot;12. Agosto 1964&quot;</span>, <span class="st">&quot;%d. %B %Y&quot;</span>, <span class="dt">locale =</span> <span class="kw">locale</span>(<span class="st">&quot;it&quot;</span>))
+<span class="co">#&gt; [1] &quot;1964-08-12&quot;</span>
+<span class="kw">parse_date</span>(<span class="st">&quot;12 de agosto de 1964.&quot;</span>, <span class="st">&quot;%d de %B de %Y.&quot;</span>, <span class="dt">locale =</span> <span class="kw">locale</span>(<span class="st">&quot;es&quot;</span>))
+<span class="co">#&gt; [1] &quot;1964-08-12&quot;</span></code></pre></div>
+<p>Use a <code>parse_</code> command (with an appropriate <code>locale</code>) to parse the following character strings into the desired data format:</p>
+<ul>
+<li><code>&quot;US$1,099.95&quot;</code> as a number;</li>
+<li><code>&quot;EUR1.099,95&quot;</code> as a number;</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">parse_number</span>(<span class="st">&quot;US$1,099.95&quot;</span>) 
+<span class="co">#&gt; [1] 1099.95</span>
+<span class="kw">parse_number</span>(<span class="st">&quot;EUR1.099,95&quot;</span>, <span class="dt">locale =</span> <span class="kw">locale</span>(<span class="dt">grouping_mark =</span> <span class="st">&quot;.&quot;</span>))
+<span class="co">#&gt; [1] 1099.95</span></code></pre></div>
+</div>
 </div>
 <div id="more-on-data-import" class="section level1">
 <h1>More on data import</h1>
@@ -634,7 +818,7 @@ Nr. | Topic       |
 7.  | [Tidying data](http://rpository.com/ds4psy/essentials/tidy.html) |
 +.  | [Datasets](http://rpository.com/ds4psy/essentials/datasets.html) | 
 -->
-<p>[Last update on 2018-12-16 21:51:35 by <a href="http://neth.de/">hn</a>.]</p>
+<p>[Last update on 2018-12-17 09:06:28 by <a href="http://neth.de/">hn</a>.]</p>
 <!-- eof. -->
 </div>
 </div>
@@ -651,16 +835,14 @@ Nr. | Topic       |
         </ul></li>
         <li><a href="#importing-data">Importing data</a><ul>
         <li><a href="#file-names-and-paths">File names and paths</a><ul>
-        <li><a href="#working-directory">Working directory</a></li>
-        <li><a href="#importing-data-1">Importing data</a></li>
         <li><a href="#sharing-scripts-and-data-files">Sharing scripts and data files</a></li>
         </ul></li>
         <li><a href="#parsing-vectors">Parsing vectors</a></li>
         <li><a href="#parsing-files">Parsing files</a><ul>
-        <li><a href="#read_csv"><code>read_csv</code></a></li>
-        <li><a href="#read_csv2"><code>read_csv2</code></a></li>
-        <li><a href="#read_delim"><code>read_delim</code></a></li>
-        <li><a href="#read_fwf"><code>read_fwf</code></a></li>
+        <li><a href="#read_csv">1. <code>read_csv</code></a></li>
+        <li><a href="#read_csv2">2. <code>read_csv2</code></a></li>
+        <li><a href="#read_delim">3. <code>read_delim</code></a></li>
+        <li><a href="#read_fwf">4. <code>read_fwf</code></a></li>
         </ul></li>
         <li><a href="#writing-files">Writing files</a></li>
         <li><a href="#importing-data-from-other-programs">Importing data from other programs</a><ul>
@@ -670,6 +852,7 @@ Nr. | Topic       |
         </ul></li>
         <li><a href="#exercises-wpa06">Exercises (WPA06)</a><ul>
         <li><a href="#exercise-1">Exercise 1</a></li>
+        <li><a href="#exercise-2">Exercise 2</a></li>
         </ul></li>
         <li><a href="#more-on-data-import">More on data import</a></li>
         <li><a href="#conclusion">Conclusion</a></li>
