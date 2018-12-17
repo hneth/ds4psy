@@ -1,7 +1,7 @@
 ---
 title: "Data Science for Psychologists (ds4psy)"
 author: "Hansjörg Neth, SPDS, uni.kn"
-date: "2018 12 10"
+date: "2018 12 17"
 output:
   rmdformats::html_clean:
     highlight: kate
@@ -148,9 +148,10 @@ Part 2: Wrangle
  **Part 2: Wrangle data**
 
  8. 10.12.2018: [Chapter 10: Tibbles](http://r4ds.had.co.nz/tibbles.html): `tibble`;   
- (**[Essentials and WPA05](http://rpository.com/ds4psy/essentials/tibbles.html)**). 
+ ([Essentials and solutions](http://rpository.com/ds4psy/essentials/tibbles.html)). 
  
- 9. 17.12.2018: [Chapter 11: Data import](http://r4ds.had.co.nz/data-import.html): `readr`.
+ 9. 17.12.2018: [Chapter 11: Data import](http://r4ds.had.co.nz/data-import.html): `readr`.   
+ (**[Essentials of importing data and WPA06](http://rpository.com/ds4psy/essentials/import.html)**) 
  
  10. 07.01.2018: [Chapter 12: Tidy data](http://r4ds.had.co.nz/tidy-data.html): `tidyr`. 
  
@@ -180,6 +181,7 @@ Nr. | Topic       |
 3.  | [Transforming data](http://rpository.com/ds4psy/essentials/transform.html) |
 4.  | [Exploring data (EDA)](http://rpository.com/ds4psy/essentials/explore.html) | 
 5.  | [Tibbles](http://rpository.com/ds4psy/essentials/tibbles.html) | 
+6.  | [Importing data](http://rpository.com/ds4psy/essentials/import.html) |
 +.  | [Datasets](http://rpository.com/ds4psy/essentials/datasets.html) | 
 
 <!--
@@ -191,7 +193,8 @@ Nr. | Topic       |
 3.  | [Transforming data](http://rpository.com/ds4psy/essentials/transform.html) |
 4.  | [Exploring data (EDA)](http://rpository.com/ds4psy/essentials/explore.html) | 
 5.  | [Tibbles](http://rpository.com/ds4psy/essentials/tibbles.html) |
-6.  | [Tidying data](http://rpository.com/ds4psy/essentials/tidy.html) |
+6.  | [Importing data](http://rpository.com/ds4psy/essentials/import.html) |
+7.  | [Tidying data](http://rpository.com/ds4psy/essentials/tidy.html) |
 +.  | [Datasets](http://rpository.com/ds4psy/essentials/datasets.html) | 
 -->
 
@@ -305,6 +308,7 @@ Nr. | Topic       |
 3.  | [Transforming data](http://rpository.com/ds4psy/essentials/transform.html) |
 4.  | [Exploring data (EDA)](http://rpository.com/ds4psy/essentials/explore.html) | 
 5.  | [Tibbles](http://rpository.com/ds4psy/essentials/tibbles.html) | 
+6.  | [Importing data](http://rpository.com/ds4psy/essentials/import.html) | 
 +.  | [Datasets](http://rpository.com/ds4psy/essentials/datasets.html) | 
 
 
