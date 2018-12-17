@@ -1,7 +1,7 @@
 ---
 title: "Importing files, with solutions (ds4psy)"
 author: "Hansjörg Neth, SPDS, uni.kn"
-date: "2018 12 15"
+date: "2018 12 17"
 output:
    rmdformats::html_clean: # html_clean html_docco readthedown material #
      code_folding: show # hide
@@ -380,30 +380,92 @@ parse_date(c("08/10/12"), "%y/%d/%m")
 
 ## Parsing files
 
-+++ here now +++
+The difficulty of loading a data file depends on the sensibility of whoever saved it. 
+If the originator of the file used a file format that is universal and easily exchanged (e.g., a `csv` file in a common encoding format), reading the data into R -- or any other data analysis software -- should be no problem. Unfortunately, however, many people still insist on saving and sending specialized or proprietary file formats (e.g., `xls` or `sav` files). 
 
-Loading a data file 
+In the following, we outline some basic methods of reading files that should cover 95% of all cases and provide pointers to resources that allow dealing with the remaining 5%. 
 
 ### 1. `read_csv`
 
-What’s the difference between read_csv() and read_csv2()?
+A common and sensible file format for data separates variables (columns) by commas, which is why it is called a _comma separated value_ (or `csv`) file. The best way to read such files within the `tidyverse` is by using the command `read_csv`. 
+We have used this command many times before (e.g., to read in <http://rpository.com/ds4psy/data/data_t1.csv> above):
 
-?read_csv2()
+```{r read_csv}
+## Read a csv file: 
 
-`read_csv()` and `read_tsv()` are special cases of the general `read_delim()`.
-They're useful for reading the most common types of flat file data, 
-comma separated values and tab separated values, respectively.
+# 1. From a different directory:
 
-`read_csv2()` uses ";" for separators, instead of ",". 
-This is common in European countries which use , as the decimal separator.
+# (a) provide absolute/full path:
+dt <- read_csv("/Users/hneth/Desktop/stuff/Dropbox/_code/R/_teachR/ds4psy/data/data_t1.csv")
 
+# (b) provide relative path of the data file:
+dt <- read_csv("./../data/data_t1.csv")
 
-### 2. `read_csv2`
+# (c) relative to (platform dependent) home directory:
+dt <- read_csv("~/Desktop/stuff/Dropbox/_code/R/_teachR/ds4psy/data/data_t1.csv")
+
+# 2. From an online source:
+
+# (d) provide path to an online source of the data file:
+dt <- read_csv("http://rpository.com/ds4psy/data/data_t1.csv")
+```
+
+Actually, base R also provides a function `read.csv()` to achieve the same thing:
+
+```{r}
+df <- read.csv("./../data/data_t1.csv")
+```
+
+However, note that the objects resulting from our calls of `read_csv` and `read.csv` (i.e., `dt` and `df`, respectively) are similar, but not identical:
+
+```{r}
+# Differences: 
+class(dt)  # read_csv yields a tibble 
+class(df)  # read.csv yields a data.frame 
+
+all.equal(dt, df)  
+
+# => df converted chracter to factors, unless: 
+df <- read.csv("./../data/data_t1.csv", stringsAsFactors = FALSE)
+
+all.equal(dt, df) 
+```
+
+### 2. Variants (`read_csv2` and `read_tsv`): 
+
+```{r, eval = FALSE, echo = FALSE}
+write_delim(x = dt, 
+            path = "./../data/data_t1_de.csv", 
+            delim = "; ")
+
+write_delim(x = dt, 
+            path = "./../data/data_t1_tab.csv", 
+            delim = "\t")
+
+read_csv2("./../data/data_t1_de.csv")
+read.csv2("./../data/data_t1_de.csv")
+```
+
+In many countries (e.g., European countries like Germany), commas (`,`) are used as a _decimal mark_ (e.g., "pi is close to 3,1416.") and hence are not a good separator for variables (columns). In these locations, variables are typically separated by semi-colons (`;`). For such files, both `readr` and base R provide variants of the above commands that follow this convention. For instance, to read in the file <http://rpository.com/ds4psy/data/data_t1_de.csv> we can use: 
+
+```{r}
+read_csv2("http://rpository.com/ds4psy/data/data_t1_de.csv")
+read.csv2("http://rpository.com/ds4psy/data/data_t1_de.csv")
+```
+
+Sometimes, the variables (columns) of a data file are separated by tabs (`\t`), which prompts the use of `read_tsv`. 
+To read in <http://rpository.com/ds4psy/data/data_t1_tab.csv> we use: 
+
+```{r}
+read_tsv("http://rpository.com/ds4psy/data/data_t1_tab.csv")
+```
 
 ### 3. `read_delim`
 
-```{r create_data_delim}
-# Create data (with NA values): 
+All the `read_` commands encountered so far are special instances of the more general `read_delim()` function, which reads delimited files into a tibble and allows specifying various additional arguments. 
+
+```{r create_data_delim, echo = FALSE, eval = FALSE}
+# (1) Create data (with NA values): 
 set.seed(2)
 n <- 100
 v1 <- random_symbols(n = n, set = LETTERS, len = 2)
@@ -423,37 +485,8 @@ tbl_1
 # Writing out: 
 write_delim(tbl_1, path = "../data/data_1.dat", delim = ".", na = "NA", col_names = FALSE)
 
-# Reading in:
-my_file <- "../data/data_1.dat"
 
-# Reading back in:
-
-# (a) read_delim: 
-data_1 <- read_delim(my_file, delim = ".", 
-                     col_names = c("initials", "age", "tel", "pwd"), 
-                     na = c("-77", "-99"))
-sum(is.na(data_1))  # 15 NA values
-data_1
-
-
-# Check equality: 
-all.equal(tbl_1, data_1)
-
-# Hypothesis: Differences come from different NA encodings.
-
-# Recode -99 and -77 in tbl_1 as NA:
-tbl_1[tbl_1 == -99] <- NA
-tbl_1[tbl_1 == "-77"] <- NA
-sum(is.na(tbl_1))
-
-# Check equality: 
-all.equal(tbl_1, data_1)  # TRUE (qed).
-```
-
-### 4. `read_fwf`
-
-```{r create_data_fwf}
-# Create data (without NA values): 
+# (2) Create data (without NA values): 
 set.seed(3)
 n <- 100
 v1 <- random_symbols(n = n, set = LETTERS, len = 2)
@@ -469,25 +502,97 @@ tbl_2
 
 # Writing out: 
 write_delim(tbl_2, path = "../data/data_2.dat", delim = "$", na = "NA", col_names = FALSE)
+```
 
-# (b) read_fwf: 
-data_2 <- read_fwf("../data/data_2.dat", 
-                   fwf_cols(ini = c(1, 2), 
+Suppose we want to read a file like <http://rpository.com/ds4psy/data/data_1.dat>, which is known to include 4 variables:
+
+- the `initials` of participants; 
+- their `age`; 
+- their `telephone` number; 
+- their `pwd` to some account. 
+
+Inspecting the file shows the following:
+
+1. The data is delimited, but by a full stop (aka. point or period, i.e., `.`) rather than by a comma or semi-colon. 
+As a consequence, we need to use `read_delim` and explicitly specify the delimiting symbol as `"."`.
+
+2. As the file does not include variable names (in the first row), we provide them with the `col_names` argument (which accepts a vector of characters).
+
+3. Some lines are shorter than most others.  Close inspection reveals that they include either `-99` or `-77`. As these symbols are frequently used to express missing values, we supply them to the `na` argument (again as a vector of characters).
+
+
+```{r read_data_delim}
+# Path to file:
+my_file <- "../data/data_1.dat"                           # from local directory
+my_file <- "http://rpository.com/ds4psy/data/data_1.dat"  # from online source
+
+# read_delim: 
+data_1 <- read_delim(my_file, delim = ".", 
+                     col_names = c("initials", "age", "tel", "pwd"), 
+                     na = c("-77", "-99"))
+
+dim(data_1)  # 100 observations, 4 variables
+glimpse(data_1)
+sum(is.na(data_1))  # 15 NA values
+```
+
+### 4. `read_fwf`
+
+Sometimes we know the positions of variables in a data file. 
+If this is the case, we can use the command `read_fwf` (with "fwf" standing for _fixed-width files_) and specify the positions of the variables (provided that they are the same for all rows). For instance, the file at 
+<http://rpository.com/ds4psy/data/data_2.dat> contains the same variables as the previous file (`data_1`), but does not include missing values and can therefore be read in the following way:
+
+```{r create_data_fwf}
+# Path to file:
+my_file_path <- "../data/data_2.dat"                           # from local directory
+my_file_path <- "http://rpository.com/ds4psy/data/data_2.dat"  # from online source
+
+# read_fwf: 
+data_2 <- read_fwf(my_file_path, 
+                   fwf_cols(initials = c(1, 2), 
                             age = c(4, 5), 
                             tel = c(7, 10), 
                             pwd = c(12, 17)))
 
-data_2
+dim(data_2)  # 100 4
+glimpse(data_2)
+```
+
+```{r check_equality, echo = FALSE, eval = FALSE}
+# (1) Check equality: 
+all.equal(tbl_1, data_1)
+
+# Hypothesis: Differences come from different NA encodings.
+
+# Recode -99 and -77 in tbl_1 as NA:
+tbl_1[tbl_1 == -99] <- NA
+tbl_1[tbl_1 == "-77"] <- NA
+sum(is.na(tbl_1))
 
 # Check equality: 
+all.equal(tbl_1, data_1)  # TRUE (qed).
+
+# (2) Check equality: 
 all.equal(tbl_2, data_2)
 ```
 
-
-
-
 ## Writing files
 
+To write a data file to a local directory, use one of the following `readr` commands (from more general to more specific): 
+
+```{r}
+write_csv(data_1, path = "../data/data_1a.csv")
+write_tsv(data_1, path = "../data/data_1a.tsv")
+write_delim(data_1, path = "../data/data_1a.txt", delim = " ", na = "NA", col_names = TRUE)
+```
+
+Alternatively, base R provides the following options (and note that the `path` argument from above is named `file` here):
+
+```{r}
+write.csv(data_1, file = "../data/data_1b.csv")
+write.csv2(data_1, file = "../data/data_1b.csv2")
+write.table(data_1, file = "../data/data_1b.txt", sep = "<>", na = "-777", col.names = TRUE) 
+```
 
 ## Importing data from other programs
 
@@ -495,12 +600,11 @@ For _rectangular_ data:
 
 ### From Excel (`xls`)
 
-`readxl` reads excel files (both .xls and .xlsx).
+- The package `readxl` allows reading MS Excel files (both .xls and .xlsx).
 
 ### From SPSS (`sav`)
 
-`haven` reads SPSS, Stata, and SAS files.
-
+- The package `haven` allows reading SPSS, Stata, and SAS files.
 
 For _hierarchical_ data: 
 
@@ -528,7 +632,7 @@ Use `jsonlite` for json, and `xml2` for XML.
 
 1. Find out your current working directory and list all files and folders contained in it. 
 
-```{r ex1_getwd, echo = TRUE, eval = TRUE}
+```{r ex1_getwd, echo = FALSE, eval = FALSE}
 my_wd <- getwd()
 my_wd
 
@@ -537,7 +641,7 @@ list.files(my_wd)
 
 2. Change your working directory and list all the files and folders in this directory.
 
-```{r ex1_setwd, echo = TRUE, eval = TRUE}
+```{r ex1_setwd, echo = FALSE, eval = FALSE}
 setwd("./../data")
 getwd()
 list.files()
@@ -545,7 +649,7 @@ list.files()
 
 3. Return to your original working directory. 
 
-```{r ex1_setwd_back, echo = TRUE, eval = TRUE}
+```{r ex1_setwd_back, echo = FALSE, eval = FALSE}
 setwd(my_wd)
 getwd()
 ```
@@ -562,7 +666,7 @@ Look at your ID card and type your birthday as a string as it's written on the c
 
 **Hint:** Consult `vignette("locales")` for specifying languages. 
 
-```{r birthday, echo = TRUE, eval = TRUE}
+```{r birthday, echo = FALSE, eval = FALSE}
 parse_date("12.08.1964", "%d.%m.%Y")
 
 parse_date("12. August 1964", "%d. %B %Y", locale = locale("de"))
@@ -572,22 +676,94 @@ parse_date("12. Agosto 1964", "%d. %B %Y", locale = locale("it"))
 parse_date("12 de agosto de 1964.", "%d de %B de %Y.", locale = locale("es"))
 ```
 
-
-
-
-Use a `parse_` command (with an appropriate `locale`) to parse the following character strings into the desired data format: 
+4. Use a `parse_` command (with an appropriate `locale`) to parse the following character strings into the desired data format: 
 
 - `"US$1,099.95"` as a number;
 - `"EUR1.099,95"` as a number;
 
-
-```{r}
+```{r ex2_4, echo = FALSE, eval = FALSE}
 parse_number("US$1,099.95") 
 parse_number("EUR1.099,95", locale = locale(grouping_mark = "."))
 ```
 
+## Exercise 3
+
+### A read-write-read cycle
+
+1. Read in the data in file <http://rpository.com/ds4psy/data/data_2.dat> into an R object `data_2`, but by using the command `read_delim` rather than by using `read_fwf` (as above). (**Hint:** The variable names should be the same as above, but inspect the file to see its delimiter.)
+
+```{r ex3_1}
+# Path to file:
+my_file <- "../data/data_2.dat"                           # from local directory
+my_file <- "http://rpository.com/ds4psy/data/data_2.dat"  # from online source
+
+# read_delim: 
+data_2 <- read_delim(my_file, delim = "$", 
+                     col_names = c("initials", "age", "tel", "pwd")
+                     )
+
+dim(data_2)  # 100 observations, 4 variables
+glimpse(data_2)
+sum(is.na(data_2))  # 0 NA values
+```
+
+2. Store the data file as `data_2.csv` (a `csv` file that includes variable names) into a directory that is _not_ your current working directory.
+
+```{r ex3_2}
+write_csv(x = data_2, path = "../data/data_2.csv")
+```
+
+3. Now use a command to re-read the file `data_2.csv` back into an object `data_2b` and verify that `data_2` and `data_2b` are equal.
+
+```{r ex3_3}
+data_2b <- read_csv("../data/data_2.csv")
+
+# Verify equality: 
+all.equal(data_2, data_2b)
+```
+
+## Exercise 4
+
+To come soon.
 
 
+
+## Exercise 5
+
+The following data files are all variants of our data at <http://rpository.com/ds4psy/data/falsePosPsy_all.csv>:
+
+a. <http://rpository.com/ds4psy/data/ex1.csv> (uses `,` as variable separator and `.` as decimal mark);  
+b. <http://rpository.com/ds4psy/data/ex2.csv> (uses `;` as variable separator and `,` as decimal mark); 
+c. <http://rpository.com/ds4psy/data/ex3.csv>  
+d. <http://rpository.com/ds4psy/data/ex4.csv>  
+
+1. Inspect each file and then read it in 2 ways (by using either `read.csv` or the appropriate variant of `read_csv`) and check whether both files are equal in each case.
+
+```{r}
+# Paths to all 4 files:
+ex1 <- "http://rpository.com/ds4psy/data/ex1.csv"  
+ex2 <- "http://rpository.com/ds4psy/data/ex2.csv"  
+ex3 <- "http://rpository.com/ds4psy/data/ex3.csv"  
+ex4 <- "http://rpository.com/ds4psy/data/ex4.csv" 
+
+# a: ex1 is comma-separated: 
+a_1 <- read.csv(ex1)
+a_2 <- read_csv(ex1)
+
+class(a_1)  # is a data frame
+class(a_2)  # is a tibble
+
+all.equal(as_tibble(a_1), a_2)  # `cond` is a factor in x and a character in y
+
+# b: ex2 is separated by semi-colons (csv2):
+b_1 <- read.csv(ex2, sep = ";", dec = ",")
+b_2 <- read_csv2(ex2)
+
+all.equal(as_tibble(b_1), b_2)  # `cond` is a factor in x and a character in y
+
+# c: +++ here now +++ 
+
+```
 
 
 # More on data import

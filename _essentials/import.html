@@ -124,7 +124,7 @@ img {
 <div id="header">
 <h1 class="title">Importing files, with solutions (ds4psy)</h1>
 <h4 class="author"><em>Hansjörg Neth, SPDS, uni.kn</em></h4>
-<h4 class="date"><em>2018 12 15</em></h4>
+<h4 class="date"><em>2018 12 17</em></h4>
 </div>
 
 <div id="content">
@@ -461,172 +461,208 @@ french &lt;-<span class="st"> &quot;très difficile&quot;</span>
 </div>
 <div id="parsing-files" class="section level2">
 <h2>Parsing files</h2>
-<p>+++ here now +++</p>
-<p>Loading a data file</p>
+<p>The difficulty of loading a data file depends on the sensibility of whoever saved it. If the originator of the file used a file format that is universal and easily exchanged (e.g., a <code>csv</code> file in a common encoding format), reading the data into R – or any other data analysis software – should be no problem. Unfortunately, however, many people still insist on saving and sending specialized or proprietary file formats (e.g., <code>xls</code> or <code>sav</code> files).</p>
+<p>In the following, we outline some basic methods of reading files that should cover 95% of all cases and provide pointers to resources that allow dealing with the remaining 5%.</p>
 <div id="read_csv" class="section level3">
 <h3>1. <code>read_csv</code></h3>
-<p>What’s the difference between read_csv() and read_csv2()?</p>
-<p>?read_csv2()</p>
-<p><code>read_csv()</code> and <code>read_tsv()</code> are special cases of the general <code>read_delim()</code>. They’re useful for reading the most common types of flat file data, comma separated values and tab separated values, respectively.</p>
-<p><code>read_csv2()</code> uses “;” for separators, instead of “,”. This is common in European countries which use , as the decimal separator.</p>
+<p>A common and sensible file format for data separates variables (columns) by commas, which is why it is called a <em>comma separated value</em> (or <code>csv</code>) file. The best way to read such files within the <code>tidyverse</code> is by using the command <code>read_csv</code>. We have used this command many times before (e.g., to read in <a href="http://rpository.com/ds4psy/data/data_t1.csv" class="uri">http://rpository.com/ds4psy/data/data_t1.csv</a> above):</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## Read a csv file: 
+
+<span class="co"># 1. From a different directory:</span>
+
+<span class="co"># (a) provide absolute/full path:</span>
+dt &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;/Users/hneth/Desktop/stuff/Dropbox/_code/R/_teachR/ds4psy/data/data_t1.csv&quot;</span>)
+
+<span class="co"># (b) provide relative path of the data file:</span>
+dt &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;./../data/data_t1.csv&quot;</span>)
+
+<span class="co"># (c) relative to (platform dependent) home directory:</span>
+dt &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;~/Desktop/stuff/Dropbox/_code/R/_teachR/ds4psy/data/data_t1.csv&quot;</span>)
+
+<span class="co"># 2. From an online source:</span>
+
+<span class="co"># (d) provide path to an online source of the data file:</span>
+dt &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;http://rpository.com/ds4psy/data/data_t1.csv&quot;</span>)</code></pre></div>
+<p>Actually, base R also provides a function <code>read.csv()</code> to achieve the same thing:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">df &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;./../data/data_t1.csv&quot;</span>)</code></pre></div>
+<p>However, note that the objects resulting from our calls of <code>read_csv</code> and <code>read.csv</code> (i.e., <code>dt</code> and <code>df</code>, respectively) are similar, but not identical:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Differences: </span>
+<span class="kw">class</span>(dt)  <span class="co"># read_csv yields a tibble </span>
+<span class="co">#&gt; [1] &quot;tbl_df&quot;     &quot;tbl&quot;        &quot;data.frame&quot;</span>
+<span class="kw">class</span>(df)  <span class="co"># read.csv yields a data.frame </span>
+<span class="co">#&gt; [1] &quot;data.frame&quot;</span>
+
+<span class="kw">all.equal</span>(dt, df)  
+<span class="co">#&gt; [1] &quot;Incompatible type for column `name`: x character, y factor&quot;  </span>
+<span class="co">#&gt; [2] &quot;Incompatible type for column `gender`: x character, y factor&quot;</span>
+
+<span class="co"># =&gt; df converted chracter to factors, unless: </span>
+df &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;./../data/data_t1.csv&quot;</span>, <span class="dt">stringsAsFactors =</span> <span class="ot">FALSE</span>)
+
+<span class="kw">all.equal</span>(dt, df) 
+<span class="co">#&gt; [1] TRUE</span></code></pre></div>
 </div>
-<div id="read_csv2" class="section level3">
-<h3>2. <code>read_csv2</code></h3>
+<div id="variants-read_csv2-and-read_tsv" class="section level3">
+<h3>2. Variants (<code>read_csv2</code> and <code>read_tsv</code>):</h3>
+<p>In many countries (e.g., European countries like Germany), commas (<code>,</code>) are used as a <em>decimal mark</em> (e.g., “pi is close to 3,1416.”) and hence are not a good separator for variables (columns). In these locations, variables are typically separated by semi-colons (<code>;</code>). For such files, both <code>readr</code> and base R provide variants of the above commands that follow this convention. For instance, to read in the file <a href="http://rpository.com/ds4psy/data/data_t1_de.csv" class="uri">http://rpository.com/ds4psy/data/data_t1_de.csv</a> we can use:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">read_csv2</span>(<span class="st">&quot;http://rpository.com/ds4psy/data/data_t1_de.csv&quot;</span>)
+<span class="co">#&gt; # A tibble: 20 x 4</span>
+<span class="co">#&gt;    name  gender like_1 bnt_1</span>
+<span class="co">#&gt;    &lt;chr&gt; &lt;chr&gt;   &lt;int&gt; &lt;int&gt;</span>
+<span class="co">#&gt;  1 R.S.  female      2    NA</span>
+<span class="co">#&gt;  2 M.Y.  male        2     4</span>
+<span class="co">#&gt;  3 K.R.  male        4     1</span>
+<span class="co">#&gt;  4 A.V.  female      3     2</span>
+<span class="co">#&gt;  5 Z.Y.  female     NA    NA</span>
+<span class="co">#&gt;  6 X.D.  female      4     4</span>
+<span class="co">#&gt;  7 A.F.  female      5     1</span>
+<span class="co">#&gt;  8 X.Y.  female      5     4</span>
+<span class="co">#&gt;  9 K.X.  male        3     3</span>
+<span class="co">#&gt; 10 M.O.  male        4     1</span>
+<span class="co">#&gt; 11 T.V.  male        6     4</span>
+<span class="co">#&gt; 12 X.P.  female      4     1</span>
+<span class="co">#&gt; 13 Z.D.  male        5     4</span>
+<span class="co">#&gt; 14 T.D.  male        5     2</span>
+<span class="co">#&gt; 15 C.N.  female      4     3</span>
+<span class="co">#&gt; 16 H.V.  female      1     4</span>
+<span class="co">#&gt; 17 Q.N.  female      6     1</span>
+<span class="co">#&gt; 18 Y.G.  male        4     4</span>
+<span class="co">#&gt; 19 L.S.  male        4     4</span>
+<span class="co">#&gt; 20 L.V.  female      4     2</span>
+<span class="kw">read.csv2</span>(<span class="st">&quot;http://rpository.com/ds4psy/data/data_t1_de.csv&quot;</span>)
+<span class="co">#&gt;    name gender like_1 bnt_1</span>
+<span class="co">#&gt; 1  R.S. female      2    NA</span>
+<span class="co">#&gt; 2  M.Y.   male      2     4</span>
+<span class="co">#&gt; 3  K.R.   male      4     1</span>
+<span class="co">#&gt; 4  A.V. female      3     2</span>
+<span class="co">#&gt; 5  Z.Y. female     NA    NA</span>
+<span class="co">#&gt; 6  X.D. female      4     4</span>
+<span class="co">#&gt; 7  A.F. female      5     1</span>
+<span class="co">#&gt; 8  X.Y. female      5     4</span>
+<span class="co">#&gt; 9  K.X.   male      3     3</span>
+<span class="co">#&gt; 10 M.O.   male      4     1</span>
+<span class="co">#&gt; 11 T.V.   male      6     4</span>
+<span class="co">#&gt; 12 X.P. female      4     1</span>
+<span class="co">#&gt; 13 Z.D.   male      5     4</span>
+<span class="co">#&gt; 14 T.D.   male      5     2</span>
+<span class="co">#&gt; 15 C.N. female      4     3</span>
+<span class="co">#&gt; 16 H.V. female      1     4</span>
+<span class="co">#&gt; 17 Q.N. female      6     1</span>
+<span class="co">#&gt; 18 Y.G.   male      4     4</span>
+<span class="co">#&gt;  [ reached getOption(&quot;max.print&quot;) -- omitted 2 rows ]</span></code></pre></div>
+<p>Sometimes, the variables (columns) of a data file are separated by tabs (<code>\t</code>), which prompts the use of <code>read_tsv</code>. To read in <a href="http://rpository.com/ds4psy/data/data_t1_tab.csv" class="uri">http://rpository.com/ds4psy/data/data_t1_tab.csv</a> we use:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">read_tsv</span>(<span class="st">&quot;http://rpository.com/ds4psy/data/data_t1_tab.csv&quot;</span>)
+<span class="co">#&gt; # A tibble: 20 x 4</span>
+<span class="co">#&gt;    name  gender like_1 bnt_1</span>
+<span class="co">#&gt;    &lt;chr&gt; &lt;chr&gt;   &lt;int&gt; &lt;int&gt;</span>
+<span class="co">#&gt;  1 R.S.  female      2    NA</span>
+<span class="co">#&gt;  2 M.Y.  male        2     4</span>
+<span class="co">#&gt;  3 K.R.  male        4     1</span>
+<span class="co">#&gt;  4 A.V.  female      3     2</span>
+<span class="co">#&gt;  5 Z.Y.  female     NA    NA</span>
+<span class="co">#&gt;  6 X.D.  female      4     4</span>
+<span class="co">#&gt;  7 A.F.  female      5     1</span>
+<span class="co">#&gt;  8 X.Y.  female      5     4</span>
+<span class="co">#&gt;  9 K.X.  male        3     3</span>
+<span class="co">#&gt; 10 M.O.  male        4     1</span>
+<span class="co">#&gt; 11 T.V.  male        6     4</span>
+<span class="co">#&gt; 12 X.P.  female      4     1</span>
+<span class="co">#&gt; 13 Z.D.  male        5     4</span>
+<span class="co">#&gt; 14 T.D.  male        5     2</span>
+<span class="co">#&gt; 15 C.N.  female      4     3</span>
+<span class="co">#&gt; 16 H.V.  female      1     4</span>
+<span class="co">#&gt; 17 Q.N.  female      6     1</span>
+<span class="co">#&gt; 18 Y.G.  male        4     4</span>
+<span class="co">#&gt; 19 L.S.  male        4     4</span>
+<span class="co">#&gt; 20 L.V.  female      4     2</span></code></pre></div>
 </div>
 <div id="read_delim" class="section level3">
 <h3>3. <code>read_delim</code></h3>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Create data (with NA values): </span>
-<span class="kw">set.seed</span>(<span class="dv">2</span>)
-n &lt;-<span class="st"> </span><span class="dv">100</span>
-v1 &lt;-<span class="st"> </span><span class="kw">random_symbols</span>(<span class="dt">n =</span> n, <span class="dt">set =</span> LETTERS, <span class="dt">len =</span> <span class="dv">2</span>)
-v2 &lt;-<span class="st"> </span><span class="kw">round</span>(<span class="kw">runif</span>(<span class="dt">n =</span> n, <span class="dt">min =</span> <span class="dv">18</span>, <span class="dt">max =</span> <span class="dv">88</span>), <span class="dv">0</span>)
-v3 &lt;-<span class="st"> </span><span class="kw">add_whats</span>(<span class="dt">vec =</span> <span class="kw">random_symbols</span>(<span class="dt">n =</span> n, <span class="dt">set =</span> <span class="kw">as.character</span>(<span class="dv">0</span><span class="op">:</span><span class="dv">9</span>), <span class="dt">len =</span> <span class="dv">8</span>), 
-                <span class="dt">amount =</span> .<span class="dv">05</span>, <span class="dt">what =</span> <span class="op">-</span><span class="dv">99</span>)  <span class="co"># add -99 as NA values</span>
+<p>All the <code>read_</code> commands encountered so far are special instances of the more general <code>read_delim()</code> function, which reads delimited files into a tibble and allows specifying various additional arguments.</p>
+<p>Suppose we want to read a file like <a href="http://rpository.com/ds4psy/data/data_1.dat" class="uri">http://rpository.com/ds4psy/data/data_1.dat</a>, which is known to include 4 variables:</p>
+<ul>
+<li>the <code>initials</code> of participants;</li>
+<li>their <code>age</code>;</li>
+<li>their <code>telephone</code> number;</li>
+<li>their <code>pwd</code> to some account.</li>
+</ul>
+<p>Inspecting the file shows the following:</p>
+<ol style="list-style-type: decimal">
+<li><p>The data is delimited, but by a full stop (aka. point or period, i.e., <code>.</code>) rather than by a comma or semi-colon. As a consequence, we need to use <code>read_delim</code> and explicitly specify the delimiting symbol as <code>&quot;.&quot;</code>.</p></li>
+<li><p>As the file does not include variable names (in the first row), we provide them with the <code>col_names</code> argument (which accepts a vector of characters).</p></li>
+<li><p>Some lines are shorter than most others. Close inspection reveals that they include either <code>-99</code> or <code>-77</code>. As these symbols are frequently used to express missing values, we supply them to the <code>na</code> argument (again as a vector of characters).</p></li>
+</ol>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Path to file:</span>
+my_file &lt;-<span class="st"> &quot;../data/data_1.dat&quot;</span>                           <span class="co"># from local directory</span>
+my_file &lt;-<span class="st"> &quot;http://rpository.com/ds4psy/data/data_1.dat&quot;</span>  <span class="co"># from online source</span>
 
-v4 &lt;-<span class="st"> </span><span class="kw">add_whats</span>(<span class="dt">vec =</span> <span class="kw">random_symbols</span>(<span class="dt">n =</span> n, <span class="dt">set =</span> <span class="kw">c</span>(letters, LETTERS), <span class="dt">len =</span> <span class="dv">6</span>), 
-                <span class="dt">amount =</span> .<span class="dv">10</span>, <span class="dt">what =</span> <span class="op">-</span><span class="dv">77</span>)  <span class="co"># add -77 as NA values</span>
-
-tbl_<span class="dv">1</span> &lt;-<span class="st"> </span><span class="kw">tibble</span>(<span class="dt">initials =</span> v1,
-                <span class="dt">age =</span> v2,
-                <span class="dt">tel =</span> <span class="kw">as.numeric</span>(v3),
-                <span class="dt">pwd =</span> v4)
-tbl_<span class="dv">1</span>
-<span class="co">#&gt; # A tibble: 100 x 4</span>
-<span class="co">#&gt;    initials   age      tel pwd   </span>
-<span class="co">#&gt;    &lt;chr&gt;    &lt;dbl&gt;    &lt;dbl&gt; &lt;chr&gt; </span>
-<span class="co">#&gt;  1 ES          78 84487016 mVZwyO</span>
-<span class="co">#&gt;  2 OE          63 80047160 SnjYqW</span>
-<span class="co">#&gt;  3 YY          60 64716120 xDNOul</span>
-<span class="co">#&gt;  4 DV          86 32620018 fWreff</span>
-<span class="co">#&gt;  5 MO          44 93001588 mWSZDV</span>
-<span class="co">#&gt;  6 OG          75 88705369 YStupT</span>
-<span class="co">#&gt;  7 TE          34 14253818 VNXBQy</span>
-<span class="co">#&gt;  8 KW          32 76061210 VTOgpS</span>
-<span class="co">#&gt;  9 ZF          32 62107080 rBjPDV</span>
-<span class="co">#&gt; 10 LB          35 56662960 WpwMXt</span>
-<span class="co">#&gt; # ... with 90 more rows</span>
-
-<span class="co"># Writing out: </span>
-<span class="kw">write_delim</span>(tbl_<span class="dv">1</span>, <span class="dt">path =</span> <span class="st">&quot;../data/data_1.dat&quot;</span>, <span class="dt">delim =</span> <span class="st">&quot;.&quot;</span>, <span class="dt">na =</span> <span class="st">&quot;NA&quot;</span>, <span class="dt">col_names =</span> <span class="ot">FALSE</span>)
-
-<span class="co"># Reading in:</span>
-my_file &lt;-<span class="st"> &quot;../data/data_1.dat&quot;</span>
-
-<span class="co"># Reading back in:</span>
-
-<span class="co"># (a) read_delim: </span>
+<span class="co"># read_delim: </span>
 data_<span class="dv">1</span> &lt;-<span class="st"> </span><span class="kw">read_delim</span>(my_file, <span class="dt">delim =</span> <span class="st">&quot;.&quot;</span>, 
                      <span class="dt">col_names =</span> <span class="kw">c</span>(<span class="st">&quot;initials&quot;</span>, <span class="st">&quot;age&quot;</span>, <span class="st">&quot;tel&quot;</span>, <span class="st">&quot;pwd&quot;</span>), 
                      <span class="dt">na =</span> <span class="kw">c</span>(<span class="st">&quot;-77&quot;</span>, <span class="st">&quot;-99&quot;</span>))
+
+<span class="kw">dim</span>(data_<span class="dv">1</span>)  <span class="co"># 100 observations, 4 variables</span>
+<span class="co">#&gt; [1] 100   4</span>
+<span class="kw">glimpse</span>(data_<span class="dv">1</span>)
+<span class="co">#&gt; Observations: 100</span>
+<span class="co">#&gt; Variables: 4</span>
+<span class="co">#&gt; $ initials &lt;chr&gt; &quot;ES&quot;, &quot;OE&quot;, &quot;YY&quot;, &quot;DV&quot;, &quot;MO&quot;, &quot;OG&quot;, &quot;TE&quot;, &quot;KW&quot;, &quot;ZF&quot;,...</span>
+<span class="co">#&gt; $ age      &lt;int&gt; 78, 63, 60, 86, 44, 75, 34, 32, 32, 35, 87, 55, 76, 6...</span>
+<span class="co">#&gt; $ tel      &lt;int&gt; 84487016, 80047160, 64716120, 32620018, 93001588, 887...</span>
+<span class="co">#&gt; $ pwd      &lt;chr&gt; &quot;mVZwyO&quot;, &quot;SnjYqW&quot;, &quot;xDNOul&quot;, &quot;fWreff&quot;, &quot;mWSZDV&quot;, &quot;YS...</span>
 <span class="kw">sum</span>(<span class="kw">is.na</span>(data_<span class="dv">1</span>))  <span class="co"># 15 NA values</span>
-<span class="co">#&gt; [1] 15</span>
-data_<span class="dv">1</span>
-<span class="co">#&gt; # A tibble: 100 x 4</span>
-<span class="co">#&gt;    initials   age      tel pwd   </span>
-<span class="co">#&gt;    &lt;chr&gt;    &lt;dbl&gt;    &lt;dbl&gt; &lt;chr&gt; </span>
-<span class="co">#&gt;  1 ES          78 84487016 mVZwyO</span>
-<span class="co">#&gt;  2 OE          63 80047160 SnjYqW</span>
-<span class="co">#&gt;  3 YY          60 64716120 xDNOul</span>
-<span class="co">#&gt;  4 DV          86 32620018 fWreff</span>
-<span class="co">#&gt;  5 MO          44 93001588 mWSZDV</span>
-<span class="co">#&gt;  6 OG          75 88705369 YStupT</span>
-<span class="co">#&gt;  7 TE          34 14253818 VNXBQy</span>
-<span class="co">#&gt;  8 KW          32 76061210 VTOgpS</span>
-<span class="co">#&gt;  9 ZF          32 62107080 rBjPDV</span>
-<span class="co">#&gt; 10 LB          35 56662960 WpwMXt</span>
-<span class="co">#&gt; # ... with 90 more rows</span>
-
-
-<span class="co"># Check equality: </span>
-<span class="kw">all.equal</span>(tbl_<span class="dv">1</span>, data_<span class="dv">1</span>)
-<span class="co">#&gt; [1] &quot;Rows in x but not y: 98, 93, 92, 80, 71, 70, 64, 59, 38, 33, 30[...]. Rows in y but not x: 98, 93, 92, 71, 70, 59, 38, 30, 26, 23, 20[...]. &quot;</span>
-
-<span class="co"># Hypothesis: Differences come from different NA encodings.</span>
-
-<span class="co"># Recode -99 and -77 in tbl_1 as NA:</span>
-tbl_<span class="dv">1</span>[tbl_<span class="dv">1</span> <span class="op">==</span><span class="st"> </span><span class="op">-</span><span class="dv">99</span>] &lt;-<span class="st"> </span><span class="ot">NA</span>
-tbl_<span class="dv">1</span>[tbl_<span class="dv">1</span> <span class="op">==</span><span class="st"> &quot;-77&quot;</span>] &lt;-<span class="st"> </span><span class="ot">NA</span>
-<span class="kw">sum</span>(<span class="kw">is.na</span>(tbl_<span class="dv">1</span>))
-<span class="co">#&gt; [1] 15</span>
-
-<span class="co"># Check equality: </span>
-<span class="kw">all.equal</span>(tbl_<span class="dv">1</span>, data_<span class="dv">1</span>)  <span class="co"># TRUE (qed).</span>
-<span class="co">#&gt; [1] TRUE</span></code></pre></div>
+<span class="co">#&gt; [1] 15</span></code></pre></div>
 </div>
 <div id="read_fwf" class="section level3">
 <h3>4. <code>read_fwf</code></h3>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Create data (without NA values): </span>
-<span class="kw">set.seed</span>(<span class="dv">3</span>)
-n &lt;-<span class="st"> </span><span class="dv">100</span>
-v1 &lt;-<span class="st"> </span><span class="kw">random_symbols</span>(<span class="dt">n =</span> n, <span class="dt">set =</span> LETTERS, <span class="dt">len =</span> <span class="dv">2</span>)
-v2 &lt;-<span class="st"> </span><span class="kw">round</span>(<span class="kw">runif</span>(<span class="dt">n =</span> n, <span class="dt">min =</span> <span class="dv">18</span>, <span class="dt">max =</span> <span class="dv">80</span>), <span class="dv">0</span>)
-v3 &lt;-<span class="st"> </span><span class="kw">random_symbols</span>(<span class="dt">n =</span> n, <span class="dt">set =</span> <span class="kw">as.character</span>(<span class="dv">0</span><span class="op">:</span><span class="dv">9</span>), <span class="dt">len =</span> <span class="dv">4</span>)
-v4 &lt;-<span class="st"> </span><span class="kw">random_symbols</span>(<span class="dt">n =</span> n, <span class="dt">set =</span> <span class="kw">c</span>(letters, LETTERS), <span class="dt">len =</span> <span class="dv">6</span>)
+<p>Sometimes we know the positions of variables in a data file. If this is the case, we can use the command <code>read_fwf</code> (with “fwf” standing for <em>fixed-width files</em>) and specify the positions of the variables (provided that they are the same for all rows). For instance, the file at <a href="http://rpository.com/ds4psy/data/data_2.dat" class="uri">http://rpository.com/ds4psy/data/data_2.dat</a> contains the same variables as the previous file (<code>data_1</code>), but does not include missing values and can therefore be read in the following way:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Path to file:</span>
+my_file_path &lt;-<span class="st"> &quot;../data/data_2.dat&quot;</span>                           <span class="co"># from local directory</span>
+my_file_path &lt;-<span class="st"> &quot;http://rpository.com/ds4psy/data/data_2.dat&quot;</span>  <span class="co"># from online source</span>
 
-tbl_<span class="dv">2</span> &lt;-<span class="st"> </span><span class="kw">tibble</span>(<span class="dt">ini =</span> v1,
-                <span class="dt">age =</span> v2,
-                <span class="dt">tel =</span> v3,
-                <span class="dt">pwd =</span> v4)
-tbl_<span class="dv">2</span>
-<span class="co">#&gt; # A tibble: 100 x 4</span>
-<span class="co">#&gt;    ini     age tel   pwd   </span>
-<span class="co">#&gt;    &lt;chr&gt; &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; </span>
-<span class="co">#&gt;  1 EU       63 0397  aZAIGM</span>
-<span class="co">#&gt;  2 KI       71 6685  IHEMCK</span>
-<span class="co">#&gt;  3 PP       39 8950  baWzHb</span>
-<span class="co">#&gt;  4 DH       49 5619  IdOCIm</span>
-<span class="co">#&gt;  5 PQ       71 0896  bYheST</span>
-<span class="co">#&gt;  6 NN       42 2282  ZWpRIi</span>
-<span class="co">#&gt;  7 NO       63 8598  YNwjVD</span>
-<span class="co">#&gt;  8 WV       60 9975  pQmewr</span>
-<span class="co">#&gt;  9 CS       70 8119  rBPelh</span>
-<span class="co">#&gt; 10 XH       20 7081  jaItZx</span>
-<span class="co">#&gt; # ... with 90 more rows</span>
-
-<span class="co"># Writing out: </span>
-<span class="kw">write_delim</span>(tbl_<span class="dv">2</span>, <span class="dt">path =</span> <span class="st">&quot;../data/data_2.dat&quot;</span>, <span class="dt">delim =</span> <span class="st">&quot;$&quot;</span>, <span class="dt">na =</span> <span class="st">&quot;NA&quot;</span>, <span class="dt">col_names =</span> <span class="ot">FALSE</span>)
-
-<span class="co"># (b) read_fwf: </span>
-data_<span class="dv">2</span> &lt;-<span class="st"> </span><span class="kw">read_fwf</span>(<span class="st">&quot;../data/data_2.dat&quot;</span>, 
-                   <span class="kw">fwf_cols</span>(<span class="dt">ini =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">2</span>), 
+<span class="co"># read_fwf: </span>
+data_<span class="dv">2</span> &lt;-<span class="st"> </span><span class="kw">read_fwf</span>(my_file_path, 
+                   <span class="kw">fwf_cols</span>(<span class="dt">initials =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">2</span>), 
                             <span class="dt">age =</span> <span class="kw">c</span>(<span class="dv">4</span>, <span class="dv">5</span>), 
                             <span class="dt">tel =</span> <span class="kw">c</span>(<span class="dv">7</span>, <span class="dv">10</span>), 
                             <span class="dt">pwd =</span> <span class="kw">c</span>(<span class="dv">12</span>, <span class="dv">17</span>)))
 
-data_<span class="dv">2</span>
-<span class="co">#&gt; # A tibble: 100 x 4</span>
-<span class="co">#&gt;    ini     age tel   pwd   </span>
-<span class="co">#&gt;    &lt;chr&gt; &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; </span>
-<span class="co">#&gt;  1 EU       63 0397  aZAIGM</span>
-<span class="co">#&gt;  2 KI       71 6685  IHEMCK</span>
-<span class="co">#&gt;  3 PP       39 8950  baWzHb</span>
-<span class="co">#&gt;  4 DH       49 5619  IdOCIm</span>
-<span class="co">#&gt;  5 PQ       71 0896  bYheST</span>
-<span class="co">#&gt;  6 NN       42 2282  ZWpRIi</span>
-<span class="co">#&gt;  7 NO       63 8598  YNwjVD</span>
-<span class="co">#&gt;  8 WV       60 9975  pQmewr</span>
-<span class="co">#&gt;  9 CS       70 8119  rBPelh</span>
-<span class="co">#&gt; 10 XH       20 7081  jaItZx</span>
-<span class="co">#&gt; # ... with 90 more rows</span>
-
-<span class="co"># Check equality: </span>
-<span class="kw">all.equal</span>(tbl_<span class="dv">2</span>, data_<span class="dv">2</span>)
-<span class="co">#&gt; [1] TRUE</span></code></pre></div>
+<span class="kw">dim</span>(data_<span class="dv">2</span>)  <span class="co"># 100 4</span>
+<span class="co">#&gt; [1] 100   4</span>
+<span class="kw">glimpse</span>(data_<span class="dv">2</span>)
+<span class="co">#&gt; Observations: 100</span>
+<span class="co">#&gt; Variables: 4</span>
+<span class="co">#&gt; $ initials &lt;chr&gt; &quot;EU&quot;, &quot;KI&quot;, &quot;PP&quot;, &quot;DH&quot;, &quot;PQ&quot;, &quot;NN&quot;, &quot;NO&quot;, &quot;WV&quot;, &quot;CS&quot;,...</span>
+<span class="co">#&gt; $ age      &lt;int&gt; 63, 71, 39, 49, 71, 42, 63, 60, 70, 20, 63, 48, 54, 3...</span>
+<span class="co">#&gt; $ tel      &lt;chr&gt; &quot;0397&quot;, &quot;6685&quot;, &quot;8950&quot;, &quot;5619&quot;, &quot;0896&quot;, &quot;2282&quot;, &quot;8598...</span>
+<span class="co">#&gt; $ pwd      &lt;chr&gt; &quot;aZAIGM&quot;, &quot;IHEMCK&quot;, &quot;baWzHb&quot;, &quot;IdOCIm&quot;, &quot;bYheST&quot;, &quot;ZW...</span></code></pre></div>
 </div>
 </div>
 <div id="writing-files" class="section level2">
 <h2>Writing files</h2>
+<p>To write a data file to a local directory, use one of the following <code>readr</code> commands (from more general to more specific):</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">write_csv</span>(data_<span class="dv">1</span>, <span class="dt">path =</span> <span class="st">&quot;../data/data_1a.csv&quot;</span>)
+<span class="kw">write_tsv</span>(data_<span class="dv">1</span>, <span class="dt">path =</span> <span class="st">&quot;../data/data_1a.tsv&quot;</span>)
+<span class="kw">write_delim</span>(data_<span class="dv">1</span>, <span class="dt">path =</span> <span class="st">&quot;../data/data_1a.txt&quot;</span>, <span class="dt">delim =</span> <span class="st">&quot; &quot;</span>, <span class="dt">na =</span> <span class="st">&quot;NA&quot;</span>, <span class="dt">col_names =</span> <span class="ot">TRUE</span>)</code></pre></div>
+<p>Alternatively, base R provides the following options (and note that the <code>path</code> argument from above is named <code>file</code> here):</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">write.csv</span>(data_<span class="dv">1</span>, <span class="dt">file =</span> <span class="st">&quot;../data/data_1b.csv&quot;</span>)
+<span class="kw">write.csv2</span>(data_<span class="dv">1</span>, <span class="dt">file =</span> <span class="st">&quot;../data/data_1b.csv2&quot;</span>)
+<span class="kw">write.table</span>(data_<span class="dv">1</span>, <span class="dt">file =</span> <span class="st">&quot;../data/data_1b.txt&quot;</span>, <span class="dt">sep =</span> <span class="st">&quot;&lt;&gt;&quot;</span>, <span class="dt">na =</span> <span class="st">&quot;-777&quot;</span>, <span class="dt">col.names =</span> <span class="ot">TRUE</span>) </code></pre></div>
 </div>
 <div id="importing-data-from-other-programs" class="section level2">
 <h2>Importing data from other programs</h2>
 <p>For <em>rectangular</em> data:</p>
 <div id="from-excel-xls" class="section level3">
 <h3>From Excel (<code>xls</code>)</h3>
-<p><code>readxl</code> reads excel files (both .xls and .xlsx).</p>
+<ul>
+<li>The package <code>readxl</code> allows reading MS Excel files (both .xls and .xlsx).</li>
+</ul>
 </div>
 <div id="from-spss-sav" class="section level3">
 <h3>From SPSS (<code>sav</code>)</h3>
-<p><code>haven</code> reads SPSS, Stata, and SAS files.</p>
+<ul>
+<li>The package <code>haven</code> allows reading SPSS, Stata, and SAS files.</li>
+</ul>
 <p>For <em>hierarchical</em> data:</p>
 <p>Use <code>jsonlite</code> for json, and <code>xml2</code> for XML.</p>
 </div>
@@ -650,72 +686,10 @@ data_<span class="dv">2</span>
 <div id="exercise-1" class="section level2">
 <h2>Exercise 1</h2>
 <ol style="list-style-type: decimal">
-<li>Find out your current working directory and list all files and folders contained in it.</li>
+<li><p>Find out your current working directory and list all files and folders contained in it.</p></li>
+<li><p>Change your working directory and list all the files and folders in this directory.</p></li>
+<li><p>Return to your original working directory.</p></li>
 </ol>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">my_wd &lt;-<span class="st"> </span><span class="kw">getwd</span>()
-my_wd
-<span class="co">#&gt; [1] &quot;/Users/hneth/Desktop/stuff/Dropbox/_code/R/_teachR/ds4psy/_essentials&quot;</span>
-
-<span class="kw">list.files</span>(my_wd)
-<span class="co">#&gt;  [1] &quot;_archive&quot;             &quot;basics_cache&quot;         &quot;basics_files&quot;        </span>
-<span class="co">#&gt;  [4] &quot;basics.html&quot;          &quot;basics.Rmd&quot;           &quot;datasets_cache&quot;      </span>
-<span class="co">#&gt;  [7] &quot;datasets.html&quot;        &quot;datasets.Rmd&quot;         &quot;essentials.html&quot;     </span>
-<span class="co">#&gt; [10] &quot;essentials.Rmd&quot;       &quot;explore_cache&quot;        &quot;explore_files&quot;       </span>
-<span class="co">#&gt; [13] &quot;explore_WPA04_cache&quot;  &quot;explore_WPA04_files&quot;  &quot;explore_WPA04.html&quot;  </span>
-<span class="co">#&gt; [16] &quot;explore_WPA04.Rmd&quot;    &quot;explore.html&quot;         &quot;explore.Rmd&quot;         </span>
-<span class="co">#&gt; [19] &quot;import_cache&quot;         &quot;import.html&quot;          &quot;import.Rmd&quot;          </span>
-<span class="co">#&gt; [22] &quot;my_precious_data.csv&quot; &quot;numeracy.csv&quot;         &quot;out.csv&quot;             </span>
-<span class="co">#&gt; [25] &quot;tibble_cache&quot;         &quot;tibble.html&quot;          &quot;tibbles_cache&quot;       </span>
-<span class="co">#&gt; [28] &quot;tibbles_files&quot;        &quot;tibbles_WPA05_cache&quot;  &quot;tibbles_WPA05_files&quot; </span>
-<span class="co">#&gt; [31] &quot;tibbles_WPA05.html&quot;   &quot;tibbles_WPA05.Rmd&quot;    &quot;tibbles.html&quot;        </span>
-<span class="co">#&gt; [34] &quot;tibbles.Rmd&quot;          &quot;tidy_cache&quot;           &quot;tidy_files&quot;          </span>
-<span class="co">#&gt; [37] &quot;tidy.html&quot;            &quot;tidy.Rmd&quot;             &quot;transform_cache&quot;     </span>
-<span class="co">#&gt; [40] &quot;transform_files&quot;      &quot;transform.html&quot;       &quot;transform.Rmd&quot;       </span>
-<span class="co">#&gt; [43] &quot;visualize_cache&quot;      &quot;visualize_files&quot;      &quot;visualize.html&quot;      </span>
-<span class="co">#&gt; [46] &quot;visualize.Rmd&quot;</span></code></pre></div>
-<ol start="2" style="list-style-type: decimal">
-<li>Change your working directory and list all the files and folders in this directory.</li>
-</ol>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">setwd</span>(<span class="st">&quot;./../data&quot;</span>)
-<span class="kw">getwd</span>()
-<span class="co">#&gt; [1] &quot;/Users/hneth/Desktop/stuff/Dropbox/_code/R/_teachR/ds4psy/data&quot;</span>
-<span class="kw">list.files</span>()
-<span class="co">#&gt;  [1] &quot;_BBriskStudy&quot;                            </span>
-<span class="co">#&gt;  [2] &quot;_falsePosPsy&quot;                            </span>
-<span class="co">#&gt;  [3] &quot;_FieldEtAl12_DiscoveringStatisticsUsingR&quot;</span>
-<span class="co">#&gt;  [4] &quot;_Pegel_Bodensee&quot;                         </span>
-<span class="co">#&gt;  [5] &quot;_posPsy&quot;                                 </span>
-<span class="co">#&gt;  [6] &quot;data_2.dat&quot;                              </span>
-<span class="co">#&gt;  [7] &quot;data_cache&quot;                              </span>
-<span class="co">#&gt;  [8] &quot;data_files&quot;                              </span>
-<span class="co">#&gt;  [9] &quot;data_t1.csv&quot;                             </span>
-<span class="co">#&gt; [10] &quot;data_t2.csv&quot;                             </span>
-<span class="co">#&gt; [11] &quot;data.dat&quot;                                </span>
-<span class="co">#&gt; [12] &quot;data.html&quot;                               </span>
-<span class="co">#&gt; [13] &quot;data.Rmd&quot;                                </span>
-<span class="co">#&gt; [14] &quot;Depression.csv&quot;                          </span>
-<span class="co">#&gt; [15] &quot;ds4psy_packages_cache&quot;                   </span>
-<span class="co">#&gt; [16] &quot;ds4psy_packages.html&quot;                    </span>
-<span class="co">#&gt; [17] &quot;ds4psy_packages.Rmd&quot;                     </span>
-<span class="co">#&gt; [18] &quot;emo_size.csv&quot;                            </span>
-<span class="co">#&gt; [19] &quot;falsePosPsy_all.csv&quot;                     </span>
-<span class="co">#&gt; [20] &quot;goggles.csv&quot;                             </span>
-<span class="co">#&gt; [21] &quot;grades.csv&quot;                              </span>
-<span class="co">#&gt; [22] &quot;Hiccups.dat&quot;                             </span>
-<span class="co">#&gt; [23] &quot;numeracy.csv&quot;                            </span>
-<span class="co">#&gt; [24] &quot;out.csv&quot;                                 </span>
-<span class="co">#&gt; [25] &quot;posPsy_AHI_CESD_corrected.csv&quot;           </span>
-<span class="co">#&gt; [26] &quot;posPsy_AHI_CESD.csv&quot;                     </span>
-<span class="co">#&gt; [27] &quot;posPsy_data_wide.csv&quot;                    </span>
-<span class="co">#&gt; [28] &quot;posPsy_participants.csv&quot;                 </span>
-<span class="co">#&gt; [29] &quot;table6.csv&quot;                              </span>
-<span class="co">#&gt; [30] &quot;table7.csv&quot;</span></code></pre></div>
-<ol start="3" style="list-style-type: decimal">
-<li>Return to your original working directory.</li>
-</ol>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">setwd</span>(my_wd)
-<span class="kw">getwd</span>()
-<span class="co">#&gt; [1] &quot;/Users/hneth/Desktop/stuff/Dropbox/_code/R/_teachR/ds4psy/_essentials&quot;</span></code></pre></div>
 </div>
 <div id="exercise-2" class="section level2">
 <h2>Exercise 2</h2>
@@ -726,27 +700,25 @@ my_wd
 <li><p>Use <a href="https://translate.google.com/">Google Translate</a> to translate this character string into French, Italian, and Spanish and use appropriate R commands to parse these strings into R.</p></li>
 </ol>
 <p><strong>Hint:</strong> Consult <code>vignette(&quot;locales&quot;)</code> for specifying languages.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">parse_date</span>(<span class="st">&quot;12.08.1964&quot;</span>, <span class="st">&quot;%d.%m.%Y&quot;</span>)
-<span class="co">#&gt; [1] &quot;1964-08-12&quot;</span>
-
-<span class="kw">parse_date</span>(<span class="st">&quot;12. August 1964&quot;</span>, <span class="st">&quot;%d. %B %Y&quot;</span>, <span class="dt">locale =</span> <span class="kw">locale</span>(<span class="st">&quot;de&quot;</span>))
-<span class="co">#&gt; [1] &quot;1964-08-12&quot;</span>
-
-<span class="kw">parse_date</span>(<span class="st">&quot;12. août 1964&quot;</span>, <span class="st">&quot;%d. %B %Y&quot;</span>, <span class="dt">locale =</span> <span class="kw">locale</span>(<span class="st">&quot;fr&quot;</span>))
-<span class="co">#&gt; [1] &quot;1964-08-12&quot;</span>
-<span class="kw">parse_date</span>(<span class="st">&quot;12. Agosto 1964&quot;</span>, <span class="st">&quot;%d. %B %Y&quot;</span>, <span class="dt">locale =</span> <span class="kw">locale</span>(<span class="st">&quot;it&quot;</span>))
-<span class="co">#&gt; [1] &quot;1964-08-12&quot;</span>
-<span class="kw">parse_date</span>(<span class="st">&quot;12 de agosto de 1964.&quot;</span>, <span class="st">&quot;%d de %B de %Y.&quot;</span>, <span class="dt">locale =</span> <span class="kw">locale</span>(<span class="st">&quot;es&quot;</span>))
-<span class="co">#&gt; [1] &quot;1964-08-12&quot;</span></code></pre></div>
-<p>Use a <code>parse_</code> command (with an appropriate <code>locale</code>) to parse the following character strings into the desired data format:</p>
+<ol start="4" style="list-style-type: decimal">
+<li>Use a <code>parse_</code> command (with an appropriate <code>locale</code>) to parse the following character strings into the desired data format:</li>
+</ol>
 <ul>
 <li><code>&quot;US$1,099.95&quot;</code> as a number;</li>
 <li><code>&quot;EUR1.099,95&quot;</code> as a number;</li>
 </ul>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">parse_number</span>(<span class="st">&quot;US$1,099.95&quot;</span>) 
-<span class="co">#&gt; [1] 1099.95</span>
-<span class="kw">parse_number</span>(<span class="st">&quot;EUR1.099,95&quot;</span>, <span class="dt">locale =</span> <span class="kw">locale</span>(<span class="dt">grouping_mark =</span> <span class="st">&quot;.&quot;</span>))
-<span class="co">#&gt; [1] 1099.95</span></code></pre></div>
+</div>
+<div id="exercise-3" class="section level2">
+<h2>Exercise 3</h2>
+<p>Read in the data in file <a href="http://rpository.com/ds4psy/data/data_2.dat" class="uri">http://rpository.com/ds4psy/data/data_2.dat</a>, but with the command <code>read_delim</code> rather than with <code>read_fwf</code> (as above).</p>
+</div>
+<div id="exercise-4" class="section level2">
+<h2>Exercise 4</h2>
+<p>To come soon.</p>
+</div>
+<div id="exercise-5" class="section level2">
+<h2>Exercise 5</h2>
+<p>To come soon.</p>
 </div>
 </div>
 <div id="more-on-data-import" class="section level1">
@@ -818,7 +790,7 @@ Nr. | Topic       |
 7.  | [Tidying data](http://rpository.com/ds4psy/essentials/tidy.html) |
 +.  | [Datasets](http://rpository.com/ds4psy/essentials/datasets.html) | 
 -->
-<p>[Last update on 2018-12-17 09:06:28 by <a href="http://neth.de/">hn</a>.]</p>
+<p>[Last update on 2018-12-17 13:24:59 by <a href="http://neth.de/">hn</a>.]</p>
 <!-- eof. -->
 </div>
 </div>
@@ -840,7 +812,7 @@ Nr. | Topic       |
         <li><a href="#parsing-vectors">Parsing vectors</a></li>
         <li><a href="#parsing-files">Parsing files</a><ul>
         <li><a href="#read_csv">1. <code>read_csv</code></a></li>
-        <li><a href="#read_csv2">2. <code>read_csv2</code></a></li>
+        <li><a href="#variants-read_csv2-and-read_tsv">2. Variants (<code>read_csv2</code> and <code>read_tsv</code>):</a></li>
         <li><a href="#read_delim">3. <code>read_delim</code></a></li>
         <li><a href="#read_fwf">4. <code>read_fwf</code></a></li>
         </ul></li>
@@ -853,6 +825,9 @@ Nr. | Topic       |
         <li><a href="#exercises-wpa06">Exercises (WPA06)</a><ul>
         <li><a href="#exercise-1">Exercise 1</a></li>
         <li><a href="#exercise-2">Exercise 2</a></li>
+        <li><a href="#exercise-3">Exercise 3</a></li>
+        <li><a href="#exercise-4">Exercise 4</a></li>
+        <li><a href="#exercise-5">Exercise 5</a></li>
         </ul></li>
         <li><a href="#more-on-data-import">More on data import</a></li>
         <li><a href="#conclusion">Conclusion</a></li>
