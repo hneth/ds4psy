@@ -1,7 +1,7 @@
 ---
 title: "Importing files, with solutions (ds4psy)"
 author: "Hansjörg Neth, SPDS, uni.kn"
-date: "2018 12 17"
+date: "2018 12 18"
 output:
    rmdformats::html_clean: # html_clean html_docco readthedown material #
      code_folding: show # hide
@@ -730,7 +730,7 @@ To come soon.
 
 ## Exercise 5
 
-The following data files are all variants of our data at <http://rpository.com/ds4psy/data/falsePosPsy_all.csv>:
+The following data files are variants of our data at <http://rpository.com/ds4psy/data/falsePosPsy_all.csv>:
 
 a. <http://rpository.com/ds4psy/data/ex1.csv> (uses `,` as variable separator and `.` as decimal mark);  
 b. <http://rpository.com/ds4psy/data/ex2.csv> (uses `;` as variable separator and `,` as decimal mark); 
