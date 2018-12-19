@@ -124,7 +124,7 @@ img {
 <div id="header">
 <h1 class="title">Importing files, with solutions (ds4psy)</h1>
 <h4 class="author"><em>Hansjörg Neth, SPDS, uni.kn</em></h4>
-<h4 class="date"><em>2018 12 17</em></h4>
+<h4 class="date"><em>2018 12 19</em></h4>
 </div>
 
 <div id="content">
@@ -710,7 +710,44 @@ data_<span class="dv">2</span> &lt;-<span class="st"> </span><span class="kw">re
 </div>
 <div id="exercise-3" class="section level2">
 <h2>Exercise 3</h2>
-<p>Read in the data in file <a href="http://rpository.com/ds4psy/data/data_2.dat" class="uri">http://rpository.com/ds4psy/data/data_2.dat</a>, but with the command <code>read_delim</code> rather than with <code>read_fwf</code> (as above).</p>
+<div id="a-read-write-read-cycle" class="section level3">
+<h3>A read-write-read cycle</h3>
+<ol style="list-style-type: decimal">
+<li>Read in the data in file <a href="http://rpository.com/ds4psy/data/data_2.dat" class="uri">http://rpository.com/ds4psy/data/data_2.dat</a> into an R object <code>data_2</code>, but by using the command <code>read_delim</code> rather than by using <code>read_fwf</code> (as above). (<strong>Hint:</strong> The variable names should be the same as above, but inspect the file to see its delimiter.)</li>
+</ol>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Path to file:</span>
+my_file &lt;-<span class="st"> &quot;../data/data_2.dat&quot;</span>                           <span class="co"># from local directory</span>
+my_file &lt;-<span class="st"> &quot;http://rpository.com/ds4psy/data/data_2.dat&quot;</span>  <span class="co"># from online source</span>
+
+<span class="co"># read_delim: </span>
+data_<span class="dv">2</span> &lt;-<span class="st"> </span><span class="kw">read_delim</span>(my_file, <span class="dt">delim =</span> <span class="st">&quot;$&quot;</span>, 
+                     <span class="dt">col_names =</span> <span class="kw">c</span>(<span class="st">&quot;initials&quot;</span>, <span class="st">&quot;age&quot;</span>, <span class="st">&quot;tel&quot;</span>, <span class="st">&quot;pwd&quot;</span>)
+                     )
+
+<span class="kw">dim</span>(data_<span class="dv">2</span>)  <span class="co"># 100 observations, 4 variables</span>
+<span class="co">#&gt; [1] 100   4</span>
+<span class="kw">glimpse</span>(data_<span class="dv">2</span>)
+<span class="co">#&gt; Observations: 100</span>
+<span class="co">#&gt; Variables: 4</span>
+<span class="co">#&gt; $ initials &lt;chr&gt; &quot;EU&quot;, &quot;KI&quot;, &quot;PP&quot;, &quot;DH&quot;, &quot;PQ&quot;, &quot;NN&quot;, &quot;NO&quot;, &quot;WV&quot;, &quot;CS&quot;,...</span>
+<span class="co">#&gt; $ age      &lt;dbl&gt; 63, 71, 39, 49, 71, 42, 63, 60, 70, 20, 63, 48, 54, 3...</span>
+<span class="co">#&gt; $ tel      &lt;chr&gt; &quot;0397&quot;, &quot;6685&quot;, &quot;8950&quot;, &quot;5619&quot;, &quot;0896&quot;, &quot;2282&quot;, &quot;8598...</span>
+<span class="co">#&gt; $ pwd      &lt;chr&gt; &quot;aZAIGM&quot;, &quot;IHEMCK&quot;, &quot;baWzHb&quot;, &quot;IdOCIm&quot;, &quot;bYheST&quot;, &quot;ZW...</span>
+<span class="kw">sum</span>(<span class="kw">is.na</span>(data_<span class="dv">2</span>))  <span class="co"># 0 NA values</span>
+<span class="co">#&gt; [1] 0</span></code></pre></div>
+<ol start="2" style="list-style-type: decimal">
+<li>Store the data file as <code>data_2.csv</code> (a <code>csv</code> file that includes variable names) into a directory that is <em>not</em> your current working directory.</li>
+</ol>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">write_csv</span>(<span class="dt">x =</span> data_<span class="dv">2</span>, <span class="dt">path =</span> <span class="st">&quot;../data/data_2.csv&quot;</span>)</code></pre></div>
+<ol start="3" style="list-style-type: decimal">
+<li>Now use a command to re-read the file <code>data_2.csv</code> back into an object <code>data_2b</code> and verify that <code>data_2</code> and <code>data_2b</code> are equal.</li>
+</ol>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">data_2b &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;../data/data_2.csv&quot;</span>)
+
+<span class="co"># Verify equality: </span>
+<span class="kw">all.equal</span>(data_<span class="dv">2</span>, data_2b)
+<span class="co">#&gt; [1] TRUE</span></code></pre></div>
+</div>
 </div>
 <div id="exercise-4" class="section level2">
 <h2>Exercise 4</h2>
@@ -718,7 +755,300 @@ data_<span class="dv">2</span> &lt;-<span class="st"> </span><span class="kw">re
 </div>
 <div id="exercise-5" class="section level2">
 <h2>Exercise 5</h2>
-<p>To come soon.</p>
+<p>The following data files are variants of the data at <a href="http://rpository.com/ds4psy/data/falsePosPsy_all.csv" class="uri">http://rpository.com/ds4psy/data/falsePosPsy_all.csv</a> (see <a href="http://rpository.com/ds4psy/essentials/datasets.html#false-positive-psychology">Datasets: False positive psychology</a> for details):</p>
+<ul>
+<li><a href="http://rpository.com/ds4psy/data/ex1.dat" class="uri">http://rpository.com/ds4psy/data/ex1.dat</a><br />
+</li>
+<li><a href="http://rpository.com/ds4psy/data/ex2.dat" class="uri">http://rpository.com/ds4psy/data/ex2.dat</a><br />
+</li>
+<li><a href="http://rpository.com/ds4psy/data/ex3.dat" class="uri">http://rpository.com/ds4psy/data/ex3.dat</a><br />
+</li>
+<li><a href="http://rpository.com/ds4psy/data/ex4.dat" class="uri">http://rpository.com/ds4psy/data/ex4.dat</a></li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Relative paths to local copies of the 4 files:</span>
+ex1 &lt;-<span class="st"> &quot;./../data/falsePosPsy/ex1.dat&quot;</span>
+ex2 &lt;-<span class="st"> &quot;./../data/falsePosPsy/ex2.dat&quot;</span>
+ex3 &lt;-<span class="st"> &quot;./../data/falsePosPsy/ex3.dat&quot;</span>
+ex4 &lt;-<span class="st"> &quot;./../data/falsePosPsy/ex4.dat&quot;</span>
+
+<span class="co"># Online paths to all 4 files:</span>
+ex1 &lt;-<span class="st"> &quot;http://rpository.com/ds4psy/data/ex1.dat&quot;</span>  
+ex2 &lt;-<span class="st"> &quot;http://rpository.com/ds4psy/data/ex2.dat&quot;</span>  
+ex3 &lt;-<span class="st"> &quot;http://rpository.com/ds4psy/data/ex3.dat&quot;</span>  
+ex4 &lt;-<span class="st"> &quot;http://rpository.com/ds4psy/data/ex4.dat&quot;</span> </code></pre></div>
+<ol style="list-style-type: decimal">
+<li>Inspect file <code>ex1.dat</code> and read it in 2 ways (by using either the generic <code>read.csv</code> or the appropriate variant of <code>read_csv</code>). How do the data read differ from each other?</li>
+</ol>
+<p><strong>Inspection:</strong></p>
+<p>The file <code>ex1.dat</code> uses a comma <code>,</code> as variable separator and point <code>.</code> as a decimal mark. Thus, it uses the data format common in North America (e.g., U.S.A.).</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># a: ex1 is comma-separated: </span>
+a_<span class="dv">1</span> &lt;-<span class="st"> </span><span class="kw">read.csv</span>(ex1)
+a_<span class="dv">2</span> &lt;-<span class="st"> </span><span class="kw">read_csv</span>(ex1)
+
+## Check:
+<span class="co"># head(a_1)</span>
+<span class="co"># a_2</span>
+
+<span class="kw">class</span>(a_<span class="dv">1</span>)  <span class="co"># is a data frame</span>
+<span class="co">#&gt; [1] &quot;data.frame&quot;</span>
+<span class="kw">class</span>(a_<span class="dv">2</span>)  <span class="co"># is a tibble</span>
+<span class="co">#&gt; [1] &quot;tbl_df&quot;     &quot;tbl&quot;        &quot;data.frame&quot;</span>
+
+<span class="kw">all.equal</span>(<span class="kw">as_tibble</span>(a_<span class="dv">1</span>), a_<span class="dv">2</span>) <span class="co"># data is equal, </span>
+<span class="co">#&gt;  [1] &quot;Incompatible type for column `study`: x integer, y numeric&quot;      </span>
+<span class="co">#&gt;  [2] &quot;Incompatible type for column `ID`: x integer, y numeric&quot;         </span>
+<span class="co">#&gt;  [3] &quot;Incompatible type for column `aged`: x integer, y numeric&quot;       </span>
+<span class="co">#&gt;  [4] &quot;Incompatible type for column `female`: x integer, y numeric&quot;     </span>
+<span class="co">#&gt;  [5] &quot;Incompatible type for column `dad`: x integer, y numeric&quot;        </span>
+<span class="co">#&gt;  [6] &quot;Incompatible type for column `mom`: x integer, y numeric&quot;        </span>
+<span class="co">#&gt;  [7] &quot;Incompatible type for column `potato`: x integer, y numeric&quot;     </span>
+<span class="co">#&gt;  [8] &quot;Incompatible type for column `when64`: x integer, y numeric&quot;     </span>
+<span class="co">#&gt;  [9] &quot;Incompatible type for column `kalimba`: x integer, y numeric&quot;    </span>
+<span class="co">#&gt; [10] &quot;Incompatible type for column `cond`: x factor, y character&quot;      </span>
+<span class="co">#&gt; [11] &quot;Incompatible type for column `root`: x integer, y numeric&quot;       </span>
+<span class="co">#&gt; [12] &quot;Incompatible type for column `bird`: x integer, y numeric&quot;       </span>
+<span class="co">#&gt; [13] &quot;Incompatible type for column `political`: x integer, y numeric&quot;  </span>
+<span class="co">#&gt; [14] &quot;Incompatible type for column `quarterback`: x integer, y numeric&quot;</span>
+<span class="co">#&gt; [15] &quot;Incompatible type for column `olddays`: x integer, y numeric&quot;    </span>
+<span class="co">#&gt; [16] &quot;Incompatible type for column `feelold`: x integer, y numeric&quot;    </span>
+<span class="co">#&gt; [17] &quot;Incompatible type for column `computer`: x integer, y numeric&quot;   </span>
+<span class="co">#&gt; [18] &quot;Incompatible type for column `diner`: x integer, y numeric&quot;</span>
+<span class="co"># but variable types differ (integer vs. numeric; factor vs. character)</span></code></pre></div>
+<p>**<a href="Notes:**" class="uri">Notes:**</a></p>
+<ul>
+<li><p><code>read.csv</code> is available without loading any extra packages (base R) and imports comma-separated data into a data.frame.</p></li>
+<li><p><code>read_csv</code> belongs to the package <code>readr</code> which is part of the <code>tidyverse</code> and imports comma-separated data into a tibble.</p></li>
+</ul>
+<ol start="2" style="list-style-type: decimal">
+<li>Inspect and import the dataset <code>ex2.dat</code> using appropriate command(s).</li>
+</ol>
+<p><strong>Inspection:</strong></p>
+<p>The file <code>ex2.dat</code> uses a semi-colon <code>;</code> as variable separator and a comma <code>,</code> as decimal mark. Thus, it uses the data format common in many European countries (e.g., Germany).</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># b: ex2 is separated by semi-colons (csv2):</span>
+b_<span class="dv">1</span> &lt;-<span class="st"> </span><span class="kw">read.csv</span>(ex2, <span class="dt">sep =</span> <span class="st">&quot;;&quot;</span>, <span class="dt">dec =</span> <span class="st">&quot;,&quot;</span>)
+b_<span class="dv">2</span> &lt;-<span class="st"> </span><span class="kw">read_csv2</span>(ex2)
+
+## Check:
+<span class="co"># head(b_1)</span>
+<span class="co"># b_2</span>
+
+<span class="kw">class</span>(b_<span class="dv">1</span>)  <span class="co"># is a data frame</span>
+<span class="co">#&gt; [1] &quot;data.frame&quot;</span>
+<span class="kw">class</span>(b_<span class="dv">2</span>)  <span class="co"># is a tibble</span>
+<span class="co">#&gt; [1] &quot;tbl_df&quot;     &quot;tbl&quot;        &quot;data.frame&quot;</span>
+
+<span class="kw">all.equal</span>(<span class="kw">as_tibble</span>(b_<span class="dv">1</span>), b_<span class="dv">2</span>) <span class="co"># data is equal, </span>
+<span class="co">#&gt;  [1] &quot;Incompatible type for column `study`: x integer, y numeric&quot;      </span>
+<span class="co">#&gt;  [2] &quot;Incompatible type for column `ID`: x integer, y numeric&quot;         </span>
+<span class="co">#&gt;  [3] &quot;Incompatible type for column `aged`: x integer, y numeric&quot;       </span>
+<span class="co">#&gt;  [4] &quot;Incompatible type for column `female`: x integer, y numeric&quot;     </span>
+<span class="co">#&gt;  [5] &quot;Incompatible type for column `dad`: x integer, y numeric&quot;        </span>
+<span class="co">#&gt;  [6] &quot;Incompatible type for column `mom`: x integer, y numeric&quot;        </span>
+<span class="co">#&gt;  [7] &quot;Incompatible type for column `potato`: x integer, y numeric&quot;     </span>
+<span class="co">#&gt;  [8] &quot;Incompatible type for column `when64`: x integer, y numeric&quot;     </span>
+<span class="co">#&gt;  [9] &quot;Incompatible type for column `kalimba`: x integer, y numeric&quot;    </span>
+<span class="co">#&gt; [10] &quot;Incompatible type for column `cond`: x factor, y character&quot;      </span>
+<span class="co">#&gt; [11] &quot;Incompatible type for column `root`: x integer, y numeric&quot;       </span>
+<span class="co">#&gt; [12] &quot;Incompatible type for column `bird`: x integer, y numeric&quot;       </span>
+<span class="co">#&gt; [13] &quot;Incompatible type for column `political`: x integer, y numeric&quot;  </span>
+<span class="co">#&gt; [14] &quot;Incompatible type for column `quarterback`: x integer, y numeric&quot;</span>
+<span class="co">#&gt; [15] &quot;Incompatible type for column `olddays`: x integer, y numeric&quot;    </span>
+<span class="co">#&gt; [16] &quot;Incompatible type for column `feelold`: x integer, y numeric&quot;    </span>
+<span class="co">#&gt; [17] &quot;Incompatible type for column `computer`: x integer, y numeric&quot;   </span>
+<span class="co">#&gt; [18] &quot;Incompatible type for column `diner`: x integer, y numeric&quot;</span>
+<span class="co"># but variable types differ (integer vs. numeric; factor vs. character)</span>
+
+<span class="kw">all.equal</span>(a_<span class="dv">1</span>, b_<span class="dv">1</span>)  <span class="co"># data.frames are equal</span>
+<span class="co">#&gt; [1] TRUE</span>
+<span class="kw">all.equal</span>(a_<span class="dv">2</span>, b_<span class="dv">2</span>)  <span class="co"># tibbles are equal</span>
+<span class="co">#&gt; [1] TRUE</span></code></pre></div>
+<p>**<a href="Notes:**" class="uri">Notes:**</a></p>
+<ul>
+<li><code>read.csv</code> assumes by default that the symbol used to separate variables is a comma (<code>,</code>) and the symbol used as a decimal mark is a point/period/full stop (<code>.</code>). If different symbols (e.g., a semi-colon <code>;</code> and a comma <code>,</code>) are used as variable separator and decimal mark, respectively, this must be specified by providing the <code>sep</code> and <code>dec</code> arguments.</li>
+<li><p>We cannot use the <code>readr</code> command <code>read_csv</code> here, as it assumes the same default symbols as <code>read.csv</code> and does not allow re-defining these symbols. However, its variant <code>read_csv2</code> is appropriate, as it assumes the symbols used here (i.e., <code>;</code> between variables and <code>,</code> as decimal mark) as its defaults.</p></li>
+<li><p>Warnings when loading files, strange variable types, and errors in arithmetical operations often indicate that files have been read erroneously.</p></li>
+</ul>
+<ol start="3" style="list-style-type: decimal">
+<li>Inspect and import the dataset <code>ex3.dat</code> using appropriate command(s).</li>
+</ol>
+<p><strong>Inspection:</strong></p>
+<p>The file <code>ex3.dat</code> uses <code>|</code> as variable delimiter/separator and <code>,</code> as decimal mark/separator.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># With read.csv</span>
+c_<span class="dv">1</span> &lt;-<span class="st"> </span><span class="kw">read.csv</span>(ex3, <span class="dt">sep =</span> <span class="st">&quot;|&quot;</span>, <span class="dt">dec =</span> <span class="st">&quot;,&quot;</span>)
+
+<span class="co"># With readr: </span>
+c_<span class="dv">2</span> &lt;-<span class="st"> </span><span class="kw">read_delim</span>(ex3, <span class="dt">delim =</span> <span class="st">&quot;|&quot;</span>, <span class="dt">locale =</span> <span class="kw">locale</span>(<span class="dt">decimal_mark =</span> <span class="st">&quot;,&quot;</span>))
+
+## Check:
+<span class="co"># head(c_1)</span>
+<span class="co"># c_2</span>
+
+<span class="kw">class</span>(c_<span class="dv">1</span>)  <span class="co"># is a data frame</span>
+<span class="co">#&gt; [1] &quot;data.frame&quot;</span>
+<span class="kw">class</span>(c_<span class="dv">2</span>)  <span class="co"># is a tibble</span>
+<span class="co">#&gt; [1] &quot;tbl_df&quot;     &quot;tbl&quot;        &quot;data.frame&quot;</span>
+
+<span class="kw">all.equal</span>(<span class="kw">as_tibble</span>(c_<span class="dv">1</span>), c_<span class="dv">2</span>) <span class="co"># data is equal, </span>
+<span class="co">#&gt;  [1] &quot;Incompatible type for column `study`: x integer, y numeric&quot;      </span>
+<span class="co">#&gt;  [2] &quot;Incompatible type for column `ID`: x integer, y numeric&quot;         </span>
+<span class="co">#&gt;  [3] &quot;Incompatible type for column `aged`: x integer, y numeric&quot;       </span>
+<span class="co">#&gt;  [4] &quot;Incompatible type for column `female`: x integer, y numeric&quot;     </span>
+<span class="co">#&gt;  [5] &quot;Incompatible type for column `dad`: x integer, y numeric&quot;        </span>
+<span class="co">#&gt;  [6] &quot;Incompatible type for column `mom`: x integer, y numeric&quot;        </span>
+<span class="co">#&gt;  [7] &quot;Incompatible type for column `potato`: x integer, y numeric&quot;     </span>
+<span class="co">#&gt;  [8] &quot;Incompatible type for column `when64`: x integer, y numeric&quot;     </span>
+<span class="co">#&gt;  [9] &quot;Incompatible type for column `kalimba`: x integer, y numeric&quot;    </span>
+<span class="co">#&gt; [10] &quot;Incompatible type for column `cond`: x factor, y character&quot;      </span>
+<span class="co">#&gt; [11] &quot;Incompatible type for column `root`: x integer, y numeric&quot;       </span>
+<span class="co">#&gt; [12] &quot;Incompatible type for column `bird`: x integer, y numeric&quot;       </span>
+<span class="co">#&gt; [13] &quot;Incompatible type for column `political`: x integer, y numeric&quot;  </span>
+<span class="co">#&gt; [14] &quot;Incompatible type for column `quarterback`: x integer, y numeric&quot;</span>
+<span class="co">#&gt; [15] &quot;Incompatible type for column `olddays`: x integer, y numeric&quot;    </span>
+<span class="co">#&gt; [16] &quot;Incompatible type for column `feelold`: x integer, y numeric&quot;    </span>
+<span class="co">#&gt; [17] &quot;Incompatible type for column `computer`: x integer, y numeric&quot;   </span>
+<span class="co">#&gt; [18] &quot;Incompatible type for column `diner`: x integer, y numeric&quot;</span>
+<span class="co"># but variable types differ (integer vs. numeric; factor vs. character) </span>
+
+<span class="kw">all.equal</span>(a_<span class="dv">1</span>, c_<span class="dv">1</span>)  <span class="co"># data.frames are equal</span>
+<span class="co">#&gt; [1] TRUE</span>
+<span class="kw">all.equal</span>(a_<span class="dv">2</span>, c_<span class="dv">2</span>)  <span class="co"># tibbles are equal</span>
+<span class="co">#&gt; [1] TRUE</span></code></pre></div>
+<p>**<a href="Notes:**" class="uri">Notes:**</a></p>
+<ul>
+<li><p>The base R command <code>read.csv</code> – by virtue of providing explicit <code>sep</code> and <code>dec</code> arguments – is quite flexible to read in other character-delimited files. (However, the decimal mark must be either a comma or a point.)</p></li>
+<li><p>By contrast, the <code>readr</code> commands <code>read_csv</code> and <code>read_csv2</code> expect specific defaults. When these are not met, <code>read_delim</code> can be used to read a wider range of character-delimited files. Specific decimal marks and grouping marks can be defined in the <code>locale</code> argument.</p></li>
+</ul>
+<ol start="4" style="list-style-type: decimal">
+<li>Inspect and import the dataset <code>ex4.dat</code> using appropriate command(s). Specifically, note the encoding of the age variable (<code>aged365</code>) and check whether you can compute participants’ average age (in years) after importing the data.</li>
+</ol>
+<p><strong>Inspection:</strong></p>
+<ul>
+<li><p>The file <code>ex4.dat</code> uses a comma <code>,</code> as variable separator and point <code>.</code> as a decimal mark (i.e., U.S. style).</p></li>
+<li><p>However, the columns <code>aged365</code> and <code>female</code> in <code>ex4.dat</code> are encoded as <em>character</em> variables (as indicated by the quotation marks).</p></li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># With read.csv:</span>
+d_<span class="dv">1</span> &lt;-<span class="st"> </span><span class="kw">read.csv</span>(ex4)
+
+<span class="co"># With read_csv:</span>
+d_<span class="dv">2</span> &lt;-<span class="st"> </span><span class="kw">read_csv</span>(ex4)
+
+## Check:
+<span class="kw">head</span>(d_<span class="dv">1</span>)
+<span class="co">#&gt;   study ID aged  aged365 female dad mom potato when64 kalimba    cond root</span>
+<span class="co">#&gt; 1     1  1 6765 18.53425 female  49  45      0      0       1 control    1</span>
+<span class="co">#&gt; 2     1  2 7715 21.13699      1  63  62      0      1       0      64    1</span>
+<span class="co">#&gt; 3     1  3 7630 20.90411 female  61  59      0      1       0      64    1</span>
+<span class="co">#&gt;   bird political quarterback olddays feelold computer diner</span>
+<span class="co">#&gt; 1    7         3           2      13       2        4     7</span>
+<span class="co">#&gt; 2    3         2           1      12       4        4     8</span>
+<span class="co">#&gt; 3    7         1           2      12       2        4     6</span>
+<span class="co">#&gt;  [ reached getOption(&quot;max.print&quot;) -- omitted 3 rows ]</span>
+d_<span class="dv">2</span>
+<span class="co">#&gt; # A tibble: 78 x 19</span>
+<span class="co">#&gt;    study    ID  aged aged365 female   dad   mom potato when64 kalimba cond </span>
+<span class="co">#&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt; &lt;chr&gt;  &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt; &lt;chr&gt;</span>
+<span class="co">#&gt;  1     1     1  6765    18.5 female    49    45      0      0       1 cont…</span>
+<span class="co">#&gt;  2     1     2  7715    21.1 1         63    62      0      1       0 64   </span>
+<span class="co">#&gt;  3     1     3  7630    20.9 female    61    59      0      1       0 64   </span>
+<span class="co">#&gt;  4     1     4  7543    20.7 female    54    51      0      0       1 cont…</span>
+<span class="co">#&gt;  5     1     5  7849    21.5 female    47    43      0      1       0 64   </span>
+<span class="co">#&gt;  6     1     6  7581    20.8 1         49    50      0      1       0 64   </span>
+<span class="co">#&gt;  7     1     7  7534    20.6 1         56    55      0      0       1 cont…</span>
+<span class="co">#&gt;  8     1     8  6678    18.3 1         45    45      0      1       0 64   </span>
+<span class="co">#&gt;  9     1     9  6970    19.1 female    53    51      1      0       0 pota…</span>
+<span class="co">#&gt; 10     1    10  7681    21.0 female    53    51      0      1       0 64   </span>
+<span class="co">#&gt; # ... with 68 more rows, and 8 more variables: root &lt;dbl&gt;, bird &lt;dbl&gt;,</span>
+<span class="co">#&gt; #   political &lt;dbl&gt;, quarterback &lt;dbl&gt;, olddays &lt;dbl&gt;, feelold &lt;dbl&gt;,</span>
+<span class="co">#&gt; #   computer &lt;dbl&gt;, diner &lt;dbl&gt;</span>
+
+<span class="kw">class</span>(d_<span class="dv">1</span>)  <span class="co"># is a data frame</span>
+<span class="co">#&gt; [1] &quot;data.frame&quot;</span>
+<span class="kw">class</span>(d_<span class="dv">2</span>)  <span class="co"># is a tibble</span>
+<span class="co">#&gt; [1] &quot;tbl_df&quot;     &quot;tbl&quot;        &quot;data.frame&quot;</span>
+
+<span class="kw">all.equal</span>(<span class="kw">as_tibble</span>(d_<span class="dv">1</span>), d_<span class="dv">2</span>) <span class="co"># data is equal, </span>
+<span class="co">#&gt;  [1] &quot;Incompatible type for column `study`: x integer, y numeric&quot;      </span>
+<span class="co">#&gt;  [2] &quot;Incompatible type for column `ID`: x integer, y numeric&quot;         </span>
+<span class="co">#&gt;  [3] &quot;Incompatible type for column `aged`: x integer, y numeric&quot;       </span>
+<span class="co">#&gt;  [4] &quot;Incompatible type for column `female`: x factor, y character&quot;    </span>
+<span class="co">#&gt;  [5] &quot;Incompatible type for column `dad`: x integer, y numeric&quot;        </span>
+<span class="co">#&gt;  [6] &quot;Incompatible type for column `mom`: x integer, y numeric&quot;        </span>
+<span class="co">#&gt;  [7] &quot;Incompatible type for column `potato`: x integer, y numeric&quot;     </span>
+<span class="co">#&gt;  [8] &quot;Incompatible type for column `when64`: x integer, y numeric&quot;     </span>
+<span class="co">#&gt;  [9] &quot;Incompatible type for column `kalimba`: x integer, y numeric&quot;    </span>
+<span class="co">#&gt; [10] &quot;Incompatible type for column `cond`: x factor, y character&quot;      </span>
+<span class="co">#&gt; [11] &quot;Incompatible type for column `root`: x integer, y numeric&quot;       </span>
+<span class="co">#&gt; [12] &quot;Incompatible type for column `bird`: x integer, y numeric&quot;       </span>
+<span class="co">#&gt; [13] &quot;Incompatible type for column `political`: x integer, y numeric&quot;  </span>
+<span class="co">#&gt; [14] &quot;Incompatible type for column `quarterback`: x integer, y numeric&quot;</span>
+<span class="co">#&gt; [15] &quot;Incompatible type for column `olddays`: x integer, y numeric&quot;    </span>
+<span class="co">#&gt; [16] &quot;Incompatible type for column `feelold`: x integer, y numeric&quot;    </span>
+<span class="co">#&gt; [17] &quot;Incompatible type for column `computer`: x integer, y numeric&quot;   </span>
+<span class="co">#&gt; [18] &quot;Incompatible type for column `diner`: x integer, y numeric&quot;</span>
+<span class="co"># but variable types differ (integer vs. numeric; factor vs. character) </span>
+
+<span class="kw">all.equal</span>(a_<span class="dv">1</span>, d_<span class="dv">1</span>)  <span class="co"># data.frames differ in &quot;female&quot; variable: numeric vs. factor variable</span>
+<span class="co">#&gt; [1] &quot;Component \&quot;female\&quot;: Attributes: &lt; target is NULL, current is list &gt;&quot;</span>
+<span class="co">#&gt; [2] &quot;Component \&quot;female\&quot;: target is numeric, current is factor&quot;</span>
+<span class="kw">all.equal</span>(a_<span class="dv">2</span>, d_<span class="dv">2</span>)  <span class="co"># tibbles differ in &quot;female&quot; variable: numeric vs. character variable</span>
+<span class="co">#&gt; [1] &quot;Incompatible type for column `female`: x numeric, y character&quot;</span>
+
+<span class="co"># Compute the mean age of all participants</span>
+<span class="kw">mean</span>(d_<span class="dv">1</span><span class="op">$</span>aged365)  <span class="co"># works: 20.8 years</span>
+<span class="co">#&gt; [1] 20.81279</span>
+<span class="kw">mean</span>(d_<span class="dv">2</span><span class="op">$</span>aged365)  <span class="co"># works: 20.8 years</span>
+<span class="co">#&gt; [1] 20.81279</span></code></pre></div>
+<p>**<a href="Notes:**" class="uri">Notes:**</a></p>
+<ul>
+<li><p>Despite being a character variable in <code>ex4.dat</code>, the variable <code>aged365</code> is <em>numeric</em> in the data read in. This illustrates that both <code>read.csv</code> and <code>read_csv</code> aim to convert data into its appropriate type. This often works well, but can also lead to unexpected or undesired results. Here, the <code>female</code> variable cannot be converted into a numeric column (as it contains the word “female” in <code>ex4.dat</code>). This leads to its interpretation as a factor in the data.frame (when using <code>read.csv</code>) and as a character variable in the tibble (when using <code>read_csv</code>).</p></li>
+<li><p>To further control the class of variables when reading in the data, we can use the following variants of both commands:</p></li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># with read.csv:</span>
+e_<span class="dv">1</span> &lt;-<span class="st"> </span><span class="kw">read.csv</span>(ex4, <span class="dt">stringsAsFactors =</span> <span class="ot">FALSE</span>)
+<span class="kw">as_tibble</span>(e_<span class="dv">1</span>)  <span class="co"># =&gt; female is now a character variable.</span>
+<span class="co">#&gt; # A tibble: 78 x 19</span>
+<span class="co">#&gt;    study    ID  aged aged365 female   dad   mom potato when64 kalimba cond </span>
+<span class="co">#&gt;    &lt;int&gt; &lt;int&gt; &lt;int&gt;   &lt;dbl&gt; &lt;chr&gt;  &lt;int&gt; &lt;int&gt;  &lt;int&gt;  &lt;int&gt;   &lt;int&gt; &lt;chr&gt;</span>
+<span class="co">#&gt;  1     1     1  6765    18.5 female    49    45      0      0       1 cont…</span>
+<span class="co">#&gt;  2     1     2  7715    21.1 1         63    62      0      1       0 64   </span>
+<span class="co">#&gt;  3     1     3  7630    20.9 female    61    59      0      1       0 64   </span>
+<span class="co">#&gt;  4     1     4  7543    20.7 female    54    51      0      0       1 cont…</span>
+<span class="co">#&gt;  5     1     5  7849    21.5 female    47    43      0      1       0 64   </span>
+<span class="co">#&gt;  6     1     6  7581    20.8 1         49    50      0      1       0 64   </span>
+<span class="co">#&gt;  7     1     7  7534    20.6 1         56    55      0      0       1 cont…</span>
+<span class="co">#&gt;  8     1     8  6678    18.3 1         45    45      0      1       0 64   </span>
+<span class="co">#&gt;  9     1     9  6970    19.1 female    53    51      1      0       0 pota…</span>
+<span class="co">#&gt; 10     1    10  7681    21.0 female    53    51      0      1       0 64   </span>
+<span class="co">#&gt; # ... with 68 more rows, and 8 more variables: root &lt;int&gt;, bird &lt;int&gt;,</span>
+<span class="co">#&gt; #   political &lt;int&gt;, quarterback &lt;int&gt;, olddays &lt;int&gt;, feelold &lt;int&gt;,</span>
+<span class="co">#&gt; #   computer &lt;int&gt;, diner &lt;int&gt;</span>
+
+<span class="co"># with read_csv: </span>
+e_<span class="dv">2</span> &lt;-<span class="st"> </span><span class="kw">read_csv</span>(ex4,
+                <span class="dt">col_types =</span> <span class="kw">cols</span>(
+                  <span class="dt">study =</span> <span class="kw">col_integer</span>(),
+                  <span class="dt">ID =</span> <span class="kw">col_integer</span>(),
+                  <span class="dt">aged =</span> <span class="kw">col_integer</span>(),
+                  <span class="dt">aged365 =</span> <span class="kw">col_double</span>(),   <span class="co"># integer not possible</span>
+                  <span class="dt">female =</span> <span class="kw">col_character</span>(),
+                  <span class="dt">dad =</span> <span class="kw">col_integer</span>(),
+                  <span class="dt">mom =</span> <span class="kw">col_integer</span>(),
+                  <span class="dt">potato =</span> <span class="kw">col_integer</span>(),
+                  <span class="dt">when64 =</span> <span class="kw">col_integer</span>(),
+                  <span class="dt">kalimba =</span> <span class="kw">col_integer</span>(),
+                  <span class="dt">cond =</span> <span class="kw">col_character</span>(),
+                  <span class="dt">root =</span> <span class="kw">col_integer</span>(),
+                  <span class="dt">bird =</span> <span class="kw">col_integer</span>(),
+                  <span class="dt">political =</span> <span class="kw">col_integer</span>(),
+                  <span class="dt">quarterback =</span> <span class="kw">col_integer</span>(),
+                  <span class="dt">olddays =</span> <span class="kw">col_integer</span>(),
+                  <span class="dt">feelold =</span> <span class="kw">col_integer</span>(),
+                  <span class="dt">computer =</span> <span class="kw">col_integer</span>(),
+                  <span class="dt">diner =</span> <span class="kw">col_integer</span>()
+                ))
+
+<span class="kw">all.equal</span>(<span class="kw">as_tibble</span>(e_<span class="dv">1</span>), e_<span class="dv">2</span>)  <span class="co"># TRUE</span>
+<span class="co">#&gt; [1] TRUE</span></code></pre></div>
 </div>
 </div>
 <div id="more-on-data-import" class="section level1">
@@ -790,7 +1120,7 @@ Nr. | Topic       |
 7.  | [Tidying data](http://rpository.com/ds4psy/essentials/tidy.html) |
 +.  | [Datasets](http://rpository.com/ds4psy/essentials/datasets.html) | 
 -->
-<p>[Last update on 2018-12-17 13:24:59 by <a href="http://neth.de/">hn</a>.]</p>
+<p>[Last update on 2018-12-19 08:45:27 by <a href="http://neth.de/">hn</a>.]</p>
 <!-- eof. -->
 </div>
 </div>
@@ -825,7 +1155,9 @@ Nr. | Topic       |
         <li><a href="#exercises-wpa06">Exercises (WPA06)</a><ul>
         <li><a href="#exercise-1">Exercise 1</a></li>
         <li><a href="#exercise-2">Exercise 2</a></li>
-        <li><a href="#exercise-3">Exercise 3</a></li>
+        <li><a href="#exercise-3">Exercise 3</a><ul>
+        <li><a href="#a-read-write-read-cycle">A read-write-read cycle</a></li>
+        </ul></li>
         <li><a href="#exercise-4">Exercise 4</a></li>
         <li><a href="#exercise-5">Exercise 5</a></li>
         </ul></li>
