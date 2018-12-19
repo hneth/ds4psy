@@ -614,6 +614,8 @@ Use `jsonlite` for json, and `xml2` for XML.
 
 # Exercises (WPA06)
 
+The solutions on these exercises are due on Thursday, January 10, 2019 (i.e., `2019-01-10`).
+
 <!-- 
 
 ## Agenda
@@ -630,31 +632,40 @@ Use `jsonlite` for json, and `xml2` for XML.
 
 ## Exercise 1
 
+#### Navigating directories
+
 1. Find out your current working directory and list all files and folders contained in it. 
 
-```{r ex1_getwd, echo = FALSE, eval = FALSE}
-my_wd <- getwd()
-my_wd
+```{r ex1_getwd, echo = TRUE, eval = FALSE}
+my_wd <- getwd()   # store current working directory in my_wd
+my_wd              # show (absolute) path to my_wd
 
-list.files(my_wd)
+list.files(my_wd)  # list files in this directory
 ```
 
-2. Change your working directory and list all the files and folders in this directory.
+2. Change your working directory to a different directory (e.g., a parallel directory `data` that is located on the same level as your current working directory) and list all the files and folders in the other directory.
 
-```{r ex1_setwd, echo = FALSE, eval = FALSE}
-setwd("./../data")
-getwd()
-list.files()
+```{r ex1_setwd, echo = TRUE, eval = FALSE}
+other_dir <- "./../data"  # (relative) path to the other directory
+setwd(other_dir)
+getwd()       # verify new location
+list.files()  # list all files here
 ```
 
-3. Return to your original working directory. 
+3. Return to your original working directory, but list all files in the other (`data`) directory.
 
-```{r ex1_setwd_back, echo = FALSE, eval = FALSE}
-setwd(my_wd)
-getwd()
+```{r ex1_setwd_back, echo = TRUE, eval = FALSE}
+setwd(my_wd)  # return to previous my_wd
+getwd()       # verify new location
+
+list.files(my_wd)      # list files in my_wd  
+list.files(other_dir)  # list files in other dir (using relative path)
 ```
+
 
 ## Exercise 2
+
+#### Parsing dates and numbers
 
 Look at your ID card and type your birthday as a string as it's written on the card (including any spaces or punctuation symbols). For instance, if you were Erika Mustermann (see <https://de.wikipedia.org/wiki/Personalausweis_(Deutschland)>) you would write the character string "12.08.1964". 
 
@@ -666,7 +677,7 @@ Look at your ID card and type your birthday as a string as it's written on the c
 
 **Hint:** Consult `vignette("locales")` for specifying languages. 
 
-```{r birthday, echo = FALSE, eval = FALSE}
+```{r birthday, echo = TRUE, eval = TRUE}
 parse_date("12.08.1964", "%d.%m.%Y")
 
 parse_date("12. August 1964", "%d. %B %Y", locale = locale("de"))
@@ -681,18 +692,19 @@ parse_date("12 de agosto de 1964.", "%d de %B de %Y.", locale = locale("es"))
 - `"US$1,099.95"` as a number;
 - `"EUR1.099,95"` as a number;
 
-```{r ex2_4, echo = FALSE, eval = FALSE}
+```{r ex2_4, echo = TRUE, eval = TRUE}
 parse_number("US$1,099.95") 
 parse_number("EUR1.099,95", locale = locale(grouping_mark = "."))
 ```
 
+
 ## Exercise 3
 
-### A read-write-read cycle
+#### A read-write-read cycle
 
 1. Read in the data in file <http://rpository.com/ds4psy/data/data_2.dat> into an R object `data_2`, but by using the command `read_delim` rather than by using `read_fwf` (as above). (**Hint:** The variable names should be the same as above, but inspect the file to see its delimiter.)
 
-```{r ex3_1}
+```{r ex3_1, echo = TRUE, eval = TRUE}
 # Path to file:
 my_file <- "../data/data_2.dat"                           # from local directory
 my_file <- "http://rpository.com/ds4psy/data/data_2.dat"  # from online source
@@ -709,25 +721,23 @@ sum(is.na(data_2))  # 0 NA values
 
 2. Store the data file as `data_2.csv` (a `csv` file that includes variable names) into a directory that is _not_ your current working directory.
 
-```{r ex3_2}
+```{r ex3_2, echo = TRUE, eval = TRUE}
 write_csv(x = data_2, path = "../data/data_2.csv")
 ```
 
 3. Now use a command to re-read the file `data_2.csv` back into an object `data_2b` and verify that `data_2` and `data_2b` are equal.
 
-```{r ex3_3}
+```{r ex3_3, echo = TRUE, eval = TRUE}
 data_2b <- read_csv("../data/data_2.csv")
 
 # Verify equality: 
 all.equal(data_2, data_2b)
 ```
 
+
 ## Exercise 4
 
-+++ here now +++
-
-
-## Exercise 5
+#### Reading data 
 
 The following data files are variants of the data at <http://rpository.com/ds4psy/data/falsePosPsy_all.csv>:
 
@@ -738,14 +748,14 @@ The following data files are variants of the data at <http://rpository.com/ds4ps
 
 See [Datasets: False positive psychology](http://rpository.com/ds4psy/essentials/datasets.html#false-positive-psychology) for details of this data. 
 
-```{r}
-# Relative paths to local copies of the 4 files:
+```{r ex4_file_paths}
+# Relative paths to my local copies of the 4 data files:
 ex1 <- "./../data/falsePosPsy/ex1.dat"
 ex2 <- "./../data/falsePosPsy/ex2.dat"
 ex3 <- "./../data/falsePosPsy/ex3.dat"
 ex4 <- "./../data/falsePosPsy/ex4.dat"
 
-# Online paths to all 4 files:
+# Online paths to all 4 data files:
 ex1 <- "http://rpository.com/ds4psy/data/ex1.dat"  
 ex2 <- "http://rpository.com/ds4psy/data/ex2.dat"  
 ex3 <- "http://rpository.com/ds4psy/data/ex3.dat"  
@@ -754,11 +764,11 @@ ex4 <- "http://rpository.com/ds4psy/data/ex4.dat"
 
 1. Inspect file `ex1.dat` and read it in 2 ways (by using either the generic `read.csv` or the appropriate variant of `read_csv`). How do the data read differ from each other?
 
-**Inspection:**
+#### Inspection
 
 The file `ex1.dat` uses a comma `,` as variable separator and point `.` as a decimal mark. Thus, it uses the data format common in North America (e.g., U.S.A.).
 
-```{r ex5_ex1, echo = TRUE, eval = TRUE}
+```{r ex4_ex1, echo = TRUE, eval = TRUE}
 # a: ex1 is comma-separated: 
 a_1 <- read.csv(ex1)
 a_2 <- read_csv(ex1)
@@ -774,7 +784,8 @@ all.equal(as_tibble(a_1), a_2) # data is equal,
 # but variable types differ (integer vs. numeric; factor vs. character)
 ```
 
-**Notes:**
+
+#### Notes
 
 - `read.csv` is available without loading any extra packages (base R) and imports comma-separated data into a data.frame.
 
@@ -783,11 +794,12 @@ all.equal(as_tibble(a_1), a_2) # data is equal,
 
 2. Inspect and import the dataset `ex2.dat` using appropriate command(s).
 
-**Inspection:**
+
+#### Inspection
 
 The file `ex2.dat` uses a semi-colon `;` as variable separator and a comma `,` as decimal mark. Thus, it uses the data format common in many European countries (e.g., Germany).
 
-```{r ex5_ex2, echo = TRUE, eval = TRUE}
+```{r ex4_ex2, echo = TRUE, eval = TRUE}
 # b: ex2 is separated by semi-colons (csv2):
 b_1 <- read.csv(ex2, sep = ";", dec = ",")
 b_2 <- read_csv2(ex2)
@@ -806,7 +818,8 @@ all.equal(a_1, b_1)  # data.frames are equal
 all.equal(a_2, b_2)  # tibbles are equal
 ```
 
-**Notes:** 
+
+#### Notes 
 
 - `read.csv` assumes by default that the symbol used to separate variables is a comma (`,`) and the symbol used as a decimal mark is a point/period/full stop (`.`). If different symbols (e.g., a semi-colon `;` and a comma `,`) are used as variable separator and decimal mark, respectively, this must be specified by providing the `sep` and `dec` arguments. 
 - We cannot use the `readr` command `read_csv` here, as it assumes the same default symbols as `read.csv` and does not allow re-defining these symbols. However, its variant `read_csv2` is appropriate, as it assumes the symbols used here (i.e., `;` between variables and `,` as decimal mark) as its defaults. 
@@ -815,11 +828,11 @@ all.equal(a_2, b_2)  # tibbles are equal
 
 3. Inspect and import the dataset `ex3.dat` using appropriate command(s).
 
-**Inspection:**
+#### Inspection
 
 The file `ex3.dat` uses `|` as variable delimiter/separator and `,` as decimal mark/separator. 
 
-```{r ex5_ex3, echo = TRUE, eval = TRUE}
+```{r ex4_ex3, echo = TRUE, eval = TRUE}
 # With read.csv
 c_1 <- read.csv(ex3, sep = "|", dec = ",")
 
@@ -840,7 +853,8 @@ all.equal(a_1, c_1)  # data.frames are equal
 all.equal(a_2, c_2)  # tibbles are equal
 ```
 
-**Notes:** 
+
+#### Notes 
 
 - The base R command `read.csv` -- by virtue of providing explicit `sep` and `dec` arguments -- is quite flexible to read in other character-delimited files. (However, the decimal mark must be either a comma or a point.)  
 
@@ -848,13 +862,13 @@ all.equal(a_2, c_2)  # tibbles are equal
 
 4. Inspect and import the dataset `ex4.dat` using appropriate command(s). Specifically, note the encoding of the age variable (`aged365`) and check whether you can compute participants' average age (in years) after importing the data. 
 
-**Inspection:**
+#### Inspection
 
 - The file `ex4.dat` uses a comma `,` as variable separator and point `.` as a decimal mark (i.e., U.S. style).  
 
 - However, the columns `aged365` and `female` in `ex4.dat` are encoded as _character_ variables (as indicated by the quotation marks). 
 
-```{r ex5_ex4, echo = TRUE, eval = TRUE}
+```{r ex4_ex4, echo = TRUE, eval = TRUE}
 # With read.csv:
 d_1 <- read.csv(ex4)
 
@@ -879,13 +893,14 @@ mean(d_1$aged365)  # works: 20.8 years
 mean(d_2$aged365)  # works: 20.8 years
 ```
 
-**Notes:** 
+
+#### Notes 
 
 - Despite being a character variable in `ex4.dat`, the variable `aged365` is _numeric_ in the data read in. This illustrates that both `read.csv` and `read_csv` aim to convert data into its appropriate type. This often works well, but can also lead to unexpected or undesired results. Here, the `female` variable cannot be converted into a numeric column (as it contains the word "female" in `ex4.dat`). This leads to its interpretation as a factor in the data.frame (when using `read.csv`) and as a character variable in the tibble (when using `read_csv`).
 
 - To further control the class of variables when reading in the data, we can use the following variants of both commands:
 
-```{r ex5_add, echo = TRUE, eval = TRUE}
+```{r ex4_add, echo = TRUE, eval = TRUE}
 # with read.csv:
 e_1 <- read.csv(ex4, stringsAsFactors = FALSE)
 as_tibble(e_1)  # => female is now a character variable.
@@ -916,6 +931,164 @@ e_2 <- read_csv(ex4,
 
 all.equal(as_tibble(e_1), e_2)  # TRUE
 ```
+
+## Exercise 5
+
+#### Writing data
+
+```{r ex5_create_data, echo = FALSE, eval = TRUE}
+## Re-create data tibble (in 3 ways):
+
+# (a) Using tibble: ---- 
+tbl_1 <- tibble(
+  cond = c("64", "control", "potato"),  
+  n = c(25, 22, 31), 
+  mean_age = c(21.09, 20.80, 20.60), 
+  youngest = c(18.30, 18.53, 18.18), 
+  oldest = c(38.24, 27.23, 27.37), 
+  feel_vyoung = c(0, 3, 1),
+  feel_young = c(13, 15, 17),
+  feel_neither = c(10, 3, 11),
+  feel_old = c(2, 1, 2),
+  feel_vold = c(0, 0, 0) )
+
+# knitr::kable(tbl_1, caption = "Data entered (by using tibble).")
+
+# (b) Using tribble: ---- 
+tbl_2 <- tribble(~cond, ~n, ~mean_age, ~youngest, ~oldest,	
+                 ~feel_vyoung, ~feel_young, ~feel_neither, ~feel_old,	~feel_vold,
+                 #--------|----|------|------|------|---|---|---|---|---|
+                 "64",	    25, 21.09, 18.30,	38.24,	0, 13, 10,  2,  0,
+                 "control",	22,	20.80, 18.53,	27.23,	3, 15,  3,  1,  0,
+                 "potato",	31,	20.60, 18.18,	27.37,	1, 17, 11,  2,  0 )
+
+# knitr::kable(tbl_2, caption = "Data entered (by using tribble).")
+
+# (c) Re-creating the data in tbl_1 from the original data: ---- 
+
+# Import the dataset:
+falsePosPsy_all <- read_csv(file = "http://rpository.com/ds4psy/data/falsePosPsy_all.csv")
+
+# Create summary table:
+tbl_org <- falsePosPsy_all %>%
+  group_by(cond) %>%
+  summarise(n = n(),
+            mean_age = round(mean(aged365, na.rm = TRUE), digits = 2), 
+            youngest = round(min(aged365, na.rm = TRUE), digits = 2),
+            oldest = round(max(aged365, na.rm = TRUE), digits = 2),
+            feel_vyoung = sum(feelold == 1),
+            feel_young = sum(feelold == 2),
+            feel_neither = sum(feelold == 3),
+            feel_old = sum(feelold == 4),
+            feel_vold = sum(feelold == 5)
+            )
+# knitr::kable(tbl_org, caption = "Same data re-created from raw data.")
+
+## Verify identity:
+# all.equal(tbl_1,  tbl_org)  # TRUE, except for different column types (numeric vs. integer).
+
+## Check identity: 
+# all.equal(tbl_1, tbl_org)   # same, except for type differences
+# all.equal(tbl_1,  tbl_2)  # TRUE
+
+summary <- tbl_1  # copy data
+readr::write_csv(x = summary, path = "./../data/summary.csv")
+```
+
+In our previous session on [Tibbles: Exercise 4](http://rpository.com/ds4psy/essentials/tibbles.html#exercise-4) we created the following `summary` tibble in different ways (either directly by using `tibble` or `tribble`, or as a `dplyr` summary table from raw data): 
+
+```{r show_summary_table}
+knitr::kable(summary, caption = "Table: Age-related data from Simmons et al. (2011). [See Exercise 4 of our session on tibbles.]")
+```
+
+See [Datasets: False positive psychology](http://rpository.com/ds4psy/essentials/datasets.html#false-positive-psychology) for details of the underlying raw data. 
+
+Imagine that you are trying to send this file to a friend who -- due to excessive demand for our course -- was unable to secure a spot in this course and ended up in a course on the "History of data science", whose members are encouraged to experiment with software products like MS Excel and SPSS.
+
+1. Assuming that your friend is currently located in Troy, NY (i.e., in the USA), export the `summary` as a file that your friend can read with her software. 
+
+
+#### Notes 
+
+- Since our friend is supposed to be in the US, we use a `csv` file that adheres to the convention that variables are separated by commas (`,`) and the decimal mark is a point (`.`) -- which is the default setting of `readr::write_csv`.
+
+- We write out the `csv` file to a separate `data` directory and specify its path and name relative to our current working directory. 
+
+```{r ex5_1, echo = TRUE, eval = TRUE}
+# (a) write_csv:
+readr::write_csv(x = summary, path = "./../data/summary_a.csv")
+
+# (b) write.csv:
+write.csv(x = summary, file = "./../data/summary_b.csv", row.names = FALSE)
+
+# (c) write.table:
+write.table(x = summary, file = "./../data/summary_c.csv", row.names = FALSE, sep = ",", dec = ".")
+```
+
+2. Read back your file and verify that it contains the same information as your original `summary`.
+
+```{r ex5_2, echo = TRUE, eval = TRUE}
+summary_2a <- readr::read_csv(file = "./../data/summary_a.csv")
+all.equal(summary, summary_2a)  # TRUE
+
+summary_2b <- read.csv(file = "./../data/summary_b.csv", stringsAsFactors = FALSE)
+all.equal(summary, summary_2b)  # TRUE (except for numeric data types)
+
+summary_2c <- read.csv(file = "./../data/summary_c.csv", stringsAsFactors = FALSE)
+all.equal(summary, summary_2c)  # TRUE (except for numeric data types)
+```
+
+3. Now repeat both steps (i.e., writing and re-reading the `summary` data) under the assumption that your friend is located in Berlin, Germany.
+
+
+#### Notes 
+
+- Using a `csv` file is still the best choice. However, since our friend is supposed to be in Germany, we use a `csv2` file that adheres to the European convention that variables are separated by semi-colons (`;`) and the decimal mark is a comma (`,`) -- which is the default setting of `readr::write_csv2`.
+
+- To signal the different file format to our friend, we'll use the file extension `.csv2`. 
+
+```{r ex5_3, echo = TRUE, eval = TRUE}
+## Writing data in csv2 format: ---- 
+
+# (a) write_csv:
+readr::write_csv2(x = summary, path = "./../data/summary_a.csv2")
+
+# (b) write.csv:
+write.csv2(x = summary, file = "./../data/summary_b.csv2", row.names = FALSE)
+
+# (c) write.table:
+write.table(x = summary, file = "./../data/summary_c.csv2", row.names = FALSE, sep = ";", dec = ",")
+
+
+## Reading data in csv2 format: ----
+
+summary_3a <- readr::read_csv2(file = "./../data/summary_a.csv2")
+all.equal(summary, summary_2a)  # TRUE
+
+summary_3b <- read.csv2(file = "./../data/summary_b.csv2", stringsAsFactors = FALSE)
+all.equal(summary, summary_3b)     # TRUE (except numeric data types)
+all.equal(summary_2b, summary_3b)  # TRUE
+
+summary_3c <- read.csv2(file = "./../data/summary_c.csv2", stringsAsFactors = FALSE)
+all.equal(summary, summary_3c)     # TRUE (except numeric data types)
+all.equal(summary_2c, summary_3c)  # TRUE
+```
+
+
+#### Notes 
+
+- As they are simple and functional, the `readr` functions `write_csv` and `write_csv2` provide good and safe options for exchanging files. 
+
+- For more flexibility and potential complexity, it may be indicated to use `write_delim` or `write.table` (or one of many other functions).
+
+- For the base R functions `write.csv` and `write.table` the default of the argument `row.names = TRUE`.  As we only want to use column names here, we specified `row.names = FALSE`. If we left this out, we would get an extra column that counts the rows from 1 to `nrow` (on normally does not hurt either). 
+
+- Even though our friend can now read our data without problems, she should try to enroll into a real data science course at some point.
+
+## Exercise 6
+
++++ here now +++
+
 
 
 # More on data import

@@ -428,9 +428,9 @@ french &lt;-<span class="st"> &quot;très difficile&quot;</span>
 </ol>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Current date and time:</span>
 <span class="kw">Sys.Date</span>()
-<span class="co">#&gt; [1] &quot;2018-12-17&quot;</span>
+<span class="co">#&gt; [1] &quot;2018-12-19&quot;</span>
 <span class="kw">Sys.time</span>()
-<span class="co">#&gt; [1] &quot;2018-12-17 08:57:28 CET&quot;</span>
+<span class="co">#&gt; [1] &quot;2018-12-19 11:12:19 CET&quot;</span>
 
 <span class="kw">parse_date</span>(<span class="kw">c</span>(<span class="st">&quot;2018-12-17&quot;</span>, <span class="st">&quot;2018-12-24&quot;</span>, <span class="st">&quot;2018-12-31&quot;</span>))
 <span class="co">#&gt; [1] &quot;2018-12-17&quot; &quot;2018-12-24&quot; &quot;2018-12-31&quot;</span>
@@ -495,12 +495,15 @@ dt &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="s
 <span class="kw">all.equal</span>(dt, df)  
 <span class="co">#&gt; [1] &quot;Incompatible type for column `name`: x character, y factor&quot;  </span>
 <span class="co">#&gt; [2] &quot;Incompatible type for column `gender`: x character, y factor&quot;</span>
+<span class="co">#&gt; [3] &quot;Incompatible type for column `like_1`: x numeric, y integer&quot; </span>
+<span class="co">#&gt; [4] &quot;Incompatible type for column `bnt_1`: x numeric, y integer&quot;</span>
 
 <span class="co"># =&gt; df converted chracter to factors, unless: </span>
 df &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;./../data/data_t1.csv&quot;</span>, <span class="dt">stringsAsFactors =</span> <span class="ot">FALSE</span>)
 
 <span class="kw">all.equal</span>(dt, df) 
-<span class="co">#&gt; [1] TRUE</span></code></pre></div>
+<span class="co">#&gt; [1] &quot;Incompatible type for column `like_1`: x numeric, y integer&quot;</span>
+<span class="co">#&gt; [2] &quot;Incompatible type for column `bnt_1`: x numeric, y integer&quot;</span></code></pre></div>
 </div>
 <div id="variants-read_csv2-and-read_tsv" class="section level3">
 <h3>2. Variants (<code>read_csv2</code> and <code>read_tsv</code>):</h3>
@@ -508,7 +511,7 @@ df &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="s
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">read_csv2</span>(<span class="st">&quot;http://rpository.com/ds4psy/data/data_t1_de.csv&quot;</span>)
 <span class="co">#&gt; # A tibble: 20 x 4</span>
 <span class="co">#&gt;    name  gender like_1 bnt_1</span>
-<span class="co">#&gt;    &lt;chr&gt; &lt;chr&gt;   &lt;int&gt; &lt;int&gt;</span>
+<span class="co">#&gt;    &lt;chr&gt; &lt;chr&gt;   &lt;dbl&gt; &lt;dbl&gt;</span>
 <span class="co">#&gt;  1 R.S.  female      2    NA</span>
 <span class="co">#&gt;  2 M.Y.  male        2     4</span>
 <span class="co">#&gt;  3 K.R.  male        4     1</span>
@@ -554,7 +557,7 @@ df &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="s
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">read_tsv</span>(<span class="st">&quot;http://rpository.com/ds4psy/data/data_t1_tab.csv&quot;</span>)
 <span class="co">#&gt; # A tibble: 20 x 4</span>
 <span class="co">#&gt;    name  gender like_1 bnt_1</span>
-<span class="co">#&gt;    &lt;chr&gt; &lt;chr&gt;   &lt;int&gt; &lt;int&gt;</span>
+<span class="co">#&gt;    &lt;chr&gt; &lt;chr&gt;   &lt;dbl&gt; &lt;dbl&gt;</span>
 <span class="co">#&gt;  1 R.S.  female      2    NA</span>
 <span class="co">#&gt;  2 M.Y.  male        2     4</span>
 <span class="co">#&gt;  3 K.R.  male        4     1</span>
@@ -607,8 +610,8 @@ data_<span class="dv">1</span> &lt;-<span class="st"> </span><span class="kw">re
 <span class="co">#&gt; Observations: 100</span>
 <span class="co">#&gt; Variables: 4</span>
 <span class="co">#&gt; $ initials &lt;chr&gt; &quot;ES&quot;, &quot;OE&quot;, &quot;YY&quot;, &quot;DV&quot;, &quot;MO&quot;, &quot;OG&quot;, &quot;TE&quot;, &quot;KW&quot;, &quot;ZF&quot;,...</span>
-<span class="co">#&gt; $ age      &lt;int&gt; 78, 63, 60, 86, 44, 75, 34, 32, 32, 35, 87, 55, 76, 6...</span>
-<span class="co">#&gt; $ tel      &lt;int&gt; 84487016, 80047160, 64716120, 32620018, 93001588, 887...</span>
+<span class="co">#&gt; $ age      &lt;dbl&gt; 78, 63, 60, 86, 44, 75, 34, 32, 32, 35, 87, 55, 76, 6...</span>
+<span class="co">#&gt; $ tel      &lt;dbl&gt; 84487016, 80047160, 64716120, 32620018, 93001588, 887...</span>
 <span class="co">#&gt; $ pwd      &lt;chr&gt; &quot;mVZwyO&quot;, &quot;SnjYqW&quot;, &quot;xDNOul&quot;, &quot;fWreff&quot;, &quot;mWSZDV&quot;, &quot;YS...</span>
 <span class="kw">sum</span>(<span class="kw">is.na</span>(data_<span class="dv">1</span>))  <span class="co"># 15 NA values</span>
 <span class="co">#&gt; [1] 15</span></code></pre></div>
@@ -633,7 +636,7 @@ data_<span class="dv">2</span> &lt;-<span class="st"> </span><span class="kw">re
 <span class="co">#&gt; Observations: 100</span>
 <span class="co">#&gt; Variables: 4</span>
 <span class="co">#&gt; $ initials &lt;chr&gt; &quot;EU&quot;, &quot;KI&quot;, &quot;PP&quot;, &quot;DH&quot;, &quot;PQ&quot;, &quot;NN&quot;, &quot;NO&quot;, &quot;WV&quot;, &quot;CS&quot;,...</span>
-<span class="co">#&gt; $ age      &lt;int&gt; 63, 71, 39, 49, 71, 42, 63, 60, 70, 20, 63, 48, 54, 3...</span>
+<span class="co">#&gt; $ age      &lt;dbl&gt; 63, 71, 39, 49, 71, 42, 63, 60, 70, 20, 63, 48, 54, 3...</span>
 <span class="co">#&gt; $ tel      &lt;chr&gt; &quot;0397&quot;, &quot;6685&quot;, &quot;8950&quot;, &quot;5619&quot;, &quot;0896&quot;, &quot;2282&quot;, &quot;8598...</span>
 <span class="co">#&gt; $ pwd      &lt;chr&gt; &quot;aZAIGM&quot;, &quot;IHEMCK&quot;, &quot;baWzHb&quot;, &quot;IdOCIm&quot;, &quot;bYheST&quot;, &quot;ZW...</span></code></pre></div>
 </div>
@@ -670,6 +673,7 @@ data_<span class="dv">2</span> &lt;-<span class="st"> </span><span class="kw">re
 </div>
 <div id="exercises-wpa06" class="section level1">
 <h1>Exercises (WPA06)</h1>
+<p>The solutions on these exercises are due on Thursday, January 10, 2019 (i.e., <code>2019-01-10</code>).</p>
 <!-- 
 
 ## Agenda
@@ -685,14 +689,36 @@ data_<span class="dv">2</span> &lt;-<span class="st"> </span><span class="kw">re
 -->
 <div id="exercise-1" class="section level2">
 <h2>Exercise 1</h2>
+<div id="navigating-directories" class="section level4">
+<h4>Navigating directories</h4>
 <ol style="list-style-type: decimal">
-<li><p>Find out your current working directory and list all files and folders contained in it.</p></li>
-<li><p>Change your working directory and list all the files and folders in this directory.</p></li>
-<li><p>Return to your original working directory.</p></li>
+<li>Find out your current working directory and list all files and folders contained in it.</li>
 </ol>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">my_wd &lt;-<span class="st"> </span><span class="kw">getwd</span>()   <span class="co"># store current working directory in my_wd</span>
+my_wd              <span class="co"># show (absolute) path to my_wd</span>
+
+<span class="kw">list.files</span>(my_wd)  <span class="co"># list files in this directory</span></code></pre></div>
+<ol start="2" style="list-style-type: decimal">
+<li>Change your working directory to a different directory (e.g., a parallel directory <code>data</code> that is located on the same level as your current working directory) and list all the files and folders in the other directory.</li>
+</ol>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">other_dir &lt;-<span class="st"> &quot;./../data&quot;</span>  <span class="co"># (relative) path to the other directory</span>
+<span class="kw">setwd</span>(other_dir)
+<span class="kw">getwd</span>()       <span class="co"># verify new location</span>
+<span class="kw">list.files</span>()  <span class="co"># list all files here</span></code></pre></div>
+<ol start="3" style="list-style-type: decimal">
+<li>Return to your original working directory, but list all files in the other (<code>data</code>) directory.</li>
+</ol>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">setwd</span>(my_wd)  <span class="co"># return to previous my_wd</span>
+<span class="kw">getwd</span>()       <span class="co"># verify new location</span>
+
+<span class="kw">list.files</span>(my_wd)      <span class="co"># list files in my_wd  </span>
+<span class="kw">list.files</span>(other_dir)  <span class="co"># list files in other dir (using relative path)</span></code></pre></div>
+</div>
 </div>
 <div id="exercise-2" class="section level2">
 <h2>Exercise 2</h2>
+<div id="parsing-dates-and-numbers" class="section level4">
+<h4>Parsing dates and numbers</h4>
 <p>Look at your ID card and type your birthday as a string as it’s written on the card (including any spaces or punctuation symbols). For instance, if you were Erika Mustermann (see <a href="https://de.wikipedia.org/wiki/Personalausweis_(Deutschland)" class="uri">https://de.wikipedia.org/wiki/Personalausweis_(Deutschland)</a>) you would write the character string “12.08.1964”.</p>
 <ol style="list-style-type: decimal">
 <li><p>Use an appropriate <code>parse_</code> command to read this character string into R.</p></li>
@@ -700,6 +726,18 @@ data_<span class="dv">2</span> &lt;-<span class="st"> </span><span class="kw">re
 <li><p>Use <a href="https://translate.google.com/">Google Translate</a> to translate this character string into French, Italian, and Spanish and use appropriate R commands to parse these strings into R.</p></li>
 </ol>
 <p><strong>Hint:</strong> Consult <code>vignette(&quot;locales&quot;)</code> for specifying languages.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">parse_date</span>(<span class="st">&quot;12.08.1964&quot;</span>, <span class="st">&quot;%d.%m.%Y&quot;</span>)
+<span class="co">#&gt; [1] &quot;1964-08-12&quot;</span>
+
+<span class="kw">parse_date</span>(<span class="st">&quot;12. August 1964&quot;</span>, <span class="st">&quot;%d. %B %Y&quot;</span>, <span class="dt">locale =</span> <span class="kw">locale</span>(<span class="st">&quot;de&quot;</span>))
+<span class="co">#&gt; [1] &quot;1964-08-12&quot;</span>
+
+<span class="kw">parse_date</span>(<span class="st">&quot;12. août 1964&quot;</span>, <span class="st">&quot;%d. %B %Y&quot;</span>, <span class="dt">locale =</span> <span class="kw">locale</span>(<span class="st">&quot;fr&quot;</span>))
+<span class="co">#&gt; [1] &quot;1964-08-12&quot;</span>
+<span class="kw">parse_date</span>(<span class="st">&quot;12. Agosto 1964&quot;</span>, <span class="st">&quot;%d. %B %Y&quot;</span>, <span class="dt">locale =</span> <span class="kw">locale</span>(<span class="st">&quot;it&quot;</span>))
+<span class="co">#&gt; [1] &quot;1964-08-12&quot;</span>
+<span class="kw">parse_date</span>(<span class="st">&quot;12 de agosto de 1964.&quot;</span>, <span class="st">&quot;%d de %B de %Y.&quot;</span>, <span class="dt">locale =</span> <span class="kw">locale</span>(<span class="st">&quot;es&quot;</span>))
+<span class="co">#&gt; [1] &quot;1964-08-12&quot;</span></code></pre></div>
 <ol start="4" style="list-style-type: decimal">
 <li>Use a <code>parse_</code> command (with an appropriate <code>locale</code>) to parse the following character strings into the desired data format:</li>
 </ol>
@@ -707,11 +745,16 @@ data_<span class="dv">2</span> &lt;-<span class="st"> </span><span class="kw">re
 <li><code>&quot;US$1,099.95&quot;</code> as a number;</li>
 <li><code>&quot;EUR1.099,95&quot;</code> as a number;</li>
 </ul>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">parse_number</span>(<span class="st">&quot;US$1,099.95&quot;</span>) 
+<span class="co">#&gt; [1] 1099.95</span>
+<span class="kw">parse_number</span>(<span class="st">&quot;EUR1.099,95&quot;</span>, <span class="dt">locale =</span> <span class="kw">locale</span>(<span class="dt">grouping_mark =</span> <span class="st">&quot;.&quot;</span>))
+<span class="co">#&gt; [1] 1099.95</span></code></pre></div>
+</div>
 </div>
 <div id="exercise-3" class="section level2">
 <h2>Exercise 3</h2>
-<div id="a-read-write-read-cycle" class="section level3">
-<h3>A read-write-read cycle</h3>
+<div id="a-read-write-read-cycle" class="section level4">
+<h4>A read-write-read cycle</h4>
 <ol style="list-style-type: decimal">
 <li>Read in the data in file <a href="http://rpository.com/ds4psy/data/data_2.dat" class="uri">http://rpository.com/ds4psy/data/data_2.dat</a> into an R object <code>data_2</code>, but by using the command <code>read_delim</code> rather than by using <code>read_fwf</code> (as above). (<strong>Hint:</strong> The variable names should be the same as above, but inspect the file to see its delimiter.)</li>
 </ol>
@@ -751,11 +794,9 @@ data_<span class="dv">2</span> &lt;-<span class="st"> </span><span class="kw">re
 </div>
 <div id="exercise-4" class="section level2">
 <h2>Exercise 4</h2>
-<p>To come soon.</p>
-</div>
-<div id="exercise-5" class="section level2">
-<h2>Exercise 5</h2>
-<p>The following data files are variants of the data at <a href="http://rpository.com/ds4psy/data/falsePosPsy_all.csv" class="uri">http://rpository.com/ds4psy/data/falsePosPsy_all.csv</a> (see <a href="http://rpository.com/ds4psy/essentials/datasets.html#false-positive-psychology">Datasets: False positive psychology</a> for details):</p>
+<div id="reading-data" class="section level4">
+<h4>Reading data</h4>
+<p>The following data files are variants of the data at <a href="http://rpository.com/ds4psy/data/falsePosPsy_all.csv" class="uri">http://rpository.com/ds4psy/data/falsePosPsy_all.csv</a>:</p>
 <ul>
 <li><a href="http://rpository.com/ds4psy/data/ex1.dat" class="uri">http://rpository.com/ds4psy/data/ex1.dat</a><br />
 </li>
@@ -765,13 +806,14 @@ data_<span class="dv">2</span> &lt;-<span class="st"> </span><span class="kw">re
 </li>
 <li><a href="http://rpository.com/ds4psy/data/ex4.dat" class="uri">http://rpository.com/ds4psy/data/ex4.dat</a></li>
 </ul>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Relative paths to local copies of the 4 files:</span>
+<p>See <a href="http://rpository.com/ds4psy/essentials/datasets.html#false-positive-psychology">Datasets: False positive psychology</a> for details of this data.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Relative paths to my local copies of the 4 data files:</span>
 ex1 &lt;-<span class="st"> &quot;./../data/falsePosPsy/ex1.dat&quot;</span>
 ex2 &lt;-<span class="st"> &quot;./../data/falsePosPsy/ex2.dat&quot;</span>
 ex3 &lt;-<span class="st"> &quot;./../data/falsePosPsy/ex3.dat&quot;</span>
 ex4 &lt;-<span class="st"> &quot;./../data/falsePosPsy/ex4.dat&quot;</span>
 
-<span class="co"># Online paths to all 4 files:</span>
+<span class="co"># Online paths to all 4 data files:</span>
 ex1 &lt;-<span class="st"> &quot;http://rpository.com/ds4psy/data/ex1.dat&quot;</span>  
 ex2 &lt;-<span class="st"> &quot;http://rpository.com/ds4psy/data/ex2.dat&quot;</span>  
 ex3 &lt;-<span class="st"> &quot;http://rpository.com/ds4psy/data/ex3.dat&quot;</span>  
@@ -779,7 +821,9 @@ ex4 &lt;-<span class="st"> &quot;http://rpository.com/ds4psy/data/ex4.dat&quot;<
 <ol style="list-style-type: decimal">
 <li>Inspect file <code>ex1.dat</code> and read it in 2 ways (by using either the generic <code>read.csv</code> or the appropriate variant of <code>read_csv</code>). How do the data read differ from each other?</li>
 </ol>
-<p><strong>Inspection:</strong></p>
+</div>
+<div id="inspection" class="section level4">
+<h4>Inspection</h4>
 <p>The file <code>ex1.dat</code> uses a comma <code>,</code> as variable separator and point <code>.</code> as a decimal mark. Thus, it uses the data format common in North America (e.g., U.S.A.).</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># a: ex1 is comma-separated: </span>
 a_<span class="dv">1</span> &lt;-<span class="st"> </span><span class="kw">read.csv</span>(ex1)
@@ -814,7 +858,9 @@ a_<span class="dv">2</span> &lt;-<span class="st"> </span><span class="kw">read_
 <span class="co">#&gt; [17] &quot;Incompatible type for column `computer`: x integer, y numeric&quot;   </span>
 <span class="co">#&gt; [18] &quot;Incompatible type for column `diner`: x integer, y numeric&quot;</span>
 <span class="co"># but variable types differ (integer vs. numeric; factor vs. character)</span></code></pre></div>
-<p>**<a href="Notes:**" class="uri">Notes:**</a></p>
+</div>
+<div id="notes" class="section level4">
+<h4>Notes</h4>
 <ul>
 <li><p><code>read.csv</code> is available without loading any extra packages (base R) and imports comma-separated data into a data.frame.</p></li>
 <li><p><code>read_csv</code> belongs to the package <code>readr</code> which is part of the <code>tidyverse</code> and imports comma-separated data into a tibble.</p></li>
@@ -822,7 +868,9 @@ a_<span class="dv">2</span> &lt;-<span class="st"> </span><span class="kw">read_
 <ol start="2" style="list-style-type: decimal">
 <li>Inspect and import the dataset <code>ex2.dat</code> using appropriate command(s).</li>
 </ol>
-<p><strong>Inspection:</strong></p>
+</div>
+<div id="inspection-1" class="section level4">
+<h4>Inspection</h4>
 <p>The file <code>ex2.dat</code> uses a semi-colon <code>;</code> as variable separator and a comma <code>,</code> as decimal mark. Thus, it uses the data format common in many European countries (e.g., Germany).</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># b: ex2 is separated by semi-colons (csv2):</span>
 b_<span class="dv">1</span> &lt;-<span class="st"> </span><span class="kw">read.csv</span>(ex2, <span class="dt">sep =</span> <span class="st">&quot;;&quot;</span>, <span class="dt">dec =</span> <span class="st">&quot;,&quot;</span>)
@@ -862,7 +910,9 @@ b_<span class="dv">2</span> &lt;-<span class="st"> </span><span class="kw">read_
 <span class="co">#&gt; [1] TRUE</span>
 <span class="kw">all.equal</span>(a_<span class="dv">2</span>, b_<span class="dv">2</span>)  <span class="co"># tibbles are equal</span>
 <span class="co">#&gt; [1] TRUE</span></code></pre></div>
-<p>**<a href="Notes:**" class="uri">Notes:**</a></p>
+</div>
+<div id="notes-1" class="section level4">
+<h4>Notes</h4>
 <ul>
 <li><code>read.csv</code> assumes by default that the symbol used to separate variables is a comma (<code>,</code>) and the symbol used as a decimal mark is a point/period/full stop (<code>.</code>). If different symbols (e.g., a semi-colon <code>;</code> and a comma <code>,</code>) are used as variable separator and decimal mark, respectively, this must be specified by providing the <code>sep</code> and <code>dec</code> arguments.</li>
 <li><p>We cannot use the <code>readr</code> command <code>read_csv</code> here, as it assumes the same default symbols as <code>read.csv</code> and does not allow re-defining these symbols. However, its variant <code>read_csv2</code> is appropriate, as it assumes the symbols used here (i.e., <code>;</code> between variables and <code>,</code> as decimal mark) as its defaults.</p></li>
@@ -871,7 +921,9 @@ b_<span class="dv">2</span> &lt;-<span class="st"> </span><span class="kw">read_
 <ol start="3" style="list-style-type: decimal">
 <li>Inspect and import the dataset <code>ex3.dat</code> using appropriate command(s).</li>
 </ol>
-<p><strong>Inspection:</strong></p>
+</div>
+<div id="inspection-2" class="section level4">
+<h4>Inspection</h4>
 <p>The file <code>ex3.dat</code> uses <code>|</code> as variable delimiter/separator and <code>,</code> as decimal mark/separator.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># With read.csv</span>
 c_<span class="dv">1</span> &lt;-<span class="st"> </span><span class="kw">read.csv</span>(ex3, <span class="dt">sep =</span> <span class="st">&quot;|&quot;</span>, <span class="dt">dec =</span> <span class="st">&quot;,&quot;</span>)
@@ -913,7 +965,9 @@ c_<span class="dv">2</span> &lt;-<span class="st"> </span><span class="kw">read_
 <span class="co">#&gt; [1] TRUE</span>
 <span class="kw">all.equal</span>(a_<span class="dv">2</span>, c_<span class="dv">2</span>)  <span class="co"># tibbles are equal</span>
 <span class="co">#&gt; [1] TRUE</span></code></pre></div>
-<p>**<a href="Notes:**" class="uri">Notes:**</a></p>
+</div>
+<div id="notes-2" class="section level4">
+<h4>Notes</h4>
 <ul>
 <li><p>The base R command <code>read.csv</code> – by virtue of providing explicit <code>sep</code> and <code>dec</code> arguments – is quite flexible to read in other character-delimited files. (However, the decimal mark must be either a comma or a point.)</p></li>
 <li><p>By contrast, the <code>readr</code> commands <code>read_csv</code> and <code>read_csv2</code> expect specific defaults. When these are not met, <code>read_delim</code> can be used to read a wider range of character-delimited files. Specific decimal marks and grouping marks can be defined in the <code>locale</code> argument.</p></li>
@@ -921,7 +975,9 @@ c_<span class="dv">2</span> &lt;-<span class="st"> </span><span class="kw">read_
 <ol start="4" style="list-style-type: decimal">
 <li>Inspect and import the dataset <code>ex4.dat</code> using appropriate command(s). Specifically, note the encoding of the age variable (<code>aged365</code>) and check whether you can compute participants’ average age (in years) after importing the data.</li>
 </ol>
-<p><strong>Inspection:</strong></p>
+</div>
+<div id="inspection-3" class="section level4">
+<h4>Inspection</h4>
 <ul>
 <li><p>The file <code>ex4.dat</code> uses a comma <code>,</code> as variable separator and point <code>.</code> as a decimal mark (i.e., U.S. style).</p></li>
 <li><p>However, the columns <code>aged365</code> and <code>female</code> in <code>ex4.dat</code> are encoded as <em>character</em> variables (as indicated by the quotation marks).</p></li>
@@ -998,7 +1054,9 @@ d_<span class="dv">2</span>
 <span class="co">#&gt; [1] 20.81279</span>
 <span class="kw">mean</span>(d_<span class="dv">2</span><span class="op">$</span>aged365)  <span class="co"># works: 20.8 years</span>
 <span class="co">#&gt; [1] 20.81279</span></code></pre></div>
-<p>**<a href="Notes:**" class="uri">Notes:**</a></p>
+</div>
+<div id="notes-3" class="section level4">
+<h4>Notes</h4>
 <ul>
 <li><p>Despite being a character variable in <code>ex4.dat</code>, the variable <code>aged365</code> is <em>numeric</em> in the data read in. This illustrates that both <code>read.csv</code> and <code>read_csv</code> aim to convert data into its appropriate type. This often works well, but can also lead to unexpected or undesired results. Here, the <code>female</code> variable cannot be converted into a numeric column (as it contains the word “female” in <code>ex4.dat</code>). This leads to its interpretation as a factor in the data.frame (when using <code>read.csv</code>) and as a character variable in the tibble (when using <code>read_csv</code>).</p></li>
 <li><p>To further control the class of variables when reading in the data, we can use the following variants of both commands:</p></li>
@@ -1049,6 +1107,176 @@ e_<span class="dv">2</span> &lt;-<span class="st"> </span><span class="kw">read_
 
 <span class="kw">all.equal</span>(<span class="kw">as_tibble</span>(e_<span class="dv">1</span>), e_<span class="dv">2</span>)  <span class="co"># TRUE</span>
 <span class="co">#&gt; [1] TRUE</span></code></pre></div>
+</div>
+</div>
+<div id="exercise-5" class="section level2">
+<h2>Exercise 5</h2>
+<div id="writing-data" class="section level4">
+<h4>Writing data</h4>
+<p>In our previous session on <a href="http://rpository.com/ds4psy/essentials/tibbles.html#exercise-4">Tibbles: Exercise 4</a> we created the following <code>summary</code> tibble in different ways (either directly by using <code>tibble</code> or <code>tribble</code>, or as a <code>dplyr</code> summary table from raw data):</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">knitr<span class="op">::</span><span class="kw">kable</span>(summary, <span class="dt">caption =</span> <span class="st">&quot;Table: Age-related data from Simmons et al. (2011). [See Exercise 4 of our session on tibbles.]&quot;</span>)</code></pre></div>
+<table>
+<caption>Table: Age-related data from Simmons et al. (2011). [See Exercise 4 of our session on tibbles.]</caption>
+<thead>
+<tr class="header">
+<th align="left">cond</th>
+<th align="right">n</th>
+<th align="right">mean_age</th>
+<th align="right">youngest</th>
+<th align="right">oldest</th>
+<th align="right">feel_vyoung</th>
+<th align="right">feel_young</th>
+<th align="right">feel_neither</th>
+<th align="right">feel_old</th>
+<th align="right">feel_vold</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">64</td>
+<td align="right">25</td>
+<td align="right">21.09</td>
+<td align="right">18.30</td>
+<td align="right">38.24</td>
+<td align="right">0</td>
+<td align="right">13</td>
+<td align="right">10</td>
+<td align="right">2</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td align="left">control</td>
+<td align="right">22</td>
+<td align="right">20.80</td>
+<td align="right">18.53</td>
+<td align="right">27.23</td>
+<td align="right">3</td>
+<td align="right">15</td>
+<td align="right">3</td>
+<td align="right">1</td>
+<td align="right">0</td>
+</tr>
+<tr class="odd">
+<td align="left">potato</td>
+<td align="right">31</td>
+<td align="right">20.60</td>
+<td align="right">18.18</td>
+<td align="right">27.37</td>
+<td align="right">1</td>
+<td align="right">17</td>
+<td align="right">11</td>
+<td align="right">2</td>
+<td align="right">0</td>
+</tr>
+</tbody>
+</table>
+<p>See <a href="http://rpository.com/ds4psy/essentials/datasets.html#false-positive-psychology">Datasets: False positive psychology</a> for details of the underlying raw data.</p>
+<p>Imagine that you are trying to send this file to a friend who – due to excessive demand for our course – was unable to secure a spot in this course and ended up in a course on the “History of data science”, whose members are encouraged to experiment with software products like MS Excel and SPSS.</p>
+<ol style="list-style-type: decimal">
+<li>Assuming that your friend is currently located in Troy, NY (i.e., in the USA), export the <code>summary</code> as a file that your friend can read with her software.</li>
+</ol>
+</div>
+<div id="notes-4" class="section level4">
+<h4>Notes</h4>
+<ul>
+<li><p>Since our friend is supposed to be in the US, we use a <code>csv</code> file that adheres to the convention that variables are separated by commas (<code>,</code>) and the decimal mark is a point (<code>.</code>) – which is the default setting of <code>readr::write_csv</code>.</p></li>
+<li><p>We write out the <code>csv</code> file to a separate <code>data</code> directory and specify its path and name relative to our current working directory.</p></li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># (a) write_csv:</span>
+readr<span class="op">::</span><span class="kw">write_csv</span>(<span class="dt">x =</span> summary, <span class="dt">path =</span> <span class="st">&quot;./../data/summary_a.csv&quot;</span>)
+
+<span class="co"># (b) write.csv:</span>
+<span class="kw">write.csv</span>(<span class="dt">x =</span> summary, <span class="dt">file =</span> <span class="st">&quot;./../data/summary_b.csv&quot;</span>, <span class="dt">row.names =</span> <span class="ot">FALSE</span>)
+
+<span class="co"># (c) write.table:</span>
+<span class="kw">write.table</span>(<span class="dt">x =</span> summary, <span class="dt">file =</span> <span class="st">&quot;./../data/summary_c.csv&quot;</span>, <span class="dt">row.names =</span> <span class="ot">FALSE</span>, <span class="dt">sep =</span> <span class="st">&quot;,&quot;</span>, <span class="dt">dec =</span> <span class="st">&quot;.&quot;</span>)</code></pre></div>
+<ol start="2" style="list-style-type: decimal">
+<li>Read back your file and verify that it contains the same information as your original <code>summary</code>.</li>
+</ol>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">summary_2a &lt;-<span class="st"> </span>readr<span class="op">::</span><span class="kw">read_csv</span>(<span class="dt">file =</span> <span class="st">&quot;./../data/summary_a.csv&quot;</span>)
+<span class="kw">all.equal</span>(summary, summary_2a)  <span class="co"># TRUE</span>
+<span class="co">#&gt; [1] TRUE</span>
+
+summary_2b &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="dt">file =</span> <span class="st">&quot;./../data/summary_b.csv&quot;</span>, <span class="dt">stringsAsFactors =</span> <span class="ot">FALSE</span>)
+<span class="kw">all.equal</span>(summary, summary_2b)  <span class="co"># TRUE (except for numeric data types)</span>
+<span class="co">#&gt; [1] &quot;Incompatible type for column `n`: x numeric, y integer&quot;           </span>
+<span class="co">#&gt; [2] &quot;Incompatible type for column `feel_vyoung`: x numeric, y integer&quot; </span>
+<span class="co">#&gt; [3] &quot;Incompatible type for column `feel_young`: x numeric, y integer&quot;  </span>
+<span class="co">#&gt; [4] &quot;Incompatible type for column `feel_neither`: x numeric, y integer&quot;</span>
+<span class="co">#&gt; [5] &quot;Incompatible type for column `feel_old`: x numeric, y integer&quot;    </span>
+<span class="co">#&gt; [6] &quot;Incompatible type for column `feel_vold`: x numeric, y integer&quot;</span>
+
+summary_2c &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="dt">file =</span> <span class="st">&quot;./../data/summary_c.csv&quot;</span>, <span class="dt">stringsAsFactors =</span> <span class="ot">FALSE</span>)
+<span class="kw">all.equal</span>(summary, summary_2c)  <span class="co"># TRUE (except for numeric data types)</span>
+<span class="co">#&gt; [1] &quot;Incompatible type for column `n`: x numeric, y integer&quot;           </span>
+<span class="co">#&gt; [2] &quot;Incompatible type for column `feel_vyoung`: x numeric, y integer&quot; </span>
+<span class="co">#&gt; [3] &quot;Incompatible type for column `feel_young`: x numeric, y integer&quot;  </span>
+<span class="co">#&gt; [4] &quot;Incompatible type for column `feel_neither`: x numeric, y integer&quot;</span>
+<span class="co">#&gt; [5] &quot;Incompatible type for column `feel_old`: x numeric, y integer&quot;    </span>
+<span class="co">#&gt; [6] &quot;Incompatible type for column `feel_vold`: x numeric, y integer&quot;</span></code></pre></div>
+<ol start="3" style="list-style-type: decimal">
+<li>Now repeat both steps (i.e., writing and re-reading the <code>summary</code> data) under the assumption that your friend is located in Berlin, Germany.</li>
+</ol>
+</div>
+<div id="notes-5" class="section level4">
+<h4>Notes</h4>
+<ul>
+<li><p>Using a <code>csv</code> file is still the best choice. However, since our friend is supposed to be in Germany, we use a <code>csv2</code> file that adheres to the European convention that variables are separated by semi-colons (<code>;</code>) and the decimal mark is a comma (<code>,</code>) – which is the default setting of <code>readr::write_csv2</code>.</p></li>
+<li><p>To signal the different file format to our friend, we’ll use the file extension <code>.csv2</code>.</p></li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## Writing data in csv2 format: ---- 
+
+<span class="co"># (a) write_csv:</span>
+readr<span class="op">::</span><span class="kw">write_csv2</span>(<span class="dt">x =</span> summary, <span class="dt">path =</span> <span class="st">&quot;./../data/summary_a.csv2&quot;</span>)
+
+<span class="co"># (b) write.csv:</span>
+<span class="kw">write.csv2</span>(<span class="dt">x =</span> summary, <span class="dt">file =</span> <span class="st">&quot;./../data/summary_b.csv2&quot;</span>, <span class="dt">row.names =</span> <span class="ot">FALSE</span>)
+
+<span class="co"># (c) write.table:</span>
+<span class="kw">write.table</span>(<span class="dt">x =</span> summary, <span class="dt">file =</span> <span class="st">&quot;./../data/summary_c.csv2&quot;</span>, <span class="dt">row.names =</span> <span class="ot">FALSE</span>, <span class="dt">sep =</span> <span class="st">&quot;;&quot;</span>, <span class="dt">dec =</span> <span class="st">&quot;,&quot;</span>)
+
+
+## Reading data in csv2 format: ----
+
+summary_3a &lt;-<span class="st"> </span>readr<span class="op">::</span><span class="kw">read_csv2</span>(<span class="dt">file =</span> <span class="st">&quot;./../data/summary_a.csv2&quot;</span>)
+<span class="kw">all.equal</span>(summary, summary_2a)  <span class="co"># TRUE</span>
+<span class="co">#&gt; [1] TRUE</span>
+
+summary_3b &lt;-<span class="st"> </span><span class="kw">read.csv2</span>(<span class="dt">file =</span> <span class="st">&quot;./../data/summary_b.csv2&quot;</span>, <span class="dt">stringsAsFactors =</span> <span class="ot">FALSE</span>)
+<span class="kw">all.equal</span>(summary, summary_3b)     <span class="co"># TRUE (except numeric data types)</span>
+<span class="co">#&gt; [1] &quot;Incompatible type for column `n`: x numeric, y integer&quot;           </span>
+<span class="co">#&gt; [2] &quot;Incompatible type for column `feel_vyoung`: x numeric, y integer&quot; </span>
+<span class="co">#&gt; [3] &quot;Incompatible type for column `feel_young`: x numeric, y integer&quot;  </span>
+<span class="co">#&gt; [4] &quot;Incompatible type for column `feel_neither`: x numeric, y integer&quot;</span>
+<span class="co">#&gt; [5] &quot;Incompatible type for column `feel_old`: x numeric, y integer&quot;    </span>
+<span class="co">#&gt; [6] &quot;Incompatible type for column `feel_vold`: x numeric, y integer&quot;</span>
+<span class="kw">all.equal</span>(summary_2b, summary_3b)  <span class="co"># TRUE</span>
+<span class="co">#&gt; [1] TRUE</span>
+
+summary_3c &lt;-<span class="st"> </span><span class="kw">read.csv2</span>(<span class="dt">file =</span> <span class="st">&quot;./../data/summary_c.csv2&quot;</span>, <span class="dt">stringsAsFactors =</span> <span class="ot">FALSE</span>)
+<span class="kw">all.equal</span>(summary, summary_3c)     <span class="co"># TRUE (except numeric data types)</span>
+<span class="co">#&gt; [1] &quot;Incompatible type for column `n`: x numeric, y integer&quot;           </span>
+<span class="co">#&gt; [2] &quot;Incompatible type for column `feel_vyoung`: x numeric, y integer&quot; </span>
+<span class="co">#&gt; [3] &quot;Incompatible type for column `feel_young`: x numeric, y integer&quot;  </span>
+<span class="co">#&gt; [4] &quot;Incompatible type for column `feel_neither`: x numeric, y integer&quot;</span>
+<span class="co">#&gt; [5] &quot;Incompatible type for column `feel_old`: x numeric, y integer&quot;    </span>
+<span class="co">#&gt; [6] &quot;Incompatible type for column `feel_vold`: x numeric, y integer&quot;</span>
+<span class="kw">all.equal</span>(summary_2c, summary_3c)  <span class="co"># TRUE</span>
+<span class="co">#&gt; [1] TRUE</span></code></pre></div>
+</div>
+<div id="notes-6" class="section level4">
+<h4>Notes</h4>
+<ul>
+<li><p>As they are simple and functional, the <code>readr</code> functions <code>write_csv</code> and <code>write_csv2</code> provide good and safe options for exchanging files.</p></li>
+<li><p>For more flexibility and potential complexity, it may be indicated to use <code>write_delim</code> or <code>write.table</code> (or one of many other functions).</p></li>
+<li><p>For the base R functions <code>write.csv</code> and <code>write.table</code> the default of the argument <code>row.names = TRUE</code>. As we only want to use column names here, we specified <code>row.names = FALSE</code>. If we left this out, we would get an extra column that counts the rows from 1 to <code>nrow</code> (on normally does not hurt either).</p></li>
+<li><p>Even though our friend can now read our data without problems, she should try to enroll into a real data science course at some point.</p></li>
+</ul>
+</div>
+</div>
+<div id="exercise-6" class="section level2">
+<h2>Exercise 6</h2>
+<p>+++ here now +++</p>
 </div>
 </div>
 <div id="more-on-data-import" class="section level1">
@@ -1120,7 +1348,7 @@ Nr. | Topic       |
 7.  | [Tidying data](http://rpository.com/ds4psy/essentials/tidy.html) |
 +.  | [Datasets](http://rpository.com/ds4psy/essentials/datasets.html) | 
 -->
-<p>[Last update on 2018-12-19 08:45:27 by <a href="http://neth.de/">hn</a>.]</p>
+<p>[Last update on 2018-12-19 11:30:19 by <a href="http://neth.de/">hn</a>.]</p>
 <!-- eof. -->
 </div>
 </div>
@@ -1155,11 +1383,10 @@ Nr. | Topic       |
         <li><a href="#exercises-wpa06">Exercises (WPA06)</a><ul>
         <li><a href="#exercise-1">Exercise 1</a></li>
         <li><a href="#exercise-2">Exercise 2</a></li>
-        <li><a href="#exercise-3">Exercise 3</a><ul>
-        <li><a href="#a-read-write-read-cycle">A read-write-read cycle</a></li>
-        </ul></li>
+        <li><a href="#exercise-3">Exercise 3</a></li>
         <li><a href="#exercise-4">Exercise 4</a></li>
         <li><a href="#exercise-5">Exercise 5</a></li>
+        <li><a href="#exercise-6">Exercise 6</a></li>
         </ul></li>
         <li><a href="#more-on-data-import">More on data import</a></li>
         <li><a href="#conclusion">Conclusion</a></li>
