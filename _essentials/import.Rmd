@@ -1,7 +1,7 @@
 ---
 title: "Importing files, with solutions (ds4psy)"
 author: "Hansjörg Neth, SPDS, uni.kn"
-date: "2018 12 19"
+date: "2018 12 18"
 output:
    rmdformats::html_clean: # html_clean html_docco readthedown material #
      code_folding: show # hide
@@ -596,17 +596,19 @@ write.table(data_1, file = "../data/data_1b.txt", sep = "<>", na = "-777", col.n
 
 ## Importing data from other programs
 
-For _rectangular_ data: 
+Sometimes it is necessary to import files stored in the proprietary format of other software packages.  
 
-### From Excel (`xls`)
+### For _rectangular_ data: 
+
+#### From Excel (`xls`)
 
 - The package `readxl` allows reading MS Excel files (both .xls and .xlsx).
 
-### From SPSS (`sav`)
+#### From SPSS (`sav`)
 
 - The package `haven` allows reading SPSS, Stata, and SAS files.
 
-For _hierarchical_ data: 
+### For _hierarchical_ data: 
 
 Use `jsonlite` for json, and `xml2` for XML. 
 
@@ -893,7 +895,6 @@ mean(d_1$aged365)  # works: 20.8 years
 mean(d_2$aged365)  # works: 20.8 years
 ```
 
-
 #### Notes 
 
 - Despite being a character variable in `ex4.dat`, the variable `aged365` is _numeric_ in the data read in. This illustrates that both `read.csv` and `read_csv` aim to convert data into its appropriate type. This often works well, but can also lead to unexpected or undesired results. Here, the `female` variable cannot be converted into a numeric column (as it contains the word "female" in `ex4.dat`). This leads to its interpretation as a factor in the data.frame (when using `read.csv`) and as a character variable in the tibble (when using `read_csv`).
@@ -936,7 +937,7 @@ all.equal(as_tibble(e_1), e_2)  # TRUE
 
 #### Writing data
 
-```{r ex5_create_data, echo = FALSE, eval = TRUE}
+```{r ex5_create_data, echo = FALSE, eval = TRUE, message = FALSE, warning = FALSE}
 ## Re-create data tibble (in 3 ways):
 
 # (a) Using tibble: ---- 
@@ -1029,7 +1030,7 @@ write.table(x = summary, file = "./../data/summary_c.csv", row.names = FALSE, se
 
 ```{r ex5_2, echo = TRUE, eval = TRUE}
 summary_2a <- readr::read_csv(file = "./../data/summary_a.csv")
-all.equal(summary, summary_2a)  # TRUE
+all.equal(summary, summary_2a)  # TRUE (except for numeric data types)
 
 summary_2b <- read.csv(file = "./../data/summary_b.csv", stringsAsFactors = FALSE)
 all.equal(summary, summary_2b)  # TRUE (except for numeric data types)
@@ -1043,7 +1044,7 @@ all.equal(summary, summary_2c)  # TRUE (except for numeric data types)
 
 #### Notes 
 
-- Using a `csv` file is still the best choice. However, since our friend is supposed to be in Germany, we use a `csv2` file that adheres to the European convention that variables are separated by semi-colons (`;`) and the decimal mark is a comma (`,`) -- which is the default setting of `readr::write_csv2`.
+- Using a comma-separated value (`csv`) file is still the best choice. However, since our friend is supposed to be in Germany, we use a `csv2` file that adheres to the European convention that variables are separated by semi-colons (`;`) and the decimal mark is a comma (`,`) -- which is the default setting of `readr::write_csv2`.
 
 - To signal the different file format to our friend, we'll use the file extension `.csv2`. 
 
@@ -1051,7 +1052,7 @@ all.equal(summary, summary_2c)  # TRUE (except for numeric data types)
 ## Writing data in csv2 format: ---- 
 
 # (a) write_csv:
-readr::write_csv2(x = summary, path = "./../data/summary_a.csv2")
+readr::write_delim(x = summary, path = "./../data/summary_a.csv2", delim = ";")
 
 # (b) write.csv:
 write.csv2(x = summary, file = "./../data/summary_b.csv2", row.names = FALSE)
@@ -1063,7 +1064,7 @@ write.table(x = summary, file = "./../data/summary_c.csv2", row.names = FALSE, s
 ## Reading data in csv2 format: ----
 
 summary_3a <- readr::read_csv2(file = "./../data/summary_a.csv2")
-all.equal(summary, summary_2a)  # TRUE
+all.equal(summary, summary_2a)     # TRUE (except numeric data types)
 
 summary_3b <- read.csv2(file = "./../data/summary_b.csv2", stringsAsFactors = FALSE)
 all.equal(summary, summary_3b)     # TRUE (except numeric data types)
@@ -1074,10 +1075,9 @@ all.equal(summary, summary_3c)     # TRUE (except numeric data types)
 all.equal(summary_2c, summary_3c)  # TRUE
 ```
 
-
 #### Notes 
 
-- As they are simple and functional, the `readr` functions `write_csv` and `write_csv2` provide good and safe options for exchanging files. 
+- As it is simple and functional, the `readr` function `write_csv` provides good and safe options for exchanging files. 
 
 - For more flexibility and potential complexity, it may be indicated to use `write_delim` or `write.table` (or one of many other functions).
 
@@ -1085,10 +1085,116 @@ all.equal(summary_2c, summary_3c)  # TRUE
 
 - Even though our friend can now read our data without problems, she should try to enroll into a real data science course at some point.
 
+
 ## Exercise 6
 
-+++ here now +++
+#### Variants of p_info 
 
+In this exercise, we re-visit the participant data of [Datasets: Positive psychology](http://rpository.com/ds4psy/essentials/datasets.html#positive-psychology) that we have analyzed before. 
+
+```{r ex6_create_data, echo = FALSE, eval = FALSE, cache = FALSE, message = FALSE, warning = FALSE}
+## import data:
+p_info <- read_csv(file = "http://rpository.com/ds4psy/data/posPsy_participants.csv")  # online
+# dim(p_info)  # 295 x 6 
+
+# p_info
+
+# manipulate data file:
+p_info$id[100] <- 99.9
+
+p_info$intervention[p_info$intervention == 1] <- "signature strengths"
+p_info$intervention[p_info$intervention == 2] <- "3 good things"
+p_info$intervention[p_info$intervention == 3] <- "gratitude visit"
+p_info$intervention[p_info$intervention == 4] <- "early memories (control)"
+
+p_info$sex[p_info$sex == 2] <- "male"
+p_info$sex[p_info$sex == 1] <- "female"
+
+p_info$educ[p_info$educ == 1] <- "below year 12"
+p_info$educ[p_info$educ == 2] <- "year 12"
+p_info$educ[p_info$educ == 3] <- "vocational training"
+p_info$educ[p_info$educ == 4] <- "BSc degree"
+p_info$educ[p_info$educ == 5] <- "MSc/PhD degree"
+
+# p_info
+
+write.table(p_info, "./../p_info_2.dat", row.names = FALSE, sep = "|", dec = ",")
+```
+
+1. Load the data at <http://rpository.com/ds4psy/data/posPsy_participants.csv> into an R object `p_info` and compute participants' mean `age` by `intervention`, by `sex`, and by level of education (`educ`).
+
+```{r ex6_p_info_1, echo = TRUE, eval = TRUE}
+# Load data:
+p_info <- read_csv(file = "http://rpository.com/ds4psy/data/posPsy_participants.csv")  # online
+
+# Mean age by intervention:
+p_info %>% 
+  group_by(intervention) %>% 
+  summarise(n = n(),
+            mn_age = mean(age))
+
+# Mean age by sex:
+p_info %>% 
+  group_by(sex) %>% 
+  summarise(n = n(),
+            mn_age = mean(age))
+
+# Mean age by educ:
+p_info %>% 
+  group_by(educ) %>% 
+  summarise(n = n(),
+            mn_age = mean(age))
+```
+
+2. Download the file `p_info_2.dat` (located at <http://rpository.com/ds4psy/data/p_info_2.dat>) into a local directory (called `data`) and import it from there into an R object `p_info_2`.  (**Hint:** Inspect the file prior to loading it: What is different in this file?) 
+
+#### Inspection
+
+- The variables `intervention`, `sex` and `educ` were encoded as _integers_ before, but are now encoded as _character_ variables (or factors).  
+
+- The variable `id` is encoded as a _double_, due to the value `100` being erroneously saved as `99,9` (with a comma as the decimal mark).  
+
+```{r ex6_p_info_2, echo = TRUE, eval = TRUE}
+# Downloaded http://rpository.com/ds4psy/data/p_info_2.dat into 
+my_file <- "./../data/p_info_2.dat"
+
+p_info_2 <- read_delim(file = my_file, delim = "|", locale = locale(decimal_mark = ","))
+dim(p_info_2)
+
+# Note: 
+mean(p_info_2$id)  # => 147.999 [i.e., almost (295 + 1)/2]
+
+# Note: If we omitted the locale = locale(decimal_mark = ","): 
+p_info_2b <- read_delim(file = my_file, delim = "|")
+mean(p_info_2b$id)  # => 151.0475, due to
+p_info_2b$id[100]   # => 999 (rather than 100)
+```
+
+3. Recompute the mean `age` by `intervention`, by `sex`, and by level of education (`educ`). Are they the same as before? 
+
+```{r ex6_p_info_3, echo = TRUE, eval = TRUE}
+# Mean age by intervention:
+p_info_2 %>% 
+  group_by(intervention) %>% 
+  summarise(n = n(),
+            mn_age = mean(age))
+
+# Mean age by sex:
+p_info_2 %>% 
+  group_by(sex) %>% 
+  summarise(n = n(),
+            mn_age = mean(age))
+
+# Mean age by educ:
+p_info_2 %>% 
+  group_by(educ) %>% 
+  summarise(n = n(),
+            mn_age = mean(age))
+```
+
+#### Answer
+
+The means are the same as before, but their order (in the resulting tibbles) is different, as character variables are listed in alphabetical order (unless the labels are defined as an ordered factor). 
 
 
 # More on data import

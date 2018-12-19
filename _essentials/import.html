@@ -124,7 +124,7 @@ img {
 <div id="header">
 <h1 class="title">Importing files, with solutions (ds4psy)</h1>
 <h4 class="author"><em>Hansjörg Neth, SPDS, uni.kn</em></h4>
-<h4 class="date"><em>2018 12 19</em></h4>
+<h4 class="date"><em>2018 12 18</em></h4>
 </div>
 
 <div id="content">
@@ -430,7 +430,7 @@ french &lt;-<span class="st"> &quot;très difficile&quot;</span>
 <span class="kw">Sys.Date</span>()
 <span class="co">#&gt; [1] &quot;2018-12-19&quot;</span>
 <span class="kw">Sys.time</span>()
-<span class="co">#&gt; [1] &quot;2018-12-19 11:12:19 CET&quot;</span>
+<span class="co">#&gt; [1] &quot;2018-12-19 19:53:33 CET&quot;</span>
 
 <span class="kw">parse_date</span>(<span class="kw">c</span>(<span class="st">&quot;2018-12-17&quot;</span>, <span class="st">&quot;2018-12-24&quot;</span>, <span class="st">&quot;2018-12-31&quot;</span>))
 <span class="co">#&gt; [1] &quot;2018-12-17&quot; &quot;2018-12-24&quot; &quot;2018-12-31&quot;</span>
@@ -495,15 +495,12 @@ dt &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="s
 <span class="kw">all.equal</span>(dt, df)  
 <span class="co">#&gt; [1] &quot;Incompatible type for column `name`: x character, y factor&quot;  </span>
 <span class="co">#&gt; [2] &quot;Incompatible type for column `gender`: x character, y factor&quot;</span>
-<span class="co">#&gt; [3] &quot;Incompatible type for column `like_1`: x numeric, y integer&quot; </span>
-<span class="co">#&gt; [4] &quot;Incompatible type for column `bnt_1`: x numeric, y integer&quot;</span>
 
 <span class="co"># =&gt; df converted chracter to factors, unless: </span>
 df &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&quot;./../data/data_t1.csv&quot;</span>, <span class="dt">stringsAsFactors =</span> <span class="ot">FALSE</span>)
 
 <span class="kw">all.equal</span>(dt, df) 
-<span class="co">#&gt; [1] &quot;Incompatible type for column `like_1`: x numeric, y integer&quot;</span>
-<span class="co">#&gt; [2] &quot;Incompatible type for column `bnt_1`: x numeric, y integer&quot;</span></code></pre></div>
+<span class="co">#&gt; [1] TRUE</span></code></pre></div>
 </div>
 <div id="variants-read_csv2-and-read_tsv" class="section level3">
 <h3>2. Variants (<code>read_csv2</code> and <code>read_tsv</code>):</h3>
@@ -511,7 +508,7 @@ df &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="s
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">read_csv2</span>(<span class="st">&quot;http://rpository.com/ds4psy/data/data_t1_de.csv&quot;</span>)
 <span class="co">#&gt; # A tibble: 20 x 4</span>
 <span class="co">#&gt;    name  gender like_1 bnt_1</span>
-<span class="co">#&gt;    &lt;chr&gt; &lt;chr&gt;   &lt;dbl&gt; &lt;dbl&gt;</span>
+<span class="co">#&gt;    &lt;chr&gt; &lt;chr&gt;   &lt;int&gt; &lt;int&gt;</span>
 <span class="co">#&gt;  1 R.S.  female      2    NA</span>
 <span class="co">#&gt;  2 M.Y.  male        2     4</span>
 <span class="co">#&gt;  3 K.R.  male        4     1</span>
@@ -557,7 +554,7 @@ df &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="s
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">read_tsv</span>(<span class="st">&quot;http://rpository.com/ds4psy/data/data_t1_tab.csv&quot;</span>)
 <span class="co">#&gt; # A tibble: 20 x 4</span>
 <span class="co">#&gt;    name  gender like_1 bnt_1</span>
-<span class="co">#&gt;    &lt;chr&gt; &lt;chr&gt;   &lt;dbl&gt; &lt;dbl&gt;</span>
+<span class="co">#&gt;    &lt;chr&gt; &lt;chr&gt;   &lt;int&gt; &lt;int&gt;</span>
 <span class="co">#&gt;  1 R.S.  female      2    NA</span>
 <span class="co">#&gt;  2 M.Y.  male        2     4</span>
 <span class="co">#&gt;  3 K.R.  male        4     1</span>
@@ -610,8 +607,8 @@ data_<span class="dv">1</span> &lt;-<span class="st"> </span><span class="kw">re
 <span class="co">#&gt; Observations: 100</span>
 <span class="co">#&gt; Variables: 4</span>
 <span class="co">#&gt; $ initials &lt;chr&gt; &quot;ES&quot;, &quot;OE&quot;, &quot;YY&quot;, &quot;DV&quot;, &quot;MO&quot;, &quot;OG&quot;, &quot;TE&quot;, &quot;KW&quot;, &quot;ZF&quot;,...</span>
-<span class="co">#&gt; $ age      &lt;dbl&gt; 78, 63, 60, 86, 44, 75, 34, 32, 32, 35, 87, 55, 76, 6...</span>
-<span class="co">#&gt; $ tel      &lt;dbl&gt; 84487016, 80047160, 64716120, 32620018, 93001588, 887...</span>
+<span class="co">#&gt; $ age      &lt;int&gt; 78, 63, 60, 86, 44, 75, 34, 32, 32, 35, 87, 55, 76, 6...</span>
+<span class="co">#&gt; $ tel      &lt;int&gt; 84487016, 80047160, 64716120, 32620018, 93001588, 887...</span>
 <span class="co">#&gt; $ pwd      &lt;chr&gt; &quot;mVZwyO&quot;, &quot;SnjYqW&quot;, &quot;xDNOul&quot;, &quot;fWreff&quot;, &quot;mWSZDV&quot;, &quot;YS...</span>
 <span class="kw">sum</span>(<span class="kw">is.na</span>(data_<span class="dv">1</span>))  <span class="co"># 15 NA values</span>
 <span class="co">#&gt; [1] 15</span></code></pre></div>
@@ -636,7 +633,7 @@ data_<span class="dv">2</span> &lt;-<span class="st"> </span><span class="kw">re
 <span class="co">#&gt; Observations: 100</span>
 <span class="co">#&gt; Variables: 4</span>
 <span class="co">#&gt; $ initials &lt;chr&gt; &quot;EU&quot;, &quot;KI&quot;, &quot;PP&quot;, &quot;DH&quot;, &quot;PQ&quot;, &quot;NN&quot;, &quot;NO&quot;, &quot;WV&quot;, &quot;CS&quot;,...</span>
-<span class="co">#&gt; $ age      &lt;dbl&gt; 63, 71, 39, 49, 71, 42, 63, 60, 70, 20, 63, 48, 54, 3...</span>
+<span class="co">#&gt; $ age      &lt;int&gt; 63, 71, 39, 49, 71, 42, 63, 60, 70, 20, 63, 48, 54, 3...</span>
 <span class="co">#&gt; $ tel      &lt;chr&gt; &quot;0397&quot;, &quot;6685&quot;, &quot;8950&quot;, &quot;5619&quot;, &quot;0896&quot;, &quot;2282&quot;, &quot;8598...</span>
 <span class="co">#&gt; $ pwd      &lt;chr&gt; &quot;aZAIGM&quot;, &quot;IHEMCK&quot;, &quot;baWzHb&quot;, &quot;IdOCIm&quot;, &quot;bYheST&quot;, &quot;ZW...</span></code></pre></div>
 </div>
@@ -654,19 +651,24 @@ data_<span class="dv">2</span> &lt;-<span class="st"> </span><span class="kw">re
 </div>
 <div id="importing-data-from-other-programs" class="section level2">
 <h2>Importing data from other programs</h2>
-<p>For <em>rectangular</em> data:</p>
-<div id="from-excel-xls" class="section level3">
-<h3>From Excel (<code>xls</code>)</h3>
+<p>Sometimes it is necessary to import files stored in the proprietary format of other software packages.</p>
+<div id="for-rectangular-data" class="section level3">
+<h3>For <em>rectangular</em> data:</h3>
+<div id="from-excel-xls" class="section level4">
+<h4>From Excel (<code>xls</code>)</h4>
 <ul>
 <li>The package <code>readxl</code> allows reading MS Excel files (both .xls and .xlsx).</li>
 </ul>
 </div>
-<div id="from-spss-sav" class="section level3">
-<h3>From SPSS (<code>sav</code>)</h3>
+<div id="from-spss-sav" class="section level4">
+<h4>From SPSS (<code>sav</code>)</h4>
 <ul>
 <li>The package <code>haven</code> allows reading SPSS, Stata, and SAS files.</li>
 </ul>
-<p>For <em>hierarchical</em> data:</p>
+</div>
+</div>
+<div id="for-hierarchical-data" class="section level3">
+<h3>For <em>hierarchical</em> data:</h3>
 <p>Use <code>jsonlite</code> for json, and <code>xml2</code> for XML.</p>
 </div>
 </div>
@@ -773,7 +775,7 @@ data_<span class="dv">2</span> &lt;-<span class="st"> </span><span class="kw">re
 <span class="co">#&gt; Observations: 100</span>
 <span class="co">#&gt; Variables: 4</span>
 <span class="co">#&gt; $ initials &lt;chr&gt; &quot;EU&quot;, &quot;KI&quot;, &quot;PP&quot;, &quot;DH&quot;, &quot;PQ&quot;, &quot;NN&quot;, &quot;NO&quot;, &quot;WV&quot;, &quot;CS&quot;,...</span>
-<span class="co">#&gt; $ age      &lt;dbl&gt; 63, 71, 39, 49, 71, 42, 63, 60, 70, 20, 63, 48, 54, 3...</span>
+<span class="co">#&gt; $ age      &lt;int&gt; 63, 71, 39, 49, 71, 42, 63, 60, 70, 20, 63, 48, 54, 3...</span>
 <span class="co">#&gt; $ tel      &lt;chr&gt; &quot;0397&quot;, &quot;6685&quot;, &quot;8950&quot;, &quot;5619&quot;, &quot;0896&quot;, &quot;2282&quot;, &quot;8598...</span>
 <span class="co">#&gt; $ pwd      &lt;chr&gt; &quot;aZAIGM&quot;, &quot;IHEMCK&quot;, &quot;baWzHb&quot;, &quot;IdOCIm&quot;, &quot;bYheST&quot;, &quot;ZW...</span>
 <span class="kw">sum</span>(<span class="kw">is.na</span>(data_<span class="dv">2</span>))  <span class="co"># 0 NA values</span>
@@ -839,24 +841,7 @@ a_<span class="dv">2</span> &lt;-<span class="st"> </span><span class="kw">read_
 <span class="co">#&gt; [1] &quot;tbl_df&quot;     &quot;tbl&quot;        &quot;data.frame&quot;</span>
 
 <span class="kw">all.equal</span>(<span class="kw">as_tibble</span>(a_<span class="dv">1</span>), a_<span class="dv">2</span>) <span class="co"># data is equal, </span>
-<span class="co">#&gt;  [1] &quot;Incompatible type for column `study`: x integer, y numeric&quot;      </span>
-<span class="co">#&gt;  [2] &quot;Incompatible type for column `ID`: x integer, y numeric&quot;         </span>
-<span class="co">#&gt;  [3] &quot;Incompatible type for column `aged`: x integer, y numeric&quot;       </span>
-<span class="co">#&gt;  [4] &quot;Incompatible type for column `female`: x integer, y numeric&quot;     </span>
-<span class="co">#&gt;  [5] &quot;Incompatible type for column `dad`: x integer, y numeric&quot;        </span>
-<span class="co">#&gt;  [6] &quot;Incompatible type for column `mom`: x integer, y numeric&quot;        </span>
-<span class="co">#&gt;  [7] &quot;Incompatible type for column `potato`: x integer, y numeric&quot;     </span>
-<span class="co">#&gt;  [8] &quot;Incompatible type for column `when64`: x integer, y numeric&quot;     </span>
-<span class="co">#&gt;  [9] &quot;Incompatible type for column `kalimba`: x integer, y numeric&quot;    </span>
-<span class="co">#&gt; [10] &quot;Incompatible type for column `cond`: x factor, y character&quot;      </span>
-<span class="co">#&gt; [11] &quot;Incompatible type for column `root`: x integer, y numeric&quot;       </span>
-<span class="co">#&gt; [12] &quot;Incompatible type for column `bird`: x integer, y numeric&quot;       </span>
-<span class="co">#&gt; [13] &quot;Incompatible type for column `political`: x integer, y numeric&quot;  </span>
-<span class="co">#&gt; [14] &quot;Incompatible type for column `quarterback`: x integer, y numeric&quot;</span>
-<span class="co">#&gt; [15] &quot;Incompatible type for column `olddays`: x integer, y numeric&quot;    </span>
-<span class="co">#&gt; [16] &quot;Incompatible type for column `feelold`: x integer, y numeric&quot;    </span>
-<span class="co">#&gt; [17] &quot;Incompatible type for column `computer`: x integer, y numeric&quot;   </span>
-<span class="co">#&gt; [18] &quot;Incompatible type for column `diner`: x integer, y numeric&quot;</span>
+<span class="co">#&gt; [1] &quot;Incompatible type for column `cond`: x factor, y character&quot;</span>
 <span class="co"># but variable types differ (integer vs. numeric; factor vs. character)</span></code></pre></div>
 </div>
 <div id="notes" class="section level4">
@@ -886,24 +871,7 @@ b_<span class="dv">2</span> &lt;-<span class="st"> </span><span class="kw">read_
 <span class="co">#&gt; [1] &quot;tbl_df&quot;     &quot;tbl&quot;        &quot;data.frame&quot;</span>
 
 <span class="kw">all.equal</span>(<span class="kw">as_tibble</span>(b_<span class="dv">1</span>), b_<span class="dv">2</span>) <span class="co"># data is equal, </span>
-<span class="co">#&gt;  [1] &quot;Incompatible type for column `study`: x integer, y numeric&quot;      </span>
-<span class="co">#&gt;  [2] &quot;Incompatible type for column `ID`: x integer, y numeric&quot;         </span>
-<span class="co">#&gt;  [3] &quot;Incompatible type for column `aged`: x integer, y numeric&quot;       </span>
-<span class="co">#&gt;  [4] &quot;Incompatible type for column `female`: x integer, y numeric&quot;     </span>
-<span class="co">#&gt;  [5] &quot;Incompatible type for column `dad`: x integer, y numeric&quot;        </span>
-<span class="co">#&gt;  [6] &quot;Incompatible type for column `mom`: x integer, y numeric&quot;        </span>
-<span class="co">#&gt;  [7] &quot;Incompatible type for column `potato`: x integer, y numeric&quot;     </span>
-<span class="co">#&gt;  [8] &quot;Incompatible type for column `when64`: x integer, y numeric&quot;     </span>
-<span class="co">#&gt;  [9] &quot;Incompatible type for column `kalimba`: x integer, y numeric&quot;    </span>
-<span class="co">#&gt; [10] &quot;Incompatible type for column `cond`: x factor, y character&quot;      </span>
-<span class="co">#&gt; [11] &quot;Incompatible type for column `root`: x integer, y numeric&quot;       </span>
-<span class="co">#&gt; [12] &quot;Incompatible type for column `bird`: x integer, y numeric&quot;       </span>
-<span class="co">#&gt; [13] &quot;Incompatible type for column `political`: x integer, y numeric&quot;  </span>
-<span class="co">#&gt; [14] &quot;Incompatible type for column `quarterback`: x integer, y numeric&quot;</span>
-<span class="co">#&gt; [15] &quot;Incompatible type for column `olddays`: x integer, y numeric&quot;    </span>
-<span class="co">#&gt; [16] &quot;Incompatible type for column `feelold`: x integer, y numeric&quot;    </span>
-<span class="co">#&gt; [17] &quot;Incompatible type for column `computer`: x integer, y numeric&quot;   </span>
-<span class="co">#&gt; [18] &quot;Incompatible type for column `diner`: x integer, y numeric&quot;</span>
+<span class="co">#&gt; [1] &quot;Incompatible type for column `cond`: x factor, y character&quot;</span>
 <span class="co"># but variable types differ (integer vs. numeric; factor vs. character)</span>
 
 <span class="kw">all.equal</span>(a_<span class="dv">1</span>, b_<span class="dv">1</span>)  <span class="co"># data.frames are equal</span>
@@ -941,24 +909,7 @@ c_<span class="dv">2</span> &lt;-<span class="st"> </span><span class="kw">read_
 <span class="co">#&gt; [1] &quot;tbl_df&quot;     &quot;tbl&quot;        &quot;data.frame&quot;</span>
 
 <span class="kw">all.equal</span>(<span class="kw">as_tibble</span>(c_<span class="dv">1</span>), c_<span class="dv">2</span>) <span class="co"># data is equal, </span>
-<span class="co">#&gt;  [1] &quot;Incompatible type for column `study`: x integer, y numeric&quot;      </span>
-<span class="co">#&gt;  [2] &quot;Incompatible type for column `ID`: x integer, y numeric&quot;         </span>
-<span class="co">#&gt;  [3] &quot;Incompatible type for column `aged`: x integer, y numeric&quot;       </span>
-<span class="co">#&gt;  [4] &quot;Incompatible type for column `female`: x integer, y numeric&quot;     </span>
-<span class="co">#&gt;  [5] &quot;Incompatible type for column `dad`: x integer, y numeric&quot;        </span>
-<span class="co">#&gt;  [6] &quot;Incompatible type for column `mom`: x integer, y numeric&quot;        </span>
-<span class="co">#&gt;  [7] &quot;Incompatible type for column `potato`: x integer, y numeric&quot;     </span>
-<span class="co">#&gt;  [8] &quot;Incompatible type for column `when64`: x integer, y numeric&quot;     </span>
-<span class="co">#&gt;  [9] &quot;Incompatible type for column `kalimba`: x integer, y numeric&quot;    </span>
-<span class="co">#&gt; [10] &quot;Incompatible type for column `cond`: x factor, y character&quot;      </span>
-<span class="co">#&gt; [11] &quot;Incompatible type for column `root`: x integer, y numeric&quot;       </span>
-<span class="co">#&gt; [12] &quot;Incompatible type for column `bird`: x integer, y numeric&quot;       </span>
-<span class="co">#&gt; [13] &quot;Incompatible type for column `political`: x integer, y numeric&quot;  </span>
-<span class="co">#&gt; [14] &quot;Incompatible type for column `quarterback`: x integer, y numeric&quot;</span>
-<span class="co">#&gt; [15] &quot;Incompatible type for column `olddays`: x integer, y numeric&quot;    </span>
-<span class="co">#&gt; [16] &quot;Incompatible type for column `feelold`: x integer, y numeric&quot;    </span>
-<span class="co">#&gt; [17] &quot;Incompatible type for column `computer`: x integer, y numeric&quot;   </span>
-<span class="co">#&gt; [18] &quot;Incompatible type for column `diner`: x integer, y numeric&quot;</span>
+<span class="co">#&gt; [1] &quot;Incompatible type for column `cond`: x factor, y character&quot;</span>
 <span class="co"># but variable types differ (integer vs. numeric; factor vs. character) </span>
 
 <span class="kw">all.equal</span>(a_<span class="dv">1</span>, c_<span class="dv">1</span>)  <span class="co"># data.frames are equal</span>
@@ -1002,7 +953,7 @@ d_<span class="dv">2</span> &lt;-<span class="st"> </span><span class="kw">read_
 d_<span class="dv">2</span>
 <span class="co">#&gt; # A tibble: 78 x 19</span>
 <span class="co">#&gt;    study    ID  aged aged365 female   dad   mom potato when64 kalimba cond </span>
-<span class="co">#&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt; &lt;chr&gt;  &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt; &lt;chr&gt;</span>
+<span class="co">#&gt;    &lt;int&gt; &lt;int&gt; &lt;int&gt;   &lt;dbl&gt; &lt;chr&gt;  &lt;int&gt; &lt;int&gt;  &lt;int&gt;  &lt;int&gt;   &lt;int&gt; &lt;chr&gt;</span>
 <span class="co">#&gt;  1     1     1  6765    18.5 female    49    45      0      0       1 cont…</span>
 <span class="co">#&gt;  2     1     2  7715    21.1 1         63    62      0      1       0 64   </span>
 <span class="co">#&gt;  3     1     3  7630    20.9 female    61    59      0      1       0 64   </span>
@@ -1013,9 +964,9 @@ d_<span class="dv">2</span>
 <span class="co">#&gt;  8     1     8  6678    18.3 1         45    45      0      1       0 64   </span>
 <span class="co">#&gt;  9     1     9  6970    19.1 female    53    51      1      0       0 pota…</span>
 <span class="co">#&gt; 10     1    10  7681    21.0 female    53    51      0      1       0 64   </span>
-<span class="co">#&gt; # ... with 68 more rows, and 8 more variables: root &lt;dbl&gt;, bird &lt;dbl&gt;,</span>
-<span class="co">#&gt; #   political &lt;dbl&gt;, quarterback &lt;dbl&gt;, olddays &lt;dbl&gt;, feelold &lt;dbl&gt;,</span>
-<span class="co">#&gt; #   computer &lt;dbl&gt;, diner &lt;dbl&gt;</span>
+<span class="co">#&gt; # ... with 68 more rows, and 8 more variables: root &lt;int&gt;, bird &lt;int&gt;,</span>
+<span class="co">#&gt; #   political &lt;int&gt;, quarterback &lt;int&gt;, olddays &lt;int&gt;, feelold &lt;int&gt;,</span>
+<span class="co">#&gt; #   computer &lt;int&gt;, diner &lt;int&gt;</span>
 
 <span class="kw">class</span>(d_<span class="dv">1</span>)  <span class="co"># is a data frame</span>
 <span class="co">#&gt; [1] &quot;data.frame&quot;</span>
@@ -1023,31 +974,15 @@ d_<span class="dv">2</span>
 <span class="co">#&gt; [1] &quot;tbl_df&quot;     &quot;tbl&quot;        &quot;data.frame&quot;</span>
 
 <span class="kw">all.equal</span>(<span class="kw">as_tibble</span>(d_<span class="dv">1</span>), d_<span class="dv">2</span>) <span class="co"># data is equal, </span>
-<span class="co">#&gt;  [1] &quot;Incompatible type for column `study`: x integer, y numeric&quot;      </span>
-<span class="co">#&gt;  [2] &quot;Incompatible type for column `ID`: x integer, y numeric&quot;         </span>
-<span class="co">#&gt;  [3] &quot;Incompatible type for column `aged`: x integer, y numeric&quot;       </span>
-<span class="co">#&gt;  [4] &quot;Incompatible type for column `female`: x factor, y character&quot;    </span>
-<span class="co">#&gt;  [5] &quot;Incompatible type for column `dad`: x integer, y numeric&quot;        </span>
-<span class="co">#&gt;  [6] &quot;Incompatible type for column `mom`: x integer, y numeric&quot;        </span>
-<span class="co">#&gt;  [7] &quot;Incompatible type for column `potato`: x integer, y numeric&quot;     </span>
-<span class="co">#&gt;  [8] &quot;Incompatible type for column `when64`: x integer, y numeric&quot;     </span>
-<span class="co">#&gt;  [9] &quot;Incompatible type for column `kalimba`: x integer, y numeric&quot;    </span>
-<span class="co">#&gt; [10] &quot;Incompatible type for column `cond`: x factor, y character&quot;      </span>
-<span class="co">#&gt; [11] &quot;Incompatible type for column `root`: x integer, y numeric&quot;       </span>
-<span class="co">#&gt; [12] &quot;Incompatible type for column `bird`: x integer, y numeric&quot;       </span>
-<span class="co">#&gt; [13] &quot;Incompatible type for column `political`: x integer, y numeric&quot;  </span>
-<span class="co">#&gt; [14] &quot;Incompatible type for column `quarterback`: x integer, y numeric&quot;</span>
-<span class="co">#&gt; [15] &quot;Incompatible type for column `olddays`: x integer, y numeric&quot;    </span>
-<span class="co">#&gt; [16] &quot;Incompatible type for column `feelold`: x integer, y numeric&quot;    </span>
-<span class="co">#&gt; [17] &quot;Incompatible type for column `computer`: x integer, y numeric&quot;   </span>
-<span class="co">#&gt; [18] &quot;Incompatible type for column `diner`: x integer, y numeric&quot;</span>
+<span class="co">#&gt; [1] &quot;Incompatible type for column `female`: x factor, y character&quot;</span>
+<span class="co">#&gt; [2] &quot;Incompatible type for column `cond`: x factor, y character&quot;</span>
 <span class="co"># but variable types differ (integer vs. numeric; factor vs. character) </span>
 
 <span class="kw">all.equal</span>(a_<span class="dv">1</span>, d_<span class="dv">1</span>)  <span class="co"># data.frames differ in &quot;female&quot; variable: numeric vs. factor variable</span>
 <span class="co">#&gt; [1] &quot;Component \&quot;female\&quot;: Attributes: &lt; target is NULL, current is list &gt;&quot;</span>
 <span class="co">#&gt; [2] &quot;Component \&quot;female\&quot;: target is numeric, current is factor&quot;</span>
 <span class="kw">all.equal</span>(a_<span class="dv">2</span>, d_<span class="dv">2</span>)  <span class="co"># tibbles differ in &quot;female&quot; variable: numeric vs. character variable</span>
-<span class="co">#&gt; [1] &quot;Incompatible type for column `female`: x numeric, y character&quot;</span>
+<span class="co">#&gt; [1] &quot;Incompatible type for column `female`: x integer, y character&quot;</span>
 
 <span class="co"># Compute the mean age of all participants</span>
 <span class="kw">mean</span>(d_<span class="dv">1</span><span class="op">$</span>aged365)  <span class="co"># works: 20.8 years</span>
@@ -1194,8 +1129,13 @@ readr<span class="op">::</span><span class="kw">write_csv</span>(<span class="dt
 <li>Read back your file and verify that it contains the same information as your original <code>summary</code>.</li>
 </ol>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">summary_2a &lt;-<span class="st"> </span>readr<span class="op">::</span><span class="kw">read_csv</span>(<span class="dt">file =</span> <span class="st">&quot;./../data/summary_a.csv&quot;</span>)
-<span class="kw">all.equal</span>(summary, summary_2a)  <span class="co"># TRUE</span>
-<span class="co">#&gt; [1] TRUE</span>
+<span class="kw">all.equal</span>(summary, summary_2a)  <span class="co"># TRUE (except for numeric data types)</span>
+<span class="co">#&gt; [1] &quot;Incompatible type for column `n`: x numeric, y integer&quot;           </span>
+<span class="co">#&gt; [2] &quot;Incompatible type for column `feel_vyoung`: x numeric, y integer&quot; </span>
+<span class="co">#&gt; [3] &quot;Incompatible type for column `feel_young`: x numeric, y integer&quot;  </span>
+<span class="co">#&gt; [4] &quot;Incompatible type for column `feel_neither`: x numeric, y integer&quot;</span>
+<span class="co">#&gt; [5] &quot;Incompatible type for column `feel_old`: x numeric, y integer&quot;    </span>
+<span class="co">#&gt; [6] &quot;Incompatible type for column `feel_vold`: x numeric, y integer&quot;</span>
 
 summary_2b &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="dt">file =</span> <span class="st">&quot;./../data/summary_b.csv&quot;</span>, <span class="dt">stringsAsFactors =</span> <span class="ot">FALSE</span>)
 <span class="kw">all.equal</span>(summary, summary_2b)  <span class="co"># TRUE (except for numeric data types)</span>
@@ -1221,13 +1161,13 @@ summary_2c &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span 
 <div id="notes-5" class="section level4">
 <h4>Notes</h4>
 <ul>
-<li><p>Using a <code>csv</code> file is still the best choice. However, since our friend is supposed to be in Germany, we use a <code>csv2</code> file that adheres to the European convention that variables are separated by semi-colons (<code>;</code>) and the decimal mark is a comma (<code>,</code>) – which is the default setting of <code>readr::write_csv2</code>.</p></li>
+<li><p>Using a comma-separated value (<code>csv</code>) file is still the best choice. However, since our friend is supposed to be in Germany, we use a <code>csv2</code> file that adheres to the European convention that variables are separated by semi-colons (<code>;</code>) and the decimal mark is a comma (<code>,</code>) – which is the default setting of <code>readr::write_csv2</code>.</p></li>
 <li><p>To signal the different file format to our friend, we’ll use the file extension <code>.csv2</code>.</p></li>
 </ul>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## Writing data in csv2 format: ---- 
 
 <span class="co"># (a) write_csv:</span>
-readr<span class="op">::</span><span class="kw">write_csv2</span>(<span class="dt">x =</span> summary, <span class="dt">path =</span> <span class="st">&quot;./../data/summary_a.csv2&quot;</span>)
+readr<span class="op">::</span><span class="kw">write_delim</span>(<span class="dt">x =</span> summary, <span class="dt">path =</span> <span class="st">&quot;./../data/summary_a.csv2&quot;</span>, <span class="dt">delim =</span> <span class="st">&quot;;&quot;</span>)
 
 <span class="co"># (b) write.csv:</span>
 <span class="kw">write.csv2</span>(<span class="dt">x =</span> summary, <span class="dt">file =</span> <span class="st">&quot;./../data/summary_b.csv2&quot;</span>, <span class="dt">row.names =</span> <span class="ot">FALSE</span>)
@@ -1239,8 +1179,13 @@ readr<span class="op">::</span><span class="kw">write_csv2</span>(<span class="d
 ## Reading data in csv2 format: ----
 
 summary_3a &lt;-<span class="st"> </span>readr<span class="op">::</span><span class="kw">read_csv2</span>(<span class="dt">file =</span> <span class="st">&quot;./../data/summary_a.csv2&quot;</span>)
-<span class="kw">all.equal</span>(summary, summary_2a)  <span class="co"># TRUE</span>
-<span class="co">#&gt; [1] TRUE</span>
+<span class="kw">all.equal</span>(summary, summary_2a)     <span class="co"># TRUE (except numeric data types)</span>
+<span class="co">#&gt; [1] &quot;Incompatible type for column `n`: x numeric, y integer&quot;           </span>
+<span class="co">#&gt; [2] &quot;Incompatible type for column `feel_vyoung`: x numeric, y integer&quot; </span>
+<span class="co">#&gt; [3] &quot;Incompatible type for column `feel_young`: x numeric, y integer&quot;  </span>
+<span class="co">#&gt; [4] &quot;Incompatible type for column `feel_neither`: x numeric, y integer&quot;</span>
+<span class="co">#&gt; [5] &quot;Incompatible type for column `feel_old`: x numeric, y integer&quot;    </span>
+<span class="co">#&gt; [6] &quot;Incompatible type for column `feel_vold`: x numeric, y integer&quot;</span>
 
 summary_3b &lt;-<span class="st"> </span><span class="kw">read.csv2</span>(<span class="dt">file =</span> <span class="st">&quot;./../data/summary_b.csv2&quot;</span>, <span class="dt">stringsAsFactors =</span> <span class="ot">FALSE</span>)
 <span class="kw">all.equal</span>(summary, summary_3b)     <span class="co"># TRUE (except numeric data types)</span>
@@ -1267,7 +1212,7 @@ summary_3c &lt;-<span class="st"> </span><span class="kw">read.csv2</span>(<span
 <div id="notes-6" class="section level4">
 <h4>Notes</h4>
 <ul>
-<li><p>As they are simple and functional, the <code>readr</code> functions <code>write_csv</code> and <code>write_csv2</code> provide good and safe options for exchanging files.</p></li>
+<li><p>As it is simple and functional, the <code>readr</code> function <code>write_csv</code> provides good and safe options for exchanging files.</p></li>
 <li><p>For more flexibility and potential complexity, it may be indicated to use <code>write_delim</code> or <code>write.table</code> (or one of many other functions).</p></li>
 <li><p>For the base R functions <code>write.csv</code> and <code>write.table</code> the default of the argument <code>row.names = TRUE</code>. As we only want to use column names here, we specified <code>row.names = FALSE</code>. If we left this out, we would get an extra column that counts the rows from 1 to <code>nrow</code> (on normally does not hurt either).</p></li>
 <li><p>Even though our friend can now read our data without problems, she should try to enroll into a real data science course at some point.</p></li>
@@ -1276,7 +1221,124 @@ summary_3c &lt;-<span class="st"> </span><span class="kw">read.csv2</span>(<span
 </div>
 <div id="exercise-6" class="section level2">
 <h2>Exercise 6</h2>
-<p>+++ here now +++</p>
+<div id="variants-of-p_info" class="section level4">
+<h4>Variants of p_info</h4>
+<p>In this exercise, we re-visit the participant data of <a href="http://rpository.com/ds4psy/essentials/datasets.html#positive-psychology">Datasets: Positive psychology</a> that we have analyzed before.</p>
+<ol style="list-style-type: decimal">
+<li>Load the data at <a href="http://rpository.com/ds4psy/data/posPsy_participants.csv" class="uri">http://rpository.com/ds4psy/data/posPsy_participants.csv</a> into an R object <code>p_info</code> and compute participants’ mean <code>age</code> by <code>intervention</code>, by <code>sex</code>, and by level of education (<code>educ</code>).</li>
+</ol>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Load data:</span>
+p_info &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="dt">file =</span> <span class="st">&quot;http://rpository.com/ds4psy/data/posPsy_participants.csv&quot;</span>)  <span class="co"># online</span>
+
+<span class="co"># Mean age by intervention:</span>
+p_info <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">group_by</span>(intervention) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">summarise</span>(<span class="dt">n =</span> <span class="kw">n</span>(),
+            <span class="dt">mn_age =</span> <span class="kw">mean</span>(age))
+<span class="co">#&gt; # A tibble: 4 x 3</span>
+<span class="co">#&gt;   intervention     n mn_age</span>
+<span class="co">#&gt;          &lt;int&gt; &lt;int&gt;  &lt;dbl&gt;</span>
+<span class="co">#&gt; 1            1    72   44.6</span>
+<span class="co">#&gt; 2            2    76   45.4</span>
+<span class="co">#&gt; 3            3    74   43.3</span>
+<span class="co">#&gt; 4            4    73   41.7</span>
+
+<span class="co"># Mean age by sex:</span>
+p_info <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">group_by</span>(sex) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">summarise</span>(<span class="dt">n =</span> <span class="kw">n</span>(),
+            <span class="dt">mn_age =</span> <span class="kw">mean</span>(age))
+<span class="co">#&gt; # A tibble: 2 x 3</span>
+<span class="co">#&gt;     sex     n mn_age</span>
+<span class="co">#&gt;   &lt;int&gt; &lt;int&gt;  &lt;dbl&gt;</span>
+<span class="co">#&gt; 1     1   251   43.9</span>
+<span class="co">#&gt; 2     2    44   43.0</span>
+
+<span class="co"># Mean age by educ:</span>
+p_info <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">group_by</span>(educ) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">summarise</span>(<span class="dt">n =</span> <span class="kw">n</span>(),
+            <span class="dt">mn_age =</span> <span class="kw">mean</span>(age))
+<span class="co">#&gt; # A tibble: 5 x 3</span>
+<span class="co">#&gt;    educ     n mn_age</span>
+<span class="co">#&gt;   &lt;int&gt; &lt;int&gt;  &lt;dbl&gt;</span>
+<span class="co">#&gt; 1     1    14   45.5</span>
+<span class="co">#&gt; 2     2    21   42.2</span>
+<span class="co">#&gt; 3     3    39   44.2</span>
+<span class="co">#&gt; 4     4   104   42.7</span>
+<span class="co">#&gt; 5     5   117   44.6</span></code></pre></div>
+<ol start="2" style="list-style-type: decimal">
+<li>Download the file <code>p_info_2.dat</code> (located at <a href="http://rpository.com/ds4psy/data/p_info_2.dat" class="uri">http://rpository.com/ds4psy/data/p_info_2.dat</a>) into a local directory (called <code>data</code>) and import it from there into an R object <code>p_info_2</code>. (<strong>Hint:</strong> Inspect the file prior to loading it: What is different in this file?)</li>
+</ol>
+</div>
+<div id="inspection-4" class="section level4">
+<h4>Inspection</h4>
+<ul>
+<li><p>The variables <code>intervention</code>, <code>sex</code> and <code>educ</code> were encoded as <em>integers</em> before, but are now encoded as <em>character</em> variables (or factors).</p></li>
+<li><p>The variable <code>id</code> is encoded as a <em>double</em>, due to the value <code>100</code> being erroneously saved as <code>99,9</code> (with a comma as the decimal mark).</p></li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Downloaded http://rpository.com/ds4psy/data/p_info_2.dat into </span>
+my_file &lt;-<span class="st"> &quot;./../data/p_info_2.dat&quot;</span>
+
+p_info_<span class="dv">2</span> &lt;-<span class="st"> </span><span class="kw">read_delim</span>(<span class="dt">file =</span> my_file, <span class="dt">delim =</span> <span class="st">&quot;|&quot;</span>, <span class="dt">locale =</span> <span class="kw">locale</span>(<span class="dt">decimal_mark =</span> <span class="st">&quot;,&quot;</span>))
+<span class="kw">dim</span>(p_info_<span class="dv">2</span>)
+<span class="co">#&gt; [1] 295   6</span>
+
+<span class="co"># Note: </span>
+<span class="kw">mean</span>(p_info_<span class="dv">2</span><span class="op">$</span>id)  <span class="co"># =&gt; 147.999 [i.e., almost (295 + 1)/2]</span>
+<span class="co">#&gt; [1] 147.9997</span>
+
+<span class="co"># Note: If we omitted the locale = locale(decimal_mark = &quot;,&quot;): </span>
+p_info_2b &lt;-<span class="st"> </span><span class="kw">read_delim</span>(<span class="dt">file =</span> my_file, <span class="dt">delim =</span> <span class="st">&quot;|&quot;</span>)
+<span class="kw">mean</span>(p_info_2b<span class="op">$</span>id)  <span class="co"># =&gt; 151.0475, due to</span>
+<span class="co">#&gt; [1] 151.0475</span>
+p_info_2b<span class="op">$</span>id[<span class="dv">100</span>]   <span class="co"># =&gt; 999 (rather than 100)</span>
+<span class="co">#&gt; [1] 999</span></code></pre></div>
+<ol start="3" style="list-style-type: decimal">
+<li>Recompute the mean <code>age</code> by <code>intervention</code>, by <code>sex</code>, and by level of education (<code>educ</code>). Are they the same as before?</li>
+</ol>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Mean age by intervention:</span>
+p_info_<span class="dv">2</span> <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">group_by</span>(intervention) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">summarise</span>(<span class="dt">n =</span> <span class="kw">n</span>(),
+            <span class="dt">mn_age =</span> <span class="kw">mean</span>(age))
+<span class="co">#&gt; # A tibble: 4 x 3</span>
+<span class="co">#&gt;   intervention                 n mn_age</span>
+<span class="co">#&gt;   &lt;chr&gt;                    &lt;int&gt;  &lt;dbl&gt;</span>
+<span class="co">#&gt; 1 3 good things               76   45.4</span>
+<span class="co">#&gt; 2 early memories (control)    73   41.7</span>
+<span class="co">#&gt; 3 gratitude visit             74   43.3</span>
+<span class="co">#&gt; 4 signature strengths         72   44.6</span>
+
+<span class="co"># Mean age by sex:</span>
+p_info_<span class="dv">2</span> <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">group_by</span>(sex) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">summarise</span>(<span class="dt">n =</span> <span class="kw">n</span>(),
+            <span class="dt">mn_age =</span> <span class="kw">mean</span>(age))
+<span class="co">#&gt; # A tibble: 2 x 3</span>
+<span class="co">#&gt;   sex        n mn_age</span>
+<span class="co">#&gt;   &lt;chr&gt;  &lt;int&gt;  &lt;dbl&gt;</span>
+<span class="co">#&gt; 1 female   251   43.9</span>
+<span class="co">#&gt; 2 male      44   43.0</span>
+
+<span class="co"># Mean age by educ:</span>
+p_info_<span class="dv">2</span> <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">group_by</span>(educ) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">summarise</span>(<span class="dt">n =</span> <span class="kw">n</span>(),
+            <span class="dt">mn_age =</span> <span class="kw">mean</span>(age))
+<span class="co">#&gt; # A tibble: 5 x 3</span>
+<span class="co">#&gt;   educ                    n mn_age</span>
+<span class="co">#&gt;   &lt;chr&gt;               &lt;int&gt;  &lt;dbl&gt;</span>
+<span class="co">#&gt; 1 below year 12          14   45.5</span>
+<span class="co">#&gt; 2 BSc degree            104   42.7</span>
+<span class="co">#&gt; 3 MSc/PhD degree        117   44.6</span>
+<span class="co">#&gt; 4 vocational training    39   44.2</span>
+<span class="co">#&gt; 5 year 12                21   42.2</span></code></pre></div>
+</div>
+<div id="answer" class="section level4">
+<h4>Answer</h4>
+<p>The means are the same as before, but their order (in the resulting tibbles) is different, as character variables are listed in alphabetical order (unless the labels are defined as an ordered factor).</p>
+</div>
 </div>
 </div>
 <div id="more-on-data-import" class="section level1">
@@ -1348,7 +1410,7 @@ Nr. | Topic       |
 7.  | [Tidying data](http://rpository.com/ds4psy/essentials/tidy.html) |
 +.  | [Datasets](http://rpository.com/ds4psy/essentials/datasets.html) | 
 -->
-<p>[Last update on 2018-12-19 11:30:19 by <a href="http://neth.de/">hn</a>.]</p>
+<p>[Last update on 2018-12-19 20:08:29 by <a href="http://neth.de/">hn</a>.]</p>
 <!-- eof. -->
 </div>
 </div>
@@ -1376,8 +1438,8 @@ Nr. | Topic       |
         </ul></li>
         <li><a href="#writing-files">Writing files</a></li>
         <li><a href="#importing-data-from-other-programs">Importing data from other programs</a><ul>
-        <li><a href="#from-excel-xls">From Excel (<code>xls</code>)</a></li>
-        <li><a href="#from-spss-sav">From SPSS (<code>sav</code>)</a></li>
+        <li><a href="#for-rectangular-data">For <em>rectangular</em> data:</a></li>
+        <li><a href="#for-hierarchical-data">For <em>hierarchical</em> data:</a></li>
         </ul></li>
         </ul></li>
         <li><a href="#exercises-wpa06">Exercises (WPA06)</a><ul>
