@@ -1,7 +1,7 @@
 ---
 title: "Data Science for Psychologists (ds4psy)"
 author: "Hansjörg Neth, SPDS, uni.kn"
-date: "2018 12 17"
+date: "2018 12 20"
 output:
   rmdformats::html_clean:
     highlight: kate
@@ -151,18 +151,23 @@ Part 2: Wrangle
  ([Essentials and solutions](http://rpository.com/ds4psy/essentials/tibbles.html)). 
  
  9. 17.12.2018: [Chapter 11: Data import](http://r4ds.had.co.nz/data-import.html): `readr`.   
- (**[Essentials of importing data and WPA06](http://rpository.com/ds4psy/essentials/import.html)**) 
+ (**[Essentials of importing data](http://rpository.com/ds4psy/essentials/import.html)**) 
  
- 10. 07.01.2018: [Chapter 12: Tidy data](http://r4ds.had.co.nz/tidy-data.html): `tidyr`. 
+ 10. 07.01.2019: [Chapter 11: Data import](http://r4ds.had.co.nz/data-import.html): `readr`.   
+ ([Essentials of importing data and WPA06](http://rpository.com/ds4psy/essentials/import.html)) 
  
- 11. 14.01.2019: [Chapter 13: Relational data](http://r4ds.had.co.nz/relational-data.html): `dplyr`. 
+ 11. 14.01.2018: [Chapter 12: Tidy data](http://r4ds.had.co.nz/tidy-data.html): `tidyr`. 
+ 
+ 12. 21.01.2019: [Chapter 13: Relational data](http://r4ds.had.co.nz/relational-data.html): `dplyr`. 
 
- 
  **Part 3: Program**
  
- 12. 21.01.2019: [Chapter 19: Functions](http://r4ds.had.co.nz/functions.html)
+ 13. 28.01.2019: [Chapter 19: Functions](http://r4ds.had.co.nz/functions.html)
  
- 13. 28.01.2019: [Chapter 20: Vectors](http://r4ds.had.co.nz/vectors.html) and/or [Chapter 21: Iteration](http://r4ds.had.co.nz/iteration.html)
+ <!-- 
+ 13. 28.01.2019: [Chapter 20: Vectors](http://r4ds.had.co.nz/vectors.html) and/or 
+                      [Chapter 21: Iteration](http://r4ds.had.co.nz/iteration.html) 
+ -->
  
  14. 04.02.2019: **Buffer session**: Preparing exam or **final projects**
  
