@@ -142,23 +142,25 @@ Part 2: Wrangle
  6. 26.11.2018: [Chapter 7: Exploratory data analysis (EDA)](http://r4ds.had.co.nz/exploratory-data-analysis.html): `dplyr` & `ggplot2`;    
   ([Essentials of EDA](http://rpository.com/ds4psy/essentials/explore.html)). 
  
- 7. 03.12.2019:  **Buffer session (WPA04)**: Rinse and repeat: EDA, `dplyr` & `ggplot2`;  
-  ([Essentials of EDA](http://rpository.com/ds4psy/essentials/explore.html)).  
+ 7. 03.12.2019:  **Buffer session: EDA**: Rinse and repeat: `dplyr` & `ggplot2`;  
+  ([Essentials with WPA04 and solutions](http://rpository.com/ds4psy/essentials/explore.html)).  
  
+
  **Part 2: Wrangle data**
 
  8. 10.12.2018: [Chapter 10: Tibbles](http://r4ds.had.co.nz/tibbles.html): `tibble`;   
- ([Essentials and solutions](http://rpository.com/ds4psy/essentials/tibbles.html)). 
+ ([Essentials with WPA05 and solutions](http://rpository.com/ds4psy/essentials/tibbles.html)). 
  
  9. 17.12.2018: [Chapter 11: Data import](http://r4ds.had.co.nz/data-import.html): `readr`.   
- (**[Essentials of importing data](http://rpository.com/ds4psy/essentials/import.html)**) 
+ ([Essentials of importing data](http://rpository.com/ds4psy/essentials/import.html)) 
  
  10. 07.01.2019: [Chapter 11: Data import](http://r4ds.had.co.nz/data-import.html): `readr`.   
- ([Essentials of importing data and WPA06](http://rpository.com/ds4psy/essentials/import.html)) 
+ (**[Essentials with WPA06](http://rpository.com/ds4psy/essentials/import.html)**) 
  
  11. 14.01.2018: [Chapter 12: Tidy data](http://r4ds.had.co.nz/tidy-data.html): `tidyr`. 
  
  12. 21.01.2019: [Chapter 13: Relational data](http://r4ds.had.co.nz/relational-data.html): `dplyr`. 
+
 
  **Part 3: Program**
  
