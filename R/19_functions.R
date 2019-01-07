@@ -1511,5 +1511,82 @@ rm(`+`) # to remove weird plus again!
 ## https://bookdown.org/ 
 
 
-## ------
-## eof.
+## Ideas for exercises: ---------- 
+
+# (a) Write a function: 
+# `are_all_equal()`
+# that checks whether all elements of a vector v (of arbitrary length) are equal (TRUE) or not (FALSE). 
+
+# - when using a loop: check no more elements than necessary.
+# - What happens when v = NULL or v = NA?
+
+## From riskyr: plot_util.R ---------- 
+
+## all_equal: Check if all elements of a vector (e.g., of color names) are equal: --------
+
+## Note: Avoiding the tricky business of color similarity:
+
+## General and efficient version:
+# - accept a vector (with any number of 2+ arguments)
+# - exit with FALSE as soon as 1st difference detected
+
+# all_equal <- function(v) {
+#
+#   n <- length(v)
+#   result <- NA  # initialize
+#
+#   stopifnot(n > 0)  # require at least 1 element
+#
+#   for (i in 1:n) {
+#
+#     # print(i)  # for debugging purposes
+#
+#     if (!isTRUE(all.equal(v[1], v[i]))) {
+#       result <- FALSE
+#       return(result)
+#     }
+#
+#   } # for i.
+#
+#   # if loop has been passed:
+#   result <- TRUE
+#   return(result)
+#
+# }
+
+## Check:
+# all_equal(NULL) # returns an ERROR
+# all_equal(NA) # is TRUE
+# all_equal(c(1))  # is TRUE
+# all_equal(c(1, 1, 1, 1, 1))  # 5 steps and TRUE
+# all_equal(c(1, 0, 1, 1, 1))  # 2 steps and FALSE
+## Use case (with color comparisons):
+# all_equal(c("white", par("bg"), pal_bwp[["dec_cor"]]))
+# all_equal(c("black", par("fg"), pal_bwp[["ppv"]]))
+
+## Probably more efficient version:
+
+all_equal <- function(v) {
+  
+  # stopifnot(length(v) > 0)  # add to return ERROR when v is NA (which would otherwise return FALSE)
+  
+  if (length(unique(v)) == 1) {return(TRUE)} else {return(FALSE)}
+  
+}
+
+## Check:
+# all_equal(NULL)  # => FALSE / OR ERROR (when stopifnot is included)
+# all_equal(NA)    # => TRUE
+# all_equal(c(1))  # => TRUE
+# all_equal(c(1, 1, 1, 1, 1))  # => TRUE
+# all_equal(c(1, 0, 1, 1, 1))  # => FALSE
+## Use case (with color comparisons):
+# all_equal(c("white", par("bg"), pal_bwp[["dec_cor"]]))  # TRUE
+# all_equal(c("black", par("fg"), pal_bwp[["ppv"]]))      # TRUE
+
+
+# (b) Use what you have learned to write another function 
+# `all_different()` etc. 
+
+
+## eof. ---------- 
