@@ -1,0 +1,17 @@
+name,gender,age,position,task,time
+Ann,f,31,1,red,73
+Ann,f,31,2,circle,64
+Bea,f,18,1,circle,42
+Bea,f,18,2,blue,18
+Cat,f,42,1,red,31
+Cat,f,42,2,square,41
+Deb,f,18,1,square,51
+Deb,f,18,2,blue,35
+Ed,m,21,1,red,71
+Ed,m,21,2,circle,44
+Fred,m,63,1,circle,63
+Fred,m,63,2,blue,56
+Gary,m,22,1,red,60
+Gary,m,22,2,square,98
+Hans,m,31,1,square,41
+Hans,m,31,2,blue,40
