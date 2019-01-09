@@ -1,7 +1,7 @@
 ---
 title: "Tidy data, with solutions (ds4psy)"
 author: "Hansjörg Neth, SPDS, uni.kn"
-date: "2018 12 12"
+date: "2019 01 08"
 output:
    rmdformats::html_clean: # html_clean html_docco readthedown material #
      code_folding: show # hide
@@ -57,7 +57,7 @@ source(file = "~/Desktop/stuff/Dropbox/_code/R/_teachR/ds4psy/R/custom_functions
 
 # Introduction
 
-This file contains **essential commands** from [Chapter 10: Tibbles](https://r4ds.had.co.nz/tibbles.html) of the textbook [r4ds](http://r4ds.had.co.nz) and corresponding examples and exercises. 
+This file contains **essential commands** from [Chapter 12: Tidy data](https://r4ds.had.co.nz/tidy-data.html) of the textbook [r4ds](http://r4ds.had.co.nz) and corresponding examples and exercises. 
 A command is considered "essential" when you really need to _know_ it and need to know _how to use_ it to succeed in this course. 
 
 <!-- Table with links: -->
@@ -72,7 +72,8 @@ Nr. | Topic       |
 3.  | [Transforming data](http://rpository.com/ds4psy/essentials/transform.html) |
 4.  | [Exploring data (EDA)](http://rpository.com/ds4psy/essentials/explore.html) | 
 5.  | [Tibbles](http://rpository.com/ds4psy/essentials/tibbles.html) |
-6.  | [Tidy data](http://rpository.com/ds4psy/essentials/tidy.html) | 
+6.  | [Importing data](http://rpository.com/ds4psy/essentials/import.html) |
+7.  | **Tidying data** |
 +.  | [Datasets](http://rpository.com/ds4psy/essentials/datasets.html) | 
 
 <!--
@@ -84,7 +85,8 @@ Nr. | Topic       |
 3.  | [Transforming data](http://rpository.com/ds4psy/essentials/transform.html) |
 4.  | [Exploring data (EDA)](http://rpository.com/ds4psy/essentials/explore.html) | 
 5.  | [Tibbles](http://rpository.com/ds4psy/essentials/tibbles.html) |
-6.  | [Tidy data](http://rpository.com/ds4psy/essentials/tidy.html) |
+6.  | [Importing data](http://rpository.com/ds4psy/essentials/import.html) |
+7.  | [Tidying data](http://rpository.com/ds4psy/essentials/tidy.html) |
 +.  | [Datasets](http://rpository.com/ds4psy/essentials/datasets.html) | 
 -->
 
@@ -108,7 +110,7 @@ Create an R script (`.R`) or an R-Markdown file (`.Rmd`) and load the R packages
 
 ```{r layout_template, echo = TRUE, eval = FALSE}
 ## Tidy data | ds4psy
-## 2019 01 10
+## 2019 01 14
 ## ----------------------------
 
 ## Preparations: ----------
@@ -133,10 +135,6 @@ For instructions on combining text and code, see [Chapter 27: R Markdown](https:
 
 **Hint:** Try to _knit_ your `.Rmd` file immediately after saving it and marvel at the beauty of the resulting `.html`-file. If this works, keep doing this routinely from now on, putting all your R-code into code chunks, and any text (like headings or conclusions) that describes or explains what you are doing outside of them. From now on, you can share your `.html` output files, rather than your `.Rmd` source files when showing off your R and data science skills.
 
-
-# Tibbles
-
-
 # Tidy data
 
 ## Tabular data
@@ -147,21 +145,19 @@ The same set of data (values of variables) can be organised in many different wa
 
 ```{r table1_as_barplot, echo = FALSE, eval = TRUE}
 library(tidyverse)
-library(knitr)
 
 # Illustrating the data in tidyr::table1 
-kable(tidyr::table1)
+knitr::kable(tidyr::table1)
 
 ggplot(data = tidyr::table1, aes(x = year, y = cases, fill = country)) + 
-    geom_bar(stat = "identity", position = "dodge", color = "black") + 
+    geom_bar(stat = "identity", position = "dodge") + 
     geom_text(aes(label = cases), position = position_dodge(width = 0.9), vjust = -0.5) +
     scale_x_continuous(name = "Year", breaks = 1999:2000) + 
     scale_fill_manual(name = "Country", 
-                      values = c("grey33", "forestgreen", "firebrick")) + 
+                      values = c("firebrick", "steelblue", "gold")) + 
     labs(title = "TB cases per country and year", y = "Cases", 
          caption = "[Data from tidyr::table1.]") +
-    theme_classic() +
-    theme(panel.grid.major.y = element_line(linetype = 2, color = "grey50", size = 1/4))
+    theme_bw()
 ```
 
 ```{r rectangular_data}
@@ -170,19 +166,26 @@ library(tidyverse)
 ## Example of the same data organised in 4 different ways:
 # ?table1 # for semantics and source of data
 
-tidyr::table1
+knitr::kable(tidyr::table1, caption = "Example of table1: Tidy data.")
+dim(tidyr::table1)  #  6 x 4: 2 IVs, 2 DVs.
 
-tidyr::table2
+knitr::kable(tidyr::table2, caption = "Example of table2: count contains 2 DVs.")
+dim(tidyr::table2)  #  12 x 4: 3 IVs, 1 DV.
 
-tidyr::table3
+knitr::kable(tidyr::table3, caption = "Example of table3: rate contains 2 DVs.")
+dim(tidyr::table3)  #  6 x 3: 2 IVs, 1 column with 2 DVs.
 
-tidyr::table4a
-tidyr::table4b
+knitr::kable(tidyr::table4a, caption = "Example of table4a: 1999 and 2000 contain same DV (cases).")
+knitr::kable(tidyr::table4b, caption = "Example of table4b: 1999 and 2000 contain same DV (population).")
+dim(tidyr::table4a)  #  3 x 3: 1 IV x 1 DV (cases, across 2 columns).
+dim(tidyr::table4b)  #  3 x 3: 1 IV x 1 DV (population, across 2 columns).
 
-tidyr::table5
+knitr::kable(tidyr::table5, caption = "Example of table5: DV year in 2 columns, DV rate contains 2 DVs.")
+dim(tidyr::table5)  #  6 x 4: 2 IVs (year in 2 columns), 1 column with 2 DVs.
 ```
 
 **Practice:** Recreate the above bar plot using `ggplot2` with `data = table1`. 
+
 
 ### Defining tidy data
 
@@ -593,7 +596,96 @@ de
 all.equal(de_3, de)
 ```
 
-**Practice:** Moving stocks from wide to long to wide. 
+
+# Exercises (WPAxx)
+
+## Exercise A:
+
+#### Untidy tables
+
+Idea: Create many tables that contain the same data. For each of them: 
+
+- Describe the data (dimensions, DVs and IVs). 
+
+- Transform any non-tidy one into a tidy one. 
+
+```{r ex_create_exp_data, echo = FALSE, eval = TRUE}
+n <- 8        # [n]umber of participants
+set.seed(11)  # for replicability
+
+# t_1: ---- 
+# Data of n = 8 people, 2 tasks (color, shape) in 2 orders and 2 variants (per task): 
+
+IVs <- data.frame("name" = c("Ann", "Bea", "Cat", "Deb", "Ed", "Fred", "Gary", "Hans"),
+                  "gender" = c(rep("f", 4), rep("m", 4)), 
+                  "age" = sample(18:65, n, replace = TRUE),
+                  "task_1" = rep(c("color", "shape"), 4), 
+                  "task_2" = rep(c("shape", "color"), 4) 
+)
+IVs
+
+# within-subjects conditions (with multiple tasks per person):
+DVs <- data.frame("color" = rep(c("red", "blue", "red", "blue"), 2), 
+                  "color_time" = sample(11:99, n), 
+                  "shape" = rep(c("circle", "circle", "square", "square"), 2), 
+                  "shape_time" = sample(11:99, n)
+)
+DVs
+
+t_1 <- as_tibble(cbind(IVs, DVs))
+t_1$name <- as.character(t_1$name)
+t_1
+
+
+# t_2: ---- 
+# More compact version of t_1 (by uniting and dropping columns):
+
+t_2 <- t_1 %>%
+  unite("sex:age", gender, age, sep = ":") %>%
+  mutate(first_task = task_1) %>%
+  unite("ct+st", color_time, shape_time, sep = "+") %>%
+  select(name, `sex:age`, first_task, color, shape, `ct+st`)
+t_2
+
+# t_3: ---- 
+# An even longer (more distributed) version of t_1 (Unipark style): 
+
+
+```
+
+1. `t_1`
+
+```{r}
+knitr::kable(t_1)
+```
+
+#### Analysis/Description of `t_1`
+
+- `t_1` is an 8 x 9 table, containing the data from 8 people (rows). Each person is described by her/his `name`, `gender`, and `age`. 
+
+- The 2 `task_#` columns indicate the order in which the person performed 2 tasks (`color` vs. `shape`). 
+
+- Both tasks exist in 2 versions (`color` in `red` or `blue`, `shape` in `circle` or `square`). 
+
+- The 2 dependent variables appear to be the times (in seconds or minutes?) the person spent on each of those tasks. 
+
+Note:
+
+- The `task_2` column is redundant, as `task_1` would suffice to specify the order of both tasks (or vice versa). 
+
+- A tidy dataset would feature only 1 DV of `time` and an additional key variable that specifies the `task_type` (`color` vs. `shape`). 
+
+#### Tidying `t_1`
+
+```{r}
+t_1
+```
+
+
+
+## Exercise B:
+
+#### Moving stocks from wide to long to wide. 
 
 ```{r stock_data_definition, echo = FALSE, eval = TRUE}
 # Define the stock data (to be shown below) as a tibble: 
@@ -670,7 +762,6 @@ st_long %>%
   mutate(day_nr = parse_integer(str_sub(day, 2, 2))) # optional: get day_nr as integer variable
 ```
 
-# Exercises (WPAxx)
 
 ## Exercise X:
 
@@ -862,7 +953,8 @@ Nr. | Topic       |
 3.  | [Transforming data](http://rpository.com/ds4psy/essentials/transform.html) |
 4.  | [Exploring data (EDA)](http://rpository.com/ds4psy/essentials/explore.html) | 
 5.  | [Tibbles](http://rpository.com/ds4psy/essentials/tibbles.html) |
-6.  | [Tidy data](http://rpository.com/ds4psy/essentials/tidy.html) | 
+6.  | [Importing data](http://rpository.com/ds4psy/essentials/import.html) |
+7.  | **Tidying data** |
 +.  | [Datasets](http://rpository.com/ds4psy/essentials/datasets.html) | 
 
 <!--
@@ -874,7 +966,8 @@ Nr. | Topic       |
 3.  | [Transforming data](http://rpository.com/ds4psy/essentials/transform.html) |
 4.  | [Exploring data (EDA)](http://rpository.com/ds4psy/essentials/explore.html) | 
 5.  | [Tibbles](http://rpository.com/ds4psy/essentials/tibbles.html) |
-6.  | [Tidy data](http://rpository.com/ds4psy/essentials/tidy.html) |
+6.  | [Importing data](http://rpository.com/ds4psy/essentials/import.html) |
+7.  | [Tidying data](http://rpository.com/ds4psy/essentials/tidy.html) |
 +.  | [Datasets](http://rpository.com/ds4psy/essentials/datasets.html) | 
 -->
 

@@ -620,7 +620,7 @@ numeracy
 ## - mood (1:5, on 3 days: Mon, Wed, Fri, and 2 times: 10:00 vs. 18:00)
 ```
 
-```{r create_exp_data, echo = FALSE, eval = FALSE}
+```{r create_exp_data_1a, echo = FALSE, eval = FALSE}
 n <- 10       # [n]umber of participants
 set.seed(88)  # for replicability
 
@@ -639,9 +639,12 @@ DVs <- data.frame("task_1" = rep(c("red", "blue"), 5),
                    "time_2" = sample(10:99, n)
                    )
 DVs
+```
 
-
+```{r create_exp_data_2, echo = FALSE, eval = FALSE}
 ## (b) between-subjects conditions (with separate variables):
+
+# Problem: DVs are often distributed over multiple (2) columns in raw data.
 
 # DVs2 <- data.frame("cond" = c(rep("A", n/2), rep("B", n/2)),
 #                    "A.num1" = c(sample(1:7, n/2), rep(NA, n/2)), 
@@ -670,11 +673,34 @@ DVs2
 exp <- cbind(IVs, DVs)
 exp2 <- cbind(IVs, DVs2)
 
-# exp
-# exp2
+exp
+exp2
 
 dim(exp)   # 10 x 7
 dim(exp2)  # 10 x 8
+```
+
+```{r create_exp_data_3, echo = FALSE, eval = FALSE}
+n <- 8        # [n]umber of participants
+set.seed(11)  # for replicability
+
+IV3 <- data.frame("name" = c("Ann", "Bea", "Cat", "Deb", "Ed", "Fred", "Gary", "Hans"),
+                  "gender" = c(rep("f", 4), rep("m", 4)), 
+                  "age" = sample(18:65, n, replace = TRUE),
+                  "task_1" = rep(c("color", "shape"), 4) 
+                   )
+IV3
+
+## (a) within-subjects conditions (with multiple tasks per person):
+DV3 <- data.frame("color" = rep(c("red", "blue", "red", "blue"), 2), 
+                   "color_time" = sample(11:99, n), 
+                   "shape" = rep(c("circle", "circle", "square", "square"), 2), 
+                   "shape_time" = sample(11:99, n)
+                   )
+DV3
+
+exp3 <- cbind(IV2, DV2)
+exp3
 ```
 
 <!-- (B) Real datasets: -->
