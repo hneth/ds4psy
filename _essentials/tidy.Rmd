@@ -678,7 +678,11 @@ Note:
 #### Tidying `t_1`
 
 ```{r}
-t_1
+t_1 %>%
+  gather(key = "key", value = "time", color_time, shape_time) %>%
+  separate(key, c("type", "rest"), sep = "_") %>%
+  select(name:task_1, color:type, time) %>%
+  arrange(name)
 ```
 
 
