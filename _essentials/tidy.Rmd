@@ -1,7 +1,7 @@
 ---
 title: "Tidy data, with solutions (ds4psy)"
 author: "Hansjörg Neth, SPDS, uni.kn"
-date: "2019 01 08"
+date: "2019 01 09"
 output:
    rmdformats::html_clean: # html_clean html_docco readthedown material #
      code_folding: show # hide
@@ -599,95 +599,9 @@ all.equal(de_3, de)
 
 # Exercises (WPAxx)
 
+
+
 ## Exercise A:
-
-#### Untidy tables
-
-Idea: Create many tables that contain the same data. For each of them: 
-
-- Describe the data (dimensions, DVs and IVs). 
-
-- Transform any non-tidy one into a tidy one. 
-
-```{r ex_create_exp_data, echo = FALSE, eval = TRUE}
-n <- 8        # [n]umber of participants
-set.seed(11)  # for replicability
-
-# t_1: ---- 
-# Data of n = 8 people, 2 tasks (color, shape) in 2 orders and 2 variants (per task): 
-
-IVs <- data.frame("name" = c("Ann", "Bea", "Cat", "Deb", "Ed", "Fred", "Gary", "Hans"),
-                  "gender" = c(rep("f", 4), rep("m", 4)), 
-                  "age" = sample(18:65, n, replace = TRUE),
-                  "task_1" = rep(c("color", "shape"), 4), 
-                  "task_2" = rep(c("shape", "color"), 4) 
-)
-IVs
-
-# within-subjects conditions (with multiple tasks per person):
-DVs <- data.frame("color" = rep(c("red", "blue", "red", "blue"), 2), 
-                  "color_time" = sample(11:99, n), 
-                  "shape" = rep(c("circle", "circle", "square", "square"), 2), 
-                  "shape_time" = sample(11:99, n)
-)
-DVs
-
-t_1 <- as_tibble(cbind(IVs, DVs))
-t_1$name <- as.character(t_1$name)
-t_1
-
-
-# t_2: ---- 
-# More compact version of t_1 (by uniting and dropping columns):
-
-t_2 <- t_1 %>%
-  unite("sex:age", gender, age, sep = ":") %>%
-  mutate(first_task = task_1) %>%
-  unite("ct+st", color_time, shape_time, sep = "+") %>%
-  select(name, `sex:age`, first_task, color, shape, `ct+st`)
-t_2
-
-# t_3: ---- 
-# An even longer (more distributed) version of t_1 (Unipark style): 
-
-
-```
-
-1. `t_1`
-
-```{r}
-knitr::kable(t_1)
-```
-
-#### Analysis/Description of `t_1`
-
-- `t_1` is an 8 x 9 table, containing the data from 8 people (rows). Each person is described by her/his `name`, `gender`, and `age`. 
-
-- The 2 `task_#` columns indicate the order in which the person performed 2 tasks (`color` vs. `shape`). 
-
-- Both tasks exist in 2 versions (`color` in `red` or `blue`, `shape` in `circle` or `square`). 
-
-- The 2 dependent variables appear to be the times (in seconds or minutes?) the person spent on each of those tasks. 
-
-Note:
-
-- The `task_2` column is redundant, as `task_1` would suffice to specify the order of both tasks (or vice versa). 
-
-- A tidy dataset would feature only 1 DV of `time` and an additional key variable that specifies the `task_type` (`color` vs. `shape`). 
-
-#### Tidying `t_1`
-
-```{r}
-t_1 %>%
-  gather(key = "key", value = "time", color_time, shape_time) %>%
-  separate(key, c("type", "rest"), sep = "_") %>%
-  select(name:task_1, color:type, time) %>%
-  arrange(name)
-```
-
-
-
-## Exercise B:
 
 #### Moving stocks from wide to long to wide. 
 
@@ -765,6 +679,246 @@ st_long %>%
   spread(key = time, value = val) %>%
   mutate(day_nr = parse_integer(str_sub(day, 2, 2))) # optional: get day_nr as integer variable
 ```
+
+
+## Exercise B:
+
+#### Untidy tables
+
+Idea: Create many tables that contain the same data. For each of them: 
+
+- Describe the data (dimensions, DVs and IVs). 
+
+- Transform any non-tidy one into a tidy one. 
+
+```{r ex_create_t_1, echo = FALSE, eval = TRUE}
+n <- 8        # [n]umber of participants
+set.seed(11)  # for replicability
+
+# t_1: ---- 
+# Data of n = 8 people, 2 tasks (color, shape) in 2 orders and 2 variants (per task): 
+
+IVs <- data.frame("name" = c("Ann", "Bea", "Cat", "Deb", "Ed", "Fred", "Gary", "Hans"),
+                  "gender" = c(rep("f", 4), rep("m", 4)), 
+                  "age" = sample(18:65, n, replace = TRUE),
+                  "task_1" = rep(c("color", "shape"), 4), 
+                  "task_2" = rep(c("shape", "color"), 4) 
+)
+# IVs
+
+# within-subjects conditions (with multiple tasks per person):
+DVs <- data.frame("color" = rep(c("red", "blue", "red", "blue"), 2), 
+                  "color_time" = sample(11:69, n), 
+                  "shape" = rep(c("circle", "circle", "square", "square"), 2), 
+                  "shape_time" = sample(31:99, n)  # shape_time > color_time
+)
+# DVs
+
+t_1 <- as_tibble(cbind(IVs, DVs))
+
+# Change some values (to create order effects): 
+t_1$color_time[t_1$task_1 == "color"] <- t_1$color_time[t_1$task_1 == "color"] + 11  # color first is longer
+t_1$shape_time[t_1$task_1 == "shape"] <- t_1$shape_time[t_1$task_1 == "shape"] - 11  # shape first is shorter
+
+
+t_1$name <- as.character(t_1$name)
+# t_1
+
+# Write out t_1:
+write_csv(t_1, "./../data/t_1.csv")
+```
+
+
+```{r ex_create_t_2, echo = FALSE, eval = TRUE}
+# t_2: ---- 
+# More compact version of t_1 (by uniting and dropping columns):
+
+t_2 <- t_1 %>%
+  unite("details", gender, age, sep = ":") %>%
+  # mutate(first_task = task_1) %>%
+  # unite("ct+st", color_time, shape_time, sep = "+") %>%
+  unite("color_time", color, color_time, sep = " = ") %>% 
+  unite("shape_time", shape, shape_time, sep = " = ") %>%
+  select(name, details, task_1, color_time, shape_time)
+# t_2
+
+# Write out t_2:
+write_csv(t_2, "./../data/t_2.csv")
+```
+
+
+0. Data paths
+
+```{r}
+t_1_path <- "./../data/t_1.csv"
+t_2_path <- "./../data/t_2.csv"
+t_3_path <- "./../data/t_3.csv"
+t_4_path <- "./../data/t_4.csv"
+```
+
+
+
+
+1. `t_1`
+
+```{r read_t_1}
+t_1 <- read_csv(t_1_path)
+dim(t_1)
+
+knitr::kable(t_1)
+```
+
+#### Analysis/Description of `t_1`
+
+- `t_1` is an 8 x 9 table, containing the data from 8 people (rows). Each person is described by her/his `name`, `gender`, and `age`. 
+
+- The 2 `task_#` columns indicate the order in which the person performed 2 tasks (`color` vs. `shape`). 
+
+- Both tasks exist in 2 versions (`color` in `red` or `blue`, `shape` in `circle` or `square`). 
+
+- The 2 dependent variables appear to be the times (in seconds or minutes?) the person spent on each of those tasks. 
+
+Note:
+
+- The `task_2` column is redundant, as `task_1` would suffice to specify the order of both tasks (or vice versa). 
+
+- A tidy dataset would feature only 1 DV of `time` and an additional key variable that specifies the `task_type` (`color` vs. `shape`). 
+
+#### Tidying `t_1`
+
+```{r tidy_t_1}
+t_1_tidy <- t_1 %>%
+  gather(key = "key", value = "time", color_time, shape_time) %>%
+  separate(key, c("type", "rest"), sep = "_") %>%
+  select(name:task_1, color:type, time) %>%
+  arrange(name)
+t_1_tidy
+```
+
+```{r ex_create_t_3, eval = TRUE, echo = FALSE}
+# Create an even more compact version (i.e., with fewer variables) of t_1_tidy:
+t_3 <- t_1_tidy
+
+# Change 2 variables to type character:
+t_3$color <- as.character(t_3$color)
+t_3$shape <- as.character(t_3$shape)
+# t_3
+
+# Create 2 new variables:
+t_3$position <- NA  # 1st vs. 2nd task
+t_3$position[t_3$task_1 == t_3$type] <- 1 
+t_3$position[t_3$task_1 != t_3$type] <- 2 
+# t_3
+
+
+t_3$task <- NA  # encode task as entry of color or shape variable 
+                # (rendering type of task implicit): 
+t_3$task[t_3$type == "color"] <- t_3$color[t_3$type == "color"]
+t_3$task[t_3$type == "shape"] <- t_3$shape[t_3$type == "shape"]
+# t_3
+
+# Select needed variables:
+t_3 <- t_3 %>%
+  select(name:age, position, task, time) %>%
+  arrange(name, position)
+# t_3
+
+# Write out t_3:
+write_csv(t_3, "./../data/t_3.csv")
+```
+
+```{r ex_create_t_4, eval = TRUE, echo = FALSE}
+# Spread t_3 into a wider form:
+t_4 <- t_3 %>%
+  spread(key = task, value = time) %>%
+  select(name:blue, red, circle, square)
+t_4
+
+# Write out t_4:
+write_csv(t_4, "./../data/t_4.csv")
+```
+
+2. `t_2`
+
+```{r read_t_2}
+t_2 <- read_csv(t_2_path)
+dim(t_2)
+
+knitr::kable(t_2)
+```
+
+#### Analysis/Description of `t_2`
+
+- `t_2` is an 8 x 5 table, and essentially are more compact version of `t_1` (with fewer columns).
+
+- The variables `details`, `color_time` and `shape_time` each contain 2 variables and corresponding values.
+
+- The order of tasks is specified by `task_1` only (i.e., the 2nd task is implied as the other one). 
+
+#### Tidying `t_2`
+
+```{r tidy_t_2}
+t_2_1 <- t_2 %>%
+  separate(details, c("gender", "age"), sep = ":") %>%
+  separate(color_time, c("color", "c_time"), sep = " = ") %>%
+  separate(shape_time, c("shape", "s_time"), sep = " = ")
+# t_2_1
+  
+t_2_tidy <- t_2_1 %>%  
+  gather(key = "key", value = "time", c_time, s_time) %>%
+  separate(key, c("type", "rest"), sep = "_") %>%
+  select(name:task_1, color:type, time) %>%
+  arrange(name)
+t_2_tidy
+```
+
+Verify equality: 
+
+```{r verify_equality_t_1_2_tidy}
+## Check equality:
+# t_1_tidy
+# t_2_tidy
+all.equal(t_1_tidy, t_2_tidy)  # => different variable types
+
+# Create equality: 
+# (a) Change variable types in t_2_tidy:
+t_2_tidy$gender <- as.character(t_2_tidy$gender)
+t_2_tidy$age    <- as.integer(t_2_tidy$age)
+t_2_tidy$color  <- as.character(t_2_tidy$color)
+t_2_tidy$shape  <- as.character(t_2_tidy$shape)
+t_2_tidy$time  <- as.numeric(t_2_tidy$time)
+
+# (b) Rename values of type:
+t_2_tidy$type[t_2_tidy$type == "c"] <- "color"
+t_2_tidy$type[t_2_tidy$type == "s"] <- "shape"
+
+# t_2_tidy
+
+## Check equality:
+t_1_tidy
+t_2_tidy
+all.equal(t_1_tidy, t_2_tidy)  # => TRUE
+```
+
+3. `t_3`
+
+```{r read_t_3}
+t_3 <- read_csv(t_3_path)
+dim(t_3)
+
+knitr::kable(t_3)
+```
+
+4. `t_4`
+
+```{r read_t_4}
+t_4 <- read_csv(t_4_path)
+dim(t_4)
+
+knitr::kable(t_4)
+```
+
+
 
 
 ## Exercise X:
