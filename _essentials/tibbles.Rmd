@@ -1019,7 +1019,7 @@ my_tbl_3 <- posPsy_long %>%
   summarize(mean_cesd = round(mean(cesdTotal), 1))
 # my_tbl_3
 
-# Turn intervention from an integer into a factor: 
+# Turn intervention into a factor: 
 my_tbl_3$intervention <- factor(my_tbl_3$intervention)
 # my_tbl_3
 

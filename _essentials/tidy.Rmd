@@ -1,7 +1,7 @@
 ---
 title: "Tidy data, with solutions (ds4psy)"
 author: "Hansjörg Neth, SPDS, uni.kn"
-date: "2019 01 09"
+date: "2019 01 10"
 output:
    rmdformats::html_clean: # html_clean html_docco readthedown material #
      code_folding: show # hide
@@ -597,93 +597,11 @@ all.equal(de_3, de)
 ```
 
 
-# Exercises (WPAxx)
-
-
+# Exercises (WPA07)
 
 ## Exercise A:
 
-#### Moving stocks from wide to long to wide. 
-
-```{r stock_data_definition, echo = FALSE, eval = TRUE}
-# Define the stock data (to be shown below) as a tibble: 
-st <- tribble(
-  ~stock, ~d1_start, ~d1_end, ~d2_start, ~d2_end, ~d3_start, ~d3_end,  
-  #-----|----------|--------|----------|--------|----------|--------|
-  "Amada",   2.5,     3.6,    3.5,       4.2,      4.4,       2.8,            
-  "Betix",   3.3,     2.9,    3.0,       2.1,      2.3,       2.5,  
-  "Cevis",   4.2,     4.8,    4.6,       3.1,      3.2,       3.7     
-)
-```
-
-The following table shows the start and end price of 3 stocks on 3 days (d1, d2, d3):
-
-```{r stock_data_table, echo = FALSE, eval = TRUE}
-knitr::kable(st, caption = "Stock data example showing the start and end prices of the shares of 3 companies on 3 days.")
-```
-
-<!-- Data as Rmd table in text: 
-| stock  | d1_start | d1_end | d2_start | d2_end | d3_start | d3_end |  
-|---------|---------|--------|----------|--------|----------|--------|
-| "Amada" |   2.5  |   3.6   |   3.5    |  4.2   |   4.4    |   2.8  |            
-| "Betix" |   3.3  |   2.9   |   3.0    |  2.1   |   2.3    |   2.5  |  
-| "Cevis" |   4.2  |   4.8   |   4.6    |  3.1   |   3.2    |   3.7  |
---> 
-
-**a.** Create a tibble `st` that contains this data in this (wide) format.
-
-**b.** Transform `st` into a longer table `st_long` that contains 18 rows and only 1 numeric variable for all stock prices. Adjust this table so that the `day` and `time` appear as 2 separate columns. 
-
-**c.** Create a (line) graph that shows the 3 stocks' `end` prices (on the y-axis) over the 3 days (on the x-axis). 
-
-**d.** Spread  `st_long` into a wider table that contains `start` and `end` prices as 2 distinct variables (columns) for each stock and day. 
-
-```{r stock_solution, echo = TRUE, fig.show = "hold"}
-# library(tidyverse)
-
-## (a) Enter stock data (in wide format) as a tibble:
-st <- tribble(
-  ~stock, ~d1_start, ~d1_end, ~d2_start, ~d2_end, ~d3_start, ~d3_end,  
-  #-----|----------|--------|----------|--------|----------|--------|
-  "Amada",   2.5,     3.6,    3.5,       4.2,      4.4,       2.8,            
-  "Betix",   3.3,     2.9,    3.0,       2.1,      2.3,       2.5,  
-  "Cevis",   4.2,     4.8,    4.6,       3.1,      3.2,       3.7     
-)
-dim(st)
-
-## Note data structure: 
-## 2 nested factors: day (1 to 3), type (start or end).
-
-## (b) Change from wide to long format 
-##     that contains the day (d1, d2, d3) and type (start vs. end) as separate columns:
-st_long <- st %>%
-  gather(d1_start:d3_end, key = "key", value = "val") %>%
-  separate(key, into = c("day", "time")) %>%
-  arrange(stock, day, time) # optional: arrange rows
-st_long
-
-## (c) Plot the end values (on the y-axis) of the 3 stocks over 3 days (x-axis):
-st_long %>% 
-  filter(time == "end") %>%
-  ggplot(aes(x = day, y = val, color = stock, shape = stock)) +
-  geom_point(size = 4) + 
-  geom_line(aes(group = stock)) +
-  ## Pimping plot: 
-  labs(title = "End prices of stocks", 
-       x = "Day", y = "End price", 
-       shape = "Stock:", color = "Stock:") +
-  theme_bw()
-
-## (d) Change st_long into a wider format that lists start and end as 2 distinct variables (columns):
-st_long %>%
-  spread(key = time, value = val) %>%
-  mutate(day_nr = parse_integer(str_sub(day, 2, 2))) # optional: get day_nr as integer variable
-```
-
-
-## Exercise B:
-
-#### Untidy tables
+#### Tidying messy tables
 
 Idea: Create many tables that contain the same data. For each of them: 
 
@@ -750,14 +668,15 @@ write_csv(t_2, "./../data/t_2.csv")
 0. Data paths
 
 ```{r}
+# offline: 
 t_1_path <- "./../data/t_1.csv"
 t_2_path <- "./../data/t_2.csv"
 t_3_path <- "./../data/t_3.csv"
 t_4_path <- "./../data/t_4.csv"
+
+# online:
+
 ```
-
-
-
 
 1. `t_1`
 
@@ -919,6 +838,152 @@ knitr::kable(t_4)
 ```
 
 
+
+## Exercise B:
+
+#### Moving stocks from wide to long to wide. 
+
+```{r stock_data_definition, echo = FALSE, eval = TRUE}
+# Define the stock data (to be shown below) as a tibble: 
+st <- tribble(
+  ~stock, ~d1_start, ~d1_end, ~d2_start, ~d2_end, ~d3_start, ~d3_end,  
+  #-----|----------|--------|----------|--------|----------|--------|
+  "Amada",   2.5,     3.6,    3.5,       4.2,      4.4,       2.8,            
+  "Betix",   3.3,     2.9,    3.0,       2.1,      2.3,       2.5,  
+  "Cevis",   4.2,     4.8,    4.6,       3.1,      3.2,       3.7     
+)
+```
+
+The following table shows the start and end price of 3 stocks on 3 days (d1, d2, d3):
+
+```{r stock_data_table, echo = FALSE, eval = TRUE}
+knitr::kable(st, caption = "Stock data example showing the start and end prices of the shares of 3 companies on 3 days.")
+```
+
+<!-- Data as Rmd table in text: 
+| stock  | d1_start | d1_end | d2_start | d2_end | d3_start | d3_end |  
+|---------|---------|--------|----------|--------|----------|--------|
+| "Amada" |   2.5  |   3.6   |   3.5    |  4.2   |   4.4    |   2.8  |            
+| "Betix" |   3.3  |   2.9   |   3.0    |  2.1   |   2.3    |   2.5  |  
+| "Cevis" |   4.2  |   4.8   |   4.6    |  3.1   |   3.2    |   3.7  |
+--> 
+
+**a.** Create a tibble `st` that contains this data in this (wide) format.
+
+**b.** Transform `st` into a longer table `st_long` that contains 18 rows and only 1 numeric variable for all stock prices. Adjust this table so that the `day` and `time` appear as 2 separate columns. 
+
+**c.** Create a (line) graph that shows the 3 stocks' `end` prices (on the y-axis) over the 3 days (on the x-axis). 
+
+**d.** Spread  `st_long` into a wider table that contains `start` and `end` prices as 2 distinct variables (columns) for each stock and day. 
+
+```{r stock_solution, echo = TRUE, fig.show = "hold"}
+# library(tidyverse)
+
+## (a) Enter stock data (in wide format) as a tibble:
+st <- tribble(
+  ~stock, ~d1_start, ~d1_end, ~d2_start, ~d2_end, ~d3_start, ~d3_end,  
+  #-----|----------|--------|----------|--------|----------|--------|
+  "Amada",   2.5,     3.6,    3.5,       4.2,      4.4,       2.8,            
+  "Betix",   3.3,     2.9,    3.0,       2.1,      2.3,       2.5,  
+  "Cevis",   4.2,     4.8,    4.6,       3.1,      3.2,       3.7     
+)
+dim(st)
+
+## Note data structure: 
+## 2 nested factors: day (1 to 3), type (start or end).
+
+## (b) Change from wide to long format 
+##     that contains the day (d1, d2, d3) and type (start vs. end) as separate columns:
+st_long <- st %>%
+  gather(d1_start:d3_end, key = "key", value = "val") %>%
+  separate(key, into = c("day", "time")) %>%
+  arrange(stock, day, time) # optional: arrange rows
+st_long
+
+## (c) Plot the end values (on the y-axis) of the 3 stocks over 3 days (x-axis):
+st_long %>% 
+  filter(time == "end") %>%
+  ggplot(aes(x = day, y = val, color = stock, shape = stock)) +
+  geom_point(size = 4) + 
+  geom_line(aes(group = stock)) +
+  ## Pimping plot: 
+  labs(title = "End prices of stocks", 
+       x = "Day", y = "End price", 
+       shape = "Stock:", color = "Stock:") +
+  theme_bw()
+
+## (d) Change st_long into a wider format that lists start and end as 2 distinct variables (columns):
+st_long %>%
+  spread(key = time, value = val) %>%
+  mutate(day_nr = parse_integer(str_sub(day, 2, 2))) # optional: get day_nr as integer variable
+```
+
+
+## Exercise C:
+
+#### A posPsy tibble reloaded
+
+In [Exercise 3 of WPA05](http://rpository.com/ds4psy/essentials/tibbles.html#exercise-3) of our essentials on [tibbles](http://rpository.com/ds4psy/essentials/tibbles.html) you created a tibble of mean depression scores (`my_tbl` and `my_tbl_2`) in 2 different ways (by entering the data directly into R with `tibble()` and by using `dplyr` to compute a summary table from the `posPsy_wide` data). 
+
+```{r ex_recreate_my_tbl_2, echo = FALSE, eval = TRUE, message = FALSE}
+# Load data: 
+posPsy_wide <- read_csv(file = "http://rpository.com/ds4psy/data/posPsy_data_wide.csv")
+# dim(posPsy_wide)  # 295 294
+
+# Re-create tibble: 
+my_tbl_2 <- posPsy_wide %>%
+  group_by(intervention) %>%
+  summarise(mn_cesd_0 = round(mean(cesdTotal.0, na.rm = TRUE), 1), 
+            mn_cesd_1 = round(mean(cesdTotal.1, na.rm = TRUE), 1), 
+            mn_cesd_2 = round(mean(cesdTotal.2, na.rm = TRUE), 1),
+            mn_cesd_3 = round(mean(cesdTotal.3, na.rm = TRUE), 1),
+            mn_cesd_4 = round(mean(cesdTotal.4, na.rm = TRUE), 1),
+            mn_cesd_5 = round(mean(cesdTotal.5, na.rm = TRUE), 1) )
+
+# my_tbl_2
+
+# Print my_tbl_2: 
+knitr::kable(my_tbl_2, caption = "Table: Mean depression scores by intervention and occasion.")
+```
+
+When trying to create a plot that shows the trends of mean depression scores (over different occasions by intervention) we noted that it is impossible to directly plot the values of `my_tbl_2`. For plotting the mean depression scores with `ggplot` we would need these scores as 1 dependent variable, rather than as 6 different variables. 
+
+Earlier, we solved this problem by creating an alternative tibble `my_tbl_3` -- which expressed `mean_cesd` as a function of `occasion` and `intervention` (in long format) -- from the raw data in `posPsy_long`. Given our new skills in `tidyr`, we now are in a position to transform `my_tbl_2` (or `my_tbl`) into the required format of `my_tbl_3`. Thus, your task is: 
+
+1. Re-create one of the original tibbles (either `my_tbl` or `my_tbl_2`) and use `tidyr` to transform it into the long format of `my_tbl_3`.
+
+```{r ex_solution_wide_to_long, echo = TRUE, eval = TRUE}
+my_tbl_3 <- my_tbl_2 %>% 
+  gather(key = "key", value = "mean_cesd", mn_cesd_0:mn_cesd_5) %>%
+  separate(key, c("mn", "cesd", "occasion"), sep = "_") %>%
+  select(occasion, intervention, mean_cesd)
+# my_tbl_3
+
+# Change some variable types:
+my_tbl_3$occasion     <- as.integer(my_tbl_3$occasion)    # as integer
+my_tbl_3$intervention <- as.factor(my_tbl_3$intervention) # as factor
+
+my_tbl_3
+```
+
+2. Now do the reverse: Use `my_tbl_3` to re-create a longer version `my_tbl_4` that is equal to `my_tbl_2`. 
+
+```{r ex_solution_long_to_wide, echo = TRUE, eval = TRUE}
+my_tbl_4 <- my_tbl_3 %>%
+  spread(key = occasion, value = mean_cesd)
+my_tbl_4
+
+# Change names of some variables (columns 2:7): 
+names(my_tbl_4)[2:ncol(my_tbl_4)] <- paste0("mn_cesd_", names(my_tbl_4)[2:ncol(my_tbl_4)])
+
+# Change some variable types:
+my_tbl_4$intervention <- as.double(my_tbl_4$intervention) # back to number
+
+## Verify equality: 
+# my_tbl_4
+# my_tbl_2
+all.equal(my_tbl_4, my_tbl_2)
+```
 
 
 ## Exercise X:
