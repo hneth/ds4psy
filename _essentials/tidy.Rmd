@@ -940,7 +940,10 @@ my_tbl_2 <- posPsy_wide %>%
             mn_cesd_4 = round(mean(cesdTotal.4, na.rm = TRUE), 1),
             mn_cesd_5 = round(mean(cesdTotal.5, na.rm = TRUE), 1) )
 
-# my_tbl_2
+my_tbl_2
+
+my_tbl_2 %>% 
+  gather(key = "key", value = "mean_cesd", mn_cesd_0:mn_cesd_5)
 
 # Print my_tbl_2: 
 knitr::kable(my_tbl_2, caption = "Table: Mean depression scores by intervention and occasion.")
@@ -1148,6 +1151,49 @@ mtcars %>%
 mtcars %>%
   gather(-mpg, -hp, -cyl, key = "var", value = "value")
 ```
+
+
+## Exercise Z: 
+
+#### False positive psychology 
+
+
+```{r falsePosPsy}
+
+# Load csv-data files from online links:
+falsePosPsy_all <- readr::read_csv(file = "http://rpository.com/ds4psy/data/falsePosPsy_all.csv")
+
+# Check: 
+dim(falsePosPsy_all)  # 78 x 19 
+
+falsePosPsy_all
+
+falsePosPsy_all %>%
+  gather(-study, -ID, -aged, -female, key = "var", value = "value") %>%
+  arrange(ID) %>%
+  ggplot(aes(x = value, y = aged)) + 
+  geom_point(alpha = 1/2) + 
+  geom_smooth(alpha = 1/4) +
+  facet_wrap(~var, scales = "free") +
+  theme_bw()
+
+
+ggplot(falsePosPsy_all, aes(x = dad, y = mom)) +
+  geom_point() + 
+  geom_smooth() +
+  theme_bw()  
+
+falsePosPsy_all %>%
+  gather(key = "person", value = "age", dad, mom) %>%
+  select(study:aged365, person, age) %>%
+  ggplot(aes(x = person, y = age)) +
+    geom_line(aes(group = ID), alpha = .5, size = 2) +
+  theme_bw()
+
+```
+
+
+
 
 ## More on tidy data
 
