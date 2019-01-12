@@ -124,7 +124,7 @@ img {
 <div id="header">
 <h1 class="title">Tidy data, with solutions (ds4psy)</h1>
 <h4 class="author"><em>Hansjörg Neth, SPDS, uni.kn</em></h4>
-<h4 class="date"><em>2019 01 10</em></h4>
+<h4 class="date"><em>2019 01 12</em></h4>
 </div>
 
 <div id="content">
@@ -1269,25 +1269,23 @@ de
 <li><p>Describe the data (dimensions, DVs and IVs).</p></li>
 <li><p>Transform any non-tidy one into a tidy one.</p></li>
 </ul>
-<ol start="0" style="list-style-type: decimal">
-<li>Data paths</li>
-</ol>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># offline: </span>
-t_1_path &lt;-<span class="st"> &quot;./../data/t_1.csv&quot;</span>
-t_2_path &lt;-<span class="st"> &quot;./../data/t_2.csv&quot;</span>
-t_3_path &lt;-<span class="st"> &quot;./../data/t_3.csv&quot;</span>
-t_4_path &lt;-<span class="st"> &quot;./../data/t_4.csv&quot;</span>
-
-<span class="co"># online:</span></code></pre></div>
+<p>Paths to data files:</p>
+<ul>
+<li><a href="http://rpository.com/ds4psy/data/t_1.csv">t_1.csv</a></li>
+<li><a href="http://rpository.com/ds4psy/data/t_2.csv">t_2.csv</a></li>
+<li><a href="http://rpository.com/ds4psy/data/t_3.csv">t_3.csv</a></li>
+<li><a href="http://rpository.com/ds4psy/data/t_4.csv">t_4.csv</a></li>
+</ul>
 <ol style="list-style-type: decimal">
 <li><code>t_1</code></li>
 </ol>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">t_<span class="dv">1</span> &lt;-<span class="st"> </span><span class="kw">read_csv</span>(t_1_path)
-<span class="kw">dim</span>(t_<span class="dv">1</span>)
+<span class="kw">dim</span>(t_<span class="dv">1</span>)  <span class="co"># 8 x 9</span>
 <span class="co">#&gt; [1] 8 9</span>
 
-knitr<span class="op">::</span><span class="kw">kable</span>(t_<span class="dv">1</span>)</code></pre></div>
+knitr<span class="op">::</span><span class="kw">kable</span>(t_<span class="dv">1</span>, <span class="dt">caption =</span> <span class="st">&quot;Table t_1.&quot;</span>)</code></pre></div>
 <table>
+<caption>Table t_1.</caption>
 <thead>
 <tr class="header">
 <th align="left">name</th>
@@ -1434,34 +1432,16 @@ t_1_tidy
 <span class="co">#&gt; 14 Gary  m         22 color  red   square shape    98</span>
 <span class="co">#&gt; 15 Hans  m         31 shape  blue  square color    40</span>
 <span class="co">#&gt; 16 Hans  m         31 shape  blue  square shape    41</span></code></pre></div>
-<pre><code>#&gt; # A tibble: 16 x 8
-#&gt;    name  gender   age position  blue   red circle square
-#&gt;    &lt;chr&gt; &lt;fct&gt;  &lt;int&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;
-#&gt;  1 Ann   f         31        1    NA    73     NA     NA
-#&gt;  2 Ann   f         31        2    NA    NA     64     NA
-#&gt;  3 Bea   f         18        1    NA    NA     42     NA
-#&gt;  4 Bea   f         18        2    18    NA     NA     NA
-#&gt;  5 Cat   f         42        1    NA    31     NA     NA
-#&gt;  6 Cat   f         42        2    NA    NA     NA     41
-#&gt;  7 Deb   f         18        1    NA    NA     NA     51
-#&gt;  8 Deb   f         18        2    35    NA     NA     NA
-#&gt;  9 Ed    m         21        1    NA    71     NA     NA
-#&gt; 10 Ed    m         21        2    NA    NA     44     NA
-#&gt; 11 Fred  m         63        1    NA    NA     63     NA
-#&gt; 12 Fred  m         63        2    56    NA     NA     NA
-#&gt; 13 Gary  m         22        1    NA    60     NA     NA
-#&gt; 14 Gary  m         22        2    NA    NA     NA     98
-#&gt; 15 Hans  m         31        1    NA    NA     NA     41
-#&gt; 16 Hans  m         31        2    40    NA     NA     NA</code></pre>
 <ol start="2" style="list-style-type: decimal">
 <li><code>t_2</code></li>
 </ol>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">t_<span class="dv">2</span> &lt;-<span class="st"> </span><span class="kw">read_csv</span>(t_2_path)
-<span class="kw">dim</span>(t_<span class="dv">2</span>)
+<span class="kw">dim</span>(t_<span class="dv">2</span>)  <span class="co"># 8 x 5 </span>
 <span class="co">#&gt; [1] 8 5</span>
 
-knitr<span class="op">::</span><span class="kw">kable</span>(t_<span class="dv">2</span>)</code></pre></div>
+knitr<span class="op">::</span><span class="kw">kable</span>(t_<span class="dv">2</span>, <span class="dt">caption =</span> <span class="st">&quot;Table t_2.&quot;</span>)</code></pre></div>
 <table>
+<caption>Table t_2.</caption>
 <thead>
 <tr class="header">
 <th align="left">name</th>
@@ -1572,7 +1552,9 @@ t_2_tidy
 <span class="co">#&gt; 14 Gary  m      22    color  red   square s     98   </span>
 <span class="co">#&gt; 15 Hans  m      31    shape  blue  square c     40   </span>
 <span class="co">#&gt; 16 Hans  m      31    shape  blue  square s     41</span></code></pre></div>
-<p>Verify equality:</p>
+</div>
+<div id="verify-equality" class="section level4">
+<h4>Verify equality</h4>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## Check equality:
 <span class="co"># t_1_tidy</span>
 <span class="co"># t_2_tidy</span>
@@ -1587,7 +1569,7 @@ t_2_tidy
 <span class="co"># Create equality: </span>
 <span class="co"># (a) Change variable types in t_2_tidy:</span>
 t_2_tidy<span class="op">$</span>gender &lt;-<span class="st"> </span><span class="kw">as.character</span>(t_2_tidy<span class="op">$</span>gender)
-t_2_tidy<span class="op">$</span>age    &lt;-<span class="st"> </span><span class="kw">as.integer</span>(t_2_tidy<span class="op">$</span>age)
+t_2_tidy<span class="op">$</span>age    &lt;-<span class="st"> </span><span class="kw">as.numeric</span>(t_2_tidy<span class="op">$</span>age)
 t_2_tidy<span class="op">$</span>color  &lt;-<span class="st"> </span><span class="kw">as.character</span>(t_2_tidy<span class="op">$</span>color)
 t_2_tidy<span class="op">$</span>shape  &lt;-<span class="st"> </span><span class="kw">as.character</span>(t_2_tidy<span class="op">$</span>shape)
 t_2_tidy<span class="op">$</span>time  &lt;-<span class="st"> </span><span class="kw">as.numeric</span>(t_2_tidy<span class="op">$</span>time)
@@ -1599,60 +1581,24 @@ t_2_tidy<span class="op">$</span>type[t_2_tidy<span class="op">$</span>type <spa
 <span class="co"># t_2_tidy</span>
 
 ## Check equality:
-t_1_tidy
-<span class="co">#&gt; # A tibble: 16 x 8</span>
-<span class="co">#&gt;    name  gender   age task_1 color shape  type   time</span>
-<span class="co">#&gt;    &lt;chr&gt; &lt;fct&gt;  &lt;int&gt; &lt;fct&gt;  &lt;fct&gt; &lt;fct&gt;  &lt;chr&gt; &lt;dbl&gt;</span>
-<span class="co">#&gt;  1 Ann   f         31 color  red   circle color    73</span>
-<span class="co">#&gt;  2 Ann   f         31 color  red   circle shape    64</span>
-<span class="co">#&gt;  3 Bea   f         18 shape  blue  circle color    18</span>
-<span class="co">#&gt;  4 Bea   f         18 shape  blue  circle shape    42</span>
-<span class="co">#&gt;  5 Cat   f         42 color  red   square color    31</span>
-<span class="co">#&gt;  6 Cat   f         42 color  red   square shape    41</span>
-<span class="co">#&gt;  7 Deb   f         18 shape  blue  square color    35</span>
-<span class="co">#&gt;  8 Deb   f         18 shape  blue  square shape    51</span>
-<span class="co">#&gt;  9 Ed    m         21 color  red   circle color    71</span>
-<span class="co">#&gt; 10 Ed    m         21 color  red   circle shape    44</span>
-<span class="co">#&gt; 11 Fred  m         63 shape  blue  circle color    56</span>
-<span class="co">#&gt; 12 Fred  m         63 shape  blue  circle shape    63</span>
-<span class="co">#&gt; 13 Gary  m         22 color  red   square color    60</span>
-<span class="co">#&gt; 14 Gary  m         22 color  red   square shape    98</span>
-<span class="co">#&gt; 15 Hans  m         31 shape  blue  square color    40</span>
-<span class="co">#&gt; 16 Hans  m         31 shape  blue  square shape    41</span>
-t_2_tidy
-<span class="co">#&gt; # A tibble: 16 x 8</span>
-<span class="co">#&gt;    name  gender   age task_1 color shape  type   time</span>
-<span class="co">#&gt;    &lt;chr&gt; &lt;chr&gt;  &lt;int&gt; &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt; &lt;dbl&gt;</span>
-<span class="co">#&gt;  1 Ann   f         31 color  red   circle color    73</span>
-<span class="co">#&gt;  2 Ann   f         31 color  red   circle shape    64</span>
-<span class="co">#&gt;  3 Bea   f         18 shape  blue  circle color    18</span>
-<span class="co">#&gt;  4 Bea   f         18 shape  blue  circle shape    42</span>
-<span class="co">#&gt;  5 Cat   f         42 color  red   square color    31</span>
-<span class="co">#&gt;  6 Cat   f         42 color  red   square shape    41</span>
-<span class="co">#&gt;  7 Deb   f         18 shape  blue  square color    35</span>
-<span class="co">#&gt;  8 Deb   f         18 shape  blue  square shape    51</span>
-<span class="co">#&gt;  9 Ed    m         21 color  red   circle color    71</span>
-<span class="co">#&gt; 10 Ed    m         21 color  red   circle shape    44</span>
-<span class="co">#&gt; 11 Fred  m         63 shape  blue  circle color    56</span>
-<span class="co">#&gt; 12 Fred  m         63 shape  blue  circle shape    63</span>
-<span class="co">#&gt; 13 Gary  m         22 color  red   square color    60</span>
-<span class="co">#&gt; 14 Gary  m         22 color  red   square shape    98</span>
-<span class="co">#&gt; 15 Hans  m         31 shape  blue  square color    40</span>
-<span class="co">#&gt; 16 Hans  m         31 shape  blue  square shape    41</span>
+<span class="co"># t_1_tidy</span>
+<span class="co"># t_2_tidy</span>
 <span class="kw">all.equal</span>(t_1_tidy, t_2_tidy)  <span class="co"># =&gt; TRUE</span>
 <span class="co">#&gt; [1] &quot;Incompatible type for column `gender`: x factor, y character&quot;</span>
-<span class="co">#&gt; [2] &quot;Incompatible type for column `task_1`: x factor, y character&quot;</span>
-<span class="co">#&gt; [3] &quot;Incompatible type for column `color`: x factor, y character&quot; </span>
-<span class="co">#&gt; [4] &quot;Incompatible type for column `shape`: x factor, y character&quot;</span></code></pre></div>
+<span class="co">#&gt; [2] &quot;Incompatible type for column `age`: x integer, y numeric&quot;    </span>
+<span class="co">#&gt; [3] &quot;Incompatible type for column `task_1`: x factor, y character&quot;</span>
+<span class="co">#&gt; [4] &quot;Incompatible type for column `color`: x factor, y character&quot; </span>
+<span class="co">#&gt; [5] &quot;Incompatible type for column `shape`: x factor, y character&quot;</span></code></pre></div>
 <ol start="3" style="list-style-type: decimal">
 <li><code>t_3</code></li>
 </ol>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">t_<span class="dv">3</span> &lt;-<span class="st"> </span><span class="kw">read_csv</span>(t_3_path)
-<span class="kw">dim</span>(t_<span class="dv">3</span>)
+<span class="kw">dim</span>(t_<span class="dv">3</span>)  <span class="co"># 16 x 6</span>
 <span class="co">#&gt; [1] 16  6</span>
 
-knitr<span class="op">::</span><span class="kw">kable</span>(t_<span class="dv">3</span>)</code></pre></div>
+knitr<span class="op">::</span><span class="kw">kable</span>(t_<span class="dv">3</span>, <span class="dt">caption =</span> <span class="st">&quot;Table t_3.&quot;</span>)</code></pre></div>
 <table>
+<caption>Table t_3.</caption>
 <thead>
 <tr class="header">
 <th align="left">name</th>
@@ -1798,11 +1744,12 @@ knitr<span class="op">::</span><span class="kw">kable</span>(t_<span class="dv">
 <li><code>t_4</code></li>
 </ol>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">t_<span class="dv">4</span> &lt;-<span class="st"> </span><span class="kw">read_csv</span>(t_4_path)
-<span class="kw">dim</span>(t_<span class="dv">4</span>)
+<span class="kw">dim</span>(t_<span class="dv">4</span>)  <span class="co"># 16 x 8</span>
 <span class="co">#&gt; [1] 16  8</span>
 
-knitr<span class="op">::</span><span class="kw">kable</span>(t_<span class="dv">4</span>)</code></pre></div>
+knitr<span class="op">::</span><span class="kw">kable</span>(t_<span class="dv">4</span>, <span class="dt">caption =</span> <span class="st">&quot;Table t_4.&quot;</span>)</code></pre></div>
 <table>
+<caption>Table t_4.</caption>
 <thead>
 <tr class="header">
 <th align="left">name</th>
@@ -2035,13 +1982,15 @@ knitr<span class="op">::</span><span class="kw">kable</span>(t_<span class="dv">
 | "Betix" |   3.3  |   2.9   |   3.0    |  2.1   |   2.3    |   2.5  |  
 | "Cevis" |   4.2  |   4.8   |   4.6    |  3.1   |   3.2    |   3.7  |
 -->
-<p><strong>a.</strong> Create a tibble <code>st</code> that contains this data in this (wide) format.</p>
-<p><strong>b.</strong> Transform <code>st</code> into a longer table <code>st_long</code> that contains 18 rows and only 1 numeric variable for all stock prices. Adjust this table so that the <code>day</code> and <code>time</code> appear as 2 separate columns.</p>
-<p><strong>c.</strong> Create a (line) graph that shows the 3 stocks’ <code>end</code> prices (on the y-axis) over the 3 days (on the x-axis).</p>
-<p><strong>d.</strong> Spread <code>st_long</code> into a wider table that contains <code>start</code> and <code>end</code> prices as 2 distinct variables (columns) for each stock and day.</p>
+<ol style="list-style-type: decimal">
+<li><p>Create a tibble <code>st</code> that contains this data in this (wide) format.</p></li>
+<li><p>Transform <code>st</code> into a longer table <code>st_long</code> that contains 18 rows and only 1 numeric variable for all stock prices. Adjust this table so that the <code>day</code> and <code>time</code> appear as 2 separate columns.</p></li>
+<li><p>Create a (line) graph that shows the 3 stocks’ <code>end</code> prices (on the y-axis) over the 3 days (on the x-axis).</p></li>
+<li><p>Spread <code>st_long</code> into a wider table that contains <code>start</code> and <code>end</code> prices as 2 distinct variables (columns) for each stock and day.</p></li>
+</ol>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># library(tidyverse)</span>
 
-## (a) Enter stock data (in wide format) as a tibble:
+<span class="co"># 1. Enter stock data (in wide format) as a tibble:</span>
 st &lt;-<span class="st"> </span><span class="kw">tribble</span>(
   <span class="op">~</span>stock, <span class="op">~</span>d1_start, <span class="op">~</span>d1_end, <span class="op">~</span>d2_start, <span class="op">~</span>d2_end, <span class="op">~</span>d3_start, <span class="op">~</span>d3_end,  
   <span class="co">#-----|----------|--------|----------|--------|----------|--------|</span>
@@ -2055,8 +2004,8 @@ st &lt;-<span class="st"> </span><span class="kw">tribble</span>(
 ## Note data structure: 
 ## 2 nested factors: day (1 to 3), type (start or end).
 
-## (b) Change from wide to long format 
-##     that contains the day (d1, d2, d3) and type (start vs. end) as separate columns:
+<span class="co"># 2. Change from wide to long format </span>
+<span class="co">#    that contains the day (d1, d2, d3) and type (start vs. end) as separate columns:</span>
 st_long &lt;-<span class="st"> </span>st <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw">gather</span>(d1_start<span class="op">:</span>d3_end, <span class="dt">key =</span> <span class="st">&quot;key&quot;</span>, <span class="dt">value =</span> <span class="st">&quot;val&quot;</span>) <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw">separate</span>(key, <span class="dt">into =</span> <span class="kw">c</span>(<span class="st">&quot;day&quot;</span>, <span class="st">&quot;time&quot;</span>)) <span class="op">%&gt;%</span>
@@ -2084,7 +2033,7 @@ st_long
 <span class="co">#&gt; 17 Cevis d3    end     3.7</span>
 <span class="co">#&gt; 18 Cevis d3    start   3.2</span>
 
-## (c) Plot the end values (on the y-axis) of the 3 stocks over 3 days (x-axis):
+<span class="co"># 3. Plot the end values (on the y-axis) of the 3 stocks over 3 days (x-axis):</span>
 st_long <span class="op">%&gt;%</span><span class="st"> </span>
 <span class="st">  </span><span class="kw">filter</span>(time <span class="op">==</span><span class="st"> &quot;end&quot;</span>) <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> day, <span class="dt">y =</span> val, <span class="dt">color =</span> stock, <span class="dt">shape =</span> stock)) <span class="op">+</span>
@@ -2096,7 +2045,7 @@ st_long <span class="op">%&gt;%</span><span class="st"> </span>
        <span class="dt">shape =</span> <span class="st">&quot;Stock:&quot;</span>, <span class="dt">color =</span> <span class="st">&quot;Stock:&quot;</span>) <span class="op">+</span>
 <span class="st">  </span><span class="kw">theme_bw</span>()
 
-## (d) Change st_long into a wider format that lists start and end as 2 distinct variables (columns):
+<span class="co"># 4. Change st_long into a wider format that lists start and end as 2 distinct variables (columns):</span>
 st_long <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw">spread</span>(<span class="dt">key =</span> time, <span class="dt">value =</span> val) <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw">mutate</span>(<span class="dt">day_nr =</span> <span class="kw">parse_integer</span>(<span class="kw">str_sub</span>(day, <span class="dv">2</span>, <span class="dv">2</span>))) <span class="co"># optional: get day_nr as integer variable</span>
@@ -2248,6 +2197,7 @@ my_tbl_<span class="dv">4</span><span class="op">$</span>intervention &lt;-<span
 <span class="co"># my_tbl_2</span>
 <span class="kw">all.equal</span>(my_tbl_<span class="dv">4</span>, my_tbl_<span class="dv">2</span>)
 <span class="co">#&gt; [1] TRUE</span></code></pre></div>
+<p>+++ here now +++</p>
 </div>
 </div>
 <div id="exercise-x" class="section level2">
@@ -2693,7 +2643,7 @@ Nr. | Topic       |
 7.  | [Tidying data](http://rpository.com/ds4psy/essentials/tidy.html) |
 +.  | [Datasets](http://rpository.com/ds4psy/essentials/datasets.html) | 
 -->
-<p>[Last update on 2019-01-11 15:34:34 by <a href="http://neth.de/">hn</a>.]</p>
+<p>[Last update on 2019-01-12 16:48:41 by <a href="http://neth.de/">hn</a>.]</p>
 <!-- eof. -->
 </div>
 <div class="footnotes">

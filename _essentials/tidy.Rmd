@@ -1,7 +1,7 @@
 ---
 title: "Tidy data, with solutions (ds4psy)"
 author: "Hansjörg Neth, SPDS, uni.kn"
-date: "2019 01 10"
+date: "2019 01 12"
 output:
    rmdformats::html_clean: # html_clean html_docco readthedown material #
      code_folding: show # hide
@@ -609,7 +609,7 @@ Idea: Create many tables that contain the same data. For each of them:
 
 - Transform any non-tidy one into a tidy one. 
 
-```{r ex_create_t_1, echo = FALSE, eval = TRUE}
+```{r ex_create_t_1, echo = FALSE, eval = FALSE}
 n <- 8        # [n]umber of participants
 set.seed(11)  # for replicability
 
@@ -638,16 +638,14 @@ t_1 <- as_tibble(cbind(IVs, DVs))
 t_1$color_time[t_1$task_1 == "color"] <- t_1$color_time[t_1$task_1 == "color"] + 11  # color first is longer
 t_1$shape_time[t_1$task_1 == "shape"] <- t_1$shape_time[t_1$task_1 == "shape"] - 11  # shape first is shorter
 
-
 t_1$name <- as.character(t_1$name)
 # t_1
 
-# Write out t_1:
-write_csv(t_1, "./../data/t_1.csv")
+## Write out t_1:
+# write_csv(t_1, "./../data/t_1.csv")
 ```
 
-
-```{r ex_create_t_2, echo = FALSE, eval = TRUE}
+```{r ex_create_t_2, echo = FALSE, eval = FALSE}
 # t_2: ---- 
 # More compact version of t_1 (by uniting and dropping columns):
 
@@ -660,14 +658,18 @@ t_2 <- t_1 %>%
   select(name, details, task_1, color_time, shape_time)
 # t_2
 
-# Write out t_2:
-write_csv(t_2, "./../data/t_2.csv")
+## Write out t_2:
+# write_csv(t_2, "./../data/t_2.csv")
 ```
 
+Paths to data files: 
 
-0. Data paths
+- [t_1.csv](http://rpository.com/ds4psy/data/t_1.csv)
+- [t_2.csv](http://rpository.com/ds4psy/data/t_2.csv)
+- [t_3.csv](http://rpository.com/ds4psy/data/t_3.csv)
+- [t_4.csv](http://rpository.com/ds4psy/data/t_4.csv)
 
-```{r}
+```{r data_paths, echo = FALSE, eval = TRUE}
 # offline: 
 t_1_path <- "./../data/t_1.csv"
 t_2_path <- "./../data/t_2.csv"
@@ -675,16 +677,19 @@ t_3_path <- "./../data/t_3.csv"
 t_4_path <- "./../data/t_4.csv"
 
 # online:
-
+t_1_path <- "http://rpository.com/ds4psy/data/t_1.csv"
+t_2_path <- "http://rpository.com/ds4psy/data/t_2.csv"
+t_3_path <- "http://rpository.com/ds4psy/data/t_3.csv"
+t_4_path <- "http://rpository.com/ds4psy/data/t_4.csv"
 ```
 
 1. `t_1`
 
-```{r read_t_1}
+```{r read_t_1, echo = TRUE, eval = TRUE}
 t_1 <- read_csv(t_1_path)
-dim(t_1)
+dim(t_1)  # 8 x 9
 
-knitr::kable(t_1)
+knitr::kable(t_1, caption = "Table t_1.")
 ```
 
 #### Analysis/Description of `t_1`
@@ -714,7 +719,7 @@ t_1_tidy <- t_1 %>%
 t_1_tidy
 ```
 
-```{r ex_create_t_3, eval = TRUE, echo = FALSE}
+```{r ex_create_t_3, eval = FALSE, echo = FALSE}
 # Create an even more compact version (i.e., with fewer variables) of t_1_tidy:
 t_3 <- t_1_tidy
 
@@ -729,7 +734,6 @@ t_3$position[t_3$task_1 == t_3$type] <- 1
 t_3$position[t_3$task_1 != t_3$type] <- 2 
 # t_3
 
-
 t_3$task <- NA  # encode task as entry of color or shape variable 
                 # (rendering type of task implicit): 
 t_3$task[t_3$type == "color"] <- t_3$color[t_3$type == "color"]
@@ -742,28 +746,28 @@ t_3 <- t_3 %>%
   arrange(name, position)
 # t_3
 
-# Write out t_3:
-write_csv(t_3, "./../data/t_3.csv")
+## Write out t_3:
+# write_csv(t_3, "./../data/t_3.csv")
 ```
 
-```{r ex_create_t_4, eval = TRUE, echo = FALSE}
+```{r ex_create_t_4, eval = FALSE, echo = FALSE}
 # Spread t_3 into a wider form:
 t_4 <- t_3 %>%
   spread(key = task, value = time) %>%
   select(name:blue, red, circle, square)
-t_4
+# t_4
 
-# Write out t_4:
-write_csv(t_4, "./../data/t_4.csv")
+## Write out t_4:
+# write_csv(t_4, "./../data/t_4.csv")
 ```
 
 2. `t_2`
 
 ```{r read_t_2}
 t_2 <- read_csv(t_2_path)
-dim(t_2)
+dim(t_2)  # 8 x 5 
 
-knitr::kable(t_2)
+knitr::kable(t_2, caption = "Table t_2.")
 ```
 
 #### Analysis/Description of `t_2`
@@ -791,7 +795,7 @@ t_2_tidy <- t_2_1 %>%
 t_2_tidy
 ```
 
-Verify equality: 
+#### Verify equality 
 
 ```{r verify_equality_t_1_2_tidy}
 ## Check equality:
@@ -802,7 +806,7 @@ all.equal(t_1_tidy, t_2_tidy)  # => different variable types
 # Create equality: 
 # (a) Change variable types in t_2_tidy:
 t_2_tidy$gender <- as.character(t_2_tidy$gender)
-t_2_tidy$age    <- as.integer(t_2_tidy$age)
+t_2_tidy$age    <- as.numeric(t_2_tidy$age)
 t_2_tidy$color  <- as.character(t_2_tidy$color)
 t_2_tidy$shape  <- as.character(t_2_tidy$shape)
 t_2_tidy$time  <- as.numeric(t_2_tidy$time)
@@ -814,8 +818,8 @@ t_2_tidy$type[t_2_tidy$type == "s"] <- "shape"
 # t_2_tidy
 
 ## Check equality:
-t_1_tidy
-t_2_tidy
+# t_1_tidy
+# t_2_tidy
 all.equal(t_1_tidy, t_2_tidy)  # => TRUE
 ```
 
@@ -823,23 +827,21 @@ all.equal(t_1_tidy, t_2_tidy)  # => TRUE
 
 ```{r read_t_3}
 t_3 <- read_csv(t_3_path)
-dim(t_3)
+dim(t_3)  # 16 x 6
 
-knitr::kable(t_3)
+knitr::kable(t_3, caption = "Table t_3.")
 ```
 
 4. `t_4`
 
 ```{r read_t_4}
 t_4 <- read_csv(t_4_path)
-dim(t_4)
+dim(t_4)  # 16 x 8
 
-knitr::kable(t_4)
+knitr::kable(t_4, caption = "Table t_4.")
 ```
 
-
-
-## Exercise B:
+## Exercise B: 
 
 #### Moving stocks from wide to long to wide. 
 
@@ -868,18 +870,18 @@ knitr::kable(st, caption = "Stock data example showing the start and end prices 
 | "Cevis" |   4.2  |   4.8   |   4.6    |  3.1   |   3.2    |   3.7  |
 --> 
 
-**a.** Create a tibble `st` that contains this data in this (wide) format.
+1. Create a tibble `st` that contains this data in this (wide) format.
 
-**b.** Transform `st` into a longer table `st_long` that contains 18 rows and only 1 numeric variable for all stock prices. Adjust this table so that the `day` and `time` appear as 2 separate columns. 
+2. Transform `st` into a longer table `st_long` that contains 18 rows and only 1 numeric variable for all stock prices. Adjust this table so that the `day` and `time` appear as 2 separate columns. 
 
-**c.** Create a (line) graph that shows the 3 stocks' `end` prices (on the y-axis) over the 3 days (on the x-axis). 
+3. Create a (line) graph that shows the 3 stocks' `end` prices (on the y-axis) over the 3 days (on the x-axis). 
 
-**d.** Spread  `st_long` into a wider table that contains `start` and `end` prices as 2 distinct variables (columns) for each stock and day. 
+4. Spread  `st_long` into a wider table that contains `start` and `end` prices as 2 distinct variables (columns) for each stock and day. 
 
 ```{r stock_solution, echo = TRUE, fig.show = "hold"}
 # library(tidyverse)
 
-## (a) Enter stock data (in wide format) as a tibble:
+# 1. Enter stock data (in wide format) as a tibble:
 st <- tribble(
   ~stock, ~d1_start, ~d1_end, ~d2_start, ~d2_end, ~d3_start, ~d3_end,  
   #-----|----------|--------|----------|--------|----------|--------|
@@ -892,15 +894,15 @@ dim(st)
 ## Note data structure: 
 ## 2 nested factors: day (1 to 3), type (start or end).
 
-## (b) Change from wide to long format 
-##     that contains the day (d1, d2, d3) and type (start vs. end) as separate columns:
+# 2. Change from wide to long format 
+#    that contains the day (d1, d2, d3) and type (start vs. end) as separate columns:
 st_long <- st %>%
   gather(d1_start:d3_end, key = "key", value = "val") %>%
   separate(key, into = c("day", "time")) %>%
   arrange(stock, day, time) # optional: arrange rows
 st_long
 
-## (c) Plot the end values (on the y-axis) of the 3 stocks over 3 days (x-axis):
+# 3. Plot the end values (on the y-axis) of the 3 stocks over 3 days (x-axis):
 st_long %>% 
   filter(time == "end") %>%
   ggplot(aes(x = day, y = val, color = stock, shape = stock)) +
@@ -912,12 +914,11 @@ st_long %>%
        shape = "Stock:", color = "Stock:") +
   theme_bw()
 
-## (d) Change st_long into a wider format that lists start and end as 2 distinct variables (columns):
+# 4. Change st_long into a wider format that lists start and end as 2 distinct variables (columns):
 st_long %>%
   spread(key = time, value = val) %>%
   mutate(day_nr = parse_integer(str_sub(day, 2, 2))) # optional: get day_nr as integer variable
 ```
-
 
 ## Exercise C:
 
@@ -988,6 +989,8 @@ my_tbl_4$intervention <- as.double(my_tbl_4$intervention) # back to number
 all.equal(my_tbl_4, my_tbl_2)
 ```
 
+
++++ here now +++
 
 ## Exercise X:
 
