@@ -989,6 +989,90 @@ my_tbl_4$intervention <- as.double(my_tbl_4$intervention) # back to number
 all.equal(my_tbl_4, my_tbl_2)
 ```
 
+## Exercise D:
+
+We have seen 2 sets of data for the [positive psychology](http://rpository.com/ds4psy/essentials/datasets.html#positive-psychology) experiment: 
+
+- `posPsy_AHI_CESD_corrected.csv` (990 x 50 variables):  
+<http://rpository.com/ds4psy/data/posPsy_AHI_CESD_corrected.csv>.   
+
+- `posPsy_data_wide.csv` (295 x 294 variables):   
+<http://rpository.com/ds4psy/data/posPsy_data_wide.csv>.   
+
+Both of these datasets contain the same information, but one is in long format and one in wide format. With `tidyr`, we are able to transform the long format into wide format (and vice versa) on our own.
+
+#### 1. From long to wide
+
+Load the file `posPsy_AHI_CESD_corrected.csv` into a tibble `posPsy_long`. To make things simpler, drop all columns except `id`, `occasion`, `intervention`, and `ahiTotal`. 
+
+Transform the resulting table from long to wide format (spreading `ahiTotal` values over different `occasion`s).
+
+```{r ex4_long2wide, echo = TRUE, eval = TRUE}
+## Load data: ---- 
+posPsy_long <- read_csv(file = "http://rpository.com/ds4psy/data/posPsy_AHI_CESD_corrected.csv")  # online
+dim(posPsy_long)  # 990 x 50
+
+## Drop most colums: ---- 
+df_long <- posPsy_long %>%
+  select(id, occasion, intervention, ahiTotal)
+## Check: 
+# df_long
+dim(df_long)  # 990 x 4
+
+## Spread to wide format: ---- 
+df_wide <- df_long %>%
+  spread(occasion, ahiTotal, convert = TRUE)
+
+## Check:
+dim(df_wide)  # 295 x 8
+
+# Fix some variable names:
+names(df_wide)[3:8] <- paste0("occ_", names(df_wide)[3:8])
+
+## Check: 
+df_wide
+```
+
+#### 2. From wide to long
+
+Load the file `posPsy_data_wide.csv` into a tibble `posPsy_wide` and drop all variables that contain values of individual happiness or depression items (i.e., all score variables _not_ containing "Total" in their names). 
+
+Then transform this wide format tibble into long format. 
+Your result table should contain all demographic information (in separate columns), the type of scale (ahiTotal vs. cesdTotal), number of `occasion` (0 to 5), and the scale `value` (as dependent variable).
+
+**Hint**: First gather all `Total` variables into a single `value` variable, then separate the key column into 2 variables `scale` and `occasion`. 
+
+```{r ex4_wide2long, echo = TRUE, eval = TRUE}
+## Load data: ---- 
+posPsy_wide <- read_csv(file = "http://rpository.com/ds4psy/data/posPsy_data_wide.csv")  # online
+dim(posPsy_wide)  # 295 x 294 
+
+## Drop unnecessary columns and gather: ---- 
+df_long <- posPsy_wide %>%
+  # drop unnecessary columns: 
+  select(id, intervention, sex, age, educ, income, contains("Total")) %>% 
+  gather(-id, -intervention, -sex, -age, -educ, -income, 
+         key = "score.occasion", 
+         value = "value")
+## Check: 
+dim(df_long)  # 3540 x 8
+# df_long 
+
+## Separate key column score.occasion: ---- 
+df_long <- df_long %>% 
+  separate(score.occasion, 
+           into = c("scale", "occasion"))
+## Check: 
+dim(df_long)  # 3540 x 9
+# df_long
+
+# Fix some variables: 
+df_long$occasion <- as.integer(df_long$occasion)
+
+df_long
+```
+
+
 
 +++ here now +++
 

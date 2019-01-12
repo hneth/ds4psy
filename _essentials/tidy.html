@@ -2197,6 +2197,112 @@ my_tbl_<span class="dv">4</span><span class="op">$</span>intervention &lt;-<span
 <span class="co"># my_tbl_2</span>
 <span class="kw">all.equal</span>(my_tbl_<span class="dv">4</span>, my_tbl_<span class="dv">2</span>)
 <span class="co">#&gt; [1] TRUE</span></code></pre></div>
+</div>
+</div>
+<div id="exercise-d" class="section level2">
+<h2>Exercise D:</h2>
+<p>We have seen 2 sets of data for the <a href="http://rpository.com/ds4psy/essentials/datasets.html#positive-psychology">positive psychology</a> experiment:</p>
+<ul>
+<li><p><code>posPsy_AHI_CESD_corrected.csv</code> (990 x 50 variables):<br />
+<a href="http://rpository.com/ds4psy/data/posPsy_AHI_CESD_corrected.csv" class="uri">http://rpository.com/ds4psy/data/posPsy_AHI_CESD_corrected.csv</a>.</p></li>
+<li><p><code>posPsy_data_wide.csv</code> (295 x 294 variables):<br />
+<a href="http://rpository.com/ds4psy/data/posPsy_data_wide.csv" class="uri">http://rpository.com/ds4psy/data/posPsy_data_wide.csv</a>.</p></li>
+</ul>
+<p>Both of these datasets contain the same information, but one is in long format and one in wide format. With <code>tidyr</code>, we are able to transform the long format into wide format (and vice versa) on our own.</p>
+<div id="from-long-to-wide" class="section level4">
+<h4>1. From long to wide</h4>
+<p>Load the file <code>posPsy_AHI_CESD_corrected.csv</code> into a tibble <code>posPsy_long</code>. To make things simpler, drop all columns except <code>id</code>, <code>occasion</code>, <code>intervention</code>, and <code>ahiTotal</code>.</p>
+<p>Transform the resulting table from long to wide format (spreading <code>ahiTotal</code> values over different <code>occasion</code>s).</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## Load data: ---- 
+posPsy_long &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="dt">file =</span> <span class="st">&quot;http://rpository.com/ds4psy/data/posPsy_AHI_CESD_corrected.csv&quot;</span>)  <span class="co"># online</span>
+<span class="kw">dim</span>(posPsy_long)  <span class="co"># 990 x 50</span>
+<span class="co">#&gt; [1] 990  50</span>
+
+## Drop most colums: ---- 
+df_long &lt;-<span class="st"> </span>posPsy_long <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">select</span>(id, occasion, intervention, ahiTotal)
+## Check: 
+<span class="co"># df_long</span>
+<span class="kw">dim</span>(df_long)  <span class="co"># 990 x 4</span>
+<span class="co">#&gt; [1] 990   4</span>
+
+## Spread to wide format: ---- 
+df_wide &lt;-<span class="st"> </span>df_long <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">spread</span>(occasion, ahiTotal, <span class="dt">convert =</span> <span class="ot">TRUE</span>)
+
+## Check:
+<span class="kw">dim</span>(df_wide)  <span class="co"># 295 x 8</span>
+<span class="co">#&gt; [1] 295   8</span>
+
+<span class="co"># Fix some variable names:</span>
+<span class="kw">names</span>(df_wide)[<span class="dv">3</span><span class="op">:</span><span class="dv">8</span>] &lt;-<span class="st"> </span><span class="kw">paste0</span>(<span class="st">&quot;occ_&quot;</span>, <span class="kw">names</span>(df_wide)[<span class="dv">3</span><span class="op">:</span><span class="dv">8</span>])
+
+## Check: 
+df_wide
+<span class="co">#&gt; # A tibble: 295 x 8</span>
+<span class="co">#&gt;       id intervention occ_0 occ_1 occ_2 occ_3 occ_4 occ_5</span>
+<span class="co">#&gt;    &lt;dbl&gt;        &lt;dbl&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt;</span>
+<span class="co">#&gt;  1     1            4    63    73    NA    NA    NA    NA</span>
+<span class="co">#&gt;  2     2            1    73    89    89    93    80    77</span>
+<span class="co">#&gt;  3     3            4    77    NA    85    NA    NA    NA</span>
+<span class="co">#&gt;  4     4            3    60    67    NA    56    61    NA</span>
+<span class="co">#&gt;  5     5            2    41    41    47    47    47    NA</span>
+<span class="co">#&gt;  6     6            1    62    NA    67    66    NA    NA</span>
+<span class="co">#&gt;  7     7            3    67    NA    NA    NA    NA    NA</span>
+<span class="co">#&gt;  8     8            2    59    45    38    48    43    NA</span>
+<span class="co">#&gt;  9     9            1    48    NA    NA    NA    NA    NA</span>
+<span class="co">#&gt; 10    10            2    58    NA    NA    NA    NA    NA</span>
+<span class="co">#&gt; # ... with 285 more rows</span></code></pre></div>
+</div>
+<div id="from-wide-to-long" class="section level4">
+<h4>2. From wide to long</h4>
+<p>Load the file <code>posPsy_data_wide.csv</code> into a tibble <code>posPsy_wide</code> and drop all variables that contain values of individual happiness or depression items (i.e., all score variables <em>not</em> containing “Total” in their names).</p>
+<p>Then transform this wide format tibble into long format. Your result table should contain all demographic information (in separate columns), the type of scale (ahiTotal vs. cesdTotal), number of <code>occasion</code> (0 to 5), and the scale <code>value</code> (as dependent variable).</p>
+<p><strong>Hint</strong>: First gather all <code>Total</code> variables into a single <code>value</code> variable, then separate the key column into 2 variables <code>scale</code> and <code>occasion</code>.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## Load data: ---- 
+posPsy_wide &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="dt">file =</span> <span class="st">&quot;http://rpository.com/ds4psy/data/posPsy_data_wide.csv&quot;</span>)  <span class="co"># online</span>
+<span class="kw">dim</span>(posPsy_wide)  <span class="co"># 295 x 294 </span>
+<span class="co">#&gt; [1] 295 294</span>
+
+## Drop unnecessary columns and gather: ---- 
+df_long &lt;-<span class="st"> </span>posPsy_wide <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="co"># drop unnecessary columns: </span>
+<span class="st">  </span><span class="kw">select</span>(id, intervention, sex, age, educ, income, <span class="kw">contains</span>(<span class="st">&quot;Total&quot;</span>)) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">gather</span>(<span class="op">-</span>id, <span class="op">-</span>intervention, <span class="op">-</span>sex, <span class="op">-</span>age, <span class="op">-</span>educ, <span class="op">-</span>income, 
+         <span class="dt">key =</span> <span class="st">&quot;score.occasion&quot;</span>, 
+         <span class="dt">value =</span> <span class="st">&quot;value&quot;</span>)
+## Check: 
+<span class="kw">dim</span>(df_long)  <span class="co"># 3540 x 8</span>
+<span class="co">#&gt; [1] 3540    8</span>
+<span class="co"># df_long </span>
+
+## Separate key column score.occasion: ---- 
+df_long &lt;-<span class="st"> </span>df_long <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">separate</span>(score.occasion, 
+           <span class="dt">into =</span> <span class="kw">c</span>(<span class="st">&quot;scale&quot;</span>, <span class="st">&quot;occasion&quot;</span>))
+## Check: 
+<span class="kw">dim</span>(df_long)  <span class="co"># 3540 x 9</span>
+<span class="co">#&gt; [1] 3540    9</span>
+<span class="co"># df_long</span>
+
+<span class="co"># Fix some variables: </span>
+df_long<span class="op">$</span>occasion &lt;-<span class="st"> </span><span class="kw">as.integer</span>(df_long<span class="op">$</span>occasion)
+
+df_long
+<span class="co">#&gt; # A tibble: 3,540 x 9</span>
+<span class="co">#&gt;       id intervention   sex   age  educ income scale    occasion value</span>
+<span class="co">#&gt;    &lt;dbl&gt;        &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;chr&gt;       &lt;int&gt; &lt;dbl&gt;</span>
+<span class="co">#&gt;  1     1            4     2    35     5      3 ahiTotal        0    63</span>
+<span class="co">#&gt;  2     2            1     1    59     1      1 ahiTotal        0    73</span>
+<span class="co">#&gt;  3     3            4     1    51     4      3 ahiTotal        0    77</span>
+<span class="co">#&gt;  4     4            3     1    50     5      2 ahiTotal        0    60</span>
+<span class="co">#&gt;  5     5            2     2    58     5      2 ahiTotal        0    41</span>
+<span class="co">#&gt;  6     6            1     1    31     5      1 ahiTotal        0    62</span>
+<span class="co">#&gt;  7     7            3     1    44     5      2 ahiTotal        0    67</span>
+<span class="co">#&gt;  8     8            2     1    57     4      2 ahiTotal        0    59</span>
+<span class="co">#&gt;  9     9            1     1    36     4      3 ahiTotal        0    48</span>
+<span class="co">#&gt; 10    10            2     1    45     4      3 ahiTotal        0    58</span>
+<span class="co">#&gt; # ... with 3,530 more rows</span></code></pre></div>
 <p>+++ here now +++</p>
 </div>
 </div>
@@ -2643,7 +2749,7 @@ Nr. | Topic       |
 7.  | [Tidying data](http://rpository.com/ds4psy/essentials/tidy.html) |
 +.  | [Datasets](http://rpository.com/ds4psy/essentials/datasets.html) | 
 -->
-<p>[Last update on 2019-01-12 16:48:41 by <a href="http://neth.de/">hn</a>.]</p>
+<p>[Last update on 2019-01-12 19:41:39 by <a href="http://neth.de/">hn</a>.]</p>
 <!-- eof. -->
 </div>
 <div class="footnotes">
@@ -2681,6 +2787,7 @@ Nr. | Topic       |
         <li><a href="#exercise-a">Exercise A:</a></li>
         <li><a href="#exercise-b">Exercise B:</a></li>
         <li><a href="#exercise-c">Exercise C:</a></li>
+        <li><a href="#exercise-d">Exercise D:</a></li>
         <li><a href="#exercise-x">Exercise X:</a></li>
         <li><a href="#exercise-y">Exercise Y:</a></li>
         <li><a href="#exercise-z">Exercise Z:</a></li>
