@@ -1,7 +1,7 @@
 ---
-title: "Tidy data, with solutions (ds4psy)"
+title: "Tidying data, with solutions (ds4psy)"
 author: "Hansjörg Neth, SPDS, uni.kn"
-date: "2019 01 12"
+date: "2019 01 15"
 output:
    rmdformats::html_clean: # html_clean html_docco readthedown material #
      code_folding: show # hide
@@ -137,6 +137,10 @@ For instructions on combining text and code, see [Chapter 27: R Markdown](https:
 
 # Tidy data
 
+The notion of _tidy data_ lies at the core of the tidyverse. The same dataset can be formatted in a variety of formats. Even though they can contain the same data, different formats differ in how easy or hard they are to work with (e.g., for specific analyses or plots). Tidy data is formatted in a simple and straightforward way, which makes it immensely practical (e.g., easy to understand, analyze, and transform into other formats). 
+
+Before defining the notion of tidy data, we first compare and contrast different sets of rectangular data that contain the same information. 
+
 ## Tabular data
 
 In R, rectangular data is often organized in _tibbles_ or _data frames_. Importantly, each column is a vector (of a particular type) that contains the values of a variable. Thus, whereas every column must be of one type, every row can contain values of different variables and types. 
@@ -146,8 +150,8 @@ The same set of data (values of variables) can be organised in many different wa
 ```{r table1_as_barplot, echo = FALSE, eval = TRUE}
 library(tidyverse)
 
-# Illustrating the data in tidyr::table1 
-knitr::kable(tidyr::table1)
+## Illustrating the data in tidyr::table1 
+# knitr::kable(tidyr::table1)
 
 ggplot(data = tidyr::table1, aes(x = year, y = cases, fill = country)) + 
     geom_bar(stat = "identity", position = "dodge") + 
@@ -450,14 +454,14 @@ table7b
 
 ### 3. `gather` makes wide data longer 
 
-Gathering is the opposite of spreading and used when observations that are distributed over multiple columns should be contained in 1 variable (column). More specifically, `gather` moves the values of several variables (columns) into 1 column `value` and describes this value by the value of a new `key` variable. When gathering more than 2 variables, this reduces the number of columns by increasing the number of rows (i.e., makes a wide data set longer).^[The length and width of a data set are relative terms here: gathering tends to decrease data width by increasing length, spreading tends to decrease data length by increasing width.] 
+Gathering is the opposite of spreading (see below) and used when observations that are distributed over multiple columns should be contained in 1 variable (column). More specifically, `gather` moves the values of several variables (columns) into 1 column `value` and describes this value by the value of a new `key` variable. When gathering more than 2 variables, this reduces the number of columns by increasing the number of rows (i.e., makes a wide data set longer).^[The length and width of a data set are relative terms here: gathering tends to decrease data width by increasing length, spreading tends to decrease data length by increasing width.] 
 
 Using `gather` requires the following arguments: 
 
 - `data` is a data frame or tibble;  
 - `key` is the name of the variable that describes the values of the gathered columns (or name of the _independent_ variable);  
 - `value` is the name of the variable that is contained in the gathered columns (or the name of the _dependent_ variable);  
-- `...` or `var_x:var_y` is a list of variables (columns) to be gathered. 
+- `...` (or `var_x:var_y`) is a selection (or block) of variables (columns) to be gathered. 
 
 ```{r gather_example_1}
 # ?gather # provides documentation
@@ -538,13 +542,13 @@ de_2
 
 ### 4. `spread` makes long data wider 
 
-Spreading is the opposite of gathering and used when an observation that should be in 1 row is distributed over multiple rows (in 1 column). More specifically, `spread` puts the values of several cases (rows) into different variables (columns) of 1 row. When spreading more than 2 rows per case, this decreases the number of rows by increasing the number of columns (i.e., makes a long data set wider).^[Again, the length and width of data sets are relative terms.] 
+Spreading is the opposite of gathering (see above) and used when an observation that should be in 1 row is distributed over multiple rows (in 1 column). More specifically, `spread` puts the values of several cases (rows) into different variables (columns) of 1 row. When spreading more than 2 rows per case, this decreases the number of rows by increasing the number of columns (i.e., makes a long data set wider).^[Again, the length and width of data sets are relative terms.] 
 
-Using `spread` requires the following arguments: 
+Using `spread` requires the following arguments:  
 
-- `data` is a data frame or tibble;  
-- `key` is the name of the variable that describes the values of the gathered columns (or the names of the _independent_ variables which become the _names_ of the new columns);  
-- `value` is the name of the variable whose values should be spread over multiple columns (or the name of the _dependent_ variable);
+- `data` is a data frame or tibble;   
+- `key` is the name of the variable that describes the values of the gathered columns (or the names of the _independent_ variables which become the _names_ of the new columns);   
+- `value` is the name of the variable whose values should be spread over multiple columns (or the name of the _dependent_ variable).  
 
 Note that we do not need to specify a range of new columns. The number of new columns is determined by the number of different values in the `key` variable. 
 
@@ -599,15 +603,17 @@ all.equal(de_3, de)
 
 # Exercises (WPA07)
 
-## Exercise A:
+Here are the exercises and solutions to WPA07.
+
+## Exercise 1
 
 #### Tidying messy tables
 
-Idea: Create many tables that contain the same data. For each of them: 
+<!-- Idea: Create many tables that contain the same data. For each of them: 
 
 - Describe the data (dimensions, DVs and IVs). 
 
-- Transform any non-tidy one into a tidy one. 
+- Transform any non-tidy one into a tidy one. --> 
 
 ```{r ex_create_t_1, echo = FALSE, eval = FALSE}
 n <- 8        # [n]umber of participants
@@ -662,14 +668,20 @@ t_2 <- t_1 %>%
 # write_csv(t_2, "./../data/t_2.csv")
 ```
 
-Paths to data files: 
+Here are some paths to data files used in this exercise: 
 
 - [t_1.csv](http://rpository.com/ds4psy/data/t_1.csv)
 - [t_2.csv](http://rpository.com/ds4psy/data/t_2.csv)
 - [t_3.csv](http://rpository.com/ds4psy/data/t_3.csv)
 - [t_4.csv](http://rpository.com/ds4psy/data/t_4.csv)
 
-```{r data_paths, echo = FALSE, eval = TRUE}
+For each of these files:
+
+- Describe the data (dimensions, DVs and IVs). 
+
+- Transform any non-tidy table one into a tidy one. 
+
+```{r data_paths, echo = TRUE, eval = TRUE}
 # offline: 
 t_1_path <- "./../data/t_1.csv"
 t_2_path <- "./../data/t_2.csv"
@@ -683,7 +695,9 @@ t_3_path <- "http://rpository.com/ds4psy/data/t_3.csv"
 t_4_path <- "http://rpository.com/ds4psy/data/t_4.csv"
 ```
 
-1. `t_1`
+<!-- Solutions: -->
+
+1. `t_1` 
 
 ```{r read_t_1, echo = TRUE, eval = TRUE}
 t_1 <- read_csv(t_1_path)
@@ -710,7 +724,7 @@ Note:
 
 #### Tidying `t_1`
 
-```{r tidy_t_1}
+```{r tidy_t_1, echo = TRUE, eval = TRUE}
 t_1_tidy <- t_1 %>%
   gather(key = "key", value = "time", color_time, shape_time) %>%
   separate(key, c("type", "rest"), sep = "_") %>%
@@ -797,6 +811,8 @@ t_2_tidy
 
 #### Verify equality 
 
+Let's show that `t_1_tidy` and `t_2_tidy` really are equal: 
+
 ```{r verify_equality_t_1_2_tidy}
 ## Check equality:
 # t_1_tidy
@@ -832,6 +848,40 @@ dim(t_3)  # 16 x 6
 knitr::kable(t_3, caption = "Table t_3.")
 ```
 
+#### Analysis/Description of `t_3`
+
+- `t_3` is a 16 x 6 table.
+
+- Each person appears twice, and task `position`, `task` type, and task `time` are described by 3 variables. 
+
+- The `task` variable contains implicit information on task type: 
+    - values of "red" and "blue" are of type "color",  
+    - values of "circle" and "square" are of type "shape".  
+
+#### Tidying `t_3`
+
+To tidy `t_3`, we need to flesh out the `task` variable into multiple columns that denote the `type`, `color` and `shape` of each task. 
+
+```{r tidy_t_3}
+# t_3
+
+# Create a new variable task type:
+t_3$type <- NA  # initialize variable 
+t_3$type[t_3$task == "red" | t_3$task == "blue"]      <- "color"
+t_3$type[t_3$task == "circle" | t_3$task == "square"] <- "shape"
+
+# Create 2 new variables color and shape:
+t_3$color <- NA  # initialize variable 
+t_3$shape <- NA  # initialize variable 
+t_3$color[t_3$task == "red" | t_3$task == "blue"] <- t_3$task[t_3$task == "red" | t_3$task == "blue"]
+t_3$shape[t_3$task == "circle" | t_3$task == "square"] <- t_3$task[t_3$task == "circle" | t_3$task == "square"]
+
+t_3_tidy <- t_3 %>% 
+  select(name:position, type:shape, time)  # sort columns and drop task variable
+t_3_tidy
+```
+
+
 4. `t_4`
 
 ```{r read_t_4}
@@ -841,7 +891,61 @@ dim(t_4)  # 16 x 8
 knitr::kable(t_4, caption = "Table t_4.")
 ```
 
-## Exercise B: 
+#### Analysis/Description of `t_4`
+
+- `t_4` is a 16 x 8 table. 
+
+- Each person appears twice, and the task `position` is encoded by a variable. 
+
+- The task `time` information is distributed across 4 columns (`blue`, `red`, `circle`, and `square`), which also encode task `type` and `color` or `shape`. 
+
+#### Tidying `t_4`
+
+Here are 2 different solutions: 
+
+```{r tidy_t_4}
+t_4
+
+# Solution 1: Gather 4 time variables + filter out non-NA cases: -------- 
+t_4_mod <- t_4 %>%
+  gather(key = "task", value = "time", blue:square) %>%
+  filter(!is.na(time)) %>%
+  arrange(name, position)
+t_4_mod
+
+# Verify that t_4_mod is equal to t_3 (from above):
+all.equal(t_3, t_4_mod)
+
+# From here on, cleaning t_4_mod is equal to cleaning t_3 (see above).
+
+
+# Solution 2: Fleshing out info in 4 time columns by hand (base R): -------- 
+t_4[is.na(t_4)] <- 0  # replace NA values by values of 0 
+t_4$time <- t_4$blue + t_4$red + t_4$circle + t_4$square 
+
+# Create 2 new variables color and shape:
+t_4$color <- NA  # initialize variable 
+t_4$shape <- NA  # initialize variable 
+t_4$color[t_4$blue > 0] <- "blue"
+t_4$color[t_4$red > 0] <- "red"
+t_4$shape[t_4$circle > 0] <- "circle"
+t_4$shape[t_4$square > 0] <- "square"
+
+# Create a new variable task type:
+t_4$type <- NA  # initialize variable 
+t_4$type[!is.na(t_4$color)] <- "color"
+t_4$type[!is.na(t_4$shape)] <- "shape"
+
+t_4_tidy <- t_4 %>%
+  select(name:position, type, color, shape, time)
+t_4_tidy
+
+# Verify equality: -------- 
+all.equal(t_3_tidy, t_4_tidy)
+```
+
+
+## Exercise 2
 
 #### Moving stocks from wide to long to wide. 
 
@@ -878,10 +982,10 @@ knitr::kable(st, caption = "Stock data example showing the start and end prices 
 
 4. Spread  `st_long` into a wider table that contains `start` and `end` prices as 2 distinct variables (columns) for each stock and day. 
 
-```{r stock_solution, echo = TRUE, fig.show = "hold"}
+```{r stock_solution, echo = TRUE, eval = TRUE, fig.show = "hold"}
 # library(tidyverse)
 
-# 1. Enter stock data (in wide format) as a tibble:
+# 1. Enter stock data (in wide format) as a tibble: ---- 
 st <- tribble(
   ~stock, ~d1_start, ~d1_end, ~d2_start, ~d2_end, ~d3_start, ~d3_end,  
   #-----|----------|--------|----------|--------|----------|--------|
@@ -894,7 +998,7 @@ dim(st)
 ## Note data structure: 
 ## 2 nested factors: day (1 to 3), type (start or end).
 
-# 2. Change from wide to long format 
+# 2. Change from wide to long format ---- 
 #    that contains the day (d1, d2, d3) and type (start vs. end) as separate columns:
 st_long <- st %>%
   gather(d1_start:d3_end, key = "key", value = "val") %>%
@@ -902,7 +1006,7 @@ st_long <- st %>%
   arrange(stock, day, time) # optional: arrange rows
 st_long
 
-# 3. Plot the end values (on the y-axis) of the 3 stocks over 3 days (x-axis):
+# 3. Plot the end values (on the y-axis) of the 3 stocks over 3 days (x-axis): ---- 
 st_long %>% 
   filter(time == "end") %>%
   ggplot(aes(x = day, y = val, color = stock, shape = stock)) +
@@ -914,13 +1018,13 @@ st_long %>%
        shape = "Stock:", color = "Stock:") +
   theme_bw()
 
-# 4. Change st_long into a wider format that lists start and end as 2 distinct variables (columns):
+# 4. Change st_long into a wider format that lists start and end as 2 distinct variables (columns): ---- 
 st_long %>%
   spread(key = time, value = val) %>%
   mutate(day_nr = parse_integer(str_sub(day, 2, 2))) # optional: get day_nr as integer variable
 ```
 
-## Exercise C:
+## Exercise 3
 
 #### A posPsy tibble reloaded
 
@@ -940,11 +1044,7 @@ my_tbl_2 <- posPsy_wide %>%
             mn_cesd_3 = round(mean(cesdTotal.3, na.rm = TRUE), 1),
             mn_cesd_4 = round(mean(cesdTotal.4, na.rm = TRUE), 1),
             mn_cesd_5 = round(mean(cesdTotal.5, na.rm = TRUE), 1) )
-
-my_tbl_2
-
-my_tbl_2 %>% 
-  gather(key = "key", value = "mean_cesd", mn_cesd_0:mn_cesd_5)
+# my_tbl_2
 
 # Print my_tbl_2: 
 knitr::kable(my_tbl_2, caption = "Table: Mean depression scores by intervention and occasion.")
@@ -957,6 +1057,22 @@ Earlier, we solved this problem by creating an alternative tibble `my_tbl_3` -- 
 1. Re-create one of the original tibbles (either `my_tbl` or `my_tbl_2`) and use `tidyr` to transform it into the long format of `my_tbl_3`.
 
 ```{r ex_solution_wide_to_long, echo = TRUE, eval = TRUE}
+# Load data: ---- 
+posPsy_wide <- read_csv(file = "http://rpository.com/ds4psy/data/posPsy_data_wide.csv")
+# dim(posPsy_wide)  # 295 294
+
+# Re-create tibble: ----  
+my_tbl_2 <- posPsy_wide %>%
+  group_by(intervention) %>%
+  summarise(mn_cesd_0 = round(mean(cesdTotal.0, na.rm = TRUE), 1), 
+            mn_cesd_1 = round(mean(cesdTotal.1, na.rm = TRUE), 1), 
+            mn_cesd_2 = round(mean(cesdTotal.2, na.rm = TRUE), 1),
+            mn_cesd_3 = round(mean(cesdTotal.3, na.rm = TRUE), 1),
+            mn_cesd_4 = round(mean(cesdTotal.4, na.rm = TRUE), 1),
+            mn_cesd_5 = round(mean(cesdTotal.5, na.rm = TRUE), 1) )
+# my_tbl_2
+
+# Transform from wide into long format: ---- 
 my_tbl_3 <- my_tbl_2 %>% 
   gather(key = "key", value = "mean_cesd", mn_cesd_0:mn_cesd_5) %>%
   separate(key, c("mn", "cesd", "occasion"), sep = "_") %>%
@@ -967,6 +1083,7 @@ my_tbl_3 <- my_tbl_2 %>%
 my_tbl_3$occasion     <- as.integer(my_tbl_3$occasion)    # as integer
 my_tbl_3$intervention <- as.factor(my_tbl_3$intervention) # as factor
 
+# Check: 
 my_tbl_3
 ```
 
@@ -989,9 +1106,9 @@ my_tbl_4$intervention <- as.double(my_tbl_4$intervention) # back to number
 all.equal(my_tbl_4, my_tbl_2)
 ```
 
-## Exercise D:
+## Exercise 4
 
-We have seen 2 sets of data for the [positive psychology](http://rpository.com/ds4psy/essentials/datasets.html#positive-psychology) experiment: 
+In previous sessions, we have seen 2 sets of data for the [positive psychology](http://rpository.com/ds4psy/essentials/datasets.html#positive-psychology) experiment: 
 
 - `posPsy_AHI_CESD_corrected.csv` (990 x 50 variables):  
 <http://rpository.com/ds4psy/data/posPsy_AHI_CESD_corrected.csv>.   
@@ -1072,7 +1189,75 @@ df_long$occasion <- as.integer(df_long$occasion)
 df_long
 ```
 
+## Exercise 5
 
+This exercise relies on the datasets for the [false positive psychology](http://rpository.com/ds4psy/essentials/datasets.html#false-positive-psychology) project: 
+
+- `falsePosPsy_all` (78 x 19 variables): <http://rpository.com/ds4psy/data/falsePosPsy_all.csv>
+
+```{r ex5_import_data, echo = TRUE, eval = TRUE, message = FALSE, warning = FALSE}
+# Import the Dataset
+falsePosPsy_all <- read_csv(file = "http://rpository.com/ds4psy/data/falsePosPsy_all.csv")  # online
+
+## Check: 
+# dim(falsePosPsy_all)  # 78 x 19
+# str(falsePosPsy)
+
+# Working with a copy:
+df <- falsePosPsy_all
+```
+
+#### Parents age?
+
+1. Plot the relationship between the age of each participant's `dad` and `mom` (e.g., as a scatterplot).
+
+```{r ex5_1, echo = TRUE, eval = TRUE}
+ggplot(df, aes(x = dad, y = mom)) +
+  geom_point(alpha = 1/2) + 
+  geom_smooth(se = FALSE) +
+  theme_bw() 
+```
+
+2. Plot how many moms resp. dads are have which age (i.e., the distributions of age values among moms vs. dads) using `geom_bar`.  
+
+(**Hint**: As both ages are in 2 separate variables, you need to use `gather` to collect the ages of both parents in 1 variable.)
+
+```{r ex5_2, echo = TRUE, eval = TRUE}
+df %>%
+  gather(key = "parent", value = "age", dad, mom) %>%
+  select(study:aged365, parent, age) %>%
+  ggplot(aes(x = age, fill = parent)) +
+  geom_bar(position = "dodge") +
+  facet_wrap(~parent) + 
+  scale_y_continuous(limits = c(0, 10),
+                     breaks = c(1:10)) + 
+  labs(title = "Age distributions of dads and moms") + 
+  scale_fill_manual(values = c("steelblue3", "sienna2")) + 
+  theme_bw()
+```
+
+3. Can you think of a way of plotting the relationship between (or difference between) the age of both parents for each participant?  
+
+(**Hint**: Again, you need to use `gather` to collect the ages of both parents into 1 variable.)  
+
+```{r ex5_3, echo = TRUE, eval = TRUE}
+df_long <- df %>%
+  mutate(similar_ages = (abs(dad - mom) < 5)) %>%  # similar_ages if difference below 5 years
+  select(study:mom, similar_ages) %>%
+  gather(key = "parent", value = "age", dad:mom)
+# df_long
+
+ggplot(df_long, aes(x = parent, y = age)) +
+  geom_line(aes(group = ID, color = similar_ages), alpha = .3, size = 2) +
+  facet_grid(~similar_ages) + 
+  labs(title = "Relations between age of dads and age of moms") + 
+  scale_color_manual(values = c("red3", "black")) + 
+  theme_bw()
+```
+
+We see that most parents are of a similar age (i.e., have an age difference smaller than 5 years). Of the parents with larger age differences it is mostly the dads older than the moms, except for one case in the other direction. 
+
+<!-- ADDENDUM: additional material (NOT USED HERE): 
 
 +++ here now +++
 
@@ -1244,7 +1429,6 @@ mtcars %>%
 
 #### False positive psychology 
 
-
 ```{r falsePosPsy}
 
 # Load csv-data files from online links:
@@ -1279,10 +1463,10 @@ falsePosPsy_all %>%
 
 ```
 
+-->
 
 
-
-## More on tidy data
+# More on tidy data
 
 - Study the vignette on `vignette("tidy-data")` and the [RStudio cheatsheet](https://www.rstudio.com/resources/cheatsheets/) on _Data Import_ for essential `tidyr` commands. 
 
