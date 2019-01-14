@@ -1,7 +1,7 @@
 ---
 title: "Data Science for Psychologists (ds4psy)"
 author: "Hansjörg Neth, SPDS, uni.kn"
-date: "2018 12 20"
+date: "2019 01 14"
 output:
   rmdformats::html_clean:
     highlight: kate
@@ -155,11 +155,12 @@ Part 2: Wrangle
  ([Essentials of importing data](http://rpository.com/ds4psy/essentials/import.html)) 
  
  10. 07.01.2019: [Chapter 11: Data import](http://r4ds.had.co.nz/data-import.html): `readr`.   
- (**[Essentials with WPA06](http://rpository.com/ds4psy/essentials/import.html)**) 
+ ([Essentials of importing data](http://rpository.com/ds4psy/essentials/import.html)) 
  
- 11. 14.01.2018: [Chapter 12: Tidy data](http://r4ds.had.co.nz/tidy-data.html): `tidyr`. 
+ 11. 14.01.2018: [Chapter 12: Tidy data](http://r4ds.had.co.nz/tidy-data.html): `tidyr`.   
+  (**[Essentials with WPA07](http://rpository.com/ds4psy/essentials/tidy.html)**)  
  
- 12. 21.01.2019: [Chapter 13: Relational data](http://r4ds.had.co.nz/relational-data.html): `dplyr`. 
+ 12. 21.01.2019: [Chapter 13: Relational data](http://r4ds.had.co.nz/relational-data.html): `dplyr`.   
 
 
  **Part 3: Program**
@@ -182,13 +183,14 @@ All [ds4psy](http://rpository.com/ds4psy/) essentials so far:
 
 Nr. | Topic       |
 ---:|:------------| 
-0.  | **Syllabus** | 
+0.  | [Syllabus](http://rpository.com/ds4psy/) | 
 1.  | [Basic R concepts and commands](http://rpository.com/ds4psy/essentials/basics.html) | 
 2.  | [Visualizing data](http://rpository.com/ds4psy/essentials/visualize.html) | 
 3.  | [Transforming data](http://rpository.com/ds4psy/essentials/transform.html) |
 4.  | [Exploring data (EDA)](http://rpository.com/ds4psy/essentials/explore.html) | 
-5.  | [Tibbles](http://rpository.com/ds4psy/essentials/tibbles.html) | 
+5.  | [Tibbles](http://rpository.com/ds4psy/essentials/tibbles.html) |
 6.  | [Importing data](http://rpository.com/ds4psy/essentials/import.html) |
+7.  | [Tidying data](http://rpository.com/ds4psy/essentials/tidy.html) |
 +.  | [Datasets](http://rpository.com/ds4psy/essentials/datasets.html) | 
 
 <!--
@@ -305,18 +307,33 @@ Beware of side effects: Becoming an R user (useR?) will profoundly transform you
 
 <!-- Table with links: -->
 
-All [ds4psy](http://rpository.com/ds4psy/) essentials: 
+All [ds4psy](http://rpository.com/ds4psy/) essentials so far: 
 
 Nr. | Topic       |
 ---:|:------------| 
-0.  | **Syllabus** | 
+0.  | [Syllabus](http://rpository.com/ds4psy/) | 
 1.  | [Basic R concepts and commands](http://rpository.com/ds4psy/essentials/basics.html) | 
 2.  | [Visualizing data](http://rpository.com/ds4psy/essentials/visualize.html) | 
 3.  | [Transforming data](http://rpository.com/ds4psy/essentials/transform.html) |
 4.  | [Exploring data (EDA)](http://rpository.com/ds4psy/essentials/explore.html) | 
-5.  | [Tibbles](http://rpository.com/ds4psy/essentials/tibbles.html) | 
-6.  | [Importing data](http://rpository.com/ds4psy/essentials/import.html) | 
+5.  | [Tibbles](http://rpository.com/ds4psy/essentials/tibbles.html) |
+6.  | [Importing data](http://rpository.com/ds4psy/essentials/import.html) |
+7.  | [Tidying data](http://rpository.com/ds4psy/essentials/tidy.html) |
 +.  | [Datasets](http://rpository.com/ds4psy/essentials/datasets.html) | 
+
+<!--
+Nr. | Topic       |
+---:|:------------| 
+0.  | [Syllabus](http://rpository.com/ds4psy/) | 
+1.  | [Basic R concepts and commands](http://rpository.com/ds4psy/essentials/basics.html) | 
+2.  | [Visualizing data](http://rpository.com/ds4psy/essentials/visualize.html) | 
+3.  | [Transforming data](http://rpository.com/ds4psy/essentials/transform.html) |
+4.  | [Exploring data (EDA)](http://rpository.com/ds4psy/essentials/explore.html) | 
+5.  | [Tibbles](http://rpository.com/ds4psy/essentials/tibbles.html) |
+6.  | [Importing data](http://rpository.com/ds4psy/essentials/import.html) |
+7.  | [Tidying data](http://rpository.com/ds4psy/essentials/tidy.html) |
++.  | [Datasets](http://rpository.com/ds4psy/essentials/datasets.html) | 
+-->
 
 
 ## R Markdown
@@ -328,20 +345,6 @@ For instructions on combining text and code, see [Chapter 27: R Markdown](https:
 - medium template: `rmd_template_m` [in [.Rmd](http://rpository.com/down/temp/rmd_template_m.Rmd) | [.html](http://rpository.com/down/temp/rmd_template_m.html) format]
 
 - explicit explanations: `Rmarkdown_basics` [in [.Rmd](http://rpository.com/down/temp/Rmarkdown_basics.Rmd) | [.html](http://rpository.com/down/temp/Rmarkdown_basics.html) format]
-
-
-<!--
-Nr. | Topic       |
----:|:------------| 
-0.  | [Syllabus](http://rpository.com/ds4psy/) | 
-1.  | [Basic R concepts and commands](http://rpository.com/ds4psy/essentials/basics.html) | 
-2.  | [Visualizing data](http://rpository.com/ds4psy/essentials/visualize.html) | 
-3.  | [Transforming data](http://rpository.com/ds4psy/essentials/transform.html) |
-4.  | [Exploring data (EDA)](http://rpository.com/ds4psy/essentials/explore.html) | 
-5.  | [Creating and using tibbles](http://rpository.com/ds4psy/essentials/tibble.html) |
-6.  | [Tidying data](http://rpository.com/ds4psy/essentials/tidy.html) |
-+.  | [Datasets](http://rpository.com/ds4psy/essentials/datasets.html) | 
--->
 
 
 <!-- The following links allow you to get started. -->

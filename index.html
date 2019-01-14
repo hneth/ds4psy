@@ -66,7 +66,7 @@ img {
 <div id="header">
 <h1 class="title">Data Science for Psychologists (ds4psy)</h1>
 <h4 class="author"><em>Hansjörg Neth, SPDS, uni.kn</em></h4>
-<h4 class="date"><em>2018 12 20</em></h4>
+<h4 class="date"><em>2019 01 14</em></h4>
 </div>
 
 <div id="content">
@@ -184,8 +184,9 @@ Part 2: Wrangle
 <li><p>17.12.2018: <a href="http://r4ds.had.co.nz/data-import.html">Chapter 11: Data import</a>: <code>readr</code>.<br />
 (<a href="http://rpository.com/ds4psy/essentials/import.html">Essentials of importing data</a>)</p></li>
 <li><p>07.01.2019: <a href="http://r4ds.had.co.nz/data-import.html">Chapter 11: Data import</a>: <code>readr</code>.<br />
-(<strong><a href="http://rpository.com/ds4psy/essentials/import.html">Essentials with WPA06</a></strong>)</p></li>
-<li><p>14.01.2018: <a href="http://r4ds.had.co.nz/tidy-data.html">Chapter 12: Tidy data</a>: <code>tidyr</code>.</p></li>
+(<a href="http://rpository.com/ds4psy/essentials/import.html">Essentials of importing data</a>)</p></li>
+<li><p>14.01.2018: <a href="http://r4ds.had.co.nz/tidy-data.html">Chapter 12: Tidy data</a>: <code>tidyr</code>.<br />
+(<strong><a href="http://rpository.com/ds4psy/essentials/tidy.html">Essentials with WPA07</a></strong>)</p></li>
 <li><p>21.01.2019: <a href="http://r4ds.had.co.nz/relational-data.html">Chapter 13: Relational data</a>: <code>dplyr</code>.</p></li>
 </ol>
 <p><strong>Part 3: Program</strong></p>
@@ -212,7 +213,7 @@ Part 2: Wrangle
 <tbody>
 <tr class="odd">
 <td align="right">0.</td>
-<td align="left"><strong>Syllabus</strong></td>
+<td align="left"><a href="http://rpository.com/ds4psy/">Syllabus</a></td>
 </tr>
 <tr class="even">
 <td align="right">1.</td>
@@ -239,6 +240,10 @@ Part 2: Wrangle
 <td align="left"><a href="http://rpository.com/ds4psy/essentials/import.html">Importing data</a></td>
 </tr>
 <tr class="even">
+<td align="right">7.</td>
+<td align="left"><a href="http://rpository.com/ds4psy/essentials/tidy.html">Tidying data</a></td>
+</tr>
+<tr class="odd">
 <td align="right">+.</td>
 <td align="left"><a href="http://rpository.com/ds4psy/essentials/datasets.html">Datasets</a></td>
 </tr>
@@ -341,7 +346,7 @@ Epictetus <em>Discourses</em> Book I, 18</p>
 <div id="essentials" class="section level2">
 <h2>Essentials</h2>
 <!-- Table with links: -->
-<p>All <a href="http://rpository.com/ds4psy/">ds4psy</a> essentials:</p>
+<p>All <a href="http://rpository.com/ds4psy/">ds4psy</a> essentials so far:</p>
 <table>
 <thead>
 <tr class="header">
@@ -352,7 +357,7 @@ Epictetus <em>Discourses</em> Book I, 18</p>
 <tbody>
 <tr class="odd">
 <td align="right">0.</td>
-<td align="left"><strong>Syllabus</strong></td>
+<td align="left"><a href="http://rpository.com/ds4psy/">Syllabus</a></td>
 </tr>
 <tr class="even">
 <td align="right">1.</td>
@@ -379,11 +384,28 @@ Epictetus <em>Discourses</em> Book I, 18</p>
 <td align="left"><a href="http://rpository.com/ds4psy/essentials/import.html">Importing data</a></td>
 </tr>
 <tr class="even">
+<td align="right">7.</td>
+<td align="left"><a href="http://rpository.com/ds4psy/essentials/tidy.html">Tidying data</a></td>
+</tr>
+<tr class="odd">
 <td align="right">+.</td>
 <td align="left"><a href="http://rpository.com/ds4psy/essentials/datasets.html">Datasets</a></td>
 </tr>
 </tbody>
 </table>
+<!--
+Nr. | Topic       |
+---:|:------------| 
+0.  | [Syllabus](http://rpository.com/ds4psy/) | 
+1.  | [Basic R concepts and commands](http://rpository.com/ds4psy/essentials/basics.html) | 
+2.  | [Visualizing data](http://rpository.com/ds4psy/essentials/visualize.html) | 
+3.  | [Transforming data](http://rpository.com/ds4psy/essentials/transform.html) |
+4.  | [Exploring data (EDA)](http://rpository.com/ds4psy/essentials/explore.html) | 
+5.  | [Tibbles](http://rpository.com/ds4psy/essentials/tibbles.html) |
+6.  | [Importing data](http://rpository.com/ds4psy/essentials/import.html) |
+7.  | [Tidying data](http://rpository.com/ds4psy/essentials/tidy.html) |
++.  | [Datasets](http://rpository.com/ds4psy/essentials/datasets.html) | 
+-->
 </div>
 <div id="r-markdown" class="section level2">
 <h2>R Markdown</h2>
@@ -393,18 +415,6 @@ Epictetus <em>Discourses</em> Book I, 18</p>
 <li><p>medium template: <code>rmd_template_m</code> [in <a href="http://rpository.com/down/temp/rmd_template_m.Rmd">.Rmd</a> | <a href="http://rpository.com/down/temp/rmd_template_m.html">.html</a> format]</p></li>
 <li><p>explicit explanations: <code>Rmarkdown_basics</code> [in <a href="http://rpository.com/down/temp/Rmarkdown_basics.Rmd">.Rmd</a> | <a href="http://rpository.com/down/temp/Rmarkdown_basics.html">.html</a> format]</p></li>
 </ul>
-<!--
-Nr. | Topic       |
----:|:------------| 
-0.  | [Syllabus](http://rpository.com/ds4psy/) | 
-1.  | [Basic R concepts and commands](http://rpository.com/ds4psy/essentials/basics.html) | 
-2.  | [Visualizing data](http://rpository.com/ds4psy/essentials/visualize.html) | 
-3.  | [Transforming data](http://rpository.com/ds4psy/essentials/transform.html) |
-4.  | [Exploring data (EDA)](http://rpository.com/ds4psy/essentials/explore.html) | 
-5.  | [Creating and using tibbles](http://rpository.com/ds4psy/essentials/tibble.html) |
-6.  | [Tidying data](http://rpository.com/ds4psy/essentials/tidy.html) |
-+.  | [Datasets](http://rpository.com/ds4psy/essentials/datasets.html) | 
--->
 <!-- The following links allow you to get started. -->
 </div>
 <div id="software-and-packages" class="section level2">
@@ -501,7 +511,7 @@ Sebastopol, Canada: O'Reilly Media, Inc.  [Available online at [http://r4ds.had.
 - <http://www.sharpsightlabs.com/> 
 
 -->
-<p>[This file last updated on 2018-12-20 08:12:33 by <a href="http://neth.de/">hn</a>.]</p>
+<p>[This file last updated on 2019-01-14 15:19:59 by <a href="http://neth.de/">hn</a>.]</p>
 <!-- eof. -->
 </div>
 </div>
