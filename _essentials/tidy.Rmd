@@ -147,7 +147,7 @@ In R, rectangular data is often organized in _tibbles_ or _data frames_. Importa
 
 The same set of data (values of variables) can be organised in many different ways. For instance, the following tables (or tibbles) all provide the number of TB cases documented by the World Health Organization in 3 countries (Afghanistan, Brazil, and China) in 2 years (1999 and 2000):
 
-```{r table1_as_barplot, echo = FALSE, eval = TRUE}
+```{r table1_as_barplot, echo = FALSE, eval = TRUE, fig.width = 8, fig.height = 6}
 library(tidyverse)
 
 ## Illustrating the data in tidyr::table1 
@@ -155,7 +155,7 @@ library(tidyverse)
 
 ggplot(data = tidyr::table1, aes(x = year, y = cases, fill = country)) + 
     geom_bar(stat = "identity", position = "dodge") + 
-    geom_text(aes(label = cases), position = position_dodge(width = 0.9), vjust = -0.5) +
+    geom_text(aes(label = cases), position = position_dodge(width = 0.9), vjust = -0.3) +
     scale_x_continuous(name = "Year", breaks = 1999:2000) + 
     scale_fill_manual(name = "Country", 
                       values = c("firebrick", "steelblue", "gold")) + 
@@ -291,6 +291,7 @@ table6 <- table5 %>%
   unite(col = when_what, when, rate, sep = ".")
 # table6
 
+
 ## Writing out data:
 # write_csv(table6, "data/table6.csv")
 
@@ -314,7 +315,7 @@ table7 <- table5 %>%
 # tb7
 ```
 
-However, consider the following `table6`, which is available online and can be read into R via `read_csv("http://rpository.com/ds4psy/data/table6.csv")`: 
+However, consider the following [table6](http://rpository.com/ds4psy/data/table6.csv), which is available online and can be read into R by assigning  `read_csv("http://rpository.com/ds4psy/data/table6.csv")` to `table6`: 
 
 ```{r show_tb6, echo = TRUE, eval = TRUE}
 ## Load data (as comma-separated file): 
@@ -370,7 +371,6 @@ table6a <- table6 %>%
 
 table6a
 ```
-
 
 ### 2. `unite` 2 variables into 1
 
@@ -441,7 +441,7 @@ b. Use multiple (4) `unite` commands on `table7a` to re-create a tibble `table7b
 Examples of `table7` and possible solutions for `table7a` and `table7b`: 
 
 ```{r separate+unite_practice, echo = FALSE, eval = TRUE}
-# Data to use: 
+# Import data: 
 table7 <- read_csv("http://rpository.com/ds4psy/data/table7.csv") # from online source
 table7  # Note that column when_what contains several splitting options.
 
@@ -463,7 +463,6 @@ table7b <- table7a %>%
 
 table7b
 ```
-
 
 ### 3. `gather` makes wide data longer 
 
@@ -520,7 +519,6 @@ table4a %>%
 # => year is a vector of integers. 
 ```
 
-
 #### Practice 
 
 Save the following data as a tibble `de` and then turn it into tidy data (by using `gather` to create a single variable `share` and listing the election `year` as an additional variable).
@@ -555,7 +553,6 @@ de_2 <- de %>%
 
 de_2
 ```
-
 
 ### 4. `spread` makes long data wider 
 
@@ -619,10 +616,177 @@ de
 all.equal(de_3, de)
 ```
 
+## Multiple DVs
+
+```{r create_tb8, echo = FALSE, eval = FALSE}
+# Create a version of table1 (in wide format) that contains multiple DVs (as separate columns):
+
+# (a) Spread cases by year:
+tb8a <- table1 %>% 
+  select(country, year, cases) %>% 
+  spread(key = year, value = cases)
+
+names(tb8a)[2:3] <- paste0("cases_", names(tb8a)[2:3])
+tb8a
+
+# (b) Spread population by year:
+tb8b <- table1 %>% 
+  select(country, year, population) %>% 
+  spread(key = year, value = population)
+
+names(tb8b)[2:3] <- paste0("popu_", names(tb8b)[2:3])
+tb8b  
+
+# (c) Join both tables:
+tb8_1 <- full_join(tb8a, tb8b)  
+tb8_2 <- left_join(tb8a, tb8b)
+all.equal(tb8_1, tb8_2)  # TRUE
+
+table8 <- tb8_1
+# table8
+# dim(table8)
+
+## Writing out data:
+# write_csv(table8, "data/table8.csv")
+
+## Reading in again (from csv-file):
+# tb8 <- read_csv("data/table8.csv")
+# tb8
+```
+
+Yet another way of representing the data contained in `table1` (and all other tables from `table2` to `table7`) is provided by 
+[table8](http://rpository.com/ds4psy/data/table8.csv), which is available online and can be read into R by assigning  `read_csv("http://rpository.com/ds4psy/data/table8.csv")` to `table8`: 
+
+```{r table8_show, echo = FALSE}
+# Import data: 
+table8 <- read_csv("http://rpository.com/ds4psy/data/table8.csv") # from online source
+# dim(table8)  # 3 x 5
+
+# Print table8:
+knitr::kable(table8, caption = "table8: A version of table1 in a wider format.")
+```
+
+This 3 x 5 table is a version of `table1` that seems quite natural to many social scientists: 
+
+- The data for 3 countries are listed as rows (observations), with a variable `country` denoting the country name.
+
+- The 4 measurements -- 2 levels (`1999` and `2000`) on each of 2 variables (`cases` and `popu`) -- are listed as different variables (columns). 
+
+As this format succinctly expresses the _repeated measurement_ of a variable (e.g., `cases`) on different years for each instance of `country`, some statistical software packages (like SPSS) require this format for some analyses (e.g., MANOVA). In R, we typically don't want nested formats that distribute instances of the same variable (e.g., `cases`) over multiple columns (`cases_1999` vs. `cases_2000`).
+
+Here are 3 alternative ways to tidy `table8`:
+
+1. Gather the 4 dependent variables, then separate the key into 2 variables, and spread the 2 different dependent variables into columns: 
+
+```{r table8_tidy_1}
+## Import data: 
+table8 <- read_csv("http://rpository.com/ds4psy/data/table8.csv") # from online source
+# dim(table8)  # 3 x 5
+
+## (1) Gather, separate, spread: -------- 
+table8_tidy <- table8 %>%
+  gather(key = "key", value = "value", cases_1999:popu_2000) %>%
+  separate(col = key, into = c("type", "year")) %>%
+  spread(key = type, value = "value")
+
+names(table8_tidy)[4] <- "population"  # fix variable name
+table8_tidy 
+```
+
+2. Alternatively, split `table8` into 2 tidy sub-tables (one for `cases` and one for `population` counts), and then combine both sub-tables: 
+
+```{r table8_tidy_2}
+## Import data: 
+# table8 <- read_csv("http://rpository.com/ds4psy/data/table8.csv") # from online source
+# dim(table8)  # 3 x 5
+
+## (2) Split table8 into 2 sub-tables: -------- 
+
+## (a) Tidy counts of cases per year:
+t8a <- table8 %>%
+  select(country:cases_2000) %>%
+  gather(key = "key", value = "cases", cases_1999:cases_2000) %>%
+  separate(col = key, into = c("drop", "year")) %>%
+  select(country, year, cases) %>%
+  arrange(country, year)
+t8a
+
+## (b) Tidy counts of populations per year: 
+t8b <- table8 %>%
+  select(country, popu_1999:popu_2000) %>%
+  gather(key = "key", value = "population", popu_1999:popu_2000) %>%
+  separate(col = key, into = c("drop", "year")) %>%
+  select(country, year, population) %>%
+  arrange(country, year)
+t8b
+
+## (c) Join both sub-tables: -------- 
+
+# Either by using join commands of dplyr (see Chapter on "Relational data"): 
+table8_tidy_2 <- dplyr::left_join(t8a, t8b)
+table8_tidy_2
+
+# OR (by assignment): 
+table8_tidy_2b <- t8a  # copy
+table8_tidy_2b$population <- t8b$population  # CAREFUL: Ensure that both tables are in same order (see arrange above)! 
+table8_tidy_2b
+```
+
+3. Using the base R command `reshape` also solves our problem (and even allows combining multiple blocks of DVs at once), but requires some adjustments to recover the `year` variable 
+
+```{r table8_tidy_3_reshape}
+## Import data: 
+# table8 <- read_csv("http://rpository.com/ds4psy/data/table8.csv") # from online source
+# dim(table8)  # 3 x 5
+
+# See 
+# ?reshape # for details
+
+## From wide to long by using reshape: -------- 
+table8_long <- reshape(table8, 
+                       varying = list(cases = c("cases_1999", "cases_2000"),     # 1st set of variables to combine into 1
+                                      population = c("popu_1999", "popu_2000")), # 2nd set of variables to combine into 1
+                       direction = "long",
+                       v.names = c("cases", "population"),  # to rename combined variables
+                       timevar = "time",  # name of time variable 
+                       idvar = "nr"       # name of id variable
+)
+table8_long
+
+## Fix some stuff: --------
+
+# Add a year variable (based on the time value):
+table8_long$year <- NA  # initialize
+table8_long$year[table8_long$time == 1] <- 1999
+table8_long$year[table8_long$time == 2] <- 2000
+
+# Select and re-arrange:
+table8_tidy_3 <- table8_long %>%
+  select(country, year, cases, population) %>%
+  arrange(country, year)
+
+# Make year a character (as in table8_tidy above):
+table8_tidy_3$year <- as.character(table8_tidy_3$year)
+
+table8_tidy_3
+```
+
+To verify the equality of all 3 solutions:
+
+```{r verify_equality_table8_tidy}
+## Verify that all 3 of the above solutions are equal: 
+all.equal(table8_tidy, table8_tidy_2)   # TRUE
+all.equal(table8_tidy, table8_tidy_2b)  # TRUE
+all.equal(table8_tidy, table8_tidy_3)   # TRUE
+```
+
+As always, there are many alternative ways to achieve a result -- which makes it absolutely crucial that we know which particular result we want to achieve.  
+
 
 # Exercises (WPA07)
 
-Here are the exercises and solutions to WPA07.
+Here are the exercises of WPA07 and possible solutions for them.
+
 
 ## Exercise 1
 
@@ -900,7 +1064,6 @@ t_3_tidy <- t_3 %>%
 t_3_tidy
 ```
 
-
 4. `t_4`
 
 ```{r read_t_4}
@@ -1029,12 +1192,12 @@ st_long
 st_long %>% 
   filter(time == "end") %>%
   ggplot(aes(x = day, y = val, color = stock, shape = stock)) +
-  geom_point(size = 4) + 
-  geom_line(aes(group = stock)) +
-  ## Pimping plot: 
-  labs(title = "End prices of stocks", 
+  geom_point(size = 5) + 
+  geom_line(aes(group = stock), size = 1, alpha = 2/3) +
+  labs(title = "End prices of each stock (by day)", 
        x = "Day", y = "End price", 
        shape = "Stock:", color = "Stock:") +
+  scale_color_manual(values = c("steelblue", "firebrick", "forestgreen")) + 
   theme_bw()
 
 # 4. Change st_long into a wider format that lists start and end as 2 distinct variables (columns): ---- 
@@ -1042,6 +1205,7 @@ st_long %>%
   spread(key = time, value = val) %>%
   mutate(day_nr = parse_integer(str_sub(day, 2, 2))) # optional: get day_nr as integer variable
 ```
+
 
 ## Exercise 3
 
@@ -1124,6 +1288,7 @@ my_tbl_4$intervention <- as.double(my_tbl_4$intervention) # back to number
 # my_tbl_2
 all.equal(my_tbl_4, my_tbl_2)
 ```
+
 
 ## Exercise 4
 
@@ -1208,9 +1373,10 @@ df_long$occasion <- as.integer(df_long$occasion)
 df_long
 ```
 
+
 ## Exercise 5
 
-This exercise relies on the datasets for the [false positive psychology](http://rpository.com/ds4psy/essentials/datasets.html#false-positive-psychology) project: 
+This exercise relies on the main dataset for the [false positive psychology](http://rpository.com/ds4psy/essentials/datasets.html#false-positive-psychology) project: 
 
 - `falsePosPsy_all` (78 x 19 variables): <http://rpository.com/ds4psy/data/falsePosPsy_all.csv>
 
@@ -1226,7 +1392,7 @@ falsePosPsy_all <- read_csv(file = "http://rpository.com/ds4psy/data/falsePosPsy
 df <- falsePosPsy_all
 ```
 
-#### Parents age?
+#### Parents age? 
 
 1. Plot the relationship between the age of each participant's `dad` and `mom` (e.g., as a scatterplot).
 
@@ -1250,7 +1416,7 @@ df %>%
   facet_wrap(~parent) + 
   scale_y_continuous(limits = c(0, 10),
                      breaks = c(1:10)) + 
-  labs(title = "Age distributions of dads and moms") + 
+  labs(title = "Age distributions of parents") + 
   scale_fill_manual(values = c("steelblue3", "sienna2")) + 
   theme_bw()
 ```
@@ -1269,18 +1435,165 @@ df_long <- df %>%
 ggplot(df_long, aes(x = parent, y = age)) +
   geom_line(aes(group = ID, color = similar_ages), alpha = .3, size = 2) +
   facet_grid(~similar_ages) + 
-  labs(title = "Relations between age of dads and age of moms") + 
+  labs(title = "Relations between parents' ages") + 
   scale_color_manual(values = c("red3", "black")) + 
   theme_bw()
 ```
 
 We see that most parents are of a similar age (i.e., have an age difference smaller than 5 years). Of the parents with larger age differences it is mostly the dads older than the moms, except for one case in the other direction. 
 
-<!-- ADDENDUM: additional material (NOT USED HERE): 
+
+## Exercise 6: Bonus task
+
+This task consists in transforming a data with multiple dependent variables into tidy data. It is considered a bonus task, as this goes beyond the scope of the current chapter, but can be solved with our current base R and `tidyverse` commands.   
+
+```{r ex6_create_exp_wide, echo = FALSE, eval = FALSE}
+## (0) Generate test data:
+set.seed(101)
+n <- 10
+
+p1 <- sample(x = c(0, 1), size = n, replace = TRUE)
+p2 = ((p1 - 1) * -1)
+
+# 5 subjects with 3 DVs each 2 times:
+exp_wide <- data.frame("subj" = 1:n,
+                      "p_1" = p1 + 1,
+                      "p_2" = p2 + 1,
+                      "c_1" = sample(x = c(TRUE, FALSE), size = n, replace = TRUE),
+                      "c_2" = sample(x = c(TRUE, FALSE), size = n, replace = TRUE),
+                      "t_1" = round(runif(5, min = 1111, max = 9999), 1),
+                      "t_2" = round(runif(5, min = 1111, max = 9999), 1)
+)
+
+## Writing out data:
+# write_csv(exp_wide, "data/exp_wide.csv")
+
+## Load data:
+# exp_wide <- read_csv("data/exp_wide.csv")  # from local file
+# exp_wide <- read_csv(file = "http://rpository.com/ds4psy/data/exp_wide.csv")  # online
+
+## Print table: 
+knitr::kable(exp_wide, caption = "Example data from an experiment containing 2 tasks (and 2 DVs).")
+```
+
+#### Data
+
+The data table [exp_wide](http://rpository.com/ds4psy/data/exp_wide.csv) contains data from $n = 10$ participants. 
+Each participant completed 2 tasks (and the task position `p` was randomized). 
+For each task, we measured 2 dependent variables: The correctness `c` of the response, and the time `t` (in msec) to complete the task: 
+
+```{r ex6_show_exp_wide, echo = FALSE, message = FALSE,  warnings = FALSE}
+## Load data:
+# exp_wide <- read_csv("data/exp_wide.csv")  # from local file
+exp_wide <- read_csv(file = "http://rpository.com/ds4psy/data/exp_wide.csv")  # online
+# dim(exp_wide)  # 10 x 7 
+
+## Print table: 
+knitr::kable(exp_wide, caption = "Example data from an experiment containing 2 tasks (and 2 DVs).")
+```
+
+#### Tasks 
+
+1. Import the data from <http://rpository.com/ds4psy/data/exp_wide.csv> into a tibble `exp_wide`.  
+
+2. Use 2 different ways to transform (or reshape) `exp_wide` into a table of tidy data `exp_tidy`. 
+
+3. Verify the equality of both solutions.   
+
+
+#### Solutions 
+
+1. Solution 1 by using `reshape`: 
+
+```{r ex6_tidy_1}
+## Load data: ---- 
+exp_wide <- read_csv(file = "http://rpository.com/ds4psy/data/exp_wide.csv")  # online
+dim(exp_wide)  # 10 x 7
+exp_wide
+
+## Use reshape to transform into long format: 
+exp_long <- reshape(data = exp_wide, 
+                    direction = "long",
+                    varying = list(p = 2:3, # 1st set of variables to combine into 1
+                                   c = 4:5, # 2nd set of variables to combine into 1
+                                   t = 6:7),
+                    v.names = c("position", "correct", "time")
+)
+
+exp_tidy_1 <- exp_long %>%
+  select(subj, position, correct, time) %>%
+  arrange(subj, position)
+
+exp_tidy_1            
+```
+
+2. Solution 2 by using `tidyverse` commands: 
+
+```{r ex6_tidy_2}
+## Load data: ---- 
+exp_wide <- read_csv(file = "http://rpository.com/ds4psy/data/exp_wide.csv")  # online
+dim(exp_wide)  # 10 x 7
+exp_wide
+
+## Gather all 6 dependent variables (from wide into long format): --------  
+exp_long <- exp_wide %>%
+  gather(key = "key", value = "value", p_1:t_2) %>%
+  separate(col = key, into = c("var", "pos")) 
+exp_long
+
+## Deal with 3 sub-tables (of different DVs): -------- 
+
+# 1st slice of 20 rows: Position information
+exp_pos <- exp_long %>%
+  filter(var == "p") %>%   # filter 20 rows with position info
+  select(subj, pos, value) %>%
+  rename(position = value) %>%
+  arrange(subj, pos)  # ensure order
+exp_pos
+
+# 2nd slice of 20 rows: Correctness information
+exp_cor <- exp_long %>%
+  filter(var == "c") %>%  # filter 20 rows with correctness info
+  select(subj, pos, value) %>%
+  mutate(correct = as.logical(value)) %>%  # correct as Boolean value!
+  select(subj, pos, correct) %>%
+  arrange(subj, pos)  # ensure order
+exp_cor
+
+# 3rd slice of 20 rows: Time information
+exp_time <- exp_long %>%
+  filter(var == "t") %>%
+  select(subj, pos, value) %>%
+  mutate(time = as.numeric(value)) %>%  # time as numeric value!
+  select(subj, pos, time) %>%
+  arrange(subj, pos)  # ensure order
+exp_time
+
+
+## Combine all 3 sub-tables again: -------- 
+exp_pos_cor      <- left_join(exp_pos, exp_cor)
+exp_pos_cor_time <- left_join(exp_pos_cor, exp_time)
+
+# Select and arrange: 
+exp_tidy_2 <- exp_pos_cor_time %>%
+  select(subj, position, correct, time) %>%
+  arrange(subj, position)
+
+exp_tidy_2
+```
+
+3. Verify the equality of both solutions: 
+
+```{r ex6_verify}
+all.equal(exp_tidy_1, exp_tidy_2)  # TRUE (qed).
+```
+
+
+<!-- ADDENDUM: additional material (NOT ALL USED YET): 
 
 +++ here now +++
 
-## Exercise X:
+## Exercise X [used in Exercise 6: Bonus task]: 
 
 - Using `reshape` to transform data (with multiple DVs and multiple measurements) from wide to long format:
 
@@ -1406,7 +1719,7 @@ s2 <- as_tibble(solution_long_2)
 all.equal(s1, s2)  # TRUE (qed).
 ```
 
-## Exercise Y:
+## Exercise Y: Fancy plotting of multiple DVs  
 
 - Plotting one DV against many others: See and explain how this works... 
 
@@ -1443,8 +1756,7 @@ mtcars %>%
   gather(-mpg, -hp, -cyl, key = "var", value = "value")
 ```
 
-
-## Exercise Z: 
+## Exercise Z [used in Exercise 5 above]: 
 
 #### False positive psychology 
 
@@ -1467,7 +1779,6 @@ falsePosPsy_all %>%
   facet_wrap(~var, scales = "free") +
   theme_bw()
 
-
 ggplot(falsePosPsy_all, aes(x = dad, y = mom)) +
   geom_point() + 
   geom_smooth() +
@@ -1479,7 +1790,6 @@ falsePosPsy_all %>%
   ggplot(aes(x = person, y = age)) +
     geom_line(aes(group = ID), alpha = .5, size = 2) +
   theme_bw()
-
 ```
 
 -->
