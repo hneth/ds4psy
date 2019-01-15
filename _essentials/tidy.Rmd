@@ -14,7 +14,7 @@ editor_options:
   chunk_output_type: console # inline
 ---
 
-<!-- Example of essential commands | ds4psy: Winter 2018 -->
+<!-- Example of essential commands | ds4psy: Winter/Spring 2018/2019 -->
 
 ```{r preamble, echo = FALSE, eval = TRUE, cache = FALSE, message = FALSE, warning = FALSE}
 ## (a) Housekeeping: -----
@@ -188,7 +188,10 @@ knitr::kable(tidyr::table5, caption = "Example of table5: DV year in 2 columns, 
 dim(tidyr::table5)  #  6 x 4: 2 IVs (year in 2 columns), 1 column with 2 DVs.
 ```
 
-**Practice:** Recreate the above bar plot using `ggplot2` with `data = table1`. 
+
+#### Practice 
+
+Recreate the above bar plot using `ggplot2` with `data = table1`. 
 
 
 ### Defining tidy data
@@ -209,9 +212,13 @@ This leads to a simpler set of practical instructions for tidying a messy set of
 a. turn each dataset into a tibble.  
 b. put each variable into a column.  
 
-Note that we need to interpret the semantics of the variables to understand whether a data set is tidy. 
+Note that tidy data is often _not_ the smallest and _not_ necessarily the most human-readable version of a dataset. 
+Also, we usually need to interpret the semantics of the rows and columns (i.e., understand the meanings of observations and variables) to determine whether a data set is tidy. 
 
-**Practice:** Which of the data tables in the above example (`table1` to `table5`) are tidy? Why or why not?
+
+#### Practice 
+
+Which of the data tables in the above example (`table1` to `table5`) are tidy? Why or why not?
 
 
 ### Advantages of tidy data 
@@ -351,7 +358,9 @@ Note that using the point or period (`.`) as a splitting character `sep = "."` w
 Instead, we need to use the corresponding regular expression `sep = "\\."`. 
 (See [Chapter 14: Strings](http://r4ds.had.co.nz/strings.html) for details.) 
 
-**Practice:** Split the `when_what` variable of `table6` 3 times to create a tibble `table6a` that contains 5 variables (columns) and reasonable variable names: 
+#### Practice 
+
+Split the `when_what` variable of `table6` 3 times to create a tibble `table6a` that contains 5 variables (columns) and reasonable variable names: 
 
 ```{r separate_practice, echo = FALSE, eval = TRUE}
 table6a <- table6 %>%
@@ -407,7 +416,9 @@ table5 %>%
   unite("yr", century, year, sep = "", remove = FALSE)
 ```
 
-**Practice:** Take the data from `dplyr::storms` and unite the variables `year`, `month`, `day` into 1 variable `date`.
+#### Practice 
+
+Take the data from `dplyr::storms` and unite the variables `year`, `month`, `day` into 1 variable `date`.
 
 ```{r unite_practice, echo = FALSE, eval = TRUE}
 ## Data to use: 
@@ -419,7 +430,9 @@ storms %>%
   head()
 ```
 
-**Practice:** Read the data from `read_csv("http://rpository.com/ds4psy/data/table7.csv")` into a tibble `table7` and inspect its dimension and contents.
+#### Practice
+
+Read the data from [table7](http://rpository.com/ds4psy/data/table7.csv) (e.g., with `read_csv("http://rpository.com/ds4psy/data/table7.csv")`) into a tibble `table7` and inspect its dimension and contents. Then transform it into the following ways: 
 
 a. Use multiple (4) `separate` commands to split `table7` into a tibble `table7a` with multiple (5) columns. 
 
@@ -508,7 +521,9 @@ table4a %>%
 ```
 
 
-**Practice:** Save the following data as a tibble `de` and then turn it into tidy data (by using `gather` to create a single variable `share` and listing the election `year` as an additional variable).
+#### Practice 
+
+Save the following data as a tibble `de` and then turn it into tidy data (by using `gather` to create a single variable `share` and listing the election `year` as an additional variable).
 
 ```{r de_tibble, echo = FALSE, eval = TRUE}
 ## (a) Create a tibble with the data:
@@ -523,7 +538,9 @@ de <- tibble(
 # sum(de$share_2017)  # => 1 (qed)
 
 de$party <- factor(de$party, levels = c("CDU/CSU", "SPD", "Others"))  # optional
-knitr::kable(de)
+
+# Print table: 
+knitr::kable(de, caption = "Election results.")
 ```
 
 ```{r gather_separate_practice}
@@ -581,7 +598,9 @@ table2 %>%
   spread(key = type, value = count, sep = ":")
 ```
 
-**Practice:** Take the 6 x 3 tibble `de_2` (from above) and use `spread` to create a 3 x 3 tibble `de_3` that re-creates the original tibble `de` from it.
+#### Practice 
+
+Take the tidy 6 x 3 tibble `de_2` (from above) and use `spread` to create a 3 x 3 tibble `de_3` that re-creates the original tibble `de` from it.
 
 ```{r spread_practice}
 ## (a) Data from above: 

@@ -128,7 +128,7 @@ img {
 </div>
 
 <div id="content">
-<!-- Example of essential commands | ds4psy: Winter 2018 -->
+<!-- Example of essential commands | ds4psy: Winter/Spring 2018/2019 -->
 <div id="introduction" class="section level1">
 <h1>Introduction</h1>
 <p>This file contains <strong>essential commands</strong> from <a href="https://r4ds.had.co.nz/tidy-data.html">Chapter 12: Tidy data</a> of the textbook <a href="http://r4ds.had.co.nz">r4ds</a> and corresponding examples and exercises. A command is considered “essential” when you really need to <em>know</em> it and need to know <em>how to use</em> it to succeed in this course.</p>
@@ -544,7 +544,10 @@ knitr<span class="op">::</span><span class="kw">kable</span>(tidyr<span class="o
 </table>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">dim</span>(tidyr<span class="op">::</span>table5)  <span class="co">#  6 x 4: 2 IVs (year in 2 columns), 1 column with 2 DVs.</span>
 <span class="co">#&gt; [1] 6 4</span></code></pre></div>
-<p><strong>Practice:</strong> Recreate the above bar plot using <code>ggplot2</code> with <code>data = table1</code>.</p>
+<div id="practice" class="section level4">
+<h4>Practice</h4>
+<p>Recreate the above bar plot using <code>ggplot2</code> with <code>data = table1</code>.</p>
+</div>
 <div id="defining-tidy-data" class="section level3">
 <h3>Defining tidy data</h3>
 <p><strong>Definition:</strong> A <em>tidy</em> dataset conforms to 3 interrelated rules:</p>
@@ -560,8 +563,11 @@ knitr<span class="op">::</span><span class="kw">kable</span>(tidyr<span class="o
 </li>
 <li>put each variable into a column.</li>
 </ol>
-<p>Note that we need to interpret the semantics of the variables to understand whether a data set is tidy.</p>
-<p><strong>Practice:</strong> Which of the data tables in the above example (<code>table1</code> to <code>table5</code>) are tidy? Why or why not?</p>
+<p>Note that tidy data is often <em>not</em> the smallest and <em>not</em> necessarily the most human-readable version of a dataset. Also, we usually need to interpret the semantics of the rows and columns (i.e., understand the meanings of observations and variables) to determine whether a data set is tidy.</p>
+<div id="practice-1" class="section level4">
+<h4>Practice</h4>
+<p>Which of the data tables in the above example (<code>table1</code> to <code>table5</code>) are tidy? Why or why not?</p>
+</div>
 </div>
 <div id="advantages-of-tidy-data" class="section level3">
 <h3>Advantages of tidy data</h3>
@@ -762,7 +768,9 @@ table6 <span class="op">%&gt;%</span>
 <span class="co">#&gt; 5 China       19_99.212258 1272915272</span>
 <span class="co">#&gt; 6 China       20_00.213766 1280428583</span></code></pre></div>
 <p>Note that using the point or period (<code>.</code>) as a splitting character <code>sep = &quot;.&quot;</code> would <em>not</em> work. Instead, we need to use the corresponding regular expression <code>sep = &quot;\\.&quot;</code>. (See <a href="http://r4ds.had.co.nz/strings.html">Chapter 14: Strings</a> for details.)</p>
-<p><strong>Practice:</strong> Split the <code>when_what</code> variable of <code>table6</code> 3 times to create a tibble <code>table6a</code> that contains 5 variables (columns) and reasonable variable names:</p>
+<div id="practice-2" class="section level4">
+<h4>Practice</h4>
+<p>Split the <code>when_what</code> variable of <code>table6</code> 3 times to create a tibble <code>table6a</code> that contains 5 variables (columns) and reasonable variable names:</p>
 <pre><code>#&gt; # A tibble: 6 x 5
 #&gt;   country     century year  cases  population
 #&gt;   &lt;chr&gt;       &lt;chr&gt;   &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;     
@@ -772,6 +780,7 @@ table6 <span class="op">%&gt;%</span>
 #&gt; 4 Brazil      20      00    80488  174504898 
 #&gt; 5 China       19      99    212258 1272915272
 #&gt; 6 China       20      00    213766 1280428583</code></pre>
+</div>
 </div>
 <div id="unite-2-variables-into-1" class="section level3">
 <h3>2. <code>unite</code> 2 variables into 1</h3>
@@ -875,7 +884,9 @@ table5 <span class="op">%&gt;%</span>
 <span class="co">#&gt; 4 Brazil      2000  20      00    80488/174504898  </span>
 <span class="co">#&gt; 5 China       1999  19      99    212258/1272915272</span>
 <span class="co">#&gt; 6 China       2000  20      00    213766/1280428583</span></code></pre></div>
-<p><strong>Practice:</strong> Take the data from <code>dplyr::storms</code> and unite the variables <code>year</code>, <code>month</code>, <code>day</code> into 1 variable <code>date</code>.</p>
+<div id="practice-3" class="section level4">
+<h4>Practice</h4>
+<p>Take the data from <code>dplyr::storms</code> and unite the variables <code>year</code>, <code>month</code>, <code>day</code> into 1 variable <code>date</code>.</p>
 <pre><code>#&gt; # A tibble: 6 x 11
 #&gt;   name  date   hour   lat  long status category  wind pressure ts_diameter
 #&gt;   &lt;chr&gt; &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;  &lt;ord&gt;    &lt;int&gt;    &lt;int&gt;       &lt;dbl&gt;
@@ -886,7 +897,10 @@ table5 <span class="op">%&gt;%</span>
 #&gt; 5 Amy   1975…     0  31.5 -78.8 tropi… -1          25     1012          NA
 #&gt; 6 Amy   1975…     6  32.4 -78.7 tropi… -1          25     1012          NA
 #&gt; # ... with 1 more variable: hu_diameter &lt;dbl&gt;</code></pre>
-<p><strong>Practice:</strong> Read the data from <code>read_csv(&quot;http://rpository.com/ds4psy/data/table7.csv&quot;)</code> into a tibble <code>table7</code> and inspect its dimension and contents.</p>
+</div>
+<div id="practice-4" class="section level4">
+<h4>Practice</h4>
+<p>Read the data from <a href="http://rpository.com/ds4psy/data/table7.csv">table7</a> (e.g., with <code>read_csv(&quot;http://rpository.com/ds4psy/data/table7.csv&quot;)</code>) into a tibble <code>table7</code> and inspect its dimension and contents. Then transform it into the following ways:</p>
 <ol style="list-style-type: lower-alpha">
 <li><p>Use multiple (4) <code>separate</code> commands to split <code>table7</code> into a tibble <code>table7a</code> with multiple (5) columns.</p></li>
 <li><p>Use multiple (4) <code>unite</code> commands on <code>table7a</code> to re-create a tibble <code>table7b</code> that contains <em>all</em> data in 1 column.</p></li>
@@ -919,6 +933,7 @@ table5 <span class="op">%&gt;%</span>
 #&gt; 4 Brazil:2000_80488/174504898   
 #&gt; 5 China:1999_212258/1272915272  
 #&gt; 6 China:2000_213766/1280428583</code></pre>
+</div>
 </div>
 <div id="gather-makes-wide-data-longer" class="section level3">
 <h3>3. <code>gather</code> makes wide data longer</h3>
@@ -1030,8 +1045,11 @@ table4a <span class="op">%&gt;%</span>
 <span class="co">#&gt; 5 Brazil       2000  80488</span>
 <span class="co">#&gt; 6 China        2000 213766</span>
 <span class="co"># =&gt; year is a vector of integers. </span></code></pre></div>
-<p><strong>Practice:</strong> Save the following data as a tibble <code>de</code> and then turn it into tidy data (by using <code>gather</code> to create a single variable <code>share</code> and listing the election <code>year</code> as an additional variable).</p>
+<div id="practice-5" class="section level4">
+<h4>Practice</h4>
+<p>Save the following data as a tibble <code>de</code> and then turn it into tidy data (by using <code>gather</code> to create a single variable <code>share</code> and listing the election <code>year</code> as an additional variable).</p>
 <table>
+<caption>Election results.</caption>
 <thead>
 <tr class="header">
 <th align="left">party</th>
@@ -1082,6 +1100,7 @@ de_<span class="dv">2</span>
 <span class="co">#&gt; 4 2017  CDU/CSU 0.33 </span>
 <span class="co">#&gt; 5 2017  SPD     0.205</span>
 <span class="co">#&gt; 6 2017  Others  0.465</span></code></pre></div>
+</div>
 </div>
 <div id="spread-makes-long-data-wider" class="section level3">
 <h3>4. <code>spread</code> makes long data wider</h3>
@@ -1172,7 +1191,9 @@ table2 <span class="op">%&gt;%</span><span class="st"> </span>
 <span class="co">#&gt; 4 Brazil       2000        80488         174504898</span>
 <span class="co">#&gt; 5 China        1999       212258        1272915272</span>
 <span class="co">#&gt; 6 China        2000       213766        1280428583</span></code></pre></div>
-<p><strong>Practice:</strong> Take the 6 x 3 tibble <code>de_2</code> (from above) and use <code>spread</code> to create a 3 x 3 tibble <code>de_3</code> that re-creates the original tibble <code>de</code> from it.</p>
+<div id="practice-6" class="section level4">
+<h4>Practice</h4>
+<p>Take the tidy 6 x 3 tibble <code>de_2</code> (from above) and use <code>spread</code> to create a 3 x 3 tibble <code>de_3</code> that re-creates the original tibble <code>de</code> from it.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## (a) Data from above: 
 de_<span class="dv">2</span>
 <span class="co">#&gt; # A tibble: 6 x 3</span>
@@ -1209,6 +1230,7 @@ de
 <span class="co">#&gt; 3 Others       0.328      0.465</span>
 <span class="kw">all.equal</span>(de_<span class="dv">3</span>, de)
 <span class="co">#&gt; [1] TRUE</span></code></pre></div>
+</div>
 </div>
 </div>
 </div>
@@ -2970,7 +2992,7 @@ Nr. | Topic       |
 7.  | [Tidying data](http://rpository.com/ds4psy/essentials/tidy.html) |
 +.  | [Datasets](http://rpository.com/ds4psy/essentials/datasets.html) | 
 -->
-<p>[Last update on 2019-01-14 19:42:03 by <a href="http://neth.de/">hn</a>.]</p>
+<p>[Last update on 2019-01-15 13:21:44 by <a href="http://neth.de/">hn</a>.]</p>
 <!-- eof. -->
 </div>
 <div class="footnotes">
