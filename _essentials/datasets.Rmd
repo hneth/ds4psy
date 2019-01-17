@@ -1,7 +1,7 @@
 ---
 title: "Datasets (ds4psy)"
 author: "Hansjörg Neth, SPDS, uni.kn"
-date: "2018 12 18"
+date: "2019 01 16"
 output:
    rmdformats::html_clean: # html_clean html_docco readthedown material #
      code_folding: show # hide
@@ -1075,7 +1075,9 @@ Collections:
 
 - [Google dataset search](https://toolbox.google.com/datasetsearch)  
 
-- [Kaggle](https://www.kaggle.com): A place for data science projects (with many large datasets)  
+- [Kaggle](https://www.kaggle.com): A place for data science projects (with many large datasets) 
+
+- [Wikidata](https://www.wikidata.org): Wikipedia data 
 
 Specific datasets: 
 
