@@ -910,7 +910,9 @@ Data from paper “False-Positive Psychology: Undisclosed Flexibility in Data Co
 _Journal of Open Psychology Data_, _2_(1), e1. 
 doi: <http://doi.org/10.5334/jopd.aa>
 
-See: <https://openpsychologydata.metajnl.com/articles/10.5334/jopd.aa/> for data. 
+
+See <https://openpsychologydata.metajnl.com/articles/10.5334/jopd.aa/> for data. 
+(A zip-Archive with `txt` files is available at <http://dx.doi.org/10.5281/zenodo.7664>.) 
 
 
 ### Codebook
@@ -1024,7 +1026,7 @@ Data from paper “False-Positive Psychology: Undisclosed Flexibility in Data Co
 _Journal of Open Psychology Data_, _2_(1), e1. 
 doi: <http://doi.org/10.5334/jopd.aa>
 
-- Data at <https://openpsychologydata.metajnl.com/articles/10.5334/jopd.aa/>. 
+- Data at <https://openpsychologydata.metajnl.com/articles/10.5334/jopd.aa/> or <https://zenodo.org/record/7664>. 
 
 
 

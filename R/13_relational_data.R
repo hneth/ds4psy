@@ -498,6 +498,7 @@ dm %>%
 
 
 
+
 ## 13.4 Mutating joins ------
 
 # The first tool to combine a pair of tables is the mutating join. 
@@ -1035,6 +1036,7 @@ fw %>%
 
 
 
+
 ## 13.5 Filtering joins ------
 
 # Filtering joins match observations in the same way as mutating joins, 
@@ -1234,6 +1236,7 @@ airports %>%
 
 
 
+
 ## 13.7 Set operations (3) ------
 
 # The 3rd and final type of two-table verb are the set operations
@@ -1284,6 +1287,7 @@ union(df2, df1)      # b) symmetrical (but different order of rows)
 
 setdiff(df1, df2)    # b) not symmetrical: order matters!
 setdiff(df2, df1)
+
 
 
 
