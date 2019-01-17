@@ -74,9 +74,14 @@ data_t2 %>% arrange(name)  # => same people, but different NA values
 
 ## 1. Mutating joins: ----
 
-m1 <- left_join(data_t1, data_t2, by = "name")
-m1 <- left_join(data_t1, data_t2, by = c("name", "gender"))
-m1
+m1a <- left_join(data_t1, data_t2, by = "name")
+m1a
+
+m1b <- left_join(data_t1, data_t2, by = c("name", "gender"))
+m1b
+
+all.equal(m1a, m1b)  # => m1a contains gender.x and gender.y
+m1 <- m1b
 
 m2 <- right_join(data_t2, data_t1, by = c("name", "gender"))
 m2
@@ -88,10 +93,11 @@ m3
 all.equal(m1, m2)  # => TRUE
 all.equal(m1, m3)  # => TRUE
 
+
 ## 2. Filtering joins: ----  
 
 f1 <- semi_join(data_t1, data_t2, by = c("name", "gender"))
-f1 # => columns from data_t2 dropped.
+f1 # => variables/columns from data_t2 dropped.
 
 f2 <- anti_join(data_t1, data_t2, by = c("name", "gender"))
 f2 # => 0 cases (rows) left.
@@ -104,9 +110,12 @@ f2 # => 0 cases (rows) left.
 
 
 
-## (B) See what changes, when cases (i.e., rows) differ: ----- 
-set.seed(7)  # for replicability
+## (B) Different cases in both tables: ------ 
 
+## See what changes, when cases (i.e., rows) differ: 
+
+## Data:
+set.seed(7)  # for replicability
 data_t3 <- data_t1[sample(1:(nrow(data_t1) - 2)), ] # remove 2 random rows
 data_t4 <- data_t2[sample(1:(nrow(data_t2) - 4)), ] # remove 4 random rows
 
@@ -114,6 +123,7 @@ data_t4 <- data_t2[sample(1:(nrow(data_t2) - 4)), ] # remove 4 random rows
 data_t3 %>% arrange(name) # => 18 people left
 data_t4 %>% arrange(name) # => 16 people left
 
+## Joining tables with different cases: 
 m4 <- left_join(data_t3, data_t4, by = c("name", "gender")) %>% arrange(name)
 m4 # => 18 people (from data_t3) left, additional NA values in like_2 and bnt_2
 

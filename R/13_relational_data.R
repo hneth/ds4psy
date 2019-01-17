@@ -1010,7 +1010,7 @@ fw %>%
 #    but concealed in the arguments of merge(). 
 
 # 2. dplyr’s joins are considerably faster and 
-#    don’t mess with the order of the rows.
+#    do not change the order of cases (rows).
 
 ## (2) SQL:
 
