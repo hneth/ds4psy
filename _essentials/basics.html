@@ -124,7 +124,7 @@ img {
 <div id="header">
 <h1 class="title">Basic R concepts and commands, with solutions (ds4psy)</h1>
 <h4 class="author"><em>Hansjörg Neth, SPDS, uni.kn</em></h4>
-<h4 class="date"><em>2018 11 18</em></h4>
+<h4 class="date"><em>2019 01 19</em></h4>
 </div>
 
 <div id="content">
@@ -167,6 +167,18 @@ img {
 <td align="left"><a href="http://rpository.com/ds4psy/essentials/tibbles.html">Tibbles</a></td>
 </tr>
 <tr class="odd">
+<td align="right">6.</td>
+<td align="left"><a href="http://rpository.com/ds4psy/essentials/import.html">Importing data</a></td>
+</tr>
+<tr class="even">
+<td align="right">7.</td>
+<td align="left"><a href="http://rpository.com/ds4psy/essentials/tidy.html">Tidying data</a></td>
+</tr>
+<tr class="odd">
+<td align="right">8.</td>
+<td align="left"><a href="http://rpository.com/ds4psy/essentials/join.html">Joining data</a></td>
+</tr>
+<tr class="even">
 <td align="right">+.</td>
 <td align="left"><a href="http://rpository.com/ds4psy/essentials/datasets.html">Datasets</a></td>
 </tr>
@@ -181,7 +193,9 @@ Nr. | Topic       |
 3.  | [Transforming data](http://rpository.com/ds4psy/essentials/transform.html) |
 4.  | [Exploring data (EDA)](http://rpository.com/ds4psy/essentials/explore.html) | 
 5.  | [Tibbles](http://rpository.com/ds4psy/essentials/tibbles.html) |
-6.  | [Tidying data](http://rpository.com/ds4psy/essentials/tidy.html) | 
+6.  | [Importing data](http://rpository.com/ds4psy/essentials/import.html) |
+7.  | [Tidying data](http://rpository.com/ds4psy/essentials/tidy.html) |
+8.  | [Joining data](http://rpository.com/ds4psy/essentials/join.html) |
 +.  | [Datasets](http://rpository.com/ds4psy/essentials/datasets.html) | 
 -->
 <div id="course-coordinates" class="section level2">
@@ -766,7 +780,6 @@ r4
 <span class="co">#&gt; [4,]    4    9   14   19</span>
 <span class="co">#&gt; [5,]    5   10   15   20</span>
 
-
 <span class="co"># Selecting cells, rows, or columns of matrices: ---- </span>
 r1[<span class="dv">2</span>, <span class="dv">3</span>]  <span class="co"># in r1: select row 2, column 3</span>
 <span class="co">#&gt; y </span>
@@ -863,30 +876,53 @@ df    <span class="co"># Note: Vectors are the columns of the data frame!</span>
 <span class="co">#&gt; [1] FALSE</span>
 <span class="kw">is.data.frame</span>(df)
 <span class="co">#&gt; [1] TRUE</span>
-<span class="kw">dim</span>(df)
+<span class="kw">dim</span>(df)  <span class="co"># 7 cases (rows) x 4 variables (columns)</span>
 <span class="co">#&gt; [1] 7 4</span>
 
 <span class="co"># Note that </span>
-<span class="co"># sum(df)  # would yield an error</span>
-
-
-<span class="co"># Selecting cells, rows or columns: ----- </span>
-df[<span class="dv">2</span>, <span class="dv">3</span>]  <span class="co"># cell in row 2, column 3</span>
-<span class="co">#&gt; [1] 23</span>
-df[<span class="dv">6</span>, ]   <span class="co"># row 6</span>
+<span class="co"># sum(df)  # would yield an error</span></code></pre></div>
+<p>We can easily turn any data frame into a tibble (by using the <code>as_tibble</code> command of the <code>tidyverse</code> package <code>tibble</code>):</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">tb &lt;-<span class="st"> </span>tibble<span class="op">::</span><span class="kw">as_tibble</span>(df)
+<span class="kw">dim</span>(tb)  <span class="co"># 7 cases (rows) x 4 variables (columns), as df</span>
+<span class="co">#&gt; [1] 7 4</span></code></pre></div>
+<p>We will learn more about tibbles later. For now, a tibble is just a simpler and more convenient type of data frame. For instance, printing a tibble always shows its dimensions (as in <code>dim(tb)</code>) and the type of each variable (column):</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">tb
+<span class="co">#&gt; # A tibble: 7 x 4</span>
+<span class="co">#&gt;   name   gender   age height</span>
+<span class="co">#&gt;   &lt;fct&gt;  &lt;fct&gt;  &lt;dbl&gt;  &lt;dbl&gt;</span>
+<span class="co">#&gt; 1 Adam   male      21    165</span>
+<span class="co">#&gt; 2 Bertha female    23    170</span>
+<span class="co">#&gt; 3 Cecily female    22    168</span>
+<span class="co">#&gt; 4 Dora   female    19    172</span>
+<span class="co">#&gt; 5 Eve    female    21    158</span>
+<span class="co">#&gt; 6 Nero   male      18    185</span>
+<span class="co">#&gt; 7 Zeno   male      24    182</span></code></pre></div>
+</div>
+<div id="working-with-data-frames-tibbles" class="section level3">
+<h3>Working with data frames / tibbles</h3>
+<p>Selecting cells, cases (rows), or variables (columns) of a data frame:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Selecting cells, rows or columns: ----- </span>
+df[<span class="dv">5</span>, <span class="dv">3</span>]  <span class="co"># cell in row 5, column 3: 21 (age of Eve)</span>
+<span class="co">#&gt; [1] 21</span>
+df[<span class="dv">6</span>, ]   <span class="co"># row 6: Nero etc.</span>
 <span class="co">#&gt;   name gender age height</span>
 <span class="co">#&gt; 6 Nero   male  18    185</span>
-df[ , <span class="dv">4</span>]  <span class="co"># column 4</span>
+df[ , <span class="dv">4</span>]  <span class="co"># column 4: height values</span>
 <span class="co">#&gt; [1] 165 170 168 172 158 185 182</span>
 
-<span class="co"># Selecting columns by name (with $ operator):</span>
+<span class="kw">names</span>(df)    <span class="co"># yields the names of all variables (columns), as a vector</span>
+<span class="co">#&gt; [1] &quot;name&quot;   &quot;gender&quot; &quot;age&quot;    &quot;height&quot;</span>
+<span class="kw">names</span>(df)[<span class="dv">4</span>] <span class="co"># the name of the 4th variable</span>
+<span class="co">#&gt; [1] &quot;height&quot;</span>
+
+<span class="co"># Selecting variables (columns) by their name (with $ operator):</span>
 df<span class="op">$</span>gender  <span class="co"># returns gender vector</span>
 <span class="co">#&gt; [1] male   female female female female male   male  </span>
 <span class="co">#&gt; Levels: female male</span>
 df<span class="op">$</span>age     <span class="co"># returns age vector</span>
-<span class="co">#&gt; [1] 21 23 22 19 21 18 24</span>
-
-<span class="co"># Applying functions to columns of df:</span>
+<span class="co">#&gt; [1] 21 23 22 19 21 18 24</span></code></pre></div>
+<p>Applying functions to variables (columns):</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Applying functions to columns of df:</span>
 df<span class="op">$</span>gender <span class="op">==</span><span class="st"> &quot;male&quot;</span>
 <span class="co">#&gt; [1]  TRUE FALSE FALSE FALSE FALSE  TRUE  TRUE</span>
 <span class="kw">sum</span>(df<span class="op">$</span>gender <span class="op">==</span><span class="st"> &quot;male&quot;</span>)
@@ -907,17 +943,97 @@ df<span class="op">$</span>height <span class="op">&lt;</span><span class="st"> 
 df<span class="op">$</span>gender[df<span class="op">$</span>height <span class="op">&lt;</span><span class="st"> </span><span class="dv">170</span>]
 <span class="co">#&gt; [1] male   female female</span>
 <span class="co">#&gt; Levels: female male</span></code></pre></div>
-<p>In most cases, we don’t generate the data that we analyze, but obtain it from somewhere (e.g., online). For instance, Woodworth et al. (2018, DOI: <a href="https://doi.org/10.5334/jopd.35" class="uri">https://doi.org/10.5334/jopd.35</a>) examined the long-term effectiveness of different web-based positive psychology interventions (see <a href="https://openpsychologydata.metajnl.com/articles/10.5334/jopd.35/">this link</a> for details). We can load their participant data into R with the following command (from the package <code>readr</code>, which is part of the <code>tidyverse</code>):</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(readr)
+<p>Creating new variables: To create a new variable, we simply assign something to a new variable name.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">df
+<span class="co">#&gt;     name gender age height</span>
+<span class="co">#&gt; 1   Adam   male  21    165</span>
+<span class="co">#&gt; 2 Bertha female  23    170</span>
+<span class="co">#&gt; 3 Cecily female  22    168</span>
+<span class="co">#&gt; 4   Dora female  19    172</span>
+<span class="co">#&gt; 5    Eve female  21    158</span>
+<span class="co">#&gt; 6   Nero   male  18    185</span>
+<span class="co">#&gt; 7   Zeno   male  24    182</span>
+<span class="kw">dim</span>(df)  <span class="co"># 7 cases (rows) x 4 variables (columns)</span>
+<span class="co">#&gt; [1] 7 4</span>
 
-p_info &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="dt">file =</span> <span class="st">&quot;http://rpository.com/ds4psy/data/posPsy_participants.csv&quot;</span>)
+<span class="co"># Create a new variable:</span>
+df<span class="op">$</span>may_drink &lt;-<span class="st"> </span><span class="ot">NA</span>  <span class="co"># initialize a new variable (column) with unknown (NA) values</span>
+df <span class="co"># =&gt; may_drink was added as a new column to df, all instances are NA</span>
+<span class="co">#&gt;     name gender age height may_drink</span>
+<span class="co">#&gt; 1   Adam   male  21    165        NA</span>
+<span class="co">#&gt; 2 Bertha female  23    170        NA</span>
+<span class="co">#&gt; 3 Cecily female  22    168        NA</span>
+<span class="co">#&gt; 4   Dora female  19    172        NA</span>
+<span class="co">#&gt; 5    Eve female  21    158        NA</span>
+<span class="co">#&gt; 6   Nero   male  18    185        NA</span>
+<span class="co">#&gt; 7   Zeno   male  24    182        NA</span>
+
+<span class="co"># Assign values:  A person may drink (alcohol, in the US),  </span>
+df<span class="op">$</span>may_drink &lt;-<span class="st"> </span>(df<span class="op">$</span>age <span class="op">&gt;=</span><span class="st"> </span><span class="dv">21</span>)  <span class="co"># if s/he is 21 (or older)</span>
+df
+<span class="co">#&gt;     name gender age height may_drink</span>
+<span class="co">#&gt; 1   Adam   male  21    165      TRUE</span>
+<span class="co">#&gt; 2 Bertha female  23    170      TRUE</span>
+<span class="co">#&gt; 3 Cecily female  22    168      TRUE</span>
+<span class="co">#&gt; 4   Dora female  19    172     FALSE</span>
+<span class="co">#&gt; 5    Eve female  21    158      TRUE</span>
+<span class="co">#&gt; 6   Nero   male  18    185     FALSE</span>
+<span class="co">#&gt; 7   Zeno   male  24    182      TRUE</span>
+
+<span class="co"># Note:</span>
+<span class="co"># - we did not use an if-then statement</span>
+<span class="co"># - we did not specify separate TRUE vs. FALSE cases</span>
+<span class="co"># - we can assign and set new variables in 1 step:</span>
+
+df<span class="op">$</span>is_female &lt;-<span class="st"> </span>(df<span class="op">$</span>gender <span class="op">==</span><span class="st"> &quot;female&quot;</span>)
+df
+<span class="co">#&gt;     name gender age height may_drink is_female</span>
+<span class="co">#&gt; 1   Adam   male  21    165      TRUE     FALSE</span>
+<span class="co">#&gt; 2 Bertha female  23    170      TRUE      TRUE</span>
+<span class="co">#&gt; 3 Cecily female  22    168      TRUE      TRUE</span>
+<span class="co">#&gt; 4   Dora female  19    172     FALSE      TRUE</span>
+<span class="co">#&gt; 5    Eve female  21    158      TRUE      TRUE</span>
+<span class="co">#&gt; 6   Nero   male  18    185     FALSE     FALSE</span>
+<span class="co">#&gt; 7   Zeno   male  24    182      TRUE     FALSE</span></code></pre></div>
+</div>
+<div id="changing-variable-types" class="section level3">
+<h3>Changing variable types</h3>
+<p>When working with vectors or rectangles of data, we often need or want to convert the type of a variable into another one. To convert a variable, we simply assign it to itself (so that all its values will be preserved) and wrap a type conversion function (<code>as.character</code>, <code>as.integer</code>, <code>as.numeric</code> or <code>factor</code>) around it:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">levels</span>(df<span class="op">$</span>gender)  <span class="co"># currently a so-called &quot;factor&quot; variable</span>
+<span class="co">#&gt; [1] &quot;female&quot; &quot;male&quot;</span>
+<span class="kw">typeof</span>(df<span class="op">$</span>gender)  <span class="co"># of type &quot;integer&quot;</span>
+<span class="co">#&gt; [1] &quot;integer&quot;</span>
+df<span class="op">$</span>gender &lt;-<span class="st"> </span><span class="kw">as.character</span>(df<span class="op">$</span>gender)  <span class="co"># convert into a character variable</span>
+<span class="kw">typeof</span>(df<span class="op">$</span>gender)  <span class="co"># now of type &quot;character&quot;</span>
+<span class="co">#&gt; [1] &quot;character&quot;</span>
+
+df<span class="op">$</span>gender &lt;-<span class="st"> </span><span class="kw">as.factor</span>(df<span class="op">$</span>gender)  <span class="co"># convert from &quot;character&quot; into a &quot;factor&quot;</span>
+df<span class="op">$</span>gender
+<span class="co">#&gt; [1] male   female female female female male   male  </span>
+<span class="co">#&gt; Levels: female male</span>
+<span class="kw">typeof</span>(df<span class="op">$</span>gender)  <span class="co"># again of type &quot;integer&quot;</span>
+<span class="co">#&gt; [1] &quot;integer&quot;</span>
+
+<span class="kw">typeof</span>(df<span class="op">$</span>age)  <span class="co"># numeric &quot;double&quot;</span>
+<span class="co">#&gt; [1] &quot;double&quot;</span>
+df<span class="op">$</span>age &lt;-<span class="st"> </span><span class="kw">as.integer</span>(df<span class="op">$</span>age)  <span class="co"># convert from &quot;double&quot; to &quot;integer&quot;</span>
+<span class="kw">typeof</span>(df<span class="op">$</span>age)  <span class="co"># &quot;integer&quot;</span>
+<span class="co">#&gt; [1] &quot;integer&quot;</span>
+df<span class="op">$</span>age &lt;-<span class="st"> </span><span class="kw">as.numeric</span>(df<span class="op">$</span>age)  <span class="co"># convert from &quot;integer&quot; to numeric &quot;double&quot;</span>
+<span class="kw">typeof</span>(df<span class="op">$</span>age)  <span class="co"># numeric &quot;double&quot;</span>
+<span class="co">#&gt; [1] &quot;double&quot;</span></code></pre></div>
+</div>
+<div id="importing-data" class="section level3">
+<h3>Importing data</h3>
+<p>In most cases, we don’t generate the data that we analyze, but obtain it from somewhere (e.g., online). For instance, Woodworth et al. (2018, DOI: <a href="https://doi.org/10.5334/jopd.35" class="uri">https://doi.org/10.5334/jopd.35</a>) examined the long-term effectiveness of different web-based positive psychology interventions (see <a href="https://openpsychologydata.metajnl.com/articles/10.5334/jopd.35/">this link</a> for details). We can load their participant data into R with the following command (from the package <code>readr</code>, which is part of the <code>tidyverse</code>):</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">p_info &lt;-<span class="st"> </span>readr<span class="op">::</span><span class="kw">read_csv</span>(<span class="dt">file =</span> <span class="st">&quot;http://rpository.com/ds4psy/data/posPsy_participants.csv&quot;</span>)
 
 <span class="kw">dim</span>(p_info)      <span class="co"># 295 rows, 6 columns</span>
 <span class="co">#&gt; [1] 295   6</span>
 p_info           <span class="co"># prints a summary of the table/tibble</span>
 <span class="co">#&gt; # A tibble: 295 x 6</span>
 <span class="co">#&gt;       id intervention   sex   age  educ income</span>
-<span class="co">#&gt;    &lt;int&gt;        &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt;  &lt;int&gt;</span>
+<span class="co">#&gt;    &lt;dbl&gt;        &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;</span>
 <span class="co">#&gt;  1     1            4     2    35     5      3</span>
 <span class="co">#&gt;  2     2            1     1    59     1      1</span>
 <span class="co">#&gt;  3     3            4     1    51     4      3</span>
@@ -932,12 +1048,12 @@ p_info           <span class="co"># prints a summary of the table/tibble</span>
 <span class="kw">glimpse</span>(p_info)  <span class="co"># shows the first values for 6 variables (columns)</span>
 <span class="co">#&gt; Observations: 295</span>
 <span class="co">#&gt; Variables: 6</span>
-<span class="co">#&gt; $ id           &lt;int&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15...</span>
-<span class="co">#&gt; $ intervention &lt;int&gt; 4, 1, 4, 3, 2, 1, 3, 2, 1, 2, 2, 2, 4, 4, 4, 4, 3...</span>
-<span class="co">#&gt; $ sex          &lt;int&gt; 2, 1, 1, 1, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 1, 1...</span>
-<span class="co">#&gt; $ age          &lt;int&gt; 35, 59, 51, 50, 58, 31, 44, 57, 36, 45, 56, 46, 3...</span>
-<span class="co">#&gt; $ educ         &lt;int&gt; 5, 1, 4, 5, 5, 5, 5, 4, 4, 4, 5, 4, 5, 1, 2, 1, 4...</span>
-<span class="co">#&gt; $ income       &lt;int&gt; 3, 1, 3, 2, 2, 1, 2, 2, 3, 3, 1, 3, 3, 2, 2, 1, 2...</span></code></pre></div>
+<span class="co">#&gt; $ id           &lt;dbl&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15...</span>
+<span class="co">#&gt; $ intervention &lt;dbl&gt; 4, 1, 4, 3, 2, 1, 3, 2, 1, 2, 2, 2, 4, 4, 4, 4, 3...</span>
+<span class="co">#&gt; $ sex          &lt;dbl&gt; 2, 1, 1, 1, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 1, 1...</span>
+<span class="co">#&gt; $ age          &lt;dbl&gt; 35, 59, 51, 50, 58, 31, 44, 57, 36, 45, 56, 46, 3...</span>
+<span class="co">#&gt; $ educ         &lt;dbl&gt; 5, 1, 4, 5, 5, 5, 5, 4, 4, 4, 5, 4, 5, 1, 2, 1, 4...</span>
+<span class="co">#&gt; $ income       &lt;dbl&gt; 3, 1, 3, 2, 2, 1, 2, 2, 3, 3, 1, 3, 3, 2, 2, 1, 2...</span></code></pre></div>
 <p>When analyzing a data file from a remote source, it’s crucial to also obtain a description of the variables and values contained in the file (often called a <em>Codebook</em>). For the file <code>posPsy_participants.csv</code> this could look like:</p>
 <p><code>posPsy_participants.csv</code> contains <em>demographic information</em> on participants:</p>
 <ul>
@@ -1113,7 +1229,7 @@ x <span class="op">%%</span><span class="st"> </span>y  <span class="co"># remai
 </div>
 <div id="exercise-4" class="section level2">
 <h2>Exercise 4</h2>
-<p>Predit the result of the arithmetic expression <code>x %/% y * y + x %% y</code>. Then test your prediction by assigning some number to <code>x</code> and <code>y</code> and evaluating the expression. Finally, explain why the result occurs.</p>
+<p>Predict the result of the arithmetic expression <code>x %/% y * y + x %% y</code>. Then test your prediction by assigning some number to <code>x</code> and <code>y</code> and evaluating the expression. Finally, explain why the result occurs.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## Note: The given expression 
 x <span class="op">%/%</span><span class="st"> </span>y <span class="op">*</span><span class="st"> </span>y <span class="op">+</span><span class="st"> </span>x <span class="op">%%</span><span class="st"> </span>y  
 <span class="co">#&gt; [1] 2 4 6</span>
@@ -1303,7 +1419,8 @@ pc_income_low
 <h1>Related Resources</h1>
 <p>There is no shortage of introductory R books and scripts, but it’s helpful if you find one that fits your interests and level of expertise.</p>
 <ul>
-<li><p>My favorite introduction to R is <a href="https://bookdown.org/ndphillips/YaRrr/">YaRrr! The Pirate’s Guide to R</a>, an ebook by Nathaniel Phillips that approaches R in a more detailed and much more entertaining fashion. (See <a href="http://rpository.com/learnr/">Rpository.com/learnR/</a> for corresponding exercises with solutions.)</p></li>
+<li><p>An enjoyable introduction to R is <a href="https://bookdown.org/ndphillips/YaRrr/">YaRrr! The Pirate’s Guide to R</a>, an ebook by Nathaniel Phillips that approaches R in a very entertaining fashion.<br />
+(See <a href="http://rpository.com/learnr/">Rpository.com/learnR/</a> for corresponding exercises with solutions.)</p></li>
 <li><p>For many other materials and scripts, see <a href="https://cran.r-project.org/manuals.html">R manuals</a> and <a href="www.r-project.org/other-docs.html">other documentation</a>.</p></li>
 <li><p>For <em>help</em> on any R command named <code>abc</code>, simply evaluate <code>?abc</code> (in the Console or Editor) to show R’s in-built help on the command with this name. For instance, evaluating <code>?sum</code> provides a precise definition and some examples of the function <code>sum</code> (introduced above). Even when some parts of the definition are difficult to understand at first, it’s typically helpful to examine and run the Examples provided.</p></li>
 </ul>
@@ -1349,6 +1466,18 @@ pc_income_low
 <td align="left"><a href="http://rpository.com/ds4psy/essentials/tibbles.html">Tibbles</a></td>
 </tr>
 <tr class="odd">
+<td align="right">6.</td>
+<td align="left"><a href="http://rpository.com/ds4psy/essentials/import.html">Importing data</a></td>
+</tr>
+<tr class="even">
+<td align="right">7.</td>
+<td align="left"><a href="http://rpository.com/ds4psy/essentials/tidy.html">Tidying data</a></td>
+</tr>
+<tr class="odd">
+<td align="right">8.</td>
+<td align="left"><a href="http://rpository.com/ds4psy/essentials/join.html">Joining data</a></td>
+</tr>
+<tr class="even">
 <td align="right">+.</td>
 <td align="left"><a href="http://rpository.com/ds4psy/essentials/datasets.html">Datasets</a></td>
 </tr>
@@ -1363,10 +1492,12 @@ Nr. | Topic       |
 3.  | [Transforming data](http://rpository.com/ds4psy/essentials/transform.html) |
 4.  | [Exploring data (EDA)](http://rpository.com/ds4psy/essentials/explore.html) | 
 5.  | [Tibbles](http://rpository.com/ds4psy/essentials/tibbles.html) |
-6.  | [Tidying data](http://rpository.com/ds4psy/essentials/tidy.html) | 
+6.  | [Importing data](http://rpository.com/ds4psy/essentials/import.html) |
+7.  | [Tidying data](http://rpository.com/ds4psy/essentials/tidy.html) |
+8.  | [Joining data](http://rpository.com/ds4psy/essentials/join.html) |
 +.  | [Datasets](http://rpository.com/ds4psy/essentials/datasets.html) | 
 -->
-<p>[Last update on 2018-12-10 15:24:00 by <a href="http://neth.de/">hn</a>.]</p>
+<p>[Last update on 2019-01-19 09:36:39 by <a href="http://neth.de/">hn</a>.]</p>
 <!-- eof. -->
 </div>
 </div>

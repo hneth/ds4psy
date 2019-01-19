@@ -1,7 +1,7 @@
 ---
 title: "Basic R concepts and commands, with solutions (ds4psy)"
 author: "Hansjörg Neth, SPDS, uni.kn"
-date: "2018 11 18"
+date: "2019 01 19"
 output:
    rmdformats::html_clean: # html_clean html_docco readthedown material #
      code_folding: show # hide
@@ -55,7 +55,6 @@ opts_knit$set(width = 75)
 source(file = "~/Desktop/stuff/Dropbox/_code/R/_teachR/ds4psy/R/custom_functions.R")
 ```
 
-
 # Introduction
 
 This file contains a brief introduction into basic concepts and commands when learning R **with code outputs and solutions**. 
@@ -72,8 +71,11 @@ Nr. | Topic       |
 1.  | **Basic R concepts and commands** | 
 2.  | [Visualizing data](http://rpository.com/ds4psy/essentials/visualize.html) | 
 3.  | [Transforming data](http://rpository.com/ds4psy/essentials/transform.html) |
-4.  | [Exploring data (EDA)](http://rpository.com/ds4psy/essentials/explore.html) |
+4.  | [Exploring data (EDA)](http://rpository.com/ds4psy/essentials/explore.html) | 
 5.  | [Tibbles](http://rpository.com/ds4psy/essentials/tibbles.html) |
+6.  | [Importing data](http://rpository.com/ds4psy/essentials/import.html) |
+7.  | [Tidying data](http://rpository.com/ds4psy/essentials/tidy.html) |
+8.  | [Joining data](http://rpository.com/ds4psy/essentials/join.html) |
 +.  | [Datasets](http://rpository.com/ds4psy/essentials/datasets.html) |
 
 <!--
@@ -85,7 +87,9 @@ Nr. | Topic       |
 3.  | [Transforming data](http://rpository.com/ds4psy/essentials/transform.html) |
 4.  | [Exploring data (EDA)](http://rpository.com/ds4psy/essentials/explore.html) | 
 5.  | [Tibbles](http://rpository.com/ds4psy/essentials/tibbles.html) |
-6.  | [Tidying data](http://rpository.com/ds4psy/essentials/tidy.html) | 
+6.  | [Importing data](http://rpository.com/ds4psy/essentials/import.html) |
+7.  | [Tidying data](http://rpository.com/ds4psy/essentials/tidy.html) |
+8.  | [Joining data](http://rpository.com/ds4psy/essentials/join.html) |
 +.  | [Datasets](http://rpository.com/ds4psy/essentials/datasets.html) | 
 -->
 
@@ -572,7 +576,6 @@ r3
 r4 <- matrix(data = 1:20, nrow = 5, ncol = 4, byrow = FALSE)
 r4
 
-
 # Selecting cells, rows, or columns of matrices: ---- 
 r1[2, 3]  # in r1: select row 2, column 3
 r2[3, 1]  # in r2: select row 3, column 1
@@ -612,7 +615,7 @@ As matrices contain data of only 1 type (e.g., all cells are all numeric, charac
 
 Let's create a data frame from vectors: 
 
-```{r data_frame, echo = TRUE, eval = TRUE}
+```{r data_frame_create, echo = TRUE, eval = TRUE}
 # Create some vectors (of different types, but same length): -----  
 name <- c("Adam", "Bertha", "Cecily", "Dora", "Eve", "Nero", "Zeno")
 gender <- c("male", "female", "female", "female", "female", "male", "male")
@@ -625,21 +628,49 @@ df    # Note: Vectors are the columns of the data frame!
 
 is.matrix(df)
 is.data.frame(df)
-dim(df)
+dim(df)  # 7 cases (rows) x 4 variables (columns)
 
 # Note that 
 # sum(df)  # would yield an error
+```
+
+We can easily turn any data frame into a tibble (by using the `as_tibble` command of the `tidyverse` package `tibble`):
+
+```{r data_as_tibble, echo = TRUE, eval = TRUE}
+tb <- tibble::as_tibble(df)
+dim(tb)  # 7 cases (rows) x 4 variables (columns), as df
+```
+
+We will learn more about tibbles later. 
+For now, a tibble is just a simpler and more convenient type of data frame. 
+For instance, printing a tibble always shows its dimensions (as in `dim(tb)`) and the type of each variable (column):
+
+```{r print_tibble}
+tb
+```
 
 
+### Working with data frames / tibbles
+
+Selecting cells, cases (rows), or variables (columns) of a data frame:
+
+```{r data_frame_select, echo = TRUE, eval = TRUE}
 # Selecting cells, rows or columns: ----- 
-df[2, 3]  # cell in row 2, column 3
-df[6, ]   # row 6
-df[ , 4]  # column 4
+df[5, 3]  # cell in row 5, column 3: 21 (age of Eve)
+df[6, ]   # row 6: Nero etc.
+df[ , 4]  # column 4: height values
 
-# Selecting columns by name (with $ operator):
+names(df)    # yields the names of all variables (columns), as a vector
+names(df)[4] # the name of the 4th variable
+
+# Selecting variables (columns) by their name (with $ operator):
 df$gender  # returns gender vector
 df$age     # returns age vector
+```
 
+Applying functions to variables (columns):
+
+```{r data_frame_apply_functions, echo = TRUE, eval = TRUE}
 # Applying functions to columns of df:
 df$gender == "male"
 sum(df$gender == "male")
@@ -653,15 +684,57 @@ df$height < 170
 df$gender[df$height < 170]
 ```
 
+Creating new variables: To create a new variable, we simply assign something to a new variable name.
 
+```{r data_frame_new_variables, echo = TRUE, eval = TRUE}
+df
+dim(df)  # 7 cases (rows) x 4 variables (columns)
+
+# Create a new variable:
+df$may_drink <- NA  # initialize a new variable (column) with unknown (NA) values
+df # => may_drink was added as a new column to df, all instances are NA
+
+# Assign values:  A person may drink (alcohol, in the US),  
+df$may_drink <- (df$age >= 21)  # if s/he is 21 (or older)
+df
+
+# Note:
+# - we did not use an if-then statement
+# - we did not specify separate TRUE vs. FALSE cases
+# - we can assign and set new variables in 1 step:
+
+df$is_female <- (df$gender == "female")
+df
+```
+
+### Changing variable types
+
+When working with vectors or rectangles of data, we often need or want to convert the type of a variable into another one. To convert a variable, we simply assign it to itself (so that all its values will be preserved) and wrap a type conversion function (`as.character`, `as.integer`, `as.numeric` or `factor`) around it:
+
+```{r convert_variable_types}
+levels(df$gender)  # currently a so-called "factor" variable
+typeof(df$gender)  # of type "integer"
+df$gender <- as.character(df$gender)  # convert into a character variable
+typeof(df$gender)  # now of type "character"
+
+df$gender <- as.factor(df$gender)  # convert from "character" into a "factor"
+df$gender
+typeof(df$gender)  # again of type "integer"
+
+typeof(df$age)  # numeric "double"
+df$age <- as.integer(df$age)  # convert from "double" to "integer"
+typeof(df$age)  # "integer"
+df$age <- as.numeric(df$age)  # convert from "integer" to numeric "double"
+typeof(df$age)  # numeric "double"
+```
+
+### Importing data
 
 In most cases, we don't generate the data that we analyze, but obtain it from somewhere (e.g., online). For instance, 
 Woodworth et al. (2018, DOI: <https://doi.org/10.5334/jopd.35>) examined the long-term effectiveness of different web-based positive psychology interventions (see [this link](https://openpsychologydata.metajnl.com/articles/10.5334/jopd.35/) for details). We can load their participant data into R with the following command (from the package `readr`, which is part of the `tidyverse`):
 
 ```{r read_online_data, echo = TRUE, eval = TRUE}
-library(readr)
-
-p_info <- read_csv(file = "http://rpository.com/ds4psy/data/posPsy_participants.csv")
+p_info <- readr::read_csv(file = "http://rpository.com/ds4psy/data/posPsy_participants.csv")
 
 dim(p_info)      # 295 rows, 6 columns
 p_info           # prints a summary of the table/tibble
@@ -703,6 +776,8 @@ When analyzing a data file from a remote source, it's crucial to also obtain a d
     - 3 = above average.
 
 We will examine these variables in **Exercise 6** (below).
+
+
 
 
 # Exercises (WPA01)
@@ -828,10 +903,9 @@ x %/% y # integer division
 x %% y  # remainder of integer division (x mod y)
 ```
 
-
 ## Exercise 4
 
-Predit the result of the arithmetic expression `x %/% y * y + x %% y`. Then test your prediction by assigning some number to `x` and `y` and evaluating the expression. Finally, explain why the result occurs. 
+Predict the result of the arithmetic expression `x %/% y * y + x %% y`. Then test your prediction by assigning some number to `x` and `y` and evaluating the expression. Finally, explain why the result occurs. 
 
 ```{r ex4_integer_arithmetic, echo = TRUE, eval = TRUE}
 ## Note: The given expression 
@@ -857,7 +931,6 @@ x %% y       # yields the remainder of integer division
 (x %/% y * y) + (x %% y)
 # yields x.
 ```
-
 
 ## Exercise 5
 
@@ -911,7 +984,6 @@ round_ages <- age[age %% 10 == 0]
 length(round_ages)
 mean(round_ages)
 ```
-
 
 ## Exercise 6
 
@@ -991,7 +1063,8 @@ pc_income_low
 
 There is no shortage of introductory R books and scripts, but it's helpful if you find one that fits your interests and level of expertise. 
 
-- My favorite introduction to R is [YaRrr! The Pirate’s Guide to R](https://bookdown.org/ndphillips/YaRrr/), an ebook by Nathaniel Phillips that approaches R in a more detailed and much more entertaining fashion.  (See [Rpository.com/learnR/](http://rpository.com/learnr/) for corresponding exercises with solutions.) 
+- An enjoyable introduction to R is [YaRrr! The Pirate’s Guide to R](https://bookdown.org/ndphillips/YaRrr/), an ebook by Nathaniel Phillips that approaches R in a very entertaining fashion.  
+(See [Rpository.com/learnR/](http://rpository.com/learnr/) for corresponding exercises with solutions.) 
 
 - For many other materials and scripts, see [R manuals](https://cran.r-project.org/manuals.html) and [other documentation](www.r-project.org/other-docs.html).  
 
@@ -1018,8 +1091,11 @@ Nr. | Topic       |
 1.  | **Basic R concepts and commands** | 
 2.  | [Visualizing data](http://rpository.com/ds4psy/essentials/visualize.html) | 
 3.  | [Transforming data](http://rpository.com/ds4psy/essentials/transform.html) |
-4.  | [Exploring data (EDA)](http://rpository.com/ds4psy/essentials/explore.html) |
+4.  | [Exploring data (EDA)](http://rpository.com/ds4psy/essentials/explore.html) | 
 5.  | [Tibbles](http://rpository.com/ds4psy/essentials/tibbles.html) |
+6.  | [Importing data](http://rpository.com/ds4psy/essentials/import.html) |
+7.  | [Tidying data](http://rpository.com/ds4psy/essentials/tidy.html) |
+8.  | [Joining data](http://rpository.com/ds4psy/essentials/join.html) |
 +.  | [Datasets](http://rpository.com/ds4psy/essentials/datasets.html) | 
 
 <!--
@@ -1031,7 +1107,9 @@ Nr. | Topic       |
 3.  | [Transforming data](http://rpository.com/ds4psy/essentials/transform.html) |
 4.  | [Exploring data (EDA)](http://rpository.com/ds4psy/essentials/explore.html) | 
 5.  | [Tibbles](http://rpository.com/ds4psy/essentials/tibbles.html) |
-6.  | [Tidying data](http://rpository.com/ds4psy/essentials/tidy.html) | 
+6.  | [Importing data](http://rpository.com/ds4psy/essentials/import.html) |
+7.  | [Tidying data](http://rpository.com/ds4psy/essentials/tidy.html) |
+8.  | [Joining data](http://rpository.com/ds4psy/essentials/join.html) |
 +.  | [Datasets](http://rpository.com/ds4psy/essentials/datasets.html) | 
 -->
 

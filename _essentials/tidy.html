@@ -1278,6 +1278,8 @@ de
 </ul>
 <p>As this format succinctly expresses the <em>repeated measurement</em> of a variable (e.g., <code>cases</code>) on different years for each instance of <code>country</code>, some statistical software packages (like SPSS) require this format for some analyses (e.g., MANOVA). In R, we typically don’t want nested formats that distribute instances of the same variable (e.g., <code>cases</code>) over multiple columns (<code>cases_1999</code> vs. <code>cases_2000</code>).</p>
 <p>Here are 3 alternative ways to tidy <code>table8</code>:</p>
+<div id="gather-and-spread" class="section level3">
+<h3>1. <code>gather</code> and <code>spread</code></h3>
 <ol style="list-style-type: decimal">
 <li>Gather the 4 dependent variables, then separate the key into 2 variables, and spread the 2 different dependent variables into columns:</li>
 </ol>
@@ -1302,9 +1304,10 @@ table8_tidy
 <span class="co">#&gt; 4 Brazil      2000   80488  174504898</span>
 <span class="co">#&gt; 5 China       1999  212258 1272915272</span>
 <span class="co">#&gt; 6 China       2000  213766 1280428583</span></code></pre></div>
-<ol start="2" style="list-style-type: decimal">
-<li>Alternatively, split <code>table8</code> into 2 tidy sub-tables (one for <code>cases</code> and one for <code>population</code> counts), and then combine both sub-tables:</li>
-</ol>
+</div>
+<div id="in-2-tables" class="section level3">
+<h3>2. In 2 tables</h3>
+<p>Alternatively, split <code>table8</code> into 2 tidy sub-tables (one for <code>cases</code> and one for <code>population</code> counts), and then combine both sub-tables:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## Import data: 
 <span class="co"># table8 &lt;- read_csv(&quot;http://rpository.com/ds4psy/data/table8.csv&quot;) # from online source</span>
 <span class="co"># dim(table8)  # 3 x 5</span>
@@ -1349,7 +1352,7 @@ t8b
 
 ## (c) Join both sub-tables: -------- 
 
-<span class="co"># Either by using join commands of dplyr (see Chapter on &quot;Relational data&quot;): </span>
+<span class="co"># Either by using join commands of dplyr (see the next chapter on &quot;Relational data&quot;): </span>
 table8_tidy_<span class="dv">2</span> &lt;-<span class="st"> </span>dplyr<span class="op">::</span><span class="kw">left_join</span>(t8a, t8b)
 table8_tidy_<span class="dv">2</span>
 <span class="co">#&gt; # A tibble: 6 x 4</span>
@@ -1362,7 +1365,7 @@ table8_tidy_<span class="dv">2</span>
 <span class="co">#&gt; 5 China       1999  212258 1272915272</span>
 <span class="co">#&gt; 6 China       2000  213766 1280428583</span>
 
-<span class="co"># OR (by assignment): </span>
+<span class="co"># OR (adding new variables by assignment): </span>
 table8_tidy_2b &lt;-<span class="st"> </span>t8a  <span class="co"># copy</span>
 table8_tidy_2b<span class="op">$</span>population &lt;-<span class="st"> </span>t8b<span class="op">$</span>population  <span class="co"># CAREFUL: Ensure that both tables are in same order (see arrange above)! </span>
 table8_tidy_2b
@@ -1375,9 +1378,10 @@ table8_tidy_2b
 <span class="co">#&gt; 4 Brazil      2000   80488  174504898</span>
 <span class="co">#&gt; 5 China       1999  212258 1272915272</span>
 <span class="co">#&gt; 6 China       2000  213766 1280428583</span></code></pre></div>
-<ol start="3" style="list-style-type: decimal">
-<li>Using the base R command <code>reshape</code> also solves our problem (and even allows combining multiple blocks of DVs at once), but requires some adjustments to recover the <code>year</code> variable</li>
-</ol>
+</div>
+<div id="base-r-command-reshape" class="section level3">
+<h3>3. Base R command <code>reshape</code></h3>
+<p>Using the base R command <code>reshape</code> also solves our problem (and even allows combining multiple blocks of DVs at once), but requires some adjustments to recover the <code>year</code> variable</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## Import data: 
 <span class="co"># table8 &lt;- read_csv(&quot;http://rpository.com/ds4psy/data/table8.csv&quot;) # from online source</span>
 <span class="co"># dim(table8)  # 3 x 5</span>
@@ -1438,7 +1442,8 @@ table8_tidy_<span class="dv">3</span>
 <span class="co">#&gt; [1] TRUE</span>
 <span class="kw">all.equal</span>(table8_tidy, table8_tidy_<span class="dv">3</span>)   <span class="co"># TRUE</span>
 <span class="co">#&gt; [1] TRUE</span></code></pre></div>
-<p>As always, there are many alternative ways to achieve a result – which makes it absolutely crucial that we know which particular result we want to achieve.</p>
+<p>As always, R provides many alternative ways to achieve a result – which makes it absolutely crucial that we know which particular result we want to achieve.</p>
+</div>
 </div>
 </div>
 <div id="exercises-wpa07" class="section level1">
@@ -3551,7 +3556,7 @@ Nr. | Topic       |
 7.  | [Tidying data](http://rpository.com/ds4psy/essentials/tidy.html) |
 +.  | [Datasets](http://rpository.com/ds4psy/essentials/datasets.html) | 
 -->
-<p>[Last update on 2019-01-19 08:26:19 by <a href="http://neth.de/">hn</a>.]</p>
+<p>[Last update on 2019-01-19 08:43:34 by <a href="http://neth.de/">hn</a>.]</p>
 <!-- eof. -->
 </div>
 <div class="footnotes">
@@ -3584,7 +3589,11 @@ Nr. | Topic       |
         <li><a href="#gather-makes-wide-data-longer">3. <code>gather</code> makes wide data longer</a></li>
         <li><a href="#spread-makes-long-data-wider">4. <code>spread</code> makes long data wider</a></li>
         </ul></li>
-        <li><a href="#multiple-dvs">Multiple DVs</a></li>
+        <li><a href="#multiple-dvs">Multiple DVs</a><ul>
+        <li><a href="#gather-and-spread">1. <code>gather</code> and <code>spread</code></a></li>
+        <li><a href="#in-2-tables">2. In 2 tables</a></li>
+        <li><a href="#base-r-command-reshape">3. Base R command <code>reshape</code></a></li>
+        </ul></li>
         </ul></li>
         <li><a href="#exercises-wpa07">Exercises (WPA07)</a><ul>
         <li><a href="#exercise-1">Exercise 1</a></li>

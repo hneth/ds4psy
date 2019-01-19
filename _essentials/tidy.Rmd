@@ -677,6 +677,8 @@ As this format succinctly expresses the _repeated measurement_ of a variable (e.
 
 Here are 3 alternative ways to tidy `table8`:
 
+### 1. `gather` and `spread`
+
 1. Gather the 4 dependent variables, then separate the key into 2 variables, and spread the 2 different dependent variables into columns: 
 
 ```{r table8_tidy_1}
@@ -694,7 +696,9 @@ names(table8_tidy)[4] <- "population"  # fix variable name
 table8_tidy 
 ```
 
-2. Alternatively, split `table8` into 2 tidy sub-tables (one for `cases` and one for `population` counts), and then combine both sub-tables: 
+### 2. In 2 tables
+
+Alternatively, split `table8` into 2 tidy sub-tables (one for `cases` and one for `population` counts), and then combine both sub-tables: 
 
 ```{r table8_tidy_2}
 ## Import data: 
@@ -723,17 +727,19 @@ t8b
 
 ## (c) Join both sub-tables: -------- 
 
-# Either by using join commands of dplyr (see Chapter on "Relational data"): 
+# Either by using join commands of dplyr (see the next chapter on "Relational data"): 
 table8_tidy_2 <- dplyr::left_join(t8a, t8b)
 table8_tidy_2
 
-# OR (by assignment): 
+# OR (adding new variables by assignment): 
 table8_tidy_2b <- t8a  # copy
 table8_tidy_2b$population <- t8b$population  # CAREFUL: Ensure that both tables are in same order (see arrange above)! 
 table8_tidy_2b
 ```
 
-3. Using the base R command `reshape` also solves our problem (and even allows combining multiple blocks of DVs at once), but requires some adjustments to recover the `year` variable 
+### 3. Base R command `reshape`
+
+Using the base R command `reshape` also solves our problem (and even allows combining multiple blocks of DVs at once), but requires some adjustments to recover the `year` variable 
 
 ```{r table8_tidy_3_reshape}
 ## Import data: 
@@ -781,7 +787,7 @@ all.equal(table8_tidy, table8_tidy_2b)  # TRUE
 all.equal(table8_tidy, table8_tidy_3)   # TRUE
 ```
 
-As always, there are many alternative ways to achieve a result -- which makes it absolutely crucial that we know which particular result we want to achieve.  
+As always, R provides many alternative ways to achieve a result -- which makes it absolutely crucial that we know which particular result we want to achieve.  
 
 
 # Exercises (WPA07)
