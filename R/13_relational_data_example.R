@@ -52,8 +52,8 @@ library(tidyverse) # includes: library(dplyr)
 ## Reading in data tables: ------ 
 
 ## From online file:
-data_t1 <- as_tibble(read.csv(file = "http://rpository.com/ds4psy/data/data_t1.csv"))
-data_t2 <- as_tibble(read.csv(file = "http://rpository.com/ds4psy/data/data_t2.csv"))
+data_t1 <- read_csv(file = "http://rpository.com/ds4psy/data/data_t1.csv")
+data_t2 <- read_csv(file = "http://rpository.com/ds4psy/data/data_t2.csv")
 
 ## From local file:
 # data_t1 <- as_tibble(read.csv(file = "data/data_t1.csv"))
@@ -69,6 +69,9 @@ data_t2  # => 20 cases (people with 2 dependent variables)
 ## Sort both by name:
 data_t1 %>% arrange(name)
 data_t2 %>% arrange(name)  # => same people, but different NA values
+
+
+
 
 ## (A) Simple case: Both tables have identical names: ----- 
 

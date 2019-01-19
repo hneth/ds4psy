@@ -1,7 +1,7 @@
 ## r4ds: Chapter 13: Relational data
 ## Code for http://r4ds.had.co.nz/relational-data.html
 ## hn spds uni.kn
-## 2018 06 06 ------
+## 2019 01 19 ------
 
 ## [see Book chapter 10: "Relational data with dplyr"] 
 
@@ -1496,6 +1496,9 @@ setdiff(df2, df1)
   rm(list = c("data_t1", "data_t2"))
 }
 
+
+
+
 ## Read in data tables: ------ 
 {
   ## From online file:
@@ -1505,6 +1508,37 @@ setdiff(df2, df1)
   ## From local file:
   # data_t1 <- as_tibble(read.csv(file = "data/data_t1.csv"))
   # data_t2 <- as_tibble(read.csv(file = "data/data_t2.csv"))
+}
+
+## Create variants of both tables (with additional obstacles for joining): ------ 
+{
+  
+  # Copy tables: 
+  data_t3 <- data_t1
+  data_t4 <- data_t2
+  
+  # (a) rename 1 person (to same initials as another one) in both tables:
+  data_t3$name[data_t3$name == "K.X."] <- data_t3$name[data_t3$name == "A.V."]
+  data_t4$name[data_t4$name == "K.X."] <- data_t4$name[data_t4$name == "A.V."]
+  data_t3
+  data_t4
+  
+  # (b) Rename variables in t4:
+  names(data_t4)[1] <- "initials"
+  names(data_t4)[2] <- "sex"
+  
+  ## Write out data tables:
+  write_csv(data_t3, path = "data/data_t3.csv")
+  write_csv(data_t4, path = "data/data_t4.csv")
+
+  ## Import (from local file):
+  data_t3 <- read_csv("data/data_t3.csv")
+  data_t4 <- read_csv("data/data_t4.csv")
+  
+  ## Import (from online):
+  data_t3 <- read_csv(file = "http://rpository.com/ds4psy/data/data_t3.csv")
+  data_t4 <- read_csv(file = "http://rpository.com/ds4psy/data/data_t4.csv")
+    
 }
 
 ## Combine both tables: ------ 
