@@ -135,6 +135,7 @@ For instructions on combining text and code, see [Chapter 27: R Markdown](https:
 
 **Hint:** Try to _knit_ your `.Rmd` file immediately after saving it and marvel at the beauty of the resulting `.html`-file. If this works, keep doing this routinely from now on, putting all your R-code into code chunks, and any text (like headings or conclusions) that describes or explains what you are doing outside of them. From now on, you can share your `.html` output files, rather than your `.Rmd` source files when showing off your R and data science skills.
 
+
 # Tidy data
 
 The notion of _tidy data_ lies at the core of the tidyverse. The same dataset can be formatted in a variety of formats. Even though they can contain the same data, different formats differ in how easy or hard they are to work with (e.g., for specific analyses or plots). Tidy data is formatted in a simple and straightforward way, which makes it immensely practical (e.g., easy to understand, analyze, and transform into other formats). 
@@ -191,7 +192,7 @@ dim(tidyr::table5)  #  6 x 4: 2 IVs (year in 2 columns), 1 column with 2 DVs.
 
 #### Practice 
 
-Recreate the above bar plot using `ggplot2` with `data = table1`. 
+Recreate the above bar plot using `ggplot2` with `tidyr::table1` as data. 
 
 
 ### Defining tidy data
