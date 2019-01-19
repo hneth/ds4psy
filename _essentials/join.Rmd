@@ -140,23 +140,36 @@ For instructions on combining text and code, see [Chapter 27: R Markdown](https:
 
 # Joining data
 
-All the data we considered so far appeared in the form of 1 table (or multiple versions of the same table, some of which needed [transforming](http://rpository.com/ds4psy/essentials/transform.html) and [tidying](http://rpository.com/ds4psy/essentials/tidy.html) etc.). 
-In reality, however, many datasets are distributed over several tables. To analyze such data, an important first step is to combine those tables without messing up their contents. In addition to the tools for data [transformation](http://rpository.com/ds4psy/essentials/transform.html) data, the package `dplyr` contains so-called _2-table verbs_ that allow joining 2 tables of data with 3 different types of commands: 
+All the data we considered so far appeared in the form of a single table (or multiple versions of the same table, some of which needed [transforming](http://rpository.com/ds4psy/essentials/transform.html) and [tidying](http://rpository.com/ds4psy/essentials/tidy.html) etc.). 
+In reality, however, many datasets are distributed over multiple tables. To analyze such data, an important first step is to combine those tables without messing up their contents. To combine data from multiple tables, we need to specify how they are related (which is why this chapter is called "relational data"). A _relation_ between tables typically is a variable that occurs in both tables: Provided that this variable has the same meaning in both tables, it is called a _key_ (see [Chapter 13.3](https://r4ds.had.co.nz/relational-data.html#keys) for details) and allows linking the observations (rows) from one table to those of the other one. 
 
-1. _Mutating joins_ add new variables (columns) to one table from matching rows in another table. 
+Joining 2 tables is simple and straightforward when variables have common variables (names and types) and both tables describe the same cases (rows). However, it's clear that we may encounter problems in which one table uses different names or types than the other one and that both tables can differ in the number of cases they contain (e.g., one may contain a sub-set of cases of the other one, or both contain some common but also some unique cases). In these instances, it's absolutely crucial that we first understand each table by itself (its dimensions, cases and variables, contents) and their relation to each other (e.g., which cases and variables occur in both tables) before trying to join them.[^1] 
 
-2. _Filtering joins_ filter observations (rows) from one table based on whether or not they match an observation (row) in another table. 
+[^1]: For this reason, most real-world joins are preceded by sequences of `select`, `mutate`, and `arrange` commands on one or both tables.
+
+When we are ready to join tables, base R offers basic `rbind` and `cbind` commands (to bind rows or columns of data), but these are intended for tables with identical variables or cases, respectively. Joining 2 data frames can be achieved by using `merge` (see below). Alternatively, the `tidyverse` package `dplyr` (whose so-called 1-table verbs we have used for data [transformation](http://rpository.com/ds4psy/essentials/transform.html)) contains additional _2-table verbs_ 
+that allow joining 2 tables of data with 3 different types of commands: 
+
+1. _Mutating joins_ add new _variables_ (columns) to one table from matching rows in another table. 
+
+2. _Filtering joins_ filter _observations_ (rows) from one table based on whether or not they match an observation (row) in another table. 
 
 3. _Set operations_ combine the observations in two tables as if they were set elements. 
 
 In the following, we will briefly describe the essential commands for each type of join. 
 (See [Chapter 13: Relational data](https://r4ds.had.co.nz/relational-data.html) and the `vignette("two-table")` for additional details.)
 
+
 ## Mutating joins
 
 ## Filtering joins
 
 ## Set operations
+
+
+## Using `merge`
+
+The base R command `merge`
 
 
 # Exercises (WPA08)
@@ -166,7 +179,108 @@ Here are the exercises of WPA08 and possible solutions for them.
 
 ## Exercise 1
 
-etc.
+This exercise uses the following data files:
+
+- [data_t3](http://rpository.com/ds4psy/data/data_t3.csv)
+- [data_t4](http://rpository.com/ds4psy/data/data_t4.csv)
+
+1. Import both tables of data (as `data_t3` and `data_t4`) and check out each table individually, before comparing them to each other. 
+Do both tables contain the same cases and variables?
+
+```{r ex1_1}
+# Load data: 
+data_t3 <- read_csv(file = "http://rpository.com/ds4psy/data/data_t3.csv")
+data_t4 <- read_csv(file = "http://rpository.com/ds4psy/data/data_t4.csv")
+
+# Inspect tables:
+data_t3  # 20 x 4
+data_t4  # 20 x 4
+
+# Both tables seem similar, but do not share variable names.
+# Are names and initials identical?
+
+# Arrange both tables by first 2 variables:
+data_t3 <- data_t3 %>% arrange(name, gender)
+data_t4 <- data_t4 %>% arrange(initials, sex)
+
+all.equal(data_t3$name, data_t4$initials)  # TRUE
+all.equal(data_t3$gender, data_t4$sex)     # TRUE
+# => Both tables seem to contain the same people as cases!
+```
+
+2. Join both tables by using only the `name` variable of `data_t3` and `initials` variable of `data_t4`. 
+Why is this difficult or impossible? 
+
+```{r ex1_2}
+# Copy data: Make sure that cases are arranged in the same way:
+t3 <- data_t3 %>% arrange(name, gender)
+t4 <- data_t4 %>% arrange(initials, sex)
+
+# Note 1:
+# left_join(t3, t4)  # would yield an error:
+# `by` required, because the data sources have no common variables
+
+# Let's specify both primary and foreign key as:  
+# by = c("name" = "initials")
+
+# Note 2: Both of the following 
+left_join(t3, t4, by = c("name" = "initials"))
+full_join(t3, t4, by = c("name" = "initials"))
+# yield 22 x 7 tables.
+
+# Problem: The name/initials "A.V." appears TWICE data_t3 and data_t4:
+length(unique(data_t3$name))            # => only 19 unique names
+data_t3$name[duplicated(data_t3$name)]  # => "A.V." appears twice.
+# ==> The combination lists 2x2 instances of "A.V.". 
+```
+
+3. Join both tables into a 20 x 6 table that contains all data in 1 table.
+
+The following solution first re-names 2 variables in one table (to have 2 matching key variables): 
+
+```{r ex1_3a}
+# Copy data: Make sure that cases are arranged in the same way:
+t3 <- data_t3 %>% arrange(name, gender)
+t4 <- data_t4 %>% arrange(initials, sex)
+
+# Solution 1:
+# (a) Rename both key variables in one table:
+names(t4)[1:2] <- names(t3)[c(1, 2)] 
+
+# (b) Join both tables using both key variables:
+left_join(t3, t4, by = c("name", "gender")) # => 20 x 6
+# OR: 
+full_join(t3, t4, by = c("name", "gender")) # => 20 x 6
+```
+
+An alternative solution pre-supposes that both tables contain the same cases in the same order and introduces a temporary unique key variable (e.g., the row number) as key to link both tables:
+
+```{r ex1_3b}
+# Copy data: Make sure that cases are arranged in the same way:
+t3 <- data_t3 %>% arrange(name, gender)
+t4 <- data_t4 %>% arrange(initials, sex)
+
+# Solution 2: When we know that 
+# - both tables contain the same cases AND 
+# - both tables have all cases arranged in the same way:
+all.equal(t3$name, t4$initials)  # TRUE
+
+# Add a new variable (with unique values) to both tables:
+t3$nr <- 1:nrow(t3)  # add unique row number to each row
+t4$nr <- 1:nrow(t4)  # add unique row number to each row
+
+# Use this new and unambiguous variable as key:
+left_join(t3, t4, by = c("nr")) %>%  # use nr as key
+  select(name:bnt_1, like_2, bnt_2)  # and drop some variables => 20 x 6 
+# OR: 
+full_join(t3, t4, by = c("nr")) %>%  # use nr as key
+  select(name:bnt_1, like_2, bnt_2)  # and drop some variables => 20 x 6 
+```
+
+
+## Exercise 2
+
+
 
 
 # More on joining data
