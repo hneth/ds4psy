@@ -1,7 +1,7 @@
 ---
 title: "Joining data, with solutions (ds4psy)"
 author: "Hansjörg Neth, SPDS, uni.kn"
-date: "2019 01 17"
+date: "2019 01 20"
 output:
    rmdformats::html_clean: # html_clean html_docco readthedown material #
      code_folding: show # hide
@@ -147,12 +147,20 @@ Joining 2 tables is simple and straightforward when variables have common variab
 
 [^1]: For this reason, most real-world joins are preceded by sequences of `select`, `mutate`, and `arrange` commands on one or both tables.
 
-When we are ready to join tables, base R offers basic `rbind` and `cbind` commands (to bind rows or columns of data), but these are intended for tables with identical variables or cases, respectively. Joining 2 data frames can be achieved by using `merge` (see below). Alternatively, the `tidyverse` package `dplyr` (whose so-called 1-table verbs we have used for data [transformation](http://rpository.com/ds4psy/essentials/transform.html)) contains additional _2-table verbs_ 
+### Terminology 
+
+The verb "join" and the term "relational data" comes from relational databases (see [in Wikipedia](https://en.wikipedia.org/wiki/Join_(SQL)) and relational algebra (see [in Wikipedia](https://en.wikipedia.org/wiki/Relational_algebra)). 
+
+### Base R vs. tidyverse commands
+
+When we are ready to join tables, base R offers basic `base::rbind` and `base::cbind` commands (to bind rows or columns of data), but these are intended for tables with identical variables or cases, respectively. Joining 2 data frames can be achieved by using `base::merge` (see below). 
+
+Alternatively, the `tidyverse` package `dplyr` (whose so-called 1-table verbs we have used for data [transformation](http://rpository.com/ds4psy/essentials/transform.html)) contains additional _2-table verbs_ 
 that allow joining 2 tables of data with 3 different types of commands: 
 
-1. _Mutating joins_ add new _variables_ (columns) to one table from matching rows in another table. 
+1. _Mutating joins_ add new _variables_ (columns) to one table from matching cases (rows) of another table. 
 
-2. _Filtering joins_ filter _observations_ (rows) from one table based on whether or not they match an observation (row) in another table. 
+2. _Filtering joins_ filter _observations_ (rows) from one table based on whether or not they match a case (row) in another table. 
 
 3. _Set operations_ combine the observations in two tables as if they were set elements. 
 
@@ -161,6 +169,193 @@ In the following, we will briefly describe the essential commands for each type 
 
 
 ## Mutating joins
+
+The term _mutating_ is used in analogy to the `dplyr::mutate` command: Just as `mutate` creates new variables (columns), 
+a mutating join adds new variables (columns) to a table from matching cases (rows) of another table. 
+
+### Commands
+
+There are 4 types of mutating joins to combine the columns of tables `x` and `y`: 
+
+1. `left_join(x, y)`: Return all rows from `x`, and all columns from `x` and `y`. 
+Rows in `x` with no match in `y` will have `NA` values in the new columns. 
+If there are multiple matches between `x` and `y`, all combinations of the matches are returned.
+
+2. `right_join(x, y)`: Same as `left_join(y, x)`, and hence not necessary. 
+
+3. `full_join(x, y): Return all rows and all columns that exist in `x` and `y` together. 
+If there are non-matching values, return `NA` for the one missing. 
+
+4. `inner_join(x, y)`: Return all rows from `x` where there are matching values in `y`, and all columns from `x` and `y`. 
+If there are multiple matches between `x` and `y`, all combination of the matches are returned.
+
+Beyond specifying the 2 tables to join, all commands take a `by` argument:
+
+- `by` specifies a character vector of variables by which we want to join the tables. 
+
+- If `by = NULL` (as by default) `*_join` will perform a _natural_ join, using _all variables with common names_ across the 2 tables. A message lists the variables used, so that we can verify that this is what we wanted. 
+
+- To join by differently named variables on `x` and `y`, we can provide a named vector. For instance, `by = c("a" = "b")` will match variable `a` in table `x` to variable `b` in table `y`.
+
+### Examples
+
+To test these commands, we load the following data files:
+
+- [data_t1](http://rpository.com/ds4psy/data/data_t1.csv)
+- [data_t2](http://rpository.com/ds4psy/data/data_t2.csv)
+
+```{r load_t1_t2}
+# Load data:
+data_t1 <- read_csv(file = "http://rpository.com/ds4psy/data/data_t1.csv")
+data_t2 <- read_csv(file = "http://rpository.com/ds4psy/data/data_t2.csv")
+
+# Copy data:
+t1 <- data_t1
+t2 <- data_t2
+
+# Inspect data:
+t1
+t2
+```
+
+Note that `t1` and `t2` are both 20 x 4 tibbles and appear to contain the responses or test scores of people. 
+This suggests that they may be 2 measurements of the same people. However, before jumping into joining the tables, we should check whether they really contain the same people:
+
+```{r check_t1_t2}
+# Do both tables contain common variables?
+sum(names(t1) %in% names(t2))        # Number of common variables: 
+names(t1)[names(t1) %in% names(t2)]  # Names of common variables: 
+
+# Arrange the rows of tables by common variables:
+t1 <- t1 %>% arrange(name, gender) 
+t2 <- t2 %>% arrange(name, gender)
+
+# Are they equal in both tables?
+all.equal(t1$name, t2$name)
+all.equal(t1$gender, t2$gender)
+```
+
+This confirms our intuition: `t1` and `t2` contain 2 variables of demographic information (`name` and `gender`) of 20 people and each table contains 2 additional variables (measurements or test scores). Under _these_ conditions, the 4 join commands all yield the same result:
+
+```{r mutating_joins_1}
+# 1. left_join:
+m1 <- left_join(t1, t2)
+m1
+
+# 2. right_join:
+m2 <- right_join(t1, t2)
+m2
+
+# 3. full_join:
+m3 <- full_join(t1, t2)
+m3
+
+# 4. inner_join:
+m4 <- inner_join(t1, t2)
+m4
+
+# Verify equality:
+all.equal(m1, m2)
+all.equal(m1, m3)
+all.equal(m1, m4)
+```
+
+Note that the join commands automatically used the 2 common variables as `key` variables to join the tables (i.e., used 
+`by = c("name", "gender")`). This raises the question: What would happen if we only specified one of them? Let's check:
+
+```{r mutating_joins_duplicate_vars}
+left_join(t1, t2, by = "name")   # => 2 gender columns, distinguished by suffixes .x and .y
+left_join(t1, t2, by = "gender") # => 2 name columns, distinguished by suffixes .x and .y
+
+# To control the suffix:
+left_join(t1, t2, by = "name", suffix = c("_1", "_2"))
+```
+
+We see that common variables _not_ used for joining the tables get duplicated in the joint table and distinguished by a unique suffix. 
+
+To see and appreciate the differences between the 4 mutating joins, we need tables that contain different and repeated cases. 
+We can easily create these by selecting and duplicating some cases in each of our tables:[^2]
+
+[^2]: It's not crucial to understand the following code. It only serves to select some random cases from each table and create some duplicate cases in each.
+
+```{r sample_and_copy_cases}
+# Copy data (again): ------ 
+t3 <- data_t1
+t4 <- data_t2
+
+# Modify both tables: ------ 
+# (a) Draw n random rows (samples):
+set.seed(12)  # for replicability
+n <- 8
+s1 <- sample(1:nrow(t3), size = n, replace = FALSE)  # n random values from 1 to nrow(t3)
+s2 <- sample(1:nrow(t4), size = n, replace = FALSE)  # n random values from 1 to nrow(t4)
+
+# Reduce rows and arrange both tables:
+t3 <- t3[s1, ]
+t4 <- t4[s2, ]
+
+# (b) Duplicate m random rows:
+set.seed(23)  # for replicability
+m <- 2
+d1 <- sample(1:nrow(t3), size = m, replace = FALSE)  # n random values from 1 to nrow(t3)
+d2 <- sample(1:nrow(t4), size = m, replace = FALSE)  # n random values from 1 to nrow(t4)
+
+# Duplicate sampled rows:
+t3 <- rbind(t3, t3[d1, ])
+t4 <- rbind(t4, t4[d2, ])
+
+# Arrange tables:
+t3 <- t3 %>% arrange(name, gender)
+t4 <- t4 %>% arrange(name, gender)
+```
+
+The resulting tables `t3` and `t4` are both 10 x 4 tibbles and contain some common and some unique cases (people). 
+In addition, each table contains 2 people twice: 
+
+```{r}
+# Inspect resulting tables: ------ 
+t3
+t4
+
+# Common cases:
+t3$name[t3$name %in% t4$name]  # people in t3 that also appear in t4
+t4$name[t4$name %in% t3$name]  # people in t4 that also appear in t3
+
+# Unique cases:
+t3$name[!t3$name %in% t4$name] # people in t3 that are NOT in t4
+t4$name[!t4$name %in% t3$name] # people in t4 that are NOT in t3
+```
+
+Now let's re-do the 4 mutating joins with `t3` and `t4` and inspect the resulting tables:
+
+```{r mutating_joins_2}
+# 1. left_join:
+m5 <- left_join(t3, t4)
+m5  # => 12 x 6 table, containing all cases of t3, plus additional cases for duplicate cases.
+
+# +++ here now +++
+
+# 2. right_join:
+m6 <- right_join(t3, t4)
+m6  # => 12 x 6 table, containing all cases of t4, plus additional cases for duplicate cases.
+
+all.equal(m5, m6)  # shows differences, but 
+all.equal(m5, right_join(t4, t3)) # is TRUE
+
+# 3. full_join:
+m7 <- full_join(t3, t4)
+m7  # => 17 x 6 table
+
+# 4. inner_join:
+m8 <- inner_join(t3, t4)
+m8  # => 7 x 6 table 
+```
+
+
+
+
+
+
 
 ## Filtering joins
 

@@ -238,15 +238,458 @@ Nr. | Topic       |
 <h1>Joining data</h1>
 <p>All the data we considered so far appeared in the form of a single table (or multiple versions of the same table, some of which needed <a href="http://rpository.com/ds4psy/essentials/transform.html">transforming</a> and <a href="http://rpository.com/ds4psy/essentials/tidy.html">tidying</a> etc.). In reality, however, many datasets are distributed over multiple tables. To analyze such data, an important first step is to combine those tables without messing up their contents. To combine data from multiple tables, we need to specify how they are related (which is why this chapter is called “relational data”). A <em>relation</em> between tables typically is a variable that occurs in both tables: Provided that this variable has the same meaning in both tables, it is called a <em>key</em> (see <a href="https://r4ds.had.co.nz/relational-data.html#keys">Chapter 13.3</a> for details) and allows linking the observations (rows) from one table to those of the other one.</p>
 <p>Joining 2 tables is simple and straightforward when variables have common variables (names and types) and both tables describe the same cases (rows). However, it’s clear that we may encounter problems in which one table uses different names or types than the other one and that both tables can differ in the number of cases they contain (e.g., one may contain a sub-set of cases of the other one, or both contain some common but also some unique cases). In these instances, it’s absolutely crucial that we first understand each table by itself (its dimensions, cases and variables, contents) and their relation to each other (e.g., which cases and variables occur in both tables) before trying to join them.<a href="#fn1" class="footnoteRef" id="fnref1"><sup>1</sup></a></p>
-<p>When we are ready to join tables, base R offers basic <code>rbind</code> and <code>cbind</code> commands (to bind rows or columns of data), but these are intended for tables with identical variables or cases, respectively. Joining 2 data frames can be achieved by using <code>merge</code> (see below). Alternatively, the <code>tidyverse</code> package <code>dplyr</code> (whose so-called 1-table verbs we have used for data <a href="http://rpository.com/ds4psy/essentials/transform.html">transformation</a>) contains additional <em>2-table verbs</em> that allow joining 2 tables of data with 3 different types of commands:</p>
+<div id="terminology" class="section level3">
+<h3>Terminology</h3>
+<p>The verb “join” and the term “relational data” comes from relational databases (see <a href="https://en.wikipedia.org/wiki/Join_(SQL)">in Wikipedia</a> and relational algebra (see <a href="https://en.wikipedia.org/wiki/Relational_algebra">in Wikipedia</a>).</p>
+</div>
+<div id="base-r-vs.tidyverse-commands" class="section level3">
+<h3>Base R vs. tidyverse commands</h3>
+<p>When we are ready to join tables, base R offers basic <code>base::rbind</code> and <code>base::cbind</code> commands (to bind rows or columns of data), but these are intended for tables with identical variables or cases, respectively. Joining 2 data frames can be achieved by using <code>base::merge</code> (see below).</p>
+<p>Alternatively, the <code>tidyverse</code> package <code>dplyr</code> (whose so-called 1-table verbs we have used for data <a href="http://rpository.com/ds4psy/essentials/transform.html">transformation</a>) contains additional <em>2-table verbs</em> that allow joining 2 tables of data with 3 different types of commands:</p>
 <ol style="list-style-type: decimal">
-<li><p><em>Mutating joins</em> add new <em>variables</em> (columns) to one table from matching rows in another table.</p></li>
-<li><p><em>Filtering joins</em> filter <em>observations</em> (rows) from one table based on whether or not they match an observation (row) in another table.</p></li>
+<li><p><em>Mutating joins</em> add new <em>variables</em> (columns) to one table from matching cases (rows) of another table.</p></li>
+<li><p><em>Filtering joins</em> filter <em>observations</em> (rows) from one table based on whether or not they match a case (row) in another table.</p></li>
 <li><p><em>Set operations</em> combine the observations in two tables as if they were set elements.</p></li>
 </ol>
 <p>In the following, we will briefly describe the essential commands for each type of join. (See <a href="https://r4ds.had.co.nz/relational-data.html">Chapter 13: Relational data</a> and the <code>vignette(&quot;two-table&quot;)</code> for additional details.)</p>
+</div>
 <div id="mutating-joins" class="section level2">
 <h2>Mutating joins</h2>
+<p>The term <em>mutating</em> is used in analogy to the <code>dplyr::mutate</code> command: Just as <code>mutate</code> creates new variables (columns), a mutating join adds new variables (columns) to a table from matching cases (rows) of another table.</p>
+<div id="commands" class="section level3">
+<h3>Commands</h3>
+<p>There are 4 types of mutating joins to combine the columns of tables <code>x</code> and <code>y</code>:</p>
+<ol style="list-style-type: decimal">
+<li><p><code>left_join(x, y)</code>: Return all rows from <code>x</code>, and all columns from <code>x</code> and <code>y</code>. Rows in <code>x</code> with no match in <code>y</code> will have <code>NA</code> values in the new columns. If there are multiple matches between <code>x</code> and <code>y</code>, all combinations of the matches are returned.</p></li>
+<li><p><code>right_join(x, y)</code>: Same as <code>left_join(y, x)</code>, and hence not necessary.</p></li>
+<li><p><code>full_join(x, y): Return all rows and all columns that exist in</code>x<code>and</code>y<code>together.  If there are non-matching values, return</code>NA` for the one missing.</p></li>
+<li><p><code>inner_join(x, y)</code>: Return all rows from <code>x</code> where there are matching values in <code>y</code>, and all columns from <code>x</code> and <code>y</code>. If there are multiple matches between <code>x</code> and <code>y</code>, all combination of the matches are returned.</p></li>
+</ol>
+<p>Beyond specifying the 2 tables to join, all commands take a <code>by</code> argument:</p>
+<ul>
+<li><p><code>by</code> specifies a character vector of variables by which we want to join the tables.</p></li>
+<li><p>If <code>by = NULL</code> (as by default) <code>*_join</code> will perform a <em>natural</em> join, using <em>all variables with common names</em> across the 2 tables. A message lists the variables used, so that we can verify that this is what we wanted.</p></li>
+<li><p>To join by differently named variables on <code>x</code> and <code>y</code>, we can provide a named vector. For instance, <code>by = c(&quot;a&quot; = &quot;b&quot;)</code> will match variable <code>a</code> in table <code>x</code> to variable <code>b</code> in table <code>y</code>.</p></li>
+</ul>
+</div>
+<div id="examples" class="section level3">
+<h3>Examples</h3>
+<p>To test these commands, we load the following data files:</p>
+<ul>
+<li><a href="http://rpository.com/ds4psy/data/data_t1.csv">data_t1</a></li>
+<li><a href="http://rpository.com/ds4psy/data/data_t2.csv">data_t2</a></li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Load data:</span>
+data_t1 &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="dt">file =</span> <span class="st">&quot;http://rpository.com/ds4psy/data/data_t1.csv&quot;</span>)
+data_t2 &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="dt">file =</span> <span class="st">&quot;http://rpository.com/ds4psy/data/data_t2.csv&quot;</span>)
+
+<span class="co"># Copy data:</span>
+t1 &lt;-<span class="st"> </span>data_t1
+t2 &lt;-<span class="st"> </span>data_t2
+
+<span class="co"># Inspect data:</span>
+t1
+<span class="co">#&gt; # A tibble: 20 x 4</span>
+<span class="co">#&gt;    name  gender like_1 bnt_1</span>
+<span class="co">#&gt;    &lt;chr&gt; &lt;chr&gt;   &lt;dbl&gt; &lt;dbl&gt;</span>
+<span class="co">#&gt;  1 R.S.  female      2    NA</span>
+<span class="co">#&gt;  2 M.Y.  male        2     4</span>
+<span class="co">#&gt;  3 K.R.  male        4     1</span>
+<span class="co">#&gt;  4 A.V.  female      3     2</span>
+<span class="co">#&gt;  5 Z.Y.  female     NA    NA</span>
+<span class="co">#&gt;  6 X.D.  female      4     4</span>
+<span class="co">#&gt;  7 A.F.  female      5     1</span>
+<span class="co">#&gt;  8 X.Y.  female      5     4</span>
+<span class="co">#&gt;  9 K.X.  male        3     3</span>
+<span class="co">#&gt; 10 M.O.  male        4     1</span>
+<span class="co">#&gt; 11 T.V.  male        6     4</span>
+<span class="co">#&gt; 12 X.P.  female      4     1</span>
+<span class="co">#&gt; 13 Z.D.  male        5     4</span>
+<span class="co">#&gt; 14 T.D.  male        5     2</span>
+<span class="co">#&gt; 15 C.N.  female      4     3</span>
+<span class="co">#&gt; 16 H.V.  female      1     4</span>
+<span class="co">#&gt; 17 Q.N.  female      6     1</span>
+<span class="co">#&gt; 18 Y.G.  male        4     4</span>
+<span class="co">#&gt; 19 L.S.  male        4     4</span>
+<span class="co">#&gt; 20 L.V.  female      4     2</span>
+t2
+<span class="co">#&gt; # A tibble: 20 x 4</span>
+<span class="co">#&gt;    name  gender like_2 bnt_2</span>
+<span class="co">#&gt;    &lt;chr&gt; &lt;chr&gt;   &lt;dbl&gt; &lt;dbl&gt;</span>
+<span class="co">#&gt;  1 X.D.  female      5     1</span>
+<span class="co">#&gt;  2 T.D.  male        3    NA</span>
+<span class="co">#&gt;  3 Z.D.  male        7     4</span>
+<span class="co">#&gt;  4 L.S.  male        7     4</span>
+<span class="co">#&gt;  5 H.V.  female      5     2</span>
+<span class="co">#&gt;  6 Q.N.  female      6     2</span>
+<span class="co">#&gt;  7 X.P.  female      4     1</span>
+<span class="co">#&gt;  8 K.R.  male        6     1</span>
+<span class="co">#&gt;  9 R.S.  female      7     3</span>
+<span class="co">#&gt; 10 C.N.  female      2     2</span>
+<span class="co">#&gt; 11 Z.Y.  female      7     1</span>
+<span class="co">#&gt; 12 T.V.  male        4     4</span>
+<span class="co">#&gt; 13 Y.G.  male        4     4</span>
+<span class="co">#&gt; 14 M.O.  male       NA    NA</span>
+<span class="co">#&gt; 15 M.Y.  male        6     2</span>
+<span class="co">#&gt; 16 A.F.  female      4     1</span>
+<span class="co">#&gt; 17 K.X.  male        5     4</span>
+<span class="co">#&gt; 18 L.V.  female      2     4</span>
+<span class="co">#&gt; 19 X.Y.  female      5     2</span>
+<span class="co">#&gt; 20 A.V.  female      5     3</span></code></pre></div>
+<p>Note that <code>t1</code> and <code>t2</code> are both 20 x 4 tibbles and appear to contain the responses or test scores of people. This suggests that they may be 2 measurements of the same people. However, before jumping into joining the tables, we should check whether they really contain the same people:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Do both tables contain common variables?</span>
+<span class="kw">sum</span>(<span class="kw">names</span>(t1) <span class="op">%in%</span><span class="st"> </span><span class="kw">names</span>(t2))        <span class="co"># Number of common variables: </span>
+<span class="co">#&gt; [1] 2</span>
+<span class="kw">names</span>(t1)[<span class="kw">names</span>(t1) <span class="op">%in%</span><span class="st"> </span><span class="kw">names</span>(t2)]  <span class="co"># Names of common variables: </span>
+<span class="co">#&gt; [1] &quot;name&quot;   &quot;gender&quot;</span>
+
+<span class="co"># Arrange the rows of tables by common variables:</span>
+t1 &lt;-<span class="st"> </span>t1 <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">arrange</span>(name, gender) 
+t2 &lt;-<span class="st"> </span>t2 <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">arrange</span>(name, gender)
+
+<span class="co"># Are they equal in both tables?</span>
+<span class="kw">all.equal</span>(t1<span class="op">$</span>name, t2<span class="op">$</span>name)
+<span class="co">#&gt; [1] TRUE</span>
+<span class="kw">all.equal</span>(t1<span class="op">$</span>gender, t2<span class="op">$</span>gender)
+<span class="co">#&gt; [1] TRUE</span></code></pre></div>
+<p>This confirms our intuition: <code>t1</code> and <code>t2</code> contain 2 variables of demographic information (<code>name</code> and <code>gender</code>) of 20 people and each table contains 2 additional variables (measurements or test scores). Under <em>these</em> conditions, the 4 join commands all yield the same result:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># 1. left_join:</span>
+m1 &lt;-<span class="st"> </span><span class="kw">left_join</span>(t1, t2)
+m1
+<span class="co">#&gt; # A tibble: 20 x 6</span>
+<span class="co">#&gt;    name  gender like_1 bnt_1 like_2 bnt_2</span>
+<span class="co">#&gt;    &lt;chr&gt; &lt;chr&gt;   &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;</span>
+<span class="co">#&gt;  1 A.F.  female      5     1      4     1</span>
+<span class="co">#&gt;  2 A.V.  female      3     2      5     3</span>
+<span class="co">#&gt;  3 C.N.  female      4     3      2     2</span>
+<span class="co">#&gt;  4 H.V.  female      1     4      5     2</span>
+<span class="co">#&gt;  5 K.R.  male        4     1      6     1</span>
+<span class="co">#&gt;  6 K.X.  male        3     3      5     4</span>
+<span class="co">#&gt;  7 L.S.  male        4     4      7     4</span>
+<span class="co">#&gt;  8 L.V.  female      4     2      2     4</span>
+<span class="co">#&gt;  9 M.O.  male        4     1     NA    NA</span>
+<span class="co">#&gt; 10 M.Y.  male        2     4      6     2</span>
+<span class="co">#&gt; 11 Q.N.  female      6     1      6     2</span>
+<span class="co">#&gt; 12 R.S.  female      2    NA      7     3</span>
+<span class="co">#&gt; 13 T.D.  male        5     2      3    NA</span>
+<span class="co">#&gt; 14 T.V.  male        6     4      4     4</span>
+<span class="co">#&gt; 15 X.D.  female      4     4      5     1</span>
+<span class="co">#&gt; 16 X.P.  female      4     1      4     1</span>
+<span class="co">#&gt; 17 X.Y.  female      5     4      5     2</span>
+<span class="co">#&gt; 18 Y.G.  male        4     4      4     4</span>
+<span class="co">#&gt; 19 Z.D.  male        5     4      7     4</span>
+<span class="co">#&gt; 20 Z.Y.  female     NA    NA      7     1</span>
+
+<span class="co"># 2. right_join:</span>
+m2 &lt;-<span class="st"> </span><span class="kw">right_join</span>(t1, t2)
+m2
+<span class="co">#&gt; # A tibble: 20 x 6</span>
+<span class="co">#&gt;    name  gender like_1 bnt_1 like_2 bnt_2</span>
+<span class="co">#&gt;    &lt;chr&gt; &lt;chr&gt;   &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;</span>
+<span class="co">#&gt;  1 A.F.  female      5     1      4     1</span>
+<span class="co">#&gt;  2 A.V.  female      3     2      5     3</span>
+<span class="co">#&gt;  3 C.N.  female      4     3      2     2</span>
+<span class="co">#&gt;  4 H.V.  female      1     4      5     2</span>
+<span class="co">#&gt;  5 K.R.  male        4     1      6     1</span>
+<span class="co">#&gt;  6 K.X.  male        3     3      5     4</span>
+<span class="co">#&gt;  7 L.S.  male        4     4      7     4</span>
+<span class="co">#&gt;  8 L.V.  female      4     2      2     4</span>
+<span class="co">#&gt;  9 M.O.  male        4     1     NA    NA</span>
+<span class="co">#&gt; 10 M.Y.  male        2     4      6     2</span>
+<span class="co">#&gt; 11 Q.N.  female      6     1      6     2</span>
+<span class="co">#&gt; 12 R.S.  female      2    NA      7     3</span>
+<span class="co">#&gt; 13 T.D.  male        5     2      3    NA</span>
+<span class="co">#&gt; 14 T.V.  male        6     4      4     4</span>
+<span class="co">#&gt; 15 X.D.  female      4     4      5     1</span>
+<span class="co">#&gt; 16 X.P.  female      4     1      4     1</span>
+<span class="co">#&gt; 17 X.Y.  female      5     4      5     2</span>
+<span class="co">#&gt; 18 Y.G.  male        4     4      4     4</span>
+<span class="co">#&gt; 19 Z.D.  male        5     4      7     4</span>
+<span class="co">#&gt; 20 Z.Y.  female     NA    NA      7     1</span>
+
+<span class="co"># 3. full_join:</span>
+m3 &lt;-<span class="st"> </span><span class="kw">full_join</span>(t1, t2)
+m3
+<span class="co">#&gt; # A tibble: 20 x 6</span>
+<span class="co">#&gt;    name  gender like_1 bnt_1 like_2 bnt_2</span>
+<span class="co">#&gt;    &lt;chr&gt; &lt;chr&gt;   &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;</span>
+<span class="co">#&gt;  1 A.F.  female      5     1      4     1</span>
+<span class="co">#&gt;  2 A.V.  female      3     2      5     3</span>
+<span class="co">#&gt;  3 C.N.  female      4     3      2     2</span>
+<span class="co">#&gt;  4 H.V.  female      1     4      5     2</span>
+<span class="co">#&gt;  5 K.R.  male        4     1      6     1</span>
+<span class="co">#&gt;  6 K.X.  male        3     3      5     4</span>
+<span class="co">#&gt;  7 L.S.  male        4     4      7     4</span>
+<span class="co">#&gt;  8 L.V.  female      4     2      2     4</span>
+<span class="co">#&gt;  9 M.O.  male        4     1     NA    NA</span>
+<span class="co">#&gt; 10 M.Y.  male        2     4      6     2</span>
+<span class="co">#&gt; 11 Q.N.  female      6     1      6     2</span>
+<span class="co">#&gt; 12 R.S.  female      2    NA      7     3</span>
+<span class="co">#&gt; 13 T.D.  male        5     2      3    NA</span>
+<span class="co">#&gt; 14 T.V.  male        6     4      4     4</span>
+<span class="co">#&gt; 15 X.D.  female      4     4      5     1</span>
+<span class="co">#&gt; 16 X.P.  female      4     1      4     1</span>
+<span class="co">#&gt; 17 X.Y.  female      5     4      5     2</span>
+<span class="co">#&gt; 18 Y.G.  male        4     4      4     4</span>
+<span class="co">#&gt; 19 Z.D.  male        5     4      7     4</span>
+<span class="co">#&gt; 20 Z.Y.  female     NA    NA      7     1</span>
+
+<span class="co"># 4. inner_join:</span>
+m4 &lt;-<span class="st"> </span><span class="kw">inner_join</span>(t1, t2)
+m4
+<span class="co">#&gt; # A tibble: 20 x 6</span>
+<span class="co">#&gt;    name  gender like_1 bnt_1 like_2 bnt_2</span>
+<span class="co">#&gt;    &lt;chr&gt; &lt;chr&gt;   &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;</span>
+<span class="co">#&gt;  1 A.F.  female      5     1      4     1</span>
+<span class="co">#&gt;  2 A.V.  female      3     2      5     3</span>
+<span class="co">#&gt;  3 C.N.  female      4     3      2     2</span>
+<span class="co">#&gt;  4 H.V.  female      1     4      5     2</span>
+<span class="co">#&gt;  5 K.R.  male        4     1      6     1</span>
+<span class="co">#&gt;  6 K.X.  male        3     3      5     4</span>
+<span class="co">#&gt;  7 L.S.  male        4     4      7     4</span>
+<span class="co">#&gt;  8 L.V.  female      4     2      2     4</span>
+<span class="co">#&gt;  9 M.O.  male        4     1     NA    NA</span>
+<span class="co">#&gt; 10 M.Y.  male        2     4      6     2</span>
+<span class="co">#&gt; 11 Q.N.  female      6     1      6     2</span>
+<span class="co">#&gt; 12 R.S.  female      2    NA      7     3</span>
+<span class="co">#&gt; 13 T.D.  male        5     2      3    NA</span>
+<span class="co">#&gt; 14 T.V.  male        6     4      4     4</span>
+<span class="co">#&gt; 15 X.D.  female      4     4      5     1</span>
+<span class="co">#&gt; 16 X.P.  female      4     1      4     1</span>
+<span class="co">#&gt; 17 X.Y.  female      5     4      5     2</span>
+<span class="co">#&gt; 18 Y.G.  male        4     4      4     4</span>
+<span class="co">#&gt; 19 Z.D.  male        5     4      7     4</span>
+<span class="co">#&gt; 20 Z.Y.  female     NA    NA      7     1</span>
+
+<span class="co"># Verify equality:</span>
+<span class="kw">all.equal</span>(m1, m2)
+<span class="co">#&gt; [1] TRUE</span>
+<span class="kw">all.equal</span>(m1, m3)
+<span class="co">#&gt; [1] TRUE</span>
+<span class="kw">all.equal</span>(m1, m4)
+<span class="co">#&gt; [1] TRUE</span></code></pre></div>
+<p>Note that the join commands automatically used the 2 common variables as <code>key</code> variables to join the tables (i.e., used <code>by = c(&quot;name&quot;, &quot;gender&quot;)</code>). This raises the question: What would happen if we only specified one of them? Let’s check:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">left_join</span>(t1, t2, <span class="dt">by =</span> <span class="st">&quot;name&quot;</span>)   <span class="co"># =&gt; 2 gender columns, distinguished by suffixes .x and .y</span>
+<span class="co">#&gt; # A tibble: 20 x 7</span>
+<span class="co">#&gt;    name  gender.x like_1 bnt_1 gender.y like_2 bnt_2</span>
+<span class="co">#&gt;    &lt;chr&gt; &lt;chr&gt;     &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;     &lt;dbl&gt; &lt;dbl&gt;</span>
+<span class="co">#&gt;  1 A.F.  female        5     1 female        4     1</span>
+<span class="co">#&gt;  2 A.V.  female        3     2 female        5     3</span>
+<span class="co">#&gt;  3 C.N.  female        4     3 female        2     2</span>
+<span class="co">#&gt;  4 H.V.  female        1     4 female        5     2</span>
+<span class="co">#&gt;  5 K.R.  male          4     1 male          6     1</span>
+<span class="co">#&gt;  6 K.X.  male          3     3 male          5     4</span>
+<span class="co">#&gt;  7 L.S.  male          4     4 male          7     4</span>
+<span class="co">#&gt;  8 L.V.  female        4     2 female        2     4</span>
+<span class="co">#&gt;  9 M.O.  male          4     1 male         NA    NA</span>
+<span class="co">#&gt; 10 M.Y.  male          2     4 male          6     2</span>
+<span class="co">#&gt; 11 Q.N.  female        6     1 female        6     2</span>
+<span class="co">#&gt; 12 R.S.  female        2    NA female        7     3</span>
+<span class="co">#&gt; 13 T.D.  male          5     2 male          3    NA</span>
+<span class="co">#&gt; 14 T.V.  male          6     4 male          4     4</span>
+<span class="co">#&gt; 15 X.D.  female        4     4 female        5     1</span>
+<span class="co">#&gt; 16 X.P.  female        4     1 female        4     1</span>
+<span class="co">#&gt; 17 X.Y.  female        5     4 female        5     2</span>
+<span class="co">#&gt; 18 Y.G.  male          4     4 male          4     4</span>
+<span class="co">#&gt; 19 Z.D.  male          5     4 male          7     4</span>
+<span class="co">#&gt; 20 Z.Y.  female       NA    NA female        7     1</span>
+<span class="kw">left_join</span>(t1, t2, <span class="dt">by =</span> <span class="st">&quot;gender&quot;</span>) <span class="co"># =&gt; 2 name columns, distinguished by suffixes .x and .y</span>
+<span class="co">#&gt; # A tibble: 202 x 7</span>
+<span class="co">#&gt;    name.x gender like_1 bnt_1 name.y like_2 bnt_2</span>
+<span class="co">#&gt;    &lt;chr&gt;  &lt;chr&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;   &lt;dbl&gt; &lt;dbl&gt;</span>
+<span class="co">#&gt;  1 A.F.   female      5     1 A.F.        4     1</span>
+<span class="co">#&gt;  2 A.F.   female      5     1 A.V.        5     3</span>
+<span class="co">#&gt;  3 A.F.   female      5     1 C.N.        2     2</span>
+<span class="co">#&gt;  4 A.F.   female      5     1 H.V.        5     2</span>
+<span class="co">#&gt;  5 A.F.   female      5     1 L.V.        2     4</span>
+<span class="co">#&gt;  6 A.F.   female      5     1 Q.N.        6     2</span>
+<span class="co">#&gt;  7 A.F.   female      5     1 R.S.        7     3</span>
+<span class="co">#&gt;  8 A.F.   female      5     1 X.D.        5     1</span>
+<span class="co">#&gt;  9 A.F.   female      5     1 X.P.        4     1</span>
+<span class="co">#&gt; 10 A.F.   female      5     1 X.Y.        5     2</span>
+<span class="co">#&gt; # ... with 192 more rows</span>
+
+<span class="co"># To control the suffix:</span>
+<span class="kw">left_join</span>(t1, t2, <span class="dt">by =</span> <span class="st">&quot;name&quot;</span>, <span class="dt">suffix =</span> <span class="kw">c</span>(<span class="st">&quot;_1&quot;</span>, <span class="st">&quot;_2&quot;</span>))
+<span class="co">#&gt; # A tibble: 20 x 7</span>
+<span class="co">#&gt;    name  gender_1 like_1 bnt_1 gender_2 like_2 bnt_2</span>
+<span class="co">#&gt;    &lt;chr&gt; &lt;chr&gt;     &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;     &lt;dbl&gt; &lt;dbl&gt;</span>
+<span class="co">#&gt;  1 A.F.  female        5     1 female        4     1</span>
+<span class="co">#&gt;  2 A.V.  female        3     2 female        5     3</span>
+<span class="co">#&gt;  3 C.N.  female        4     3 female        2     2</span>
+<span class="co">#&gt;  4 H.V.  female        1     4 female        5     2</span>
+<span class="co">#&gt;  5 K.R.  male          4     1 male          6     1</span>
+<span class="co">#&gt;  6 K.X.  male          3     3 male          5     4</span>
+<span class="co">#&gt;  7 L.S.  male          4     4 male          7     4</span>
+<span class="co">#&gt;  8 L.V.  female        4     2 female        2     4</span>
+<span class="co">#&gt;  9 M.O.  male          4     1 male         NA    NA</span>
+<span class="co">#&gt; 10 M.Y.  male          2     4 male          6     2</span>
+<span class="co">#&gt; 11 Q.N.  female        6     1 female        6     2</span>
+<span class="co">#&gt; 12 R.S.  female        2    NA female        7     3</span>
+<span class="co">#&gt; 13 T.D.  male          5     2 male          3    NA</span>
+<span class="co">#&gt; 14 T.V.  male          6     4 male          4     4</span>
+<span class="co">#&gt; 15 X.D.  female        4     4 female        5     1</span>
+<span class="co">#&gt; 16 X.P.  female        4     1 female        4     1</span>
+<span class="co">#&gt; 17 X.Y.  female        5     4 female        5     2</span>
+<span class="co">#&gt; 18 Y.G.  male          4     4 male          4     4</span>
+<span class="co">#&gt; 19 Z.D.  male          5     4 male          7     4</span>
+<span class="co">#&gt; 20 Z.Y.  female       NA    NA female        7     1</span></code></pre></div>
+<p>We see that common variables <em>not</em> used for joining the tables get duplicated in the joint table and distinguished by a unique suffix.</p>
+<p>To see and appreciate the differences between the 4 mutating joins, we need tables that contain different and repeated cases. We can easily create these by selecting and duplicating some cases in each of our tables:<a href="#fn2" class="footnoteRef" id="fnref2"><sup>2</sup></a></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Copy data (again): ------ </span>
+t3 &lt;-<span class="st"> </span>data_t1
+t4 &lt;-<span class="st"> </span>data_t2
+
+<span class="co"># Modify both tables: ------ </span>
+<span class="co"># (a) Draw n random rows (samples):</span>
+<span class="kw">set.seed</span>(<span class="dv">12</span>)  <span class="co"># for replicability</span>
+n &lt;-<span class="st"> </span><span class="dv">8</span>
+s1 &lt;-<span class="st"> </span><span class="kw">sample</span>(<span class="dv">1</span><span class="op">:</span><span class="kw">nrow</span>(t3), <span class="dt">size =</span> n, <span class="dt">replace =</span> <span class="ot">FALSE</span>)  <span class="co"># n random values from 1 to nrow(t3)</span>
+s2 &lt;-<span class="st"> </span><span class="kw">sample</span>(<span class="dv">1</span><span class="op">:</span><span class="kw">nrow</span>(t4), <span class="dt">size =</span> n, <span class="dt">replace =</span> <span class="ot">FALSE</span>)  <span class="co"># n random values from 1 to nrow(t4)</span>
+
+<span class="co"># Reduce rows and arrange both tables:</span>
+t3 &lt;-<span class="st"> </span>t3[s1, ]
+t4 &lt;-<span class="st"> </span>t4[s2, ]
+
+<span class="co"># (b) Duplicate m random rows:</span>
+<span class="kw">set.seed</span>(<span class="dv">23</span>)  <span class="co"># for replicability</span>
+m &lt;-<span class="st"> </span><span class="dv">2</span>
+d1 &lt;-<span class="st"> </span><span class="kw">sample</span>(<span class="dv">1</span><span class="op">:</span><span class="kw">nrow</span>(t3), <span class="dt">size =</span> m, <span class="dt">replace =</span> <span class="ot">FALSE</span>)  <span class="co"># n random values from 1 to nrow(t3)</span>
+d2 &lt;-<span class="st"> </span><span class="kw">sample</span>(<span class="dv">1</span><span class="op">:</span><span class="kw">nrow</span>(t4), <span class="dt">size =</span> m, <span class="dt">replace =</span> <span class="ot">FALSE</span>)  <span class="co"># n random values from 1 to nrow(t4)</span>
+
+<span class="co"># Duplicate sampled rows:</span>
+t3 &lt;-<span class="st"> </span><span class="kw">rbind</span>(t3, t3[d1, ])
+t4 &lt;-<span class="st"> </span><span class="kw">rbind</span>(t4, t4[d2, ])
+
+<span class="co"># Arrange tables:</span>
+t3 &lt;-<span class="st"> </span>t3 <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">arrange</span>(name, gender)
+t4 &lt;-<span class="st"> </span>t4 <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">arrange</span>(name, gender)</code></pre></div>
+<p>The resulting tables <code>t3</code> and <code>t4</code> are both 10 x 4 tibbles and contain some common and some unique cases (people). In addition, each table contains 2 people twice:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Inspect resulting tables: ------ </span>
+t3
+<span class="co">#&gt; # A tibble: 10 x 4</span>
+<span class="co">#&gt;    name  gender like_1 bnt_1</span>
+<span class="co">#&gt;    &lt;chr&gt; &lt;chr&gt;   &lt;dbl&gt; &lt;dbl&gt;</span>
+<span class="co">#&gt;  1 H.V.  female      1     4</span>
+<span class="co">#&gt;  2 H.V.  female      1     4</span>
+<span class="co">#&gt;  3 K.R.  male        4     1</span>
+<span class="co">#&gt;  4 K.R.  male        4     1</span>
+<span class="co">#&gt;  5 K.X.  male        3     3</span>
+<span class="co">#&gt;  6 L.S.  male        4     4</span>
+<span class="co">#&gt;  7 M.Y.  male        2     4</span>
+<span class="co">#&gt;  8 Q.N.  female      6     1</span>
+<span class="co">#&gt;  9 R.S.  female      2    NA</span>
+<span class="co">#&gt; 10 Z.Y.  female     NA    NA</span>
+t4
+<span class="co">#&gt; # A tibble: 10 x 4</span>
+<span class="co">#&gt;    name  gender like_2 bnt_2</span>
+<span class="co">#&gt;    &lt;chr&gt; &lt;chr&gt;   &lt;dbl&gt; &lt;dbl&gt;</span>
+<span class="co">#&gt;  1 A.V.  female      5     3</span>
+<span class="co">#&gt;  2 K.R.  male        6     1</span>
+<span class="co">#&gt;  3 K.R.  male        6     1</span>
+<span class="co">#&gt;  4 L.S.  male        7     4</span>
+<span class="co">#&gt;  5 M.O.  male       NA    NA</span>
+<span class="co">#&gt;  6 M.Y.  male        6     2</span>
+<span class="co">#&gt;  7 Q.N.  female      6     2</span>
+<span class="co">#&gt;  8 X.D.  female      5     1</span>
+<span class="co">#&gt;  9 X.P.  female      4     1</span>
+<span class="co">#&gt; 10 X.P.  female      4     1</span>
+
+<span class="co"># Common cases:</span>
+t3<span class="op">$</span>name[t3<span class="op">$</span>name <span class="op">%in%</span><span class="st"> </span>t4<span class="op">$</span>name]  <span class="co"># people in t3 that also appear in t4</span>
+<span class="co">#&gt; [1] &quot;K.R.&quot; &quot;K.R.&quot; &quot;L.S.&quot; &quot;M.Y.&quot; &quot;Q.N.&quot;</span>
+t4<span class="op">$</span>name[t4<span class="op">$</span>name <span class="op">%in%</span><span class="st"> </span>t3<span class="op">$</span>name]  <span class="co"># people in t4 that also appear in t3</span>
+<span class="co">#&gt; [1] &quot;K.R.&quot; &quot;K.R.&quot; &quot;L.S.&quot; &quot;M.Y.&quot; &quot;Q.N.&quot;</span>
+
+<span class="co"># Unique cases:</span>
+t3<span class="op">$</span>name[<span class="op">!</span>t3<span class="op">$</span>name <span class="op">%in%</span><span class="st"> </span>t4<span class="op">$</span>name] <span class="co"># people in t3 that are NOT in t4</span>
+<span class="co">#&gt; [1] &quot;H.V.&quot; &quot;H.V.&quot; &quot;K.X.&quot; &quot;R.S.&quot; &quot;Z.Y.&quot;</span>
+t4<span class="op">$</span>name[<span class="op">!</span>t4<span class="op">$</span>name <span class="op">%in%</span><span class="st"> </span>t3<span class="op">$</span>name] <span class="co"># people in t4 that are NOT in t3</span>
+<span class="co">#&gt; [1] &quot;A.V.&quot; &quot;M.O.&quot; &quot;X.D.&quot; &quot;X.P.&quot; &quot;X.P.&quot;</span></code></pre></div>
+<p>Now let’s re-do the 4 mutating joins with <code>t3</code> and <code>t4</code> and inspect the resulting tables:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># 1. left_join:</span>
+m5 &lt;-<span class="st"> </span><span class="kw">left_join</span>(t3, t4)
+m5  <span class="co"># =&gt; 12 x 6 table, containing all cases of t3, plus additional cases for duplicate cases.</span>
+<span class="co">#&gt; # A tibble: 12 x 6</span>
+<span class="co">#&gt;    name  gender like_1 bnt_1 like_2 bnt_2</span>
+<span class="co">#&gt;    &lt;chr&gt; &lt;chr&gt;   &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;</span>
+<span class="co">#&gt;  1 H.V.  female      1     4     NA    NA</span>
+<span class="co">#&gt;  2 H.V.  female      1     4     NA    NA</span>
+<span class="co">#&gt;  3 K.R.  male        4     1      6     1</span>
+<span class="co">#&gt;  4 K.R.  male        4     1      6     1</span>
+<span class="co">#&gt;  5 K.R.  male        4     1      6     1</span>
+<span class="co">#&gt;  6 K.R.  male        4     1      6     1</span>
+<span class="co">#&gt;  7 K.X.  male        3     3     NA    NA</span>
+<span class="co">#&gt;  8 L.S.  male        4     4      7     4</span>
+<span class="co">#&gt;  9 M.Y.  male        2     4      6     2</span>
+<span class="co">#&gt; 10 Q.N.  female      6     1      6     2</span>
+<span class="co">#&gt; 11 R.S.  female      2    NA     NA    NA</span>
+<span class="co">#&gt; 12 Z.Y.  female     NA    NA     NA    NA</span>
+
+<span class="co"># +++ here now +++</span>
+
+<span class="co"># 2. right_join:</span>
+m6 &lt;-<span class="st"> </span><span class="kw">right_join</span>(t3, t4)
+m6  <span class="co"># =&gt; 12 x 6 table, containing all cases of t4, plus additional cases for duplicate cases.</span>
+<span class="co">#&gt; # A tibble: 12 x 6</span>
+<span class="co">#&gt;    name  gender like_1 bnt_1 like_2 bnt_2</span>
+<span class="co">#&gt;    &lt;chr&gt; &lt;chr&gt;   &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;</span>
+<span class="co">#&gt;  1 A.V.  female     NA    NA      5     3</span>
+<span class="co">#&gt;  2 K.R.  male        4     1      6     1</span>
+<span class="co">#&gt;  3 K.R.  male        4     1      6     1</span>
+<span class="co">#&gt;  4 K.R.  male        4     1      6     1</span>
+<span class="co">#&gt;  5 K.R.  male        4     1      6     1</span>
+<span class="co">#&gt;  6 L.S.  male        4     4      7     4</span>
+<span class="co">#&gt;  7 M.O.  male       NA    NA     NA    NA</span>
+<span class="co">#&gt;  8 M.Y.  male        2     4      6     2</span>
+<span class="co">#&gt;  9 Q.N.  female      6     1      6     2</span>
+<span class="co">#&gt; 10 X.D.  female     NA    NA      5     1</span>
+<span class="co">#&gt; 11 X.P.  female     NA    NA      4     1</span>
+<span class="co">#&gt; 12 X.P.  female     NA    NA      4     1</span>
+
+<span class="kw">all.equal</span>(m5, m6)  <span class="co"># shows differences, but </span>
+<span class="co">#&gt; [1] &quot;Rows in x but not y: 12, 11, 7, 1. Rows in y but not x: 11, 10, 7, 1. &quot;</span>
+<span class="kw">all.equal</span>(m5, <span class="kw">right_join</span>(t4, t3)) <span class="co"># is TRUE</span>
+<span class="co">#&gt; [1] TRUE</span>
+
+<span class="co"># 3. full_join:</span>
+m7 &lt;-<span class="st"> </span><span class="kw">full_join</span>(t3, t4)
+m7  <span class="co"># =&gt; 17 x 6 table</span>
+<span class="co">#&gt; # A tibble: 17 x 6</span>
+<span class="co">#&gt;    name  gender like_1 bnt_1 like_2 bnt_2</span>
+<span class="co">#&gt;    &lt;chr&gt; &lt;chr&gt;   &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;</span>
+<span class="co">#&gt;  1 H.V.  female      1     4     NA    NA</span>
+<span class="co">#&gt;  2 H.V.  female      1     4     NA    NA</span>
+<span class="co">#&gt;  3 K.R.  male        4     1      6     1</span>
+<span class="co">#&gt;  4 K.R.  male        4     1      6     1</span>
+<span class="co">#&gt;  5 K.R.  male        4     1      6     1</span>
+<span class="co">#&gt;  6 K.R.  male        4     1      6     1</span>
+<span class="co">#&gt;  7 K.X.  male        3     3     NA    NA</span>
+<span class="co">#&gt;  8 L.S.  male        4     4      7     4</span>
+<span class="co">#&gt;  9 M.Y.  male        2     4      6     2</span>
+<span class="co">#&gt; 10 Q.N.  female      6     1      6     2</span>
+<span class="co">#&gt; 11 R.S.  female      2    NA     NA    NA</span>
+<span class="co">#&gt; 12 Z.Y.  female     NA    NA     NA    NA</span>
+<span class="co">#&gt; 13 A.V.  female     NA    NA      5     3</span>
+<span class="co">#&gt; 14 M.O.  male       NA    NA     NA    NA</span>
+<span class="co">#&gt; 15 X.D.  female     NA    NA      5     1</span>
+<span class="co">#&gt; 16 X.P.  female     NA    NA      4     1</span>
+<span class="co">#&gt; 17 X.P.  female     NA    NA      4     1</span>
+
+<span class="co"># 4. inner_join:</span>
+m8 &lt;-<span class="st"> </span><span class="kw">inner_join</span>(t3, t4)
+m8  <span class="co"># =&gt; 7 x 6 table </span>
+<span class="co">#&gt; # A tibble: 7 x 6</span>
+<span class="co">#&gt;   name  gender like_1 bnt_1 like_2 bnt_2</span>
+<span class="co">#&gt;   &lt;chr&gt; &lt;chr&gt;   &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;</span>
+<span class="co">#&gt; 1 K.R.  male        4     1      6     1</span>
+<span class="co">#&gt; 2 K.R.  male        4     1      6     1</span>
+<span class="co">#&gt; 3 K.R.  male        4     1      6     1</span>
+<span class="co">#&gt; 4 K.R.  male        4     1      6     1</span>
+<span class="co">#&gt; 5 L.S.  male        4     4      7     4</span>
+<span class="co">#&gt; 6 M.Y.  male        2     4      6     2</span>
+<span class="co">#&gt; 7 Q.N.  female      6     1      6     2</span></code></pre></div>
+</div>
 </div>
 <div id="filtering-joins" class="section level2">
 <h2>Filtering joins</h2>
@@ -601,13 +1044,14 @@ Nr. | Topic       |
 8.  | [Joining data](http://rpository.com/ds4psy/essentials/join.html) |
 +.  | [Datasets](http://rpository.com/ds4psy/essentials/datasets.html) | 
 -->
-<p>[Last update on 2019-01-19 13:55:59 by <a href="http://neth.de/">hn</a>.]</p>
+<p>[Last update on 2019-01-20 14:28:05 by <a href="http://neth.de/">hn</a>.]</p>
 <!-- eof. -->
 </div>
 <div class="footnotes">
 <hr />
 <ol>
 <li id="fn1"><p>For this reason, most real-world joins are preceded by sequences of <code>select</code>, <code>mutate</code>, and <code>arrange</code> commands on one or both tables.<a href="#fnref1">↩</a></p></li>
+<li id="fn2"><p>It’s not crucial to understand the following code. It only serves to select some random cases from each table and create some duplicate cases in each.<a href="#fnref2">↩</a></p></li>
 </ol>
 </div>
 </div>
@@ -623,7 +1067,12 @@ Nr. | Topic       |
         <li><a href="#preparations">Preparations</a></li>
         </ul></li>
         <li><a href="#joining-data">Joining data</a><ul>
-        <li><a href="#mutating-joins">Mutating joins</a></li>
+        <li><a href="#terminology">Terminology</a></li>
+        <li><a href="#base-r-vs.tidyverse-commands">Base R vs. tidyverse commands</a></li>
+        <li><a href="#mutating-joins">Mutating joins</a><ul>
+        <li><a href="#commands">Commands</a></li>
+        <li><a href="#examples">Examples</a></li>
+        </ul></li>
         <li><a href="#filtering-joins">Filtering joins</a></li>
         <li><a href="#set-operations">Set operations</a></li>
         <li><a href="#using-merge">Using <code>merge</code></a></li>
