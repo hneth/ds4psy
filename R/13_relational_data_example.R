@@ -83,18 +83,23 @@ m1a
 m1b <- left_join(data_t1, data_t2, by = c("name", "gender"))
 m1b
 
-all.equal(m1a, m1b)  # => m1a contains gender.x and gender.y
+all.equal(m1a, m1b)  # => m1a contains gender twice: gender.x vs. gender.y
 m1 <- m1b
 
 m2 <- right_join(data_t2, data_t1, by = c("name", "gender"))
 m2
 
-m3 <- inner_join(data_t1, data_t2, by = c("name", "gender"))
+m3 <- full_join(data_t1, data_t2, by = c("name", "gender"))
 m3
+
+m4 <- inner_join(data_t1, data_t2, by = c("name", "gender"))
+m4
 
 ## Show equality:   
 all.equal(m1, m2)  # => TRUE
 all.equal(m1, m3)  # => TRUE
+all.equal(m1, m4)  # => TRUE
+
 
 
 ## 2. Filtering joins: ----  
