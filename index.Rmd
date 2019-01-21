@@ -1,7 +1,7 @@
 ---
 title: "Data Science for Psychologists (ds4psy)"
 author: "Hansjörg Neth, SPDS, uni.kn"
-date: "2019 01 14"
+date: "2019 01 21"
 output:
   rmdformats::html_clean:
     highlight: kate
@@ -40,7 +40,23 @@ opts_knit$set(width=75)
 
 # Course Description
 
-## Overview
+## Overview 
+
+<!-- New abstract: --> 
+
+This course serves 3 purposes: First, it introduces key concepts and commands of the R language and environment for statistical computing. 
+Second, by defining and transforming different forms and types of data, the course provides a basic introduction to _data literacy_. 
+Third, the course explores various commands and tools of the so-called _tidyverse_ (including the R packages `dplyr`, `ggplot`, `readr`, `tibble`, and `tidyr`) in the context of psychological datasets (typically involving data of patients or participants). 
+
+Completing this course will enable students to understand, transform, analyze, and visualize data in a variety of ways. 
+While this course does not deal with _statistical testing_ and only scratches the surface of _computer programming_, 
+it conveys _reproducible research practices_ and covers the knowledge and skills that form the fundamentals of _data science_. 
+
+Enrolling in this course assumes no prior knowledge on programming or statistics, but motivation for weekly readings and solving weekly exercises. 
+Grades are determined by exercise solutions and a final test or project.
+
+
+## Background
 
 Students of psychology and other social sciences are trained to analyze data. But the data they learn to work with (e.g., in courses on statistics and empirical research methods) is typically provided to them and structured in a (rectangular or "tidy", Wickham, 2014) format that includes and presupposes many steps of data processing regarding the aggregation and spatial layout of variables.  When beginning to collect real-world data from other sources, most students struggle with these pre-processing steps which --- even for experienced data scientists --- tend to require more time and effort than choosing and conducting statistical tests. 
 
@@ -140,7 +156,7 @@ Part 2: Wrangle
   ([Essentials with WPA03 and solutions](http://rpository.com/ds4psy/essentials/transform.html)).  
 
  6. 26.11.2018: [Chapter 7: Exploratory data analysis (EDA)](http://r4ds.had.co.nz/exploratory-data-analysis.html): `dplyr` & `ggplot2`;    
-  ([Essentials of EDA](http://rpository.com/ds4psy/essentials/explore.html)). 
+  ([Essentials of EDA](http://rpository.com/ds4psy/essentials/explore.html)).  
  
  7. 03.12.2019:  **Buffer session: EDA**: Rinse and repeat: `dplyr` & `ggplot2`;  
   ([Essentials with WPA04 and solutions](http://rpository.com/ds4psy/essentials/explore.html)).  
@@ -149,18 +165,19 @@ Part 2: Wrangle
  **Part 2: Wrangle data**
 
  8. 10.12.2018: [Chapter 10: Tibbles](http://r4ds.had.co.nz/tibbles.html): `tibble`;   
- ([Essentials with WPA05 and solutions](http://rpository.com/ds4psy/essentials/tibbles.html)). 
+ ([Essentials with WPA05 and solutions](http://rpository.com/ds4psy/essentials/tibbles.html)).  
  
  9. 17.12.2018: [Chapter 11: Data import](http://r4ds.had.co.nz/data-import.html): `readr`.   
- ([Essentials of importing data](http://rpository.com/ds4psy/essentials/import.html)) 
+ ([Essentials of importing data](http://rpository.com/ds4psy/essentials/import.html)).  
  
  10. 07.01.2019: [Chapter 11: Data import](http://r4ds.had.co.nz/data-import.html): `readr`.   
- ([Essentials of importing data](http://rpository.com/ds4psy/essentials/import.html)) 
+ ([Essentials of importing data](http://rpository.com/ds4psy/essentials/import.html)).  
  
  11. 14.01.2018: [Chapter 12: Tidy data](http://r4ds.had.co.nz/tidy-data.html): `tidyr`.   
-  (**[Essentials with WPA07](http://rpository.com/ds4psy/essentials/tidy.html)**)  
+  ([Essentials of tidying data](http://rpository.com/ds4psy/essentials/tidy.html)).  
  
  12. 21.01.2019: [Chapter 13: Relational data](http://r4ds.had.co.nz/relational-data.html): `dplyr`.   
+   (**[Essentials of joining data, with WPA08](http://rpository.com/ds4psy/essentials/join.html)**).   
 
 
  **Part 3: Program**
@@ -191,6 +208,7 @@ Nr. | Topic       |
 5.  | [Tibbles](http://rpository.com/ds4psy/essentials/tibbles.html) |
 6.  | [Importing data](http://rpository.com/ds4psy/essentials/import.html) |
 7.  | [Tidying data](http://rpository.com/ds4psy/essentials/tidy.html) |
+8.  | [Joining data](http://rpository.com/ds4psy/essentials/join.html) |
 +.  | [Datasets](http://rpository.com/ds4psy/essentials/datasets.html) | 
 
 <!--
@@ -204,6 +222,7 @@ Nr. | Topic       |
 5.  | [Tibbles](http://rpository.com/ds4psy/essentials/tibbles.html) |
 6.  | [Importing data](http://rpository.com/ds4psy/essentials/import.html) |
 7.  | [Tidying data](http://rpository.com/ds4psy/essentials/tidy.html) |
+8.  | [Joining data](http://rpository.com/ds4psy/essentials/join.html) |
 +.  | [Datasets](http://rpository.com/ds4psy/essentials/datasets.html) | 
 -->
 
@@ -319,6 +338,7 @@ Nr. | Topic       |
 5.  | [Tibbles](http://rpository.com/ds4psy/essentials/tibbles.html) |
 6.  | [Importing data](http://rpository.com/ds4psy/essentials/import.html) |
 7.  | [Tidying data](http://rpository.com/ds4psy/essentials/tidy.html) |
+8.  | [Joining data](http://rpository.com/ds4psy/essentials/join.html) | 
 +.  | [Datasets](http://rpository.com/ds4psy/essentials/datasets.html) | 
 
 <!--
@@ -332,6 +352,7 @@ Nr. | Topic       |
 5.  | [Tibbles](http://rpository.com/ds4psy/essentials/tibbles.html) |
 6.  | [Importing data](http://rpository.com/ds4psy/essentials/import.html) |
 7.  | [Tidying data](http://rpository.com/ds4psy/essentials/tidy.html) |
+8.  | [Joining data](http://rpository.com/ds4psy/essentials/join.html) |
 +.  | [Datasets](http://rpository.com/ds4psy/essentials/datasets.html) | 
 -->
 

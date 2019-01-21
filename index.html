@@ -66,7 +66,7 @@ img {
 <div id="header">
 <h1 class="title">Data Science for Psychologists (ds4psy)</h1>
 <h4 class="author"><em>Hansjörg Neth, SPDS, uni.kn</em></h4>
-<h4 class="date"><em>2019 01 14</em></h4>
+<h4 class="date"><em>2019 01 21</em></h4>
 </div>
 
 <div id="content">
@@ -85,6 +85,13 @@ img {
 <h1>Course Description</h1>
 <div id="overview" class="section level2">
 <h2>Overview</h2>
+<!-- New abstract: -->
+<p>This course serves 3 purposes: First, it introduces key concepts and commands of the R language and environment for statistical computing. Second, by defining and transforming different forms and types of data, the course provides a basic introduction to <em>data literacy</em>. Third, the course explores various commands and tools of the so-called <em>tidyverse</em> (including the R packages <code>dplyr</code>, <code>ggplot</code>, <code>readr</code>, <code>tibble</code>, and <code>tidyr</code>) in the context of psychological datasets (typically involving data of patients or participants).</p>
+<p>Completing this course will enable students to understand, transform, analyze, and visualize data in a variety of ways. While this course does not deal with <em>statistical testing</em> and only scratches the surface of <em>computer programming</em>, it conveys <em>reproducible research practices</em> and covers the knowledge and skills that form the fundamentals of <em>data science</em>.</p>
+<p>Enrolling in this course assumes no prior knowledge on programming or statistics, but motivation for weekly readings and solving weekly exercises. Grades are determined by exercise solutions and a final test or project.</p>
+</div>
+<div id="background" class="section level2">
+<h2>Background</h2>
 <p>Students of psychology and other social sciences are trained to analyze data. But the data they learn to work with (e.g., in courses on statistics and empirical research methods) is typically provided to them and structured in a (rectangular or “tidy”, Wickham, 2014) format that includes and presupposes many steps of data processing regarding the aggregation and spatial layout of variables. When beginning to collect real-world data from other sources, most students struggle with these pre-processing steps which — even for experienced data scientists — tend to require more time and effort than choosing and conducting statistical tests.</p>
 <p>This course develops the foundations of data analysis that allow students to collect data from real-world sources and transform such data into a shape that allows for answering scientific and practical questions and reproducible research. Although there are many good introductions to data science (we use <a href="http://r4ds.had.co.nz/">Grolemund &amp; Wickham, 2017</a>) they typically do not cater towards the special background and needs – and often anxieties and reservations – of psychology students. As social scientists are not computer scientists, we introduce new concepts and commands without assuming a mathematical or computational background. Our data and examples typically involve people and questions currently of interest in scientific psychology. Adopting a task-oriented perspective, we begin with a specific problem and then solve it with some combination of data collection, manipulation, modeling, and visualization.</p>
 </div>
@@ -182,12 +189,13 @@ Part 2: Wrangle
 <li><p>10.12.2018: <a href="http://r4ds.had.co.nz/tibbles.html">Chapter 10: Tibbles</a>: <code>tibble</code>;<br />
 (<a href="http://rpository.com/ds4psy/essentials/tibbles.html">Essentials with WPA05 and solutions</a>).</p></li>
 <li><p>17.12.2018: <a href="http://r4ds.had.co.nz/data-import.html">Chapter 11: Data import</a>: <code>readr</code>.<br />
-(<a href="http://rpository.com/ds4psy/essentials/import.html">Essentials of importing data</a>)</p></li>
+(<a href="http://rpository.com/ds4psy/essentials/import.html">Essentials of importing data</a>).</p></li>
 <li><p>07.01.2019: <a href="http://r4ds.had.co.nz/data-import.html">Chapter 11: Data import</a>: <code>readr</code>.<br />
-(<a href="http://rpository.com/ds4psy/essentials/import.html">Essentials of importing data</a>)</p></li>
+(<a href="http://rpository.com/ds4psy/essentials/import.html">Essentials of importing data</a>).</p></li>
 <li><p>14.01.2018: <a href="http://r4ds.had.co.nz/tidy-data.html">Chapter 12: Tidy data</a>: <code>tidyr</code>.<br />
-(<strong><a href="http://rpository.com/ds4psy/essentials/tidy.html">Essentials with WPA07</a></strong>)</p></li>
-<li><p>21.01.2019: <a href="http://r4ds.had.co.nz/relational-data.html">Chapter 13: Relational data</a>: <code>dplyr</code>.</p></li>
+(<a href="http://rpository.com/ds4psy/essentials/tidy.html">Essentials of tidying data</a>).</p></li>
+<li><p>21.01.2019: <a href="http://r4ds.had.co.nz/relational-data.html">Chapter 13: Relational data</a>: <code>dplyr</code>.<br />
+(<strong><a href="http://rpository.com/ds4psy/essentials/join.html">Essentials of joining data, with WPA08</a></strong>).</p></li>
 </ol>
 <p><strong>Part 3: Program</strong></p>
 <ol start="13" style="list-style-type: decimal">
@@ -244,6 +252,10 @@ Part 2: Wrangle
 <td align="left"><a href="http://rpository.com/ds4psy/essentials/tidy.html">Tidying data</a></td>
 </tr>
 <tr class="odd">
+<td align="right">8.</td>
+<td align="left"><a href="http://rpository.com/ds4psy/essentials/join.html">Joining data</a></td>
+</tr>
+<tr class="even">
 <td align="right">+.</td>
 <td align="left"><a href="http://rpository.com/ds4psy/essentials/datasets.html">Datasets</a></td>
 </tr>
@@ -260,6 +272,7 @@ Nr. | Topic       |
 5.  | [Tibbles](http://rpository.com/ds4psy/essentials/tibbles.html) |
 6.  | [Importing data](http://rpository.com/ds4psy/essentials/import.html) |
 7.  | [Tidying data](http://rpository.com/ds4psy/essentials/tidy.html) |
+8.  | [Joining data](http://rpository.com/ds4psy/essentials/join.html) |
 +.  | [Datasets](http://rpository.com/ds4psy/essentials/datasets.html) | 
 -->
 </div>
@@ -388,6 +401,10 @@ Epictetus <em>Discourses</em> Book I, 18</p>
 <td align="left"><a href="http://rpository.com/ds4psy/essentials/tidy.html">Tidying data</a></td>
 </tr>
 <tr class="odd">
+<td align="right">8.</td>
+<td align="left"><a href="http://rpository.com/ds4psy/essentials/join.html">Joining data</a></td>
+</tr>
+<tr class="even">
 <td align="right">+.</td>
 <td align="left"><a href="http://rpository.com/ds4psy/essentials/datasets.html">Datasets</a></td>
 </tr>
@@ -404,6 +421,7 @@ Nr. | Topic       |
 5.  | [Tibbles](http://rpository.com/ds4psy/essentials/tibbles.html) |
 6.  | [Importing data](http://rpository.com/ds4psy/essentials/import.html) |
 7.  | [Tidying data](http://rpository.com/ds4psy/essentials/tidy.html) |
+8.  | [Joining data](http://rpository.com/ds4psy/essentials/join.html) |
 +.  | [Datasets](http://rpository.com/ds4psy/essentials/datasets.html) | 
 -->
 </div>
@@ -511,7 +529,7 @@ Sebastopol, Canada: O'Reilly Media, Inc.  [Available online at [http://r4ds.had.
 - <http://www.sharpsightlabs.com/> 
 
 -->
-<p>[This file last updated on 2019-01-14 15:19:59 by <a href="http://neth.de/">hn</a>.]</p>
+<p>[This file last updated on 2019-01-21 13:30:07 by <a href="http://neth.de/">hn</a>.]</p>
 <!-- eof. -->
 </div>
 </div>
@@ -532,6 +550,7 @@ Sebastopol, Canada: O'Reilly Media, Inc.  [Available online at [http://r4ds.had.
         <li><a href="#course-coordinates">Course Coordinates</a></li>
         <li><a href="#course-description">Course Description</a><ul>
         <li><a href="#overview">Overview</a></li>
+        <li><a href="#background">Background</a></li>
         <li><a href="#goals">Goals</a></li>
         <li><a href="#requirements">Requirements</a></li>
         <li><a href="#assessment">Assessment</a></li>
