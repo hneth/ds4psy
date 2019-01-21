@@ -153,7 +153,7 @@ The verb "join" and the term "relational data" comes from relational databases (
 
 ### Base R vs. tidyverse commands
 
-When we are ready to join tables, base R offers basic `base::rbind` and `base::cbind` commands (to bind rows or columns of data), but these are intended for tables with identical variables or cases, respectively. Joining 2 data frames can be achieved by using `base::merge` (see below). 
+When we are ready to join tables, base R offers basic `base::rbind` and `base::cbind` commands (to bind rows or columns of data), but these are intended for tables with identical variables or cases, respectively. Mutating joins of 2 data frames can be achieved by using `base::merge` (see below). 
 
 Alternatively, the `tidyverse` package `dplyr` (whose so-called 1-table verbs we have used for data [transformation](http://rpository.com/ds4psy/essentials/transform.html)) contains additional _2-table verbs_ 
 that allow joining 2 tables of data with 3 different types of commands: 
@@ -168,34 +168,52 @@ In the following, we will briefly describe the essential commands for each type 
 (See [Chapter 13: Relational data](https://r4ds.had.co.nz/relational-data.html) and the `vignette("two-table")` for additional details.)
 
 
-## Mutating joins
+## 1. Mutating joins
 
+Mutating joins combine the variables (columns) of 2 tables `x` and `y`. 
 The term _mutating_ is used in analogy to the `dplyr::mutate` command: Just as `mutate` creates new variables (columns), 
-a mutating join adds new variables (columns) to a table from matching cases (rows) of another table. 
+a mutating join adds new variables (columns) to a table `x` from matching cases (rows) of another table `y`. 
 
 ### Commands
 
-There are 4 types of mutating joins to combine the columns of tables `x` and `y`: 
+There are 4 types of mutating joins to combine the cases (rows) and variables (columns) of tables `x` and `y`: 
 
 1. `left_join(x, y)`: Return all rows from `x`, and all columns from `x` and `y`. 
 Rows in `x` with no match in `y` will have `NA` values in the new columns. 
 If there are multiple matches between `x` and `y`, all combinations of the matches are returned.
 
-2. `right_join(x, y)`: Same as `left_join(y, x)`, and hence not necessary. 
+2. `right_join(x, y)`: Same as `left_join(y, x)`, and hence redundant. 
 
-3. `full_join(x, y): Return all rows and all columns that exist in `x` and `y` together. 
+3. `full_join(x, y): Return all rows and all columns that exist in `x` or in `y`. 
 If there are non-matching values, return `NA` for the one missing. 
 
 4. `inner_join(x, y)`: Return all rows from `x` where there are matching values in `y`, and all columns from `x` and `y`. 
 If there are multiple matches between `x` and `y`, all combination of the matches are returned.
 
+See Section 13.4 on [mutating joins](https://r4ds.had.co.nz/relational-data.html#mutating-joins) for graphical illustrations. 
+
+
+#### Inner vs. outer joins
+
+An _inner_ join only keeps the cases (or rows) that appear in _both_ tables. By contrast, the first three join commands keep cases (observations) that appear in at least one of the tables and are also called _outer_ joins. 
+The 3 types of outer joins differ with respect to the cases they preserve: 
+
+1. `left_join` keeps all cases of `x`.
+2. `right_join` keeps all cases of `y`.
+3. `full_join` keeps all cases of `x` or `y`.
+
+#### Key variables
+
 Beyond specifying the 2 tables to join, all commands take a `by` argument:
 
-- `by` specifies a character vector of variables by which we want to join the tables. 
+- `by` specifies a character vector of variables by which we want to join the tables (so-called _keys_).  
+(See Section 13.3 on [keys](https://r4ds.had.co.nz/relational-data.html#keys) for the distinction between _primary_ and _foreign_ keys.)
 
-- If `by = NULL` (as by default) `*_join` will perform a _natural_ join, using _all variables with common names_ across the 2 tables. A message lists the variables used, so that we can verify that this is what we wanted. 
+- If `by = NULL` (as by default) `*_join` will perform a _natural_ join, using _all variables with common names_ across the 2 tables. 
+A message lists the variables that are used, so that we can verify that this is what we wanted. 
 
-- To join by differently named variables on `x` and `y`, we can provide a named vector. For instance, `by = c("a" = "b")` will match variable `a` in table `x` to variable `b` in table `y`.
+- To join by differently named variables on `x` and `y`, we can provide a named vector. For instance, `by = c("a" = "b")` will match a key variable `a` in table `x` to a key variable `b` in table `y`.
+
 
 ### Examples
 
@@ -235,7 +253,11 @@ all.equal(t1$name, t2$name)
 all.equal(t1$gender, t2$gender)
 ```
 
-This confirms our intuition: `t1` and `t2` contain 2 variables of demographic information (`name` and `gender`) of 20 people and each table contains 2 additional variables (measurements or test scores). Under _these_ conditions, the 4 join commands all yield the same result:
+This confirms our intuition: `t1` and `t2` contain 2 variables of demographic information (`name` and `gender`) of 20 people and each table contains 2 additional variables (measurements or test scores). 
+
+#### Joining 2 tables with identical cases
+
+When both tables contain identical cases, the 4 mutating join commands all yield the same result:
 
 ```{r mutating_joins_1}
 # 1. left_join:
@@ -272,6 +294,8 @@ left_join(t1, t2, by = "name", suffix = c("_1", "_2"))
 ```
 
 We see that common variables _not_ used for joining the tables get duplicated in the joint table and distinguished by a unique suffix. 
+
+#### Joining 2 tables with different cases
 
 To see and appreciate the differences between the 4 mutating joins, we need tables that contain different and repeated cases. 
 We can easily create these by selecting and duplicating some cases in each of our tables:[^2]
@@ -312,18 +336,18 @@ t4 <- t4 %>% arrange(name, gender)
 The resulting tables `t3` and `t4` are both 10 x 4 tibbles and contain some common and some unique cases (people). 
 In addition, each table contains 2 people twice: 
 
-```{r}
+```{r inspect_t3_t4}
 # Inspect resulting tables: ------ 
-t3
-t4
+t3  # 10 x 4
+t4  # 10 x 4
 
 # Common cases:
 t3$name[t3$name %in% t4$name]  # people in t3 that also appear in t4
 t4$name[t4$name %in% t3$name]  # people in t4 that also appear in t3
 
 # Unique cases:
-t3$name[!t3$name %in% t4$name] # people in t3 that are NOT in t4
-t4$name[!t4$name %in% t3$name] # people in t4 that are NOT in t3
+t3$name[!t3$name %in% t4$name]  # people in t3 that are NOT in t4
+t4$name[!t4$name %in% t3$name]  # people in t4 that are NOT in t3
 ```
 
 Now let's re-do the 4 mutating joins with `t3` and `t4` and inspect the resulting tables:
@@ -332,8 +356,6 @@ Now let's re-do the 4 mutating joins with `t3` and `t4` and inspect the resultin
 # 1. left_join:
 m5 <- left_join(t3, t4)
 m5  # => 12 x 6 table, containing all cases of t3, plus additional cases for duplicate cases.
-
-# +++ here now +++
 
 # 2. right_join:
 m6 <- right_join(t3, t4)
@@ -344,35 +366,294 @@ all.equal(m5, right_join(t4, t3)) # is TRUE
 
 # 3. full_join:
 m7 <- full_join(t3, t4)
-m7  # => 17 x 6 table
+m7  # => 17 x 6 table, i.e. all cases of t3 and of t4
 
 # 4. inner_join:
 m8 <- inner_join(t3, t4)
-m8  # => 7 x 6 table 
+m8  # => 7 x 6 table, i.e. all cases that were in both t3 and t4
 ```
 
+Thus, when joining 2 tables with different cases, it really matters which join-command we're using. 
+
+## B. Filtering joins
+
+Filtering joins match cases (or observations) in the same way as mutating joins, 
+but only affect the _cases_ (observations or rows), 
+_not_ the variables (columns). There are 2 types of filtering joins:
+
+1. `semi_join(x, y)` _keeps_ all observations in `x` that have a match in `y` 
+(i.e., observations in `x` without a match in `y` are dropped). 
+
+2. `anti_join(x, y)` _drops_ all observations in `x` that have a match in `y` 
+(i.e., observations in `x` without a match in `y` are kept).
+
+See Section 13.5 on [filtering joins](https://r4ds.had.co.nz/relational-data.html#filtering-joins) for graphical illustrations. 
+
+#### Notes 
+
+- `anti_join(x, y)` yields the _complement_ of `semi_join(x, y)` (with respect to `x`). 
+
+- Both types of filtering joins concern only the cases of `x` and filter them by the cases of `y`. 
+
+- The resulting table of a filtering join preserves the variables of `x`, not the variables of `y`. 
+
+### Examples
+
+```{r filtering_joins}
+semi_join(t3, t4) # keeps cases in t3 that are also in t4
+
+anti_join(t3, t4) # keeps cases in t3 that are NOT in t4
+
+# Note: 
+full_join(semi_join(t3, t4), anti_join(t3, t4))
+# contains the same cases as t3.
+```
+
+### Use cases
+
+Filtering joins typically reduce the cases of `x` to the cases contained in `y` (`semi_join`) or to the cases not contained in `y` (`anti_join`). Typical use cases include: 
+
+- Semi-joins are useful for matching filtered summary tables back to the original rows: 
+
+```{r use_semi}
+## Data: 
+sw <- dplyr::starwars
+# sw  # 87 x 13
+
+# Determine the top 3 homeworlds of Humans:
+top_3_human_homes <- sw %>% 
+  filter(species == "Human") %>%
+  group_by(homeworld) %>%
+  count() %>%
+  arrange(desc(n)) %>%
+  head(3)
+top_3_human_homes
+
+# Which individuals (human and non-human) are from these homeworlds?
+semi_join(sw, top_3_human_homes, by = "homeworld")  # => 31 individuals
+```
+
+- Anti-joins are useful for diagnosing join mismatches: 
+
+```{r use_anti}
+left_join(t3, t4)  # adds variables (columns) of t4 to cases (rows) of t3
+
+anti_join(t3, t4)  # shows cases in t3 NOT in t4 (with NA values in new variables)
+anti_join(t4, t3)  # shows cases in t4 NOT in t3 (missing from joined table)
+```
+
+See Section 13.6 for common [join problems](https://r4ds.had.co.nz/relational-data.html#join-problems) and ways of dealing with them. 
 
 
+## C. Set operations
 
+Set operations on 2 tables `x` and `y` expect both tables to have the same variables. 
+They always compare complete rows of `x` and `y`, and compare the values of every variable.
+Treating the observations like sets yields 3 different commands: 
 
+1. `intersect(x, y)` returns only observations that occur in both `x` and in `y`.
 
+2. `union(x, y)` returns all unique observations in `x` and `y`.
 
-## Filtering joins
+3. `setdiff(x, y)` return those observations that occur in `x`, but not in `y`.
 
-## Set operations
+### Examples
 
+```{r set_operations}
+# Data: 
+sw <- dplyr::starwars %>%
+  select(name:species)  # only first 10 columns of starwars
+sw  # 87 x 10
+
+# Create 2 filtered sub-sets:
+s1 <- sw %>% filter(species == "Human", height < 180)
+s1  # 15 indivduals
+
+s2 <- sw %>% filter(homeworld == "Naboo" | homeworld == "Tatooine")
+s2  # 21 individuals
+
+# Set operations:
+intersect(s1, s2)  #  8 individuals are in both s1 and s2
+union(s1, s2)      # 28 individuals are in the union of both sets
+setdiff(s1, s2)    #  7 individuals in s1 and not in s2
+setdiff(s2, s1)    # 13 individuals in s2 and not in s1
+```
 
 ## Using `merge`
 
-The base R command `merge`
+The base R command `base::merge()` can perform all 4 types of mutating join:
+  
+   `dplyr`:      |      `merge`:          | 
+-----------------|------------------------|  
+`inner_join(x, y)` |	`merge(x, y)` |
+`left_join(x, y)`  |	`merge(x, y, all.x = TRUE)` | 
+`right_join(x, y)` |	`merge(x, y, all.y = TRUE)` |
+`full_join(x, y)`  |	`merge(x, y, all.x = TRUE, all.y = TRUE)` |
+ 
+Note that `merge` also accepts various `by` commands (see `?merge` for documentation).  
+
+The advantages of the `dplyr` verbs are:
+
+1. they more clearly convey the intended join (by verbally expressing what is implied by the arguments of `merge`); 
+
+2. they are faster and preserve the order of cases (rows). 
+
+(See Section 13.4.7 for [other implementations](https://r4ds.had.co.nz/relational-data.html#other-implementations) of joins, e.g., in SQL.)
 
 
 # Exercises (WPA08)
 
 Here are the exercises of WPA08 and possible solutions for them.
 
+<!-- Multiple choice questions (MC): ------ 
+
+## Multiple choice [MC] questions: -----
+
+# (+) Which of the following join types are _symmetrical_ (in the sense of yielding 
+#     the same set of observations for join(x, y) and join(y, x), 
+#     but may vary in the order of variables (columns)):
+
+# - inner_join(x, y) (TRUE)
+# - left_join(x, y)
+# - right_join(x, y)
+# - full_join(x, y)  (TRUE)
+# - semi_join(x, y)
+# - anti_join(x, y)
+# - intersect(x, y)  (TRUE)
+# - union(x, y)      (TRUE)
+# - setdiff(x, y)
+
+
+# (+) Which of the following join types is the default and most commonly used one, 
+#     as it preserves original observations in x even when there is no match with y?
+
+# - `full_join(x, y)`
+# - `inner_join(x, y)` 
+# - `semi_join(x, y)` 
+# - `left_join(x, y)` (TRUE)
+# - `right_join(x, y)`
+
+
+# (+) Which of the following yields the same result (i.e., the same set of obervations) 
+#     as left_join(x, y)?
+
+# - anti_join(x, y)
+# - anti_join(y, x)
+# - semi_join(x, y)
+# - semi_join(y, x)
+# - right_join(x, y)
+# - right_join(y, x)  (TRUE)
+# - setdiff(x, y)
+# - setdiff(y, x)
+
+
+# (+) Which of the following is the _inverse_ (or _complement_) of an `anti-join`?
+
+# - `full_join`
+# - `inner_join` 
+# - `semi_join` (TRUE)
+# - `left_join`
+# - `right_join`
+
+End of multiple choice (MA) questions. -->
+
 
 ## Exercise 1
+
+Given the definitions of [data_t1](http://rpository.com/ds4psy/data/data_t1.csv) and [data_t2](http://rpository.com/ds4psy/data/data_t2.csv), 
+and `t3` and `t4` above, evaluate and explain the result of:  
+
+1. `all.equal(data_t1, semi_join(data_t1, data_t2))`
+
+2. `all.equal(full_join(data_t1, data_t2), inner_join(data_t2, data_t1))`
+
+3. `all.equal(data_t1, semi_join(data_t1, data_t2))`
+
+4. `all.equal(t1, full_join(semi_join(t1, t3), anti_join(t1, t3)))`
+
+```{r ex1}
+# Load data:
+data_t1 <- read_csv(file = "http://rpository.com/ds4psy/data/data_t1.csv")
+data_t2 <- read_csv(file = "http://rpository.com/ds4psy/data/data_t2.csv")
+
+# 1. 
+all.equal(left_join(data_t1, data_t2), right_join(data_t2, data_t1))  # => TRUE, 
+# as left_join(x, y) is the same as right_join(y, x) irrespective of x and y. 
+
+# 2. 
+all.equal(full_join(data_t1, data_t2), inner_join(data_t2, data_t1))  # => TRUE, 
+# as data_t1 and data_t2 contain the same cases (despite different orders).
+# Proof: See comparison of arranged tables (from above):
+all.equal(t1$name, t2$name)
+all.equal(t1$gender, t2$gender)
+
+# 3. 
+all.equal(data_t1, semi_join(data_t1, data_t2))  # => TRUE, 
+# as data_t1 and data_t2 contain the same cases (despite different orders).
+# Hence, semi_join does not drop any cases of data_t1 and remains the same as data_t1.
+
+# 4. 
+all.equal(t1, full_join(semi_join(t1, t3), anti_join(t1, t3)))  # => TRUE, 
+# Explanation:
+# - semi_join(t1, t3) # contains  8 cases of t1 with a match in t3
+# - anti_join(t1, t3) # contains 12 cases of t1 with NO match in t3
+# - full_join() or rbind() combine both parts (rows) into the cases of t1 again.
+```
+
+## Exercise 2
+
+In the previous session on [Tidying data](http://rpository.com/ds4psy/essentials/tidy.html) we encountered the `tidyr::table4a` and `tidyr::table4b`. 
+
+1. Join these tables into one table that contains the same information as `tidyr::table1`.
+
+2. Use `tidyr` and `dplyr` commands to transform the resulting join into `tidyr::table1`. 
+
+```{r ex2}
+# Data: 
+t4a <- tidyr::table4a
+t4b <- tidyr::table4b
+
+# Inspection: 
+t4a
+t4b
+
+# Analysis:  Both 3 x 3 tables contain the same 3 instances of "country".
+# When we join them by "country", all 4 mutating joins will yield the same result. 
+# However, we must make sure that only "country" is used as key, 
+# as the other 2 matching variable names (`1999` and `2000`) denote different variables
+# in different tables. 
+
+# 1. Alternative solutions for joining both tables: ------  
+j1 <- left_join(t4a, t4b, by = "country", suffix = c("_cases", "_population"))
+j2 <- right_join(t4a, t4b, by = "country", suffix = c("_cases", "_population"))
+j3 <- full_join(t4a, t4b, by = "country", suffix = c("_cases", "_population"))
+j4 <- inner_join(t4a, t4b, by = "country", suffix = c("_cases", "_population"))
+
+# Show equality:
+all.equal(j1, j2)
+all.equal(j1, j3)
+all.equal(j1, j4)
+
+# Print result:
+knitr::kable(j1, caption = "Joined table of table4a and table4b.")
+
+
+# 2. Tidying/transforming result table: ------ 
+j1_trans <- j1 %>%
+  tidyr::gather(key = "key", value = "count", `1999_cases`:`2000_population`) %>%
+  tidyr::separate(col = key, into = c("year", "type")) %>%
+  dplyr::arrange(country, year) %>%
+  tidyr::spread(key = type, value = count)
+j1_trans
+
+# Change variable type of year:
+j1_trans$year <- as.integer(j1_trans$year)  # from character to integer
+
+# Show equality: 
+all.equal(tidyr::table1, j1_trans)  # TRUE
+```
+
+## Exercise 3
 
 This exercise uses the following data files:
 
@@ -382,7 +663,9 @@ This exercise uses the following data files:
 1. Import both tables of data (as `data_t3` and `data_t4`) and check out each table individually, before comparing them to each other. 
 Do both tables contain the same cases and variables?
 
-```{r ex1_1}
+<!-- Solutions: --> 
+
+```{r ex3_1}
 # Load data: 
 data_t3 <- read_csv(file = "http://rpository.com/ds4psy/data/data_t3.csv")
 data_t4 <- read_csv(file = "http://rpository.com/ds4psy/data/data_t4.csv")
@@ -403,10 +686,12 @@ all.equal(data_t3$gender, data_t4$sex)     # TRUE
 # => Both tables seem to contain the same people as cases!
 ```
 
-2. Join both tables by using only the `name` variable of `data_t3` and `initials` variable of `data_t4`. 
+2. Join both tables by using only the `name` variable of `data_t3` and `initials` variable of `data_t4` as keys.  
 Why is this difficult or impossible? 
 
-```{r ex1_2}
+<!-- Solutions: --> 
+
+```{r ex3_2}
 # Copy data: Make sure that cases are arranged in the same way:
 t3 <- data_t3 %>% arrange(name, gender)
 t4 <- data_t4 %>% arrange(initials, sex)
@@ -429,11 +714,13 @@ data_t3$name[duplicated(data_t3$name)]  # => "A.V." appears twice.
 # ==> The combination lists 2x2 instances of "A.V.". 
 ```
 
-3. Join both tables into a 20 x 6 table that contains all data in 1 table.
+3. Use a different command to join both tables into a 20 x 6 table that contains all data in 1 table.
+
+<!-- Solutions: --> 
 
 The following solution first re-names 2 variables in one table (to have 2 matching key variables): 
 
-```{r ex1_3a}
+```{r ex3_3a}
 # Copy data: Make sure that cases are arranged in the same way:
 t3 <- data_t3 %>% arrange(name, gender)
 t4 <- data_t4 %>% arrange(initials, sex)
@@ -443,14 +730,23 @@ t4 <- data_t4 %>% arrange(initials, sex)
 names(t4)[1:2] <- names(t3)[c(1, 2)] 
 
 # (b) Join both tables using both key variables:
-left_join(t3, t4, by = c("name", "gender")) # => 20 x 6
-# OR: 
-full_join(t3, t4, by = c("name", "gender")) # => 20 x 6
+s1 <- left_join(t3,  t4, by = c("name", "gender"))  # => 20 x 6
+s2 <- right_join(t3, t4, by = c("name", "gender"))  # => 20 x 6
+s3 <- full_join(t3,  t4, by = c("name", "gender"))  # => 20 x 6
+s4 <- inner_join(t3, t4, by = c("name", "gender"))  # => 20 x 6
+
+# Show equality of solutions:
+all.equal(s1, s2)
+all.equal(s1, s3)
+all.equal(s1, s4)
+
+# Print solution:
+s1
 ```
 
 An alternative solution pre-supposes that both tables contain the same cases in the same order and introduces a temporary unique key variable (e.g., the row number) as key to link both tables:
 
-```{r ex1_3b}
+```{r ex3_3b}
 # Copy data: Make sure that cases are arranged in the same way:
 t3 <- data_t3 %>% arrange(name, gender)
 t4 <- data_t4 %>% arrange(initials, sex)
@@ -465,16 +761,19 @@ t3$nr <- 1:nrow(t3)  # add unique row number to each row
 t4$nr <- 1:nrow(t4)  # add unique row number to each row
 
 # Use this new and unambiguous variable as key:
-left_join(t3, t4, by = c("nr")) %>%  # use nr as key
+s5 <- left_join(t3, t4, by = c("nr")) %>%  # use nr as key
   select(name:bnt_1, like_2, bnt_2)  # and drop some variables => 20 x 6 
-# OR: 
-full_join(t3, t4, by = c("nr")) %>%  # use nr as key
+s6 <- full_join(t3, t4, by = c("nr")) %>%  # use nr as key
   select(name:bnt_1, like_2, bnt_2)  # and drop some variables => 20 x 6 
+
+# Show equality of solutions:
+all.equal(s1, s5)
+all.equal(s1, s6)
 ```
 
+## Exercise 4
 
-## Exercise 2
-
++++ here now +++
 
 
 
@@ -484,7 +783,7 @@ full_join(t3, t4, by = c("nr")) %>%  # use nr as key
 
 - See the [RStudio cheatsheet](https://www.rstudio.com/resources/cheatsheets/) on _Data Transformation_ for essential `dplyr` commands. 
 
-- Follow the links on <https://dplyr.tidyverse.org> for additional information. 
+- Follow the links on <https://dplyr.tidyverse.org> and [Wikipedia:Join_SQL](https://en.wikipedia.org/wiki/Join_(SQL)) for additional information. 
 
 
 # Conclusion
