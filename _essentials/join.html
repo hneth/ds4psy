@@ -1019,7 +1019,6 @@ s2  <span class="co"># 21 individuals</span>
 <li><p>they are faster and preserve the order of cases (rows).</p></li>
 </ol>
 <p>(See Section 13.4.7 for <a href="https://r4ds.had.co.nz/relational-data.html#other-implementations">other implementations</a> of joins, e.g., in SQL.)</p>
-<p>+++ here now +++</p>
 </div>
 </div>
 <div id="exercises-wpa08" class="section level1">
@@ -1080,11 +1079,14 @@ End of multiple choice (MA) questions. -->
 <h2>Exercise 1</h2>
 <p>Given the definitions of <a href="http://rpository.com/ds4psy/data/data_t1.csv">data_t1</a> and <a href="http://rpository.com/ds4psy/data/data_t2.csv">data_t2</a>, and <code>t3</code> and <code>t4</code> above, evaluate and explain the result of:</p>
 <ol style="list-style-type: decimal">
-<li><p><code>all.equal(data_t1, semi_join(data_t1, data_t2))</code></p></li>
+<li><p><code>all.equal(left_join(data_t1, data_t2), right_join(data_t2, data_t1))</code></p></li>
 <li><p><code>all.equal(full_join(data_t1, data_t2), inner_join(data_t2, data_t1))</code></p></li>
 <li><p><code>all.equal(data_t1, semi_join(data_t1, data_t2))</code></p></li>
 <li><p><code>all.equal(t1, full_join(semi_join(t1, t3), anti_join(t1, t3)))</code></p></li>
 </ol>
+<!-- Solutions: -->
+<div id="solutions" class="section level4">
+<h4>Solutions</h4>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Load data:</span>
 data_t1 &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="dt">file =</span> <span class="st">&quot;http://rpository.com/ds4psy/data/data_t1.csv&quot;</span>)
 data_t2 &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="dt">file =</span> <span class="st">&quot;http://rpository.com/ds4psy/data/data_t2.csv&quot;</span>)
@@ -1118,6 +1120,7 @@ data_t2 &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span cla
 <span class="co"># - anti_join(t1, t3) # contains 12 cases of t1 with NO match in t3</span>
 <span class="co"># - full_join() or rbind() combine both parts (rows) into the cases of t1 again.</span></code></pre></div>
 </div>
+</div>
 <div id="exercise-2" class="section level2">
 <h2>Exercise 2</h2>
 <p>In the previous session on <a href="http://rpository.com/ds4psy/essentials/tidy.html">Tidying data</a> we encountered the <code>tidyr::table4a</code> and <code>tidyr::table4b</code>.</p>
@@ -1125,6 +1128,9 @@ data_t2 &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span cla
 <li><p>Join these tables into one table that contains the same information as <code>tidyr::table1</code>.</p></li>
 <li><p>Use <code>tidyr</code> and <code>dplyr</code> commands to transform the resulting join into <code>tidyr::table1</code>.</p></li>
 </ol>
+<!-- Solutions: -->
+<div id="solutions-1" class="section level4">
+<h4>Solutions</h4>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Data: </span>
 t4a &lt;-<span class="st"> </span>tidyr<span class="op">::</span>table4a
 t4b &lt;-<span class="st"> </span>tidyr<span class="op">::</span>table4b
@@ -1228,6 +1234,7 @@ j1_trans<span class="op">$</span>year &lt;-<span class="st"> </span><span class=
 <span class="kw">all.equal</span>(tidyr<span class="op">::</span>table1, j1_trans)  <span class="co"># TRUE</span>
 <span class="co">#&gt; [1] TRUE</span></code></pre></div>
 </div>
+</div>
 <div id="exercise-3" class="section level2">
 <h2>Exercise 3</h2>
 <p>This exercise uses the following data files:</p>
@@ -1239,6 +1246,8 @@ j1_trans<span class="op">$</span>year &lt;-<span class="st"> </span><span class=
 <li>Import both tables of data (as <code>data_t3</code> and <code>data_t4</code>) and check out each table individually, before comparing them to each other. Do both tables contain the same cases and variables?</li>
 </ol>
 <!-- Solutions: -->
+<div id="solutions-2" class="section level4">
+<h4>Solutions</h4>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Load data: </span>
 data_t3 &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="dt">file =</span> <span class="st">&quot;http://rpository.com/ds4psy/data/data_t3.csv&quot;</span>)
 data_t4 &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="dt">file =</span> <span class="st">&quot;http://rpository.com/ds4psy/data/data_t4.csv&quot;</span>)
@@ -1310,6 +1319,9 @@ data_t4 &lt;-<span class="st"> </span>data_t4 <span class="op">%&gt;%</span><spa
 Why is this difficult or impossible?</li>
 </ol>
 <!-- Solutions: -->
+</div>
+<div id="solutions-3" class="section level4">
+<h4>Solutions</h4>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Copy data: Make sure that cases are arranged in the same way:</span>
 t3 &lt;-<span class="st"> </span>data_t3 <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">arrange</span>(name, gender)
 t4 &lt;-<span class="st"> </span>data_t4 <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">arrange</span>(initials, sex)
@@ -1364,6 +1376,9 @@ data_t3<span class="op">$</span>name[<span class="kw">duplicated</span>(data_t3<
 <li>Use a different command to join both tables into a 20 x 6 table that contains all data in 1 table.</li>
 </ol>
 <!-- Solutions: -->
+</div>
+<div id="solutions-4" class="section level4">
+<h4>Solutions</h4>
 <p>The following solution first re-names 2 variables in one table (to have 2 matching key variables):</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Copy data: Make sure that cases are arranged in the same way:</span>
 t3 &lt;-<span class="st"> </span>data_t3 <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">arrange</span>(name, gender)
@@ -1439,8 +1454,233 @@ s6 &lt;-<span class="st"> </span><span class="kw">full_join</span>(t3, t4, <span
 <span class="kw">all.equal</span>(s1, s6)
 <span class="co">#&gt; [1] TRUE</span></code></pre></div>
 </div>
+</div>
 <div id="exercise-4" class="section level2">
 <h2>Exercise 4</h2>
+<p>This exercise uses the datasets on web-based interventions in <a href="http://rpository.com/ds4psy/essentials/datasets.html#positive-psychology">positive psychology</a>.</p>
+<p>So far, we always distinguished between 3 main data files:</p>
+<ul>
+<li><p><code>posPsy_participants.csv</code>: Original participant data (295 x 6 variables):<br />
+<a href="http://rpository.com/ds4psy/data/posPsy_participants.csv" class="uri">http://rpository.com/ds4psy/data/posPsy_participants.csv</a>.</p></li>
+<li><p><code>posPsy_AHI_CESD_corrected.csv</code>: Corrected version of dependent measures in long format (990 x 50 variables):<br />
+<a href="http://rpository.com/ds4psy/data/posPsy_AHI_CESD_corrected.csv" class="uri">http://rpository.com/ds4psy/data/posPsy_AHI_CESD_corrected.csv</a>.</p></li>
+<li><p><code>posPsy_data_wide.csv</code>: Corrected version of all data joined in wide format (295 x 294 variables):<br />
+<a href="http://rpository.com/ds4psy/data/posPsy_data_wide.csv" class="uri">http://rpository.com/ds4psy/data/posPsy_data_wide.csv</a>.<br />
+Different measurement occasions are suffixed by .0, .1, …, .5.</p></li>
+</ul>
+<p>Given your knowledge of <code>dplyr</code> and <code>tidyr</code> you can now transform <code>posPsy_AHI_CESD_corrected.csv</code> and combine its parts with <code>posPsy_participants.csv</code> to obtain <code>posPsy_data_wide.csv</code>. Do this in the following steps:</p>
+<ol style="list-style-type: decimal">
+<li><strong>Preparation:</strong> Import the data files <code>posPsy_participants.csv</code> as <code>p_info</code>, <code>posPsy_AHI_CESD_corrected.csv</code> as <code>AHI_CESD</code>, and <code>posPsy_data_wide.csv</code> as <code>data_wide</code>, and inspect the dimensions of these tables.</li>
+</ol>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Load data:</span>
+p_info    &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;http://rpository.com/ds4psy/data/posPsy_participants.csv&quot;</span>)
+AHI_CESD  &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;http://rpository.com/ds4psy/data/posPsy_AHI_CESD_corrected.csv&quot;</span>) 
+data_wide &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;http://rpository.com/ds4psy/data/posPsy_data_wide.csv&quot;</span>) 
+
+<span class="co"># Check: </span>
+<span class="kw">dim</span>(p_info)     <span class="co"># 295 x   6 </span>
+<span class="co">#&gt; [1] 295   6</span>
+<span class="kw">dim</span>(AHI_CESD)   <span class="co"># 990 x  50</span>
+<span class="co">#&gt; [1] 990  50</span>
+<span class="kw">dim</span>(data_wide)  <span class="co"># 295 x 294</span>
+<span class="co">#&gt; [1] 295 294</span></code></pre></div>
+<ol start="2" style="list-style-type: decimal">
+<li><strong>Extracting occasions:</strong> Create 6 individual tibbles that contains the data of each participant (1 row per <code>id</code>) seperately for each <code>occasion</code> (0 to 5).</li>
+</ol>
+<!-- Solutions: -->
+<div id="solution" class="section level4">
+<h4>Solution</h4>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Create 6 blocks </span>
+<span class="co"># (for occasion 0 to 5):</span>
+
+occ_<span class="dv">0</span> &lt;-<span class="st"> </span>AHI_CESD <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">group_by</span>(id, occasion) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">filter</span>(occasion <span class="op">==</span><span class="st"> </span><span class="dv">0</span>)
+<span class="kw">dim</span>(occ_<span class="dv">0</span>)  <span class="co"># 295 x 50</span>
+<span class="co">#&gt; [1] 295  50</span>
+
+occ_<span class="dv">1</span> &lt;-<span class="st"> </span>AHI_CESD <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">group_by</span>(id, occasion) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">filter</span>(occasion <span class="op">==</span><span class="st"> </span><span class="dv">1</span>)
+<span class="kw">dim</span>(occ_<span class="dv">1</span>)  <span class="co"># 148 x 50</span>
+<span class="co">#&gt; [1] 148  50</span>
+
+occ_<span class="dv">2</span> &lt;-<span class="st"> </span>AHI_CESD <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">group_by</span>(id, occasion) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">filter</span>(occasion <span class="op">==</span><span class="st"> </span><span class="dv">2</span>)
+<span class="kw">dim</span>(occ_<span class="dv">2</span>)  <span class="co"># 156 x 50</span>
+<span class="co">#&gt; [1] 156  50</span>
+
+occ_<span class="dv">3</span> &lt;-<span class="st"> </span>AHI_CESD <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">group_by</span>(id, occasion) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">filter</span>(occasion <span class="op">==</span><span class="st"> </span><span class="dv">3</span>)
+<span class="kw">dim</span>(occ_<span class="dv">3</span>)  <span class="co"># 138 x 50</span>
+<span class="co">#&gt; [1] 138  50</span>
+
+occ_<span class="dv">4</span> &lt;-<span class="st"> </span>AHI_CESD <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">group_by</span>(id, occasion) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">filter</span>(occasion <span class="op">==</span><span class="st"> </span><span class="dv">4</span>)
+<span class="kw">dim</span>(occ_<span class="dv">4</span>)  <span class="co"># 133 x 50</span>
+<span class="co">#&gt; [1] 133  50</span>
+
+occ_<span class="dv">5</span> &lt;-<span class="st"> </span>AHI_CESD <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">group_by</span>(id, occasion) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">filter</span>(occasion <span class="op">==</span><span class="st"> </span><span class="dv">5</span>)
+<span class="kw">dim</span>(occ_<span class="dv">5</span>)  <span class="co"># 120 x 50</span>
+<span class="co">#&gt; [1] 120  50</span>
+
+<span class="co"># Do all blocks contain the same variable names? </span>
+<span class="kw">all.equal</span>(<span class="kw">names</span>(occ_<span class="dv">0</span>), <span class="kw">names</span>(occ_<span class="dv">5</span>))  <span class="co"># TRUE</span>
+<span class="co">#&gt; [1] TRUE</span></code></pre></div>
+<p>Note that only the first block (<code>occ_0</code>) contains the data of all 295 participants. The other 5 blocks of data (<code>occ_1</code> to <code>occ_5</code>) contain the same 50 variables, but were each reduced by drop-out cases.</p>
+<ol start="3" style="list-style-type: decimal">
+<li><strong>Joining tables:</strong> Combine the variables of the 6 tibbles into one wide block (in wide format) and compare your resulting table with <a href="http://rpository.com/ds4psy/data/posPsy_data_wide.csv">data_wide</a>.</li>
+</ol>
+<p><strong>Hint:</strong> As you cannot combine all 6 blocks in one command, they have to be combined in a stepwise fashion.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Join parts: </span>
+occ_0_<span class="dv">1</span> &lt;-<span class="st"> </span><span class="kw">full_join</span>(occ_<span class="dv">0</span>,   occ_<span class="dv">1</span>, <span class="dt">by =</span> <span class="st">&quot;id&quot;</span>, <span class="dt">suffix =</span> <span class="kw">c</span>(<span class="st">&quot;.0&quot;</span>, <span class="st">&quot;.1&quot;</span>))  <span class="co"># add occ_1 to occ_0</span>
+occ_0_<span class="dv">2</span> &lt;-<span class="st"> </span><span class="kw">full_join</span>(occ_0_<span class="dv">1</span>, occ_<span class="dv">2</span>, <span class="dt">by =</span> <span class="st">&quot;id&quot;</span>, <span class="dt">suffix =</span> <span class="kw">c</span>(<span class="st">&quot;.1&quot;</span>, <span class="st">&quot;.2&quot;</span>))  <span class="co"># add occ_2 to this</span>
+occ_0_<span class="dv">3</span> &lt;-<span class="st"> </span><span class="kw">full_join</span>(occ_0_<span class="dv">2</span>, occ_<span class="dv">3</span>, <span class="dt">by =</span> <span class="st">&quot;id&quot;</span>, <span class="dt">suffix =</span> <span class="kw">c</span>(<span class="st">&quot;.2&quot;</span>, <span class="st">&quot;.3&quot;</span>))  <span class="co"># add occ_3 to this</span>
+occ_0_<span class="dv">4</span> &lt;-<span class="st"> </span><span class="kw">full_join</span>(occ_0_<span class="dv">3</span>, occ_<span class="dv">4</span>, <span class="dt">by =</span> <span class="st">&quot;id&quot;</span>, <span class="dt">suffix =</span> <span class="kw">c</span>(<span class="st">&quot;.3&quot;</span>, <span class="st">&quot;.4&quot;</span>))  <span class="co"># add occ_4 to this</span>
+occ_0_<span class="dv">5</span> &lt;-<span class="st"> </span><span class="kw">full_join</span>(occ_0_<span class="dv">4</span>, occ_<span class="dv">5</span>, <span class="dt">by =</span> <span class="st">&quot;id&quot;</span>, <span class="dt">suffix =</span> <span class="kw">c</span>(<span class="st">&quot;.4&quot;</span>, <span class="st">&quot;.5&quot;</span>))  <span class="co"># add occ_5 to this</span>
+
+occ_all &lt;-<span class="st"> </span>occ_0_<span class="dv">5</span> <span class="co"># copy </span>
+
+## Check: 
+<span class="kw">dim</span>(occ_all)  <span class="co"># 295 x 295</span>
+<span class="co">#&gt; [1] 295 295</span>
+<span class="co"># names(occ_all)</span></code></pre></div>
+<ol start="4" style="list-style-type: decimal">
+<li><strong>Cleaning up:</strong> As you might have noticed the number of columns of our newly created data set and the data in wide format (<code>data_wide</code>) are not the same. That is because:</li>
+</ol>
+<ul>
+<li><p>information on each participants’ intervention group is included 6 times in our created data;</p></li>
+<li><p><code>data_wide</code> also includes the information on the participants (contained in <code>p_info</code>).</p></li>
+</ul>
+<p>Exclude any redundant variables on the <code>intervention</code> group (keeping this variable only once) and include the participant information from <code>p_info</code> to create a new table <code>complete_data</code>. Check if and ensure that <code>complete_data</code> is equal to <code>data_wide</code>.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Delete redundant variables on intervention groups:</span>
+occ_all_clean &lt;-<span class="st"> </span>occ_all <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">select</span>(<span class="op">-</span>intervention.<span class="dv">1</span>, 
+         <span class="op">-</span>intervention.<span class="dv">2</span>, 
+         <span class="op">-</span>intervention.<span class="dv">3</span>, 
+         <span class="op">-</span>intervention.<span class="dv">4</span>, 
+         <span class="op">-</span>intervention.<span class="dv">5</span>) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">rename</span>(<span class="dt">intervention =</span> intervention.<span class="dv">0</span>)
+
+<span class="co"># Check: </span>
+<span class="kw">dim</span>(occ_all_clean)  <span class="co"># 295 x 290</span>
+<span class="co">#&gt; [1] 295 290</span>
+
+<span class="co"># Join with participant information:</span>
+<span class="kw">dim</span>(p_info)  <span class="co"># 295 x 6</span>
+<span class="co">#&gt; [1] 295   6</span>
+complete_data &lt;-<span class="st"> </span><span class="kw">full_join</span>(p_info, occ_all_clean)  <span class="co"># same as: </span>
+complete_data &lt;-<span class="st"> </span><span class="kw">full_join</span>(p_info, occ_all_clean,  <span class="dt">by =</span> <span class="kw">c</span>(<span class="st">&quot;id&quot;</span>, <span class="st">&quot;intervention&quot;</span>))
+
+## Check:
+<span class="co"># complete_data</span>
+<span class="kw">dim</span>(complete_data)  <span class="co"># 295 x 294  </span>
+<span class="co">#&gt; [1] 295 294</span>
+
+## Compare with data_wide:
+<span class="kw">dim</span>(data_wide) <span class="co"># 295 x 294</span>
+<span class="co">#&gt; [1] 295 294</span>
+
+## In case of any differences:
+## Which variables occur in complete_data but not in data_wide?
+<span class="co"># names(complete_data)[!(names(complete_data) %in% names(data_wide))] # =&gt; intervention.x, intervention.y</span>
+<span class="co">#</span>
+## Are these variables all equal?
+<span class="co"># all.equal(complete_data$intervention.x, complete_data$intervention.y)  # TRUE</span>
+<span class="co">#</span>
+## Delete intervention.y and rename intervention.x:
+<span class="co"># my_data_wide &lt;- complete_data %&gt;%</span>
+<span class="co">#   select(-intervention.y) %&gt;%</span>
+<span class="co">#   rename(intervention = intervention.x)</span>
+
+## Check:
+<span class="kw">all.equal</span>(complete_data, data_wide)  <span class="co"># TRUE (qed).</span>
+<span class="co">#&gt; [1] TRUE</span></code></pre></div>
+<ol start="5" style="list-style-type: decimal">
+<li><strong>Alternative join:</strong> How would you change the steps to join the 6 blocks (in 3.) if you only wanted to keep the participants who took part on all 6 possible occasions? How many of them exist?</li>
+</ol>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># We would use multiple inner_join() commands instead of full_join():</span>
+<span class="co"># Join parts: </span>
+in_occ_0_<span class="dv">1</span> &lt;-<span class="st"> </span><span class="kw">inner_join</span>(occ_<span class="dv">0</span>,      occ_<span class="dv">1</span>, <span class="dt">by =</span> <span class="st">&quot;id&quot;</span>, <span class="dt">suffix =</span> <span class="kw">c</span>(<span class="st">&quot;.0&quot;</span>, <span class="st">&quot;.1&quot;</span>))  <span class="co"># add occ_1 to occ_0</span>
+in_occ_0_<span class="dv">2</span> &lt;-<span class="st"> </span><span class="kw">inner_join</span>(in_occ_0_<span class="dv">1</span>, occ_<span class="dv">2</span>, <span class="dt">by =</span> <span class="st">&quot;id&quot;</span>, <span class="dt">suffix =</span> <span class="kw">c</span>(<span class="st">&quot;.1&quot;</span>, <span class="st">&quot;.2&quot;</span>))  <span class="co"># add occ_2 to this</span>
+in_occ_0_<span class="dv">3</span> &lt;-<span class="st"> </span><span class="kw">inner_join</span>(in_occ_0_<span class="dv">2</span>, occ_<span class="dv">3</span>, <span class="dt">by =</span> <span class="st">&quot;id&quot;</span>, <span class="dt">suffix =</span> <span class="kw">c</span>(<span class="st">&quot;.2&quot;</span>, <span class="st">&quot;.3&quot;</span>))  <span class="co"># add occ_3 to this</span>
+in_occ_0_<span class="dv">4</span> &lt;-<span class="st"> </span><span class="kw">inner_join</span>(in_occ_0_<span class="dv">3</span>, occ_<span class="dv">4</span>, <span class="dt">by =</span> <span class="st">&quot;id&quot;</span>, <span class="dt">suffix =</span> <span class="kw">c</span>(<span class="st">&quot;.3&quot;</span>, <span class="st">&quot;.4&quot;</span>))  <span class="co"># add occ_4 to this</span>
+in_occ_0_<span class="dv">5</span> &lt;-<span class="st"> </span><span class="kw">inner_join</span>(in_occ_0_<span class="dv">4</span>, occ_<span class="dv">5</span>, <span class="dt">by =</span> <span class="st">&quot;id&quot;</span>, <span class="dt">suffix =</span> <span class="kw">c</span>(<span class="st">&quot;.4&quot;</span>, <span class="st">&quot;.5&quot;</span>))  <span class="co"># add occ_5 to this</span>
+
+<span class="kw">dim</span>(in_occ_0_<span class="dv">5</span>)         <span class="co"># 72 participants x 295 variables</span>
+<span class="co">#&gt; [1]  72 295</span>
+<span class="kw">sum</span>(<span class="kw">is.na</span>(in_occ_0_<span class="dv">5</span>))  <span class="co">#  0 missing values</span>
+<span class="co">#&gt; [1] 0</span></code></pre></div>
+<ol start="6" style="list-style-type: decimal">
+<li><strong>Filter join:</strong> Use a <code>dplyr</code> summary table on the data in <code>AHI_CESD</code> to determine the <code>id</code> of all participants that took part in all 6 occasions. Then use a filter join on <code>p_info</code> and on <code>AHI_CESD</code> to keep only the (rows of) data of these participants.</li>
+</ol>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Summary table of id values with 6 occasions:</span>
+id_6_occ &lt;-<span class="st"> </span>AHI_CESD <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">group_by</span>(id) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">summarise</span>(<span class="dt">n =</span> <span class="kw">n</span>()) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">filter</span>(n <span class="op">==</span><span class="st"> </span><span class="dv">6</span>)
+id_6_occ
+<span class="co">#&gt; # A tibble: 72 x 2</span>
+<span class="co">#&gt;       id     n</span>
+<span class="co">#&gt;    &lt;dbl&gt; &lt;int&gt;</span>
+<span class="co">#&gt;  1     2     6</span>
+<span class="co">#&gt;  2    11     6</span>
+<span class="co">#&gt;  3    12     6</span>
+<span class="co">#&gt;  4    14     6</span>
+<span class="co">#&gt;  5    24     6</span>
+<span class="co">#&gt;  6    27     6</span>
+<span class="co">#&gt;  7    28     6</span>
+<span class="co">#&gt;  8    37     6</span>
+<span class="co">#&gt;  9    38     6</span>
+<span class="co">#&gt; 10    40     6</span>
+<span class="co">#&gt; # … with 62 more rows</span>
+
+<span class="co"># Use id_6_occ$id to filter cases of p_info and AHI_CESD: </span>
+<span class="kw">semi_join</span>(p_info,   id_6_occ, <span class="dt">by =</span> <span class="st">&quot;id&quot;</span>)  <span class="co">#  72 x  6</span>
+<span class="co">#&gt; # A tibble: 72 x 6</span>
+<span class="co">#&gt;       id intervention   sex   age  educ income</span>
+<span class="co">#&gt;    &lt;dbl&gt;        &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;</span>
+<span class="co">#&gt;  1     2            1     1    59     1      1</span>
+<span class="co">#&gt;  2    11            2     1    56     5      1</span>
+<span class="co">#&gt;  3    12            2     1    46     4      3</span>
+<span class="co">#&gt;  4    14            4     1    41     1      2</span>
+<span class="co">#&gt;  5    24            3     1    51     4      3</span>
+<span class="co">#&gt;  6    27            4     1    34     4      3</span>
+<span class="co">#&gt;  7    28            1     1    62     4      1</span>
+<span class="co">#&gt;  8    37            2     1    47     5      2</span>
+<span class="co">#&gt;  9    38            3     1    50     4      3</span>
+<span class="co">#&gt; 10    40            2     1    53     4      3</span>
+<span class="co">#&gt; # … with 62 more rows</span>
+<span class="kw">semi_join</span>(AHI_CESD, id_6_occ, <span class="dt">by =</span> <span class="st">&quot;id&quot;</span>)  <span class="co"># 432 x 50</span>
+<span class="co">#&gt; # A tibble: 432 x 50</span>
+<span class="co">#&gt;       id occasion elapsed.days intervention ahi01 ahi02 ahi03 ahi04 ahi05</span>
+<span class="co">#&gt;    &lt;dbl&gt;    &lt;dbl&gt;        &lt;dbl&gt;        &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span>
+<span class="co">#&gt;  1     2        0         0               1     3     4     3     4     2</span>
+<span class="co">#&gt;  2     2        1         8.02            1     3     4     4     4     3</span>
+<span class="co">#&gt;  3     2        2        14.3             1     3     4     4     4     3</span>
+<span class="co">#&gt;  4     2        3        32.0             1     3     4     4     4     4</span>
+<span class="co">#&gt;  5     2        4        92.2             1     3     3     2     3     3</span>
+<span class="co">#&gt;  6     2        5       182.              1     3     3     3     4     2</span>
+<span class="co">#&gt;  7    11        0         0               2     2     2     3     4     2</span>
+<span class="co">#&gt;  8    11        1         8.90            2     2     2     3     4     2</span>
+<span class="co">#&gt;  9    11        2        14.8             2     3     2     3     3     2</span>
+<span class="co">#&gt; 10    11        3        34.0             2     2     2     3     4     2</span>
+<span class="co">#&gt; # … with 422 more rows, and 41 more variables: ahi06 &lt;dbl&gt;, ahi07 &lt;dbl&gt;,</span>
+<span class="co">#&gt; #   ahi08 &lt;dbl&gt;, ahi09 &lt;dbl&gt;, ahi10 &lt;dbl&gt;, ahi11 &lt;dbl&gt;, ahi12 &lt;dbl&gt;,</span>
+<span class="co">#&gt; #   ahi13 &lt;dbl&gt;, ahi14 &lt;dbl&gt;, ahi15 &lt;dbl&gt;, ahi16 &lt;dbl&gt;, ahi17 &lt;dbl&gt;,</span>
+<span class="co">#&gt; #   ahi18 &lt;dbl&gt;, ahi19 &lt;dbl&gt;, ahi20 &lt;dbl&gt;, ahi21 &lt;dbl&gt;, ahi22 &lt;dbl&gt;,</span>
+<span class="co">#&gt; #   ahi23 &lt;dbl&gt;, ahi24 &lt;dbl&gt;, cesd01 &lt;dbl&gt;, cesd02 &lt;dbl&gt;, cesd03 &lt;dbl&gt;,</span>
+<span class="co">#&gt; #   cesd04 &lt;dbl&gt;, cesd05 &lt;dbl&gt;, cesd06 &lt;dbl&gt;, cesd07 &lt;dbl&gt;, cesd08 &lt;dbl&gt;,</span>
+<span class="co">#&gt; #   cesd09 &lt;dbl&gt;, cesd10 &lt;dbl&gt;, cesd11 &lt;dbl&gt;, cesd12 &lt;dbl&gt;, cesd13 &lt;dbl&gt;,</span>
+<span class="co">#&gt; #   cesd14 &lt;dbl&gt;, cesd15 &lt;dbl&gt;, cesd16 &lt;dbl&gt;, cesd17 &lt;dbl&gt;, cesd18 &lt;dbl&gt;,</span>
+<span class="co">#&gt; #   cesd19 &lt;dbl&gt;, cesd20 &lt;dbl&gt;, ahiTotal &lt;dbl&gt;, cesdTotal &lt;dbl&gt;</span></code></pre></div>
+<!-- +++ here now +++ -->
+</div>
 </div>
 </div>
 <div id="more-on-joining-data" class="section level1">
@@ -1519,7 +1759,7 @@ Nr. | Topic       |
 8.  | [Joining data](http://rpository.com/ds4psy/essentials/join.html) |
 +.  | [Datasets](http://rpository.com/ds4psy/essentials/datasets.html) | 
 -->
-<p>[Last update on 2019-01-21 09:22:14 by <a href="http://neth.de/">hn</a>.]</p>
+<p>[Last update on 2019-01-21 17:41:37 by <a href="http://neth.de/">hn</a>.]</p>
 <!-- eof. -->
 </div>
 <div class="footnotes">

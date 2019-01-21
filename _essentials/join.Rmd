@@ -563,13 +563,17 @@ End of multiple choice (MA) questions. -->
 Given the definitions of [data_t1](http://rpository.com/ds4psy/data/data_t1.csv) and [data_t2](http://rpository.com/ds4psy/data/data_t2.csv), 
 and `t3` and `t4` above, evaluate and explain the result of:  
 
-1. `all.equal(data_t1, semi_join(data_t1, data_t2))`
+1. `all.equal(left_join(data_t1, data_t2), right_join(data_t2, data_t1))`
 
 2. `all.equal(full_join(data_t1, data_t2), inner_join(data_t2, data_t1))`
 
 3. `all.equal(data_t1, semi_join(data_t1, data_t2))`
 
 4. `all.equal(t1, full_join(semi_join(t1, t3), anti_join(t1, t3)))`
+
+<!-- Solutions: --> 
+
+#### Solutions
 
 ```{r ex1}
 # Load data:
@@ -607,6 +611,10 @@ In the previous session on [Tidying data](http://rpository.com/ds4psy/essentials
 1. Join these tables into one table that contains the same information as `tidyr::table1`.
 
 2. Use `tidyr` and `dplyr` commands to transform the resulting join into `tidyr::table1`. 
+
+<!-- Solutions: --> 
+
+#### Solutions
 
 ```{r ex2}
 # Data: 
@@ -665,6 +673,8 @@ Do both tables contain the same cases and variables?
 
 <!-- Solutions: --> 
 
+#### Solutions
+
 ```{r ex3_1}
 # Load data: 
 data_t3 <- read_csv(file = "http://rpository.com/ds4psy/data/data_t3.csv")
@@ -690,6 +700,8 @@ all.equal(data_t3$gender, data_t4$sex)     # TRUE
 Why is this difficult or impossible? 
 
 <!-- Solutions: --> 
+
+#### Solutions
 
 ```{r ex3_2}
 # Copy data: Make sure that cases are arranged in the same way:
@@ -717,6 +729,8 @@ data_t3$name[duplicated(data_t3$name)]  # => "A.V." appears twice.
 3. Use a different command to join both tables into a 20 x 6 table that contains all data in 1 table.
 
 <!-- Solutions: --> 
+
+#### Solutions
 
 The following solution first re-names 2 variables in one table (to have 2 matching key variables): 
 
@@ -773,8 +787,190 @@ all.equal(s1, s6)
 
 ## Exercise 4
 
-+++ here now +++
+This exercise uses the datasets on web-based interventions in [positive psychology](http://rpository.com/ds4psy/essentials/datasets.html#positive-psychology). 
 
+So far, we always distinguished between 3 main data files: 
+
+- `posPsy_participants.csv`: Original participant data (295 x 6 variables):  
+   <http://rpository.com/ds4psy/data/posPsy_participants.csv>.
+
+- `posPsy_AHI_CESD_corrected.csv`: Corrected version of dependent measures in long format (990 x 50 variables):  
+   <http://rpository.com/ds4psy/data/posPsy_AHI_CESD_corrected.csv>.
+
+- `posPsy_data_wide.csv`: Corrected version of all data joined in wide format (295 x 294 variables):  
+   <http://rpository.com/ds4psy/data/posPsy_data_wide.csv>.   
+   Different measurement occasions are suffixed by .0, .1, ..., .5.
+
+Given your knowledge of `dplyr` and `tidyr` you can now transform `posPsy_AHI_CESD_corrected.csv` and combine its parts with `posPsy_participants.csv` to obtain `posPsy_data_wide.csv`. Do this in the following steps:
+
+1. **Preparation:** Import the data files `posPsy_participants.csv` as `p_info`, 
+`posPsy_AHI_CESD_corrected.csv` as `AHI_CESD`, 
+and `posPsy_data_wide.csv` as `data_wide`, and inspect the dimensions of these tables.
+
+```{r ex4_1}
+# Load data:
+p_info    <- read_csv("http://rpository.com/ds4psy/data/posPsy_participants.csv")
+AHI_CESD  <- read_csv("http://rpository.com/ds4psy/data/posPsy_AHI_CESD_corrected.csv") 
+data_wide <- read_csv("http://rpository.com/ds4psy/data/posPsy_data_wide.csv") 
+
+# Check: 
+dim(p_info)     # 295 x   6 
+dim(AHI_CESD)   # 990 x  50
+dim(data_wide)  # 295 x 294
+```
+
+2. **Extracting occasions:** Create 6 individual tibbles that contains the data of each participant (1 row per `id`) seperately for each `occasion` (0 to 5).
+
+<!-- Solutions: --> 
+
+#### Solution
+
+```{r ex4_2, echo = TRUE, eval = TRUE}
+# Create 6 blocks 
+# (for occasion 0 to 5):
+
+occ_0 <- AHI_CESD %>%
+  group_by(id, occasion) %>%
+  filter(occasion == 0)
+dim(occ_0)  # 295 x 50
+
+occ_1 <- AHI_CESD %>%
+  group_by(id, occasion) %>%
+  filter(occasion == 1)
+dim(occ_1)  # 148 x 50
+
+occ_2 <- AHI_CESD %>%
+  group_by(id, occasion) %>%
+  filter(occasion == 2)
+dim(occ_2)  # 156 x 50
+
+occ_3 <- AHI_CESD %>%
+  group_by(id, occasion) %>%
+  filter(occasion == 3)
+dim(occ_3)  # 138 x 50
+
+occ_4 <- AHI_CESD %>%
+  group_by(id, occasion) %>%
+  filter(occasion == 4)
+dim(occ_4)  # 133 x 50
+
+occ_5 <- AHI_CESD %>%
+  group_by(id, occasion) %>%
+  filter(occasion == 5)
+dim(occ_5)  # 120 x 50
+
+# Do all blocks contain the same variable names? 
+all.equal(names(occ_0), names(occ_5))  # TRUE
+```
+
+Note that only the first block (`occ_0`) contains the data of all 295 participants. 
+The other 5 blocks of data (`occ_1` to `occ_5`) contain the same 50 variables, but were each reduced by drop-out cases. 
+
+3. **Joining tables:** Combine the variables of the 6 tibbles into one wide block (in wide format) and compare your resulting table with 
+[data_wide](http://rpository.com/ds4psy/data/posPsy_data_wide.csv).  
+
+**Hint:** As you cannot combine all 6 blocks in one command, they have to be combined in a stepwise fashion. 
+
+```{r ex4_3}
+# Join parts: 
+occ_0_1 <- full_join(occ_0,   occ_1, by = "id", suffix = c(".0", ".1"))  # add occ_1 to occ_0
+occ_0_2 <- full_join(occ_0_1, occ_2, by = "id", suffix = c(".1", ".2"))  # add occ_2 to this
+occ_0_3 <- full_join(occ_0_2, occ_3, by = "id", suffix = c(".2", ".3"))  # add occ_3 to this
+occ_0_4 <- full_join(occ_0_3, occ_4, by = "id", suffix = c(".3", ".4"))  # add occ_4 to this
+occ_0_5 <- full_join(occ_0_4, occ_5, by = "id", suffix = c(".4", ".5"))  # add occ_5 to this
+
+occ_all <- occ_0_5 # copy 
+
+## Check: 
+dim(occ_all)  # 295 x 295
+# names(occ_all)
+```
+
+4. **Cleaning up:** As you might have noticed the number of columns of our newly created data set and the data in wide format (`data_wide`) are not the same. 
+That is because:
+
+  - information on each participants' intervention group is included 6 times in our created data; 
+
+  - `data_wide` also includes the information on the participants (contained in `p_info`). 
+
+Exclude any redundant variables on the `intervention` group (keeping this variable only once) and include the participant information from `p_info` to create a new table `complete_data`. Check if and ensure that `complete_data` is equal to `data_wide`. 
+
+```{r ex4_4}
+# Delete redundant variables on intervention groups:
+occ_all_clean <- occ_all %>%
+  select(-intervention.1, 
+         -intervention.2, 
+         -intervention.3, 
+         -intervention.4, 
+         -intervention.5) %>%
+  rename(intervention = intervention.0)
+
+# Check: 
+dim(occ_all_clean)  # 295 x 290
+
+# Join with participant information:
+dim(p_info)  # 295 x 6
+complete_data <- full_join(p_info, occ_all_clean)  # same as: 
+complete_data <- full_join(p_info, occ_all_clean,  by = c("id", "intervention"))
+
+## Check:
+# complete_data
+dim(complete_data)  # 295 x 294  
+
+## Compare with data_wide:
+dim(data_wide) # 295 x 294
+
+## In case of any differences:
+## Which variables occur in complete_data but not in data_wide?
+# names(complete_data)[!(names(complete_data) %in% names(data_wide))] # => intervention.x, intervention.y
+#
+## Are these variables all equal?
+# all.equal(complete_data$intervention.x, complete_data$intervention.y)  # TRUE
+#
+## Delete intervention.y and rename intervention.x:
+# my_data_wide <- complete_data %>%
+#   select(-intervention.y) %>%
+#   rename(intervention = intervention.x)
+
+## Check:
+all.equal(complete_data, data_wide)  # TRUE (qed).
+```
+
+5. **Alternative join:** How would you change the steps to join the 6 blocks (in 3.) if you only wanted to keep the participants who took part on all 6 possible occasions?  How many of them exist?
+
+```{r ex4_5}
+# We would use multiple inner_join() commands instead of full_join():
+# Join parts: 
+in_occ_0_1 <- inner_join(occ_0,      occ_1, by = "id", suffix = c(".0", ".1"))  # add occ_1 to occ_0
+in_occ_0_2 <- inner_join(in_occ_0_1, occ_2, by = "id", suffix = c(".1", ".2"))  # add occ_2 to this
+in_occ_0_3 <- inner_join(in_occ_0_2, occ_3, by = "id", suffix = c(".2", ".3"))  # add occ_3 to this
+in_occ_0_4 <- inner_join(in_occ_0_3, occ_4, by = "id", suffix = c(".3", ".4"))  # add occ_4 to this
+in_occ_0_5 <- inner_join(in_occ_0_4, occ_5, by = "id", suffix = c(".4", ".5"))  # add occ_5 to this
+
+dim(in_occ_0_5)         # 72 participants x 295 variables
+sum(is.na(in_occ_0_5))  #  0 missing values
+```
+
+6. **Filter join:** Use a `dplyr` summary table on the data in `AHI_CESD` to determine the `id` of all participants that took part in all 6 occasions. 
+Then use a filter join on `p_info` and on `AHI_CESD` to keep only the (rows of) data of these participants. 
+
+```{r ex5_6}
+# Summary table of id values with 6 occasions:
+id_6_occ <- AHI_CESD %>%
+  group_by(id) %>%
+  summarise(n = n()) %>%
+  filter(n == 6)
+id_6_occ
+
+# Use id_6_occ$id to filter cases of p_info and AHI_CESD: 
+semi_join(p_info,   id_6_occ, by = "id")  #  72 x  6
+semi_join(AHI_CESD, id_6_occ, by = "id")  # 432 x 50
+```
+
+
+
+
+<!-- +++ here now +++ --> 
 
 
 # More on joining data
