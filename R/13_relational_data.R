@@ -1356,7 +1356,7 @@ setdiff(df2, df1)
 # - setdiff(y, x)
 
 
-# (+) Which of the following is the _inverse_ of an `anti-join`?
+# (+) Which of the following is the _inverse_ (or _complement_) of an `anti-join`?
 
 # - `full_join`
 # - `inner_join` 
