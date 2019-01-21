@@ -1537,6 +1537,10 @@ occ_<span class="dv">5</span> &lt;-<span class="st"> </span>AHI_CESD <span class
 <li><strong>Joining tables:</strong> Combine the variables of the 6 tibbles into one wide block (in wide format) and compare your resulting table with <a href="http://rpository.com/ds4psy/data/posPsy_data_wide.csv">data_wide</a>.</li>
 </ol>
 <p><strong>Hint:</strong> As you cannot combine all 6 blocks in one command, they have to be combined in a stepwise fashion.</p>
+<!-- Solutions: -->
+</div>
+<div id="solution-1" class="section level4">
+<h4>Solution</h4>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Join parts: </span>
 occ_0_<span class="dv">1</span> &lt;-<span class="st"> </span><span class="kw">full_join</span>(occ_<span class="dv">0</span>,   occ_<span class="dv">1</span>, <span class="dt">by =</span> <span class="st">&quot;id&quot;</span>, <span class="dt">suffix =</span> <span class="kw">c</span>(<span class="st">&quot;.0&quot;</span>, <span class="st">&quot;.1&quot;</span>))  <span class="co"># add occ_1 to occ_0</span>
 occ_0_<span class="dv">2</span> &lt;-<span class="st"> </span><span class="kw">full_join</span>(occ_0_<span class="dv">1</span>, occ_<span class="dv">2</span>, <span class="dt">by =</span> <span class="st">&quot;id&quot;</span>, <span class="dt">suffix =</span> <span class="kw">c</span>(<span class="st">&quot;.1&quot;</span>, <span class="st">&quot;.2&quot;</span>))  <span class="co"># add occ_2 to this</span>
@@ -1558,6 +1562,10 @@ occ_all &lt;-<span class="st"> </span>occ_0_<span class="dv">5</span> <span clas
 <li><p><code>data_wide</code> also includes the information on the participants (contained in <code>p_info</code>).</p></li>
 </ul>
 <p>Exclude any redundant variables on the <code>intervention</code> group (keeping this variable only once) and include the participant information from <code>p_info</code> to create a new table <code>complete_data</code>. Check if and ensure that <code>complete_data</code> is equal to <code>data_wide</code>.</p>
+<!-- Solutions: -->
+</div>
+<div id="solution-2" class="section level4">
+<h4>Solution</h4>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Delete redundant variables on intervention groups:</span>
 occ_all_clean &lt;-<span class="st"> </span>occ_all <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw">select</span>(<span class="op">-</span>intervention.<span class="dv">1</span>, 
@@ -1604,6 +1612,10 @@ complete_data &lt;-<span class="st"> </span><span class="kw">full_join</span>(p_
 <ol start="5" style="list-style-type: decimal">
 <li><strong>Alternative join:</strong> How would you change the steps to join the 6 blocks (in 3.) if you only wanted to keep the participants who took part on all 6 possible occasions? How many of them exist?</li>
 </ol>
+<!-- Solutions: -->
+</div>
+<div id="solution-3" class="section level4">
+<h4>Solution</h4>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># We would use multiple inner_join() commands instead of full_join():</span>
 <span class="co"># Join parts: </span>
 in_occ_0_<span class="dv">1</span> &lt;-<span class="st"> </span><span class="kw">inner_join</span>(occ_<span class="dv">0</span>,      occ_<span class="dv">1</span>, <span class="dt">by =</span> <span class="st">&quot;id&quot;</span>, <span class="dt">suffix =</span> <span class="kw">c</span>(<span class="st">&quot;.0&quot;</span>, <span class="st">&quot;.1&quot;</span>))  <span class="co"># add occ_1 to occ_0</span>
@@ -1619,6 +1631,10 @@ in_occ_0_<span class="dv">5</span> &lt;-<span class="st"> </span><span class="kw
 <ol start="6" style="list-style-type: decimal">
 <li><strong>Filter join:</strong> Use a <code>dplyr</code> summary table on the data in <code>AHI_CESD</code> to determine the <code>id</code> of all participants that took part in all 6 occasions. Then use a filter join on <code>p_info</code> and on <code>AHI_CESD</code> to keep only the (rows of) data of these participants.</li>
 </ol>
+<!-- Solutions: -->
+</div>
+<div id="solution-4" class="section level4">
+<h4>Solution</h4>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Summary table of id values with 6 occasions:</span>
 id_6_occ &lt;-<span class="st"> </span>AHI_CESD <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw">group_by</span>(id) <span class="op">%&gt;%</span>
@@ -1679,6 +1695,192 @@ id_6_occ
 <span class="co">#&gt; #   cesd09 &lt;dbl&gt;, cesd10 &lt;dbl&gt;, cesd11 &lt;dbl&gt;, cesd12 &lt;dbl&gt;, cesd13 &lt;dbl&gt;,</span>
 <span class="co">#&gt; #   cesd14 &lt;dbl&gt;, cesd15 &lt;dbl&gt;, cesd16 &lt;dbl&gt;, cesd17 &lt;dbl&gt;, cesd18 &lt;dbl&gt;,</span>
 <span class="co">#&gt; #   cesd19 &lt;dbl&gt;, cesd20 &lt;dbl&gt;, ahiTotal &lt;dbl&gt;, cesdTotal &lt;dbl&gt;</span></code></pre></div>
+</div>
+</div>
+<div id="exercise-5-bonus-task" class="section level2">
+<h2>Exercise 5: Bonus task</h2>
+<p>This exercise relies on the raw data for the <a href="http://rpository.com/ds4psy/essentials/datasets.html#false-positive-psychology">false positive psychology</a> project, which can be obtained at <a href="https://openpsychologydata.metajnl.com/articles/10.5334/jopd.aa/" class="uri">https://openpsychologydata.metajnl.com/articles/10.5334/jopd.aa/</a> or <a href="https://zenodo.org/record/7664" class="uri">https://zenodo.org/record/7664</a>.</p>
+<ol style="list-style-type: decimal">
+<li>Download the 2 raw data files and load them into R as <code>study_1</code> and <code>study_2</code> (fixing any obvious errors).</li>
+</ol>
+<!-- Solutions: -->
+<div id="solution-5" class="section level4">
+<h4>Solution</h4>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Downloaded the archive `FalsePositive_Data_in_.txt_format.zip` and unzipped its contents  </span>
+<span class="co"># into a folder &quot;/data/_falsePosPsy/raw_data/Study 1 .txt&quot;.</span>
+
+<span class="co"># Specify paths to 2 txt files:</span>
+wd &lt;-<span class="st"> &quot;/Users/hneth/Desktop/stuff/Dropbox/_code/R/_teachR/ds4psy&quot;</span>
+raw_<span class="dv">1</span> &lt;-<span class="st"> </span><span class="kw">paste0</span>(wd, <span class="st">&quot;/data/_falsePosPsy/raw_data/Study 1 .txt&quot;</span>)  <span class="co"># Note weird spacing in file name!</span>
+raw_<span class="dv">2</span> &lt;-<span class="st"> </span><span class="kw">paste0</span>(wd, <span class="st">&quot;/data/_falsePosPsy/raw_data/Study 2.txt&quot;</span>)
+
+<span class="co"># Load data: </span>
+study_<span class="dv">1</span> &lt;-<span class="st"> </span><span class="kw">read_tsv</span>(raw_<span class="dv">1</span>)
+study_<span class="dv">2</span> &lt;-<span class="st"> </span><span class="kw">read_tsv</span>(raw_<span class="dv">2</span>)
+
+<span class="co"># Inspect data:</span>
+<span class="kw">dim</span>(study_<span class="dv">1</span>)  <span class="co"># 44 x 17</span>
+<span class="co">#&gt; [1] 44 17</span>
+<span class="kw">dim</span>(study_<span class="dv">2</span>)  <span class="co"># 34 x 17</span>
+<span class="co">#&gt; [1] 34 17</span>
+
+## Are all variable names equal?
+<span class="kw">names</span>(study_<span class="dv">1</span>) <span class="op">==</span><span class="st"> </span><span class="kw">names</span>(study_<span class="dv">2</span>)  <span class="co"># =&gt; mostly TRUE, but 1 FALSE value</span>
+<span class="co">#&gt;  [1]  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE</span>
+<span class="co">#&gt; [12] FALSE  TRUE  TRUE  TRUE  TRUE  TRUE</span>
+
+<span class="kw">names</span>(study_<span class="dv">1</span>)[<span class="kw">names</span>(study_<span class="dv">1</span>) <span class="op">!=</span><span class="st"> </span><span class="kw">names</span>(study_<span class="dv">2</span>)] <span class="co"># =&gt; &quot;kalimba&quot;</span>
+<span class="co">#&gt; [1] &quot;kalimba&quot;</span>
+<span class="kw">names</span>(study_<span class="dv">2</span>)[<span class="kw">names</span>(study_<span class="dv">1</span>) <span class="op">!=</span><span class="st"> </span><span class="kw">names</span>(study_<span class="dv">2</span>)] <span class="co"># =&gt; &quot;kaimba&quot; !!!</span>
+<span class="co">#&gt; [1] &quot;kaimba&quot;</span>
+<span class="co"># Correct name in study_2 to that of study_1:</span>
+<span class="kw">names</span>(study_<span class="dv">2</span>)[<span class="kw">names</span>(study_<span class="dv">1</span>) <span class="op">!=</span><span class="st"> </span><span class="kw">names</span>(study_<span class="dv">2</span>)] &lt;-<span class="st"> </span><span class="kw">names</span>(study_<span class="dv">1</span>)[<span class="kw">names</span>(study_<span class="dv">1</span>) <span class="op">!=</span><span class="st"> </span><span class="kw">names</span>(study_<span class="dv">2</span>)]
+
+<span class="kw">all.equal</span>(<span class="kw">names</span>(study_<span class="dv">1</span>), <span class="kw">names</span>(study_<span class="dv">2</span>))  <span class="co"># TRUE</span>
+<span class="co">#&gt; [1] TRUE</span></code></pre></div>
+<ol start="2" style="list-style-type: decimal">
+<li>As both data files contain different participants, but the same variables about each participant, we want to save all data in one table. Combine the 2 datasets, but mark each dataset by a <code>study</code> variable (that has a value of either 1 or 2).</li>
+</ol>
+<!-- Solutions: -->
+</div>
+<div id="solution-6" class="section level4">
+<h4>Solution</h4>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Mark each data set by a variable:</span>
+study_<span class="dv">1</span><span class="op">$</span>study &lt;-<span class="st"> </span><span class="dv">1</span>
+study_<span class="dv">2</span><span class="op">$</span>study &lt;-<span class="st"> </span><span class="dv">2</span>
+
+<span class="kw">dim</span>(study_<span class="dv">1</span>)  <span class="co"># 44 x 18</span>
+<span class="co">#&gt; [1] 44 18</span>
+<span class="kw">dim</span>(study_<span class="dv">2</span>)  <span class="co"># 34 x 18</span>
+<span class="co">#&gt; [1] 34 18</span>
+
+<span class="co"># (1) Use bind_rows(): </span>
+fpositive_all &lt;-<span class="st"> </span><span class="kw">bind_rows</span>(study_<span class="dv">1</span>, study_<span class="dv">2</span>)
+<span class="kw">dim</span>(fpositive_all)  <span class="co"># 78 x 18 variables</span>
+<span class="co">#&gt; [1] 78 18</span>
+<span class="kw">names</span>(fpositive_all)
+<span class="co">#&gt;  [1] &quot;aged&quot;        &quot;dad&quot;         &quot;mom&quot;         &quot;female&quot;      &quot;root&quot;       </span>
+<span class="co">#&gt;  [6] &quot;bird&quot;        &quot;political&quot;   &quot;quarterback&quot; &quot;olddays&quot;     &quot;potato&quot;     </span>
+<span class="co">#&gt; [11] &quot;when64&quot;      &quot;kalimba&quot;     &quot;feelold&quot;     &quot;computer&quot;    &quot;diner&quot;      </span>
+<span class="co">#&gt; [16] &quot;cond&quot;        &quot;aged365&quot;     &quot;study&quot;</span>
+
+<span class="co"># (2) Use full_join() on all variables:</span>
+fpositive_all_<span class="dv">2</span> &lt;-<span class="st"> </span><span class="kw">full_join</span>(study_<span class="dv">1</span>, study_<span class="dv">2</span>)
+<span class="kw">dim</span>(fpositive_all_<span class="dv">2</span>)  <span class="co"># 78 x 18 variables</span>
+<span class="co">#&gt; [1] 78 18</span>
+<span class="kw">names</span>(fpositive_all)
+<span class="co">#&gt;  [1] &quot;aged&quot;        &quot;dad&quot;         &quot;mom&quot;         &quot;female&quot;      &quot;root&quot;       </span>
+<span class="co">#&gt;  [6] &quot;bird&quot;        &quot;political&quot;   &quot;quarterback&quot; &quot;olddays&quot;     &quot;potato&quot;     </span>
+<span class="co">#&gt; [11] &quot;when64&quot;      &quot;kalimba&quot;     &quot;feelold&quot;     &quot;computer&quot;    &quot;diner&quot;      </span>
+<span class="co">#&gt; [16] &quot;cond&quot;        &quot;aged365&quot;     &quot;study&quot;</span>
+
+<span class="co"># Are both solutions equal? </span>
+<span class="kw">all.equal</span>(fpositive_all, fpositive_all_<span class="dv">2</span>)  <span class="co"># TRUE</span>
+<span class="co">#&gt; [1] TRUE</span></code></pre></div>
+<ol start="3" style="list-style-type: decimal">
+<li>Identify individuals and arrange the dataset: Add a numeric <code>ID</code> variable identifying each individual participant and sort the dataset in an intuitive way.</li>
+</ol>
+<!-- Solutions: -->
+</div>
+<div id="solution-7" class="section level4">
+<h4>Solution</h4>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## Data: 
+<span class="kw">dim</span>(fpositive_all)         <span class="co"># 78 x 18</span>
+<span class="co">#&gt; [1] 78 18</span>
+<span class="kw">sum</span>(<span class="kw">is.na</span>(fpositive_all))  <span class="co"># No missing values.</span>
+<span class="co">#&gt; [1] 0</span>
+
+<span class="co"># Add a factor variable ID to the dataset, </span>
+<span class="co"># which runs from 1 to the total number of participants in the dataset: </span>
+n_rows &lt;-<span class="st"> </span><span class="kw">nrow</span>(fpositive_all)
+
+fpositive_all &lt;-<span class="st"> </span>fpositive_all <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">mutate</span>(<span class="dt">ID =</span> <span class="dv">1</span><span class="op">:</span>n_rows) 
+
+<span class="co"># Order columns for having ID and participant info first, followd by condition and the other items: </span>
+fpositive_all &lt;-<span class="st"> </span>fpositive_all <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">select</span>(study, ID, aged, aged365, female, dad, mom, cond, potato, when64, kalimba, <span class="kw">everything</span>()) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">arrange</span>(study, ID)
+
+<span class="co"># Check re-ordered tibble:</span>
+<span class="kw">head</span>(fpositive_all)
+<span class="co">#&gt; # A tibble: 6 x 19</span>
+<span class="co">#&gt;   study    ID  aged aged365 female   dad   mom cond  potato when64 kalimba</span>
+<span class="co">#&gt;   &lt;dbl&gt; &lt;int&gt; &lt;dbl&gt;   &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;  &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt;</span>
+<span class="co">#&gt; 1     1     1  6765    18.5      0    49    45 cont…      0      0       1</span>
+<span class="co">#&gt; 2     1     2  7715    21.1      1    63    62 64         0      1       0</span>
+<span class="co">#&gt; 3     1     3  7630    20.9      0    61    59 64         0      1       0</span>
+<span class="co">#&gt; 4     1     4  7543    20.7      0    54    51 cont…      0      0       1</span>
+<span class="co">#&gt; 5     1     5  7849    21.5      0    47    43 64         0      1       0</span>
+<span class="co">#&gt; 6     1     6  7581    20.8      1    49    50 64         0      1       0</span>
+<span class="co">#&gt; # … with 8 more variables: root &lt;dbl&gt;, bird &lt;dbl&gt;, political &lt;dbl&gt;,</span>
+<span class="co">#&gt; #   quarterback &lt;dbl&gt;, olddays &lt;dbl&gt;, feelold &lt;dbl&gt;, computer &lt;dbl&gt;,</span>
+<span class="co">#&gt; #   diner &lt;dbl&gt;</span>
+<span class="kw">tail</span>(fpositive_all)
+<span class="co">#&gt; # A tibble: 6 x 19</span>
+<span class="co">#&gt;   study    ID  aged aged365 female   dad   mom cond  potato when64 kalimba</span>
+<span class="co">#&gt;   &lt;dbl&gt; &lt;int&gt; &lt;dbl&gt;   &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;  &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt;</span>
+<span class="co">#&gt; 1     2    73  7559    20.7      0    52    50 cont…      0      0       1</span>
+<span class="co">#&gt; 2     2    74  7864    21.5      1    47    65 64         0      1       0</span>
+<span class="co">#&gt; 3     2    75  7214    19.8      0    55    50 64         0      1       0</span>
+<span class="co">#&gt; 4     2    76  7173    19.7      1    56    55 64         0      1       0</span>
+<span class="co">#&gt; 5     2    77  6984    19.1      1    52    43 pota…      1      0       0</span>
+<span class="co">#&gt; 6     2    78  7082    19.4      0    63    51 pota…      1      0       0</span>
+<span class="co">#&gt; # … with 8 more variables: root &lt;dbl&gt;, bird &lt;dbl&gt;, political &lt;dbl&gt;,</span>
+<span class="co">#&gt; #   quarterback &lt;dbl&gt;, olddays &lt;dbl&gt;, feelold &lt;dbl&gt;, computer &lt;dbl&gt;,</span>
+<span class="co">#&gt; #   diner &lt;dbl&gt;</span></code></pre></div>
+<ol start="4" style="list-style-type: decimal">
+<li>Splitting and joining:</li>
+</ol>
+<p>The following code splits the data of <code>falsePosPsy</code> into 2 parts (<code>pt_1</code> and <code>pt_2</code>):</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Import the Dataset</span>
+falsePosPsy &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="dt">file =</span> <span class="st">&quot;http://rpository.com/ds4psy/data/falsePosPsy_all.csv&quot;</span>)  <span class="co"># online</span>
+
+<span class="co"># Create 2 different datasets: </span>
+pt_<span class="dv">1</span> &lt;-<span class="st"> </span>falsePosPsy <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">select</span>(study, ID, aged, aged365, female, dad, mom)
+
+pt_<span class="dv">2</span> &lt;-<span class="st"> </span>falsePosPsy <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">select</span>(ID, potato, when64, kalimba, cond, root, bird, political, quarterback, olddays, feelold, computer, diner)</code></pre></div>
+<p>Re-create the full data set (from <code>pt_1</code> and <code>pt_2</code>) in at least 3 different ways (and verify that each of them yields the same data as <code>falsePosPsy</code>).</p>
+<!-- Solutions: -->
+</div>
+<div id="solution-8" class="section level4">
+<h4>Solution</h4>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Note that</span>
+<span class="kw">all.equal</span>(pt_<span class="dv">1</span><span class="op">$</span>ID, pt_<span class="dv">2</span><span class="op">$</span>ID)  <span class="co"># TRUE</span>
+<span class="co">#&gt; [1] TRUE</span>
+<span class="co"># =&gt; pt_1 and pt_2 contain the same cases (observations).</span>
+
+<span class="co"># Thus, ALL 4 mutating joins yield the same result:</span>
+m_<span class="dv">1</span> &lt;-<span class="st">  </span><span class="kw">left_join</span>(pt_<span class="dv">1</span>, pt_<span class="dv">2</span>, <span class="dt">by =</span> <span class="st">&quot;ID&quot;</span>)
+m_<span class="dv">2</span> &lt;-<span class="st"> </span><span class="kw">right_join</span>(pt_<span class="dv">1</span>, pt_<span class="dv">2</span>, <span class="dt">by =</span> <span class="st">&quot;ID&quot;</span>)
+m_<span class="dv">3</span> &lt;-<span class="st">  </span><span class="kw">full_join</span>(pt_<span class="dv">1</span>, pt_<span class="dv">2</span>, <span class="dt">by =</span> <span class="st">&quot;ID&quot;</span>)
+m_<span class="dv">4</span> &lt;-<span class="st"> </span><span class="kw">inner_join</span>(pt_<span class="dv">1</span>, pt_<span class="dv">2</span>, <span class="dt">by =</span> <span class="st">&quot;ID&quot;</span>)
+
+<span class="co"># Also, different merges would yield the same result:</span>
+m_<span class="dv">5</span> &lt;-<span class="st"> </span><span class="kw">merge</span>(pt_<span class="dv">1</span>, pt_<span class="dv">2</span>, <span class="dt">by =</span> <span class="st">&quot;ID&quot;</span>)  <span class="co"># as data.frame</span>
+m_<span class="dv">5</span> &lt;-<span class="st"> </span><span class="kw">as_tibble</span>(m_<span class="dv">5</span>)                <span class="co"># convert to tibble</span>
+<span class="co"># m_5</span>
+
+<span class="co"># bind_cols(): </span>
+m_<span class="dv">6</span> &lt;-<span class="st"> </span><span class="kw">bind_cols</span>(pt_<span class="dv">1</span>, pt_<span class="dv">2</span>)
+m_<span class="dv">6</span> &lt;-<span class="st"> </span>m_<span class="dv">6</span> <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">select</span>(<span class="op">-</span>ID1)  <span class="co"># remove duplicate column ID1</span>
+<span class="co"># m_6</span>
+
+<span class="co"># Verify equality of all 6 solutions:</span>
+<span class="kw">all.equal</span>(m_<span class="dv">1</span>, falsePosPsy)
+<span class="co">#&gt; [1] TRUE</span>
+<span class="kw">all.equal</span>(m_<span class="dv">2</span>, falsePosPsy)
+<span class="co">#&gt; [1] TRUE</span>
+<span class="kw">all.equal</span>(m_<span class="dv">3</span>, falsePosPsy)
+<span class="co">#&gt; [1] TRUE</span>
+<span class="kw">all.equal</span>(m_<span class="dv">4</span>, falsePosPsy)
+<span class="co">#&gt; [1] TRUE</span>
+<span class="kw">all.equal</span>(m_<span class="dv">5</span>, falsePosPsy)
+<span class="co">#&gt; [1] TRUE</span>
+<span class="kw">all.equal</span>(m_<span class="dv">6</span>, falsePosPsy)
+<span class="co">#&gt; [1] TRUE</span></code></pre></div>
 <!-- +++ here now +++ -->
 </div>
 </div>
@@ -1759,7 +1961,7 @@ Nr. | Topic       |
 8.  | [Joining data](http://rpository.com/ds4psy/essentials/join.html) |
 +.  | [Datasets](http://rpository.com/ds4psy/essentials/datasets.html) | 
 -->
-<p>[Last update on 2019-01-21 17:41:37 by <a href="http://neth.de/">hn</a>.]</p>
+<p>[Last update on 2019-01-21 19:04:12 by <a href="http://neth.de/">hn</a>.]</p>
 <!-- eof. -->
 </div>
 <div class="footnotes">
@@ -1802,6 +2004,7 @@ Nr. | Topic       |
         <li><a href="#exercise-2">Exercise 2</a></li>
         <li><a href="#exercise-3">Exercise 3</a></li>
         <li><a href="#exercise-4">Exercise 4</a></li>
+        <li><a href="#exercise-5-bonus-task">Exercise 5: Bonus task</a></li>
         </ul></li>
         <li><a href="#more-on-joining-data">More on joining data</a></li>
         <li><a href="#conclusion">Conclusion</a></li>

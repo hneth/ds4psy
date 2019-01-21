@@ -785,6 +785,7 @@ all.equal(s1, s5)
 all.equal(s1, s6)
 ```
 
+
 ## Exercise 4
 
 This exercise uses the datasets on web-based interventions in [positive psychology](http://rpository.com/ds4psy/essentials/datasets.html#positive-psychology). 
@@ -871,6 +872,10 @@ The other 5 blocks of data (`occ_1` to `occ_5`) contain the same 50 variables, b
 
 **Hint:** As you cannot combine all 6 blocks in one command, they have to be combined in a stepwise fashion. 
 
+<!-- Solutions: --> 
+
+#### Solution
+
 ```{r ex4_3}
 # Join parts: 
 occ_0_1 <- full_join(occ_0,   occ_1, by = "id", suffix = c(".0", ".1"))  # add occ_1 to occ_0
@@ -894,6 +899,10 @@ That is because:
   - `data_wide` also includes the information on the participants (contained in `p_info`). 
 
 Exclude any redundant variables on the `intervention` group (keeping this variable only once) and include the participant information from `p_info` to create a new table `complete_data`. Check if and ensure that `complete_data` is equal to `data_wide`. 
+
+<!-- Solutions: --> 
+
+#### Solution
 
 ```{r ex4_4}
 # Delete redundant variables on intervention groups:
@@ -938,6 +947,10 @@ all.equal(complete_data, data_wide)  # TRUE (qed).
 
 5. **Alternative join:** How would you change the steps to join the 6 blocks (in 3.) if you only wanted to keep the participants who took part on all 6 possible occasions?  How many of them exist?
 
+<!-- Solutions: --> 
+
+#### Solution
+
 ```{r ex4_5}
 # We would use multiple inner_join() commands instead of full_join():
 # Join parts: 
@@ -954,6 +967,10 @@ sum(is.na(in_occ_0_5))  #  0 missing values
 6. **Filter join:** Use a `dplyr` summary table on the data in `AHI_CESD` to determine the `id` of all participants that took part in all 6 occasions. 
 Then use a filter join on `p_info` and on `AHI_CESD` to keep only the (rows of) data of these participants. 
 
+<!-- Solutions: --> 
+
+#### Solution
+
 ```{r ex5_6}
 # Summary table of id values with 6 occasions:
 id_6_occ <- AHI_CESD %>%
@@ -967,7 +984,152 @@ semi_join(p_info,   id_6_occ, by = "id")  #  72 x  6
 semi_join(AHI_CESD, id_6_occ, by = "id")  # 432 x 50
 ```
 
+## Exercise 5: Bonus task
 
+This exercise relies on the raw data for the [false positive psychology](http://rpository.com/ds4psy/essentials/datasets.html#false-positive-psychology) project, 
+which can be obtained at <https://openpsychologydata.metajnl.com/articles/10.5334/jopd.aa/> or <https://zenodo.org/record/7664>. 
+
+1. Download the 2 raw data files and load them into R as `study_1` and `study_2` (fixing any obvious errors).
+
+<!-- Solutions: --> 
+
+#### Solution
+
+```{r ex6_1}
+# Downloaded the archive `FalsePositive_Data_in_.txt_format.zip` and unzipped its contents  
+# into a folder "/data/_falsePosPsy/raw_data/Study 1 .txt".
+
+# Specify paths to 2 txt files:
+wd <- "/Users/hneth/Desktop/stuff/Dropbox/_code/R/_teachR/ds4psy"
+raw_1 <- paste0(wd, "/data/_falsePosPsy/raw_data/Study 1 .txt")  # Note weird spacing in file name!
+raw_2 <- paste0(wd, "/data/_falsePosPsy/raw_data/Study 2.txt")
+
+# Load data: 
+study_1 <- read_tsv(raw_1)
+study_2 <- read_tsv(raw_2)
+
+# Inspect data:
+dim(study_1)  # 44 x 17
+dim(study_2)  # 34 x 17
+
+## Are all variable names equal?
+names(study_1) == names(study_2)  # => mostly TRUE, but 1 FALSE value
+
+names(study_1)[names(study_1) != names(study_2)] # => "kalimba"
+names(study_2)[names(study_1) != names(study_2)] # => "kaimba" !!!
+# Correct name in study_2 to that of study_1:
+names(study_2)[names(study_1) != names(study_2)] <- names(study_1)[names(study_1) != names(study_2)]
+
+all.equal(names(study_1), names(study_2))  # TRUE
+```
+
+2. As both data files contain different participants, but the same variables about each participant, we want to save all data in one table. Combine the 2 datasets, but mark each dataset by a `study` variable (that has a value of either 1 or 2).
+
+<!-- Solutions: --> 
+
+#### Solution
+
+```{r ex6_2, echo = TRUE, eval = TRUE}
+# Mark each data set by a variable:
+study_1$study <- 1
+study_2$study <- 2
+
+dim(study_1)  # 44 x 18
+dim(study_2)  # 34 x 18
+
+# (1) Use bind_rows(): 
+fpositive_all <- bind_rows(study_1, study_2)
+dim(fpositive_all)  # 78 x 18 variables
+names(fpositive_all)
+
+# (2) Use full_join() on all variables:
+fpositive_all_2 <- full_join(study_1, study_2)
+dim(fpositive_all_2)  # 78 x 18 variables
+names(fpositive_all)
+
+# Are both solutions equal? 
+all.equal(fpositive_all, fpositive_all_2)  # TRUE
+```
+
+3. Identify individuals and arrange the dataset: Add a numeric `ID` variable identifying each individual participant and sort the dataset in an intuitive way.
+
+<!-- Solutions: --> 
+
+#### Solution
+
+```{r Exercises 1c, echo = TRUE, eval = TRUE}
+## Data: 
+dim(fpositive_all)         # 78 x 18
+sum(is.na(fpositive_all))  # No missing values.
+
+# Add a factor variable ID to the dataset, 
+# which runs from 1 to the total number of participants in the dataset: 
+n_rows <- nrow(fpositive_all)
+
+fpositive_all <- fpositive_all %>%
+  mutate(ID = 1:n_rows) 
+
+# Order columns for having ID and participant info first, followd by condition and the other items: 
+fpositive_all <- fpositive_all %>%
+  select(study, ID, aged, aged365, female, dad, mom, cond, potato, when64, kalimba, everything()) %>%
+  arrange(study, ID)
+
+# Check re-ordered tibble:
+head(fpositive_all)
+tail(fpositive_all)
+```
+
+4. Splitting and joining: 
+
+The following code splits the data of `falsePosPsy` into 2 parts (`pt_1` and `pt_2`):
+
+```{r ex6_4a}
+# Import the Dataset
+falsePosPsy <- read_csv(file = "http://rpository.com/ds4psy/data/falsePosPsy_all.csv")  # online
+
+# Create 2 different datasets: 
+pt_1 <- falsePosPsy %>%
+  select(study, ID, aged, aged365, female, dad, mom)
+
+pt_2 <- falsePosPsy %>%
+  select(ID, potato, when64, kalimba, cond, root, bird, political, quarterback, olddays, feelold, computer, diner)
+```
+
+Re-create the full data set (from `pt_1` and `pt_2`) in at least 3 different ways (and verify that each of them yields the same data as `falsePosPsy`).
+
+<!-- Solutions: --> 
+
+#### Solution
+
+```{r ex6_4b}
+# Note that
+all.equal(pt_1$ID, pt_2$ID)  # TRUE
+# => pt_1 and pt_2 contain the same cases (observations).
+
+# Thus, ALL 4 mutating joins yield the same result:
+m_1 <-  left_join(pt_1, pt_2, by = "ID")
+m_2 <- right_join(pt_1, pt_2, by = "ID")
+m_3 <-  full_join(pt_1, pt_2, by = "ID")
+m_4 <- inner_join(pt_1, pt_2, by = "ID")
+
+# Also, different merges would yield the same result:
+m_5 <- merge(pt_1, pt_2, by = "ID")  # as data.frame
+m_5 <- as_tibble(m_5)                # convert to tibble
+# m_5
+
+# bind_cols(): 
+m_6 <- bind_cols(pt_1, pt_2)
+m_6 <- m_6 %>% select(-ID1)  # remove duplicate column ID1
+# m_6
+
+# Verify equality of all 6 solutions:
+all.equal(m_1, falsePosPsy)
+all.equal(m_2, falsePosPsy)
+all.equal(m_3, falsePosPsy)
+all.equal(m_4, falsePosPsy)
+all.equal(m_5, falsePosPsy)
+all.equal(m_6, falsePosPsy)
+```
 
 
 <!-- +++ here now +++ --> 
