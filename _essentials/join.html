@@ -124,7 +124,7 @@ img {
 <div id="header">
 <h1 class="title">Joining data, with solutions (ds4psy)</h1>
 <h4 class="author"><em>Hansjörg Neth, SPDS, uni.kn</em></h4>
-<h4 class="date"><em>2019 01 20</em></h4>
+<h4 class="date"><em>2019 01 22</em></h4>
 </div>
 
 <div id="content">
@@ -242,8 +242,8 @@ Nr. | Topic       |
 <h3>Terminology</h3>
 <p>The verb “join” and the term “relational data” comes from relational databases (see <a href="https://en.wikipedia.org/wiki/Join_(SQL)">in Wikipedia</a> and relational algebra (see <a href="https://en.wikipedia.org/wiki/Relational_algebra">in Wikipedia</a>).</p>
 </div>
-<div id="base-r-vs.tidyverse-commands" class="section level3">
-<h3>Base R vs. tidyverse commands</h3>
+<div id="base-r-vs.tidyverse-tools" class="section level3">
+<h3>Base R vs. tidyverse tools</h3>
 <p>When we are ready to join tables, base R offers basic <code>base::rbind</code> and <code>base::cbind</code> commands (to bind rows or columns of data), but these are intended for tables with identical variables or cases, respectively. Mutating joins of 2 data frames can be achieved by using <code>base::merge</code> (see below).</p>
 <p>Alternatively, the <code>tidyverse</code> package <code>dplyr</code> (whose so-called 1-table verbs we have used for data <a href="http://rpository.com/ds4psy/essentials/transform.html">transformation</a>) contains additional <em>2-table verbs</em> that allow joining 2 tables of data with 3 different types of commands:</p>
 <ol style="list-style-type: decimal">
@@ -262,7 +262,7 @@ Nr. | Topic       |
 <ol style="list-style-type: decimal">
 <li><p><code>left_join(x, y)</code>: Return all rows from <code>x</code>, and all columns from <code>x</code> and <code>y</code>. Rows in <code>x</code> with no match in <code>y</code> will have <code>NA</code> values in the new columns. If there are multiple matches between <code>x</code> and <code>y</code>, all combinations of the matches are returned.</p></li>
 <li><p><code>right_join(x, y)</code>: Same as <code>left_join(y, x)</code>, and hence redundant.</p></li>
-<li><p><code>full_join(x, y): Return all rows and all columns that exist in</code>x<code>or in</code>y<code>.  If there are non-matching values, return</code>NA` for the one missing.</p></li>
+<li><p><code>full_join(x, y)</code>: Return all rows and all columns that exist in <code>x</code> or in <code>y</code>. If there are non-matching values, return <code>NA</code> for the one missing.</p></li>
 <li><p><code>inner_join(x, y)</code>: Return all rows from <code>x</code> where there are matching values in <code>y</code>, and all columns from <code>x</code> and <code>y</code>. If there are multiple matches between <code>x</code> and <code>y</code>, all combination of the matches are returned.</p></li>
 </ol>
 <p>See Section 13.4 on <a href="https://r4ds.had.co.nz/relational-data.html#mutating-joins">mutating joins</a> for graphical illustrations.</p>
@@ -1961,7 +1961,7 @@ Nr. | Topic       |
 8.  | [Joining data](http://rpository.com/ds4psy/essentials/join.html) |
 +.  | [Datasets](http://rpository.com/ds4psy/essentials/datasets.html) | 
 -->
-<p>[Last update on 2019-01-21 19:04:12 by <a href="http://neth.de/">hn</a>.]</p>
+<p>[Last update on 2019-01-22 07:56:35 by <a href="http://neth.de/">hn</a>.]</p>
 <!-- eof. -->
 </div>
 <div class="footnotes">
@@ -1985,7 +1985,7 @@ Nr. | Topic       |
         </ul></li>
         <li><a href="#joining-data">Joining data</a><ul>
         <li><a href="#terminology">Terminology</a></li>
-        <li><a href="#base-r-vs.tidyverse-commands">Base R vs. tidyverse commands</a></li>
+        <li><a href="#base-r-vs.tidyverse-tools">Base R vs. tidyverse tools</a></li>
         <li><a href="#mutating-joins">1. Mutating joins</a><ul>
         <li><a href="#commands">Commands</a></li>
         <li><a href="#examples">Examples</a></li>

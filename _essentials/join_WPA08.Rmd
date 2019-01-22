@@ -151,7 +151,7 @@ Joining 2 tables is simple and straightforward when variables have common variab
 
 The verb "join" and the term "relational data" comes from relational databases (see [in Wikipedia](https://en.wikipedia.org/wiki/Join_(SQL)) and relational algebra (see [in Wikipedia](https://en.wikipedia.org/wiki/Relational_algebra)). 
 
-### Base R vs. tidyverse commands
+### Base R vs. tidyverse tools 
 
 When we are ready to join tables, base R offers basic `base::rbind` and `base::cbind` commands (to bind rows or columns of data), but these are intended for tables with identical variables or cases, respectively. Mutating joins of 2 data frames can be achieved by using `base::merge` (see below). 
 
@@ -184,7 +184,7 @@ If there are multiple matches between `x` and `y`, all combinations of the match
 
 2. `right_join(x, y)`: Same as `left_join(y, x)`, and hence redundant. 
 
-3. `full_join(x, y): Return all rows and all columns that exist in `x` or in `y`. 
+3. `full_join(x, y)`: Return all rows and all columns that exist in `x` or in `y`. 
 If there are non-matching values, return `NA` for the one missing. 
 
 4. `inner_join(x, y)`: Return all rows from `x` where there are matching values in `y`, and all columns from `x` and `y`. 
@@ -195,8 +195,8 @@ See Section 13.4 on [mutating joins](https://r4ds.had.co.nz/relational-data.html
 
 #### Inner vs. outer joins
 
-An _inner_ join only keeps the cases (or rows) that appear in _both_ tables. By contrast, the first three join commands keep cases (observations) that appear in at least one of the tables and are also called _outer_ joins. 
-The 3 types of outer joins differ with respect to the cases they preserve: 
+All 4 types of mutating joins combine variables (columns) from 2 tables, but differ in preserving in their cases (rows) in the output table. An _inner_ join only keeps the cases (or rows) that appear in _both_ tables. By contrast, the first three join commands keep cases (observations) that appear in at least one of the tables and are also called _outer_ joins. 
+The 3 types of outer joins also differ with respect to the cases they preserve: 
 
 1. `left_join` keeps all cases of `x`.
 2. `right_join` keeps all cases of `y`.
