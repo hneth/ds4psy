@@ -908,9 +908,9 @@ switcheroo("e")
 
 ## 19.5 Function arguments ------
 
-# The arguments to a function typically fall into two broad sets: 
-# - one set supplies the data to compute on, and 
-# - the other supplies arguments that control the details of the computation. 
+# The arguments to a function typically fall into 2 broad sets: 
+# - one set supplies the _data_ to compute on, and 
+# - the other set supplies arguments that control the _details_ of the computation. 
 
 # For example:
   
