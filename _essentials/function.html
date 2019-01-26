@@ -264,6 +264,85 @@ Nr. | Topic       |
 </div>
 <div id="conditional-execution" class="section level2">
 <h2>Conditional execution</h2>
+<p>Functions frequently requires distinguishing cases or controlling the flow of data processing. This can be done by conditional statements, like the following <code>if (test) {...}</code> structure:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="cf">if</span> (test) { 
+  <span class="kw">print</span>(<span class="st">&quot;ok&quot;</span>)  <span class="co"># if test is TRUE: ok</span>
+}</code></pre></div>
+<p>Here, <code>test</code> must evaluate to a single Boolean value (i.e., either <code>TRUE</code> or <code>FALSE</code>). If <code>test</code> is <code>TRUE</code> the code in the subsequent <code>{...}</code> is executed (here: <code>&quot;ok&quot;</code> is printed to the Console) – otherwise the code in the subsequent <code>{...}</code> is skipped, as if it was not there or commented out. (Note that if <code>test</code> is a Boolean value, we do not need ask for the condition <code>test == TRUE</code>.)</p>
+<div id="example" class="section level4">
+<h4>Example</h4>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x &lt;-<span class="st"> </span><span class="dv">101</span>
+<span class="cf">if</span> (x <span class="op">&gt;=</span><span class="st"> </span><span class="dv">100</span>) { <span class="kw">print</span>(<span class="kw">paste0</span>(<span class="st">&quot;The number &quot;</span>, x, <span class="st">&quot; is big.&quot;</span>)) }
+<span class="co">#&gt; [1] &quot;The number 101 is big.&quot;</span>
+
+x &lt;-<span class="st"> </span><span class="dv">99</span>
+<span class="cf">if</span> (x <span class="op">&gt;=</span><span class="st"> </span><span class="dv">100</span>) { <span class="kw">print</span>(<span class="kw">paste0</span>(<span class="st">&quot;The number &quot;</span>, x, <span class="st">&quot; is big.&quot;</span>)) }</code></pre></div>
+<p>A slightly more complicated form of <code>if</code> statement includes an additional <code>{...}</code> after an <code>else</code> statement:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="cf">if</span> (test) { 
+  <span class="kw">print</span>(<span class="st">&quot;case 1&quot;</span>)  <span class="co"># if test is TRUE:  case 1</span>
+} <span class="cf">else</span> { 
+  <span class="kw">print</span>(<span class="st">&quot;case 2&quot;</span>)  <span class="co"># if test is FALSE: case 2</span>
+}</code></pre></div>
+<p>Here, the truth value of <code>test</code> determines whether the 1st or the 2nd <code>{...}</code> is executed. As <code>test</code> must be either <code>TRUE</code> or <code>FALSE</code>, we either see “case 1” printed (if <code>test</code> is <code>TRUE</code>) or “case 2” printed (if <code>test</code> is <code>FALSE</code>). #### Example</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">person &lt;-<span class="st"> &quot;daughter&quot;</span>
+<span class="cf">if</span> (person <span class="op">==</span><span class="st"> &quot;daughter&quot;</span>) {<span class="kw">print</span>(<span class="st">&quot;female&quot;</span>)} <span class="cf">else</span> { <span class="kw">print</span>(<span class="st">&quot;male&quot;</span>)}
+<span class="co">#&gt; [1] &quot;female&quot;</span>
+
+person &lt;-<span class="st"> &quot;grandfather&quot;</span>
+<span class="cf">if</span> (person <span class="op">==</span><span class="st"> &quot;daughter&quot;</span>) {<span class="kw">print</span>(<span class="st">&quot;female&quot;</span>)} <span class="cf">else</span> { <span class="kw">print</span>(<span class="st">&quot;male&quot;</span>)}
+<span class="co">#&gt; [1] &quot;male&quot;</span>
+
+<span class="co"># But:</span>
+person &lt;-<span class="st"> &quot;grandmother&quot;</span>
+<span class="cf">if</span> (person <span class="op">==</span><span class="st"> &quot;daughter&quot;</span>) {<span class="kw">print</span>(<span class="st">&quot;female&quot;</span>)} <span class="cf">else</span> { <span class="kw">print</span>(<span class="st">&quot;male&quot;</span>)}
+<span class="co">#&gt; [1] &quot;male&quot;</span></code></pre></div>
+</div>
+<div id="more-complex-tests" class="section level3">
+<h3>More complex tests</h3>
+<p>The condition <code>test</code> of a conditional statement can contain multiple tests. If so, each individual test must evaluate to either <code>TRUE</code> or <code>FALSE</code> and the different tests are linked with <code>&amp;&amp;</code> or <code>||</code>, which work like the logical connectors <code>&amp;</code> and <code>|</code>, but are evaluated sequentially (from left to right):</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="cf">if</span> (test_<span class="dv">1</span> <span class="op">||</span><span class="st"> </span>(test_<span class="dv">2</span> <span class="op">&amp;&amp;</span><span class="st"> </span>test_<span class="dv">3</span>)) { 
+  <span class="kw">print</span>(<span class="st">&quot;case 1&quot;</span>) 
+} <span class="cf">else</span> { 
+  <span class="kw">print</span>(<span class="st">&quot;case 2&quot;</span>) 
+}</code></pre></div>
+<div id="example-1" class="section level4">
+<h4>Example</h4>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="cf">if</span> (person <span class="op">==</span><span class="st"> &quot;daughter&quot;</span> <span class="op">||</span><span class="st"> </span>person <span class="op">==</span><span class="st"> &quot;mother&quot;</span> <span class="op">||</span><span class="st"> </span>person <span class="op">==</span><span class="st"> &quot;grandmother&quot;</span>) {
+  <span class="kw">print</span>(<span class="st">&quot;female&quot;</span>)
+} <span class="cf">else</span> {
+  <span class="kw">print</span>(<span class="st">&quot;male&quot;</span>)
+}
+<span class="co">#&gt; [1] &quot;female&quot;</span></code></pre></div>
+</div>
+</div>
+<div id="more-cases" class="section level3">
+<h3>More cases</h3>
+<p>As we can replace any <code>{...}</code> in a conditional statement <code>if (test) {...} else {...}</code> by another conditional statement, we can distinguish more than 2 cases:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="cf">if</span> (test_<span class="dv">1</span>) { 
+  <span class="kw">print</span>(<span class="st">&quot;case 1&quot;</span>)  <span class="co"># if test_1 is TRUE:  case 1</span>
+} <span class="cf">else</span> <span class="cf">if</span> (test_<span class="dv">2</span>) { 
+  <span class="kw">print</span>(<span class="st">&quot;case 2&quot;</span>)  <span class="co"># if test_2 is TRUE: case 2</span>
+} <span class="cf">else</span> {
+  <span class="kw">print</span>(<span class="st">&quot;else&quot;</span>)    <span class="co"># none of the above are TRUE: else case</span>
+}</code></pre></div>
+<p>Here, 2 cases are contingent on their corresponding condition being <code>TRUE</code>, otherwise the final <code>{...}</code> is reached and <code>&quot;else&quot;</code> is printed. Note that this is different from the following:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="cf">if</span> (test_<span class="dv">1</span>) { 
+  <span class="kw">print</span>(<span class="st">&quot;case 1&quot;</span>)  <span class="co"># if test_1 is TRUE:  case 1</span>
+} <span class="cf">else</span> <span class="cf">if</span> (test_<span class="dv">2</span>) { 
+  <span class="kw">print</span>(<span class="st">&quot;case 2&quot;</span>)  <span class="co"># if test_2 is TRUE: case 2</span>
+} <span class="cf">else</span> <span class="cf">if</span> (test_<span class="dv">3</span>) { 
+  <span class="kw">print</span>(<span class="st">&quot;else&quot;</span>)  <span class="co"># neither test_1 nor test_2 are TRUE, but test_3 is TRUE: else case</span>
+}</code></pre></div>
+<p>Here, the final <code>{...}</code> is contingent on <code>test_3</code> being <code>TRUE</code>. Thus, the condition that <code>&quot;else&quot;</code> is printed include that <code>test_1</code> and <code>test_2</code> are both <code>FALSE</code> and that <code>test_3</code> is <code>TRUE</code>.</p>
+<div id="note" class="section level4">
+<h4>Note</h4>
+<ul>
+<li>When a test evaluates to TRUE, its <code>{...}</code> is evaluated and any later instances of <code>test</code> and <code>{...}</code> are skipped. Thus, only a single case of <code>{...}</code> is evaluated, even if multiple tests would evaluate to <code>TRUE</code>.</li>
+</ul>
+<!--   +++ here now +++   -->
+<p>Switch:</p>
+</div>
+</div>
 </div>
 <div id="loops" class="section level2">
 <h2>Loops</h2>
@@ -381,6 +460,128 @@ Nr. | Topic       |
 </div>
 <div id="exercise-2" class="section level2">
 <h2>Exercise 2</h2>
+<div id="number-recognition" class="section level4">
+<h4>Number recognition</h4>
+<ol style="list-style-type: decimal">
+<li>Explain what the following function <code>describe</code> <em>intends</em> to do and why it fails in doing it.</li>
+</ol>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">describe &lt;-<span class="st"> </span><span class="cf">function</span>(x) {
+  
+  <span class="cf">if</span> (x <span class="op">%%</span><span class="st"> </span><span class="dv">2</span> <span class="op">==</span><span class="st"> </span><span class="dv">0</span>) {<span class="kw">print</span>(<span class="st">&quot;x is an even number.&quot;</span>)} 
+  <span class="cf">else</span> <span class="cf">if</span> (x <span class="op">%%</span><span class="st"> </span><span class="dv">2</span> <span class="op">==</span><span class="st"> </span><span class="dv">1</span>) {<span class="kw">print</span>(<span class="st">&quot;x is an odd number.&quot;</span>)}
+  <span class="cf">else</span> <span class="cf">if</span> (x <span class="op">&lt;</span><span class="st"> </span><span class="dv">1</span>) {<span class="kw">print</span>(<span class="st">&quot;x is too small.&quot;</span>)} 
+  <span class="cf">else</span> <span class="cf">if</span> (x <span class="op">&gt;</span><span class="st"> </span><span class="dv">20</span>) {<span class="kw">print</span>(<span class="st">&quot;x is too big.&quot;</span>)} 
+  <span class="cf">else</span> <span class="cf">if</span> (x <span class="op">==</span><span class="st"> </span><span class="dv">13</span>) {<span class="kw">print</span>(<span class="st">&quot;x is a lucky number.&quot;</span>)} 
+  <span class="cf">else</span> {<span class="kw">print</span>(<span class="st">&quot;x is beyond description.&quot;</span>)}
+  
+}</code></pre></div>
+</div>
+<div id="solution" class="section level4">
+<h4>Solution</h4>
+<p>The function <code>describe</code> seems to want to categorize a number <code>x</code> into one of various cases:</p>
+<ul>
+<li>numbers that are too small numbers vs. too big</li>
+<li>odd vs. even numbers</li>
+<li>13 as a lucky number</li>
+<li>numbers that cannot be described</li>
+</ul>
+<p>However, it currently fails (and only distinguishes between even and odd numbers), because of the order of its if statements. Currently, the quite general tests at the beginning are <code>TRUE</code> for most cases, so that more specific later cases are never reached.</p>
+<ol start="2" style="list-style-type: decimal">
+<li>Repair the <code>describe</code> function to yield the following results:</li>
+</ol>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Desired results:</span>
+<span class="kw">describe</span>(<span class="dv">0</span>)
+<span class="co">#&gt; [1] &quot;x is too small.&quot;</span>
+<span class="kw">describe</span>(<span class="dv">1</span>)
+<span class="co">#&gt; [1] &quot;x is an odd number.&quot;</span>
+<span class="kw">describe</span>(<span class="dv">13</span>)
+<span class="co">#&gt; [1] &quot;x is a lucky number.&quot;</span>
+<span class="kw">describe</span>(<span class="dv">20</span>)
+<span class="co">#&gt; [1] &quot;x is an even number.&quot;</span>
+<span class="kw">describe</span>(<span class="dv">21</span>)
+<span class="co">#&gt; [1] &quot;x is too big.&quot;</span></code></pre></div>
+<!-- Solution: -->
+</div>
+<div id="solution-1" class="section level4">
+<h4>Solution</h4>
+<p>To repair the function, we need to re-arrange the if statements (putting some more specific statements before more general ones):</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">describe &lt;-<span class="st"> </span><span class="cf">function</span>(x) {
+  
+  <span class="cf">if</span> (x <span class="op">&lt;</span><span class="st"> </span><span class="dv">1</span>)            {<span class="kw">print</span>(<span class="st">&quot;x is too small.&quot;</span>)}  
+  <span class="cf">else</span> <span class="cf">if</span> (x <span class="op">&gt;</span><span class="st"> </span><span class="dv">20</span>)      {<span class="kw">print</span>(<span class="st">&quot;x is too big.&quot;</span>)} 
+  <span class="cf">else</span> <span class="cf">if</span> (x <span class="op">==</span><span class="st"> </span><span class="dv">13</span>)     {<span class="kw">print</span>(<span class="st">&quot;x is a lucky number.&quot;</span>)} 
+  <span class="cf">else</span> <span class="cf">if</span> (x <span class="op">%%</span><span class="st"> </span><span class="dv">2</span> <span class="op">==</span><span class="st"> </span><span class="dv">0</span>) {<span class="kw">print</span>(<span class="st">&quot;x is an even number.&quot;</span>)} 
+  <span class="cf">else</span> <span class="cf">if</span> (x <span class="op">%%</span><span class="st"> </span><span class="dv">2</span> <span class="op">==</span><span class="st"> </span><span class="dv">1</span>) {<span class="kw">print</span>(<span class="st">&quot;x is an odd number.&quot;</span>)}
+  <span class="cf">else</span>                  {<span class="kw">print</span>(<span class="st">&quot;x is beyond description.&quot;</span>)}
+  
+}
+
+<span class="co"># Check:</span>
+<span class="kw">describe</span>(<span class="dv">0</span>)
+<span class="co">#&gt; [1] &quot;x is too small.&quot;</span>
+<span class="kw">describe</span>(<span class="dv">1</span>)
+<span class="co">#&gt; [1] &quot;x is an odd number.&quot;</span>
+<span class="kw">describe</span>(<span class="dv">13</span>)
+<span class="co">#&gt; [1] &quot;x is a lucky number.&quot;</span>
+<span class="kw">describe</span>(<span class="dv">20</span>)
+<span class="co">#&gt; [1] &quot;x is an even number.&quot;</span>
+<span class="kw">describe</span>(<span class="dv">21</span>)
+<span class="co">#&gt; [1] &quot;x is too big.&quot;</span></code></pre></div>
+<ol start="3" style="list-style-type: decimal">
+<li>What are the results of <code>describe(NA)</code> and <code>describe(&quot;one&quot;)</code>? Correct the function to yield appropriate results in both cases.</li>
+</ol>
+<!-- Solution: -->
+</div>
+<div id="solution-2" class="section level4">
+<h4>Solution</h4>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Check:</span>
+<span class="co"># describe(NA)   # yields an ERROR</span>
+<span class="kw">describe</span>(<span class="st">&quot;one&quot;</span>)  <span class="co"># yields &quot;x is too big.&quot;</span>
+<span class="co">#&gt; [1] &quot;x is too big.&quot;</span>
+<span class="st">&quot;one&quot;</span> <span class="op">&gt;</span><span class="st"> </span><span class="dv">20</span>       <span class="co"># is TRUE!</span>
+<span class="co">#&gt; [1] TRUE</span>
+
+<span class="co"># Correction:</span>
+describe &lt;-<span class="st"> </span><span class="cf">function</span>(x) {
+  
+  <span class="co"># stopifnot(!is.na(x))  # would yield an error if is.na(x)</span>
+  
+  <span class="cf">if</span> (<span class="kw">is.na</span>(x))         {<span class="kw">print</span>(<span class="st">&quot;x is NA.&quot;</span>)}
+  <span class="cf">else</span> <span class="cf">if</span> (<span class="kw">is.character</span>(x)) {<span class="kw">print</span>(<span class="st">&quot;x is a word.&quot;</span>)}
+  
+  <span class="cf">else</span> <span class="cf">if</span> (x <span class="op">&lt;</span><span class="st"> </span><span class="dv">1</span>)       {<span class="kw">print</span>(<span class="st">&quot;x is too small.&quot;</span>)}  
+  <span class="cf">else</span> <span class="cf">if</span> (x <span class="op">&gt;</span><span class="st"> </span><span class="dv">20</span>)      {<span class="kw">print</span>(<span class="st">&quot;x is too big.&quot;</span>)} 
+  <span class="cf">else</span> <span class="cf">if</span> (x <span class="op">==</span><span class="st"> </span><span class="dv">13</span>)     {<span class="kw">print</span>(<span class="st">&quot;x is a lucky number.&quot;</span>)} 
+  <span class="cf">else</span> <span class="cf">if</span> (x <span class="op">%%</span><span class="st"> </span><span class="dv">2</span> <span class="op">==</span><span class="st"> </span><span class="dv">0</span>) {<span class="kw">print</span>(<span class="st">&quot;x is an even number.&quot;</span>)} 
+  <span class="cf">else</span> <span class="cf">if</span> (x <span class="op">%%</span><span class="st"> </span><span class="dv">2</span> <span class="op">==</span><span class="st"> </span><span class="dv">1</span>) {<span class="kw">print</span>(<span class="st">&quot;x is an odd number.&quot;</span>)}
+  <span class="cf">else</span>                  {<span class="kw">print</span>(<span class="st">&quot;x is beyond description.&quot;</span>)}
+  
+}
+
+<span class="co"># Check:</span>
+<span class="kw">describe</span>(<span class="ot">NA</span>)     <span class="co"># yields an ERROR</span>
+<span class="co">#&gt; [1] &quot;x is NA.&quot;</span>
+<span class="kw">describe</span>(<span class="st">&quot;one&quot;</span>)  <span class="co"># yields &quot;x is too big.&quot;</span>
+<span class="co">#&gt; [1] &quot;x is a word.&quot;</span></code></pre></div>
+<ol start="4" style="list-style-type: decimal">
+<li>For what kind of <code>x</code> will <code>describe</code> print <code>&quot;x is beyond description.&quot;</code>?</li>
+</ol>
+<!-- Solution: -->
+</div>
+<div id="solution-3" class="section level4">
+<h4>Solution</h4>
+<p>The function <code>describe</code> prints <code>&quot;x is beyond description.&quot;</code> for values of <code>1 &lt; x &lt; 20</code> that are not integers:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># For 1 &lt; x &lt; 20 that are not integers:</span>
+<span class="kw">describe</span>(<span class="fl">2.2</span>)
+<span class="co">#&gt; [1] &quot;x is beyond description.&quot;</span>
+<span class="kw">describe</span>(<span class="kw">sqrt</span>(<span class="dv">2</span>))
+<span class="co">#&gt; [1] &quot;x is beyond description.&quot;</span>
+<span class="kw">describe</span>(pi)
+<span class="co">#&gt; [1] &quot;x is beyond description.&quot;</span></code></pre></div>
+</div>
+</div>
+<div id="exercise-3" class="section level2">
+<h2>Exercise 3</h2>
 <div id="plotting-function" class="section level4">
 <h4>Plotting function</h4>
 <ol style="list-style-type: decimal">
@@ -398,6 +599,10 @@ tb_<span class="dv">2</span> &lt;-<span class="st"> </span>tibble<span class="op
 
 <span class="kw">names</span>(tb_<span class="dv">1</span>)
 <span class="co">#&gt; [1] &quot;x&quot; &quot;y&quot;</span></code></pre></div>
+<!-- Solution: -->
+</div>
+<div id="solution-4" class="section level4">
+<h4>Solution</h4>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(tidyverse)
 
 plot_scatter &lt;-<span class="st"> </span><span class="cf">function</span>(my_data) {
@@ -438,6 +643,10 @@ my_lm<span class="op">$</span>coefficients[<span class="dv">2</span>]  <span cla
 <span class="co">#&gt;         x </span>
 <span class="co">#&gt; 0.1318431</span></code></pre></div>
 <p>Incorporate a linear model into your <code>plot_scatter</code> function by adding a line that shows the prediction of the linear model (in a color that can be set by an optional <code>col</code> argument).</p>
+<!-- Solution: -->
+</div>
+<div id="solution-5" class="section level4">
+<h4>Solution</h4>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">plot_scatter &lt;-<span class="st"> </span><span class="cf">function</span>(my_data, <span class="dt">col =</span> <span class="st">&quot;red&quot;</span>) {
 
   <span class="co"># fit linear model:</span>
@@ -545,7 +754,7 @@ Nr. | Topic       |
 9.  | [Functions](http://rpository.com/ds4psy/essentials/function.html) |
 +.  | [Datasets](http://rpository.com/ds4psy/essentials/datasets.html) | 
 -->
-<p>[Last update on 2019-01-26 15:10:07 by <a href="http://neth.de/">hn</a>.]</p>
+<p>[Last update on 2019-01-26 19:03:41 by <a href="http://neth.de/">hn</a>.]</p>
 <!-- eof. -->
 </div>
 </div>
@@ -564,13 +773,17 @@ Nr. | Topic       |
         <li><a href="#basics">Basics</a></li>
         <li><a href="#arguments">Arguments</a></li>
         <li><a href="#return-values">Return values</a></li>
-        <li><a href="#conditional-execution">Conditional execution</a></li>
+        <li><a href="#conditional-execution">Conditional execution</a><ul>
+        <li><a href="#more-complex-tests">More complex tests</a></li>
+        <li><a href="#more-cases">More cases</a></li>
+        </ul></li>
         <li><a href="#loops">Loops</a></li>
         <li><a href="#style">Style</a></li>
         </ul></li>
         <li><a href="#exercises-wpa09">Exercises (WPA09)</a><ul>
         <li><a href="#exercise-1">Exercise 1</a></li>
         <li><a href="#exercise-2">Exercise 2</a></li>
+        <li><a href="#exercise-3">Exercise 3</a></li>
         </ul></li>
         <li><a href="#more-on-functions">More on functions</a></li>
         <li><a href="#conclusion">Conclusion</a></li>

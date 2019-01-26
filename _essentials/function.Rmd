@@ -1,7 +1,7 @@
 ---
-title: "Functions, with solutions (ds4psy)"
+title: "Functions, with WPA09 and solutions (ds4psy)"
 author: "Hansjörg Neth, SPDS, uni.kn"
-date: "2019 01 22"
+date: "2019 01 26"
 output:
    rmdformats::html_clean: # html_clean html_docco readthedown material #
      code_folding: show # hide
@@ -169,9 +169,116 @@ Output of a function.
 
 ## Conditional execution
 
+Functions frequently requires distinguishing cases or controlling the flow of data processing. 
+This can be done by conditional statements, like the following `if (test) {...}` structure: 
+
+```{r if_1, eval = FALSE}
+if (test) { 
+  print("ok")  # if test is TRUE: ok
+}
+```
+
+Here, `test` must evaluate to a single Boolean value (i.e., either `TRUE` or `FALSE`). 
+If `test` is `TRUE` the code in the subsequent `{...}` is executed (here: `"ok"` is printed to the Console) -- otherwise the code in the subsequent `{...}` is skipped, as if it was not there or commented out. (Note that if `test` is a Boolean value, we do not need ask for the condition `test == TRUE`.)
+
+#### Example
+
+```{r if_1_ex, eval = TRUE}
+x <- 101
+if (x >= 100) { print(paste0("The number ", x, " is big.")) }
+
+x <- 99
+if (x >= 100) { print(paste0("The number ", x, " is big.")) }
+```
+
+A slightly more complicated form of `if` statement includes an additional `{...}` after an `else` statement:  
+
+```{r if_2, eval = FALSE}
+if (test) { 
+  print("case 1")  # if test is TRUE:  case 1
+} else { 
+  print("case 2")  # if test is FALSE: case 2
+}
+```
+
+Here, the truth value of `test` determines whether the 1st or the 2nd `{...}` is executed. 
+As `test` must be either `TRUE` or `FALSE`, we either see "case 1" printed (if `test` is `TRUE`) or "case 2" printed (if `test` is `FALSE`). 
+#### Example
+
+```{r if_2_ex, eval = TRUE}
+person <- "daughter"
+if (person == "daughter") {print("female")} else { print("male")}
+
+person <- "grandfather"
+if (person == "daughter") {print("female")} else { print("male")}
+
+# But:
+person <- "grandmother"
+if (person == "daughter") {print("female")} else { print("male")}
+```
+
+
+### More complex tests
+
+The condition `test` of a conditional statement can contain multiple tests. If so, each individual test must evaluate to either `TRUE` or `FALSE` and the different tests are linked with `&&` or `||`, which work like the logical connectors `&` and `|`, but are evaluated sequentially (from left to right):
+
+```{r if_3, eval = FALSE}
+if (test_1 || (test_2 && test_3)) { 
+  print("case 1") 
+} else { 
+  print("case 2") 
+}
+```
+
+#### Example
+
+```{r if_3_ex, eval = TRUE}
+if (person == "daughter" || person == "mother" || person == "grandmother") {
+  print("female")
+} else {
+  print("male")
+}
+```
+
+### More cases
+
+As we can replace any `{...}` in a conditional statement `if (test) {...} else {...}` by another conditional statement, we can distinguish more than 2 cases:
+
+```{r if_4, eval = FALSE}
+if (test_1) { 
+  print("case 1")  # if test_1 is TRUE:  case 1
+} else if (test_2) { 
+  print("case 2")  # if test_2 is TRUE: case 2
+} else {
+  print("else")    # none of the above are TRUE: else case
+}
+```
+
+Here, 2 cases are contingent on their corresponding condition being `TRUE`, otherwise the final `{...}` is reached and `"else"` is printed. 
+Note that this is different from the following: 
+
+```{r if_5, eval = FALSE}
+if (test_1) { 
+  print("case 1")  # if test_1 is TRUE:  case 1
+} else if (test_2) { 
+  print("case 2")  # if test_2 is TRUE: case 2
+} else if (test_3) { 
+  print("else")  # neither test_1 nor test_2 are TRUE, but test_3 is TRUE: else case
+}
+```
+
+Here, the final `{...}` is contingent on `test_3` being `TRUE`. Thus, the condition that `"else"` is printed include that `test_1` and `test_2` are both `FALSE` and that `test_3` is `TRUE`. 
+
+#### Note
+
+- When a test evaluates to TRUE, its `{...}` is evaluated and any later instances of `test` and `{...}` are skipped. Thus, only a single case of `{...}` is evaluated, even if multiple tests would evaluate to `TRUE`.
+
+
+<!--   +++ here now +++   -->
+
+Switch:
 
 ## Loops
-
 
 ## Style
 
@@ -295,6 +402,146 @@ feed_vegan("veggies")  # due to default: vegan = FALSE
 
 ## Exercise 2
 
+#### Number recognition 
+
+1. Explain what the following function `describe` _intends_ to do and why it fails in doing it. 
+
+```{r ex2_messy_function}
+describe <- function(x) {
+  
+  if (x %% 2 == 0) {print("x is an even number.")} 
+  else if (x %% 2 == 1) {print("x is an odd number.")}
+  else if (x < 1) {print("x is too small.")} 
+  else if (x > 20) {print("x is too big.")} 
+  else if (x == 13) {print("x is a lucky number.")} 
+  else {print("x is beyond description.")}
+  
+}
+```
+
+#### Solution
+
+The function `describe` seems to want to categorize a number `x` into one of various cases:
+
+- numbers that are too small numbers vs. too big
+- odd vs. even numbers
+- 13 as a lucky number
+- numbers that cannot be described
+
+However, it currently fails (and only distinguishes between even and odd numbers), because of the order of its if statements. Currently, the quite general tests at the beginning are `TRUE` for most cases, so that more specific later cases are never reached.
+
+```{r include=FALSE}
+# Check:
+describe(0)
+describe(1)
+describe(13)
+describe(20)
+describe(21)
+describe(pi)
+
+# Correction:
+describe <- function(x) {
+  
+  if (x < 1)            {print("x is too small.")}  
+  else if (x > 20)      {print("x is too big.")} 
+  else if (x == 13)     {print("x is a lucky number.")} 
+  else if (x %% 2 == 0) {print("x is an even number.")} 
+  else if (x %% 2 == 1) {print("x is an odd number.")}
+  else                  {print("x is beyond description.")}
+  
+}
+```
+
+2. Repair the `describe` function to yield the following results:
+
+```{r}
+# Desired results:
+describe(0)
+describe(1)
+describe(13)
+describe(20)
+describe(21)
+```
+
+<!-- Solution: --> 
+
+#### Solution
+
+To repair the function, we need to re-arrange the if statements (putting some more specific statements before more general ones):
+
+```{r echo=TRUE}
+describe <- function(x) {
+  
+  if (x < 1)            {print("x is too small.")}  
+  else if (x > 20)      {print("x is too big.")} 
+  else if (x == 13)     {print("x is a lucky number.")} 
+  else if (x %% 2 == 0) {print("x is an even number.")} 
+  else if (x %% 2 == 1) {print("x is an odd number.")}
+  else                  {print("x is beyond description.")}
+  
+}
+
+# Check:
+describe(0)
+describe(1)
+describe(13)
+describe(20)
+describe(21)
+```
+
+3. What are the results of `describe(NA)` and `describe("one")`? 
+Correct the function to yield appropriate results in both cases.
+
+<!-- Solution: --> 
+
+#### Solution
+
+```{r}
+# Check:
+# describe(NA)   # yields an ERROR
+describe("one")  # yields "x is too big."
+"one" > 20       # is TRUE!
+
+# Correction:
+describe <- function(x) {
+  
+  # stopifnot(!is.na(x))  # would yield an error if is.na(x)
+  
+  if (is.na(x))         {print("x is NA.")}
+  else if (is.character(x)) {print("x is a word.")}
+  
+  else if (x < 1)       {print("x is too small.")}  
+  else if (x > 20)      {print("x is too big.")} 
+  else if (x == 13)     {print("x is a lucky number.")} 
+  else if (x %% 2 == 0) {print("x is an even number.")} 
+  else if (x %% 2 == 1) {print("x is an odd number.")}
+  else                  {print("x is beyond description.")}
+  
+}
+
+# Check:
+describe(NA)     # yields an ERROR
+describe("one")  # yields "x is too big."
+```
+
+4. For what kind of `x` will `describe` print `"x is beyond description."`?
+
+<!-- Solution: --> 
+
+#### Solution
+
+The function `describe` prints `"x is beyond description."` for values of `1 < x < 20` that are not integers: 
+
+```{r}
+# For 1 < x < 20 that are not integers:
+describe(2.2)
+describe(sqrt(2))
+describe(pi)
+```
+
+
+## Exercise 3
+
 #### Plotting function
 
 1. Write a function `plot_scatter` that takes a table (tibble or data frame) with 2 numeric variables `x` and `y` as `my_data` and plots a scatterplot of the values of `y` by the values of `x`. 
@@ -303,7 +550,7 @@ feed_vegan("veggies")  # due to default: vegan = FALSE
 
 Test your function by using the following 2 tibbles `tb_1` and `tb_2` as `my_data`: 
 
-```{r ex2_create_test_data}
+```{r ex3_create_test_data}
 set.seed(101)
 n_num <- 100
 x_val <- runif(n = n_num, min = 30, max = 90)
@@ -315,7 +562,11 @@ tb_2 <- tibble::tibble(x = x_val, y = x_val + rnorm(n = n_num, mean = 0, sd = 10
 names(tb_1)
 ```
 
-```{r ex2_1_scatter}
+<!-- Solution: --> 
+
+#### Solution
+
+```{r ex3_1_scatter}
 library(tidyverse)
 
 plot_scatter <- function(my_data) {
@@ -335,7 +586,7 @@ plot_scatter(my_data = tb_2)
 
 2. For any table `my_data` that contains 2 numeric variables `x` and `y` we can fit a linear model as follows:
 
-```{r ex2_lm}
+```{r ex3_lm}
 my_data <- tb_1
 
 my_lm <- lm(y ~ x, data = my_data)
@@ -348,7 +599,11 @@ my_lm$coefficients[2]  # slope
 
 Incorporate a linear model into your `plot_scatter` function by adding a line that shows the prediction of the linear model (in a color that can be set by an optional `col` argument).
 
-```{r ex2_2_lm}
+<!-- Solution: --> 
+
+#### Solution
+
+```{r ex3_2_lm}
 plot_scatter <- function(my_data, col = "red") {
 
   # fit linear model:
