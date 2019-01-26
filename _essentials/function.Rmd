@@ -150,19 +150,27 @@ What is a function?  Mathematically, a mapping between sets, or from values x to
 
 In programming: A way to abstract, by writing independent modules (or boxes) that are governed by input-output relations.
 
-
 ## Basics
 
 Structure
 
+Input and Output
 
 ## Arguments
 
+Input to a function.
+
 - Required vs. optional/default arguments
-- Checking arguments
-- ... 
+- Checking/verifying arguments
 
 ## Return values
+
+Output of a function.
+
+## Conditional execution
+
+
+## Loops
 
 
 ## Style
@@ -177,9 +185,191 @@ Use good names (for function and argument), clear formatting.
 
 Here are the exercises of WPA09 and possible solutions for them.
 
-## Exercise A
+## Exercise 1
 
-## Exercise B
+#### Conditional feeding
+
+1. Write a function `feed_me` that takes a character string `food` as a required argument, and returns the sentence `"I love to eat ___!"`. 
+Test your function by running `feed_me("apples")`, etc.
+
+```{r, eval = FALSE, echo = TRUE}
+feed_me <- function(___) {
+  
+  output <- paste0("I love to eat ", ___, "!")
+  
+  print(___)
+}
+```
+
+<!-- Solution: --> 
+
+A possible solution:
+
+```{r ex1_1, echo = TRUE, eval = TRUE}
+feed_me <- function(food) {
+  
+  output <- paste0("I love to eat ", food, "!")
+  
+  print(output)
+  }
+
+# Check:
+feed_me("apples")
+feed_me("books")
+feed_me("cake")
+feed_me(NA)
+```
+
+2. Modify `feed_me` so that it returns `"Nothing to eat."` when `food = NA`.
+
+<!-- Solution: --> 
+
+A possible solution:
+
+```{r ex1_2, echo = TRUE, eval = TRUE}
+feed_me <- function(food) {
+  
+  if (is.na(food)) {
+    output <- "Nothing to eat."
+  } else {
+    output <- paste0("I love to eat ", food, "!")
+  }
+  
+  print(output)
+}
+
+# Check:
+feed_me(NA)
+feed_me("apples")
+feed_me("books")
+```
+
+3. Extend your function to `feed_vegan` that uses 2 additional arguments: 
+
+- `type` should be an optional character string, set to a default argument of `"food"`. 
+If `type` is not `"food"`, the function should return `"___ is not edible."`. 
+
+- `vegan` should be an optional Boolean value, which is set to `FALSE` by default. 
+If `vegan` is `TRUE`, the function should return `"I love to eat ___!"`. 
+Otherwise, the function should return `"I do not eat ___."`.
+
+Test your functions with various entries. 
+
+<!-- Solution: --> 
+
+A possible solution:
+
+```{r ex1_3, echo = TRUE, eval = TRUE}
+feed_vegan <- function(food, type = "food", vegan = FALSE) {
+  
+  if (is.na(food)) {
+    
+    output <- "Nothing to eat."
+    
+  } else {  # food is not NA: 
+    
+    if (type != "food") {
+      output <- paste0(food, " is not edible.")
+    } else {  # type == "food": 
+      
+      if (vegan) {
+        output <- paste0("I love to eat ", food, "!")
+      } else {  # vegan 
+        output <- paste0("I do not eat ", food, ".")
+      }      
+    }
+  }
+  
+  print(output)
+}
+
+# Check:
+feed_vegan(NA)
+feed_vegan("veggies", vegan = TRUE)
+feed_vegan("R4DS", type = "book")
+feed_vegan("meat", vegan = FALSE)
+# but:
+feed_vegan("spagetti", type = "pasta")  # due to type != "food"
+feed_vegan("veggies")  # due to default: vegan = FALSE
+```
+
+## Exercise 2
+
+#### Plotting function
+
+1. Write a function `plot_scatter` that takes a table (tibble or data frame) with 2 numeric variables `x` and `y` as `my_data` and plots a scatterplot of the values of `y` by the values of `x`. 
+
+**Hint:** First write a `ggplot` command that creates a scatterplot of `my_data`. Then wrap a function `plot_scatter` around this command that takes `my_data` as its argument.  
+
+Test your function by using the following 2 tibbles `tb_1` and `tb_2` as `my_data`: 
+
+```{r ex2_create_test_data}
+set.seed(101)
+n_num <- 100
+x_val <- runif(n = n_num, min = 30, max = 90)
+y_val <- runif(n = n_num, min = 30, max = 90)
+
+tb_1 <- tibble::tibble(x = x_val, y = y_val)
+tb_2 <- tibble::tibble(x = x_val, y = x_val + rnorm(n = n_num, mean = 0, sd = 10))
+
+names(tb_1)
+```
+
+```{r ex2_1_scatter}
+library(tidyverse)
+
+plot_scatter <- function(my_data) {
+  
+  ggplot(data = my_data) +
+    geom_point(aes(x = x, y = y), alpha = .5) +
+    labs(title = "My scatterplot", 
+         caption = paste0("Data from ", deparse(substitute(my_data)))) +
+    theme_bw()
+  
+}
+
+# Check:
+plot_scatter(my_data = tb_1)
+plot_scatter(my_data = tb_2)
+```
+
+2. For any table `my_data` that contains 2 numeric variables `x` and `y` we can fit a linear model as follows:
+
+```{r ex2_lm}
+my_data <- tb_1
+
+my_lm <- lm(y ~ x, data = my_data)
+my_lm
+
+# Get the model's intercept and slope values:
+my_lm$coefficients[1]  # intercept
+my_lm$coefficients[2]  # slope
+```
+
+Incorporate a linear model into your `plot_scatter` function by adding a line that shows the prediction of the linear model (in a color that can be set by an optional `col` argument).
+
+```{r ex2_2_lm}
+plot_scatter <- function(my_data, col = "red") {
+
+  # fit linear model:
+  lm <- lm(y ~ x, data = my_data)
+  intercept <- lm$coefficients[1]
+  slope <- lm$coefficients[2]  
+    
+  # plot:
+  ggplot(data = my_data) +
+    geom_point(aes(x = x, y = y), alpha = .5) +
+    geom_abline(intercept = intercept, slope = slope, color = col, lty = 2) + 
+    labs(title = "My scatterplot", 
+         caption = paste0("Data from ", deparse(substitute(my_data)))) +
+    theme_bw()
+  
+}
+
+# Check:
+plot_scatter(my_data = tb_1)
+plot_scatter(my_data = tb_2, col = "steelblue")
+```
 
 
 <!-- +++ here now +++ --> 
