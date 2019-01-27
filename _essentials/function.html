@@ -246,7 +246,6 @@ Nr. | Topic       |
 <h4>The function of functions</h4>
 <!-- Definition: -->
 <p>What is a function? Mathematically, a <em>function</em> is a mapping between sets, or from a set of elements x to a set y. In the context of computer programming, a function maps inputs to outputs. To use a function, we only need to know its <em>name</em> and <em>purpose</em>, which <em>inputs</em> it takes, and what <em>outputs</em> it returns. Unless we want to understand exactly <em>how</em> it works or <em>modify</em> a function, we learn and use functions without ever seeing how they are defined. Thus, as long as we only use a function, we can think of it as a black box that is defined by its purpose and input-output relations.<a href="#fn1" class="footnoteRef" id="fnref1"><sup>1</sup></a></p>
-<p><a href="#fn2" class="footnoteRef" id="fnref2"><sup>2</sup></a>: We can print the definition of any function by typing it at the prompt of the console (without parentheses). However, the fact that we have been using functions like <code>summarise</code> or <code>gather</code> many times without ever looking up their definitions indicates that we typically rely on examples and documentation for understanding functions.</p>
 <!-- Writing functions: -->
 <p>When moving from using functions to writing them, functions are a great way to automate repeated tasks. As each function handles a task and can be understood solely by its mapping from inputs to outputs, functions are powerful tools of abstraction and encapsulation. In a functional programming paradigm (like R), functions are the basic problem solving units: Each function deals with a task (i.e., performs an action, which is why we can think of them as verbs). To use a new set of functions (e.g., an R package) we primarily need to know its overall goal (i.e., which challenge or problem does it address?) and its functions (i.e., which functions does it provide? What does each function do?).</p>
 </div>
@@ -262,30 +261,35 @@ Nr. | Topic       |
 <li><p>Arguments typically include <em>data</em> (e.g., scalars, vectors, tables, or anything else that the function uses to perform its task) and can contain additional <em>details</em> or <em>parameters</em> (e.g., instructions on how something is to be done: Which type of calculation is desired? How should <code>NA</code> values be treated? Which color should be used? etc.).</p></li>
 <li><p>Any argument can be <em>optional</em> (by including a default value that is used when no argument is provided) or <em>mandatory</em> (by not including a default value).</p></li>
 </ul></li>
-<li>The
-<body>
-<p>of a function uses the <em>inputs</em> provided by <code>&lt;args&gt;</code> to perform the task for which the function is created.</p>
+<li><p>The <code>&lt;body&gt;</code> of a function uses the <em>inputs</em> provided by <code>&lt;args&gt;</code> to perform the task for which the function is created.</p>
 <ul>
-<li><p>Although some functions are only used for their side-effects (e.g., load or save an object, create a graph, etc.), most functions (also) return some sort of <em>output</em> (e.g., some computed <code>result</code>). This is done by calling the special function <code>return</code> in the function <code>&lt;body&gt;</code> (e.g., <code>return(result)</code>), typically as its last statement.<a href="#fn3" class="footnoteRef" id="fnref3"><sup>3</sup></a></p></li>
+<li><p>Although some functions are only used for their side-effects (e.g., load or save an object, create a graph, etc.), most functions (also) return some sort of <em>output</em> (e.g., some computed <code>result</code>). This is done by calling the special function <code>return</code> in the function <code>&lt;body&gt;</code> (e.g., <code>return(result)</code>), typically as its last statement.<a href="#fn2" class="footnoteRef" id="fnref2"><sup>2</sup></a></p></li>
 <li><p>The <em>output</em> of a function can assume many different data types (scalar, vector, list, table, etc.).</p></li>
 </ul></li>
 </ol>
-<p><a href="#fn4" class="footnoteRef" id="fnref4"><sup>4</sup></a>: In most functions, the <code>return()</code> statement is the final statement of the function <code>&lt;body&gt;</code>. See <a href="https://r4ds.had.co.nz/functions.html#return-values">Chapter 19.6: Return values</a> for special cases in which it makes sense to provide earlier and multiple <code>return</code> statements or provide <code>invisible</code> return values (e.g., to write pipeable functions).</p>
-<p>Thus, are slightly more detailed template of a typical function is:</p>
+<p>Thus, are more detailed template of a typical function is:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">name &lt;-<span class="st"> </span><span class="cf">function</span>(arg_<span class="dv">1</span>, <span class="dt">arg_2 =</span> <span class="ot">FALSE</span>) {
   
-  <span class="op">&lt;</span>use arg_<span class="dv">1</span> and arg_<span class="dv">2</span> to solve a task<span class="op">&gt;</span>
-<span class="st">    </span>
-<span class="st">  </span>result &lt;-<span class="st"> </span><span class="er">&lt;</span>task solution<span class="op">&gt;</span>
+  <span class="co"># 1: Check inputs: </span>
+  <span class="op">&lt;</span>Verify that arg_<span class="dv">1</span> and arg_<span class="dv">2</span> are appropriate inputs.<span class="op">&gt;</span>
 <span class="st">  </span>
+<span class="st">  </span><span class="co"># 2: Solve task by using arguments &amp; code: </span>
+<span class="st">  </span><span class="er">&lt;</span>Use arg_<span class="dv">1</span> and arg_<span class="dv">2</span> to solve the task.<span class="op">&gt;</span>
+<span class="st">  </span>
+<span class="st">  </span><span class="co"># 3: Collect and assign outputs:</span>
+<span class="st">  </span>result &lt;-<span class="st"> </span><span class="er">&lt;</span>The task solution.<span class="op">&gt;</span>
+<span class="st">  </span>
+<span class="st">  </span><span class="co"># 4: Return output: </span>
 <span class="st">  </span><span class="kw">return</span>(result)
   
 }</code></pre></div>
-<p>In this template, <code>arg_1</code> is a mandatory argument (as no default is provided) and <code>arg_2</code> is an optional argument (with a default value of <code>TRUE</code>). The arguments are used to solve some task. Its result is then assigned to <code>result</code> and returned by <code>return(result)</code>. Typical uses of this function could look as follows:</p>
+<p>In this template, <code>arg_1</code> is a mandatory argument (as no default is provided) and <code>arg_2</code> is an optional argument (with a default value of <code>TRUE</code>). The arguments are checked (e.g., whether they have appropriate type and values) and then used to solve the task. Its result is then assigned to <code>result</code> and returned by <code>return(result)</code>.</p>
+<p>Typical uses of this function could look as follows:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Using this function:</span>
 <span class="kw">name</span>(<span class="dt">arg_1 =</span> x)                 <span class="co"># providing only required argument</span>
 <span class="kw">name</span>(<span class="dt">arg_2 =</span> y, <span class="dt">arg_2 =</span> <span class="ot">FALSE</span>)  <span class="co"># providing both arguments</span>
-<span class="kw">name</span>(z, <span class="ot">TRUE</span>)                   <span class="co"># providing arguments by argument order</span></code></pre></div>
+<span class="kw">name</span>(z, <span class="ot">FALSE</span>)                  <span class="co"># providing arguments by argument order</span>
+<span class="kw">name</span>(z)                         <span class="co"># providing only mandatory (1st) argument</span></code></pre></div>
 <p>+++ here now +++</p>
 </div>
 <div id="arguments" class="section level2">
@@ -321,7 +325,10 @@ x &lt;-<span class="st"> </span><span class="dv">99</span>
 } <span class="cf">else</span> { 
   <span class="kw">print</span>(<span class="st">&quot;case 2&quot;</span>)  <span class="co"># if test is FALSE: case 2</span>
 }</code></pre></div>
-<p>Here, the truth value of <code>test</code> determines whether the 1st or the 2nd <code>{...}</code> is executed. As <code>test</code> must be either <code>TRUE</code> or <code>FALSE</code>, we either see “case 1” printed (if <code>test</code> is <code>TRUE</code>) or “case 2” printed (if <code>test</code> is <code>FALSE</code>). #### Example</p>
+<p>Here, the truth value of <code>test</code> determines whether the 1st or the 2nd <code>{...}</code> is executed. As <code>test</code> must be either <code>TRUE</code> or <code>FALSE</code>, we either see “case 1” printed (if <code>test</code> is <code>TRUE</code>) or “case 2” printed (if <code>test</code> is <code>FALSE</code>).</p>
+</div>
+<div id="example-1" class="section level4">
+<h4>Example</h4>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">person &lt;-<span class="st"> &quot;daughter&quot;</span>
 <span class="cf">if</span> (person <span class="op">==</span><span class="st"> &quot;daughter&quot;</span>) {<span class="kw">print</span>(<span class="st">&quot;female&quot;</span>)} <span class="cf">else</span> { <span class="kw">print</span>(<span class="st">&quot;male&quot;</span>)}
 <span class="co">#&gt; [1] &quot;female&quot;</span>
@@ -343,7 +350,7 @@ person &lt;-<span class="st"> &quot;grandmother&quot;</span>
 } <span class="cf">else</span> { 
   <span class="kw">print</span>(<span class="st">&quot;case 2&quot;</span>) 
 }</code></pre></div>
-<div id="example-1" class="section level4">
+<div id="example-2" class="section level4">
 <h4>Example</h4>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="cf">if</span> (person <span class="op">==</span><span class="st"> &quot;daughter&quot;</span> <span class="op">||</span><span class="st"> </span>person <span class="op">==</span><span class="st"> &quot;mother&quot;</span> <span class="op">||</span><span class="st"> </span>person <span class="op">==</span><span class="st"> &quot;grandmother&quot;</span>) {
   <span class="kw">print</span>(<span class="st">&quot;female&quot;</span>)
@@ -780,6 +787,753 @@ describe &lt;-<span class="st"> </span><span class="cf">function</span>(x) {
 </div>
 <div id="exercise-4" class="section level2">
 <h2>Exercise 4</h2>
+<div id="tibble-charts" class="section level4">
+<h4>Tibble charts</h4>
+<ol style="list-style-type: decimal">
+<li>Write a <code>top_3</code> function that takes a tibble <code>data</code> and a the column number <code>col_nr</code> of a <em>numeric</em> variable as its 2 inputs and returns the top-3 rows of the tibble after it has been sorted (in descending order) by the specified column number.</li>
+</ol>
+<p>Use the data of <code>sw &lt;- dplyr::starwars</code> to illustrate your function.</p>
+<p><strong>Hint:</strong> To write this function, first solve its task for a specific case (e.g., for <code>col_nr = 2</code>). When using the <code>dplyr</code> commands of the <code>tidyverse</code>, a problem you will encounter is that a tibble’s variables are typically referenced by their <em>unquoted</em> names, rather than by their number (or column index). Here are 2 ways to solve this problem:</p>
+<pre><code>- To obtain the unquoted name `some_name` of a given character string `&quot;some_name&quot;`, you can call `!!sym(&quot;some_name&quot;)`. 
+
+- Rather than aiming for a `tidyverse` solution, you could solve the problem with base R commands. 
+In this case, look up and use the command `order` to re-arrange the rows of a tibble or data frame. </code></pre>
+<!-- Solution: -->
+</div>
+<div id="solution-4" class="section level4">
+<h4>Solution</h4>
+<p>A possible tidyverse solution:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Data:</span>
+sw &lt;-<span class="st"> </span>dplyr<span class="op">::</span>starwars
+
+<span class="co"># (a) specific solution:</span>
+<span class="co"># dplyr-pipe solution uses unquoted variable name: </span>
+sw <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">arrange</span>(<span class="kw">desc</span>(height)) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">slice</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">3</span>)
+<span class="co">#&gt; # A tibble: 3 x 13</span>
+<span class="co">#&gt;   name  height  mass hair_color skin_color eye_color birth_year gender</span>
+<span class="co">#&gt;   &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; </span>
+<span class="co">#&gt; 1 Yara…    264    NA none       white      yellow            NA male  </span>
+<span class="co">#&gt; 2 Tarf…    234   136 brown      brown      blue              NA male  </span>
+<span class="co">#&gt; 3 Lama…    229    88 none       grey       black             NA male  </span>
+<span class="co">#&gt; # … with 5 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;, films &lt;list&gt;,</span>
+<span class="co">#&gt; #   vehicles &lt;list&gt;, starships &lt;list&gt;</span>
+
+<span class="co"># (b) Same pipe with a quoted variable name:</span>
+sw <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">arrange</span>(<span class="kw">desc</span>(<span class="op">!!</span><span class="kw">sym</span>(<span class="st">&quot;height&quot;</span>))) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">slice</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">3</span>)
+<span class="co">#&gt; # A tibble: 3 x 13</span>
+<span class="co">#&gt;   name  height  mass hair_color skin_color eye_color birth_year gender</span>
+<span class="co">#&gt;   &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; </span>
+<span class="co">#&gt; 1 Yara…    264    NA none       white      yellow            NA male  </span>
+<span class="co">#&gt; 2 Tarf…    234   136 brown      brown      blue              NA male  </span>
+<span class="co">#&gt; 3 Lama…    229    88 none       grey       black             NA male  </span>
+<span class="co">#&gt; # … with 5 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;, films &lt;list&gt;,</span>
+<span class="co">#&gt; #   vehicles &lt;list&gt;, starships &lt;list&gt;</span>
+
+<span class="co"># (c) Translation into a function:</span>
+top_<span class="dv">3</span> &lt;-<span class="st"> </span><span class="cf">function</span>(data, col_nr){
+
+  col_name &lt;-<span class="st"> </span><span class="kw">names</span>(data)[col_nr]
+  
+  result &lt;-<span class="st"> </span>data <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">    </span><span class="kw">arrange</span>(<span class="kw">desc</span>(<span class="op">!!</span><span class="kw">sym</span>(col_name))) <span class="op">%&gt;%</span>
+<span class="st">    </span><span class="kw">slice</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">3</span>)
+  
+  <span class="kw">return</span>(result)
+  
+}
+
+<span class="co"># Check:</span>
+<span class="kw">top_3</span>(sw, <span class="dv">2</span>)  <span class="co"># top_3 height values</span>
+<span class="co">#&gt; # A tibble: 3 x 13</span>
+<span class="co">#&gt;   name  height  mass hair_color skin_color eye_color birth_year gender</span>
+<span class="co">#&gt;   &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; </span>
+<span class="co">#&gt; 1 Yara…    264    NA none       white      yellow            NA male  </span>
+<span class="co">#&gt; 2 Tarf…    234   136 brown      brown      blue              NA male  </span>
+<span class="co">#&gt; 3 Lama…    229    88 none       grey       black             NA male  </span>
+<span class="co">#&gt; # … with 5 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;, films &lt;list&gt;,</span>
+<span class="co">#&gt; #   vehicles &lt;list&gt;, starships &lt;list&gt;</span>
+<span class="kw">top_3</span>(sw, <span class="dv">3</span>)  <span class="co"># top_3 mass values</span>
+<span class="co">#&gt; # A tibble: 3 x 13</span>
+<span class="co">#&gt;   name  height  mass hair_color skin_color eye_color birth_year gender</span>
+<span class="co">#&gt;   &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; </span>
+<span class="co">#&gt; 1 Jabb…    175  1358 &lt;NA&gt;       green-tan… orange           600 herma…</span>
+<span class="co">#&gt; 2 Grie…    216   159 none       brown, wh… green, y…         NA male  </span>
+<span class="co">#&gt; 3 IG-88    200   140 none       metal      red               15 none  </span>
+<span class="co">#&gt; # … with 5 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;, films &lt;list&gt;,</span>
+<span class="co">#&gt; #   vehicles &lt;list&gt;, starships &lt;list&gt;</span>
+<span class="kw">top_3</span>(sw, <span class="dv">7</span>)  <span class="co"># top_3 birth_year values</span>
+<span class="co">#&gt; # A tibble: 3 x 13</span>
+<span class="co">#&gt;   name  height  mass hair_color skin_color eye_color birth_year gender</span>
+<span class="co">#&gt;   &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; </span>
+<span class="co">#&gt; 1 Yoda      66    17 white      green      brown            896 male  </span>
+<span class="co">#&gt; 2 Jabb…    175  1358 &lt;NA&gt;       green-tan… orange           600 herma…</span>
+<span class="co">#&gt; 3 Chew…    228   112 brown      unknown    blue             200 male  </span>
+<span class="co">#&gt; # … with 5 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;, films &lt;list&gt;,</span>
+<span class="co">#&gt; #   vehicles &lt;list&gt;, starships &lt;list&gt;</span>
+<span class="co"># But:</span>
+<span class="kw">top_3</span>(sw, <span class="dv">1</span>)  <span class="co"># character variables are ordered against alphabetical sequence</span>
+<span class="co">#&gt; # A tibble: 3 x 13</span>
+<span class="co">#&gt;   name  height  mass hair_color skin_color eye_color birth_year gender</span>
+<span class="co">#&gt;   &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; </span>
+<span class="co">#&gt; 1 Zam …    168    55 blonde     fair, gre… yellow            NA female</span>
+<span class="co">#&gt; 2 Yoda      66    17 white      green      brown            896 male  </span>
+<span class="co">#&gt; 3 Yara…    264    NA none       white      yellow            NA male  </span>
+<span class="co">#&gt; # … with 5 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;, films &lt;list&gt;,</span>
+<span class="co">#&gt; #   vehicles &lt;list&gt;, starships &lt;list&gt;</span></code></pre></div>
+<p>A solution using only base-R functions (here: <code>order</code>):</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Data:</span>
+sw &lt;-<span class="st"> </span>dplyr<span class="op">::</span>starwars
+
+<span class="co"># (a) specific solution for sorting data:  </span>
+<span class="co"># using order() function and a variable name:</span>
+sw[<span class="kw">order</span>(<span class="op">-</span>sw<span class="op">$</span>height), ]
+<span class="co">#&gt; # A tibble: 87 x 13</span>
+<span class="co">#&gt;    name  height  mass hair_color skin_color eye_color birth_year gender</span>
+<span class="co">#&gt;    &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; </span>
+<span class="co">#&gt;  1 Yara…    264    NA none       white      yellow          NA   male  </span>
+<span class="co">#&gt;  2 Tarf…    234   136 brown      brown      blue            NA   male  </span>
+<span class="co">#&gt;  3 Lama…    229    88 none       grey       black           NA   male  </span>
+<span class="co">#&gt;  4 Chew…    228   112 brown      unknown    blue           200   male  </span>
+<span class="co">#&gt;  5 Roos…    224    82 none       grey       orange          NA   male  </span>
+<span class="co">#&gt;  6 Grie…    216   159 none       brown, wh… green, y…       NA   male  </span>
+<span class="co">#&gt;  7 Taun…    213    NA none       grey       black           NA   female</span>
+<span class="co">#&gt;  8 Rugo…    206    NA none       green      orange          NA   male  </span>
+<span class="co">#&gt;  9 Tion…    206    80 none       grey       black           NA   male  </span>
+<span class="co">#&gt; 10 Dart…    202   136 none       white      yellow          41.9 male  </span>
+<span class="co">#&gt; # … with 77 more rows, and 5 more variables: homeworld &lt;chr&gt;,</span>
+<span class="co">#&gt; #   species &lt;chr&gt;, films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;</span>
+
+<span class="co"># Note:</span>
+sw<span class="op">$</span>height <span class="co"># is a vector (of height values)</span>
+<span class="co">#&gt;  [1] 172 167  96 202 150 178 165  97 183 182 188 180 228 180 173 175 170</span>
+<span class="co">#&gt; [18] 180  66 170 183 200 190 177 175 180 150  NA  88 160 193 191 170 196</span>
+<span class="co">#&gt; [35] 224 206 183 137 112 183 163 175 180 178  94 122 163 188 198 196 171</span>
+<span class="co">#&gt; [52] 184 188 264 188 196 185 157 183 183 170 166 165 193 191 183 168 198</span>
+<span class="co">#&gt; [69] 229 213 167  79  96 193 191</span>
+<span class="co">#&gt;  [ reached getOption(&quot;max.print&quot;) -- omitted 12 entries ]</span>
+sw[ , <span class="dv">2</span>]  <span class="co"># is the same vector (as column of sw)</span>
+<span class="co">#&gt; # A tibble: 87 x 1</span>
+<span class="co">#&gt;    height</span>
+<span class="co">#&gt;     &lt;int&gt;</span>
+<span class="co">#&gt;  1    172</span>
+<span class="co">#&gt;  2    167</span>
+<span class="co">#&gt;  3     96</span>
+<span class="co">#&gt;  4    202</span>
+<span class="co">#&gt;  5    150</span>
+<span class="co">#&gt;  6    178</span>
+<span class="co">#&gt;  7    165</span>
+<span class="co">#&gt;  8     97</span>
+<span class="co">#&gt;  9    183</span>
+<span class="co">#&gt; 10    182</span>
+<span class="co">#&gt; # … with 77 more rows</span>
+
+<span class="co"># (b) specific solution for sorting data: </span>
+<span class="co"># using order() function and the variable's column number:</span>
+sw[<span class="kw">order</span>(<span class="op">-</span>sw[ , <span class="dv">2</span>]), ]
+<span class="co">#&gt; # A tibble: 87 x 13</span>
+<span class="co">#&gt;    name  height  mass hair_color skin_color eye_color birth_year gender</span>
+<span class="co">#&gt;    &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; </span>
+<span class="co">#&gt;  1 Yara…    264    NA none       white      yellow          NA   male  </span>
+<span class="co">#&gt;  2 Tarf…    234   136 brown      brown      blue            NA   male  </span>
+<span class="co">#&gt;  3 Lama…    229    88 none       grey       black           NA   male  </span>
+<span class="co">#&gt;  4 Chew…    228   112 brown      unknown    blue           200   male  </span>
+<span class="co">#&gt;  5 Roos…    224    82 none       grey       orange          NA   male  </span>
+<span class="co">#&gt;  6 Grie…    216   159 none       brown, wh… green, y…       NA   male  </span>
+<span class="co">#&gt;  7 Taun…    213    NA none       grey       black           NA   female</span>
+<span class="co">#&gt;  8 Rugo…    206    NA none       green      orange          NA   male  </span>
+<span class="co">#&gt;  9 Tion…    206    80 none       grey       black           NA   male  </span>
+<span class="co">#&gt; 10 Dart…    202   136 none       white      yellow          41.9 male  </span>
+<span class="co">#&gt; # … with 77 more rows, and 5 more variables: homeworld &lt;chr&gt;,</span>
+<span class="co">#&gt; #   species &lt;chr&gt;, films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;</span>
+
+
+<span class="co"># (c) Translation into a function:</span>
+top_3_base &lt;-<span class="st"> </span><span class="cf">function</span>(data, col_nr){
+
+  sorted_data &lt;-<span class="st"> </span>data[<span class="kw">order</span>(<span class="op">-</span>data[ , col_nr]), ]
+  
+  result &lt;-<span class="st"> </span>sorted_data[<span class="dv">1</span><span class="op">:</span><span class="dv">3</span>, ]  <span class="co"># top 3 rows</span>
+  
+  <span class="kw">return</span>(result)
+  
+}
+
+<span class="co"># Check:</span>
+<span class="kw">top_3_base</span>(sw, <span class="dv">2</span>)  <span class="co"># top_3 height values</span>
+<span class="co">#&gt; # A tibble: 3 x 13</span>
+<span class="co">#&gt;   name  height  mass hair_color skin_color eye_color birth_year gender</span>
+<span class="co">#&gt;   &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; </span>
+<span class="co">#&gt; 1 Yara…    264    NA none       white      yellow            NA male  </span>
+<span class="co">#&gt; 2 Tarf…    234   136 brown      brown      blue              NA male  </span>
+<span class="co">#&gt; 3 Lama…    229    88 none       grey       black             NA male  </span>
+<span class="co">#&gt; # … with 5 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;, films &lt;list&gt;,</span>
+<span class="co">#&gt; #   vehicles &lt;list&gt;, starships &lt;list&gt;</span>
+<span class="kw">top_3_base</span>(sw, <span class="dv">3</span>)  <span class="co"># top_3 mass values</span>
+<span class="co">#&gt; # A tibble: 3 x 13</span>
+<span class="co">#&gt;   name  height  mass hair_color skin_color eye_color birth_year gender</span>
+<span class="co">#&gt;   &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; </span>
+<span class="co">#&gt; 1 Jabb…    175  1358 &lt;NA&gt;       green-tan… orange           600 herma…</span>
+<span class="co">#&gt; 2 Grie…    216   159 none       brown, wh… green, y…         NA male  </span>
+<span class="co">#&gt; 3 IG-88    200   140 none       metal      red               15 none  </span>
+<span class="co">#&gt; # … with 5 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;, films &lt;list&gt;,</span>
+<span class="co">#&gt; #   vehicles &lt;list&gt;, starships &lt;list&gt;</span>
+<span class="kw">top_3_base</span>(sw, <span class="dv">7</span>)  <span class="co"># top_3 birth_year values</span>
+<span class="co">#&gt; # A tibble: 3 x 13</span>
+<span class="co">#&gt;   name  height  mass hair_color skin_color eye_color birth_year gender</span>
+<span class="co">#&gt;   &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; </span>
+<span class="co">#&gt; 1 Yoda      66    17 white      green      brown            896 male  </span>
+<span class="co">#&gt; 2 Jabb…    175  1358 &lt;NA&gt;       green-tan… orange           600 herma…</span>
+<span class="co">#&gt; 3 Chew…    228   112 brown      unknown    blue             200 male  </span>
+<span class="co">#&gt; # … with 5 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;, films &lt;list&gt;,</span>
+<span class="co">#&gt; #   vehicles &lt;list&gt;, starships &lt;list&gt;</span>
+<span class="co"># But:</span>
+<span class="co"># top_3_base(sw, 1)  # would yield an error, as order does not allow &quot;-&quot; for character variables.</span></code></pre></div>
+<ol start="2" style="list-style-type: decimal">
+<li><p>What happens in your <code>top_3</code> function when <code>col_nr</code> refers to a <em>character</em> variable (e.g., <code>dplyr::starwars[ , 1]</code>)? Adjust the function so that its result varies by the type of the variable designated by the <code>col_nr</code> argument:</p>
+<ul>
+<li>if the corresponding variable is a character variable, sort the data in ascending order (alphabetically);</li>
+<li>if the corresponding variable is a numeric variable, sort the data in descending order (from high to low).</li>
+</ul></li>
+</ol>
+<!-- Solution: -->
+</div>
+<div id="solution-5" class="section level4">
+<h4>Solution</h4>
+<p>Adjusted tidyverse solution:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># What happens?</span>
+<span class="kw">top_3</span>(sw, <span class="dv">1</span>)  <span class="co"># character variables are ordered against alphabetical sequence</span>
+<span class="co">#&gt; # A tibble: 3 x 13</span>
+<span class="co">#&gt;   name  height  mass hair_color skin_color eye_color birth_year gender</span>
+<span class="co">#&gt;   &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; </span>
+<span class="co">#&gt; 1 Zam …    168    55 blonde     fair, gre… yellow            NA female</span>
+<span class="co">#&gt; 2 Yoda      66    17 white      green      brown            896 male  </span>
+<span class="co">#&gt; 3 Yara…    264    NA none       white      yellow            NA male  </span>
+<span class="co">#&gt; # … with 5 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;, films &lt;list&gt;,</span>
+<span class="co">#&gt; #   vehicles &lt;list&gt;, starships &lt;list&gt;</span>
+
+<span class="co"># Preparation: How can we determine the variable type?</span>
+<span class="co"># character variable: </span>
+sw<span class="op">$</span>name   <span class="co"># a vector name in sw</span>
+<span class="co">#&gt;  [1] &quot;Luke Skywalker&quot;        &quot;C-3PO&quot;                </span>
+<span class="co">#&gt;  [3] &quot;R2-D2&quot;                 &quot;Darth Vader&quot;          </span>
+<span class="co">#&gt;  [5] &quot;Leia Organa&quot;           &quot;Owen Lars&quot;            </span>
+<span class="co">#&gt;  [7] &quot;Beru Whitesun lars&quot;    &quot;R5-D4&quot;                </span>
+<span class="co">#&gt;  [9] &quot;Biggs Darklighter&quot;     &quot;Obi-Wan Kenobi&quot;       </span>
+<span class="co">#&gt; [11] &quot;Anakin Skywalker&quot;      &quot;Wilhuff Tarkin&quot;       </span>
+<span class="co">#&gt; [13] &quot;Chewbacca&quot;             &quot;Han Solo&quot;             </span>
+<span class="co">#&gt; [15] &quot;Greedo&quot;                &quot;Jabba Desilijic Tiure&quot;</span>
+<span class="co">#&gt; [17] &quot;Wedge Antilles&quot;        &quot;Jek Tono Porkins&quot;     </span>
+<span class="co">#&gt; [19] &quot;Yoda&quot;                  &quot;Palpatine&quot;            </span>
+<span class="co">#&gt; [21] &quot;Boba Fett&quot;             &quot;IG-88&quot;                </span>
+<span class="co">#&gt; [23] &quot;Bossk&quot;                 &quot;Lando Calrissian&quot;     </span>
+<span class="co">#&gt; [25] &quot;Lobot&quot;                 &quot;Ackbar&quot;               </span>
+<span class="co">#&gt; [27] &quot;Mon Mothma&quot;            &quot;Arvel Crynyd&quot;         </span>
+<span class="co">#&gt; [29] &quot;Wicket Systri Warrick&quot; &quot;Nien Nunb&quot;            </span>
+<span class="co">#&gt; [31] &quot;Qui-Gon Jinn&quot;          &quot;Nute Gunray&quot;          </span>
+<span class="co">#&gt; [33] &quot;Finis Valorum&quot;         &quot;Jar Jar Binks&quot;        </span>
+<span class="co">#&gt; [35] &quot;Roos Tarpals&quot;          &quot;Rugor Nass&quot;           </span>
+<span class="co">#&gt; [37] &quot;Ric Olié&quot;              &quot;Watto&quot;                </span>
+<span class="co">#&gt; [39] &quot;Sebulba&quot;               &quot;Quarsh Panaka&quot;        </span>
+<span class="co">#&gt; [41] &quot;Shmi Skywalker&quot;        &quot;Darth Maul&quot;           </span>
+<span class="co">#&gt; [43] &quot;Bib Fortuna&quot;           &quot;Ayla Secura&quot;          </span>
+<span class="co">#&gt; [45] &quot;Dud Bolt&quot;              &quot;Gasgano&quot;              </span>
+<span class="co">#&gt; [47] &quot;Ben Quadinaros&quot;        &quot;Mace Windu&quot;           </span>
+<span class="co">#&gt; [49] &quot;Ki-Adi-Mundi&quot;          &quot;Kit Fisto&quot;            </span>
+<span class="co">#&gt; [51] &quot;Eeth Koth&quot;             &quot;Adi Gallia&quot;           </span>
+<span class="co">#&gt; [53] &quot;Saesee Tiin&quot;           &quot;Yarael Poof&quot;          </span>
+<span class="co">#&gt; [55] &quot;Plo Koon&quot;              &quot;Mas Amedda&quot;           </span>
+<span class="co">#&gt; [57] &quot;Gregar Typho&quot;          &quot;Cordé&quot;                </span>
+<span class="co">#&gt; [59] &quot;Cliegg Lars&quot;           &quot;Poggle the Lesser&quot;    </span>
+<span class="co">#&gt; [61] &quot;Luminara Unduli&quot;       &quot;Barriss Offee&quot;        </span>
+<span class="co">#&gt; [63] &quot;Dormé&quot;                 &quot;Dooku&quot;                </span>
+<span class="co">#&gt; [65] &quot;Bail Prestor Organa&quot;   &quot;Jango Fett&quot;           </span>
+<span class="co">#&gt; [67] &quot;Zam Wesell&quot;            &quot;Dexter Jettster&quot;      </span>
+<span class="co">#&gt; [69] &quot;Lama Su&quot;               &quot;Taun We&quot;              </span>
+<span class="co">#&gt; [71] &quot;Jocasta Nu&quot;            &quot;Ratts Tyerell&quot;        </span>
+<span class="co">#&gt; [73] &quot;R4-P17&quot;                &quot;Wat Tambor&quot;           </span>
+<span class="co">#&gt; [75] &quot;San Hill&quot;             </span>
+<span class="co">#&gt;  [ reached getOption(&quot;max.print&quot;) -- omitted 12 entries ]</span>
+sw[ , <span class="dv">1</span>]  <span class="co"># 1st column of sw</span>
+<span class="co">#&gt; # A tibble: 87 x 1</span>
+<span class="co">#&gt;    name              </span>
+<span class="co">#&gt;    &lt;chr&gt;             </span>
+<span class="co">#&gt;  1 Luke Skywalker    </span>
+<span class="co">#&gt;  2 C-3PO             </span>
+<span class="co">#&gt;  3 R2-D2             </span>
+<span class="co">#&gt;  4 Darth Vader       </span>
+<span class="co">#&gt;  5 Leia Organa       </span>
+<span class="co">#&gt;  6 Owen Lars         </span>
+<span class="co">#&gt;  7 Beru Whitesun lars</span>
+<span class="co">#&gt;  8 R5-D4             </span>
+<span class="co">#&gt;  9 Biggs Darklighter </span>
+<span class="co">#&gt; 10 Obi-Wan Kenobi    </span>
+<span class="co">#&gt; # … with 77 more rows</span>
+
+<span class="kw">typeof</span>(sw<span class="op">$</span>name)  <span class="co"># character</span>
+<span class="co">#&gt; [1] &quot;character&quot;</span>
+<span class="kw">typeof</span>(sw[ , <span class="dv">1</span>]) <span class="co"># list!</span>
+<span class="co">#&gt; [1] &quot;list&quot;</span>
+<span class="kw">typeof</span>(<span class="kw">unlist</span>(sw[ , <span class="dv">1</span>])) <span class="co"># character !!</span>
+<span class="co">#&gt; [1] &quot;character&quot;</span>
+
+<span class="co"># numeric variable:</span>
+sw<span class="op">$</span>height  <span class="co"># a vector height in sw</span>
+<span class="co">#&gt;  [1] 172 167  96 202 150 178 165  97 183 182 188 180 228 180 173 175 170</span>
+<span class="co">#&gt; [18] 180  66 170 183 200 190 177 175 180 150  NA  88 160 193 191 170 196</span>
+<span class="co">#&gt; [35] 224 206 183 137 112 183 163 175 180 178  94 122 163 188 198 196 171</span>
+<span class="co">#&gt; [52] 184 188 264 188 196 185 157 183 183 170 166 165 193 191 183 168 198</span>
+<span class="co">#&gt; [69] 229 213 167  79  96 193 191</span>
+<span class="co">#&gt;  [ reached getOption(&quot;max.print&quot;) -- omitted 12 entries ]</span>
+sw[ , <span class="dv">2</span>]   <span class="co"># 2nd column of sw</span>
+<span class="co">#&gt; # A tibble: 87 x 1</span>
+<span class="co">#&gt;    height</span>
+<span class="co">#&gt;     &lt;int&gt;</span>
+<span class="co">#&gt;  1    172</span>
+<span class="co">#&gt;  2    167</span>
+<span class="co">#&gt;  3     96</span>
+<span class="co">#&gt;  4    202</span>
+<span class="co">#&gt;  5    150</span>
+<span class="co">#&gt;  6    178</span>
+<span class="co">#&gt;  7    165</span>
+<span class="co">#&gt;  8     97</span>
+<span class="co">#&gt;  9    183</span>
+<span class="co">#&gt; 10    182</span>
+<span class="co">#&gt; # … with 77 more rows</span>
+
+<span class="kw">typeof</span>(sw<span class="op">$</span>height)  <span class="co"># integer</span>
+<span class="co">#&gt; [1] &quot;integer&quot;</span>
+<span class="kw">typeof</span>(sw[ , <span class="dv">2</span>])   <span class="co"># list!</span>
+<span class="co">#&gt; [1] &quot;list&quot;</span>
+<span class="kw">typeof</span>(<span class="kw">unlist</span>(sw[ , <span class="dv">2</span>])) <span class="co"># integer !!</span>
+<span class="co">#&gt; [1] &quot;integer&quot;</span>
+
+
+<span class="co"># Adjusting function from above:</span>
+top_<span class="dv">3</span> &lt;-<span class="st"> </span><span class="cf">function</span>(data, col_nr){
+  
+  col_name &lt;-<span class="st"> </span><span class="kw">names</span>(data)[col_nr]
+  col_type &lt;-<span class="st"> </span><span class="kw">typeof</span>(<span class="kw">unlist</span>(data[ , col_nr]))
+  
+  <span class="cf">if</span> (col_type <span class="op">==</span><span class="st"> &quot;character&quot;</span>) {
+    
+    result &lt;-<span class="st"> </span>data <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">      </span><span class="kw">arrange</span>(<span class="op">!!</span><span class="kw">sym</span>(col_name)) <span class="op">%&gt;%</span><span class="st">  </span><span class="co"># do NOT use desc()</span>
+<span class="st">      </span><span class="kw">slice</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">3</span>)
+    
+  } <span class="cf">else</span> {  <span class="co"># col_type != &quot;character&quot;</span>
+    
+    result &lt;-<span class="st"> </span>data <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">      </span><span class="kw">arrange</span>(<span class="kw">desc</span>(<span class="op">!!</span><span class="kw">sym</span>(col_name))) <span class="op">%&gt;%</span>
+<span class="st">      </span><span class="kw">slice</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">3</span>)
+    
+  }
+  
+  <span class="kw">return</span>(result)
+  
+}
+
+<span class="co"># Check:</span>
+<span class="kw">top_3</span>(sw, <span class="dv">2</span>)  <span class="co"># top_3 height values</span>
+<span class="co">#&gt; # A tibble: 3 x 13</span>
+<span class="co">#&gt;   name  height  mass hair_color skin_color eye_color birth_year gender</span>
+<span class="co">#&gt;   &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; </span>
+<span class="co">#&gt; 1 Yara…    264    NA none       white      yellow            NA male  </span>
+<span class="co">#&gt; 2 Tarf…    234   136 brown      brown      blue              NA male  </span>
+<span class="co">#&gt; 3 Lama…    229    88 none       grey       black             NA male  </span>
+<span class="co">#&gt; # … with 5 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;, films &lt;list&gt;,</span>
+<span class="co">#&gt; #   vehicles &lt;list&gt;, starships &lt;list&gt;</span>
+<span class="kw">top_3</span>(sw, <span class="dv">3</span>)  <span class="co"># top_3 mass values</span>
+<span class="co">#&gt; # A tibble: 3 x 13</span>
+<span class="co">#&gt;   name  height  mass hair_color skin_color eye_color birth_year gender</span>
+<span class="co">#&gt;   &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; </span>
+<span class="co">#&gt; 1 Jabb…    175  1358 &lt;NA&gt;       green-tan… orange           600 herma…</span>
+<span class="co">#&gt; 2 Grie…    216   159 none       brown, wh… green, y…         NA male  </span>
+<span class="co">#&gt; 3 IG-88    200   140 none       metal      red               15 none  </span>
+<span class="co">#&gt; # … with 5 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;, films &lt;list&gt;,</span>
+<span class="co">#&gt; #   vehicles &lt;list&gt;, starships &lt;list&gt;</span>
+<span class="kw">top_3</span>(sw, <span class="dv">7</span>)  <span class="co"># top_3 birth_year values</span>
+<span class="co">#&gt; # A tibble: 3 x 13</span>
+<span class="co">#&gt;   name  height  mass hair_color skin_color eye_color birth_year gender</span>
+<span class="co">#&gt;   &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; </span>
+<span class="co">#&gt; 1 Yoda      66    17 white      green      brown            896 male  </span>
+<span class="co">#&gt; 2 Jabb…    175  1358 &lt;NA&gt;       green-tan… orange           600 herma…</span>
+<span class="co">#&gt; 3 Chew…    228   112 brown      unknown    blue             200 male  </span>
+<span class="co">#&gt; # … with 5 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;, films &lt;list&gt;,</span>
+<span class="co">#&gt; #   vehicles &lt;list&gt;, starships &lt;list&gt;</span>
+<span class="co"># AND now:</span>
+<span class="kw">top_3</span>(sw, <span class="dv">1</span>)  <span class="co"># name in alphabetical order</span>
+<span class="co">#&gt; # A tibble: 3 x 13</span>
+<span class="co">#&gt;   name  height  mass hair_color skin_color eye_color birth_year gender</span>
+<span class="co">#&gt;   &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; </span>
+<span class="co">#&gt; 1 Ackb…    180    83 none       brown mot… orange          41   male  </span>
+<span class="co">#&gt; 2 Adi …    184    50 none       dark       blue            NA   female</span>
+<span class="co">#&gt; 3 Anak…    188    84 blond      fair       blue            41.9 male  </span>
+<span class="co">#&gt; # … with 5 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;, films &lt;list&gt;,</span>
+<span class="co">#&gt; #   vehicles &lt;list&gt;, starships &lt;list&gt;</span>
+<span class="kw">top_3</span>(sw, <span class="dv">9</span>)  <span class="co"># homeworld in alphabetical order</span>
+<span class="co">#&gt; # A tibble: 3 x 13</span>
+<span class="co">#&gt;   name  height  mass hair_color skin_color eye_color birth_year gender</span>
+<span class="co">#&gt;   &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; </span>
+<span class="co">#&gt; 1 Leia…    150    49 brown      light      brown             19 female</span>
+<span class="co">#&gt; 2 Bail…    191    NA black      tan        brown             67 male  </span>
+<span class="co">#&gt; 3 Raym…    188    79 brown      light      brown             NA male  </span>
+<span class="co">#&gt; # … with 5 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;, films &lt;list&gt;,</span>
+<span class="co">#&gt; #   vehicles &lt;list&gt;, starships &lt;list&gt;</span></code></pre></div>
+<p>Adjusted base-R solution:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># What happens?</span>
+<span class="co"># top_3_base(sw, 1)  # would yield an error, as order does not allow &quot;-&quot; for character variables.</span>
+
+<span class="co"># (a) specific solution for sorting data:  </span>
+<span class="co"># using order() function and a variable name:</span>
+sw[<span class="kw">order</span>(<span class="op">-</span>sw<span class="op">$</span>height), ]
+<span class="co">#&gt; # A tibble: 87 x 13</span>
+<span class="co">#&gt;    name  height  mass hair_color skin_color eye_color birth_year gender</span>
+<span class="co">#&gt;    &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; </span>
+<span class="co">#&gt;  1 Yara…    264    NA none       white      yellow          NA   male  </span>
+<span class="co">#&gt;  2 Tarf…    234   136 brown      brown      blue            NA   male  </span>
+<span class="co">#&gt;  3 Lama…    229    88 none       grey       black           NA   male  </span>
+<span class="co">#&gt;  4 Chew…    228   112 brown      unknown    blue           200   male  </span>
+<span class="co">#&gt;  5 Roos…    224    82 none       grey       orange          NA   male  </span>
+<span class="co">#&gt;  6 Grie…    216   159 none       brown, wh… green, y…       NA   male  </span>
+<span class="co">#&gt;  7 Taun…    213    NA none       grey       black           NA   female</span>
+<span class="co">#&gt;  8 Rugo…    206    NA none       green      orange          NA   male  </span>
+<span class="co">#&gt;  9 Tion…    206    80 none       grey       black           NA   male  </span>
+<span class="co">#&gt; 10 Dart…    202   136 none       white      yellow          41.9 male  </span>
+<span class="co">#&gt; # … with 77 more rows, and 5 more variables: homeworld &lt;chr&gt;,</span>
+<span class="co">#&gt; #   species &lt;chr&gt;, films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;</span>
+
+<span class="co"># as above: </span>
+<span class="kw">typeof</span>(<span class="kw">unlist</span>(sw[ , <span class="dv">1</span>]))  <span class="co"># &quot;character&quot;</span>
+<span class="co">#&gt; [1] &quot;character&quot;</span>
+<span class="kw">typeof</span>(<span class="kw">unlist</span>(sw[ , <span class="dv">2</span>]))  <span class="co"># &quot;integer&quot;</span>
+<span class="co">#&gt; [1] &quot;integer&quot;</span>
+<span class="kw">typeof</span>(<span class="kw">unlist</span>(sw[ , <span class="dv">3</span>]))  <span class="co"># &quot;double&quot;</span>
+<span class="co">#&gt; [1] &quot;double&quot;</span>
+
+sw[<span class="kw">order</span>(sw<span class="op">$</span>name), ] <span class="co"># works</span>
+<span class="co">#&gt; # A tibble: 87 x 13</span>
+<span class="co">#&gt;    name  height  mass hair_color skin_color eye_color birth_year gender</span>
+<span class="co">#&gt;    &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; </span>
+<span class="co">#&gt;  1 Ackb…    180    83 none       brown mot… orange          41   male  </span>
+<span class="co">#&gt;  2 Adi …    184    50 none       dark       blue            NA   female</span>
+<span class="co">#&gt;  3 Anak…    188    84 blond      fair       blue            41.9 male  </span>
+<span class="co">#&gt;  4 Arve…     NA    NA brown      fair       brown           NA   male  </span>
+<span class="co">#&gt;  5 Ayla…    178    55 none       blue       hazel           48   female</span>
+<span class="co">#&gt;  6 Bail…    191    NA black      tan        brown           67   male  </span>
+<span class="co">#&gt;  7 Barr…    166    50 black      yellow     blue            40   female</span>
+<span class="co">#&gt;  8 BB8       NA    NA none       none       black           NA   none  </span>
+<span class="co">#&gt;  9 Ben …    163    65 none       grey, gre… orange          NA   male  </span>
+<span class="co">#&gt; 10 Beru…    165    75 brown      light      blue            47   female</span>
+<span class="co">#&gt; # … with 77 more rows, and 5 more variables: homeworld &lt;chr&gt;,</span>
+<span class="co">#&gt; #   species &lt;chr&gt;, films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;</span>
+sw<span class="op">$</span>name <span class="co"># is a vector</span>
+<span class="co">#&gt;  [1] &quot;Luke Skywalker&quot;        &quot;C-3PO&quot;                </span>
+<span class="co">#&gt;  [3] &quot;R2-D2&quot;                 &quot;Darth Vader&quot;          </span>
+<span class="co">#&gt;  [5] &quot;Leia Organa&quot;           &quot;Owen Lars&quot;            </span>
+<span class="co">#&gt;  [7] &quot;Beru Whitesun lars&quot;    &quot;R5-D4&quot;                </span>
+<span class="co">#&gt;  [9] &quot;Biggs Darklighter&quot;     &quot;Obi-Wan Kenobi&quot;       </span>
+<span class="co">#&gt; [11] &quot;Anakin Skywalker&quot;      &quot;Wilhuff Tarkin&quot;       </span>
+<span class="co">#&gt; [13] &quot;Chewbacca&quot;             &quot;Han Solo&quot;             </span>
+<span class="co">#&gt; [15] &quot;Greedo&quot;                &quot;Jabba Desilijic Tiure&quot;</span>
+<span class="co">#&gt; [17] &quot;Wedge Antilles&quot;        &quot;Jek Tono Porkins&quot;     </span>
+<span class="co">#&gt; [19] &quot;Yoda&quot;                  &quot;Palpatine&quot;            </span>
+<span class="co">#&gt; [21] &quot;Boba Fett&quot;             &quot;IG-88&quot;                </span>
+<span class="co">#&gt; [23] &quot;Bossk&quot;                 &quot;Lando Calrissian&quot;     </span>
+<span class="co">#&gt; [25] &quot;Lobot&quot;                 &quot;Ackbar&quot;               </span>
+<span class="co">#&gt; [27] &quot;Mon Mothma&quot;            &quot;Arvel Crynyd&quot;         </span>
+<span class="co">#&gt; [29] &quot;Wicket Systri Warrick&quot; &quot;Nien Nunb&quot;            </span>
+<span class="co">#&gt; [31] &quot;Qui-Gon Jinn&quot;          &quot;Nute Gunray&quot;          </span>
+<span class="co">#&gt; [33] &quot;Finis Valorum&quot;         &quot;Jar Jar Binks&quot;        </span>
+<span class="co">#&gt; [35] &quot;Roos Tarpals&quot;          &quot;Rugor Nass&quot;           </span>
+<span class="co">#&gt; [37] &quot;Ric Olié&quot;              &quot;Watto&quot;                </span>
+<span class="co">#&gt; [39] &quot;Sebulba&quot;               &quot;Quarsh Panaka&quot;        </span>
+<span class="co">#&gt; [41] &quot;Shmi Skywalker&quot;        &quot;Darth Maul&quot;           </span>
+<span class="co">#&gt; [43] &quot;Bib Fortuna&quot;           &quot;Ayla Secura&quot;          </span>
+<span class="co">#&gt; [45] &quot;Dud Bolt&quot;              &quot;Gasgano&quot;              </span>
+<span class="co">#&gt; [47] &quot;Ben Quadinaros&quot;        &quot;Mace Windu&quot;           </span>
+<span class="co">#&gt; [49] &quot;Ki-Adi-Mundi&quot;          &quot;Kit Fisto&quot;            </span>
+<span class="co">#&gt; [51] &quot;Eeth Koth&quot;             &quot;Adi Gallia&quot;           </span>
+<span class="co">#&gt; [53] &quot;Saesee Tiin&quot;           &quot;Yarael Poof&quot;          </span>
+<span class="co">#&gt; [55] &quot;Plo Koon&quot;              &quot;Mas Amedda&quot;           </span>
+<span class="co">#&gt; [57] &quot;Gregar Typho&quot;          &quot;Cordé&quot;                </span>
+<span class="co">#&gt; [59] &quot;Cliegg Lars&quot;           &quot;Poggle the Lesser&quot;    </span>
+<span class="co">#&gt; [61] &quot;Luminara Unduli&quot;       &quot;Barriss Offee&quot;        </span>
+<span class="co">#&gt; [63] &quot;Dormé&quot;                 &quot;Dooku&quot;                </span>
+<span class="co">#&gt; [65] &quot;Bail Prestor Organa&quot;   &quot;Jango Fett&quot;           </span>
+<span class="co">#&gt; [67] &quot;Zam Wesell&quot;            &quot;Dexter Jettster&quot;      </span>
+<span class="co">#&gt; [69] &quot;Lama Su&quot;               &quot;Taun We&quot;              </span>
+<span class="co">#&gt; [71] &quot;Jocasta Nu&quot;            &quot;Ratts Tyerell&quot;        </span>
+<span class="co">#&gt; [73] &quot;R4-P17&quot;                &quot;Wat Tambor&quot;           </span>
+<span class="co">#&gt; [75] &quot;San Hill&quot;             </span>
+<span class="co">#&gt;  [ reached getOption(&quot;max.print&quot;) -- omitted 12 entries ]</span>
+<span class="co"># BUT: </span>
+sw[ , <span class="dv">1</span>] <span class="co"># is a tibble</span>
+<span class="co">#&gt; # A tibble: 87 x 1</span>
+<span class="co">#&gt;    name              </span>
+<span class="co">#&gt;    &lt;chr&gt;             </span>
+<span class="co">#&gt;  1 Luke Skywalker    </span>
+<span class="co">#&gt;  2 C-3PO             </span>
+<span class="co">#&gt;  3 R2-D2             </span>
+<span class="co">#&gt;  4 Darth Vader       </span>
+<span class="co">#&gt;  5 Leia Organa       </span>
+<span class="co">#&gt;  6 Owen Lars         </span>
+<span class="co">#&gt;  7 Beru Whitesun lars</span>
+<span class="co">#&gt;  8 R5-D4             </span>
+<span class="co">#&gt;  9 Biggs Darklighter </span>
+<span class="co">#&gt; 10 Obi-Wan Kenobi    </span>
+<span class="co">#&gt; # … with 77 more rows</span>
+<span class="kw">as_vector</span>(sw[ , <span class="dv">1</span>]) <span class="co"># is a vector</span>
+<span class="co">#&gt;                   name1                   name2                   name3 </span>
+<span class="co">#&gt;        &quot;Luke Skywalker&quot;                 &quot;C-3PO&quot;                 &quot;R2-D2&quot; </span>
+<span class="co">#&gt;                   name4                   name5                   name6 </span>
+<span class="co">#&gt;           &quot;Darth Vader&quot;           &quot;Leia Organa&quot;             &quot;Owen Lars&quot; </span>
+<span class="co">#&gt;                   name7                   name8                   name9 </span>
+<span class="co">#&gt;    &quot;Beru Whitesun lars&quot;                 &quot;R5-D4&quot;     &quot;Biggs Darklighter&quot; </span>
+<span class="co">#&gt;                  name10                  name11                  name12 </span>
+<span class="co">#&gt;        &quot;Obi-Wan Kenobi&quot;      &quot;Anakin Skywalker&quot;        &quot;Wilhuff Tarkin&quot; </span>
+<span class="co">#&gt;                  name13                  name14                  name15 </span>
+<span class="co">#&gt;             &quot;Chewbacca&quot;              &quot;Han Solo&quot;                &quot;Greedo&quot; </span>
+<span class="co">#&gt;                  name16                  name17                  name18 </span>
+<span class="co">#&gt; &quot;Jabba Desilijic Tiure&quot;        &quot;Wedge Antilles&quot;      &quot;Jek Tono Porkins&quot; </span>
+<span class="co">#&gt;                  name19                  name20                  name21 </span>
+<span class="co">#&gt;                  &quot;Yoda&quot;             &quot;Palpatine&quot;             &quot;Boba Fett&quot; </span>
+<span class="co">#&gt;                  name22                  name23                  name24 </span>
+<span class="co">#&gt;                 &quot;IG-88&quot;                 &quot;Bossk&quot;      &quot;Lando Calrissian&quot; </span>
+<span class="co">#&gt;                  name25                  name26                  name27 </span>
+<span class="co">#&gt;                 &quot;Lobot&quot;                &quot;Ackbar&quot;            &quot;Mon Mothma&quot; </span>
+<span class="co">#&gt;                  name28                  name29                  name30 </span>
+<span class="co">#&gt;          &quot;Arvel Crynyd&quot; &quot;Wicket Systri Warrick&quot;             &quot;Nien Nunb&quot; </span>
+<span class="co">#&gt;                  name31                  name32                  name33 </span>
+<span class="co">#&gt;          &quot;Qui-Gon Jinn&quot;           &quot;Nute Gunray&quot;         &quot;Finis Valorum&quot; </span>
+<span class="co">#&gt;                  name34                  name35                  name36 </span>
+<span class="co">#&gt;         &quot;Jar Jar Binks&quot;          &quot;Roos Tarpals&quot;            &quot;Rugor Nass&quot; </span>
+<span class="co">#&gt;                  name37                  name38                  name39 </span>
+<span class="co">#&gt;              &quot;Ric Olié&quot;                 &quot;Watto&quot;               &quot;Sebulba&quot; </span>
+<span class="co">#&gt;                  name40                  name41                  name42 </span>
+<span class="co">#&gt;         &quot;Quarsh Panaka&quot;        &quot;Shmi Skywalker&quot;            &quot;Darth Maul&quot; </span>
+<span class="co">#&gt;                  name43                  name44                  name45 </span>
+<span class="co">#&gt;           &quot;Bib Fortuna&quot;           &quot;Ayla Secura&quot;              &quot;Dud Bolt&quot; </span>
+<span class="co">#&gt;                  name46                  name47                  name48 </span>
+<span class="co">#&gt;               &quot;Gasgano&quot;        &quot;Ben Quadinaros&quot;            &quot;Mace Windu&quot; </span>
+<span class="co">#&gt;                  name49                  name50                  name51 </span>
+<span class="co">#&gt;          &quot;Ki-Adi-Mundi&quot;             &quot;Kit Fisto&quot;             &quot;Eeth Koth&quot; </span>
+<span class="co">#&gt;                  name52                  name53                  name54 </span>
+<span class="co">#&gt;            &quot;Adi Gallia&quot;           &quot;Saesee Tiin&quot;           &quot;Yarael Poof&quot; </span>
+<span class="co">#&gt;                  name55                  name56                  name57 </span>
+<span class="co">#&gt;              &quot;Plo Koon&quot;            &quot;Mas Amedda&quot;          &quot;Gregar Typho&quot; </span>
+<span class="co">#&gt;                  name58                  name59                  name60 </span>
+<span class="co">#&gt;                 &quot;Cordé&quot;           &quot;Cliegg Lars&quot;     &quot;Poggle the Lesser&quot; </span>
+<span class="co">#&gt;                  name61                  name62                  name63 </span>
+<span class="co">#&gt;       &quot;Luminara Unduli&quot;         &quot;Barriss Offee&quot;                 &quot;Dormé&quot; </span>
+<span class="co">#&gt;                  name64                  name65                  name66 </span>
+<span class="co">#&gt;                 &quot;Dooku&quot;   &quot;Bail Prestor Organa&quot;            &quot;Jango Fett&quot; </span>
+<span class="co">#&gt;                  name67                  name68                  name69 </span>
+<span class="co">#&gt;            &quot;Zam Wesell&quot;       &quot;Dexter Jettster&quot;               &quot;Lama Su&quot; </span>
+<span class="co">#&gt;                  name70                  name71                  name72 </span>
+<span class="co">#&gt;               &quot;Taun We&quot;            &quot;Jocasta Nu&quot;         &quot;Ratts Tyerell&quot; </span>
+<span class="co">#&gt;                  name73                  name74                  name75 </span>
+<span class="co">#&gt;                &quot;R4-P17&quot;            &quot;Wat Tambor&quot;              &quot;San Hill&quot; </span>
+<span class="co">#&gt;  [ reached getOption(&quot;max.print&quot;) -- omitted 12 entries ]</span>
+sw[<span class="kw">order</span>(<span class="kw">as_vector</span>(sw[ , <span class="dv">1</span>])), ] <span class="co"># works</span>
+<span class="co">#&gt; # A tibble: 87 x 13</span>
+<span class="co">#&gt;    name  height  mass hair_color skin_color eye_color birth_year gender</span>
+<span class="co">#&gt;    &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; </span>
+<span class="co">#&gt;  1 Ackb…    180    83 none       brown mot… orange          41   male  </span>
+<span class="co">#&gt;  2 Adi …    184    50 none       dark       blue            NA   female</span>
+<span class="co">#&gt;  3 Anak…    188    84 blond      fair       blue            41.9 male  </span>
+<span class="co">#&gt;  4 Arve…     NA    NA brown      fair       brown           NA   male  </span>
+<span class="co">#&gt;  5 Ayla…    178    55 none       blue       hazel           48   female</span>
+<span class="co">#&gt;  6 Bail…    191    NA black      tan        brown           67   male  </span>
+<span class="co">#&gt;  7 Barr…    166    50 black      yellow     blue            40   female</span>
+<span class="co">#&gt;  8 BB8       NA    NA none       none       black           NA   none  </span>
+<span class="co">#&gt;  9 Ben …    163    65 none       grey, gre… orange          NA   male  </span>
+<span class="co">#&gt; 10 Beru…    165    75 brown      light      blue            47   female</span>
+<span class="co">#&gt; # … with 77 more rows, and 5 more variables: homeworld &lt;chr&gt;,</span>
+<span class="co">#&gt; #   species &lt;chr&gt;, films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;</span>
+
+
+<span class="co"># Adjusting function from above:</span>
+top_3_base &lt;-<span class="st"> </span><span class="cf">function</span>(data, col_nr){
+  
+  col_type &lt;-<span class="st"> </span><span class="kw">typeof</span>(<span class="kw">unlist</span>(data[ , col_nr]))
+  
+  <span class="cf">if</span> (col_type <span class="op">==</span><span class="st"> &quot;character&quot;</span>) {
+    
+    sorted_data &lt;-<span class="st"> </span>data[<span class="kw">order</span>(<span class="kw">as_vector</span>(data[ , col_nr])), ]
+    
+  } <span class="cf">else</span> {
+    
+    sorted_data &lt;-<span class="st"> </span>data[<span class="kw">order</span>(<span class="op">-</span>data[ , col_nr]), ]
+    
+  }
+  
+  result &lt;-<span class="st"> </span>sorted_data[<span class="dv">1</span><span class="op">:</span><span class="dv">3</span>, ]  <span class="co"># top 3 rows</span>
+  
+  <span class="kw">return</span>(result)
+  
+}
+
+<span class="co"># Check:</span>
+<span class="kw">top_3_base</span>(sw, <span class="dv">2</span>)  <span class="co"># top_3 height values</span>
+<span class="co">#&gt; # A tibble: 3 x 13</span>
+<span class="co">#&gt;   name  height  mass hair_color skin_color eye_color birth_year gender</span>
+<span class="co">#&gt;   &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; </span>
+<span class="co">#&gt; 1 Yara…    264    NA none       white      yellow            NA male  </span>
+<span class="co">#&gt; 2 Tarf…    234   136 brown      brown      blue              NA male  </span>
+<span class="co">#&gt; 3 Lama…    229    88 none       grey       black             NA male  </span>
+<span class="co">#&gt; # … with 5 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;, films &lt;list&gt;,</span>
+<span class="co">#&gt; #   vehicles &lt;list&gt;, starships &lt;list&gt;</span>
+<span class="kw">top_3_base</span>(sw, <span class="dv">3</span>)  <span class="co"># top_3 mass values</span>
+<span class="co">#&gt; # A tibble: 3 x 13</span>
+<span class="co">#&gt;   name  height  mass hair_color skin_color eye_color birth_year gender</span>
+<span class="co">#&gt;   &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; </span>
+<span class="co">#&gt; 1 Jabb…    175  1358 &lt;NA&gt;       green-tan… orange           600 herma…</span>
+<span class="co">#&gt; 2 Grie…    216   159 none       brown, wh… green, y…         NA male  </span>
+<span class="co">#&gt; 3 IG-88    200   140 none       metal      red               15 none  </span>
+<span class="co">#&gt; # … with 5 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;, films &lt;list&gt;,</span>
+<span class="co">#&gt; #   vehicles &lt;list&gt;, starships &lt;list&gt;</span>
+<span class="kw">top_3_base</span>(sw, <span class="dv">7</span>)  <span class="co"># top_3 birth_year values</span>
+<span class="co">#&gt; # A tibble: 3 x 13</span>
+<span class="co">#&gt;   name  height  mass hair_color skin_color eye_color birth_year gender</span>
+<span class="co">#&gt;   &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; </span>
+<span class="co">#&gt; 1 Yoda      66    17 white      green      brown            896 male  </span>
+<span class="co">#&gt; 2 Jabb…    175  1358 &lt;NA&gt;       green-tan… orange           600 herma…</span>
+<span class="co">#&gt; 3 Chew…    228   112 brown      unknown    blue             200 male  </span>
+<span class="co">#&gt; # … with 5 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;, films &lt;list&gt;,</span>
+<span class="co">#&gt; #   vehicles &lt;list&gt;, starships &lt;list&gt;</span>
+<span class="co"># AND now:</span>
+<span class="kw">top_3_base</span>(sw, <span class="dv">1</span>)  <span class="co"># name in alphabetical order</span>
+<span class="co">#&gt; # A tibble: 3 x 13</span>
+<span class="co">#&gt;   name  height  mass hair_color skin_color eye_color birth_year gender</span>
+<span class="co">#&gt;   &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; </span>
+<span class="co">#&gt; 1 Ackb…    180    83 none       brown mot… orange          41   male  </span>
+<span class="co">#&gt; 2 Adi …    184    50 none       dark       blue            NA   female</span>
+<span class="co">#&gt; 3 Anak…    188    84 blond      fair       blue            41.9 male  </span>
+<span class="co">#&gt; # … with 5 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;, films &lt;list&gt;,</span>
+<span class="co">#&gt; #   vehicles &lt;list&gt;, starships &lt;list&gt;</span>
+<span class="kw">top_3_base</span>(sw, <span class="dv">9</span>)  <span class="co"># homeworld in alphabetical order</span>
+<span class="co">#&gt; # A tibble: 3 x 13</span>
+<span class="co">#&gt;   name  height  mass hair_color skin_color eye_color birth_year gender</span>
+<span class="co">#&gt;   &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; </span>
+<span class="co">#&gt; 1 Leia…    150    49 brown      light      brown             19 female</span>
+<span class="co">#&gt; 2 Bail…    191    NA black      tan        brown             67 male  </span>
+<span class="co">#&gt; 3 Raym…    188    79 brown      light      brown             NA male  </span>
+<span class="co">#&gt; # … with 5 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;, films &lt;list&gt;,</span>
+<span class="co">#&gt; #   vehicles &lt;list&gt;, starships &lt;list&gt;</span></code></pre></div>
+<ol start="3" style="list-style-type: decimal">
+<li>Generalise your <code>top_3</code> function to a <code>top_n</code> function that returns the top <code>n</code> rows when sorted by <code>col_nr</code>. What would be a good default value for <code>n</code>? What should happen when <code>n = NA</code> and when <code>n &gt; nrow(data)</code>?</li>
+</ol>
+<p>Check all your functions with appropriate inputs.</p>
+<!-- Solution: -->
+</div>
+<div id="solution-6" class="section level4">
+<h4>Solution</h4>
+<p>Adjusted tidyverse solution:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">nrow</span>(sw)  <span class="co"># 87</span>
+<span class="co">#&gt; [1] 87</span>
+
+<span class="co"># Preparation:</span>
+<span class="co"># a. nrow(data) is a good default value for n. </span>
+<span class="co"># b. n = NA should return NA. </span>
+<span class="co"># c. n &gt; nrow(data) should return n = nrow(data), plus a message.</span>
+
+<span class="co"># Generalizing function from above:</span>
+top_n &lt;-<span class="st"> </span><span class="cf">function</span>(data, col_nr, <span class="dt">n =</span> <span class="kw">nrow</span>(data)){
+  
+  <span class="cf">if</span> (<span class="kw">is.na</span>(n) <span class="op">||</span><span class="st"> </span><span class="kw">is.na</span>(data)) {
+    <span class="kw">return</span>(<span class="ot">NA</span>)  <span class="co"># return early</span>
+  }
+  
+  <span class="cf">if</span> (n <span class="op">&gt;</span><span class="st"> </span><span class="kw">nrow</span>(data)) {
+    <span class="kw">message</span>(<span class="st">&quot;n exceeds nrow(data). Using n = nrow(data) instead...&quot;</span>)
+    n &lt;-<span class="st"> </span><span class="kw">nrow</span>(data)
+  }
+  
+  col_name &lt;-<span class="st"> </span><span class="kw">names</span>(data)[col_nr]
+  col_type &lt;-<span class="st"> </span><span class="kw">typeof</span>(<span class="kw">unlist</span>(data[ , col_nr]))
+  
+  <span class="cf">if</span> (col_type <span class="op">==</span><span class="st"> &quot;character&quot;</span>) {
+    
+    result &lt;-<span class="st"> </span>data <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">      </span><span class="kw">arrange</span>(<span class="op">!!</span><span class="kw">sym</span>(col_name)) <span class="op">%&gt;%</span><span class="st">  </span><span class="co"># do NOT use desc()</span>
+<span class="st">      </span><span class="kw">slice</span>(<span class="dv">1</span><span class="op">:</span>n)  <span class="co"># use top n instead of 3</span>
+    
+  } <span class="cf">else</span> {  <span class="co"># col_type != &quot;character&quot;</span>
+    
+    result &lt;-<span class="st"> </span>data <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">      </span><span class="kw">arrange</span>(<span class="kw">desc</span>(<span class="op">!!</span><span class="kw">sym</span>(col_name))) <span class="op">%&gt;%</span>
+<span class="st">      </span><span class="kw">slice</span>(<span class="dv">1</span><span class="op">:</span>n)  <span class="co"># use top n instead of 3</span>
+    
+  }
+  
+  <span class="kw">return</span>(result)
+  
+}
+
+<span class="co"># Check:</span>
+<span class="kw">top_n</span>(<span class="ot">NA</span>) <span class="co"># NA (even though col_nr is missing)</span>
+<span class="co">#&gt; [1] NA</span>
+<span class="kw">top_n</span>(<span class="ot">NA</span>, <span class="dv">2</span>, <span class="dt">n =</span> <span class="dv">1</span>)  <span class="co"># NA</span>
+<span class="co">#&gt; [1] NA</span>
+<span class="kw">top_n</span>(sw, <span class="dv">2</span>, <span class="dt">n =</span> <span class="ot">NA</span>) <span class="co"># NA</span>
+<span class="co">#&gt; [1] NA</span>
+
+<span class="kw">top_n</span>(sw, <span class="dv">2</span>, <span class="dt">n =</span> <span class="dv">3</span>)  <span class="co"># top n = 3 height values</span>
+<span class="co">#&gt; # A tibble: 3 x 13</span>
+<span class="co">#&gt;   name  height  mass hair_color skin_color eye_color birth_year gender</span>
+<span class="co">#&gt;   &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; </span>
+<span class="co">#&gt; 1 Yara…    264    NA none       white      yellow            NA male  </span>
+<span class="co">#&gt; 2 Tarf…    234   136 brown      brown      blue              NA male  </span>
+<span class="co">#&gt; 3 Lama…    229    88 none       grey       black             NA male  </span>
+<span class="co">#&gt; # … with 5 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;, films &lt;list&gt;,</span>
+<span class="co">#&gt; #   vehicles &lt;list&gt;, starships &lt;list&gt;</span>
+<span class="kw">top_n</span>(sw, <span class="dv">3</span>, <span class="dt">n =</span> <span class="dv">5</span>)  <span class="co"># top n = 5 mass values</span>
+<span class="co">#&gt; # A tibble: 5 x 13</span>
+<span class="co">#&gt;   name  height  mass hair_color skin_color eye_color birth_year gender</span>
+<span class="co">#&gt;   &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; </span>
+<span class="co">#&gt; 1 Jabb…    175  1358 &lt;NA&gt;       green-tan… orange         600   herma…</span>
+<span class="co">#&gt; 2 Grie…    216   159 none       brown, wh… green, y…       NA   male  </span>
+<span class="co">#&gt; 3 IG-88    200   140 none       metal      red             15   none  </span>
+<span class="co">#&gt; 4 Dart…    202   136 none       white      yellow          41.9 male  </span>
+<span class="co">#&gt; 5 Tarf…    234   136 brown      brown      blue            NA   male  </span>
+<span class="co">#&gt; # … with 5 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;, films &lt;list&gt;,</span>
+<span class="co">#&gt; #   vehicles &lt;list&gt;, starships &lt;list&gt;</span>
+<span class="kw">top_n</span>(sw, <span class="dv">7</span>, <span class="dt">n =</span> <span class="dv">1</span>)  <span class="co"># top n = 1 birth_year values</span>
+<span class="co">#&gt; # A tibble: 1 x 13</span>
+<span class="co">#&gt;   name  height  mass hair_color skin_color eye_color birth_year gender</span>
+<span class="co">#&gt;   &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; </span>
+<span class="co">#&gt; 1 Yoda      66    17 white      green      brown            896 male  </span>
+<span class="co">#&gt; # … with 5 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;, films &lt;list&gt;,</span>
+<span class="co">#&gt; #   vehicles &lt;list&gt;, starships &lt;list&gt;</span>
+<span class="co"># AND:</span>
+<span class="kw">top_n</span>(sw, <span class="dv">1</span>, <span class="dt">n =</span> <span class="dv">2</span>)   <span class="co"># top n = 2 names in alphabetical order</span>
+<span class="co">#&gt; # A tibble: 2 x 13</span>
+<span class="co">#&gt;   name  height  mass hair_color skin_color eye_color birth_year gender</span>
+<span class="co">#&gt;   &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; </span>
+<span class="co">#&gt; 1 Ackb…    180    83 none       brown mot… orange            41 male  </span>
+<span class="co">#&gt; 2 Adi …    184    50 none       dark       blue              NA female</span>
+<span class="co">#&gt; # … with 5 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;, films &lt;list&gt;,</span>
+<span class="co">#&gt; #   vehicles &lt;list&gt;, starships &lt;list&gt;</span>
+<span class="kw">top_n</span>(sw, <span class="dv">9</span>, <span class="dt">n =</span> <span class="dv">999</span>) <span class="co"># message and top n = 87 homeworlds </span>
+<span class="co">#&gt; # A tibble: 87 x 13</span>
+<span class="co">#&gt;    name  height  mass hair_color skin_color eye_color birth_year gender</span>
+<span class="co">#&gt;    &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; </span>
+<span class="co">#&gt;  1 Leia…    150    49 brown      light      brown             19 female</span>
+<span class="co">#&gt;  2 Bail…    191    NA black      tan        brown             67 male  </span>
+<span class="co">#&gt;  3 Raym…    188    79 brown      light      brown             NA male  </span>
+<span class="co">#&gt;  4 Ratt…     79    15 none       grey, blue unknown           NA male  </span>
+<span class="co">#&gt;  5 Lobot    175    79 none       light      blue              37 male  </span>
+<span class="co">#&gt;  6 Jek …    180   110 brown      fair       blue              NA male  </span>
+<span class="co">#&gt;  7 Nute…    191    90 none       mottled g… red               NA male  </span>
+<span class="co">#&gt;  8 Ki-A…    198    82 white      pale       yellow            92 male  </span>
+<span class="co">#&gt;  9 Mas …    196    NA none       blue       blue              NA male  </span>
+<span class="co">#&gt; 10 Mon …    150    NA auburn     fair       blue              48 female</span>
+<span class="co">#&gt; # … with 77 more rows, and 5 more variables: homeworld &lt;chr&gt;,</span>
+<span class="co">#&gt; #   species &lt;chr&gt;, films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;</span></code></pre></div>
+</div>
+</div>
+<div id="exercise-5" class="section level2">
+<h2>Exercise 5</h2>
 <div id="a-plotting-function" class="section level4">
 <h4>A plotting function</h4>
 <ol style="list-style-type: decimal">
@@ -799,7 +1553,7 @@ tb_<span class="dv">2</span> &lt;-<span class="st"> </span>tibble<span class="op
 <span class="co">#&gt; [1] &quot;x&quot; &quot;y&quot;</span></code></pre></div>
 <!-- Solution: -->
 </div>
-<div id="solution-4" class="section level4">
+<div id="solution-7" class="section level4">
 <h4>Solution</h4>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(tidyverse)
 
@@ -843,7 +1597,7 @@ my_lm<span class="op">$</span>coefficients[<span class="dv">2</span>]  <span cla
 <p>Incorporate a linear model into your <code>plot_scatter</code> function by adding a line that shows the prediction of the linear model (in a color that can be set by an optional <code>col</code> argument).</p>
 <!-- Solution: -->
 </div>
-<div id="solution-5" class="section level4">
+<div id="solution-8" class="section level4">
 <h4>Solution</h4>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">plot_scatter &lt;-<span class="st"> </span><span class="cf">function</span>(my_data, <span class="dt">col =</span> <span class="st">&quot;red&quot;</span>) {
 
@@ -952,16 +1706,14 @@ Nr. | Topic       |
 9.  | [Functions](http://rpository.com/ds4psy/essentials/function.html) |
 +.  | [Datasets](http://rpository.com/ds4psy/essentials/datasets.html) | 
 -->
-<p>[Last update on 2019-01-27 11:20:26 by <a href="http://neth.de/">hn</a>.]</p>
+<p>[Last update on 2019-01-27 15:51:02 by <a href="http://neth.de/">hn</a>.]</p>
 <!-- eof. -->
 </div>
 <div class="footnotes">
 <hr />
 <ol>
-<li id="fn1"><p>1<a href="#fnref1">↩</a></p></li>
-<li id="fn2"><p>1<a href="#fnref2">↩</a></p></li>
-<li id="fn3"><p>2<a href="#fnref3">↩</a></p></li>
-<li id="fn4"><p>2<a href="#fnref4">↩</a></p></li>
+<li id="fn1"><p>We can print the definition of any function by typing it at the prompt of the console (without parentheses). However, the fact that we have been using functions like <code>summarise</code> or <code>gather</code> many times without ever looking up their definitions indicates that we typically rely on examples and documentation for understanding functions.<a href="#fnref1">↩</a></p></li>
+<li id="fn2"><p>In most functions, the <code>return()</code> statement is the final statement of the function <code>&lt;body&gt;</code>. See <a href="https://r4ds.had.co.nz/functions.html#return-values">Chapter 19.6: Return values</a> for special cases in which it makes sense to provide earlier and multiple <code>return</code> statements or provide <code>invisible</code> return values (e.g., to write pipeable functions).<a href="#fnref2">↩</a></p></li>
 </ol>
 </div>
 </div>
@@ -992,6 +1744,7 @@ Nr. | Topic       |
         <li><a href="#exercise-2">Exercise 2</a></li>
         <li><a href="#exercise-3">Exercise 3</a></li>
         <li><a href="#exercise-4">Exercise 4</a></li>
+        <li><a href="#exercise-5">Exercise 5</a></li>
         </ul></li>
         <li><a href="#more-on-functions">More on functions</a></li>
         <li><a href="#conclusion">Conclusion</a></li>
