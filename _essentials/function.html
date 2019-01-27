@@ -257,20 +257,43 @@ Nr. | Topic       |
 <p>Thus, writing a function initially requires 3 decisions:</p>
 <ol style="list-style-type: decimal">
 <li><p>What is the <code>name</code> of my function? Function names should clearly convey their purpose (“Which task does this function solve?”) and should be short (as they will be typed many times).</p></li>
-<li><p>Which <em>inputs</em> does the function take? Any input that the function needs to perform its task need to be supplied as a list of arguments <code>&lt;args&gt;</code>. Arguments typically include <em>data</em> (e.g., scalars, vectors, or tables that the function uses) and additional <em>parameters</em> (e.g., instructions on how something is to be done: Which type of calculation is desired? How should <code>NA</code> values be treated? Which color should be used? etc.). Any argument can be <em>optional</em> (by including a default value that is used when no argument is provided) or <em>mandatory</em> (by not including a default value).</p></li>
+<li><p>Which <em>inputs</em> does the function take? Any input that the function needs to perform its task need to be supplied as a list of arguments <code>&lt;args&gt;</code>.</p>
+<ul>
+<li><p>Arguments typically include <em>data</em> (e.g., scalars, vectors, tables, or anything else that the function uses to perform its task) and can contain additional <em>details</em> or <em>parameters</em> (e.g., instructions on how something is to be done: Which type of calculation is desired? How should <code>NA</code> values be treated? Which color should be used? etc.).</p></li>
+<li><p>Any argument can be <em>optional</em> (by including a default value that is used when no argument is provided) or <em>mandatory</em> (by not including a default value).</p></li>
+</ul></li>
 <li>The
 <body>
-<p>of a function uses the <em>inputs</em> provided by <code>&lt;args&gt;</code> to perform the task for which the function is created.</p></li>
+<p>of a function uses the <em>inputs</em> provided by <code>&lt;args&gt;</code> to perform the task for which the function is created.</p>
+<ul>
+<li><p>Although some functions are only used for their side-effects (e.g., load or save an object, create a graph, etc.), most functions (also) return some sort of <em>output</em> (e.g., some computed <code>result</code>). This is done by calling the special function <code>return</code> in the function <code>&lt;body&gt;</code> (e.g., <code>return(result)</code>), typically as its last statement.<a href="#fn3" class="footnoteRef" id="fnref3"><sup>3</sup></a></p></li>
+<li><p>The <em>output</em> of a function can assume many different data types (scalar, vector, list, table, etc.).</p></li>
+</ul></li>
 </ol>
-<p>Structure</p>
-<p>Input and Output</p>
+<p><a href="#fn4" class="footnoteRef" id="fnref4"><sup>4</sup></a>: In most functions, the <code>return()</code> statement is the final statement of the function <code>&lt;body&gt;</code>. See <a href="https://r4ds.had.co.nz/functions.html#return-values">Chapter 19.6: Return values</a> for special cases in which it makes sense to provide earlier and multiple <code>return</code> statements or provide <code>invisible</code> return values (e.g., to write pipeable functions).</p>
+<p>Thus, are slightly more detailed template of a typical function is:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">name &lt;-<span class="st"> </span><span class="cf">function</span>(arg_<span class="dv">1</span>, <span class="dt">arg_2 =</span> <span class="ot">FALSE</span>) {
+  
+  <span class="op">&lt;</span>use arg_<span class="dv">1</span> and arg_<span class="dv">2</span> to solve a task<span class="op">&gt;</span>
+<span class="st">    </span>
+<span class="st">  </span>result &lt;-<span class="st"> </span><span class="er">&lt;</span>task solution<span class="op">&gt;</span>
+<span class="st">  </span>
+<span class="st">  </span><span class="kw">return</span>(result)
+  
+}</code></pre></div>
+<p>In this template, <code>arg_1</code> is a mandatory argument (as no default is provided) and <code>arg_2</code> is an optional argument (with a default value of <code>TRUE</code>). The arguments are used to solve some task. Its result is then assigned to <code>result</code> and returned by <code>return(result)</code>. Typical uses of this function could look as follows:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Using this function:</span>
+<span class="kw">name</span>(<span class="dt">arg_1 =</span> x)                 <span class="co"># providing only required argument</span>
+<span class="kw">name</span>(<span class="dt">arg_2 =</span> y, <span class="dt">arg_2 =</span> <span class="ot">FALSE</span>)  <span class="co"># providing both arguments</span>
+<span class="kw">name</span>(z, <span class="ot">TRUE</span>)                   <span class="co"># providing arguments by argument order</span></code></pre></div>
+<p>+++ here now +++</p>
 </div>
 <div id="arguments" class="section level2">
 <h2>Arguments</h2>
 <p>Input to a function.</p>
 <ul>
-<li>Required vs. optional/default arguments</li>
-<li>Checking/verifying arguments</li>
+<li><p>Required vs. optional/default arguments</p></li>
+<li><p>Checking/verifying arguments</p></li>
 </ul>
 </div>
 <div id="return-values" class="section level2">
@@ -929,7 +952,7 @@ Nr. | Topic       |
 9.  | [Functions](http://rpository.com/ds4psy/essentials/function.html) |
 +.  | [Datasets](http://rpository.com/ds4psy/essentials/datasets.html) | 
 -->
-<p>[Last update on 2019-01-27 10:33:50 by <a href="http://neth.de/">hn</a>.]</p>
+<p>[Last update on 2019-01-27 11:20:26 by <a href="http://neth.de/">hn</a>.]</p>
 <!-- eof. -->
 </div>
 <div class="footnotes">
@@ -937,6 +960,8 @@ Nr. | Topic       |
 <ol>
 <li id="fn1"><p>1<a href="#fnref1">↩</a></p></li>
 <li id="fn2"><p>1<a href="#fnref2">↩</a></p></li>
+<li id="fn3"><p>2<a href="#fnref3">↩</a></p></li>
+<li id="fn4"><p>2<a href="#fnref4">↩</a></p></li>
 </ol>
 </div>
 </div>

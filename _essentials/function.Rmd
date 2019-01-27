@@ -171,26 +171,62 @@ Thus, writing a function initially requires 3 decisions:
 
 1. What is the `name` of my function? Function names should clearly convey their purpose ("Which task does this function solve?") and should be short (as they will be typed many times).
 
-2. Which _inputs_ does the function take? Any input that the function needs to perform its task need to be supplied as a list of arguments `<args>`. Arguments typically include _data_ (e.g., scalars, vectors, or tables that the function uses) and additional _parameters_ (e.g., instructions on how something is to be done: Which type of calculation is desired? How should `NA` values be treated? Which color should be used? etc.). Any argument can be _optional_ (by including a default value that is used when no argument is provided) or _mandatory_ (by not including a default value).
+2. Which _inputs_ does the function take? Any input that the function needs to perform its task need to be supplied as a list of arguments `<args>`. 
+
+    - Arguments typically include _data_ (e.g., scalars, vectors, tables, or anything else that the function uses to perform its task) and can contain additional _details_ or _parameters_ (e.g., instructions on how something is to be done: Which type of calculation is desired? How should `NA` values be treated? Which color should be used? etc.). 
+    
+    - Any argument can be _optional_ (by including a default value that is used when no argument is provided) or _mandatory_ (by not including a default value).
 
 3. The <body> of a function uses the _inputs_ provided by `<args>` to perform the task for which the function is created. 
 
+    - Although some functions are only used for their side-effects (e.g., load or save an object, create a graph, etc.), most functions (also) return some sort of _output_ (e.g., some computed `result`). This is done by calling the special function `return` in the function `<body>` (e.g., `return(result)`), typically as its last statement.^[2] 
+    
+    - The _output_ of a function can assume many different data types (scalar, vector, list, table, etc.). 
 
+^[2]: In most functions, the `return()` statement is the final statement of the function `<body>`. 
+See [Chapter 19.6: Return values](https://r4ds.had.co.nz/functions.html#return-values) for special cases in which it makes sense to provide earlier and multiple `return` statements or provide `invisible` return values (e.g., to write pipeable functions). 
 
-Structure
+Thus, are slightly more detailed template of a typical function is:
 
-Input and Output
+```{r function_basics_more, echo = TRUE, eval = FALSE}
+name <- function(arg_1, arg_2 = FALSE) {
+  
+  <use arg_1 and arg_2 to solve a task>
+    
+  result <- <task solution>
+  
+  return(result)
+  
+}
+```
+
+In this template, `arg_1` is a mandatory argument (as no default is provided) and `arg_2` is an optional argument (with a default value of `TRUE`). The arguments are used to solve some task. Its result is then assigned to `result` and returned by `return(result)`. 
+Typical uses of this function could look as follows:
+
+```{r function_basics_use, echo = TRUE, eval = FALSE}
+# Using this function:
+name(arg_1 = x)                 # providing only required argument
+name(arg_2 = y, arg_2 = FALSE)  # providing both arguments
+name(z, FALSE)                  # providing arguments by argument order
+name(z)                         # providing only mandatory (1st) argument
+```
+
++++ here now +++ 
+
 
 ## Arguments
 
 Input to a function.
 
 - Required vs. optional/default arguments
+
 - Checking/verifying arguments
+
 
 ## Return values
 
 Output of a function.
+
 
 ## Conditional execution
 
