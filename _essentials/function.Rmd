@@ -179,7 +179,7 @@ Thus, writing a function initially requires 3 decisions:
 
 3. The `<body>` of a function uses the _inputs_ provided by `<args>` to perform the task for which the function is created. 
 
-    - Although some functions are only used for their side-effects (e.g., load or save an object, create a graph, etc.), most functions (also) return some sort of _output_ (e.g., some computed `result`). This is done by calling the special function `return` in the function `<body>` (e.g., `return(result)`), typically as its last statement.[^2] 
+    - Although some functions are only used for their side-effects (e.g., load or save an object, create a graph, etc.), most functions are created to (also) return some sort of _output_ (e.g., some computed `result`). This can be done by calling the special function `return` in the function `<body>` (e.g., `return(result)`), typically as its last statement.[^2] Even when the function does not contain an explicit `return` statement, it returns the result of the last expression evaluated in the function. 
     
     - The _output_ of a function can assume many different data types (scalar, vector, list, table, etc.). 
 
@@ -218,26 +218,134 @@ name(z, FALSE)                  # providing arguments by argument order
 name(z)                         # providing only mandatory (1st) argument
 ```
 
-+++ here now +++ 
+## Examples
 
+Here are some examples of simple functions:
 
-## Arguments
+#### Power function
 
-Input to a function.
+```{r}
+power <- function(x, exp = 1) {
+  x^exp
+}
+```
 
-- Required vs. optional/default arguments
+We can describe this function as follows:
 
-- Checking/verifying arguments
+- The function `power` has 2 arguments: A mandatory argument `x` and a optional argument `exp` with a default value of `1`. 
 
+- The function computes `x^exp` and returns the result (as this is the final statement in the function's body).
 
-## Return values
+- Thus, the task addressed by `power` is to raise `x` to the `exp`-th power. 
 
-Output of a function.
+- Although the function does not verify anything, `x` and `exp` are assumed to be numeric.
+
+Here are some possible ways of checking how `power` works: 
+
+```{r}
+# Check:
+power(x = 3)
+power(x = 3, exp = 2)
+power(3)
+power(3, 2)
+
+# Also note:
+power(NA)
+power(3, exp = NA)
+
+## Errors:
+# power()       # 1st argument is mandatory
+# power("A")    # setting x to non-numeric argument
+# power(3, "B") # setting exp to non-numeric argument
+```
+
+A more explicit version of the same function would be:
+
+```{r}
+power <- function(x, exp = 1) {
+  
+  result <- x^exp
+  
+  return(result)
+}
+```
+
+#### Descriptive function
+
+Here is another example of a function:
+
+```{r}
+describe <- function(v, rm_na = TRUE){
+  
+  if (length(v) == 1 && is.na(v)) { return(v) }
+  
+  if (!is.numeric(v)) { 
+    message("v is not numeric:")
+    return(v)
+  }
+  
+  # Compute some metrics:
+  mn <- mean(v, na.rm = rm_na)
+  md <- median(v, na.rm = rm_na)
+  min <- min(v, na.rm = rm_na)
+  max <- max(v, na.rm = rm_na)
+  q25 <- quantile(v, .25, na.rm = TRUE)
+  q75 <- quantile(v, .75, na.rm = TRUE)
+  nr_NA <- sum(is.na(v))
+  
+  # Create output vector:
+  out <- c(min, q25, md, mn, q75, max, nr_NA)
+  names(out) <- c("min", "q25", "md", "mn", "q75", "max", "nr_NA")
+  
+  return(out)  
+  
+}
+```
+
+We can describe this function as follows:
+
+- The function `describe` has 2 arguments: A mandatory argument `v` and a optional argument `rm_na` with a default value of `TRUE`. 
+
+- The function first checks if `v` is `NA`: If so, it returns `v` (i.e., `NA`).
+
+- The function then checks if `v` is non-numeric: If so, it prints a message and returns `v`. 
+
+- The function then computes 7 different statistical measures. This illustrates that functions can use other functions. For some of these functions (e.g., `mean`), the `describe` function passes the value of its optional argument `rm_na` to another function's `na.rm` argument. However, for another function (`quantile`), the `describe` function does not use its `rm_na` argument, but always provides `na.rm = TRUE`. 
+
+- The function then creates a vector `out` that includes the 7 computed measures in a specific order and names the vector. 
+
+- The function then returns the vector `out`. 
+
+- Overall, the task addressed by `describe` is to provide a range of descriptive statistics of a vector `v`. 
+
+Here are some possible ways of checking how `describe` works: 
+
+```{r}
+# Check:
+v <- 1:10
+describe(v)
+describe(c(NA, v, NA))
+describe(v, rm_na = FALSE)
+describe(c(v, NA), rm_na = FALSE)
+# Also note:
+describe(NA)
+describe("A")
+```
+
+Actually, `describe` is -- apart from subtle differences -- similar to the base R function `summary`: 
+
+```{r}
+# Compare with base::summary function: 
+summary(v)
+summary(c(NA, v, NA))
+summary(NA)
+```
 
 
 ## Conditional execution
 
-Functions frequently requires distinguishing cases or controlling the flow of data processing. 
+As we have just seen in `describe`, functions frequently require checking some properties of its inputs, 
+distinguishing between cases, and controlling the flow of data processing based on test results. 
 This can be done by conditional statements, like the following `if (test) {...}` structure: 
 
 ```{r if_1, eval = FALSE}
@@ -272,19 +380,23 @@ if (test) {
 Here, the truth value of `test` determines whether the 1st or the 2nd `{...}` is executed. 
 As `test` must be either `TRUE` or `FALSE`, we either see "case 1" printed (if `test` is `TRUE`) or "case 2" printed (if `test` is `FALSE`). 
 
-#### Example
+The following sequence illustrates how tests work (and can fail to work):
 
 ```{r if_2_ex, eval = TRUE}
+# (a) test is TRUE:
 person <- "daughter"
-if (person == "daughter") {print("female")} else { print("male")}
+if (person == "daughter") {print("female")} else {print("male")}
 
+# (b) test is FALSE: 
 person <- "grandfather"
-if (person == "daughter") {print("female")} else { print("male")}
+if (person == "daughter") {print("female")} else {print("male")}
 
 # But:
+# (c) test is FALSE, but should be TRUE: 
 person <- "grandmother"
-if (person == "daughter") {print("female")} else { print("male")}
+if (person == "daughter") {print("female")} else {print("male")}
 ```
+
 
 ### More complex tests
 
@@ -300,13 +412,17 @@ if (test_1 || (test_2 && test_3)) {
 
 #### Example
 
+Here's a way to fix our problem from above (by providing a more comprehensive test): 
+
 ```{r if_3_ex, eval = TRUE}
+# (c) with a more complex test: 
 if (person == "daughter" || person == "mother" || person == "grandmother") {
   print("female")
 } else {
   print("male")
 }
 ```
+
 
 ### More cases
 
@@ -339,21 +455,76 @@ Here, the final `{...}` is contingent on `test_3` being `TRUE`. Thus, the condit
 
 #### Note
 
-- When a test evaluates to TRUE, its `{...}` is evaluated and any later instances of `test` and `{...}` are skipped. Thus, only a single case of `{...}` is evaluated, even if multiple tests would evaluate to `TRUE`.
+- When a test evaluates to `TRUE`, the corresponding `{...}` is evaluated and any later instances of `test` and `{...}` are skipped. Thus, only a single case of `{...}` is evaluated, even if multiple tests would evaluate to `TRUE`.
 
+### Switch
+
+A useful alternative to overly complicated `if` statements is `switch`, which selects one of a list of alternatives: 
 
 <!--   +++ here now +++   -->
 
-Switch:
+```{r switch_character}
+do_op <- function(x, y, op) {
+  
+  switch(op,
+         plus = x + y,
+         minus = x - y,
+         times = x * y,
+         divide = x / y,
+         power = x ^ y, 
+         stop("Unknown operation!")
+  )
+}
 
-## Loops
+# Check: 
+do_op(3, 2, "plus")
+do_op(3, 2, "minus")
+do_op(3, 2, "power")
+
+# But:
+# do_op(3, 2, "square_root")  # would reach stop (and yield an Error)
+```
+
+Here, `op` was specified as a character variable. 
+If switch is used with a numeric expression `i`, it selects the `i`-th case. 
+For example: 
+
+```{r switch_numeric}
+get_ith <- function(v, ith = 1) {
+  
+  switch(ith,
+         v[1],
+         v[2],
+         v[3],
+         stop("Unknown case of ith!")
+  )
+}
+
+# Check: 
+v <- 11:15
+get_ith(v)
+get_ith(v, 2)
+get_ith(v, 3)
+
+## But:
+# get_ith(v, 4)  # would reach stop (and yield an Error)
+```
+
+
+#### Note
+
+- Many functions rely on _iteration_ and _loops_, which are covered in [Chapter 21: Iteration](https://r4ds.had.co.nz/iteration.html). 
+
 
 ## Style
 
-Use good names (for function and argument), clear formatting.
+Writing good functions is a life-long aspiration. For starters, 
 
+- make sure that you choose good _names_ (for both functions and their arguments), 
 
+- format your functions so that they are easy to read (i.e., use blank lines between different parts and automatic indentation), and 
 
+- provide _comments_ to explain the function's purpose and anything else that may be difficult to understand. 
 
 
 # Exercises (WPA09)
@@ -625,7 +796,7 @@ feed_vegan("veggies")  # due to default: vegan = FALSE
 
 #### Number recognition 
 
-1. Explain what the following function `describe` _intends_ to do and why it fails in doing it. 
+1. Explain what the following function `describe` (not to be confused with `describe` above) _intends_ to do and why it fails in doing it. 
 
 ```{r ex3_messy_function}
 describe <- function(x) {
@@ -1130,11 +1301,14 @@ plot_scatter(my_data = tb_2, col = "steelblue")
 
 # More on functions
 
-- Study the vignette `vignette("two-table")` for 2-table verbs, and vignette("dplyr") for 1-table verbs of `dplyr`. 
+- See the [contributed cheatsheets](https://www.rstudio.com/resources/cheatsheets/) on _Base R_ and _Advanced R_. 
 
-- See the [RStudio cheatsheet](https://www.rstudio.com/resources/cheatsheets/) on _Data Transformation_ for essential `dplyr` commands. 
+- [Chapter 19: Functions](https://r4ds.had.co.nz/functions.html) of [r4ds](https://r4ds.had.co.nz/) provides some additional remarks on the special dot-dot-dot argument (`...`), return values, pipeable functions, and the notion of a function's _environment_ or the _scope_ of variables. 
 
-- Follow the links on <https://dplyr.tidyverse.org> and [Wikipedia:Join_SQL](https://en.wikipedia.org/wiki/Join_(SQL)) for additional information. 
+- To really understand how functions are evaluated and used in R, [Advanced R](http://adv-r.had.co.nz/) devotes chapters on [Functions](http://adv-r.had.co.nz/Functions.html) and [Environments](http://adv-r.had.co.nz/Environments.html), and 
+[Functional programming](http://adv-r.had.co.nz/Functional-programming.html).
+
+- The `dplyr` [vignette on programming](https://dplyr.tidyverse.org/articles/programming.html) (see `vignette("programming")`) explains some specifics about writing tidyverse functions.
 
 
 # Conclusion

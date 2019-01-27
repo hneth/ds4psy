@@ -263,7 +263,7 @@ Nr. | Topic       |
 </ul></li>
 <li><p>The <code>&lt;body&gt;</code> of a function uses the <em>inputs</em> provided by <code>&lt;args&gt;</code> to perform the task for which the function is created.</p>
 <ul>
-<li><p>Although some functions are only used for their side-effects (e.g., load or save an object, create a graph, etc.), most functions (also) return some sort of <em>output</em> (e.g., some computed <code>result</code>). This is done by calling the special function <code>return</code> in the function <code>&lt;body&gt;</code> (e.g., <code>return(result)</code>), typically as its last statement.<a href="#fn2" class="footnoteRef" id="fnref2"><sup>2</sup></a></p></li>
+<li><p>Although some functions are only used for their side-effects (e.g., load or save an object, create a graph, etc.), most functions are created to (also) return some sort of <em>output</em> (e.g., some computed <code>result</code>). This can be done by calling the special function <code>return</code> in the function <code>&lt;body&gt;</code> (e.g., <code>return(result)</code>), typically as its last statement.<a href="#fn2" class="footnoteRef" id="fnref2"><sup>2</sup></a> Even when the function does not contain an explicit <code>return</code> statement, it returns the result of the last expression evaluated in the function.</p></li>
 <li><p>The <em>output</em> of a function can assume many different data types (scalar, vector, list, table, etc.).</p></li>
 </ul></li>
 </ol>
@@ -290,23 +290,125 @@ Nr. | Topic       |
 <span class="kw">name</span>(<span class="dt">arg_2 =</span> y, <span class="dt">arg_2 =</span> <span class="ot">FALSE</span>)  <span class="co"># providing both arguments</span>
 <span class="kw">name</span>(z, <span class="ot">FALSE</span>)                  <span class="co"># providing arguments by argument order</span>
 <span class="kw">name</span>(z)                         <span class="co"># providing only mandatory (1st) argument</span></code></pre></div>
-<p>+++ here now +++</p>
 </div>
-<div id="arguments" class="section level2">
-<h2>Arguments</h2>
-<p>Input to a function.</p>
+<div id="examples" class="section level2">
+<h2>Examples</h2>
+<p>Here are some examples of simple functions:</p>
+<div id="power-function" class="section level4">
+<h4>Power function</h4>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">power &lt;-<span class="st"> </span><span class="cf">function</span>(x, <span class="dt">exp =</span> <span class="dv">1</span>) {
+  x<span class="op">^</span>exp
+}</code></pre></div>
+<p>We can describe this function as follows:</p>
 <ul>
-<li><p>Required vs. optional/default arguments</p></li>
-<li><p>Checking/verifying arguments</p></li>
+<li><p>The function <code>power</code> has 2 arguments: A mandatory argument <code>x</code> and a optional argument <code>exp</code> with a default value of <code>1</code>.</p></li>
+<li><p>The function computes <code>x^exp</code> and returns the result (as this is the final statement in the function’s body).</p></li>
+<li><p>Thus, the task addressed by <code>power</code> is to raise <code>x</code> to the <code>exp</code>-th power.</p></li>
+<li><p>Although the function does not verify anything, <code>x</code> and <code>exp</code> are assumed to be numeric.</p></li>
 </ul>
+<p>Here are some possible ways of checking how <code>power</code> works:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Check:</span>
+<span class="kw">power</span>(<span class="dt">x =</span> <span class="dv">3</span>)
+<span class="co">#&gt; [1] 3</span>
+<span class="kw">power</span>(<span class="dt">x =</span> <span class="dv">3</span>, <span class="dt">exp =</span> <span class="dv">2</span>)
+<span class="co">#&gt; [1] 9</span>
+<span class="kw">power</span>(<span class="dv">3</span>)
+<span class="co">#&gt; [1] 3</span>
+<span class="kw">power</span>(<span class="dv">3</span>, <span class="dv">2</span>)
+<span class="co">#&gt; [1] 9</span>
+
+<span class="co"># Also note:</span>
+<span class="kw">power</span>(<span class="ot">NA</span>)
+<span class="co">#&gt; [1] NA</span>
+<span class="kw">power</span>(<span class="dv">3</span>, <span class="dt">exp =</span> <span class="ot">NA</span>)
+<span class="co">#&gt; [1] NA</span>
+
+## Errors:
+<span class="co"># power()       # 1st argument is mandatory</span>
+<span class="co"># power(&quot;A&quot;)    # setting x to non-numeric argument</span>
+<span class="co"># power(3, &quot;B&quot;) # setting exp to non-numeric argument</span></code></pre></div>
+<p>A more explicit version of the same function would be:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">power &lt;-<span class="st"> </span><span class="cf">function</span>(x, <span class="dt">exp =</span> <span class="dv">1</span>) {
+  
+  result &lt;-<span class="st"> </span>x<span class="op">^</span>exp
+  
+  <span class="kw">return</span>(result)
+}</code></pre></div>
 </div>
-<div id="return-values" class="section level2">
-<h2>Return values</h2>
-<p>Output of a function.</p>
+<div id="descriptive-function" class="section level4">
+<h4>Descriptive function</h4>
+<p>Here is another example of a function:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">describe &lt;-<span class="st"> </span><span class="cf">function</span>(v, <span class="dt">rm_na =</span> <span class="ot">TRUE</span>){
+  
+  <span class="cf">if</span> (<span class="kw">length</span>(v) <span class="op">==</span><span class="st"> </span><span class="dv">1</span> <span class="op">&amp;&amp;</span><span class="st"> </span><span class="kw">is.na</span>(v)) { <span class="kw">return</span>(v) }
+  
+  <span class="cf">if</span> (<span class="op">!</span><span class="kw">is.numeric</span>(v)) { 
+    <span class="kw">message</span>(<span class="st">&quot;v is not numeric:&quot;</span>)
+    <span class="kw">return</span>(v)
+  }
+  
+  <span class="co"># Compute some metrics:</span>
+  mn &lt;-<span class="st"> </span><span class="kw">mean</span>(v, <span class="dt">na.rm =</span> rm_na)
+  md &lt;-<span class="st"> </span><span class="kw">median</span>(v, <span class="dt">na.rm =</span> rm_na)
+  min &lt;-<span class="st"> </span><span class="kw">min</span>(v, <span class="dt">na.rm =</span> rm_na)
+  max &lt;-<span class="st"> </span><span class="kw">max</span>(v, <span class="dt">na.rm =</span> rm_na)
+  q25 &lt;-<span class="st"> </span><span class="kw">quantile</span>(v, .<span class="dv">25</span>, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>)
+  q75 &lt;-<span class="st"> </span><span class="kw">quantile</span>(v, .<span class="dv">75</span>, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>)
+  nr_NA &lt;-<span class="st"> </span><span class="kw">sum</span>(<span class="kw">is.na</span>(v))
+  
+  <span class="co"># Create output vector:</span>
+  out &lt;-<span class="st"> </span><span class="kw">c</span>(min, q25, md, mn, q75, max, nr_NA)
+  <span class="kw">names</span>(out) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;min&quot;</span>, <span class="st">&quot;q25&quot;</span>, <span class="st">&quot;md&quot;</span>, <span class="st">&quot;mn&quot;</span>, <span class="st">&quot;q75&quot;</span>, <span class="st">&quot;max&quot;</span>, <span class="st">&quot;nr_NA&quot;</span>)
+  
+  <span class="kw">return</span>(out)  
+  
+}</code></pre></div>
+<p>We can describe this function as follows:</p>
+<ul>
+<li><p>The function <code>describe</code> has 2 arguments: A mandatory argument <code>v</code> and a optional argument <code>rm_na</code> with a default value of <code>TRUE</code>.</p></li>
+<li><p>The function first checks if <code>v</code> is <code>NA</code>: If so, it returns <code>v</code> (i.e., <code>NA</code>).</p></li>
+<li><p>The function then checks if <code>v</code> is non-numeric: If so, it prints a message and returns <code>v</code>.</p></li>
+<li><p>The function then computes 7 different statistical measures. This illustrates that functions can use other functions. For some of these functions (e.g., <code>mean</code>), the <code>describe</code> function passes the value of its optional argument <code>rm_na</code> to another function’s <code>na.rm</code> argument. However, for another function (<code>quantile</code>), the <code>describe</code> function does not use its <code>rm_na</code> argument, but always provides <code>na.rm = TRUE</code>.</p></li>
+<li><p>The function then creates a vector <code>out</code> that includes the 7 computed measures in a specific order and names the vector.</p></li>
+<li><p>The function then returns the vector <code>out</code>.</p></li>
+<li><p>Overall, the task addressed by <code>describe</code> is to provide a range of descriptive statistics of a vector <code>v</code>.</p></li>
+</ul>
+<p>Here are some possible ways of checking how <code>describe</code> works:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Check:</span>
+v &lt;-<span class="st"> </span><span class="dv">1</span><span class="op">:</span><span class="dv">10</span>
+<span class="kw">describe</span>(v)
+<span class="co">#&gt;   min   q25    md    mn   q75   max nr_NA </span>
+<span class="co">#&gt;  1.00  3.25  5.50  5.50  7.75 10.00  0.00</span>
+<span class="kw">describe</span>(<span class="kw">c</span>(<span class="ot">NA</span>, v, <span class="ot">NA</span>))
+<span class="co">#&gt;   min   q25    md    mn   q75   max nr_NA </span>
+<span class="co">#&gt;  1.00  3.25  5.50  5.50  7.75 10.00  2.00</span>
+<span class="kw">describe</span>(v, <span class="dt">rm_na =</span> <span class="ot">FALSE</span>)
+<span class="co">#&gt;   min   q25    md    mn   q75   max nr_NA </span>
+<span class="co">#&gt;  1.00  3.25  5.50  5.50  7.75 10.00  0.00</span>
+<span class="kw">describe</span>(<span class="kw">c</span>(v, <span class="ot">NA</span>), <span class="dt">rm_na =</span> <span class="ot">FALSE</span>)
+<span class="co">#&gt;   min   q25    md    mn   q75   max nr_NA </span>
+<span class="co">#&gt;    NA  3.25    NA    NA  7.75    NA  1.00</span>
+<span class="co"># Also note:</span>
+<span class="kw">describe</span>(<span class="ot">NA</span>)
+<span class="co">#&gt; [1] NA</span>
+<span class="kw">describe</span>(<span class="st">&quot;A&quot;</span>)
+<span class="co">#&gt; [1] &quot;A&quot;</span></code></pre></div>
+<p>Actually, <code>describe</code> is – apart from subtle differences – similar to the base R function <code>summary</code>:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Compare with base::summary function: </span>
+<span class="kw">summary</span>(v)
+<span class="co">#&gt;    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. </span>
+<span class="co">#&gt;    1.00    3.25    5.50    5.50    7.75   10.00</span>
+<span class="kw">summary</span>(<span class="kw">c</span>(<span class="ot">NA</span>, v, <span class="ot">NA</span>))
+<span class="co">#&gt;    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's </span>
+<span class="co">#&gt;    1.00    3.25    5.50    5.50    7.75   10.00       2</span>
+<span class="kw">summary</span>(<span class="ot">NA</span>)
+<span class="co">#&gt;    Mode    NA's </span>
+<span class="co">#&gt; logical       1</span></code></pre></div>
+</div>
 </div>
 <div id="conditional-execution" class="section level2">
 <h2>Conditional execution</h2>
-<p>Functions frequently requires distinguishing cases or controlling the flow of data processing. This can be done by conditional statements, like the following <code>if (test) {...}</code> structure:</p>
+<p>As we have just seen in <code>describe</code>, functions frequently require checking some properties of its inputs, distinguishing between cases, and controlling the flow of data processing based on test results. This can be done by conditional statements, like the following <code>if (test) {...}</code> structure:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="cf">if</span> (test) { 
   <span class="kw">print</span>(<span class="st">&quot;ok&quot;</span>)  <span class="co"># if test is TRUE: ok</span>
 }</code></pre></div>
@@ -326,20 +428,21 @@ x &lt;-<span class="st"> </span><span class="dv">99</span>
   <span class="kw">print</span>(<span class="st">&quot;case 2&quot;</span>)  <span class="co"># if test is FALSE: case 2</span>
 }</code></pre></div>
 <p>Here, the truth value of <code>test</code> determines whether the 1st or the 2nd <code>{...}</code> is executed. As <code>test</code> must be either <code>TRUE</code> or <code>FALSE</code>, we either see “case 1” printed (if <code>test</code> is <code>TRUE</code>) or “case 2” printed (if <code>test</code> is <code>FALSE</code>).</p>
-</div>
-<div id="example-1" class="section level4">
-<h4>Example</h4>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">person &lt;-<span class="st"> &quot;daughter&quot;</span>
-<span class="cf">if</span> (person <span class="op">==</span><span class="st"> &quot;daughter&quot;</span>) {<span class="kw">print</span>(<span class="st">&quot;female&quot;</span>)} <span class="cf">else</span> { <span class="kw">print</span>(<span class="st">&quot;male&quot;</span>)}
+<p>The following sequence illustrates how tests work (and can fail to work):</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># (a) test is TRUE:</span>
+person &lt;-<span class="st"> &quot;daughter&quot;</span>
+<span class="cf">if</span> (person <span class="op">==</span><span class="st"> &quot;daughter&quot;</span>) {<span class="kw">print</span>(<span class="st">&quot;female&quot;</span>)} <span class="cf">else</span> {<span class="kw">print</span>(<span class="st">&quot;male&quot;</span>)}
 <span class="co">#&gt; [1] &quot;female&quot;</span>
 
+<span class="co"># (b) test is FALSE: </span>
 person &lt;-<span class="st"> &quot;grandfather&quot;</span>
-<span class="cf">if</span> (person <span class="op">==</span><span class="st"> &quot;daughter&quot;</span>) {<span class="kw">print</span>(<span class="st">&quot;female&quot;</span>)} <span class="cf">else</span> { <span class="kw">print</span>(<span class="st">&quot;male&quot;</span>)}
+<span class="cf">if</span> (person <span class="op">==</span><span class="st"> &quot;daughter&quot;</span>) {<span class="kw">print</span>(<span class="st">&quot;female&quot;</span>)} <span class="cf">else</span> {<span class="kw">print</span>(<span class="st">&quot;male&quot;</span>)}
 <span class="co">#&gt; [1] &quot;male&quot;</span>
 
 <span class="co"># But:</span>
+<span class="co"># (c) test is FALSE, but should be TRUE: </span>
 person &lt;-<span class="st"> &quot;grandmother&quot;</span>
-<span class="cf">if</span> (person <span class="op">==</span><span class="st"> &quot;daughter&quot;</span>) {<span class="kw">print</span>(<span class="st">&quot;female&quot;</span>)} <span class="cf">else</span> { <span class="kw">print</span>(<span class="st">&quot;male&quot;</span>)}
+<span class="cf">if</span> (person <span class="op">==</span><span class="st"> &quot;daughter&quot;</span>) {<span class="kw">print</span>(<span class="st">&quot;female&quot;</span>)} <span class="cf">else</span> {<span class="kw">print</span>(<span class="st">&quot;male&quot;</span>)}
 <span class="co">#&gt; [1] &quot;male&quot;</span></code></pre></div>
 </div>
 <div id="more-complex-tests" class="section level3">
@@ -350,9 +453,11 @@ person &lt;-<span class="st"> &quot;grandmother&quot;</span>
 } <span class="cf">else</span> { 
   <span class="kw">print</span>(<span class="st">&quot;case 2&quot;</span>) 
 }</code></pre></div>
-<div id="example-2" class="section level4">
+<div id="example-1" class="section level4">
 <h4>Example</h4>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="cf">if</span> (person <span class="op">==</span><span class="st"> &quot;daughter&quot;</span> <span class="op">||</span><span class="st"> </span>person <span class="op">==</span><span class="st"> &quot;mother&quot;</span> <span class="op">||</span><span class="st"> </span>person <span class="op">==</span><span class="st"> &quot;grandmother&quot;</span>) {
+<p>Here’s a way to fix our problem from above (by providing a more comprehensive test):</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># (c) with a more complex test: </span>
+<span class="cf">if</span> (person <span class="op">==</span><span class="st"> &quot;daughter&quot;</span> <span class="op">||</span><span class="st"> </span>person <span class="op">==</span><span class="st"> &quot;mother&quot;</span> <span class="op">||</span><span class="st"> </span>person <span class="op">==</span><span class="st"> &quot;grandmother&quot;</span>) {
   <span class="kw">print</span>(<span class="st">&quot;female&quot;</span>)
 } <span class="cf">else</span> {
   <span class="kw">print</span>(<span class="st">&quot;male&quot;</span>)
@@ -382,19 +487,73 @@ person &lt;-<span class="st"> &quot;grandmother&quot;</span>
 <div id="note" class="section level4">
 <h4>Note</h4>
 <ul>
-<li>When a test evaluates to TRUE, its <code>{...}</code> is evaluated and any later instances of <code>test</code> and <code>{...}</code> are skipped. Thus, only a single case of <code>{...}</code> is evaluated, even if multiple tests would evaluate to <code>TRUE</code>.</li>
+<li>When a test evaluates to <code>TRUE</code>, the corresponding <code>{...}</code> is evaluated and any later instances of <code>test</code> and <code>{...}</code> are skipped. Thus, only a single case of <code>{...}</code> is evaluated, even if multiple tests would evaluate to <code>TRUE</code>.</li>
 </ul>
+</div>
+</div>
+<div id="switch" class="section level3">
+<h3>Switch</h3>
+<p>A useful alternative to overly complicated <code>if</code> statements is <code>switch</code>, which selects one of a list of alternatives:</p>
 <!--   +++ here now +++   -->
-<p>Switch:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">do_op &lt;-<span class="st"> </span><span class="cf">function</span>(x, y, op) {
+  
+  <span class="cf">switch</span>(op,
+         <span class="dt">plus =</span> x <span class="op">+</span><span class="st"> </span>y,
+         <span class="dt">minus =</span> x <span class="op">-</span><span class="st"> </span>y,
+         <span class="dt">times =</span> x <span class="op">*</span><span class="st"> </span>y,
+         <span class="dt">divide =</span> x <span class="op">/</span><span class="st"> </span>y,
+         <span class="dt">power =</span> x <span class="op">^</span><span class="st"> </span>y, 
+         <span class="kw">stop</span>(<span class="st">&quot;Unknown operation!&quot;</span>)
+  )
+}
+
+<span class="co"># Check: </span>
+<span class="kw">do_op</span>(<span class="dv">3</span>, <span class="dv">2</span>, <span class="st">&quot;plus&quot;</span>)
+<span class="co">#&gt; [1] 5</span>
+<span class="kw">do_op</span>(<span class="dv">3</span>, <span class="dv">2</span>, <span class="st">&quot;minus&quot;</span>)
+<span class="co">#&gt; [1] 1</span>
+<span class="kw">do_op</span>(<span class="dv">3</span>, <span class="dv">2</span>, <span class="st">&quot;power&quot;</span>)
+<span class="co">#&gt; [1] 9</span>
+
+<span class="co"># But:</span>
+<span class="co"># do_op(3, 2, &quot;square_root&quot;)  # would reach stop (and yield an Error)</span></code></pre></div>
+<p>Here, <code>op</code> was specified as a character variable. If switch is used with a numeric expression <code>i</code>, it selects the <code>i</code>-th case. For example:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">get_ith &lt;-<span class="st"> </span><span class="cf">function</span>(v, <span class="dt">ith =</span> <span class="dv">1</span>) {
+  
+  <span class="cf">switch</span>(ith,
+         v[<span class="dv">1</span>],
+         v[<span class="dv">2</span>],
+         v[<span class="dv">3</span>],
+         <span class="kw">stop</span>(<span class="st">&quot;Unknown case of ith!&quot;</span>)
+  )
+}
+
+v &lt;-<span class="st"> </span><span class="dv">11</span><span class="op">:</span><span class="dv">15</span>
+<span class="kw">get_ith</span>(v)
+<span class="co">#&gt; [1] 11</span>
+<span class="kw">get_ith</span>(v, <span class="dv">2</span>)
+<span class="co">#&gt; [1] 12</span>
+<span class="kw">get_ith</span>(v, <span class="dv">3</span>)
+<span class="co">#&gt; [1] 13</span>
+
+## But:
+<span class="co"># get_ith(v, 4)  # would reach stop (and yield an Error)</span></code></pre></div>
+<div id="note-1" class="section level4">
+<h4>Note</h4>
+<ul>
+<li>Many functions rely on <em>iteration</em> and <em>loops</em>, which are covered in <a href="https://r4ds.had.co.nz/iteration.html">Chapter 21: Iteration</a>.</li>
+</ul>
 </div>
 </div>
-</div>
-<div id="loops" class="section level2">
-<h2>Loops</h2>
 </div>
 <div id="style" class="section level2">
 <h2>Style</h2>
-<p>Use good names (for function and argument), clear formatting.</p>
+<p>Writing good functions is a life-long aspiration. For starters,</p>
+<ul>
+<li><p>make sure that you choose good <em>names</em> (for both functions and their arguments),</p></li>
+<li><p>format your functions so that they are easy to read (i.e., use blank lines between different parts and automatic indentation), and</p></li>
+<li><p>provide <em>comments</em> to explain the function’s purpose and anything else that may be difficult to understand.</p></li>
+</ul>
 </div>
 </div>
 <div id="exercises-wpa09" class="section level1">
@@ -668,7 +827,7 @@ mean_sd &lt;-<span class="st"> </span><span class="cf">function</span>(v, <span 
 <div id="number-recognition" class="section level4">
 <h4>Number recognition</h4>
 <ol style="list-style-type: decimal">
-<li>Explain what the following function <code>describe</code> <em>intends</em> to do and why it fails in doing it.</li>
+<li>Explain what the following function <code>describe</code> (not to be confused with <code>describe</code> above) <em>intends</em> to do and why it fails in doing it.</li>
 </ol>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">describe &lt;-<span class="st"> </span><span class="cf">function</span>(x) {
   
@@ -1628,9 +1787,10 @@ my_lm<span class="op">$</span>coefficients[<span class="dv">2</span>]  <span cla
 <div id="more-on-functions" class="section level1">
 <h1>More on functions</h1>
 <ul>
-<li><p>Study the vignette <code>vignette(&quot;two-table&quot;)</code> for 2-table verbs, and vignette(“dplyr”) for 1-table verbs of <code>dplyr</code>.</p></li>
-<li><p>See the <a href="https://www.rstudio.com/resources/cheatsheets/">RStudio cheatsheet</a> on <em>Data Transformation</em> for essential <code>dplyr</code> commands.</p></li>
-<li><p>Follow the links on <a href="https://dplyr.tidyverse.org" class="uri">https://dplyr.tidyverse.org</a> and <a href="https://en.wikipedia.org/wiki/Join_(SQL)">Wikipedia:Join_SQL</a> for additional information.</p></li>
+<li><p>See the <a href="https://www.rstudio.com/resources/cheatsheets/">contributed cheatsheets</a> on <em>Base R</em> and <em>Advanced R</em>.</p></li>
+<li><p><a href="https://r4ds.had.co.nz/functions.html">Chapter 19: Functions</a> of <a href="https://r4ds.had.co.nz/">r4ds</a> provides some additional remarks on the special dot-dot-dot argument (<code>...</code>), return values, pipeable functions, and the notion of a function’s <em>environment</em> or the <em>scope</em> of variables.</p></li>
+<li><p>To really understand how functions are evaluated and used in R, <a href="http://adv-r.had.co.nz/">Advanced R</a> devotes chapters on <a href="http://adv-r.had.co.nz/Functions.html">Functions</a> and <a href="http://adv-r.had.co.nz/Environments.html">Environments</a>, and <a href="http://adv-r.had.co.nz/Functional-programming.html">Functional programming</a>.</p></li>
+<li><p>The <code>dplyr</code> <a href="https://dplyr.tidyverse.org/articles/programming.html">vignette on programming</a> (see <code>vignette(&quot;programming&quot;)</code>) explains some specifics about writing tidyverse functions.</p></li>
 </ul>
 </div>
 <div id="conclusion" class="section level1">
@@ -1706,7 +1866,7 @@ Nr. | Topic       |
 9.  | [Functions](http://rpository.com/ds4psy/essentials/function.html) |
 +.  | [Datasets](http://rpository.com/ds4psy/essentials/datasets.html) | 
 -->
-<p>[Last update on 2019-01-27 15:51:02 by <a href="http://neth.de/">hn</a>.]</p>
+<p>[Last update on 2019-01-27 20:49:25 by <a href="http://neth.de/">hn</a>.]</p>
 <!-- eof. -->
 </div>
 <div class="footnotes">
@@ -1730,13 +1890,12 @@ Nr. | Topic       |
         </ul></li>
         <li><a href="#functions">Functions</a><ul>
         <li><a href="#basics">Basics</a></li>
-        <li><a href="#arguments">Arguments</a></li>
-        <li><a href="#return-values">Return values</a></li>
+        <li><a href="#examples">Examples</a></li>
         <li><a href="#conditional-execution">Conditional execution</a><ul>
         <li><a href="#more-complex-tests">More complex tests</a></li>
         <li><a href="#more-cases">More cases</a></li>
+        <li><a href="#switch">Switch</a></li>
         </ul></li>
-        <li><a href="#loops">Loops</a></li>
         <li><a href="#style">Style</a></li>
         </ul></li>
         <li><a href="#exercises-wpa09">Exercises (WPA09)</a><ul>
