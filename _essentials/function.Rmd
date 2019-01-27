@@ -1,7 +1,7 @@
 ---
 title: "Functions, with WPA09 and solutions (ds4psy)"
 author: "Hansjörg Neth, SPDS, uni.kn"
-date: "2019 01 26"
+date: "2019 01 27"
 output:
    rmdformats::html_clean: # html_clean html_docco readthedown material #
      code_folding: show # hide
@@ -144,13 +144,38 @@ For instructions on combining text and code, see [Chapter 27: R Markdown](https:
 
 We have been using functions in all sessions of this course. Many of them (e.g., `c()`, `max()`, and `mean()`) are included in R (so-called _base R_ functions), and the others (like `mutate()`, `gather()`, and `ggplot()`) were defined in additional packages (e.g., the tidyverse packages `dplyr`, `tidyr`, and `ggplot2`). 
 
-Definition
+#### The function of functions
 
-What is a function?  Mathematically, a mapping between sets, or from values x to y.
+<!-- Definition: --> 
 
-In programming: A way to abstract, by writing independent modules (or boxes) that are governed by input-output relations.
+What is a function? Mathematically, a _function_ is a mapping between sets, or from a set of elements x to a set y. In the context of computer programming, a function maps inputs to outputs. To use a function, we only need to know its _name_ and _purpose_, which _inputs_ it takes, and what _outputs_ it returns. Unless we want to understand exactly _how_ it works or _modify_ a function, we learn and use functions without ever seeing how they are defined. Thus, as long as we only use a function, we can think of it as a black box that is defined by its purpose and input-output relations.^[1]
+
+^[1]: We can print the definition of any function by typing it at the prompt of the console (without parentheses). However, the fact that we have been using functions like `summarise` or `gather` many times without ever looking up their definitions indicates that we typically rely on examples and documentation for understanding functions.
+
+<!-- Writing functions: --> 
+
+When moving from using functions to writing them, functions are a great way to automate repeated tasks. 
+As each function handles a task and can be understood solely by its mapping from inputs to outputs, functions are powerful tools of abstraction and encapsulation. In a functional programming paradigm (like R), functions are the basic problem solving units: 
+Each function deals with a task (i.e., performs an action, which is why we can think of them as verbs). 
+To use a new set of functions (e.g., an R package) we primarily need to know its overall goal (i.e., which challenge or problem does it address?) and its functions (i.e., which functions does it provide? What does each function do?). 
 
 ## Basics
+
+The basic structure for writing a new function looks as follows:
+
+```{r function_basics, echo = TRUE, eval = FALSE}
+name <- function(<args>) {<body>}
+```
+
+Thus, writing a function initially requires 3 decisions:
+
+1. What is the `name` of my function? Function names should clearly convey their purpose ("Which task does this function solve?") and should be short (as they will be typed many times).
+
+2. Which _inputs_ does the function take? Any input that the function needs to perform its task need to be supplied as a list of arguments `<args>`. Arguments typically include _data_ (e.g., scalars, vectors, or tables that the function uses) and additional _parameters_ (e.g., instructions on how something is to be done: Which type of calculation is desired? How should `NA` values be treated? Which color should be used? etc.). Any argument can be _optional_ (by including a default value that is used when no argument is provided) or _mandatory_ (by not including a default value).
+
+3. The <body> of a function uses the _inputs_ provided by `<args>` to perform the task for which the function is created. 
+
+
 
 Structure
 
@@ -294,12 +319,165 @@ Here are the exercises of WPA09 and possible solutions for them.
 
 ## Exercise 1
 
+Each of the following 3 functions takes a vector `v` as an input and tries to perform a simple task. 
+For each function:
+
+- describe the task that the function is designed to perform,  
+- test whether it successfully performs this task,  
+- name any problem that you detect with the current function,  
+- fix the function so that it successfully performs its task.  
+
+```{r ex1_functions_with_errors, eval = FALSE}
+# (1)  ------ 
+first_element <- function(v) {
+  
+  output <- NA   # initialize
+  output <- v[1] # set to 1st
+  
+}
+
+# Check: 
+first_element(v = c(10, 11, 12))
+first_element(v = c("A", "B", "C"))
+first_element(v = c(NA, 11, 12))
+first_element(v = NA)
+
+# (2) ------ 
+avg_mn_med <- function(v, na_rm = TRUE) {
+  
+  mn  <- mean(v)
+  med <- median(v)
+  avg <- (mn + med)/2
+  
+  return(avg)
+}
+
+# Check:
+avg_mn_med(v = c(1, 2, 3))
+avg_mn_med(v = c(1, 2, 9))
+avg_mn_med(v = c(1, 2, NA))
+avg_mn_med(v = NA)
+avg_mn_med(v = c("A", "B"))
+
+# (3)  ------ 
+mean_sd <- function(v, na_rm = TRUE) {
+  
+  mn  <- mean(v)
+  sd  <- sd(v)
+  
+  both <- c(mn, sd)
+  names(both) <- c("mean", "sd")
+  
+  return(mn)
+  
+}
+
+# Check:
+mean_sd(v = c(1, 2, 3))
+mean_sd(v = c(1, 2, 9))
+mean_sd(v = c(1, 2, NA))
+mean_sd(v = NA)
+mean_sd(v = c("A", "B"))
+```
+
+<!-- Solution: --> 
+
+Possible solutions:
+
+```{r ex1_functions_with_solutions}
+# (1)  ------ 
+# Task: Return the 1st element of v.
+# Problem:  Nothing is returned.
+# Solution: Add return(output).
+
+first_element <- function(v) {
+  
+  output <- NA   # initialize
+  output <- v[1] # set to 1st
+  
+  return(output)
+  
+}
+
+# Check: 
+first_element(v = c(10, 11, 12))
+first_element(v = c("A", "B", "C"))
+first_element(v = c(NA, 11, 12))
+first_element(v = NA)
+
+# (2) ------ 
+# Task: Return the average of mean and median of v.
+# Problem  1: na_rm is not used in function body.
+# Solution 1: Add na_rm as value to na.rm of base functions.
+# Problem  2: Function returns ERROR for non-numeric v.
+# Solution 2: Use if statement to check for is.numeric(v).
+
+avg_mn_med <- function(v, na_rm = TRUE) {
+  
+  if (!is.numeric(v)) {
+    message("avg_mn_md: v requires numeric inputs.")
+  } else {
+    
+    mn  <- mean(v, na.rm = na_rm)
+    med <- median(v, na.rm = na_rm)
+    avg <- (mn + med)/2
+    
+    return(avg)
+    
+  } # if (!is.numeric(v)) etc.
+}
+
+# Check:
+avg_mn_med(v = c(1, 2, 3))
+avg_mn_med(v = c(1, 2, 9))
+avg_mn_med(v = c(1, 2, NA))
+avg_mn_med(v = NA)
+avg_mn_med(v = c("A", "B"))
+
+# (3)  ------ 
+# Task: Return the mean and sd of v.
+# Problem  1: Only the mean is returned.
+# Solution 1: return(both)
+# Problem  2: na_rm is not used in function body.
+# Solution 2: Add na_rm as value to na.rm of base functions.
+# Problem  3: Function returns ERROR for non-numeric v.
+# Solution 3: Use if statement to check for is.numeric(v).
+
+mean_sd <- function(v, na_rm = TRUE) {
+  
+  if (!is.numeric(v)) {
+    message("mean_sd: v requires numeric inputs.")
+  } else {
+    
+    mn  <- mean(v, na.rm = na_rm)
+    sd  <- sd(v, na.rm = na_rm)
+    
+    both <- c(mn, sd)
+    names(both) <- c("mean", "sd")
+    
+    return(both)
+    
+  } # if (!is.numeric(v)) etc.
+  
+}
+
+# Check:
+mean_sd(v = c(1, 2, 3))
+mean_sd(v = c(1, 2, 9))
+mean_sd(v = c(1, 2, NA))
+mean_sd(v = NA)
+mean_sd(v = c("A", "B"))
+```
+
+
+## Exercise 2
+
 #### Conditional feeding
 
 1. Write a function `feed_me` that takes a character string `food` as a required argument, and returns the sentence `"I love to eat ___!"`. 
 Test your function by running `feed_me("apples")`, etc.
 
-```{r, eval = FALSE, echo = TRUE}
+```{r ex2_template, eval = FALSE, echo = TRUE}
 feed_me <- function(___) {
   
   output <- paste0("I love to eat ", ___, "!")
@@ -312,7 +490,7 @@ feed_me <- function(___) {
 
 A possible solution:
 
-```{r ex1_1, echo = TRUE, eval = TRUE}
+```{r ex2_1, echo = TRUE, eval = TRUE}
 feed_me <- function(food) {
   
   output <- paste0("I love to eat ", food, "!")
@@ -333,7 +511,7 @@ feed_me(NA)
 
 A possible solution:
 
-```{r ex1_2, echo = TRUE, eval = TRUE}
+```{r ex2_2, echo = TRUE, eval = TRUE}
 feed_me <- function(food) {
   
   if (is.na(food)) {
@@ -366,7 +544,7 @@ Test your functions with various entries.
 
 A possible solution:
 
-```{r ex1_3, echo = TRUE, eval = TRUE}
+```{r ex2_3, echo = TRUE, eval = TRUE}
 feed_vegan <- function(food, type = "food", vegan = FALSE) {
   
   if (is.na(food)) {
@@ -400,13 +578,13 @@ feed_vegan("spagetti", type = "pasta")  # due to type != "food"
 feed_vegan("veggies")  # due to default: vegan = FALSE
 ```
 
-## Exercise 2
+## Exercise 3
 
 #### Number recognition 
 
 1. Explain what the following function `describe` _intends_ to do and why it fails in doing it. 
 
-```{r ex2_messy_function}
+```{r ex3_messy_function}
 describe <- function(x) {
   
   if (x %% 2 == 0) {print("x is an even number.")} 
@@ -430,7 +608,7 @@ The function `describe` seems to want to categorize a number `x` into one of var
 
 However, it currently fails (and only distinguishes between even and odd numbers), because of the order of its if statements. Currently, the quite general tests at the beginning are `TRUE` for most cases, so that more specific later cases are never reached.
 
-```{r include=FALSE}
+```{r ex3_1_hide, include=FALSE}
 # Check:
 describe(0)
 describe(1)
@@ -454,7 +632,7 @@ describe <- function(x) {
 
 2. Repair the `describe` function to yield the following results:
 
-```{r}
+```{r ex3_2_desired_results}
 # Desired results:
 describe(0)
 describe(1)
@@ -469,7 +647,7 @@ describe(21)
 
 To repair the function, we need to re-arrange the if statements (putting some more specific statements before more general ones):
 
-```{r echo=TRUE}
+```{r ex3_2_solution, echo=TRUE}
 describe <- function(x) {
   
   if (x < 1)            {print("x is too small.")}  
@@ -496,7 +674,7 @@ Correct the function to yield appropriate results in both cases.
 
 #### Solution
 
-```{r}
+```{r ex3_3_solution}
 # Check:
 # describe(NA)   # yields an ERROR
 describe("one")  # yields "x is too big."
@@ -532,7 +710,7 @@ describe("one")  # yields "x is too big."
 
 The function `describe` prints `"x is beyond description."` for values of `1 < x < 20` that are not integers: 
 
-```{r}
+```{r ex3_4_solution}
 # For 1 < x < 20 that are not integers:
 describe(2.2)
 describe(sqrt(2))
@@ -540,9 +718,9 @@ describe(pi)
 ```
 
 
-## Exercise 3
+## Exercise 4
 
-#### Plotting function
+#### A plotting function
 
 1. Write a function `plot_scatter` that takes a table (tibble or data frame) with 2 numeric variables `x` and `y` as `my_data` and plots a scatterplot of the values of `y` by the values of `x`. 
 
@@ -550,7 +728,7 @@ describe(pi)
 
 Test your function by using the following 2 tibbles `tb_1` and `tb_2` as `my_data`: 
 
-```{r ex3_create_test_data}
+```{r ex4_create_test_data}
 set.seed(101)
 n_num <- 100
 x_val <- runif(n = n_num, min = 30, max = 90)
@@ -566,7 +744,7 @@ names(tb_1)
 
 #### Solution
 
-```{r ex3_1_scatter}
+```{r ex4_1_scatter}
 library(tidyverse)
 
 plot_scatter <- function(my_data) {
@@ -586,7 +764,7 @@ plot_scatter(my_data = tb_2)
 
 2. For any table `my_data` that contains 2 numeric variables `x` and `y` we can fit a linear model as follows:
 
-```{r ex3_lm}
+```{r ex4_lm}
 my_data <- tb_1
 
 my_lm <- lm(y ~ x, data = my_data)
@@ -603,7 +781,7 @@ Incorporate a linear model into your `plot_scatter` function by adding a line th
 
 #### Solution
 
-```{r ex3_2_lm}
+```{r ex4_2_lm}
 plot_scatter <- function(my_data, col = "red") {
 
   # fit linear model:
