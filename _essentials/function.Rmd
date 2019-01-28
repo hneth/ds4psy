@@ -1,7 +1,7 @@
 ---
 title: "Functions, with WPA09 and solutions (ds4psy)"
 author: "Hansjörg Neth, SPDS, uni.kn"
-date: "2019 01 27"
+date: "2019 01 28"
 output:
    rmdformats::html_clean: # html_clean html_docco readthedown material #
      code_folding: show # hide
@@ -142,7 +142,7 @@ For instructions on combining text and code, see [Chapter 27: R Markdown](https:
 
 # Functions
 
-We have been using functions in all sessions of this course. Many of them (e.g., `c()`, `max()`, and `mean()`) are included in R (so-called _base R_ functions), and the others (like `mutate()`, `gather()`, and `ggplot()`) were defined in additional packages (e.g., the tidyverse packages `dplyr`, `tidyr`, and `ggplot2`). 
+We have been using functions in all sessions of this course. Many of them -- like `c()`, `max()`, and `mean()` -- are included in R (so-called _base R_ functions), and the others -- like `mutate()`, `gather()`, and `ggplot()` -- were defined in additional packages (e.g., the tidyverse packages `dplyr`, `tidyr`, and `ggplot2`). Actually, the fact that most packages mostly provide additional functions shows that functions are a pretty big deal in R. Like tools, functions extend the scope of tasks that can be solved. To use a tool, we typically do not need to understand how it was designed and built. However, to create new tools in R, we need to know how to write functions. 
 
 #### The function of functions
 
@@ -222,7 +222,7 @@ name(z)                         # providing only mandatory (1st) argument
 
 Here are some examples of simple functions:
 
-#### Power function
+#### A power function
 
 ```{r}
 power <- function(x, exp = 1) {
@@ -270,7 +270,7 @@ power <- function(x, exp = 1) {
 }
 ```
 
-#### Descriptive function
+#### A descriptive function
 
 Here is another example of a function:
 
@@ -342,15 +342,34 @@ summary(NA)
 ```
 
 
-## Conditional execution
+## Style
+
+Writing good functions is a life-long aspiration. For starters, 
+
+- make sure that you choose good _names_ for both your functions and their arguments, 
+
+- format your functions so that they are easy to read (i.e., use blank lines between different parts and automatic indentation), and 
+
+- provide _comments_ to explain the function's purpose and anything else that may be difficult to understand. 
+
+
+## Functions with loops
+
+- Many functions rely on _iteration_ and _loops_, which are covered in [Chapter 21: Iteration](https://r4ds.had.co.nz/iteration.html).
+
+
+# Conditionals
 
 As we have just seen in `describe`, functions frequently require checking some properties of its inputs, 
 distinguishing between cases, and controlling the flow of data processing based on test results. 
-This can be done by conditional statements, like the following `if (test) {...}` structure: 
 
-```{r if_1, eval = FALSE}
-if (test) { 
-  print("ok")  # if test is TRUE: ok
+## If-then
+
+A test can be conducted by a _conditional_ statement, like the following if-then or `if (test) {...}` structure: 
+
+```{r if_then, eval = FALSE}
+if (test) {    # if: test is TRUE
+  print("ok")  # then: print ok
 }
 ```
 
@@ -359,17 +378,21 @@ If `test` is `TRUE` the code in the subsequent `{...}` is executed (here: `"ok"`
 
 #### Example
 
-```{r if_1_ex, eval = TRUE}
+```{r if_then_ex, eval = TRUE}
 x <- 101
 if (x >= 100) { print(paste0("The number ", x, " is big.")) }
 
 x <- 99
 if (x >= 100) { print(paste0("The number ", x, " is big.")) }
+# Note that nothing happens here! 
 ```
 
-A slightly more complicated form of `if` statement includes an additional `{...}` after an `else` statement:  
+## If-then-else
 
-```{r if_2, eval = FALSE}
+If a test fails, we often want something _else_ to happen. 
+To accommodate this desire, a slightly more complicated form of `if` statement includes an additional `{...}` after an `else` statement:  
+
+```{r if_then_else, eval = FALSE}
 if (test) { 
   print("case 1")  # if test is TRUE:  case 1
 } else { 
@@ -382,7 +405,7 @@ As `test` must be either `TRUE` or `FALSE`, we either see "case 1" printed (if `
 
 The following sequence illustrates how tests work (and can fail to work):
 
-```{r if_2_ex, eval = TRUE}
+```{r if_then_else_ex, eval = TRUE}
 # (a) test is TRUE:
 person <- "daughter"
 if (person == "daughter") {print("female")} else {print("male")}
@@ -397,8 +420,7 @@ person <- "grandmother"
 if (person == "daughter") {print("female")} else {print("male")}
 ```
 
-
-### More complex tests
+## More complex tests
 
 The condition `test` of a conditional statement can contain multiple tests. If so, each individual test must evaluate to either `TRUE` or `FALSE` and the different tests are linked with `&&` or `||`, which work like the logical connectors `&` and `|`, but are evaluated sequentially (from left to right):
 
@@ -423,45 +445,43 @@ if (person == "daughter" || person == "mother" || person == "grandmother") {
 }
 ```
 
-
-### More cases
+## More cases
 
 As we can replace any `{...}` in a conditional statement `if (test) {...} else {...}` by another conditional statement, we can distinguish more than 2 cases:
 
 ```{r if_4, eval = FALSE}
-if (test_1) { 
-  print("case 1")  # if test_1 is TRUE:  case 1
-} else if (test_2) { 
-  print("case 2")  # if test_2 is TRUE: case 2
-} else {
-  print("else")    # none of the above are TRUE: else case
+if (test_1) {        # if test_1 is TRUE:
+  print("case 1")    # then: case 1
+} else if (test_2) { # if test_2 is TRUE: 
+  print("case 2")    # then: case 2
+} else {             # if NONE of the tests are TRUE: 
+  print("else")      # then: else case
 }
 ```
 
-Here, 2 cases are contingent on their corresponding condition being `TRUE`, otherwise the final `{...}` is reached and `"else"` is printed. 
-Note that this is different from the following: 
+Here, 2 cases are contingent on their corresponding condition being `TRUE`, otherwise the final `{...}` is reached and `"else"` is being printed. Thus, an "else case" often serves as a generic case that occurs when none of the earlier tests are true. 
+
+Note that the following variant of this conditional is different: 
 
 ```{r if_5, eval = FALSE}
-if (test_1) { 
-  print("case 1")  # if test_1 is TRUE:  case 1
-} else if (test_2) { 
-  print("case 2")  # if test_2 is TRUE: case 2
-} else if (test_3) { 
-  print("else")  # neither test_1 nor test_2 are TRUE, but test_3 is TRUE: else case
+if (test_1) {         # if test_1 is TRUE:  
+  print("case 1")     # then: case 1
+} else if (test_2) {  # if test_2 is TRUE:
+  print("case 2")     # then: case 2
+} else if (test_3) {  # if NONE of the tests are TRUE, BUT test_3 is TRUE:
+  print("else")       # then: else case
 }
 ```
 
-Here, the final `{...}` is contingent on `test_3` being `TRUE`. Thus, the condition that `"else"` is printed include that `test_1` and `test_2` are both `FALSE` and that `test_3` is `TRUE`. 
+Here, the final `{...}` is contingent on another `test_3` being `TRUE`. Thus, the conditions that the final `"else"` is being printed are not only that `test_1` and `test_2` are both `FALSE` but also that `test_3` is `TRUE`. If all 3 tests fail, none of the cases is reached and nothing is printed. 
 
 #### Note
 
 - When a test evaluates to `TRUE`, the corresponding `{...}` is evaluated and any later instances of `test` and `{...}` are skipped. Thus, only a single case of `{...}` is evaluated, even if multiple tests would evaluate to `TRUE`.
 
-### Switch
+## Switch
 
 A useful alternative to overly complicated `if` statements is `switch`, which selects one of a list of alternatives: 
-
-<!--   +++ here now +++   -->
 
 ```{r switch_character}
 do_op <- function(x, y, op) {
@@ -486,45 +506,129 @@ do_op(3, 2, "power")
 ```
 
 Here, `op` was specified as a character variable. 
-If switch is used with a numeric expression `i`, it selects the `i`-th case. 
+If switch is used with a numeric expression `i`, it selects the `i`-th case (with `i` being coerced into an integer). 
 For example: 
 
 ```{r switch_numeric}
-get_ith <- function(v, ith = 1) {
+get_i <- function(v, i = 1) {
   
-  switch(ith,
+  switch(i,
          v[1],
          v[2],
          v[3],
-         stop("Unknown case of ith!")
+         stop("Unknown case of i!")
   )
 }
 
 # Check: 
 v <- 11:15
-get_ith(v)
-get_ith(v, 2)
-get_ith(v, 3)
+get_i(v)
+get_i(v, 2)
+get_i(v, 3)
 
 ## But:
-# get_ith(v, 4)  # would reach stop (and yield an Error)
+# get_i(v, 4)  # would reach stop (and yield an Error)
 ```
 
+## Practice
 
-#### Note
+#### A conditional nursery rhyme
 
-- Many functions rely on _iteration_ and _loops_, which are covered in [Chapter 21: Iteration](https://r4ds.had.co.nz/iteration.html). 
+Consider the following `check_flow` function:
 
+```{r nursery_rhyme_ugly, echo = TRUE}
+check_flow <- function(n) {
+  if (is.logical(n)) {return("Logo!")} else 
+  {print("Ok:")}
+  if (length(n) == 1 && is.numeric(n))
+    {switch(n,print("ene"),print("mene"),print("miste"),
+           print("es rappelt"),print("in der kiste"))
+  } else if (is.character(n)) {
+    if (is.character(n)) {n <- tolower(n)}
+    switch(n,"a" = return("ene"),
+    "b" = return("mene"),"c" = return("mu"))
+  } else {return("Raus bist du!")}
+  "(etc.)"}
+```
 
-## Style
+The function appears to implement some nursery rhyme, but is really messy, unfortunately. 
+Hence, we need to clean it up before trying to understand it. 
 
-Writing good functions is a life-long aspiration. For starters, 
+1. Format the function so that it becomes easier to read and parse. 
 
-- make sure that you choose good _names_ (for both functions and their arguments), 
+```{r nursery_rhyme_pretty, echo = FALSE}
+check_flow <- function(n) {
+  
+  if (is.logical(n)) {
+    return("Logo!")
+  } else {
+    print("Ok:")
+  }
+  
+  if (length(n) == 1 && is.numeric(n)) {
+    
+    switch(n,
+           print("ene"),
+           print("mene"),
+           print("miste"),
+           print("es rappelt"),
+           print("in der kiste")
+    )
+    
+  } else if (is.character(n)) {
+    
+    if (is.character(n)) {n <- tolower(n)}
+    
+    switch(n,
+           "a" = return("ene"),
+           "b" = return("mene"),
+           "c" = return("mu")
+    )
+    
+  } else {
+    
+    return("Raus bist du!")
+    
+  }
+  
+  "(etc.)"
+  
+}
+```
 
-- format your functions so that they are easy to read (i.e., use blank lines between different parts and automatic indentation), and 
+2. Describe and try to understand this function. What does it do and how does it do it?
 
-- provide _comments_ to explain the function's purpose and anything else that may be difficult to understand. 
+3. Answer the following questions:
+
+    - Which cases does the 1st conditional statement distinguish?  
+    - When is the 1st `switch` statement reached?  When is the 2nd `switch` statement reached?   
+    - What is the difference between the `print` and the `return` statements?  
+    - Under which conditions does the function return `"raus bist du"`?  
+    - What happens when you call `check_flow()` or `check_flow(NA)`?  
+
+4. Test your predictions by evaluating the following calls:
+
+```{r nursery_rhyme_calls, eval = FALSE}
+# Check: 
+check_flow(2 < 1)
+check_flow(2)
+check_flow(4)
+check_flow(6)
+check_flow(8)
+check_flow("A")
+check_flow("C")
+check_flow("ABC")
+
+# Note:
+check_flow()
+check_flow(NA)
+check_flow(sqrt(2))
+check_flow(pi)
+check_flow(4.1)
+check_flow(c(1, 2))
+check_flow(c("A", "B"))
+```
+
 
 
 # Exercises (WPA09)
@@ -682,7 +786,6 @@ mean_sd(v = c(1, 2, NA))
 mean_sd(v = NA)
 mean_sd(v = c("A", "B"))
 ```
-
 
 ## Exercise 2
 

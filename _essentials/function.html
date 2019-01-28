@@ -124,7 +124,7 @@ img {
 <div id="header">
 <h1 class="title">Functions, with WPA09 and solutions (ds4psy)</h1>
 <h4 class="author"><em>Hansjörg Neth, SPDS, uni.kn</em></h4>
-<h4 class="date"><em>2019 01 27</em></h4>
+<h4 class="date"><em>2019 01 28</em></h4>
 </div>
 
 <div id="content">
@@ -241,7 +241,7 @@ Nr. | Topic       |
 </div>
 <div id="functions" class="section level1">
 <h1>Functions</h1>
-<p>We have been using functions in all sessions of this course. Many of them (e.g., <code>c()</code>, <code>max()</code>, and <code>mean()</code>) are included in R (so-called <em>base R</em> functions), and the others (like <code>mutate()</code>, <code>gather()</code>, and <code>ggplot()</code>) were defined in additional packages (e.g., the tidyverse packages <code>dplyr</code>, <code>tidyr</code>, and <code>ggplot2</code>).</p>
+<p>We have been using functions in all sessions of this course. Many of them – like <code>c()</code>, <code>max()</code>, and <code>mean()</code> – are included in R (so-called <em>base R</em> functions), and the others – like <code>mutate()</code>, <code>gather()</code>, and <code>ggplot()</code> – were defined in additional packages (e.g., the tidyverse packages <code>dplyr</code>, <code>tidyr</code>, and <code>ggplot2</code>). Actually, the fact that most packages mostly provide additional functions shows that functions are a pretty big deal in R. Like tools, functions extend the scope of tasks that can be solved. To use a tool, we typically do not need to understand how it was designed and built. However, to create new tools in R, we need to know how to write functions.</p>
 <div id="the-function-of-functions" class="section level4">
 <h4>The function of functions</h4>
 <!-- Definition: -->
@@ -294,8 +294,8 @@ Nr. | Topic       |
 <div id="examples" class="section level2">
 <h2>Examples</h2>
 <p>Here are some examples of simple functions:</p>
-<div id="power-function" class="section level4">
-<h4>Power function</h4>
+<div id="a-power-function" class="section level4">
+<h4>A power function</h4>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">power &lt;-<span class="st"> </span><span class="cf">function</span>(x, <span class="dt">exp =</span> <span class="dv">1</span>) {
   x<span class="op">^</span>exp
 }</code></pre></div>
@@ -335,8 +335,8 @@ Nr. | Topic       |
   <span class="kw">return</span>(result)
 }</code></pre></div>
 </div>
-<div id="descriptive-function" class="section level4">
-<h4>Descriptive function</h4>
+<div id="a-descriptive-function" class="section level4">
+<h4>A descriptive function</h4>
 <p>Here is another example of a function:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">describe &lt;-<span class="st"> </span><span class="cf">function</span>(v, <span class="dt">rm_na =</span> <span class="ot">TRUE</span>){
   
@@ -406,11 +406,30 @@ v &lt;-<span class="st"> </span><span class="dv">1</span><span class="op">:</spa
 <span class="co">#&gt; logical       1</span></code></pre></div>
 </div>
 </div>
-<div id="conditional-execution" class="section level2">
-<h2>Conditional execution</h2>
-<p>As we have just seen in <code>describe</code>, functions frequently require checking some properties of its inputs, distinguishing between cases, and controlling the flow of data processing based on test results. This can be done by conditional statements, like the following <code>if (test) {...}</code> structure:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="cf">if</span> (test) { 
-  <span class="kw">print</span>(<span class="st">&quot;ok&quot;</span>)  <span class="co"># if test is TRUE: ok</span>
+<div id="style" class="section level2">
+<h2>Style</h2>
+<p>Writing good functions is a life-long aspiration. For starters,</p>
+<ul>
+<li><p>make sure that you choose good <em>names</em> for both your functions and their arguments,</p></li>
+<li><p>format your functions so that they are easy to read (i.e., use blank lines between different parts and automatic indentation), and</p></li>
+<li><p>provide <em>comments</em> to explain the function’s purpose and anything else that may be difficult to understand.</p></li>
+</ul>
+</div>
+<div id="functions-with-loops" class="section level2">
+<h2>Functions with loops</h2>
+<ul>
+<li>Many functions rely on <em>iteration</em> and <em>loops</em>, which are covered in <a href="https://r4ds.had.co.nz/iteration.html">Chapter 21: Iteration</a>.</li>
+</ul>
+</div>
+</div>
+<div id="conditionals" class="section level1">
+<h1>Conditionals</h1>
+<p>As we have just seen in <code>describe</code>, functions frequently require checking some properties of its inputs, distinguishing between cases, and controlling the flow of data processing based on test results.</p>
+<div id="if-then" class="section level2">
+<h2>If-then</h2>
+<p>A test can be conducted by a <em>conditional</em> statement, like the following if-then or <code>if (test) {...}</code> structure:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="cf">if</span> (test) {    <span class="co"># if: test is TRUE</span>
+  <span class="kw">print</span>(<span class="st">&quot;ok&quot;</span>)  <span class="co"># then: print ok</span>
 }</code></pre></div>
 <p>Here, <code>test</code> must evaluate to a single Boolean value (i.e., either <code>TRUE</code> or <code>FALSE</code>). If <code>test</code> is <code>TRUE</code> the code in the subsequent <code>{...}</code> is executed (here: <code>&quot;ok&quot;</code> is printed to the Console) – otherwise the code in the subsequent <code>{...}</code> is skipped, as if it was not there or commented out. (Note that if <code>test</code> is a Boolean value, we do not need ask for the condition <code>test == TRUE</code>.)</p>
 <div id="example" class="section level4">
@@ -420,8 +439,13 @@ v &lt;-<span class="st"> </span><span class="dv">1</span><span class="op">:</spa
 <span class="co">#&gt; [1] &quot;The number 101 is big.&quot;</span>
 
 x &lt;-<span class="st"> </span><span class="dv">99</span>
-<span class="cf">if</span> (x <span class="op">&gt;=</span><span class="st"> </span><span class="dv">100</span>) { <span class="kw">print</span>(<span class="kw">paste0</span>(<span class="st">&quot;The number &quot;</span>, x, <span class="st">&quot; is big.&quot;</span>)) }</code></pre></div>
-<p>A slightly more complicated form of <code>if</code> statement includes an additional <code>{...}</code> after an <code>else</code> statement:</p>
+<span class="cf">if</span> (x <span class="op">&gt;=</span><span class="st"> </span><span class="dv">100</span>) { <span class="kw">print</span>(<span class="kw">paste0</span>(<span class="st">&quot;The number &quot;</span>, x, <span class="st">&quot; is big.&quot;</span>)) }
+<span class="co"># Note that nothing happens here! </span></code></pre></div>
+</div>
+</div>
+<div id="if-then-else" class="section level2">
+<h2>If-then-else</h2>
+<p>If a test fails, we often want something <em>else</em> to happen. To accommodate this desire, a slightly more complicated form of <code>if</code> statement includes an additional <code>{...}</code> after an <code>else</code> statement:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="cf">if</span> (test) { 
   <span class="kw">print</span>(<span class="st">&quot;case 1&quot;</span>)  <span class="co"># if test is TRUE:  case 1</span>
 } <span class="cf">else</span> { 
@@ -445,8 +469,8 @@ person &lt;-<span class="st"> &quot;grandmother&quot;</span>
 <span class="cf">if</span> (person <span class="op">==</span><span class="st"> &quot;daughter&quot;</span>) {<span class="kw">print</span>(<span class="st">&quot;female&quot;</span>)} <span class="cf">else</span> {<span class="kw">print</span>(<span class="st">&quot;male&quot;</span>)}
 <span class="co">#&gt; [1] &quot;male&quot;</span></code></pre></div>
 </div>
-<div id="more-complex-tests" class="section level3">
-<h3>More complex tests</h3>
+<div id="more-complex-tests" class="section level2">
+<h2>More complex tests</h2>
 <p>The condition <code>test</code> of a conditional statement can contain multiple tests. If so, each individual test must evaluate to either <code>TRUE</code> or <code>FALSE</code> and the different tests are linked with <code>&amp;&amp;</code> or <code>||</code>, which work like the logical connectors <code>&amp;</code> and <code>|</code>, but are evaluated sequentially (from left to right):</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="cf">if</span> (test_<span class="dv">1</span> <span class="op">||</span><span class="st"> </span>(test_<span class="dv">2</span> <span class="op">&amp;&amp;</span><span class="st"> </span>test_<span class="dv">3</span>)) { 
   <span class="kw">print</span>(<span class="st">&quot;case 1&quot;</span>) 
@@ -465,25 +489,26 @@ person &lt;-<span class="st"> &quot;grandmother&quot;</span>
 <span class="co">#&gt; [1] &quot;female&quot;</span></code></pre></div>
 </div>
 </div>
-<div id="more-cases" class="section level3">
-<h3>More cases</h3>
+<div id="more-cases" class="section level2">
+<h2>More cases</h2>
 <p>As we can replace any <code>{...}</code> in a conditional statement <code>if (test) {...} else {...}</code> by another conditional statement, we can distinguish more than 2 cases:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="cf">if</span> (test_<span class="dv">1</span>) { 
-  <span class="kw">print</span>(<span class="st">&quot;case 1&quot;</span>)  <span class="co"># if test_1 is TRUE:  case 1</span>
-} <span class="cf">else</span> <span class="cf">if</span> (test_<span class="dv">2</span>) { 
-  <span class="kw">print</span>(<span class="st">&quot;case 2&quot;</span>)  <span class="co"># if test_2 is TRUE: case 2</span>
-} <span class="cf">else</span> {
-  <span class="kw">print</span>(<span class="st">&quot;else&quot;</span>)    <span class="co"># none of the above are TRUE: else case</span>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="cf">if</span> (test_<span class="dv">1</span>) {        <span class="co"># if test_1 is TRUE:</span>
+  <span class="kw">print</span>(<span class="st">&quot;case 1&quot;</span>)    <span class="co"># then: case 1</span>
+} <span class="cf">else</span> <span class="cf">if</span> (test_<span class="dv">2</span>) { <span class="co"># if test_2 is TRUE: </span>
+  <span class="kw">print</span>(<span class="st">&quot;case 2&quot;</span>)    <span class="co"># then: case 2</span>
+} <span class="cf">else</span> {             <span class="co"># if NONE of the tests are TRUE: </span>
+  <span class="kw">print</span>(<span class="st">&quot;else&quot;</span>)      <span class="co"># then: else case</span>
 }</code></pre></div>
-<p>Here, 2 cases are contingent on their corresponding condition being <code>TRUE</code>, otherwise the final <code>{...}</code> is reached and <code>&quot;else&quot;</code> is printed. Note that this is different from the following:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="cf">if</span> (test_<span class="dv">1</span>) { 
-  <span class="kw">print</span>(<span class="st">&quot;case 1&quot;</span>)  <span class="co"># if test_1 is TRUE:  case 1</span>
-} <span class="cf">else</span> <span class="cf">if</span> (test_<span class="dv">2</span>) { 
-  <span class="kw">print</span>(<span class="st">&quot;case 2&quot;</span>)  <span class="co"># if test_2 is TRUE: case 2</span>
-} <span class="cf">else</span> <span class="cf">if</span> (test_<span class="dv">3</span>) { 
-  <span class="kw">print</span>(<span class="st">&quot;else&quot;</span>)  <span class="co"># neither test_1 nor test_2 are TRUE, but test_3 is TRUE: else case</span>
+<p>Here, 2 cases are contingent on their corresponding condition being <code>TRUE</code>, otherwise the final <code>{...}</code> is reached and <code>&quot;else&quot;</code> is being printed. Thus, an “else case” often serves as a generic case that occurs when none of the earlier tests are true.</p>
+<p>Note that the following variant of this conditional is different:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="cf">if</span> (test_<span class="dv">1</span>) {         <span class="co"># if test_1 is TRUE:  </span>
+  <span class="kw">print</span>(<span class="st">&quot;case 1&quot;</span>)     <span class="co"># then: case 1</span>
+} <span class="cf">else</span> <span class="cf">if</span> (test_<span class="dv">2</span>) {  <span class="co"># if test_2 is TRUE:</span>
+  <span class="kw">print</span>(<span class="st">&quot;case 2&quot;</span>)     <span class="co"># then: case 2</span>
+} <span class="cf">else</span> <span class="cf">if</span> (test_<span class="dv">3</span>) {  <span class="co"># if NONE of the tests are TRUE, BUT test_3 is TRUE:</span>
+  <span class="kw">print</span>(<span class="st">&quot;else&quot;</span>)       <span class="co"># then: else case</span>
 }</code></pre></div>
-<p>Here, the final <code>{...}</code> is contingent on <code>test_3</code> being <code>TRUE</code>. Thus, the condition that <code>&quot;else&quot;</code> is printed include that <code>test_1</code> and <code>test_2</code> are both <code>FALSE</code> and that <code>test_3</code> is <code>TRUE</code>.</p>
+<p>Here, the final <code>{...}</code> is contingent on another <code>test_3</code> being <code>TRUE</code>. Thus, the conditions that the final <code>&quot;else&quot;</code> is being printed are not only that <code>test_1</code> and <code>test_2</code> are both <code>FALSE</code> but also that <code>test_3</code> is <code>TRUE</code>. If all 3 tests fail, none of the cases is reached and nothing is printed.</p>
 <div id="note" class="section level4">
 <h4>Note</h4>
 <ul>
@@ -491,8 +516,8 @@ person &lt;-<span class="st"> &quot;grandmother&quot;</span>
 </ul>
 </div>
 </div>
-<div id="switch" class="section level3">
-<h3>Switch</h3>
+<div id="switch" class="section level2">
+<h2>Switch</h2>
 <p>A useful alternative to overly complicated <code>if</code> statements is <code>switch</code>, which selects one of a list of alternatives:</p>
 <!--   +++ here now +++   -->
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">do_op &lt;-<span class="st"> </span><span class="cf">function</span>(x, y, op) {
@@ -518,42 +543,82 @@ person &lt;-<span class="st"> &quot;grandmother&quot;</span>
 <span class="co"># But:</span>
 <span class="co"># do_op(3, 2, &quot;square_root&quot;)  # would reach stop (and yield an Error)</span></code></pre></div>
 <p>Here, <code>op</code> was specified as a character variable. If switch is used with a numeric expression <code>i</code>, it selects the <code>i</code>-th case. For example:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">get_ith &lt;-<span class="st"> </span><span class="cf">function</span>(v, <span class="dt">ith =</span> <span class="dv">1</span>) {
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">get_i &lt;-<span class="st"> </span><span class="cf">function</span>(v, <span class="dt">i =</span> <span class="dv">1</span>) {
   
-  <span class="cf">switch</span>(ith,
+  <span class="cf">switch</span>(i,
          v[<span class="dv">1</span>],
          v[<span class="dv">2</span>],
          v[<span class="dv">3</span>],
-         <span class="kw">stop</span>(<span class="st">&quot;Unknown case of ith!&quot;</span>)
+         <span class="kw">stop</span>(<span class="st">&quot;Unknown case of i!&quot;</span>)
   )
 }
 
+<span class="co"># Check: </span>
 v &lt;-<span class="st"> </span><span class="dv">11</span><span class="op">:</span><span class="dv">15</span>
-<span class="kw">get_ith</span>(v)
+<span class="kw">get_i</span>(v)
 <span class="co">#&gt; [1] 11</span>
-<span class="kw">get_ith</span>(v, <span class="dv">2</span>)
+<span class="kw">get_i</span>(v, <span class="dv">2</span>)
 <span class="co">#&gt; [1] 12</span>
-<span class="kw">get_ith</span>(v, <span class="dv">3</span>)
+<span class="kw">get_i</span>(v, <span class="dv">3</span>)
 <span class="co">#&gt; [1] 13</span>
 
 ## But:
-<span class="co"># get_ith(v, 4)  # would reach stop (and yield an Error)</span></code></pre></div>
-<div id="note-1" class="section level4">
-<h4>Note</h4>
+<span class="co"># get_i(v, 4)  # would reach stop (and yield an Error)</span></code></pre></div>
+</div>
+<div id="practice" class="section level2">
+<h2>Practice</h2>
+<div id="a-conditional-nursery-rhyme" class="section level4">
+<h4>A conditional nursery rhyme</h4>
+<p>Consider the following <code>check_flow</code> function:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">check_flow &lt;-<span class="st"> </span><span class="cf">function</span>(n) {
+  <span class="cf">if</span> (<span class="kw">is.logical</span>(n)) {<span class="kw">return</span>(<span class="st">&quot;Logo!&quot;</span>)} <span class="cf">else</span> 
+  {<span class="kw">print</span>(<span class="st">&quot;Ok:&quot;</span>)}
+  <span class="cf">if</span> (<span class="kw">length</span>(n) <span class="op">==</span><span class="st"> </span><span class="dv">1</span> <span class="op">&amp;&amp;</span><span class="st"> </span><span class="kw">is.numeric</span>(n))
+    {<span class="cf">switch</span>(n,<span class="kw">print</span>(<span class="st">&quot;ene&quot;</span>),<span class="kw">print</span>(<span class="st">&quot;mene&quot;</span>),<span class="kw">print</span>(<span class="st">&quot;miste&quot;</span>),
+           <span class="kw">print</span>(<span class="st">&quot;es rappelt&quot;</span>),<span class="kw">print</span>(<span class="st">&quot;in der kiste&quot;</span>))
+  } <span class="cf">else</span> <span class="cf">if</span> (<span class="kw">is.character</span>(n)) {
+    <span class="cf">if</span> (<span class="kw">is.character</span>(n)) {n &lt;-<span class="st"> </span><span class="kw">tolower</span>(n)}
+    <span class="cf">switch</span>(n,<span class="st">&quot;a&quot;</span> =<span class="st"> </span><span class="kw">return</span>(<span class="st">&quot;ene&quot;</span>),
+    <span class="st">&quot;b&quot;</span> =<span class="st"> </span><span class="kw">return</span>(<span class="st">&quot;mene&quot;</span>),<span class="st">&quot;c&quot;</span> =<span class="st"> </span><span class="kw">return</span>(<span class="st">&quot;mu&quot;</span>))
+  } <span class="cf">else</span> {<span class="kw">return</span>(<span class="st">&quot;Raus bist du!&quot;</span>)}
+  <span class="st">&quot;(etc.)&quot;</span>}</code></pre></div>
+<p>The function appears to implement some nursery rhyme, but is really messy, unfortunately. Hence, we need to clean it up before trying to understand it.</p>
+<ol style="list-style-type: decimal">
+<li><p>Format the function so that it becomes easier to read and parse.</p></li>
+<li><p>Describe and try to understand this function. What does it do and how does it do it?</p></li>
+<li><p>Answer the following questions:</p>
 <ul>
-<li>Many functions rely on <em>iteration</em> and <em>loops</em>, which are covered in <a href="https://r4ds.had.co.nz/iteration.html">Chapter 21: Iteration</a>.</li>
-</ul>
+<li>Which cases does the 1st conditional statement distinguish?<br />
+</li>
+<li>When is the 1st <code>switch</code> statement reached? When is the 2nd <code>switch</code> statement reached?<br />
+</li>
+<li>What is the difference between the <code>print</code> and the <code>return</code> statements?<br />
+</li>
+<li>Under which conditions does the function return <code>&quot;raus bist du&quot;</code>?<br />
+</li>
+<li>What happens when you call <code>check_flow()</code> or <code>check_flow(NA)</code>?</li>
+</ul></li>
+<li><p>Test your predictions by evaluating the following calls:</p></li>
+</ol>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Check: </span>
+<span class="kw">check_flow</span>(<span class="dv">2</span> <span class="op">&lt;</span><span class="st"> </span><span class="dv">1</span>)
+<span class="kw">check_flow</span>(<span class="dv">2</span>)
+<span class="kw">check_flow</span>(<span class="dv">4</span>)
+<span class="kw">check_flow</span>(<span class="dv">6</span>)
+<span class="kw">check_flow</span>(<span class="dv">8</span>)
+<span class="kw">check_flow</span>(<span class="st">&quot;A&quot;</span>)
+<span class="kw">check_flow</span>(<span class="st">&quot;C&quot;</span>)
+<span class="kw">check_flow</span>(<span class="st">&quot;ABC&quot;</span>)
+
+<span class="co"># Note:</span>
+<span class="kw">check_flow</span>()
+<span class="kw">check_flow</span>(<span class="ot">NA</span>)
+<span class="kw">check_flow</span>(<span class="kw">sqrt</span>(<span class="dv">2</span>))
+<span class="kw">check_flow</span>(pi)
+<span class="kw">check_flow</span>(<span class="fl">4.1</span>)
+<span class="kw">check_flow</span>(<span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">2</span>))
+<span class="kw">check_flow</span>(<span class="kw">c</span>(<span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>))</code></pre></div>
 </div>
-</div>
-</div>
-<div id="style" class="section level2">
-<h2>Style</h2>
-<p>Writing good functions is a life-long aspiration. For starters,</p>
-<ul>
-<li><p>make sure that you choose good <em>names</em> (for both functions and their arguments),</p></li>
-<li><p>format your functions so that they are easy to read (i.e., use blank lines between different parts and automatic indentation), and</p></li>
-<li><p>provide <em>comments</em> to explain the function’s purpose and anything else that may be difficult to understand.</p></li>
-</ul>
 </div>
 </div>
 <div id="exercises-wpa09" class="section level1">
@@ -1866,7 +1931,7 @@ Nr. | Topic       |
 9.  | [Functions](http://rpository.com/ds4psy/essentials/function.html) |
 +.  | [Datasets](http://rpository.com/ds4psy/essentials/datasets.html) | 
 -->
-<p>[Last update on 2019-01-27 20:49:25 by <a href="http://neth.de/">hn</a>.]</p>
+<p>[Last update on 2019-01-28 09:44:27 by <a href="http://neth.de/">hn</a>.]</p>
 <!-- eof. -->
 </div>
 <div class="footnotes">
@@ -1891,12 +1956,16 @@ Nr. | Topic       |
         <li><a href="#functions">Functions</a><ul>
         <li><a href="#basics">Basics</a></li>
         <li><a href="#examples">Examples</a></li>
-        <li><a href="#conditional-execution">Conditional execution</a><ul>
+        <li><a href="#style">Style</a></li>
+        <li><a href="#functions-with-loops">Functions with loops</a></li>
+        </ul></li>
+        <li><a href="#conditionals">Conditionals</a><ul>
+        <li><a href="#if-then">If-then</a></li>
+        <li><a href="#if-then-else">If-then-else</a></li>
         <li><a href="#more-complex-tests">More complex tests</a></li>
         <li><a href="#more-cases">More cases</a></li>
         <li><a href="#switch">Switch</a></li>
-        </ul></li>
-        <li><a href="#style">Style</a></li>
+        <li><a href="#practice">Practice</a></li>
         </ul></li>
         <li><a href="#exercises-wpa09">Exercises (WPA09)</a><ul>
         <li><a href="#exercise-1">Exercise 1</a></li>
