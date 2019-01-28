@@ -1,7 +1,7 @@
 ---
 title: "Data Science for Psychologists (ds4psy)"
 author: "Hansjörg Neth, SPDS, uni.kn"
-date: "2019 01 21"
+date: "2019 01 28"
 output:
   rmdformats::html_clean:
     highlight: kate
@@ -177,12 +177,13 @@ Part 2: Wrangle
   ([Essentials of tidying data](http://rpository.com/ds4psy/essentials/tidy.html)).  
  
  12. 21.01.2019: [Chapter 13: Relational data](http://r4ds.had.co.nz/relational-data.html): `dplyr`.   
-   (**[Essentials of joining data, with WPA08](http://rpository.com/ds4psy/essentials/join.html)**).   
+   ([Essentials of joining data](http://rpository.com/ds4psy/essentials/join.html)).   
 
 
  **Part 3: Program**
  
- 13. 28.01.2019: [Chapter 19: Functions](http://r4ds.had.co.nz/functions.html)
+ 13. 28.01.2019: [Chapter 19: Functions](http://r4ds.had.co.nz/functions.html).   
+    (**[Essentials of functions, with WPA09](http://rpository.com/ds4psy/essentials/function.html)**). 
  
  <!-- 
  13. 28.01.2019: [Chapter 20: Vectors](http://r4ds.had.co.nz/vectors.html) and/or 
@@ -209,6 +210,7 @@ Nr. | Topic       |
 6.  | [Importing data](http://rpository.com/ds4psy/essentials/import.html) |
 7.  | [Tidying data](http://rpository.com/ds4psy/essentials/tidy.html) |
 8.  | [Joining data](http://rpository.com/ds4psy/essentials/join.html) |
+9.  | [Functions](http://rpository.com/ds4psy/essentials/function.html) |
 +.  | [Datasets](http://rpository.com/ds4psy/essentials/datasets.html) | 
 
 <!--
@@ -223,6 +225,7 @@ Nr. | Topic       |
 6.  | [Importing data](http://rpository.com/ds4psy/essentials/import.html) |
 7.  | [Tidying data](http://rpository.com/ds4psy/essentials/tidy.html) |
 8.  | [Joining data](http://rpository.com/ds4psy/essentials/join.html) |
+9.  | [Functions](http://rpository.com/ds4psy/essentials/function.html) |
 +.  | [Datasets](http://rpository.com/ds4psy/essentials/datasets.html) | 
 -->
 
@@ -338,7 +341,8 @@ Nr. | Topic       |
 5.  | [Tibbles](http://rpository.com/ds4psy/essentials/tibbles.html) |
 6.  | [Importing data](http://rpository.com/ds4psy/essentials/import.html) |
 7.  | [Tidying data](http://rpository.com/ds4psy/essentials/tidy.html) |
-8.  | [Joining data](http://rpository.com/ds4psy/essentials/join.html) | 
+8.  | [Joining data](http://rpository.com/ds4psy/essentials/join.html) |
+9.  | [Functions](http://rpository.com/ds4psy/essentials/function.html) |
 +.  | [Datasets](http://rpository.com/ds4psy/essentials/datasets.html) | 
 
 <!--
@@ -353,6 +357,7 @@ Nr. | Topic       |
 6.  | [Importing data](http://rpository.com/ds4psy/essentials/import.html) |
 7.  | [Tidying data](http://rpository.com/ds4psy/essentials/tidy.html) |
 8.  | [Joining data](http://rpository.com/ds4psy/essentials/join.html) |
+9.  | [Functions](http://rpository.com/ds4psy/essentials/function.html) |
 +.  | [Datasets](http://rpository.com/ds4psy/essentials/datasets.html) | 
 -->
 
