@@ -1,5 +1,5 @@
 ---
-title: "Functions, with WPA09 and solutions (ds4psy)"
+title: "Functions, with WPA09 (ds4psy)"
 author: "Hansjörg Neth, SPDS, uni.kn"
 date: "2019 01 28"
 output:
@@ -644,7 +644,7 @@ check_flow(c("A", "B"))
 
 # Exercises (WPA09)
 
-Here are the exercises of WPA09 and possible solutions for them.
+Here are the exercises of WPA09, which are to be submitted on [Ilias](https://ilias.uni-konstanz.de/ilias/goto_ilias_uni_crs_809936.html) by Thursday, Jan. 31, 2019.
 
 ## Exercise 1
 
@@ -709,7 +709,7 @@ mean_sd(v = NA)
 mean_sd(v = c("A", "B"))
 ```
 
-<!-- Solution: --> 
+<!-- Solution: 
 
 Possible solutions:
 
@@ -798,6 +798,8 @@ mean_sd(v = NA)
 mean_sd(v = c("A", "B"))
 ```
 
+--> 
+
 ## Exercise 2
 
 #### Conditional feeding
@@ -814,7 +816,7 @@ feed_me <- function(___) {
 }
 ```
 
-<!-- Solution: --> 
+<!-- Solution: 
 
 A possible solution:
 
@@ -833,9 +835,11 @@ feed_me("cake")
 feed_me(NA)
 ```
 
+--> 
+
 2. Modify `feed_me` so that it returns `"Nothing to eat."` when `food = NA`.
 
-<!-- Solution: --> 
+<!-- Solution: 
 
 A possible solution:
 
@@ -857,6 +861,8 @@ feed_me("apples")
 feed_me("books")
 ```
 
+--> 
+
 3. Extend your function to `feed_vegan` that uses 2 additional arguments: 
 
 - `type` should be an optional character string, set to a default argument of `"food"`. 
@@ -868,7 +874,7 @@ Otherwise, the function should return `"I do not eat ___."`.
 
 Test your functions with various entries. 
 
-<!-- Solution: --> 
+<!-- Solution: 
 
 A possible solution:
 
@@ -906,6 +912,8 @@ feed_vegan("spagetti", type = "pasta")  # due to type != "food"
 feed_vegan("veggies")  # due to default: vegan = FALSE
 ```
 
+--> 
+
 ## Exercise 3
 
 #### Number recognition 
@@ -924,6 +932,8 @@ describe <- function(x) {
   
 }
 ```
+
+<!-- Solution: 
 
 #### Solution
 
@@ -958,6 +968,8 @@ describe <- function(x) {
 }
 ```
 
+-->
+
 2. Repair the `describe` function to yield the following results:
 
 ```{r ex3_2_desired_results}
@@ -969,7 +981,7 @@ describe(20)
 describe(21)
 ```
 
-<!-- Solution: --> 
+<!-- Solution: 
 
 #### Solution
 
@@ -995,10 +1007,12 @@ describe(20)
 describe(21)
 ```
 
+--> 
+
 3. What are the results of `describe(NA)` and `describe("one")`? 
 Correct the function to yield appropriate results in both cases.
 
-<!-- Solution: --> 
+<!-- Solution: 
 
 #### Solution
 
@@ -1030,9 +1044,12 @@ describe(NA)     # yields an ERROR
 describe("one")  # yields "x is too big."
 ```
 
+--> 
+
+
 4. For what kind of `x` will `describe` print `"x is beyond description."`?
 
-<!-- Solution: --> 
+<!-- Solution: 
 
 #### Solution
 
@@ -1045,6 +1062,7 @@ describe(sqrt(2))
 describe(pi)
 ```
 
+--> 
 
 ## Exercise 4
 
@@ -1056,12 +1074,11 @@ Use the data of `sw <- dplyr::starwars` to illustrate your function.
 
 **Hint:** To write this function, first solve its task for a specific case (e.g., for `col_nr = 2`). When using the `dplyr` commands of the `tidyverse`, a problem you will encounter is that a tibble's variables are typically referenced by their _unquoted_ names, rather than by their number (or column index). Here are 2 ways to solve this problem:
 
-    - To obtain the unquoted name `some_name` of a given character string `"some_name"`, you can call `!!sym("some_name")`. 
+- To obtain the unquoted name `some_name` of a given character string `"some_name"`, you can call `!!sym("some_name")`. 
     
-    - Rather than aiming for a `tidyverse` solution, you could solve the problem with base R commands. 
-    In this case, look up and use the command `order` to re-arrange the rows of a tibble or data frame. 
+- Rather than aiming for a `tidyverse` solution, you could solve the problem with base R commands. In this case, look up and use the command `order` to re-arrange the rows of a tibble or data frame. 
 
-<!-- Solution: --> 
+<!-- Solution: 
 
 #### Solution
 
@@ -1137,13 +1154,15 @@ top_3_base(sw, 7)  # top_3 birth_year values
 # top_3_base(sw, 1)  # would yield an error, as order does not allow "-" for character variables.
 ```
 
+--> 
+
 2. What happens in your `top_3` function when `col_nr` refers to a _character_ variable (e.g., `dplyr::starwars[ , 1]`)? 
 Adjust the function so that its result varies by the type of the variable designated by the `col_nr` argument:
 
     - if the corresponding variable is a character variable, sort the data in ascending order (alphabetically); 
     - if the corresponding variable is a numeric variable, sort the data in descending order (from high to low).
 
-<!-- Solution: --> 
+<!-- Solution:
 
 #### Solution
 
@@ -1257,12 +1276,14 @@ top_3_base(sw, 1)  # name in alphabetical order
 top_3_base(sw, 9)  # homeworld in alphabetical order
 ```
 
+ --> 
+
 3. Generalise your `top_3` function to a `top_n` function that returns the top `n` rows when sorted by `col_nr`. 
 What would be a good default value for `n`? What should happen when `n = NA` and when `n > nrow(data)`? 
 
 Check all your functions with appropriate inputs. 
 
-<!-- Solution: --> 
+<!-- Solution: 
 
 #### Solution
 
@@ -1322,6 +1343,7 @@ top_n(sw, 1, n = 2)   # top n = 2 names in alphabetical order
 top_n(sw, 9, n = 999) # message and top n = 87 homeworlds 
 ```
 
+--> 
 
 ## Exercise 5
 
@@ -1345,7 +1367,7 @@ tb_2 <- tibble::tibble(x = x_val, y = x_val + rnorm(n = n_num, mean = 0, sd = 10
 names(tb_1)
 ```
 
-<!-- Solution: --> 
+<!-- Solution: 
 
 #### Solution
 
@@ -1367,6 +1389,8 @@ plot_scatter(my_data = tb_1)
 plot_scatter(my_data = tb_2)
 ```
 
+--> 
+
 2. For any table `my_data` that contains 2 numeric variables `x` and `y` we can fit a linear model as follows:
 
 ```{r ex5_lm}
@@ -1382,7 +1406,7 @@ my_lm$coefficients[2]  # slope
 
 Incorporate a linear model into your `plot_scatter` function by adding a line that shows the prediction of the linear model (in a color that can be set by an optional `col` argument).
 
-<!-- Solution: --> 
+<!-- Solution: 
 
 #### Solution
 
@@ -1409,6 +1433,7 @@ plot_scatter(my_data = tb_1)
 plot_scatter(my_data = tb_2, col = "steelblue")
 ```
 
+--> 
 
 <!-- +++ here now +++ --> 
 
