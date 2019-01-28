@@ -264,7 +264,7 @@ Nr. | Topic       |
 <li><p>The <code>&lt;body&gt;</code> of a function uses the <em>inputs</em> provided by <code>&lt;args&gt;</code> to perform the task for which the function is created.</p>
 <ul>
 <li><p>Although some functions are only used for their side-effects (e.g., load or save an object, create a graph, etc.), most functions are created to (also) return some sort of <em>output</em> (e.g., some computed <code>result</code>). This can be done by calling the special function <code>return</code> in the function <code>&lt;body&gt;</code> (e.g., <code>return(result)</code>), typically as its last statement.<a href="#fn2" class="footnoteRef" id="fnref2"><sup>2</sup></a> Even when the function does not contain an explicit <code>return</code> statement, it returns the result of the last expression evaluated in the function.</p></li>
-<li><p>The <em>output</em> of a function can assume many different data types (scalar, vector, list, table, etc.).</p></li>
+<li><p>The <em>output</em> of a function can assume many different data types (scalar, vector, list, table, etc.). For instance, the result of <code>1:3 + 3:1</code> is a vector <code>4, 4, 4</code>.</p></li>
 </ul></li>
 </ol>
 <p>Thus, are more detailed template of a typical function is:</p>
@@ -317,10 +317,20 @@ Nr. | Topic       |
 <span class="kw">power</span>(<span class="dv">3</span>, <span class="dv">2</span>)
 <span class="co">#&gt; [1] 9</span>
 
+<span class="co"># Omitting argument names:</span>
+<span class="kw">power</span>(<span class="dv">3</span>)     <span class="co"># names can be omitted, and </span>
+<span class="co">#&gt; [1] 3</span>
+<span class="kw">power</span>(<span class="dv">3</span>, <span class="dv">2</span>)  <span class="co"># arguments are used in order given.</span>
+<span class="co">#&gt; [1] 9</span>
+<span class="co"># However, when arguments are named: </span>
+<span class="kw">power</span>(<span class="dt">exp =</span> <span class="dv">3</span>, <span class="dt">x =</span> <span class="dv">2</span>)  <span class="co"># order is irrelevant.</span>
+<span class="co">#&gt; [1] 8</span>
+<span class="co"># =&gt; Safest way: Always provide argument names!</span>
+
 <span class="co"># Also note:</span>
-<span class="kw">power</span>(<span class="ot">NA</span>)
+<span class="kw">power</span>(<span class="dt">x =</span> <span class="ot">NA</span>)           <span class="co"># NA</span>
 <span class="co">#&gt; [1] NA</span>
-<span class="kw">power</span>(<span class="dv">3</span>, <span class="dt">exp =</span> <span class="ot">NA</span>)
+<span class="kw">power</span>(<span class="dt">x =</span> <span class="dv">3</span>, <span class="dt">exp =</span> <span class="ot">NA</span>)  <span class="co"># NA</span>
 <span class="co">#&gt; [1] NA</span>
 
 ## Errors:
@@ -586,7 +596,55 @@ v &lt;-<span class="st"> </span><span class="dv">11</span><span class="op">:</sp
   <span class="st">&quot;(etc.)&quot;</span>}</code></pre></div>
 <p>The function appears to implement some nursery rhyme, but is really messy, unfortunately. Hence, we need to clean it up before trying to understand it.</p>
 <ol style="list-style-type: decimal">
-<li><p>Format the function so that it becomes easier to read and parse.</p></li>
+<li>Format the function so that it becomes easier to read and parse.</li>
+</ol>
+<!-- Solution: 
+
+A possible solution would indent commands, place any `}` on a new line, and generally introduce lots of white space, as follows:
+
+
+```r
+check_flow <- function(n) {
+  
+  if (is.logical(n)) {
+    return("Logo!")
+  } else {
+    print("Ok:")
+  }
+  
+  if (length(n) == 1 && is.numeric(n)) {
+    
+    switch(n,
+           print("ene"),
+           print("mene"),
+           print("miste"),
+           print("es rappelt"),
+           print("in der kiste")
+    )
+    
+  } else if (is.character(n)) {
+    
+    if (is.character(n)) {n <- tolower(n)}
+    
+    switch(n,
+           "a" = return("ene"),
+           "b" = return("mene"),
+           "c" = return("mu")
+    )
+    
+  } else {
+    
+    return("Raus bist du!")
+    
+  }
+  
+  "(etc.)"
+  
+}
+```
+
+-->
+<ol start="2" style="list-style-type: decimal">
 <li><p>Describe and try to understand this function. What does it do and how does it do it?</p></li>
 <li><p>Answer the following questions:</p>
 <ul>
@@ -612,14 +670,14 @@ v &lt;-<span class="st"> </span><span class="dv">11</span><span class="op">:</sp
 <span class="kw">check_flow</span>(<span class="st">&quot;C&quot;</span>)
 <span class="kw">check_flow</span>(<span class="st">&quot;ABC&quot;</span>)
 
-<span class="co"># Note:</span>
-<span class="kw">check_flow</span>()
+<span class="co"># Note: </span>
+<span class="kw">check_flow</span>()  <span class="co"># yields ERROR: argument &quot;n&quot; missing, with no default</span>
 <span class="kw">check_flow</span>(<span class="ot">NA</span>)
 <span class="kw">check_flow</span>(<span class="kw">sqrt</span>(<span class="dv">2</span>))
 <span class="kw">check_flow</span>(pi)
 <span class="kw">check_flow</span>(<span class="fl">4.1</span>)
 <span class="kw">check_flow</span>(<span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">2</span>))
-<span class="kw">check_flow</span>(<span class="kw">c</span>(<span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>))</code></pre></div>
+<span class="kw">check_flow</span>(<span class="kw">c</span>(<span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>)) <span class="co"># yields ERROR in switch: EXPR must be a length 1 vector</span></code></pre></div>
 </div>
 </div>
 </div>
@@ -862,13 +920,13 @@ feed_me("books")
 
 -->
 <ol start="3" style="list-style-type: decimal">
-<li>Extend your function to <code>feed_vegan</code> that uses 2 additional arguments:</li>
-</ol>
+<li><p>Extend your function to <code>feed_vegan</code> that uses 2 additional arguments:</p>
 <ul>
 <li><p><code>type</code> should be an optional character string, set to a default argument of <code>&quot;food&quot;</code>. If <code>type</code> is not <code>&quot;food&quot;</code>, the function should return <code>&quot;___ is not edible.&quot;</code>.</p></li>
 <li><p><code>vegan</code> should be an optional Boolean value, which is set to <code>FALSE</code> by default. If <code>vegan</code> is <code>TRUE</code>, the function should return <code>&quot;I love to eat ___!&quot;</code>. Otherwise, the function should return <code>&quot;I do not eat ___.&quot;</code>.</p></li>
-</ul>
-<p>Test your functions with various entries.</p>
+</ul></li>
+</ol>
+<p>Test each of your resulting functions with appropriate function calls.</p>
 <!-- Solution: 
 
 A possible solution:
@@ -2031,7 +2089,7 @@ Nr. | Topic       |
 9.  | [Functions](http://rpository.com/ds4psy/essentials/function.html) |
 +.  | [Datasets](http://rpository.com/ds4psy/essentials/datasets.html) | 
 -->
-<p>[Last update on 2019-01-28 13:04:40 by <a href="http://neth.de/">hn</a>.]</p>
+<p>[Last update on 2019-01-28 18:06:02 by <a href="http://neth.de/">hn</a>.]</p>
 <!-- eof. -->
 </div>
 <div class="footnotes">

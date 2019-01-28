@@ -182,6 +182,7 @@ Thus, writing a function initially requires 3 decisions:
     - Although some functions are only used for their side-effects (e.g., load or save an object, create a graph, etc.), most functions are created to (also) return some sort of _output_ (e.g., some computed `result`). This can be done by calling the special function `return` in the function `<body>` (e.g., `return(result)`), typically as its last statement.[^2] Even when the function does not contain an explicit `return` statement, it returns the result of the last expression evaluated in the function. 
     
     - The _output_ of a function can assume many different data types (scalar, vector, list, table, etc.). 
+    For instance, the result of `1:3 + 3:1` is a vector ``r 1:3 + 3:1``.
 
 [^2]: In most functions, the `return()` statement is the final statement of the function `<body>`. 
 See [Chapter 19.6: Return values](https://r4ds.had.co.nz/functions.html#return-values) for special cases in which it makes sense to provide earlier and multiple `return` statements or provide `invisible` return values (e.g., to write pipeable functions). 
@@ -246,12 +247,17 @@ Here are some possible ways of checking how `power` works:
 # Check:
 power(x = 3)
 power(x = 3, exp = 2)
-power(3)
-power(3, 2)
+ 
+# Omitting argument names:
+power(3)     # names can be omitted, and 
+power(3, 2)  # arguments are used in order given.
+# However, when arguments are named: 
+power(exp = 3, x = 2)  # order is irrelevant.
+# => Safest way: Always provide argument names!
 
 # Also note:
-power(NA)
-power(3, exp = NA)
+power(x = NA)           # NA
+power(x = 3, exp = NA)  # NA
 
 ## Errors:
 # power()       # 1st argument is mandatory
@@ -568,7 +574,11 @@ Hence, we need to clean it up before trying to understand it.
 
 1. Format the function so that it becomes easier to read and parse. 
 
-```{r nursery_rhyme_pretty, echo = FALSE}
+<!-- Solution: --> 
+
+A possible solution would indent commands, place any `}` on a new line, and generally introduce lots of white space, as follows:
+
+```{r nursery_rhyme_pretty, echo = TRUE}
 check_flow <- function(n) {
   
   if (is.logical(n)) {
@@ -631,14 +641,14 @@ check_flow("A")
 check_flow("C")
 check_flow("ABC")
 
-# Note:
-check_flow()
+# Note: 
+check_flow()  # yields ERROR: argument "n" missing, with no default
 check_flow(NA)
 check_flow(sqrt(2))
 check_flow(pi)
 check_flow(4.1)
 check_flow(c(1, 2))
-check_flow(c("A", "B"))
+check_flow(c("A", "B")) # yields ERROR in switch: EXPR must be a length 1 vector
 ```
 
 
@@ -859,14 +869,14 @@ feed_me("books")
 
 3. Extend your function to `feed_vegan` that uses 2 additional arguments: 
 
-- `type` should be an optional character string, set to a default argument of `"food"`. 
-If `type` is not `"food"`, the function should return `"___ is not edible."`. 
+    - `type` should be an optional character string, set to a default argument of `"food"`. 
+    If `type` is not `"food"`, the function should return `"___ is not edible."`. 
 
-- `vegan` should be an optional Boolean value, which is set to `FALSE` by default. 
-If `vegan` is `TRUE`, the function should return `"I love to eat ___!"`. 
-Otherwise, the function should return `"I do not eat ___."`.
+    - `vegan` should be an optional Boolean value, which is set to `FALSE` by default. 
+    If `vegan` is `TRUE`, the function should return `"I love to eat ___!"`. 
+    Otherwise, the function should return `"I do not eat ___."`.
 
-Test your functions with various entries. 
+Test each of your resulting functions with appropriate function calls. 
 
 <!-- Solution: --> 
 
