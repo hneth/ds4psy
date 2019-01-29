@@ -124,7 +124,7 @@ img {
 <div id="header">
 <h1 class="title">Functions, with WPA09 and solutions (ds4psy)</h1>
 <h4 class="author"><em>Hansjörg Neth, SPDS, uni.kn</em></h4>
-<h4 class="date"><em>2019 01 28</em></h4>
+<h4 class="date"><em>2019 01 29</em></h4>
 </div>
 
 <div id="content">
@@ -253,13 +253,14 @@ Nr. | Topic       |
 <h2>Basics</h2>
 <p>The basic structure for writing a new function looks as follows:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">name &lt;-<span class="st"> </span><span class="cf">function</span>(<span class="op">&lt;</span>args<span class="op">&gt;</span>) {<span class="op">&lt;</span>body<span class="op">&gt;</span>}</code></pre></div>
-<p>Thus, writing a function initially requires 3 decisions:</p>
+<p>Thus, writing a function initially requires 3 considerations:</p>
 <ol style="list-style-type: decimal">
-<li><p>What is the <code>name</code> of my function? Function names should clearly convey their purpose (“Which task does this function solve?”) and should be short (as they will be typed many times).</p></li>
-<li><p>Which <em>inputs</em> does the function take? Any input that the function needs to perform its task need to be supplied as a list of arguments <code>&lt;args&gt;</code>.</p>
+<li><p>What would be a good <code>name</code> for the function? Function names should clearly convey their purpose (“Which task does this function solve?”), resemble verbs (ideally say what the function does, e.g., <code>plot</code>, or state its output, e.g., <code>mean</code>), and should be short (as they will be typed many times).</p></li>
+<li><p>Which <em>inputs</em> does the function take? Any input that is necessary for the function to perform its task must to be supplied as a list of arguments <code>&lt;args&gt;</code>.</p>
 <ul>
-<li><p>Arguments typically include <em>data</em> (e.g., scalars, vectors, tables, or anything else that the function uses to perform its task) and can contain additional <em>details</em> or <em>parameters</em> (e.g., instructions on how something is to be done: Which type of calculation is desired? How should <code>NA</code> values be treated? Which color should be used? etc.).</p></li>
-<li><p>Any argument can be <em>optional</em> (by including a default value that is used when no argument is provided) or <em>mandatory</em> (by not including a default value).</p></li>
+<li><p>Arguments typically include <em>data</em> (e.g., scalars, vectors, tables, or anything else that the function uses to perform its task) and can contain additional <em>details</em> or <em>parameters</em> (e.g., instructions on how something is to be done: Which type of calculation is desired? How should <code>NA</code> values be treated? Which color should be used? etc.). Data arguments are typically listed first.</p></li>
+<li><p>Any argument can be <em>optional</em> (by including a default value that is used when no argument is provided) or <em>mandatory</em> (by not including a default value). It is common to make data arguments mandatory, and use optional arguments for details.</p></li>
+<li><p>If a function calls other functions and we want to allow users to pass arguments to these latter functions, we can add <code>...</code> (dot-dot-dot) as a special argument. However, this requires that the functions used within the function can deal with the specific arguments that are provided later, and can cause problems and unexpected results.</p></li>
 </ul></li>
 <li><p>The <code>&lt;body&gt;</code> of a function uses the <em>inputs</em> provided by <code>&lt;args&gt;</code> to perform the task for which the function is created.</p>
 <ul>
@@ -306,33 +307,51 @@ Nr. | Topic       |
 <li><p>Thus, the task addressed by <code>power</code> is to raise <code>x</code> to the <code>exp</code>-th power.</p></li>
 <li><p>Although the function does not verify anything, <code>x</code> and <code>exp</code> are assumed to be numeric.</p></li>
 </ul>
+</div>
+<div id="checking-the-function" class="section level4">
+<h4>Checking the function</h4>
+<p>It is very important to run a range of checks after writing a new function. When doing these checks, examples that use unusual inputs (like <code>NA</code>, <code>NULL</code>, or arguments of different types) are particularly informative.</p>
 <p>Here are some possible ways of checking how <code>power</code> works:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Check:</span>
 <span class="kw">power</span>(<span class="dt">x =</span> <span class="dv">3</span>)
 <span class="co">#&gt; [1] 3</span>
 <span class="kw">power</span>(<span class="dt">x =</span> <span class="dv">3</span>, <span class="dt">exp =</span> <span class="dv">2</span>)
 <span class="co">#&gt; [1] 9</span>
- 
+
+<span class="co"># Note that the function also works for vectors: </span>
+<span class="kw">power</span>(<span class="dt">x =</span> <span class="dv">1</span><span class="op">:</span><span class="dv">5</span>, <span class="dt">exp =</span> <span class="dv">2</span>) 
+<span class="co">#&gt; [1]  1  4  9 16 25</span>
+<span class="kw">power</span>(<span class="dt">x =</span> <span class="dv">2</span>,   <span class="dt">exp =</span> <span class="dv">1</span><span class="op">:</span><span class="dv">4</span>)
+<span class="co">#&gt; [1]  2  4  8 16</span>
+
 <span class="co"># Omitting argument names:</span>
 <span class="kw">power</span>(<span class="dv">3</span>)     <span class="co"># names can be omitted, and </span>
 <span class="co">#&gt; [1] 3</span>
 <span class="kw">power</span>(<span class="dv">3</span>, <span class="dv">2</span>)  <span class="co"># arguments are used in order given.</span>
 <span class="co">#&gt; [1] 9</span>
+<span class="kw">power</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">5</span>, <span class="dv">2</span>)
+<span class="co">#&gt; [1]  1  4  9 16 25</span>
+<span class="kw">power</span>(<span class="dv">2</span>, <span class="dv">1</span><span class="op">:</span><span class="dv">4</span>)
+<span class="co">#&gt; [1]  2  4  8 16</span>
 <span class="co"># However, when arguments are named: </span>
 <span class="kw">power</span>(<span class="dt">exp =</span> <span class="dv">3</span>, <span class="dt">x =</span> <span class="dv">2</span>)  <span class="co"># order is irrelevant.</span>
 <span class="co">#&gt; [1] 8</span>
 <span class="co"># =&gt; Safest way: Always provide argument names!</span>
 
-<span class="co"># Also note:</span>
-<span class="kw">power</span>(<span class="dt">x =</span> <span class="ot">NA</span>)           <span class="co"># NA</span>
+<span class="co"># Note what happens with NA values: </span>
+<span class="kw">power</span>(<span class="dt">x =</span> <span class="ot">NA</span>) 
 <span class="co">#&gt; [1] NA</span>
-<span class="kw">power</span>(<span class="dt">x =</span> <span class="dv">3</span>, <span class="dt">exp =</span> <span class="ot">NA</span>)  <span class="co"># NA</span>
+<span class="kw">power</span>(<span class="dt">x =</span> <span class="dv">3</span>, <span class="dt">exp =</span> <span class="ot">NA</span>) 
 <span class="co">#&gt; [1] NA</span>
+<span class="co"># =&gt; NA values are 'contagious'. </span>
 
 ## Errors:
 <span class="co"># power()       # 1st argument is mandatory</span>
 <span class="co"># power(&quot;A&quot;)    # setting x to non-numeric argument</span>
 <span class="co"># power(3, &quot;B&quot;) # setting exp to non-numeric argument</span></code></pre></div>
+</div>
+<div id="explicit-return" class="section level4">
+<h4>Explicit <code>return</code></h4>
 <p>A more explicit version of the same function would be:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">power &lt;-<span class="st"> </span><span class="cf">function</span>(x, <span class="dt">exp =</span> <span class="dv">1</span>) {
   
@@ -340,6 +359,66 @@ Nr. | Topic       |
   
   <span class="kw">return</span>(result)
 }</code></pre></div>
+<p>Whereas the shorter version of the function relied on returning its <em>last</em> (and only) expression, this version makes it more explicit what is being computed and returned. As functions get larger and more complicated, it is generally a good idea to include explicit <code>return</code> statements. Importantly, a function can include multiple return statements and is exited as soon as a <code>return</code> is reached. For instance, the following variant would never print its final disclaimer:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">power_joke &lt;-<span class="st"> </span><span class="cf">function</span>(x, <span class="dt">exp =</span> <span class="dv">1</span>) {
+  
+  result &lt;-<span class="st"> </span>x<span class="op">^</span>exp
+  
+  <span class="kw">return</span>(result)
+  
+  <span class="st">&quot;Just kidding&quot;</span>
+}</code></pre></div>
+</div>
+<div id="practice" class="section level4">
+<h4>Practice</h4>
+<p>Test this last statement by evaluating the <code>power_joke</code> function and trying to obtain the <code>&quot;Just kidding&quot;</code> line as an output. Then comment out the line <code>return(result)</code> and re-run the same checks.</p>
+<!-- Solution: -->
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Checks: ------ </span>
+<span class="kw">power_joke</span>(<span class="dv">5</span>)
+<span class="co">#&gt; [1] 5</span>
+<span class="kw">power_joke</span>(<span class="dv">5</span>, <span class="dv">2</span>)
+<span class="co">#&gt; [1] 25</span>
+<span class="kw">power_joke</span>(<span class="dv">100</span>, <span class="dv">1</span><span class="op">/</span><span class="dv">2</span>)
+<span class="co">#&gt; [1] 10</span>
+<span class="kw">power_joke</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">5</span>, <span class="dv">2</span>)
+<span class="co">#&gt; [1]  1  4  9 16 25</span>
+<span class="kw">power_joke</span>(<span class="ot">NA</span>)
+<span class="co">#&gt; [1] NA</span>
+<span class="co"># Errors: </span>
+<span class="co"># power_joke()</span>
+<span class="co"># power_joke(&quot;A&quot;)</span>
+
+<span class="co"># =&gt; &quot;Just kidding&quot; is never reached.</span>
+
+
+<span class="co"># Commenting out return(result): ------ </span>
+
+power_joke &lt;-<span class="st"> </span><span class="cf">function</span>(x, <span class="dt">exp =</span> <span class="dv">1</span>) {
+  
+  result &lt;-<span class="st"> </span>x<span class="op">^</span>exp
+  
+  <span class="co"># return(result)</span>
+  
+  <span class="st">&quot;Just kidding&quot;</span>
+}
+
+<span class="co"># Checks:</span>
+<span class="kw">power_joke</span>(<span class="dv">5</span>)
+<span class="co">#&gt; [1] &quot;Just kidding&quot;</span>
+<span class="kw">power_joke</span>(<span class="dv">5</span>, <span class="dv">2</span>)
+<span class="co">#&gt; [1] &quot;Just kidding&quot;</span>
+<span class="kw">power_joke</span>(<span class="dv">100</span>, <span class="dv">1</span><span class="op">/</span><span class="dv">2</span>)
+<span class="co">#&gt; [1] &quot;Just kidding&quot;</span>
+<span class="kw">power_joke</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">5</span>, <span class="dv">2</span>)
+<span class="co">#&gt; [1] &quot;Just kidding&quot;</span>
+<span class="kw">power_joke</span>(<span class="ot">NA</span>)
+<span class="co">#&gt; [1] &quot;Just kidding&quot;</span>
+<span class="co"># Errors: </span>
+<span class="co"># power_joke()</span>
+<span class="co"># power_joke(&quot;A&quot;)</span>
+
+<span class="co"># =&gt; &quot;Just kidding&quot; is always reached </span>
+<span class="co">#    (unless an earlier error occurs). </span></code></pre></div>
 </div>
 <div id="a-descriptive-function" class="section level4">
 <h4>A descriptive function</h4>
@@ -379,6 +458,9 @@ Nr. | Topic       |
 <li><p>The function then returns the vector <code>out</code>.</p></li>
 <li><p>Overall, the task addressed by <code>describe</code> is to provide a range of descriptive statistics of a vector <code>v</code>.</p></li>
 </ul>
+</div>
+<div id="checking-the-function-1" class="section level4">
+<h4>Checking the function</h4>
 <p>Here are some possible ways of checking how <code>describe</code> works:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Check:</span>
 v &lt;-<span class="st"> </span><span class="dv">1</span><span class="op">:</span><span class="dv">10</span>
@@ -394,11 +476,15 @@ v &lt;-<span class="st"> </span><span class="dv">1</span><span class="op">:</spa
 <span class="kw">describe</span>(<span class="kw">c</span>(v, <span class="ot">NA</span>), <span class="dt">rm_na =</span> <span class="ot">FALSE</span>)
 <span class="co">#&gt;   min   q25    md    mn   q75   max nr_NA </span>
 <span class="co">#&gt;    NA  3.25    NA    NA  7.75    NA  1.00</span>
-<span class="co"># Also note:</span>
+
+<span class="co"># Note:</span>
 <span class="kw">describe</span>(<span class="ot">NA</span>)
 <span class="co">#&gt; [1] NA</span>
 <span class="kw">describe</span>(<span class="st">&quot;A&quot;</span>)
-<span class="co">#&gt; [1] &quot;A&quot;</span></code></pre></div>
+<span class="co">#&gt; [1] &quot;A&quot;</span>
+
+<span class="co"># Error for:</span>
+<span class="co"># describe()</span></code></pre></div>
 <p>Actually, <code>describe</code> is – apart from subtle differences – similar to the base R function <code>summary</code>:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Compare with base::summary function: </span>
 <span class="kw">summary</span>(v)
@@ -409,15 +495,18 @@ v &lt;-<span class="st"> </span><span class="dv">1</span><span class="op">:</spa
 <span class="co">#&gt;    1.00    3.25    5.50    5.50    7.75   10.00       2</span>
 <span class="kw">summary</span>(<span class="ot">NA</span>)
 <span class="co">#&gt;    Mode    NA's </span>
-<span class="co">#&gt; logical       1</span></code></pre></div>
+<span class="co">#&gt; logical       1</span>
+
+<span class="co"># Error for: </span>
+<span class="co"># summary()</span></code></pre></div>
 </div>
 </div>
 <div id="style" class="section level2">
 <h2>Style</h2>
 <p>Writing good functions is a life-long aspiration. For starters,</p>
 <ul>
-<li><p>make sure that you choose good <em>names</em> for both your functions and their arguments,</p></li>
-<li><p>format your functions so that they are easy to read (i.e., use blank lines between different parts and automatic indentation), and</p></li>
+<li><p>make sure that you choose good <em>names</em> for both your functions and their arguments;</p></li>
+<li><p><em>format</em> your functions so that their structure is clear and they are easy to read (i.e., use blank lines between different parts and automatic indentation);</p></li>
 <li><p>provide <em>comments</em> to explain the function’s purpose and anything else that may be difficult to understand.</p></li>
 </ul>
 </div>
@@ -573,7 +662,7 @@ v &lt;-<span class="st"> </span><span class="dv">11</span><span class="op">:</sp
 ## But:
 <span class="co"># get_i(v, 4)  # would reach stop (and yield an Error)</span></code></pre></div>
 </div>
-<div id="practice" class="section level2">
+<div id="practice-1" class="section level2">
 <h2>Practice</h2>
 <div id="a-conditional-nursery-rhyme" class="section level4">
 <h4>A conditional nursery rhyme</h4>
@@ -675,7 +764,7 @@ v &lt;-<span class="st"> </span><span class="dv">11</span><span class="op">:</sp
 <p>Here are the exercises of WPA09 and possible solutions for them.</p>
 <div id="exercise-1" class="section level2">
 <h2>Exercise 1</h2>
-<p>Each of the following 3 functions takes a vector <code>v</code> as an input and tries to perform a simple task. For each function:</p>
+<p>Imagine someone proudly presents you the following 3 functions. Each of them takes a vector <code>v</code> as an input and tries to perform a simple task. For each function:</p>
 <ul>
 <li>describe the task that the function is designed to perform,<br />
 </li>
@@ -837,8 +926,9 @@ mean_sd &lt;-<span class="st"> </span><span class="cf">function</span>(v, <span 
 <h2>Exercise 2</h2>
 <div id="conditional-feeding" class="section level4">
 <h4>Conditional feeding</h4>
+<p>Let’s write a first function and then add some conditions to it.</p>
 <ol style="list-style-type: decimal">
-<li>Write a function <code>feed_me</code> that takes a character string <code>food</code> as a required argument, and returns the sentence <code>&quot;I love to eat ___!&quot;</code>. Test your function by running <code>feed_me(&quot;apples&quot;)</code>, etc.</li>
+<li>Write a function <code>feed_me</code> that takes a character string <code>food</code> as a required argument, and returns the sentence <code>&quot;I love to eat ___!&quot;</code>. Test your function by running <code>feed_me(&quot;apples&quot;)</code>, etc. Here’s a template with some blanks, to get you started:</li>
 </ol>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">feed_me &lt;-<span class="st"> </span><span class="cf">function</span>(___) {
   
@@ -888,13 +978,13 @@ mean_sd &lt;-<span class="st"> </span><span class="cf">function</span>(v, <span 
 <span class="kw">feed_me</span>(<span class="st">&quot;books&quot;</span>)
 <span class="co">#&gt; [1] &quot;I love to eat books!&quot;</span></code></pre></div>
 <ol start="3" style="list-style-type: decimal">
-<li><p>Extend your function to <code>feed_vegan</code> that uses 2 additional arguments:</p>
+<li><p>Extend your function to a <code>feed_vegan</code> function that uses 2 additional arguments:</p>
 <ul>
 <li><p><code>type</code> should be an optional character string, set to a default argument of <code>&quot;food&quot;</code>. If <code>type</code> is not <code>&quot;food&quot;</code>, the function should return <code>&quot;___ is not edible.&quot;</code>.</p></li>
 <li><p><code>vegan</code> should be an optional Boolean value, which is set to <code>FALSE</code> by default. If <code>vegan</code> is <code>TRUE</code>, the function should return <code>&quot;I love to eat ___!&quot;</code>. Otherwise, the function should return <code>&quot;I do not eat ___.&quot;</code>.</p></li>
 </ul></li>
 </ol>
-<p>Test each of your resulting functions with appropriate function calls.</p>
+<p>Test each of your functions by evaluating appropriate function calls.</p>
 <!-- Solution: -->
 <p>A possible solution:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">feed_vegan &lt;-<span class="st"> </span><span class="cf">function</span>(food, <span class="dt">type =</span> <span class="st">&quot;food&quot;</span>, <span class="dt">vegan =</span> <span class="ot">FALSE</span>) {
@@ -940,6 +1030,7 @@ mean_sd &lt;-<span class="st"> </span><span class="cf">function</span>(v, <span 
 <h2>Exercise 3</h2>
 <div id="number-recognition" class="section level4">
 <h4>Number recognition</h4>
+<p>This exercise analyzes and corrects someone else’s function.</p>
 <ol style="list-style-type: decimal">
 <li>Explain what the following function <code>describe</code> (not to be confused with <code>describe</code> above) <em>intends</em> to do and why it fails in doing it.</li>
 </ol>
@@ -1062,6 +1153,7 @@ describe &lt;-<span class="st"> </span><span class="cf">function</span>(x) {
 <h2>Exercise 4</h2>
 <div id="tibble-charts" class="section level4">
 <h4>Tibble charts</h4>
+<p>This exercise writes a function to extract rows from tabular inputs based on the top values of some variable.</p>
 <ol style="list-style-type: decimal">
 <li>Write a <code>top_3</code> function that takes a tibble <code>data</code> and a the column number <code>col_nr</code> of a <em>numeric</em> variable as its 2 inputs and returns the top-3 rows of the tibble after it has been sorted (in descending order) by the specified column number.</li>
 </ol>
@@ -1809,6 +1901,7 @@ top_n &lt;-<span class="st"> </span><span class="cf">function</span>(data, col_n
 <h2>Exercise 5</h2>
 <div id="a-plotting-function" class="section level4">
 <h4>A plotting function</h4>
+<p>This exercise writes a function for creating a specific type of plot.</p>
 <ol style="list-style-type: decimal">
 <li>Write a function <code>plot_scatter</code> that takes a table (tibble or data frame) with 2 numeric variables <code>x</code> and <code>y</code> as <code>my_data</code> and plots a scatterplot of the values of <code>y</code> by the values of <code>x</code>.</li>
 </ol>
@@ -1867,7 +1960,7 @@ my_lm<span class="op">$</span>coefficients[<span class="dv">1</span>]  <span cla
 my_lm<span class="op">$</span>coefficients[<span class="dv">2</span>]  <span class="co"># slope</span>
 <span class="co">#&gt;         x </span>
 <span class="co">#&gt; 0.1318431</span></code></pre></div>
-<p>Incorporate a linear model into your <code>plot_scatter</code> function by adding a line that shows the prediction of the linear model (in a color that can be set by an optional <code>col</code> argument).</p>
+<p>Incorporate the fit of a linear model into your <code>plot_scatter</code> function. Use a linear model to add a line to your plot that shows the prediction of the linear model (in a color that can be set by an optional <code>col</code> argument).</p>
 <!-- Solution: -->
 </div>
 <div id="solution-8" class="section level4">
@@ -1903,8 +1996,8 @@ my_lm<span class="op">$</span>coefficients[<span class="dv">2</span>]  <span cla
 <ul>
 <li><p>See the <a href="https://www.rstudio.com/resources/cheatsheets/">contributed cheatsheets</a> on <em>Base R</em> and <em>Advanced R</em>.</p></li>
 <li><p><a href="https://r4ds.had.co.nz/functions.html">Chapter 19: Functions</a> of <a href="https://r4ds.had.co.nz/">r4ds</a> provides some additional remarks on the special dot-dot-dot argument (<code>...</code>), return values, pipeable functions, and the notion of a function’s <em>environment</em> or the <em>scope</em> of variables.</p></li>
-<li><p>To really understand how functions are evaluated and used in R, <a href="http://adv-r.had.co.nz/">Advanced R</a> devotes chapters on <a href="http://adv-r.had.co.nz/Functions.html">Functions</a> and <a href="http://adv-r.had.co.nz/Environments.html">Environments</a>, and <a href="http://adv-r.had.co.nz/Functional-programming.html">Functional programming</a>.</p></li>
-<li><p>The <code>dplyr</code> <a href="https://dplyr.tidyverse.org/articles/programming.html">vignette on programming</a> (see <code>vignette(&quot;programming&quot;)</code>) explains some specifics about writing tidyverse functions.</p></li>
+<li><p>To really understand how functions are evaluated and used in R, <a href="http://adv-r.had.co.nz/">Advanced R</a> devotes chapters on <a href="http://adv-r.had.co.nz/Functions.html">functions</a>, on <a href="http://adv-r.had.co.nz/Environments.html">environments</a>, and on <a href="http://adv-r.had.co.nz/Functional-programming.html">functional programming</a>.</p></li>
+<li><p>The <code>dplyr</code> <a href="https://dplyr.tidyverse.org/articles/programming.html">vignette on programming</a> (see <code>vignette(&quot;programming&quot;)</code>) explains some specifics that matter for writing tidyverse functions.</p></li>
 </ul>
 </div>
 <div id="conclusion" class="section level1">
@@ -1980,7 +2073,7 @@ Nr. | Topic       |
 9.  | [Functions](http://rpository.com/ds4psy/essentials/function.html) |
 +.  | [Datasets](http://rpository.com/ds4psy/essentials/datasets.html) | 
 -->
-<p>[Last update on 2019-01-28 18:04:50 by <a href="http://neth.de/">hn</a>.]</p>
+<p>[Last update on 2019-01-29 09:01:54 by <a href="http://neth.de/">hn</a>.]</p>
 <!-- eof. -->
 </div>
 <div class="footnotes">
@@ -2015,7 +2108,7 @@ Nr. | Topic       |
         <li><a href="#more-complex-tests">More complex tests</a></li>
         <li><a href="#more-cases">More cases</a></li>
         <li><a href="#switch">Switch</a></li>
-        <li><a href="#practice">Practice</a></li>
+        <li><a href="#practice-1">Practice</a></li>
         </ul></li>
         <li><a href="#exercises-wpa09">Exercises (WPA09)</a><ul>
         <li><a href="#exercise-1">Exercise 1</a></li>

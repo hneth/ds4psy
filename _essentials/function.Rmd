@@ -1,7 +1,7 @@
 ---
 title: "Functions, with WPA09 and solutions (ds4psy)"
 author: "Hansjörg Neth, SPDS, uni.kn"
-date: "2019 01 28"
+date: "2019 01 29"
 output:
    rmdformats::html_clean: # html_clean html_docco readthedown material #
      code_folding: show # hide
@@ -167,15 +167,17 @@ The basic structure for writing a new function looks as follows:
 name <- function(<args>) {<body>}
 ```
 
-Thus, writing a function initially requires 3 decisions:
+Thus, writing a function initially requires 3 considerations:
 
-1. What is the `name` of my function? Function names should clearly convey their purpose ("Which task does this function solve?") and should be short (as they will be typed many times).
+1. What would be a good `name` for the function? Function names should clearly convey their purpose ("Which task does this function solve?"), resemble verbs (ideally say what the function does, e.g., `plot`, or state its output, e.g., `mean`), and should be short (as they will be typed many times).
 
-2. Which _inputs_ does the function take? Any input that the function needs to perform its task need to be supplied as a list of arguments `<args>`. 
+2. Which _inputs_ does the function take? Any input that is necessary for the function to perform its task must to be supplied as a list of arguments `<args>`. 
 
-    - Arguments typically include _data_ (e.g., scalars, vectors, tables, or anything else that the function uses to perform its task) and can contain additional _details_ or _parameters_ (e.g., instructions on how something is to be done: Which type of calculation is desired? How should `NA` values be treated? Which color should be used? etc.). 
+    - Arguments typically include _data_ (e.g., scalars, vectors, tables, or anything else that the function uses to perform its task) and can contain additional _details_ or _parameters_ (e.g., instructions on how something is to be done: Which type of calculation is desired? How should `NA` values be treated? Which color should be used? etc.). Data arguments are typically listed first.
     
-    - Any argument can be _optional_ (by including a default value that is used when no argument is provided) or _mandatory_ (by not including a default value).
+    - Any argument can be _optional_ (by including a default value that is used when no argument is provided) or _mandatory_ (by not including a default value). It is common to make data arguments mandatory, and use optional arguments for details. 
+    
+    - If a function calls other functions and we want to allow users to pass arguments to these latter functions, we can add `...` (dot-dot-dot) as a special argument. However, this requires that the functions used within the function can deal with the specific arguments that are provided later, and can cause problems and unexpected results. 
 
 3. The `<body>` of a function uses the _inputs_ provided by `<args>` to perform the task for which the function is created. 
 
@@ -241,29 +243,43 @@ We can describe this function as follows:
 
 - Although the function does not verify anything, `x` and `exp` are assumed to be numeric.
 
+#### Checking the function
+
+It is very important to run a range of checks after writing a new function. 
+When doing these checks, examples that use unusual inputs (like `NA`, `NULL`, or arguments of different types) are particularly informative. 
+
 Here are some possible ways of checking how `power` works: 
 
 ```{r}
 # Check:
 power(x = 3)
 power(x = 3, exp = 2)
- 
+
+# Note that the function also works for vectors: 
+power(x = 1:5, exp = 2) 
+power(x = 2,   exp = 1:4)
+
 # Omitting argument names:
 power(3)     # names can be omitted, and 
 power(3, 2)  # arguments are used in order given.
+power(1:5, 2)
+power(2, 1:4)
 # However, when arguments are named: 
 power(exp = 3, x = 2)  # order is irrelevant.
 # => Safest way: Always provide argument names!
 
-# Also note:
-power(x = NA)           # NA
-power(x = 3, exp = NA)  # NA
+# Note what happens with NA values: 
+power(x = NA) 
+power(x = 3, exp = NA) 
+# => NA values are 'contagious'. 
 
 ## Errors:
 # power()       # 1st argument is mandatory
 # power("A")    # setting x to non-numeric argument
 # power(3, "B") # setting exp to non-numeric argument
 ```
+
+#### Explicit `return`
 
 A more explicit version of the same function would be:
 
@@ -275,6 +291,66 @@ power <- function(x, exp = 1) {
   return(result)
 }
 ```
+
+Whereas the shorter version of the function relied on returning its _last_ (and only) expression, this version makes it more explicit what is being computed and returned. As functions get larger and more complicated, it is generally a good idea to include explicit `return` statements. Importantly, a function can include multiple return statements and is exited as soon as a `return` is reached. For instance, the following variant would never print its final disclaimer:
+
+```{r}
+power_joke <- function(x, exp = 1) {
+  
+  result <- x^exp
+  
+  return(result)
+  
+  "Just kidding"
+}
+```
+
+#### Practice
+
+Test this last statement by evaluating the `power_joke` function and trying to obtain the `"Just kidding"` line as an output. 
+Then comment out the line `return(result)` and re-run the same checks. 
+
+<!-- Solution: --> 
+
+```{r}
+# Checks: ------ 
+power_joke(5)
+power_joke(5, 2)
+power_joke(100, 1/2)
+power_joke(1:5, 2)
+power_joke(NA)
+# Errors: 
+# power_joke()
+# power_joke("A")
+
+# => "Just kidding" is never reached.
+
+
+# Commenting out return(result): ------ 
+
+power_joke <- function(x, exp = 1) {
+  
+  result <- x^exp
+  
+  # return(result)
+  
+  "Just kidding"
+}
+
+# Checks:
+power_joke(5)
+power_joke(5, 2)
+power_joke(100, 1/2)
+power_joke(1:5, 2)
+power_joke(NA)
+# Errors: 
+# power_joke()
+# power_joke("A")
+
+# => "Just kidding" is always reached 
+#    (unless an earlier error occurs). 
+```
+
 
 #### A descriptive function
 
@@ -324,6 +400,8 @@ We can describe this function as follows:
 
 - Overall, the task addressed by `describe` is to provide a range of descriptive statistics of a vector `v`. 
 
+#### Checking the function
+
 Here are some possible ways of checking how `describe` works: 
 
 ```{r}
@@ -333,9 +411,13 @@ describe(v)
 describe(c(NA, v, NA))
 describe(v, rm_na = FALSE)
 describe(c(v, NA), rm_na = FALSE)
-# Also note:
+
+# Note:
 describe(NA)
 describe("A")
+
+# Error for:
+# describe()
 ```
 
 Actually, `describe` is -- apart from subtle differences -- similar to the base R function `summary`: 
@@ -345,6 +427,9 @@ Actually, `describe` is -- apart from subtle differences -- similar to the base 
 summary(v)
 summary(c(NA, v, NA))
 summary(NA)
+
+# Error for: 
+# summary()
 ```
 
 
@@ -352,11 +437,11 @@ summary(NA)
 
 Writing good functions is a life-long aspiration. For starters, 
 
-- make sure that you choose good _names_ for both your functions and their arguments, 
+- make sure that you choose good _names_ for both your functions and their arguments; 
 
-- format your functions so that they are easy to read (i.e., use blank lines between different parts and automatic indentation), and 
+- _format_ your functions so that their structure is clear and they are easy to read (i.e., use blank lines between different parts and automatic indentation);  
 
-- provide _comments_ to explain the function's purpose and anything else that may be difficult to understand. 
+- provide _comments_ to explain the function's purpose and anything else that may be difficult to understand.  
 
 
 ## Flow control 
@@ -658,13 +743,13 @@ Here are the exercises of WPA09 and possible solutions for them.
 
 ## Exercise 1
 
-Each of the following 3 functions takes a vector `v` as an input and tries to perform a simple task. 
-For each function:
+Imagine someone proudly presents you the following 3 functions. Each of them takes a vector `v` as an input and tries to perform a simple task. For each function:
 
 - describe the task that the function is designed to perform,  
 - test whether it successfully performs this task,  
 - name any problem that you detect with the current function,  
 - fix the function so that it successfully performs its task.  
+
 
 ```{r ex1_functions_with_errors, eval = FALSE}
 # (1)  ------ 
@@ -812,8 +897,10 @@ mean_sd(v = c("A", "B"))
 
 #### Conditional feeding
 
+Let's write a first function and then add some conditions to it.
+
 1. Write a function `feed_me` that takes a character string `food` as a required argument, and returns the sentence `"I love to eat ___!"`. 
-Test your function by running `feed_me("apples")`, etc.
+Test your function by running `feed_me("apples")`, etc. Here's a template with some blanks, to get you started: 
 
 ```{r ex2_template, eval = FALSE, echo = TRUE}
 feed_me <- function(___) {
@@ -867,7 +954,7 @@ feed_me("apples")
 feed_me("books")
 ```
 
-3. Extend your function to `feed_vegan` that uses 2 additional arguments: 
+3. Extend your function to a `feed_vegan` function that uses 2 additional arguments: 
 
     - `type` should be an optional character string, set to a default argument of `"food"`. 
     If `type` is not `"food"`, the function should return `"___ is not edible."`. 
@@ -876,7 +963,7 @@ feed_me("books")
     If `vegan` is `TRUE`, the function should return `"I love to eat ___!"`. 
     Otherwise, the function should return `"I do not eat ___."`.
 
-Test each of your resulting functions with appropriate function calls. 
+Test each of your functions by evaluating appropriate function calls. 
 
 <!-- Solution: --> 
 
@@ -919,6 +1006,8 @@ feed_vegan("veggies")  # due to default: vegan = FALSE
 ## Exercise 3
 
 #### Number recognition 
+
+This exercise analyzes and corrects someone else's function. 
 
 1. Explain what the following function `describe` (not to be confused with `describe` above) _intends_ to do and why it fails in doing it. 
 
@@ -1059,6 +1148,8 @@ describe(pi)
 ## Exercise 4
 
 #### Tibble charts
+
+This exercise writes a function to extract rows from tabular inputs based on the top values of some variable.
 
 1. Write a `top_3` function that takes a tibble `data` and a the column number `col_nr` of a _numeric_ variable as its 2 inputs and returns the top-3 rows of the tibble after it has been sorted (in descending order) by the specified column number. 
 
@@ -1337,6 +1428,8 @@ top_n(sw, 9, n = 999) # message and top n = 87 homeworlds
 
 #### A plotting function
 
+This exercise writes a function for creating a specific type of plot. 
+
 1. Write a function `plot_scatter` that takes a table (tibble or data frame) with 2 numeric variables `x` and `y` as `my_data` and plots a scatterplot of the values of `y` by the values of `x`. 
 
 **Hint:** First write a `ggplot` command that creates a scatterplot of `my_data`. Then wrap a function `plot_scatter` around this command that takes `my_data` as its argument.  
@@ -1390,7 +1483,7 @@ my_lm$coefficients[1]  # intercept
 my_lm$coefficients[2]  # slope
 ```
 
-Incorporate a linear model into your `plot_scatter` function by adding a line that shows the prediction of the linear model (in a color that can be set by an optional `col` argument).
+Incorporate the fit of a linear model into your `plot_scatter` function. Use a linear model to add a line to your plot that shows the prediction of the linear model (in a color that can be set by an optional `col` argument).
 
 <!-- Solution: --> 
 
@@ -1429,10 +1522,10 @@ plot_scatter(my_data = tb_2, col = "steelblue")
 
 - [Chapter 19: Functions](https://r4ds.had.co.nz/functions.html) of [r4ds](https://r4ds.had.co.nz/) provides some additional remarks on the special dot-dot-dot argument (`...`), return values, pipeable functions, and the notion of a function's _environment_ or the _scope_ of variables. 
 
-- To really understand how functions are evaluated and used in R, [Advanced R](http://adv-r.had.co.nz/) devotes chapters on [Functions](http://adv-r.had.co.nz/Functions.html) and [Environments](http://adv-r.had.co.nz/Environments.html), and 
-[Functional programming](http://adv-r.had.co.nz/Functional-programming.html).
+- To really understand how functions are evaluated and used in R, [Advanced R](http://adv-r.had.co.nz/) devotes chapters on [functions](http://adv-r.had.co.nz/Functions.html), on [environments](http://adv-r.had.co.nz/Environments.html), and 
+on [functional programming](http://adv-r.had.co.nz/Functional-programming.html). 
 
-- The `dplyr` [vignette on programming](https://dplyr.tidyverse.org/articles/programming.html) (see `vignette("programming")`) explains some specifics about writing tidyverse functions.
+- The `dplyr` [vignette on programming](https://dplyr.tidyverse.org/articles/programming.html) (see `vignette("programming")`) explains some specifics that matter for writing tidyverse functions.
 
 
 # Conclusion
