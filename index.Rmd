@@ -1,7 +1,7 @@
 ---
 title: "Data Science for Psychologists (ds4psy)"
 author: "Hansjörg Neth, SPDS, uni.kn"
-date: "2019 01 28"
+date: "2019 01 30"
 output:
   rmdformats::html_clean:
     highlight: kate
@@ -42,18 +42,23 @@ opts_knit$set(width=75)
 
 ## Overview 
 
-<!-- New abstract: --> 
+<!-- New abstract: 2019-01-30 --> 
 
-This course serves 3 purposes: First, it introduces key concepts and commands of the R language and environment for statistical computing. 
-Second, by defining and transforming different forms and types of data, the course provides a basic introduction to _data literacy_. 
-Third, the course explores various commands and tools of the so-called _tidyverse_ (including the R packages `dplyr`, `ggplot`, `readr`, `tibble`, and `tidyr`) in the context of psychological datasets (typically involving data of patients or participants). 
+This course provides an introduction to the [R](http://www.r-project.org/) programming language and teaches fundamental skills in data science. The course is structured into 3 parts: 
+
+1. First, we introduce key concepts and commands of the [R](http://www.r-project.org/) programming language and environment for statistical computing. This includes working with the [R Studio](http://www.rstudio.com/) environment and writing reproducible research documents with 
+[R Markdown](https://rmarkdown.rstudio.com/). 
+
+2. By defining and transforming different forms and types of data, the course provides a basic introduction to _data literacy_. 
+Later sessions add elements of _computer programming_ (e.g., writing functions and loops), but our focus remains on making sense of data. 
+
+3. Regular exercises with real datasets explore various tools of the so-called _tidyverse_ (including the R packages `dplyr`, `ggplot`, and `tidyr`). The datasets used are geared to the interests and needs of psychologists (e.g., involving the data of patients or experimental participants). 
 
 Completing this course will enable students to understand, transform, analyze, and visualize data in a variety of ways. 
-While this course does not deal with _statistical testing_ and only scratches the surface of _computer programming_, 
-it conveys _reproducible research practices_ and covers the knowledge and skills that form the fundamentals of _data science_. 
+While this course does not deal with _statistical testing_ and only scratches the surface of _programming_, 
+it conveys _reproducible research practices_ and covers the fundamental knowledge and skills of _data science_. 
 
-Enrolling in this course assumes no prior knowledge on programming or statistics, but motivation for weekly readings and solving weekly exercises. 
-Grades are determined by exercise solutions and a final test or project.
+Enrolling in this course assumes no prior knowledge in programming or statistics, but motivation for weekly readings and for regularly solving exercises. Grades are determined by submitted exercise solutions and a final test or project.
 
 
 ## Background
@@ -379,6 +384,7 @@ For instructions on combining text and code, see [Chapter 27: R Markdown](https:
 
 - [The R project for statistical computing](http://www.r-project.org/); 
 - [R Studio](http://www.rstudio.com/) is an integrated development environment (IDE) for R; 
+- [R Markdown](https://rmarkdown.rstudio.com/) allows weaving text and code into reproducible research documents;   
 - The [tidyverse site](https://www.tidyverse.org/) also links to [instructional resources](https://www.tidyverse.org/learn/). 
 
 ## Textbook 
