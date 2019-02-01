@@ -320,8 +320,9 @@ output
 <h4>Loops over data</h4>
 <p>In the context of data science, we typically want to iterate over (rows or columns) of data tables.</p>
 <p>Load some data:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Load data:</span>
-tb &lt;-<span class="st"> </span><span class="kw">read_csv2</span>(<span class="st">&quot;../data/tb.csv&quot;</span>)  <span class="co"># from local file</span></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## Load data:
+<span class="co"># tb &lt;- read_csv2(&quot;../data/tb.csv&quot;)  # from local file</span>
+tb &lt;-<span class="st"> </span><span class="kw">read_csv2</span>(<span class="st">&quot;http://rpository.com/ds4psy/data/tb.csv&quot;</span>)  <span class="co"># from local file</span></code></pre></div>
 <p>A repeated operation for each variable (column) on a table:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># (a) Means: ---- </span>
 <span class="kw">mean</span>(tb<span class="op">$</span>age)
@@ -547,7 +548,7 @@ Nr. | Topic       |
 10.  | [Iteration](http://rpository.com/ds4psy/essentials/iteration.html) |
 +.  | [Datasets](http://rpository.com/ds4psy/essentials/datasets.html) | 
 -->
-<p>[Last update on 2019-02-01 10:53:28 by <a href="http://neth.de/">hn</a>.]</p>
+<p>[Last update on 2019-02-01 13:23:41 by <a href="http://neth.de/">hn</a>.]</p>
 <!-- eof. -->
 </div>
 </div>

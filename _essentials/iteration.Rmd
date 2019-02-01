@@ -262,8 +262,9 @@ In the context of data science, we typically want to iterate over (rows or colum
 Load some data:
 
 ```{r}
-# Load data:
-tb <- read_csv2("../data/tb.csv")  # from local file
+## Load data:
+# tb <- read_csv2("../data/tb.csv")  # from local file
+tb <- read_csv2("http://rpository.com/ds4psy/data/tb.csv")  # from local file
 ```
 
 A repeated operation for each variable (column) on a table:
