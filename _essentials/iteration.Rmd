@@ -1,7 +1,7 @@
 ---
 title: "Iteration, with WPA10 and solutions (ds4psy)"
 author: "Hansjörg Neth, SPDS, uni.kn"
-date: "2019 01 31"
+date: "2019 02 01"
 output:
    rmdformats::html_clean: # html_clean html_docco readthedown material #
      code_folding: show # hide
@@ -143,7 +143,7 @@ For instructions on combining text and code, see [Chapter 27: R Markdown](https:
 
 # Iteration
 
-Goal: Doing things repeatedly.
+Iteration := doing things repeatedly.
 
 ## Loops
 
@@ -192,9 +192,81 @@ abline(lm(shoesize ~ height, tb), col = "red")
 # Correlation: IQ ~ height: 
 plot(tb$IQ ~ tb$height)
 abline(lm(IQ ~ height, tb), col = "green3")
+
+## Write out table:
+# write_csv2(tb, path = "../data/tb.csv")
+
+## Read in table again:
+# read_csv2("../data/tb.csv")
 ```
 
-Same operation for each variable (column) on a table:
+### Using a for loop
+
+Asking and answering 3 questions:
+
+1. _body_: What is the task performed in the loop?
+
+2. _sequence_: Over which sequence should be iterated? _How many_ iterations are there?
+
+3. _output_: What is the _result_ of the loop: What _type_ of object and _how many_ instances? 
+
+After answering these questions, a loop can be designed in reverse order (from output to body):
+
+```{r for_loop_template, echo = TRUE, eval = FALSE}
+# (a) prepare output: 
+output <- vector(<type>, length(start:end))  
+
+# (b) for loop: 
+for (i in start:end} {                    # sequence
+  
+  result_i <- <solve task for i-th case>  # body: solve task
+  output[[i]] <- result_i                 #       collect results in output
+
+}
+
+# (c) use output: 
+output  
+```
+
+#### Loops for iteration
+
+Example: Compute square number of integers from 1 to 10.
+
+1. _body_: Square of some number `i`.
+2. _sequence_: `i` from 1 to 10.
+3. _output_: A vector of 10 numbers.
+
+Implementation:
+
+```{r}
+# (a) prepare output: 
+output <- vector("double", length(1:10))
+
+# (b) for loop: 
+for (i in 1:10) {
+  
+  sq <- i^2
+  print(paste0("i = ", i, ": sq = ", sq))  # for debugging
+  output[[i]] <- sq
+  
+}
+
+# (c) use output: 
+output  
+```
+
+#### Loops over data
+
+In the context of data science, we typically want to iterate over (rows or columns) of data tables. 
+
+Load some data:
+
+```{r}
+# Load data:
+tb <- read_csv2("../data/tb.csv")  # from local file
+```
+
+A repeated operation for each variable (column) on a table:
 
 ```{r}
 # (a) Means: ---- 
@@ -202,7 +274,58 @@ mean(tb$age)
 mean(tb$height)
 mean(tb$shoesize)
 mean(tb$IQ)
+```
 
+Repetition is a signal that there are more efficient ways.
+
+How could we use a loop? To design the loop, we need to answer our 3 questions: 
+
+1. _body_: Compute the mean of 4 columns (`age` to `IQ`) in `tb`.
+
+2. _sequence_: We want to iterate over columns 2 to 5 (4 iterations).
+
+3. _output_: The _result_ is a vector of type "double" with 4 instances. 
+
+Note: 
+
+- We remove the 1st column, as no computation is needed for it.
+
+- The i-th column of tibble `tb` (or data frame `df`) can be accessed via `tb[[i]]` (or `df[[i]]`). 
+
+```{r}
+# Prepare data: 
+tb_2 <- tb %>% select(-1)
+tb_2
+
+# (a) prepare output: 
+output <- vector("double", 4)
+
+# (b) for loop: 
+for (i in 1:4){
+  
+  mn <- mean(tb_2[[i]])
+  
+  output[[i]] <- mn
+  
+}
+
+# (c) use output: 
+output
+```
+
+In the `tidyverse` the loop range can be defined with a special function: 
+
+```{r}
+seq_along(tb)
+```
+
+
+
+#### Practice
+
+Repeat loops for `summary` and for `hist` of each variable. 
+
+```{r}
 # (b) Summary: ---- 
 summary(tb$age)
 summary(tb$height)
