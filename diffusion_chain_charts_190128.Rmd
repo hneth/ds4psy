@@ -1,0 +1,209 @@
+---
+title: "Diffusion chain charts"
+author: "Hansjörg Neth, SPDS, uni.kn"
+date: "2019 01 31"
+output:
+   rmdformats::html_clean: # html_clean html_docco readthedown material #
+     code_folding: hide # hide
+     toc_float: true
+     toc_depth: 3
+     highlight: default # textmate default kate haddock monochrome #
+     lightbox: true # true by default
+     fig_width: 7 # in inches
+editor_options: 
+  chunk_output_type: console # inline
+---
+
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+library(knitr)
+library(rmarkdown)
+library(tidyverse)
+```
+
+## Data
+
+Goal: Show actual (and total) number of participants per chain link position and group.
+
+```{r, echo = FALSE, results = FALSE, message = FALSE}
+# basic data: 
+dat_n <- tribble(
+  ~cond, ~l_1, 	~l_2,	~l_3, 
+  "NNN",  67,	48,	48,
+  "NPN",	67,	27,	22,
+  "PNP",	76,	23,	25,
+  "PPP",	76,	44,	49)
+dat_n
+
+dat_tot <- tribble(
+  ~cond, ~l_1, 	~l_2,	~l_3, 
+  "NNN",  124,	83,	83,
+  "NPN",	124,	41,	41,
+  "PNP",	124,	41, 41,
+  "PPP",	124,	83,	83)
+dat_tot
+
+# y values (for flowcharts): 
+
+dy1 <- tribble(
+  ~cond, ~y_1, 	~y_2,	~y_3, 
+  "NNN",  1.5,	1,	1,
+  "NPN",	1.5,	2,	2,
+  "PNP",	3.5,	3,	3,
+  "PPP",	3.5,	4,	4)
+
+dy2 <- tribble(
+  ~cond, ~y2_1, 	~y2_2,	~y2_3, 
+  "NNN",  4,	2,	 0,
+  "NPN",	4,	6,	 4,
+  "PNP",	6,	4,	 6,
+  "PPP",	6,	8,	10)
+
+# from wide to long format:
+dat_n_l <- dat_n %>% 
+  gather(key = "key", value = "n", l_1:l_3) %>%
+  separate(key, into = c("kill", "position")) %>%
+  select(-kill) %>%
+  arrange(cond, position)
+dat_n_l
+
+dat_tot_l <- dat_tot %>% 
+  gather(key = "key", value = "tot", l_1:l_3) %>%
+  separate(key, into = c("kill", "position")) %>%
+  select(-kill) %>%
+  arrange(cond, position)
+dat_tot_l
+
+dy1_l <- dy1 %>% 
+  gather(key = "key", value = "y_1", y_1:y_3) %>%
+  separate(key, into = c("kill", "position")) %>%
+  select(-kill) %>%
+  arrange(cond, position) %>%
+  mutate(pol = substr(cond, position, position))
+dy1_l
+
+dy2_l <- dy2 %>% 
+  gather(key = "key", value = "y_2", y2_1:y2_3) %>%
+  separate(key, into = c("kill", "position")) %>%
+  select(-kill) %>%
+  arrange(cond, position) %>%
+  mutate(pol = substr(cond, position, position))
+dy2_l
+
+## copy column:
+# dat_l$y_1 <- dy_l$y_1
+
+## safer: Join:
+data_temp <- left_join(dat_n_l, dat_tot_l)
+data_temp <- left_join(data_temp, dy1_l)
+data_temp <- left_join(data_temp, dy2_l)
+data_temp <- data_temp %>%
+  select(cond, position, pol, n, tot, everything())
+data_temp  
+```
+
+Current data (in long format `dat_l`):
+
+```{r}
+data_long <- data_temp
+kable(data_long)
+```
+
+
+## Charts
+
+### Bar chart 
+
+```{r, fig.width = 7, fig.height = 6}
+ggplot(data_long, aes(x = position, y = n, col = pol, fill = cond)) +
+  geom_bar(stat = "identity", pos = "stack", size = 1.5) + 
+  scale_color_brewer(palette = "Set1") +
+  scale_fill_brewer(palette = "Greys") +
+  theme_classic()
+```
+
+### Point chart 1a
+
+Legend: 
+
+- positive: red
+- negative: blue
+
+```{r, fig.width = 7, fig.height = 6}
+v_shift <- .20
+
+ggplot(data_long, aes(x = position, y = y_1)) +
+  geom_line(aes(group = cond), col = grey(.80, 1)) +
+  geom_point(aes(size = n, col = pol)) +
+  geom_text(aes(y = (y_1 + v_shift), label = n)) +
+  geom_text(aes(y = (y_1 - v_shift), label = tot)) +
+  scale_size(range = c(5, 15)) + 
+  scale_color_manual(values = c("steelblue", "red3")) +
+  theme_void() + 
+  theme(legend.position = "none")
+```
+
+### Point chart 1b
+
+```{r, fig.width = 7, fig.height = 6}
+v_shift <- .22
+
+ggplot(data_long, aes(x = position, y = y_1)) +
+  geom_line(aes(group = cond), col = grey(.80, 1)) +
+  geom_point(aes(size = n, col = pol)) +
+  geom_text(aes(y = (y_1 + 0), label = n), color = "white", fontface = 2) +
+  geom_text(aes(y = (y_1 - v_shift), label = tot), color = "black") +
+  scale_size(range = c(10, 18)) + 
+  scale_color_manual(values = c("steelblue", "red3")) +
+  theme_void() + 
+  theme(legend.position = "none")
+```
+
+
+
+### Point chart 2a
+
+Legend: 
+
+- positive: red and up
+- negative: blue and down
+
+
+```{r, fig.width = 7, fig.height = 6}
+v_shift <- .65
+
+ggplot(data_long, aes(x = position, y = y_2)) +
+  geom_line(aes(group = cond), col = grey(.80, 1)) +
+  geom_point(aes(size = n, col = pol)) +
+  geom_text(aes(y = (y_2 + v_shift), label = n), color = "black") +
+  geom_text(aes(y = (y_2 - v_shift), label = tot), color = "black") +
+  scale_size(range = c(5, 15)) + 
+  scale_color_manual(values = c("steelblue", "red3")) +
+  theme_void() + 
+  theme(legend.position = "none")
+```
+
+### Point chart 2b
+
+```{r, fig.width = 7, fig.height = 6}
+v_shift <- .70
+
+ggplot(data_long, aes(x = position, y = y_2)) +
+  geom_line(aes(group = cond), col = grey(.80, 1)) +
+  geom_point(aes(size = n, col = pol)) +
+  geom_text(aes(y = (y_2 + 0), label = n), color = "white", fontface = 2) +
+  geom_text(aes(y = (y_2 - v_shift), label = tot), color = "black") +
+  scale_size(range = c(10, 18)) + 
+  scale_color_manual(values = c("steelblue", "red3")) +
+  theme_void() + 
+  theme(legend.position = "none")
+```
+
+
+
+
+[Last update on `r Sys.time()` by [hn](http://neth.de/).]  
+
+<!-- eof. --> 
