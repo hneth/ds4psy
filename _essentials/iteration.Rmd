@@ -417,7 +417,7 @@ Nr. | Topic       |
 7.  | [Tidying data](http://rpository.com/ds4psy/essentials/tidy.html) |
 8.  | [Joining data](http://rpository.com/ds4psy/essentials/join.html) |
 9.  | [Functions](http://rpository.com/ds4psy/essentials/function.html) |
-10.  | [Iteration](http://rpository.com/ds4psy/essentials/iteration.html) |
+10. | [Iteration](http://rpository.com/ds4psy/essentials/iteration.html) |
 +.  | [Datasets](http://rpository.com/ds4psy/essentials/datasets.html) | 
 -->
 
