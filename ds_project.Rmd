@@ -1,7 +1,7 @@
 ---
 title: "Data Science for Psychologists (ds4psy)"
 author: "Hansjörg Neth, SPDS, uni.kn"
-date: "2019 02 01"
+date: "2019 02 02"
 output:
   rmdformats::html_clean:
     highlight: kate
@@ -40,21 +40,27 @@ opts_knit$set(width=75)
 
 # Final Project
 
-What makes a good data science project?
+What characterizes a good data science project?
 
-- A project that finds, uses, transforms, and visualises data to address an interesting research question. 
+- Try asking an interesting question that can be answered by available data.
 
 - Apply and show what you have learned (e.g., in various sessions of our course). 
+
+- In short, find, use, transform, and visualize data to address an interesting question. 
+
 
 
 ## Parts and criteria
 
 ### 1. Motivation
 
-- Raise some research questions that you hope to answer with this data
+A motivated project should link questions with data. 
+There are 2 principle ways to motivate a project:
 
-- Why use this data? 
+1. Starting from questions: Ask some research question(s) that you hope to answer with data. 
+Which data could address or answer the question? 
 
+2. Starting from data: Why use this data? Which interesting questions can it inform or answer?
 
 ### 2. The data 
 
@@ -62,7 +68,7 @@ What makes a good data science project?
 
 [^1]: Talk to the instructor in case you want to use data that cannot be included (e.g., due to legal or other restrictions).  
 
-- Volume: No limits, but larger data is better than smaller, several files better than 1, etc. 
+- Amount: There are no limits or restrictions regarding data size, but larger datasets are better than smaller ones, data in several files better than 1, etc. 
 
 - The data should include multiple and different types of variables (e.g., text, numeric, categorical, logical). 
 
@@ -70,24 +76,21 @@ What makes a good data science project?
 
 - Include references to all sources (e.g., of data, corresponding papers, online sources).
 
-
 ### 3. Data transformation
 
-- Clean up data, missing values, etc. 
+- Clean up data, add variables, etc. 
 
-- Join and/or re-format tables, select and add variables, etc.
-
+- Join and/or re-format tables, select cases or variables, etc.
 
 ### 4. EDA
 
-- Check data: missing values, outliers, etc.
+- Check data for missing values, outliers, etc.
 
-- Provide overview of distributions, relationships between variables, etc. 
+- Provide an overview of distributions of key variables, relationships between variables, etc. 
 
 - Compute descriptive summary tables or different types of visualizations (that make sense of the data). 
 
 - Can you create a tidy version of the data?  How or why not?
-
 
 ### 5. Conclusion
 
@@ -98,11 +101,11 @@ What makes a good data science project?
 - Implications: What follows from your analysis? What should be done next? 
 
 
-## What to submit
+## Submitting a project 
 
 ### Parts to include
 
-- **Project:** A zipped-archive of an R-project, including all _scripts_ and _data_ (in `csv` format).[^2] 
+Please submit a zipped-archive of an R-project, including all _scripts_ and _data_ (in `csv` format):[^2] 
 
 [^2]: Contact the instructor (at least 24h before the deadline) if the size of your archive exceeds 5MB. 
 
@@ -113,7 +116,7 @@ What makes a good data science project?
 
 ### Deadline
 
-As an attachement of an email to <h.neth@uni.kn> [by March 10, 2019].
+An email with your attached project should be sent to <h.neth@uni.kn> [by March 10, 2019].
 
 
 # Conclusion
