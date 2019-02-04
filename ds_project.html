@@ -66,7 +66,7 @@ img {
 <div id="header">
 <h1 class="title">Data Science for Psychologists (ds4psy)</h1>
 <h4 class="author"><em>Hansjörg Neth, SPDS, uni.kn</em></h4>
-<h4 class="date"><em>2019 02 02</em></h4>
+<h4 class="date"><em>2019 02 04</em></h4>
 </div>
 
 <div id="content">
@@ -81,9 +81,9 @@ img {
 <li>Links to current <a href="http://rpository.com/ds4psy/">course syllabus</a> | <a href="https://zeus.uni-konstanz.de/hioserver/pages/startFlow.xhtml?_flowId=detailView-flow&amp;unitId=5101&amp;periodId=78&amp;navigationPosition=hisinoneLehrorganisation,examEventOverviewOwn">ZeUS</a> | <a href="https://ilias.uni-konstanz.de/ilias/goto_ilias_uni_crs_809936.html">Ilias</a></li>
 </ul>
 </div>
-<div id="final-project" class="section level1">
-<h1>Final Project</h1>
-<p>What characterizes a good data science project?</p>
+<div id="data-science-project" class="section level1">
+<h1>Data Science Project</h1>
+<p>What characterizes a good data science project? As the quality of any data exploration and analysis depends on (a) the quality of the data, (b) the questions asked, and (c) the analysis performed, it is difficult to establish a fixed set of rules for data science projects. Here are some general guidelines:</p>
 <ul>
 <li><p>Try asking an interesting question that can be answered by available data.</p></li>
 <li><p>Apply and show what you have learned (e.g., in various sessions of our course).</p></li>
@@ -98,6 +98,8 @@ img {
 <li><p>Starting from questions: Ask some research question(s) that you hope to answer with data. Which data could address or answer the question?</p></li>
 <li><p>Starting from data: Why use this data? Which interesting questions can it inform or answer?</p></li>
 </ol>
+<p>Note that the questions should be expressed without referring to the data (i.e., rather than “What is the correlation between variable <code>x</code> and variable <code>y</code>?” try a more general statement like<br />
+“What is the relation between someone’s mood and sports activities?”).</p>
 </div>
 <div id="the-data" class="section level3">
 <h3>2. The data</h3>
@@ -107,30 +109,32 @@ img {
 <ul>
 <li><p>Amount: There are no limits or restrictions regarding data size, but larger datasets are better than smaller ones, data in several files better than 1, etc.</p></li>
 <li><p>The data should include multiple and different types of variables (e.g., text, numeric, categorical, logical).</p></li>
-<li><p>A codebook (overview over variables, their types and ranges) should be included.</p></li>
+<li><p>Include a codebook (overview over all variables, their types, and ranges).</p></li>
 <li><p>Include references to all sources (e.g., of data, corresponding papers, online sources).</p></li>
 </ul>
 </div>
-<div id="data-transformation" class="section level3">
-<h3>3. Data transformation</h3>
+<div id="data-exploration-eda" class="section level3">
+<h3>3. Data exploration (EDA)</h3>
 <ul>
-<li><p>Clean up data, add variables, etc.</p></li>
+<li><p>Clean up data, etc.</p></li>
+<li><p>Check data for missing values, outliers, etc.</p></li>
+<li><p>Provide an overview of distributions of key variables, relationships between variables, etc.</p></li>
 <li><p>Join and/or re-format tables, select cases or variables, etc.</p></li>
 </ul>
 </div>
-<div id="eda" class="section level3">
-<h3>4. EDA</h3>
+<div id="data-transformation-and-visualization" class="section level3">
+<h3>4. Data transformation and visualization</h3>
 <ul>
-<li><p>Check data for missing values, outliers, etc.</p></li>
-<li><p>Provide an overview of distributions of key variables, relationships between variables, etc.</p></li>
+<li><p>Add or change variables</p></li>
 <li><p>Compute descriptive summary tables or different types of visualizations (that make sense of the data).</p></li>
 <li><p>Can you create a tidy version of the data? How or why not?</p></li>
+<li><p>Try to descriptively answer your initial research questions (e.g., by creating corresponding summary tables or visualizations).</p></li>
 </ul>
 </div>
 <div id="conclusion" class="section level3">
 <h3>5. Conclusion</h3>
 <ul>
-<li><p>Try to descriptively answer your initial research questions (e.g., by creating corresponding summary tables or visualizations).</p></li>
+<li><p>Results: Which answers does your analysis suggest?</p></li>
 <li><p>Limitations: What limits your possible conclusions? What could overcome these limitations?</p></li>
 <li><p>Implications: What follows from your analysis? What should be done next?</p></li>
 </ul>
@@ -227,7 +231,7 @@ Nr. | Topic       |
 +.  | [Datasets](http://rpository.com/ds4psy/essentials/datasets.html) | 
 -->
 <!-- End: -->
-<p>[This file last updated on 2019-02-03 17:18:29 by <a href="http://neth.de/">hn</a>.]</p>
+<p>[This file last updated on 2019-02-04 08:28:00 by <a href="http://neth.de/">hn</a>.]</p>
 <!-- eof. -->
 </div>
 <div class="footnotes">
@@ -246,7 +250,7 @@ Nr. | Topic       |
       	<button type="button" class="close">×</button>
         <ul>
         <li><a href="#course-coordinates">Course Coordinates</a></li>
-        <li><a href="#final-project">Final Project</a><ul>
+        <li><a href="#data-science-project">Data Science Project</a><ul>
         <li><a href="#parts-and-criteria">Parts and criteria</a></li>
         <li><a href="#submitting-a-project">Submitting a project</a></li>
         </ul></li>

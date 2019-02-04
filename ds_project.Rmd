@@ -1,7 +1,7 @@
 ---
 title: "Data Science for Psychologists (ds4psy)"
 author: "Hansjörg Neth, SPDS, uni.kn"
-date: "2019 02 02"
+date: "2019 02 04"
 output:
   rmdformats::html_clean:
     highlight: kate
@@ -38,9 +38,12 @@ opts_knit$set(width=75)
 * Links to current [course syllabus](http://rpository.com/ds4psy/) | [ZeUS](https://zeus.uni-konstanz.de/hioserver/pages/startFlow.xhtml?_flowId=detailView-flow&unitId=5101&periodId=78&navigationPosition=hisinoneLehrorganisation,examEventOverviewOwn) |  [Ilias](https://ilias.uni-konstanz.de/ilias/goto_ilias_uni_crs_809936.html) 
 
 
-# Final Project
+# Data Science Project
 
-What characterizes a good data science project?
+## General guidelines
+
+What characterizes a good data science project? 
+As the quality of any data exploration and analysis depends on (a) the quality of the data, (b) the questions asked, and (c) the analysis performed, it is difficult to establish a fixed set of rules for data science projects. Here are some general guidelines:
 
 - Try asking an interesting question that can be answered by available data.
 
@@ -48,9 +51,7 @@ What characterizes a good data science project?
 
 - In short, find, use, transform, and visualize data to address an interesting question. 
 
-
-
-## Parts and criteria
+## Components
 
 ### 1. Motivation
 
@@ -62,6 +63,10 @@ Which data could address or answer the question?
 
 2. Starting from data: Why use this data? Which interesting questions can it inform or answer?
 
+Note that the questions should be expressed without referring to the data (i.e., rather than 
+"What is the correlation between variable `x` and variable `y`?" try a more general statement like  
+"What is the relation between someone's mood and sports activities?"). 
+
 ### 2. The data 
 
 - The data used should be publicly accessible and must be included (in `csv` format).[^1] 
@@ -72,34 +77,37 @@ Which data could address or answer the question?
 
 - The data should include multiple and different types of variables (e.g., text, numeric, categorical, logical). 
 
-- A codebook (overview over variables, their types and ranges) should be included.
+- Include a codebook (overview over all variables, their types, and ranges).
 
 - Include references to all sources (e.g., of data, corresponding papers, online sources).
 
-### 3. Data transformation
+### 3. Data exploration (EDA) 
 
-- Clean up data, add variables, etc. 
-
-- Join and/or re-format tables, select cases or variables, etc.
-
-### 4. EDA
+- Clean up data, etc. 
 
 - Check data for missing values, outliers, etc.
 
 - Provide an overview of distributions of key variables, relationships between variables, etc. 
 
+- Join and/or re-format tables, select cases or variables, etc.
+
+### 4. Data transformation and visualization 
+
+- Add or change variables
+
 - Compute descriptive summary tables or different types of visualizations (that make sense of the data). 
 
-- Can you create a tidy version of the data?  How or why not?
+- Can you create a tidy version of the data? How or why not?
+
+- Try to descriptively answer your initial research questions (e.g., by creating corresponding summary tables or visualizations).
 
 ### 5. Conclusion
 
-- Try to descriptively answer your initial research questions (e.g., by creating corresponding summary tables or visualizations).
+- Results: Which answers does your analysis suggest?
 
 - Limitations: What limits your possible conclusions? What could overcome these limitations? 
 
 - Implications: What follows from your analysis? What should be done next? 
-
 
 ## Submitting a project 
 
