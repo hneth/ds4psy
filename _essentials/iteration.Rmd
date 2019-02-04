@@ -320,7 +320,7 @@ In the `tidyverse` the loop range can be defined with a special function:
 seq_along(tb)
 ```
 
-
+<!-- +++ here now +++ --> 
 
 #### Practice
 
@@ -351,8 +351,20 @@ typeof(h) # list
 ```
 
 
+### Variations
 
-<!-- +++ here now +++ --> 
+4 variations on the basic theme of the for loop:
+
+1. Modifying an existing object, instead of creating a new object.
+
+2. Looping over names or values, instead of indices.
+
+3. Handling outputs of unknown length.
+
+4. Handling sequences of unknown length.
+
+
+
 
 ## Functional programming
 
