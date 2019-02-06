@@ -1,7 +1,7 @@
 ---
 title: "Data Science for Psychologists (ds4psy)"
 author: "Hansjörg Neth, SPDS, uni.kn"
-date: "2019 02 01"
+date: "2019 02 06"
 output:
   rmdformats::html_clean:
     highlight: kate
@@ -37,28 +37,31 @@ opts_knit$set(width=75)
 * Winter 2018/2019: Mondays, 13:30--15:00, C511. 
 * Links to current [course syllabus](http://rpository.com/ds4psy/) | [ZeUS](https://zeus.uni-konstanz.de/hioserver/pages/startFlow.xhtml?_flowId=detailView-flow&unitId=5101&periodId=78&navigationPosition=hisinoneLehrorganisation,examEventOverviewOwn) |  [Ilias](https://ilias.uni-konstanz.de/ilias/goto_ilias_uni_crs_809936.html) 
 
-
 # Course Description
 
 ## Overview 
 
-<!-- New abstract: 2019-01-30 --> 
+<!-- New abstract: 2019-02-06 --> 
 
-This course provides an introduction to the [R](http://www.r-project.org/) programming language and teaches fundamental skills in data science. The course is structured into 3 parts: 
+This course provides an introduction to [R](http://www.r-project.org/) and conveys fundamental skills of data literacy and the basics of data science. It is suited for beginners and experienced students and contains 3 parts: 
 
-1. First, we introduce key concepts and commands of the [R](http://www.r-project.org/) programming language and environment for statistical computing. This includes working with the [R Studio](http://www.rstudio.com/) environment and writing reproducible research documents with 
+1. First, we introduce key concepts and commands of the [R](http://www.r-project.org/) programming language for statistical computing. This includes working with the [R Studio](http://www.rstudio.com/) environment and writing reproducible research documents with 
 [R Markdown](https://rmarkdown.rstudio.com/). 
 
-2. By defining and transforming different forms and types of data, the course provides a basic introduction to _data literacy_. 
-Later sessions add elements of _computer programming_ (e.g., writing functions and loops), but our focus remains on making sense of data. 
+2. By working with different forms and types of data, the course provides a basic introduction to _data literacy_. 
+Although later sessions add elements of _computer programming_ (e.g., writing functions and loops), 
+our focus remains on making sense of data (e.g., by creating summary tables and visualizations). 
 
-3. Regular exercises with real datasets explore various tools of the so-called _tidyverse_ (including the R packages `dplyr`, `ggplot`, and `tidyr`). The datasets used are geared to the interests and needs of psychologists (e.g., involving the data of patients or experimental participants). 
+3. Regular exercises with real datasets explore the tools of the so-called [tidyverse](https://www.tidyverse.org/) (including the R packages `dplyr`, `ggplot`, and `tidyr`). 
 
-Completing this course will enable students to understand, transform, analyze, and visualize data in a variety of ways. 
-While this course does not deal with _statistical testing_ and only scratches the surface of _programming_, 
-it conveys _reproducible research practices_ and covers the fundamental knowledge and skills of _data science_. 
+The course is based on chapters of the popular [R for data science](http://r4ds.had.co.nz) textbook (Wickham & Grolemund, 2017), but topics and datasets used in the course are geared to the interests and needs of psychologists (e.g., involving the data of patients or experimental participants). 
 
-Enrolling in this course assumes no prior knowledge in programming or statistics, but motivation for weekly readings and for regularly solving exercises. Grades are determined by submitted exercise solutions and a final test or project.
+Completing this course enables students to understand, transform, analyze, and visualize data in a variety of ways. 
+While this course does not deal with _statistical testing_ and only scratches the surface of _computer programming_, 
+it teaches _reproducible research practices_ and covers fundamental knowledge and skills of _data science_. 
+
+Enrolling in this course assumes no prior knowledge in programming or statistics, but motivation for weekly readings and for regularly solving exercises. Grades are determined by submitted solutions to exercises and a final project.  
+
 
 
 ## Background
@@ -81,7 +84,7 @@ This course assumes some basic familiarity with statistics and the [R](http://ww
 
 A. Submitting solutions to weekly programming assignments (WPAs) to [Ilias](https://ilias.uni-konstanz.de/ilias/goto_ilias_uni_crs_809936.html) by **Thursday** of the same week (by 23:59) on at least 8 out of 11 weeks. 
 
-B. Final assessment: Final data science project (may be thesis-related, contents to be discussed with instructor). 
+B. Final assessment: Final [data science project](http://rpository.com/ds4psy/essentials/ds_project.html) (may be thesis-related, contents to be discussed with instructor). 
 
 <!-- Vote for 1 of 2 options: 
 
