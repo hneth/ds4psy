@@ -1,7 +1,7 @@
 ---
 title: "Iteration, with WPA10 and solutions (ds4psy)"
 author: "Hansjörg Neth, SPDS, uni.kn"
-date: "2019 02 01"
+date: "2019 02 06"
 output:
    rmdformats::html_clean: # html_clean html_docco readthedown material #
      code_folding: show # hide
@@ -200,7 +200,7 @@ abline(lm(IQ ~ height, tb), col = "green3")
 # read_csv2("../data/tb.csv")
 ```
 
-### Using a for loop
+### Using a `for` loop
 
 Asking and answering 3 questions:
 
@@ -229,6 +229,8 @@ output
 ```
 
 #### Loops for iteration
+
+Assuming we know how often we want to do something. 
 
 Example: Compute square number of integers from 1 to 10.
 
@@ -317,14 +319,20 @@ output
 In the `tidyverse` the loop range can be defined with a special function: 
 
 ```{r}
-seq_along(tb)
+seq_along(tb_2)
 ```
 
 <!-- +++ here now +++ --> 
 
 #### Practice
 
-Repeat loops for `summary` and for `hist` of each variable. 
+Note that loop requires knowing (a) the data type of the loop results and (b) a data structure than can collect these results. 
+This is simple and straightforward if each loop results in a single number, as then all results can be stored in a vector. 
+
+However, things get more complicated if loops yield tables, lists, or plots. 
+
+
+Repeat loops for `summary` and for `hist` of each variable in `tb` (or rather `tb_2`): 
 
 ```{r}
 # (b) Summary: ---- 
@@ -340,6 +348,7 @@ is.vector(s)  # FALSE
 is.table(s)   # TRUE
 
 
+
 # (c) Histogram: ---- 
 hist(tb$age)
 hist(tb$height)
@@ -348,6 +357,24 @@ h <- hist(tb$IQ)
 h
 
 typeof(h) # list
+
+# As loop: 
+tb_2
+names(tb_2[1])
+hist(tb_2[[1]], main = paste0("Histogram of ", names(tb_2[1]), " values:"), xlab = names(tb_2[1]))
+
+# With loop:
+out <- vector("list", 4)
+
+for (i in seq_along(tb_2)) {
+  print(i)
+  var_name <- names(tb_2[i])
+  title <- paste0("Histogram of ", var_name, " values:")
+  x_lab <- var_name
+  out[[i]] <- hist(tb_2[[i]], main = title, xlab = x_lab)
+}
+
+plot(out[[1]])
 ```
 
 
