@@ -1,7 +1,7 @@
 ---
 title: "Iteration, with WPA10 and solutions (ds4psy)"
 author: "Hansjörg Neth, SPDS, uni.kn"
-date: "2019 02 06"
+date: "2019 02 08"
 output:
    rmdformats::html_clean: # html_clean html_docco readthedown material #
      code_folding: show # hide
@@ -185,13 +185,13 @@ IQ[IQ < 92] <- (IQ[IQ < 92] + 2)
 tb <- tibble(id, age, height, shoesize, IQ)
 head(tb)
 
-# Correlation: shoesize ~ height: 
-plot(tb$shoesize ~ tb$height)
-abline(lm(shoesize ~ height, tb), col = "red")
+## Correlation: shoesize ~ height: 
+# plot(tb$shoesize ~ tb$height)
+# abline(lm(shoesize ~ height, tb), col = "red")
 
-# Correlation: IQ ~ height: 
-plot(tb$IQ ~ tb$height)
-abline(lm(IQ ~ height, tb), col = "green3")
+## Correlation: IQ ~ height: 
+# plot(tb$IQ ~ tb$height)
+# abline(lm(IQ ~ height, tb), col = "green3")
 
 ## Write out table:
 # write_csv2(tb, path = "../data/tb.csv")
@@ -256,6 +256,11 @@ for (i in 1:10) {
 # (c) use output: 
 output  
 ```
+
+**Note:** In the loop, we use `output[[i]]`, rather than `output[i]` to refer to the `i`-th element of `output` . 
+Actually, using a single `[]` would have worked as well, but the double `[[]]` makes it clear that we want to remove a level of the hierarchy and 
+assign something to a single element of `output`. (See [Ch. 20.5.2 Subsetting recursive vectors (lists)](https://r4ds.had.co.nz/vectors.html#subsetting-1) for more details on this distinction.) 
+
 
 #### Loops over data
 
@@ -322,8 +327,6 @@ In the `tidyverse` the loop range can be defined with a special function:
 seq_along(tb_2)
 ```
 
-<!-- +++ here now +++ --> 
-
 #### Practice
 
 Note that loop requires knowing (a) the data type of the loop results and (b) a data structure than can collect these results. 
@@ -331,8 +334,9 @@ This is simple and straightforward if each loop results in a single number, as t
 
 However, things get more complicated if loops yield tables, lists, or plots. 
 
-
 Repeat loops for `summary` and for `hist` of each variable in `tb` (or rather `tb_2`): 
+
+Summary: 
 
 ```{r}
 # (b) Summary: ---- 
@@ -346,9 +350,11 @@ s
 typeof(s)     # "double"
 is.vector(s)  # FALSE
 is.table(s)   # TRUE
+```
 
+Histogram: 
 
-
+```{r}
 # (c) Histogram: ---- 
 hist(tb$age)
 hist(tb$height)
@@ -382,44 +388,102 @@ plot(out[[1]])
 
 4 variations on the basic theme of the for loop:
 
-1. Modifying an existing object, instead of creating a new object.
+#### 1. Modifying an existing object, instead of creating a new object.
 
-2. Looping over names or values, instead of indices.
+Example: Rescale every column of a table (tibble or data frame).
 
-3. Handling outputs of unknown length.
+```{r}
+set.seed(1)  # for reproducible results
 
-4. Handling sequences of unknown length.
+tb <- tibble(
+  a = rnorm(10),
+  b = rnorm(10),
+  c = rnorm(10),
+  d = rnorm(10)
+)
+tb
 
+# Define rescale01 function:
+rescale01 <- function(x) {
+  rng <- range(x, na.rm = TRUE)
+  (x - rng[1]) / (rng[2] - rng[1])
+}
+```
 
+(a) In 4 separate steps:
 
+```{r}
+df <- tb  # copy
+
+# (a) each column individually:
+df$a <- rescale01(df$a)
+df$b <- rescale01(df$b)
+df$c <- rescale01(df$c)
+df$d <- rescale01(df$d)
+
+df
+```
+
+(b) Using a loop to modify an existing object:  
+
+Answers to our 3 questions:
+
+1. _body_: apply `rescale01()` to every column of `tb`.
+
+2. _sequence_: A list of columns (i.e., iterate over each column with `seq_along(tb)`).
+
+3. _output_: `tb` (i.e., identical to the input).
+
+```{r}
+# (b) loop that modifies an existing object:
+df2 <- tb  # copy
+
+for (i in seq_along(df2)) {
+  df2[[i]] <- rescale01(df2[[i]])
+}
+
+# Output: 
+df2
+
+# Verify equality:
+all.equal(df, df2)
+```
+
+#### 2. Looping over names or values, instead of indices
+
+<!-- +++ here now +++ --> 
+
+#### 3. Handling outputs of unknown length 
+
+#### 4. Handling sequences of unknown length
 
 ## Functional programming
 
 
 
-
-# Exercises (WPA09)
+# Exercises (WPA10)
 
 Here are the exercises of WPA10 and possible solutions for them.
 
+
 ## Exercise X
 
+Iteration only:
 
-- Iteration only
+- `z`-transform every numeric column of a table
 
-- Loops in functions
+Loops in new functions
+
+- Write a function that z-transforms every numeric column in a table. 
 
 
 # More on iteration
 
-- See the [contributed cheatsheets](https://www.rstudio.com/resources/cheatsheets/) on _Base R_ and _Advanced R_. 
+- For loops in general, see the [contributed cheatsheets](https://www.rstudio.com/resources/cheatsheets/) on _Base R_ and _Advanced R_. 
 
-- [Chapter 19: Functions](https://r4ds.had.co.nz/functions.html) of [r4ds](https://r4ds.had.co.nz/) provides some additional remarks on the special dot-dot-dot argument (`...`), return values, pipeable functions, and the notion of a function's _environment_ or the _scope_ of variables. 
+- For references on functional programming (FP) with `purrr`, see <https://purrr.tidyverse.org> and the [purrr cheatsheet](https://www.rstudio.com/resources/cheatsheets/). 
 
-- To really understand how functions are evaluated and used in R, [Advanced R](http://adv-r.had.co.nz/) devotes chapters on [functions](http://adv-r.had.co.nz/Functions.html), on [environments](http://adv-r.had.co.nz/Environments.html), and 
-on [functional programming](http://adv-r.had.co.nz/Functional-programming.html). 
-
-- The `dplyr` [vignette on programming](https://dplyr.tidyverse.org/articles/programming.html) (see `vignette("programming")`) explains some specifics that matter for writing tidyverse functions.
+- See [Chapter 21: Iteration](https://r4ds.had.co.nz/iteration.html) of [r4ds](https://r4ds.had.co.nz/) and its exercises. 
 
 
 # Conclusion
