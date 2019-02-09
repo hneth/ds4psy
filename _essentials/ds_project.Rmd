@@ -1,7 +1,7 @@
 ---
 title: "Data Science for Psychologists (ds4psy)"
 author: "Hansjörg Neth, SPDS, uni.kn"
-date: "2019 02 04"
+date: "2019 02 06"
 output:
   rmdformats::html_clean:
     highlight: kate
@@ -124,7 +124,7 @@ Please submit a zipped-archive of an R-project, including all _scripts_ and _dat
 
 ### Deadline
 
-An email with your attached project should be sent to <h.neth@uni.kn> [by March 10, 2019].
+An email with your attached project should be sent to <h.neth@uni.kn> [by **March 15**, 2019].
 
 
 # Conclusion
