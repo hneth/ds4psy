@@ -1,7 +1,7 @@
 ---
 title: "Data Science for Psychologists (ds4psy)"
 author: "Hansjörg Neth, SPDS, uni.kn"
-date: "2019 02 06"
+date: "2019 02 08"
 output:
   rmdformats::html_clean:
     highlight: kate
@@ -45,6 +45,9 @@ opts_knit$set(width=75)
 
 This course provides an introduction to [R](http://www.r-project.org/) and conveys fundamental skills of data literacy and the basics of data science. It is suited for beginners and experienced students and contains 3 parts: 
 
+<!-- ![](./pix/tile_rand_10_brd.png) -->
+<img src = "./pix/tile_rand_10_brd.png" alt = "ds4psy" style = "width: 180px; float: right; border:0;"/>
+
 1. First, we introduce key concepts and commands of the [R](http://www.r-project.org/) programming language for statistical computing. This includes working with the [R Studio](http://www.rstudio.com/) environment and writing reproducible research documents with 
 [R Markdown](https://rmarkdown.rstudio.com/). 
 
@@ -69,6 +72,7 @@ Enrolling in this course assumes no prior knowledge in programming or statistics
 Students of psychology and other social sciences are trained to analyze data. But the data they learn to work with (e.g., in courses on statistics and empirical research methods) is typically provided to them and structured in a (rectangular or "tidy", Wickham, 2014) format that includes and presupposes many steps of data processing regarding the aggregation and spatial layout of variables.  When beginning to collect real-world data from other sources, most students struggle with these pre-processing steps which --- even for experienced data scientists --- tend to require more time and effort than choosing and conducting statistical tests. 
 
 This course develops the foundations of data analysis that allow students to collect data from real-world sources and transform such data into a shape that allows for answering scientific and practical questions and reproducible research. Although there are many good introductions to data science (we use [Grolemund & Wickham, 2017](http://r4ds.had.co.nz/)) they typically do not cater towards the special background and needs -- and often anxieties and reservations -- of psychology students. As social scientists are not computer scientists, we introduce new concepts and commands without assuming a mathematical or computational background. Our data and examples typically involve people and questions currently of interest in scientific psychology. Adopting a task-oriented perspective, we begin with a specific problem and then solve it with some combination of data collection, manipulation, modeling, and visualization.
+
 
 ## Goals
 
@@ -198,14 +202,21 @@ Part 2: Wrangle
                       [Chapter 21: Iteration](http://r4ds.had.co.nz/iteration.html) 
  -->
  
- 14. 04.02.2019: **Buffer session**: Preparing exam or **final projects**
+ 14. 04.02.2019: **Buffer session**: Preparing exam or [data science project](http://rpository.com/ds4psy/essentials/ds_project.html).
  
- 15. 11.02.2019: Starting your **final project** <!-- or **Final exam** -->
+ 15. 11.02.2019: Starting your [data science project](http://rpository.com/ds4psy/essentials/ds_project.html). <!-- or **Final exam** -->
+
+
 
 
 <!-- Table with links: -->
 
 All [ds4psy](http://rpository.com/ds4psy/) essentials so far: 
+
+<!-- Image: -->
+
+<!-- ![](./pix/pole_rand_10.png) -->
+<img src = "./pix/pole_rand_10.png" alt = "ds4psy" style = "width: 180px; float: right; border:0;"/>
 
 Nr. | Topic       |
 ---:|:------------| 
@@ -274,8 +285,10 @@ This section contains some clarifications (on the term "data science") and recom
 
 <!-- Data science as "solving problems": Just like James Bond... --> 
 
-
 ### Data science as the art of dealing with data
+
+<!-- ![](./pix/tile_sort_10_brd.png) -->
+<img src = "./pix/tile_sort_10_brd.png" alt = "ds4psy" style = "width: 180px; float: right; border:0;"/>
 
 In our technology-driven environment, data is cheap and ubiquitous. Every call, trip, or visit of a web page leaves a trail of data. Apart from raising important issues of privacy, the notion of big data highlights another problem: In an era in which digital information is collected everywhere, we are drowning in data that promises to be meaningful and valuable, but we often fail to understand. We typically lack the ability and the tools of dealing with data. 
 
@@ -339,6 +352,9 @@ Beware of side effects: Becoming an R user (useR?) will profoundly transform you
 <!-- Table with links: -->
 
 All [ds4psy](http://rpository.com/ds4psy/) essentials so far: 
+
+<!-- ![](./pix/pole_sort_10.png) -->
+<img src = "./pix/pole_sort_10.png" alt = "ds4psy" style = "width: 180px; float: right; border:0;"/>
 
 Nr. | Topic       |
 ---:|:------------| 
