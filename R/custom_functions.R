@@ -33,55 +33,6 @@ unikn.pal = data.frame(                             ## in one df (for the yarrr 
   stringsAsFactors = FALSE)
 
 
-## Logo: ------ 
-
-library(ggplot)
-library(cowplot)
-
-# Re-sort palette: 
-unikn.2 <- unikn.pal[c(1:4, 10:5)]
-unikn.2
-
-# Dimensions:
-n_x <- 25
-n_y <- n_x
-N <- (n_x * n_y)
-
-v1 <- runif(n = N, 0, 1)
-v2 <- rev(rev(sort(v1)))
-
-tb <- tibble(y = rep(1:n_x, each = n_y),
-             x = rep(1:n_y, times = n_x),
-             rand = v1,
-             sort = v2)
-
-# Plots:
-col_brd <- grey(0, 1)
-
-p_rand <- ggplot(tb) +
-  geom_tile(aes(x = x, y = y, fill = rand), col = col_brd) +
-  # labs(title = "ds4psy") + 
-  coord_fixed() + 
-  theme_void() +
-  theme(legend.position = "none") +
-  # scale_fill_continuous(low = "white", high = seeblau) +
-  scale_fill_gradientn(colors = unikn.2)
-# p_rand
-
-p_sort <- ggplot(tb) +
-  geom_tile(aes(x = x, y = y, fill = sort), col = col_brd) +
-  # labs(title = "ds4psy") + 
-  coord_fixed() + 
-  theme_void() +
-  theme(legend.position = "none") +
-  # scale_fill_continuous(low = "white", high = seeblau) +
-  scale_fill_gradientn(colors = unikn.2)
-# p_sort
-  
-# plot_grid(p_rand, p_sort)
-
-
-
 ## (2) Generating random datasets: ---------- 
   
 ## Random binary values: ------ 
