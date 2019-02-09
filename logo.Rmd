@@ -1,7 +1,7 @@
 ---
 title: "Data Science for Psychologists (ds4psy)" 
 author: "Hansjörg Neth, SPDS, uni.kn"
-date: "2019 02 09"
+date: "2019 02 10"
 output:
   rmdformats::html_clean:
     lightbox: TRUE 
@@ -147,7 +147,7 @@ course_title_abb <- paste0("ds4psy")
 
 ```{r data}
 # Dimensions:
-n_x <- 8
+n_x <- 12
 n_y <- n_x
 N <- (n_x * n_y)
 
