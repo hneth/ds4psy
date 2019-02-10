@@ -48,13 +48,12 @@ opts_knit$set(width = 75)
 source(file = "~/Desktop/stuff/Dropbox/_code/R/_teachR/ds4psy/R/custom_functions.R")
 ```
 
-<!-- ds4psy logo: -->
-
-<a href="http://rpository.com/ds4psy/">
-<img src = "./pix/big_tile_rand_20_brd.png" alt = "ds4psy" style = "width: 600px; float: right; border:0;"/>
-</a>
-
 # Course Coordinates
+
+<!-- ds4psy logo: -->
+<a href="http://rpository.com/ds4psy/">
+<img src = "./pix/big_tile_rand_20_brd.png" alt = "ds4psy" style = "width: 400px; float: right; border:0;"/>
+</a>
 
 <!-- uni.kn logo and link to SPDS: -->  
 <!-- ![](./inst/pix/uniKn_logo.png) --> 
@@ -72,6 +71,8 @@ source(file = "~/Desktop/stuff/Dropbox/_code/R/_teachR/ds4psy/R/custom_functions
 Overview over generated plots: 
 
 ## Tiles
+
+Showing the versions _with_ borders:
 
 ### Tile plots (random)
 
@@ -101,7 +102,40 @@ Overview over generated plots:
 <img src = "./pix/tile_sort_9_brd.png"  alt = "ds4psy" style = "height: 100px; border:0;"/>
 <img src = "./pix/tile_sort_10_brd.png" alt = "ds4psy" style = "height: 100px; border:0;"/>
 
+
+### Tile plots (with borders and numeric labels)
+
+Random versions:
+
+<img src = "./pix/tile_rand_1_brd_lbl.png"   alt = "ds4psy" style = "height: 150px; border:0;"/>
+<img src = "./pix/tile_rand_2_brd_lbl.png"   alt = "ds4psy" style = "height: 150px; border:0;"/>
+<img src = "./pix/tile_rand_3_brd_lbl.png"   alt = "ds4psy" style = "height: 150px; border:0;"/>
+<img src = "./pix/tile_rand_4_brd_lbl.png"   alt = "ds4psy" style = "height: 150px; border:0;"/>
+<img src = "./pix/tile_rand_5_brd_lbl.png"   alt = "ds4psy" style = "height: 150px; border:0;"/>
+<img src = "./pix/tile_rand_6_brd_lbl.png"   alt = "ds4psy" style = "height: 150px; border:0;"/>
+<img src = "./pix/tile_rand_7_brd_lbl.png"   alt = "ds4psy" style = "height: 150px; border:0;"/>
+<img src = "./pix/tile_rand_8_brd_lbl.png"   alt = "ds4psy" style = "height: 150px; border:0;"/>
+<img src = "./pix/tile_rand_10_brd_lbl.png"  alt = "ds4psy" style = "height: 150px; border:0;"/>
+<img src = "./pix/tile_rand_12_brd_lbl.png"  alt = "ds4psy" style = "height: 150px; border:0;"/>
+<img src = "./pix/tile_rand_15_brd_lbl.png"  alt = "ds4psy" style = "height: 150px; border:0;"/>
+
+Sorted versions:
+
+<img src = "./pix/tile_sort_1_brd_lbl.png"   alt = "ds4psy" style = "height: 150px; border:0;"/>
+<img src = "./pix/tile_sort_2_brd_lbl.png"   alt = "ds4psy" style = "height: 150px; border:0;"/>
+<img src = "./pix/tile_sort_3_brd_lbl.png"   alt = "ds4psy" style = "height: 150px; border:0;"/>
+<img src = "./pix/tile_sort_4_brd_lbl.png"   alt = "ds4psy" style = "height: 150px; border:0;"/>
+<img src = "./pix/tile_sort_5_brd_lbl.png"   alt = "ds4psy" style = "height: 150px; border:0;"/>
+<img src = "./pix/tile_sort_6_brd_lbl.png"   alt = "ds4psy" style = "height: 150px; border:0;"/>
+<img src = "./pix/tile_sort_7_brd_lbl.png"   alt = "ds4psy" style = "height: 150px; border:0;"/>
+<img src = "./pix/tile_sort_8_brd_lbl.png"   alt = "ds4psy" style = "height: 150px; border:0;"/>
+<img src = "./pix/tile_sort_10_brd_lbl.png"  alt = "ds4psy" style = "height: 150px; border:0;"/>
+<img src = "./pix/tile_sort_12_brd_lbl.png"  alt = "ds4psy" style = "height: 150px; border:0;"/>
+<img src = "./pix/tile_sort_15_brd_lbl.png"  alt = "ds4psy" style = "height: 150px; border:0;"/>
+
 ## Poles
+
+Showing the versions _without_ borders:
 
 ### Pole plots (random)
 
@@ -131,32 +165,63 @@ Overview over generated plots:
 <img src = "./pix/pole_sort_9.png"  alt = "ds4psy" style = "height: 100px; border:0;"/>
 <img src = "./pix/pole_sort_10.png" alt = "ds4psy" style = "height: 100px; border:0;"/>
 
+### Pole plots (with borders and numeric labels)
+
+Random versions:
+
+<img src = "./pix/pole_rand_1_brd_lbl.png"   alt = "ds4psy" style = "height: 160px; border:0;"/>
+<img src = "./pix/pole_rand_2_brd_lbl.png"   alt = "ds4psy" style = "height: 160px; border:0;"/>
+<img src = "./pix/pole_rand_3_brd_lbl.png"   alt = "ds4psy" style = "height: 160px; border:0;"/>
+<img src = "./pix/pole_rand_4_brd_lbl.png"   alt = "ds4psy" style = "height: 160px; border:0;"/>
+<img src = "./pix/pole_rand_5_brd_lbl.png"   alt = "ds4psy" style = "height: 160px; border:0;"/>
+<img src = "./pix/pole_rand_8_brd_lbl.png"   alt = "ds4psy" style = "height: 160px; border:0;"/>
+<img src = "./pix/pole_rand_10_brd_lbl.png"  alt = "ds4psy" style = "height: 160px; border:0;"/>
+<img src = "./pix/pole_rand_12_brd_lbl.png"  alt = "ds4psy" style = "height: 160px; border:0;"/>
+<img src = "./pix/pole_rand_15_brd_lbl.png"  alt = "ds4psy" style = "height: 160px; border:0;"/>
+
+Sorted versions:
+
+<img src = "./pix/pole_sort_1_brd_lbl.png"   alt = "ds4psy" style = "height: 160px; border:0;"/>
+<img src = "./pix/pole_sort_2_brd_lbl.png"   alt = "ds4psy" style = "height: 160px; border:0;"/>
+<img src = "./pix/pole_sort_3_brd_lbl.png"   alt = "ds4psy" style = "height: 160px; border:0;"/>
+<img src = "./pix/pole_sort_4_brd_lbl.png"   alt = "ds4psy" style = "height: 160px; border:0;"/>
+<img src = "./pix/pole_sort_5_brd_lbl.png"   alt = "ds4psy" style = "height: 160px; border:0;"/>
+<img src = "./pix/pole_sort_8_brd_lbl.png"   alt = "ds4psy" style = "height: 160px; border:0;"/>
+<img src = "./pix/pole_sort_10_brd_lbl.png"  alt = "ds4psy" style = "height: 160px; border:0;"/>
+<img src = "./pix/pole_sort_12_brd_lbl.png"  alt = "ds4psy" style = "height: 160px; border:0;"/>
+<img src = "./pix/pole_sort_15_brd_lbl.png"  alt = "ds4psy" style = "height: 160px; border:0;"/>
 
 ## Settings
 
 ### Text
 
 ```{r text_labels}
+# Define text labels:
 lbl_psi <- expression(psi)
 course_title <- paste0("Data science\nfor psychologists")
 course_title_abb <- paste0("ds4psy")
 ```
 
-
 ### Data
 
 ```{r data}
 # Dimensions:
-n_x <- 12
+n_rand <- sample(1:15, size = 1, replace = TRUE)  # random integer in range
+
+n_x <- n_rand  # random number
+n_x <- 9      # specific number
 n_y <- n_x
 N <- (n_x * n_y)
 
-v_sort <- 1:N  # rev(sort(v_sort))
+# Vectors: 
+v_sort <- 1:N       # Tile: bottom = seeblau; top = black | Polar: outer = black, center = seeblau.
+v_sort <- rev(1:N)  # Tile: bottom = black; top = seeblau | Polar: outer = seeblau, center = black.
 
-set.seed(123)
+set.seed(123)  # for reproducible randomness
 # v_rand <- runif(n = N, 0, 1)
 v_rand <- sample(v_sort, N)  # random permutation of v_sort
 
+# Table: 
 tb <- tibble(y = rep(1:n_x, each = n_y),
              x = rep(1:n_y, times = n_x),
              rand = v_rand,
@@ -167,12 +232,14 @@ tb
 ### Colors
 
 ```{r colors}
-# Re-sort palette: 
-unikn.pal
+# Re-sort color palette: 
+unikn.pal  # from "ds4psy/R/custom_functions.R""
 
-unikn_sort <- unikn.pal[c(4, 4:1, 10:5)]
-unikn_sort  
+# (1) Sorted version:
+unikn_sort <- unikn.pal[c(4, 4:1, 10:5)]  # 11 colors (seeblau twice) 
+# unikn_sort  
 
+# (2) Sorted version with special cases (for small n_x):
 if (n_x == 1) {
   unikn_sort <- seeblau                     # 1 color (seeblau)
 } else if (n_x == 2) {
@@ -202,7 +269,7 @@ ds_theme <- theme_nothing()
 
 ### Tile plots 
 
-- _With_ thin borders:
+1. _With_ thin borders:
 
 ```{r tile_plots_brd, fig.width = 3, fig.height = 3}
 # Parameters: 
@@ -259,7 +326,7 @@ if (plot_size < 10) {
 ggsave(plot_name, width = plot_size, height = plot_size, units = c("cm"), dpi = 300)
 ```
 
-- _Without_ thin borders:
+2. _Without_ thin borders:
 
 ```{r tile_plots_brdless, fig.width = 3, fig.height = 3}
 # Tile plots: ------ 
@@ -309,9 +376,105 @@ if (plot_size < 10) {
 ggsave(plot_name, width = plot_size, height = plot_size, units = c("cm"), dpi = 300)
 ```
 
+3. With thin borders and a numeric label (top left):
+
+```{r tile_plots_brd_lbl, fig.width = 3, fig.height = 3}
+# Parameters:
+cur_lbl <- paste0(n_x)
+
+x_lbl <- 1 
+y_lbl <- (n_y + 1) + n_y/15
+
+# Tile plots: ------ 
+
+# (3a) random version (WITH border lines AND label):
+tile_rand_lbl <- ggplot(tb) +
+  geom_tile(aes(x = x, y = y, fill = rand), col = brd_col, size = brd_size) +
+  geom_text(x = x_lbl, y = y_lbl, label = cur_lbl, size = 2) +
+  scale_y_continuous(limits = c(0, y_lbl)) + 
+  # geom_text(x = 0, y = n_y, label = cur_lbl, size = 2) +
+  # scale_x_continuous(limits = c(0, n_x + 1)) + 
+  coord_fixed() + 
+  # labs(title = "ds4psy") + 
+  labs(x = "Data", y = "Science") +
+  # scale_fill_continuous(low = "white", high = seeblau) +
+  scale_fill_gradientn(colors = unikn_sort) +
+  ds_theme
+tile_rand_lbl
+
+# Save current plot: 
+cur_name <- paste0("tile_rand_", n_x, "_brd_lbl.png")
+if (plot_size < 10) {
+  plot_name <- paste0(pic_path, cur_name)
+} else {
+  plot_name <- paste0(pic_path, "big_", cur_name)  # insert "big_" prefix
+}
+ggsave(plot_name, width = plot_size, height = plot_size, units = c("cm"), dpi = 300)
+
+
+# (3b) sorted version (WITH border lines AND label):
+tile_sort_lbl <- ggplot(tb) +
+  geom_tile(aes(x = x, y = y, fill = sort), col = brd_col, size = brd_size) +
+  geom_text(x = x_lbl, y = y_lbl, label = cur_lbl, size = 2) +
+  scale_y_continuous(limits = c(0, y_lbl)) + 
+  # geom_text(x = 0, y = n_y, label = cur_lbl, size = 2) +
+  # scale_x_continuous(limits = c(0, n_x + 1)) + 
+  coord_fixed() + 
+  # labs(title = "ds4psy") + 
+  labs(x = "Data", y = "Science") +
+  # scale_fill_continuous(low = "white", high = seeblau) +
+  scale_fill_gradientn(colors = unikn_sort) +
+  ds_theme
+tile_sort_lbl
+
+# Save current plot: 
+cur_name <- paste0("tile_sort_", n_x, "_brd_lbl.png")
+if (plot_size < 10) {
+  plot_name <- paste0(pic_path, cur_name)
+} else {
+  plot_name <- paste0(pic_path, "big_", cur_name)  # insert "big_" prefix
+}
+ggsave(plot_name, width = plot_size, height = plot_size, units = c("cm"), dpi = 300)
+```
+
 ### Polar plots
 
-```{r polar_plots, fig.width = 3, fig.height = 3}
+1. _With_ thin borders:
+
+```{r polar_plots_brd, fig.width = 3, fig.height = 3}
+# Polar plots: ------ 
+
+pole_rand <- ggplot(tb) +
+  geom_tile(aes(x = x, y = y, fill = rand), col = brd_col, size = brd_size) +
+  # labs(title = "ds4psy") + 
+  coord_polar() + 
+  labs(x = "Data", y = "Science") +
+  # scale_fill_continuous(low = "white", high = seeblau) +
+  scale_fill_gradientn(colors = unikn_sort) +
+  ds_theme
+pole_rand
+
+# Save current plot: 
+plot_name <- paste0("pix/pole_rand_", n_x, "_brd.png")
+ggsave(plot_name, width = plot_size, height = plot_size, units = c("cm"), dpi = 300)
+
+pole_sort <- ggplot(tb) +
+  geom_tile(aes(x = x, y = y, fill = sort), col = brd_col, size = brd_size) +
+  labs(x = "4", y = expression(psi)) +
+  coord_polar() +
+  # scale_fill_continuous(low = "white", high = seeblau) +
+  scale_fill_gradientn(colors = unikn_sort) +
+  ds_theme
+pole_sort
+
+# Save current plot: 
+plot_name <- paste0("pix/pole_sort_", n_x, "_brd.png")
+ggsave(plot_name, width = plot_size, height = plot_size, units = c("cm"), dpi = 300)
+```
+
+2. _Without_ thin borders:
+
+```{r polar_plots_brdless, fig.width = 3, fig.height = 3}
 # Polar plots: ------ 
 
 pole_rand <- ggplot(tb) +
@@ -341,6 +504,60 @@ pole_sort
 plot_name <- paste0("pix/pole_sort_", n_x, ".png")
 ggsave(plot_name, width = plot_size, height = plot_size, units = c("cm"), dpi = 300)
 ```
+
+3. With thin borders and a numeric label (of the final slice):
+
+```{r polar_plots_brd_lbl, fig.width = 3, fig.height = 3}
+# Parameters:
+cur_lbl <- paste0(n_x)
+
+if (n_y == 1) {
+  y_lbl <- n_y + 0     # no correction
+} else if (n_y == 2) {
+  y_lbl <- n_y + .75   # small correction
+} else if (n_y < 4) {
+  y_lbl <- n_y + 1     # constant correction
+} else {
+ y_lbl <- n_y + n_y/4  # scaled correction (increasing with n_y)
+}
+
+# (a) rand version with label:
+pole_rand_lbl <- ggplot(tb) +
+  geom_tile(aes(x = x, y = y, fill = rand), col = brd_col, size = brd_size) +
+  # labs(title = "ds4psy") + 
+  # scale_x_continuous(breaks = c(0:n_x), labels = c(0:n_x)) +
+  # geom_vline(xintercept = n_x, size = 1, color = "gold") + 
+  geom_text(x = n_x, y = y_lbl, label = cur_lbl, size = 2) + 
+  coord_polar() + 
+  labs(x = "Data", y = "Science") +
+  # scale_fill_continuous(low = "white", high = seeblau) +
+  scale_fill_gradientn(colors = unikn_sort) +
+  ds_theme
+pole_rand_lbl
+
+# Save current plot: 
+plot_name <- paste0("pix/pole_rand_", n_x, "_brd_lbl.png")
+ggsave(plot_name, width = plot_size, height = plot_size, units = c("cm"), dpi = 300)
+
+# (a) sort version with label:
+pole_sort_lbl <- ggplot(tb) +
+  geom_tile(aes(x = x, y = y, fill = sort), col = brd_col, size = brd_size) +
+  # labs(title = "ds4psy") + 
+  # scale_x_continuous(breaks = c(0:n_x), labels = c(0:n_x)) +
+  # geom_vline(xintercept = n_x, size = 1, color = "gold") + 
+  geom_text(x = n_x, y = y_lbl, label = cur_lbl, size = 2) + 
+  coord_polar() + 
+  labs(x = "Data", y = "Science") +
+  # scale_fill_continuous(low = "white", high = seeblau) +
+  scale_fill_gradientn(colors = unikn_sort) +
+  ds_theme
+pole_sort_lbl
+
+# Save current plot: 
+plot_name <- paste0("pix/pole_sort_", n_x, "_brd_lbl.png")
+ggsave(plot_name, width = plot_size, height = plot_size, units = c("cm"), dpi = 300)
+```
+
 
 ### Combine plots
 
@@ -412,6 +629,11 @@ ggplot(df) +
 
 ggsave("pix/waves.png", width = 15, height = 1.5, units = c("cm"), dpi = 300)
 ```
+
+## Ideas
+
+- ToC as bar chart with polar coordinates
+- Clock with polar coo
 
 [This file last updated on `r Sys.time()` by [hn](http://neth.de/).]
 
