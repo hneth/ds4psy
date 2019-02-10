@@ -1,10 +1,11 @@
 ---
 title: "Data Science for Psychologists (ds4psy)"
 author: "Hansjörg Neth, SPDS, uni.kn"
-date: "2019 02 08"
+date: "2019 02 10"
 output:
   rmdformats::html_clean:
     highlight: kate
+    lightbox: false
 ---
 
 ```{r knitr_init, echo = FALSE, cache = FALSE, message = FALSE, warning = FALSE}
@@ -45,6 +46,7 @@ opts_knit$set(width=75)
 
 This course provides an introduction to [R](http://www.r-project.org/) and conveys fundamental skills of data literacy and the basics of data science. It is suited for beginners and experienced students and contains 3 parts: 
 
+<!-- Image: random tiles -->
 <!-- ![](./pix/tile_rand_10_brd.png) -->
 <img src = "./pix/tile_rand_10_brd.png" alt = "ds4psy" style = "width: 180px; float: right; border:0;"/>
 
@@ -64,7 +66,6 @@ While this course does not deal with _statistical testing_ and only scratches th
 it teaches _reproducible research practices_ and covers fundamental knowledge and skills of _data science_. 
 
 Enrolling in this course assumes no prior knowledge in programming or statistics, but motivation for weekly readings and for regularly solving exercises. Grades are determined by submitted solutions to exercises and a final project.  
-
 
 
 ## Background
@@ -103,6 +104,10 @@ Final grades are based on both solutions to WPAs (A: 33%) and your final exam/pr
 # Schedule 
 
 ## Individual sessions, dates, and topics
+
+<!-- Image: random polar -->
+<!-- ![](./pix/pole_rand_12.png) -->
+<img src = "./pix/pole_rand_12.png" alt = "ds4psy" style = "width: 180px; float: right; border:0;"/>
 
 <!-- 
 
@@ -213,10 +218,9 @@ Part 2: Wrangle
 
 All [ds4psy](http://rpository.com/ds4psy/) essentials so far: 
 
-<!-- Image: -->
-
-<!-- ![](./pix/pole_rand_10.png) -->
-<img src = "./pix/pole_rand_10.png" alt = "ds4psy" style = "width: 180px; float: right; border:0;"/>
+<!-- Image: sorted tiles -->
+<!-- ![](./pix/tile_sort_10_brd.png) -->
+<img src = "./pix/tile_sort_10_brd.png" alt = "ds4psy" style = "width: 180px; float: right; border:0;"/>
 
 Nr. | Topic       |
 ---:|:------------| 
@@ -287,9 +291,6 @@ This section contains some clarifications (on the term "data science") and recom
 
 ### Data science as the art of dealing with data
 
-<!-- ![](./pix/tile_sort_10_brd.png) -->
-<img src = "./pix/tile_sort_10_brd.png" alt = "ds4psy" style = "width: 180px; float: right; border:0;"/>
-
 In our technology-driven environment, data is cheap and ubiquitous. Every call, trip, or visit of a web page leaves a trail of data. Apart from raising important issues of privacy, the notion of big data highlights another problem: In an era in which digital information is collected everywhere, we are drowning in data that promises to be meaningful and valuable, but we often fail to understand. We typically lack the ability and the tools of dealing with data. 
 
 Thus, data science is relevant not only for natural and computer sciences, but also for social sciences, humanities, and even arts. It is partly a scientific enterprise, but also a skill, an art, and a craft. 
@@ -353,8 +354,10 @@ Beware of side effects: Becoming an R user (useR?) will profoundly transform you
 
 All [ds4psy](http://rpository.com/ds4psy/) essentials so far: 
 
-<!-- ![](./pix/pole_sort_10.png) -->
-<img src = "./pix/pole_sort_10.png" alt = "ds4psy" style = "width: 180px; float: right; border:0;"/>
+<!-- Image: sorted tiles -->
+<!-- ![](./pix/tile_sort_10_brd.png) -->
+<img src = "./pix/tile_sort_10_brd.png" alt = "ds4psy" style = "width: 180px; float: right; border:0;"/>
+
 
 Nr. | Topic       |
 ---:|:------------| 
@@ -399,6 +402,10 @@ For instructions on combining text and code, see [Chapter 27: R Markdown](https:
 
 
 <!-- The following links allow you to get started. -->
+
+<!-- Image: sorted polar -->
+<!-- ![](./pix/pole_sort_12.png) -->
+<img src = "./pix/pole_sort_12.png" alt = "ds4psy" style = "width: 180px; float: right; border:0;"/>
 
 ## Software and packages
 
@@ -494,6 +501,10 @@ Sebastopol, Canada: O'Reilly Media, Inc.  [Available online at [http://r4ds.had.
 - <http://www.sharpsightlabs.com/> 
 
 -->
+
+<!-- Image: Waves -->
+<!-- ![](./pix/waves.png) -->
+<img src = "./pix/waves.png" alt = "ds4psy" style = "width: 400px; float: right; border:0;"/>
 
 [This file last updated on `r Sys.time()` by [hn](http://neth.de/).]
 
