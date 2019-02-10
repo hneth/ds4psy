@@ -46,6 +46,9 @@ opts_knit$set(width = 75)
 
 ## (e) Custom functions: ----- 
 source(file = "~/Desktop/stuff/Dropbox/_code/R/_teachR/ds4psy/R/custom_functions.R")
+
+# plotting parameters: 
+opar <- par(no.readonly = TRUE)  # all par settings that can be changed.
 ```
 
 # Course Coordinates
@@ -209,7 +212,7 @@ course_title_abb <- paste0("ds4psy")
 n_rand <- sample(1:15, size = 1, replace = TRUE)  # random integer in range
 
 n_x <- n_rand  # random number
-n_x <- 9      # specific number
+# n_x <- 9       # a specific number
 n_y <- n_x
 N <- (n_x * n_y)
 
@@ -632,8 +635,486 @@ ggsave("pix/waves.png", width = 15, height = 1.5, units = c("cm"), dpi = 300)
 
 ## Ideas
 
-- ToC as bar chart with polar coordinates
-- Clock with polar coo
+### ToC bar chart
+
+ToC (chronology and relevance of sessions) as bar charts:
+
+```{r plot_toc, fig.width = 8, fig.height = 8}
+# N <- 10  # number of chapters/topics
+# nr <- 1:N
+# tp <- c("Introduction", "Chapter 2", "Chapter 3", "Chapter 4", "Chapter 5", 
+#         "Chapter 6", "Chapter 7", "Chapter 8", "Chapter 9", "Chapter 10")
+# val <- 10 + nr
+
+# Table:
+toc <- tribble(
+  ~nr, ~tp,                 ~ctr,   
+  0,  "Introduction",          4,  
+  1, 	"Basic R",              10,  # was: "Basic R concepts and commands",
+  2, 	"Visualizing data",      8, 
+  3, 	"Transforming data",     9, 
+  4, 	"Exploring data (EDA)", 10, 
+  5, 	"Tibbles",               6,
+  6, 	"Importing data",        5, 
+  7, 	"Tidying data",          9, 
+  8, 	"Joining data",          7, 
+  9, 	"Functions",             8,
+  10, "Iteration",             7
+)
+
+toc <- toc %>% mutate(nr_val = nr + 10) # add constant to increase overall height of bars
+
+# Parameters:
+N <- nrow(toc)
+max_nr_val <- max(toc$nr_val)
+min_ctr <- min(toc$ctr)
+max_ctr <- max(toc$ctr)
+tol <- 4  # tolerance value (for text labels)
+txt_size <- 2.5  # size of txt labels (below)
+
+## Colors: ------ 
+# unikn.pal  # basic 
+
+unikn_toc <- c(rev(unikn.pal[5:10]), # white:black (6) 
+               unikn.pal[1:4],       # seeblau1 to 4 (4)
+               seeblau)              # seeblau4 (1)
+# unikn_toc  # 11 colors
+
+
+## Bar plots: ------ 
+
+# (a) Chronology:
+
+bar_hori <- ggplot(toc, aes(x = nr)) +
+  geom_bar(aes(y = ctr, fill = nr_val), stat = "identity", color = grey(.5, 1)) +
+  scale_fill_gradientn(colors = unikn_toc) +
+  geom_text(aes(y = ctr + .25, label = tp), angle = 0, adj = 0, size = txt_size) + 
+  scale_x_reverse(breaks = 0:N, labels = 0:N) + 
+  # scale_x_continuous(breaks = 0:N, labels = 0:N) + 
+  scale_y_continuous(limits = c(0, (max_ctr + tol)), breaks = 1:max_ctr, labels = 1:max_ctr) + 
+  theme_minimal() + 
+  theme(legend.position = "none", panel.grid.minor = element_blank(), panel.grid.major.x = element_blank()) +
+  coord_flip() + 
+  labs(title = "ds4psy: Chronology of sessions", x = "Session", y = "Relevance")
+bar_hori
+
+# Save plot:
+cur_name <- paste0(pic_path, "toc_chronology", ".png")
+ggsave(cur_name, width = 15, height = 10, units = c("cm"), dpi = 300)
+
+# (b) Relevance:
+
+bar_vert <- ggplot(toc, aes(x = nr)) +
+  geom_bar(aes(y = ctr, fill = ctr), stat = "identity", color = grey(.5, 1)) +
+  # scale_fill_gradientn(colors = unikn_toc) +
+  scale_fill_gradient(low = "white", high = seeblau, limits = c(min_ctr, max_ctr)) +
+  geom_text(aes(y = ctr + .5, label = tp), angle = 90, adj = 0, size = txt_size) + 
+  scale_x_continuous(breaks = 0:N, labels = 0:N) + 
+  scale_y_continuous(limits = c(0, (max_ctr + tol)), breaks = 1:max_ctr, labels = 1:max_ctr) + 
+  theme_minimal() + 
+  theme(legend.position = "none", panel.grid.minor = element_blank()) +
+  labs(title = "ds4psy: Relevance of topics", x = "Session", y = "Relevance")
+bar_vert
+
+# Save plot:
+cur_name <- paste0(pic_path, "toc_relevance", ".png")
+ggsave(cur_name, width = 15, height = 12, units = c("cm"), dpi = 300)
+```
+
+### ToC polar charts
+
+ToC and current session as a clock chart (bar chart with polar coordinates):
+
+```{r plot_toc, fig.width = 8, fig.height = 8}
+# (2) Plots on polar coordinates:
+
+tol <- 4  # tolerance value (for text labels)
+
+## (A) Chronology (as clock):
+
+topic_clock <- ggplot(toc, aes(x = nr)) +
+  geom_bar(aes(y = ctr, fill = nr_val), stat = "identity", color = grey(0, 1), size = .25) +
+  scale_fill_gradientn(colors = unikn_toc) +
+  # scale_fill_gradient(low = "white", high = seeblau, limits = c(min_ctr, max_ctr)) +
+  geom_text(aes(y = max_ctr + tol/2, label = tp), adj = .5, size = txt_size) + 
+  scale_x_continuous(breaks = 0:N, labels = 0:N) + 
+  scale_y_continuous(limits = c(0, (max_ctr + tol)), breaks = 1:max_ctr, labels = 1:max_ctr) + 
+  coord_polar() + 
+  # labs(title = "Centrality of topic", x = "Chapter", y = "Topic") + 
+  # theme_void() + 
+  theme_light() + 
+  theme(legend.position = "none", axis.line = element_blank(), 
+        axis.title = element_blank(), axis.text.y = element_blank(),
+        axis.ticks = element_blank(), panel.border = element_blank())
+# topic_clock
+
+## (B) Centrality of topic (as clock):
+
+centrality <- ggplot(toc, aes(x = nr)) +
+  geom_bar(aes(y = ctr, fill = ctr), stat = "identity", color = grey(.10, 1), size = .25) +
+  # scale_fill_gradientn(colors = unikn_toc) +
+  scale_fill_gradient(low = "white", high = seeblau, limits = c(min_ctr, max_ctr)) +
+  geom_text(aes(y = (max_ctr + .65 * tol), label = tp), adj = .5, size = txt_size) + 
+  scale_x_continuous(breaks = 0:N, labels = 0:N) + 
+  scale_y_continuous(limits = c(0, (max_ctr + tol)), breaks = 1:max_ctr, labels = 1:max_ctr) + 
+  coord_polar() + 
+  # theme_void() + 
+  theme_light() + 
+  theme(#legend.position = "none", 
+        axis.line = element_blank(), 
+        axis.title = element_blank(), axis.text.y = element_blank(),
+        axis.ticks = element_blank(), panel.border = element_blank()) +
+  labs(fill = "Centrality:") 
+centrality
+
+# Save plot:
+cur_name <- paste0(pic_path, "centrality", ".png")
+ggsave(cur_name, width = 15, height = 15, units = c("cm"), dpi = 300)
+
+
+# (C) Highlight the current session (in gold):
+nr_session <- 3  # current session nr (as in polar clock plot above)
+tol <- 8         # increase tolerance value (to leave more space for text labels)
+
+# Add current session_val to toc:
+toc$session_val <- 0  # initialize session_val
+toc$session_val[(nr_session + 1)] <- (max_ctr + tol)  # maximum y-value
+toc
+
+cur_session_clock <- ggplot(toc, aes(x = nr)) +
+  geom_bar(aes(y = session_val), stat = "identity", fill = "gold", alpha = .75) +
+  geom_bar(aes(y = ctr, fill = ctr), stat = "identity", color = grey(.10, 1), size = .25) +
+  # scale_fill_gradientn(colors = unikn_toc) +
+  scale_fill_gradient(low = "white", high = seeblau, limits = c(min_ctr, max_ctr)) +
+  geom_text(aes(y = (max_ctr + .45 * tol), label = tp), adj = .5, size = txt_size) + 
+  scale_x_continuous(breaks = 0:N, labels = 0:N) + 
+  scale_y_continuous(limits = c(0, (max_ctr + tol)), breaks = 1:max_ctr, labels = 1:max_ctr) + 
+  coord_polar() + 
+  # theme_void() + 
+  theme_light() + 
+  theme(#legend.position = "none", 
+        axis.line = element_blank(), 
+        axis.title = element_blank(), axis.text.y = element_blank(),
+        axis.ticks = element_blank(), panel.border = element_blank()) +
+  labs(fill = "Centrality:") 
+cur_session_clock
+
+# Save plot:
+cur_name <- paste0(pic_path, "clock_", nr_session, ".png")
+ggsave(cur_name, width = 15, height = 15, units = c("cm"), dpi = 300)
+```
+
+# R art
+
+See <https://www.r-graph-gallery.com/portfolio/data-art/> for examples. 
+
+## Matrix
+
+```{r}
+# plotting parameters: 
+opar <- par(no.readonly = TRUE)  # all par settings that can be changed.
+```
+
+```{r matrix_original, eval = FALSE}
+# Source: http://www.r-graph-gallery.com/56-matrix-abstract-painting/
+
+# generate pairs of x-y values
+nx = 100
+ny = 80
+x = sample(x = 1:nx, size = 90, replace = TRUE)
+y = seq(-1, -ny, length = 90)
+ 
+# set graphical parameters: 
+op = par(bg = "black", mar = c(0, 0.2, 0, 0.2))
+ 
+# plot: 
+plot(1:nx, seq(-1, -nx), type = "n", xlim = c(1, nx), ylim = c(-ny+10, 1))
+for (i in seq_along(x))
+{
+  aux = sample(1:ny, 1)
+  points(rep(x[i], aux), y[1:aux], pch = sample(letters, aux, replace = TRUE), 
+         col = hsv(0.35, 1, 1, runif(aux, 0.3)), cex = runif(aux, 0.3))
+}
+ 
+# signature: 
+legend("bottomright", legend = "© Gaston Sanchez", bty = "n", text.col = "gray70")
+```
+
+Adpated version: 
+
+```{r matrix_adapted, eval = FALSE, fig.width = 6, fig.height = 6}
+# Source: http://www.r-graph-gallery.com/56-matrix-abstract-painting/
+	
+# generate pairs of x-y values
+nx <- 100
+ny <-  80
+
+x <- sample(x = 1:nx, size = (nx - 10), replace = TRUE)
+y <- seq(-1, -ny, length = (nx - 10))
+
+# plotting parameters: 
+op <- par(bg = "black", mar = c(0, 0.2, 0, 0.2))
+
+seeblau_rgb <- col2rgb(seeblau)
+seeblau_hsv <- rgb2hsv(seeblau_rgb)
+unikn_sample <- c("d", "s", "4", "p", "s", "y",  
+                  "3", "7", "9")
+
+# Create empty plot:
+plot(1:nx, seq(-1, -nx), type = "n", xlim = c(1, nx), ylim = c(-ny + 10, 1))
+
+# Loop:
+for (i in seq_along(x))
+{
+  aux = sample(1:ny, 1)
+  points(rep(x[i], aux), y[1:aux], pch = sample(unikn_sample, aux, replace = TRUE), 
+         col = hsv(seeblau_hsv[[1]], 1, 1, alpha = runif(aux, 0.3)), cex = runif(aux, 0.3))
+}
+
+## Save plot manually (as not a ggplot object)! 
+
+## Clean up: 
+par(opar)  # restore original plot settings
+```
+
+## Rings
+
+```{r rings_original, eval = FALSE, fig.width = 6, fig.height = 6}
+# Source: http://www.r-graph-gallery.com/58-saturn-rings-abstract-painting/
+	
+# generate pairs of x-y values
+x = seq(-50, 50, by = 1)
+y = -(x^2)
+ 
+# set graphic parameters
+op = par(bg = 'black', mar = rep(0.5, 4))
+ 
+# Plot 
+plot(y, x, type = 'n')
+lines(y, x, lwd = 2*runif(1), col = hsv(0.08, 1, 1, alpha = runif(1, 0.5, 0.9)))
+for (i in seq(10, 2500, 10))
+{
+  lines(y-i, x, lwd = 2*runif(1), col = hsv(0.08, 1, 1, alpha = runif(1, 0.5, 0.9)))
+}
+for (i in seq(500, 600, 10))
+{
+  lines(y - i, x, lwd = 2*runif(1), col = hsv(0, 1, 1, alpha = runif(1, 0.5, 0.9)))
+}
+for (i in seq(2000, 2300, 10))
+{
+  lines(y - i, x, lwd = 2*runif(1), col = hsv(0, 1, 1, alpha = runif(1, 0.5, 0.9)))
+}
+for (i in seq(100, 150, 10))
+{
+  lines(y - i, x, lwd = 2*runif(1), col = hsv(0, 1, 1, alpha = runif(1, 0.5, 0.9)))
+}
+ 
+# signature
+legend("bottomright", legend="© Gaston Sanchez", bty = "n", text.col="gray70")
+```
+
+Adapted version:
+
+```{r rings_adapted, eval = FALSE, fig.width = 6, fig.height = 6}
+# Adapted from: http://www.r-graph-gallery.com/58-saturn-rings-abstract-painting/
+	
+# generate pairs of x-y values:
+x = seq(-50, 50, by = 1)
+y = -(x^2)
+ 
+# set graphic parameters:
+op = par(bg = "black", mar = rep(.5, 4))
+# op = par(bg = "white", mar = rep(.5, 4))
+
+original_h <- .08  # original hue value
+# Seeblau versions:
+seeblau_rgb <- col2rgb(seeblau)
+seeblau_hsv <- rgb2hsv(seeblau_rgb)
+seeblau_hsv 
+#  seeblau
+# h 0.5409226
+# s 1.0000000
+# v 0.8784314
+
+seeblau_h <- seeblau_hsv[[1]]
+
+white_rgb <- col2rgb("white")
+white_hsv <- rgb2hsv(white_rgb)
+white_hsv  # 0 0 1
+
+grey_rgb <- col2rgb("grey")
+grey_hsv <- rgb2hsv(grey_rgb)
+grey_hsv  # 0 0 0.75
+
+# Plot: 
+plot(y, x, type = 'n')
+
+# one: 
+lines(y, x, lwd = 2 * runif(1), col = hsv(seeblau_h, 1, 1, alpha = runif(1, .5, .9)))
+
+# all: 
+for (i in seq(10, 2500, 10)) {
+  lines(y-i, x, lwd = 2 * runif(1), col = hsv(seeblau_h, 1, 1, alpha = runif(1, .5, .9)))
+}
+
+# inner: 
+for (i in seq(500, 600, 10)) {
+  lines(y - i, x, lwd = 2 * runif(1), col = hsv(0, 0, .75, alpha = runif(1, .5, .9)))
+}
+
+# middle:
+for (i in seq(2000, 2300, 10)) {
+  lines(y - i, x, lwd = 2 * runif(1), col = hsv(0, 0, .75, alpha = runif(1, .5, .9)))
+}
+
+# outer:
+for (i in seq(100, 150, 10)){
+  lines(y - i, x, lwd = 2 * runif(1), col = hsv(0, 0, .75, alpha = runif(1, .5, .9)))
+}
+
+## Save plot manually (as not a ggplot object)! 
+
+## Clean up: 
+par(opar)  # restore original plot settings
+```
+
+## Grasslands
+
+```{r grasslands_original, eval = FALSE, fig.width = 8, fig.height = 6}
+# Source: https://www.r-graph-gallery.com/138-green-world-data-art/
+
+library(ggplot2)
+library(RColorBrewer)
+
+set.seed(92)
+ngroup=20
+names=paste("G_",seq(1,ngroup),sep="")
+DAT=data.frame()
+
+for(i in seq(1:50)){
+    data=data.frame( matrix(0, ngroup , 3))
+    data[,1]=i
+    data[,2]=sample(names, nrow(data))
+    data[,3]=prop.table(sample( c(rep(0, 100), c(1:ngroup)), nrow(data)))
+    DAT=rbind(DAT,data)
+    }
+
+colnames(DAT) = c("Year","Group","Value")
+DAT = DAT[order(DAT$Year, DAT$Group), ]
+
+ggplot(DAT, aes(x=Year, y=Value, fill=Group )) + 
+    geom_area(alpha=1 , color="transparent" )+
+    theme_bw() +
+    scale_fill_brewer(palette="Greens", breaks=rev(levels(DAT$Group)))+
+     theme(line = element_blank(),
+        text = element_blank(),
+        title = element_blank(),
+        legend.position = "none",
+        panel.border = element_blank(),
+        panel.background = element_blank())
+```
+
+Modified version:
+
+```{r grasslands_modified, eval = FALSE, fig.width = 8, fig.height = 6}
+# Adapted from: https://www.r-graph-gallery.com/138-green-world-data-art/
+
+library(ggplot2)
+library(RColorBrewer)
+
+set.seed(101)
+
+ngroup <- 20
+names <- paste("G_", seq(1, ngroup), sep = "")
+DAT <- data.frame()
+
+# Color palette: 
+seeblau_pal <- sample(unikn.pal, size = ngroup, replace = TRUE)
+seeblau_pal <- rep(c(unikn.pal[1], unikn.pal[2], unikn.pal[3], unikn.pal[4], unikn.pal[5]), 4)
+
+for(i in seq(1:50)){
+    data = data.frame( matrix(0, ngroup , 3))
+    data[ , 1] = i
+    data[ , 2] = sample(names, nrow(data))
+    data[ , 3] = prop.table(sample( c(rep(0, 100), c(1:ngroup)), nrow(data)))
+    DAT = rbind(DAT, data)
+    }
+
+colnames(DAT) <- c("x", "group", "value")
+DAT <- DAT[order(DAT$x, DAT$group), ]
+
+dim(DAT)
+
+ggplot(DAT, aes(x = x, y = value, fill = group)) + 
+  geom_area(alpha = 1, color = "transparent") +
+  theme_bw() +
+  scale_fill_brewer(palette = "Blues", breaks = rev(levels(DAT$group))) +
+  theme(line = element_blank(),
+        text = element_blank(),
+        title = element_blank(),
+        legend.position = "none",
+        panel.border = element_blank(),
+        panel.background = element_blank()
+  )
+
+## Save plot:
+# cur_name <- paste0(pic_path, "art_grass", ".png")
+# ggsave(cur_name, width = 15, height = 10, units = c("cm"), dpi = 300)
+```
+
+## Harmonographs
+
+```{r harmonographs_original, eval = FALSE, fig.width = 8, fig.height = 6}
+# Source: https://fronkonstin.com/2014/10/13/beautiful-curves-the-harmonograph/ 
+
+f1 = jitter(sample(c(2,3),1)); f2 = jitter(sample(c(2,3),1)); f3 = jitter(sample(c(2,3),1)); f4 = jitter(sample(c(2,3),1))
+
+d1 = runif(1,0,1e-02); d2=runif(1,0,1e-02); d3=runif(1,0,1e-02); d4=runif(1,0,1e-02)
+p1 = runif(1,0,pi); p2=runif(1,0,pi); p3=runif(1,0,pi); p4=runif(1,0,pi)
+xt = function(t) exp(-d1*t)*sin(t*f1+p1)+exp(-d2*t)*sin(t*f2+p2)
+yt = function(t) exp(-d3*t)*sin(t*f3+p3)+exp(-d4*t)*sin(t*f4+p4)
+t=seq(1, 100, by=.001)
+dat = data.frame(t=t, x=xt(t), y=yt(t))
+with(dat, plot(x, y, type="l", xlim =c(-2,2), ylim =c(-2,2), xlab = "", ylab = "", xaxt='n', yaxt='n'))
+```
+
+Adapted version:
+
+```{r harmonographs_adapted, eval = FALSE, fig.width = 5, fig.height = 5}
+# Adapted from: https://fronkonstin.com/2014/10/13/beautiful-curves-the-harmonograph/ 
+
+seed <- 203
+set.seed(seed)
+
+f1 = jitter(sample(c(2, 3), 1))  
+f2 = jitter(sample(c(2, 3), 1))  
+f3 = jitter(sample(c(2, 3), 1))  
+f4 = jitter(sample(c(2, 3), 1))
+
+d1 = runif(1, 0, 1e-02)  
+d2 = runif(1, 0, 1e-02)  
+d3 = runif(1, 0, 1e-02)  
+d4 = runif(1, 0, 1e-02)
+
+p1 = runif(1, 0, pi)  
+p2 = runif(1, 0, pi)  
+p3 = runif(1, 0, pi)  
+p4 = runif(1, 0, pi)
+
+xt = function(t) exp(-d1 * t) * sin(t * f1 + p1) + exp(-d2*t) * sin(t * f2 + p2)
+yt = function(t) exp(-d3 * t) * sin(t * f3 + p3) + exp(-d4*t) * sin(t * f4 + p4)
+
+t = seq(1, 100, by = .001)
+
+dat = data.frame(t = t, x = xt(t), y = yt(t))
+
+with(dat, plot(x, y, type = "l", col = seeblau,  
+               xlim = c(-2, 2), ylim = c(-2, 2), 
+               xlab = "", ylab = "", 
+               xaxt = 'n', yaxt = 'n')
+     )
+```
+
 
 [This file last updated on `r Sys.time()` by [hn](http://neth.de/).]
 
