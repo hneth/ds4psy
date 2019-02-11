@@ -263,7 +263,7 @@ if (n_x == 1) {
   unikn_sort <- unikn.pal[c(4, 4:1, 10:5)]  # 11 colors (seeblau twice)   
 }
 
-unikn_sort    
+unikn_sort  # 11 colors: seeblau > white > black
 ```
 
 ### Plot themes
@@ -576,8 +576,116 @@ plot_name <- paste0("pix/pole/pole_sort_", n_x, "_brd_lbl.png")
 ggsave(plot_name, width = plot_size, height = plot_size, units = c("cm"), dpi = 300)
 ```
 
+### Pi tiles
 
-### Combine plots
+Add the 1st `N` digits of pi as data to `tb`:
+
+```{r, echo = FALSE}
+# Data: ------ 
+
+tb # from above
+
+N <- nrow(tb)  # N of digits
+N
+
+## pi data: 
+# pi_all <- numeric()
+# pi_all <- readLines("http://www.apup.org/images/digits100000.txt")        
+# orig. data source http://www.geom.uiuc.edu/~huberty/math5337/groupe/digits.html
+pi_max <- readLines("./data/_pi/pi_100k.txt")  # my version, based on http://www.geom.uiuc.edu/~huberty/math5337/groupe/digits.html
+# head(pi_max)  # is a string
+
+## N digits of pi (as text string): 
+
+if (N == 1) {
+  
+  pi_N_num <- 3  
+  
+} else if (N == 2) {
+  
+  pi_N_num <- c(3, 1)
+  
+} else {  # N > 2:
+  
+  pi_N_string <- paste0(substr(pi_max, 1, 1), substr(pi_max, 3, (N + 1)))  # skip the "." at position 2!  
+  # nchar(pi_N_string)
+  
+  pi_N_chars <- unlist(strsplit(pi_N_string, split = ""))
+  # length(pi_N_chars)
+  
+  pi_N_num <- as.numeric(pi_N_chars)
+  
+}
+
+# First N digits of pi:
+length(pi_N_num) == N
+head(pi_N_num)
+
+## Arrange tb by sort:
+tb <- tb %>% 
+  select(sort, rand, x, y, everything()) %>%
+  arrange(sort, x, y)
+tb
+
+## Add new variables to tb:
+tb$pi_sort <- NA
+tb$pi_sort <- pi_N_num
+
+tb$pi_rand <- NA
+tb$pi_rand <- tb$pi_sort[tb$rand]
+
+# Color of label: 
+tb$col_pi <- "black"  # "black" as default
+tb$col_pi[tb$pi_sort == 1 | tb$pi_sort == 2] <- "white"  # "white" values of 1 or 2
+
+## Result:
+tb
+```
+
+Colors:
+
+```{r, echo = FALSE}
+unikn_sort
+unikn_pi <- unikn_sort[c(6, 11, 10, 1, 3:5, 9:7)]  # remap: 0 = white, 1 = black, 2 = seegrau4, 3 = seeblau, etc. 
+unikn_pi  # 10 colors: black > white > seeblau
+```
+
+Graphical version: 
+
+The first `r N` digits of `r expression(pi)` mapped to uni.kn color scale:
+
+- 0 is white
+- 1 is black
+- 2 is dark grey
+- 3 is seeblau
+
+```{r pi_tile_plots_brd_lbl, fig.width = 6, fig.height = 6}
+# Parameters:
+cur_lbl <- expression(pi)
+lbl_size <- 2
+x_lbl <- 1 
+y_lbl <- (n_y + 1) + n_y/15
+
+# Tile plots: ------ 
+
+# tb  # data
+
+# (4a) sorted version (WITH border lines AND label):
+pi_tile_sort_lbl <- ggplot(tb) +
+  geom_tile(aes(x = x, y = y, fill = pi_sort), col = brd_col, size = brd_size) +
+  geom_text(aes(x = x, y = y, label = pi_sort), col = "black", size = lbl_size) +  # pi values as tile labels 
+  scale_y_continuous(limits = c(0, y_lbl)) + 
+  # scale_x_continuous(limits = c(0, n_x + 1)) + 
+  coord_fixed() + 
+  # labs(title = "ds4psy") + 
+  labs(x = "Data", y = "Science") +
+  # scale_fill_continuous(low = "white", high = seeblau) +
+  scale_fill_gradientn(colors = unikn_pi) +
+  ds_theme
+pi_tile_sort_lbl
+```
+
+### Combine multiple plots
 
 ```{r combine_plots, eval = FALSE, fig.width = 4, fig.height = 2}
 plot_grid(tile_rand, tile_sort)
@@ -586,6 +694,7 @@ plot_grid(pole_rand, pole_sort)
 
 plot_grid(tile_rand, pole_sort)
 ```
+
 
 ## Waves
 
@@ -1267,30 +1376,30 @@ Adapted version:
 
 # Data: ------ 
 
-data <- numeric()
-# data <- readLines("http://www.apup.org/images/digits100000.txt")        
-# orig. data source http://www.geom.uiuc.edu/~huberty/math5337/groupe/digits.html
-data <- readLines("./data/_pi/pi_100k.txt")  # my version, based on http://www.geom.uiuc.edu/~huberty/math5337/groupe/digits.html
-# head(data)  # is a string
-
 N <- 10000  # set N
 
-# subset of N digits: 
-dataA <- numeric()
-dataA <- paste0(substr(data, 1, 1), substr(data, 3, (N - 1))) # skip the "." at position 2!  
-# head(dataA)
+## pi data: 
+# pi_all <- numeric()
+# pi_all <- readLines("http://www.apup.org/images/digits100000.txt")        
+# orig. data source http://www.geom.uiuc.edu/~huberty/math5337/groupe/digits.html
+pi_all <- readLines("./data/_pi/pi_100k.txt")  # my version, based on http://www.geom.uiuc.edu/~huberty/math5337/groupe/digits.html
+# head(pi_all)  # is a string
 
+## N digits of pi (as text string): 
+# pi_N <- numeric()
+pi_N <- paste0(substr(pi_all, 1, 1), substr(pi_all, 3, (N - 1)))  # skip the "." at position 2!  
+# substr(pi_N, 1, 10)
 
 ## Colors: ------ 
 
 # pal <- colorRampPalette(c("#f2f2f2", "blue"))
 
-# Based on: 
+## Based on: 
 unikn.pal
 # pal <- colorRampPalette(c("white", seeblau))  # on black
-pal <- colorRampPalette(c(unikn.pal[[4]], grey(.25, 1)))  # on white
+pal <- colorRampPalette(c(unikn.pal[[4]], grey(.35, 1)))  # on white
 
-colors <- pal(N)
+pi_col <- pal(N)
 
 
 # Image settings: ------
@@ -1298,10 +1407,15 @@ colors <- pal(N)
 # dev.new(height = 7, width = 7)
 
 # par(bg = "black", mar = c(0, 0, 0, 0))
-par(bg = "white", mar = rep(.25, 4))
+par(bg = "white", mar = rep(.20, 4))
+
+x_min <-  -100
+x_max <-   165
+y_min <-  -165
+y_max <-   100
 
 plot(x = 0, y = 0, type = "n", 
-     xlim = c(-50, 90), ylim = c(-100, 40),
+     xlim = c(x_min, x_max), ylim = c(y_min, y_max),
      xlab = "", ylab = "", 
      xaxt = 'n', yaxt = 'n'
      )
@@ -1312,30 +1426,41 @@ a_x <- 0
 a_y <- 0
 
 # Loop: each digit (0-9) represents an individual angle: 
-for(i in 1:nchar(dataA)){
+for(i in 1:nchar(pi_N)){
   
-    a <- b_x <- b_y <- numeric()
-    a <- as.numeric(substr(dataA, i, i))
+    # b_x <- b_y
+    # a   <- b_x
+    a   <- as.numeric(substr(pi_N, i, i))
 
-    b_x <- a_x + sin((2 * pi/10) * (a))    # orig. y pos. + change    
-    b_y <- a_y + cos((2 * pi/10) * (a))    # orig. x pos. + change
+    scale <- 2.0  # Constant scaling factor. Original: scale <- 1.0  
     
-    # draw points & change colors:
-    points(x = c(a_x,b_x), y = c(a_y, b_y), type = "l", col = colors[i])
-    points(x = c(b_x), y = c(b_y), pch = 19, col = colors[i], cex = 0.3)    
+    # Next points: 
+    b_x <- a_x + (scale * sin((2 * pi/10) * a))  # orig. y pos. + change    
+    b_y <- a_y + (scale * cos((2 * pi/10) * a))  # orig. x pos. + change
     
-    # initialize next round: 
+    # Draw lines, points & change colors:
+    points(x = c(a_x, b_x), y = c(a_y, b_y), type = "l", col = pi_col[i])
+    points(x = c(b_x), y = c(b_y), pch = 19, col = pi_col[i], cex = 0.3)    
+    
+    # For next round: 
     a_x <- b_x
     a_y <- b_y
 }
 
 ## Text label: ------ 
-lbl_x <- +70
-lbl_y <- -10
+lbl_x <- +80
+lbl_y <- -15
 
-text(x = lbl_x, y = lbl_y, labels = expression(pi), col = grey(.60, 1), cex = 8, pos = 2)  # title
-text(x = (lbl_x + 4), y = (lbl_y - 5), labels = paste0(N), col = grey(.15, 1), cex = .7, pos = 2)  # N of digits
+# text(x = lbl_x, y = lbl_y, labels = expression(pi), col = grey(.60, 1), cex = 8, pos = 2)  # title
+# text(x = (lbl_x + 4), y = (lbl_y - 5), labels = paste0(N), col = grey(.15, 1), cex = .7, pos = 2)  # N of digits
+
+N_k <- round(N/1000, 0)
+cur_lbl <- paste0(expression(pi), " to ", N_k, "k digits")
+text(x = (x_max - 10), y = y_min, labels = cur_lbl, col = grey(.33, 1), cex = .7, pos = NULL)
 ```
+
+<img src = "./pix/art/pi_10k_w2.png" style = "width: 1000px; float: right; border:0;"/>
+
 
 ## Links
 
