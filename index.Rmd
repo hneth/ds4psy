@@ -48,7 +48,7 @@ This course provides an introduction to [R](http://www.r-project.org/) and conve
 
 <!-- Image: random tiles -->
 <!-- ![](./pix/tile_rand_10_brd.png) -->
-<img src = "./pix/tile_rand_10_brd.png" alt = "ds4psy" style = "width: 180px; float: right; border:0;"/>
+<img src = "./pix/tile/tile_rand_10_brd.png" alt = "ds4psy" style = "width: 180px; float: right; border:0;"/>
 
 1. First, we introduce key concepts and commands of the [R](http://www.r-project.org/) programming language for statistical computing. This includes working with the [R Studio](http://www.rstudio.com/) environment and writing reproducible research documents with 
 [R Markdown](https://rmarkdown.rstudio.com/). 
@@ -106,8 +106,8 @@ Final grades are based on both solutions to WPAs (A: 33%) and your final exam/pr
 ## Individual sessions, dates, and topics
 
 <!-- Image: random polar -->
-<!-- ![](./pix/pole_rand_12.png) -->
-<img src = "./pix/pole_rand_12.png" alt = "ds4psy" style = "width: 180px; float: right; border:0;"/>
+<!-- ![](./pix/pole/pole_rand_12.png) -->
+<img src = "./pix/pole/pole_rand_12.png" alt = "ds4psy" style = "width: 180px; float: right; border:0;"/>
 
 <!-- 
 
@@ -219,8 +219,8 @@ Part 2: Wrangle
 All [ds4psy](http://rpository.com/ds4psy/) essentials so far: 
 
 <!-- Image: sorted tiles -->
-<!-- ![](./pix/tile_sort_10_brd.png) -->
-<img src = "./pix/tile_sort_10_brd.png" alt = "ds4psy" style = "width: 180px; float: right; border:0;"/>
+<!-- ![](./pix/tile/tile_sort_10_brd.png) -->
+<img src = "./pix/tile/tile_sort_10_brd.png" alt = "ds4psy" style = "width: 180px; float: right; border:0;"/>
 
 Nr. | Topic       |
 ---:|:------------| 
@@ -355,8 +355,8 @@ Beware of side effects: Becoming an R user (useR?) will profoundly transform you
 All [ds4psy](http://rpository.com/ds4psy/) essentials so far: 
 
 <!-- Image: sorted tiles -->
-<!-- ![](./pix/tile_sort_10_brd.png) -->
-<img src = "./pix/tile_sort_10_brd.png" alt = "ds4psy" style = "width: 180px; float: right; border:0;"/>
+<!-- ![](./pix/tile/tile_sort_10_brd.png) -->
+<img src = "./pix/tile/tile_sort_10_brd.png" alt = "ds4psy" style = "width: 180px; float: right; border:0;"/>
 
 
 Nr. | Topic       |
@@ -404,8 +404,8 @@ For instructions on combining text and code, see [Chapter 27: R Markdown](https:
 <!-- The following links allow you to get started. -->
 
 <!-- Image: sorted polar -->
-<!-- ![](./pix/pole_sort_12.png) -->
-<img src = "./pix/pole_sort_12.png" alt = "ds4psy" style = "width: 180px; float: right; border:0;"/>
+<!-- ![](./pix/pole/pole_sort_12.png) -->
+<img src = "./pix/pole/pole_sort_12.png" alt = "ds4psy" style = "width: 180px; float: right; border:0;"/>
 
 ## Software and packages
 
@@ -503,8 +503,8 @@ Sebastopol, Canada: O'Reilly Media, Inc.  [Available online at [http://r4ds.had.
 -->
 
 <!-- Image: Waves -->
-<!-- ![](./pix/waves.png) -->
-<img src = "./pix/waves.png" alt = "ds4psy" style = "width: 400px; float: right; border:0;"/>
+<!-- ![](./pix/wave/waves_4.png) -->
+<img src = "./pix/wave/waves_4.png" alt = "ds4psy" style = "width: 400px; float: right; border:0;"/>
 
 [This file last updated on `r Sys.time()` by [hn](http://neth.de/).]
 
