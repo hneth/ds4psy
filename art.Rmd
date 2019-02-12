@@ -236,9 +236,11 @@ l33t_rul35 <- c("a" = "4",
                 "r" = "R")
 
 txt <- "This is a short test string containing some text to leetify."
+test <- "Data science is both a craft and an art. First steps from novice to user."
 
 str_replace_all(txt, l33t_rul35)
 str_replace_all(tolower(course), l33t_rul35)
+str_replace_all(tolower(test), l33t_rul35)
 ```
 
 ### Data
