@@ -1,7 +1,7 @@
 ---
 title: "Artwork for ds4psy" 
 author: "Hansjörg Neth, SPDS, uni.kn"
-date: "2019 02 11"
+date: "2019 02 12"
 output:
   rmdformats::html_clean:
     lightbox: TRUE 
@@ -196,13 +196,49 @@ Sorted versions:
 
 ## Settings
 
-### Text
+### Text labels
 
 ```{r text_labels}
-# Define text labels:
-lbl_psi <- expression(psi)
-course_title <- paste0("Data science\nfor psychologists")
+# Define text labels: ------ 
+course_title <- paste0("Data science for psychologists")
 course_title_abb <- paste0("ds4psy")
+name_hn <- "Hansjörg Neth"
+lbl_psi <- expression(psi)
+course <- paste0(name_hn, ":", " ", course_title)
+# course
+```
+
+### Leet slang (l33t)
+
+See <https://simple.wikipedia.org/wiki/Leet> for details. 
+
+```{r l33t_labels}
+## Using leet / l33t slang: ------
+                             # l33t rul35: 
+n4me <- "h4n5j03Rg n3+h"     # e:3, a:4, s:5, o:0, t:+, r:R
+d5   <- "d4+4 5c13nc3"       # i:1 
+fp   <- "f0R p5ych0l0g15+5"
+course_l33t <- paste0(n4me, ":", " ", d5, " ", fp)
+course_l33t
+
+## Automation: ----- 
+# Write functions to:  
+# - switch text to lower/upper case, capitalize, etc.
+# - leetify a string of text (with sets of rules)
+# - mix content (letters, words, ...) with noise (punctuation, space, random characters)
+
+l33t_rul35 <- c("a" = "4",
+                "e" = "3",
+                "i" = "1",
+                "o" = "0",
+                "s" = "5", 
+                "t" = "+",
+                "r" = "R")
+
+txt <- "This is a short test string containing some text to leetify."
+
+str_replace_all(txt, l33t_rul35)
+str_replace_all(tolower(course), l33t_rul35)
 ```
 
 ### Data
@@ -1462,19 +1498,52 @@ text(x = (x_max - 10), y = y_min, labels = cur_lbl, col = grey(.33, 1), cex = .7
 <img src = "./pix/art/pi_10k_w2.png" style = "width: 1000px; float: right; border:0;"/>
 
 
-## Links
+# Ideas
+
+Various ideas by category (or data type): 
+
+## Word art
+
+- words as maps (see [4L1c3](http://www.apup.org/lab_160313.html))
+- crossword puzzles, word search puzzles; 
+- visualisations of text identities and similarities
+- replacements: [l33t](https://simple.wikipedia.org/wiki/Leet) slang
+
+## Geographic art
+
+- tube lines
+- maps with color schemes
+
+## Numeric art
+
+- randomness (e.g., [pi](http://www.apup.org/lab_160314.html)) 
+
+## Organic art
+
+- networks
+- webs (e.g., [strange attractors](https://fronkonstin.com/2019/01/10/rcpp-camaron-de-la-isla-and-the-beauty-of-maths/))
+- flowers (e.g., <https://fronkonstin.com/>)
+
+## Graphic art 
+
+- paint brush effects
+
+
+# Links
 
 Provide links to all code sources and inspirations: 
 
-- R graph gallery at <https://www.r-graph-gallery.com/portfolio/data-art/> 
+- Grab bag: R graph gallery at <https://www.r-graph-gallery.com/portfolio/data-art/> 
 
-- Inspiring creations by Antonio Sánchez Chinchón at <https://fronkonstin.com/>: 
+- Wonderful creations by Antonio Sánchez Chinchón at <https://fronkonstin.com/>: 
 
     - Strange attractors: [blog](https://fronkonstin.com/2019/01/10/rcpp-camaron-de-la-isla-and-the-beauty-of-maths/) and [github](https://github.com/aschinchon/general-2D-map)
 
     - Coloring sudokus: [blog](https://fronkonstin.com/2018/06/01/coloring-sudokus/)
 
     - Phyllotaxis: Draw flowers using mathematics: [DataCamp](https://www.datacamp.com/projects/62); see also Shiny app at <https://stocks.shinyapps.io/phylo/>
+
+- Inspiring pi and text art by Päivi Julin at <http://www.apup.org>
 
 - Artwork by Marcus Volz at <https://marcusvolz.com/>
 
