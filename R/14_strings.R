@@ -1,7 +1,7 @@
 ## r4ds: Chapter 14: Strings
 ## Code for http://r4ds.had.co.nz/strings.html 
 ## hn spds uni.kn
-## 2018 07 09 ------
+## 2019 02 12 ------
 
 ## [see Book chapter 1x: "..."]
 
@@ -1922,7 +1922,7 @@ as_tibble(n)
 str_view(n, "^Z..$", match = TRUE)
 
 
-# [test.quest]: Extract all sentences with family names:
+# [test.quest]: Extract all sentences with family names: ---- 
 family <- c("mother", "father", "son$", "daughter", "sister", "brother")
 family_match <- str_c(family, collapse = "|")
 has_family <- str_subset(sentences, family_match)
@@ -1932,6 +1932,42 @@ has_family
 # [test.quest]: Analog to 14.5.1: Exercise 2
 # Most frequent word in some song lyrics.
 
+
+## Leet slang (l33t): ----
+
+# See <https://simple.wikipedia.org/wiki/Leet> for details. 
+
+## Using leet / l33t slang: ------
+# l33t rul35: 
+n4me <- "h4n5j03Rg n3+h"     # e:3, a:4, s:5, o:0, t:+, r:R
+d5   <- "d4+4 5c13nc3"       # i:1 
+fp   <- "f0R p5ych0l0g15+5"
+course_l33t <- paste0(n4me, ":", " ", d5, " ", fp)
+course_l33t
+
+## ToDo: 
+# Write functions to:  
+# - switch text to lower/upper case, capitalize, etc.
+# - leetify a string of text (with sets of rules)
+# - mix content (letters, words, ...) with noise (punctuation, space, random characters)
+
+txt <- "This is a short test string containing some text to leetify."
+course_title <- paste0("Data science for psychologists")
+course_title_abb <- paste0("ds4psy")
+name_hn <- "Hansjörg Neth"
+lbl_psi <- expression(psi)
+course <- paste0(name_hn, ":", " ", course_title)
+
+l33t_rul35 <- c("a" = "4",
+                "e" = "3",
+                "i" = "1",
+                "o" = "0",
+                "s" = "5", 
+                "t" = "+",
+                "r" = "R")
+
+str_replace_all(txt, l33t_rul35)
+str_replace_all(tolower(course), l33t_rul35)
 
 ## ------
 ## eof.
