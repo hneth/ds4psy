@@ -47,6 +47,10 @@ opts_knit$set(width = 75)
 ## (e) Custom functions: ----- 
 source(file = "~/Desktop/stuff/Dropbox/_code/R/_teachR/ds4psy/R/custom_functions.R")
 
+# Define some paths: ------
+pic_path <- "pix/"
+plot_out <- pic_path 
+
 # plotting parameters: 
 opar <- par(no.readonly = TRUE)  # all par settings that can be changed.
 ```
@@ -72,6 +76,17 @@ opar <- par(no.readonly = TRUE)  # all par settings that can be changed.
 # Artwork
 
 Overview over generated plots: 
+
+## Logo
+
+Different ds4psy logo options:
+
+<img src = "./pix/logo/logo_bold_4whi.png" alt = "ds4psy" style = "width: 120px; border:0;"/>
+
+<img src = "./pix/logo/logo_bold_4orb.png" alt = "ds4psy" style = "width: 120px; border:0;"/>
+
+<img src = "./pix/logo/logo_bold_4gold.png" alt = "ds4psy" style = "width: 120px; border:0;"/>
+
 
 ## Tiles
 
@@ -215,30 +230,216 @@ Course labels:
 - `course_title_abb` = `r course_title_abb`
 - `psi` = `r psi`
 
+## Colors
+
+### Color palettes 
+
+```{r colors}
+## Re-sort color palette: 
+# unikn.pal  # from "ds4psy/R/custom_functions.R""
+
+## Define colors and color palettes. 
+
+## Define individual colors: ------
+
+seeblau <- rgb(0, 169, 224, names = "seeblau", maxColorValue = 255) # seeblau.4 (non-transparent)
+
+## Source: https://www.uni-konstanz.de/en/university/news-and-media/create-online-and-print-media/corporate-design/the-university-of-konstanzs-corporate-design/ 
+
+## Define color palettes: ------
+
+## (A) Web (sRGB) scale: ---- 
+
+pal_unikn = data.frame(                                 ## as df: 
+  "seeblau1" = rgb(204, 238, 249, maxColorValue = 255), #  1. seeblau1 (non-transparent)
+  "seeblau2" = rgb(166, 225, 244, maxColorValue = 255), #  2. seeblau2 (non-transparent)
+  "seeblau3" = rgb( 89, 199, 235, maxColorValue = 255), #  3. seeblau3 (non-transparent)
+  "seeblau4" = rgb(  0, 169, 224, maxColorValue = 255), #  4. seeblau4 (= seeblau base color)
+  "black"    = rgb(  0,   0,   0, maxColorValue = 255), #  5. black
+  "seegrau4" = rgb(102, 102, 102, maxColorValue = 255), #  6. grey40 (non-transparent)
+  "seegrau3" = rgb(153, 153, 153, maxColorValue = 255), #  7. grey60 (non-transparent)
+  "seegrau2" = rgb(204, 204, 204, maxColorValue = 255), #  8. grey80 (non-transparent)
+  "seegrau1" = rgb(229, 229, 229, maxColorValue = 255), #  9. grey90 (non-transparent)
+  "white"    = rgb(255, 255, 255, maxColorValue = 255), # 10. white
+  stringsAsFactors = FALSE)
+# pal_unikn
+
+# Note: Web (sRGB) colors appear to be more vibrant.
+
+# Sensibly sorted version:
+pal_unikn <- pal_unikn[c(4:1, 10:5)] # seeblau (1) > white (5) > grey > black (10)
+
+### Check:
+# pal_unikn
+# # => 
+# #   seeblau4 seeblau3 seeblau2 seeblau1   white seegrau1 seegrau2 seegrau3 seegrau4   black
+# # 1  #00A9E0  #59C7EB  #A6E1F4  #CCEEF9 #FFFFFF  #E5E5E5  #CCCCCC  #999999  #666666 #000000
+
+## (B) PowerPoint scale: ---- 
+
+pal_unikn_ppt = data.frame(                                 ## as df: 
+  "seeblau1" = rgb(200, 229, 239, maxColorValue = 255), #  1. seeblau1 (non-transparent)
+  "seeblau2" = rgb(160, 211, 230, maxColorValue = 255), #  2. seeblau2 (non-transparent)
+  "seeblau3" = rgb( 89, 182, 220, maxColorValue = 255), #  3. seeblau3 (non-transparent)
+  "seeblau4" = rgb(  0, 154, 209, maxColorValue = 255), #  4. seeblau4 (= seeblau base color)
+  "black"    = rgb(  0,   0,   0, maxColorValue = 255), #  5. black
+  "seegrau4" = rgb(102, 102, 102, maxColorValue = 255), #  6. grey40 (non-transparent)
+  "seegrau3" = rgb(153, 153, 153, maxColorValue = 255), #  7. grey60 (non-transparent)
+  "seegrau2" = rgb(204, 204, 204, maxColorValue = 255), #  8. grey80 (non-transparent)
+  "seegrau1" = rgb(229, 229, 229, maxColorValue = 255), #  9. grey90 (non-transparent)
+  "white"    = rgb(255, 255, 255, maxColorValue = 255), # 10. white
+  stringsAsFactors = FALSE)
+
+# Note: PowerPoint colors appear to be more muted, less vibrant.
+
+# Sensibly sorted version:
+pal_unikn_ppt <- pal_unikn_ppt[c(4:1, 10:5)] # seeblau (1) > white (5) > grey > black (10)
+
+### Check:
+# pal_unikn_ppt
+# # => 
+# #   seeblau4 seeblau3 seeblau2 seeblau1   white seegrau1 seegrau2 seegrau3 seegrau4   black
+# # 1  #009AD1  #59B6DC  #A0D3E6  #C8E5EF #FFFFFF  #E5E5E5  #CCCCCC  #999999  #666666 #000000
+
+## Function to get (n x n) colors of a palette: ------ 
+
+col_n_sq <- function(n = 10, pal = pal_unikn){
+  
+  out <- NA
+  
+  if (n == 1) {
+    
+    out <- pal[1] #  1 color: seeblau4
+    
+  } else if (n == 2) {
+    
+    out <- pal[c(1, 3, 5, 10)]   #  4 colors: seeblau4, seeblau2, white, black
+    
+  } else if (n == 3) {
+    
+    out <- pal[-7] #  9 colors: seeblau > white > black
+    
+  } else {
+    
+    out <- pal[c(1, 1:10)]   # 11 colors: seeblau (2x) > white (6 = mid) > black (11) [default]
+    
+  }
+  
+  return(out)
+  
+}
+
+## Check:
+# col_n_sq(1)
+# col_n_sq(2)
+# col_n_sq(3)
+# col_n_sq(4)
+
+# Reset:
+unikn.pal <- pal_unikn
+unikn.pal
+```
+
+
+### Plot themes
+
+```{r plot_parameters}
+ds_theme <- theme_bw() + 
+  theme(panel.grid = element_blank(),
+        legend.position = "none",
+        axis.text = element_blank(),
+        axis.ticks = element_blank(),
+        panel.background = element_rect(fill = "white"),
+        panel.border = element_rect(color = grey(.25, 1)))
+
+ds_theme <- theme_nothing()
+
+## ToDo: Define a generic ds4psy ggplot theme.
+
+theme_ds4psy <- ds_theme
+```
+
 ### Logo
 
 Corresponding logo:
 
-```{r logo_sketch, fig.width = 2, fig.height = 2}
+```{r logo_sketch, eval = TRUE, fig.width = 2, fig.height = 2}
+# Define some positions: ------
+
 dx <- 1
 dy <- 1
 dd <- 1
 
-ds4p <- tribble(
+# Table: ------
+
+tb_ds4p <- tibble::tribble(
   ~sym, ~x, ~y,
   "d",   -dx,  +dy,
   "s",   +dx,  +dy,
   "4",   -dx,  -dy,
   "psy", +dx,  -dy )
-ds4p
+tb_ds4p$row <- 1:nrow(tb_ds4p)
+tb_ds4p
 
-ggplot(ds4p) +
-  geom_point(x = 0 , y = 0, pch = 4, size = 5, col = grey(.5, 1)) + 
-  geom_text(aes(x = x, y = y, label = sym), size = 5, fontface = 2, adj = .5) + 
-  scale_x_continuous(limits = c((-dx - dd), (+dx + dd))) +
-  scale_y_continuous(limits = c((-dy - dd), (+dy + dd))) +
-  coord_fixed() +
-  theme_void()
+# Colors: ------ 
+
+## Based on pal_unikn:
+
+pal_unikn <- unikn.pal
+
+# col_4 <- col_n_sq(n = 2, pal_unikn)
+# col_4
+# => 
+#   seeblau4 seeblau2   white   black
+# 1  #00A9E0  #A6E1F4 #FFFFFF #000000
+
+col_4 <- pal_unikn[c("seeblau2", "seeblau4", "white", "black")]
+# col_4
+# => 
+#   seeblau4 seeblau2   white   black
+# 1  #00A9E0  #A6E1F4 #FFFFFF #000000
+
+seegrau1 <- pal_unikn[["seegrau1"]] 
+# seegrau1
+# => 
+#   seegrau1
+# 1  #E5E5E5
+
+# Parameters: ------ 
+
+txt_size <- 5.00
+c_shift  <- 0.80
+
+# Plot: ------
+
+plot_plot <- TRUE
+
+if (plot_plot) {
+  
+  logo <- ggplot2::ggplot(tb_ds4p) +
+    geom_tile(aes(x = x, y = y, fill = row)) + 
+    # Add points: 
+    geom_point(x = (+dx + c_shift * dx), y = (dy + c_shift * dy), pch = 4, size = 1, col = "white") +  # mark coordinate with "x"
+    # geom_point(x = (-dx), y = (-dy), pch = 16, size = 11, col = seegrau1) +                          # mark coordinate with "O"
+    # Add text: 
+    geom_text(aes(x = x, y = y, label = sym), col = grey(0.0, 1.0), size = txt_size, family = "Arial", fontface = 2, adj = .5) +  # 4 text elements
+    geom_text(x = dx, y = -dy, label = expression(psi), col = grey(1.0, 1.0), size = (txt_size + 1), family = "Arial", fontface = 2, adj = .5) +    # psi in lower right  
+    # Set scales:
+    scale_x_continuous(limits = c((-dx - dd), (+dx + dd))) +
+    scale_y_continuous(limits = c((-dy - dd), (+dy + dd))) +
+    scale_fill_gradientn(colors = col_4) + 
+    coord_fixed() +
+    theme_ds4psy
+  logo
+  
+  ## Save plot: ------ 
+  
+  plot_name <- "logo"
+  full_name <- paste0(plot_out, plot_name, ".png")
+  
+  ggsave(full_name, width = 2, height = 2, units = c("cm"), dpi = 300)
+  
+} # if (plot_plot) etc. 
 ```
 
 ### Theme
@@ -343,7 +544,7 @@ Table `tb` with sorted and random series from 1 to `N` values (and corresponding
 n_rand <- sample(1:15, size = 1, replace = TRUE)  # random integer (1:15)
 
 n_x <- n_rand  # random number
-# n_x <- 8       # a specific number
+n_x <- 2     # a specific number
 n_y <- n_x
 N <- (n_x * n_y)
 
@@ -351,12 +552,16 @@ N <- (n_x * n_y)
 v_sort <- 1:N         # Tile: top_left = seeblau, bottom_right = black   | Polar: outer = seeblau, center = black.
 # v_sort <- rev(1:N)  # Tile: top_left = black,   bottom_right = seeblau | Polar: outer = black, center = seeblau.
 
-# Colors:
+# Colors for current n_x:
+unikn_sort <- col_n_sq(n_x)
+unikn_sort 
+
 col_sort <- rep("white", N)  # default
 
 lim_black <- .245  # threshold to switch from "white" to "black" labels
 col_sort[(v_sort > (lim_black * N)) & (v_sort < ((1 - lim_black) * N))] <- "black"
 # table(col_sort)
+
 
 set.seed(815)  # for reproducible randomness
 
@@ -364,6 +569,7 @@ set.seed(815)  # for reproducible randomness
 rand_ord <- sample(v_sort, N)  # random permutation of v_sort
 v_rand <- rand_ord  # random permutation of v_sort
 col_rand <- col_sort[rand_ord]
+
 
 # Table: 
 tb <- tibble(x = rep(1:n_y, times = n_x),
@@ -377,49 +583,6 @@ tb
 ```
 
 More data: See table of session topics in `toc` below.
-
-## Colors
-
-### Color palettes 
-
-```{r colors}
-# Re-sort color palette: 
-unikn.pal  # from "ds4psy/R/custom_functions.R""
-
-# (1) Sorted version:
-unikn_sort <- unikn.pal[c(4, 4:1, 10:5)]  # 11 colors (seeblau twice) 
-# unikn_sort  
-
-# (2) Sorted version with special cases (for small n_x):
-if (n_x == 1) {
-  unikn_sort <- seeblau                     #  1 color (seeblau)
-} else if (n_x == 2) {
-  unikn_sort <- unikn.pal[c(4, 2, 10, 5)]   #  4 colors: seeblau, lightblau, white, black
-} else if (n_x == 3) {
-  unikn_sort <- unikn.pal[c(4:1, 10:8, 6:5)] #  9 colors: seeblau > white > black
-} else {
-  unikn_sort <- unikn.pal[c(4, 4:1, 10:5)]   # 11 colors: seeblau (2x) > white > black [default]
-}
-
-unikn_sort
-```
-
-### Plot themes
-
-```{r plot_parameters}
-ds_theme <- theme_bw() + 
-  theme(panel.grid = element_blank(),
-        legend.position = "none",
-        axis.text = element_blank(),
-        axis.ticks = element_blank(),
-        panel.background = element_rect(fill = "white"),
-        panel.border = element_rect(color = grey(.25, 1)))
-
-ds_theme <- theme_nothing()
-
-## ToDo: Define a generic ds4psy ggplot theme.
-```
-
 
 ## Tiles
 
@@ -435,8 +598,6 @@ brd_size <- .10
 plot_size <-  3.0  # NORMAL: in cm (used in ggsave below): normal (small) size
 # plot_size <- 10.0  # BIG:    in cm (used in ggsave below): when "pix/big_"
 lbl_size <- 1.5
-
-pic_path <- "pix/"
 
 # Tile plots: ------ 
 
@@ -819,9 +980,14 @@ tb
 Colors:
 
 ```{r, echo = FALSE}
-unikn_sort
-unikn_pi <- unikn_sort[c(6, 11, 10, 1, 3:5, 9:7)]  # remap: 0 = white, 1 = black, 2 = seegrau4, 3 = seeblau, etc. 
-unikn_pi  # 10 colors: black > white > seeblau
+## Re-initialize colors, based on pal_unikn:
+
+# pal_unikn
+
+unikn_sort <- pal_unikn     
+unikn_pi <- rev(pal_unikn)  # 10 colors: black > white > seeblau
+
+# unikn_pi
 ```
 
 Graphical version: 
