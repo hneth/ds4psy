@@ -1,7 +1,7 @@
 ---
 title: "ds4psy Artwork" 
 author: "Hansjörg Neth, SPDS, uni.kn"
-date: "2019 02 12"
+date: "2019 02 13"
 output:
   rmdformats::html_clean:
     lightbox: TRUE 
@@ -1442,6 +1442,177 @@ if (add_label) {
     - klar: seemingly systematic version 
 - Remove frame (or make a square)
 - Consider adding chapter numbers and titles?
+
+
+## Circles
+
+Based on geometric data art from <https://www.r-graph-gallery.com/186-marcus-volz-dataart/>:
+
+```{r geom_data_org, eval = FALSE}
+# Source: https://www.r-graph-gallery.com/186-marcus-volz-dataart/ 
+
+library(dplyr)
+library(ggplot2)
+library(ggthemes)
+ 
+n <- 20000
+a <- 0.5
+ 
+set.seed(101)
+ 
+make_circle <- function(tx, ty) {
+data <- data.frame(angle = runif(n, 0, 2 * pi)) %>%
+mutate(x = a * cos(angle) + tx, y = a * sin(angle) + ty) %>%
+select(x, y)
+data2 <- data[sample(nrow(data)),]
+data <- bind_cols(data, data2)
+names(data) <- c("x1", "y1", "x2", "y2")
+data
+}
+ 
+data <- rbind(make_circle(cos(0), sin(0)),
+make_circle(cos(pi/4), sin(pi/4)),
+make_circle(cos(pi/2), sin(pi/2)),
+make_circle(cos(3*pi/4), sin(3*pi/4)),
+make_circle(cos(pi), sin(pi)),
+make_circle(cos(5*pi/4), sin(5*pi/4)),
+make_circle(cos(3*pi/2), sin(3*pi/2)),
+make_circle(cos(7*pi/4), sin(7*pi/4)))
+ 
+ggplot() +
+geom_segment(aes(x = x1, xend = x2, y = y1, yend = y2), data %>% filter(x1 != x2),
+alpha = 0.15, size = 0.015) +
+coord_equal() +
+theme_tufte() +
+theme(line = element_blank(),
+axis.ticks = element_blank(),
+axis.ticks.length = unit(0, "null"),
+axis.title = element_blank(),
+axis.text = element_blank(),
+text = element_blank(),
+legend.position = "none",
+legend.margin=unit(0, "null"),
+panel.background = element_blank(),
+panel.border=element_blank(),
+panel.grid = element_blank(),
+panel.margin=unit(c(0,0,0,0), "null"),
+plot.background = element_blank(),
+plot.margin=unit(c(0,0,0,0), "null"),
+strip.text = element_blank())
+```
+
+Adapted version:
+
+```{r geom_data_adapted, eval = FALSE}
+# Adapted from: https://www.r-graph-gallery.com/186-marcus-volz-dataart/ 
+
+library(dplyr)
+library(ggplot2)
+library(ggthemes)
+
+data <- NULL
+n <- 20000  # Original = 20000 (density/plasticity)
+a <- .50    # Original = .50   (angle/distance: <.50 = more space between circles, >.50 = more overlap)
+
+## Note special values:
+# a <- 1.0     # flower
+# a <- .50     # moderate overlap
+# a <- .3825   # just touching circles
+
+set.seed(101)
+
+# Function to make (and mark) circle: 
+make_circle <- function(tx, ty, n, val) {
+  
+  data_1 <- data.frame(angle = runif(n, 0, 2 * pi)) %>%
+    mutate(x = a * cos(angle) + tx, 
+           y = a * sin(angle) + ty) %>%
+    select(x, y)
+  
+  data_2 <- data_1[sample(nrow(data_1)), ]
+  
+  data_3 <- data.frame(rep(val, n))  # mark current circle (with nr)
+  
+  data <- bind_cols(data_1, data_2, data_3)
+  names(data) <- c("x1", "y1", "x2", "y2", "val")
+  
+  data
+}
+
+## Create data: ------ 
+## for different circles (and mark with val): 
+data <- rbind(make_circle(cos(0), sin(0), n, 1),                 # 1:  0 (top)       = 1
+              make_circle(cos(1 * pi/4), sin(1 * pi/4), n, 6),   # 2:  8 (top-right) = 2
+              make_circle(cos(1 * pi/2), sin(1 * pi/2), n, 3),   # 3: 15 (right)     = 3
+              make_circle(cos(3 * pi/4), sin(3 * pi/4), n, 4),   # 4: 52 (top-left)  = 8
+              make_circle(cos(1 * pi/1), sin(1 * pi/1), n, 7),   # 5: 45 (left)      = 7
+              make_circle(cos(5 * pi/4), sin(5 * pi/4), n, 2),   # 6: 38 (bot-left)  = 6
+              make_circle(cos(3 * pi/2), sin(3 * pi/2), n, 5),   # 7: 30 (bot)       = 5
+              make_circle(cos(7 * pi/4), sin(7 * pi/4), n, 8)    # 8: 22 (bot-right) = 4
+)
+
+# head(data)
+# dim(data)
+
+## Filter data (optional?): ----- 
+# data <- data %>% filter(x1 != x2)
+# dim(data)
+
+## Colors: ------ 
+# unikn.pal  # basic color scale
+col_light <- unikn.pal[4] # seeblau 
+
+# col_dark  <- unikn.pal[5] # black 
+# col_dark  <- unikn.pal[6] # dark grey
+col_dark  <- unikn.pal[7] # mid grey
+
+
+# Plot: ------ 
+ggplot(data) +
+  geom_segment(aes(x = x1, xend = x2, y = y1, yend = y2, col = val), # color by val
+               alpha = .20, size = .015) +
+  scale_color_gradient(low = col_light, high = col_dark) +  # color scale for val 
+  coord_equal() +
+  theme_nothing()
+```
+
+### Note
+
+- perceived plasticity jointly depends on density (`n`), transparency (`alpha`), and color value (`val`). 
+- at some resolutions, the color in overlap regions (seeblau and dark grey) appears to be green!
+
+### Ideas
+
+- choose subsets of the set of 8 complete circles
+- vary the number and location of circles
+- map circle number `val` to a color scale
+
+### ToDo
+
+- create other objects (squares, triangles, diamonds, etc.)
+
+### Examples
+
+#### 4 circles
+
+Positions and color values can be varied: 
+
+<img src = "./pix/circ/circ_4a.png" style = "width: 800px; border:1;"/>
+
+<img src = "./pix/circ/circ_4b.png" style = "width: 800px; border:1;"/>
+
+<img src = "./pix/circ/circ_4e.png" style = "width: 800px; border:1;"/>
+
+
+#### 8 circles
+
+Colors can be sorted or mixed up: 
+
+<img src = "./pix/circ/circ_8_a1.0.png" style = "width: 800px; border:1;"/>
+
+<img src = "./pix/circ/circ_8_a.50_mixd.png" style = "width: 800px; border:1;"/>
+
+<img src = "./pix/circ/circ_8_a.38.png" style = "width: 800px; border:1;"/>
 
 
 ## Tunnel
