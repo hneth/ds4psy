@@ -202,11 +202,49 @@ Sorted versions:
 # Define text labels: ------ 
 course_title <- paste0("Data science for psychologists")
 course_title_abb <- paste0("ds4psy")
+psi <- expression(psi)
+
 name_hn <- "Hansjörg Neth"
-lbl_psi <- expression(psi)
-course <- paste0(name_hn, ":", " ", course_title)
-# course
+name_course <- paste0(name_hn, ":", " ", course_title)
+# name_course
 ```
+
+Course labels:
+
+- `course_title` = `r course_title`
+- `course_title_abb` = `r course_title_abb`
+- `psi` = `r psi`
+
+### Logo
+
+Corresponding logo:
+
+```{r logo_sketch, fig.width = 2, fig.height = 2}
+dx <- 1
+dy <- 1
+dd <- 1
+
+ds4p <- tribble(
+  ~sym, ~x, ~y,
+  "d",   -dx,  +dy,
+  "s",   +dx,  +dy,
+  "4",   -dx,  -dy,
+  "psy", +dx,  -dy )
+ds4p
+
+ggplot(ds4p) +
+  geom_point(x = 0 , y = 0, pch = 4, size = 5, col = grey(.5, 1)) + 
+  geom_text(aes(x = x, y = y, label = sym), size = 5, fontface = 2, adj = .5) + 
+  scale_x_continuous(limits = c((-dx - dd), (+dx + dd))) +
+  scale_y_continuous(limits = c((-dy - dd), (+dy + dd))) +
+  coord_fixed() +
+  theme_void()
+```
+
+### Theme
+
+**ToDo:** Create a dedicated ds4psy ggplot theme.
+
 
 ### Leet slang (l33t)
 
