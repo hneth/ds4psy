@@ -1,5 +1,8 @@
 
-<!-- README.md is generated from README.Rmd. Please edit THIS file -->
+<!-- README.md is generated from README.Rmd. Please edit THIS (Rmd) file. -->
+<!-- ds4psy logo: -->
+<img src = "./pix/logo.png" alt = "ds4psy" width = "100px" align = "right" style = "width: 100px; float: right; border:10;"/>
+
 ds4psy
 ======
 
@@ -11,9 +14,9 @@ A course on the principles and basic methods of data science for students of psy
 Course Coordinates
 ------------------
 
-<!-- uni.kn logo and link to SPDS: -->
+<!-- uni.kn logo, but link to SPDS: -->
 <!-- ![](./inst/pix/uniKn_logo.png) -->
-<a href="https://www.spds.uni-konstanz.de/"> <img src = "./inst/pix/uniKn_logo.png" alt = "spds.uni.kn" align = "right" width = "300" style = "width: 300px; float: right; border:20;"/> <!-- <img src = "./inst/pix/uniKn_logo_s.png" alt = "spds.uni.kn" style = "float: right; border:20;"/> --> </a>
+<a href="https://www.spds.uni-konstanz.de/"> <img src = "./inst/pix/uniKn_logo.png" alt = "spds.uni.kn" width = "300px" align = "right" style = "width: 300px; float: right; border:20;"/> </a>
 
 -   Taught at the [University of Konstanz](https://www.uni-konstanz.de/) by [Hansjörg Neth](http://neth.de/) (<h.neth@uni.kn>, [SPDS](https://www.spds.uni-konstanz.de/), office D507).
 
@@ -123,4 +126,4 @@ Nr. | Topic       |
 <!-- Update: -->
 \[Updated 2019-02-16 by [hn](https://neth.de).\]
 
-<!-- eof -->
+<!-- eof. -->

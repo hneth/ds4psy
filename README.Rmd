@@ -2,7 +2,7 @@
 output: github_document
 ---
 
-<!-- README.md is generated from README.Rmd. Please edit THIS file. -->
+<!-- README.md is generated from README.Rmd. Please edit THIS (Rmd) file. -->
 
 ```{r setup, include = FALSE}
 knitr::opts_chunk$set(
@@ -11,7 +11,10 @@ knitr::opts_chunk$set(
 )
 ```
 
-# ds4psy
+<!-- ds4psy logo: -->
+<img src = "./pix/logo.png" alt = "ds4psy" width = "100px" align = "right" style = "width: 100px; float: right; border:10;"/>
+
+# ds4psy 
 
 ## Data science for psychologists
 
@@ -22,7 +25,7 @@ A course on the principles and basic methods of data science for students of psy
 <!-- uni.kn logo, but link to SPDS: -->  
 <!-- ![](./inst/pix/uniKn_logo.png) --> 
 <a href="https://www.spds.uni-konstanz.de/">
-<img src = "./inst/pix/uniKn_logo.png" alt = "spds.uni.kn" style = "width: 300px; float: right; border:20;"/>
+<img src = "./inst/pix/uniKn_logo.png" alt = "spds.uni.kn" width = "300px" align = "right" style = "width: 300px; float: right; border:20;"/>
 </a>
 
 * Taught at the [University of Konstanz](https://www.uni-konstanz.de/) by [Hansjörg Neth](http://neth.de/) (<h.neth@uni.kn>,  [SPDS](https://www.spds.uni-konstanz.de/), office D507).
