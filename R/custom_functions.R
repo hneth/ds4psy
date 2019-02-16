@@ -5,33 +5,41 @@
 ## (1) Graphics: ---------- 
 
 ## Defining colors:
-seeblau <- rgb(0, 169, 224, names = "seeblau", maxColorValue = 255) # seeblau.4 (non-transparent)
 
-seeblau.colors <- c(rgb(204, 238, 249, maxColorValue = 255), # seeblau.1
-                    rgb(166, 225, 244, maxColorValue = 255), # seeblau.2 
-                    rgb(89, 199, 235, maxColorValue = 255),  # seeblau.3
-                    rgb(0, 169, 224, maxColorValue = 255),   # seeblau.4 
-                    rgb(0, 0, 0, maxColorValue = 255),       #  5. black
-                    gray(level = 0, alpha = .6),             #  6. gray 60% transparent
-                    gray(level = 0, alpha = .4),             #  7. gray 40% transparent
-                    gray(level = 0, alpha = .2),             #  8. gray 20% transparent
-                    gray(level = 0, alpha = .1),             #  9. gray 10% transparent
-                    rgb(255, 255, 255, maxColorValue = 255)  # 10. white
-)
+## WAS: 
+# seeblau <- rgb(0, 169, 224, names = "seeblau", maxColorValue = 255) # seeblau.4 (non-transparent)
+# 
+# seeblau.colors <- c(rgb(204, 238, 249, maxColorValue = 255), # seeblau.1
+#                     rgb(166, 225, 244, maxColorValue = 255), # seeblau.2 
+#                     rgb(89, 199, 235, maxColorValue = 255),  # seeblau.3
+#                     rgb(0, 169, 224, maxColorValue = 255),   # seeblau.4 
+#                     rgb(0, 0, 0, maxColorValue = 255),       #  5. black
+#                     gray(level = 0, alpha = .6),             #  6. gray 60% transparent
+#                     gray(level = 0, alpha = .4),             #  7. gray 40% transparent
+#                     gray(level = 0, alpha = .2),             #  8. gray 20% transparent
+#                     gray(level = 0, alpha = .1),             #  9. gray 10% transparent
+#                     rgb(255, 255, 255, maxColorValue = 255)  # 10. white
+# )
+# 
+# unikn.pal = data.frame(                             ## in one df (for the yarrr package): 
+#   "seeblau1" = rgb(204, 238, 249, maxColorValue = 255), #  1. seeblau1 (non-transparent)
+#   "seeblau2" = rgb(166, 225, 244, maxColorValue = 255), #  2. seeblau2 (non-transparent)
+#   "seeblau3" = rgb( 89, 199, 235, maxColorValue = 255), #  3. seeblau3 (non-transparent)
+#   "seeblau4" = rgb(  0, 169, 224, maxColorValue = 255), #  4. seeblau4 (= seeblau base color)
+#   "black"    = rgb(  0,   0,   0, maxColorValue = 255), #  5. black
+#   "seegrau4" = rgb(102, 102, 102, maxColorValue = 255), #  6. grey40 (non-transparent)
+#   "seegrau3" = rgb(153, 153, 153, maxColorValue = 255), #  7. grey60 (non-transparent)
+#   "seegrau2" = rgb(204, 204, 204, maxColorValue = 255), #  8. grey80 (non-transparent)
+#   "seegrau1" = rgb(229, 229, 229, maxColorValue = 255), #  9. grey90 (non-transparent)
+#   "white"    = rgb(255, 255, 255, maxColorValue = 255), # 10. white
+#   stringsAsFactors = FALSE)
 
-unikn.pal = data.frame(                             ## in one df (for the yarrr package): 
-  "seeblau1" = rgb(204, 238, 249, maxColorValue = 255), #  1. seeblau1 (non-transparent)
-  "seeblau2" = rgb(166, 225, 244, maxColorValue = 255), #  2. seeblau2 (non-transparent)
-  "seeblau3" = rgb( 89, 199, 235, maxColorValue = 255), #  3. seeblau3 (non-transparent)
-  "seeblau4" = rgb(  0, 169, 224, maxColorValue = 255), #  4. seeblau4 (= seeblau base color)
-  "black"    = rgb(  0,   0,   0, maxColorValue = 255), #  5. black
-  "seegrau4" = rgb(102, 102, 102, maxColorValue = 255), #  6. grey40 (non-transparent)
-  "seegrau3" = rgb(153, 153, 153, maxColorValue = 255), #  7. grey60 (non-transparent)
-  "seegrau2" = rgb(204, 204, 204, maxColorValue = 255), #  8. grey80 (non-transparent)
-  "seegrau1" = rgb(229, 229, 229, maxColorValue = 255), #  9. grey90 (non-transparent)
-  "white"    = rgb(255, 255, 255, maxColorValue = 255), # 10. white
-  stringsAsFactors = FALSE)
+# NEW:
+library(unikn)  # from dedicated package
 
+unikn.pal <- unikn::pal_unikn
+seeblau <- unikn::pal_unikn[["seeblau3"]]  # 
+# seeblau # seeblau3: "#59C7EB"
 
 ## (2) Generating random datasets: ---------- 
   

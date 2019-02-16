@@ -1,7 +1,7 @@
 ---
 title: "ds4psy Artwork" 
 author: "Hansjörg Neth, SPDS, uni.kn"
-date: "2019 02 14"
+date: "2019 02 16"
 output:
   rmdformats::html_clean:
     lightbox: TRUE 
@@ -234,7 +234,9 @@ Course labels:
 
 ### Color palettes 
 
-```{r colors}
+```{r colors, eval = FALSE}
+library(unikn)  # NEW: dedicated package, loaded in R/custom_functions.R
+
 ## Re-sort color palette: 
 # unikn.pal  # from "ds4psy/R/custom_functions.R""
 
@@ -544,7 +546,7 @@ Table `tb` with sorted and random series from 1 to `N` values (and corresponding
 n_rand <- sample(1:15, size = 1, replace = TRUE)  # random integer (1:15)
 
 n_x <- n_rand  # random number
-n_x <- 2     # a specific number
+n_x <- 8     # a specific number
 n_y <- n_x
 N <- (n_x * n_y)
 
@@ -553,7 +555,8 @@ v_sort <- 1:N         # Tile: top_left = seeblau, bottom_right = black   | Polar
 # v_sort <- rev(1:N)  # Tile: top_left = black,   bottom_right = seeblau | Polar: outer = black, center = seeblau.
 
 # Colors for current n_x:
-unikn_sort <- col_n_sq(n_x)
+# unikn_sort <- col_n_sq(n_x)
+unikn_sort <- unikn::pal_n_sq(n = n_x, pal = pal_unikn)
 unikn_sort 
 
 col_sort <- rep("white", N)  # default
