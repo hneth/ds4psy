@@ -1,3 +1,15 @@
+---
+output: github_document
+---
+
+<!-- README.md is generated from README.Rmd. Please edit THIS file. -->
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
 
 # ds4psy
 
@@ -6,6 +18,12 @@
 A course on the principles and basic methods of data science for students of psychology and social sciences.
 
 ## Course Coordinates
+
+<!-- uni.kn logo, but link to SPDS: -->  
+<!-- ![](./inst/pix/uniKn_logo.png) --> 
+<a href="https://www.spds.uni-konstanz.de/">
+<img src = "./inst/pix/uniKn_logo.png" alt = "spds.uni.kn" style = "width: 300px; float: right; border:20;"/>
+</a>
 
 * Taught at the [University of Konstanz](https://www.uni-konstanz.de/) by [Hansjörg Neth](http://neth.de/) (<h.neth@uni.kn>,  [SPDS](https://www.spds.uni-konstanz.de/), office D507).
 
@@ -24,16 +42,13 @@ Students of psychology and other social sciences are trained to analyze data. Bu
 
 This course develops the foundations of data analysis that allow students to collect data from real-world sources and transform and shape such data to answer scientific and practical questions. Although there are many good introductions to data science (we use [Grolemund & Wickham, 2017](http://r4ds.had.co.nz/)) they typically do not take into account the special needs (and often anxieties and reservations) of psychology students. As social scientists are not computer scientists, we introduce new concepts and commands without assuming a mathematical or computational background. Adopting a task-oriented perspective, we begin with a specific problem and then solve it with some combination of data collection, manipulation, modeling, and visualization.
 
-
 ### Goals
 
 Our main goal is to develop a set of useful skills in analyzing real-world data and conducting reproducible research. Upon completing this course, you will be able to read, transform, analyze, and visualize data of various types. Many interactive exercises will allow students to continuously check their understanding, practice their skills, and monitor their progress.
 
-
 ### Requirements
 
 This course assumes some basic familiarity with statistics and the [R](http://www.r-project.org/) programming language, but enthusiastic programming novices are also welcome. 
-
 
 ### Assessment
 
@@ -81,7 +96,25 @@ Nr. | Topic       |
 5.  | [Tibbles](http://rpository.com/ds4psy/essentials/tibbles.html) |
 6.  | [Importing data](http://rpository.com/ds4psy/essentials/import.html) |
 7.  | [Tidying data](http://rpository.com/ds4psy/essentials/tidy.html) |
+8.  | [Joining data](http://rpository.com/ds4psy/essentials/join.html) |
+9.  | [Functions](http://rpository.com/ds4psy/essentials/function.html) |
 +.  | [Datasets](http://rpository.com/ds4psy/essentials/datasets.html) | 
+
+<!--
+Nr. | Topic       |
+---:|:------------| 
+0.  | [Syllabus](http://rpository.com/ds4psy/) | 
+1.  | [Basic R concepts and commands](http://rpository.com/ds4psy/essentials/basics.html) | 
+2.  | [Visualizing data](http://rpository.com/ds4psy/essentials/visualize.html) | 
+3.  | [Transforming data](http://rpository.com/ds4psy/essentials/transform.html) |
+4.  | [Exploring data (EDA)](http://rpository.com/ds4psy/essentials/explore.html) | 
+5.  | [Tibbles](http://rpository.com/ds4psy/essentials/tibbles.html) |
+6.  | [Importing data](http://rpository.com/ds4psy/essentials/import.html) |
+7.  | [Tidying data](http://rpository.com/ds4psy/essentials/tidy.html) |
+8.  | [Joining data](http://rpository.com/ds4psy/essentials/join.html) |
+9.  | [Functions](http://rpository.com/ds4psy/essentials/function.html) |
++.  | [Datasets](http://rpository.com/ds4psy/essentials/datasets.html) | 
+-->
 
 
 #### Online 
@@ -94,6 +127,7 @@ Nr. | Topic       |
 
 - See also collection of links on <http://rpository.com/findr/>
 
+
 #### Other scripts and books
 
 - [R manuals](https://cran.r-project.org/manuals.html) and related [books](https://www.r-project.org/doc/bib/R-books.html)
@@ -101,4 +135,11 @@ Nr. | Topic       |
 - Free books on R and data science on <https://bookdown.org/>
 
 - Zumel, N., & Mount, J. (2014). _Practical data science with R_. Greenwich, CT: Manning Publications.
+
+
+<!-- Update: -->
+
+[Updated `r format(Sys.time(), "%Y-%m-%d")` by [hn](https://neth.de).]  
+
+<!-- eof. -->
 
