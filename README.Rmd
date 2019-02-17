@@ -12,7 +12,7 @@ knitr::opts_chunk$set(
 ```
 
 <!-- ds4psy logo: -->
-<img src = "./pix/logo.png" alt = "ds4psy" width = "100px" align = "right" style = "width: 100px; float: right; border:10;"/>
+<img src = "./pix/logo.png" alt = "ds4psy" width = "110px" align = "right" style = "width: 110px; float: right; border:11;"/>
 
 # ds4psy 
 

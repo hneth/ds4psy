@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit THIS (Rmd) file. -->
 <!-- ds4psy logo: -->
-<img src = "./pix/logo.png" alt = "ds4psy" width = "100px" align = "right" style = "width: 100px; float: right; border:10;"/>
+<img src = "./pix/logo.png" alt = "ds4psy" width = "110px" align = "right" style = "width: 110px; float: right; border:11;"/>
 
 ds4psy
 ======
@@ -124,6 +124,6 @@ Nr. | Topic       |
 -   Zumel, N., & Mount, J. (2014). *Practical data science with R*. Greenwich, CT: Manning Publications.
 
 <!-- Update: -->
-\[Updated 2019-02-16 by [hn](https://neth.de).\]
+\[Updated 2019-02-17 by [hn](https://neth.de).\]
 
 <!-- eof. -->
