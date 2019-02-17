@@ -1,7 +1,7 @@
 ---
 title: "ds4psy Artwork" 
 author: "Hansjörg Neth, SPDS, uni.kn"
-date: "2019 02 16"
+date: "2019 02 17"
 output:
   rmdformats::html_clean:
     lightbox: TRUE 
@@ -55,23 +55,26 @@ plot_out <- pic_path
 opar <- par(no.readonly = TRUE)  # all par settings that can be changed.
 ```
 
-# Course Coordinates
-
-<!-- ds4psy logo: -->
+<!-- ds4psy logo and link: -->
 <a href="http://rpository.com/ds4psy/">
-<img src = "./pix/big/big_tile_rand_12_brd_lbl.png" alt = "ds4psy" style = "width: 400px; float: right; border:0;"/>
+<img src = "./pix/logo/logo_4grau3_white.png" alt = "ds4psy" style = "width: 100px; float: right; border:0;"/>
 </a>
 
-<!-- uni.kn logo and link to SPDS: -->  
+# Course Coordinates
+
+<!-- uni.kn logo, but link to SPDS: -->  
 <!-- ![](./inst/pix/uniKn_logo.png) --> 
 <a href="https://www.spds.uni-konstanz.de/">
-<img src = "./inst/pix/uniKn_logo.png" alt = "spds.uni.kn" style = "width: 300px; float: right; border:10;"/>
+<img src = "./inst/pix/uniKn_logo.png" alt = "spds.uni.kn" style = "width: 300px; float: right; border:20;"/>
 <!-- <img src = "./inst/pix/uniKn_logo_s.png" alt = "spds.uni.kn" style = "float: right; border:20;"/> --> 
 </a>
 
-* Taught at the [University of Konstanz](https://www.uni-konstanz.de/) by [Hansjörg Neth](http://neth.de/) (<h.neth@uni.kn>,  [SPDS](https://www.spds.uni-konstanz.de/), office D507).
+* Taught at the [University of Konstanz](https://www.uni-konstanz.de/) by [Hansjörg Neth](http://neth.de/) (<h.neth@uni.kn>,  [SPDS](https://www.spds.uni-konstanz.de/), office D507). 
+
 * Winter 2018/2019: Mondays, 13:30--15:00, C511. 
+
 * Links to current [course syllabus](http://rpository.com/ds4psy/) | [ZeUS](https://zeus.uni-konstanz.de/hioserver/pages/startFlow.xhtml?_flowId=detailView-flow&unitId=5101&periodId=78&navigationPosition=hisinoneLehrorganisation,examEventOverviewOwn) |  [Ilias](https://ilias.uni-konstanz.de/ilias/goto_ilias_uni_crs_809936.html) 
+
 
 # Artwork
 
@@ -79,13 +82,17 @@ Overview over generated plots:
 
 ## Logo
 
-Different ds4psy logo options:
+Different ds4psy logo options (created in pkg `rtwrk`):
 
-<img src = "./pix/logo/logo_bold_4whi.png" alt = "ds4psy" style = "width: 120px; border:0;"/>
+<img src = "./pix/logo/logo_4grau3_white.png"  alt = "ds4psy" style = "border:0;"/>
 
-<img src = "./pix/logo/logo_bold_4orb.png" alt = "ds4psy" style = "width: 120px; border:0;"/>
+<img src = "./pix/logo/logo_4grau3_Swhite.png" alt = "ds4psy" style = "border:0;"/>
 
-<img src = "./pix/logo/logo_bold_4gold.png" alt = "ds4psy" style = "width: 120px; border:0;"/>
+<img src = "./pix/logo/logo_4grau3_Sblack.png" alt = "ds4psy" style = "border:0;"/>
+
+<img src = "./pix/logo/logo_4black_Swhite.png" alt = "ds4psy" style = "border:0;"/>
+
+<img src = "./pix/logo/logo_4black_Sblack.png" alt = "ds4psy" style = "border:0;"/>
 
 
 ## Tiles
@@ -208,6 +215,8 @@ Sorted versions:
 <img src = "./pix/pole/pole_sort_10_brd_lbl.png"  alt = "ds4psy" style = "height: 160px; border:0;"/>
 <img src = "./pix/pole/pole_sort_12_brd_lbl.png"  alt = "ds4psy" style = "height: 160px; border:0;"/>
 <img src = "./pix/pole/pole_sort_15_brd_lbl.png"  alt = "ds4psy" style = "height: 160px; border:0;"/>
+
+
 
 ## Text
 
@@ -546,7 +555,7 @@ Table `tb` with sorted and random series from 1 to `N` values (and corresponding
 n_rand <- sample(1:15, size = 1, replace = TRUE)  # random integer (1:15)
 
 n_x <- n_rand  # random number
-n_x <- 8     # a specific number
+n_x <- 10     # a specific number
 n_y <- n_x
 N <- (n_x * n_y)
 
@@ -554,25 +563,29 @@ N <- (n_x * n_y)
 v_sort <- 1:N         # Tile: top_left = seeblau, bottom_right = black   | Polar: outer = seeblau, center = black.
 # v_sort <- rev(1:N)  # Tile: top_left = black,   bottom_right = seeblau | Polar: outer = black, center = seeblau.
 
-# Colors for current n_x:
+# Colors for current n_x (to generate n^2 colors in total): 
+
+# WAS: 
 # unikn_sort <- col_n_sq(n_x)
+
+# NOW using new pkg: 
+library(unikn) 
 unikn_sort <- unikn::pal_n_sq(n = n_x, pal = pal_unikn)
 unikn_sort 
 
+# Label colors:
 col_sort <- rep("white", N)  # default
-
 lim_black <- .245  # threshold to switch from "white" to "black" labels
 col_sort[(v_sort > (lim_black * N)) & (v_sort < ((1 - lim_black) * N))] <- "black"
 # table(col_sort)
 
-
+# Random order: 
 set.seed(815)  # for reproducible randomness
 
 # v_rand <- runif(n = N, 0, 1)
 rand_ord <- sample(v_sort, N)  # random permutation of v_sort
 v_rand <- rand_ord  # random permutation of v_sort
 col_rand <- col_sort[rand_ord]
-
 
 # Table: 
 tb <- tibble(x = rep(1:n_y, times = n_x),
@@ -775,8 +788,8 @@ ggsave(plot_name, width = plot_size, height = plot_size, units = c("cm"), dpi = 
 
 In sorted tile plots: 
 
-- Change order of sorted tiles (so that black is at bottom right corner). 
-- Consider highlighting one row in a different color (e.g., gold to orange). 
+- Change order of sorted tiles (so that black is at bottom right corner).  [done]
+- Consider highlighting one row in a different color (e.g., gold to orange). [done]
 - Consider adding 1 differently colored tile (e.g., draw bottom right corner in gold or red color).
 
 
@@ -912,6 +925,234 @@ pole_sort_lbl
 plot_name <- paste0("pix/pole/pole_sort_", n_x, "_brd_lbl.png")
 ggsave(plot_name, width = plot_size, height = plot_size, units = c("cm"), dpi = 300)
 ```
+
+### Simpler tiles
+
+Simpler, more limited tile plots (containing only 1 row or 1 column):
+
+```{r tbs_simple_tiles, eval = FALSE}
+## Data: ---- 
+
+n_x <- 10  # OR use values from above
+
+# Smaller version of tb: ONLY n_x elements
+
+# Vectors: 
+v_sort <- 1:n_x
+
+# Colors for current n_x (HERE: only n colors needed): 
+unikn_sort <- unikn::pal_n(n = n_x, pal = pal_unikn)
+unikn_sort 
+
+# Label colors:
+col_sort <- rep("white", n_x)  # default
+lim_black <- .245  # threshold to switch from "white" to "black" labels
+col_sort[(v_sort > (lim_black * n_x)) & (v_sort < ((1 - lim_black) * n_x))] <- "black"
+# table(col_sort)
+
+# Random order: 
+set.seed(815)  # for reproducible randomness
+
+# v_rand <- runif(n = N, 0, 1)
+rand_ord <- sample(v_sort, n_x)  # random permutation of v_sort
+v_rand <- rand_ord  # random permutation of v_sort
+col_rand <- col_sort[rand_ord]
+
+# Table: 
+tbs <- tibble(x = 1:n_x,
+             y = rep(1, n_x),
+             sort = v_sort,
+             rand = v_rand,
+             col_sort = col_sort,
+             col_rand = col_rand
+)
+tbs
+
+## Plots: ----
+
+## Note: switch sort vs. rand to get sorted or random versions.
+
+# (A1) Line plot, sorted (as row):
+row_sort <- ggplot(tbs) +
+  geom_tile(aes(x = x, y = y, fill = sort), col = brd_col, size = brd_size) +
+  # geom_text(aes(x = x, y = y, label = sort), col = col_sort, size = lbl_size) +  # with tile labels
+  # coord_polar() +
+  coord_fixed() + 
+  # labs(title = "ds4psy") + 
+  labs(x = "4", y = expression(psi)) +
+  ## Color schemes: 
+  # scale_fill_continuous(low = seeblau, high = grey(1, 1)) +   # s1: light: seeblau > white
+  scale_fill_gradientn(colors = unikn_sort) +                   # s2: full unikn_sort palette: seeblau > white > black [default]
+  # scale_fill_gradientn(colors = c(unikn_sort, "gold")) +      # s3: highlight final row
+  ds_theme
+row_sort
+
+# Save current plot: 
+plot_name <- paste0("pix/tiles/row_sort_", n_x, "_brd.png")
+ggsave(plot_name, width = plot_size, height = plot_size, units = c("cm"), dpi = 300)
+
+
+# (A2) Line plot, random (as row):
+row_rand <- ggplot(tbs) +
+  geom_tile(aes(x = x, y = y, fill = rand), col = brd_col, size = brd_size) +
+  # geom_text(aes(x = x, y = y, label = rand), col = col_sort, size = lbl_size) +  # with tile labels
+  # coord_polar() +
+  coord_fixed() + 
+  # labs(title = "ds4psy") + 
+  labs(x = "4", y = expression(psi)) +
+  ## Color schemes: 
+  # scale_fill_continuous(low = seeblau, high = grey(1, 1)) +   # s1: light: seeblau > white
+  scale_fill_gradientn(colors = unikn_sort) +                   # s2: full unikn_sort palette: seeblau > white > black [default]
+  # scale_fill_gradientn(colors = c(unikn_sort, "gold")) +      # s3: highlight final row
+  ds_theme
+row_rand
+
+# Save current plot: 
+plot_name <- paste0("pix/tiles/row_rand_", n_x, "_brd.png")
+ggsave(plot_name, width = plot_size, height = plot_size, units = c("cm"), dpi = 300)
+
+# (B1) Polar plot, sorted (as pie):
+pie_sort <- ggplot(tbs) +
+  geom_tile(aes(x = x, y = y, fill = sort), col = brd_col, size = brd_size) +
+  # geom_text(aes(x = x, y = y, label = sort), col = col_sort, size = lbl_size) +  # with tile labels
+  coord_polar() +
+  # coord_fixed() + 
+  # labs(title = "ds4psy") + 
+  labs(x = "4", y = expression(psi)) +
+  ## Color schemes: 
+  # scale_fill_continuous(low = seeblau, high = grey(1, 1)) +   # s1: light: seeblau > white
+  scale_fill_gradientn(colors = unikn_sort) +                   # s2: full unikn_sort palette: seeblau > white > black [default]
+  # scale_fill_gradientn(colors = c(unikn_sort, "gold")) +      # s3: highlight final row
+  ds_theme
+pie_sort
+
+# Save current plot: 
+plot_name <- paste0("pix/tiles/pie_sort_", n_x, "_brd.png")
+ggsave(plot_name, width = plot_size, height = plot_size, units = c("cm"), dpi = 300)
+
+# (B2) Polar plot, random (as pie):
+pie_rand <- ggplot(tbs) +
+  geom_tile(aes(x = x, y = y, fill = rand), col = brd_col, size = brd_size) +
+  # geom_text(aes(x = x, y = y, label = sort), col = col_sort, size = lbl_size) +  # with tile labels
+  coord_polar() +
+  # coord_fixed() + 
+  # labs(title = "ds4psy") + 
+  labs(x = "4", y = expression(psi)) +
+  ## Color schemes: 
+  # scale_fill_continuous(low = seeblau, high = grey(1, 1)) +   # s1: light: seeblau > white
+  scale_fill_gradientn(colors = unikn_sort) +                   # s2: full unikn_sort palette: seeblau > white > black [default]
+  # scale_fill_gradientn(colors = c(unikn_sort, "gold")) +      # s3: highlight final row
+  ds_theme
+pie_rand
+
+# Save current plot: 
+plot_name <- paste0("pix/tiles/pie_rand_", n_x, "_brd.png")
+ggsave(plot_name, width = plot_size, height = plot_size, units = c("cm"), dpi = 300)
+
+# (C1) Line plot, sorted (as col):
+col_sort <- ggplot(tbs) +
+  geom_tile(aes(x = y, y = -x, fill = sort), col = brd_col, size = brd_size) +
+  # geom_text(aes(x = x, y = y, label = sort), col = col_sort, size = lbl_size) +  # with tile labels
+  # coord_polar() +
+  coord_fixed() + 
+  # labs(title = "ds4psy") + 
+  labs(x = "4", y = expression(psi)) +
+  ## Color schemes: 
+  # scale_fill_continuous(low = seeblau, high = grey(1, 1)) +   # s1: light: seeblau > white
+  scale_fill_gradientn(colors = unikn_sort) +                   # s2: full unikn_sort palette: seeblau > white > black [default]
+  # scale_fill_gradientn(colors = c(unikn_sort, "gold")) +      # s3: highlight final row
+  ds_theme
+col_sort
+
+# Save current plot: 
+plot_name <- paste0("pix/tiles/col_sort_", n_x, "_brd.png")
+ggsave(plot_name, width = plot_size, height = plot_size, units = c("cm"), dpi = 300)
+
+# (C2) Line plot, rand (as col):
+col_sort <- ggplot(tbs) +
+  geom_tile(aes(x = y, y = -x, fill = rand), col = brd_col, size = brd_size) +
+  # geom_text(aes(x = x, y = y, label = rand), col = col_sort, size = lbl_size) +  # with tile labels
+  # coord_polar() +
+  coord_fixed() + 
+  # labs(title = "ds4psy") + 
+  labs(x = "4", y = expression(psi)) +
+  ## Color schemes: 
+  # scale_fill_continuous(low = seeblau, high = grey(1, 1)) +   # s1: light: seeblau > white
+  scale_fill_gradientn(colors = unikn_sort) +                   # s2: full unikn_sort palette: seeblau > white > black [default]
+  # scale_fill_gradientn(colors = c(unikn_sort, "gold")) +      # s3: highlight final row
+  ds_theme
+col_sort
+
+# Save current plot: 
+plot_name <- paste0("pix/tiles/col_rand_", n_x, "_brd.png")
+ggsave(plot_name, width = plot_size, height = plot_size, units = c("cm"), dpi = 300)
+
+
+# (D1) Polar plot, sorted (as target circles, no border lines):
+tar_sort <- ggplot(tbs) +
+  geom_tile(aes(x = y, y = -x, fill = sort)) + # , col = brd_col, size = brd_size) +
+  # geom_text(aes(x = x, y = y, label = sort), col = col_sort, size = lbl_size) +  # with tile labels
+  coord_polar() +
+  # coord_fixed() + 
+  # labs(title = "ds4psy") + 
+  labs(x = "4", y = expression(psi)) +
+  ## Color schemes: 
+  # scale_fill_continuous(low = seeblau, high = grey(1, 1)) +   # s1: light: seeblau > white
+  scale_fill_gradientn(colors = unikn_sort) +                   # s2: full unikn_sort palette: seeblau > white > black [default]
+  # scale_fill_gradientn(colors = c(unikn_sort, "gold")) +      # s3: highlight final row
+  ds_theme
+tar_sort
+
+# Save current plot: 
+plot_name <- paste0("pix/tiles/tar_sort_", n_x, "_brd.png")
+ggsave(plot_name, width = plot_size, height = plot_size, units = c("cm"), dpi = 300)
+
+# (D2) Polar plot, random (as target circles, no border lines):
+tar_rand <- ggplot(tbs) +
+  geom_tile(aes(x = y, y = -x, fill = rand)) + # , col = brd_col, size = brd_size) +
+  # geom_text(aes(x = x, y = y, label = rand), col = col_sort, size = lbl_size) +  # with tile labels
+  coord_polar() +
+  # coord_fixed() + 
+  # labs(title = "ds4psy") + 
+  labs(x = "4", y = expression(psi)) +
+  ## Color schemes: 
+  # scale_fill_continuous(low = seeblau, high = grey(1, 1)) +   # s1: light: seeblau > white
+  scale_fill_gradientn(colors = unikn_sort) +                   # s2: full unikn_sort palette: seeblau > white > black [default]
+  # scale_fill_gradientn(colors = c(unikn_sort, "gold")) +      # s3: highlight final row
+  ds_theme
+tar_rand
+
+# Save current plot: 
+plot_name <- paste0("pix/tiles/tar_rand_", n_x, "_brd.png")
+ggsave(plot_name, width = plot_size, height = plot_size, units = c("cm"), dpi = 300)
+```
+
+#### Examples
+
+Sorted versions:
+
+<img src = "./pix/tiles/row_sort_4_brd.png" alt = "ds4psy" style = "height: 120px; border:0;"/>
+<img src = "./pix/tiles/col_sort_4_brd.png" alt = "ds4psy" style = "height: 120px; border:0;"/>
+<img src = "./pix/tiles/pie_sort_4_brd.png" alt = "ds4psy" style = "height: 120px; border:0;"/>
+<img src = "./pix/tiles/tar_sort_4_brd.png" alt = "ds4psy" style = "height: 120px; border:0;"/>
+
+
+<img src = "./pix/tiles/row_sort_8_brd.png" alt = "ds4psy" style = "height: 120px; border:0;"/>
+<img src = "./pix/tiles/col_sort_8_brd.png" alt = "ds4psy" style = "height: 120px; border:0;"/>
+<img src = "./pix/tiles/pie_sort_8_brd.png" alt = "ds4psy" style = "height: 120px; border:0;"/>
+<img src = "./pix/tiles/tar_sort_8_brd.png" alt = "ds4psy" style = "height: 120px; border:0;"/>
+
+Random versions:
+
+<img src = "./pix/tiles/row_rand_4_brd.png" alt = "ds4psy" style = "height: 120px; border:0;"/>
+<img src = "./pix/tiles/col_rand_4_brd.png" alt = "ds4psy" style = "height: 120px; border:0;"/>
+<img src = "./pix/tiles/pie_rand_4_brd.png" alt = "ds4psy" style = "height: 120px; border:0;"/>
+<img src = "./pix/tiles/tar_rand_4_brd.png" alt = "ds4psy" style = "height: 120px; border:0;"/>
+
+<img src = "./pix/tiles/row_rand_8_brd.png" alt = "ds4psy" style = "height: 120px; border:0;"/>
+<img src = "./pix/tiles/col_rand_8_brd.png" alt = "ds4psy" style = "height: 120px; border:0;"/>
+<img src = "./pix/tiles/pie_rand_8_brd.png" alt = "ds4psy" style = "height: 120px; border:0;"/>
+<img src = "./pix/tiles/tar_rand_8_brd.png" alt = "ds4psy" style = "height: 120px; border:0;"/>
 
 
 ### Pi tiles
