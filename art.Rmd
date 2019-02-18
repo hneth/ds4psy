@@ -1,7 +1,7 @@
 ---
 title: "ds4psy Artwork" 
 author: "Hansjörg Neth, SPDS, uni.kn"
-date: "2019 02 17"
+date: "2019 02 18"
 output:
   rmdformats::html_clean:
     lightbox: TRUE 
@@ -372,7 +372,7 @@ theme_ds4psy <- ds_theme
 
 ### Logo
 
-Corresponding logo:
+Corresponding logo (see code in project `rtwrk`):
 
 ```{r logo_sketch, eval = TRUE, fig.width = 2, fig.height = 2}
 # Define some positions: ------
@@ -445,7 +445,7 @@ if (plot_plot) {
   
   ## Save plot: ------ 
   
-  plot_name <- "logo"
+  plot_name <- "logo_cur"
   full_name <- paste0(plot_out, plot_name, ".png")
   
   ggsave(full_name, width = 2, height = 2, units = c("cm"), dpi = 300)
