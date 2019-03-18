@@ -280,6 +280,16 @@ This section contains some clarifications (on the term "data science") and recom
 
 <!-- Quotes --> 
 
+> It is a capital mistake to theorize before one has data.  
+> Arthur Conan Doyle (1891): _A Scandal in Bohemia_
+
+<!-- Quotes: 
+It is a capital mistake to theorize before one has data. 
+Insensibly one begins to twist facts to suit theories, instead of theories to suit facts.
+
+Arthur Conan Doyle (1891): A Scandal in Bohemia --> 
+
+
 <!--
 > The process of preparing programs for a digital computer is especially attractive,  
 > not only because it can be economically and scientifically rewarding, but also  
