@@ -1,4 +1,4 @@
-# .gitignore | 2019 02 15
+# .gitignore | 2019 03 15
 
 # History files
 .Rhistory
@@ -44,10 +44,12 @@ vignettes/*.pdf
 _gitless 
 _book 
 _readings
+_2018_summer/ 
 rsconnect/
 data/_BBriskStudy/
 data/_falsePosPsy/
 data/_Pegel_Bodensee/
 data/_posPsy/
+*.html
 
 # eof. 
