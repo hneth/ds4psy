@@ -1,5 +1,5 @@
 ## custom_functions.R | ds4psy
-## hn | uni.kn | 2019 02 08
+## hn | uni.kn | 2019 04 04
 ## ---------------------------
 
 ## (1) Graphics: ---------- 
@@ -43,7 +43,7 @@ seeblau <- unikn::pal_unikn[["seeblau3"]]  #
 
 ## (2) Generating random datasets: ---------- 
   
-## Random binary values: ------ 
+## Random binary values: Flip a 0/1 coin n times  ------ 
 
 random_bin_value <- function(x = c(0, 1), n = 1, replace = TRUE) {
   
@@ -58,7 +58,54 @@ random_bin_value <- function(x = c(0, 1), n = 1, replace = TRUE) {
 ## Check: 
 # random_bin_value(n = 10)
 # random_bin_value(x = c("m", "f"), n = 100)
- 
+
+
+## Permutations: List all permutations of a set ----------
+
+# library(combinat)
+
+# set <- c("a", "b", "c")
+# pm <- combinat::permn(x = set)
+# pm
+
+
+## Combinations: List all combinations of length n of a set ---------- 
+
+# # (a) Using utils::combn: 
+# m <- utils::combn(x = 1:4, m = 2)
+# m
+# is.matrix(m)
+# t(m)
+# is.vector(m)  # if m == length(x)
+
+all_combinations <- function(set, length){
+  
+  out <- NA  # initialize
+  
+  # Use utils::combn to obtain matrix:
+  m <- utils::combn(x = set, m = length)
+  
+  if (is.vector(m)){
+    
+    out <- m  # return as is
+    
+  } else if (is.matrix(m)){
+    
+    out <- t(m)  # transpose m into matrix of rows 
+    
+  }
+  
+  return(out)
+  
+}
+
+## Check:
+# all_combinations(set = 1:3, length = 4)  # ERROR: n < m
+# all_combinations(set = c("a", "b", "c"), 2)
+# all_combinations(set = 1:5, length = 2)
+# all_combinations(set = 1:25, 2)  # Note: 25 * 24 / 2 combinations.
+
+
 ## n random sequence of len symbols from some set: ----- 
 
 random_symbols <- function(n = 1, set = letters, len = 1, sep = "") {
