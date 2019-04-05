@@ -1,7 +1,7 @@
 ---
 title: "Data Science for Psychologists (ds4psy)"
 author: "Hansjörg Neth, SPDS, uni.kn"
-date: "2019 02 10"
+date: "2019 04 01"
 output:
   rmdformats::html_clean:
     highlight: kate
@@ -34,9 +34,9 @@ opts_knit$set(width=75)
 <!-- <img src = "./inst/pix/uniKn_logo_s.png" alt = "spds.uni.kn" style = "float: right; border:20;"/> --> 
 </a>
 
-* Taught at the [University of Konstanz](https://www.uni-konstanz.de/) by [Hansjörg Neth](http://neth.de/) (<h.neth@uni.kn>,  [SPDS](https://www.spds.uni-konstanz.de/), office D507).
-* Winter 2018/2019: Mondays, 13:30--15:00, C511. 
-* Links to current [course syllabus](http://rpository.com/ds4psy/) | [ZeUS](https://zeus.uni-konstanz.de/hioserver/pages/startFlow.xhtml?_flowId=detailView-flow&unitId=5101&periodId=78&navigationPosition=hisinoneLehrorganisation,examEventOverviewOwn) |  [Ilias](https://ilias.uni-konstanz.de/ilias/goto_ilias_uni_crs_809936.html) 
+* PSY-15150, at the [University of Konstanz](https://www.uni-konstanz.de/) by [Hansjörg Neth](http://neth.de/) (<h.neth@uni.kn>,  [SPDS](https://www.spds.uni-konstanz.de/), office D507).
+* Summer 2019: Mondays, 15:15--16:45, D435.  
+* Links to current [course syllabus](http://rpository.com/ds4psy/) | [ZeUS](https://zeus.uni-konstanz.de:443/hioserver/pages/startFlow.xhtml?_flowId=detailView-flow&unitId=5101&periodId=179&navigationPosition=hisinoneLehrorganisation,examEventOverviewOwn) |  [Ilias](https://ilias.uni-konstanz.de/ilias/goto_ilias_uni_crs_863036.html) 
 
 # Course Description
 
@@ -157,49 +157,47 @@ Part 2: Wrangle
 
  **Part 1: Preambulations**
 
- 1. 22.10.2018: Introduction: [r4ds Chapters 1 & 2](http://r4ds.had.co.nz) 
- 2. 29.10.2018: [Basic R concepts and commands: Scalars](http://rpository.com/ds4psy/essentials/basics.html) and [r4ds Chapters 4/6/8](http://r4ds.had.co.nz) 
+ 1. 15.04.2019: Introduction and [r4ds Chapters 1 & 2](http://r4ds.had.co.nz) 
  
+ 2. 29.04.2019: [Basic R concepts and commands: Scalars](http://rpository.com/ds4psy/essentials/basics.html) and [r4ds Chapters 4/6/8](http://r4ds.had.co.nz) 
  
  **Part 1: Explore data**
  
- 3. 05.11.2018: [Basic R concepts and commands: Vectors and rectangular data](http://rpository.com/ds4psy/R/_essentials/basics.html)   
+ 3. 06.05.2019: [Basic R concepts and commands: Vectors and rectangular data](http://rpository.com/ds4psy/R/_essentials/basics.html)   
  ([Essentials with WPA01 and solutions](http://rpository.com/ds4psy/essentials/basics.html)). 
 
- 4. 12.11.2018: [Chapter 3: Data visualisation](http://r4ds.had.co.nz/data-visualisation.html): `ggplot2`;  
+ 4. 13.05.2019: [Chapter 3: Data visualisation](http://r4ds.had.co.nz/data-visualisation.html): `ggplot2`;  
  ([Essentials with WPA02 and solutions](http://rpository.com/ds4psy/essentials/visualize.html)).  
 
- 5. 19.11.2018: [Chapter 5: Data transformation](http://r4ds.had.co.nz/transform.html): `dplyr`;    
+ 5. 20.05.2019: [Chapter 5: Data transformation](http://r4ds.had.co.nz/transform.html): `dplyr`;    
   ([Essentials with WPA03 and solutions](http://rpository.com/ds4psy/essentials/transform.html)).  
 
- 6. 26.11.2018: [Chapter 7: Exploratory data analysis (EDA)](http://r4ds.had.co.nz/exploratory-data-analysis.html): `dplyr` & `ggplot2`;    
+ 6. 27.05.2019: [Chapter 7: Exploratory data analysis (EDA)](http://r4ds.had.co.nz/exploratory-data-analysis.html): `dplyr` & `ggplot2`;    
   ([Essentials of EDA](http://rpository.com/ds4psy/essentials/explore.html)).  
  
- 7. 03.12.2019:  **Buffer session: EDA**: Rinse and repeat: `dplyr` & `ggplot2`;  
-  ([Essentials with WPA04 and solutions](http://rpository.com/ds4psy/essentials/explore.html)).  
+ 7. 03.06.2019: +++ here now +++
+ 
+ **Buffer session: EDA**: Rinse and repeat: `dplyr` & `ggplot2`;  
+  ([Essentials of with WPA04 and solutions](http://rpository.com/ds4psy/essentials/explore.html)).  
  
 
  **Part 2: Wrangle data**
 
- 8. 10.12.2018: [Chapter 10: Tibbles](http://r4ds.had.co.nz/tibbles.html): `tibble`;   
+ 8. 17.06.2019: [Chapter 10: Tibbles](http://r4ds.had.co.nz/tibbles.html): `tibble`;   
  ([Essentials with WPA05 and solutions](http://rpository.com/ds4psy/essentials/tibbles.html)).  
  
- 9. 17.12.2018: [Chapter 11: Data import](http://r4ds.had.co.nz/data-import.html): `readr`.   
+ 9. 24.06.2019: [Chapter 11: Data import](http://r4ds.had.co.nz/data-import.html): `readr`.   
  ([Essentials of importing data](http://rpository.com/ds4psy/essentials/import.html)).  
  
- 10. 07.01.2019: [Chapter 11: Data import](http://r4ds.had.co.nz/data-import.html): `readr`.   
- ([Essentials of importing data](http://rpository.com/ds4psy/essentials/import.html)).  
- 
- 11. 14.01.2018: [Chapter 12: Tidy data](http://r4ds.had.co.nz/tidy-data.html): `tidyr`.   
+ 10. 01.07.2019: [Chapter 12: Tidy data](http://r4ds.had.co.nz/tidy-data.html): `tidyr`.   
   ([Essentials of tidying data](http://rpository.com/ds4psy/essentials/tidy.html)).  
  
- 12. 21.01.2019: [Chapter 13: Relational data](http://r4ds.had.co.nz/relational-data.html): `dplyr`.   
+ 11. 08.07.2019: [Chapter 13: Relational data](http://r4ds.had.co.nz/relational-data.html): `dplyr`.   
    ([Essentials of joining data](http://rpository.com/ds4psy/essentials/join.html)).   
-
 
  **Part 3: Program**
  
- 13. 28.01.2019: [Chapter 19: Functions](http://r4ds.had.co.nz/functions.html).   
+ 12. 15.07.2019: [Chapter 19: Functions](http://r4ds.had.co.nz/functions.html).   
     (**[Essentials of functions, with WPA09](http://rpository.com/ds4psy/essentials/function.html)**). 
  
  <!-- 
@@ -207,9 +205,10 @@ Part 2: Wrangle
                       [Chapter 21: Iteration](http://r4ds.had.co.nz/iteration.html) 
  -->
  
- 14. 04.02.2019: **Buffer session**: Preparing exam or [data science project](http://rpository.com/ds4psy/essentials/ds_project.html).
+ <!-- 14. 04.02.2019: **Buffer session**: Preparing exam or [data science project](http://rpository.com/ds4psy/essentials/ds_project.html). 
+ --> 
  
- 15. 11.02.2019: Starting your [data science project](http://rpository.com/ds4psy/essentials/ds_project.html). <!-- or **Final exam** -->
+ 15. 15.07.2019: Starting your [data science project](http://rpository.com/ds4psy/essentials/ds_project.html). <!-- or **Final exam** -->
 
 
 
@@ -358,17 +357,24 @@ Beware of side effects: Becoming an R user (useR?) will profoundly transform you
 
 <!-- ## Essential commands and examples --> 
 
-## Essentials
+## Course
+
+- [Course syllabus](http://rpository.com/ds4psy/) 
+- [ZeUS](https://zeus.uni-konstanz.de:443/hioserver/pages/startFlow.xhtml?_flowId=detailView-flow&unitId=5101&periodId=179&navigationPosition=hisinoneLehrorganisation,examEventOverviewOwn) 
+- [Ilias](https://ilias.uni-konstanz.de/ilias/goto_ilias_uni_crs_863036.html) 
+
+
+<!-- ## Essentials -->
 
 <!-- Table with links: -->
 
-All [ds4psy](http://rpository.com/ds4psy/) essentials so far: 
+<!-- All [ds4psy](http://rpository.com/ds4psy/) essentials so far: --> 
 
 <!-- Image: sorted tiles -->
 <!-- ![](./pix/tile/tile_sort_10_brd.png) -->
-<img src = "./pix/tile/tile_sort_10_brd.png" alt = "ds4psy" style = "width: 180px; float: right; border:0;"/>
+<!-- <img src = "./pix/tile/tile_sort_10_brd.png" alt = "ds4psy" style = "width: 180px; float: right; border:0;"/> -->
 
-
+<!--
 Nr. | Topic       |
 ---:|:------------| 
 0.  | [Syllabus](http://rpository.com/ds4psy/) | 
@@ -382,6 +388,7 @@ Nr. | Topic       |
 8.  | [Joining data](http://rpository.com/ds4psy/essentials/join.html) |
 9.  | [Functions](http://rpository.com/ds4psy/essentials/function.html) |
 +.  | [Datasets](http://rpository.com/ds4psy/essentials/datasets.html) | 
+-->
 
 <!--
 Nr. | Topic       |
