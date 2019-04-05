@@ -124,7 +124,7 @@ img {
 <div id="header">
 <h1 class="title">Iteration, with WPA10 and solutions (ds4psy)</h1>
 <h4 class="author"><em>Hansjörg Neth, SPDS, uni.kn</em></h4>
-<h4 class="date"><em>2019 02 08</em></h4>
+<h4 class="date"><em>2019 04 05</em></h4>
 </div>
 
 <div id="content">
@@ -586,18 +586,155 @@ df2
 </div>
 <div id="looping-over-names-or-values-instead-of-indices" class="section level4">
 <h4>2. Looping over names or values, instead of indices</h4>
-<!-- +++ here now +++ -->
+<p>So far, we used <code>for loop</code> to loop over <em>numeric indices</em> of <code>x</code> with <code>for (i in seq_along(x))</code>, and then extracted the <code>i</code>-th value of <code>x</code> with <code>x[[i]]</code>.</p>
+<p>There are 2 additional common loop patterns:</p>
+<ol style="list-style-type: decimal">
+<li><p>loop over the <em>elements</em> of <code>x</code> with <code>for (x in xs)</code>: useful when only caring about side effects</p></li>
+<li><p>loop over the <em>names</em> of <code>x</code> with <code>for (nm in names(xs))</code>: useful when names are needed for files or plots.</p></li>
+</ol>
+<p>Whenever creating named output, make sure also provide names to the results vector:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x &lt;-<span class="st"> </span><span class="dv">1</span><span class="op">:</span><span class="dv">3</span>
+
+results &lt;-<span class="st"> </span><span class="kw">vector</span>(<span class="st">&quot;list&quot;</span>, <span class="kw">length</span>(x))
+<span class="kw">names</span>(results) &lt;-<span class="st"> </span><span class="kw">names</span>(x)
+
+results
+<span class="co">#&gt; [[1]]</span>
+<span class="co">#&gt; NULL</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; [[2]]</span>
+<span class="co">#&gt; NULL</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; [[3]]</span>
+<span class="co">#&gt; NULL</span></code></pre></div>
+<p>Note that the basic iteration over the numeric indices is the most general form, because given a position we can extract both the current name and the current value:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x &lt;-<span class="st"> </span><span class="dv">1</span><span class="op">:</span><span class="dv">3</span>
+<span class="cf">for</span> (i <span class="cf">in</span> <span class="kw">seq_along</span>(x)) {
+  name  &lt;-<span class="st"> </span><span class="kw">names</span>(x)[[i]]
+  value &lt;-<span class="st"> </span>x[[i]]
+}</code></pre></div>
 </div>
 <div id="handling-outputs-of-unknown-length" class="section level4">
 <h4>3. Handling outputs of unknown length</h4>
+<ul>
+<li>Problem: Not knowing how long the output will be.</li>
+</ul>
+<p>For example, imagine we want to simulate some random vectors of random lengths.</p>
+<p>ToDo: [etc.]</p>
 </div>
 <div id="handling-sequences-of-unknown-length" class="section level4">
 <h4>4. Handling sequences of unknown length</h4>
+<ul>
+<li>Problem: The number of iterations is not known in advance.</li>
+<li>Solution: <code>while</code> loop, with a <code>condition</code> to stop loop.</li>
+</ul>
+<p>Sometimes we don’t even know how long the input sequence should run for. This is common when doing <em>simulations</em>. For example, we might want to loop until we get three heads in a row. We can’t do that sort of iteration with the <code>for</code> loop, but can use a <code>while</code> loop instead.</p>
+<p>A <code>while</code> loop is simpler than <code>for</code> loop because it only has 2 components, a condition and a body:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="cf">while</span> (condition) {
+  <span class="co"># body</span>
+}</code></pre></div>
 </div>
 </div>
 </div>
 <div id="functional-programming" class="section level2">
 <h2>Functional programming</h2>
+<div id="for-loops-vs.functionals" class="section level3">
+<h3>For loops vs. functionals</h3>
+<p>In R, <code>for</code> loops are not as important as in other languages, because R is a <em>functional</em> programming language. This means that it’s possible to replace <code>for</code> loops by wrapping up the <code>for</code> loop in a function, and call that function.</p>
+<div id="example" class="section level4">
+<h4>Example</h4>
+<p>Consider a simple data table <code>df</code>:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Data:</span>
+df &lt;-<span class="st"> </span><span class="kw">tibble</span>(<span class="dt">a =</span> <span class="kw">rnorm</span>(<span class="dv">10</span>),
+             <span class="dt">b =</span> <span class="kw">rnorm</span>(<span class="dv">10</span>),
+             <span class="dt">c =</span> <span class="kw">rnorm</span>(<span class="dv">10</span>),
+             <span class="dt">d =</span> <span class="kw">rnorm</span>(<span class="dv">10</span>)
+)
+df
+<span class="co">#&gt; # A tibble: 10 x 4</span>
+<span class="co">#&gt;         a      b       c        d</span>
+<span class="co">#&gt;     &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt;    &lt;dbl&gt;</span>
+<span class="co">#&gt;  1 -0.165  0.398  2.40    0.476  </span>
+<span class="co">#&gt;  2 -0.253 -0.612 -0.0392 -0.710  </span>
+<span class="co">#&gt;  3  0.697  0.341  0.690   0.611  </span>
+<span class="co">#&gt;  4  0.557 -1.13   0.0280 -0.934  </span>
+<span class="co">#&gt;  5 -0.689  1.43  -0.743  -1.25   </span>
+<span class="co">#&gt;  6 -0.707  1.98   0.189   0.291  </span>
+<span class="co">#&gt;  7  0.365 -0.367 -1.80   -0.443  </span>
+<span class="co">#&gt;  8  0.769 -1.04   1.47    0.00111</span>
+<span class="co">#&gt;  9 -0.112  0.570  0.153   0.0743 </span>
+<span class="co">#&gt; 10  0.881 -0.135  2.17   -0.590</span>
+
+<span class="co"># Goal: Get the mean of every column. </span>
+<span class="co"># Solution: Use a for loop:</span>
+
+output &lt;-<span class="st"> </span><span class="kw">vector</span>(<span class="st">&quot;double&quot;</span>, <span class="kw">length</span>(df))
+
+<span class="cf">for</span> (i <span class="cf">in</span> <span class="kw">seq_along</span>(df)) {
+  output[[i]] &lt;-<span class="st"> </span><span class="kw">mean</span>(df[[i]])
+}
+
+output
+<span class="co">#&gt; [1]  0.1341367  0.1434569  0.4512100 -0.2477361</span></code></pre></div>
+<p>As we will want to compute the means of every column pretty frequently, we extract it into a function:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">col_mean &lt;-<span class="st"> </span><span class="cf">function</span>(df) {
+  
+  output &lt;-<span class="st"> </span><span class="kw">vector</span>(<span class="st">&quot;double&quot;</span>, <span class="kw">length</span>(df))
+  
+  <span class="cf">for</span> (i <span class="cf">in</span> <span class="kw">seq_along</span>(df)) {
+    
+    output[i] &lt;-<span class="st"> </span><span class="kw">mean</span>(df[[i]])  <span class="co"># apply function to i-th column of df</span>
+    
+  }
+  
+  output
+}
+
+<span class="co"># Check: </span>
+<span class="kw">col_mean</span>(df)
+<span class="co">#&gt; [1]  0.1341367  0.1434569  0.4512100 -0.2477361</span></code></pre></div>
+<p>But now we also want the <em>median</em> and <em>standard deviation</em> of every column. Of course we could write analog functions <code>col_median()</code> and <code>col_sd()</code>, but they would only differ in 1 lines from <code>col_mean</code> above.</p>
+</div>
+<div id="motivation-generalising-functions" class="section level4">
+<h4>Motivation: Generalising functions</h4>
+<p>What would we do if we saw a set of functions like this:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">f1 &lt;-<span class="st"> </span><span class="cf">function</span>(x) <span class="kw">abs</span>(x <span class="op">-</span><span class="st"> </span><span class="kw">mean</span>(x)) <span class="op">^</span><span class="st"> </span><span class="dv">1</span>
+f2 &lt;-<span class="st"> </span><span class="cf">function</span>(x) <span class="kw">abs</span>(x <span class="op">-</span><span class="st"> </span><span class="kw">mean</span>(x)) <span class="op">^</span><span class="st"> </span><span class="dv">2</span>
+f3 &lt;-<span class="st"> </span><span class="cf">function</span>(x) <span class="kw">abs</span>(x <span class="op">-</span><span class="st"> </span><span class="kw">mean</span>(x)) <span class="op">^</span><span class="st"> </span><span class="dv">3</span></code></pre></div>
+<p>Hopefully, we’d notice that there’s a lot of duplication, and extract it into an additional argument to a more general function:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">f &lt;-<span class="st"> </span><span class="cf">function</span>(x, i) <span class="kw">abs</span>(x <span class="op">-</span><span class="st"> </span><span class="kw">mean</span>(x)) <span class="op">^</span><span class="st"> </span>i</code></pre></div>
+<p>By doing this, we’ve reduced the chance of bugs (because you now have 1/3 of the original code), and made it easier to generalise to new situations.</p>
+</div>
+<div id="application-using-functions-as-arguments-to-functions" class="section level4">
+<h4>Application: Using functions as arguments to functions</h4>
+<p>We can do exactly the same thing with <code>col_mean()</code>, <code>col_median()</code>, and <code>col_sd()</code> by adding an argument that supplies the <em>function</em> to apply to each column:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">col_summary &lt;-<span class="st"> </span><span class="cf">function</span>(df, fun) {
+  
+  out &lt;-<span class="st"> </span><span class="kw">vector</span>(<span class="st">&quot;double&quot;</span>, <span class="kw">length</span>(df))
+  
+  <span class="cf">for</span> (i <span class="cf">in</span> <span class="kw">seq_along</span>(df)) {
+    
+    out[i] &lt;-<span class="st"> </span><span class="kw">fun</span>(df[[i]])  <span class="co"># !!!</span>
+    
+  }
+  
+  out
+
+  }
+
+<span class="co"># Repeat use of col_mean (from above): </span>
+<span class="kw">col_summary</span>(df, mean) <span class="co"># Note: same functionality/results as above.</span>
+<span class="co">#&gt; [1]  0.1341367  0.1434569  0.4512100 -0.2477361</span>
+
+<span class="co"># New uses:</span>
+<span class="kw">col_summary</span>(df, median)
+<span class="co">#&gt; [1]  0.1261179  0.1030325  0.1710228 -0.2210933</span>
+<span class="kw">col_summary</span>(df, sd)
+<span class="co">#&gt; [1] 0.5957661 1.0144796 1.2887324 0.6296414</span></code></pre></div>
+<p>The idea of passing a <em>function</em> as an <em>argument</em> to another <em>function</em> is extremely powerful idea, and it’s one of the behaviors that makes R a <em>functional programming language</em>.</p>
+<!-- +++ here now +++ -->
+</div>
+</div>
 </div>
 </div>
 <div id="exercises-wpa10" class="section level1">
@@ -701,7 +838,7 @@ Nr. | Topic       |
 10. | [Iteration](http://rpository.com/ds4psy/essentials/iteration.html) |
 +.  | [Datasets](http://rpository.com/ds4psy/essentials/datasets.html) | 
 -->
-<p>[Last update on 2019-02-08 18:49:04 by <a href="http://neth.de/">hn</a>.]</p>
+<p>[Last update on 2019-04-05 12:15:01 by <a href="http://neth.de/">hn</a>.]</p>
 <!-- eof. -->
 </div>
 </div>
@@ -721,7 +858,9 @@ Nr. | Topic       |
         <li><a href="#using-a-for-loop">Using a <code>for</code> loop</a></li>
         <li><a href="#variations">Variations</a></li>
         </ul></li>
-        <li><a href="#functional-programming">Functional programming</a></li>
+        <li><a href="#functional-programming">Functional programming</a><ul>
+        <li><a href="#for-loops-vs.functionals">For loops vs. functionals</a></li>
+        </ul></li>
         </ul></li>
         <li><a href="#exercises-wpa10">Exercises (WPA10)</a><ul>
         <li><a href="#exercise-x">Exercise X</a></li>

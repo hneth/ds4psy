@@ -1,7 +1,7 @@
 ---
 title: "Iteration, with WPA10 and solutions (ds4psy)"
 author: "Hansjörg Neth, SPDS, uni.kn"
-date: "2019 02 08"
+date: "2019 04 05"
 output:
    rmdformats::html_clean: # html_clean html_docco readthedown material #
      code_folding: show # hide
@@ -451,13 +451,174 @@ all.equal(df, df2)
 
 #### 2. Looping over names or values, instead of indices
 
-<!-- +++ here now +++ --> 
+So far, we used `for loop` to loop over _numeric indices_ of `x` with `for (i in seq_along(x))`, 
+and then extracted the `i`-th value of `x` with `x[[i]]`. 
+
+There are 2 additional common loop patterns:
+
+1. loop over the _elements_ of `x` with `for (x in xs)`: 
+useful when only caring about side effects 
+
+2. loop over the _names_ of `x` with `for (nm in names(xs))`: 
+useful when names are needed for files or plots.
+
+Whenever creating named output, make sure also provide names to the results vector:
+
+```{r}
+x <- 1:3
+
+results <- vector("list", length(x))
+names(results) <- names(x)
+
+results
+```
+
+Note that the basic iteration over the numeric indices is the most general form, 
+because given a position we can extract both the current name and the current value:
+
+```{r}
+x <- 1:3
+for (i in seq_along(x)) {
+  name  <- names(x)[[i]]
+  value <- x[[i]]
+}
+```
 
 #### 3. Handling outputs of unknown length 
 
+- Problem: Not knowing how long the output will be. 
+
+For example, imagine we want to simulate some random vectors of random lengths. 
+
+ToDo: [etc.]
+
 #### 4. Handling sequences of unknown length
 
+- Problem: The number of iterations is not known in advance.
+- Solution: `while` loop, with a `condition` to stop loop. 
+
+Sometimes we don’t even know how long the input sequence should run for. 
+This is common when doing _simulations_. 
+For example, we might want to loop until we get three heads in a row. 
+We can’t do that sort of iteration with the `for` loop, but can use a `while` loop instead. 
+
+A `while` loop is simpler than `for` loop because it only has 2 components, a condition and a body:
+
+```{r while_loop_structure, eval = FALSE}
+while (condition) {
+  # body
+}
+```
+
+
 ## Functional programming
+
+### For loops vs. functionals
+
+In R, `for` loops are not as important as in other languages, because R is a _functional_ programming language. 
+This means that it’s possible to replace `for` loops by wrapping up the `for` loop in a function, and call that function.
+
+#### Example 
+
+Consider a simple data table `df`: 
+
+```{r}
+# Data:
+df <- tibble(a = rnorm(10),
+             b = rnorm(10),
+             c = rnorm(10),
+             d = rnorm(10)
+)
+df
+
+# Goal: Get the mean of every column. 
+# Solution: Use a for loop:
+
+output <- vector("double", length(df))
+
+for (i in seq_along(df)) {
+  output[[i]] <- mean(df[[i]])
+}
+
+output
+```
+
+As we will want to compute the means of every column pretty frequently, we extract it into a function:
+
+```{r}
+col_mean <- function(df) {
+  
+  output <- vector("double", length(df))
+  
+  for (i in seq_along(df)) {
+    
+    output[i] <- mean(df[[i]])  # apply function to i-th column of df
+    
+  }
+  
+  output
+}
+
+# Check: 
+col_mean(df)
+```
+
+But now we also want the _median_ and _standard deviation_ of every column. 
+Of course we could write analog functions `col_median()` and `col_sd()`, 
+but they would only differ in 1 lines from `col_mean` above. 
+
+#### Motivation: Generalising functions
+
+What would we do if we saw a set of functions like this:
+
+```{r}
+f1 <- function(x) abs(x - mean(x)) ^ 1
+f2 <- function(x) abs(x - mean(x)) ^ 2
+f3 <- function(x) abs(x - mean(x)) ^ 3
+```
+
+Hopefully, we’d notice that there’s a lot of duplication, 
+and extract it into an additional argument to a more general function:
+
+```{r}
+f <- function(x, i) abs(x - mean(x)) ^ i
+```
+
+By doing this, we’ve reduced the chance of bugs (because you now have 1/3 of the original code), 
+and made it easier to generalise to new situations.
+
+#### Application: Using functions as arguments to functions
+
+We can do exactly the same thing with `col_mean()`, `col_median()`, and `col_sd()` 
+by adding an argument that supplies the _function_ to apply to each column:
+
+```{r}
+col_summary <- function(df, fun) {
+  
+  out <- vector("double", length(df))
+  
+  for (i in seq_along(df)) {
+    
+    out[i] <- fun(df[[i]])  # !!!
+    
+  }
+  
+  out
+
+  }
+
+# Repeat use of col_mean (from above): 
+col_summary(df, mean) # Note: same functionality/results as above.
+
+# New uses:
+col_summary(df, median)
+col_summary(df, sd)
+```
+
+The idea of passing a _function_ as an _argument_ to another _function_ is extremely powerful idea, 
+and it’s one of the behaviors that makes R a _functional programming language_.
+
+<!-- +++ here now +++ --> 
 
 
 
