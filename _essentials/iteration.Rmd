@@ -530,14 +530,20 @@ df <- tibble(a = rnorm(10),
              d = rnorm(10)
 )
 df
+```
 
-# Goal: Get the mean of every column. 
-# Solution: Use a for loop:
+Assume that our goal is getting the mean of every column. 
+The standard solution is using a `for` loop:
 
+```{r}
+# loop:
 output <- vector("double", length(df))
 
+# for loop over columns i: 
 for (i in seq_along(df)) {
+  
   output[[i]] <- mean(df[[i]])
+
 }
 
 output
@@ -546,13 +552,13 @@ output
 As we will want to compute the means of every column pretty frequently, we extract it into a function:
 
 ```{r}
-col_mean <- function(df) {
+col_mean <- function(data) {
   
-  output <- vector("double", length(df))
+  output <- vector("double", length(data))
   
-  for (i in seq_along(df)) {
+  for (i in seq_along(data)) {
     
-    output[i] <- mean(df[[i]])  # apply function to i-th column of df
+    output[i] <- mean(data[[i]])  # apply function to i-th column of df
     
   }
   
@@ -593,13 +599,13 @@ We can do exactly the same thing with `col_mean()`, `col_median()`, and `col_sd(
 by adding an argument that supplies the _function_ to apply to each column:
 
 ```{r}
-col_summary <- function(df, fun) {
+col_summary <- function(data, fun) {
   
-  out <- vector("double", length(df))
+  out <- vector("double", length(data))
   
-  for (i in seq_along(df)) {
+  for (i in seq_along(data)) {
     
-    out[i] <- fun(df[[i]])  # !!!
+    out[i] <- fun(data[[i]])  # !!!
     
   }
   
@@ -608,15 +614,50 @@ col_summary <- function(df, fun) {
   }
 
 # Repeat use of col_mean (from above): 
-col_summary(df, mean) # Note: same functionality/results as above.
+col_summary(df, fun = mean) # Note: same functionality/results as above.
 
-# New uses:
-col_summary(df, median)
-col_summary(df, sd)
+# New uses: 
+col_summary(df, fun = median)
+col_summary(df, fun = sd)
 ```
 
 The idea of passing a _function_ as an _argument_ to another _function_ is extremely powerful idea, 
 and it’s one of the behaviors that makes R a _functional programming language_.
+
+#### `purrr` vs. `apply` 
+
+The `purrr` package provides functions that eliminate the need for many common for loops. 
+
+The `base::apply` family of functions in (i.e., `apply`, `lapply`, `tapply`, etc.) 
+solve a similar problem, but `purrr` is more consistent and easier to learn.
+
+#### Using `apply`
+
+Using `base::apply` to solve the above:
+
+- `X` argument takes an array or matrix (i.e., data);
+- `MARGIN` argument: `1` = rows, `2` = columns;
+- `FUN` is the function to be applied. 
+
+```{r apply}
+dim(df)  # 10 rows, 4 columns:
+
+# apply FUN to columns:
+apply(X = df, MARGIN = 2, FUN = mean)    # mean of every column
+apply(X = df, MARGIN = 2, FUN = median)  # median of every column
+apply(X = df, MARGIN = 2, FUN = sd)      # SD of every column
+
+# apply FUN to rows:
+apply(X = df, MARGIN = 1, FUN = mean)    # mean of every row
+apply(X = df, MARGIN = 1, FUN = median)  # median of every row
+apply(X = df, MARGIN = 1, FUN = sd)      # SD of every row
+```
+
+Note: 
+
+- `lapply` returns a _list_ of the same length as `X`, each element of which is the result of applying `FUN` to the corresponding element of `X`.
+
+- See also `sapply` and `vapply` for simplifying arrays and returning vectors. 
 
 <!-- +++ here now +++ --> 
 

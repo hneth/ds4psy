@@ -663,27 +663,28 @@ df
 <span class="co">#&gt;  7  0.365 -0.367 -1.80   -0.443  </span>
 <span class="co">#&gt;  8  0.769 -1.04   1.47    0.00111</span>
 <span class="co">#&gt;  9 -0.112  0.570  0.153   0.0743 </span>
-<span class="co">#&gt; 10  0.881 -0.135  2.17   -0.590</span>
-
-<span class="co"># Goal: Get the mean of every column. </span>
-<span class="co"># Solution: Use a for loop:</span>
-
+<span class="co">#&gt; 10  0.881 -0.135  2.17   -0.590</span></code></pre></div>
+<p>Assume that our goal is getting the mean of every column. The standard solution is using a <code>for</code> loop:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># loop:</span>
 output &lt;-<span class="st"> </span><span class="kw">vector</span>(<span class="st">&quot;double&quot;</span>, <span class="kw">length</span>(df))
 
+<span class="co"># for loop over columns i: </span>
 <span class="cf">for</span> (i <span class="cf">in</span> <span class="kw">seq_along</span>(df)) {
+  
   output[[i]] &lt;-<span class="st"> </span><span class="kw">mean</span>(df[[i]])
+
 }
 
 output
 <span class="co">#&gt; [1]  0.1341367  0.1434569  0.4512100 -0.2477361</span></code></pre></div>
 <p>As we will want to compute the means of every column pretty frequently, we extract it into a function:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">col_mean &lt;-<span class="st"> </span><span class="cf">function</span>(df) {
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">col_mean &lt;-<span class="st"> </span><span class="cf">function</span>(data) {
   
-  output &lt;-<span class="st"> </span><span class="kw">vector</span>(<span class="st">&quot;double&quot;</span>, <span class="kw">length</span>(df))
+  output &lt;-<span class="st"> </span><span class="kw">vector</span>(<span class="st">&quot;double&quot;</span>, <span class="kw">length</span>(data))
   
-  <span class="cf">for</span> (i <span class="cf">in</span> <span class="kw">seq_along</span>(df)) {
+  <span class="cf">for</span> (i <span class="cf">in</span> <span class="kw">seq_along</span>(data)) {
     
-    output[i] &lt;-<span class="st"> </span><span class="kw">mean</span>(df[[i]])  <span class="co"># apply function to i-th column of df</span>
+    output[i] &lt;-<span class="st"> </span><span class="kw">mean</span>(data[[i]])  <span class="co"># apply function to i-th column of df</span>
     
   }
   
@@ -708,13 +709,13 @@ f3 &lt;-<span class="st"> </span><span class="cf">function</span>(x) <span class
 <div id="application-using-functions-as-arguments-to-functions" class="section level4">
 <h4>Application: Using functions as arguments to functions</h4>
 <p>We can do exactly the same thing with <code>col_mean()</code>, <code>col_median()</code>, and <code>col_sd()</code> by adding an argument that supplies the <em>function</em> to apply to each column:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">col_summary &lt;-<span class="st"> </span><span class="cf">function</span>(df, fun) {
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">col_summary &lt;-<span class="st"> </span><span class="cf">function</span>(data, fun) {
   
-  out &lt;-<span class="st"> </span><span class="kw">vector</span>(<span class="st">&quot;double&quot;</span>, <span class="kw">length</span>(df))
+  out &lt;-<span class="st"> </span><span class="kw">vector</span>(<span class="st">&quot;double&quot;</span>, <span class="kw">length</span>(data))
   
-  <span class="cf">for</span> (i <span class="cf">in</span> <span class="kw">seq_along</span>(df)) {
+  <span class="cf">for</span> (i <span class="cf">in</span> <span class="kw">seq_along</span>(data)) {
     
-    out[i] &lt;-<span class="st"> </span><span class="kw">fun</span>(df[[i]])  <span class="co"># !!!</span>
+    out[i] &lt;-<span class="st"> </span><span class="kw">fun</span>(data[[i]])  <span class="co"># !!!</span>
     
   }
   
@@ -723,15 +724,58 @@ f3 &lt;-<span class="st"> </span><span class="cf">function</span>(x) <span class
   }
 
 <span class="co"># Repeat use of col_mean (from above): </span>
-<span class="kw">col_summary</span>(df, mean) <span class="co"># Note: same functionality/results as above.</span>
+<span class="kw">col_summary</span>(df, <span class="dt">fun =</span> mean) <span class="co"># Note: same functionality/results as above.</span>
 <span class="co">#&gt; [1]  0.1341367  0.1434569  0.4512100 -0.2477361</span>
 
-<span class="co"># New uses:</span>
-<span class="kw">col_summary</span>(df, median)
+<span class="co"># New uses: </span>
+<span class="kw">col_summary</span>(df, <span class="dt">fun =</span> median)
 <span class="co">#&gt; [1]  0.1261179  0.1030325  0.1710228 -0.2210933</span>
-<span class="kw">col_summary</span>(df, sd)
+<span class="kw">col_summary</span>(df, <span class="dt">fun =</span> sd)
 <span class="co">#&gt; [1] 0.5957661 1.0144796 1.2887324 0.6296414</span></code></pre></div>
 <p>The idea of passing a <em>function</em> as an <em>argument</em> to another <em>function</em> is extremely powerful idea, and it’s one of the behaviors that makes R a <em>functional programming language</em>.</p>
+</div>
+<div id="purrr-vs.-apply" class="section level4">
+<h4><code>purrr</code> vs. <code>apply</code></h4>
+<p>The <code>purrr</code> package provides functions that eliminate the need for many common for loops.</p>
+<p>The <code>base::apply</code> family of functions in (i.e., <code>apply</code>, <code>lapply</code>, <code>tapply</code>, etc.) solve a similar problem, but <code>purrr</code> is more consistent and easier to learn.</p>
+</div>
+<div id="using-apply" class="section level4">
+<h4>Using <code>apply</code></h4>
+<p>Using <code>base::apply</code> to solve the above:</p>
+<ul>
+<li><code>X</code> argument takes an array or matrix (i.e., data);</li>
+<li><code>MARGIN</code> argument: <code>1</code> = rows, <code>2</code> = columns;</li>
+<li><code>FUN</code> is the function to be applied.</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">dim</span>(df)  <span class="co"># 10 rows, 4 columns:</span>
+<span class="co">#&gt; [1] 10  4</span>
+
+<span class="co"># apply FUN to columns:</span>
+<span class="kw">apply</span>(<span class="dt">X =</span> df, <span class="dt">MARGIN =</span> <span class="dv">2</span>, <span class="dt">FUN =</span> mean)    <span class="co"># mean of every column</span>
+<span class="co">#&gt;          a          b          c          d </span>
+<span class="co">#&gt;  0.1341367  0.1434569  0.4512100 -0.2477361</span>
+<span class="kw">apply</span>(<span class="dt">X =</span> df, <span class="dt">MARGIN =</span> <span class="dv">2</span>, <span class="dt">FUN =</span> median)  <span class="co"># median of every column</span>
+<span class="co">#&gt;          a          b          c          d </span>
+<span class="co">#&gt;  0.1261179  0.1030325  0.1710228 -0.2210933</span>
+<span class="kw">apply</span>(<span class="dt">X =</span> df, <span class="dt">MARGIN =</span> <span class="dv">2</span>, <span class="dt">FUN =</span> sd)      <span class="co"># SD of every column</span>
+<span class="co">#&gt;         a         b         c         d </span>
+<span class="co">#&gt; 0.5957661 1.0144796 1.2887324 0.6296414</span>
+
+<span class="co"># apply FUN to rows:</span>
+<span class="kw">apply</span>(<span class="dt">X =</span> df, <span class="dt">MARGIN =</span> <span class="dv">1</span>, <span class="dt">FUN =</span> mean)    <span class="co"># mean of every row</span>
+<span class="co">#&gt;  [1]  0.7776774 -0.4036436  0.5846372 -0.3696988 -0.3131597  0.4382858</span>
+<span class="co">#&gt;  [7] -0.5627225  0.2977646  0.1712420  0.5822860</span>
+<span class="kw">apply</span>(<span class="dt">X =</span> df, <span class="dt">MARGIN =</span> <span class="dv">1</span>, <span class="dt">FUN =</span> median)  <span class="co"># median of every row</span>
+<span class="co">#&gt;  [1]  0.4368077 -0.4326940  0.6502329 -0.4530477 -0.7160145  0.2401193</span>
+<span class="co">#&gt;  [7] -0.4052567  0.3848191  0.1137973  0.3730266</span>
+<span class="kw">apply</span>(<span class="dt">X =</span> df, <span class="dt">MARGIN =</span> <span class="dv">1</span>, <span class="dt">FUN =</span> sd)      <span class="co"># SD of every row</span>
+<span class="co">#&gt;  [1] 1.1195691 0.3123137 0.1669781 0.7983208 1.1915980 1.1217158 0.9047151</span>
+<span class="co">#&gt;  [8] 1.0761129 0.2880509 1.2255800</span></code></pre></div>
+<p>Note:</p>
+<ul>
+<li><p><code>lapply</code> returns a <em>list</em> of the same length as <code>X</code>, each element of which is the result of applying <code>FUN</code> to the corresponding element of <code>X</code>.</p></li>
+<li><p>See also <code>sapply</code> and <code>vapply</code> for simplifying arrays and returning vectors.</p></li>
+</ul>
 <!-- +++ here now +++ -->
 </div>
 </div>
@@ -838,7 +882,7 @@ Nr. | Topic       |
 10. | [Iteration](http://rpository.com/ds4psy/essentials/iteration.html) |
 +.  | [Datasets](http://rpository.com/ds4psy/essentials/datasets.html) | 
 -->
-<p>[Last update on 2019-04-05 12:15:01 by <a href="http://neth.de/">hn</a>.]</p>
+<p>[Last update on 2019-04-06 16:31:43 by <a href="http://neth.de/">hn</a>.]</p>
 <!-- eof. -->
 </div>
 </div>

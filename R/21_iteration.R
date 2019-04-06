@@ -35,8 +35,14 @@ library(tidyverse)  # purrr
 
 ## 21.2 For loops ------ 
 
+## 
 
+# purrr package:
 
+# `purrr` provides functions that eliminate the need for many common for loops. 
+
+# The `apply` family of functions in base R (apply(), lapply(), tapply(), etc) 
+# solve a similar problem, but purrr is more consistent and thus is easier to learn.
 
 ## +++ here now +++ ------
 
