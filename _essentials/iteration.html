@@ -743,11 +743,13 @@ f3 &lt;-<span class="st"> </span><span class="cf">function</span>(x) <span class
 <p>The idea of passing a <em>function</em> as an <em>argument</em> to another <em>function</em> is an extremely powerful idea, and it’s one of the behaviors that makes R a <em>functional programming language</em>.</p>
 </div>
 </div>
-<div id="apply-and-purrr" class="section level3">
-<h3><code>apply</code> and <code>purrr</code></h3>
+</div>
+<div id="replacing-loops-by-apply-and-purrr" class="section level2">
+<h2>Replacing loops by <code>apply</code> and <code>purrr</code></h2>
 <p>The <code>apply</code> family of functions and the <code>purrr</code> package provide functions that eliminate the need for many <code>for</code> loops.</p>
-<div id="using-apply" class="section level4">
-<h4>Using <code>apply</code></h4>
+<p>Note that using <code>apply</code> and <code>map</code> is not necessarily faster than using <code>for</code> loops. The chief benefit of using these functions is not speed, but <em>clarity</em>: They make code easier to write and read.</p>
+<div id="using-apply" class="section level3">
+<h3>Using <code>apply</code></h3>
 <p>The <code>base::apply</code> family of functions in (i.e., <code>apply</code>, <code>lapply</code>, <code>tapply</code>, etc.) solve this problem by allowing to apply a function to designated parts of a data structure.</p>
 <p><code>apply</code> takes the following arguments:</p>
 <ul>
@@ -786,8 +788,8 @@ f3 &lt;-<span class="st"> </span><span class="cf">function</span>(x) <span class
 <li><p>See also <code>sapply</code> and <code>vapply</code> for simplifying arrays and returning vectors.</p></li>
 </ul>
 </div>
-<div id="using-purrr" class="section level4">
-<h4>Using <code>purrr</code></h4>
+<div id="using-purrr" class="section level3">
+<h3>Using <code>purrr</code></h3>
 <p>The <code>purrr</code> package provides modern and more consistent versions of <code>apply</code>.</p>
 <p>The main goal of using <code>purrr</code> functions (instead of <code>for</code> loops) is to allow breaking common list manipulation challenges into independent pieces.</p>
 <p>This strategy involves 2 steps, each of which scales down the problem:</p>
@@ -798,8 +800,164 @@ Once we’ve solved that problem, <code>purrr</code> takes care of generalising 
 With <code>purrr</code>, we get many small pieces that we can compose together with the pipe (<code>%&gt;%</code>).</p></li>
 </ol>
 <p>This scaling-down strategy makes it easier to solve new problems and to understand our solutions to old problems when we re-read older code.</p>
+</div>
+<div id="map-functions" class="section level3">
+<h3><code>map</code> functions</h3>
+<p>The pattern of looping over a vector, doing something to each element and saving the results is so common that the <code>purrr</code> package provides a family of functions for it. There is a function for each type of output:</p>
+<ul>
+<li><code>map()</code> makes a <em>list</em>.</li>
+<li><code>map_lgl()</code> makes a <em>logical vector</em>.</li>
+<li><code>map_int()</code> makes an <em>integer vector</em>.</li>
+<li><code>map_dbl()</code> makes a <em>double vector</em>.</li>
+<li><code>map_chr()</code> makes a <em>character vector</em>.</li>
+</ul>
+<p>Each function takes a vector as input, applies a function to each element, and then returns a new vector that’s the same length (and has the same names) as the input.<br />
+The type of the output vector is determined by the suffix to the map function.</p>
+<div id="examples" class="section level4">
+<h4>Examples</h4>
+<p>Using map on the above example (with doubles as output):</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">map_dbl</span>(<span class="dt">.x =</span> df, <span class="dt">.f =</span> mean)
+<span class="co">#&gt;          a          b          c          d </span>
+<span class="co">#&gt;  0.1322028  0.2488450 -0.1336732  0.1207302</span>
+<span class="kw">map_dbl</span>(df, median)
+<span class="co">#&gt;            a            b            c            d </span>
+<span class="co">#&gt;  0.256575548  0.491872279  0.009218122 -0.056559219</span>
+<span class="kw">map_dbl</span>(df, sd)
+<span class="co">#&gt;         a         b         c         d </span>
+<span class="co">#&gt; 0.7805860 1.0695148 0.9556076 0.8085646</span></code></pre></div>
+<p>Note:</p>
+<p>Without the suffix <code>_dbl</code>, <code>map(df, sd)</code> returns a list (with an element for every column of <code>df</code>).</p>
+<p>With <code>map</code>, our focus is on the function/operation, not the bookkeeping of the <code>for</code> loop. This is even more obvious when using the pipe:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">df <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">map_dbl</span>(mean)
+<span class="co">#&gt;          a          b          c          d </span>
+<span class="co">#&gt;  0.1322028  0.2488450 -0.1336732  0.1207302</span>
+df <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">map_dbl</span>(median)
+<span class="co">#&gt;            a            b            c            d </span>
+<span class="co">#&gt;  0.256575548  0.491872279  0.009218122 -0.056559219</span>
+df <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">map_dbl</span>(sd)
+<span class="co">#&gt;         a         b         c         d </span>
+<span class="co">#&gt; 0.7805860 1.0695148 0.9556076 0.8085646</span></code></pre></div>
+</div>
+<div id="shortcuts" class="section level4">
+<h4>Shortcuts</h4>
+<p>There are a few shortcuts to save typing in the <code>.f</code> argument of <code>map</code>.</p>
+<p>Imagine we want to fit a linear model to each group in a dataset.</p>
+<p>The following example splits the up the <code>mtcars</code> dataset in to 3 pieces (by value of cylinder) and fits the same linear model to each piece. The linear model is supplied as an <em>anonymous function</em>:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mtcars <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw">group_by</span>(cyl) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">count</span>()
+<span class="co">#&gt; # A tibble: 3 x 2</span>
+<span class="co">#&gt; # Groups:   cyl [3]</span>
+<span class="co">#&gt;     cyl     n</span>
+<span class="co">#&gt;   &lt;dbl&gt; &lt;int&gt;</span>
+<span class="co">#&gt; 1     4    11</span>
+<span class="co">#&gt; 2     6     7</span>
+<span class="co">#&gt; 3     8    14</span>
+
+models &lt;-<span class="st"> </span>mtcars <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">split</span>(.<span class="op">$</span>cyl) <span class="op">%&gt;%</span><span class="st">                            </span><span class="co"># split data into 3 sets (by cyl) </span>
+<span class="st">  </span><span class="kw">map</span>(<span class="cf">function</span>(df) <span class="kw">lm</span>(mpg <span class="op">~</span><span class="st"> </span>wt, <span class="dt">data =</span> df))   <span class="co"># map lm function to each set</span>
+
+models <span class="co"># 3 linear models</span>
+<span class="co">#&gt; $`4`</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Call:</span>
+<span class="co">#&gt; lm(formula = mpg ~ wt, data = df)</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Coefficients:</span>
+<span class="co">#&gt; (Intercept)           wt  </span>
+<span class="co">#&gt;      39.571       -5.647  </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $`6`</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Call:</span>
+<span class="co">#&gt; lm(formula = mpg ~ wt, data = df)</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Coefficients:</span>
+<span class="co">#&gt; (Intercept)           wt  </span>
+<span class="co">#&gt;       28.41        -2.78  </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $`8`</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Call:</span>
+<span class="co">#&gt; lm(formula = mpg ~ wt, data = df)</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Coefficients:</span>
+<span class="co">#&gt; (Intercept)           wt  </span>
+<span class="co">#&gt;      23.868       -2.192</span></code></pre></div>
+<p>The syntax for creating an <em>anonymous function</em> in R is quite verbose, so <code>purrr</code> provides a convenient shortcut: a <em>one-sided formula</em>.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">models &lt;-<span class="st"> </span>mtcars <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">split</span>(.<span class="op">$</span>cyl) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">map</span>(<span class="op">~</span><span class="kw">lm</span>(mpg <span class="op">~</span><span class="st"> </span>wt, <span class="dt">data =</span> .))
+
+models
+<span class="co">#&gt; $`4`</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Call:</span>
+<span class="co">#&gt; lm(formula = mpg ~ wt, data = .)</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Coefficients:</span>
+<span class="co">#&gt; (Intercept)           wt  </span>
+<span class="co">#&gt;      39.571       -5.647  </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $`6`</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Call:</span>
+<span class="co">#&gt; lm(formula = mpg ~ wt, data = .)</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Coefficients:</span>
+<span class="co">#&gt; (Intercept)           wt  </span>
+<span class="co">#&gt;       28.41        -2.78  </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $`8`</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Call:</span>
+<span class="co">#&gt; lm(formula = mpg ~ wt, data = .)</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; Coefficients:</span>
+<span class="co">#&gt; (Intercept)           wt  </span>
+<span class="co">#&gt;      23.868       -2.192</span></code></pre></div>
+<p>Here, <code>.</code> is used as a pronoun that refers to the current list element.</p>
+<p>When we’re looking at many models, we might want to extract a summary statistic like the <span class="math inline">\(R^{2}\)</span>. To do that we need to first run <code>summary()</code> on our <code>models</code> and then extract the component called <code>r.squared</code>. We could do that using the <em>shorthand for anonymous functions</em>:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">models <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">map</span>(summary) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">map_dbl</span>(<span class="op">~</span>.<span class="op">$</span>r.squared)
+<span class="co">#&gt;         4         6         8 </span>
+<span class="co">#&gt; 0.5086326 0.4645102 0.4229655</span></code></pre></div>
+<p>But extracting named components is a common operation, so <code>purrr</code> provides an even shorter shortcut: We can use a <em>string</em>:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">models <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">map</span>(summary) <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw">map_dbl</span>(<span class="st">&quot;r.squared&quot;</span>)
+<span class="co">#&gt;         4         6         8 </span>
+<span class="co">#&gt; 0.5086326 0.4645102 0.4229655</span></code></pre></div>
+<p>Alternatively, we can also use an <em>integer</em> to select elements by position:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="kw">list</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>), 
+          <span class="kw">list</span>(<span class="dv">4</span>, <span class="dv">5</span>, <span class="dv">6</span>), 
+          <span class="kw">list</span>(<span class="dv">7</span>, <span class="dv">8</span>, <span class="dv">9</span>))
+
+x <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">map_dbl</span>(<span class="dv">2</span>)  <span class="co"># 2nd column of x</span>
+<span class="co">#&gt; [1] 2 5 8</span></code></pre></div>
 <!-- +++ here now +++ -->
 </div>
+</div>
+<div id="dealing-with-failure" class="section level3">
+<h3>Dealing with failure</h3>
+<p>Adverbs:</p>
+<ul>
+<li><code>safely</code></li>
+<li><code>possibly</code></li>
+<li><code>quietly</code></li>
+</ul>
+</div>
+<div id="mapping-over-multiple-arguments" class="section level3">
+<h3>Mapping over multiple arguments</h3>
+</div>
+<div id="walk" class="section level3">
+<h3>Walk</h3>
 </div>
 </div>
 </div>
@@ -904,7 +1062,7 @@ Nr. | Topic       |
 10. | [Iteration](http://rpository.com/ds4psy/essentials/iteration.html) |
 +.  | [Datasets](http://rpository.com/ds4psy/essentials/datasets.html) | 
 -->
-<p>[Last update on 2019-04-07 07:48:06 by <a href="http://neth.de/">hn</a>.]</p>
+<p>[Last update on 2019-04-07 11:58:42 by <a href="http://neth.de/">hn</a>.]</p>
 <!-- eof. -->
 </div>
 </div>
@@ -926,7 +1084,14 @@ Nr. | Topic       |
         </ul></li>
         <li><a href="#functional-programming">Functional programming</a><ul>
         <li><a href="#for-loops-vs.functionals">For loops vs. functionals</a></li>
-        <li><a href="#apply-and-purrr"><code>apply</code> and <code>purrr</code></a></li>
+        </ul></li>
+        <li><a href="#replacing-loops-by-apply-and-purrr">Replacing loops by <code>apply</code> and <code>purrr</code></a><ul>
+        <li><a href="#using-apply">Using <code>apply</code></a></li>
+        <li><a href="#using-purrr">Using <code>purrr</code></a></li>
+        <li><a href="#map-functions"><code>map</code> functions</a></li>
+        <li><a href="#dealing-with-failure">Dealing with failure</a></li>
+        <li><a href="#mapping-over-multiple-arguments">Mapping over multiple arguments</a></li>
+        <li><a href="#walk">Walk</a></li>
         </ul></li>
         </ul></li>
         <li><a href="#exercises-wpa10">Exercises (WPA10)</a><ul>

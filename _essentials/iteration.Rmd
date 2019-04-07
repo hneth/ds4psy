@@ -633,11 +633,14 @@ The idea of passing a _function_ as an _argument_ to another _function_ is an ex
 and it’s one of the behaviors that makes R a _functional programming language_.
 
 
-### `apply` and `purrr`
+## Replacing loops by `apply` and `purrr`
 
 The `apply` family of functions and the `purrr` package provide functions that eliminate the need for many `for` loops.  
 
-#### Using `apply`
+Note that using `apply` and `map` is not necessarily faster than using `for` loops. 
+The chief benefit of using these functions is not speed, but _clarity_: They make code easier to write and read.
+
+### Using `apply`
 
 The `base::apply` family of functions in (i.e., `apply`, `lapply`, `tapply`, etc.) 
 solve this problem by allowing to apply a function to designated parts of a data structure.
@@ -671,7 +674,7 @@ each element of which is the result of applying `FUN` to the corresponding eleme
 
 - See also `sapply` and `vapply` for simplifying arrays and returning vectors. 
 
-#### Using `purrr`
+### Using `purrr`
 
 The `purrr` package provides modern and more consistent versions of `apply`. 
 
@@ -688,7 +691,121 @@ With `purrr`, we get many small pieces that we can compose together with the pip
 This scaling-down strategy makes it easier to solve new problems and to understand our solutions to old problems when we re-read older code.
 
 
+### `map` functions
+
+The pattern of looping over a vector, doing something to each element and saving the results is so common that the `purrr` package provides a family of functions for it. 
+There is a function for each type of output:
+
+- `map()` makes a _list_.
+- `map_lgl()` makes a _logical vector_.
+- `map_int()` makes an _integer vector_.
+- `map_dbl()` makes a _double vector_.
+- `map_chr()` makes a _character vector_.
+
+Each function takes a vector as input, applies a function to each element, and then returns a new vector that’s the same length (and has the same names) as the input.  
+The type of the output vector is determined by the suffix to the map function.
+
+#### Examples 
+
+Using map on the above example (with doubles as output):
+
+```{r map_dbl_1}
+map_dbl(.x = df, .f = mean)
+map_dbl(df, median)
+map_dbl(df, sd)
+```
+
+Note: 
+
+Without the suffix `_dbl`,  `map(df, sd)` returns a list (with an element for every column of `df`). 
+
+With `map`, our focus is on the function/operation, not the bookkeeping of the `for` loop.
+This is even more obvious when using the pipe: 
+
+```{r map_dbl_pipe}
+df %>% map_dbl(mean)
+df %>% map_dbl(median)
+df %>% map_dbl(sd)
+```
+
+#### Shortcuts
+
+There are a few shortcuts to save typing in the `.f` argument of `map`. 
+
+Imagine we want to fit a linear model to each group in a dataset. 
+
+The following example splits the up the `mtcars` dataset in to 3 pieces (by value of cylinder) 
+and fits the same linear model to each piece. 
+The linear model is supplied as an _anonymous function_: 
+
+```{r map_split_anon_fun}
+mtcars %>%
+  group_by(cyl) %>% 
+  count()
+
+models <- mtcars %>% 
+  split(.$cyl) %>%                            # split data into 3 sets (by cyl) 
+  map(function(df) lm(mpg ~ wt, data = df))   # map lm function to each set
+
+models # 3 linear models
+```
+
+The syntax for creating an _anonymous function_ in R is quite verbose, so `purrr` provides a convenient shortcut: a _one-sided formula_.
+
+```{r map_split_shortcut}
+models <- mtcars %>% 
+  split(.$cyl) %>% 
+  map(~lm(mpg ~ wt, data = .))
+
+models
+```
+
+Here, `.` is used as a pronoun that refers to the current list element. 
+
+When we’re looking at many models, we might want to extract a summary statistic like the $R^{2}$. 
+To do that we need to first run `summary()` on our `models` and then extract the component called `r.squared`. 
+We could do that using the _shorthand for anonymous functions_:
+
+```{r map_split_map_2}
+models %>% 
+  map(summary) %>% 
+  map_dbl(~.$r.squared)
+```
+
+But extracting named components is a common operation, so `purrr` provides an even shorter shortcut: We can use a _string_:
+
+```{r map_split_map_named}
+models %>% 
+  map(summary) %>% 
+  map_dbl("r.squared")
+```
+
+Alternatively, we can also use an _integer_ to select elements by position:
+
+```{r map_split_map_number}
+x <- list(list(1, 2, 3), 
+          list(4, 5, 6), 
+          list(7, 8, 9))
+
+x %>% map_dbl(2)  # 2nd column of x
+```
+
 <!-- +++ here now +++ --> 
+
+### Dealing with failure
+
+Adverbs:
+
+- `safely`
+- `possibly`
+- `quietly`
+
+### Mapping over multiple arguments
+
+### Walk 
+
+
+
 
 
 
