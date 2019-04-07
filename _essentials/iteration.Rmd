@@ -324,7 +324,7 @@ output
 In the `tidyverse` the loop range can be defined with a special function: 
 
 ```{r}
-seq_along(tb_2)
+seq_along(tb_2)  # loop through COLUMNS of a df/table
 ```
 
 #### Practice
@@ -372,12 +372,14 @@ hist(tb_2[[1]], main = paste0("Histogram of ", names(tb_2[1]), " values:"), xlab
 # With loop:
 out <- vector("list", 4)
 
-for (i in seq_along(tb_2)) {
+for (i in seq_along(tb_2)) {  # loop through COLUMNS of tb_2: 
+  
   print(i)
   var_name <- names(tb_2[i])
   title <- paste0("Histogram of ", var_name, " values:")
   x_lab <- var_name
   out[[i]] <- hist(tb_2[[i]], main = title, xlab = x_lab)
+  
 }
 
 plot(out[[1]])
@@ -439,7 +441,9 @@ Answers to our 3 questions:
 df2 <- tb  # copy
 
 for (i in seq_along(df2)) {
+  
   df2[[i]] <- rescale01(df2[[i]])
+  
 }
 
 # Output: 
@@ -478,6 +482,7 @@ because given a position we can extract both the current name and the current va
 
 ```{r}
 x <- 1:3
+
 for (i in seq_along(x)) {
   name  <- names(x)[[i]]
   value <- x[[i]]
@@ -524,11 +529,14 @@ Consider a simple data table `df`:
 
 ```{r}
 # Data:
+set.seed(1)  # for reproducible results
+
 df <- tibble(a = rnorm(10),
              b = rnorm(10),
              c = rnorm(10),
              d = rnorm(10)
 )
+
 df
 ```
 
@@ -584,7 +592,7 @@ f3 <- function(x) abs(x - mean(x)) ^ 3
 ```
 
 Hopefully, we’d notice that there’s a lot of duplication, 
-and extract it into an additional argument to a more general function:
+and extract it into an _additional argument_ to a more general function:
 
 ```{r}
 f <- function(x, i) abs(x - mean(x)) ^ i
@@ -621,23 +629,26 @@ col_summary(df, fun = median)
 col_summary(df, fun = sd)
 ```
 
-The idea of passing a _function_ as an _argument_ to another _function_ is extremely powerful idea, 
+The idea of passing a _function_ as an _argument_ to another _function_ is an extremely powerful idea, 
 and it’s one of the behaviors that makes R a _functional programming language_.
 
-#### `purrr` vs. `apply` 
 
-The `purrr` package provides functions that eliminate the need for many common for loops. 
+### `apply` and `purrr`
 
-The `base::apply` family of functions in (i.e., `apply`, `lapply`, `tapply`, etc.) 
-solve a similar problem, but `purrr` is more consistent and easier to learn.
+The `apply` family of functions and the `purrr` package provide functions that eliminate the need for many `for` loops.  
 
 #### Using `apply`
 
-Using `base::apply` to solve the above:
+The `base::apply` family of functions in (i.e., `apply`, `lapply`, `tapply`, etc.) 
+solve this problem by allowing to apply a function to designated parts of a data structure.
+
+`apply` takes the following arguments: 
 
 - `X` argument takes an array or matrix (i.e., data);
 - `MARGIN` argument: `1` = rows, `2` = columns;
 - `FUN` is the function to be applied. 
+
+Example: Using `base::apply` to solve the problem above:
 
 ```{r apply}
 dim(df)  # 10 rows, 4 columns:
@@ -655,9 +666,27 @@ apply(X = df, MARGIN = 1, FUN = sd)      # SD of every row
 
 Note: 
 
-- `lapply` returns a _list_ of the same length as `X`, each element of which is the result of applying `FUN` to the corresponding element of `X`.
+- `lapply` returns a _list_ of the same length as `X`, 
+each element of which is the result of applying `FUN` to the corresponding element of `X`.
 
 - See also `sapply` and `vapply` for simplifying arrays and returning vectors. 
+
+#### Using `purrr`
+
+The `purrr` package provides modern and more consistent versions of `apply`. 
+
+The main goal of using `purrr` functions (instead of `for` loops) is to allow breaking common list manipulation challenges into independent pieces. 
+
+This strategy involves 2 steps, each of which scales down the problem: 
+
+1. Solving the problem for a _single element_ of the list.  
+Once we’ve solved that problem, `purrr` takes care of generalising the solution to every element in the list.
+
+2. Breaking a complex problem down into _smaller sub-problems_ that allow us to advance towards a solution.  
+With `purrr`, we get many small pieces that we can compose together with the pipe (`%>%`).
+
+This scaling-down strategy makes it easier to solve new problems and to understand our solutions to old problems when we re-read older code.
+
 
 <!-- +++ here now +++ --> 
 
