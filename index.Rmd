@@ -1,7 +1,7 @@
 ---
 title: "Data Science for Psychologists (ds4psy)"
 author: "Hansjörg Neth, SPDS, uni.kn"
-date: "2019 04 01"
+date: "2019 04 02"
 output:
   rmdformats::html_clean:
     highlight: kate
@@ -57,7 +57,7 @@ This course provides an introduction to [R](http://www.r-project.org/) and conve
 Although later sessions add elements of _computer programming_ (e.g., writing functions and loops), 
 our focus remains on making sense of data (e.g., by creating summary tables and visualizations). 
 
-3. Regular exercises with real datasets explore the tools of the so-called [tidyverse](https://www.tidyverse.org/) (including the R packages `dplyr`, `ggplot`, and `tidyr`). 
+3. Regular exercises with real datasets explore the tools of the so-called [tidyverse](https://www.tidyverse.org/) (including the R packages `dplyr`, `ggplot2`, and `tidyr`). 
 
 The course is based on chapters of the popular [R for data science](http://r4ds.had.co.nz) textbook (Wickham & Grolemund, 2017), but topics and datasets used in the course are geared to the interests and needs of psychologists (e.g., involving the data of patients or experimental participants). 
 
@@ -65,7 +65,7 @@ Completing this course enables students to understand, transform, analyze, and v
 While this course does not deal with _statistical testing_ and only scratches the surface of _computer programming_, 
 it teaches _reproducible research practices_ and covers fundamental knowledge and skills of _data science_. 
 
-Enrolling in this course assumes no prior knowledge in programming or statistics, but motivation for weekly readings and for regularly solving exercises. Grades are determined by submitted solutions to exercises and a final project.  
+Enrolling in this course assumes no prior knowledge in programming or statistics, but motivation for weekly readings and for regularly solving exercises. Grades are determined by submitted solutions to exercises and a final project or exam.  
 
 
 ## Background
@@ -87,14 +87,12 @@ This course assumes some basic familiarity with statistics and the [R](http://ww
 
 ## Assessment
 
-A. Submitting solutions to weekly programming assignments (WPAs) to [Ilias](https://ilias.uni-konstanz.de/ilias/goto_ilias_uni_crs_809936.html) by **Thursday** of the same week (by 23:59) on at least 8 out of 11 weeks. 
+A. Submitting solutions to weekly programming assignments (WPAs) to [Ilias](https://ilias.uni-konstanz.de/ilias/goto_ilias_uni_crs_809936.html) by **Thursday** of the same week (by 23:59) on at least 8 out of 10 weeks. 
 
-B. Final assessment: Final [data science project](http://rpository.com/ds4psy/essentials/ds_project.html) (may be thesis-related, contents to be discussed with instructor). 
+B. Final assessment: **Vote** for 1 of 2 options: 
 
-<!-- Vote for 1 of 2 options: 
-
-1. Final exam (on 11.02.2019: 90 mins, open book);  
-2. Final data science project (may be thesis-related, contents to be discussed with instructor). 
+1. Final _exam_ (on Monday, 15.07.2019: 90 mins, open book);  
+2. Final [data science project](http://rpository.com/ds4psy/essentials/ds_project.html) (may be thesis-related, contents to be discussed with instructor). 
 
 -->
 
@@ -105,9 +103,9 @@ Final grades are based on both solutions to WPAs (A: 33%) and your final exam/pr
 
 ## Individual sessions, dates, and topics
 
-<!-- Image: random polar -->
-<!-- ![](./pix/pole/pole_rand_12.png) -->
-<img src = "./pix/pole/pole_rand_12.png" alt = "ds4psy" style = "width: 180px; float: right; border:0;"/>
+<!-- Image: sorted tiles -->
+<!-- ![](./pix/tile/tile_sort_10_brd.png) -->
+<img src = "./pix/tile/tile_sort_10_brd.png" alt = "ds4psy" style = "width: 180px; float: right; border:0;"/> 
 
 <!-- 
 
@@ -157,70 +155,79 @@ Part 2: Wrangle
 
  **Part 1: Preambulations**
 
- 1. 15.04.2019: Introduction and [r4ds Chapters 1 & 2](http://r4ds.had.co.nz) 
+ 1. 15.04.2019: Introduction and [r4ds Chapters 1 & 2](http://r4ds.had.co.nz). 
  
- 2. 29.04.2019: [Basic R concepts and commands: Scalars](http://rpository.com/ds4psy/essentials/basics.html) and [r4ds Chapters 4/6/8](http://r4ds.had.co.nz) 
- 
+ 2. 29.04.2019: [Basic R concepts and commands](http://rpository.com/ds4psy/essentials/basics.html) and [r4ds Chapters 4/6/8](http://r4ds.had.co.nz). 
+ <!-- ([Essentials with WPA01 and solutions](http://rpository.com/ds4psy/essentials/basics.html)). --> 
+  
  **Part 1: Explore data**
  
- 3. 06.05.2019: [Basic R concepts and commands: Vectors and rectangular data](http://rpository.com/ds4psy/R/_essentials/basics.html)   
- ([Essentials with WPA01 and solutions](http://rpository.com/ds4psy/essentials/basics.html)). 
-
- 4. 13.05.2019: [Chapter 3: Data visualisation](http://r4ds.had.co.nz/data-visualisation.html): `ggplot2`;  
- ([Essentials with WPA02 and solutions](http://rpository.com/ds4psy/essentials/visualize.html)).  
-
- 5. 20.05.2019: [Chapter 5: Data transformation](http://r4ds.had.co.nz/transform.html): `dplyr`;    
-  ([Essentials with WPA03 and solutions](http://rpository.com/ds4psy/essentials/transform.html)).  
-
- 6. 27.05.2019: [Chapter 7: Exploratory data analysis (EDA)](http://r4ds.had.co.nz/exploratory-data-analysis.html): `dplyr` & `ggplot2`;    
-  ([Essentials of EDA](http://rpository.com/ds4psy/essentials/explore.html)).  
+ 3. 06.05.2019: [Chapter 3: Data visualisation](http://r4ds.had.co.nz/data-visualisation.html): `ggplot2`.   
+    
+    <!-- ([Essentials with WPA02 and solutions](http://rpository.com/ds4psy/essentials/visualize.html)). -->  
  
- 7. 03.06.2019: +++ here now +++
- 
- **Buffer session: EDA**: Rinse and repeat: `dplyr` & `ggplot2`;  
-  ([Essentials of with WPA04 and solutions](http://rpository.com/ds4psy/essentials/explore.html)).  
- 
+
+ 4. 13.05.2019: [Chapter 5: Data transformation](http://r4ds.had.co.nz/transform.html): `dplyr`.  
+    
+    <!-- ([Essentials with WPA03 and solutions](http://rpository.com/ds4psy/essentials/transform.html)). --> 
+
+ 5. 20.05.2019: [Chapter 7: Exploratory data analysis (EDA)](http://r4ds.had.co.nz/exploratory-data-analysis.html): `dplyr` & `ggplot2`.     
+    
+    <!-- ([Essentials of EDA](http://rpository.com/ds4psy/essentials/explore.html)).  --> 
+
+    <!-- **Buffer session: EDA**: Rinse and repeat: `dplyr` & `ggplot2`;  
+         ([Essentials of with WPA04 and solutions](http://rpository.com/ds4psy/essentials/explore.html)). --> 
 
  **Part 2: Wrangle data**
 
- 8. 17.06.2019: [Chapter 10: Tibbles](http://r4ds.had.co.nz/tibbles.html): `tibble`;   
- ([Essentials with WPA05 and solutions](http://rpository.com/ds4psy/essentials/tibbles.html)).  
+ 6. 27.05.2019: [Chapter 10: Tibbles](http://r4ds.had.co.nz/tibbles.html): `tibble`.
  
- 9. 24.06.2019: [Chapter 11: Data import](http://r4ds.had.co.nz/data-import.html): `readr`.   
- ([Essentials of importing data](http://rpository.com/ds4psy/essentials/import.html)).  
+ <!-- ([Essentials with WPA05 and solutions](http://rpository.com/ds4psy/essentials/tibbles.html)). --> 
  
- 10. 01.07.2019: [Chapter 12: Tidy data](http://r4ds.had.co.nz/tidy-data.html): `tidyr`.   
-  ([Essentials of tidying data](http://rpository.com/ds4psy/essentials/tidy.html)).  
+ 7. 03.06.2019: [Chapter 11: Data import](http://r4ds.had.co.nz/data-import.html): `readr`.   
  
- 11. 08.07.2019: [Chapter 13: Relational data](http://r4ds.had.co.nz/relational-data.html): `dplyr`.   
-   ([Essentials of joining data](http://rpository.com/ds4psy/essentials/join.html)).   
+ <!-- ([Essentials of importing data](http://rpository.com/ds4psy/essentials/import.html)).  --> 
+ 
+
+ 8. 17.06.2019: [Chapter 12: Tidy data](http://r4ds.had.co.nz/tidy-data.html): `tidyr`.   
+  
+  <!-- ([Essentials of tidying data](http://rpository.com/ds4psy/essentials/tidy.html)). -->   
+ 
+ 9. 24.06.2019: [Chapter 13: Relational data](http://r4ds.had.co.nz/relational-data.html): `dplyr`.
+ 
+ <!-- ([Essentials of joining data](http://rpository.com/ds4psy/essentials/join.html)). --> 
 
  **Part 3: Program**
  
- 12. 15.07.2019: [Chapter 19: Functions](http://r4ds.had.co.nz/functions.html).   
-    (**[Essentials of functions, with WPA09](http://rpository.com/ds4psy/essentials/function.html)**). 
+ 10. 01.07.2019: [Chapter 19: Functions](http://r4ds.had.co.nz/functions.html). 
  
+  <!-- (**[Essentials of functions, with WPA09](http://rpository.com/ds4psy/essentials/function.html)**). --> 
+
  <!-- 
- 13. 28.01.2019: [Chapter 20: Vectors](http://r4ds.had.co.nz/vectors.html) and/or 
-                      [Chapter 21: Iteration](http://r4ds.had.co.nz/iteration.html) 
+ 1x. xx.xx.2019: [Chapter 20: Vectors](http://r4ds.had.co.nz/vectors.html). 
  -->
  
- <!-- 14. 04.02.2019: **Buffer session**: Preparing exam or [data science project](http://rpository.com/ds4psy/essentials/ds_project.html). 
+ 11. 08.07.2019: [Chapter 21: Iteration](https://r4ds.had.co.nz/iteration.html): Loops and `purrr`.
+
+ <!-- 1x. xx.xx.2019: **Buffer session**: Rinse and repeat; 
+                      preparing exam or [data science project](http://rpository.com/ds4psy/essentials/ds_project.html). 
  --> 
+
+ 12. 15.07.2019: Starting your [data science project](http://rpository.com/ds4psy/essentials/ds_project.html) or **final exam**. 
  
- 15. 15.07.2019: Starting your [data science project](http://rpository.com/ds4psy/essentials/ds_project.html). <!-- or **Final exam** -->
 
-
-
+ 
+ +++ here now +++
 
 <!-- Table with links: -->
 
-All [ds4psy](http://rpository.com/ds4psy/) essentials so far: 
+<!-- All [ds4psy](http://rpository.com/ds4psy/) essentials so far: -->
 
 <!-- Image: sorted tiles -->
 <!-- ![](./pix/tile/tile_sort_10_brd.png) -->
-<img src = "./pix/tile/tile_sort_10_brd.png" alt = "ds4psy" style = "width: 180px; float: right; border:0;"/>
+<!-- <img src = "./pix/tile/tile_sort_10_brd.png" alt = "ds4psy" style = "width: 180px; float: right; border:0;"/> --> 
 
+<!--
 Nr. | Topic       |
 ---:|:------------| 
 0.  | [Syllabus](http://rpository.com/ds4psy/) | 
@@ -234,6 +241,7 @@ Nr. | Topic       |
 8.  | [Joining data](http://rpository.com/ds4psy/essentials/join.html) |
 9.  | [Functions](http://rpository.com/ds4psy/essentials/function.html) |
 +.  | [Datasets](http://rpository.com/ds4psy/essentials/datasets.html) | 
+-->
 
 <!--
 Nr. | Topic       |
@@ -277,6 +285,11 @@ This section contains some clarifications (on the term "data science") and recom
 
 ## What is data science? 
 
+<!-- Image: random polar -->
+<!-- ![](./pix/pole/pole_rand_12.png) -->
+<img src = "./pix/pole/pole_rand_12.png" alt = "ds4psy" style = "width: 180px; float: right; border:0;"/>
+
+
 <!-- Quotes --> 
 
 > It is a capital mistake to theorize before one has data.  
@@ -287,7 +300,6 @@ It is a capital mistake to theorize before one has data.
 Insensibly one begins to twist facts to suit theories, instead of theories to suit facts.
 
 Arthur Conan Doyle (1891): A Scandal in Bohemia --> 
-
 
 <!--
 > The process of preparing programs for a digital computer is especially attractive,  
@@ -326,11 +338,21 @@ This course assumes that you are motivated to learn its material and willing and
 
 ### Succeeding in this course
 
-The main ingredient for succeeding in this course is aptly summarized by the following quote: 
+<!-- Image: sorted polar -->
+<!-- ![](./pix/pole/pole_sort_12.png) -->
+<img src = "./pix/pole/pole_sort_12.png" alt = "ds4psy" style = "width: 180px; float: right; border:0;"/>
 
+The main ingredient for succeeding in this course is sustained focus and a keen attention to detail, as aptly summarized by the following quote: 
+
+> Practise yourself (...) in little things,  
+> and thence proceed to greater.  
+> Epictetus _Discourses_ Book I, 18
+
+<!-- 
 > Practise yourself, for Heaven's sake, in little things,  
 > and thence proceed to greater.  
 > Epictetus _Discourses_ Book I, 18
+--> 
 
 <!-- Goals: Complete Rtudes, recital at exam, your first concert as final project. --> 
 
@@ -338,19 +360,19 @@ The main ingredient for succeeding in this course is aptly summarized by the fol
 
 <!-- ### Learning to play an instrument -->
 
-Getting good at data science is similar to learning an instrument or mastering some sport: You need a basic infrastructure -- some equipment (like hard- or software), plus training materials -- to get started. Once the basics are in place, you can benefit from the advice of experts and peers, but mostly need a lot of practice. It always helps to have talent, but dedicated practice is essential even when you happen to be a genius. 
+Beginning to do data science is similar to learning an instrument or mastering some sport: You first need some basic infrastructure -- equipment (like hard- and software), plus training materials -- to get started. Once the basics are in place, you may benefit from the advice of experts and peers, but mostly need a lot of practice. Being interested and having talent usually helps, but _dedicated practice_ is essential even when you happen to be a genius. 
 
-Becoming proficient in data science requires both curiosity and routine: 
+Getting good at data science requires both _curiosity_ and _routine_: 
 
 - _Curiosity_ implies interest, motivation, and fun: If you really want to find out or achieve something (e.g., understand some data or conduct some analysis), you are willing to find out how this can be achieved and will overcome the obstacles that may appear along the way. Perceiving tasks as a challenge rather than a chore will allow you to enjoy the efforts invested, rather than suffering from them. 
 
-- _Routine_ implies discipline, stamina, and lots of practice. It's impossible to acquire new skills without investing time and effort. Crucially, _habitual_ practice (e.g., daily use of data science tools) helps developing various organizational skills (e.g., using keyboard shortcuts, naming objects, formatting code, and structuring files or projects) that are non-trivial and will profoundly affect your productivity. 
+- _Routine_ implies discipline, stamina, and lots of practice. It's impossible to acquire new skills without investing time and effort. Crucially, _habitual_ practice (e.g., daily use of data science tools) helps developing various organizational skills (e.g., using keyboard shortcuts, naming objects, formatting code, and structuring files or projects) that are non-trivial and will profoundly affect your productivity (far beyond this course). 
 
-Ultimately, practicing any art, craft or science is also a process of socialization: belonging to a community that shares the same goals, methods, and values. 
+Ultimately, practicing any art, craft or science is also a _process_ of _socialization_: Striving towards common goals and belonging to a community that shares similar methods, principles, and values. 
 
 ### Warning 
 
-Beware of side effects: Becoming an R user (useR?) will profoundly transform your thinking --- not just about code, but about the data and problems you are trying to grasp and understand. While programming (in R or any other language) can be enjoyable, but also has addictive potential. Make sure to take regular breaks and keep focused on the research questions behind and beyond the data science tools.
+Beware of side effects: Becoming an R user (useR?) will profoundly transform your thinking --- not just about data and code, but about the problems you are trying to solve and understand. While programming (in R or any other language) can be enjoyable, but also has addictive potential. Make sure to take regular breaks and keep focused on the questions and science behind and beyond the data and the tools.
 
 
 # Links
@@ -359,10 +381,9 @@ Beware of side effects: Becoming an R user (useR?) will profoundly transform you
 
 ## Course
 
-- [Course syllabus](http://rpository.com/ds4psy/) 
+- Current [course syllabus](http://rpository.com/ds4psy/) 
 - [ZeUS](https://zeus.uni-konstanz.de:443/hioserver/pages/startFlow.xhtml?_flowId=detailView-flow&unitId=5101&periodId=179&navigationPosition=hisinoneLehrorganisation,examEventOverviewOwn) 
 - [Ilias](https://ilias.uni-konstanz.de/ilias/goto_ilias_uni_crs_863036.html) 
-
 
 <!-- ## Essentials -->
 
@@ -420,9 +441,7 @@ For instructions on combining text and code, see [Chapter 27: R Markdown](https:
 
 <!-- The following links allow you to get started. -->
 
-<!-- Image: sorted polar -->
-<!-- ![](./pix/pole/pole_sort_12.png) -->
-<img src = "./pix/pole/pole_sort_12.png" alt = "ds4psy" style = "width: 180px; float: right; border:0;"/>
+
 
 ## Software and packages
 
