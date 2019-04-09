@@ -1,7 +1,7 @@
 ---
 title: "Data Science for Psychologists (ds4psy)"
 author: "Hansjörg Neth, SPDS, uni.kn"
-date: "2019 04 02"
+date: "2019 04 09"
 output:
   rmdformats::html_clean:
     highlight: kate
@@ -70,9 +70,9 @@ Enrolling in this course assumes no prior knowledge in programming or statistics
 
 ## Background
 
-Students of psychology and other social sciences are trained to analyze data. But the data they learn to work with (e.g., in courses on statistics and empirical research methods) is typically provided to them and structured in a (rectangular or "tidy", Wickham, 2014) format that includes and presupposes many steps of data processing regarding the aggregation and spatial layout of variables.  When beginning to collect real-world data from other sources, most students struggle with these pre-processing steps which --- even for experienced data scientists --- tend to require more time and effort than choosing and conducting statistical tests. 
+Students of psychology and other social sciences are trained to analyze data. But the data they learn to work with (e.g., in courses on statistics and empirical research methods) is typically provided to them and structured in a (mostly rectangular and often _tidy_, Wickham, 2014) format that includes and presupposes many steps of data processing regarding the aggregation and spatial layout of variables.  When beginning to collect data from real sources, most students struggle with these pre-processing steps which --- even for experienced data scientists --- tend to require more time and effort than choosing and conducting statistical tests. This course develops the foundations of data analysis that allow students to collect data from real-world sources and transform such data into a shape that allows conducting reproducible research and answering scientific questions. 
 
-This course develops the foundations of data analysis that allow students to collect data from real-world sources and transform such data into a shape that allows for answering scientific and practical questions and reproducible research. Although there are many good introductions to data science (we use [Grolemund & Wickham, 2017](http://r4ds.had.co.nz/)) they typically do not cater towards the special background and needs -- and often anxieties and reservations -- of psychology students. As social scientists are not computer scientists, we introduce new concepts and commands without assuming a mathematical or computational background. Our data and examples typically involve people and questions currently of interest in scientific psychology. Adopting a task-oriented perspective, we begin with a specific problem and then solve it with some combination of data collection, manipulation, modeling, and visualization.
+While there are many good introductions to data science (we use [Grolemund & Wickham, 2017](http://r4ds.had.co.nz/)) they typically do not cater towards the special background and needs -- and often anxieties and reservations -- of _psychology_ students. As social scientists are not computer scientists, we introduce new concepts and commands without assuming a mathematical or computational background. Our data and examples typically involve people and questions currently of interest in scientific psychology. Adopting a task-oriented perspective, we begin with a specific problem and then solve it with some combination of data collection, manipulation, modeling, and visualization.
 
 
 ## Goals
@@ -94,9 +94,7 @@ B. Final assessment: **Vote** for 1 of 2 options:
 1. Final _exam_ (on Monday, 15.07.2019: 90 mins, open book);  
 2. Final [data science project](http://rpository.com/ds4psy/essentials/ds_project.html) (may be thesis-related, contents to be discussed with instructor). 
 
--->
-
-Final grades are based on both solutions to WPAs (A: 33%) and your final exam/project (B: 67%).
+Final grades are based on your solutions to WPAs (A: 33%) and your final exam/project (B: 67%).
 
 
 # Schedule 
@@ -153,7 +151,7 @@ Part 2: Wrangle
 
 -->
 
- **Part 1: Preambulations**
+ **Part 0: Preambulations**
 
  1. 15.04.2019: Introduction and [r4ds Chapters 1 & 2](http://r4ds.had.co.nz). 
  
@@ -216,8 +214,7 @@ Part 2: Wrangle
  12. 15.07.2019: Starting your [data science project](http://rpository.com/ds4psy/essentials/ds_project.html) or **final exam**. 
  
 
- 
- +++ here now +++
+
 
 <!-- Table with links: -->
 
