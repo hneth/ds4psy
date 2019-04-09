@@ -811,7 +811,7 @@ With <code>purrr</code>, we get many small pieces that we can compose together w
 <li><code>map_dbl()</code> makes a <em>double vector</em>.</li>
 <li><code>map_chr()</code> makes a <em>character vector</em>.</li>
 </ul>
-<p>Each function takes a vector as input, applies a function to each element, and then returns a new vector that’s the same length (and has the same names) as the input.<br />
+<p>Each function takes a vector <code>.x</code> as input, applies a function <code>.f</code> to each element, and then returns a new vector that’s the same length (and has the same names) as the input.<br />
 The type of the output vector is determined by the suffix to the map function.</p>
 <div id="examples" class="section level4">
 <h4>Examples</h4>
@@ -825,9 +825,11 @@ The type of the output vector is determined by the suffix to the map function.</
 <span class="kw">map_dbl</span>(df, sd)
 <span class="co">#&gt;         a         b         c         d </span>
 <span class="co">#&gt; 0.7805860 1.0695148 0.9556076 0.8085646</span></code></pre></div>
-<p>Note:</p>
-<p>Without the suffix <code>_dbl</code>, <code>map(df, sd)</code> returns a list (with an element for every column of <code>df</code>).</p>
-<p>With <code>map</code>, our focus is on the function/operation, not the bookkeeping of the <code>for</code> loop. This is even more obvious when using the pipe:</p>
+<p>Notes:</p>
+<ul>
+<li><p>Without the suffix <code>_dbl</code>, <code>map(df, sd)</code> returns a list (with an element for every column of <code>df</code>).</p></li>
+<li><p>With <code>map</code>, our focus is on the function/operation, not the bookkeeping of the <code>for</code> loop. This is even more obvious when using the pipe:</p></li>
+</ul>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">df <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">map_dbl</span>(mean)
 <span class="co">#&gt;          a          b          c          d </span>
 <span class="co">#&gt;  0.1322028  0.2488450 -0.1336732  0.1207302</span>
@@ -837,6 +839,22 @@ df <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">map_d
 df <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">map_dbl</span>(sd)
 <span class="co">#&gt;         a         b         c         d </span>
 <span class="co">#&gt; 0.7805860 1.0695148 0.9556076 0.8085646</span></code></pre></div>
+<ul>
+<li><code>map</code> also uses the generic <code>...</code> argument to allow for additional arguments:</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">map_dbl</span>(df, mean, <span class="dt">trim =</span> <span class="fl">0.5</span>)
+<span class="co">#&gt;            a            b            c            d </span>
+<span class="co">#&gt;  0.256575548  0.491872279  0.009218122 -0.056559219</span>
+<span class="kw">map_dbl</span>(df, sd, <span class="dt">na.rm =</span> <span class="ot">FALSE</span>)
+<span class="co">#&gt;         a         b         c         d </span>
+<span class="co">#&gt; 0.7805860 1.0695148 0.9556076 0.8085646</span></code></pre></div>
+<ul>
+<li><code>map</code> preserves names:</li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">z &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="dt">x =</span> <span class="dv">1</span><span class="op">:</span><span class="dv">3</span>, <span class="dt">y =</span> <span class="dv">4</span><span class="op">:</span><span class="dv">5</span>)
+z <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">map_int</span>(length)
+<span class="co">#&gt; x y </span>
+<span class="co">#&gt; 3 2</span></code></pre></div>
 </div>
 <div id="shortcuts" class="section level4">
 <h4>Shortcuts</h4>
@@ -887,7 +905,7 @@ models <span class="co"># 3 linear models</span>
 <span class="co">#&gt; Coefficients:</span>
 <span class="co">#&gt; (Intercept)           wt  </span>
 <span class="co">#&gt;      23.868       -2.192</span></code></pre></div>
-<p>The syntax for creating an <em>anonymous function</em> in R is quite verbose, so <code>purrr</code> provides a convenient shortcut: a <em>one-sided formula</em>.</p>
+<p>As the syntax for creating an <em>anonymous function</em> in R is quite verbose, <code>purrr</code> provides a <em>one-sided formula</em> as a shortcut:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">models &lt;-<span class="st"> </span>mtcars <span class="op">%&gt;%</span><span class="st"> </span>
 <span class="st">  </span><span class="kw">split</span>(.<span class="op">$</span>cyl) <span class="op">%&gt;%</span><span class="st"> </span>
 <span class="st">  </span><span class="kw">map</span>(<span class="op">~</span><span class="kw">lm</span>(mpg <span class="op">~</span><span class="st"> </span>wt, <span class="dt">data =</span> .))
@@ -921,8 +939,8 @@ models
 <span class="co">#&gt; Coefficients:</span>
 <span class="co">#&gt; (Intercept)           wt  </span>
 <span class="co">#&gt;      23.868       -2.192</span></code></pre></div>
-<p>Here, <code>.</code> is used as a pronoun that refers to the current list element.</p>
-<p>When we’re looking at many models, we might want to extract a summary statistic like the <span class="math inline">\(R^{2}\)</span>. To do that we need to first run <code>summary()</code> on our <code>models</code> and then extract the component called <code>r.squared</code>. We could do that using the <em>shorthand for anonymous functions</em>:</p>
+<p>Here, the <code>.</code> is used as a pronoun that refers to the current list element.</p>
+<p>When inspecting many models, we may want to extract a summary statistic like <span class="math inline">\(R^{2}\)</span>. To do that we need to first run <code>summary()</code> on our <code>models</code> and then extract the component called <code>r.squared</code>. We could do that using the <em>shorthand for anonymous functions</em>:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">models <span class="op">%&gt;%</span><span class="st"> </span>
 <span class="st">  </span><span class="kw">map</span>(summary) <span class="op">%&gt;%</span><span class="st"> </span>
 <span class="st">  </span><span class="kw">map_dbl</span>(<span class="op">~</span>.<span class="op">$</span>r.squared)
@@ -941,8 +959,18 @@ models
 
 x <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">map_dbl</span>(<span class="dv">2</span>)  <span class="co"># 2nd column of x</span>
 <span class="co">#&gt; [1] 2 5 8</span></code></pre></div>
-<!-- +++ here now +++ -->
 </div>
+</div>
+<div id="map-vs.-apply" class="section level3">
+<h3><code>map</code> vs. <code>apply</code></h3>
+<p>The <code>map</code> functions of <code>purrr</code> are modeled on the <code>apply</code> functions:</p>
+<ul>
+<li><p><code>lapply</code> is basically identical to <code>map</code>, except that <code>map</code> is consistent with all the other functions in <code>purrr</code>, and we can use the shortcuts for <code>.f</code>.</p></li>
+<li><p><code>sapply</code> is a wrapper around <code>lapply</code> that automatically simplifies the output (which can yield unexpected results).</p></li>
+<li><p><code>vapply</code> is a safe alternative to <code>sapply</code> because you supply an additional argument that defines the type. The only problem with <code>vapply</code> is that it’s a lot of typing: <code>vapply(df, is.numeric, logical(1))</code> is equivalent to <code>map_lgl(df, is.numeric)</code>.</p></li>
+<li><p>One advantage of <code>vapply</code> over <code>purrr</code>’s <code>map</code> functions is that it can also produce <em>matrices</em> — the <code>map</code> functions only ever produce <em>vectors</em>.</p></li>
+</ul>
+<!-- +++ here now +++ -->
 </div>
 <div id="dealing-with-failure" class="section level3">
 <h3>Dealing with failure</h3>
@@ -973,6 +1001,12 @@ x <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">map_db
 <p>Loops in new functions</p>
 <ul>
 <li>Write a function that z-transforms every numeric column in a table.</li>
+</ul>
+</div>
+<div id="map-functions-of-purrr" class="section level2">
+<h2><code>map</code> functions of <code>purrr</code></h2>
+<ul>
+<li>See <a href="https://r4ds.had.co.nz/iteration.html#exercises-58" class="uri">https://r4ds.had.co.nz/iteration.html#exercises-58</a></li>
 </ul>
 </div>
 </div>
@@ -1062,7 +1096,7 @@ Nr. | Topic       |
 10. | [Iteration](http://rpository.com/ds4psy/essentials/iteration.html) |
 +.  | [Datasets](http://rpository.com/ds4psy/essentials/datasets.html) | 
 -->
-<p>[Last update on 2019-04-07 11:58:42 by <a href="http://neth.de/">hn</a>.]</p>
+<p>[Last update on 2019-04-09 21:50:46 by <a href="http://neth.de/">hn</a>.]</p>
 <!-- eof. -->
 </div>
 </div>
@@ -1089,6 +1123,7 @@ Nr. | Topic       |
         <li><a href="#using-apply">Using <code>apply</code></a></li>
         <li><a href="#using-purrr">Using <code>purrr</code></a></li>
         <li><a href="#map-functions"><code>map</code> functions</a></li>
+        <li><a href="#map-vs.-apply"><code>map</code> vs. <code>apply</code></a></li>
         <li><a href="#dealing-with-failure">Dealing with failure</a></li>
         <li><a href="#mapping-over-multiple-arguments">Mapping over multiple arguments</a></li>
         <li><a href="#walk">Walk</a></li>
@@ -1096,6 +1131,7 @@ Nr. | Topic       |
         </ul></li>
         <li><a href="#exercises-wpa10">Exercises (WPA10)</a><ul>
         <li><a href="#exercise-x">Exercise X</a></li>
+        <li><a href="#map-functions-of-purrr"><code>map</code> functions of <code>purrr</code></a></li>
         </ul></li>
         <li><a href="#more-on-iteration">More on iteration</a></li>
         <li><a href="#conclusion">Conclusion</a></li>
