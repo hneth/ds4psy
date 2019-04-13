@@ -1,5 +1,5 @@
 ## custom_functions.R | ds4psy
-## hn | uni.kn | 2019 04 04
+## hn | uni.kn | 2019 04 13
 ## ---------------------------
 
 ## (1) Graphics: ---------- 
@@ -40,6 +40,91 @@ library(unikn)  # from dedicated package
 unikn.pal <- unikn::pal_unikn
 seeblau <- unikn::pal_unikn[["seeblau3"]]  # 
 # seeblau # seeblau3: "#59C7EB"
+
+
+# pal_n_sq: Get n^2 (n x n) specific colors of a palette [pal]: ------ 
+
+# - Documentation: ---- 
+
+#' Get n^2 dedicated colors of a color palette.
+#'
+#' \code{pal_n_sq} returns \code{n^2} dedicated colors of a color palette \code{pal} 
+#' (up to a maximum of \code{n + 1} colors). 
+#' 
+#' Note that \code{pal_n_sq} was created for \code{pal = \link{pal_unikn}} 
+#' for small values of \code{n} (\code{n = 1, 2, 3}) and 
+#' returns the 11 colors of \code{\link{pal_unikn_plus}} for any \code{n > 3}. 
+#' 
+#' Use the more specialized function \code{use_pal_n} for choosing 
+#' \code{n} dedicated colors of a known color palette. 
+#' 
+#' @param n A number specifying the desired number colors of pal (as a number) 
+#' or the character string \code{"all"} (to get all colors of \code{pal}). 
+#' Default: \code{n = "all"}. 
+#'
+#' @param pal A color palette (as a data frame). 
+#' Default: \code{pal = \link{pal_unikn}}. 
+#'
+#' @examples
+#' # pal_n_sq(1) #  1 color: seeblau3
+#' # pal_n_sq(2) #  4 colors
+#' # pal_n_sq(3) #  9 colors (5: white)
+#' # pal_n_sq(4) # 11 colors of pal_unikn_plus (6: white)
+#' 
+#' @family color palettes
+#'
+#' @seealso
+#' \code{\link{seecol}} to plot color palettes; 
+#' \code{\link{usecol}} to use color palettes; 
+#' \code{\link{pal_unikn}} for the default uni.kn color palette. 
+#' 
+#' 
+
+# - Definition: ---- 
+
+pal_n_sq <- function(n = "all", pal = pal_unikn){
+  
+  # handle inputs:
+  stopifnot(length(pal) > 0)
+  
+  if (is.character(n) && tolower(n) == "all") { n <- length(pal) }
+  stopifnot(is.numeric(n))
+  stopifnot(n > 0)
+  
+  out <- NA    # initialize
+  
+  if (n == 1) {
+    
+    out <- pal[3]  #  1 preferred color: seeblau3
+    
+  } else if (n == 2) {
+    
+    out <- pal[c(2, 4, 6, 10)]  #  4 colors: seeblau4, seeblau2, white, grey
+    
+  } else if (n == 3) {
+    
+    out <- pal[-7]  #  9 colors: seeblau > white > black
+    
+  } else { # n > 3: 9+ colors: 
+    
+    if (isTRUE(all.equal(pal, pal_unikn))) {
+      
+      # out <- pal[c(1:2, 2:10)]   # 11 colors: seeblau (seeblau.3: 2x) > white (6 = mid) > black (11) [default]  
+      
+      out <- pal_unikn        # 11 colors: seeblau.5 > white (6 = mid) > black (11)  
+      
+    } else { # any other pal:
+      
+      out <- pal
+      
+    }
+    
+  } # if (n == etc.)
+  
+  return(out)
+  
+}
+
 
 ## (2) Generating random datasets: ---------- 
   
