@@ -1,7 +1,7 @@
 ---
 title: "ds4psy Artwork" 
 author: "Hansjörg Neth, SPDS, uni.kn"
-date: "2019 04 13"
+date: "2019 04 14"
 output:
   rmdformats::html_clean:
     lightbox: TRUE 
@@ -1406,8 +1406,8 @@ ToC (chronology and relevance of sessions) as bar charts:
 # Table of contents (ToC):
 toc <- tribble(
   ~nr, ~tp,                 ~ctr,   
-  0,  "Introduction",          3,  
-  1, 	"Basic R",              10,  # was: "Basic R concepts and commands",
+  0,  "Introduction",          2,  
+  1, 	"R basics",              10,  # was: "Basic R concepts and commands",
   2, 	"Visualizing data",      8, 
   3, 	"Transforming data",     9, 
   4, 	"Exploring data",       10,  # was: "Exploring data (EDA)"
@@ -1433,10 +1433,8 @@ txt_size <- 2.5  # size of txt labels (below)
 
 # unikn.pal  # basic 
 
-unikn_toc <- c(rev(unikn.pal[5:10]), # white:black (6) 
-               unikn.pal[1:4],       # seeblau1 to 4 (4)
-               seeblau)              # seeblau4 (1)
-# unikn_toc  # 11 colors
+# unikn_toc:  # 11 colors
+unikn_toc <- seecol(pal = c(Grau, Bordeaux, pal_seeblau[c(4,3,5,3,1,4,2)], pal_seegruen[c(3,5)]), n = 11)
 ```
 
 Bar plots:
@@ -1468,7 +1466,7 @@ ggsave(cur_name, width = 15, height = 10, units = c("cm"), dpi = 300)
 bar_vert <- ggplot(toc, aes(x = nr)) +
   geom_bar(aes(y = ctr, fill = ctr), stat = "identity", color = grey(.5, 1)) +
   # scale_fill_gradientn(colors = unikn_toc) +
-  scale_fill_gradient(low = "white", high = seeblau, limits = c(min_ctr, max_ctr)) +
+  scale_fill_gradient(low = "white", high = pal_seeblau[[5]], limits = c(min_ctr, max_ctr)) +
   geom_text(aes(y = ctr + .5, label = tp), angle = 90, adj = 0, size = txt_size) + 
   scale_x_continuous(breaks = 0:N, labels = 0:N) + 
   scale_y_continuous(limits = c(0, (max_ctr + tol)), breaks = 1:max_ctr, labels = 1:max_ctr) + 
@@ -1514,7 +1512,7 @@ topic_clock <- ggplot(toc, aes(x = nr)) +
 centrality <- ggplot(toc, aes(x = nr)) +
   geom_bar(aes(y = ctr, fill = ctr), stat = "identity", color = grey(.10, 1), size = .25) +
   # scale_fill_gradientn(colors = unikn_toc) +
-  scale_fill_gradient(low = "white", high = seeblau, limits = c(min_ctr, max_ctr)) +
+  scale_fill_gradient(low = "white", high = pal_seeblau[[5]], limits = c(min_ctr, max_ctr)) +
   geom_text(aes(y = (max_ctr + .65 * tol), label = tp), adj = .5, size = txt_size) + 
   scale_x_continuous(breaks = 0:N, labels = 0:N) + 
   scale_y_continuous(limits = c(0, (max_ctr + tol)), breaks = 1:max_ctr, labels = 1:max_ctr) + 
@@ -1562,7 +1560,7 @@ txt_size <- 2.0  # decrease (to keep topic labels within highlighted areas)
 # Add current session_val to toc:
 toc$session_val <- 0  # initialize session_val
 toc$session_val[(nr_session + 1)] <- (max_ctr + tol)  # maximum y-value
-toc
+# toc
 
 cur_session_clock <- ggplot(toc, aes(x = nr)) +
   geom_bar(aes(y = session_val), stat = "identity", fill = "gold", alpha = .75) +
