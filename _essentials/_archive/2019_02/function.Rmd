@@ -1,0 +1,1569 @@
+---
+title: "Functions, with WPA09 and solutions (ds4psy)"
+author: "Hansjörg Neth, SPDS, uni.kn"
+date: "2019 01 31"
+output:
+   rmdformats::html_clean: # html_clean html_docco readthedown material #
+     code_folding: show # hide
+     toc_float: true
+     toc_depth: 3
+     highlight: default # textmate default kate haddock monochrome #
+     lightbox: true # true by default
+     fig_width: 7 # in inches
+editor_options: 
+  chunk_output_type: console # inline
+---
+
+<!-- Example of essential commands | ds4psy: Winter/Spring 2018/2019 -->
+
+```{r preamble, echo = FALSE, eval = TRUE, cache = FALSE, message = FALSE, warning = FALSE}
+## (a) Housekeeping: -----
+rm(list=ls()) # clean all.
+
+## (b) Current file name and path: ----- 
+# my_path <- dirname(rstudioapi::getActiveDocumentContext()$path)
+# my_path
+# setwd(my_path) # set to current directory
+setwd("~/Desktop/stuff/Dropbox/_code/R/_teachR/ds4psy/_essentials") # set to current directory
+# list.files() # all files + folders in current directory
+fileName <- "function.Rmd"
+
+## (c) Packages: ----- 
+library(knitr)
+library(rmdformats)
+library(tidyverse)
+
+## (d) Global options: ----- 
+options(max.print = "75")
+opts_chunk$set(echo = TRUE,
+	             cache = TRUE,
+               prompt = FALSE,
+               tidy = FALSE,
+               collapse = TRUE, # set TRUE in answers 
+               comment = "#>",
+               message = FALSE,
+               warning = FALSE,
+               ## Default figure options:
+               fig.width = 7, 
+               fig.asp = .618, # golden ratio
+               out.width = "75%",
+               fig.align = "center"
+               )
+opts_knit$set(width = 75)
+
+## (e) Custom functions: ----- 
+source(file = "~/Desktop/stuff/Dropbox/_code/R/_teachR/ds4psy/R/custom_functions.R")
+```
+
+# Introduction
+
+This file contains **essential commands** from [Chapter 19: Functions](https://r4ds.had.co.nz/functions.html) of the textbook [r4ds](http://r4ds.had.co.nz) and corresponding examples and exercises. 
+A command is considered "essential" when you really need to _know_ it and need to know _how to use_ it to succeed in this course. 
+
+<!-- Table with links: -->
+
+All [ds4psy](http://rpository.com/ds4psy/) essentials so far: 
+
+Nr. | Topic       |
+---:|:------------| 
+0.  | [Syllabus](http://rpository.com/ds4psy/) | 
+1.  | [Basic R concepts and commands](http://rpository.com/ds4psy/essentials/basics.html) | 
+2.  | [Visualizing data](http://rpository.com/ds4psy/essentials/visualize.html) | 
+3.  | [Transforming data](http://rpository.com/ds4psy/essentials/transform.html) |
+4.  | [Exploring data (EDA)](http://rpository.com/ds4psy/essentials/explore.html) | 
+5.  | [Tibbles](http://rpository.com/ds4psy/essentials/tibbles.html) |
+6.  | [Importing data](http://rpository.com/ds4psy/essentials/import.html) |
+7.  | [Tidying data](http://rpository.com/ds4psy/essentials/tidy.html) |
+8.  | [Joining data](http://rpository.com/ds4psy/essentials/join.html) |
+9.  | **Functions** |
++.  | [Datasets](http://rpository.com/ds4psy/essentials/datasets.html) | 
+
+<!--
+Nr. | Topic       |
+---:|:------------| 
+0.  | [Syllabus](http://rpository.com/ds4psy/) | 
+1.  | [Basic R concepts and commands](http://rpository.com/ds4psy/essentials/basics.html) | 
+2.  | [Visualizing data](http://rpository.com/ds4psy/essentials/visualize.html) | 
+3.  | [Transforming data](http://rpository.com/ds4psy/essentials/transform.html) |
+4.  | [Exploring data (EDA)](http://rpository.com/ds4psy/essentials/explore.html) | 
+5.  | [Tibbles](http://rpository.com/ds4psy/essentials/tibbles.html) |
+6.  | [Importing data](http://rpository.com/ds4psy/essentials/import.html) |
+7.  | [Tidying data](http://rpository.com/ds4psy/essentials/tidy.html) |
+8.  | [Joining data](http://rpository.com/ds4psy/essentials/join.html) |
+9.  | [Functions](http://rpository.com/ds4psy/essentials/function.html) |
++.  | [Datasets](http://rpository.com/ds4psy/essentials/datasets.html) | 
+-->
+
+## Course coordinates
+
+<!-- uni.kn logo and link to SPDS: -->  
+<!-- ![](./inst/pix/uniKn_logo.png) --> 
+<a href="https://www.spds.uni-konstanz.de/">
+<img src = "../inst/pix/uniKn_logo.png" alt = "spds.uni.kn" align = "right" width = "300" style = "width: 300px; float: right; border:20;"/>
+<!-- <img src = "./inst/pix/uniKn_logo_s.png" alt = "spds.uni.kn" style = "float: right; border:20;"/> --> 
+</a>
+
+* Taught at the [University of Konstanz](https://www.uni-konstanz.de/) by [Hansjörg Neth](http://neth.de/) (<h.neth@uni.kn>,  [SPDS](https://www.spds.uni-konstanz.de/), office D507).
+* Winter 2018/2019: Mondays, 13:30--15:00, C511. 
+* Links to current [course syllabus](http://rpository.com/ds4psy/) | [ZeUS](https://zeus.uni-konstanz.de/hioserver/pages/startFlow.xhtml?_flowId=detailView-flow&unitId=5101&periodId=78&navigationPosition=hisinoneLehrorganisation,examEventOverviewOwn) |  [Ilias](https://ilias.uni-konstanz.de/ilias/goto_ilias_uni_crs_809936.html) 
+
+
+## Preparations
+
+Create an R script (`.R`) or an R-Markdown file (`.Rmd`) and load the R packages of the `tidyverse`. (**Hint:** Structure your script by inserting spaces, meaningful comments, and sections.) 
+
+```{r layout_template, echo = TRUE, eval = FALSE}
+## Functions | ds4psy
+## 2019 01 28
+## ----------------------------
+
+## Preparations: ----------
+
+library(tidyverse)
+
+## 1. Topic: ----------
+
+# etc.
+
+## End of file (eof). ----------  
+```
+
+To use [R Markdown](https://rmarkdown.rstudio.com), create a corresponding file and save it with the `.Rmd` extension (e.g., by selecting `File > New File > R Markdown`). 
+For instructions on combining text and code, see [Chapter 27: R Markdown](https://r4ds.had.co.nz/r-markdown.html) of our textbook, or use one of the following templates:  
+
+- minimal template:  `rmd_template_s` [in [.Rmd](http://rpository.com/down/temp/rmd_template_s.Rmd) | [.html](http://rpository.com/down/temp/rmd_template_s.html) format]
+
+- medium template: `rmd_template_m` [in [.Rmd](http://rpository.com/down/temp/rmd_template_m.Rmd) | [.html](http://rpository.com/down/temp/rmd_template_m.html) format]
+
+- explicit explanations: `Rmarkdown_basics` [in [.Rmd](http://rpository.com/down/temp/Rmarkdown_basics.Rmd) | [.html](http://rpository.com/down/temp/Rmarkdown_basics.html) format]
+
+**Hint:** Try to _knit_ your `.Rmd` file immediately after saving it and marvel at the beauty of the resulting `.html`-file. If this works, keep doing this routinely from now on, putting all your R-code into code chunks, and any text (like headings or conclusions) that describes or explains what you are doing outside of them. From now on, you can share your `.html` output files, rather than your `.Rmd` source files when showing off your R and data science skills.
+
+
+# Functions
+
+We have been using functions in all sessions of this course. Many of them -- like `c()`, `max()`, and `mean()` -- are included in R (so-called _base R_ functions), and the others -- like `mutate()`, `gather()`, and `ggplot()` -- were defined in additional packages (e.g., the tidyverse packages `dplyr`, `tidyr`, and `ggplot2`). Actually, the fact that most packages mostly provide additional functions shows that functions are a pretty big deal in R. Like tools, functions extend the scope of tasks that can be solved. To use a tool, we typically do not need to understand how it was designed and built. However, to create new tools in R, we need to know how to write functions. 
+
+#### The function of functions
+
+<!-- Definition: --> 
+
+What is a function? Mathematically, a _function_ is a mapping between sets, or from a set of elements x to a set y. In the context of computer programming, a function maps inputs to outputs. To use a function, we only need to know its _name_ and _purpose_, which _inputs_ it takes, and what _outputs_ it returns. Unless we want to understand exactly _how_ it works or _modify_ a function, we learn and use functions without ever seeing how they are defined. Thus, as long as we only use a function, we can think of it as a black box that is defined by its purpose and input-output relations.[^1]
+
+[^1]: We can print the definition of any function by typing it at the prompt of the console (without parentheses). However, the fact that we have been using functions like `summarise` or `gather` many times without ever looking up their definitions indicates that we typically rely on examples and documentation for understanding functions.
+
+<!-- Writing functions: --> 
+
+When moving from using functions to writing them, functions are a great way to automate repeated tasks. 
+As each function handles a task and can be understood solely by its mapping from inputs to outputs, functions are powerful tools of abstraction and encapsulation. In a functional programming paradigm (like R), functions are the basic problem solving units: 
+Each function deals with a task (i.e., performs an action, which is why we can think of them as verbs). 
+To use a new set of functions (e.g., an R package) we primarily need to know its overall goal (i.e., which challenge or problem does it address?) and its functions (i.e., which functions does it provide? What does each function do?). 
+
+## Basics
+
+The basic structure for writing a new function looks as follows:
+
+```{r function_basics, echo = TRUE, eval = FALSE}
+name <- function(<args>) {<body>}
+```
+
+Thus, writing a function initially requires 3 considerations:
+
+1. What would be a good `name` for the function? Function names should clearly convey their purpose ("Which task does this function solve?"), resemble verbs (ideally say what the function does, e.g., `plot`, or state its output, e.g., `mean`), and should be short (as they will be typed many times).
+
+2. Which _inputs_ does the function take? Any input that is necessary for the function to perform its task must to be supplied as a list of arguments `<args>`. 
+
+    - Arguments typically include _data_ (e.g., scalars, vectors, tables, or anything else that the function uses to perform its task) and can contain additional _details_ or _parameters_ (e.g., instructions on how something is to be done: Which type of calculation is desired? How should `NA` values be treated? Which color should be used? etc.). Data arguments are typically listed first.
+    
+    - Any argument can be _optional_ (by including a default value that is used when no argument is provided) or _mandatory_ (by not including a default value). It is common to make data arguments mandatory, and use optional arguments for details. 
+    
+    - If a function calls other functions and we want to allow users to pass arguments to these latter functions, we can add `...` (dot-dot-dot) as a special argument. However, this requires that the functions used within the function can deal with the specific arguments that are provided later, and can cause problems and unexpected results. 
+
+3. The `<body>` of a function uses the _inputs_ provided by `<args>` to perform the task for which the function is created. 
+
+    - Although some functions are only used for their side-effects (e.g., load or save an object, create a graph, etc.), most functions are created to (also) return some sort of _output_ (e.g., some computed `result`). This can be done by calling the special function `return` in the function `<body>` (e.g., `return(result)`), typically as its last statement.[^2] Even when the function does not contain an explicit `return` statement, it returns the result of the last expression evaluated in the function. 
+    
+    - The _output_ of a function can assume many different data types (scalar, vector, list, table, etc.). 
+    For instance, the result of `1:3 + 3:1` is a vector ``r 1:3 + 3:1``.
+
+[^2]: In most functions, the `return()` statement is the final statement of the function `<body>`. 
+See [Chapter 19.6: Return values](https://r4ds.had.co.nz/functions.html#return-values) for special cases in which it makes sense to provide earlier and multiple `return` statements or provide `invisible` return values (e.g., to write pipeable functions). 
+
+Thus, are more detailed template of a typical function is:
+
+```{r function_basics_more, echo = TRUE, eval = FALSE}
+name <- function(arg_1, arg_2 = FALSE) {
+  
+  # 1: Check inputs: 
+  <Verify that arg_1 and arg_2 are appropriate inputs.>
+  
+  # 2: Solve task by using arguments & code: 
+  <Use arg_1 and arg_2 to solve the task.>
+  
+  # 3: Collect and assign outputs:
+  result <- <The task solution.>
+  
+  # 4: Return output: 
+  return(result)
+  
+}
+```
+
+In this template, `arg_1` is a mandatory argument (as no default is provided) and `arg_2` is an optional argument (with a default value of `TRUE`). The arguments are checked (e.g., whether they have appropriate type and values) and then used to solve the task. Its result is then assigned to `result` and returned by `return(result)`. 
+
+Typical uses of this function could look as follows:
+
+```{r function_basics_use, echo = TRUE, eval = FALSE}
+# Using this function:
+name(arg_1 = x)                 # providing only required argument
+name(arg_2 = y, arg_2 = FALSE)  # providing both arguments
+name(z, FALSE)                  # providing arguments by argument order
+name(z)                         # providing only mandatory (1st) argument
+```
+
+## Examples
+
+Here are some examples of simple functions:
+
+#### A power function
+
+```{r}
+power <- function(x, exp = 1) {
+  x^exp
+}
+```
+
+We can describe this function as follows:
+
+- The function `power` has 2 arguments: A mandatory argument `x` and a optional argument `exp` with a default value of `1`. 
+
+- The function computes `x^exp` and returns the result (as this is the final statement in the function's body).
+
+- Thus, the task addressed by `power` is to raise `x` to the `exp`-th power. 
+
+- Although the function does not verify anything, `x` and `exp` are assumed to be numeric.
+
+#### Checking the function
+
+It is very important to run a range of checks after writing a new function. 
+When doing these checks, examples that use unusual inputs (like `NA`, `NULL`, or arguments of different types) are particularly informative. 
+
+Here are some possible ways of checking how `power` works: 
+
+```{r}
+# Check:
+power(x = 3)
+power(x = 3, exp = 2)
+
+# Note that the function also works for vectors: 
+power(x = 1:5, exp = 2) 
+power(x = 2,   exp = 1:4)
+
+# Omitting argument names:
+power(3)     # names can be omitted, and 
+power(3, 2)  # arguments are used in order given.
+power(1:5, 2)
+power(2, 1:4)
+# However, when arguments are named: 
+power(exp = 3, x = 2)  # order is irrelevant.
+# => Safest way: Always provide argument names!
+
+# Note what happens with NA values: 
+power(x = NA) 
+power(x = 3, exp = NA) 
+# => NA values are 'contagious'. 
+
+## Errors:
+# power()       # 1st argument is mandatory
+# power("A")    # setting x to non-numeric argument
+# power(3, "B") # setting exp to non-numeric argument
+```
+
+#### Explicit `return`
+
+A more explicit version of the same function would be:
+
+```{r}
+power <- function(x, exp = 1) {
+  
+  result <- x^exp
+  
+  return(result)
+}
+```
+
+Whereas the shorter version of the function relied on returning its _last_ (and only) expression, this version makes it more explicit what is being computed and returned. As functions get larger and more complicated, it is generally a good idea to include explicit `return` statements. Importantly, a function can include multiple return statements and is exited as soon as a `return` is reached. For instance, the following variant would never print its final disclaimer:
+
+```{r}
+power_joke <- function(x, exp = 1) {
+  
+  result <- x^exp
+  
+  return(result)
+  
+  "Just kidding"
+}
+```
+
+#### Practice
+
+Test this last statement by evaluating the `power_joke` function and trying to obtain the `"Just kidding"` line as an output. 
+Then comment out the line `return(result)` and re-run the same checks. 
+
+<!-- Solution: --> 
+
+```{r}
+# Checks: ------ 
+power_joke(5)
+power_joke(5, 2)
+power_joke(100, 1/2)
+power_joke(1:5, 2)
+power_joke(NA)
+# Errors: 
+# power_joke()
+# power_joke("A")
+
+# => "Just kidding" is never reached.
+
+
+# Commenting out return(result): ------ 
+
+power_joke <- function(x, exp = 1) {
+  
+  result <- x^exp
+  
+  # return(result)
+  
+  "Just kidding"
+}
+
+# Checks:
+power_joke(5)
+power_joke(5, 2)
+power_joke(100, 1/2)
+power_joke(1:5, 2)
+power_joke(NA)
+# Errors: 
+# power_joke()
+# power_joke("A")
+
+# => "Just kidding" is always reached 
+#    (unless an earlier error occurs). 
+```
+
+
+#### A descriptive function
+
+Here is another example of a function:
+
+```{r}
+describe <- function(v, rm_na = TRUE){
+  
+  if (length(v) == 1 && is.na(v)) { return(v) }
+  
+  if (!is.numeric(v)) { 
+    message("v is not numeric:")
+    return(v)
+  }
+  
+  # Compute some metrics:
+  mn <- mean(v, na.rm = rm_na)
+  md <- median(v, na.rm = rm_na)
+  min <- min(v, na.rm = rm_na)
+  max <- max(v, na.rm = rm_na)
+  q25 <- quantile(v, .25, na.rm = TRUE)
+  q75 <- quantile(v, .75, na.rm = TRUE)
+  nr_NA <- sum(is.na(v))
+  
+  # Create output vector:
+  out <- c(min, q25, md, mn, q75, max, nr_NA)
+  names(out) <- c("min", "q25", "md", "mn", "q75", "max", "nr_NA")
+  
+  return(out)  
+  
+}
+```
+
+We can describe this function as follows:
+
+- The function `describe` has 2 arguments: A mandatory argument `v` and a optional argument `rm_na` with a default value of `TRUE`. 
+
+- The function first checks if `v` is `NA`: If so, it returns `v` (i.e., `NA`).
+
+- The function then checks if `v` is non-numeric: If so, it prints a message and returns `v`. 
+
+- The function then computes 7 different statistical measures. This illustrates that functions can use other functions. For some of these functions (e.g., `mean`), the `describe` function passes the value of its optional argument `rm_na` to another function's `na.rm` argument. However, for another function (`quantile`), the `describe` function does not use its `rm_na` argument, but always provides `na.rm = TRUE`. 
+
+- The function then creates a vector `out` that includes the 7 computed measures in a specific order and names the vector. 
+
+- The function then returns the vector `out`. 
+
+- Overall, the task addressed by `describe` is to provide a range of descriptive statistics of a vector `v`. 
+
+#### Checking the function
+
+Here are some possible ways of checking how `describe` works: 
+
+```{r}
+# Check:
+v <- 1:10
+describe(v)
+describe(c(NA, v, NA))
+describe(v, rm_na = FALSE)
+describe(c(v, NA), rm_na = FALSE)
+
+# Note:
+describe(NA)
+describe("A")
+
+# Error for:
+# describe()
+```
+
+Actually, `describe` is -- apart from subtle differences -- similar to the base R function `summary`: 
+
+```{r}
+# Compare with base::summary function: 
+summary(v)
+summary(c(NA, v, NA))
+summary(NA)
+
+# Error for: 
+# summary()
+```
+
+
+## Style
+
+Writing good functions is a life-long aspiration. For starters, 
+
+- make sure that you choose good _names_ for both your functions and their arguments; 
+
+- _format_ your functions so that their structure is clear and they are easy to read (i.e., use blank lines between different parts and automatic indentation);  
+
+- provide _comments_ to explain the function's purpose and anything else that may be difficult to understand.  
+
+
+## Flow control 
+
+Whereas most of our scripts so far relied on being executed linearly (in top-down fashion, line-by-line fashion),
+using functions implies jumping around in large amounts of code.[^3] 
+In addition, writing new functions often requires controlling the flow of information _within_ the body of a function. 
+We can distinguish between several ways of doing this:
+
+[^3]: Strictly speaking, we have also been using statements that were processed from left-to-right (e.g., assignments like `x <- 1`) or bottom-to-top (e.g., when assigning a multi-line pipe of `dplyr` statements to an object). Also, given that we have been using functions all along, we have been jumping around in base R code ever since the 1st session.
+
+
+- Special functions (e.g., like `return`, `print`, or `stop`) cause side-effects or skip code by exiting functions.
+
+- Many functions rely on _iteration_ and _loops_, which are covered in [Chapter 21: Iteration](https://r4ds.had.co.nz/iteration.html).
+
+- Testing input arguments or distinguishing between several cases requires the _conditional_ execution of code, which is discussed next.
+
+
+# Conditionals
+
+As we have just seen in `describe`, functions frequently require checking some properties of its inputs, 
+distinguishing between cases, and controlling the flow of data processing based on test results. 
+
+## If-then
+
+A test can be conducted by a _conditional_ statement, like the following if-then or `if (test) {...}` structure: 
+
+```{r if_then, eval = FALSE}
+if (test) {    # if: test is TRUE
+  print("ok")  # then: print ok
+}
+```
+
+Here, `test` must evaluate to a single Boolean value (i.e., either `TRUE` or `FALSE`). 
+If `test` is `TRUE` the code in the subsequent `{...}` is executed (here: `"ok"` is printed to the Console) -- otherwise the code in the subsequent `{...}` is skipped, as if it was not there or commented out. (Note that if `test` is a Boolean value, we do not need ask for the condition `test == TRUE`.)
+
+#### Example
+
+```{r if_then_ex, eval = TRUE}
+x <- 101
+if (x >= 100) { print(paste0("The number ", x, " is big.")) }
+
+x <- 99
+if (x >= 100) { print(paste0("The number ", x, " is big.")) }
+# Note that nothing happens here! 
+```
+
+## If-then-else
+
+If a test fails, we often want something _else_ to happen. 
+To accommodate this desire, a slightly more complicated form of `if` statement includes an additional `{...}` after an `else` statement:  
+
+```{r if_then_else, eval = FALSE}
+if (test) { 
+  print("case 1")  # if test is TRUE:  case 1
+} else { 
+  print("case 2")  # if test is FALSE: case 2
+}
+```
+
+Here, the truth value of `test` determines whether the 1st or the 2nd `{...}` is executed. 
+As `test` must be either `TRUE` or `FALSE`, we either see "case 1" printed (if `test` is `TRUE`) or "case 2" printed (if `test` is `FALSE`). 
+
+The following sequence illustrates how tests work (and can fail to work):
+
+```{r if_then_else_ex, eval = TRUE}
+# (a) test is TRUE:
+person <- "daughter"
+if (person == "daughter") {print("female")} else {print("male")}
+
+# (b) test is FALSE: 
+person <- "grandfather"
+if (person == "daughter") {print("female")} else {print("male")}
+
+# But:
+# (c) test is FALSE, but should be TRUE: 
+person <- "grandmother"
+if (person == "daughter") {print("female")} else {print("male")}
+```
+
+## More complex tests
+
+The condition `test` of a conditional statement can contain multiple tests. If so, each individual test must evaluate to either `TRUE` or `FALSE` and the different tests are linked with `&&` or `||`, which work like the logical connectors `&` and `|`, but are evaluated sequentially (from left to right):
+
+```{r if_3, eval = FALSE}
+if (test_1 || (test_2 && test_3)) { 
+  print("case 1") 
+} else { 
+  print("case 2") 
+}
+```
+
+#### Example
+
+Here's a way to fix our problem from above (by providing a more comprehensive test): 
+
+```{r if_3_ex, eval = TRUE}
+# (c) with a more complex test: 
+if (person == "daughter" || person == "mother" || person == "grandmother") {
+  print("female")
+} else {
+  print("male")
+}
+```
+
+## More cases
+
+As we can replace any `{...}` in a conditional statement `if (test) {...} else {...}` by another conditional statement, we can distinguish more than 2 cases:
+
+```{r if_4, eval = FALSE}
+if (test_1) {        # if test_1 is TRUE:
+  print("case 1")    # then: case 1
+} else if (test_2) { # if test_2 is TRUE: 
+  print("case 2")    # then: case 2
+} else {             # if NONE of the tests are TRUE: 
+  print("else")      # then: else case
+}
+```
+
+Here, 2 cases are contingent on their corresponding condition being `TRUE`, otherwise the final `{...}` is reached and `"else"` is being printed. Thus, an "else case" often serves as a generic case that occurs when none of the earlier tests are true. 
+
+Note that the following variant of this conditional is different: 
+
+```{r if_5, eval = FALSE}
+if (test_1) {         # if test_1 is TRUE:  
+  print("case 1")     # then: case 1
+} else if (test_2) {  # if test_2 is TRUE:
+  print("case 2")     # then: case 2
+} else if (test_3) {  # if NONE of the tests are TRUE, BUT test_3 is TRUE:
+  print("else")       # then: else case
+}
+```
+
+Here, the final `{...}` is contingent on another `test_3` being `TRUE`. Thus, the conditions that the final `"else"` is being printed are not only that `test_1` and `test_2` are both `FALSE` but also that `test_3` is `TRUE`. If all 3 tests fail, none of the cases is reached and nothing is printed. 
+
+#### Note
+
+- When a test evaluates to `TRUE`, the corresponding `{...}` is evaluated and any later instances of `test` and `{...}` are skipped. Thus, only a single case of `{...}` is evaluated, even if multiple tests would evaluate to `TRUE`.
+
+## Switch
+
+A useful alternative to overly complicated `if` statements is `switch`, which selects one of a list of alternatives: 
+
+```{r switch_character}
+do_op <- function(x, y, op) {
+  
+  switch(op,
+         plus = x + y,
+         minus = x - y,
+         times = x * y,
+         divide = x / y,
+         power = x ^ y, 
+         stop("Unknown operation!")
+  )
+}
+
+# Check: 
+do_op(3, 2, "plus")
+do_op(3, 2, "minus")
+do_op(3, 2, "power")
+
+# But:
+# do_op(3, 2, "square_root")  # would reach stop (and yield an Error)
+```
+
+Here, `op` was specified as a character variable. 
+If switch is used with a numeric expression `i`, it selects the `i`-th case (with `i` being coerced into an integer). 
+For example: 
+
+```{r switch_numeric}
+get_i <- function(v, i = 1) {
+  
+  switch(i,
+         v[1],
+         v[2],
+         v[3],
+         stop("Unknown case of i!")
+  )
+}
+
+# Check: 
+v <- 11:15
+get_i(v)
+get_i(v, 2)
+get_i(v, 3)
+
+## But:
+# get_i(v, 4)  # would reach stop (and yield an Error)
+```
+
+## Practice
+
+#### A conditional nursery rhyme
+
+Consider the following `check_flow` function:
+
+```{r nursery_rhyme_ugly, echo = TRUE}
+check_flow <- function(n) {
+  if (is.logical(n)) {return("Logo!")} else 
+  {print("Ok:")}
+  if (length(n) == 1 && is.numeric(n))
+    {switch(n,print("ene"),print("mene"),print("miste"),
+           print("es rappelt"),print("in der kiste"))
+  } else if (is.character(n)) {
+    if (is.character(n)) {n <- tolower(n)}
+    switch(n,"a" = return("ene"),
+    "b" = return("mene"),"c" = return("mu"))
+  } else {return("Raus bist du!")}
+  "(etc.)"}
+```
+
+The function appears to implement some nursery rhyme, but is really messy, unfortunately. 
+Hence, we need to clean it up before trying to understand it. 
+
+1. Format the function so that it becomes easier to read and parse. 
+
+<!-- Solution: --> 
+
+A possible solution would indent commands, place any `}` on a new line, and generally introduce lots of white space, as follows:
+
+```{r nursery_rhyme_pretty, echo = TRUE}
+check_flow <- function(n) {
+  
+  if (is.logical(n)) {
+    return("Logo!")
+  } else {
+    print("Ok:")
+  }
+  
+  if (length(n) == 1 && is.numeric(n)) {
+    
+    switch(n,
+           print("ene"),
+           print("mene"),
+           print("miste"),
+           print("es rappelt"),
+           print("in der kiste")
+    )
+    
+  } else if (is.character(n)) {
+    
+    if (is.character(n)) {n <- tolower(n)}
+    
+    switch(n,
+           "a" = return("ene"),
+           "b" = return("mene"),
+           "c" = return("mu")
+    )
+    
+  } else {
+    
+    return("Raus bist du!")
+    
+  }
+  
+  "(etc.)"
+  
+}
+```
+
+2. Describe and try to understand this function. What does it do and how does it do it?
+
+3. Answer the following questions:
+
+    - Which cases does the 1st conditional statement distinguish?  
+    - When is the 1st `switch` statement reached?  When is the 2nd `switch` statement reached?   
+    - What is the difference between the `print` and the `return` statements?  
+    - Under which conditions does the function return `"raus bist du"`?  
+    - What happens when you call `check_flow()` or `check_flow(NA)`?  
+
+4. Test your predictions by evaluating the following calls:
+
+```{r nursery_rhyme_calls, eval = FALSE}
+# Check: 
+check_flow(2 < 1)
+check_flow(2)
+check_flow(4)
+check_flow(6)
+check_flow(8)
+check_flow("A")
+check_flow("C")
+check_flow("ABC")
+
+# Note: 
+check_flow()  # yields ERROR: argument "n" missing, with no default
+check_flow(NA)
+check_flow(sqrt(2))
+check_flow(pi)
+check_flow(4.1)
+check_flow(c(1, 2))
+check_flow(c("A", "B")) # yields ERROR in switch: EXPR must be a length 1 vector
+```
+
+
+# Exercises (WPA09)
+
+Here are the exercises of WPA09 and possible solutions for them.
+
+## Exercise 1
+
+Imagine someone proudly presents you the following 3 functions. Each of them takes a vector `v` as an input and tries to perform a simple task. For each function:
+
+- describe the task that the function is designed to perform,  
+- test whether it successfully performs this task,  
+- name any problem that you detect with the current function,  
+- fix the function so that it successfully performs its task.  
+
+
+```{r ex1_functions_with_errors, eval = FALSE}
+# (1)  ------ 
+first_element <- function(v) {
+  
+  output <- NA   # initialize
+  output <- v[1] # set to 1st
+  
+}
+
+# Check: 
+first_element(v = c(10, 11, 12))
+first_element(v = c("A", "B", "C"))
+first_element(v = c(NA, 11, 12))
+first_element(v = NA)
+
+# (2) ------ 
+avg_mn_med <- function(v, na_rm = TRUE) {
+  
+  mn  <- mean(v)
+  med <- median(v)
+  avg <- (mn + med)/2
+  
+  return(avg)
+}
+
+# Check:
+avg_mn_med(v = c(1, 2, 3))
+avg_mn_med(v = c(1, 2, 9))
+avg_mn_med(v = c(1, 2, NA))
+avg_mn_med(v = NA)
+avg_mn_med(v = c("A", "B"))
+
+# (3)  ------ 
+mean_sd <- function(v, na_rm = TRUE) {
+  
+  mn  <- mean(v)
+  sd  <- sd(v)
+  
+  both <- c(mn, sd)
+  names(both) <- c("mean", "sd")
+  
+  return(mn)
+  
+}
+
+# Check:
+mean_sd(v = c(1, 2, 3))
+mean_sd(v = c(1, 2, 9))
+mean_sd(v = c(1, 2, NA))
+mean_sd(v = NA)
+mean_sd(v = c("A", "B"))
+```
+
+<!-- Solution: --> 
+
+Possible solutions:
+
+```{r ex1_functions_with_solutions}
+# (1)  ------ 
+# Task: Return the 1st element of v.
+# Problem:  Nothing is returned.
+# Solution: Add return(output).
+
+first_element <- function(v) {
+  
+  output <- NA   # initialize
+  output <- v[1] # set to 1st
+  
+  return(output)
+  
+}
+
+# Check: 
+first_element(v = c(10, 11, 12))
+first_element(v = c("A", "B", "C"))
+first_element(v = c(NA, 11, 12))
+first_element(v = NA)
+
+# (2) ------ 
+# Task: Return the average of mean and median of v.
+# Problem  1: na_rm is not used in function body.
+# Solution 1: Add na_rm as value to na.rm of base functions.
+# Problem  2: Function returns ERROR for non-numeric v.
+# Solution 2: Use if statement to check for is.numeric(v).
+
+avg_mn_med <- function(v, na_rm = TRUE) {
+  
+  if (!is.numeric(v)) {
+    message("avg_mn_md: v requires numeric inputs.")
+  } else {
+    
+    mn  <- mean(v, na.rm = na_rm)
+    med <- median(v, na.rm = na_rm)
+    avg <- (mn + med)/2
+    
+    return(avg)
+    
+  } # if (!is.numeric(v)) etc.
+}
+
+# Check:
+avg_mn_med(v = c(1, 2, 3))
+avg_mn_med(v = c(1, 2, 9))
+avg_mn_med(v = c(1, 2, NA))
+avg_mn_med(v = NA)
+avg_mn_med(v = c("A", "B"))
+
+# (3)  ------ 
+# Task: Return the mean and sd of v.
+# Problem  1: Only the mean is returned.
+# Solution 1: return(both)
+# Problem  2: na_rm is not used in function body.
+# Solution 2: Add na_rm as value to na.rm of base functions.
+# Problem  3: Function returns ERROR for non-numeric v.
+# Solution 3: Use if statement to check for is.numeric(v).
+
+mean_sd <- function(v, na_rm = TRUE) {
+  
+  if (!is.numeric(v)) {
+    message("mean_sd: v requires numeric inputs.")
+  } else {
+    
+    mn  <- mean(v, na.rm = na_rm)
+    sd  <- sd(v, na.rm = na_rm)
+    
+    both <- c(mn, sd)
+    names(both) <- c("mean", "sd")
+    
+    return(both)
+    
+  } # if (!is.numeric(v)) etc.
+  
+}
+
+# Check:
+mean_sd(v = c(1, 2, 3))
+mean_sd(v = c(1, 2, 9))
+mean_sd(v = c(1, 2, NA))
+mean_sd(v = NA)
+mean_sd(v = c("A", "B"))
+```
+
+## Exercise 2
+
+#### Conditional feeding
+
+Let's write a first function and then add some conditions to it.
+
+1. Write a function `feed_me` that takes a character string `food` as a required argument, and returns the sentence `"I love to eat ___!"`. 
+Test your function by running `feed_me("apples")`, etc. Here's a template with some blanks, to get you started: 
+
+```{r ex2_template, eval = FALSE, echo = TRUE}
+feed_me <- function(___) {
+  
+  output <- paste0("I love to eat ", ___, "!")
+  
+  print(___)
+}
+```
+
+<!-- Solution: --> 
+
+A possible solution:
+
+```{r ex2_1, echo = TRUE, eval = TRUE}
+feed_me <- function(food) {
+  
+  output <- paste0("I love to eat ", food, "!")
+  
+  print(output)
+  }
+
+# Check:
+feed_me("apples")
+feed_me("books")
+feed_me("cake")
+feed_me(NA)
+```
+
+2. Modify `feed_me` so that it returns `"Nothing to eat."` when `food = NA`.
+
+<!-- Solution: --> 
+
+A possible solution:
+
+```{r ex2_2, echo = TRUE, eval = TRUE}
+feed_me <- function(food) {
+  
+  if (is.na(food)) {
+    output <- "Nothing to eat."
+  } else {
+    output <- paste0("I love to eat ", food, "!")
+  }
+  
+  print(output)
+}
+
+# Check:
+feed_me(NA)
+feed_me("apples")
+feed_me("books")
+```
+
+3. Extend your function to a `feed_vegan` function that uses 2 additional arguments: 
+
+    - `type` should be an optional character string, set to a default argument of `"food"`. 
+    If `type` is not `"food"`, the function should return `"___ is not edible."`. 
+
+    - `vegan` should be an optional Boolean value, which is set to `FALSE` by default. 
+    If `vegan` is `TRUE`, the function should return `"I love to eat ___!"`. 
+    Otherwise, the function should return `"I do not eat ___."`.
+
+Test each of your functions by evaluating appropriate function calls. 
+
+<!-- Solution: --> 
+
+A possible solution:
+
+```{r ex2_3, echo = TRUE, eval = TRUE}
+feed_vegan <- function(food, type = "food", vegan = FALSE) {
+  
+  if (is.na(food)) {
+    
+    output <- "Nothing to eat."
+    
+  } else {  # food is not NA: 
+    
+    if (type != "food") {
+      output <- paste0(food, " is not edible.")
+    } else {  # type == "food": 
+      
+      if (vegan) {
+        output <- paste0("I love to eat ", food, "!")
+      } else {  # vegan 
+        output <- paste0("I do not eat ", food, ".")
+      }      
+    }
+  }
+  
+  print(output)
+}
+
+# Check:
+feed_vegan(NA)
+feed_vegan("veggies", vegan = TRUE)
+feed_vegan("R4DS", type = "book")
+feed_vegan("meat", vegan = FALSE)
+# but:
+feed_vegan("spagetti", type = "pasta")  # due to type != "food"
+feed_vegan("veggies")  # due to default: vegan = FALSE
+```
+
+## Exercise 3
+
+#### Number recognition 
+
+This exercise analyzes and corrects someone else's function. 
+
+1. Explain what the following function `describe` (not to be confused with `describe` above) _intends_ to do and why it fails in doing it. 
+
+```{r ex3_messy_function}
+describe <- function(x) {
+  
+  if (x %% 2 == 0) {print("x is an even number.")} 
+  else if (x %% 2 == 1) {print("x is an odd number.")}
+  else if (x < 1) {print("x is too small.")} 
+  else if (x > 20) {print("x is too big.")} 
+  else if (x == 13) {print("x is a lucky number.")} 
+  else {print("x is beyond description.")}
+  
+}
+```
+
+#### Solution
+
+The function `describe` seems to want to categorize a number `x` into one of various cases:
+
+- numbers that are too small numbers vs. too big
+- odd vs. even numbers
+- 13 as a lucky number
+- numbers that cannot be described
+
+However, it currently fails (and only distinguishes between even and odd numbers), because of the order of its if statements. Currently, the quite general tests at the beginning are `TRUE` for most cases, so that more specific later cases are never reached.
+
+```{r ex3_1_hide, include=FALSE}
+# Check:
+describe(0)
+describe(1)
+describe(13)
+describe(20)
+describe(21)
+describe(pi)
+
+# Correction:
+describe <- function(x) {
+  
+  if (x < 1)            {print("x is too small.")}  
+  else if (x > 20)      {print("x is too big.")} 
+  else if (x == 13)     {print("x is a lucky number.")} 
+  else if (x %% 2 == 0) {print("x is an even number.")} 
+  else if (x %% 2 == 1) {print("x is an odd number.")}
+  else                  {print("x is beyond description.")}
+  
+}
+```
+
+2. Repair the `describe` function to yield the following results:
+
+```{r ex3_2_desired_results}
+# Desired results:
+describe(0)
+describe(1)
+describe(13)
+describe(20)
+describe(21)
+```
+
+<!-- Solution: --> 
+
+#### Solution
+
+To repair the function, we need to re-arrange the if statements (putting some more specific statements before more general ones):
+
+```{r ex3_2_solution, echo=TRUE}
+describe <- function(x) {
+  
+  if (x < 1)            {print("x is too small.")}  
+  else if (x > 20)      {print("x is too big.")} 
+  else if (x == 13)     {print("x is a lucky number.")} 
+  else if (x %% 2 == 0) {print("x is an even number.")} 
+  else if (x %% 2 == 1) {print("x is an odd number.")}
+  else                  {print("x is beyond description.")}
+  
+}
+
+# Check:
+describe(0)
+describe(1)
+describe(13)
+describe(20)
+describe(21)
+```
+
+3. What are the results of `describe(NA)` and `describe("one")`? 
+Correct the function to yield appropriate results in both cases.
+
+<!-- Solution: --> 
+
+#### Solution
+
+```{r ex3_3_solution}
+# Check:
+# describe(NA)   # yields an ERROR
+describe("one")  # yields "x is too big."
+"one" > 20       # is TRUE!
+
+# Correction:
+describe <- function(x) {
+  
+  # stopifnot(!is.na(x))  # would yield an error if is.na(x)
+  
+  if (is.na(x))         {print("x is NA.")}
+  else if (is.character(x)) {print("x is a word.")}
+  
+  else if (x < 1)       {print("x is too small.")}  
+  else if (x > 20)      {print("x is too big.")} 
+  else if (x == 13)     {print("x is a lucky number.")} 
+  else if (x %% 2 == 0) {print("x is an even number.")} 
+  else if (x %% 2 == 1) {print("x is an odd number.")}
+  else                  {print("x is beyond description.")}
+  
+}
+
+# Check:
+describe(NA)     # yields an ERROR
+describe("one")  # yields "x is too big."
+```
+
+4. For what kind of `x` will `describe` print `"x is beyond description."`?
+
+<!-- Solution: --> 
+
+#### Solution
+
+The function `describe` prints `"x is beyond description."` for values of `1 < x < 20` that are not integers: 
+
+```{r ex3_4_solution}
+# For 1 < x < 20 that are not integers:
+describe(2.2)
+describe(sqrt(2))
+describe(pi)
+```
+
+
+## Exercise 4
+
+#### Tibble charts
+
+This exercise writes a function to extract rows from tabular inputs based on the top values of some variable.
+
+1. Write a `top_3` function that takes a tibble `data` and a the column number `col_nr` of a _numeric_ variable as its 2 inputs and returns the top-3 rows of the tibble after it has been sorted (in descending order) by the specified column number. 
+
+Use the data of `sw <- dplyr::starwars` to illustrate your function. 
+
+**Hint:** To write this function, first solve its task for a specific case (e.g., for `col_nr = 2`). When using the `dplyr` commands of the `tidyverse`, a problem you will encounter is that a tibble's variables are typically referenced by their _unquoted_ names, rather than by their number (or column index). Here are 2 ways to solve this problem:
+
+    - To obtain the unquoted name `some_name` of a given character string `"some_name"`, you can call `!!sym("some_name")`. 
+    
+    - Rather than aiming for a `tidyverse` solution, you could solve the problem with base R commands. 
+    In this case, look up and use the command `order` to re-arrange the rows of a tibble or data frame. 
+
+<!-- Solution: --> 
+
+#### Solution
+
+A possible tidyverse solution:
+
+```{r ex4_tidyverse}
+# Data:
+sw <- dplyr::starwars
+
+# (a) specific solution:
+# dplyr-pipe solution uses unquoted variable name: 
+sw %>% arrange(desc(height)) %>% slice(1:3)
+
+# (b) Same pipe with a quoted variable name:
+sw %>% arrange(desc(!!sym("height"))) %>% slice(1:3)
+
+# (c) Translation into a function:
+top_3 <- function(data, col_nr){
+
+  col_name <- names(data)[col_nr]
+  
+  result <- data %>% 
+    arrange(desc(!!sym(col_name))) %>%
+    slice(1:3)
+  
+  return(result)
+  
+}
+
+# Check:
+top_3(sw, 2)  # top_3 height values
+top_3(sw, 3)  # top_3 mass values
+top_3(sw, 7)  # top_3 birth_year values
+# But:
+top_3(sw, 1)  # character variables are ordered against alphabetical sequence
+```
+
+A solution using only base-R functions (here: `order`):
+
+```{r}
+# Data:
+sw <- dplyr::starwars
+
+# (a) specific solution for sorting data:  
+# using order() function and a variable name:
+sw[order(-sw$height), ]
+
+# Note:
+sw$height # is a vector (of height values)
+sw[ , 2]  # is the same vector (as column of sw)
+
+# (b) specific solution for sorting data: 
+# using order() function and the variable's column number:
+sw[order(-sw[ , 2]), ]
+
+
+# (c) Translation into a function:
+top_3_base <- function(data, col_nr){
+
+  sorted_data <- data[order(-data[ , col_nr]), ]
+  
+  result <- sorted_data[1:3, ]  # top 3 rows
+  
+  return(result)
+  
+}
+
+# Check:
+top_3_base(sw, 2)  # top_3 height values
+top_3_base(sw, 3)  # top_3 mass values
+top_3_base(sw, 7)  # top_3 birth_year values
+# But:
+# top_3_base(sw, 1)  # would yield an error, as order does not allow "-" for character variables.
+```
+
+2. What happens in your `top_3` function when `col_nr` refers to a _character_ variable (e.g., `dplyr::starwars[ , 1]`)? 
+Adjust the function so that its result varies by the type of the variable designated by the `col_nr` argument:
+
+    - if the corresponding variable is a character variable, sort the data in ascending order (alphabetically); 
+    - if the corresponding variable is a numeric variable, sort the data in descending order (from high to low).
+
+<!-- Solution: --> 
+
+#### Solution
+
+Adjusted tidyverse solution:
+
+```{r}
+# What happens?
+top_3(sw, 1)  # character variables are ordered against alphabetical sequence
+
+# Preparation: How can we determine the variable type?
+# character variable: 
+sw$name   # a vector name in sw
+sw[ , 1]  # 1st column of sw
+
+typeof(sw$name)  # character
+typeof(sw[ , 1]) # list!
+typeof(unlist(sw[ , 1])) # character !!
+
+# numeric variable:
+sw$height  # a vector height in sw
+sw[ , 2]   # 2nd column of sw
+
+typeof(sw$height)  # integer
+typeof(sw[ , 2])   # list!
+typeof(unlist(sw[ , 2])) # integer !!
+
+
+# Adjusting function from above:
+top_3 <- function(data, col_nr){
+  
+  col_name <- names(data)[col_nr]
+  col_type <- typeof(unlist(data[ , col_nr]))
+  
+  if (col_type == "character") {
+    
+    result <- data %>% 
+      arrange(!!sym(col_name)) %>%  # do NOT use desc()
+      slice(1:3)
+    
+  } else {  # col_type != "character"
+    
+    result <- data %>% 
+      arrange(desc(!!sym(col_name))) %>%
+      slice(1:3)
+    
+  }
+  
+  return(result)
+  
+}
+
+# Check:
+top_3(sw, 2)  # top_3 height values
+top_3(sw, 3)  # top_3 mass values
+top_3(sw, 7)  # top_3 birth_year values
+# AND now:
+top_3(sw, 1)  # name in alphabetical order
+top_3(sw, 9)  # homeworld in alphabetical order
+```
+
+Adjusted base-R solution:
+
+```{r}
+# What happens?
+# top_3_base(sw, 1)  # would yield an error, as order does not allow "-" for character variables.
+
+# (a) specific solution for sorting data:  
+# using order() function and a variable name:
+sw[order(-sw$height), ]
+
+# as above: 
+typeof(unlist(sw[ , 1]))  # "character"
+typeof(unlist(sw[ , 2]))  # "integer"
+typeof(unlist(sw[ , 3]))  # "double"
+
+sw[order(sw$name), ] # works
+sw$name # is a vector
+# BUT: 
+sw[ , 1] # is a tibble
+as_vector(sw[ , 1]) # is a vector
+sw[order(as_vector(sw[ , 1])), ] # works
+
+
+# Adjusting function from above:
+top_3_base <- function(data, col_nr){
+  
+  col_type <- typeof(unlist(data[ , col_nr]))
+  
+  if (col_type == "character") {
+    
+    sorted_data <- data[order(as_vector(data[ , col_nr])), ]
+    
+  } else {
+    
+    sorted_data <- data[order(-data[ , col_nr]), ]
+    
+  }
+  
+  result <- sorted_data[1:3, ]  # top 3 rows
+  
+  return(result)
+  
+}
+
+# Check:
+top_3_base(sw, 2)  # top_3 height values
+top_3_base(sw, 3)  # top_3 mass values
+top_3_base(sw, 7)  # top_3 birth_year values
+# AND now:
+top_3_base(sw, 1)  # name in alphabetical order
+top_3_base(sw, 9)  # homeworld in alphabetical order
+```
+
+3. Generalise your `top_3` function to a `top_n` function that returns the top `n` rows when sorted by `col_nr`. 
+What would be a good default value for `n`? What should happen when `n = NA` and when `n > nrow(data)`? 
+
+Check all your functions with appropriate inputs. 
+
+<!-- Solution: --> 
+
+#### Solution
+
+Adjusted tidyverse solution:
+
+```{r}
+nrow(sw)  # 87
+
+# Preparation:
+# a. nrow(data) is a good default value for n. 
+# b. n = NA should return NA. 
+# c. n > nrow(data) should return n = nrow(data), plus a message.
+
+# Generalizing function from above:
+top_n <- function(data, col_nr, n = nrow(data)){
+  
+  if (is.na(n) || is.na(data)) {
+    return(NA)  # return early
+  }
+  
+  if (n > nrow(data)) {
+    message("n exceeds nrow(data). Using n = nrow(data) instead...")
+    n <- nrow(data)
+  }
+  
+  col_name <- names(data)[col_nr]
+  col_type <- typeof(unlist(data[ , col_nr]))
+  
+  if (col_type == "character") {
+    
+    result <- data %>% 
+      arrange(!!sym(col_name)) %>%  # do NOT use desc()
+      slice(1:n)  # use top n instead of 3
+    
+  } else {  # col_type != "character"
+    
+    result <- data %>% 
+      arrange(desc(!!sym(col_name))) %>%
+      slice(1:n)  # use top n instead of 3
+    
+  }
+  
+  return(result)
+  
+}
+
+# Check:
+top_n(NA) # NA (even though col_nr is missing)
+top_n(NA, 2, n = 1)  # NA
+top_n(sw, 2, n = NA) # NA
+
+top_n(sw, 2, n = 3)  # top n = 3 height values
+top_n(sw, 3, n = 5)  # top n = 5 mass values
+top_n(sw, 7, n = 1)  # top n = 1 birth_year values
+# AND:
+top_n(sw, 1, n = 2)   # top n = 2 names in alphabetical order
+top_n(sw, 9, n = 999) # message and top n = 87 homeworlds 
+```
+
+
+## Exercise 5
+
+#### A plotting function
+
+This exercise writes a function for creating a specific type of plot. 
+
+1. Write a function `plot_scatter` that takes a table (tibble or data frame) with 2 numeric variables `x` and `y` as `my_data` and plots a scatterplot of the values of `y` by the values of `x`. 
+
+**Hint:** First write a `ggplot` command that creates a scatterplot of `my_data`. Then wrap a function `plot_scatter` around this command that takes `my_data` as its argument.  
+
+Test your function by using the following 2 tibbles `tb_1` and `tb_2` as `my_data`: 
+
+```{r ex5_create_test_data}
+set.seed(101)
+n_num <- 100
+x_val <- runif(n = n_num, min = 30, max = 90)
+y_val <- runif(n = n_num, min = 30, max = 90)
+
+tb_1 <- tibble::tibble(x = x_val, y = y_val)
+tb_2 <- tibble::tibble(x = x_val, y = x_val + rnorm(n = n_num, mean = 0, sd = 10))
+
+names(tb_1)
+```
+
+<!-- Solution: --> 
+
+#### Solution
+
+```{r ex5_1_scatter}
+library(tidyverse)
+
+plot_scatter <- function(my_data) {
+  
+  ggplot(data = my_data) +
+    geom_point(aes(x = x, y = y), alpha = .5) +
+    labs(title = "My scatterplot", 
+         caption = paste0("Data from ", deparse(substitute(my_data)))) +
+    theme_bw()
+  
+}
+
+# Check:
+plot_scatter(my_data = tb_1)
+plot_scatter(my_data = tb_2)
+```
+
+2. For any table `my_data` that contains 2 numeric variables `x` and `y` we can fit a linear model as follows:
+
+```{r ex5_lm}
+my_data <- tb_1
+
+my_lm <- lm(y ~ x, data = my_data)
+my_lm
+
+# Get the model's intercept and slope values:
+my_lm$coefficients[1]  # intercept
+my_lm$coefficients[2]  # slope
+```
+
+Incorporate the fit of a linear model into your `plot_scatter` function. Use a linear model to add a line to your plot that shows the prediction of the linear model (in a color that can be set by an optional `col` argument).
+
+<!-- Solution: --> 
+
+#### Solution
+
+```{r ex5_2_lm}
+plot_scatter <- function(my_data, col = "red") {
+
+  # fit linear model:
+  lm <- lm(y ~ x, data = my_data)
+  intercept <- lm$coefficients[1]
+  slope <- lm$coefficients[2]  
+    
+  # plot:
+  ggplot(data = my_data) +
+    geom_point(aes(x = x, y = y), alpha = .5) +
+    geom_abline(intercept = intercept, slope = slope, color = col, lty = 2) + 
+    labs(title = "My scatterplot", 
+         caption = paste0("Data from ", deparse(substitute(my_data)))) +
+    theme_bw()
+  
+}
+
+# Check:
+plot_scatter(my_data = tb_1)
+plot_scatter(my_data = tb_2, col = "steelblue")
+```
+
+
+<!-- +++ here now +++ --> 
+
+
+# More on functions
+
+- See the [contributed cheatsheets](https://www.rstudio.com/resources/cheatsheets/) on _Base R_ and _Advanced R_. 
+
+- [Chapter 19: Functions](https://r4ds.had.co.nz/functions.html) of [r4ds](https://r4ds.had.co.nz/) provides some additional remarks on the special dot-dot-dot argument (`...`), return values, pipeable functions, and the notion of a function's _environment_ or the _scope_ of variables. 
+
+- To really understand how functions are evaluated and used in R, [Advanced R](http://adv-r.had.co.nz/) devotes chapters on [functions](http://adv-r.had.co.nz/Functions.html), on [environments](http://adv-r.had.co.nz/Environments.html), and 
+on [functional programming](http://adv-r.had.co.nz/Functional-programming.html). 
+
+- The `dplyr` [vignette on programming](https://dplyr.tidyverse.org/articles/programming.html) (see `vignette("programming")`) explains some specifics that matter for writing tidyverse functions.
+
+
+# Conclusion
+
+<!-- Table with links: -->
+
+All [ds4psy](http://rpository.com/ds4psy/) essentials so far: 
+
+Nr. | Topic       |
+---:|:------------| 
+0.  | [Syllabus](http://rpository.com/ds4psy/) | 
+1.  | [Basic R concepts and commands](http://rpository.com/ds4psy/essentials/basics.html) | 
+2.  | [Visualizing data](http://rpository.com/ds4psy/essentials/visualize.html) | 
+3.  | [Transforming data](http://rpository.com/ds4psy/essentials/transform.html) |
+4.  | [Exploring data (EDA)](http://rpository.com/ds4psy/essentials/explore.html) | 
+5.  | [Tibbles](http://rpository.com/ds4psy/essentials/tibbles.html) |
+6.  | [Importing data](http://rpository.com/ds4psy/essentials/import.html) |
+7.  | [Tidying data](http://rpository.com/ds4psy/essentials/tidy.html) |
+8.  | [Joining data](http://rpository.com/ds4psy/essentials/join.html) |
+9.  | **Functions** |
++.  | [Datasets](http://rpository.com/ds4psy/essentials/datasets.html) | 
+
+<!--
+Nr. | Topic       |
+---:|:------------| 
+0.  | [Syllabus](http://rpository.com/ds4psy/) | 
+1.  | [Basic R concepts and commands](http://rpository.com/ds4psy/essentials/basics.html) | 
+2.  | [Visualizing data](http://rpository.com/ds4psy/essentials/visualize.html) | 
+3.  | [Transforming data](http://rpository.com/ds4psy/essentials/transform.html) |
+4.  | [Exploring data (EDA)](http://rpository.com/ds4psy/essentials/explore.html) | 
+5.  | [Tibbles](http://rpository.com/ds4psy/essentials/tibbles.html) |
+6.  | [Importing data](http://rpository.com/ds4psy/essentials/import.html) |
+7.  | [Tidying data](http://rpository.com/ds4psy/essentials/tidy.html) |
+8.  | [Joining data](http://rpository.com/ds4psy/essentials/join.html) |
+9.  | [Functions](http://rpository.com/ds4psy/essentials/function.html) |
++.  | [Datasets](http://rpository.com/ds4psy/essentials/datasets.html) | 
+-->
+
+[Last update on `r Sys.time()` by [hn](http://neth.de/).]  
+
+<!-- eof. --> 

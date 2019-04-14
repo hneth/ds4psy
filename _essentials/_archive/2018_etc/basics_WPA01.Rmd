@@ -1,0 +1,1086 @@
+---
+title: "Basic R concepts and commands (ds4psy)"
+author: "Hansjörg Neth, SPDS, uni.kn"
+date: "2018 11 05"
+output:
+   rmdformats::html_clean: # html_clean html_docco readthedown material #
+     code_folding: show # hide
+     toc_float: true
+     toc_depth: 2
+     highlight: default # textmate default kate haddock monochrome #
+     lightbox: true # true by default
+     fig_width: 8 # in inches
+editor_options: 
+  chunk_output_type: console # inline
+---
+
+<!-- Example of essential commands | ds4psy: Winter 2018/2019 -->
+
+```{r preamble, echo = FALSE, eval = TRUE, cache = FALSE, message = FALSE, warning = FALSE}
+## (a) Housekeeping: -----
+rm(list=ls()) # clean all.
+
+## (b) Current file name and path: ----- 
+# cur.path <- dirname(rstudioapi::getActiveDocumentContext()$path)
+# cur.path
+# setwd(cur.path) # set to current directory
+setwd("~/Desktop/stuff/Dropbox/_code/R/_teachR/ds4psy/_essentials") # set to current directory
+# list.files() # all files + folders in current directory
+fileName <- "essentials.Rmd"
+
+## (c) Packages: ----- 
+library(knitr)
+library(rmdformats)
+library(tidyverse)
+
+## (d) Global options: ----- 
+options(max.print = "75")
+opts_chunk$set(echo = TRUE,
+               cache = TRUE,
+               prompt = FALSE,
+               tidy = FALSE,
+               collapse = TRUE, # set TRUE in answers 
+               comment = "#>",
+               message = FALSE,
+               warning = FALSE,
+               ## Default figure options:
+               fig.width = 6,
+               fig.asp = .618, # golden ratio
+               out.width = "75%",
+               fig.align = "center"
+)
+opts_knit$set(width = 75)
+
+## (e) Graphics: ----- 
+
+# Defining colors:
+seeblau <- rgb(0, 169, 224, names = "seeblau", maxColorValue = 255) # seeblau.4 (non-transparent)
+
+seeblau.colors <- c(rgb(204, 238, 249, maxColorValue = 255), # seeblau.1
+                    rgb(166, 225, 244, maxColorValue = 255), # seeblau.2 
+                    rgb(89, 199, 235, maxColorValue = 255),  # seeblau.3
+                    rgb(0, 169, 224, maxColorValue = 255),   # seeblau.4 
+                    rgb(0, 0, 0, maxColorValue = 255),       #  5. black
+                    gray(level = 0, alpha = .6),             #  6. gray 60% transparent
+                    gray(level = 0, alpha = .4),             #  7. gray 40% transparent
+                    gray(level = 0, alpha = .2),             #  8. gray 20% transparent
+                    gray(level = 0, alpha = .1),             #  9. gray 10% transparent
+                    rgb(255, 255, 255, maxColorValue = 255)  # 10. white
+)
+
+unikn.pal = data.frame(                             ## in one df (for the yarrr package): 
+  "seeblau1" = rgb(204, 238, 249, maxColorValue = 255), #  1. seeblau1 (non-transparent)
+  "seeblau2" = rgb(166, 225, 244, maxColorValue = 255), #  2. seeblau2 (non-transparent)
+  "seeblau3" = rgb( 89, 199, 235, maxColorValue = 255), #  3. seeblau3 (non-transparent)
+  "seeblau4" = rgb(  0, 169, 224, maxColorValue = 255), #  4. seeblau4 (= seeblau base color)
+  "black"    = rgb(  0,   0,   0, maxColorValue = 255), #  5. black
+  "seegrau4" = rgb(102, 102, 102, maxColorValue = 255), #  6. grey40 (non-transparent)
+  "seegrau3" = rgb(153, 153, 153, maxColorValue = 255), #  7. grey60 (non-transparent)
+  "seegrau2" = rgb(204, 204, 204, maxColorValue = 255), #  8. grey80 (non-transparent)
+  "seegrau1" = rgb(229, 229, 229, maxColorValue = 255), #  9. grey90 (non-transparent)
+  "white"    = rgb(255, 255, 255, maxColorValue = 255), # 10. white
+  stringsAsFactors = FALSE)
+
+## (f) Counters: ----- 
+nr <- 0  # task number
+pt <- 0  # point total
+```
+
+```{r utility_add_random_NA_values, echo = FALSE, eval = FALSE}
+# Adding a random amount (number or proportion) of NA or other values to a vector:
+
+## Function to replace a random amount of vector elements by NA values:  
+add_NAs <- function(vec, amount){
+  
+  stopifnot((is.vector(vec)) & (amount >= 0) & (amount <= length(vec)))
+  
+  out <- vec
+  n <- length(vec)
+  
+  amount2 <- ifelse(amount < 1, round(n * amount, 0), amount) # turn amount prop into n
+  
+  out[sample(x = 1:n, size = amount2, replace = FALSE)] <- NA
+  
+  return(out)
+  
+}
+
+## Check:
+# add_NAs(1:10, 0)
+# add_NAs(1:10, 3)
+# add_NAs(1:10, .5)
+# add_NAs(letters[1:10], 3)
+
+## Generalization: Replace a random amount of vector elements by what: 
+add_whats <- function(vec, amount, what = NA){
+  
+  stopifnot((is.vector(vec)) & (amount >= 0) & (amount <= length(vec)))
+  
+  out <- vec
+  n <- length(vec)
+  
+  amount2 <- ifelse(amount < 1, round(n * amount, 0), amount) # turn amount prop into n
+  
+  out[sample(x = 1:n, size = amount2, replace = FALSE)] <- what
+  
+  return(out)
+  
+}
+
+## Check:
+# add_whats(1:10, 3) # default: what = NA
+# add_whats(1:10, 3, what = 99)
+# add_whats(1:10, .5, what = "ABC")
+```
+
+# Introduction
+
+This file contains a brief introduction into basic concepts and commands when learning R. Knowing some R is not a necessary precondition for reading and learning data science with our textbook ([r4ds](http://r4ds.had.co.nz)), 
+but certainly helpful. Thus, please work through the examples, try to understand them, and try solving the exercises below. 
+
+<!--
+
+This file contains **essential commands** from the chapters of [r4ds](http://r4ds.had.co.nz) and corresponding examples. A command is considered "essential" when you really need to _know_ it and need to know _how to use_ it to succeed in this course. 
+
+-->
+
+<!-- Table with links: 
+
+All [ds4psy](http://rpository.com/ds4psy/) essentials: 
+
+Nr. | Topic       |
+---:|:------------| 
+1.  | [Creating and using tibbles](http://rpository.com/ds4psy/R/_essentials/tibble.html) |
+2.  | [Data transformation](http://rpository.com/ds4psy/R/_essentials/transform.html) |
+3.  | [Visualizing data](http://rpository.com/ds4psy/R/_essentials/visualize.html) | 
+4.  | [Exploring data](http://rpository.com/ds4psy/R/_essentials/explore.html) | 
+5.  | [Tidy data](http://rpository.com/ds4psy/R/_essentials/tidy.html) | 
+
+-->
+
+## Course coordinates
+
+* Taught at the [University of Konstanz](https://www.uni-konstanz.de/) by [Hansjörg Neth](http://neth.de/) (<h.neth@uni.kn>,  [SPDS](https://www.spds.uni-konstanz.de/), office D507).
+* Winter 2018/2019: Mondays, 13:30--15:00, C511. 
+* Links to current [course syllabus](http://rpository.com/ds4psy/) | [ZeUS](https://zeus.uni-konstanz.de/hioserver/pages/startFlow.xhtml?_flowId=detailView-flow&unitId=5101&periodId=78&navigationPosition=hisinoneLehrorganisation,examEventOverviewOwn) |  [Ilias](https://ilias.uni-konstanz.de/ilias/goto_ilias_uni_crs_809936.html)
+
+## Preparations
+
+Create an R script (`.R`) or an R-Markdown file (`.Rmd`) and load the R packages of the `tidyverse`. (Hint: Structure your script by inserting spaces, meaningful comments, and sections.) 
+
+```{r layout_template, echo = TRUE, eval = FALSE}
+## Essential commmands | ds4psy
+## 2018 10 30
+## ----------------------------
+
+## Preparations: ----------
+
+library(tidyverse)
+
+## Topic: ----------
+
+# ...
+
+## End of file (eof). ----------  
+```
+
+# Basic R Concepts and Commands
+
+## Preliminaries 
+
+This session provides some background knowledge and basics facts that are required 
+for learning data science (in R or any other programming language).
+It assumes the following:
+
+1. **Software:** You have installed the software prerequisites mentioned in 
+[Chapter 1.4](https://r4ds.had.co.nz/introduction.html#prerequisites) 
+of [r4ds](https://r4ds.had.co.nz/). Specifically,
+
+    1. A current version of [R](https://cloud.r-project.org);   
+    2. A current version of [RStudio](http://www.rstudio.com);   
+    3. The R packages comprising the [tidyverse](https://www.tidyverse.org).   
+    
+
+2. **Readings:** You have read the following chapters of [r4ds](https://r4ds.had.co.nz/):
+
+    1. _Introductions_ ([Chapter 1](https://r4ds.had.co.nz/introduction.html) & [Chapter 2](https://r4ds.had.co.nz/explore-intro.html));  
+    2. _Workflow_: [basics (Chapter 4)](https://r4ds.had.co.nz/workflow-basics.html) 
+    & [scripts (Chapter 6)](https://r4ds.had.co.nz/workflow-scripts.html).   
+
+
+This implies that you understand and can do the following:
+
+- Enter and run R commands at the prompt in the _Console_ window of RStudio, and check their results; 
+- Use R as a calculator for simple arithmetic; 
+- Assign numeric values and characters to named objects; 
+- Call simple R functions on objects;  
+- Enter and run R scripts in the _Editor_ window of RStudio. 
+
+
+## Data vs. functions
+
+Using R and most other programming languages consists in 
+
+1. defining or loading _data_ (objects, values), and    
+
+2. evaluating _functions_ (actions, verbs).  
+
+Confusingly, both data and functions in R are _objects_ and evaluating functions 
+typically returns or creates new data objects. To distinguish data from functions, think of data as _objects_ (i.e., material or values that are being measured or manipulated) and functions as _procedures_ (i.e., actions, operations, or verbs) that measure or manipulate data.
+
+In the following, we will introduce some ways to describe data (by _shape_ and _type_), learn to create new data objects (by assigning them with `<-`), and apply some pre-defined functions to these data objects.
+
+### Data
+
+In R, different data objects are characterized by their _shape_ and by their _type_. 
+
+1. The most common _shapes_ of data are:
+
+    - _scalars_: atomic objects (i.e., a data point, with a length of 1);  
+    - _vectors_: a chain/sequence of objects of the same type (i.e., extending in 1 dimension: length);    
+    - _data frames_/_matrices_/_tibbles_: rectangular data (i.e., tables with 2 dimensions: rows vs. columns).   
+    
+
+2. The most common _types_ of data are:
+
+    - _numeric_ data (of type `double` or `integer`);  
+    - _text_ data (of type `character`);  
+    - _logical_ data (of type `logical`).  
+
+### Functions
+
+In R, functions are applied to data objects (so-called _arguments_, e.g., `a1` and `a2`) by specifying the function name and providing the arguments in round parentheses (i.e., `function(a1, a2)`). 
+An example of a function with 2 arguments is: 
+
+```{r sum_function}
+sum(1, 2)
+```
+
+Here, the function `sum` is applied to 2 numeric arguments `1` and `2`. Evaluating the expression `sum(1, 2)` returns a new data object `3`, which is the sum of the two original arguments.
+
+### Practice
+
+Evaluate the following expressions and describe what they are doing (in terms of applying functions to arguments to obtain new data):
+
+```{r first_functions, echo = TRUE, eval = FALSE}
+min(1, 2, -3, 4)
+paste0("ab", "cd")
+substr("television", start = 5, stop = 10)
+substr("television", 20,  30)  # yields ""
+```
+
+
+### Defining objects
+
+To define a new object `o` as `x`, use the assignment function `o <- x` and note that object names are case-sensitive (i.e., `a` and `A` are different object names). Here are some examples of simple objects and simple arithmetic functions applied to objects:
+
+```{r objects, echo = TRUE, eval = FALSE}
+o <- 10  # assign/set o to 10
+O <- 5   # assign/set O to  5
+
+# Computing with objects: 
+o * O
+o * 0
+o / O * 0
+```
+
+In R, objects can be described by their _length_ and _type_. Objects with a length of 1 are called _scalars_, longer objects (i.e., `length(object) > 1`) are either _vectors_ or _lists_. 
+
+
+### Naming objects
+
+Beware of the following characteristics and constraints: 
+
+- R is case sensitive (so `tea_pot`, `Tea_pot` and `tea_Pot` are different names that denote 3 different objects)   
+- No spaces inside variables (even though ``tea pot`` is possible)
+- No special keywords that are reserved for R commands (`TRUE`, `FALSE`, `function`, `for`, `in`, `next`, `break`, `if`, `else`, `repeat`, `while`, `NULL`, `Inf`, `NaN`, `NA` and some variants like `NA_character`, `NA_integer`, ...)
+
+Recommendations: 
+
+- Aim for short and consistent names; 
+- Avoid dots and special characters in names;  
+- Use `snake_case` (with underscores) or `camelCase` (with capitalised first letters) for combined names. 
+
+
+## Scalars 
+
+### Defining scalars
+
+We have learned that _scalars_ are objects of length 1 (aka. _atomic_ objects) and how to define objects by assigning names to them. So let's define some scalar objects and then use some generic functions to check their length and type: 
+
+```{r basic_objects, echo = TRUE, eval = FALSE}
+a <- 1     # assign/set a to 1
+a          # print a
+typeof(a)
+a + 2      # evaluate a + 2
+sum(a, 2)  # evaluate the function sum() with arguments a and 2
+
+b <- 2
+b
+b * b
+prod(b, b)
+b ^ 2
+b^3
+
+c <- a + b  # assign c to the sum of a + b 
+c
+length(c)       # 1 could indicate a scalar OR the number of digits...
+length(1000)    # Check: also 1 (i.e., NOT number of digits)
+typeof(c)       # numbers are of type "integer" or "double" 
+
+typeof(3.14159) # decimal numbers are of type "double"
+
+d <- "word" # note the quotes ("")
+d
+length(d)  # also a scalar
+nchar(d)
+typeof(d)  # but of type "character"
+
+b
+a
+b < a          # result is neither number nor chacacter:
+b != a
+
+typeof(a > b)  # yet another type: "logical"
+e <- b > a
+e
+length(e)  # also a scalar
+typeof(e)  # of type "logical"
+```
+
+Thus, our exploration has shown that objects `a`, `b` and `c` are _numeric_ objects (which can be of type _integer_ or of type _double_), whereas `d` is a text object (of type _character_), and `e` is the result of a test that is either `TRUE` or `FALSE` (of type _logical_). 
+
+
+### Changing objects
+
+To change an existing object, we need to re-assign it. Thus, changing an object works just like creating it: 
+
+```{r reassigning_objects, echo = TRUE, eval = FALSE}
+# Check values (defined above):
+a
+b
+a/b
+
+a <- 100  # changes a
+a         # a has changed
+a/b       # a/b changes when a has been changed
+
+b <- 200  # changes b
+b         # b has changed
+a/b       # a/b changes when b has been changed
+
+d
+d <- "weird"  # changes d
+d 
+```
+
+This implies that the _order_ of evaluations matters: The same object (e.g., `a` or `a/b`) has different contents at different locations and at different times. (Note that the line numbers to the left of your editor window mark locations and that R scripts are typically evaluated in a top-down fashion.) 
+
+### Applying functions to scalars
+
+We have evaluated some simple functions to data arguments above, but not all functions can be applied to all data. 
+Importantly, most functions require specific types of arguments to work (i.e., the actual argument types must match the required argument types of the function). 
+
+When viewing this requirement from the perspective of existing objects, the type of an object determines which functions can be applied to it:
+
+```{r function_matching_object_types, echo = TRUE, eval = FALSE}
+# Start with numeric objects:
+a
+typeof(a)  # a generic function (working with all object types)
+length(a)  # a scalar
+a + b      
+sum(a, b)  # an arithmetic function (requiring numeric object types)
+
+a + d
+
+# Start with character objects:
+d
+typeof(d)
+length(d) # a scalar 
+nchar(d)  # the "length" of a character object
+
+# Start with logical objects:
+e
+typeof(e)
+!e          # negation (reverses logical value)
+!!e
+isTRUE(e)   # tests a logcial expression
+isTRUE(!e)
+e == !!e    # tests equality
+```
+
+In case of a mismatch between function and object types, an error may occur:
+
+```{r mismatch_errors, echo = TRUE, eval = FALSE}
+# Evaluate the following (and explain the error):
+a + d
+sum(a, d)
+d^2
+```
+
+
+### Arithmetic functions
+
+For numeric objects, we can compute new numeric values by applying arithmetic functions: 
+
+```{r arithmetic_functions, echo = TRUE, eval = FALSE}
+## (A) Arithmetic operators: ---- 
++2    # keeping sign
+-3    # reversing sign
+1 + 2  # addition
+3 - 1  # subtraction
+2 * 3  # multiplication
+5 / 2  # division
+
+5 %/% 2  # integer division
+5 %% 2   # remainder of integer division (x mod y)
+
+## (B) Operator precedence: ---- 
+1 / 2 * 3   # left to right
+1 + 2 * 3   # precedence: */ before +-
+(1 + 2) * 3 # changing order by parentheses
+# "BEDMAS" order:  
+# - brackets (), 
+# - exponents ^, 
+# - division / and multiplication *, 
+# - addition + and subtraction -
+# See 
+# ?Syntax
+# for complete rules.
+
+2 * 2 * 2
+2^3
+
+## (C) Arithmetic with scalar objects: ---- 
+x <- 2
+y <- 3
+
++ x     # keeping sign 
+- y     # reversing sign
+x + y   # addition
+x - y   # subtraction
+x * y   # multiplication
+x / y   # division
+x ^ y   # exponentiation
+x %/% y # integer division
+x %% y  # remainder of integer division (x mod y)
+```
+
+The same arithmetic operators also work with numeric _vectors_ (see **Exercise 3** below). (See `?Arithmetic` for help on arithmetic operators and `?Syntax` for a full list of precedence groups.) 
+
+
+### Logical values and operators
+
+By comparing numbers and using logical operators, we can obtain logical values (i.e., scalars of type _logical_ that are either `TRUE` or `FALSE`) by conducting tests on numeric values:
+
+```{r logical_comparisons_operators, echo = TRUE, eval = FALSE}
+## Logical comparisons:
+2 > 1   # larger than
+2 >= 2  # larger than or equal to
+2 < 1   # smaller than
+2 <= 1  # smaller than or equal to
+
+1 == 1  # == ... equality
+1 != 1  # != ... inequality 
+
+## Logical operators:
+(2 > 1) & (1 > 2)   # & ... logical AND
+(2 < 1) | (1 < 2)   # | ... logical OR
+(1 < 1) | !(1 < 1)  # ! ... logical negation  
+```
+
+
+## Vectors
+
+_Vectors_ are the most common and most important data type in R. A _vector_ is a sequence of objects of the same type. 
+
+### Creating vectors
+
+To create a new vector, we can _combine_ several objects of the _same type_ with the `c()` function, 
+separating vector elements by commas:
+
+```{r creating_vectors, echo = TRUE, eval = FALSE}
+# Creating vectors: 
+c(1, 2, 3)
+c(a, b)
+
+v <- c(a, b, c)
+v
+
+v <- c(c, c, c)  # vectors can have repeated elements
+v
+
+v <- c(a, b, v)  # Note that vectors can contain vectors, ...
+v
+
+v <- c(v, v)     # but the result is only 1 vector, not 2.
+v
+
+# Character vectors:
+w <- c("one", "two", "three")
+w
+
+w <- c(w, "four", "5", "many")
+w
+
+# Applying functions to vectors:
+length(v)
+typeof(v)
+sum(v)
+
+length(w)
+typeof(w)
+# sum(w)  # would yield an error
+
+# Combining different types:
+x <- c(1, "two", 3)
+x
+typeof(x)  # converted 1 to "1" (as all vector elements must be of the same type)
+```
+
+### Scalar objects are vectors
+
+Actually, R has no dedicated type of scalar objects. Instead, individual numbers (of type integer or double) or text strings (of type character) are actually vectors of length 1:
+
+```{r scalar_vectors, echo = TRUE, eval = FALSE}
+a
+is.vector(a)
+length(a)
+
+d
+is.vector(d)
+length(d)
+
+e
+is.vector(e)
+length(e)
+```
+
+### Special vector creation functions
+
+For creating vectors with more than just a few elements (i.e., with larger `length` values), the `c` function becomes impractical. Some useful functions and shortcuts are:
+
+```{r vector_creation, echo = TRUE, eval = FALSE}
+# Sequences (with sep):
+s1 <- seq(0, 100, 1)  # is short for: 
+s2 <- seq(from = 0, to = 100, by = 1)
+s2
+all.equal(s1, s2)
+
+# Shorter version (with by = 1):
+s3 <- 0:100
+all.equal(s1, s3)
+
+# But seq allows different step sizes:
+s4 <- seq(0, 100, by = 25)
+s4
+
+# Replicating (with rep):
+s5 <- rep(c(0, 1), 3)  # is short for:
+s5 <- rep(x = c(0, 1), times = 3)
+s5
+
+# Sampling vector elements (with sample):
+sample(1:3, 10, replace = TRUE)
+# Note:
+# sample(1:3, 10, replace = FALSE)  # would yield an error
+
+coin <- c("H", "T")    # 2 events: Heads or Tails
+sample(coin, 5, TRUE)  # is short for: 
+sample(x = coin, size = 5, replace = TRUE)     # flip coin 5 times
+sample(x = coin, size = 1000, replace = TRUE)  # flip coin 1000 times
+```
+
+
+### Indexing vectors
+
+We often store a lot of values in vectors (e.g., the age of 1000 participants), but only need some of them for answering specific questions (e.g., what is the average age of all male participants?). To _select_ only a subset of elements from a vector `v` we can specify the condition or criterion for our selection in (square) brackets `v[...]`.
+
+```{r indexing_vectors, echo = TRUE, eval = FALSE}
+# Example 1: Indexing numeric vectors
+x <- 1:10
+x
+
+crit <- x > 5  # Condition: Which values of x are larger than 5?
+crit
+
+x[crit]   # using crit to select values of x (for which crit is TRUE)
+x[x > 5]  # all in 1 step 
+
+
+## Example 2: Indexing character vectors
+spices <- c("salt", "pepper", "cinnamon", "lemongrass", "mint", "mustard", "wasabi")
+
+spices[nchar(spices) == 4]           # spices with exactly 4 letters
+spices[substr(spices, 2, 2) == "i"]  # spices with an "i" at 2nd position
+```
+
+
+## Rectangular data
+
+Vectors are 1-dimensional objects (i.e., have a length, but no width). 
+By combining several vectors, we get a _rectangular_ data structure. 
+
+### Matrices
+
+When a rectangle of data contains data of the same type in all cells, we get a _matrix_ of data:
+
+```{r rectangular_data, echo = TRUE, eval = FALSE}
+x <- 1:3
+y <- 4:6
+z <- 7:9
+
+# Combining vectors (of the same length): ---- 
+r1 <- rbind(x, y, z)  # combine as rows
+r1
+
+r2 <- cbind(x, y, z)  # combine as columns
+r2
+
+# Putting a vector into a rectangular matrix:
+r3 <- matrix(data = 1:20, nrow = 5, ncol = 4, byrow = TRUE)
+r3
+
+r4 <- matrix(data = 1:20, nrow = 5, ncol = 4, byrow = FALSE)
+r4
+
+
+# Selecting cells, rows, or columns of matrices: ---- 
+r1[2, 3]  # in r1: select row 2, column 3
+r2[3, 1]  # in r2: select row 3, column 1
+
+r1[2,  ]  # in r1: select row 2, all columns
+r2[ , 1]  # in r1: select column 1, all rows
+
+r3
+r3[2, 3:4] # in r3: select row 2, columns 3 to 4
+r3[3:5, 2] # in r3: select rows 3 to 5, column 2
+
+r4[]  # in r4: select all rows and all columns (i.e., all of r4)
+
+
+# Applying functions to matrices: ---- 
+is.matrix(r1)
+typeof(r2)
+
+dim(r1)   # dimensions of r2: 3 rows and 3 columns
+nrow(r2)  # number of rows of r2
+ncol(r3)  # number of columns of r3
+
+sum(r1)
+max(r2)
+mean(r3)
+colSums(r3)  # column sums of r3
+rowSums(r4)  # row sums of r4
+
+r4 > 10  # returns a matrix of logical values
+typeof(r4 > 10)
+r4[r4 > 10]  # indexing of matrices
+```
+
+### Data frames / tibbles
+
+As matrices contain data of only 1 type (e.g., all cells are all numeric, character, or logical data), we need another data structure for more diverse and interesting datasets. The most common rectangular data structure in R is a _data frame_ (or _tibble_, which is a simpler version of a data frame used in the `tidyverse`). 
+
+Let's create a data frame from vectors: 
+
+```{r data_frame, echo = TRUE, eval = FALSE}
+# Create some vectors (of different types, but same length): -----  
+name <- c("Adam", "Bertha", "Cecily", "Dora", "Eve", "Nero", "Zeno")
+gender <- c("male", "female", "female", "female", "female", "male", "male")
+age <- c(21, 23, 22, 19, 21, 18, 24)
+height <- c(165, 170, 168, 172, 158, 185, 182)
+
+# Combine 4 vectors (of equal length) into a data frame: 
+df <- data.frame(name, gender, age, height)
+df    # Note: Vectors are the columns of the data frame!
+
+is.matrix(df)
+is.data.frame(df)
+dim(df)
+
+# Note that 
+# sum(df)  # would yield an error
+
+
+# Selecting cells, rows or columns: ----- 
+df[2, 3]  # cell in row 2, column 3
+df[6, ]   # row 6
+df[ , 4]  # column 4
+
+# Selecting columns by name (with $ operator):
+df$gender  # returns gender vector
+df$age     # returns age vector
+
+# Applying functions to columns of df:
+df$gender == "male"
+sum(df$gender == "male")
+
+df$age < 21
+df$age[df$age < 21]
+df$name[df$age < 21]
+
+mean(df$height)
+df$height < 170
+df$gender[df$height < 170]
+```
+
+
+
+In most cases, we don't generate the data that we analyze, but obtain it from somewhere (e.g., online). For instance, 
+Woodworth et al. (2018, DOI: <https://doi.org/10.5334/jopd.35>) examined the long-term effectiveness of different web-based positive psychology interventions (see [this link](https://openpsychologydata.metajnl.com/articles/10.5334/jopd.35/) for details). We can load their participant data into R with the following command (from the package `readr`, which is part of the `tidyverse`):
+
+```{r read_online_data, echo = TRUE, eval = FALSE}
+library(readr)
+
+p_info <- read_csv(file = "http://rpository.com/ds4psy/data/posPsy_participants.csv")
+
+dim(p_info)      # 295 rows, 6 columns
+p_info           # prints a summary of the table/tibble
+glimpse(p_info)  # shows the first values for 6 variables (columns)
+```
+
+When analyzing a data file from a remote source, it's crucial to also obtain a description of the variables and values contained in the file (often called a _Codebook_).  For the file `posPsy_participants.csv` this could look like:
+
+`posPsy_participants.csv` contains _demographic information_ on participants: 
+
+* `id`: participant ID
+
+* `intervention`: 3 positive psychology interventions, plus 1 control condition: 
+
+    - 1 = “Using Signature Strengths”, 
+    - 2 = “Three Good Things”, 
+    - 3 = “Gratitude Visit”, 
+    - 4 = “Recording early memories” (control condition).  
+
+* `sex`: 
+
+    - 1 = female, 
+    - 2 = male. 
+
+* `age`: participant's age (in years). 
+
+* `educ`: level of education:  
+
+    - 1 = Less than Year 12, 
+    - 2 = Year 12,
+    - 3 = Vocational training, 
+    - 4 = Bachelor’s degree, 
+    - 5 = Postgraduate degree.
+
+* `income`: 
+
+    - 1 = below average, 
+    - 2 = average, 
+    - 3 = above average.
+
+We will examine these variables in **Exercise 6** (below).
+
+
+# Exercises (WPA01)
+
+The following exercises are your first weekly programming assignment (**WPA01**). Please submit your solutions (as an `.R` or `.Rmd` script that also contains your name) on [Ilias](https://ilias.uni-konstanz.de/ilias/goto_ilias_uni_crs_809936.html) by **Wednesday, Nov. 7, 2018**. 
+
+## Exercise 1
+
+Evaluate and explain the following results (and correct any errors that may occur):
+
+```{r ex1, echo = TRUE, eval = FALSE}
+# Note: The following assume the object definitions from above.
+a
+b
+b <- a + a
+a + a == b
+!!a
+
+sqrt(2)  # see ?sqrt
+sqrt(2)^2
+sqrt(2)^2 == 2  # Why FALSE? 
+# Hint: Compute the difference sqrt(2)^2 - 2
+
+o / O / 0
+0 / (o * O)
+0 / (o * 0)
+
+a + b + C  # are all objects defined?
+
+sum(a, b) - sum(a + b)
+
+b:a  # divide b by a
+length(b:a)
+
+i <- i + 1  # increment i by 1
+
+nchar(d) - length(d)
+
+e
+e + e + !!e
+
+e <- stuff
+paste(d, e)  # paste "adds" 2 character objects
+```
+
+
+## Exercise 2
+
+With only a little knowledge of R you can perform quite fancy financial arithmetic. Assume that you have won an amount of EUR 1000 and are considering to deposit this amount into a new bank account that offers an annual interest rate of 0.1%. 
+
+1. How much would your account be worth after waiting for 2 full years? 
+2. What would be the time value of your money after 2 full years if the annual inflation rate is 2%?
+3. What would be the results to 1. and 2. if you waited for 100 years?
+
+Answer these questions by defining well-named objects and performing simple arithmetic computations on them.
+
+```{r ex2_financial, echo = FALSE, eval = FALSE}
+# Definitions:
+savings_0 <- 1000    # initial savings (year 0)
+interest  <- .1/100  # interest rate (annual)
+inflation <- 2/100   # inflation rate (annual)
+n_years <- 2
+
+## 1. Savings with interest: ----- 
+
+# In 2 steps: 
+savings_1 <- savings_0 + (savings_0 * interest)  # after 1 year
+savings_1
+
+savings_2 <- savings_1 + (savings_1 * interest)  # after 2 years
+savings_2
+
+# Both in 1 step: 
+savings_0 * (1 + interest)^n_years
+
+# 2. Also accounting for inflation: ----- 
+savings_0 * (1 + interest - inflation)^n_years
+
+# 3. Different numbers of years:
+n_years <- 100
+
+# Use same formulas:
+savings_0 * (1 + interest)^n_years  # interest only
+savings_0 * (1 + interest - inflation)^n_years  # interest + inflation
+```
+
+
+## Exercise 3
+
+When introducing arithmetic functions above, we showed that they can be used with numeric scalars (i.e., numeric objects with a length of 1). 
+
+1. Demonstrate that the same arithmetic functions also work with 2 numeric vectors `x` and `y` (of the same length).  
+2. What happens when `x` and `y` have different lengths?
+
+```{r ex3_arithmetic_vectors, echo = FALSE, eval = FALSE}
+## 1. Arithmetic with vectors of the same length:
+x <- c(2, 4, 6)
+y <- c(1, 2, 3)
+
++ x     # keeping sign 
+- y     # reversing sign
+x + y   # addition
+x - y   # subtraction
+x * y   # multiplication
+x / y   # division
+x ^ y   # exponentiation
+x %/% y # integer division
+x %% y  # remainder of integer division (x mod y)
+
+## 2. Arithmetic with vectors of different lengths:
+x <- c(2, 4, 6)
+y <- c(1, 2)
+
++ x     # keeping sign 
+- y     # reversing sign
+x + y   # addition
+x - y   # subtraction
+x * y   # multiplication
+x / y   # division
+x ^ y   # exponentiation
+x %/% y # integer division
+x %% y  # remainder of integer division (x mod y)
+```
+
+
+## Exercise 4
+
+Predit the result of the arithmetic expression `x %/% y * y + x %% y`. Then test your prediction by assigning some number to `x` and `y` and evaluating the expression. Finally, explain why the result occurs. 
+
+```{r ex4_integer_arithmetic, echo = FALSE, eval = FALSE}
+## Note: The given expression 
+x %/% y * y + x %% y  
+# is identical to: 
+((x %/% y) * y) + (x %% y) 
+
+## Prediction: 
+x %/% y * y + x %% y  # will evaluate to x.
+
+## Testing the prediction:
+x <- 4711
+y <- 1307
+
+((x %/% y) * y) + (x %% y) == x  # prediction is TRUE
+
+## Explanation:
+x %/% y      # yields the integer part of x/y
+x %/% y * y  # multiplies this integer part by y 
+x %% y       # yields the remainder of integer division
+
+# => The sum  
+(x %/% y * y) + (x %% y)
+# yields x.
+```
+
+
+## Exercise 5
+
+Assume the following definitions for a survey: 
+
+- A person with an age from 1 to 17 years is classified as a _minor_,  
+- a person with an age from 18 to 64 years is classified as an _adult_, 
+- a person with an age from 65 to 99 years is classified as a _senior_.
+
+Generate a vector with 100 random samples that specifies the `age` of 100 people (in years), but contains exactly 20 minors, 50 adults, and 30 seniors. 
+
+Now use some functions on your `age` vector to answer the following questions: 
+
+ - What is the average (mean), minimum, and maximum age in this sample? 
+ - How many people are younger than 25 years? 
+ - What is the average (mean) age of people older than 50 years?
+ - How many people have a round age (i.e., an age that is divisible by 10)? What is their mean age? 
+
+```{r ex5, echo = FALSE, eval = FALSE}
+set.seed(42) # for replicable randomness
+
+# Creating 3 groups:
+minor_range  <-  1:17
+adult_range  <- 18:64
+senior_range <- 64:99
+
+# Creating 3 vectors:
+minors  <- sample(minor_range, 20, replace = TRUE)
+adults  <- sample(adult_range, 50, replace = TRUE)
+seniors <- sample(senior_range, 30, replace = TRUE)
+
+# Combining 3 vectors:
+age <- c(minors, adults, seniors)
+age
+
+# Checks:
+length(age)
+min(age)
+max(age)
+range(age)
+mean(age)
+
+# How many people are younger than 25 years? 
+length(age[age < 25])
+
+# What is the average (mean) age of people older than 50 years?
+mean(age[age > 50])
+
+# Round age:
+round_ages <- age[age %% 10 == 0]
+length(round_ages)
+mean(round_ages)
+```
+
+## Exercise 6
+
+Examine the participant information in `p_info` by describing each of its variables: 
+
+1. How many individuals are contained in the dataset? 
+2. What percentage of them is female (i.e., has a `sex` value of 1)?
+3. How many participants were in one of the 3 treatment groups (i.e., have an `intervention` value of 1, 2, or 3)? 
+4. What is the participants' mean education level? What percentage has a university degree (i.e., an `educ` value of at least 4)?
+5. What is the age range (`min` to `max`) of participants? What is the average (mean and median) age?
+6. Describe the range of `income` levels present in this sample of participants. What percentage of participants self-identifies as a below-average income (i.e., an `income` value of 1)?
+
+```{r ex6_p_info, echo = FALSE, eval = TRUE, results = "hide", fig.show = "hide"}
+## Load data (again): 
+p_info <- read_csv(file = "http://rpository.com/ds4psy/data/posPsy_participants.csv")
+# p_info
+
+## 1. Number of participants: ----- 
+n_total <- nrow(p_info)
+n_total
+
+## 2. How many female participants? -----
+n_female <- length(p_info$sex[p_info$sex == 1])
+n_female
+n_female <- sum(p_info$sex == 1)     # alternative solution
+
+pc_female <- n_female/n_total * 100  # compute percentage
+pc_female
+
+## 3. How many in an intervention group? ----- 
+range(p_info$intervention)
+hist(p_info$intervention, col = "firebrick")  # plots a histogram
+
+n_i1 <- sum(p_info$intervention == 1)
+n_i2 <- sum(p_info$intervention == 2)
+n_i3 <- sum(p_info$intervention == 3)
+n_i4 <- sum(p_info$intervention == 4)
+
+n_treat <- n_i1 + n_i2 + n_i3
+n_treat
+
+# Check: All participants NOT in control group 4:
+n_treat == (n_total - n_i4)
+
+## 4. Education level: ----- 
+hist(p_info$educ, col = "steelblue")
+mean(p_info$educ)
+n_educ_uni <- sum(p_info$educ >= 4)
+
+pc_educ_uni <- n_educ_uni/n_total * 100
+pc_educ_uni
+
+## 5. Age: -----
+hist(p_info$age, col = "gold")
+range(p_info$age)
+mean(p_info$age)
+median(p_info$age)
+
+## 6. Income: ----- 
+hist(p_info$income, col = "skyblue")
+n_income_low <- sum(p_info$income < 2)
+pc_income_low <- n_income_low/n_total * 100
+pc_income_low
+```
+
+<!-- 
+
+**Answers** to **Exercise 6**:
+
+1. The `p_info` data contains `r n_total` individuals.
+2. `r round(pc_female, 2)`% of the participants are female. 
+3. `r n_treat` of the participants are in 1 of the 3 treatment groups.
+4. `r round(pc_educ_uni, 2)`% of the participants have a university degree.
+5. Participant's age values range from `r min(p_info$age)` to `r max(p_info$age)` years. Their mean age is `r round(mean(p_info$age), 2)` years, their median age is `r median(p_info$age)` years.  
+6. `r round(pc_income_low, 2)`% of the participants state that their income is below average. 
+
+-->
+
+# Related Resources
+
+There is no shortage of introductory R books and scripts, but it's helpful if you find one that fits your interests and level of expertise. 
+
+- My favorite introduction to R is [YaRrr! The Pirate’s Guide to R](https://bookdown.org/ndphillips/YaRrr/), an ebook by Nathaniel Phillips that approaches R in a more detailed and much more entertaining fashion.  (See [Rpository.com/learnR/](http://rpository.com/learnr/) for corresponding exercises with solutions.)
+
+- For many other materials and scripts, see [R manuals](https://cran.r-project.org/manuals.html) and [other documentation](www.r-project.org/other-docs.html).  
+
+- For _help_ on any R command named `abc`, simply evaluate `?abc` (in the Console or Editor) to show R's in-built help on the command with this name. For instance, evaluating `?sum` provides a precise definition and some examples of the function `sum` (introduced above). Even when some parts of the definition are difficult to understand at first, it's typically helpful to examine and run the Examples provided. 
+
+
+# References
+
+The participant data `p_info` (used in **Exercise 6**) is from: 
+
+- Woodworth, R. J., O’Brien-Malone, A., Diamond, M. R. and Schüz, B. (2018). 
+Data from, ‘Web-based positive psychology interventions: A reexamination of effectiveness’. 
+_Journal of Open Psychology Data_, _6_: 1. 
+DOI: <https://doi.org/10.5334/jopd.35> 
+
+
+[Last update on `r Sys.time()` by [hn](http://neth.de/).]  
+
+<!-- eof. --> 

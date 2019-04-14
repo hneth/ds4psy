@@ -1,0 +1,172 @@
+---
+title: "Data Science for Psychologists (ds4psy)"
+author: "Hansjörg Neth, SPDS, uni.kn"
+date: "2019 02 06"
+output:
+  rmdformats::html_clean:
+    highlight: kate
+---
+
+```{r knitr_init, echo = FALSE, cache = FALSE, message = FALSE, warning = FALSE}
+library(knitr)
+library(rmdformats)
+
+## Global options
+options(max.print="75")
+opts_chunk$set(echo=FALSE,
+	             cache=TRUE,
+               prompt=FALSE,
+               tidy=TRUE,
+               comment=NA,
+               message=FALSE,
+               warning=FALSE)
+opts_knit$set(width=75)
+```
+
+
+# Course Coordinates
+
+<!-- uni.kn logo and link to SPDS: -->  
+<!-- ![](./inst/pix/uniKn_logo.png) --> 
+<a href="https://www.spds.uni-konstanz.de/">
+<img src = "./../inst/pix/uniKn_logo.png" alt = "spds.uni.kn" align = "right" width = "300" style = "width: 300px; float: right; border:20;"/>
+<!-- <img src = "./inst/pix/uniKn_logo_s.png" alt = "spds.uni.kn" style = "float: right; border:20;"/> --> 
+</a>
+
+* Taught at the [University of Konstanz](https://www.uni-konstanz.de/) by [Hansjörg Neth](http://neth.de/) (<h.neth@uni.kn>,  [SPDS](https://www.spds.uni-konstanz.de/), office D507).
+* Winter 2018/2019: Mondays, 13:30--15:00, C511. 
+* Links to current [course syllabus](http://rpository.com/ds4psy/) | [ZeUS](https://zeus.uni-konstanz.de/hioserver/pages/startFlow.xhtml?_flowId=detailView-flow&unitId=5101&periodId=78&navigationPosition=hisinoneLehrorganisation,examEventOverviewOwn) |  [Ilias](https://ilias.uni-konstanz.de/ilias/goto_ilias_uni_crs_809936.html) 
+
+
+# Data Science Project
+
+## General guidelines
+
+What characterizes a good data science project? 
+As the quality of any data exploration and analysis depends on (a) the quality of the data, (b) the questions asked, and (c) the analysis performed, it is difficult to establish a fixed set of rules for data science projects. Here are some general guidelines:
+
+- Try asking an interesting question that can be answered by available data.
+
+- Apply and show what you have learned (e.g., in various sessions of our course). 
+
+- In short, find, use, transform, and visualize data to address an interesting question. 
+
+## Components
+
+### 1. Motivation
+
+A motivated project should link questions with data. 
+There are 2 principle ways to motivate a project:
+
+1. Starting from questions: Ask some research question(s) that you hope to answer with data. 
+Which data could address or answer the question? 
+
+2. Starting from data: Why use this data? Which interesting questions can it inform or answer?
+
+Note that the questions should be expressed without referring to the data (i.e., rather than 
+"What is the correlation between variable `x` and variable `y`?" try a more general statement like  
+"What is the relation between someone's mood and sports activities?"). 
+
+### 2. The data 
+
+- The data used should be publicly accessible and must be included (in `csv` format).[^1] 
+
+[^1]: Talk to the instructor in case you want to use data that cannot be included (e.g., due to legal or other restrictions).  
+
+- Amount: There are no limits or restrictions regarding data size, but larger datasets are better than smaller ones, data in several files better than 1, etc. 
+
+- The data should include multiple and different types of variables (e.g., text, numeric, categorical, logical). 
+
+- Include a codebook (overview over all variables, their types, and ranges).
+
+- Include references to all sources (e.g., of data, corresponding papers, online sources).
+
+### 3. Data exploration (EDA) 
+
+- Clean up data, etc. 
+
+- Check data for missing values, outliers, etc.
+
+- Provide an overview of distributions of key variables, relationships between variables, etc. 
+
+- Join and/or re-format tables, select cases or variables, etc.
+
+### 4. Data transformation and visualization 
+
+- Add or change variables
+
+- Compute descriptive summary tables or different types of visualizations (that make sense of the data). 
+
+- Can you create a tidy version of the data? How or why not?
+
+- Try to descriptively answer your initial research questions (e.g., by creating corresponding summary tables or visualizations).
+
+### 5. Conclusion
+
+- Results: Which answers does your analysis suggest?
+
+- Limitations: What limits your possible conclusions? What could overcome these limitations? 
+
+- Implications: What follows from your analysis? What should be done next? 
+
+## Submitting a project 
+
+### Parts to include
+
+Please submit a zipped-archive of an R-project, including all _scripts_ and _data_ (in `csv` format):[^2] 
+
+[^2]: Contact the instructor (at least 24h before the deadline) if the size of your archive exceeds 5MB. 
+
+- **Code:** An executable `.R` or `.Rmd` script containing all code. 
+
+- **Output:** 1 document suited to understand and evaluate the project 
+(either an `html`-file that combines all text and code OR a `pdf` file that contains all text and figures). 
+
+### Deadline
+
+An email with your attached project should be sent to <h.neth@uni.kn> [by **March 15**, 2019].
+
+
+# Conclusion
+
+<!-- Table with links: -->
+
+All [ds4psy](http://rpository.com/ds4psy/) essentials so far: 
+
+Nr. | Topic       |
+---:|:------------| 
+0.  | [Syllabus](http://rpository.com/ds4psy/) | 
+1.  | [Basic R concepts and commands](http://rpository.com/ds4psy/essentials/basics.html) | 
+2.  | [Visualizing data](http://rpository.com/ds4psy/essentials/visualize.html) | 
+3.  | [Transforming data](http://rpository.com/ds4psy/essentials/transform.html) |
+4.  | [Exploring data (EDA)](http://rpository.com/ds4psy/essentials/explore.html) | 
+5.  | [Tibbles](http://rpository.com/ds4psy/essentials/tibbles.html) |
+6.  | [Importing data](http://rpository.com/ds4psy/essentials/import.html) |
+7.  | [Tidying data](http://rpository.com/ds4psy/essentials/tidy.html) |
+8.  | [Joining data](http://rpository.com/ds4psy/essentials/join.html) |
+9.  | [Functions](http://rpository.com/ds4psy/essentials/function.html) |
++.  | [Datasets](http://rpository.com/ds4psy/essentials/datasets.html) | 
+
+<!--
+Nr. | Topic       |
+---:|:------------| 
+0.  | [Syllabus](http://rpository.com/ds4psy/) | 
+1.  | [Basic R concepts and commands](http://rpository.com/ds4psy/essentials/basics.html) | 
+2.  | [Visualizing data](http://rpository.com/ds4psy/essentials/visualize.html) | 
+3.  | [Transforming data](http://rpository.com/ds4psy/essentials/transform.html) |
+4.  | [Exploring data (EDA)](http://rpository.com/ds4psy/essentials/explore.html) | 
+5.  | [Tibbles](http://rpository.com/ds4psy/essentials/tibbles.html) |
+6.  | [Importing data](http://rpository.com/ds4psy/essentials/import.html) |
+7.  | [Tidying data](http://rpository.com/ds4psy/essentials/tidy.html) |
+8.  | [Joining data](http://rpository.com/ds4psy/essentials/join.html) |
+9.  | [Functions](http://rpository.com/ds4psy/essentials/function.html) |
+10. | [Iteration](http://rpository.com/ds4psy/essentials/iteration.html) |
++.  | [Datasets](http://rpository.com/ds4psy/essentials/datasets.html) | 
+-->
+
+
+<!-- End: -->
+
+[This file last updated on `r Sys.time()` by [hn](http://neth.de/).]
+
+<!-- eof. --> 

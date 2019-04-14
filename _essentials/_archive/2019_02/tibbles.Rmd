@@ -1,0 +1,1232 @@
+---
+title: "Tibbles, with solutions (ds4psy)"
+author: "Hansjörg Neth, SPDS, uni.kn"
+date: "2018 12 14"
+output:
+   rmdformats::html_clean: # html_clean html_docco readthedown material #
+     code_folding: show # hide
+     toc_float: true
+     toc_depth: 3
+     highlight: default # textmate default kate haddock monochrome #
+     lightbox: true # true by default
+     fig_width: 7 # in inches
+editor_options: 
+  chunk_output_type: console # inline
+---
+
+<!-- Example of essential commands | ds4psy: Winter 2018 -->
+
+```{r preamble, echo = FALSE, eval = TRUE, cache = FALSE, message = FALSE, warning = FALSE}
+## (a) Housekeeping: -----
+rm(list=ls()) # clean all.
+
+## (b) Current file name and path: ----- 
+# my_path <- dirname(rstudioapi::getActiveDocumentContext()$path)
+# my_path
+# setwd(my_path) # set to current directory
+setwd("~/Desktop/stuff/Dropbox/_code/R/_teachR/ds4psy/_essentials") # set to current directory
+# list.files() # all files + folders in current directory
+fileName <- "tibbles.Rmd"
+
+## (c) Packages: ----- 
+library(knitr)
+library(rmdformats)
+library(tidyverse)
+
+## (d) Global options: ----- 
+options(max.print = "75")
+opts_chunk$set(echo = TRUE,
+	             cache = TRUE,
+               prompt = FALSE,
+               tidy = FALSE,
+               collapse = TRUE, # set TRUE in answers 
+               comment = "#>",
+               message = FALSE,
+               warning = FALSE,
+               ## Default figure options:
+               fig.width = 7, 
+               fig.asp = .618, # golden ratio
+               out.width = "75%",
+               fig.align = "center"
+               )
+opts_knit$set(width = 75)
+
+## (e) Custom functions: ----- 
+source(file = "~/Desktop/stuff/Dropbox/_code/R/_teachR/ds4psy/R/custom_functions.R")
+```
+
+# Introduction
+
+This file contains **essential commands** from [Chapter 10: Tibbles](https://r4ds.had.co.nz/tibbles.html) of the textbook [r4ds](http://r4ds.had.co.nz) and corresponding examples and exercises. 
+A command is considered "essential" when you really need to _know_ it and need to know _how to use_ it to succeed in this course. 
+
+<!-- Table with links: -->
+
+All [ds4psy](http://rpository.com/ds4psy/) essentials so far: 
+
+Nr. | Topic       |
+---:|:------------| 
+0.  | [Syllabus](http://rpository.com/ds4psy/) | 
+1.  | [Basic R concepts and commands](http://rpository.com/ds4psy/essentials/basics.html) | 
+2.  | [Visualizing data](http://rpository.com/ds4psy/essentials/visualize.html) | 
+3.  | [Transforming data](http://rpository.com/ds4psy/essentials/transform.html) |
+4.  | [Exploring data (EDA)](http://rpository.com/ds4psy/essentials/explore.html) | 
+5.  | **Tibbles** |
++.  | [Datasets](http://rpository.com/ds4psy/essentials/datasets.html) | 
+
+<!--
+Nr. | Topic       |
+---:|:------------| 
+0.  | [Syllabus](http://rpository.com/ds4psy/) | 
+1.  | [Basic R concepts and commands](http://rpository.com/ds4psy/essentials/basics.html) | 
+2.  | [Visualizing data](http://rpository.com/ds4psy/essentials/visualize.html) | 
+3.  | [Transforming data](http://rpository.com/ds4psy/essentials/transform.html) |
+4.  | [Exploring data (EDA)](http://rpository.com/ds4psy/essentials/explore.html) | 
+5.  | [Tibbles](http://rpository.com/ds4psy/essentials/tibbles.html) |
+6.  | [Tidying data](http://rpository.com/ds4psy/essentials/tidy.html) |
++.  | [Datasets](http://rpository.com/ds4psy/essentials/datasets.html) | 
+-->
+
+## Course coordinates
+
+<!-- uni.kn logo and link to SPDS: -->  
+<!-- ![](./inst/pix/uniKn_logo.png) --> 
+<a href="https://www.spds.uni-konstanz.de/">
+<img src = "../inst/pix/uniKn_logo.png" alt = "spds.uni.kn" align = "right" width = "300" style = "width: 300px; float: right; border:20;"/>
+<!-- <img src = "./inst/pix/uniKn_logo_s.png" alt = "spds.uni.kn" style = "float: right; border:20;"/> --> 
+</a>
+
+* Taught at the [University of Konstanz](https://www.uni-konstanz.de/) by [Hansjörg Neth](http://neth.de/) (<h.neth@uni.kn>,  [SPDS](https://www.spds.uni-konstanz.de/), office D507).
+* Winter 2018/2019: Mondays, 13:30--15:00, C511. 
+* Links to current [course syllabus](http://rpository.com/ds4psy/) | [ZeUS](https://zeus.uni-konstanz.de/hioserver/pages/startFlow.xhtml?_flowId=detailView-flow&unitId=5101&periodId=78&navigationPosition=hisinoneLehrorganisation,examEventOverviewOwn) |  [Ilias](https://ilias.uni-konstanz.de/ilias/goto_ilias_uni_crs_809936.html) 
+
+
+## Preparations
+
+Create an R script (`.R`) or an R-Markdown file (`.Rmd`) and load the R packages of the `tidyverse`. (**Hint:** Structure your script by inserting spaces, meaningful comments, and sections.) 
+
+```{r layout_template, echo = TRUE, eval = FALSE}
+## Tibbles | ds4psy
+## 2018 12 10
+## ----------------------------
+
+## Preparations: ----------
+
+library(tidyverse)
+
+## 1. Topic: ----------
+
+# etc.
+
+## End of file (eof). ----------  
+```
+
+To use [R Markdown](https://rmarkdown.rstudio.com), create a corresponding file and save it with the `.Rmd` extension (e.g., by selecting `File > New File > R Markdown`). 
+For instructions on combining text and code, see [Chapter 27: R Markdown](https://r4ds.had.co.nz/r-markdown.html) of our textbook, or use one of the following templates:  
+
+- minimal template:  `rmd_template_s` [in [.Rmd](http://rpository.com/down/temp/rmd_template_s.Rmd) | [.html](http://rpository.com/down/temp/rmd_template_s.html) format]
+
+- medium template: `rmd_template_m` [in [.Rmd](http://rpository.com/down/temp/rmd_template_m.Rmd) | [.html](http://rpository.com/down/temp/rmd_template_m.html) format]
+
+- explicit explanations: `Rmarkdown_basics` [in [.Rmd](http://rpository.com/down/temp/Rmarkdown_basics.Rmd) | [.html](http://rpository.com/down/temp/Rmarkdown_basics.html) format]
+
+**Hint:** Try to _knit_ your `.Rmd` file immediately after saving it and marvel at the beauty of the resulting `.html`-file. If this works, keep doing this routinely from now on, putting all your R-code into code chunks, and any text (like headings or conclusions) that describes or explains what you are doing outside of them. From now on, you can share your `.html` output files, rather than your `.Rmd` source files when showing off your R and data science skills.
+
+
+# Tibbles
+
+Whenever working with rectangular data structures -- data consisting of multiple cases (rows) and variables (columns) -- our first step is to create or transform the data into a _tibble_ (i.e., a simple version of a _data frame_). 
+
+## Creating tibbles
+
+### Basic commands
+
+There are 3 basic commands for creating tibbles:
+
+1. `as_tibble` converts (or coerces) an existing _rectangle_ of data (e.g., a data frame) into a tibble.
+
+2. `tibble` converts several _vectors_ into (the columns of) a tibble.
+
+3. `tribble` converts a _table_ (entered row-by-row) into a tibble. 
+
+#### Check
+
+The 3 commands yield the same type of output (i.e., a tibble), but require different inputs. Ask yourself which kind of input each command takes and how this input needs to be structured and formatted (e.g., with parentheses, commas, etc.).
+
+### 1. `as_tibble` (rectangles)
+
+Use `as_tibble` when the data to be used is already in rectangular format (e.g., the rows and columns of a data frame or a matrix):  
+
+1. From an exisiting data frame:
+
+```{r as_tibble_df}
+## Using the data frame `sleep`: ------ 
+
+# ?datasets::sleep # provides background information on the data set.
+
+# Save the sleep data frame (as df): 
+df <- datasets::sleep
+
+# Convert df into a tibble (tb): 
+tb <- as_tibble(df)
+
+# Inspect the data frame df: ----  
+dim(df)
+is.data.frame(df)
+head(df)
+str(df)
+
+# Inspect the tibble tb: ---- 
+dim(tb)
+is.tibble(tb)
+is.data.frame(tb)  # => tibbles ARE data frames.
+tb
+head(tb)
+glimpse(tb)
+```
+
+2. From an existing matrix:
+
+```{r as_tibble_matrix}
+## Coercing a matrix into a tibble: ------ 
+mx <- matrix(rnorm(n = 20, mean = 100, sd = 10), nrow = 5, ncol = 4)  # create a matrix (of random numbers)
+
+# Convert mx into a tibble: 
+t2 <- as_tibble(mx)
+t2
+
+names(t2)  # variables have been named (by default)
+```
+
+#### Practice 
+
+Convert some other R datasets (e.g., `datasets::attitude`, `datasets::mtcars`, and `datasets::Orange`) into tibbles and inspect their dimensions and contents. 
+
+- What types of _variables_ (columns) do they contain?  
+- What is the basic unit of an _observation_ (row)?  
+
+
+### 2. `tibble` (columns)
+
+Use `tibble` when the data to be used appears as a collection of columns. 
+For instance, imagine we have the following information about a family: 
+
+```{r tibble_def, echo = FALSE, eval = TRUE}
+# Define some data (to be shown below) as a tibble: 
+tb <- tribble(
+  ~id, ~name, ~age, ~gender, ~drives, ~married_2,   
+  #--|------|-----|--------|----------|----------|
+  1,  "Adam", 46,  "male",    TRUE,     "Eva",    
+  2,  "Eva",  48,  "female",  TRUE,     "Adam",  
+  3,  "Xaxi", 21,  "female",  FALSE,    "Zenon",    
+  4,  "Yota", 19,  "female",  TRUE,      NA, 
+  5,  "Zack", 17,  "male",    FALSE,     NA      )
+
+knitr::kable(tb, caption = "**Table 1:** Example data of some family.")
+```
+
+One way of viewing this table is as a series of columns. Each column consists of a variable name and the same number of (here: 5) values, which can be of different types (here: numbers, characters, or Boolean truth values).  Each column may or may not contain missing values (entered as `NA`). 
+
+The `tibble` command expects that each column of the table is entered as a vector:
+
+```{r tibble, echo = TRUE, eval = TRUE}
+## Create a tibble from vectors (column-by-column): 
+fm <- tibble(
+  id       = c(1, 2, 3, 4, 5), # OR: id = 1:5, 
+  name     = c("Adam", "Eva", "Xaxi", "Yota", "Zack"), 
+  age      = c(46, 48, 21, 19, 17), 
+  gender   = c("male", rep("female", 3), "male"), 
+  drives   = c(TRUE, TRUE, FALSE, TRUE, FALSE), 
+  married_2 = c("Eva", "Adam", "Zenon", NA, NA)
+  )
+
+fm  # prints the tibble: 
+```
+
+Note some **details**: 
+
+- Each vector is labeled by the variable (column) name, which is _not_ put into quotes; 
+
+- Avoid spaces within variable (column) names (or enclose names in single quotes if you really `must use spaces`); 
+
+- All vectors need to have the same length; 
+
+- Each vector is of a single type (numeric, character, or Boolean truth values); 
+
+- Consecutive vectors are separated by commas (but there is no comma after the final vector).
+
+When using `tibble`, later vectors may use the values of earlier vectors:
+
+```{r tibble_use_early_v}
+# Using earlier vectors when defining later ones:
+abc <- tibble(
+  ltr  = LETTERS[1:5],
+  n    = 1:5,
+  l_n  = paste(ltr, n, sep = "_"),  # combining abc with num
+  n_sq = n^2                        # squaring num
+  )
+
+abc  # prints the tibble: 
+```
+
+#### Practice 
+
+Find some tabular data online (e.g., on [Wikipedia](https://en.wikipedia.org)) and enter it as a tibble.
+
+
+### 3. `tribble` (rows)
+
+Use `tribble` when the data to be used appears as a collection of rows (or already is in tabular form). 
+
+For instance, when you copy and paste the above family data from an electronic document, it is easy to insert commas between consecutive cell values and use `tribble` to convert it into a tibble:
+
+```{r tribble, echo = TRUE, eval = TRUE}
+## Create a tibble from tabular data (row-by-row): 
+fm2 <- tribble(
+  ~id, ~name, ~age, ~gender, ~drives, ~married_2,   
+  #--|------|-----|--------|----------|----------|
+  1,  "Adam", 46,  "male",    TRUE,     "Eva",    
+  2,  "Eva",  48,  "female",  TRUE,     "Adam",  
+  3,  "Xaxi", 21,  "female",  FALSE,    "Zenon",    
+  4,  "Yota", 19,  "female",  TRUE,      NA, 
+  5,  "Zack", 17,  "male",    FALSE,     NA      )
+
+fm2  # prints the tibble: 
+```
+
+Note some **details**: 
+
+- The column names are preceded by `~`; 
+
+- Consecutive entries are separated by a comma (but there is no comma after the final entry); 
+
+- The line `#--|-----|-----|-----|--------|--------|` is commented out and can be omitted; 
+
+- The type of each column is determined by the type of the corresponding cell values. For instance, the NA values in `fm2` are missing character values because the entries above were characters (entered in quotes).
+
+
+#### Check 
+
+If `tibble` and `tribble` really are alternative commands, then the contents of our objects `fm` and `fm2` should be identical: 
+
+```{r check_equality, echo = TRUE, eval = TRUE}
+# Are fm and fm2 equal?
+all.equal(fm, fm2)
+```
+
+#### Practice
+
+Enter the tibble `abc` by using `tribble`. 
+
+
+## Accessing parts of a tibble 
+
+Once we have an R object that is a tibble, we often want to access individual parts of it. We can distinguish between 3 simple cases: 
+
+### 1. Variables (columns) 
+
+As each column of a tibble is a vector, obtaining a column amounts to obtaining the corresponding vector. 
+We can access this vector by its name (label) or by its number (column position):
+
+```{r tibble_cols}
+fm  # family tibble (defined above)
+
+# Get the name column of fm:
+fm$name       # by label (with $)
+fm[["name"]]  # by label (with [])
+fm[[2]]       # by number (with [])
+
+# Get the age column of fm: 
+fm$age        # by name (with $)
+fm[["age"]]   # by name (with [])
+fm[[3]]       # by number (with [])
+
+# Note: The following all yield the same vectors as a tibble:
+fm[ , 2] # yields the name vector as a (5 x 1) tibble
+select(fm, 2) 
+select(fm, name)
+
+fm[ , 3] # yields the age vector as a (5 x 1) tibble
+select(fm, 3)
+select(fm, age)
+```
+
+#### Practice  
+
+Extract the `price` column of `ggplot2::diamonds` in at least 3 different ways and verify that they all yield the same mean price. 
+
+```{r tibble_col_ex, echo = FALSE, eval = FALSE}
+# Save data ggplot2::diamonds as dm: 
+dm <- ggplot2::diamonds
+dm
+
+# Compute the mean price of dm in 4 ways: 
+mean(dm$price)
+mean(dm[["price"]])
+mean(dm[[7]])  # => US-$ 3932.80 
+mean(as_vector(select(dm, price)))
+```
+
+### 2. Cases (rows)
+
+Extracting specific rows of a tibble amounts to filtering a tibble and typically yields smaller tibbles (as a row may contain entries of different types). The best way of filtering specific rows of a tibble is using `dplyr::filter`.  However, it's also possible to specify the desired rows by subsetting (i.e., specifying a condition that results in a Boolean value) and by row number:
+
+```{r tibble_rows}
+fm  # family tibble (defined above): 
+
+# Filter specific rows (by condition):
+filter(fm, id > 2)
+filter(fm, age < 18)
+fm %>% filter(drives == TRUE) 
+  
+# The same filters by using Boolean vectors (subsetting):
+fm[fm$id > 2, ]
+fm[fm$age < 18, ]
+fm[fm$drives == TRUE, ]
+
+# The same rows by using slice (providing specific row numbers):
+fm %>% slice(3:5)
+fm[3:5, ]  # getting rows 3 to 5 of fm
+
+fm %>% slice(5)
+fm[5, ]    # getting row 5 of fm
+
+fm %>% slice(c(1, 2, 4))
+fm[c(1, 2, 4), ]  # getting rows 1, 2, and 4 of fm
+```
+
+#### Practice 
+
+Extract all diamonds from `ggplot2::diamonds` that have at least 2 carat. How many of them are there and what is their mean price? 
+
+```{r tibble_row_ex, echo = FALSE, eval = FALSE}
+# Save data ggplot2::diamonds as dm: 
+dm <- ggplot2::diamonds
+dm
+
+# Filter dm by condition: 
+dm_2 <- filter(dm, carat >= 2)
+dm_2  # => 2154 rows (cases)
+
+# Compute the mean price of dm_2 in 3 ways:
+mean(dm_2$price)
+mean(dm_2[["price"]])
+mean(dm_2[[7]])  # => US-$ 14843.66
+```
+
+### 3. Cells
+
+Accessing the values of individual tibble cells is relatively rare, but can be achieved by 
+
+1. explicitly providing both row number `r` and column number `c` (as `[r, c]`), or by  
+
+2. first extracting the column (as a vector `v`) and then providing the desired row number `r` (`v[r]`). 
+
+```{r tibble_cells}
+fm  # family tibble (defined above):
+
+# Getting specific cell values:
+fm$name[4]  # getting the name of the 4th row
+fm[4, 2]    # getting the same name by row and column numbers
+
+# Note: What if we don't know the row number? 
+which(fm$name == "Yota") # getting the row number that contains the name "Yota"
+```
+
+In practice, accessing individual cell values is mostly needed to _check_ for specific cell values and to _change_ or _correct_ erroneous entries by re-assigning them to a different value.
+
+```{r tibble_cells_check_change}
+# Checking and changing cell values: ------ 
+
+# Check: "Who is Xaxi's spouse?" (in 3 different ways):
+fm[fm$name == "Xaxi", ]$married_2
+fm$married_2[3]
+fm[3, 6]
+
+# Change: "Zenon" is actually "Zeus" (in 3 different ways):
+fm[fm$name == "Xaxi", ]$married_2 <- "Zeus"
+fm$married_2[3] <- "Zeus"
+fm[3, 6] <- "Zeus"
+
+# Check for successful change:
+fm
+```
+
+By contrast, a relatively common task is to check an entire tibble 
+(e.g., for the existence or count of missing values, or to replace them by some other value): 
+
+```{r tibble_missing_values}
+# Checking for, counting, and changing missing values: ------ 
+
+fm  # family tibble (defined above): 
+
+# (a) Check for missing values:
+is.na(fm)       # checks each cell value for being NA
+
+# (b) Count the number of missing values: 
+sum(is.na(fm))  # counts missing values (by adding up all TRUE values)
+
+# (c) Change all missing values: 
+fm[is.na(fm)] <- "A MISSING value!"
+
+# Check for successful change: 
+fm
+```
+
+#### Practice  
+
+Determine the number and the percentage of missing values in the datasets `dplyr::starwars` and `dplyr::storms`.
+
+```{r missing_values_ex, echo = FALSE, eval = FALSE}
+sum(is.na(dplyr::starwars))   # 101 missing values
+mean(is.na(dplyr::starwars))  # 8.93%
+
+sum(is.na(dplyr::storms))     # 13056 missing values
+mean(is.na(dplyr::storms))    # 10.03% 
+```
+
+More advanced operations on tibbles are covered in [Chapter 5: Data transformation](http://r4ds.had.co.nz/transform.html) and involve using the `dplyr` commands `arrange`, `filter`, and `select`. 
+
+
+# Exercises (WPA05)
+
+<!-- 
+
+## Agenda
+
+**ToDo:**
+
+- Turn rectangle into a tibble 
+- Turn columns into a tibble
+- Turn rows into tibble
+- Turn web data into a tibble
+
+- Realize the limitations of rectangular data (e.g., multiple entries per cell, multiple dependent variables, etc.)
+
+--> 
+
+## Exercise 1
+
+#### Flower power
+
+Turn the `iris` data -- contained in R datasets -- into a tibble and conduct an EDA on it. 
+
+**Hint:** `iris` provides the measurements (in cm) of plant parts (length and width of _sepal_ and _petal_ parts) for 50 flowers from each of 3 iris species (called _setosa_, _versicolor_, and _virginica_). (Evaluate `?iris` to obtain a description of the dataset.) 
+
+<!-- Exploratory data analysis (EDA): --> 
+
+1. Save `datasets::iris` a tibble `ir` that contains this data and inspect it. Are there any missing values?
+
+```{r ex_iris_EDA_1, echo = TRUE, eval = TRUE}
+# ?iris
+
+# 1. Turn into tibble and inspect: ----- 
+ir <- as_tibble(datasets::iris)
+dim(ir)         # 150 observations (rows) x 5 variables (columns)
+
+sum(is.na(ir))  # 0 missing values
+```
+
+2. Compute a summary table that shows the means of the 4 measurement columns (`Sepal.Length`, `Sepal.Width`, `Petal.Length`, `Petal.Width`) for each of the 3 `Species` (in rows). Save the resulting table of means as a tibble `im1`. 
+
+```{r ex_iris_EDA_2, echo = TRUE, eval = TRUE}
+# 2. Compute counts and means by species: ----- 
+im1 <- ir %>%
+  group_by(Species) %>%
+  summarise(n = n(),
+            mn_sep.len = mean(Sepal.Length),
+            mn_sep.wid = mean(Sepal.Width),
+            mn_pet.len = mean(Petal.Length),
+            mn_pet.wid = mean(Petal.Width)
+            )
+
+# Print im1 (as table with 4 variables of means): 
+knitr::kable(im1, caption = "Table: Average iris measures (4 variables of mean values).") 
+```
+
+3. Create a histogram that shows the distribution of `Sepal.Width` values across all species.
+
+```{r ex_iris_EDA_3, echo = TRUE, eval = TRUE}
+## Graphical exploration: ----- 
+
+## Distribution of 1 (continuous) variable:
+
+# 3. Distribution of Sepal.Width across species:
+ggplot(ir, aes(x = Sepal.Width)) +
+  geom_histogram(binwidth = .1, fill = "skyblue", color = "black") + 
+  labs(title = "Distribution of sepal width across iris species") +
+  theme_bw()
+```
+
+4. Create a plot that shows the shape of the distribution of `Sepal.Width` values for each species.
+
+```{r ex_iris_EDA_4, echo = TRUE, eval = TRUE}
+## Distributions/relationships between 2 variables (1 categorical, 1 continuous):
+
+## 4. The distributions of Sepal.Width by species:
+ggplot(ir, aes(x = Species, y = Sepal.Width)) +
+  geom_violin(fill = "grey90", linetype = 0, alpha = 2/3, width = .5) +
+  geom_jitter(aes(color = Species, shape = Species), size = 3, alpha = 1/2, width = .10) +
+  labs(title = "Distributions of sepal width by iris species") +
+  theme_bw()
+
+## Alternative solution using density plots: 
+ggplot(ir, aes(x = Sepal.Width, fill = Species)) +
+  facet_wrap(~Species) + 
+  geom_density() +
+  labs(title = "Distributions of sepal width by iris species") + 
+  coord_fixed() +
+  theme_bw()
+```
+
+5. Create a plot that shows `Petal.Width` as a function of `Sepal.Width` separately (i.e., in 3 facets) for each species.
+
+```{r ex_iris_EDA_5, echo = TRUE, eval = TRUE}
+## Relationships between 2 variables (2 continuous):
+
+## 5. Petal.Width as a function of Sepal.Width by iris species: 
+ggplot(ir, aes(x = Sepal.Width, y = Petal.Width, color = Species, shape = Species)) +
+  facet_wrap(~Species) +
+  geom_jitter(size = 3, alpha = 2/3) +
+  # geom_density2d() +
+  coord_fixed() +
+  labs(title = "Petal width as a function of sepal width by iris species") +
+  theme_bw()
+
+## next step: 
+## Turn iris df into long format using tidyr::gather ----- 
+## (see tidyr session)
+```
+
+<!-- Tidy data --> 
+
+<!-- 
+
+- Re-format your tibble `ir` into a tibble `ir_long` which in "long format". 
+
+**Hint:** Use `tidyr::gather` and `separate` to turn `ir` into a tibble that contains only 1 dependent variable for the value of measurements (e.g., `val`), but 2 categorical variables that specify the `part` (Sepal vs. Petal) and `metric` (Length vs. Width) of each observation. 
+
+- Use `ir_long` to recompute the subgroup means (for each combination of species, plant part, and metric) computed in **`r nr`b.**.  Save the resulting table of means as a tibble `im2` and verify that they have not changed from `im1` above.  
+
+- Visualize the relationships between the means of `im2` (i.e., the mean measurements by plant part and metric) separately for each species. 
+
+**Hints:** This task asks for showing the value of a continuous variable (the value of means) as a function of 2 categorical variables (the plant `part` and type of `metric`). Possible solutions could incorporate either `geom_line` or `geom_tile` and use different facets for different `Species`. 
+
+- **Bonus task:** Re-format your tibble `ir_long` (in long format) into a wider tibble `ir_short` that corresponds to the original `ir` dataset.   
+
+**Hints:** This task calls for applying `tidyr::spread` and `unite` commands to `ir_long`. 
+However, `spread` will encounter an error unless every individual plant is identified by a unique variable (e.g., `id` number). This can be achieved by adding a numeric counter variable `id` (with values of `rep(1:50, 3)`) to `ir` _before_ creating `ir_long`. 
+
+```{r ex_iris_tidyr}
+## Data (from above): 
+# ?iris
+# ir <- as_tibble(datasets::iris)
+# ir
+
+## (f) Re-format ir into long format (using tidyr::gather) ----- 
+ir_long <- ir %>% 
+  mutate(id = rep(1:50, 3)) %>%   # add a unique id to each plant [to enable (i) below]
+  gather(Sepal.Length:Petal.Width, key = "type", value = "val") %>%
+  separate("type", into = c("part", "metric"), sep = "\\.")
+
+ir_long
+dim(ir_long) # => 600 rows x 5 columns
+
+## (g) Recompute group counts and means from ir_long: ----- 
+im2 <- ir_long %>%
+  group_by(Species, part, metric) %>%
+  summarise(n = n(),
+            mn_val = mean(val)
+            )
+
+# Print im2 (as table with 4 variables of means): 
+knitr::kable(im2, caption = "Average iris measures (1 variable of mean values).")
+
+## Check: Compare sums of all means in im1 vs. im2: 
+sum1 <- sum(im1$mn_sep.len) + sum(im1$mn_sep.wid) + 
+        sum(im1$mn_pet.len) + sum(im1$mn_pet.wid)  # => 41.574
+sum2 <- sum(im2$mn_val)  # => 41.574
+sum1 == sum2             # => TRUE (qed)
+
+
+## Showing the value of a continuous variable by 2 categorical variables: ----- 
+
+## (h) Visualize the means of im2 (i.e., mean measurements by plant part and metric) 
+##     as a line plot separately for each species:
+ggplot(im2, aes(x = part, y = mn_val, group = metric, color = metric)) +
+  facet_wrap(~Species) +
+  geom_point(aes(shape = metric), size = 3) +
+  geom_line(aes(linetype = metric)) +
+  labs(title = "Mean petal and sepal lengths and widths by iris species") + 
+  theme_bw()
+
+## Alternative solution using tile plots:
+ggplot(im2, aes(x = part, y = metric)) +
+  facet_wrap(~Species) +
+  geom_tile(aes(fill = mn_val)) +
+  geom_text(aes(label = mn_val), color = "white") + 
+  labs(title = "Mean petal and sepal lengths and widths by iris species") + 
+  theme_bw()
+
+## Alternative: Using raw values (ir_long) to visualize the distributions 
+##              of val as a function of Species, plant part, and metric:
+ggplot(ir_long, aes(x = part, y = val, fill = Species)) + 
+  facet_wrap(~Species) +
+  geom_violin() +
+  geom_jitter(aes(shape = metric), size = 2, alpha = 2/3) + 
+  labs(title = "Mean petal and sepal lengths and widths by iris species") + 
+  theme_bw()
+
+## (i) Bonus task: ----- 
+
+## See (f) above for the additional id-column for each plant:
+## mutate(id = rep(1:50, 3)) %>% ...
+
+## Re-format ir_long into shorter format (using tidyr::spread) ----- 
+ir_short <- ir_long %>%
+  unite(type, part, metric, sep = ".") %>%  # unite part and metric into "type" column
+  spread(key = type, value = val) %>%       # spread "type" variable into multiple columns
+  arrange(Species, id)
+
+ir_short
+
+## Verify identity of all measurement values in ir and ir_short: 
+all.equal(ir$Sepal.Length, ir_short$Sepal.Length) & 
+all.equal(ir$Sepal.Width,  ir_short$Sepal.Width)  &
+all.equal(ir$Petal.Length, ir_short$Petal.Length) & 
+all.equal(ir$Petal.Width,  ir_short$Petal.Width)  # => TRUE (qed) 
+```
+
+-->
+
+## Exercise 2
+
+#### Rental accounting
+
+Anna, Brian, and Caro are sharing a flat and keep a record of the items that each of them purchased for the household.  
+At the end of each week, they use this data to balance their account. As an aspiring data scientist, you offer your help. 
+Here's last week's data: 
+
+Name      | Mon | Tue | Wed | Thu | Fri | Sat | Sun |
+:-------- |:--- |:--- |:--- |:--- |:--- |:--- |:--- |
+Anna   | Bread: \$2.50  | Pasta: \$4.50 | Pencils: \$3.25   | Milk: \$4.80 | -- | Cookies: \$4.40  | Cake: \$12.50 | 
+   |   |  Butter: \$2.00  |  |  | |  |  | Cream: \$3.90 |  
+Brian | Chips: \$3.80 | Beer: \$11.80 | Steak: \$16.20 | -- | Toilet paper: \$4.50 |  -- | Wine: \$8.80 |  
+Caro | Fruit: \$6.30 | Batteries: \$6.10 | -- | Newspaper: \$2.90 | Honey: \$3.20  | Detergent: \$9.95   | --  |   
+
+
+1. Which _variables_ and which _observations_ would you define here?  Go ahead and enter the data into a tibble `dec_1`. 
+
+```{r accounting_tibble, echo = TRUE, eval = TRUE}
+## Entering data into tibble: ------ 
+
+dec_1 <- tribble(
+  ~name, ~day, ~what, ~paid,   
+  #------|-----|-----|------|
+  "Anna",  "Mon", "Bread",   2.50, 
+  "Anna",  "Mon", "Butter",  2.00,
+  "Anna",  "Tue", "Pasta",   4.50,
+  "Anna",  "Wed", "Pencils", 3.25,
+  "Anna",  "Wed", "Cream",   3.90,
+  "Anna",  "Thu", "Milk",    4.80,
+  "Anna",  "Sat", "Cookies", 4.40,
+  "Anna",  "Sun", "Cake",   12.50,
+  "Brian", "Mon", "Chips",   3.80, 
+  "Brian", "Tue", "Beer",   11.80, 
+  "Brian", "Wed", "Steak",  16.20, 
+  "Brian", "Fri", "Toilet paper", 4.50, 
+  "Brian", "Sun", "Wine",      8.80,   
+  "Caro",  "Mon", "Fruit",     6.30,
+  "Caro",  "Tue", "Batteries", 6.10,
+  "Caro",  "Thu", "Newspaper", 2.90,
+  "Caro",  "Fri", "Honey",     3.20,
+  "Caro",  "Sat", "Detergent", 9.95 )
+
+knitr::kable(dec_1, caption = "Table with purchases as observations.")
+```
+
+2. Use `dec_1` to answer the following questions (by using `dplyr` for creating tables that contain the answer):
+
+  - How much money was spent this week?
+  - Which percentage of the overall amount was spent by each person? 
+  - How many items did each person purchase? 
+  - How much did each person pay overall?  
+  - Who buys the cheapest/most expensive items (on average)?  
+  - How much is being spent on each day of the week (overall and on average)?   
+  - What is the order of days sorted by the overall amount spent (from most expensive to least expensive)?  
+
+```{r accounting_tables, echo = TRUE, eval = TRUE}
+total_paid <- sum(dec_1$paid)
+total_paid 
+
+## Transformations: ------ 
+
+# (1) Purchases by name: 
+buy_by_name <- dec_1 %>%
+  group_by(name) %>%
+  summarise(n = n(),
+            sm_pay = sum(paid),
+            mn_pay = sm_pay/n,
+            pc_pay = sm_pay/total_paid * 100
+            ) 
+knitr::kable(buy_by_name, caption = "Purchases by name.")
+
+# (2) Purchases by day:
+
+# Turn day into an ordered factor (to preserve order):
+dec_1$day <- factor(dec_1$day, levels = c("Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"), ordered = TRUE)
+
+# Purchases by day: 
+buy_by_day <- dec_1 %>%
+  group_by(day) %>%
+  summarise(n = n(),
+            sm_pay = sum(paid),
+            mn_pay = sm_pay/n)
+knitr::kable(buy_by_day, caption = "Purchases by day.")
+
+# Arrange buy_by_day by overall expense: 
+buy_by_day %>% 
+  arrange(desc(sm_pay))
+```
+
+3. Interpret and re-create the following graphs (using `ggplot` and possibly `dplyr`):
+
+```{r accounting_plots, echo = TRUE, eval = TRUE}
+## Visualizations: ------ 
+
+# (A) Bar charts: ---- 
+ggplot(dec_1) +
+  geom_bar(aes(x = day, fill = name)) +
+  labs(title = "Number of purchases per person by day") +
+  scale_fill_brewer(palette = "Set1") +
+  theme_classic()
+
+ggplot(dec_1) +
+  geom_bar(aes(x = day, y = paid, fill = name), stat = "identity") +
+  labs(title = "Amount paid (overall and per person) by day") +
+  scale_fill_brewer(palette = "Set1") +
+  theme_classic()
+```
+
+```{r accounting_lines, echo = FALSE, eval = FALSE}
+# (B) Line charts: ---- 
+# Line graphs of individual purchases:
+ggplot(dec_1, aes(x = day)) +
+  geom_point(aes(y = paid, color = name)) + 
+  geom_line(aes(y = paid, group = name, color = name)) +
+  theme_classic()
+
+# As step function:
+ggplot(dec_1, aes(x = day)) +
+  geom_point(aes(y = paid, color = name)) + 
+  geom_step(aes(y = paid, group = name, color = name)) +
+  theme_classic()
+```
+
+4. **Bonus task:** What do the following plots show? Try re-creating the plots from the data in `dec_1`.  
+
+**Hint:** The plots are created with `geom_step` and `geom_area`. However, rather than directly calling `ggplot`, consider first using `dplyr` to transform `dec_1` into summary tables that contain all values needed for the plots. You may have to combine multiple `group_by` and `mutate` commands to compute all required variables. 
+
+```{r accounting_steps, echo = FALSE, eval = TRUE}
+# The plot shows the cumulative amount paid per person over the week  
+
+# (C) Step function of cumulative purchases: ---- 
+
+# (a) Cumulative sum for each person over time (day):
+cum_by_day <- dec_1 %>%
+  group_by(day, name) %>%
+  summarise(n = n(),
+            sm_pay = sum(paid)) %>%
+  group_by(name) %>%
+  mutate(cum_sum = cumsum(sm_pay))
+
+knitr::kable(cum_by_day, caption = "Purchases by day and name (with cum sum by name).")  # print the table
+  
+# (b) Plot summary table of cumulative purchases:
+ggplot(cum_by_day, aes(x = day, y = cum_sum, group = name, color = name)) +
+  geom_step(size = 1, alpha = 2/3) +
+  geom_point(aes(shape = name), size = 3, alpha = 1) +
+  labs(title = "Cumulative amount paid (per person and day)",
+       x = "Day", y = "Cumulative sum paid", color = "Name:", shape = "Name:") +
+  scale_color_brewer(palette = "Set1") + 
+  theme_classic() +
+  theme(legend.position = c(.90, .20),  # position legend in plot
+        legend.background = element_rect(fill = "grey95", color = "grey10", line = 1)  # light grey box with dark grey border
+        )
+```
+
+```{r accounting_area, echo = FALSE, eval = TRUE}
+# Note: The tibble 
+dec_1
+# does not contain rows for a person and day without a purchase.
+# As a consequence, the summary tables (above) with  
+# group_by(day, name) do not contain 7 x 3 = 21 variables.
+
+# Adding additional data points for 0 purchases per person/day: ------ 
+zero_buy <- tribble(
+  ~name, ~day, ~what, ~paid,   
+  #------|-----|-----|------|
+  "Anna",  "Fri", "",   0,
+  "Brian", "Thu", "",   0,  
+  "Brian", "Sat", "",   0,  
+  "Caro",  "Wed", "",   0,
+  "Caro",  "Sun", "",   0)
+
+# Combine dec_1 and zero_buy:  
+all <- full_join(dec_1, zero_buy) %>% 
+  select(day, name, everything()) %>%
+  arrange(day, name)
+
+# all  
+
+# Turn day into an ordered factor (to preserve order):
+all$day <- factor(all$day, levels = c("Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"), ordered = TRUE)
+
+# all %>% arrange(day, name)
+
+# Transform into summary table with cumulative sums: ------ 
+cum_sum_by_day <- all %>%
+  group_by(day, name) %>%
+  summarise(n = n(),
+            sum_name_day = sum(paid)) %>%
+  group_by(name) %>%
+  mutate(cum_sum_name = cumsum(sum_name_day)) %>%
+  group_by(day) %>%
+  mutate(cum_sum_day = sum(cum_sum_name),
+         pc_name = cum_sum_name/cum_sum_day * 100)
+  
+knitr::kable(cum_sum_by_day, caption = "Cumulative sums (by day and name).")
+
+# Visualizations: ------ 
+
+area_total <- ggplot(cum_sum_by_day) +
+  geom_area(aes(x = day, y = cum_sum_name, group = name, fill = name)) +
+  labs(title = "Cumulative amount paid (per person and day)",
+       x = "Day", y = "Sum of total expenses", fill = "Name:") +
+  scale_fill_brewer(palette = "Set1") + 
+  theme_classic()
+# area_total
+
+area_pc <- ggplot(cum_sum_by_day) +
+  geom_area(aes(x = day, y = pc_name, group = name, fill = name)) +
+  labs(title = "Percentage of total expenses paid (per person and day)",
+       x = "Day", y = "Percentage of total expenses", fill = "Name:") +
+  scale_fill_brewer(palette = "Set1") + 
+  theme_classic()
+area_pc
+```
+
+**Note:** An alternative way to represent the purchases would as a list (an R data structure that -- in contrast to vectors -- allows a mix of different data types): 
+
+```{r accounting_note, echo = TRUE, eval = TRUE}
+# A more natural format (to represent a purchase) would have been: 
+
+buy  <- list("Anna", "Mon", "Bread", 2.50)  # by purchase
+
+# but as column vectors don't allow mixing data types (e.g., characters and numbers), 
+# we represented the purchases as the rows of a table/tibble above.
+```
+
+
+## Exercise 3
+
+#### Positive psychology tibbles
+
+In this exercise, we will enter some results from our previous session (on [Exploring data (EDA)](http://rpository.com/ds4psy/essentials/explore.html)) as a tibble, before re-computing the results from the raw data and visualizing the results.
+
+To do this exercise, re-load the following data files (into R objects `posPsy_wide` and `posPsy_long`): 
+
+```{r ex3_load_data}
+# Load data: 
+posPsy_wide <- read_csv(file = "http://rpository.com/ds4psy/data/posPsy_data_wide.csv")
+dim(posPsy_wide)  # 295 294
+
+# 3. Corrected DVs in long format:
+posPsy_long <- read_csv(file = "http://rpository.com/ds4psy/data/posPsy_AHI_CESD_corrected.csv")
+dim(posPsy_long)  # 990 x 50
+```
+
+The following table shows the mean depression scores per intervention for each of the 5 occasions (with means rounded to 1 decimal): 
+
+```{r ex3_create_tbl, echo = FALSE, eval = TRUE}
+tbl_org <- posPsy_wide %>%
+  group_by(intervention) %>%
+  summarise(mn_cesd_0 = round(mean(cesdTotal.0, na.rm = TRUE), 1), 
+            mn_cesd_1 = round(mean(cesdTotal.1, na.rm = TRUE), 1), 
+            mn_cesd_2 = round(mean(cesdTotal.2, na.rm = TRUE), 1),
+            mn_cesd_3 = round(mean(cesdTotal.3, na.rm = TRUE), 1),
+            mn_cesd_4 = round(mean(cesdTotal.4, na.rm = TRUE), 1),
+            mn_cesd_5 = round(mean(cesdTotal.5, na.rm = TRUE), 1)
+            )
+
+# tbl_org
+
+# Print tbl_org: 
+knitr::kable(tbl_org, caption = "Table: Mean depression scores by intervention and occasion.")
+
+# knitr::kable(tbl_org, format = "html") %>%
+#  kable_styling(bootstrap_options = c("striped", "hover")) %>%
+#  column_spec(1, bold = TRUE, border_right = TRUE)
+```
+
+1. Enter this data directly into a tibble `my_tbl` (by using either the `tibble` or the `tribble` command). 
+
+```{r ex3_create_my_tbl}
+# (1a): Create the tibble displayed above. 
+my_tbl <- tibble(intervention = c(1:4),
+                 mn_cesd_0 = c(15.1, 16.2, 16.1, 12.8),
+                 mn_cesd_1 = c(15.3, 14.6, 12.3, 9.9),
+                 mn_cesd_2 = c(13.6, 11.4, 14.8, 9.5),
+                 mn_cesd_3 = c(12.0, 12.5, 13.9, 9.1),
+                 mn_cesd_4 = c(11.2, 13.4, 14.9, 7.7),
+                 mn_cesd_5 = c(13.5, 14.6, 13.0, 10.2) )
+
+my_tbl
+```
+
+2. Re-compute an identical tibble `my_tbl_2` by transforming one of the `posPsy_...` datasets (using `dplyr`) and verify that `my_tbl` and `my_tbl_2` are equal. 
+
+```{r ex3_create_my_tbl_2, echo = TRUE, eval = TRUE}
+my_tbl_2 <- posPsy_wide %>%
+  group_by(intervention) %>%
+  summarise(mn_cesd_0 = round(mean(cesdTotal.0, na.rm = TRUE), 1), 
+            mn_cesd_1 = round(mean(cesdTotal.1, na.rm = TRUE), 1), 
+            mn_cesd_2 = round(mean(cesdTotal.2, na.rm = TRUE), 1),
+            mn_cesd_3 = round(mean(cesdTotal.3, na.rm = TRUE), 1),
+            mn_cesd_4 = round(mean(cesdTotal.4, na.rm = TRUE), 1),
+            mn_cesd_5 = round(mean(cesdTotal.5, na.rm = TRUE), 1) )
+
+# my_tbl_2
+
+# Verify that they are equal:
+all.equal(my_tbl, my_tbl_2)  # TRUE
+```
+
+3. Visualize the information expressed by `my_tbl` in a transparent way (e.g., by creating a bar or line plot).  
+
+**Hint:** If this is difficult by using `data = my_tbl` in `ggplot`, use a data file that is better suited for this purpose. 
+_Why_ can't you just directly plot `my_tbl`?
+
+```{r ex3_visualize_tbl, echo = TRUE, eval = TRUE}
+# Problem: 
+# my_tbl contains the results, but distributed over 6 different variables.
+# To plot this data, we would need a format with only 1 dependent variable.
+
+# Using the data from posPsy_long 
+# (in which cesdTotal is only 1 variable, which we can group by occasion and intervention): 
+my_tbl_3 <- posPsy_long %>%
+  group_by(occasion, intervention) %>%
+  summarize(mean_cesd = round(mean(cesdTotal), 1))
+# my_tbl_3
+
+# Turn intervention into a factor: 
+my_tbl_3$intervention <- factor(my_tbl_3$intervention)
+# my_tbl_3
+
+# Note the difference: 
+knitr::kable(my_tbl_3, caption = "Table: This table contains our key dependent variable (mean_cesd) in 1 column.")
+
+# Visualize summary table as line graph: 
+ggplot(my_tbl_3, aes(x = occasion, y = mean_cesd, group = intervention,  
+                     color = intervention, shape = intervention)) +   
+  geom_line(size = 1, color = "black", alpha = .20) +
+  geom_point(size = 4) +
+  labs(title = "Mean depression scores by intervention and occasion",
+       x = "Occasion", y = "Mean CES-D score") +
+  scale_color_brewer(palette = "Set1") +
+  theme_bw()
+```
+
+
+## Exercise 4
+
+#### False-positive psychology
+
+Having considered the benefits of positive psychology, we can now consider the pitfalls of false-positive psychology. 
+The following article reports noteworthy results based on 2 datasets: 
+
+- Simmons, J.P., Nelson, L.D., & Simonsohn, U. (2011). 
+False-positive psychology: Undisclosed flexibility in data collection and analysis allows presenting anything as significant. 
+_Psychological Science_, _22_(11), 1359–1366. 
+doi: <https://doi.org/10.1177/0956797611417632> 
+
+You can find background information on this article and its data at [Datasets: False positive psychology](http://rpository.com/ds4psy/essentials/datasets.html#false-positive-psychology). 
+
+The following table was created from the data of both studies. 
+It reports the mean, minimum, and maximum age of participants per condition `cond`, as well as the number of people in those conditions who reported to feel a certain age (from very young to very old): 
+
+```{r ex4_load_data_create_tbl, echo = FALSE, eval = TRUE, message = FALSE, warning = FALSE}
+# (1) Import the dataset: 
+falsePosPsy_all <- read_csv(file = "http://rpository.com/ds4psy/data/falsePosPsy_all.csv")  # online
+
+## Verify that import was successful:
+# dim(falsePosPsy_all)   # 78 19
+# str(falsePosPsy_all)
+
+# (2) Creating the tibble:
+tbl <- falsePosPsy_all %>%
+  group_by(cond) %>%
+  summarise(n = n(),
+            mean_age = round(mean(aged365, na.rm = TRUE), digits = 2), 
+            youngest = round(min(aged365, na.rm = TRUE), digits = 2),
+            oldest = round(max(aged365, na.rm = TRUE), digits = 2),
+            feel_vyoung = sum(feelold == 1),
+            feel_young = sum(feelold == 2),
+            feel_neither = sum(feelold == 3),
+            feel_old = sum(feelold == 4),
+            feel_vold = sum(feelold == 5)
+            )
+# tbl
+
+# Printing the tibble in the output:
+knitr::kable(tbl, caption = "Table: Age-related data from Simmons et al. (2011).")
+
+# knitr::kable(tbl, format = "html") %>%
+#   kable_styling(bootstrap_options = c("striped", "hover")) %>%
+#   column_spec(1, bold = T, border_right = T) 
+```
+
+1. Enter this data as a tibble `tbl_1` (by using the `tibble` or the `tribble` command). 
+
+```{r ex4_falsePos_1, echo = TRUE, eval = TRUE}
+# (a) Using tibble:
+tbl_1 <- tibble(
+  cond = c("64", "control", "potato"),  
+  n = c(25, 22, 31), 
+  mean_age = c(21.09, 20.80, 20.60), 
+  youngest = c(18.30, 18.53, 18.18), 
+  oldest = c(38.24, 27.23, 27.37), 
+  feel_vyoung = c(0, 3, 1),
+  feel_young = c(13, 15, 17),
+  feel_neither = c(10, 3, 11),
+  feel_old = c(2, 1, 2),
+  feel_vold = c(0, 0, 0) )
+
+knitr::kable(tbl_1, caption = "Data entered (by using tibble).")
+
+# (b) Using tribble:
+tbl_2 <- tribble(~cond, ~n, ~mean_age, ~youngest, ~oldest,	
+                 ~feel_vyoung, ~feel_young, ~feel_neither, ~feel_old,	~feel_vold,
+                 #--------|----|------|------|------|---|---|---|---|---|
+                 "64",	    25, 21.09, 18.30,	38.24,	0, 13, 10,  2,  0,
+                 "control",	22,	20.80, 18.53,	27.23,	3, 15,  3,  1,  0,
+                 "potato",	31,	20.60, 18.18,	27.37,	1, 17, 11,  2,  0 )
+
+knitr::kable(tbl_2, caption = "Data entered (by using tribble).")
+
+## Check identity: 
+# all.equal(tbl, tbl_1)   # same, except for type differences
+all.equal(tbl_1,  tbl_2)  # TRUE
+```
+
+2. Import the original dataset from <http://rpository.com/ds4psy/data/falsePosPsy_all.csv> and re-create the data of `tbl_1` from the original data as a new tibble `tbl_org` (by using a `dplyr` pipe).
+
+```{r ex4_falsePos_2_data, echo = TRUE, eval = TRUE}
+# Import the dataset:
+falsePosPsy_all <- read_csv(file = "http://rpository.com/ds4psy/data/falsePosPsy_all.csv")
+```
+
+**Hints:** Check the codebook at [Datasets: False positive psychology](http://rpository.com/ds4psy/essentials/datasets.html#false-positive-psychology) to understand the variables of the dataset. 
+For instance, participants' age in years is stored in a variable called `aged365`. 
+
+```{r ex_falsePos_2_recreate_tbl, echo = TRUE, eval = TRUE}
+# Re-creating the data in tbl_1 from the original data:
+tbl_org <- falsePosPsy_all %>%
+  group_by(cond) %>%
+  summarise(n = n(),
+            mean_age = round(mean(aged365, na.rm = TRUE), digits = 2), 
+            youngest = round(min(aged365, na.rm = TRUE), digits = 2),
+            oldest = round(max(aged365, na.rm = TRUE), digits = 2),
+            feel_vyoung = sum(feelold == 1),
+            feel_young = sum(feelold == 2),
+            feel_neither = sum(feelold == 3),
+            feel_old = sum(feelold == 4),
+            feel_vold = sum(feelold == 5)
+            )
+knitr::kable(tbl_org, caption = "Same data re-created from raw data.")
+
+## Verify identity:
+# all.equal(tbl_1,  tbl_org)  # TRUE, except for different column types (numeric vs. integer).
+```
+
+3. Visualize some aspects of the data: 
+
+- Use the tibble `tbl_org` to plot the number of participants per condition (e.g., as a bar plot). 
+
+- Plot the mean age per condition with the minimum and the maximum age (e.g., by using `geom_pointrange`).
+
+```{r ex_falsePos_3, echo = TRUE, eval = TRUE}
+## Plotting the number of participants per condition:
+ggplot(tbl_org, aes(x = cond, y = n)) +
+  geom_bar(stat = "identity", fill = seeblau) +
+  labs(title = "Distribution of participants per condition",
+       x = "Condition", y = "Number of participants") + 
+  theme_bw()
+
+## Plotting mean age per condition with the minimum and the maximum age:
+ggplot(tbl_org, aes(x = cond, y = mean_age, color = cond)) +
+  geom_pointrange(aes(ymin = youngest, ymax = oldest), size = 1, shape = 19) +
+  labs(title = "Mean age per condition with minimum and maximum age",
+       x = "Condition", y = "Age (in years)") + 
+  scale_color_brewer(palette = "Set1") +
+  theme_bw()
+
+## Compare with a plot from raw data: ------- 
+# falsePosPsy_all
+
+ggplot(falsePosPsy_all, aes(x = cond, y = aged365, color = cond)) +
+  geom_violin(width = .40) + 
+  geom_boxplot(width = .20) + 
+  geom_jitter(width = .10, color = "black", alpha = 1/2) + 
+  labs(title = "Age values per condition",
+       x = "Condition", y = "Age (in years)",
+       color = "Condition:") + 
+  scale_color_brewer(palette = "Set1") +
+  theme_bw()
+```
+
+
+# More on tibbles
+
+For more details on tibbles, 
+
+- study the `vignette("tibble")` and the documentation for `?tibble`;
+- study <https://tibble.tidyverse.org/> and its examples; 
+- read [Chapter 10: Tibbles](http://r4ds.had.co.nz/tibbles.html) and complete its exercises. 
+
+See the R package [Datapasta](https://CRAN.R-project.org/package=datapasta) and its [vignette](https://cran.r-project.org/web/packages/datapasta/vignettes/how-to-datapasta.html) for a clipboard-based solution for cut-and-pasting data into [RStudio](https://www.rstudio.com/). 
+
+
+# Conclusion
+
+<!-- Table with links: -->
+
+All [ds4psy](http://rpository.com/ds4psy/) essentials: 
+
+Nr. | Topic       |
+---:|:------------| 
+0.  | [Syllabus](http://rpository.com/ds4psy/) | 
+1.  | [Basic R concepts and commands](http://rpository.com/ds4psy/essentials/basics.html) | 
+2.  | [Visualizing data](http://rpository.com/ds4psy/essentials/visualize.html) | 
+3.  | [Transforming data](http://rpository.com/ds4psy/essentials/transform.html) |
+4.  | [Exploring data (EDA)](http://rpository.com/ds4psy/essentials/explore.html) | 
+5.  | **Tibbles** |
++.  | [Datasets](http://rpository.com/ds4psy/essentials/datasets.html) | 
+
+<!--
+Nr. | Topic       |
+---:|:------------| 
+0.  | [Syllabus](http://rpository.com/ds4psy/) | 
+1.  | [Basic R concepts and commands](http://rpository.com/ds4psy/essentials/basics.html) | 
+2.  | [Visualizing data](http://rpository.com/ds4psy/essentials/visualize.html) | 
+3.  | [Transforming data](http://rpository.com/ds4psy/essentials/transform.html) |
+4.  | [Exploring data (EDA)](http://rpository.com/ds4psy/essentials/explore.html) | 
+5.  | [Tibbles](http://rpository.com/ds4psy/essentials/tibbles.html) |
+6.  | [Tidying data](http://rpository.com/ds4psy/essentials/tidy.html) |
++.  | [Datasets](http://rpository.com/ds4psy/essentials/datasets.html) | 
+-->
+
+
+[Last update on `r Sys.time()` by [hn](http://neth.de/).]  
+
+<!-- eof. --> 

@@ -1,0 +1,1399 @@
+---
+title: "Tidying data, with WPA07 (ds4psy)"
+author: "Hansjörg Neth, SPDS, uni.kn"
+date: "2019 01 14"
+output:
+   rmdformats::html_clean: # html_clean html_docco readthedown material #
+     code_folding: show # hide
+     toc_float: true
+     toc_depth: 3
+     highlight: default # textmate default kate haddock monochrome #
+     lightbox: true # true by default
+     fig_width: 7 # in inches
+editor_options: 
+  chunk_output_type: console # inline
+---
+
+<!-- Example of essential commands | ds4psy: Winter 2018 -->
+
+```{r preamble, echo = FALSE, eval = TRUE, cache = FALSE, message = FALSE, warning = FALSE}
+## (a) Housekeeping: -----
+rm(list=ls()) # clean all.
+
+## (b) Current file name and path: ----- 
+# my_path <- dirname(rstudioapi::getActiveDocumentContext()$path)
+# my_path
+# setwd(my_path) # set to current directory
+setwd("~/Desktop/stuff/Dropbox/_code/R/_teachR/ds4psy/_essentials") # set to current directory
+# list.files() # all files + folders in current directory
+fileName <- "tidy.Rmd"
+
+## (c) Packages: ----- 
+library(knitr)
+library(rmdformats)
+library(tidyverse)
+
+## (d) Global options: ----- 
+options(max.print = "75")
+opts_chunk$set(echo = TRUE,
+	             cache = TRUE,
+               prompt = FALSE,
+               tidy = FALSE,
+               collapse = TRUE, # set TRUE in answers 
+               comment = "#>",
+               message = FALSE,
+               warning = FALSE,
+               ## Default figure options:
+               fig.width = 7, 
+               fig.asp = .618, # golden ratio
+               out.width = "75%",
+               fig.align = "center"
+               )
+opts_knit$set(width = 75)
+
+## (e) Custom functions: ----- 
+source(file = "~/Desktop/stuff/Dropbox/_code/R/_teachR/ds4psy/R/custom_functions.R")
+```
+
+# Introduction
+
+This file contains **essential commands** from [Chapter 12: Tidy data](https://r4ds.had.co.nz/tidy-data.html) of the textbook [r4ds](http://r4ds.had.co.nz) and corresponding examples and exercises. 
+A command is considered "essential" when you really need to _know_ it and need to know _how to use_ it to succeed in this course. 
+
+<!-- Table with links: -->
+
+All [ds4psy](http://rpository.com/ds4psy/) essentials so far: 
+
+Nr. | Topic       |
+---:|:------------| 
+0.  | [Syllabus](http://rpository.com/ds4psy/) | 
+1.  | [Basic R concepts and commands](http://rpository.com/ds4psy/essentials/basics.html) | 
+2.  | [Visualizing data](http://rpository.com/ds4psy/essentials/visualize.html) | 
+3.  | [Transforming data](http://rpository.com/ds4psy/essentials/transform.html) |
+4.  | [Exploring data (EDA)](http://rpository.com/ds4psy/essentials/explore.html) | 
+5.  | [Tibbles](http://rpository.com/ds4psy/essentials/tibbles.html) |
+6.  | [Importing data](http://rpository.com/ds4psy/essentials/import.html) |
+7.  | **Tidying data** |
++.  | [Datasets](http://rpository.com/ds4psy/essentials/datasets.html) | 
+
+<!--
+Nr. | Topic       |
+---:|:------------| 
+0.  | [Syllabus](http://rpository.com/ds4psy/) | 
+1.  | [Basic R concepts and commands](http://rpository.com/ds4psy/essentials/basics.html) | 
+2.  | [Visualizing data](http://rpository.com/ds4psy/essentials/visualize.html) | 
+3.  | [Transforming data](http://rpository.com/ds4psy/essentials/transform.html) |
+4.  | [Exploring data (EDA)](http://rpository.com/ds4psy/essentials/explore.html) | 
+5.  | [Tibbles](http://rpository.com/ds4psy/essentials/tibbles.html) |
+6.  | [Importing data](http://rpository.com/ds4psy/essentials/import.html) |
+7.  | [Tidying data](http://rpository.com/ds4psy/essentials/tidy.html) |
++.  | [Datasets](http://rpository.com/ds4psy/essentials/datasets.html) | 
+-->
+
+## Course coordinates
+
+<!-- uni.kn logo and link to SPDS: -->  
+<!-- ![](./inst/pix/uniKn_logo.png) --> 
+<a href="https://www.spds.uni-konstanz.de/">
+<img src = "../inst/pix/uniKn_logo.png" alt = "spds.uni.kn" align = "right" width = "300" style = "width: 300px; float: right; border:20;"/>
+<!-- <img src = "./inst/pix/uniKn_logo_s.png" alt = "spds.uni.kn" style = "float: right; border:20;"/> --> 
+</a>
+
+* Taught at the [University of Konstanz](https://www.uni-konstanz.de/) by [Hansjörg Neth](http://neth.de/) (<h.neth@uni.kn>,  [SPDS](https://www.spds.uni-konstanz.de/), office D507).
+* Winter 2018/2019: Mondays, 13:30--15:00, C511. 
+* Links to current [course syllabus](http://rpository.com/ds4psy/) | [ZeUS](https://zeus.uni-konstanz.de/hioserver/pages/startFlow.xhtml?_flowId=detailView-flow&unitId=5101&periodId=78&navigationPosition=hisinoneLehrorganisation,examEventOverviewOwn) |  [Ilias](https://ilias.uni-konstanz.de/ilias/goto_ilias_uni_crs_809936.html) 
+
+
+## Preparations
+
+Create an R script (`.R`) or an R-Markdown file (`.Rmd`) and load the R packages of the `tidyverse`. (**Hint:** Structure your script by inserting spaces, meaningful comments, and sections.) 
+
+```{r layout_template, echo = TRUE, eval = FALSE}
+## Tidy data | ds4psy
+## 2019 01 14
+## ----------------------------
+
+## Preparations: ----------
+
+library(tidyverse)
+
+## 1. Topic: ----------
+
+# etc.
+
+## End of file (eof). ----------  
+```
+
+To use [R Markdown](https://rmarkdown.rstudio.com), create a corresponding file and save it with the `.Rmd` extension (e.g., by selecting `File > New File > R Markdown`). 
+For instructions on combining text and code, see [Chapter 27: R Markdown](https://r4ds.had.co.nz/r-markdown.html) of our textbook, or use one of the following templates:  
+
+- minimal template:  `rmd_template_s` [in [.Rmd](http://rpository.com/down/temp/rmd_template_s.Rmd) | [.html](http://rpository.com/down/temp/rmd_template_s.html) format]
+
+- medium template: `rmd_template_m` [in [.Rmd](http://rpository.com/down/temp/rmd_template_m.Rmd) | [.html](http://rpository.com/down/temp/rmd_template_m.html) format]
+
+- explicit explanations: `Rmarkdown_basics` [in [.Rmd](http://rpository.com/down/temp/Rmarkdown_basics.Rmd) | [.html](http://rpository.com/down/temp/Rmarkdown_basics.html) format]
+
+**Hint:** Try to _knit_ your `.Rmd` file immediately after saving it and marvel at the beauty of the resulting `.html`-file. If this works, keep doing this routinely from now on, putting all your R-code into code chunks, and any text (like headings or conclusions) that describes or explains what you are doing outside of them. From now on, you can share your `.html` output files, rather than your `.Rmd` source files when showing off your R and data science skills.
+
+# Tidy data
+
+The notion of _tidy data_ lies at the core of the tidyverse. The same dataset can be formatted in a variety of formats. Even though they can contain the same data, different formats differ in how easy or hard they are to work with (e.g., for specific analyses or plots). Tidy data is formatted in a simple and straightforward way, which makes it immensely practical (e.g., easy to understand, analyze, and transform into other formats). 
+
+Before defining the notion of tidy data, we first compare and contrast different sets of rectangular data that contain the same information. 
+
+## Tabular data
+
+In R, rectangular data is often organized in _tibbles_ or _data frames_. Importantly, each column is a vector (of a particular type) that contains the values of a variable. Thus, whereas every column must be of one type, every row can contain values of different variables and types. 
+
+The same set of data (values of variables) can be organised in many different ways. For instance, the following tables (or tibbles) all provide the number of TB cases documented by the World Health Organization in 3 countries (Afghanistan, Brazil, and China) in 2 years (1999 and 2000):
+
+```{r table1_as_barplot, echo = FALSE, eval = TRUE}
+library(tidyverse)
+
+## Illustrating the data in tidyr::table1 
+# knitr::kable(tidyr::table1)
+
+ggplot(data = tidyr::table1, aes(x = year, y = cases, fill = country)) + 
+    geom_bar(stat = "identity", position = "dodge") + 
+    geom_text(aes(label = cases), position = position_dodge(width = 0.9), vjust = -0.5) +
+    scale_x_continuous(name = "Year", breaks = 1999:2000) + 
+    scale_fill_manual(name = "Country", 
+                      values = c("firebrick", "steelblue", "gold")) + 
+    labs(title = "TB cases per country and year", y = "Cases", 
+         caption = "[Data from tidyr::table1.]") +
+    theme_bw()
+```
+
+```{r rectangular_data}
+library(tidyverse)
+
+## Example of the same data organised in 4 different ways:
+# ?table1 # for semantics and source of data
+
+knitr::kable(tidyr::table1, caption = "Example of table1: Tidy data.")
+dim(tidyr::table1)  #  6 x 4: 2 IVs, 2 DVs.
+
+knitr::kable(tidyr::table2, caption = "Example of table2: count contains 2 DVs.")
+dim(tidyr::table2)  #  12 x 4: 3 IVs, 1 DV.
+
+knitr::kable(tidyr::table3, caption = "Example of table3: rate contains 2 DVs.")
+dim(tidyr::table3)  #  6 x 3: 2 IVs, 1 column with 2 DVs.
+
+knitr::kable(tidyr::table4a, caption = "Example of table4a: 1999 and 2000 contain same DV (cases).")
+knitr::kable(tidyr::table4b, caption = "Example of table4b: 1999 and 2000 contain same DV (population).")
+dim(tidyr::table4a)  #  3 x 3: 1 IV x 1 DV (cases, across 2 columns).
+dim(tidyr::table4b)  #  3 x 3: 1 IV x 1 DV (population, across 2 columns).
+
+knitr::kable(tidyr::table5, caption = "Example of table5: DV year in 2 columns, DV rate contains 2 DVs.")
+dim(tidyr::table5)  #  6 x 4: 2 IVs (year in 2 columns), 1 column with 2 DVs.
+```
+
+**Practice:** Recreate the above bar plot using `ggplot2` with `data = table1`. 
+
+
+### Defining tidy data
+
+**Definition:** A _tidy_ dataset conforms to 3 interrelated rules:
+
+1. Each _variable_ must have its own _column_.
+
+2. Each _case/observation_ must have its own _row_.
+
+3. Each _value_ must have its own _cell_.
+
+See <http://r4ds.had.co.nz/tidy-data.html#fig:tidy-structure> for a graphical illustration of these rules. 
+
+The 3 rules defining _tidy_ data are connected, as it is impossible to only satisfy 2 of the 3. 
+This leads to a simpler set of practical instructions for tidying a messy set of data: 
+
+a. turn each dataset into a tibble.  
+b. put each variable into a column.  
+
+Note that we need to interpret the semantics of the variables to understand whether a data set is tidy. 
+
+**Practice:** Which of the data tables in the above example (`table1` to `table5`) are tidy? Why or why not?
+
+
+### Advantages of tidy data 
+
+1. _Consistency_: Consistent data structures make it easier to learn the tools that work with it because they have an underlying uniformity.
+
+2. _Vectorization_: Placing variables in columns allows R’s vectorised nature to shine. For instance, the basic verbs of `dplyr` (and most built-in R functions) work with vectors of values. That makes transforming tidy data easy and natural. 
+
+3. _Matching_ data and tools: Packages like `dplyr`, `ggplot2`, and many others are designed to work with tidy data. 
+
+
+## Commands and examples
+
+We consider 2 pairs of 2 complementary commands as essential:
+
+1. `separate` splits 1 variable into 2 variables;  
+2. `unite` combines 2 variables into 1 variable;  
+3. `gather` makes wide data longer (by gathering many variables into 1);  
+4. `spread` makes long data wider (by spreading 1 variable into many).  
+
+`separate` is the complement/opposite of `unite` and `spread` is the complement/opposite of `gather`. 
+
+Here are some basic examples for using these 4 commands: 
+
+### 1. `separate` 1 variable into 2
+
+`separate` splits 1 variable (column) into multiple variables (columns) -- at a position where some separator character appears -- and is the complement to `unite`. 
+Using `separate` requires the following arguments: 
+
+- some tibble/data frame `data`; 
+- the variable (column) `col` to be separated (specified by its name or column number); 
+- the names of the new variables (columns) `into` which `col` is to be split (specified as a character vector); 
+- the separator character `sep` (as a character/regular expression). 
+
+An additional argument `remove` regulates whether the original columns are dropped from the output tibble. By default, `remove = TRUE`.
+
+```{r separate_example_1}
+# Data to use: 
+tidyr::table3  # Note that column rate contains 2 numbers, separated by "/". 
+
+## Basics: ----- 
+
+# Full separate command:
+separate(data = table3, col = rate, into = c("cases", "population"), sep = "/")
+# Note that "/" disappears from output tibble.
+
+# Shorter versions of the same command:
+separate(table3, rate, c("cases", "population"))
+
+# Using the pipe: 
+table3 %>% 
+  separate(rate, c("cases", "population"))
+
+## Variants: ----- 
+
+# Specifying the variable to be split (rate) by its column number (3):
+table3 %>% 
+  separate(3, c("cases", "population"))
+
+# Not dropping the original rate variable:
+table3 %>% 
+  separate(rate, c("cases", "population"), remove = FALSE)
+```
+
+The example shows that the argument names (`data`, `col`, and `into`) can be left out (but still require appropriate arguments in the correct order) and  `sep` can be left unspecified when `tidyr` can make a good guess what the separator character might be. 
+
+```{r create_data_for_separate_example_2, echo = FALSE, eval = TRUE}
+table6 <- table5 %>% 
+  unite(col = when, century, year, sep = "_") %>%
+  unite(col = when_what, when, rate, sep = ".")
+# table6
+
+## Writing out data:
+# write_csv(table6, "data/table6.csv")
+
+## Reading in again (from csv-file):
+# tb6 <- read_csv("data/table6.csv")
+# tb6
+
+table7 <- table5 %>%
+  mutate(rate_2 = stringr::str_replace_all(table5$rate, "/", "\\\\")) %>%  # replace "/" with "\\"
+  unite(col = when, century, year, sep = ":") %>%
+  unite(col = when_what, when, rate_2, sep = "$") %>%
+  unite(col = where_when_what, country, when_what, sep = "@") %>%
+  select(where_when_what)
+# table7
+
+## Writing out data:
+# write_csv(table7, "data/table7.csv")
+
+## Reading in again (from csv-file):
+# tb7 <- read_csv("data/table7.csv")
+# tb7
+```
+
+However, consider the following `table6`, which is available online and can be read into R via `read_csv("http://rpository.com/ds4psy/data/table6.csv")`: 
+
+```{r show_tb6, echo = TRUE, eval = TRUE}
+## Load data (as comma-separated file): 
+table6 <- read_csv("http://rpository.com/ds4psy/data/table6.csv")  # from online source
+
+## Alternatively (from local source "data/table6.csv"): 
+# table6 <- read_csv("data/table6.csv")  # from local directory
+
+table6
+```
+
+Here, the variable `when_what` contains several plausible separation characters: `_`, `.`, and `/`. 
+Let's first see what happens when we fail to provide a separating character `sep`, and then split the variable `when_what` in three different ways: 
+
+```{r separate_example_2}
+# Data to use: 
+table6 <- read_csv("http://rpository.com/ds4psy/data/table6.csv") # from online source
+table6    # Note that column when_what contains several splitting options. 
+
+# What happens when we do not specify "sep"? 
+table6 %>%
+  separate(col = when_what, into = c("var_1", "var_2"))  # sep is not provided!
+
+# => when_what is split at 1st option (_), but Warning (and loss of data)!
+
+# Specifying different splitting characters:
+# (a) split at "_": 
+table6 %>%
+  separate(col = when_what, into = c("var_1", "var_2"), sep = "_")  # 
+
+# (b) split at "." (specified as a regular expression "\\."):
+table6 %>%
+  separate(col = when_what, into = c("var_1", "var_2"), sep = "\\.")  
+
+# (c) split at "/":
+table6 %>%
+  separate(col = when_what, into = c("var_1", "var_2"), sep = "/")
+```
+
+Note that using the point or period (`.`) as a splitting character `sep = "."` would _not_ work. 
+Instead, we need to use the corresponding regular expression `sep = "\\."`. 
+(See [Chapter 14: Strings](http://r4ds.had.co.nz/strings.html) for details.) 
+
+**Practice:** Split the `when_what` variable of `table6` 3 times to create a tibble `table6a` that contains 5 variables (columns) and reasonable variable names: 
+
+```{r separate_practice, echo = FALSE, eval = TRUE}
+table6a <- table6 %>%
+  separate(col = when_what, into = c("century", "stuff"), sep = "_") %>%
+  separate(col = stuff, into = c("year", "stuff"), sep = "\\.") %>% 
+  separate(col = stuff, into = c("cases", "population"), sep = "/")
+
+table6a
+```
+
+
+### 2. `unite` 2 variables into 1
+
+`unite` combines 2 variables (columns) into 1 variable (column) -- adding an optional separator character -- and is the complement to `separate`. 
+Using `unite` requires the following arguments: 
+
+- some tibble/data frame `data`; 
+- the name of the new compound variable (column) `col` (specified as a character); 
+- the names of the variables (columns) to be combined (specified by their names or column numbers); 
+- an optional separator character `sep` (as a character/regular expression). 
+
+An additional argument `remove` regulates whether the original columns are dropped from the output tibble. By default, `remove = TRUE`.
+
+```{r unite_example_1}
+# Data to use: 
+tidyr::table5  # Note that columns 2 and 3 contain 2 values (as characters!) that belong together. 
+
+## Basics: ----- 
+
+# Full separate command:
+unite(data = table5, col = "yr", century, year, sep = "")
+# Note that century and year variables disappear from output tibble.
+
+# Shorter versions of the same command:
+unite(table5, "yr", century, year, sep = "")
+
+# Using the pipe: 
+table5 %>%
+  unite("yr", century, year, sep = "")
+
+## Variants: ----- 
+
+# Providing a different separation character:
+table5 %>%
+  unite("yr", century, year, sep = "<--|-->")
+
+# Specifying the variables to be combined () by their column numbers (2 & 3):
+table5 %>% 
+  unite("yr", 2, 3, sep = "")
+
+# Not dropping the original variables:
+table5 %>%
+  unite("yr", century, year, sep = "", remove = FALSE)
+```
+
+**Practice:** Take the data from `dplyr::storms` and unite the variables `year`, `month`, `day` into 1 variable `date`.
+
+```{r unite_practice, echo = FALSE, eval = TRUE}
+## Data to use: 
+# dplyr::storms
+
+## Uniting year:day into date:
+storms %>%
+  unite("date", year:day, sep = "/") %>%
+  head()
+```
+
+**Practice:** Read the data from `read_csv("http://rpository.com/ds4psy/data/table7.csv")` into a tibble `table7` and inspect its dimension and contents.
+
+a. Use multiple (4) `separate` commands to split `table7` into a tibble `table7a` with multiple (5) columns. 
+
+b. Use multiple (4) `unite` commands on `table7a` to re-create a tibble `table7b` that contains _all_ data in 1 column. 
+
+Examples of `table7` and possible solutions for `table7a` and `table7b`: 
+
+```{r separate+unite_practice, echo = FALSE, eval = TRUE}
+# Data to use: 
+table7 <- read_csv("http://rpository.com/ds4psy/data/table7.csv") # from online source
+table7  # Note that column when_what contains several splitting options.
+
+# (a) Separating:
+table7a <- table7 %>%
+  separate(col = where_when_what, into = c("country", "stuff"), sep = "@") %>%
+  separate(col = stuff, into = c("year", "stuff"), sep = "\\$") %>%    # using regex "\\$"
+  separate(col = year, into = c("century", "year"), sep = ":") %>%
+  separate(col = stuff, into = c("rate", "population"), sep = "\\\\")  # using regex "\\\\"
+
+table7a
+
+# (b) Uniting: 
+table7b <- table7a %>% 
+  unite("yr", century, year, sep = "") %>%
+  unite("what", rate, population, sep = "/") %>%
+  unite("where_when", country, yr, sep = ":") %>%
+  unite("where_when_what", where_when, what, sep = "_")
+
+table7b
+```
+
+
+### 3. `gather` makes wide data longer 
+
+Gathering is the opposite of spreading (see below) and used when observations that are distributed over multiple columns should be contained in 1 variable (column). More specifically, `gather` moves the values of several variables (columns) into 1 column `value` and describes this value by the value of a new `key` variable. When gathering more than 2 variables, this reduces the number of columns by increasing the number of rows (i.e., makes a wide data set longer).^[The length and width of a data set are relative terms here: gathering tends to decrease data width by increasing length, spreading tends to decrease data length by increasing width.] 
+
+Using `gather` requires the following arguments: 
+
+- `data` is a data frame or tibble;  
+- `key` is the name of the variable that describes the values of the gathered columns (or name of the _independent_ variable);  
+- `value` is the name of the variable that is contained in the gathered columns (or the name of the _dependent_ variable);  
+- `...` (or `var_x:var_y`) is a selection (or block) of variables (columns) to be gathered. 
+
+```{r gather_example_1}
+# ?gather # provides documentation
+
+## Data to use: 
+table4a
+# Note that counts of cases is distributed over 2 variables (columns) for each country.
+
+## Basics: -----
+
+# gather 2 variables into 1 variable:
+gather(data = table4a, 
+       key = year, value = cases, 
+       `1999`:`2000`)
+
+# The same command using the pipe:
+table4a %>%
+  gather(key = year, value = cases, 
+         `1999`:`2000`)
+
+## Variants: ----- 
+
+# The same command with in different order of arguments:
+table4a %>%
+  gather(`1999`:`2000`, key = year, value = cases)
+
+# The same command specifying the numbers of the columns to gather:
+table4a %>%
+  gather(2:3, key = year, value = cases)
+```
+
+Note that `year` is of type _character_ in the above example. If we wanted our `key` variable to be converted into a number (here: an integer), we can add the optional argument `convert = TRUE`:
+
+```{r gather_convert}
+## Default: convert = FALSE: 
+table4a %>%
+  gather(key = year, value = cases, `1999`:`2000`, convert = FALSE)
+# => year is a character vector.
+
+## Converting year into an integer:
+table4a %>%
+  gather(key = year, value = cases, `1999`:`2000`, convert = TRUE)
+# => year is a vector of integers. 
+```
+
+
+**Practice:** Save the following data as a tibble `de` and then turn it into tidy data (by using `gather` to create a single variable `share` and listing the election `year` as an additional variable).
+
+```{r de_tibble, echo = FALSE, eval = TRUE}
+## (a) Create a tibble with the data:
+de <- tibble(
+    party = c("CDU/CSU", "SPD", "Others"),
+    share_2013 = c((.341 + .074), .257, (1 - (.341 + .074) - .257)), 
+    share_2017 = c((.268 + .062), .205, (1 - (.268 + .062) - .205))
+    )
+
+## Check that columns add to 100:
+# sum(de$share_2013)  # => 1 (qed)
+# sum(de$share_2017)  # => 1 (qed)
+
+de$party <- factor(de$party, levels = c("CDU/CSU", "SPD", "Others"))  # optional
+knitr::kable(de)
+```
+
+```{r gather_separate_practice}
+## (a) Data saved as a tibble (see above): 
+de
+
+## (b) Converting de into a tidy data table:
+de_2 <- de %>%
+  gather(share_2013:share_2017, key = "election", value = "share") %>%
+  separate(col = election, into = c("dummy", "year")) %>%
+  select(year, party, share)
+
+de_2
+```
+
+
+### 4. `spread` makes long data wider 
+
+Spreading is the opposite of gathering (see above) and used when an observation that should be in 1 row is distributed over multiple rows (in 1 column). More specifically, `spread` puts the values of several cases (rows) into different variables (columns) of 1 row. When spreading more than 2 rows per case, this decreases the number of rows by increasing the number of columns (i.e., makes a long data set wider).^[Again, the length and width of data sets are relative terms.] 
+
+Using `spread` requires the following arguments:  
+
+- `data` is a data frame or tibble;   
+- `key` is the name of the variable that describes the values of the gathered columns (or the names of the _independent_ variables which become the _names_ of the new columns);   
+- `value` is the name of the variable whose values should be spread over multiple columns (or the name of the _dependent_ variable).  
+
+Note that we do not need to specify a range of new columns. The number of new columns is determined by the number of different values in the `key` variable. 
+
+```{r spread_example_1}
+# ?spread # provides documentation
+
+## Data to use: 
+table2
+# Note that count contains 2 DVs which are described by the values of type. 
+
+## Basics: -----
+
+# spread 2 rows into 2 columns of 1 row:
+spread(data = table2, 
+       key = type, value = count)
+
+# The same command using the pipe:
+table2 %>% 
+  spread(key = type, value = count)
+
+# The same shorter: 
+table2 %>% 
+  spread(type, count)
+
+
+## Variants: -----
+
+# Use <key><sep><value> to create new column names:
+table2 %>% 
+  spread(key = type, value = count, sep = ":")
+```
+
+**Practice:** Take the 6 x 3 tibble `de_2` (from above) and use `spread` to create a 3 x 3 tibble `de_3` that re-creates the original tibble `de` from it.
+
+```{r spread_practice}
+## (a) Data from above: 
+de_2
+
+## (b) Using spread to put share by year into 2 columns/variables:
+de_3 <- de_2 %>% 
+  spread(key = year, value = share) %>%
+  rename(share_2013 = `2013`,  # restore original variable names
+         share_2017 = `2017`)
+
+de_3
+
+## (c) Comparing de_3 to de: 
+de
+all.equal(de_3, de)
+```
+
+
+# Exercises (WPA07)
+
+## Exercise 1
+
+#### Tidying messy tables
+
+<!-- Idea: Create many tables that contain the same data. For each of them: 
+
+- Describe the data (dimensions, DVs and IVs). 
+
+- Transform any non-tidy one into a tidy one. --> 
+
+```{r ex_create_t_1, echo = FALSE, eval = FALSE}
+n <- 8        # [n]umber of participants
+set.seed(11)  # for replicability
+
+# t_1: ---- 
+# Data of n = 8 people, 2 tasks (color, shape) in 2 orders and 2 variants (per task): 
+
+IVs <- data.frame("name" = c("Ann", "Bea", "Cat", "Deb", "Ed", "Fred", "Gary", "Hans"),
+                  "gender" = c(rep("f", 4), rep("m", 4)), 
+                  "age" = sample(18:65, n, replace = TRUE),
+                  "task_1" = rep(c("color", "shape"), 4), 
+                  "task_2" = rep(c("shape", "color"), 4) 
+)
+# IVs
+
+# within-subjects conditions (with multiple tasks per person):
+DVs <- data.frame("color" = rep(c("red", "blue", "red", "blue"), 2), 
+                  "color_time" = sample(11:69, n), 
+                  "shape" = rep(c("circle", "circle", "square", "square"), 2), 
+                  "shape_time" = sample(31:99, n)  # shape_time > color_time
+)
+# DVs
+
+t_1 <- as_tibble(cbind(IVs, DVs))
+
+# Change some values (to create order effects): 
+t_1$color_time[t_1$task_1 == "color"] <- t_1$color_time[t_1$task_1 == "color"] + 11  # color first is longer
+t_1$shape_time[t_1$task_1 == "shape"] <- t_1$shape_time[t_1$task_1 == "shape"] - 11  # shape first is shorter
+
+t_1$name <- as.character(t_1$name)
+# t_1
+
+## Write out t_1:
+# write_csv(t_1, "./../data/t_1.csv")
+```
+
+```{r ex_create_t_2, echo = FALSE, eval = FALSE}
+# t_2: ---- 
+# More compact version of t_1 (by uniting and dropping columns):
+
+t_2 <- t_1 %>%
+  unite("details", gender, age, sep = ":") %>%
+  # mutate(first_task = task_1) %>%
+  # unite("ct+st", color_time, shape_time, sep = "+") %>%
+  unite("color_time", color, color_time, sep = " = ") %>% 
+  unite("shape_time", shape, shape_time, sep = " = ") %>%
+  select(name, details, task_1, color_time, shape_time)
+# t_2
+
+## Write out t_2:
+# write_csv(t_2, "./../data/t_2.csv")
+```
+
+Here are some paths to data files used in this exercise: 
+
+- [t_1.csv](http://rpository.com/ds4psy/data/t_1.csv)
+- [t_2.csv](http://rpository.com/ds4psy/data/t_2.csv)
+- [t_3.csv](http://rpository.com/ds4psy/data/t_3.csv)
+- [t_4.csv](http://rpository.com/ds4psy/data/t_4.csv)
+
+For each of these files:
+
+- Describe the data (dimensions, DVs and IVs). 
+
+- Transform any non-tidy table one into a tidy one. 
+
+```{r data_paths, echo = FALSE, eval = TRUE}
+# offline: 
+t_1_path <- "./../data/t_1.csv"
+t_2_path <- "./../data/t_2.csv"
+t_3_path <- "./../data/t_3.csv"
+t_4_path <- "./../data/t_4.csv"
+
+# online:
+t_1_path <- "http://rpository.com/ds4psy/data/t_1.csv"
+t_2_path <- "http://rpository.com/ds4psy/data/t_2.csv"
+t_3_path <- "http://rpository.com/ds4psy/data/t_3.csv"
+t_4_path <- "http://rpository.com/ds4psy/data/t_4.csv"
+```
+
+<!-- Solutions: 
+
+1. `t_1`
+
+```{r read_t_1, echo = TRUE, eval = TRUE}
+t_1 <- read_csv(t_1_path)
+dim(t_1)  # 8 x 9
+
+knitr::kable(t_1, caption = "Table t_1.")
+```
+
+#### Analysis/Description of `t_1`
+
+- `t_1` is an 8 x 9 table, containing the data from 8 people (rows). Each person is described by her/his `name`, `gender`, and `age`. 
+
+- The 2 `task_#` columns indicate the order in which the person performed 2 tasks (`color` vs. `shape`). 
+
+- Both tasks exist in 2 versions (`color` in `red` or `blue`, `shape` in `circle` or `square`). 
+
+- The 2 dependent variables appear to be the times (in seconds or minutes?) the person spent on each of those tasks. 
+
+Note:
+
+- The `task_2` column is redundant, as `task_1` would suffice to specify the order of both tasks (or vice versa). 
+
+- A tidy dataset would feature only 1 DV of `time` and an additional key variable that specifies the `task_type` (`color` vs. `shape`). 
+
+#### Tidying `t_1`
+
+```{r tidy_t_1}
+t_1_tidy <- t_1 %>%
+  gather(key = "key", value = "time", color_time, shape_time) %>%
+  separate(key, c("type", "rest"), sep = "_") %>%
+  select(name:task_1, color:type, time) %>%
+  arrange(name)
+t_1_tidy
+```
+
+```{r ex_create_t_3, eval = FALSE, echo = FALSE}
+# Create an even more compact version (i.e., with fewer variables) of t_1_tidy:
+t_3 <- t_1_tidy
+
+# Change 2 variables to type character:
+t_3$color <- as.character(t_3$color)
+t_3$shape <- as.character(t_3$shape)
+# t_3
+
+# Create 2 new variables:
+t_3$position <- NA  # 1st vs. 2nd task
+t_3$position[t_3$task_1 == t_3$type] <- 1 
+t_3$position[t_3$task_1 != t_3$type] <- 2 
+# t_3
+
+t_3$task <- NA  # encode task as entry of color or shape variable 
+                # (rendering type of task implicit): 
+t_3$task[t_3$type == "color"] <- t_3$color[t_3$type == "color"]
+t_3$task[t_3$type == "shape"] <- t_3$shape[t_3$type == "shape"]
+# t_3
+
+# Select needed variables:
+t_3 <- t_3 %>%
+  select(name:age, position, task, time) %>%
+  arrange(name, position)
+# t_3
+
+## Write out t_3:
+# write_csv(t_3, "./../data/t_3.csv")
+```
+
+```{r ex_create_t_4, eval = FALSE, echo = FALSE}
+# Spread t_3 into a wider form:
+t_4 <- t_3 %>%
+  spread(key = task, value = time) %>%
+  select(name:blue, red, circle, square)
+# t_4
+
+## Write out t_4:
+# write_csv(t_4, "./../data/t_4.csv")
+```
+
+2. `t_2`
+
+```{r read_t_2}
+t_2 <- read_csv(t_2_path)
+dim(t_2)  # 8 x 5 
+
+knitr::kable(t_2, caption = "Table t_2.")
+```
+
+#### Analysis/Description of `t_2`
+
+- `t_2` is an 8 x 5 table, and essentially are more compact version of `t_1` (with fewer columns).
+
+- The variables `details`, `color_time` and `shape_time` each contain 2 variables and corresponding values.
+
+- The order of tasks is specified by `task_1` only (i.e., the 2nd task is implied as the other one). 
+
+#### Tidying `t_2`
+
+```{r tidy_t_2}
+t_2_1 <- t_2 %>%
+  separate(details, c("gender", "age"), sep = ":") %>%
+  separate(color_time, c("color", "c_time"), sep = " = ") %>%
+  separate(shape_time, c("shape", "s_time"), sep = " = ")
+# t_2_1
+  
+t_2_tidy <- t_2_1 %>%  
+  gather(key = "key", value = "time", c_time, s_time) %>%
+  separate(key, c("type", "rest"), sep = "_") %>%
+  select(name:task_1, color:type, time) %>%
+  arrange(name)
+t_2_tidy
+```
+
+#### Verify equality 
+
+```{r verify_equality_t_1_2_tidy}
+## Check equality:
+# t_1_tidy
+# t_2_tidy
+all.equal(t_1_tidy, t_2_tidy)  # => different variable types
+
+# Create equality: 
+# (a) Change variable types in t_2_tidy:
+t_2_tidy$gender <- as.character(t_2_tidy$gender)
+t_2_tidy$age    <- as.numeric(t_2_tidy$age)
+t_2_tidy$color  <- as.character(t_2_tidy$color)
+t_2_tidy$shape  <- as.character(t_2_tidy$shape)
+t_2_tidy$time  <- as.numeric(t_2_tidy$time)
+
+# (b) Rename values of type:
+t_2_tidy$type[t_2_tidy$type == "c"] <- "color"
+t_2_tidy$type[t_2_tidy$type == "s"] <- "shape"
+
+# t_2_tidy
+
+## Check equality:
+# t_1_tidy
+# t_2_tidy
+all.equal(t_1_tidy, t_2_tidy)  # => TRUE
+```
+
+3. `t_3`
+
+```{r read_t_3}
+t_3 <- read_csv(t_3_path)
+dim(t_3)  # 16 x 6
+
+knitr::kable(t_3, caption = "Table t_3.")
+```
+
+4. `t_4`
+
+```{r read_t_4}
+t_4 <- read_csv(t_4_path)
+dim(t_4)  # 16 x 8
+
+knitr::kable(t_4, caption = "Table t_4.")
+```
+
+--> 
+
+## Exercise 2
+
+#### Moving stocks from wide to long to wide. 
+
+```{r stock_data_definition, echo = FALSE, eval = TRUE}
+# Define the stock data (to be shown below) as a tibble: 
+st <- tribble(
+  ~stock, ~d1_start, ~d1_end, ~d2_start, ~d2_end, ~d3_start, ~d3_end,  
+  #-----|----------|--------|----------|--------|----------|--------|
+  "Amada",   2.5,     3.6,    3.5,       4.2,      4.4,       2.8,            
+  "Betix",   3.3,     2.9,    3.0,       2.1,      2.3,       2.5,  
+  "Cevis",   4.2,     4.8,    4.6,       3.1,      3.2,       3.7     
+)
+```
+
+The following table shows the start and end price of 3 stocks on 3 days (d1, d2, d3):
+
+```{r stock_data_table, echo = FALSE, eval = TRUE}
+knitr::kable(st, caption = "Stock data example showing the start and end prices of the shares of 3 companies on 3 days.")
+```
+
+<!-- Data as Rmd table in text: 
+| stock  | d1_start | d1_end | d2_start | d2_end | d3_start | d3_end |  
+|---------|---------|--------|----------|--------|----------|--------|
+| "Amada" |   2.5  |   3.6   |   3.5    |  4.2   |   4.4    |   2.8  |            
+| "Betix" |   3.3  |   2.9   |   3.0    |  2.1   |   2.3    |   2.5  |  
+| "Cevis" |   4.2  |   4.8   |   4.6    |  3.1   |   3.2    |   3.7  |
+--> 
+
+1. Create a tibble `st` that contains this data in this (wide) format.
+
+2. Transform `st` into a longer table `st_long` that contains 18 rows and only 1 numeric variable for all stock prices. Adjust this table so that the `day` and `time` appear as 2 separate columns. 
+
+3. Create a (line) graph that shows the 3 stocks' `end` prices (on the y-axis) over the 3 days (on the x-axis). 
+
+4. Spread  `st_long` into a wider table that contains `start` and `end` prices as 2 distinct variables (columns) for each stock and day. 
+
+```{r stock_solution, echo = FALSE, eval = FALSE, fig.show = "hold"}
+# library(tidyverse)
+
+# 1. Enter stock data (in wide format) as a tibble:
+st <- tribble(
+  ~stock, ~d1_start, ~d1_end, ~d2_start, ~d2_end, ~d3_start, ~d3_end,  
+  #-----|----------|--------|----------|--------|----------|--------|
+  "Amada",   2.5,     3.6,    3.5,       4.2,      4.4,       2.8,            
+  "Betix",   3.3,     2.9,    3.0,       2.1,      2.3,       2.5,  
+  "Cevis",   4.2,     4.8,    4.6,       3.1,      3.2,       3.7     
+)
+dim(st)
+
+## Note data structure: 
+## 2 nested factors: day (1 to 3), type (start or end).
+
+# 2. Change from wide to long format 
+#    that contains the day (d1, d2, d3) and type (start vs. end) as separate columns:
+st_long <- st %>%
+  gather(d1_start:d3_end, key = "key", value = "val") %>%
+  separate(key, into = c("day", "time")) %>%
+  arrange(stock, day, time) # optional: arrange rows
+st_long
+
+# 3. Plot the end values (on the y-axis) of the 3 stocks over 3 days (x-axis):
+st_long %>% 
+  filter(time == "end") %>%
+  ggplot(aes(x = day, y = val, color = stock, shape = stock)) +
+  geom_point(size = 4) + 
+  geom_line(aes(group = stock)) +
+  ## Pimping plot: 
+  labs(title = "End prices of stocks", 
+       x = "Day", y = "End price", 
+       shape = "Stock:", color = "Stock:") +
+  theme_bw()
+
+# 4. Change st_long into a wider format that lists start and end as 2 distinct variables (columns):
+st_long %>%
+  spread(key = time, value = val) %>%
+  mutate(day_nr = parse_integer(str_sub(day, 2, 2))) # optional: get day_nr as integer variable
+```
+
+## Exercise 3
+
+#### A posPsy tibble reloaded
+
+In [Exercise 3 of WPA05](http://rpository.com/ds4psy/essentials/tibbles.html#exercise-3) of our essentials on [tibbles](http://rpository.com/ds4psy/essentials/tibbles.html) you created a tibble of mean depression scores (`my_tbl` and `my_tbl_2`) in 2 different ways (by entering the data directly into R with `tibble()` and by using `dplyr` to compute a summary table from the `posPsy_wide` data). 
+
+```{r ex_recreate_my_tbl_2, echo = FALSE, eval = TRUE, message = FALSE}
+# Load data: 
+posPsy_wide <- read_csv(file = "http://rpository.com/ds4psy/data/posPsy_data_wide.csv")
+# dim(posPsy_wide)  # 295 294
+
+# Re-create tibble: 
+my_tbl_2 <- posPsy_wide %>%
+  group_by(intervention) %>%
+  summarise(mn_cesd_0 = round(mean(cesdTotal.0, na.rm = TRUE), 1), 
+            mn_cesd_1 = round(mean(cesdTotal.1, na.rm = TRUE), 1), 
+            mn_cesd_2 = round(mean(cesdTotal.2, na.rm = TRUE), 1),
+            mn_cesd_3 = round(mean(cesdTotal.3, na.rm = TRUE), 1),
+            mn_cesd_4 = round(mean(cesdTotal.4, na.rm = TRUE), 1),
+            mn_cesd_5 = round(mean(cesdTotal.5, na.rm = TRUE), 1) )
+# my_tbl_2
+
+# Print my_tbl_2: 
+knitr::kable(my_tbl_2, caption = "Table: Mean depression scores by intervention and occasion.")
+```
+
+When trying to create a plot that shows the trends of mean depression scores (over different occasions by intervention) we noted that it is impossible to directly plot the values of `my_tbl_2`. For plotting the mean depression scores with `ggplot` we would need these scores as 1 dependent variable, rather than as 6 different variables. 
+
+Earlier, we solved this problem by creating an alternative tibble `my_tbl_3` -- which expressed `mean_cesd` as a function of `occasion` and `intervention` (in long format) -- from the raw data in `posPsy_long`. Given our new skills in `tidyr`, we now are in a position to transform `my_tbl_2` (or `my_tbl`) into the required format of `my_tbl_3`. Thus, your task is: 
+
+1. Re-create one of the original tibbles (either `my_tbl` or `my_tbl_2`) and use `tidyr` to transform it into the long format of `my_tbl_3`.
+
+```{r ex_solution_wide_to_long, echo = FALSE, eval = FALSE}
+my_tbl_3 <- my_tbl_2 %>% 
+  gather(key = "key", value = "mean_cesd", mn_cesd_0:mn_cesd_5) %>%
+  separate(key, c("mn", "cesd", "occasion"), sep = "_") %>%
+  select(occasion, intervention, mean_cesd)
+# my_tbl_3
+
+# Change some variable types:
+my_tbl_3$occasion     <- as.integer(my_tbl_3$occasion)    # as integer
+my_tbl_3$intervention <- as.factor(my_tbl_3$intervention) # as factor
+
+my_tbl_3
+```
+
+2. Now do the reverse: Use `my_tbl_3` to re-create a longer version `my_tbl_4` that is equal to `my_tbl_2`. 
+
+```{r ex_solution_long_to_wide, echo = FALSE, eval = FALSE}
+my_tbl_4 <- my_tbl_3 %>%
+  spread(key = occasion, value = mean_cesd)
+my_tbl_4
+
+# Change names of some variables (columns 2:7): 
+names(my_tbl_4)[2:ncol(my_tbl_4)] <- paste0("mn_cesd_", names(my_tbl_4)[2:ncol(my_tbl_4)])
+
+# Change some variable types:
+my_tbl_4$intervention <- as.double(my_tbl_4$intervention) # back to number
+
+## Verify equality: 
+# my_tbl_4
+# my_tbl_2
+all.equal(my_tbl_4, my_tbl_2)
+```
+
+## Exercise 4
+
+In previous sessions, we have seen 2 sets of data for the [positive psychology](http://rpository.com/ds4psy/essentials/datasets.html#positive-psychology) experiment: 
+
+- `posPsy_AHI_CESD_corrected.csv` (990 x 50 variables):  
+<http://rpository.com/ds4psy/data/posPsy_AHI_CESD_corrected.csv>.   
+
+- `posPsy_data_wide.csv` (295 x 294 variables):   
+<http://rpository.com/ds4psy/data/posPsy_data_wide.csv>.   
+
+Both of these datasets contain the same information, but one is in long format and one in wide format. With `tidyr`, we are able to transform the long format into wide format (and vice versa) on our own.
+
+#### 1. From long to wide
+
+Load the file `posPsy_AHI_CESD_corrected.csv` into a tibble `posPsy_long`. To make things simpler, drop all columns except `id`, `occasion`, `intervention`, and `ahiTotal`. 
+
+Transform the resulting table from long to wide format (spreading `ahiTotal` values over different `occasion`s).
+
+```{r ex4_long2wide, echo = FALSE, eval = FALSE}
+## Load data: ---- 
+posPsy_long <- read_csv(file = "http://rpository.com/ds4psy/data/posPsy_AHI_CESD_corrected.csv")  # online
+dim(posPsy_long)  # 990 x 50
+
+## Drop most colums: ---- 
+df_long <- posPsy_long %>%
+  select(id, occasion, intervention, ahiTotal)
+## Check: 
+# df_long
+dim(df_long)  # 990 x 4
+
+## Spread to wide format: ---- 
+df_wide <- df_long %>%
+  spread(occasion, ahiTotal, convert = TRUE)
+
+## Check:
+dim(df_wide)  # 295 x 8
+
+# Fix some variable names:
+names(df_wide)[3:8] <- paste0("occ_", names(df_wide)[3:8])
+
+## Check: 
+df_wide
+```
+
+#### 2. From wide to long
+
+Load the file `posPsy_data_wide.csv` into a tibble `posPsy_wide` and drop all variables that contain values of individual happiness or depression items (i.e., all score variables _not_ containing "Total" in their names). 
+
+Then transform this wide format tibble into long format. 
+Your result table should contain all demographic information (in separate columns), the type of scale (ahiTotal vs. cesdTotal), number of `occasion` (0 to 5), and the scale `value` (as dependent variable).
+
+**Hint**: First gather all `Total` variables into a single `value` variable, then separate the key column into 2 variables `scale` and `occasion`. 
+
+```{r ex4_wide2long, echo = FALSE, eval = FALSE}
+## Load data: ---- 
+posPsy_wide <- read_csv(file = "http://rpository.com/ds4psy/data/posPsy_data_wide.csv")  # online
+dim(posPsy_wide)  # 295 x 294 
+
+## Drop unnecessary columns and gather: ---- 
+df_long <- posPsy_wide %>%
+  # drop unnecessary columns: 
+  select(id, intervention, sex, age, educ, income, contains("Total")) %>% 
+  gather(-id, -intervention, -sex, -age, -educ, -income, 
+         key = "score.occasion", 
+         value = "value")
+## Check: 
+dim(df_long)  # 3540 x 8
+# df_long 
+
+## Separate key column score.occasion: ---- 
+df_long <- df_long %>% 
+  separate(score.occasion, 
+           into = c("scale", "occasion"))
+## Check: 
+dim(df_long)  # 3540 x 9
+# df_long
+
+# Fix some variables: 
+df_long$occasion <- as.integer(df_long$occasion)
+
+df_long
+```
+
+## Exercise 5
+
+This exercise relies on the datasets for the [false positive psychology](http://rpository.com/ds4psy/essentials/datasets.html#false-positive-psychology) project: 
+
+- `falsePosPsy_all` (78 x 19 variables): <http://rpository.com/ds4psy/data/falsePosPsy_all.csv>
+
+```{r ex5_import_data, echo = FALSE, eval = TRUE, cache = FALSE, message = FALSE, warning = FALSE}
+# Import the Dataset
+falsePosPsy_all <- read_csv(file = "http://rpository.com/ds4psy/data/falsePosPsy_all.csv")  # online
+
+## Check: 
+# dim(falsePosPsy_all)  # 78 x 19
+# str(falsePosPsy)
+
+# Working with a copy:
+df <- falsePosPsy_all
+```
+
+#### Parents age?
+
+1. Plot the relationship between the age of each participant's `dad` and `mom` (e.g., as a scatterplot).
+
+```{r ex5_1, echo = FALSE, eval = FALSE}
+ggplot(df, aes(x = dad, y = mom)) +
+  geom_point(alpha = 1/2) + 
+  geom_smooth(se = FALSE) +
+  theme_bw() 
+```
+
+2. Plot how many moms resp. dads are have which age (i.e., the distributions of age values among moms vs. dads) using `geom_bar`.  
+
+(**Hint**: As both ages are in 2 separate variables, you need to use `gather` to collect ages in 1 variable.)
+
+```{r ex5_2, echo = FALSE, eval = FALSE}
+df %>%
+  gather(key = "person", value = "age", dad, mom) %>%
+  select(study:aged365, person, age) %>%
+  ggplot(aes(x = age, fill = person)) +
+  geom_bar(position = "dodge") +
+  scale_y_continuous(limits = c(0, 10),
+                     breaks = c(1:10)) +
+  theme_bw()
+```
+
+3. Can you think of a way of plotting the relationship between (or difference between) the age of both parents for each participant?  
+
+(**Hint**: Again, you need to use `gather` to collect ages in 1 variable.)  
+
+```{r ex5_3, echo = FALSE, eval = FALSE}
+df %>%
+  gather(key = "person", value = "age", dad, mom) %>%
+  select(study:aged365, person, age) %>%
+  ggplot(aes(x = person, y = age)) +
+  geom_line(aes(group = ID), alpha = .5, size = 2) +
+  theme_bw()
+```
+
+
+<!-- ADDENDUM: additional material (NOT USED HERE): 
+
++++ here now +++
+
+## Exercise X:
+
+- Using `reshape` to transform data (with multiple DVs and multiple measurements) from wide to long format:
+
+A general problem and 2 solutions: 
+Transform data (with multiple DVs and measurements per DV) from wide into long format:
+
+```{r reshape_test_and_solutions, echo = TRUE, eval = TRUE}
+## A very general problem: 
+
+## Setting:  We have a dataset in _wide_ format that contains 
+## - multiple DVs (as columns), 
+## - each of which has multiple measurements (columns).
+
+## Goal: We want the same data in _long_ format (i.e., each DV in 1 column, 
+##       but with additional qualifying variables that uniquely identify each value). 
+
+## (0) Generate test data:
+set.seed(101)
+
+p1 <- sample(x = c(0, 1), size = 5, replace = TRUE)
+p2 = ((p1 - 1) * -1)
+
+# 5 subjects with 3 DVs each 2 times:
+test_data_wide <- data.frame("subj" = 1:5,
+                             "c1" = sample(x = c(TRUE, FALSE), size = 5, replace = TRUE),
+                             "c2" = sample(x = c(TRUE, FALSE), size = 5, replace = TRUE),
+                             "t1" = round(runif(5, min = 0, max = 3000), 1),
+                             "t2" = round(runif(5, min = 0, max = 3000), 1),
+                             "p1" = p1,
+                             "p2" = p2)
+
+test_data_wide
+
+## 2 alternative strategies: -----
+
+# (1) Base R solution: ---- 
+
+# Using stats::reshape
+test_data_long <- reshape(test_data_wide, 
+                          varying = list(c = c("c1", "c2"),
+                                         t = paste0("t", 1:2),
+                                         p = paste0("p", 1:2)),
+                          direction = "long",
+                          v.names = c("choice", "time", "position"),  # to rename variables
+                          timevar = "position",    # if position Zeitpunkt angibt (!)
+                          idvar = "subj"           # otherwise added as new variable
+                          )      
+
+solution_long_1 <- test_data_long %>% arrange(subj, position)
+solution_long_1
+
+# (2) tidyverse solution: ---- 
+
+# Problem: We have 3 sets of DVs, but can only specify 1 in gather command.
+# Thus, we proceed in 2 steps:
+# (A) Use gather 3 times (on each set of DVs) to generate 3 long tibbles.
+# (B) Combine the relevant DVs from the 3 tibbles into 1 tibble.
+
+# (A) Using tidyr::gather 3 times:
+#    1. DV = choice variables (12 variables: dec_01:dec_09)
+#    2. DV = position         (12 variables: task_number_1:task_number_12)
+#    3. DV = time             (12 variables: pg_time_1:pg_time_12)
+# Use a pipe with gather, mutate (to determine i_num as integer), and arrange
+
+# => 3 separate tibbles in long format, each sorted the same way!
+
+test_data_wide
+
+# (a) c => choice:
+test_long_c <- test_data_wide %>%
+  gather(c1:c2, key = "source_item", value = "choice") %>% 
+  arrange(subj) %>%
+  mutate(i_char = substr(source_item, (nchar("c") + 1), nchar(source_item)), # i_num as character   
+         i_num = as.integer(i_char)  # i_num as integer
+         ) %>% 
+  arrange(subj, i_num)
+test_long_c
+
+# (b) t => time:
+test_long_t <- test_data_wide %>%
+  gather(t1:t2, key = "source_item", value = "time") %>% 
+  arrange(subj) %>%
+  mutate(i_char = substr(source_item, (nchar("c") + 1), nchar(source_item)), # i_num as character   
+         i_num = as.integer(i_char)  # i_num as integer
+         ) %>% 
+  arrange(subj, i_num)
+test_long_t
+
+# (c) p => position:
+test_long_p <- test_data_wide %>%
+  gather(p1:p2, key = "source_item", value = "position") %>% 
+  arrange(subj) %>%
+  mutate(i_char = substr(source_item, (nchar("c") + 1), nchar(source_item)), # i_num as character   
+         i_num = as.integer(i_char)  # i_num as integer
+         ) %>% 
+  arrange(subj, i_num)
+test_long_p
+
+# (B) Slicing and dicing:
+# - Start with main tibble test_long_c (copied to solution_2); 
+# - Add additional columns (key variables) from test_long_t and test_long_p to it;  
+# - Select relevant columns from solution_2.
+
+## Use cbind.data.frame to paste 2 new columns to existing df: 
+# test_tbl_1 <- test_long_c          # basic tibble
+# test_col_1 <- test_long_t$time     # key column from test_long_t
+# test_col_2 <- test_long_p$position # key column from test_long_t
+# test_all <- cbind.data.frame(test_tbl_1, test_col_1, test_col_2) 
+## => Problem: Changes names of new columns!
+
+# Simpler: Just assign 2 new columns to existing tibble: 
+test_all <- test_long_c  # start with basic tibble
+test_all$time     <- test_long_t$time      # key column from test_long_t
+test_all$position <- test_long_p$position  # key column from test_long_t
+
+# Solution 2 by re-sorting variable columns:
+solution_long_2 <- test_all %>%
+  select(subj, position, choice, time)
+
+# Check equality of solutions:
+s1 <- as_tibble(solution_long_1)  # turn into tibble (to adjust variable types)
+s2 <- as_tibble(solution_long_2)
+all.equal(s1, s2)  # TRUE (qed).
+```
+
+## Exercise Y:
+
+- Plotting one DV against many others: See and explain how this works... 
+
+```{r explain_gather_plot,  echo = TRUE, eval = TRUE}
+# From https://www.r-bloggers.com/plot-some-variables-against-many-others-with-tidyr-and-ggplot2/ 
+
+# Showing 1 DV (mpg) and 2 more factor variables (hp and cyl): 
+mtcars %>%
+  gather(-mpg, -hp, -cyl, key = "var", value = "value") %>% 
+  ggplot(aes(x = value, y = mpg, color = hp, shape = factor(cyl))) +
+    geom_point() +
+    facet_wrap(~var, scales = "free") +
+    theme_bw()
+
+# variant with only 1 DV (mpg): 
+mtcars %>%
+  gather(-mpg, key = "var", value = "value") %>% 
+  ggplot(aes(x = value, y = mpg)) +
+    geom_point(alpha = 1/2) +
+    geom_smooth(alpha = 1/4) +
+    facet_wrap(~var, scales = "free") +
+    theme_bw()
+
+# Step by step: 
+as_tibble(mtcars)  # 32 x 11
+
+mtcars %>%
+  gather(key = "var", value = "value")  # 32 x 11 single values
+
+mtcars %>%
+  gather(-mpg, key = "var", value = "value")  # 32 x 11 single values
+
+mtcars %>%
+  gather(-mpg, -hp, -cyl, key = "var", value = "value")
+```
+
+
+## Exercise Z: 
+
+#### False positive psychology 
+
+```{r falsePosPsy}
+
+# Load csv-data files from online links:
+falsePosPsy_all <- readr::read_csv(file = "http://rpository.com/ds4psy/data/falsePosPsy_all.csv")
+
+# Check: 
+dim(falsePosPsy_all)  # 78 x 19 
+
+falsePosPsy_all
+
+falsePosPsy_all %>%
+  gather(-study, -ID, -aged, -female, key = "var", value = "value") %>%
+  arrange(ID) %>%
+  ggplot(aes(x = value, y = aged)) + 
+  geom_point(alpha = 1/2) + 
+  geom_smooth(alpha = 1/4) +
+  facet_wrap(~var, scales = "free") +
+  theme_bw()
+
+
+ggplot(falsePosPsy_all, aes(x = dad, y = mom)) +
+  geom_point() + 
+  geom_smooth() +
+  theme_bw()  
+
+falsePosPsy_all %>%
+  gather(key = "person", value = "age", dad, mom) %>%
+  select(study:aged365, person, age) %>%
+  ggplot(aes(x = person, y = age)) +
+    geom_line(aes(group = ID), alpha = .5, size = 2) +
+  theme_bw()
+
+```
+
+-->
+
+
+# More on tidy data
+
+- Study the vignette on `vignette("tidy-data")` and the [RStudio cheatsheet](https://www.rstudio.com/resources/cheatsheets/) on _Data Import_ for essential `tidyr` commands. 
+
+- Read [Chapter 12: Tidy data](http://r4ds.had.co.nz/tidy-data.html) and complete its exercises.
+
+- For background information on the notion of tidy data, see  
+Wickham, H. (2014). Tidy data. _Journal of Statistical Software_, _59_(10), 1--23.  
+available at <http://www.jstatsoft.org/v59/i10/paper>. 
+
+- Follow the links on <https://tidyr.tidyverse.org.> for additional information. 
+
+
+# Conclusion
+
+<!-- Table with links: -->
+
+All [ds4psy](http://rpository.com/ds4psy/) essentials so far: 
+
+Nr. | Topic       |
+---:|:------------| 
+0.  | [Syllabus](http://rpository.com/ds4psy/) | 
+1.  | [Basic R concepts and commands](http://rpository.com/ds4psy/essentials/basics.html) | 
+2.  | [Visualizing data](http://rpository.com/ds4psy/essentials/visualize.html) | 
+3.  | [Transforming data](http://rpository.com/ds4psy/essentials/transform.html) |
+4.  | [Exploring data (EDA)](http://rpository.com/ds4psy/essentials/explore.html) | 
+5.  | [Tibbles](http://rpository.com/ds4psy/essentials/tibbles.html) |
+6.  | [Importing data](http://rpository.com/ds4psy/essentials/import.html) |
+7.  | **Tidying data** |
++.  | [Datasets](http://rpository.com/ds4psy/essentials/datasets.html) | 
+
+<!--
+Nr. | Topic       |
+---:|:------------| 
+0.  | [Syllabus](http://rpository.com/ds4psy/) | 
+1.  | [Basic R concepts and commands](http://rpository.com/ds4psy/essentials/basics.html) | 
+2.  | [Visualizing data](http://rpository.com/ds4psy/essentials/visualize.html) | 
+3.  | [Transforming data](http://rpository.com/ds4psy/essentials/transform.html) |
+4.  | [Exploring data (EDA)](http://rpository.com/ds4psy/essentials/explore.html) | 
+5.  | [Tibbles](http://rpository.com/ds4psy/essentials/tibbles.html) |
+6.  | [Importing data](http://rpository.com/ds4psy/essentials/import.html) |
+7.  | [Tidying data](http://rpository.com/ds4psy/essentials/tidy.html) |
++.  | [Datasets](http://rpository.com/ds4psy/essentials/datasets.html) | 
+-->
+
+[Last update on `r Sys.time()` by [hn](http://neth.de/).]  
+
+<!-- eof. --> 
