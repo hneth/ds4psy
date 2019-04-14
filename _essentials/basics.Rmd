@@ -1,7 +1,7 @@
 ---
 title: "Basic R concepts and commands, with solutions (ds4psy)"
 author: "Hansjörg Neth, SPDS, uni.kn"
-date: "2019 01 19"
+date: "2019 04 14"
 output:
    rmdformats::html_clean: # html_clean html_docco readthedown material #
      code_folding: show # hide
@@ -9,12 +9,12 @@ output:
      toc_depth: 2
      highlight: default # textmate default kate haddock monochrome #
      lightbox: true # true by default
-     fig_width: 8 # in inches
+     fig_width: 6 # in inches
 editor_options: 
   chunk_output_type: console # inline
 ---
 
-<!-- Example of essential commands | ds4psy: Winter 2018/2019 -->
+<!-- Example of essential commands | ds4psy: Summer 2019 -->
 
 ```{r preamble, echo = FALSE, eval = TRUE, cache = FALSE, message = FALSE, warning = FALSE}
 ## (a) Housekeeping: -----
@@ -59,7 +59,7 @@ source(file = "~/Desktop/stuff/Dropbox/_code/R/_teachR/ds4psy/R/custom_functions
 
 This file contains a brief introduction into basic concepts and commands when learning R **with code outputs and solutions**. 
 Knowing some R is not a necessary precondition for reading and learning data science with our textbook ([r4ds](http://r4ds.had.co.nz)), 
-but certainly helpful. Thus, please work through the examples, try to understand them, and try solving the exercises below. 
+but certainly helpful. Thus, please work through the examples, try to understand them, and then solve the corresponding exercises below. 
 
 <!-- Table with links: -->
 
@@ -68,7 +68,8 @@ All [ds4psy](http://rpository.com/ds4psy/) essentials so far:
 Nr. | Topic       |
 ---:|:------------| 
 0.  | [Syllabus](http://rpository.com/ds4psy/) | 
-1.  | **Basic R concepts and commands** | 
+1.  | [Basic R concepts and commands](http://rpository.com/ds4psy/essentials/basics.html) | 
+<!--
 2.  | [Visualizing data](http://rpository.com/ds4psy/essentials/visualize.html) | 
 3.  | [Transforming data](http://rpository.com/ds4psy/essentials/transform.html) |
 4.  | [Exploring data (EDA)](http://rpository.com/ds4psy/essentials/explore.html) | 
@@ -76,7 +77,10 @@ Nr. | Topic       |
 6.  | [Importing data](http://rpository.com/ds4psy/essentials/import.html) |
 7.  | [Tidying data](http://rpository.com/ds4psy/essentials/tidy.html) |
 8.  | [Joining data](http://rpository.com/ds4psy/essentials/join.html) |
-+.  | [Datasets](http://rpository.com/ds4psy/essentials/datasets.html) |
+9.  | [Functions](http://rpository.com/ds4psy/essentials/function.html) |
+10. | [Iteration](http://rpository.com/ds4psy/essentials/iteration.html) |
++.  | [Datasets](http://rpository.com/ds4psy/essentials/datasets.html) | 
+-->
 
 <!--
 Nr. | Topic       |
@@ -90,14 +94,16 @@ Nr. | Topic       |
 6.  | [Importing data](http://rpository.com/ds4psy/essentials/import.html) |
 7.  | [Tidying data](http://rpository.com/ds4psy/essentials/tidy.html) |
 8.  | [Joining data](http://rpository.com/ds4psy/essentials/join.html) |
+9.  | [Functions](http://rpository.com/ds4psy/essentials/function.html) |
+10. | [Iteration](http://rpository.com/ds4psy/essentials/iteration.html) |
 +.  | [Datasets](http://rpository.com/ds4psy/essentials/datasets.html) | 
 -->
 
 ## Course coordinates
 
-* Taught at the [University of Konstanz](https://www.uni-konstanz.de/) by [Hansjörg Neth](http://neth.de/) (<h.neth@uni.kn>,  [SPDS](https://www.spds.uni-konstanz.de/), office D507).
-* Winter 2018/2019: Mondays, 13:30--15:00, C511. 
-* Links to current [course syllabus](http://rpository.com/ds4psy/) | [ZeUS](https://zeus.uni-konstanz.de/hioserver/pages/startFlow.xhtml?_flowId=detailView-flow&unitId=5101&periodId=78&navigationPosition=hisinoneLehrorganisation,examEventOverviewOwn) |  [Ilias](https://ilias.uni-konstanz.de/ilias/goto_ilias_uni_crs_809936.html) 
+* PSY-15150, at the [University of Konstanz](https://www.uni-konstanz.de/) by [Hansjörg Neth](http://neth.de/) (<h.neth@uni.kn>,  [SPDS](https://www.spds.uni-konstanz.de/), office D507).
+* Summer 2019: Mondays, 15:15--16:45, D435.  
+* Links to current [course syllabus](http://rpository.com/ds4psy/) | [ZeUS](https://zeus.uni-konstanz.de:443/hioserver/pages/startFlow.xhtml?_flowId=detailView-flow&unitId=5101&periodId=179&navigationPosition=hisinoneLehrorganisation,examEventOverviewOwn) |  [Ilias](https://ilias.uni-konstanz.de/ilias/goto_ilias_uni_crs_863036.html) 
 
 
 ## Preliminaries 
@@ -113,7 +119,6 @@ of [r4ds](https://r4ds.had.co.nz/). Specifically,
     2. A current version of [RStudio](http://www.rstudio.com);   
     3. The R packages of the [tidyverse](https://www.tidyverse.org).   
     
-
 2. **Readings:** You have read the following chapters of [r4ds](https://r4ds.had.co.nz/):
 
     1. _Introductions_ ([Chapter 1](https://r4ds.had.co.nz/introduction.html) & [Chapter 2](https://r4ds.had.co.nz/explore-intro.html));  
@@ -135,8 +140,8 @@ This implies that you understand and can do the following:
 Create an R script (`.R`) or an R-Markdown file (`.Rmd`) and load the R packages of the `tidyverse`. (Hint: Structure your script by inserting spaces, meaningful comments, and sections.) 
 
 ```{r layout_template, echo = TRUE, eval = FALSE}
-## Essential commmands | ds4psy
-## 2018 10 31
+## R basics | ds4psy
+## 2019 04 15
 ## ----------------------------
 
 ## Preparations: ----------
@@ -150,14 +155,29 @@ library(tidyverse)
 ## End of file (eof). ----------  
 ```
 
+<img src = "./../pix/tile/tile_rand_1_brd_lbl.png" alt = "ds4psy: (1) R basics" align = "right" style = "height: 100px; border:0"/>
+
 # Basic R Concepts and Commands
+
+## Orientation
+
+<img src = "./../pix/toc/m_clock_1.png" alt = "ds4psy clock: (1) R basics" align = "right" style = "width: 250px; height: 250px; border:0"/>
+
+After working through this chapter, you should be able to:
+
+1. categorize R objects into data vs. functions;  
+1. disginuish between different shapes (e.g., scalars, vectors, rectangles) and types (e.g., numbers, text, logical values) of data; 
+1. create and change R objects by assignment;
+1. apply arithmetic functions to objects; 
+1. select elements from vectors or rectangular data structures (by indexing).
+
+
+## Data vs. functions
 
 > “To understand computations in R, two slogans are helpful:  
 >   - Everything that exists is an object.   
 >   - Everything that happens is a function call."  
 >      John Chambers
-
-## Data vs. functions
 
 Using R and most other programming languages consists in 
 
@@ -778,11 +798,9 @@ When analyzing a data file from a remote source, it's crucial to also obtain a d
 We will examine these variables in **Exercise 6** (below).
 
 
-
-
 # Exercises (WPA01)
 
-The following exercises are your first weekly programming assignment (**WPA01**). Please submit your solutions (as an `.R` or `.Rmd` script that also contains your name) on [Ilias](https://ilias.uni-konstanz.de/ilias/goto_ilias_uni_crs_809936.html) by **Wednesday, Nov. 7, 2018**. 
+The following exercises are your first weekly programming assignment (**WPA01**). Please submit your solutions (as an `.R` or `.Rmd` script that is named `LastFirstname_WPA01.R`) into the corresponding folder on [Ilias](https://ilias.uni-konstanz.de/ilias/goto_ilias_uni_crs_863036.html) by **Thursday, May 2nd, 2019**. 
 
 ## Exercise 1
 
@@ -1088,7 +1106,8 @@ All [ds4psy](http://rpository.com/ds4psy/) essentials so far:
 Nr. | Topic       |
 ---:|:------------| 
 0.  | [Syllabus](http://rpository.com/ds4psy/) | 
-1.  | **Basic R concepts and commands** | 
+1.  | [Basic R concepts and commands](http://rpository.com/ds4psy/essentials/basics.html) | 
+<!--
 2.  | [Visualizing data](http://rpository.com/ds4psy/essentials/visualize.html) | 
 3.  | [Transforming data](http://rpository.com/ds4psy/essentials/transform.html) |
 4.  | [Exploring data (EDA)](http://rpository.com/ds4psy/essentials/explore.html) | 
@@ -1096,7 +1115,10 @@ Nr. | Topic       |
 6.  | [Importing data](http://rpository.com/ds4psy/essentials/import.html) |
 7.  | [Tidying data](http://rpository.com/ds4psy/essentials/tidy.html) |
 8.  | [Joining data](http://rpository.com/ds4psy/essentials/join.html) |
+9.  | [Functions](http://rpository.com/ds4psy/essentials/function.html) |
+10. | [Iteration](http://rpository.com/ds4psy/essentials/iteration.html) |
 +.  | [Datasets](http://rpository.com/ds4psy/essentials/datasets.html) | 
+-->
 
 <!--
 Nr. | Topic       |
@@ -1110,6 +1132,8 @@ Nr. | Topic       |
 6.  | [Importing data](http://rpository.com/ds4psy/essentials/import.html) |
 7.  | [Tidying data](http://rpository.com/ds4psy/essentials/tidy.html) |
 8.  | [Joining data](http://rpository.com/ds4psy/essentials/join.html) |
+9.  | [Functions](http://rpository.com/ds4psy/essentials/function.html) |
+10. | [Iteration](http://rpository.com/ds4psy/essentials/iteration.html) |
 +.  | [Datasets](http://rpository.com/ds4psy/essentials/datasets.html) | 
 -->
 
