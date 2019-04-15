@@ -1426,26 +1426,31 @@ N <- nrow(toc)
 max_nr_val <- max(toc$nr_val)
 min_ctr <- min(toc$ctr)
 max_ctr <- max(toc$ctr)
-tol <- 4  # tolerance value (for text labels)
+tol <- 2  # tolerance value (for text labels)
 txt_size <- 2.5  # size of txt labels (below)
 
 ## Colors: ------ 
+
+library(unikn)
 
 # unikn.pal  # basic 
 
 # unikn_toc:  # 11 colors
 unikn_toc <- seecol(pal = c(Grau, Bordeaux, pal_seeblau[c(4,3,5,3,1,4,2)], pal_seegruen[c(3,5)]), n = 11)
+
+seeblau_10 <- seecol(pal = pal_seeblau, n = 10)
+unikn_toc <- seecol(pal = c("white", seeblau_10))
 ```
 
 Bar plots:
 
-```{r plot_toc_bar, fig.width = 8, fig.height = 8}
+```{r plot_toc_bar, fig.width = 8, fig.height = 6}
 ## Bar plots: ------ 
 
 # (a) Chronology:
 
 bar_hori <- ggplot(toc, aes(x = nr)) +
-  geom_bar(aes(y = ctr, fill = nr_val), stat = "identity", color = grey(.5, 1)) +
+  geom_bar(aes(y = ctr, fill = nr_val), stat = "identity", color = grey(.2, 1), size = .2) +
   scale_fill_gradientn(colors = unikn_toc) +
   geom_text(aes(y = ctr + .25, label = tp), angle = 0, adj = 0, size = txt_size) + 
   scale_x_reverse(breaks = 0:N, labels = 0:N) + 
@@ -1464,9 +1469,9 @@ ggsave(cur_name, width = 15, height = 10, units = c("cm"), dpi = 300)
 # (b) Relevance:
 
 bar_vert <- ggplot(toc, aes(x = nr)) +
-  geom_bar(aes(y = ctr, fill = ctr), stat = "identity", color = grey(.5, 1)) +
-  # scale_fill_gradientn(colors = unikn_toc) +
-  scale_fill_gradient(low = "white", high = pal_seeblau[[5]], limits = c(min_ctr, max_ctr)) +
+  geom_bar(aes(y = ctr, fill = ctr), stat = "identity", color = grey(.2, 1), size = .2) +
+  scale_fill_gradientn(colors = unikn_toc) +
+  # scale_fill_gradient(low = "white", high = pal_seeblau[[5]], limits = c(min_ctr, max_ctr)) +
   geom_text(aes(y = ctr + .5, label = tp), angle = 90, adj = 0, size = txt_size) + 
   scale_x_continuous(breaks = 0:N, labels = 0:N) + 
   scale_y_continuous(limits = c(0, (max_ctr + tol)), breaks = 1:max_ctr, labels = 1:max_ctr) + 
@@ -1527,7 +1532,7 @@ centrality <- ggplot(toc, aes(x = nr)) +
 centrality
 
 # Save plot:
-cur_name <- paste0(pic_path, "toc/", "centrality", ".png")
+cur_name <- paste0(pic_path, "toc/", "toc_centrality", ".png")
 ggsave(cur_name, width = 15, height = 15, units = c("cm"), dpi = 300)
 ```
 
@@ -1552,7 +1557,7 @@ Highlight current session in polar chart:
 # session number:
 n_rand <- sample(0:11, size = 1, replace = TRUE)  # random integer (0:11)
 nr_session <- n_rand  # random session nr (as in polar clock plot above)
-# nr_session <- 0     # specific session nr
+nr_session <- 1     # specific session nr
 
 tol <- 8         # increase tolerance value (to leave more space for text labels)
 txt_size <- 2.0  # decrease (to keep topic labels within highlighted areas)
@@ -1566,7 +1571,7 @@ cur_session_clock <- ggplot(toc, aes(x = nr)) +
   geom_bar(aes(y = session_val), stat = "identity", fill = "gold", alpha = .75) +
   geom_bar(aes(y = ctr, fill = ctr), stat = "identity", color = grey(.10, 1), size = .25) +
   # scale_fill_gradientn(colors = unikn_toc) +
-  scale_fill_gradient(low = "white", high = seeblau, limits = c(min_ctr, max_ctr)) +
+  scale_fill_gradient(low = "white", high = pal_seeblau[[5]], limits = c(min_ctr, max_ctr)) +
   geom_text(aes(y = (max_ctr + .45 * tol), label = tp), adj = .5, size = txt_size, fontface = 1) +    # topic labels
   scale_x_continuous(breaks = 0:N, labels = 0:N) + 
   scale_y_continuous(limits = c(0, (max_ctr + tol)), breaks = 1:max_ctr, labels = 1:max_ctr) + 
@@ -1581,7 +1586,7 @@ cur_session_clock <- ggplot(toc, aes(x = nr)) +
 cur_session_clock
 
 # Save plot:
-cur_name <- paste0(pic_path, "toc/", "m_clock_", nr_session, ".png")
+cur_name <- paste0(pic_path, "toc/", "toc_clock_", nr_session, ".png")
 ggsave(cur_name, width = 10, height = 10, units = c("cm"), dpi = 300)
 ```
 
