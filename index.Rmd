@@ -1,11 +1,11 @@
 ---
 title: "Data Science for Psychologists (ds4psy)"
 author: "Hansjörg Neth, SPDS, uni.kn"
-date: "2019 04 14"
+date: "2019 04 15"
 output:
   rmdformats::html_clean:
     highlight: kate
-    lightbox: false
+    lightbox: true
 ---
 
 ```{r knitr_init, echo = FALSE, cache = FALSE, message = FALSE, warning = FALSE}
@@ -151,6 +151,9 @@ Part 2: Wrangle
 
 -->
 
+<!-- <img src = "./pix/toc/toc_centrality.png" alt = "ds4psy: ToC centrality" align = "center" style = "width: 500px; height: 500px; border:0"/> -->
+
+
  **Part 0: Preambulations**
 
  1. 15.04.2019: **Introduction** and [r4ds Chapters 1 & 2](http://r4ds.had.co.nz). 
@@ -212,9 +215,9 @@ Part 2: Wrangle
  --> 
 
  12. 15.07.2019: Starting your [data science project](http://rpository.com/ds4psy/essentials/ds_project.html) or **final exam**. 
+
  
-
-
+<img src = "./pix/toc/toc_relevance.png" alt = "ds4psy: ToC relevance" style = "width: 250px; border:0"/>
 
 <!-- Table with links: -->
 

@@ -1,7 +1,7 @@
 ---
 title: "Basic R concepts and commands, with solutions (ds4psy)"
 author: "Hansjörg Neth, SPDS, uni.kn"
-date: "2019 04 14"
+date: "2019 04 15"
 output:
    rmdformats::html_clean: # html_clean html_docco readthedown material #
      code_folding: show # hide
@@ -56,10 +56,6 @@ source(file = "~/Desktop/stuff/Dropbox/_code/R/_teachR/ds4psy/R/custom_functions
 ```
 
 # Introduction
-
-This file contains a brief introduction into basic concepts and commands when learning R **with code outputs and solutions**. 
-Knowing some R is not a necessary precondition for reading and learning data science with our textbook ([r4ds](http://r4ds.had.co.nz)), 
-but certainly helpful. Thus, please work through the examples, try to understand them, and then solve the corresponding exercises below. 
 
 <!-- Table with links: -->
 
@@ -163,6 +159,14 @@ library(tidyverse)
 
 <img src = "./../pix/toc/m_clock_1.png" alt = "ds4psy clock: (1) R basics" align = "right" style = "width: 250px; height: 250px; border:0"/>
 
+This chapter contains a brief introduction into basic concepts and commands when learning R (with examples, code outputs, exercises, and solutions).  
+<!-- This chapter contains a brief introduction into basic concepts and commands when learning R (with examples and exercises). -->  
+Strictly speaking, knowing some R is not a necessary precondition for reading and learning data science with our textbook ([r4ds](http://r4ds.had.co.nz)). 
+However, it is certainly helpful -- partly to appreciate how various `tidyverse` commands let you solve many problems in simpler and more transparent ways. 
+Thus, please work through the examples, try to understand them, and then solve the corresponding exercises below. 
+
+<!-- Objectives: --> 
+
 After working through this chapter, you should be able to:
 
 1. categorize R objects into data vs. functions;  
@@ -177,15 +181,15 @@ After working through this chapter, you should be able to:
 > “To understand computations in R, two slogans are helpful:  
 >   - Everything that exists is an object.   
 >   - Everything that happens is a function call."  
->      John Chambers
+>                                   John Chambers
 
 Using R and most other programming languages consists in 
 
-1. defining or loading _data_ (objects, values), and    
+1. defining or loading _data_ (material, values), and    
 
 2. evaluating _functions_ (actions, verbs).  
 
-Confusingly, both data and functions in R are _objects_ and evaluating functions typically returns or creates new data objects. To distinguish data from functions, think of data as _objects_ (i.e., material or values that are being measured or manipulated) and functions as _procedures_ (i.e., actions, operations, or verbs) that measure or manipulate data.
+Confusingly, both data and functions in R are _objects_ (stuff) and evaluating functions typically returns or creates new data objects (more stuff). To distinguish data from functions, think of data as _matter_ (i.e., material or values that are being measured or manipulated) and functions as _procedures_ (i.e., actions, operations, or verbs,  that measure or manipulate data).
 
 In the following, we will introduce some ways to describe data (by _shape_ and _type_), learn to create new data objects (by assigning them with `<-`), and apply some pre-defined functions to these data objects.
 
@@ -199,7 +203,6 @@ In R, different data objects are characterized by their _shape_ and by their _ty
     - _vectors_: a chain/sequence of objects of the same type (i.e., extending in 1 dimension: length);    
     - _data frames_/_matrices_/_tibbles_: rectangular data (i.e., tables with 2 dimensions: rows vs. columns).   
 
-
 2. The most common _types_ of data are:
 
     - _numeric_ data (of type `double` or `integer`);  
@@ -208,14 +211,14 @@ In R, different data objects are characterized by their _shape_ and by their _ty
 
 ### Functions
 
-In R, functions are applied to data objects (so-called _arguments_, e.g., `a1` and `a2`) by specifying the function name and providing the arguments in round parentheses (i.e., `function(a1, a2)`). 
-An example of a function with 2 arguments is: 
+In R, _functions_ are 'action objects' that are applied to 'data objects' (a function's so-called _arguments_, e.g., `a1` and `a2`) by specifying the function name and providing the arguments in round parentheses (i.e., `function(a1, a2)`). Think of functions as a process that takes some _input_ (its arguments) and transforms it into _output_ (the result returned by the function). An example of a function with 2 arguments is: 
 
 ```{r sum_function}
 sum(1, 2)
 ```
 
-Here, the function `sum` is applied to 2 numeric arguments `1` and `2`. Evaluating the expression `sum(1, 2)` returns a new data object `3`, which is the sum of the two original arguments.
+Here, the function `sum` is applied to 2 numeric arguments `1` and `2` (or a data structure that consists of 2 numeric scalars). 
+Evaluating the expression `sum(1, 2)` returns a new data object `3`, which is the sum of the 2 original arguments. 
 
 ### Practice
 
@@ -228,14 +231,29 @@ substr("television", start = 5, stop = 10)
 substr("television", 20,  30)  # yields ""
 ```
 
-
 ### Defining objects
 
-To define a new object `o` as `x`, use the assignment function `o <- x` and note that object names are case-sensitive (i.e., `a` and `A` are different object names). Here are some examples of simple objects and simple arithmetic functions applied to objects:
+To define a new object `o` as `x`, use the _assignment_ function `o <- x` and note that object names are case-sensitive (i.e., `a` and `A` are different object names). 
+
+For example, we can assign the output of a function to some object:
+
+```{r sum_function_s}
+s <- sum(1, 2)
+s
+```
+
+Here, we created a new object (named `s`) and assigned the sum of 1 and 2 to it. As `s` is a numeric object (with the value 3), we can now apply any numeric function to it:
+
+```{r}
+s * 2
+s^2
+```
+
+Here is another example of creating 2 simple objects and applying simple arithmetic functions to them:
 
 ```{r objects, echo = TRUE, eval = TRUE}
 o <- 10  # assign/set o to 10
-O <- 5   # assign/set O to  5
+O <-  5  # assign/set O to  5
 
 # Computing with objects: 
 o * O
@@ -243,8 +261,47 @@ o * 0
 o / O * 0
 ```
 
-In R, objects can be described by their _length_ and _type_. Objects with a length of 1 are called _scalars_, longer objects (i.e., `length(object) > 1`) are either _vectors_ or _lists_. 
+In R, objects can be described by their _length_ and _type_. 
 
+- Objects with a length of 1 are called _scalars_, longer objects (i.e., `length(object) > 1`) are _vectors_ or _lists_. 
+
+- The type of an object corresponds to the type of the object to which it has been assigned (e.g., `numeric`, `character`, or `logical`). 
+
+Hence, we can change an object's type be re-assigning it:
+
+```{r assign_object_different_types}
+o <- 100
+o
+
+# Check type: 
+is.numeric(o)
+is.character(o)
+is.logical(o)
+
+# Re-assigning o:
+o <- paste0("ene", " ", "mene", " ", "mu")
+o
+
+# Check type: 
+is.numeric(o)
+is.character(o)
+is.logical(o)
+```
+
+### Practice
+
+Assign `o` to `2 > 1` and check its type.
+
+```{r assign_logical, echo = TRUE, eval = TRUE}
+# Re-assign o:
+o <- 1 > 2
+o
+
+# Check type: 
+is.numeric(o)
+is.character(o)
+is.logical(o)
+```
 
 ### Naming objects
 
@@ -265,7 +322,8 @@ Recommendations:
 
 ### Defining scalars
 
-We have learned that _scalars_ are objects of length 1 (aka. _atomic_ objects) and how to define objects by assigning names to them. So let's define some scalar objects and then use some generic functions to check their length and type: 
+We have learned that _scalars_ are objects of length 1 (aka. _atomic_ objects) and how to define objects by assigning names to them. 
+So let's define some scalar objects and then use some generic functions to check their length and type: 
 
 ```{r basic_objects, echo = TRUE, eval = TRUE}
 a <- 1     # assign/set a to 1
