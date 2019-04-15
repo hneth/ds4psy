@@ -158,7 +158,8 @@ Part 2: Wrangle
 
  1. 15.04.2019: **Introduction** and [r4ds Chapters 1 & 2](http://r4ds.had.co.nz). 
  
- 2. 29.04.2019: **Basic R concepts and commands** and [r4ds Chapters 4/6/8](http://r4ds.had.co.nz). 
+ 2. 29.04.2019: **Basic R concepts and commands** and [r4ds Chapters 4/6/8](http://r4ds.had.co.nz).  
+ [Essentials (with WPA01)](http://rpository.com/ds4psy/essentials/basics.html)
  <!-- ([Essentials with WPA01 and solutions](http://rpository.com/ds4psy/essentials/basics.html)). --> 
   
  **Part 1: Explore data**
@@ -216,8 +217,16 @@ Part 2: Wrangle
 
  12. 15.07.2019: Starting your [data science project](http://rpository.com/ds4psy/essentials/ds_project.html) or **final exam**. 
 
+
+## Orientation
+
+The following diagrams provide a schematic overview of our course curriculum (and display the same information in 2 different ways):  
+
+<img src = "./pix/toc/toc_centrality.png" alt = "ds4psy: ToC centrality" align = "right" style = "width: 250px; border:0"/>
  
 <img src = "./pix/toc/toc_relevance.png" alt = "ds4psy: ToC relevance" style = "width: 250px; border:0"/>
+
+
 
 <!-- Table with links: -->
 
@@ -230,7 +239,7 @@ Part 2: Wrangle
 <!--
 Nr. | Topic       |
 ---:|:------------| 
-0.  | [Syllabus](http://rpository.com/ds4psy/) | 
+0.  | **Syllabus** | 
 1.  | [Basic R concepts and commands](http://rpository.com/ds4psy/essentials/basics.html) | 
 2.  | [Visualizing data](http://rpository.com/ds4psy/essentials/visualize.html) | 
 3.  | [Transforming data](http://rpository.com/ds4psy/essentials/transform.html) |
@@ -381,7 +390,7 @@ Beware of side effects: Becoming an R user (useR?) will profoundly transform you
 
 ## Course
 
-- Current [course syllabus](http://rpository.com/ds4psy/) 
+- Current [course syllabus](http://rpository.com/ds4psy/) (i.e., this file). 
 - [ZeUS](https://zeus.uni-konstanz.de:443/hioserver/pages/startFlow.xhtml?_flowId=detailView-flow&unitId=5101&periodId=179&navigationPosition=hisinoneLehrorganisation,examEventOverviewOwn) 
 - [Ilias](https://ilias.uni-konstanz.de/ilias/goto_ilias_uni_crs_863036.html) 
 
@@ -389,17 +398,18 @@ Beware of side effects: Becoming an R user (useR?) will profoundly transform you
 
 <!-- Table with links: -->
 
-<!-- All [ds4psy](http://rpository.com/ds4psy/) essentials so far: --> 
+All [ds4psy](http://rpository.com/ds4psy/) essentials so far:
 
 <!-- Image: sorted tiles -->
 <!-- ![](./pix/tile/tile_sort_10_brd.png) -->
 <!-- <img src = "./pix/tile/tile_sort_10_brd.png" alt = "ds4psy" style = "width: 180px; float: right; border:0;"/> -->
 
-<!--
 Nr. | Topic       |
 ---:|:------------| 
-0.  | [Syllabus](http://rpository.com/ds4psy/) | 
+0.  | **Syllabus** | 
 1.  | [Basic R concepts and commands](http://rpository.com/ds4psy/essentials/basics.html) | 
++.  | [Datasets](http://rpository.com/ds4psy/essentials/datasets.html) | 
+<!--
 2.  | [Visualizing data](http://rpository.com/ds4psy/essentials/visualize.html) | 
 3.  | [Transforming data](http://rpository.com/ds4psy/essentials/transform.html) |
 4.  | [Exploring data (EDA)](http://rpository.com/ds4psy/essentials/explore.html) | 
@@ -408,6 +418,7 @@ Nr. | Topic       |
 7.  | [Tidying data](http://rpository.com/ds4psy/essentials/tidy.html) |
 8.  | [Joining data](http://rpository.com/ds4psy/essentials/join.html) |
 9.  | [Functions](http://rpository.com/ds4psy/essentials/function.html) |
+10. | [Iteration](http://rpository.com/ds4psy/essentials/iteration.html) |
 +.  | [Datasets](http://rpository.com/ds4psy/essentials/datasets.html) | 
 -->
 
@@ -424,8 +435,10 @@ Nr. | Topic       |
 7.  | [Tidying data](http://rpository.com/ds4psy/essentials/tidy.html) |
 8.  | [Joining data](http://rpository.com/ds4psy/essentials/join.html) |
 9.  | [Functions](http://rpository.com/ds4psy/essentials/function.html) |
+10. | [Iteration](http://rpository.com/ds4psy/essentials/iteration.html) |
 +.  | [Datasets](http://rpository.com/ds4psy/essentials/datasets.html) | 
 -->
+
 
 
 ## R Markdown
