@@ -1,5 +1,5 @@
 ---
-title: "Basic R concepts and commands, with solutions (ds4psy)"
+title: "Basic R concepts and commands, with WPA01 (ds4psy)"
 author: "Hansjörg Neth, SPDS, uni.kn"
 date: "2019 04 15"
 output:
@@ -159,7 +159,7 @@ library(tidyverse)
 
 <img src = "./../pix/toc/m_clock_1.png" alt = "ds4psy clock: (1) R basics" align = "right" style = "width: 250px; height: 250px; border:0"/>
 
-This chapter contains a brief introduction into basic concepts and commands when learning R (with examples, code outputs, exercises, and solutions).  
+This chapter contains a brief introduction into basic concepts and commands when learning R (with examples and exercises).  
 <!-- This chapter contains a brief introduction into basic concepts and commands when learning R (with examples and exercises). -->  
 Strictly speaking, knowing some R is not a necessary precondition for reading and learning data science with our textbook ([r4ds](http://r4ds.had.co.nz)). 
 However, it is certainly helpful -- partly to appreciate how various `tidyverse` commands let you solve many problems in simpler and more transparent ways. 
@@ -809,7 +809,9 @@ typeof(df$age)  # numeric "double"
 ### Importing data
 
 In most cases, we don't generate the data that we analyze, but obtain it from somewhere (e.g., online). For instance, 
-Woodworth et al. (2018, DOI: <https://doi.org/10.5334/jopd.35>) examined the long-term effectiveness of different web-based positive psychology interventions (see [this link](https://openpsychologydata.metajnl.com/articles/10.5334/jopd.35/) for details). We can load their participant data into R with the following command (from the package `readr`, which is part of the `tidyverse`):
+Woodworth et al. (2018, DOI: <https://doi.org/10.5334/jopd.35>) examined the long-term effectiveness of different web-based positive psychology interventions 
+(see [this link](https://openpsychologydata.metajnl.com/articles/10.5334/jopd.35/) for details). 
+We can load their participant data into R with the following command (from the package `readr`, which is part of the `tidyverse`):
 
 ```{r read_online_data, echo = TRUE, eval = TRUE}
 p_info <- readr::read_csv(file = "http://rpository.com/ds4psy/data/posPsy_participants.csv")
@@ -911,6 +913,8 @@ With only a little knowledge of R you can perform quite fancy financial arithmet
 
 Answer these questions by defining well-named objects and performing simple arithmetic computations on them.
 
+<!-- Solution: 
+
 ```{r ex2_financial, echo = TRUE, eval = TRUE}
 # Definitions:
 savings_0 <- 1000    # initial savings (year 0)
@@ -941,6 +945,7 @@ savings_0 * (1 + interest)^n_years  # interest only
 savings_0 * (1 + interest - inflation)^n_years  # interest + inflation
 ```
 
+--> 
 
 ## Exercise 3
 
@@ -948,6 +953,8 @@ When introducing arithmetic functions above, we showed that they can be used wit
 
 1. Demonstrate that the same arithmetic functions also work with 2 numeric vectors `x` and `y` (of the same length).  
 2. What happens when `x` and `y` have different lengths?
+
+<!-- Solution: 
 
 ```{r ex3_arithmetic_vectors, echo = TRUE, eval = TRUE}
 ## 1. Arithmetic with vectors of the same length:
@@ -979,9 +986,13 @@ x %/% y # integer division
 x %% y  # remainder of integer division (x mod y)
 ```
 
+--> 
+
 ## Exercise 4
 
 Predict the result of the arithmetic expression `x %/% y * y + x %% y`. Then test your prediction by assigning some number to `x` and `y` and evaluating the expression. Finally, explain why the result occurs. 
+
+<!-- Solution: 
 
 ```{r ex4_integer_arithmetic, echo = TRUE, eval = TRUE}
 ## Note: The given expression 
@@ -1008,6 +1019,8 @@ x %% y       # yields the remainder of integer division
 # yields x.
 ```
 
+--> 
+
 ## Exercise 5
 
 Assume the following definitions for a survey: 
@@ -1024,6 +1037,8 @@ Now use some functions on your `age` vector to answer the following questions:
  - How many people are younger than 25 years? 
  - What is the average (mean) age of people older than 50 years?
  - How many people have a round age (i.e., an age that is divisible by 10)? What is their mean age? 
+
+<!-- Solution: 
 
 ```{r ex5, echo = TRUE, eval = TRUE}
 set.seed(42) # for replicable randomness
@@ -1061,6 +1076,8 @@ length(round_ages)
 mean(round_ages)
 ```
 
+--> 
+
 ## Exercise 6
 
 Examine the participant information in `p_info` by describing each of its variables: 
@@ -1071,6 +1088,8 @@ Examine the participant information in `p_info` by describing each of its variab
 4. What is the participants' mean education level? What percentage has a university degree (i.e., an `educ` value of at least 4)?
 5. What is the age range (`min` to `max`) of participants? What is the average (mean and median) age?
 6. Describe the range of `income` levels present in this sample of participants. What percentage of participants self-identifies as a below-average income (i.e., an `income` value of 1)?
+
+<!-- Solution: 
 
 ```{r ex6_p_info, echo = TRUE, eval = TRUE, results = "show", fig.show = "show"}
 ## Load data (again): 
@@ -1134,6 +1153,7 @@ pc_income_low
 5. Participant's age values range from `r min(p_info$age)` to `r max(p_info$age)` years. Their mean age is `r round(mean(p_info$age), 2)` years, their median age is `r median(p_info$age)` years.  
 6. `r round(pc_income_low, 2)`% of the participants state that their income is below average. 
 
+--> 
 
 # Related Resources
 
