@@ -1,7 +1,7 @@
 ---
 title: "Data Science for Psychologists (ds4psy)"
 author: "Hansjörg Neth, SPDS, uni.kn"
-date: "2019 04 15"
+date: "2019 04 17"
 output:
   rmdformats::html_clean:
     highlight: kate
@@ -24,7 +24,6 @@ opts_chunk$set(echo=FALSE,
 opts_knit$set(width=75)
 ```
 
-
 # Course Coordinates
 
 <!-- uni.kn logo and link to SPDS: -->  
@@ -42,13 +41,14 @@ opts_knit$set(width=75)
 
 ## Overview 
 
+<!-- ds4psy logo 1: -->
+<a href="http://rpository.com/ds4psy/">
+<img src = "./pix/logo/logo_200_bwg.png" alt = "ds4psy" width = "110px" align = "right" style = "width: 150px; float: right; border:11;"/>
+</a>
+
 <!-- New abstract: 2019-02-06 --> 
 
 This course provides an introduction to [R](http://www.r-project.org/) and conveys fundamental skills of data literacy and the basics of data science. It is suited for beginners and experienced students and contains 3 parts: 
-
-<!-- Image: random tiles -->
-<!-- ![](./pix/tile_rand_10_brd.png) -->
-<img src = "./pix/tile/tile_rand_10_brd.png" alt = "ds4psy" style = "width: 180px; float: right; border:0;"/>
 
 1. First, we introduce key concepts and commands of the [R](http://www.r-project.org/) programming language for statistical computing. This includes working with the [R Studio](http://www.rstudio.com/) environment and writing reproducible research documents with 
 [R Markdown](https://rmarkdown.rstudio.com/). 
@@ -76,6 +76,10 @@ While there are many good introductions to data science (we use [Grolemund & Wic
 
 
 ## Goals
+
+<!-- Image: random tiles -->
+<!-- ![](./pix/tile_rand_10_brd.png) -->
+<img src = "./pix/tile/tile_rand_10_brd.png" alt = "ds4psy" style = "width: 180px; float: right; border:0;"/>
 
 Our main goal is to develop a set of useful skills in analyzing real-world data and conducting reproducible research. Upon completing this course, you will be able to read, transform, analyze, and visualize data of various types. Many interactive exercises will allow students to check their understanding, monitor their progress, and practice their skills.
 
@@ -403,6 +407,12 @@ All [ds4psy](http://rpository.com/ds4psy/) essentials so far:
 <!-- Image: sorted tiles -->
 <!-- ![](./pix/tile/tile_sort_10_brd.png) -->
 <!-- <img src = "./pix/tile/tile_sort_10_brd.png" alt = "ds4psy" style = "width: 180px; float: right; border:0;"/> -->
+
+<!-- ds4psy logo 2: -->
+<a href="http://rpository.com/ds4psy/">
+<img src = "./pix/logo/ds4psy_150_left.png" alt = "ds4psy" width = "110px" align = "right" style = "width: 150px; float: right; border:11;"/> 
+</a>
+
 
 Nr. | Topic       |
 ---:|:------------| 

@@ -1,7 +1,7 @@
 ---
 title: "Basic R concepts and commands, with WPA01 (ds4psy)"
 author: "Hansjörg Neth, SPDS, uni.kn"
-date: "2019 04 15"
+date: "2019 04 16"
 output:
    rmdformats::html_clean: # html_clean html_docco readthedown material #
      code_folding: show # hide
@@ -60,6 +60,11 @@ source(file = "~/Desktop/stuff/Dropbox/_code/R/_teachR/ds4psy/R/custom_functions
 <!-- Table with links: -->
 
 All [ds4psy](http://rpository.com/ds4psy/) essentials so far: 
+
+<!-- ds4psy logo 1: -->
+<a href="http://rpository.com/ds4psy/">
+<img src = "./../pix/logo/logo_200_bwg.png" alt = "ds4psy" width = "110px" align = "right" style = "width: 150px; float: right; border:11;"/>
+</a>
 
 Nr. | Topic       |
 ---:|:------------| 
@@ -151,6 +156,7 @@ library(tidyverse)
 ## End of file (eof). ----------  
 ```
 
+<!-- Session 01: -->
 <img src = "./../pix/tile/tile_rand_1_brd_lbl.png" alt = "ds4psy: (1) R basics" align = "right" style = "height: 100px; border:0"/>
 
 # Basic R Concepts and Commands
@@ -860,7 +866,11 @@ We will examine these variables in **Exercise 6** (below).
 
 # Exercises (WPA01)
 
-The following exercises are your first weekly programming assignment (**WPA01**). Please submit your solutions (as an `.R` or `.Rmd` script that is named `LastFirstname_WPA01.R`) into the corresponding folder on [Ilias](https://ilias.uni-konstanz.de/ilias/goto_ilias_uni_crs_863036.html) by **Thursday, May 2nd, 2019**. 
+<!-- Exercises 01: -->
+<img src = "./../pix/pole/pole_rand_1_brd_lbl.png" alt = "ds4psy: Exercises 1" align = "right" style = "height: 100px; border:0"/>
+
+The following exercises are your first weekly programming assignment (**WPA01**).  
+Please submit your solutions (as an `.R` or `.Rmd` script that is named `LastFirstname_WPA01.R`) into the corresponding folder on [Ilias](https://ilias.uni-konstanz.de/ilias/goto_ilias_uni_crs_863036.html) by **Thursday, May 2nd, 2019**. 
 
 ## Exercise 1
 
@@ -1180,6 +1190,11 @@ doi: <https://doi.org/10.5334/jopd.35>
 <!-- Table with links: -->
 
 All [ds4psy](http://rpository.com/ds4psy/) essentials so far: 
+
+<!-- ds4psy logo 1: -->
+<a href="http://rpository.com/ds4psy/">
+<img src = "./../pix/logo/logo_200_bwg.png" alt = "ds4psy" width = "110px" align = "right" style = "width: 150px; float: right; border:11;"/>
+</a>
 
 Nr. | Topic       |
 ---:|:------------| 
