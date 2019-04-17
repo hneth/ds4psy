@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit THIS (Rmd) file. -->
-<!-- ds4psy logo: -->
-<img src = "./pix/logo.png" alt = "ds4psy" width = "110px" align = "right" style = "width: 110px; float: right; border:11;"/>
+<!-- ds4psy logo 1: -->
+<img src = "./pix/logo/logo_200_bwg.png" alt = "ds4psy" width = "110px" align = "right" style = "width: 150px; float: right; border:11;"/>
 
 ds4psy
 ======
@@ -77,6 +77,9 @@ install.packages("nycflights13", "gapminder", "Lahman", "babynames", "fueleconom
 <!-- Table with links: -->
 All [ds4psy](http://rpository.com/ds4psy/) essentials so far:
 
+<!-- ds4psy logo: -->
+<img src = "./pix/logo/ds4psy_150_left.png" alt = "ds4psy" width = "110px" align = "right" style = "width: 150px; float: right; border:11;"/>
+
 |  Nr.| Topic                                                                               |
 |----:|:------------------------------------------------------------------------------------|
 |   0.| [Syllabus](http://rpository.com/ds4psy/)                                            |
@@ -89,6 +92,7 @@ All [ds4psy](http://rpository.com/ds4psy/) essentials so far:
 |   7.| [Tidying data](http://rpository.com/ds4psy/essentials/tidy.html)                    |
 |   8.| [Joining data](http://rpository.com/ds4psy/essentials/join.html)                    |
 |   9.| [Functions](http://rpository.com/ds4psy/essentials/function.html)                   |
+|  10.| [Iteration](http://rpository.com/ds4psy/essentials/iteration.html)                  |
 |   +.| [Datasets](http://rpository.com/ds4psy/essentials/datasets.html)                    |
 
 <!--
@@ -104,6 +108,7 @@ Nr. | Topic       |
 7.  | [Tidying data](http://rpository.com/ds4psy/essentials/tidy.html) |
 8.  | [Joining data](http://rpository.com/ds4psy/essentials/join.html) |
 9.  | [Functions](http://rpository.com/ds4psy/essentials/function.html) |
+10. | [Iteration](http://rpository.com/ds4psy/essentials/iteration.html) |
 +.  | [Datasets](http://rpository.com/ds4psy/essentials/datasets.html) | 
 -->
 #### Online
@@ -124,6 +129,6 @@ Nr. | Topic       |
 -   Zumel, N., & Mount, J. (2014). *Practical data science with R*. Greenwich, CT: Manning Publications.
 
 <!-- Update: -->
-\[Updated 2019-02-17 by [hn](https://neth.de).\]
+\[Updated 2019-04-17 by [hn](https://neth.de).\]
 
 <!-- eof. -->
