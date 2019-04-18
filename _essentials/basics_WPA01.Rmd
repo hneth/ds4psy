@@ -1,7 +1,7 @@
 ---
 title: "Basic R concepts and commands, with WPA01 (ds4psy)"
 author: "Hansjörg Neth, SPDS, uni.kn"
-date: "2019 04 16"
+date: "2019 04 18"
 output:
    rmdformats::html_clean: # html_clean html_docco readthedown material #
      code_folding: show # hide
@@ -157,12 +157,13 @@ library(tidyverse)
 ```
 
 <!-- Session 01: -->
-<img src = "./../pix/tile/tile_rand_1_brd_lbl.png" alt = "ds4psy: (1) R basics" align = "right" style = "height: 100px; border:0"/>
+<img src = "./../pix/tile/tile_rand_1_brd_lbl.png" alt = "ds4psy: (1) R basics" align = "right" style = "height: 125px; border:0"/>
 
 # Basic R Concepts and Commands
 
 ## Orientation
 
+<!-- Orientation clock 01: --> 
 <img src = "./../pix/toc/m_clock_1.png" alt = "ds4psy clock: (1) R basics" align = "right" style = "width: 250px; height: 250px; border:0"/>
 
 This chapter contains a brief introduction into basic concepts and commands when learning R (with examples and exercises).  

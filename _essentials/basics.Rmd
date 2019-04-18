@@ -1,7 +1,7 @@
 ---
-title: "Basic R concepts and commands, with solutions (ds4psy)"
+title: "Basic R concepts and commands, with WPA01 solutions (ds4psy)"
 author: "Hansjörg Neth, SPDS, uni.kn"
-date: "2019 04 17"
+date: "2019 04 18"
 output:
    rmdformats::html_clean: # html_clean html_docco readthedown material #
      code_folding: show # hide
@@ -156,12 +156,14 @@ library(tidyverse)
 ## End of file (eof). ----------  
 ```
 
-<img src = "./../pix/tile/tile_rand_1_brd_lbl.png" alt = "ds4psy: (1) R basics" align = "right" style = "height: 100px; border:0"/>
+<!-- Session 01: -->
+<img src = "./../pix/tile/tile_rand_1_brd_lbl.png" alt = "ds4psy: (1) R basics" align = "right" style = "height: 125px; border:0"/>
 
 # Basic R Concepts and Commands
 
 ## Orientation
 
+<!-- Orientation clock 01: -->
 <img src = "./../pix/toc/m_clock_1.png" alt = "ds4psy clock: (1) R basics" align = "right" style = "width: 250px; height: 250px; border:0"/>
 
 This chapter contains a brief introduction into basic concepts and commands when learning R (with examples, code outputs, exercises, and solutions).  
@@ -861,10 +863,10 @@ When analyzing a data file from a remote source, it's crucial to also obtain a d
 We will examine these variables in **Exercise 6** (below).
 
 
-# Exercises (WPA01)
+# Exercises (WPA01) with Solutions
 
 <!-- Exercise Solutions 01: -->
-<img src = "./../pix/pole/pole_sort_1_brd_lbl.png" alt = "ds4psy: Solutions 1" align = "right" style = "height: 100px; border:0"/>
+<img src = "./../pix/pole/pole_sort_1_brd_lbl.png" alt = "ds4psy: Solutions 1" align = "right" style = "height: 125px; border:0"/>
 
 The following exercises are your first weekly programming assignment (**WPA01**).  
 Please submit your solutions (as an `.R` or `.Rmd` script that is named `LastFirstname_WPA01.R`) into the corresponding folder on [Ilias](https://ilias.uni-konstanz.de/ilias/goto_ilias_uni_crs_863036.html) by **Thursday, May 2nd, 2019**. 
@@ -1021,9 +1023,9 @@ x %% y       # yields the remainder of integer division
 
 Assume the following definitions for a survey: 
 
-- A person with an age from 1 to 17 years is classified as a _minor_,  
+- A person with an age from 1 to 17 years is classified as a _minor_, 
 - a person with an age from 18 to 64 years is classified as an _adult_, 
-- a person with an age from 65 to 99 years is classified as a _senior_.
+- a person with an age from 65 to 99 years is classified as a _senior_. 
 
 Generate a vector with 100 random samples that specifies the `age` of 100 people (in years), but contains exactly 20 minors, 50 adults, and 30 seniors. 
 
@@ -1042,12 +1044,12 @@ minor_range  <-  1:17
 adult_range  <- 18:64
 senior_range <- 64:99
 
-# Creating 3 vectors:
+# Creating 3 vectors (1 for each sub-group):
 minors  <- sample(minor_range, 20, replace = TRUE)
 adults  <- sample(adult_range, 50, replace = TRUE)
 seniors <- sample(senior_range, 30, replace = TRUE)
 
-# Combining 3 vectors:
+# Combining 3 vectors into 1:
 age <- c(minors, adults, seniors)
 age
 
@@ -1058,6 +1060,7 @@ max(age)
 range(age)
 mean(age)
 
+# Using indexing: 
 # How many people are younger than 25 years? 
 length(age[age < 25])
 
