@@ -63,7 +63,7 @@ All [ds4psy](http://rpository.com/ds4psy/) essentials so far:
 
 <!-- ds4psy logo 1: -->
 <a href="http://rpository.com/ds4psy/">
-<img src = "./../pix/logo/logo_200_bwg.png" alt = "ds4psy" width = "110px" align = "right" style = "width: 150px; float: right; border:11;"/>
+<img src = "./../images/logo/logo_200_bwg.png" alt = "ds4psy" width = "110px" align = "right" style = "width: 150px; float: right; border:11;"/>
 </a>
 
 Nr. | Topic       |
@@ -157,14 +157,14 @@ library(tidyverse)
 ```
 
 <!-- Session 01: -->
-<img src = "./../pix/tile/tile_rand_1_brd_lbl.png" alt = "ds4psy: (1) R basics" align = "right" style = "height: 125px; border:0"/>
+<img src = "./../images/tile/tile_rand_1_brd_lbl.png" alt = "ds4psy: (1) R basics" align = "right" style = "height: 125px; border:0"/>
 
 # Basic R Concepts and Commands
 
 ## Orientation
 
 <!-- Orientation clock 01: -->
-<img src = "./../pix/toc/m_clock_1.png" alt = "ds4psy clock: (1) R basics" align = "right" style = "width: 250px; height: 250px; border:0"/>
+<img src = "./../images/toc/m_clock_1.png" alt = "ds4psy clock: (1) R basics" align = "right" style = "width: 250px; height: 250px; border:0"/>
 
 This chapter contains a brief introduction into basic concepts and commands when learning R (with examples, code outputs, exercises, and solutions).  
 <!-- This chapter contains a brief introduction into basic concepts and commands when learning R (with examples and exercises). -->  
@@ -866,7 +866,7 @@ We will examine these variables in **Exercise 6** (below).
 # Exercises (WPA01) with Solutions
 
 <!-- Exercise Solutions 01: -->
-<img src = "./../pix/pole/pole_sort_1_brd_lbl.png" alt = "ds4psy: Solutions 1" align = "right" style = "height: 125px; border:0"/>
+<img src = "./../images/pole/pole_sort_1_brd_lbl.png" alt = "ds4psy: Solutions 1" align = "right" style = "height: 125px; border:0"/>
 
 The following exercises are your first weekly programming assignment (**WPA01**).  
 Please submit your solutions (as an `.R` or `.Rmd` script that is named `LastFirstname_WPA01.R`) into the corresponding folder on [Ilias](https://ilias.uni-konstanz.de/ilias/goto_ilias_uni_crs_863036.html) by **Thursday, May 2nd, 2019**. 
@@ -1175,7 +1175,7 @@ All [ds4psy](http://rpository.com/ds4psy/) essentials so far:
 
 <!-- ds4psy logo 1: -->
 <a href="http://rpository.com/ds4psy/">
-<img src = "./../pix/logo/logo_200_bwg.png" alt = "ds4psy" width = "110px" align = "right" style = "width: 150px; float: right; border:11;"/>
+<img src = "./../images/logo/logo_200_bwg.png" alt = "ds4psy" width = "110px" align = "right" style = "width: 150px; float: right; border:11;"/>
 </a>
 
 Nr. | Topic       |

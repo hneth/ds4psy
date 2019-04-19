@@ -27,10 +27,10 @@ opts_knit$set(width=75)
 # Course Coordinates
 
 <!-- uni.kn logo and link to SPDS: -->  
-<!-- ![](./inst/pix/uniKn_logo.png) --> 
+<!-- ![](./inst/images/uniKn_logo.png) --> 
 <a href="https://www.spds.uni-konstanz.de/">
-<img src = "./inst/pix/uniKn_logo.png" alt = "spds.uni.kn" align = "right" width = "300" style = "width: 300px; float: right; border:20;"/>
-<!-- <img src = "./inst/pix/uniKn_logo_s.png" alt = "spds.uni.kn" style = "float: right; border:20;"/> --> 
+<img src = "./inst/images/uniKn_logo.png" alt = "spds.uni.kn" align = "right" width = "300" style = "width: 300px; float: right; border:20;"/>
+<!-- <img src = "./inst/images/uniKn_logo_s.png" alt = "spds.uni.kn" style = "float: right; border:20;"/> --> 
 </a>
 
 * PSY-15150, at the [University of Konstanz](https://www.uni-konstanz.de/) by [Hansjörg Neth](http://neth.de/) (<h.neth@uni.kn>,  [SPDS](https://www.spds.uni-konstanz.de/), office D507).
@@ -43,7 +43,7 @@ opts_knit$set(width=75)
 
 <!-- ds4psy logo 1: -->
 <a href="http://rpository.com/ds4psy/">
-<img src = "./pix/logo/logo_200_bwg.png" alt = "ds4psy" width = "110px" align = "right" style = "width: 150px; float: right; border:11;"/>
+<img src = "./images/logo/logo_200_bwg.png" alt = "ds4psy" width = "110px" align = "right" style = "width: 150px; float: right; border:11;"/>
 </a>
 
 <!-- New abstract: 2019-02-06 --> 
@@ -78,8 +78,8 @@ While there are many good introductions to data science (we use [Grolemund & Wic
 ## Goals
 
 <!-- Image: random tiles -->
-<!-- ![](./pix/tile_rand_10_brd.png) -->
-<img src = "./pix/tile/tile_rand_10_brd.png" alt = "ds4psy" style = "width: 180px; float: right; border:0;"/>
+<!-- ![](./images/tile_rand_10_brd.png) -->
+<img src = "./images/tile/tile_rand_10_brd.png" alt = "ds4psy" style = "width: 180px; float: right; border:0;"/>
 
 Our main goal is to develop a set of useful skills in analyzing real-world data and conducting reproducible research. Upon completing this course, you will be able to read, transform, analyze, and visualize data of various types. Many interactive exercises will allow students to check their understanding, monitor their progress, and practice their skills.
 
@@ -106,8 +106,8 @@ Final grades are based on your solutions to WPAs (A: 33%) and your final exam/pr
 ## Individual sessions, dates, and topics
 
 <!-- Image: sorted tiles -->
-<!-- ![](./pix/tile/tile_sort_10_brd.png) -->
-<img src = "./pix/tile/tile_sort_10_brd.png" alt = "ds4psy" style = "width: 180px; float: right; border:0;"/> 
+<!-- ![](./images/tile/tile_sort_10_brd.png) -->
+<img src = "./images/tile/tile_sort_10_brd.png" alt = "ds4psy" style = "width: 180px; float: right; border:0;"/> 
 
 <!-- 
 
@@ -155,7 +155,7 @@ Part 2: Wrangle
 
 -->
 
-<!-- <img src = "./pix/toc/toc_centrality.png" alt = "ds4psy: ToC centrality" align = "center" style = "width: 500px; height: 500px; border:0"/> -->
+<!-- <img src = "./images/toc/toc_centrality.png" alt = "ds4psy: ToC centrality" align = "center" style = "width: 500px; height: 500px; border:0"/> -->
 
 
  **Part 0: Preambulations**
@@ -226,9 +226,9 @@ Part 2: Wrangle
 
 The following diagrams provide a schematic overview of our course curriculum (and display the same information in 2 different ways):  
 
-<img src = "./pix/toc/toc_centrality.png" alt = "ds4psy: ToC centrality" align = "right" style = "width: 250px; border:0"/>
+<img src = "./images/toc/toc_centrality.png" alt = "ds4psy: ToC centrality" align = "right" style = "width: 250px; border:0"/>
  
-<img src = "./pix/toc/toc_relevance.png" alt = "ds4psy: ToC relevance" style = "width: 250px; border:0"/>
+<img src = "./images/toc/toc_relevance.png" alt = "ds4psy: ToC relevance" style = "width: 250px; border:0"/>
 
 
 
@@ -237,8 +237,8 @@ The following diagrams provide a schematic overview of our course curriculum (an
 <!-- All [ds4psy](http://rpository.com/ds4psy/) essentials so far: -->
 
 <!-- Image: sorted tiles -->
-<!-- ![](./pix/tile/tile_sort_10_brd.png) -->
-<!-- <img src = "./pix/tile/tile_sort_10_brd.png" alt = "ds4psy" style = "width: 180px; float: right; border:0;"/> --> 
+<!-- ![](./images/tile/tile_sort_10_brd.png) -->
+<!-- <img src = "./images/tile/tile_sort_10_brd.png" alt = "ds4psy" style = "width: 180px; float: right; border:0;"/> --> 
 
 <!--
 Nr. | Topic       |
@@ -299,8 +299,8 @@ This section contains some clarifications (on the term "data science") and recom
 ## What is data science? 
 
 <!-- Image: random polar -->
-<!-- ![](./pix/pole/pole_rand_12.png) -->
-<img src = "./pix/pole/pole_rand_12.png" alt = "ds4psy" style = "width: 180px; float: right; border:0;"/>
+<!-- ![](./images/pole/pole_rand_12.png) -->
+<img src = "./images/pole/pole_rand_12.png" alt = "ds4psy" style = "width: 180px; float: right; border:0;"/>
 
 
 <!-- Quotes --> 
@@ -352,8 +352,8 @@ This course assumes that you are motivated to learn its material and willing and
 ### Succeeding in this course
 
 <!-- Image: sorted polar -->
-<!-- ![](./pix/pole/pole_sort_12.png) -->
-<img src = "./pix/pole/pole_sort_12.png" alt = "ds4psy" style = "width: 180px; float: right; border:0;"/>
+<!-- ![](./images/pole/pole_sort_12.png) -->
+<img src = "./images/pole/pole_sort_12.png" alt = "ds4psy" style = "width: 180px; float: right; border:0;"/>
 
 The main ingredient for succeeding in this course is sustained focus and a keen attention to detail, as aptly summarized by the following quote: 
 
@@ -405,12 +405,12 @@ Beware of side effects: Becoming an R user (useR?) will profoundly transform you
 All [ds4psy](http://rpository.com/ds4psy/) essentials so far:
 
 <!-- Image: sorted tiles -->
-<!-- ![](./pix/tile/tile_sort_10_brd.png) -->
-<!-- <img src = "./pix/tile/tile_sort_10_brd.png" alt = "ds4psy" style = "width: 180px; float: right; border:0;"/> -->
+<!-- ![](./images/tile/tile_sort_10_brd.png) -->
+<!-- <img src = "./images/tile/tile_sort_10_brd.png" alt = "ds4psy" style = "width: 180px; float: right; border:0;"/> -->
 
 <!-- ds4psy logo 2: -->
 <a href="http://rpository.com/ds4psy/">
-<img src = "./pix/logo/ds4psy_150_left.png" alt = "ds4psy" width = "110px" align = "right" style = "width: 150px; float: right; border:11;"/> 
+<img src = "./images/logo/ds4psy_150_left.png" alt = "ds4psy" width = "110px" align = "right" style = "width: 150px; float: right; border:11;"/> 
 </a>
 
 
@@ -562,8 +562,8 @@ Sebastopol, Canada: O'Reilly Media, Inc.  [Available online at [http://r4ds.had.
 -->
 
 <!-- Image: Waves -->
-<!-- ![](./pix/wave/waves_4.png) -->
-<img src = "./pix/wave/waves_4.png" alt = "ds4psy" style = "width: 400px; float: right; border:0;"/>
+<!-- ![](./images/wave/waves_4.png) -->
+<img src = "./images/wave/waves_4.png" alt = "ds4psy" style = "width: 400px; float: right; border:0;"/>
 
 [This file last updated on `r Sys.time()` by [hn](http://neth.de/).]
 

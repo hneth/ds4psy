@@ -48,7 +48,7 @@ opts_knit$set(width = 75)
 source(file = "~/Desktop/stuff/Dropbox/_code/R/_teachR/ds4psy/R/custom_functions.R")
 
 # Define some paths: ------
-pic_path <- "./../pix/"
+pic_path <- "./../images/"
 plot_out <- pic_path 
 
 # plotting parameters: 
@@ -57,16 +57,16 @@ opar <- par(no.readonly = TRUE)  # all par settings that can be changed.
 
 <!-- ds4psy logo and link: -->
 <a href="http://rpository.com/ds4psy/">
-<img src = "./../pix/logo/logo_4grau3_white.png" alt = "ds4psy" style = "width: 100px; float: right; border:0;"/>
+<img src = "./../images/logo/logo_4grau3_white.png" alt = "ds4psy" style = "width: 100px; float: right; border:0;"/>
 </a>
 
 # Course Coordinates
 
 <!-- uni.kn logo, but link to SPDS: -->  
-<!-- ![](./inst/pix/uniKn_logo.png) --> 
+<!-- ![](./inst/images/uniKn_logo.png) --> 
 <a href="https://www.spds.uni-konstanz.de/">
-<img src = "./../inst/pix/uniKn_logo.png" alt = "spds.uni.kn" style = "width: 300px; float: right; border:20;"/>
-<!-- <img src = "./../inst/pix/uniKn_logo_s.png" alt = "spds.uni.kn" style = "float: right; border:20;"/> --> 
+<img src = "./../inst/images/uniKn_logo.png" alt = "spds.uni.kn" style = "width: 300px; float: right; border:20;"/>
+<!-- <img src = "./../inst/images/uniKn_logo_s.png" alt = "spds.uni.kn" style = "float: right; border:20;"/> --> 
 </a>
 
 * Taught at the [University of Konstanz](https://www.uni-konstanz.de/) by [Hansjörg Neth](http://neth.de/) (<h.neth@uni.kn>,  [SPDS](https://www.spds.uni-konstanz.de/), office D507). 
@@ -84,15 +84,15 @@ Overview over generated plots:
 
 Different ds4psy logo options (created in pkg `rtwrk`):
 
-<img src = "./../pix/logo/logo_4grau3_white.png"  alt = "ds4psy" style = "border:0;"/>
+<img src = "./../images/logo/logo_4grau3_white.png"  alt = "ds4psy" style = "border:0;"/>
 
-<img src = "./../pix/logo/logo_4grau3_Swhite.png" alt = "ds4psy" style = "border:0;"/>
+<img src = "./../images/logo/logo_4grau3_Swhite.png" alt = "ds4psy" style = "border:0;"/>
 
-<img src = "./../pix/logo/logo_4grau3_Sblack.png" alt = "ds4psy" style = "border:0;"/>
+<img src = "./../images/logo/logo_4grau3_Sblack.png" alt = "ds4psy" style = "border:0;"/>
 
-<img src = "./../pix/logo/logo_4black_Swhite.png" alt = "ds4psy" style = "border:0;"/>
+<img src = "./../images/logo/logo_4black_Swhite.png" alt = "ds4psy" style = "border:0;"/>
 
-<img src = "./../pix/logo/logo_4black_Sblack.png" alt = "ds4psy" style = "border:0;"/>
+<img src = "./../images/logo/logo_4black_Sblack.png" alt = "ds4psy" style = "border:0;"/>
 
 
 ## Tiles
@@ -101,62 +101,62 @@ Showing the versions _with_ borders:
 
 ### Tile plots (random)
 
-<img src = "./../pix/tile/tile_rand_1_brd.png"  alt = "ds4psy" style = "height: 100px; border:0;"/>
-<img src = "./../pix/tile/tile_rand_2_brd.png"  alt = "ds4psy" style = "height: 100px; border:0;"/>
-<img src = "./../pix/tile/tile_rand_3_brd.png"  alt = "ds4psy" style = "height: 100px; border:0;"/>
-<img src = "./../pix/tile/tile_rand_4_brd.png"  alt = "ds4psy" style = "height: 100px; border:0;"/>
-<img src = "./../pix/tile/tile_rand_5_brd.png"  alt = "ds4psy" style = "height: 100px; border:0;"/>
+<img src = "./../images/tile/tile_rand_1_brd.png"  alt = "ds4psy" style = "height: 100px; border:0;"/>
+<img src = "./../images/tile/tile_rand_2_brd.png"  alt = "ds4psy" style = "height: 100px; border:0;"/>
+<img src = "./../images/tile/tile_rand_3_brd.png"  alt = "ds4psy" style = "height: 100px; border:0;"/>
+<img src = "./../images/tile/tile_rand_4_brd.png"  alt = "ds4psy" style = "height: 100px; border:0;"/>
+<img src = "./../images/tile/tile_rand_5_brd.png"  alt = "ds4psy" style = "height: 100px; border:0;"/>
 
-<img src = "./../pix/tile/tile_rand_6_brd.png"  alt = "ds4psy" style = "height: 100px; border:0;"/>
-<img src = "./../pix/tile/tile_rand_7_brd.png"  alt = "ds4psy" style = "height: 100px; border:0;"/>
-<img src = "./../pix/tile/tile_rand_8_brd.png"  alt = "ds4psy" style = "height: 100px; border:0;"/>
-<img src = "./../pix/tile/tile_rand_9_brd.png"  alt = "ds4psy" style = "height: 100px; border:0;"/>
-<img src = "./../pix/tile/tile_rand_10_brd.png" alt = "ds4psy" style = "height: 100px; border:0;"/>
+<img src = "./../images/tile/tile_rand_6_brd.png"  alt = "ds4psy" style = "height: 100px; border:0;"/>
+<img src = "./../images/tile/tile_rand_7_brd.png"  alt = "ds4psy" style = "height: 100px; border:0;"/>
+<img src = "./../images/tile/tile_rand_8_brd.png"  alt = "ds4psy" style = "height: 100px; border:0;"/>
+<img src = "./../images/tile/tile_rand_9_brd.png"  alt = "ds4psy" style = "height: 100px; border:0;"/>
+<img src = "./../images/tile/tile_rand_10_brd.png" alt = "ds4psy" style = "height: 100px; border:0;"/>
 
 ### Tile plots (sorted)
 
-<img src = "./../pix/tile/tile_sort_1_brd.png"  alt = "ds4psy" style = "height: 100px; border:0;"/>
-<img src = "./../pix/tile/tile_sort_2_brd.png"  alt = "ds4psy" style = "height: 100px; border:0;"/>
-<img src = "./../pix/tile/tile_sort_3_brd.png"  alt = "ds4psy" style = "height: 100px; border:0;"/>
-<img src = "./../pix/tile/tile_sort_4_brd.png"  alt = "ds4psy" style = "height: 100px; border:0;"/>
-<img src = "./../pix/tile/tile_sort_5_brd.png"  alt = "ds4psy" style = "height: 100px; border:0;"/>
+<img src = "./../images/tile/tile_sort_1_brd.png"  alt = "ds4psy" style = "height: 100px; border:0;"/>
+<img src = "./../images/tile/tile_sort_2_brd.png"  alt = "ds4psy" style = "height: 100px; border:0;"/>
+<img src = "./../images/tile/tile_sort_3_brd.png"  alt = "ds4psy" style = "height: 100px; border:0;"/>
+<img src = "./../images/tile/tile_sort_4_brd.png"  alt = "ds4psy" style = "height: 100px; border:0;"/>
+<img src = "./../images/tile/tile_sort_5_brd.png"  alt = "ds4psy" style = "height: 100px; border:0;"/>
 
-<img src = "./../pix/tile/tile_sort_6_brd.png"  alt = "ds4psy" style = "height: 100px; border:0;"/>
-<img src = "./../pix/tile/tile_sort_7_brd.png"  alt = "ds4psy" style = "height: 100px; border:0;"/>
-<img src = "./../pix/tile/tile_sort_8_brd.png"  alt = "ds4psy" style = "height: 100px; border:0;"/>
-<img src = "./../pix/tile/tile_sort_9_brd.png"  alt = "ds4psy" style = "height: 100px; border:0;"/>
-<img src = "./../pix/tile/tile_sort_10_brd.png" alt = "ds4psy" style = "height: 100px; border:0;"/>
+<img src = "./../images/tile/tile_sort_6_brd.png"  alt = "ds4psy" style = "height: 100px; border:0;"/>
+<img src = "./../images/tile/tile_sort_7_brd.png"  alt = "ds4psy" style = "height: 100px; border:0;"/>
+<img src = "./../images/tile/tile_sort_8_brd.png"  alt = "ds4psy" style = "height: 100px; border:0;"/>
+<img src = "./../images/tile/tile_sort_9_brd.png"  alt = "ds4psy" style = "height: 100px; border:0;"/>
+<img src = "./../images/tile/tile_sort_10_brd.png" alt = "ds4psy" style = "height: 100px; border:0;"/>
 
 
 ### Tile plots (with borders and numeric labels)
 
 Random versions:
 
-<img src = "./../pix/tile/tile_rand_1_brd_lbl.png"   alt = "ds4psy" style = "height: 150px; border:0;"/>
-<img src = "./../pix/tile/tile_rand_2_brd_lbl.png"   alt = "ds4psy" style = "height: 150px; border:0;"/>
-<img src = "./../pix/tile/tile_rand_3_brd_lbl.png"   alt = "ds4psy" style = "height: 150px; border:0;"/>
-<img src = "./../pix/tile/tile_rand_4_brd_lbl.png"   alt = "ds4psy" style = "height: 150px; border:0;"/>
-<img src = "./../pix/tile/tile_rand_5_brd_lbl.png"   alt = "ds4psy" style = "height: 150px; border:0;"/>
-<img src = "./../pix/tile/tile_rand_6_brd_lbl.png"   alt = "ds4psy" style = "height: 150px; border:0;"/>
-<img src = "./../pix/tile/tile_rand_7_brd_lbl.png"   alt = "ds4psy" style = "height: 150px; border:0;"/>
-<img src = "./../pix/tile/tile_rand_8_brd_lbl.png"   alt = "ds4psy" style = "height: 150px; border:0;"/>
-<img src = "./../pix/tile/tile_rand_10_brd_lbl.png"  alt = "ds4psy" style = "height: 150px; border:0;"/>
-<img src = "./../pix/tile/tile_rand_12_brd_lbl.png"  alt = "ds4psy" style = "height: 150px; border:0;"/>
-<img src = "./../pix/tile/tile_rand_15_brd_lbl.png"  alt = "ds4psy" style = "height: 150px; border:0;"/>
+<img src = "./../images/tile/tile_rand_1_brd_lbl.png"   alt = "ds4psy" style = "height: 150px; border:0;"/>
+<img src = "./../images/tile/tile_rand_2_brd_lbl.png"   alt = "ds4psy" style = "height: 150px; border:0;"/>
+<img src = "./../images/tile/tile_rand_3_brd_lbl.png"   alt = "ds4psy" style = "height: 150px; border:0;"/>
+<img src = "./../images/tile/tile_rand_4_brd_lbl.png"   alt = "ds4psy" style = "height: 150px; border:0;"/>
+<img src = "./../images/tile/tile_rand_5_brd_lbl.png"   alt = "ds4psy" style = "height: 150px; border:0;"/>
+<img src = "./../images/tile/tile_rand_6_brd_lbl.png"   alt = "ds4psy" style = "height: 150px; border:0;"/>
+<img src = "./../images/tile/tile_rand_7_brd_lbl.png"   alt = "ds4psy" style = "height: 150px; border:0;"/>
+<img src = "./../images/tile/tile_rand_8_brd_lbl.png"   alt = "ds4psy" style = "height: 150px; border:0;"/>
+<img src = "./../images/tile/tile_rand_10_brd_lbl.png"  alt = "ds4psy" style = "height: 150px; border:0;"/>
+<img src = "./../images/tile/tile_rand_12_brd_lbl.png"  alt = "ds4psy" style = "height: 150px; border:0;"/>
+<img src = "./../images/tile/tile_rand_15_brd_lbl.png"  alt = "ds4psy" style = "height: 150px; border:0;"/>
 
 Sorted versions:
 
-<img src = "./../pix/tile/tile_sort_1_brd_lbl.png"   alt = "ds4psy" style = "height: 150px; border:0;"/>
-<img src = "./../pix/tile/tile_sort_2_brd_lbl.png"   alt = "ds4psy" style = "height: 150px; border:0;"/>
-<img src = "./../pix/tile/tile_sort_3_brd_lbl.png"   alt = "ds4psy" style = "height: 150px; border:0;"/>
-<img src = "./../pix/tile/tile_sort_4_brd_lbl.png"   alt = "ds4psy" style = "height: 150px; border:0;"/>
-<img src = "./../pix/tile/tile_sort_5_brd_lbl.png"   alt = "ds4psy" style = "height: 150px; border:0;"/>
-<img src = "./../pix/tile/tile_sort_6_brd_lbl.png"   alt = "ds4psy" style = "height: 150px; border:0;"/>
-<img src = "./../pix/tile/tile_sort_7_brd_lbl.png"   alt = "ds4psy" style = "height: 150px; border:0;"/>
-<img src = "./../pix/tile/tile_sort_8_brd_lbl.png"   alt = "ds4psy" style = "height: 150px; border:0;"/>
-<img src = "./../pix/tile/tile_sort_10_brd_lbl.png"  alt = "ds4psy" style = "height: 150px; border:0;"/>
-<img src = "./../pix/tile/tile_sort_12_brd_lbl.png"  alt = "ds4psy" style = "height: 150px; border:0;"/>
-<img src = "./../pix/tile/tile_sort_15_brd_lbl.png"  alt = "ds4psy" style = "height: 150px; border:0;"/>
+<img src = "./../images/tile/tile_sort_1_brd_lbl.png"   alt = "ds4psy" style = "height: 150px; border:0;"/>
+<img src = "./../images/tile/tile_sort_2_brd_lbl.png"   alt = "ds4psy" style = "height: 150px; border:0;"/>
+<img src = "./../images/tile/tile_sort_3_brd_lbl.png"   alt = "ds4psy" style = "height: 150px; border:0;"/>
+<img src = "./../images/tile/tile_sort_4_brd_lbl.png"   alt = "ds4psy" style = "height: 150px; border:0;"/>
+<img src = "./../images/tile/tile_sort_5_brd_lbl.png"   alt = "ds4psy" style = "height: 150px; border:0;"/>
+<img src = "./../images/tile/tile_sort_6_brd_lbl.png"   alt = "ds4psy" style = "height: 150px; border:0;"/>
+<img src = "./../images/tile/tile_sort_7_brd_lbl.png"   alt = "ds4psy" style = "height: 150px; border:0;"/>
+<img src = "./../images/tile/tile_sort_8_brd_lbl.png"   alt = "ds4psy" style = "height: 150px; border:0;"/>
+<img src = "./../images/tile/tile_sort_10_brd_lbl.png"  alt = "ds4psy" style = "height: 150px; border:0;"/>
+<img src = "./../images/tile/tile_sort_12_brd_lbl.png"  alt = "ds4psy" style = "height: 150px; border:0;"/>
+<img src = "./../images/tile/tile_sort_15_brd_lbl.png"  alt = "ds4psy" style = "height: 150px; border:0;"/>
 
 ## Poles
 
@@ -164,57 +164,57 @@ Showing the versions _without_ borders:
 
 ### Pole plots (random)
 
-<img src = "./../pix/pole/pole_rand_1.png"   alt = "ds4psy" style = "height: 100px; border:0;"/>
-<img src = "./../pix/pole/pole_rand_2.png"   alt = "ds4psy" style = "height: 100px; border:0;"/>
-<img src = "./../pix/pole/pole_rand_3.png"   alt = "ds4psy" style = "height: 100px; border:0;"/>
-<img src = "./../pix/pole/pole_rand_4.png"   alt = "ds4psy" style = "height: 100px; border:0;"/>
-<img src = "./../pix/pole/pole_rand_5.png"   alt = "ds4psy" style = "height: 100px; border:0;"/>
+<img src = "./../images/pole/pole_rand_1.png"   alt = "ds4psy" style = "height: 100px; border:0;"/>
+<img src = "./../images/pole/pole_rand_2.png"   alt = "ds4psy" style = "height: 100px; border:0;"/>
+<img src = "./../images/pole/pole_rand_3.png"   alt = "ds4psy" style = "height: 100px; border:0;"/>
+<img src = "./../images/pole/pole_rand_4.png"   alt = "ds4psy" style = "height: 100px; border:0;"/>
+<img src = "./../images/pole/pole_rand_5.png"   alt = "ds4psy" style = "height: 100px; border:0;"/>
 
-<img src = "./../pix/pole/pole_rand_6.png"   alt = "ds4psy" style = "height: 100px; border:0;"/>
-<img src = "./../pix/pole/pole_rand_7.png"   alt = "ds4psy" style = "height: 100px; border:0;"/>
-<img src = "./../pix/pole/pole_rand_8.png"   alt = "ds4psy" style = "height: 100px; border:0;"/>
-<img src = "./../pix/pole/pole_rand_9.png"   alt = "ds4psy" style = "height: 100px; border:0;"/>
-<img src = "./../pix/pole/pole_rand_10.png"  alt = "ds4psy" style = "height: 100px; border:0;"/>
+<img src = "./../images/pole/pole_rand_6.png"   alt = "ds4psy" style = "height: 100px; border:0;"/>
+<img src = "./../images/pole/pole_rand_7.png"   alt = "ds4psy" style = "height: 100px; border:0;"/>
+<img src = "./../images/pole/pole_rand_8.png"   alt = "ds4psy" style = "height: 100px; border:0;"/>
+<img src = "./../images/pole/pole_rand_9.png"   alt = "ds4psy" style = "height: 100px; border:0;"/>
+<img src = "./../images/pole/pole_rand_10.png"  alt = "ds4psy" style = "height: 100px; border:0;"/>
 
 ### Pole plots (sorted)
 
-<img src = "./../pix/pole/pole_sort_1.png"  alt = "ds4psy" style = "height: 100px; border:0;"/>
-<img src = "./../pix/pole/pole_sort_2.png"  alt = "ds4psy" style = "height: 100px; border:0;"/>
-<img src = "./../pix/pole/pole_sort_3.png"  alt = "ds4psy" style = "height: 100px; border:0;"/>
-<img src = "./../pix/pole/pole_sort_4.png"  alt = "ds4psy" style = "height: 100px; border:0;"/>
-<img src = "./../pix/pole/pole_sort_5.png"  alt = "ds4psy" style = "height: 100px; border:0;"/>
+<img src = "./../images/pole/pole_sort_1.png"  alt = "ds4psy" style = "height: 100px; border:0;"/>
+<img src = "./../images/pole/pole_sort_2.png"  alt = "ds4psy" style = "height: 100px; border:0;"/>
+<img src = "./../images/pole/pole_sort_3.png"  alt = "ds4psy" style = "height: 100px; border:0;"/>
+<img src = "./../images/pole/pole_sort_4.png"  alt = "ds4psy" style = "height: 100px; border:0;"/>
+<img src = "./../images/pole/pole_sort_5.png"  alt = "ds4psy" style = "height: 100px; border:0;"/>
 
-<img src = "./../pix/pole/pole_sort_6.png"  alt = "ds4psy" style = "height: 100px; border:0;"/>
-<img src = "./../pix/pole/pole_sort_7.png"  alt = "ds4psy" style = "height: 100px; border:0;"/>
-<img src = "./../pix/pole/pole_sort_8.png"  alt = "ds4psy" style = "height: 100px; border:0;"/>
-<img src = "./../pix/pole/pole_sort_9.png"  alt = "ds4psy" style = "height: 100px; border:0;"/>
-<img src = "./../pix/pole/pole_sort_10.png" alt = "ds4psy" style = "height: 100px; border:0;"/>
+<img src = "./../images/pole/pole_sort_6.png"  alt = "ds4psy" style = "height: 100px; border:0;"/>
+<img src = "./../images/pole/pole_sort_7.png"  alt = "ds4psy" style = "height: 100px; border:0;"/>
+<img src = "./../images/pole/pole_sort_8.png"  alt = "ds4psy" style = "height: 100px; border:0;"/>
+<img src = "./../images/pole/pole_sort_9.png"  alt = "ds4psy" style = "height: 100px; border:0;"/>
+<img src = "./../images/pole/pole_sort_10.png" alt = "ds4psy" style = "height: 100px; border:0;"/>
 
 ### Pole plots (with borders and numeric labels)
 
 Random versions:
 
-<img src = "./../pix/pole/pole_rand_1_brd_lbl.png"   alt = "ds4psy" style = "height: 160px; border:0;"/>
-<img src = "./../pix/pole/pole_rand_2_brd_lbl.png"   alt = "ds4psy" style = "height: 160px; border:0;"/>
-<img src = "./../pix/pole/pole_rand_3_brd_lbl.png"   alt = "ds4psy" style = "height: 160px; border:0;"/>
-<img src = "./../pix/pole/pole_rand_4_brd_lbl.png"   alt = "ds4psy" style = "height: 160px; border:0;"/>
-<img src = "./../pix/pole/pole_rand_5_brd_lbl.png"   alt = "ds4psy" style = "height: 160px; border:0;"/>
-<img src = "./../pix/pole/pole_rand_8_brd_lbl.png"   alt = "ds4psy" style = "height: 160px; border:0;"/>
-<img src = "./../pix/pole/pole_rand_10_brd_lbl.png"  alt = "ds4psy" style = "height: 160px; border:0;"/>
-<img src = "./../pix/pole/pole_rand_12_brd_lbl.png"  alt = "ds4psy" style = "height: 160px; border:0;"/>
-<img src = "./../pix/pole/pole_rand_15_brd_lbl.png"  alt = "ds4psy" style = "height: 160px; border:0;"/>
+<img src = "./../images/pole/pole_rand_1_brd_lbl.png"   alt = "ds4psy" style = "height: 160px; border:0;"/>
+<img src = "./../images/pole/pole_rand_2_brd_lbl.png"   alt = "ds4psy" style = "height: 160px; border:0;"/>
+<img src = "./../images/pole/pole_rand_3_brd_lbl.png"   alt = "ds4psy" style = "height: 160px; border:0;"/>
+<img src = "./../images/pole/pole_rand_4_brd_lbl.png"   alt = "ds4psy" style = "height: 160px; border:0;"/>
+<img src = "./../images/pole/pole_rand_5_brd_lbl.png"   alt = "ds4psy" style = "height: 160px; border:0;"/>
+<img src = "./../images/pole/pole_rand_8_brd_lbl.png"   alt = "ds4psy" style = "height: 160px; border:0;"/>
+<img src = "./../images/pole/pole_rand_10_brd_lbl.png"  alt = "ds4psy" style = "height: 160px; border:0;"/>
+<img src = "./../images/pole/pole_rand_12_brd_lbl.png"  alt = "ds4psy" style = "height: 160px; border:0;"/>
+<img src = "./../images/pole/pole_rand_15_brd_lbl.png"  alt = "ds4psy" style = "height: 160px; border:0;"/>
 
 Sorted versions:
 
-<img src = "./../pix/pole/pole_sort_1_brd_lbl.png"   alt = "ds4psy" style = "height: 160px; border:0;"/>
-<img src = "./../pix/pole/pole_sort_2_brd_lbl.png"   alt = "ds4psy" style = "height: 160px; border:0;"/>
-<img src = "./../pix/pole/pole_sort_3_brd_lbl.png"   alt = "ds4psy" style = "height: 160px; border:0;"/>
-<img src = "./../pix/pole/pole_sort_4_brd_lbl.png"   alt = "ds4psy" style = "height: 160px; border:0;"/>
-<img src = "./../pix/pole/pole_sort_5_brd_lbl.png"   alt = "ds4psy" style = "height: 160px; border:0;"/>
-<img src = "./../pix/pole/pole_sort_8_brd_lbl.png"   alt = "ds4psy" style = "height: 160px; border:0;"/>
-<img src = "./../pix/pole/pole_sort_10_brd_lbl.png"  alt = "ds4psy" style = "height: 160px; border:0;"/>
-<img src = "./../pix/pole/pole_sort_12_brd_lbl.png"  alt = "ds4psy" style = "height: 160px; border:0;"/>
-<img src = "./../pix/pole/pole_sort_15_brd_lbl.png"  alt = "ds4psy" style = "height: 160px; border:0;"/>
+<img src = "./../images/pole/pole_sort_1_brd_lbl.png"   alt = "ds4psy" style = "height: 160px; border:0;"/>
+<img src = "./../images/pole/pole_sort_2_brd_lbl.png"   alt = "ds4psy" style = "height: 160px; border:0;"/>
+<img src = "./../images/pole/pole_sort_3_brd_lbl.png"   alt = "ds4psy" style = "height: 160px; border:0;"/>
+<img src = "./../images/pole/pole_sort_4_brd_lbl.png"   alt = "ds4psy" style = "height: 160px; border:0;"/>
+<img src = "./../images/pole/pole_sort_5_brd_lbl.png"   alt = "ds4psy" style = "height: 160px; border:0;"/>
+<img src = "./../images/pole/pole_sort_8_brd_lbl.png"   alt = "ds4psy" style = "height: 160px; border:0;"/>
+<img src = "./../images/pole/pole_sort_10_brd_lbl.png"  alt = "ds4psy" style = "height: 160px; border:0;"/>
+<img src = "./../images/pole/pole_sort_12_brd_lbl.png"  alt = "ds4psy" style = "height: 160px; border:0;"/>
+<img src = "./../images/pole/pole_sort_15_brd_lbl.png"  alt = "ds4psy" style = "height: 160px; border:0;"/>
 
 
 
@@ -656,7 +656,7 @@ brd_col <- grey(0, 1)
 brd_size <- .10
 
 plot_size <-  3.0  # NORMAL: in cm (used in ggsave below): normal (small) size
-# plot_size <- 10.0  # BIG:    in cm (used in ggsave below): when "./../pix/big_"
+# plot_size <- 10.0  # BIG:    in cm (used in ggsave below): when "./../images/big_"
 lbl_size <- 1.5
 
 # Tile plots: ------ 
@@ -857,7 +857,7 @@ pole_rand <- ggplot(tb) +
 pole_rand
 
 # Save current plot: 
-plot_name <- paste0("./../pix/pole/pole_rand_", n_x, "_brd.png")
+plot_name <- paste0("./../images/pole/pole_rand_", n_x, "_brd.png")
 ggsave(plot_name, width = plot_size, height = plot_size, units = c("cm"), dpi = 300)
 
 pole_sort <- ggplot(tb) +
@@ -872,7 +872,7 @@ pole_sort <- ggplot(tb) +
 pole_sort
 
 # Save current plot: 
-plot_name <- paste0("./../pix/pole/pole_sort_", n_x, "_brd.png")
+plot_name <- paste0("./../images/pole/pole_sort_", n_x, "_brd.png")
 ggsave(plot_name, width = plot_size, height = plot_size, units = c("cm"), dpi = 300)
 ```
 
@@ -894,7 +894,7 @@ pole_rand <- ggplot(tb) +
 pole_rand
 
 # Save current plot: 
-plot_name <- paste0("./../pix/pole/pole_rand_", n_x, ".png")
+plot_name <- paste0("./../images/pole/pole_rand_", n_x, ".png")
 ggsave(plot_name, width = plot_size, height = plot_size, units = c("cm"), dpi = 300)
 
 pole_sort <- ggplot(tb) +
@@ -909,7 +909,7 @@ pole_sort <- ggplot(tb) +
 pole_sort
 
 # Save current plot: 
-plot_name <- paste0("./../pix/pole/pole_sort_", n_x, ".png")
+plot_name <- paste0("./../images/pole/pole_sort_", n_x, ".png")
 ggsave(plot_name, width = plot_size, height = plot_size, units = c("cm"), dpi = 300)
 ```
 
@@ -946,7 +946,7 @@ pole_rand_lbl <- ggplot(tb) +
 pole_rand_lbl
 
 # Save current plot: 
-plot_name <- paste0("./../pix/pole/pole_rand_", n_x, "_brd_lbl.png")
+plot_name <- paste0("./../images/pole/pole_rand_", n_x, "_brd_lbl.png")
 ggsave(plot_name, width = plot_size, height = plot_size, units = c("cm"), dpi = 300)
 
 # (a) sort version with label:
@@ -966,7 +966,7 @@ pole_sort_lbl <- ggplot(tb) +
 pole_sort_lbl
 
 # Save current plot: 
-plot_name <- paste0("./../pix/pole/pole_sort_", n_x, "_brd_lbl.png")
+plot_name <- paste0("./../images/pole/pole_sort_", n_x, "_brd_lbl.png")
 ggsave(plot_name, width = plot_size, height = plot_size, units = c("cm"), dpi = 300)
 ```
 
@@ -1032,7 +1032,7 @@ row_sort <- ggplot(tbs) +
 row_sort
 
 # Save current plot: 
-plot_name <- paste0("./../pix/tiles/row_sort_", n_x, "_brd.png")
+plot_name <- paste0("./../images/tiles/row_sort_", n_x, "_brd.png")
 ggsave(plot_name, width = plot_size, height = plot_size, units = c("cm"), dpi = 300)
 
 
@@ -1052,7 +1052,7 @@ row_rand <- ggplot(tbs) +
 row_rand
 
 # Save current plot: 
-plot_name <- paste0("./../pix/tiles/row_rand_", n_x, "_brd.png")
+plot_name <- paste0("./../images/tiles/row_rand_", n_x, "_brd.png")
 ggsave(plot_name, width = plot_size, height = plot_size, units = c("cm"), dpi = 300)
 
 # (B1) Polar plot, sorted (as pie):
@@ -1071,7 +1071,7 @@ pie_sort <- ggplot(tbs) +
 pie_sort
 
 # Save current plot: 
-plot_name <- paste0("./../pix/tiles/pie_sort_", n_x, "_brd.png")
+plot_name <- paste0("./../images/tiles/pie_sort_", n_x, "_brd.png")
 ggsave(plot_name, width = plot_size, height = plot_size, units = c("cm"), dpi = 300)
 
 # (B2) Polar plot, random (as pie):
@@ -1090,7 +1090,7 @@ pie_rand <- ggplot(tbs) +
 pie_rand
 
 # Save current plot: 
-plot_name <- paste0("./../pix/tiles/pie_rand_", n_x, "_brd.png")
+plot_name <- paste0("./../images/tiles/pie_rand_", n_x, "_brd.png")
 ggsave(plot_name, width = plot_size, height = plot_size, units = c("cm"), dpi = 300)
 
 # (C1) Line plot, sorted (as col):
@@ -1109,7 +1109,7 @@ col_sort <- ggplot(tbs) +
 col_sort
 
 # Save current plot: 
-plot_name <- paste0("./../pix/tiles/col_sort_", n_x, "_brd.png")
+plot_name <- paste0("./../images/tiles/col_sort_", n_x, "_brd.png")
 ggsave(plot_name, width = plot_size, height = plot_size, units = c("cm"), dpi = 300)
 
 # (C2) Line plot, rand (as col):
@@ -1128,7 +1128,7 @@ col_sort <- ggplot(tbs) +
 col_sort
 
 # Save current plot: 
-plot_name <- paste0("./../pix/tiles/col_rand_", n_x, "_brd.png")
+plot_name <- paste0("./../images/tiles/col_rand_", n_x, "_brd.png")
 ggsave(plot_name, width = plot_size, height = plot_size, units = c("cm"), dpi = 300)
 
 
@@ -1148,7 +1148,7 @@ tar_sort <- ggplot(tbs) +
 tar_sort
 
 # Save current plot: 
-plot_name <- paste0("./../pix/tiles/tar_sort_", n_x, "_brd.png")
+plot_name <- paste0("./../images/tiles/tar_sort_", n_x, "_brd.png")
 ggsave(plot_name, width = plot_size, height = plot_size, units = c("cm"), dpi = 300)
 
 # (D2) Polar plot, random (as target circles, no border lines):
@@ -1167,7 +1167,7 @@ tar_rand <- ggplot(tbs) +
 tar_rand
 
 # Save current plot: 
-plot_name <- paste0("./../pix/tiles/tar_rand_", n_x, "_brd.png")
+plot_name <- paste0("./../images/tiles/tar_rand_", n_x, "_brd.png")
 ggsave(plot_name, width = plot_size, height = plot_size, units = c("cm"), dpi = 300)
 ```
 
@@ -1175,28 +1175,28 @@ ggsave(plot_name, width = plot_size, height = plot_size, units = c("cm"), dpi = 
 
 Sorted versions:
 
-<img src = "./../pix/tiles/row_sort_4_brd.png" alt = "ds4psy" style = "height: 120px; border:0;"/>
-<img src = "./../pix/tiles/col_sort_4_brd.png" alt = "ds4psy" style = "height: 120px; border:0;"/>
-<img src = "./../pix/tiles/pie_sort_4_brd.png" alt = "ds4psy" style = "height: 120px; border:0;"/>
-<img src = "./../pix/tiles/tar_sort_4_brd.png" alt = "ds4psy" style = "height: 120px; border:0;"/>
+<img src = "./../images/tiles/row_sort_4_brd.png" alt = "ds4psy" style = "height: 120px; border:0;"/>
+<img src = "./../images/tiles/col_sort_4_brd.png" alt = "ds4psy" style = "height: 120px; border:0;"/>
+<img src = "./../images/tiles/pie_sort_4_brd.png" alt = "ds4psy" style = "height: 120px; border:0;"/>
+<img src = "./../images/tiles/tar_sort_4_brd.png" alt = "ds4psy" style = "height: 120px; border:0;"/>
 
 
-<img src = "./../pix/tiles/row_sort_8_brd.png" alt = "ds4psy" style = "height: 120px; border:0;"/>
-<img src = "./../pix/tiles/col_sort_8_brd.png" alt = "ds4psy" style = "height: 120px; border:0;"/>
-<img src = "./../pix/tiles/pie_sort_8_brd.png" alt = "ds4psy" style = "height: 120px; border:0;"/>
-<img src = "./../pix/tiles/tar_sort_8_brd.png" alt = "ds4psy" style = "height: 120px; border:0;"/>
+<img src = "./../images/tiles/row_sort_8_brd.png" alt = "ds4psy" style = "height: 120px; border:0;"/>
+<img src = "./../images/tiles/col_sort_8_brd.png" alt = "ds4psy" style = "height: 120px; border:0;"/>
+<img src = "./../images/tiles/pie_sort_8_brd.png" alt = "ds4psy" style = "height: 120px; border:0;"/>
+<img src = "./../images/tiles/tar_sort_8_brd.png" alt = "ds4psy" style = "height: 120px; border:0;"/>
 
 Random versions:
 
-<img src = "./../pix/tiles/row_rand_4_brd.png" alt = "ds4psy" style = "height: 120px; border:0;"/>
-<img src = "./../pix/tiles/col_rand_4_brd.png" alt = "ds4psy" style = "height: 120px; border:0;"/>
-<img src = "./../pix/tiles/pie_rand_4_brd.png" alt = "ds4psy" style = "height: 120px; border:0;"/>
-<img src = "./../pix/tiles/tar_rand_4_brd.png" alt = "ds4psy" style = "height: 120px; border:0;"/>
+<img src = "./../images/tiles/row_rand_4_brd.png" alt = "ds4psy" style = "height: 120px; border:0;"/>
+<img src = "./../images/tiles/col_rand_4_brd.png" alt = "ds4psy" style = "height: 120px; border:0;"/>
+<img src = "./../images/tiles/pie_rand_4_brd.png" alt = "ds4psy" style = "height: 120px; border:0;"/>
+<img src = "./../images/tiles/tar_rand_4_brd.png" alt = "ds4psy" style = "height: 120px; border:0;"/>
 
-<img src = "./../pix/tiles/row_rand_8_brd.png" alt = "ds4psy" style = "height: 120px; border:0;"/>
-<img src = "./../pix/tiles/col_rand_8_brd.png" alt = "ds4psy" style = "height: 120px; border:0;"/>
-<img src = "./../pix/tiles/pie_rand_8_brd.png" alt = "ds4psy" style = "height: 120px; border:0;"/>
-<img src = "./../pix/tiles/tar_rand_8_brd.png" alt = "ds4psy" style = "height: 120px; border:0;"/>
+<img src = "./../images/tiles/row_rand_8_brd.png" alt = "ds4psy" style = "height: 120px; border:0;"/>
+<img src = "./../images/tiles/col_rand_8_brd.png" alt = "ds4psy" style = "height: 120px; border:0;"/>
+<img src = "./../images/tiles/pie_rand_8_brd.png" alt = "ds4psy" style = "height: 120px; border:0;"/>
+<img src = "./../images/tiles/tar_rand_8_brd.png" alt = "ds4psy" style = "height: 120px; border:0;"/>
 
 
 ### Pi tiles
@@ -1369,7 +1369,7 @@ ggplot(df) +
   theme_void() # +
   # annotate(geom = "text", x = -1900, y = .0018, label = course_title, color = "black", alpha = .90, adj = 0, fontface = 2, size = 2.5)
 
-ggsave("./../pix/wave/hist_wave_2.png", width = 16, height = 8, units = c("cm"), dpi = 300)
+ggsave("./../images/wave/hist_wave_2.png", width = 16, height = 8, units = c("cm"), dpi = 300)
 ```
 
 Waves (as curves):
@@ -1387,7 +1387,7 @@ ggplot(df) +
   theme_void() # +
   # annotate(geom = "text", x = -3900, y = .0016, label = course_title, color = "black", alpha = .90, adj = 0, fontface = 2, size = 2.5)
 
-ggsave("./../pix/wave/waves_4.png", width = 15, height = 1.5, units = c("cm"), dpi = 300)
+ggsave("./../images/wave/waves_4.png", width = 15, height = 1.5, units = c("cm"), dpi = 300)
 ```
 
 ## ToC art 
@@ -2095,22 +2095,22 @@ ggplot(data) +
 
 Positions and color values can be varied: 
 
-<img src = "./../pix/circ/circ_4a.png" style = "width: 800px; border:1;"/>
+<img src = "./../images/circ/circ_4a.png" style = "width: 800px; border:1;"/>
 
-<img src = "./../pix/circ/circ_4b.png" style = "width: 800px; border:1;"/>
+<img src = "./../images/circ/circ_4b.png" style = "width: 800px; border:1;"/>
 
-<img src = "./../pix/circ/circ_4e.png" style = "width: 800px; border:1;"/>
+<img src = "./../images/circ/circ_4e.png" style = "width: 800px; border:1;"/>
 
 
 #### 8 circles
 
 Colors can be sorted or mixed up: 
 
-<img src = "./../pix/circ/circ_8_a1.0.png" style = "width: 800px; border:1;"/>
+<img src = "./../images/circ/circ_8_a1.0.png" style = "width: 800px; border:1;"/>
 
-<img src = "./../pix/circ/circ_8_a.50_mixd.png" style = "width: 800px; border:1;"/>
+<img src = "./../images/circ/circ_8_a.50_mixd.png" style = "width: 800px; border:1;"/>
 
-<img src = "./../pix/circ/circ_8_a.38.png" style = "width: 800px; border:1;"/>
+<img src = "./../images/circ/circ_8_a.38.png" style = "width: 800px; border:1;"/>
 
 
 ## Tunnel
@@ -2267,7 +2267,7 @@ cur_lbl <- paste0(expression(pi), " to ", N_k, "k digits")
 text(x = (x_max - 10), y = y_min, labels = cur_lbl, col = grey(.33, 1), cex = .7, pos = NULL)
 ```
 
-<img src = "./../pix/art/pi_10k_w2.png" style = "width: 1000px; float: right; border:0;"/>
+<img src = "./../images/art/pi_10k_w2.png" style = "width: 1000px; float: right; border:0;"/>
 
 
 # Ideas
@@ -2322,6 +2322,6 @@ Some links to inspirations and code sources:
 
 [This file last updated on `r Sys.time()` by [hn](http://neth.de/).]
 
-<img src = "./../pix/wave/waves_4.png" style = "width: 800px; float: right; border:0;"/>
+<img src = "./../images/wave/waves_4.png" style = "width: 800px; float: right; border:0;"/>
 
 <!-- eof. --> 
