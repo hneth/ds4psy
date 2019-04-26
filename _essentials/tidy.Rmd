@@ -1,7 +1,7 @@
 ---
 title: "Tidying data, with solutions (ds4psy)"
 author: "Hansjörg Neth, SPDS, uni.kn"
-date: "2019 01 18"
+date: "2019 04 26"
 output:
    rmdformats::html_clean: # html_clean html_docco readthedown material #
      code_folding: show # hide
@@ -14,7 +14,7 @@ editor_options:
   chunk_output_type: console # inline
 ---
 
-<!-- Example of essential commands | ds4psy: Winter/Spring 2018/2019 -->
+<!-- Example of essential commands | ds4psy: Summer 2019 -->
 
 ```{r preamble, echo = FALSE, eval = TRUE, cache = FALSE, message = FALSE, warning = FALSE}
 ## (a) Housekeeping: -----
@@ -95,7 +95,7 @@ Nr. | Topic       |
 <!-- uni.kn logo and link to SPDS: -->  
 <!-- ![](./inst/pix/uniKn_logo.png) --> 
 <a href="https://www.spds.uni-konstanz.de/">
-<img src = "../inst/pix/uniKn_logo.png" alt = "spds.uni.kn" align = "right" width = "300" style = "width: 300px; float: right; border:20;"/>
+<img src = "../inst/images/uniKn_logo.png" alt = "spds.uni.kn" align = "right" width = "300" style = "width: 300px; float: right; border:20;"/>
 <!-- <img src = "./inst/pix/uniKn_logo_s.png" alt = "spds.uni.kn" style = "float: right; border:20;"/> --> 
 </a>
 
@@ -110,7 +110,7 @@ Create an R script (`.R`) or an R-Markdown file (`.Rmd`) and load the R packages
 
 ```{r layout_template, echo = TRUE, eval = FALSE}
 ## Tidy data | ds4psy
-## 2019 01 14
+## 2019 04 25
 ## ----------------------------
 
 ## Preparations: ----------
