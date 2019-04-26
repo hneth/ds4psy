@@ -1,7 +1,7 @@
 ---
 title: "Datasets (ds4psy)"
 author: "Hansjörg Neth, SPDS, uni.kn"
-date: "2019 04 15"
+date: "2019 04 25"
 output:
    rmdformats::html_clean: # html_clean html_docco readthedown material #
      code_folding: show # hide
@@ -14,7 +14,7 @@ editor_options:
   chunk_output_type: console # inline
 ---
 
-<!-- Datasets | ds4psy: Winter 2018/2019 -->
+<!-- Datasets | ds4psy: Summer 2019 -->
 
 ```{r preamble, echo = FALSE, eval = TRUE, cache = FALSE, message = FALSE, warning = FALSE}
 ## (a) Housekeeping: -----
@@ -63,19 +63,28 @@ This file contains descriptions of **datasets** used in this course and their so
 
 <!-- Table with links: -->
 
-<!-- All [ds4psy](http://rpository.com/ds4psy/) essentials so far: -->
+All [ds4psy](http://rpository.com/ds4psy/) essentials so far: 
 
-<!-- 
+<!-- ds4psy logo 1: -->
+<a href="http://rpository.com/ds4psy/">
+<img src = "./../images/logo/logo_200_bwg.png" alt = "ds4psy" width = "110px" align = "right" style = "width: 150px; float: right; border:11;"/>
+</a>
+
 Nr. | Topic       |
 ---:|:------------| 
 0.  | [Syllabus](http://rpository.com/ds4psy/) | 
 1.  | [Basic R concepts and commands](http://rpository.com/ds4psy/essentials/basics.html) | 
++.  | **Datasets** | 
+<!--
 2.  | [Visualizing data](http://rpository.com/ds4psy/essentials/visualize.html) | 
 3.  | [Transforming data](http://rpository.com/ds4psy/essentials/transform.html) |
 4.  | [Exploring data (EDA)](http://rpository.com/ds4psy/essentials/explore.html) | 
 5.  | [Tibbles](http://rpository.com/ds4psy/essentials/tibbles.html) |
-6.  | [Importing data](http://rpository.com/ds4psy/essentials/import.html) | 
-+.  | **Datasets** | 
+6.  | [Importing data](http://rpository.com/ds4psy/essentials/import.html) |
+7.  | [Tidying data](http://rpository.com/ds4psy/essentials/tidy.html) |
+8.  | [Joining data](http://rpository.com/ds4psy/essentials/join.html) |
+9.  | [Functions](http://rpository.com/ds4psy/essentials/function.html) |
+10. | [Iteration](http://rpository.com/ds4psy/essentials/iteration.html) |
 -->
 
 <!--
@@ -89,17 +98,13 @@ Nr. | Topic       |
 5.  | [Tibbles](http://rpository.com/ds4psy/essentials/tibbles.html) |
 6.  | [Importing data](http://rpository.com/ds4psy/essentials/import.html) |
 7.  | [Tidying data](http://rpository.com/ds4psy/essentials/tidy.html) |
+8.  | [Joining data](http://rpository.com/ds4psy/essentials/join.html) |
+9.  | [Functions](http://rpository.com/ds4psy/essentials/function.html) |
+10. | [Iteration](http://rpository.com/ds4psy/essentials/iteration.html) |
 +.  | [Datasets](http://rpository.com/ds4psy/essentials/datasets.html) | 
 -->
 
 ## Course coordinates
-
-<!-- uni.kn logo and link to SPDS: -->  
-<!-- ![](./inst/pix/uniKn_logo.png) --> 
-<a href="https://www.spds.uni-konstanz.de/">
-<img src = "../inst/pix/uniKn_logo.png" alt = "spds.uni.kn" align = "right" width = "300" style = "width: 300px; float: right; border:20;"/>
-<!-- <img src = "./inst/pix/uniKn_logo_s.png" alt = "spds.uni.kn" style = "float: right; border:20;"/> --> 
-</a>
 
 * PSY-15150, at the [University of Konstanz](https://www.uni-konstanz.de/) by [Hansjörg Neth](http://neth.de/) (<h.neth@uni.kn>,  [SPDS](https://www.spds.uni-konstanz.de/), office D507).
 * Summer 2019: Mondays, 15:15--16:45, D435.  

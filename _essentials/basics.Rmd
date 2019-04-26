@@ -109,7 +109,8 @@ Nr. | Topic       |
 
 ## Preliminaries 
 
-This session provides some background knowledge and basics facts that are required for learning data science (in R or any other programming language).
+This session provides some background knowledge: First, some basics distinctions about data shapes and types (that apply to [R](http://www.r-project.org/), but also other programming languages) and then some basic concepts and commands of [R](http://www.r-project.org/).
+
 It assumes the following: 
 
 1. **Software:** You have installed the software prerequisites mentioned in 
