@@ -1,7 +1,7 @@
 ---
 title: "Visualizing data, with solutions (ds4psy)"
 author: "Hansjörg Neth, SPDS, uni.kn"
-date: "2019 04 25"
+date: "2019 04 26"
 output:
    rmdformats::html_clean: # html_clean html_docco readthedown material #
      code_folding: show # hide
@@ -116,7 +116,7 @@ Create an R script (`.R`) or an R-Markdown file (`.Rmd`) and load the R packages
 
 ```{r layout_template, echo = TRUE, eval = FALSE}
 ## Visualizing data | ds4psy
-## 2018 11 12
+## 2019 04 26
 ## ----------------------------
 
 ## Preparations: ----------
@@ -135,6 +135,99 @@ library(tidyverse)
 
 In the following, we assume that you have read and worked through [Chapter 3: Data visualization](http://r4ds.had.co.nz/data-visualisation.html)). 
 Based on this background, we examine some essential commands of `ggplot2` in the context of examples. However, the `ggplot2` package extends far beyond this modest introduction -- it is an important pillar (and predecessor) of the `tidyverse` and implements a language for and philosophy of data visualisation. 
+
+## Motivation
+
+Why should we visualize data? Consider the following examples:
+
+```{r anscombe}
+library(tidyverse)
+
+a_x <- anscombe %>%
+  select(x1:x4) %>%
+  gather(key = x_n, value = x, x1:x4) %>%
+  mutate(nr = as.integer(substr(x_n, 2, 2))) %>%
+  select(nr, x) %>%
+  as_tibble(.)
+# a_x
+
+a_y <- anscombe %>%
+  select(y1:y4) %>%
+  gather(key = y_n, value = y, y1:y4) %>%
+  mutate(nr = as.integer(substr(y_n, 2, 2))) %>%
+  select(nr, y) %>%
+  as_tibble(.)
+# a_y
+
+ans <- a_x
+ans$y <- a_y$y
+
+# Subsets:
+a_1 <- ans %>% filter(nr == 1)
+a_2 <- ans %>% filter(nr == 2)
+a_3 <- ans %>% filter(nr == 3)
+a_4 <- ans %>% filter(nr == 4)
+
+# Analysis:
+
+# Mean of x:
+mean(a_1$x)
+mean(a_2$x)
+mean(a_3$x)
+mean(a_4$x)
+
+# Mean of y:
+mean(a_1$y)
+mean(a_2$y)
+mean(a_3$y)
+mean(a_4$y)
+
+# SD of x:
+sd(a_1$x)
+sd(a_2$x)
+sd(a_3$x)
+sd(a_4$x)
+
+# SD of y:
+sd(a_1$y)
+sd(a_2$y)
+sd(a_3$y)
+sd(a_4$y)
+
+# Correlations of x and y:
+with(a_1, cor(x = x, y = y))
+with(a_2, cor(x = x, y = y))
+with(a_3, cor(x = x, y = y))
+with(a_4, cor(x = x, y = y))
+
+# All in one:
+ans %>%
+  group_by(nr) %>%
+  summarise(n = n(),
+            mn_x = mean(x),
+            mn_y = mean(y), 
+            sd_x = sd(x),
+            sd_y = sd(y),
+            r_xy = cor(x, y))
+
+# Visualization: 
+ggplot(ans, aes(x = x, y = y, col = as.factor(nr))) + 
+       geom_point() +
+       facet_wrap(~nr) + 
+       theme_bw() +
+       labs(title = "Anscombe's quartett", 
+            col = "Set:")
+```
+
+See `?anscombe` for more information.
+
+**Reference:** 
+
+- Anscombe, Francis J. (1973). Graphs in statistical analysis. 
+_The American Statistician_, _27_, 17–21. doi: 10.2307/2682899.
+
+
+
 
 ## Essential commands and examples 
 
