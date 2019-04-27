@@ -1,7 +1,7 @@
 ---
 title: "Visualizing data, with solutions (ds4psy)"
 author: "Hansjörg Neth, SPDS, uni.kn"
-date: "2019 04 26"
+date: "2019 04 27"
 output:
    rmdformats::html_clean: # html_clean html_docco readthedown material #
      code_folding: show # hide
@@ -140,6 +140,8 @@ Based on this background, we examine some essential commands of `ggplot2` in the
 
 Why should we visualize data? Consider the following examples:
 
+### Data
+
 ```{r anscombe_prepare_data}
 library(tidyverse)
 
@@ -184,7 +186,9 @@ a_4 <- ans[ans$nr == 4, ]
 # a_4 <- ans %>% filter(nr == 4)
 ```
 
-Analysis: Let's obtain some basic statistical properties for each set: 
+### Analysis 
+
+Let's obtain some basic statistical properties for each set: 
 
 - the means (of $x$ and of $y$)
 - the standard deviations ($SD$)
@@ -243,29 +247,54 @@ ans %>%
             slope = lm(y ~ x)$coefficients[2])
 ```
 
-Visualization:
+### Visualization 
 
 ```{r anscombe_vis}
 # Visualization: 
 ggplot(ans, aes(x = x, y = y, col = nr)) + 
   geom_point(size = 2) +
-  geom_abline(aes(intercept = lm(y ~ x)$coefficients[1], slope = lm(y ~ x)$coefficients[2]), col = "steelblue") + 
+  geom_abline(aes(intercept = lm(y ~ x)$coefficients[1], slope = lm(y ~ x)$coefficients[2]), col = "orange") + 
   facet_wrap(~nr) + 
   labs(title = "Anscombe's quartet", 
        col = "Set:") + 
   theme_bw()
 ```
 
-Explanation: 
+### Explanation
 
 The data used here is known as Anscombe's quartet (Anscombe, 1973) and is included in R as `datasets::anscombe`. It contains 4 sets of x-y coordinates which have the same statistical properties (regarding mean, SD, correlation, regression line), yet are actually quite different. (See `?anscombe` for more information.)
 
-**Reference:** 
+**Links:** 
+
+- [Wikipedia:Anscombe](https://en.wikipedia.org/wiki/Anscombe%27s_quartet)
+
+- Datasaurus: Blog post by Alberto Cairo:    <http://www.thefunctionalart.com/2016/08/download-datasaurus-never-trust-summary.html> 
+and David Smith <https://blog.revolutionanalytics.com/2017/05/the-datasaurus-dozen.html>
+
+- CHI paper by Matejka and Fitzmaurice (2017): Available at <https://www.autodeskresearch.com/publications/samestats>
+
+<!-- BibTeX reference: 
+
+@inproceedings{MatejkaFitzmaurice17,
+  title={Same stats, different graphs: Generating datasets with varied appearance and identical statistics through simulated annealing},
+  author={Matejka, Justin and Fitzmaurice, George},
+  booktitle={Proceedings of the 2017 {CHI} Conference on Human Factors in Computing Systems},
+  pages={1290--1294},
+  year={2017},
+  organization={ACM},
+  doi={10.1145/3025453.3025912}
+}
+-->
+
+- The `datasauRus` package: <https://CRAN.R-project.org/package=datasauRus>
+
+
+**References:** 
 
 - Anscombe, Francis J. (1973). Graphs in statistical analysis. 
 _The American Statistician_, _27_, 17–21. doi: 10.2307/2682899.
 
-
+- Matejka, J., & Fitzmaurice, G. (2017, May). Same stats, different graphs: Generating datasets with varied appearance and identical statistics through simulated annealing. In _Proceedings of the 2017 CHI Conference on Human Factors in Computing Systems_ (pp. 1290-1294). ACM.
 
 
 ## Essential commands and examples 
@@ -1098,7 +1127,7 @@ Note that it would be desirable to explain what gender is encoded by the values 
 
 # More on data visualization
 
-See [Chapter 3: Data visualization](http://r4ds.had.co.nz/data-visualisation.html)) and [Chapter 7: Exploratory data analysis (EDA)](http://r4ds.had.co.nz/exploratory-data-analysis.html) (to be covered in 2 weeks) and complete their exercises. 
+See [Chapter 3: Data visualization](http://r4ds.had.co.nz/data-visualisation.html) and [Chapter 7: Exploratory data analysis (EDA)](http://r4ds.had.co.nz/exploratory-data-analysis.html) (to be covered in 2 weeks) and complete their exercises. 
 
 The following links provide additional information: 
 
