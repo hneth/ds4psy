@@ -1,7 +1,7 @@
 ---
 title: "Data Science for Psychologists (ds4psy)"
 author: "Hansjörg Neth, SPDS, uni.kn"
-date: "2019 04 15"
+date: "2019 04 26"
 output:
   rmdformats::html_clean:
     highlight: kate
@@ -27,10 +27,13 @@ opts_knit$set(width=75)
 # Course Coordinates
 
 <!-- uni.kn logo and link to SPDS: -->  
-<!-- ![](./inst/pix/uniKn_logo.png) --> 
-<a href="https://www.spds.uni-konstanz.de/">
-<img src = "./../inst/pix/uniKn_logo.png" alt = "spds.uni.kn" align = "right" width = "300" style = "width: 300px; float: right; border:20;"/>
-<!-- <img src = "./inst/pix/uniKn_logo_s.png" alt = "spds.uni.kn" style = "float: right; border:20;"/> --> 
+<!-- ![](./inst/images/uniKn_logo.png) --> 
+<!-- <img src = "./../inst/images/uniKn_logo.png" alt = "spds.uni.kn" align = "right" width = "300" style = "width: 300px; float: right; border:20;"/> --> 
+<!-- <img src = "./inst/images/uniKn_logo_s.png" alt = "spds.uni.kn" style = "float: right; border:20;"/> --> 
+
+<!-- ds4psy logo 1: -->
+<a href="http://rpository.com/ds4psy/">
+<img src = "./../images/logo/logo_200_bwg.png" alt = "ds4psy" width = "110px" align = "right" style = "width: 150px; float: right; border:11;"/>
 </a>
 
 * PSY-15150, at the [University of Konstanz](https://www.uni-konstanz.de/) by [Hansjörg Neth](http://neth.de/) (<h.neth@uni.kn>,  [SPDS](https://www.spds.uni-konstanz.de/), office D507).
