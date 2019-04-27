@@ -140,34 +140,58 @@ Based on this background, we examine some essential commands of `ggplot2` in the
 
 Why should we visualize data? Consider the following examples:
 
-```{r anscombe}
+```{r anscombe_prepare_data}
 library(tidyverse)
 
-a_x <- anscombe %>%
-  select(x1:x4) %>%
-  gather(key = x_n, value = x, x1:x4) %>%
-  mutate(nr = as.integer(substr(x_n, 2, 2))) %>%
-  select(nr, x) %>%
-  as_tibble(.)
-# a_x
+## Data:
+ans <- with(datasets::anscombe, data.frame(x = c(x1, x2, x3, x4), 
+                                           y = c(y1, y2, y3, y4), 
+                                           nr = gl(4, nrow(anscombe))))
+ans <- tibble::as_tibble(ans)
+# ans
 
-a_y <- anscombe %>%
-  select(y1:y4) %>%
-  gather(key = y_n, value = y, y1:y4) %>%
-  mutate(nr = as.integer(substr(y_n, 2, 2))) %>%
-  select(nr, y) %>%
-  as_tibble(.)
-# a_y
+# Split into 4 subsets:
+a_1 <- ans[ans$nr == 1, ]
+a_2 <- ans[ans$nr == 2, ]
+a_3 <- ans[ans$nr == 3, ]
+a_4 <- ans[ans$nr == 4, ]
 
-ans <- a_x
-ans$y <- a_y$y
+# # A tidyverse solution: 
+# a_x <- anscombe %>%
+#   select(x1:x4) %>%
+#   gather(key = x_n, value = x, x1:x4) %>%
+#   mutate(nr = as.integer(substr(x_n, 2, 2))) %>%
+#   select(nr, x) %>%
+#   as_tibble(.)
+# # a_x
+# 
+# a_y <- anscombe %>%
+#   select(y1:y4) %>%
+#   gather(key = y_n, value = y, y1:y4) %>%
+#   mutate(nr = as.integer(substr(y_n, 2, 2))) %>%
+#   select(nr, y) %>%
+#   as_tibble(.)
+# # a_y
+# 
+# # Joining a_x and a_y: 
+# ans <- a_x
+# ans$y <- a_y$y
+# 
+# # Filter into 4 subsets:
+# a_1 <- ans %>% filter(nr == 1)
+# a_2 <- ans %>% filter(nr == 2)
+# a_3 <- ans %>% filter(nr == 3)
+# a_4 <- ans %>% filter(nr == 4)
+```
 
-# Subsets:
-a_1 <- ans %>% filter(nr == 1)
-a_2 <- ans %>% filter(nr == 2)
-a_3 <- ans %>% filter(nr == 3)
-a_4 <- ans %>% filter(nr == 4)
+Analysis: Let's obtain some basic statistical properties for each set: 
 
+- the means (of $x$ and of $y$)
+- the standard deviations ($SD$)
+- the correlations (of $x$ and $y$)
+- a linear model (predicting $y$ by $x$)
+
+```{r anscombe_stats}
 # Analysis:
 
 # Mean of x:
@@ -200,6 +224,12 @@ with(a_2, cor(x = x, y = y))
 with(a_3, cor(x = x, y = y))
 with(a_4, cor(x = x, y = y))
 
+# Linear models/regressions:
+lm(y ~ x, a_1)
+lm(y ~ x, a_2)
+lm(y ~ x, a_3)
+lm(y ~ x, a_4)
+
 # All in one:
 ans %>%
   group_by(nr) %>%
@@ -208,18 +238,27 @@ ans %>%
             mn_y = mean(y), 
             sd_x = sd(x),
             sd_y = sd(y),
-            r_xy = cor(x, y))
-
-# Visualization: 
-ggplot(ans, aes(x = x, y = y, col = as.factor(nr))) + 
-       geom_point() +
-       facet_wrap(~nr) + 
-       theme_bw() +
-       labs(title = "Anscombe's quartett", 
-            col = "Set:")
+            r_xy = cor(x, y),
+            icept = lm(y ~ x)$coefficients[1],
+            slope = lm(y ~ x)$coefficients[2])
 ```
 
-See `?anscombe` for more information.
+Visualization:
+
+```{r anscombe_vis}
+# Visualization: 
+ggplot(ans, aes(x = x, y = y, col = nr)) + 
+  geom_point(size = 2) +
+  geom_abline(aes(intercept = lm(y ~ x)$coefficients[1], slope = lm(y ~ x)$coefficients[2]), col = "steelblue") + 
+  facet_wrap(~nr) + 
+  labs(title = "Anscombe's quartet", 
+       col = "Set:") + 
+  theme_bw()
+```
+
+Explanation: 
+
+The data used here is known as Anscombe's quartet (Anscombe, 1973) and is included in R as `datasets::anscombe`. It contains 4 sets of x-y coordinates which have the same statistical properties (regarding mean, SD, correlation, regression line), yet are actually quite different. (See `?anscombe` for more information.)
 
 **Reference:** 
 
