@@ -1,7 +1,7 @@
 ---
 title: "Data Science for Psychologists (ds4psy)"
 author: "Hansjörg Neth, SPDS, uni.kn"
-date: "2019 04 17"
+date: "2019 04 28"
 output:
   rmdformats::html_clean:
     highlight: kate
@@ -163,7 +163,7 @@ Part 2: Wrangle
  1. 15.04.2019: **Introduction** and [r4ds Chapters 1 & 2](http://r4ds.had.co.nz). 
  
  2. 29.04.2019: **Basic R concepts and commands** and [r4ds Chapters 4/6/8](http://r4ds.had.co.nz).  
- [Essentials (with WPA01)](http://rpository.com/ds4psy/essentials/basics.html)
+ [Essentials (with WPA01)](http://rpository.com/ds4psy/essentials/basics.html) (Exercises to be submitted on [Ilias](https://ilias.uni-konstanz.de/ilias/goto_ilias_uni_crs_863036.html) by 02.05.2019). 
  <!-- ([Essentials with WPA01 and solutions](http://rpository.com/ds4psy/essentials/basics.html)). --> 
   
  **Part 1: Explore data**
