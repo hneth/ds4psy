@@ -1,7 +1,7 @@
 ---
 title: "Basic R concepts and commands, with WPA01 (ds4psy)"
 author: "Hansjörg Neth, SPDS, uni.kn"
-date: "2019 04 18"
+date: "2019 04 28"
 output:
    rmdformats::html_clean: # html_clean html_docco readthedown material #
      code_folding: show # hide
@@ -874,6 +874,17 @@ The following exercises are your first weekly programming assignment (**WPA01**)
 Please submit your solutions (as an `.R` or `.Rmd` script that is named `LastFirstname_WPA01.R`) into the corresponding folder on [Ilias](https://ilias.uni-konstanz.de/ilias/goto_ilias_uni_crs_863036.html) by **Thursday, May 2nd, 2019**. 
 
 ## Exercise 1
+
+This first exercise assumes that your current working environment contains the following objects and assignments:
+
+```{r basics_ex1_variables}
+a <- 100
+b <- 200
+d <- "weird"
+e <- TRUE
+o <- FALSE
+O <- 5
+```
 
 Evaluate and explain the following results (and correct any errors that may occur):
 
