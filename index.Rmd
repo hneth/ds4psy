@@ -1,7 +1,7 @@
 ---
 title: "Data Science for Psychologists (ds4psy)"
 author: "Hansjörg Neth, SPDS, uni.kn"
-date: "2019 04 28"
+date: "2019 05 03"
 output:
   rmdformats::html_clean:
     highlight: kate
@@ -36,13 +36,14 @@ opts_knit$set(width=75)
 * PSY-15150, at the [University of Konstanz](https://www.uni-konstanz.de/) by [Hansjörg Neth](http://neth.de/) (<h.neth@uni.kn>,  [SPDS](https://www.spds.uni-konstanz.de/), office D507).
 * Summer 2019: Mondays, 15:15--16:45, D435.  
 * Links to current [course syllabus](http://rpository.com/ds4psy/) | [ZeUS](https://zeus.uni-konstanz.de:443/hioserver/pages/startFlow.xhtml?_flowId=detailView-flow&unitId=5101&periodId=179&navigationPosition=hisinoneLehrorganisation,examEventOverviewOwn) |  [Ilias](https://ilias.uni-konstanz.de/ilias/goto_ilias_uni_crs_863036.html) 
+* Essentials and WPAs at <https://bookdown.org/hneth/ds4psy/>. 
 
 # Course Description
 
 ## Overview 
 
 <!-- ds4psy logo 1: -->
-<a href="http://rpository.com/ds4psy/">
+<a href="https://bookdown.org/hneth/ds4psy/">
 <img src = "./images/logo/logo_200_bwg.png" alt = "ds4psy" width = "110px" align = "right" style = "width: 150px; float: right; border:11;"/>
 </a>
 
@@ -163,12 +164,17 @@ Part 2: Wrangle
  1. 15.04.2019: **Introduction** and [r4ds Chapters 1 & 2](http://r4ds.had.co.nz). 
  
  2. 29.04.2019: **Basic R concepts and commands** and [r4ds Chapters 4/6/8](http://r4ds.had.co.nz).  
- [Essentials (with WPA01)](http://rpository.com/ds4psy/essentials/basics.html) (Exercises to be submitted on [Ilias](https://ilias.uni-konstanz.de/ilias/goto_ilias_uni_crs_863036.html) by 02.05.2019). 
+ [ds4psy](https://bookdown.org/hneth/ds4psy/): [Chapter 1: Basic R concepts and commands](https://bookdown.org/hneth/ds4psy/1-basics.html) 
+ (Exercises to be submitted on [Ilias](https://ilias.uni-konstanz.de/ilias/goto_ilias_uni_crs_863036.html) by 02.05.2019).
+ 
  <!-- ([Essentials with WPA01 and solutions](http://rpository.com/ds4psy/essentials/basics.html)). --> 
   
  **Part 1: Explore data**
  
  3. 06.05.2019: [Chapter 3: Data visualisation](http://r4ds.had.co.nz/data-visualisation.html): `ggplot2`.   
+ Essentials in [ds4psy](https://bookdown.org/hneth/ds4psy/): 
+ [Chapter 2: Visualizing data](https://bookdown.org/hneth/ds4psy/2-visualize.html).  
+ (Exercises to be submitted on [Ilias](https://ilias.uni-konstanz.de/ilias/goto_ilias_uni_crs_863036.html) by 09.05.2019).
     
     <!-- ([Essentials with WPA02 and solutions](http://rpository.com/ds4psy/essentials/visualize.html)). -->  
  
@@ -402,24 +408,32 @@ Beware of side effects: Becoming an R user (useR?) will profoundly transform you
 
 <!-- Table with links: -->
 
-All [ds4psy](http://rpository.com/ds4psy/) essentials so far:
+All [ds4psy](http://rpository.com/ds4psy/) essentials are available at <https://bookdown.org/hneth/ds4psy/>.
 
 <!-- Image: sorted tiles -->
 <!-- ![](./images/tile/tile_sort_10_brd.png) -->
 <!-- <img src = "./images/tile/tile_sort_10_brd.png" alt = "ds4psy" style = "width: 180px; float: right; border:0;"/> -->
 
+
+<!-- ds4psy logo 1: -->
+<a href="https://bookdown.org/hneth/ds4psy/">
+<img src = "./images/logo/logo_200_bwg.png" alt = "ds4psy" width = "110px" align = "right" style = "width: 150px; float: right; border:11;"/>
+</a>
+
 <!-- ds4psy logo 2: -->
+<!-- 
 <a href="http://rpository.com/ds4psy/">
 <img src = "./images/logo/ds4psy_150_left.png" alt = "ds4psy" width = "110px" align = "right" style = "width: 150px; float: right; border:11;"/> 
 </a>
+--> 
 
 
+<!--
 Nr. | Topic       |
 ---:|:------------| 
 0.  | **Syllabus** | 
 1.  | [Basic R concepts and commands](http://rpository.com/ds4psy/essentials/basics.html) | 
 +.  | [Datasets](http://rpository.com/ds4psy/essentials/datasets.html) | 
-<!--
 2.  | [Visualizing data](http://rpository.com/ds4psy/essentials/visualize.html) | 
 3.  | [Transforming data](http://rpository.com/ds4psy/essentials/transform.html) |
 4.  | [Exploring data (EDA)](http://rpository.com/ds4psy/essentials/explore.html) | 
@@ -477,6 +491,8 @@ For instructions on combining text and code, see [Chapter 27: R Markdown](https:
 
 - Wickham, H., & Grolemund, G. (2017). _R for data science: Import, tidy, transform, visualize, and model data._ 
 Sebastopol, Canada: O'Reilly Media, Inc.  [Available online at [http://r4ds.had.co.nz](http://r4ds.had.co.nz).]
+
+- Essentials are available at <https://bookdown.org/hneth/ds4psy/>. 
 
 ## References 
 
