@@ -1,7 +1,7 @@
 ---
 title: "Transforming data, with solutions (ds4psy)"
 author: "Hansjörg Neth, SPDS, uni.kn"
-date: "2018 12 02"
+date: "2019 05 02"
 output:
    rmdformats::html_clean: # html_clean html_docco readthedown material #
      code_folding: show # hide
@@ -65,16 +65,25 @@ A command is considered "essential" when you really need to _know_ it and need t
 
 All [ds4psy](http://rpository.com/ds4psy/) essentials so far: 
 
+<!-- ds4psy logo 1: -->
+<a href="http://rpository.com/ds4psy/">
+<img src = "./../images/logo/logo_200_bwg.png" alt = "ds4psy" width = "110px" align = "right" style = "width: 150px; float: right; border:11;"/>
+</a>
+
 Nr. | Topic       |
 ---:|:------------| 
 0.  | [Syllabus](http://rpository.com/ds4psy/) | 
 1.  | [Basic R concepts and commands](http://rpository.com/ds4psy/essentials/basics.html) | 
 2.  | [Visualizing data](http://rpository.com/ds4psy/essentials/visualize.html) | 
-3.  | **Transforming data** |
+3.  | **Transforming data** [*](http://rpository.com/ds4psy/essentials/transform.html) |
 4.  | [Exploring data (EDA)](http://rpository.com/ds4psy/essentials/explore.html) | 
 5.  | [Tibbles](http://rpository.com/ds4psy/essentials/tibbles.html) |
+6.  | [Importing data](http://rpository.com/ds4psy/essentials/import.html) |
+7.  | [Tidying data](http://rpository.com/ds4psy/essentials/tidy.html) |
+8.  | [Joining data](http://rpository.com/ds4psy/essentials/join.html) |
+9.  | [Functions](http://rpository.com/ds4psy/essentials/function.html) |
+10. | [Iteration](http://rpository.com/ds4psy/essentials/iteration.html) |
 +.  | [Datasets](http://rpository.com/ds4psy/essentials/datasets.html) | 
-
 
 <!--
 Nr. | Topic       |
@@ -85,22 +94,27 @@ Nr. | Topic       |
 3.  | [Transforming data](http://rpository.com/ds4psy/essentials/transform.html) |
 4.  | [Exploring data (EDA)](http://rpository.com/ds4psy/essentials/explore.html) | 
 5.  | [Tibbles](http://rpository.com/ds4psy/essentials/tibbles.html) |
-6.  | [Tidying data](http://rpository.com/ds4psy/essentials/tidy.html) |
+6.  | [Importing data](http://rpository.com/ds4psy/essentials/import.html) |
+7.  | [Tidying data](http://rpository.com/ds4psy/essentials/tidy.html) |
+8.  | [Joining data](http://rpository.com/ds4psy/essentials/join.html) |
+9.  | [Functions](http://rpository.com/ds4psy/essentials/function.html) |
+10. | [Iteration](http://rpository.com/ds4psy/essentials/iteration.html) |
 +.  | [Datasets](http://rpository.com/ds4psy/essentials/datasets.html) | 
 -->
 
+
 ## Course coordinates
 
-<!-- uni.kn logo and link to SPDS: -->  
-<!-- ![](./inst/pix/uniKn_logo.png) --> 
-<a href="https://www.spds.uni-konstanz.de/">
-<img src = "../inst/pix/uniKn_logo.png" alt = "spds.uni.kn" align = "right" width = "300" style = "width: 300px; float: right; border:20;"/>
-<!-- <img src = "./inst/pix/uniKn_logo_s.png" alt = "spds.uni.kn" style = "float: right; border:20;"/> --> 
+<!-- uni.kn logo and link: -->  
+<!-- ![](./inst/images/uniKn_logo.png) --> 
+<a href="https://www.uni-konstanz.de/">
+<img src = "../inst/images/uniKn_logo.png" alt = "uni.kn" align = "right" width = "300" style = "width: 300px; float: right; border:20;"/>
+<!-- <img src = "./inst/images/uniKn_logo_s.png" alt = "uni.kn" style = "float: right; border:20;"/> --> 
 </a>
 
-* Taught at the [University of Konstanz](https://www.uni-konstanz.de/) by [Hansjörg Neth](http://neth.de/) (<h.neth@uni.kn>,  [SPDS](https://www.spds.uni-konstanz.de/), office D507).
-* Winter 2018/2019: Mondays, 13:30--15:00, C511. 
-* Links to current [course syllabus](http://rpository.com/ds4psy/) | [ZeUS](https://zeus.uni-konstanz.de/hioserver/pages/startFlow.xhtml?_flowId=detailView-flow&unitId=5101&periodId=78&navigationPosition=hisinoneLehrorganisation,examEventOverviewOwn) |  [Ilias](https://ilias.uni-konstanz.de/ilias/goto_ilias_uni_crs_809936.html) 
+* PSY-15150, at the [University of Konstanz](https://www.uni-konstanz.de/) by [Hansjörg Neth](http://neth.de/) (<h.neth@uni.kn>,  [SPDS](https://www.spds.uni-konstanz.de/), office D507).
+* Summer 2019: Mondays, 15:15--16:45, D435.  
+* Links to current [course syllabus](http://rpository.com/ds4psy/) | [ZeUS](https://zeus.uni-konstanz.de:443/hioserver/pages/startFlow.xhtml?_flowId=detailView-flow&unitId=5101&periodId=179&navigationPosition=hisinoneLehrorganisation,examEventOverviewOwn) |  [Ilias](https://ilias.uni-konstanz.de/ilias/goto_ilias_uni_crs_863036.html) 
 
 ## Preparations
 
@@ -108,7 +122,7 @@ Create an R script (`.R`) or an R-Markdown file (`.Rmd`) and load the R packages
 
 ```{r layout_template, echo = TRUE, eval = FALSE}
 ## Transforming data | ds4psy
-## 2018 11 19
+## 2019 05 02
 ## ----------------------------
 
 ## Preparations: ----------
@@ -126,16 +140,18 @@ library(tidyverse)
 # Transforming data
 
 In the following, we assume that you have read and worked through [Chapter 5: Data transformation](https://r4ds.had.co.nz/transform.html).  
-Based on this background, we examine some essential commands of `dplyr` in the context of examples. However, the `dplyr` package extends beyond this introduction -- and will appear again later (e.g., in [Chapter 13: Relational data](https://r4ds.had.co.nz/relational-data.html)). 
+Based on this background, we examine some essential commands of the **dplyr** package in the context of examples. 
+These commands allow us to select cases and variables out of rectangular datasets and compute summary statistics over variables or groups of values. Overall, this allows us to get a quantitative overview of data that psychologists often refer to as _descriptive statistics_. However, **dplyr** extends beyond this introduction -- and will appear again later (e.g., in [Chapter 13: Relational data](https://r4ds.had.co.nz/relational-data.html)). 
 
 
 # Essential commands and examples 
 
-Data transformation includes re-arranging, selecting, changing, or aggregating data. 
+Data transformation includes re-arranging, selecting, changing, and aggregating data. 
 
 ## Overview
 
-When we have data in the form of a tibble or data frame, `dplyr` provides a range of simple tools to transform this data. Six essential `dplyr` commands are: 
+When we have data in the form of a tibble or data frame, `dplyr` provides a range of simple tools to transform this data. 
+Six essential **dplyr** commands are: 
 
 1. `arrange` sorts cases (rows); 
 2. `filter` selects cases (rows) by logical conditions; 
@@ -144,7 +160,7 @@ When we have data in the form of a tibble or data frame, `dplyr` provides a rang
 5. `summarise` collapses multiple values of a variable (rows of a column) to a single one;  
 6. `group_by` changes the unit of aggregation (in combination with `mutate` and `summarise`).  
 
-Not quite as essential but still useful `dplyr` commands include:
+Not quite as essential but still useful **dplyr** commands include:
 
 - `slice` selects (ranges of) cases (rows) by number; 
 - `rename` renames variables (columns) and keeps others; 
@@ -153,7 +169,7 @@ Not quite as essential but still useful `dplyr` commands include:
 
 ## Data
 
-We save the `dplyr::starwars` data as a tibble `sw` and use it to illustrate the essential `dplyr` commands.
+We save the `dplyr::starwars` data as a tibble `sw` and use it to illustrate the essential **dplyr** commands.
 
 ```{r starwars_data}
 library(tidyverse)
@@ -1349,9 +1365,14 @@ Nr. | Topic       |
 0.  | [Syllabus](http://rpository.com/ds4psy/) | 
 1.  | [Basic R concepts and commands](http://rpository.com/ds4psy/essentials/basics.html) | 
 2.  | [Visualizing data](http://rpository.com/ds4psy/essentials/visualize.html) | 
-3.  | **Transforming data** |
+3.  | [Transforming data](http://rpository.com/ds4psy/essentials/transform.html) |
 4.  | [Exploring data (EDA)](http://rpository.com/ds4psy/essentials/explore.html) | 
 5.  | [Tibbles](http://rpository.com/ds4psy/essentials/tibbles.html) |
+6.  | [Importing data](http://rpository.com/ds4psy/essentials/import.html) |
+7.  | [Tidying data](http://rpository.com/ds4psy/essentials/tidy.html) |
+8.  | [Joining data](http://rpository.com/ds4psy/essentials/join.html) |
+9.  | [Functions](http://rpository.com/ds4psy/essentials/function.html) |
+10. | [Iteration](http://rpository.com/ds4psy/essentials/iteration.html) |
 +.  | [Datasets](http://rpository.com/ds4psy/essentials/datasets.html) | 
 
 <!--
@@ -1362,8 +1383,12 @@ Nr. | Topic       |
 2.  | [Visualizing data](http://rpository.com/ds4psy/essentials/visualize.html) | 
 3.  | [Transforming data](http://rpository.com/ds4psy/essentials/transform.html) |
 4.  | [Exploring data (EDA)](http://rpository.com/ds4psy/essentials/explore.html) | 
-5.  | [Tibbles](http://rpository.com/ds4psy/essentials/tibbles.html) | 
-6.  | [Tidying data](http://rpository.com/ds4psy/essentials/tidy.html) | 
+5.  | [Tibbles](http://rpository.com/ds4psy/essentials/tibbles.html) |
+6.  | [Importing data](http://rpository.com/ds4psy/essentials/import.html) |
+7.  | [Tidying data](http://rpository.com/ds4psy/essentials/tidy.html) |
+8.  | [Joining data](http://rpository.com/ds4psy/essentials/join.html) |
+9.  | [Functions](http://rpository.com/ds4psy/essentials/function.html) |
+10. | [Iteration](http://rpository.com/ds4psy/essentials/iteration.html) |
 +.  | [Datasets](http://rpository.com/ds4psy/essentials/datasets.html) | 
 -->
 
