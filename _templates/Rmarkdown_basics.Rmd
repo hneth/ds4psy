@@ -1,30 +1,37 @@
 ---
 title: "R Markdown Basics"
 author: "Author Name"
-date: "2018 November 28"
+date: "2019 May 04"
 output: html_document
 ---
 
 # Basics
 
-This template illustrates the basics of an R Markdown document (aka 'RMarkdown' or just 'Markdown'). Markdown documents have the `.Rmd` file extension. The `.Rmd` source file of this document is available [here](http://Rpository.com/down/temp/Rmarkdown_basics.Rmd).
+This template illustrates the basics of an R Markdown document (aka. 'RMarkdown' or just 'Markdown'). 
+Markdown documents have the `.Rmd` file extension. 
+The `.Rmd` source file of this document is available [here](http://Rpository.com/down/temp/Rmarkdown_basics.Rmd).
 
 ## Creating a Markdown document
 
-In order to use RMarkdown, you first need to install and load the `rmarkdown` and `knitr` packages in R:
+In order to use RMarkdown, you first need to install and load the **rmarkdown** and **knitr** packages in [**R**](https://www.r-project.org/):
 
-```{r preamble, echo = TRUE, eval = FALSE}
+```{r install_rmd_packages, echo = TRUE, eval = FALSE}
 # install.packages("rmarkdown", "knitr")  # only once
 library("rmarkdown", "knitr")             # always
 ```
 
-Markdown document are simple text documents and can be edited by any text editor --- ideally by a program that interacts with R (like [RStudio](http://www.rstudio.com)). 
+Markdown documents are documents that combine text and code. 
+They are saved as simple text documents (with the file extension `.md` or `.Rmd`) 
+and can be edited by any text editor --- ideally by a program that interacts with R (like [**RStudio**](http://www.rstudio.com)). 
 
-You can create a new Markdown document in [RStudio](http://www.rstudio.com) by clicking `File > New File > R Markdown`. At the top of a new file, you will see inputs for a page title, author, date, and the output format. Change the title, author, and date to suit your current document.
+You can create a new RMarkdown document in [**RStudio**](http://www.rstudio.com) by clicking `File > New File > R Markdown`. 
+At the top of a new file, you will see inputs for a page title, author, date, and the output format. 
+Change the title, author, and date to suit your current document.
 
 ## Text vs. R code
 
-Markdown separates regular text from R code. Unless you use a _code chunk_, Markdown will treat all your text as regular text. For example, when we write the following lines:
+Markdown separates regular text from R code. 
+Unless you use a _code chunk_, Markdown will treat all your text as regular text. For example, when we write the following lines:
 
 2 + 2
 hist(ChickWeight$weight)
@@ -189,7 +196,9 @@ Once the objects were defined and have been evaluated, we can use them in a mini
 
 # Knitting a Document
 
-To create an HTML (or Word or Latex) document from a Markdown document, you need to _knit_ the document. Knitting a document simply means taking all the text and code and weaving (or _knitting_) it into a nicely formatted document. Fortunately, the R's `knitr` package takes care of the hard parts.
+To create an HTML (or Word or Latex) document from a Markdown (.Rmd) document, you need to _knit_ the document. 
+Knitting a document simply means taking all the text and code and weaving (or _knitting_) it into a nicely formatted document. 
+Fortunately, the R's **knitr** package takes care of the hard parts.
 
 To knit a document (into html, LaTeX pdf, or -- if necessary -- MS&nbsp;Word) from your `.Rmd` file, do one of the following: 
 

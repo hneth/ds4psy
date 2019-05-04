@@ -5,15 +5,23 @@ date: "Year Month Day"
 output: html_document
 ---
 
-This is the _medium_ R Markdown template for our course.  A more extensive introduction is available [here](http://Rpository.com/down/temp/Rmarkdown_basics.html) (and the corresponding `.Rmd` source [here](http://Rpository.com/down/temp/Rmarkdown_basics.Rmd)).
+This is the _medium_ R Markdown template for our course.  
+A more extensive introduction is available [here](http://Rpository.com/down/temp/Rmarkdown_basics.html)  
+(and the corresponding `.Rmd` source [here](http://Rpository.com/down/temp/Rmarkdown_basics.Rmd)).  
+
+Markdown documents are documents that combine text and code. 
+They are saved as simple text documents (with the file extension `.md` or `.Rmd`) 
+and can be edited by any text editor --- ideally by a program that interacts with R (like [**RStudio**](http://www.rstudio.com)). 
 
 # Preparations
 
-## Specify the Header
+## Specify the header
 
 Always specify the current topic (or WPA), your name, and the current date in the _header_ of your file.
 
 ## Load packages
+
+In order to use RMarkdown, you first need to install and load the **rmarkdown** and **knitr** packages in [**R**](https://www.r-project.org/). 
 
 ```{r install_load, echo = FALSE, eval = TRUE}
 # Setting echo = FALSE prevents that this code is displayed in the output document.
@@ -83,4 +91,4 @@ Further information on RMarkdown is available at [http://rmarkdown.rstudio.com](
 
 [Updated on `r Sys.Date()` by YourName.]
 
-<!-- End of document -->
+<!-- End of document. -->

@@ -5,7 +5,9 @@ date: "Year Month Day"
 output: html_document
 ---
 
-This is a _small_ or _minimal_ R Markdown template for our course.  A more extensive introduction is available [here](http://Rpository.com/down/temp/Rmarkdown_basics.html) (and the corresponding `.Rmd` source [here](http://Rpository.com/down/temp/Rmarkdown_basics.Rmd)).
+This is a _small_ or _minimal_ R Markdown template for our course.  
+A more extensive introduction is available [here](http://Rpository.com/down/temp/Rmarkdown_basics.html)  
+(and the corresponding `.Rmd` source [here](http://Rpository.com/down/temp/Rmarkdown_basics.Rmd)).
 
 # Load packages
 
@@ -34,4 +36,4 @@ If your R code contains errors, the document will fail to knit (and print an err
 
 See [http://rmarkdown.rstudio.com](http://rmarkdown.rstudio.com) for further information.
 
-<!-- End of document -->
+<!-- End of document. -->

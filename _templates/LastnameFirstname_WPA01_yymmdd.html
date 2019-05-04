@@ -97,6 +97,9 @@ img {
 button.code-folding-btn:focus {
   outline: none;
 }
+summary {
+  display: list-item;
+}
 </style>
 
 
@@ -104,14 +107,74 @@ button.code-folding-btn:focus {
 <div class="container-fluid main-container">
 
 <!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
 <script>
 $(document).ready(function () {
   window.buildTabsets("TOC");
 });
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
 </script>
 
 <!-- code folding -->
-
 
 
 
@@ -137,14 +200,15 @@ $(document).ready(function () {
 </div>
 <div id="load-packages" class="section level2">
 <h2>Load packages</h2>
+<p>In order to use RMarkdown, you first need to install and load the <strong>rmarkdown</strong> and <strong>knitr</strong> packages in <a href="https://www.r-project.org/"><strong>R</strong></a>.</p>
 </div>
 </div>
 <div id="background" class="section level1">
 <h1>Background</h1>
 <div id="basics" class="section level2">
 <h2>Basics</h2>
-<p>Markdown document are simple text documents and can be edited by any text editor — ideally by a program that interacts with R (like <a href="http://www.rstudio.com">RStudio</a>).</p>
-<p>You can create a new Markdown document in <a href="http://www.rstudio.com">RStudio</a> by clicking <code>File &gt; New File &gt; R Markdown</code>. At the top of a new file, you will see inputs for a page title, author, date, and the output format. Change the title, author, and date to suit your current document.</p>
+<p>Markdown documents are documents that combine text and code. They are saved as simple text documents (with the file extension <code>.md</code> or <code>.Rmd</code>) and can be edited by any text editor — ideally by a program that interacts with R (like <a href="http://www.rstudio.com"><strong>RStudio</strong></a>).</p>
+<p>You can create a new RMarkdown document in <a href="http://www.rstudio.com"><strong>RStudio</strong></a> by clicking <code>File &gt; New File &gt; R Markdown</code>. At the top of a new file, you will see inputs for a page title, author, date, and the output format. Change the title, author, and date to suit your current document.</p>
 </div>
 <div id="text-vs.chunks-of-r-code" class="section level2">
 <h2>Text vs. chunks of R code</h2>
@@ -181,8 +245,8 @@ sum(v)</code></pre>
 <p>To convert an <code>.Rmd</code> source file into an output file (into <code>.html</code> or <code>.pdf</code> format) you need to “knit” it (assuming that the <code>knitr</code> package is installed and loaded). This can be done by pressing the “Knit” button (at the top of your Editor window of RStudio) or the <code>Command + Shift + K</code> keyboard shortcut.</p>
 <p>If your R code contains errors, the document will fail to knit (and print an error message that specifies the reason or chunk name with problems). Thus, if your document fails to knit, you need to go through your code (in a chunk-by-chunk fashion) to find and fix the error.</p>
 <p>Further information on RMarkdown is available at <a href="http://rmarkdown.rstudio.com" class="uri">http://rmarkdown.rstudio.com</a>.</p>
-<p>[Updated on 2018-11-11 by YourName.]</p>
-<!-- End of document -->
+<p>[Updated on 2019-05-04 by YourName.]</p>
+<!-- End of document. -->
 </div>
 </div>
 

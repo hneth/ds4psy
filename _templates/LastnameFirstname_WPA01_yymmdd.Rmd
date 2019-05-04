@@ -15,13 +15,15 @@ Always specify the current topic (or WPA), your name, and the current date in th
 
 ## Load packages
 
-```{r install_load, echo = FALSE, eval = TRUE}
+In order to use RMarkdown, you first need to install and load the **rmarkdown** and **knitr** packages in [**R**](https://www.r-project.org/). 
+
+```{r install_load_rmd, echo = FALSE, eval = TRUE}
 # Setting echo = FALSE prevents that this code is displayed in the output document.
 # Setting eval = TRUE ensures that this code chunk is evaluated when knitting the document.
 
 ## Install packages (only once):
-#install.packages("rmarkdown") 
-#install.packages("knitr") 
+# install.packages("rmarkdown") 
+# install.packages("knitr") 
 
 ## Load packages explicitly at the beginning of a markdown document:
 library("rmarkdown") 
@@ -33,9 +35,13 @@ library("knitr")
 
 ## Basics
 
-Markdown document are simple text documents and can be edited by any text editor --- ideally by a program that interacts with R (like [RStudio](http://www.rstudio.com)). 
+Markdown documents are documents that combine text and code. 
+They are saved as simple text documents (with the file extension `.md` or `.Rmd`) 
+and can be edited by any text editor --- ideally by a program that interacts with R (like [**RStudio**](http://www.rstudio.com)). 
 
-You can create a new Markdown document in [RStudio](http://www.rstudio.com) by clicking `File > New File > R Markdown`. At the top of a new file, you will see inputs for a page title, author, date, and the output format. Change the title, author, and date to suit your current document.
+You can create a new RMarkdown document in [**RStudio**](http://www.rstudio.com) by clicking `File > New File > R Markdown`. 
+At the top of a new file, you will see inputs for a page title, author, date, and the output format. 
+Change the title, author, and date to suit your current document.
 
 
 ## Text vs. chunks of R code
@@ -86,4 +92,4 @@ Further information on RMarkdown is available at [http://rmarkdown.rstudio.com](
 
 [Updated on `r Sys.Date()` by YourName.]
 
-<!-- End of document -->
+<!-- End of document. -->

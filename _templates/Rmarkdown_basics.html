@@ -97,6 +97,9 @@ img {
 button.code-folding-btn:focus {
   outline: none;
 }
+summary {
+  display: list-item;
+}
 </style>
 
 
@@ -104,14 +107,74 @@ button.code-folding-btn:focus {
 <div class="container-fluid main-container">
 
 <!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
 <script>
 $(document).ready(function () {
   window.buildTabsets("TOC");
 });
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
 </script>
 
 <!-- code folding -->
-
 
 
 
@@ -123,21 +186,21 @@ $(document).ready(function () {
 
 <h1 class="title toc-ignore">R Markdown Basics</h1>
 <h4 class="author"><em>Author Name</em></h4>
-<h4 class="date"><em>2018 November 28</em></h4>
+<h4 class="date"><em>2019 May 04</em></h4>
 
 </div>
 
 
 <div id="basics" class="section level1">
 <h1>Basics</h1>
-<p>This template illustrates the basics of an R Markdown document (aka ‘RMarkdown’ or just ‘Markdown’). Markdown documents have the <code>.Rmd</code> file extension. The <code>.Rmd</code> source file of this document is available <a href="http://Rpository.com/down/temp/Rmarkdown_basics.Rmd">here</a>.</p>
+<p>This template illustrates the basics of an R Markdown document (aka. ‘RMarkdown’ or just ‘Markdown’). Markdown documents have the <code>.Rmd</code> file extension. The <code>.Rmd</code> source file of this document is available <a href="http://Rpository.com/down/temp/Rmarkdown_basics.Rmd">here</a>.</p>
 <div id="creating-a-markdown-document" class="section level2">
 <h2>Creating a Markdown document</h2>
-<p>In order to use RMarkdown, you first need to install and load the <code>rmarkdown</code> and <code>knitr</code> packages in R:</p>
+<p>In order to use RMarkdown, you first need to install and load the <strong>rmarkdown</strong> and <strong>knitr</strong> packages in <a href="https://www.r-project.org/"><strong>R</strong></a>:</p>
 <pre class="r"><code># install.packages(&quot;rmarkdown&quot;, &quot;knitr&quot;)  # only once
 library(&quot;rmarkdown&quot;, &quot;knitr&quot;)             # always</code></pre>
-<p>Markdown document are simple text documents and can be edited by any text editor — ideally by a program that interacts with R (like <a href="http://www.rstudio.com">RStudio</a>).</p>
-<p>You can create a new Markdown document in <a href="http://www.rstudio.com">RStudio</a> by clicking <code>File &gt; New File &gt; R Markdown</code>. At the top of a new file, you will see inputs for a page title, author, date, and the output format. Change the title, author, and date to suit your current document.</p>
+<p>Markdown documents are documents that combine text and code. They are saved as simple text documents (with the file extension <code>.md</code> or <code>.Rmd</code>) and can be edited by any text editor — ideally by a program that interacts with R (like <a href="http://www.rstudio.com"><strong>RStudio</strong></a>).</p>
+<p>You can create a new RMarkdown document in <a href="http://www.rstudio.com"><strong>RStudio</strong></a> by clicking <code>File &gt; New File &gt; R Markdown</code>. At the top of a new file, you will see inputs for a page title, author, date, and the output format. Change the title, author, and date to suit your current document.</p>
 </div>
 <div id="text-vs.r-code" class="section level2">
 <h2>Text vs. R code</h2>
@@ -259,7 +322,7 @@ diet.4.sd &lt;- round(sd(ChickWeight$weight[ChickWeight$Diet == 4]), 2)</code></
 </div>
 <div id="knitting-a-document" class="section level1">
 <h1>Knitting a Document</h1>
-<p>To create an HTML (or Word or Latex) document from a Markdown document, you need to <em>knit</em> the document. Knitting a document simply means taking all the text and code and weaving (or <em>knitting</em>) it into a nicely formatted document. Fortunately, the R’s <code>knitr</code> package takes care of the hard parts.</p>
+<p>To create an HTML (or Word or Latex) document from a Markdown (.Rmd) document, you need to <em>knit</em> the document. Knitting a document simply means taking all the text and code and weaving (or <em>knitting</em>) it into a nicely formatted document. Fortunately, the R’s <strong>knitr</strong> package takes care of the hard parts.</p>
 <p>To knit a document (into html, LaTeX pdf, or – if necessary – MS Word) from your <code>.Rmd</code> file, do one of the following:</p>
 <ol style="list-style-type: decimal">
 <li><p>on a Mac: Use the <code>Command-Shift-K</code> keyboard shortcut;</p></li>
@@ -290,7 +353,7 @@ Thankfully, we included the eval = FALSE argument for this chunk, so R will just
 <li>The original version of this file was created by <a href="http://nathanieldphillips.com/">Nathaniel Phillips</a>.</li>
 <li>A simpler template for doing your course-related work is available <a href="http://Rpository.com/down/temp/LastnameFirstname_WPA01_yymmdd.Rmd">here</a>.</li>
 </ul>
-<p>[Updated on 2018-11-28 by <a href="http://neth.de">hn</a>.]</p>
+<p>[Updated on 2019-05-04 by <a href="http://neth.de">hn</a>.]</p>
 <!-- End of document. -->
 </div>
 

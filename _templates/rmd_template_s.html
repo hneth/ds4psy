@@ -97,6 +97,9 @@ img {
 button.code-folding-btn:focus {
   outline: none;
 }
+summary {
+  display: list-item;
+}
 </style>
 
 
@@ -104,14 +107,74 @@ button.code-folding-btn:focus {
 <div class="container-fluid main-container">
 
 <!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
 <script>
 $(document).ready(function () {
   window.buildTabsets("TOC");
 });
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
 </script>
 
 <!-- code folding -->
-
 
 
 
@@ -128,7 +191,9 @@ $(document).ready(function () {
 </div>
 
 
-<p>This is a <em>small</em> or <em>minimal</em> R Markdown template for our course. A more extensive introduction is available <a href="http://Rpository.com/down/temp/Rmarkdown_basics.html">here</a> (and the corresponding <code>.Rmd</code> source <a href="http://Rpository.com/down/temp/Rmarkdown_basics.Rmd">here</a>).</p>
+<p>This is a <em>small</em> or <em>minimal</em> R Markdown template for our course.<br />
+A more extensive introduction is available <a href="http://Rpository.com/down/temp/Rmarkdown_basics.html">here</a><br />
+(and the corresponding <code>.Rmd</code> source <a href="http://Rpository.com/down/temp/Rmarkdown_basics.Rmd">here</a>).</p>
 <div id="load-packages" class="section level1">
 <h1>Load packages</h1>
 </div>
@@ -147,7 +212,7 @@ sum(v)</code></pre>
 <p>To convert an <code>.Rmd</code> source file into <code>.html</code> or <code>.pdf</code> output you need to “knit” it (<code>Command + Shift + K</code>).</p>
 <p>If your R code contains errors, the document will fail to knit (and print an error message that specifies the reason or chunk name with problems). Thus, if your document fails to knit, you need to go through your code (in a chunk-by-chunk fashion) to find and fix the error.</p>
 <p>See <a href="http://rmarkdown.rstudio.com" class="uri">http://rmarkdown.rstudio.com</a> for further information.</p>
-<!-- End of document -->
+<!-- End of document. -->
 </div>
 
 
