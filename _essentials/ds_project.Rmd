@@ -1,7 +1,7 @@
 ---
 title: "Data Science for Psychologists (ds4psy)"
 author: "Hansjörg Neth, SPDS, uni.kn"
-date: "2019 04 26"
+date: "2019 05 04"
 output:
   rmdformats::html_clean:
     highlight: kate
@@ -46,13 +46,13 @@ opts_knit$set(width=75)
 ## General guidelines
 
 What characterizes a good data science project? 
-As the quality of any data exploration and analysis depends on (a) the quality of the data, (b) the questions asked, and (c) the analysis performed, it is difficult to establish a fixed set of rules for data science projects. Here are some general guidelines:
+As the quality of any data exploration and analysis depends on (a) the quality of the data, (b) the questions asked, and (c) the analysis performed, it is difficult to establish a fixed set of rules for evaluating data science projects. Here are some general guidelines:
 
-- Try asking an interesting question that can be answered by available data.
+- Try asking an interesting question that can be answered by the available data.
 
-- Apply and show what you have learned (e.g., in various sessions of our course). 
+- Apply and show what you have learned (e.g., in the various chapters and parts of this course). 
 
-- In short, find, use, transform, and visualize data to address an interesting question. 
+- In short, find some data, and then use, transform, and visualize it to address -- and ideally answer -- an interesting question. 
 
 ## Components
 
@@ -68,19 +68,22 @@ Which data could address or answer the question?
 
 Note that the questions should be expressed without referring to the data (i.e., rather than 
 "What is the correlation between variable `x` and variable `y`?" try a more general statement like  
-"What is the relation between someone's mood and sports activities?"). 
+"What is the relation between someone's activity level and mood?"). 
 
 ### 2. The data 
 
-- The data used should be publicly accessible and must be included (in `csv` format).[^1] 
+The data used in a project should meet the following criteria: 
+
+- The data should be publicly accessible and must be included (in `csv` format).[^1] 
 
 [^1]: Talk to the instructor in case you want to use data that cannot be included (e.g., due to legal or other restrictions).  
 
-- Amount: There are no limits or restrictions regarding data size, but larger datasets are better than smaller ones, data in several files better than 1, etc. 
+- Amount: There are no specific limits or restrictions regarding data size, but the dataset should not be trivial 
+(i.e., larger datasets are better than smaller ones, data in several files better than 1, etc.).
 
-- The data should include multiple and different types of variables (e.g., text, numeric, categorical, logical). 
+- The data or the analysis should typically include multiple types of variables (e.g., text, numeric, categorical, logical). 
 
-- Include a codebook (overview over all variables, their types, and ranges).
+- Include a codebook (overview over all variables, their types, and ranges). 
 
 - Include references to all sources (e.g., of data, corresponding papers, online sources).
 
@@ -96,21 +99,22 @@ Note that the questions should be expressed without referring to the data (i.e.,
 
 ### 4. Data transformation and visualization 
 
-- Add or change variables
+- Select, add, or change variables
 
-- Compute descriptive summary tables or different types of visualizations (that make sense of the data). 
+- Compute descriptive summary tables and corresponding visualizations of various types (that make sense of the data). 
 
-- Can you create a tidy version of the data? How or why not?
+- Can you create a tidy version of the data? How or why not? 
 
 - Try to descriptively answer your initial research questions (e.g., by creating corresponding summary tables or visualizations).
 
 ### 5. Conclusion
 
-- Results: Which answers does your analysis suggest?
+- Results: Which answer(s) does your analysis suggest?
 
 - Limitations: What limits your possible conclusions? What could overcome these limitations? 
 
 - Implications: What follows from your analysis? What should be done next? 
+
 
 ## Submitting a project 
 

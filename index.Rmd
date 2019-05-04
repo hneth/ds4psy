@@ -36,7 +36,7 @@ opts_knit$set(width=75)
 * PSY-15150, at the [University of Konstanz](https://www.uni-konstanz.de/) by [Hansjörg Neth](http://neth.de/) (<h.neth@uni.kn>,  [SPDS](https://www.spds.uni-konstanz.de/), office D507).
 * Summer 2019: Mondays, 15:15--16:45, D435.  
 * Links to current [course syllabus](http://rpository.com/ds4psy/) | [ZeUS](https://zeus.uni-konstanz.de:443/hioserver/pages/startFlow.xhtml?_flowId=detailView-flow&unitId=5101&periodId=179&navigationPosition=hisinoneLehrorganisation,examEventOverviewOwn) |  [Ilias](https://ilias.uni-konstanz.de/ilias/goto_ilias_uni_crs_863036.html) 
-* Essentials and WPAs at <https://bookdown.org/hneth/ds4psy/>. 
+* [ds4psy](https://bookdown.org/hneth/ds4psy/>) essentials and WPAs 
 
 # Course Description
 
