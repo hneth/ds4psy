@@ -1,7 +1,7 @@
 ---
 title: "Exploring data (EDA), with solutions (ds4psy)"
 author: "Hansjörg Neth, SPDS, uni.kn"
-date: "2018 12 06"
+date: "2019 05 10"
 output:
    rmdformats::html_clean: # html_clean html_docco readthedown material #
      code_folding: show # hide
@@ -70,8 +70,13 @@ Nr. | Topic       |
 1.  | [Basic R concepts and commands](http://rpository.com/ds4psy/essentials/basics.html) | 
 2.  | [Visualizing data](http://rpository.com/ds4psy/essentials/visualize.html) | 
 3.  | [Transforming data](http://rpository.com/ds4psy/essentials/transform.html) |
-4.  | **Exploring data (EDA)** |
+4.  | **Exploring data (EDA)** [*](http://rpository.com/ds4psy/essentials/explore.html) | 
 5.  | [Tibbles](http://rpository.com/ds4psy/essentials/tibbles.html) |
+6.  | [Importing data](http://rpository.com/ds4psy/essentials/import.html) |
+7.  | [Tidying data](http://rpository.com/ds4psy/essentials/tidy.html) |
+8.  | [Joining data](http://rpository.com/ds4psy/essentials/join.html) |
+9.  | [Functions](http://rpository.com/ds4psy/essentials/function.html) |
+10. | [Iteration](http://rpository.com/ds4psy/essentials/iteration.html) |
 +.  | [Datasets](http://rpository.com/ds4psy/essentials/datasets.html) | 
 
 <!--
@@ -83,17 +88,21 @@ Nr. | Topic       |
 3.  | [Transforming data](http://rpository.com/ds4psy/essentials/transform.html) |
 4.  | [Exploring data (EDA)](http://rpository.com/ds4psy/essentials/explore.html) | 
 5.  | [Tibbles](http://rpository.com/ds4psy/essentials/tibbles.html) |
-6.  | [Tidying data](http://rpository.com/ds4psy/essentials/tidy.html) |
+6.  | [Importing data](http://rpository.com/ds4psy/essentials/import.html) |
+7.  | [Tidying data](http://rpository.com/ds4psy/essentials/tidy.html) |
+8.  | [Joining data](http://rpository.com/ds4psy/essentials/join.html) |
+9.  | [Functions](http://rpository.com/ds4psy/essentials/function.html) |
+10. | [Iteration](http://rpository.com/ds4psy/essentials/iteration.html) |
 +.  | [Datasets](http://rpository.com/ds4psy/essentials/datasets.html) | 
 -->
 
 ## Course coordinates
 
 <!-- uni.kn logo and link to SPDS: -->  
-<!-- ![](./inst/pix/uniKn_logo.png) --> 
+<!-- ![](./inst/images/uniKn_logo.png) --> 
 <a href="https://www.spds.uni-konstanz.de/">
-<img src = "../inst/pix/uniKn_logo.png" alt = "spds.uni.kn" align = "right" width = "300" style = "width: 300px; float: right; border:20;"/>
-<!-- <img src = "./inst/pix/uniKn_logo_s.png" alt = "spds.uni.kn" style = "float: right; border:20;"/> --> 
+<img src = "../inst/images/uniKn_logo.png" alt = "spds.uni.kn" align = "right" width = "300" style = "width: 300px; float: right; border:20;"/>
+<!-- <img src = "./inst/images/uniKn_logo_s.png" alt = "spds.uni.kn" style = "float: right; border:20;"/> --> 
 </a>
 
 * Taught at the [University of Konstanz](https://www.uni-konstanz.de/) by [Hansjörg Neth](http://neth.de/) (<h.neth@uni.kn>,  [SPDS](https://www.spds.uni-konstanz.de/), office D507).
@@ -144,14 +153,15 @@ Practically, this session combines our knowledge and skills regarding `ggplot2` 
 
 Important concepts in this session include: 
 
-- unusual values: missing values (`NA`)  vs. erroneous or extreme values (e.g., outliers), 
-- different types of variables (e.g., continuous vs. categorical variables),  
-- dropouts (i.e., observations missing at some measurement occasions, which can be random or systematic), 
+- unusual values: missing values (`NA`)  vs. erroneous or extreme values (e.g., outliers),  
+- different types of variables (e.g., continuous vs. categorical variables),   
+- dropouts (i.e., observations missing at some measurement occasions, which can be random or systematic),  
 - relationships between variables (of different types),  
-- trends (i.e., developments over time), and 
-- many different types of plots.
+- trends (i.e., developments over time), and  
+- many different types of plots.  
 
 See [Chapter 7: Exploratory data analysis (EDA)](http://r4ds.had.co.nz/exploratory-data-analysis.html) and the links provided below for additional information. 
+
 
 ## What is EDA? 
 
@@ -187,6 +197,7 @@ Even when these sets of inter-related questions are answered, creating informati
 
 Unfortunately, a new dataset is rarely in a condition and shape to directly allow plotting. Instead, we typically have to interleave commands for plotting with efforts in transforming data to wrangle variables into specific shapes or types. Thus, calls to `ggplot2` typically occur in combination with other `tidyverse` commands (stemming from `dplyr`, `forcats`, `tidyr`, `readr`, `tibble`, etc.). 
 
+
 ## Our session and data
 
 While any actual EDA is tailored to specific features of the data and current research goals, this session highlights some common themes that occur in most cases. 
@@ -216,7 +227,7 @@ Before embarking on any actual analysis, we should pay tribute to 2 principles t
 
 - **Principle 1:** Start with a clean slate and explicitly load all data and all packages required.  
 
-Although the [RStudio](https://www.rstudio.com) IDE provides options for saving your workspace and for loading data or packages by clicking buttons or checking boxes, doing so renders the process of your analysis intransparent for anyone not observing your actions. To make sure that others and yourself can repeat the same sequence of steps tomorrow or next year, it is advisable to always start with a clean slate and explicitly state which packages and which datasets are required for the current analysis (unless there are good reasons to deviate from them):^[Actually, listing _everything_ required to execute a file can get quite excessive (check out `sessionInfo()` or the `session_info` and `package_info` functions of `devtools`, in case you're interested, and consider using the `packrat` package in case you want to preserve or share your current setup). Hence, most people only explicitly list and load non-standard packages (in their currently installed version).]
+Although the [RStudio](https://www.rstudio.com) IDE provides options for saving your workspace and for loading data or packages by clicking buttons or checking boxes, doing so renders the process of your analysis intransparent for anyone not observing your actions. To make sure that others and yourself can repeat the same sequence of steps tomorrow or next year, it is advisable to always start with a clean slate and explicitly state which packages and which datasets are required for the current analysis (unless there are good reasons to deviate from them):^[Actually, listing _everything_ required to execute a file can get quite excessive (check out `sessionInfo()` or the `session_info` and `package_info` functions of `devtools`, in case you're interested, and consider using the `packrat` package in case you want to preserve or share your current setup). Hence, most people only explicitly list and load non-standard packages (in their currently installed version).] 
 
 #### Cleaning up
 
@@ -2629,12 +2640,13 @@ See the packages `circlize`, `ggforce`, and `ggparallel` for other types of tran
 
 -->
 
+
 # More on EDA
 
-- study `vignette("ggplot")` and the documentation for `ggplot` and various geoms (e.g., `geom_`);
+- study the `vignette("ggplot")` and the documentation for `ggplot` and various geoms (e.g., `geom_`);
 - study <https://ggplot2.tidyverse.org/reference/> and its examples; 
-- see the [cheat sheet on data visualization](https://www.rstudio.com/resources/cheatsheets/); 
-- read [Chapter 3: Data visualization](http://r4ds.had.co.nz/data-visualisation.html) and [Chapter 7: Exploratory data analysis (EDA)](http://r4ds.had.co.nz/exploratory-data-analysis.html) and complete their exercises. 
+- study the [cheat sheet on data visualization](https://www.rstudio.com/resources/cheatsheets/); 
+- read [Chapter 3: Data visualization](http://r4ds.had.co.nz/data-visualisation.html) and [Chapter 7: Exploratory data analysis (EDA)](http://r4ds.had.co.nz/exploratory-data-analysis.html) and complete the corresponding exercises. 
 
 
 # Conclusion 
@@ -2649,9 +2661,14 @@ Nr. | Topic       |
 1.  | [Basic R concepts and commands](http://rpository.com/ds4psy/essentials/basics.html) | 
 2.  | [Visualizing data](http://rpository.com/ds4psy/essentials/visualize.html) | 
 3.  | [Transforming data](http://rpository.com/ds4psy/essentials/transform.html) |
-4.  | **Exploring data (EDA)** | 
-5.  | [Tibbles](http://rpository.com/ds4psy/essentials/tibbles.html) | 
-+.  | [Datasets](http://rpository.com/ds4psy/essentials/datasets.html) |  
+4.  | **Exploring data (EDA)** [*](http://rpository.com/ds4psy/essentials/explore.html) | 
+5.  | [Tibbles](http://rpository.com/ds4psy/essentials/tibbles.html) |
+6.  | [Importing data](http://rpository.com/ds4psy/essentials/import.html) |
+7.  | [Tidying data](http://rpository.com/ds4psy/essentials/tidy.html) |
+8.  | [Joining data](http://rpository.com/ds4psy/essentials/join.html) |
+9.  | [Functions](http://rpository.com/ds4psy/essentials/function.html) |
+10. | [Iteration](http://rpository.com/ds4psy/essentials/iteration.html) |
++.  | [Datasets](http://rpository.com/ds4psy/essentials/datasets.html) | 
 
 <!--
 Nr. | Topic       |
@@ -2662,7 +2679,11 @@ Nr. | Topic       |
 3.  | [Transforming data](http://rpository.com/ds4psy/essentials/transform.html) |
 4.  | [Exploring data (EDA)](http://rpository.com/ds4psy/essentials/explore.html) | 
 5.  | [Tibbles](http://rpository.com/ds4psy/essentials/tibbles.html) |
-6.  | [Tidying data](http://rpository.com/ds4psy/essentials/tidy.html) |
+6.  | [Importing data](http://rpository.com/ds4psy/essentials/import.html) |
+7.  | [Tidying data](http://rpository.com/ds4psy/essentials/tidy.html) |
+8.  | [Joining data](http://rpository.com/ds4psy/essentials/join.html) |
+9.  | [Functions](http://rpository.com/ds4psy/essentials/function.html) |
+10. | [Iteration](http://rpository.com/ds4psy/essentials/iteration.html) |
 +.  | [Datasets](http://rpository.com/ds4psy/essentials/datasets.html) | 
 -->
 
