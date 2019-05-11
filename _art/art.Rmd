@@ -1,7 +1,7 @@
 ---
 title: "ds4psy Artwork" 
 author: "Hansjörg Neth, SPDS, uni.kn"
-date: "2019 04 14"
+date: "2019 05 11"
 output:
   rmdformats::html_clean:
     lightbox: TRUE 
@@ -10,21 +10,23 @@ output:
 
 ```{r preamble, echo = FALSE, eval = TRUE, cache = FALSE, message = FALSE, warning = FALSE}
 ## (a) Housekeeping: -----
-rm(list=ls()) # clean all.
+# rm(list=ls()) # clean all.
 
 ## (b) Current file name and path: ----- 
 # cur.path <- dirname(rstudioapi::getActiveDocumentContext()$path)
 # cur.path
 # setwd(cur.path) # set to current directory
-setwd("~/Desktop/stuff/Dropbox/_code/R/_teachR/ds4psy/_art/") # set to current directory
+# setwd("~/Desktop/stuff/Dropbox/_code/R/_teachR/ds4psy/_art/") # set to current directory
 # list.files() # all files + folders in current directory
 fileName <- "art.Rmd"
 
 ## (c) Packages: ----- 
-library(knitr)
+library(rmarkdown)
 library(rmdformats)
+library(knitr)
 library(tidyverse)
 library(cowplot)
+library(here)
 
 ## (d) Global options: ----- 
 options(max.print = "75")
@@ -45,10 +47,13 @@ opts_chunk$set(echo = TRUE,
 opts_knit$set(width = 75)
 
 ## (e) Custom functions: ----- 
-source(file = "~/Desktop/stuff/Dropbox/_code/R/_teachR/ds4psy/R/custom_functions.R")
+source(file = here("R", "custom_functions.R"))
+## WAS: 
+# source(file = "~/Desktop/stuff/Dropbox/_code/R/_teachR/ds4psy/R/custom_functions.R")
 
 # Define some paths: ------
-pic_path <- "./../images/"
+pic_path <- here("images")
+# WAS: pic_path <- "./../images/"
 plot_out <- pic_path 
 
 # plotting parameters: 
@@ -678,9 +683,9 @@ tile_rand
 # Save current plot: 
 cur_name <- paste0("tile_rand_", n_x, "_brd.png")
 if (plot_size < 10) {
-  plot_name <- paste0(pic_path, "tile/", cur_name)  # insert sub-dir "tile"
+  plot_name <- paste0(pic_path, "/tile/", cur_name)  # insert sub-dir "tile"
 } else {
-  plot_name <- paste0(pic_path, "big/", "big_", cur_name)  # sub-dir "big" and insert "big_" prefix
+  plot_name <- paste0(pic_path, "/big/", "big_", cur_name)  # sub-dir "big" and insert "big_" prefix
 }
 ggsave(plot_name, width = plot_size, height = plot_size, units = c("cm"), dpi = 300)
 
@@ -702,9 +707,9 @@ tile_sort
 # Save current plot: 
 cur_name <- paste0("tile_sort_", n_x, "_brd.png")
 if (plot_size < 10) {
-  plot_name <- paste0(pic_path, "tile/", cur_name)
+  plot_name <- paste0(pic_path, "/tile/", cur_name)
 } else {
-  plot_name <- paste0(pic_path, "big/", "big_", cur_name)  # insert "big_" prefix
+  plot_name <- paste0(pic_path, "/big/", "big_", cur_name)  # insert "big_" prefix
 }
 ggsave(plot_name, width = plot_size, height = plot_size, units = c("cm"), dpi = 300)
 ```
@@ -730,9 +735,9 @@ tile_rand
 # Save current plot: 
 cur_name <- paste0("tile_rand_", n_x, ".png")
 if (plot_size < 10) {
-  plot_name <- paste0(pic_path, "tile/", cur_name)
+  plot_name <- paste0(pic_path, "/tile/", cur_name)
 } else {
-  plot_name <- paste0(pic_path, "big/", "big_", cur_name)  # insert "big_" prefix
+  plot_name <- paste0(pic_path, "/big/", "big_", cur_name)  # insert "big_" prefix
 }
 
 ggsave(plot_name, width = plot_size, height = plot_size, units = c("cm"), dpi = 300)
@@ -755,9 +760,9 @@ tile_sort
 # Save current plot: 
 cur_name <- paste0("tile_sort_", n_x, ".png")
 if (plot_size < 10) {
-  plot_name <- paste0(pic_path, "tile/", cur_name)
+  plot_name <- paste0(pic_path, "/tile/", cur_name)
 } else {
-  plot_name <- paste0(pic_path, "big/", "big_", cur_name)  # insert "big_" prefix
+  plot_name <- paste0(pic_path, "/big/", "big_", cur_name)  # insert "big_" prefix
 }
 
 ggsave(plot_name, width = plot_size, height = plot_size, units = c("cm"), dpi = 300)
@@ -794,9 +799,9 @@ tile_rand_lbl
 # Save current plot: 
 cur_name <- paste0("tile_rand_", n_x, "_brd_lbl.png")
 if (plot_size < 10) {
-  plot_name <- paste0(pic_path, "tile/", cur_name)
+  plot_name <- paste0(pic_path, "/tile/", cur_name)
 } else {
-  plot_name <- paste0(pic_path, "big/", "big_", cur_name)  # insert "big_" prefix
+  plot_name <- paste0(pic_path, "/big/", "big_", cur_name)  # insert "big_" prefix
 }
 ggsave(plot_name, width = plot_size, height = plot_size, units = c("cm"), dpi = 300)
 
@@ -821,9 +826,9 @@ tile_sort_lbl
 # Save current plot: 
 cur_name <- paste0("tile_sort_", n_x, "_brd_lbl.png")
 if (plot_size < 10) {
-  plot_name <- paste0(pic_path, "tile/", cur_name)
+  plot_name <- paste0(pic_path, "/tile/", cur_name)
 } else {
-  plot_name <- paste0(pic_path, "big/", "big_", cur_name)  # insert "big_" prefix
+  plot_name <- paste0(pic_path, "/big/", "big_", cur_name)  # insert "big_" prefix
 }
 ggsave(plot_name, width = plot_size, height = plot_size, units = c("cm"), dpi = 300)
 ```
@@ -1405,19 +1410,18 @@ ToC (chronology and relevance of sessions) as bar charts:
 
 # Table of contents (ToC):
 toc <- tribble(
-  ~nr, ~tp,                 ~ctr,   
-  0,  "Introduction",          2,  
-  1, 	"R basics",              10,  # was: "Basic R concepts and commands",
-  2, 	"Visualizing data",      8, 
-  3, 	"Transforming data",     9, 
-  4, 	"Exploring data",       10,  # was: "Exploring data (EDA)"
-  5, 	"Tibbles",               7,
-  6, 	"Importing data",        5, 
-  7, 	"Tidying data",          9, 
-  8, 	"Joining data",          8, 
-  9, 	"Functions",             9,
- 10,  "Iteration",             7
-)
+  ~nr, ~tp,                 ~ctr,  ~part,   
+  0,  "Introduction",          2,  0,
+  1, 	"R basics",              10, 0, # was: "Basic R concepts and commands",
+  2, 	"Visualizing data",      8,  1, 
+  3, 	"Transforming data",     9,  1, 
+  4, 	"Exploring data",       10,  1, # was: "Exploring data (EDA)"
+  5, 	"Tibbles",               7,  2, 
+  6, 	"Importing data",        5,  2,  
+  7, 	"Tidying data",          9,  2,  
+  8, 	"Joining data",          8,  2,  
+  9, 	"Functions",             9,  3, 
+ 10,  "Iteration",             7,  3)
 
 toc <- toc %>% mutate(nr_val = nr + 10) # add constant to increase overall height of bars
 
@@ -1440,6 +1444,10 @@ unikn_toc <- seecol(pal = c(Grau, Bordeaux, pal_seeblau[c(4,3,5,3,1,4,2)], pal_s
 
 seeblau_10 <- seecol(pal = pal_seeblau, n = 10)
 unikn_toc <- seecol(pal = c("white", seeblau_10))
+
+# Colors of parts: 
+part_col <- c("steelblue", "firebrick", "orange", "forestgreen")
+# part_col
 ```
 
 Bar plots:
@@ -1463,7 +1471,7 @@ bar_hori <- ggplot(toc, aes(x = nr)) +
 bar_hori
 
 # Save plot:
-cur_name <- paste0(pic_path, "toc/", "toc_chronology", ".png")
+cur_name <- paste0(pic_path, "/toc/", "toc_chronology", ".png")
 ggsave(cur_name, width = 15, height = 10, units = c("cm"), dpi = 300)
 
 # (b) Relevance:
@@ -1480,10 +1488,37 @@ bar_vert <- ggplot(toc, aes(x = nr)) +
   labs(title = "ds4psy: Relevance of topics", x = "Session", y = "Relevance")
 bar_vert
 
-# Save plot:
-cur_name <- paste0(pic_path, "toc/", "toc_relevance", ".png")
+## Save plot:
+# WAS: cur_name <- paste0(pic_path, "/toc/", "toc_relevance", ".png")
+cur_name <- here("images", "toc", "toc_relevance.png")
 ggsave(cur_name, width = 15, height = 12, units = c("cm"), dpi = 300)
 ```
+
+Vertical bar plot (showing relevance by session) with parts [added on 2019-05-11]:
+
+```{r plot_toc_bar_part, fig.width = 8, fig.height = 6}
+bar_vert_part <- ggplot(toc, aes(x = nr)) +
+  geom_line(aes(x = nr, y = -.5, color = factor(part)), size = 2.5, alpha = .88) +  # NEW: to mark parts 
+  scale_color_manual(values = part_col) + 
+  geom_bar(aes(y = ctr, fill = ctr), stat = "identity", color = grey(.2, 1), size = .2) +
+  scale_fill_gradientn(colors = unikn_toc) +
+  # scale_fill_gradient(low = "white", high = pal_seeblau[[5]], limits = c(min_ctr, max_ctr)) +
+  geom_text(aes(y = ctr + .5, label = tp), angle = 90, adj = 0, size = txt_size) + 
+  scale_x_continuous(breaks = 0:N, labels = 0:N) + 
+  scale_y_continuous(limits = c(-.5, (max_ctr + tol)), breaks = 1:max_ctr, labels = 1:max_ctr) + 
+  theme_minimal() + 
+  theme(legend.position = "none", panel.grid.minor = element_blank()) +
+  labs(title = "ds4psy: Relevance of topics", x = "Session", y = "Relevance")
+bar_vert_part
+
+## Save plot:
+# WAS: cur_name <- paste0(pic_path, "/toc/", "toc_relevance", ".png")
+cur_name <- here("images", "toc", "toc_relevance_part.png")
+ggsave(cur_name, width = 15, height = 12, units = c("cm"), dpi = 300)
+
+```
+
+
 
 ### ToC polar charts
 
@@ -1531,8 +1566,9 @@ centrality <- ggplot(toc, aes(x = nr)) +
   labs(fill = "Relevance:") 
 centrality
 
-# Save plot:
-cur_name <- paste0(pic_path, "toc/", "toc_centrality", ".png")
+## Save plot:
+# WAS: cur_name <- paste0(pic_path, "/toc/", "toc_centrality", ".png")
+cur_name <- here("images", "toc", "toc_centrality.png")
 ggsave(cur_name, width = 15, height = 15, units = c("cm"), dpi = 300)
 ```
 
@@ -1549,7 +1585,7 @@ ggsave(cur_name, width = 15, height = 15, units = c("cm"), dpi = 300)
 
 ### Current session clock
 
-Highlight current session in polar chart: 
+Highlight the current session `session_val` in the polar chart: 
 
 ```{r plot_toc_clock, fig.width = 8, fig.height = 8}
 # (C) Highlight the current session (in gold):
@@ -1557,21 +1593,22 @@ Highlight current session in polar chart:
 # session number:
 n_rand <- sample(0:11, size = 1, replace = TRUE)  # random integer (0:11)
 nr_session <- n_rand  # random session nr (as in polar clock plot above)
-nr_session <- 1     # specific session nr
+nr_session <- 10     # specific session nr
 
 tol <- 8         # increase tolerance value (to leave more space for text labels)
 txt_size <- 2.0  # decrease (to keep topic labels within highlighted areas)
   
 # Add current session_val to toc:
-toc$session_val <- 0  # initialize session_val
+toc$session_val <- 0  # initialize session_val to 0 
 toc$session_val[(nr_session + 1)] <- (max_ctr + tol)  # maximum y-value
 # toc
 
-cur_session_clock <- ggplot(toc, aes(x = nr)) +
+cur_session_clock <- ggplot(toc, aes(x = nr)) + 
   geom_bar(aes(y = session_val), stat = "identity", fill = "gold", alpha = .75) +
   geom_bar(aes(y = ctr, fill = ctr), stat = "identity", color = grey(.10, 1), size = .25) +
   # scale_fill_gradientn(colors = unikn_toc) +
   scale_fill_gradient(low = "white", high = pal_seeblau[[5]], limits = c(min_ctr, max_ctr)) +
+  scale_color_manual(values = part_col) + 
   geom_text(aes(y = (max_ctr + .45 * tol), label = tp), adj = .5, size = txt_size, fontface = 1) +    # topic labels
   scale_x_continuous(breaks = 0:N, labels = 0:N) + 
   scale_y_continuous(limits = c(0, (max_ctr + tol)), breaks = 1:max_ctr, labels = 1:max_ctr) + 
@@ -1586,9 +1623,41 @@ cur_session_clock <- ggplot(toc, aes(x = nr)) +
 cur_session_clock
 
 # Save plot:
-cur_name <- paste0(pic_path, "toc/", "toc_clock_", nr_session, ".png")
+cur_name <- paste0(pic_path, "/toc/", "toc_clock_", nr_session, ".png")
 ggsave(cur_name, width = 10, height = 10, units = c("cm"), dpi = 300)
 ```
+
+Session clock with colored parts [added on 2019-05-11]:
+
+```{r plot_toc_clock_parts, fig.width = 8, fig.height = 8}
+max_y_val <- (max_ctr + tol)
+
+cur_session_clock_parts <- ggplot(toc, aes(x = nr)) +
+  geom_line(aes(y = 18.3, color = factor(part)), size = 2.5, alpha = .88) +  # NEW: to mark parts 
+  geom_bar(aes(y = session_val), stat = "identity", fill = "gold", alpha = .75) +
+  geom_bar(aes(y = ctr, fill = ctr), stat = "identity", color = grey(.10, 1), size = .25) +
+  # scale_fill_gradientn(colors = unikn_toc) +
+  scale_fill_gradient(low = "white", high = pal_seeblau[[5]], limits = c(min_ctr, max_ctr)) +
+  scale_color_manual(values = part_col) + 
+  geom_text(aes(y = (max_ctr + .45 * tol), label = tp), adj = .5, size = txt_size, fontface = 1) +    # topic labels
+  scale_x_continuous(breaks = 0:N, labels = 0:N) + 
+  scale_y_continuous(limits = c(0, (max_ctr + tol + 1)), breaks = 1:max_ctr, labels = 1:max_ctr) + 
+  coord_polar() + 
+  # theme_void() + 
+  theme_light() + 
+  theme(legend.position = "none", 
+        axis.line = element_blank(), 
+        axis.title = element_blank(), axis.text.y = element_blank(),
+        axis.ticks = element_blank(), panel.border = element_blank()) +
+  labs(fill = "Centrality:") 
+
+cur_session_clock_parts
+
+# Save plot:
+cur_name <- paste0(pic_path, "/toc/", "toc_clock_part_", nr_session, ".png")
+ggsave(cur_name, width = 10, height = 10, units = c("cm"), dpi = 300)
+```
+
 
 # Miscellaneous R art
 
@@ -1853,7 +1922,7 @@ ggplot(DAT, aes(x = x, y = value, fill = group)) +
   )
 
 ## Save plot:
-# cur_name <- paste0(pic_path, "art_grass", ".png")
+# cur_name <- paste0(pic_path, "/art_grass", ".png")
 # ggsave(cur_name, width = 15, height = 10, units = c("cm"), dpi = 300)
 ```
 
