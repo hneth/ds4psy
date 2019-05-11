@@ -1633,7 +1633,7 @@ Session clock with colored parts [added on 2019-05-11]:
 max_y_val <- (max_ctr + tol)
 
 cur_session_clock_parts <- ggplot(toc, aes(x = nr)) +
-  geom_line(aes(y = 18.3, color = factor(part)), size = 2.5, alpha = .88) +  # NEW: to mark parts 
+  geom_line(aes(y = 18.5, color = factor(part)), size = 2.5, alpha = .88) +  # NEW: to mark parts 
   geom_bar(aes(y = session_val), stat = "identity", fill = "gold", alpha = .75) +
   geom_bar(aes(y = ctr, fill = ctr), stat = "identity", color = grey(.10, 1), size = .25) +
   # scale_fill_gradientn(colors = unikn_toc) +
