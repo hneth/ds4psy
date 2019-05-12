@@ -1,7 +1,7 @@
 ---
 title: "ds4psy Artwork" 
 author: "Hansjörg Neth, SPDS, uni.kn"
-date: "2019 05 11"
+date: "2019 05 12"
 output:
   rmdformats::html_clean:
     lightbox: TRUE 
@@ -1446,11 +1446,23 @@ seeblau_10 <- seecol(pal = pal_seeblau, n = 10)
 unikn_toc <- seecol(pal = c("white", seeblau_10))
 
 # Colors of parts: 
-part_col <- c("steelblue", "firebrick", "orange", "forestgreen")
+
+# Use some distinct base-R colors: 
+part_col <- c("steelblue", "firebrick", "orange", "forestgreen")  
+
+# Use unikn colors:
+# seecol(pal = c(pal_peach[4], pal_bordeaux[4], pal_seegruen[3], pal_petrol[4]))
+part_col <- usecol(pal = c(pal_peach[4], pal_bordeaux[4], pal_seegruen[3], pal_petrol[4]))
+
+# mixing unikn with a shade of "orange":
+# seecol(pal = c(pal_seegruen[3], pal_bordeaux[4], "orange2", pal_petrol[4]))
+part_col <- usecol(pal = c(pal_seegruen[3], pal_bordeaux[4], "orange2", pal_petrol[4]))
+
+part_col <- unname(part_col)
 # part_col
 ```
 
-Bar plots:
+Bar plots: 
 
 ```{r plot_toc_bar, fig.width = 8, fig.height = 6}
 ## Bar plots: ------ 
@@ -1514,10 +1526,8 @@ bar_vert_part
 ## Save plot:
 # WAS: cur_name <- paste0(pic_path, "/toc/", "toc_relevance", ".png")
 cur_name <- here("images", "toc", "toc_relevance_part.png")
-ggsave(cur_name, width = 15, height = 12, units = c("cm"), dpi = 300)
-
+ggsave(cur_name, width = 15, height = 13, units = c("cm"), dpi = 300)
 ```
-
 
 
 ### ToC polar charts
@@ -1604,7 +1614,7 @@ toc$session_val[(nr_session + 1)] <- (max_ctr + tol)  # maximum y-value
 # toc
 
 cur_session_clock <- ggplot(toc, aes(x = nr)) + 
-  geom_bar(aes(y = session_val), stat = "identity", fill = "gold", alpha = .75) +
+  geom_bar(aes(y = session_val), stat = "identity", fill = "gold", alpha = .67) +
   geom_bar(aes(y = ctr, fill = ctr), stat = "identity", color = grey(.10, 1), size = .25) +
   # scale_fill_gradientn(colors = unikn_toc) +
   scale_fill_gradient(low = "white", high = pal_seeblau[[5]], limits = c(min_ctr, max_ctr)) +
@@ -1634,7 +1644,7 @@ max_y_val <- (max_ctr + tol)
 
 cur_session_clock_parts <- ggplot(toc, aes(x = nr)) +
   geom_line(aes(y = 18.5, color = factor(part)), size = 2.5, alpha = .88) +  # NEW: to mark parts 
-  geom_bar(aes(y = session_val), stat = "identity", fill = "gold", alpha = .75) +
+  geom_bar(aes(y = session_val), stat = "identity", fill = "gold", alpha = .67) +
   geom_bar(aes(y = ctr, fill = ctr), stat = "identity", color = grey(.10, 1), size = .25) +
   # scale_fill_gradientn(colors = unikn_toc) +
   scale_fill_gradient(low = "white", high = pal_seeblau[[5]], limits = c(min_ctr, max_ctr)) +
