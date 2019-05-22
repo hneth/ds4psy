@@ -1,7 +1,7 @@
 ---
 title: "Tibbles, with solutions (ds4psy)"
 author: "Hansjörg Neth, SPDS, uni.kn"
-date: "2019 05 16"
+date: "2019 05 22"
 output:
    rmdformats::html_clean: # html_clean html_docco readthedown material #
      code_folding: show # hide
@@ -121,7 +121,7 @@ Create an R script (`.R`) or an R-Markdown file (`.Rmd`) and load the R packages
 
 ```{r layout_template, echo = TRUE, eval = FALSE}
 ## Tibbles | ds4psy
-## 2018 12 10
+## 2019 05 20
 ## ----------------------------
 
 ## Preparations: ----------
@@ -1224,8 +1224,13 @@ Nr. | Topic       |
 2.  | [Visualizing data](http://rpository.com/ds4psy/essentials/visualize.html) | 
 3.  | [Transforming data](http://rpository.com/ds4psy/essentials/transform.html) |
 4.  | [Exploring data (EDA)](http://rpository.com/ds4psy/essentials/explore.html) | 
-5.  | **Tibbles** |
-+.  | [Datasets](http://rpository.com/ds4psy/essentials/datasets.html) | 
+5.  | **Tibbles** [*](http://rpository.com/ds4psy/essentials/tibbles.html) |
+6.  | [Importing data](http://rpository.com/ds4psy/essentials/import.html) |
+7.  | [Tidying data](http://rpository.com/ds4psy/essentials/tidy.html) |
+8.  | [Joining data](http://rpository.com/ds4psy/essentials/join.html) |
+9.  | [Functions](http://rpository.com/ds4psy/essentials/function.html) |
+10. | [Iteration](http://rpository.com/ds4psy/essentials/iteration.html) |
++.  | [Datasets](http://rpository.com/ds4psy/essentials/datasets.html) |
 
 <!--
 Nr. | Topic       |
@@ -1243,7 +1248,6 @@ Nr. | Topic       |
 10. | [Iteration](http://rpository.com/ds4psy/essentials/iteration.html) |
 +.  | [Datasets](http://rpository.com/ds4psy/essentials/datasets.html) | 
 -->
-
 
 [Last update on `r Sys.time()` by [hn](http://neth.de/).]  
 

@@ -1,7 +1,7 @@
 ---
 title: "Tidying data, with solutions (ds4psy)"
 author: "Hansjörg Neth, SPDS, uni.kn"
-date: "2019 05 18"
+date: "2019 05 22"
 output:
    rmdformats::html_clean: # html_clean html_docco readthedown material #
      code_folding: show # hide
@@ -65,6 +65,11 @@ A command is considered "essential" when you really need to _know_ it and need t
 
 All [ds4psy](http://rpository.com/ds4psy/) essentials so far: 
 
+<!-- ds4psy logo 1: -->
+<a href="http://rpository.com/ds4psy/">
+<img src = "./../images/logo/logo_200_bwg.png" alt = "ds4psy" width = "110px" align = "right" style = "width: 150px; float: right; border:11;"/>
+</a>
+
 Nr. | Topic       |
 ---:|:------------| 
 0.  | [Syllabus](http://rpository.com/ds4psy/) | 
@@ -99,16 +104,17 @@ Nr. | Topic       |
 
 ## Course coordinates
 
-<!-- uni.kn logo and link to SPDS: -->  
+<!-- uni.kn logo and link: -->  
 <!-- ![](./inst/images/uniKn_logo.png) --> 
-<a href="https://www.spds.uni-konstanz.de/">
-<img src = "../inst/images/uniKn_logo.png" alt = "spds.uni.kn" align = "right" width = "300" style = "width: 300px; float: right; border:20;"/>
-<!-- <img src = "./inst/images/uniKn_logo_s.png" alt = "spds.uni.kn" style = "float: right; border:20;"/> --> 
+<a href="https://www.uni-konstanz.de/">
+<img src = "../inst/images/uniKn_logo.png" alt = "uni.kn" align = "right" width = "300" style = "width: 300px; float: right; border:20;"/>
+<!-- <img src = "./inst/images/uniKn_logo_s.png" alt = "uni.kn" style = "float: right; border:20;"/> --> 
 </a>
 
-* Taught at the [University of Konstanz](https://www.uni-konstanz.de/) by [Hansjörg Neth](http://neth.de/) (<h.neth@uni.kn>,  [SPDS](https://www.spds.uni-konstanz.de/), office D507).
-* Winter 2018/2019: Mondays, 13:30--15:00, C511. 
-* Links to current [course syllabus](http://rpository.com/ds4psy/) | [ZeUS](https://zeus.uni-konstanz.de/hioserver/pages/startFlow.xhtml?_flowId=detailView-flow&unitId=5101&periodId=78&navigationPosition=hisinoneLehrorganisation,examEventOverviewOwn) |  [Ilias](https://ilias.uni-konstanz.de/ilias/goto_ilias_uni_crs_809936.html) 
+* PSY-15150, at the [University of Konstanz](https://www.uni-konstanz.de/) by [Hansjörg Neth](http://neth.de/) (<h.neth@uni.kn>,  [SPDS](https://www.spds.uni-konstanz.de/), office D507).
+* Summer 2019: Mondays, 15:15--16:45, D435.  
+* Links to current [course syllabus](http://rpository.com/ds4psy/) | [ZeUS](https://zeus.uni-konstanz.de:443/hioserver/pages/startFlow.xhtml?_flowId=detailView-flow&unitId=5101&periodId=179&navigationPosition=hisinoneLehrorganisation,examEventOverviewOwn) |  [Ilias](https://ilias.uni-konstanz.de/ilias/goto_ilias_uni_crs_863036.html) 
+* [ds4psy](https://bookdown.org/hneth/ds4psy/>) essentials and WPAs 
 
 
 ## Preparations
@@ -117,7 +123,7 @@ Create an R script (`.R`) or an R-Markdown file (`.Rmd`) and load the R packages
 
 ```{r layout_template, echo = TRUE, eval = FALSE}
 ## Tidy data | ds4psy
-## 2019 05 18
+## 2019 05 22
 ## ----------------------------
 
 ## Preparations: ----------
