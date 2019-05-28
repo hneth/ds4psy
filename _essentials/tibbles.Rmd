@@ -1,7 +1,7 @@
 ---
 title: "Tibbles, with solutions (ds4psy)"
 author: "Hansjörg Neth, SPDS, uni.kn"
-date: "2019 05 22"
+date: "2019 05 28"
 output:
    rmdformats::html_clean: # html_clean html_docco readthedown material #
      code_folding: show # hide
@@ -741,10 +741,10 @@ dec_1 <- tribble(
   "Anna",  "Mon", "Butter",  2.00,
   "Anna",  "Tue", "Pasta",   4.50,
   "Anna",  "Wed", "Pencils", 3.25,
-  "Anna",  "Wed", "Cream",   3.90,
   "Anna",  "Thu", "Milk",    4.80,
   "Anna",  "Sat", "Cookies", 4.40,
   "Anna",  "Sun", "Cake",   12.50,
+  "Anna",  "Sun", "Cream",   3.90,
   "Brian", "Mon", "Chips",   3.80, 
   "Brian", "Tue", "Beer",   11.80, 
   "Brian", "Wed", "Steak",  16.20, 
