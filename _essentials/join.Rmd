@@ -1,7 +1,7 @@
 ---
 title: "Joining data, with solutions (ds4psy)"
 author: "Hansjörg Neth, SPDS, uni.kn"
-date: "2019 05 22"
+date: "2019 06 24"
 output:
    rmdformats::html_clean: # html_clean html_docco readthedown material #
      code_folding: show # hide
@@ -342,6 +342,26 @@ t4 <- rbind(t4, t4[d2, ])
 # Arrange tables:
 t3 <- t3 %>% arrange(name, gender)
 t4 <- t4 %>% arrange(name, gender)
+```
+
+```{r write_and_re-read_t3_t4, echo = FALSE, eval = FALSE}
+# Save and store t3 and 4t online (at "http://rpository.com/ds4psy/data/"):
+
+# 1. Save tables:
+write_csv(t3, "../data/t3.csv")
+write_csv(t4, "../data/t4.csv")
+
+# 2. Re-read tables (from local /data source):
+t3b <- read_csv("../data/t3.csv")
+t4b <- read_csv("../data/t4.csv")
+
+# 3. Re-read tables (from online source):
+t3b <- read_csv(file = "http://rpository.com/ds4psy/data/t3.csv")
+t4b <- read_csv(file = "http://rpository.com/ds4psy/data/t4.csv")
+
+# 4. Verify identity (of above with re-read online data):
+all.equal(t3, t3b) 
+all.equal(t4, t4b)
 ```
 
 The resulting tables `t3` and `t4` are both 10 x 4 tibbles and contain some common and some unique cases (people). 

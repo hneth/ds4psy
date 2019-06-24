@@ -1,7 +1,7 @@
 ---
 title: "Joining data, with WPA08 (ds4psy)"
 author: "Hansjörg Neth, SPDS, uni.kn"
-date: "2019 01 21"
+date: "2019 06 24"
 output:
    rmdformats::html_clean: # html_clean html_docco readthedown material #
      code_folding: show # hide
@@ -89,16 +89,18 @@ Nr. | Topic       |
 6.  | [Importing data](http://rpository.com/ds4psy/essentials/import.html) |
 7.  | [Tidying data](http://rpository.com/ds4psy/essentials/tidy.html) |
 8.  | [Joining data](http://rpository.com/ds4psy/essentials/join.html) |
+9.  | [Functions](http://rpository.com/ds4psy/essentials/function.html) |
+10. | [Iteration](http://rpository.com/ds4psy/essentials/iteration.html) |
 +.  | [Datasets](http://rpository.com/ds4psy/essentials/datasets.html) | 
 -->
 
 ## Course coordinates
 
 <!-- uni.kn logo and link to SPDS: -->  
-<!-- ![](./inst/pix/uniKn_logo.png) --> 
+<!-- ![](./inst/images/uniKn_logo.png) --> 
 <a href="https://www.spds.uni-konstanz.de/">
-<img src = "../inst/pix/uniKn_logo.png" alt = "spds.uni.kn" align = "right" width = "300" style = "width: 300px; float: right; border:20;"/>
-<!-- <img src = "./inst/pix/uniKn_logo_s.png" alt = "spds.uni.kn" style = "float: right; border:20;"/> --> 
+<img src = "../inst/images/uniKn_logo.png" alt = "spds.uni.kn" align = "right" width = "300" style = "width: 300px; float: right; border:20;"/>
+<!-- <img src = "./inst/images/uniKn_logo_s.png" alt = "spds.uni.kn" style = "float: right; border:20;"/> --> 
 </a>
 
 * Taught at the [University of Konstanz](https://www.uni-konstanz.de/) by [Hansjörg Neth](http://neth.de/) (<h.neth@uni.kn>,  [SPDS](https://www.spds.uni-konstanz.de/), office D507).
@@ -331,6 +333,26 @@ t4 <- rbind(t4, t4[d2, ])
 # Arrange tables:
 t3 <- t3 %>% arrange(name, gender)
 t4 <- t4 %>% arrange(name, gender)
+```
+
+```{r write_and_re-read_t3_t4, echo = FALSE, eval = FALSE}
+# Save and store t3 and 4t online (at "http://rpository.com/ds4psy/data/"):
+
+# 1. Save tables:
+write_csv(t3, "../data/t3.csv")
+write_csv(t4, "../data/t4.csv")
+
+# 2. Re-read tables (from local /data source):
+t3b <- read_csv("../data/t3.csv")
+t4b <- read_csv("../data/t4.csv")
+
+# 3. Re-read tables (from online source):
+t3b <- read_csv(file = "http://rpository.com/ds4psy/data/t3.csv")
+t4b <- read_csv(file = "http://rpository.com/ds4psy/data/t4.csv")
+
+# 4. Verify identity (of above with re-read online data):
+all.equal(t3, t3b) 
+all.equal(t4, t4b)
 ```
 
 The resulting tables `t3` and `t4` are both 10 x 4 tibbles and contain some common and some unique cases (people). 
@@ -1192,6 +1214,8 @@ Nr. | Topic       |
 6.  | [Importing data](http://rpository.com/ds4psy/essentials/import.html) |
 7.  | [Tidying data](http://rpository.com/ds4psy/essentials/tidy.html) |
 8.  | [Joining data](http://rpository.com/ds4psy/essentials/join.html) |
+9.  | [Functions](http://rpository.com/ds4psy/essentials/function.html) |
+10. | [Iteration](http://rpository.com/ds4psy/essentials/iteration.html) |
 +.  | [Datasets](http://rpository.com/ds4psy/essentials/datasets.html) | 
 -->
 
