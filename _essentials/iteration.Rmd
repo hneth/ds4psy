@@ -374,20 +374,18 @@ output_2
 all.equal(output, output_2)
 ```
 
-
-
 2. We have learned that creating a for loop requires knowing (a)&nbsp;the data type of the loop results and 
 (b)&nbsp;a data structure than can collect these results. 
 This is simple and straightforward if each loop results in a single number, as then all results can be stored in a vector. 
 
-However, things get more complicated if loops yield tables, lists, or plots. 
-Try creating similar for loops for `summary` and for `hist` of each variable in `tb` (or each variable of `tb_2`). 
+However, things get more complicated if loops yield tables, lists, or plots, as outputs. 
+Try creating similar for loops that return the `summary` and a histogram (using the **base** R function `hist`) of each variable in `tb` (or each variable of `tb_2`). 
 
 #### Solution {-}
 
-Summary: 
+Creating a `summary`: 
 
-```{r}
+```{r practice-summary-1}
 # (b) Summary: ---- 
 summary(tb$age)
 summary(tb$height)
@@ -399,6 +397,27 @@ s
 typeof(s)     # "double"
 is.vector(s)  # FALSE
 is.table(s)   # TRUE
+```
+
+The following for loop is almost identical to the one (computing `mean` of columns 2:5 of `tb`) above. 
+However, we initialize the `summaries` vector to a `mode = "list"`, which allows storing more complex objects in a vector: 
+
+```{r practice-summary-2}
+# Loop:
+# (a) prepare output: 
+summaries <- vector(mode = "list", length = 4)  # initialize to a vector of lists!
+
+# (b) for loop: 
+for (i in 2:5){
+  
+  sm <- summary(tb[[i]])
+  
+  summaries[[i - 1]] <- sm
+  
+}
+
+# (c) use output: 
+summaries  # print summaries:
 ```
 
 Histogram: 
@@ -437,9 +456,9 @@ plot(out[[1]])
 
 ### Variations
 
-4 variations on the basic theme of the for loop:
+We can distinguish between 4 variations of the basic theme of the for loop:
 
-#### 1. Modifying an existing object, instead of creating a new object.
+#### 1. Modifying an existing object, instead of creating a new object {-}
 
 Example: Rescale every column of a table (tibble or data frame).
 
@@ -502,7 +521,7 @@ df2
 all.equal(df, df2)
 ```
 
-#### 2. Looping over names or values, instead of indices
+#### 2. Looping over names or values, instead of indices {-}
 
 So far, we used `for loop` to loop over _numeric indices_ of `x` with `for (i in seq_along(x))`, 
 and then extracted the `i`-th value of `x` with `x[[i]]`. 
@@ -538,7 +557,7 @@ for (i in seq_along(x)) {
 }
 ```
 
-#### 3. Handling outputs of unknown length 
+#### 3. Handling outputs of unknown length {-}
 
 - Problem: Not knowing how long the output will be. 
 
@@ -546,7 +565,7 @@ For example, imagine we want to simulate some random vectors of random lengths.
 
 ToDo: [etc.]
 
-#### 4. Handling sequences of unknown length
+#### 4. Handling sequences of unknown length {-}
 
 - Problem: The number of iterations is not known in advance.
 - Solution: `while` loop, with a `condition` to stop loop. 
