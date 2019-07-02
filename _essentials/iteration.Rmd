@@ -1,7 +1,7 @@
 ---
 title: "Iteration, with WPA10 and solutions (ds4psy)"
 author: "Hansjörg Neth, SPDS, uni.kn"
-date: "2019 04 05"
+date: "2019 07 01"
 output:
    rmdformats::html_clean: # html_clean html_docco readthedown material #
      code_folding: show # hide
@@ -32,6 +32,7 @@ fileName <- "iteration.Rmd"
 library(knitr)
 library(rmdformats)
 library(tidyverse)
+library(unikn)
 
 ## (d) Global options: ----- 
 options(max.print = "75")
@@ -57,8 +58,7 @@ source(file = "~/Desktop/stuff/Dropbox/_code/R/_teachR/ds4psy/R/custom_functions
 
 # Introduction
 
-This file contains **essential commands** from [Chapter 21: Iteration](https://r4ds.had.co.nz/iteration.html) of the textbook [r4ds](http://r4ds.had.co.nz) and corresponding examples and exercises. 
-A command is considered "essential" when you really need to _know_ it and need to know _how to use_ it to succeed in this course. 
+This file contains **essential commands** from [Chapter 21: Iteration](https://r4ds.had.co.nz/iteration.html) of the textbook [r4ds](http://r4ds.had.co.nz) and corresponding examples and exercises. A command is considered "essential" when you really need to _know_ it and need to know _how to use_ it to succeed in this course. 
 
 <!-- Table with links: -->
 
@@ -118,7 +118,7 @@ Nr. | Topic       |
 
 ## Preparations
 
-Create an R script (`.R`) or an R-Markdown file (`.Rmd`) and load the R packages of the `tidyverse`. (**Hint:** Structure your script by inserting spaces, meaningful comments, and sections.) 
+Create an R script (`.R`) or an R-Markdown file (`.Rmd`) and load the R packages of the **tidyverse**. (**Hint:** Structure your script by inserting spaces, meaningful comments, and sections.) 
 
 ```{r layout_template, echo = TRUE, eval = FALSE}
 ## Iteration | ds4psy
@@ -149,7 +149,8 @@ For instructions on combining text and code, see [Chapter 27: R Markdown](https:
 
 # Iteration
 
-Iteration := doing things repeatedly.
+Defining _iteration_ := doing things repeatedly. 
+The repetition of a procedure or process. 
 
 ## Loops
 
@@ -218,7 +219,7 @@ Asking and answering 3 questions:
 
 After answering these questions, a loop can be designed in reverse order (from output to body):
 
-```{r for_loop_template, echo = TRUE, eval = FALSE}
+```{r for-loop-template, echo = TRUE, eval = FALSE}
 # (a) prepare output: 
 output <- vector(<type>, length(start:end))  
 
@@ -246,7 +247,7 @@ Example: Compute square number of integers from 1 to 10.
 
 Implementation:
 
-```{r}
+```{r for-loop-demo-1}
 # (a) prepare output: 
 output <- vector("double", length(1:10))
 
@@ -265,24 +266,28 @@ output
 
 **Note:** In the loop, we use `output[[i]]`, rather than `output[i]` to refer to the `i`-th element of `output` . 
 Actually, using a single `[]` would have worked as well, but the double `[[]]` makes it clear that we want to remove a level of the hierarchy and 
-assign something to a single element of `output`. (See [Ch. 20.5.2 Subsetting recursive vectors (lists)](https://r4ds.had.co.nz/vectors.html#subsetting-1) for more details on this distinction.) 
-
+assign something to a single element of `output`. 
+(See [Ch. 20.5.2 Subsetting recursive vectors (lists)](https://r4ds.had.co.nz/vectors.html#subsetting-1) for more details on this distinction.) 
 
 #### Loops over data
 
-In the context of data science, we typically want to iterate over (rows or columns) of data tables. 
+In the context of data science, we often want to iterate over (rows or columns) of data tables. 
+Let's load some data to work with:
 
-Load some data:
-
-```{r}
+```{r load_data_for_loop}
 ## Load data:
 # tb <- read_csv2("../data/tb.csv")  # from local file
 tb <- read_csv2("http://rpository.com/ds4psy/data/tb.csv")  # from local file
+
+# inspect tb: 
+dim(tb)  # 100 cases x 5 variables
+head(tb)
 ```
 
-A repeated operation for each variable (column) on a table:
+Suppose we wanted to obtain the means of the variables from `age` to `IQ`. 
+We could call the `mean` function for each descired variable. Thus, repeating this call for each variable would be:
 
-```{r}
+```{r multiple_means}
 # (a) Means: ---- 
 mean(tb$age)
 mean(tb$height)
@@ -290,15 +295,16 @@ mean(tb$shoesize)
 mean(tb$IQ)
 ```
 
-Repetition is a signal that there are more efficient ways.
+However, the statement "for each variable" in the previous sentence shows that we are dealing with an instance of _iteration_ here. 
+When dealing with computers, _repetition_ of identical steps or commands is a signal that there are more efficient ways to accomplish the same task. 
 
-How could we use a loop? To design the loop, we need to answer our 3 questions: 
+How could we use a for loop here? To design this loop, we need to answer our 3 questions from above: 
 
-1. _body_: Compute the mean of 4 columns (`age` to `IQ`) in `tb`.
+1. _body_: We want to compute the mean of 4 columns (`age` to `IQ`) in `tb`.
 
-2. _sequence_: We want to iterate over columns 2 to 5 (4 iterations).
+2. _sequence_: We want to iterate over columns 2 to 5 (i.e., 4 iterations). 
 
-3. _output_: The _result_ is a vector of type "double" with 4 instances. 
+3. _output_: The _result_ or the loop is a vector of type "double", containing 4 elements. 
 
 Note: 
 
@@ -306,7 +312,7 @@ Note:
 
 - The i-th column of tibble `tb` (or data frame `df`) can be accessed via `tb[[i]]` (or `df[[i]]`). 
 
-```{r}
+```{r loop_means_1}
 # Prepare data: 
 tb_2 <- tb %>% select(-1)
 tb_2
@@ -327,20 +333,57 @@ for (i in 1:4){
 output
 ```
 
-In the `tidyverse` the loop range can be defined with a special function: 
+In the **tidyverse** the loop range can be defined with a special function: 
 
 ```{r}
 seq_along(tb_2)  # loop through COLUMNS of a df/table
 ```
 
-#### Practice
+#### Practice {-}
 
-Note that loop requires knowing (a) the data type of the loop results and (b) a data structure than can collect these results. 
+1. Rewrite the for loop to compute the means of columns 2 to 5 of `tb` (i.e., without simplifying `tb` to `tb_2` first). 
+
+#### Solution {-}
+
+We create a new output vector `output_2` and need to change 2 things: 
+
+- the column numbers of the for loop statement (from `1:4` to `2:5`). 
+
+- the index to which we assign our current mean `mn` should be decreased to `i - 1` (to assign the mean of column 2 to the 1st element of `output_2`). 
+
+```{r loop_means_2}
+# Using data:
+# tb
+
+# (a) prepare output: 
+output_2 <- vector("double", 4)
+
+# (b) for loop: 
+for (i in 2:5){
+  
+  mn <- mean(tb[[i]])
+  
+  output_2[[i - 1]] <- mn
+  
+}
+
+# (c) use output: 
+output_2
+
+# Verify equality: 
+all.equal(output, output_2)
+```
+
+
+
+2. We have learned that creating a for loop requires knowing (a)&nbsp;the data type of the loop results and 
+(b)&nbsp;a data structure than can collect these results. 
 This is simple and straightforward if each loop results in a single number, as then all results can be stored in a vector. 
 
 However, things get more complicated if loops yield tables, lists, or plots. 
+Try creating similar for loops for `summary` and for `hist` of each variable in `tb` (or each variable of `tb_2`). 
 
-Repeat loops for `summary` and for `hist` of each variable in `tb` (or rather `tb_2`): 
+#### Solution {-}
 
 Summary: 
 
@@ -639,9 +682,9 @@ The idea of passing a _function_ as an _argument_ to another _function_ is an ex
 and it’s one of the behaviors that makes R a _functional programming language_.
 
 
-## Replacing loops by `apply` and `purrr`
+## Replacing loops by `apply` and **purrr**
 
-The `apply` family of functions and the `purrr` package provide functions that eliminate the need for many `for` loops.  
+The `apply` family of functions and the **purrr** package provide functions that eliminate the need for many `for` loops.  
 
 Note that using `apply` and `map` is not necessarily faster than using `for` loops. 
 The chief benefit of using these functions is not speed, but _clarity_: They make code easier to write and read.
@@ -680,26 +723,26 @@ each element of which is the result of applying `FUN` to the corresponding eleme
 
 - See also `sapply` and `vapply` for simplifying arrays and returning vectors. 
 
-### Using `purrr`
+### Using **purrr**
 
-The `purrr` package provides modern and more consistent versions of `apply`. 
+The **purrr** package provides modern and more consistent versions of `apply`. 
 
-The main goal of using `purrr` functions (instead of `for` loops) is to allow breaking common list manipulation challenges into independent pieces. 
+The main goal of using **purrr** functions (instead of `for` loops) is to allow breaking common list manipulation challenges into independent pieces. 
 
 This strategy involves 2 steps, each of which scales down the problem: 
 
 1. Solving the problem for a _single element_ of the list.  
-Once we’ve solved that problem, `purrr` takes care of generalising the solution to every element in the list.
+Once we’ve solved that problem, **purrr** takes care of generalising the solution to every element in the list.
 
 2. Breaking a complex problem down into _smaller sub-problems_ that allow us to advance towards a solution.  
-With `purrr`, we get many small pieces that we can compose together with the pipe (`%>%`).
+With **purrr**, we get many small pieces that we can compose together with the pipe (`%>%`).
 
 This scaling-down strategy makes it easier to solve new problems and to understand our solutions to old problems when we re-read older code.
 
 
 ### `map` functions
 
-The pattern of looping over a vector, doing something to each element and saving the results is so common that the `purrr` package provides a family of functions for it. 
+The pattern of looping over a vector, doing something to each element and saving the results is so common that the **purrr** package provides a family of functions for it. 
 There is a function for each type of output:
 
 - `map()` makes a _list_.
@@ -771,7 +814,7 @@ models <- mtcars %>%
 models # 3 linear models
 ```
 
-As the syntax for creating an _anonymous function_ in R is quite verbose, `purrr` provides a _one-sided formula_ as a shortcut: 
+As the syntax for creating an _anonymous function_ in R is quite verbose, **purrr** provides a _one-sided formula_ as a shortcut: 
 
 ```{r map_split_shortcut}
 models <- mtcars %>% 
@@ -793,7 +836,7 @@ models %>%
   map_dbl(~.$r.squared)
 ```
 
-But extracting named components is a common operation, so `purrr` provides an even shorter shortcut: We can use a _string_:
+But extracting named components is a common operation, so **purrr** provides an even shorter shortcut: We can use a _string_:
 
 ```{r map_split_map_named}
 models %>% 
@@ -813,9 +856,9 @@ x %>% map_dbl(2)  # 2nd column of x
 
 ### `map` vs. `apply`
 
-The `map` functions of `purrr` are modeled on the `apply` functions:
+The `map` functions of **purrr** are modeled on the `apply` functions:
 
-- `lapply` is basically identical to `map`, except that `map` is consistent with all the other functions in `purrr`, and we can use the shortcuts for `.f`.
+- `lapply` is basically identical to `map`, except that `map` is consistent with all the other functions in **purrr**, and we can use the shortcuts for `.f`.
 
 - `sapply` is a wrapper around `lapply` that automatically simplifies the output (which can yield unexpected results).
 
@@ -823,7 +866,7 @@ The `map` functions of `purrr` are modeled on the `apply` functions:
 The only problem with `vapply` is that it’s a lot of typing: `vapply(df, is.numeric, logical(1))` is equivalent to `map_lgl(df, is.numeric)`. 
 
 
-- One advantage of `vapply` over `purrr`’s `map` functions is that it can also produce _matrices_ — the `map` functions only ever produce _vectors_.
+- One advantage of `vapply` over **purrr**’s `map` functions is that it can also produce _matrices_ — the `map` functions only ever produce _vectors_.
 
 <!-- +++ here now +++ --> 
 
@@ -860,7 +903,7 @@ Loops in new functions
 - Write a function that z-transforms every numeric column in a table. 
 
 
-## `map` functions of `purrr`
+## `map` functions of **purrr**
 
 - See <https://r4ds.had.co.nz/iteration.html#exercises-58> 
 
@@ -870,7 +913,7 @@ Loops in new functions
 
 - For loops in general, see the [contributed cheatsheets](https://www.rstudio.com/resources/cheatsheets/) on _Base R_ and _Advanced R_. 
 
-- For references on functional programming (FP) with `purrr`, see <https://purrr.tidyverse.org> and the [purrr cheatsheet](https://www.rstudio.com/resources/cheatsheets/). 
+- For references on functional programming (FP) with **purrr**, see <https://purrr.tidyverse.org> and the [purrr cheatsheet](https://www.rstudio.com/resources/cheatsheets/). 
 
 - See [Chapter 21: Iteration](https://r4ds.had.co.nz/iteration.html) of [r4ds](https://r4ds.had.co.nz/) and its exercises. 
 
