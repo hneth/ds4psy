@@ -1,7 +1,7 @@
 ---
 title: "Iteration, with WPA10 and solutions (ds4psy)"
 author: "Hansjörg Neth, SPDS, uni.kn"
-date: "2019 07 01"
+date: "2019 07 04"
 output:
    rmdformats::html_clean: # html_clean html_docco readthedown material #
      code_folding: show # hide
@@ -909,6 +909,68 @@ Adverbs:
 # Exercises (WPA10)
 
 Here are the exercises of WPA10 and possible solutions for them.
+
+## Exercise 1
+
+- Look up the term _Fibonacci numbers_ and write a function that uses a for loop to create and return the first `n` Fibonacci numbers.
+
+- Use your function to print the first 25 Fibonacci numbers.
+
+#### Solution {-}
+
+According to [Wikipedia](https://en.wikipedia.org/wiki/Fibonacci_number), a Fibonacci sequence is the integer sequence of `0, 1, 1, 2, 3, 5, 8, ...`. 
+
+For any element $e_{i}$ and $i > 2$, each element is the sum of the 2 preceding elements: 
+
+$e_{i} = e_{i-2} + e_{i-1}$.   
+
+```{r fibonacci}
+fibonacci <- function(n){
+  
+  if (is.na(n) || (n < 1) || (n != round(n)))  {
+    stop("n must be a positive integer.")
+  }
+  
+  # initialize the sequence:
+  fib <- c(0, 1)
+  
+  if (n <= 2){
+    
+    fib <- fib[1:n]
+    
+  } else {
+
+    # initialize output vector:    
+    fib <- c(fib, rep(NA, (n-2)))
+    
+    # loop:
+    for (i in 3:n){
+      
+      fib[i] <- fib[i-2] + fib[i-1]
+      
+    } # end for loop.
+  } # end if (n > 2).
+  
+  return(fib)
+
+}
+
+# Check:
+fibonacci(1)
+fibonacci(2)
+fibonacci(3)
+fibonacci(4)
+
+# First 25 Fibonacci numbers:
+fibonacci(25)
+
+## Errors:
+# fibonacci(0)
+# fibonacci(-1)
+# fibonacci(3/2)
+# fibonacci(NA)
+```
+
 
 
 ## Exercise X

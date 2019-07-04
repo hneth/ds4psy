@@ -124,7 +124,7 @@ img {
 <div id="header">
 <h1 class="title">Iteration, with WPA10 and solutions (ds4psy)</h1>
 <h4 class="author"><em>Hansjörg Neth, SPDS, uni.kn</em></h4>
-<h4 class="date"><em>2019 04 05</em></h4>
+<h4 class="date"><em>2019 07 04</em></h4>
 </div>
 
 <div id="content">
@@ -225,7 +225,7 @@ Nr. | Topic       |
 </div>
 <div id="preparations" class="section level2">
 <h2>Preparations</h2>
-<p>Create an R script (<code>.R</code>) or an R-Markdown file (<code>.Rmd</code>) and load the R packages of the <code>tidyverse</code>. (<strong>Hint:</strong> Structure your script by inserting spaces, meaningful comments, and sections.)</p>
+<p>Create an R script (<code>.R</code>) or an R-Markdown file (<code>.Rmd</code>) and load the R packages of the <strong>tidyverse</strong>. (<strong>Hint:</strong> Structure your script by inserting spaces, meaningful comments, and sections.)</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## Iteration | ds4psy
 ## 2019 01 31
 ## ----------------------------
@@ -250,7 +250,7 @@ Nr. | Topic       |
 </div>
 <div id="iteration" class="section level1">
 <h1>Iteration</h1>
-<p>Iteration := doing things repeatedly.</p>
+<p>Defining <em>iteration</em> := doing things repeatedly. The repetition of a procedure or process.</p>
 <div id="loops" class="section level2">
 <h2>Loops</h2>
 <pre><code>#&gt; # A tibble: 6 x 5
@@ -323,12 +323,25 @@ output
 </div>
 <div id="loops-over-data" class="section level4">
 <h4>Loops over data</h4>
-<p>In the context of data science, we typically want to iterate over (rows or columns) of data tables.</p>
-<p>Load some data:</p>
+<p>In the context of data science, we often want to iterate over (rows or columns) of data tables. Let’s load some data to work with:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## Load data:
 <span class="co"># tb &lt;- read_csv2(&quot;../data/tb.csv&quot;)  # from local file</span>
-tb &lt;-<span class="st"> </span><span class="kw">read_csv2</span>(<span class="st">&quot;http://rpository.com/ds4psy/data/tb.csv&quot;</span>)  <span class="co"># from local file</span></code></pre></div>
-<p>A repeated operation for each variable (column) on a table:</p>
+tb &lt;-<span class="st"> </span><span class="kw">read_csv2</span>(<span class="st">&quot;http://rpository.com/ds4psy/data/tb.csv&quot;</span>)  <span class="co"># from local file</span>
+
+<span class="co"># inspect tb: </span>
+<span class="kw">dim</span>(tb)  <span class="co"># 100 cases x 5 variables</span>
+<span class="co">#&gt; [1] 100   5</span>
+<span class="kw">head</span>(tb)
+<span class="co">#&gt; # A tibble: 6 x 5</span>
+<span class="co">#&gt;      id   age height shoesize    IQ</span>
+<span class="co">#&gt;   &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;    &lt;dbl&gt; &lt;dbl&gt;</span>
+<span class="co">#&gt; 1     1    21    173       38    89</span>
+<span class="co">#&gt; 2     2    26    193       43    93</span>
+<span class="co">#&gt; 3     3    24    171       41    92</span>
+<span class="co">#&gt; 4     4    32    191       43    97</span>
+<span class="co">#&gt; 5     5    26    156       36   110</span>
+<span class="co">#&gt; 6     6    28    172       34   117</span></code></pre></div>
+<p>Suppose we wanted to obtain the means of the variables from <code>age</code> to <code>IQ</code>. We could call the <code>mean</code> function for each descired variable. Thus, repeating this call for each variable would be:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># (a) Means: ---- </span>
 <span class="kw">mean</span>(tb<span class="op">$</span>age)
 <span class="co">#&gt; [1] 26.29</span>
@@ -338,12 +351,12 @@ tb &lt;-<span class="st"> </span><span class="kw">read_csv2</span>(<span class="
 <span class="co">#&gt; [1] 39.05</span>
 <span class="kw">mean</span>(tb<span class="op">$</span>IQ)
 <span class="co">#&gt; [1] 104.85</span></code></pre></div>
-<p>Repetition is a signal that there are more efficient ways.</p>
-<p>How could we use a loop? To design the loop, we need to answer our 3 questions:</p>
+<p>However, the statement “for each variable” in the previous sentence shows that we are dealing with an instance of <em>iteration</em> here. When dealing with computers, <em>repetition</em> of identical steps or commands is a signal that there are more efficient ways to accomplish the same task.</p>
+<p>How could we use a for loop here? To design this loop, we need to answer our 3 questions from above:</p>
 <ol style="list-style-type: decimal">
-<li><p><em>body</em>: Compute the mean of 4 columns (<code>age</code> to <code>IQ</code>) in <code>tb</code>.</p></li>
-<li><p><em>sequence</em>: We want to iterate over columns 2 to 5 (4 iterations).</p></li>
-<li><p><em>output</em>: The <em>result</em> is a vector of type “double” with 4 instances.</p></li>
+<li><p><em>body</em>: We want to compute the mean of 4 columns (<code>age</code> to <code>IQ</code>) in <code>tb</code>.</p></li>
+<li><p><em>sequence</em>: We want to iterate over columns 2 to 5 (i.e., 4 iterations).</p></li>
+<li><p><em>output</em>: The <em>result</em> or the loop is a vector of type “double”, containing 4 elements.</p></li>
 </ol>
 <p>Note:</p>
 <ul>
@@ -383,16 +396,53 @@ output &lt;-<span class="st"> </span><span class="kw">vector</span>(<span class=
 <span class="co"># (c) use output: </span>
 output
 <span class="co">#&gt; [1]  26.29 177.78  39.05 104.85</span></code></pre></div>
-<p>In the <code>tidyverse</code> the loop range can be defined with a special function:</p>
+<p>In the <strong>tidyverse</strong> the loop range can be defined with a special function:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">seq_along</span>(tb_<span class="dv">2</span>)  <span class="co"># loop through COLUMNS of a df/table</span>
 <span class="co">#&gt; [1] 1 2 3 4</span></code></pre></div>
 </div>
-<div id="practice" class="section level4">
+<div id="practice" class="section level4 unnumbered">
 <h4>Practice</h4>
-<p>Note that loop requires knowing (a) the data type of the loop results and (b) a data structure than can collect these results. This is simple and straightforward if each loop results in a single number, as then all results can be stored in a vector.</p>
-<p>However, things get more complicated if loops yield tables, lists, or plots.</p>
-<p>Repeat loops for <code>summary</code> and for <code>hist</code> of each variable in <code>tb</code> (or rather <code>tb_2</code>):</p>
-<p>Summary:</p>
+<ol style="list-style-type: decimal">
+<li>Rewrite the for loop to compute the means of columns 2 to 5 of <code>tb</code> (i.e., without simplifying <code>tb</code> to <code>tb_2</code> first).</li>
+</ol>
+</div>
+<div id="solution" class="section level4 unnumbered">
+<h4>Solution</h4>
+<p>We create a new output vector <code>output_2</code> and need to change 2 things:</p>
+<ul>
+<li><p>the column numbers of the for loop statement (from <code>1:4</code> to <code>2:5</code>).</p></li>
+<li><p>the index to which we assign our current mean <code>mn</code> should be decreased to <code>i - 1</code> (to assign the mean of column 2 to the 1st element of <code>output_2</code>).</p></li>
+</ul>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Using data:</span>
+<span class="co"># tb</span>
+
+<span class="co"># (a) prepare output: </span>
+output_<span class="dv">2</span> &lt;-<span class="st"> </span><span class="kw">vector</span>(<span class="st">&quot;double&quot;</span>, <span class="dv">4</span>)
+
+<span class="co"># (b) for loop: </span>
+<span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">2</span><span class="op">:</span><span class="dv">5</span>){
+  
+  mn &lt;-<span class="st"> </span><span class="kw">mean</span>(tb[[i]])
+  
+  output_<span class="dv">2</span>[[i <span class="op">-</span><span class="st"> </span><span class="dv">1</span>]] &lt;-<span class="st"> </span>mn
+  
+}
+
+<span class="co"># (c) use output: </span>
+output_<span class="dv">2</span>
+<span class="co">#&gt; [1]  26.29 177.78  39.05 104.85</span>
+
+<span class="co"># Verify equality: </span>
+<span class="kw">all.equal</span>(output, output_<span class="dv">2</span>)
+<span class="co">#&gt; [1] TRUE</span></code></pre></div>
+<ol start="2" style="list-style-type: decimal">
+<li>We have learned that creating a for loop requires knowing (a) the data type of the loop results and (b) a data structure than can collect these results. This is simple and straightforward if each loop results in a single number, as then all results can be stored in a vector.</li>
+</ol>
+<p>However, things get more complicated if loops yield tables, lists, or plots, as outputs. Try creating similar for loops that return the <code>summary</code> and a histogram (using the <strong>base</strong> R function <code>hist</code>) of each variable in <code>tb</code> (or each variable of <code>tb_2</code>).</p>
+</div>
+<div id="solution-1" class="section level4 unnumbered">
+<h4>Solution</h4>
+<p>Creating a <code>summary</code>:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># (b) Summary: ---- </span>
 <span class="kw">summary</span>(tb<span class="op">$</span>age)
 <span class="co">#&gt;    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. </span>
@@ -415,6 +465,37 @@ s
 <span class="co">#&gt; [1] FALSE</span>
 <span class="kw">is.table</span>(s)   <span class="co"># TRUE</span>
 <span class="co">#&gt; [1] TRUE</span></code></pre></div>
+<p>The following for loop is almost identical to the one (computing <code>mean</code> of columns 2:5 of <code>tb</code>) above. However, we initialize the <code>summaries</code> vector to a <code>mode = &quot;list&quot;</code>, which allows storing more complex objects in a vector:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Loop:</span>
+<span class="co"># (a) prepare output: </span>
+summaries &lt;-<span class="st"> </span><span class="kw">vector</span>(<span class="dt">mode =</span> <span class="st">&quot;list&quot;</span>, <span class="dt">length =</span> <span class="dv">4</span>)  <span class="co"># initialize to a vector of lists!</span>
+
+<span class="co"># (b) for loop: </span>
+<span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">2</span><span class="op">:</span><span class="dv">5</span>){
+  
+  sm &lt;-<span class="st"> </span><span class="kw">summary</span>(tb[[i]])
+  
+  summaries[[i <span class="op">-</span><span class="st"> </span><span class="dv">1</span>]] &lt;-<span class="st"> </span>sm
+  
+}
+
+<span class="co"># (c) use output: </span>
+summaries  <span class="co"># print summaries:</span>
+<span class="co">#&gt; [[1]]</span>
+<span class="co">#&gt;    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. </span>
+<span class="co">#&gt;   15.00   22.00   24.50   26.29   30.25   46.00 </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; [[2]]</span>
+<span class="co">#&gt;    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. </span>
+<span class="co">#&gt;   150.0   171.8   177.0   177.8   185.0   206.0 </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; [[3]]</span>
+<span class="co">#&gt;    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. </span>
+<span class="co">#&gt;   29.00   36.00   39.00   39.05   42.00   47.00 </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; [[4]]</span>
+<span class="co">#&gt;    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. </span>
+<span class="co">#&gt;    85.0    97.0   104.0   104.8   113.0   145.0</span></code></pre></div>
 <p>Histogram:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># (c) Histogram: ---- </span>
 <span class="kw">hist</span>(tb<span class="op">$</span>age)</code></pre></div>
@@ -497,9 +578,9 @@ out &lt;-<span class="st"> </span><span class="kw">vector</span>(<span class="st
 </div>
 <div id="variations" class="section level3">
 <h3>Variations</h3>
-<p>4 variations on the basic theme of the for loop:</p>
-<div id="modifying-an-existing-object-instead-of-creating-a-new-object." class="section level4">
-<h4>1. Modifying an existing object, instead of creating a new object.</h4>
+<p>We can distinguish between 4 variations of the basic theme of the for loop:</p>
+<div id="modifying-an-existing-object-instead-of-creating-a-new-object" class="section level4 unnumbered">
+<h4>1. Modifying an existing object, instead of creating a new object</h4>
 <p>Example: Rescale every column of a table (tibble or data frame).</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">set.seed</span>(<span class="dv">1</span>)  <span class="co"># for reproducible results</span>
 
@@ -592,7 +673,7 @@ df2
 <span class="kw">all.equal</span>(df, df2)
 <span class="co">#&gt; [1] TRUE</span></code></pre></div>
 </div>
-<div id="looping-over-names-or-values-instead-of-indices" class="section level4">
+<div id="looping-over-names-or-values-instead-of-indices" class="section level4 unnumbered">
 <h4>2. Looping over names or values, instead of indices</h4>
 <p>So far, we used <code>for loop</code> to loop over <em>numeric indices</em> of <code>x</code> with <code>for (i in seq_along(x))</code>, and then extracted the <code>i</code>-th value of <code>x</code> with <code>x[[i]]</code>.</p>
 <p>There are 2 additional common loop patterns:</p>
@@ -623,7 +704,7 @@ results
   value &lt;-<span class="st"> </span>x[[i]]
 }</code></pre></div>
 </div>
-<div id="handling-outputs-of-unknown-length" class="section level4">
+<div id="handling-outputs-of-unknown-length" class="section level4 unnumbered">
 <h4>3. Handling outputs of unknown length</h4>
 <ul>
 <li>Problem: Not knowing how long the output will be.</li>
@@ -631,7 +712,7 @@ results
 <p>For example, imagine we want to simulate some random vectors of random lengths.</p>
 <p>ToDo: [etc.]</p>
 </div>
-<div id="handling-sequences-of-unknown-length" class="section level4">
+<div id="handling-sequences-of-unknown-length" class="section level4 unnumbered">
 <h4>4. Handling sequences of unknown length</h4>
 <ul>
 <li>Problem: The number of iterations is not known in advance.</li>
@@ -688,7 +769,7 @@ output &lt;-<span class="st"> </span><span class="kw">vector</span>(<span class=
 }
 
 output
-<span class="co">#&gt; [1]  0.1341367  0.1434569  0.4512100 -0.2477361</span></code></pre></div>
+<span class="co">#&gt; [1]  0.1322028  0.2488450 -0.1336732  0.1207302</span></code></pre></div>
 <p>As we will want to compute the means of every column pretty frequently, we extract it into a function:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">col_mean &lt;-<span class="st"> </span><span class="cf">function</span>(data) {
   
@@ -705,7 +786,7 @@ output
 
 <span class="co"># Check: </span>
 <span class="kw">col_mean</span>(df)
-<span class="co">#&gt; [1]  0.1341367  0.1434569  0.4512100 -0.2477361</span></code></pre></div>
+<span class="co">#&gt; [1]  0.1322028  0.2488450 -0.1336732  0.1207302</span></code></pre></div>
 <p>But now we also want the <em>median</em> and <em>standard deviation</em> of every column. Of course we could write analog functions <code>col_median()</code> and <code>col_sd()</code>, but they would only differ in 1 lines from <code>col_mean</code> above.</p>
 </div>
 <div id="motivation-generalising-functions" class="section level4">
@@ -737,20 +818,20 @@ f3 &lt;-<span class="st"> </span><span class="cf">function</span>(x) <span class
 
 <span class="co"># Repeat use of col_mean (from above): </span>
 <span class="kw">col_summary</span>(df, <span class="dt">fun =</span> mean) <span class="co"># Note: same functionality/results as above.</span>
-<span class="co">#&gt; [1]  0.1341367  0.1434569  0.4512100 -0.2477361</span>
+<span class="co">#&gt; [1]  0.1322028  0.2488450 -0.1336732  0.1207302</span>
 
 <span class="co"># New uses: </span>
 <span class="kw">col_summary</span>(df, <span class="dt">fun =</span> median)
-<span class="co">#&gt; [1]  0.1261179  0.1030325  0.1710228 -0.2210933</span>
+<span class="co">#&gt; [1]  0.256575548  0.491872279  0.009218122 -0.056559219</span>
 <span class="kw">col_summary</span>(df, <span class="dt">fun =</span> sd)
-<span class="co">#&gt; [1] 0.5957661 1.0144796 1.2887324 0.6296414</span></code></pre></div>
+<span class="co">#&gt; [1] 0.7805860 1.0695148 0.9556076 0.8085646</span></code></pre></div>
 <p>The idea of passing a <em>function</em> as an <em>argument</em> to another <em>function</em> is an extremely powerful idea, and it’s one of the behaviors that makes R a <em>functional programming language</em>.</p>
 </div>
 </div>
 </div>
 <div id="replacing-loops-by-apply-and-purrr" class="section level2">
-<h2>Replacing loops by <code>apply</code> and <code>purrr</code></h2>
-<p>The <code>apply</code> family of functions and the <code>purrr</code> package provide functions that eliminate the need for many <code>for</code> loops.</p>
+<h2>Replacing loops by <code>apply</code> and <strong>purrr</strong></h2>
+<p>The <code>apply</code> family of functions and the <strong>purrr</strong> package provide functions that eliminate the need for many <code>for</code> loops.</p>
 <p>Note that using <code>apply</code> and <code>map</code> is not necessarily faster than using <code>for</code> loops. The chief benefit of using these functions is not speed, but <em>clarity</em>: They make code easier to write and read.</p>
 <div id="using-apply" class="section level3">
 <h3>Using <code>apply</code></h3>
@@ -793,21 +874,21 @@ f3 &lt;-<span class="st"> </span><span class="cf">function</span>(x) <span class
 </ul>
 </div>
 <div id="using-purrr" class="section level3">
-<h3>Using <code>purrr</code></h3>
-<p>The <code>purrr</code> package provides modern and more consistent versions of <code>apply</code>.</p>
-<p>The main goal of using <code>purrr</code> functions (instead of <code>for</code> loops) is to allow breaking common list manipulation challenges into independent pieces.</p>
+<h3>Using <strong>purrr</strong></h3>
+<p>The <strong>purrr</strong> package provides modern and more consistent versions of <code>apply</code>.</p>
+<p>The main goal of using <strong>purrr</strong> functions (instead of <code>for</code> loops) is to allow breaking common list manipulation challenges into independent pieces.</p>
 <p>This strategy involves 2 steps, each of which scales down the problem:</p>
 <ol style="list-style-type: decimal">
 <li><p>Solving the problem for a <em>single element</em> of the list.<br />
-Once we’ve solved that problem, <code>purrr</code> takes care of generalising the solution to every element in the list.</p></li>
+Once we’ve solved that problem, <strong>purrr</strong> takes care of generalising the solution to every element in the list.</p></li>
 <li><p>Breaking a complex problem down into <em>smaller sub-problems</em> that allow us to advance towards a solution.<br />
-With <code>purrr</code>, we get many small pieces that we can compose together with the pipe (<code>%&gt;%</code>).</p></li>
+With <strong>purrr</strong>, we get many small pieces that we can compose together with the pipe (<code>%&gt;%</code>).</p></li>
 </ol>
 <p>This scaling-down strategy makes it easier to solve new problems and to understand our solutions to old problems when we re-read older code.</p>
 </div>
 <div id="map-functions" class="section level3">
 <h3><code>map</code> functions</h3>
-<p>The pattern of looping over a vector, doing something to each element and saving the results is so common that the <code>purrr</code> package provides a family of functions for it. There is a function for each type of output:</p>
+<p>The pattern of looping over a vector, doing something to each element and saving the results is so common that the <strong>purrr</strong> package provides a family of functions for it. There is a function for each type of output:</p>
 <ul>
 <li><code>map()</code> makes a <em>list</em>.</li>
 <li><code>map_lgl()</code> makes a <em>logical vector</em>.</li>
@@ -909,7 +990,7 @@ models <span class="co"># 3 linear models</span>
 <span class="co">#&gt; Coefficients:</span>
 <span class="co">#&gt; (Intercept)           wt  </span>
 <span class="co">#&gt;      23.868       -2.192</span></code></pre></div>
-<p>As the syntax for creating an <em>anonymous function</em> in R is quite verbose, <code>purrr</code> provides a <em>one-sided formula</em> as a shortcut:</p>
+<p>As the syntax for creating an <em>anonymous function</em> in R is quite verbose, <strong>purrr</strong> provides a <em>one-sided formula</em> as a shortcut:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">models &lt;-<span class="st"> </span>mtcars <span class="op">%&gt;%</span><span class="st"> </span>
 <span class="st">  </span><span class="kw">split</span>(.<span class="op">$</span>cyl) <span class="op">%&gt;%</span><span class="st"> </span>
 <span class="st">  </span><span class="kw">map</span>(<span class="op">~</span><span class="kw">lm</span>(mpg <span class="op">~</span><span class="st"> </span>wt, <span class="dt">data =</span> .))
@@ -950,7 +1031,7 @@ models
 <span class="st">  </span><span class="kw">map_dbl</span>(<span class="op">~</span>.<span class="op">$</span>r.squared)
 <span class="co">#&gt;         4         6         8 </span>
 <span class="co">#&gt; 0.5086326 0.4645102 0.4229655</span></code></pre></div>
-<p>But extracting named components is a common operation, so <code>purrr</code> provides an even shorter shortcut: We can use a <em>string</em>:</p>
+<p>But extracting named components is a common operation, so <strong>purrr</strong> provides an even shorter shortcut: We can use a <em>string</em>:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">models <span class="op">%&gt;%</span><span class="st"> </span>
 <span class="st">  </span><span class="kw">map</span>(summary) <span class="op">%&gt;%</span><span class="st"> </span>
 <span class="st">  </span><span class="kw">map_dbl</span>(<span class="st">&quot;r.squared&quot;</span>)
@@ -967,12 +1048,12 @@ x <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">map_db
 </div>
 <div id="map-vs.-apply" class="section level3">
 <h3><code>map</code> vs. <code>apply</code></h3>
-<p>The <code>map</code> functions of <code>purrr</code> are modeled on the <code>apply</code> functions:</p>
+<p>The <code>map</code> functions of <strong>purrr</strong> are modeled on the <code>apply</code> functions:</p>
 <ul>
-<li><p><code>lapply</code> is basically identical to <code>map</code>, except that <code>map</code> is consistent with all the other functions in <code>purrr</code>, and we can use the shortcuts for <code>.f</code>.</p></li>
+<li><p><code>lapply</code> is basically identical to <code>map</code>, except that <code>map</code> is consistent with all the other functions in <strong>purrr</strong>, and we can use the shortcuts for <code>.f</code>.</p></li>
 <li><p><code>sapply</code> is a wrapper around <code>lapply</code> that automatically simplifies the output (which can yield unexpected results).</p></li>
 <li><p><code>vapply</code> is a safe alternative to <code>sapply</code> because you supply an additional argument that defines the type. The only problem with <code>vapply</code> is that it’s a lot of typing: <code>vapply(df, is.numeric, logical(1))</code> is equivalent to <code>map_lgl(df, is.numeric)</code>.</p></li>
-<li><p>One advantage of <code>vapply</code> over <code>purrr</code>’s <code>map</code> functions is that it can also produce <em>matrices</em> — the <code>map</code> functions only ever produce <em>vectors</em>.</p></li>
+<li><p>One advantage of <code>vapply</code> over <strong>purrr</strong>’s <code>map</code> functions is that it can also produce <em>matrices</em> — the <code>map</code> functions only ever produce <em>vectors</em>.</p></li>
 </ul>
 <!-- +++ here now +++ -->
 </div>
@@ -996,6 +1077,70 @@ x <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">map_db
 <div id="exercises-wpa10" class="section level1">
 <h1>Exercises (WPA10)</h1>
 <p>Here are the exercises of WPA10 and possible solutions for them.</p>
+<div id="exercise-1" class="section level2">
+<h2>Exercise 1</h2>
+<ul>
+<li><p>Look up the term <em>Fibonacci numbers</em> and write a function that uses a for loop to create and return the first <code>n</code> Fibonacci numbers.</p></li>
+<li><p>Use your function to print the first 25 Fibonacci numbers.</p></li>
+</ul>
+<div id="solution-2" class="section level4 unnumbered">
+<h4>Solution</h4>
+<p>According to <a href="https://en.wikipedia.org/wiki/Fibonacci_number">Wikipedia</a>, a Fibonacci sequence is the integer sequence of <code>0, 1, 1, 2, 3, 5, 8, ...</code>.</p>
+<p>For any element <span class="math inline">\(e_{i}\)</span> and <span class="math inline">\(i &gt; 2\)</span>, each element is the sum of the 2 preceding elements:</p>
+<p><span class="math inline">\(e_{i} = e_{i-2} + e_{i-1}\)</span>.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">fibonacci &lt;-<span class="st"> </span><span class="cf">function</span>(n){
+  
+  <span class="cf">if</span> (<span class="kw">is.na</span>(n) <span class="op">||</span><span class="st"> </span>(n <span class="op">&lt;</span><span class="st"> </span><span class="dv">1</span>) <span class="op">||</span><span class="st"> </span>(n <span class="op">!=</span><span class="st"> </span><span class="kw">round</span>(n)))  {
+    <span class="kw">stop</span>(<span class="st">&quot;n must be a positive integer.&quot;</span>)
+  }
+  
+  <span class="co"># initialize the sequence:</span>
+  fib &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">1</span>)
+  
+  <span class="cf">if</span> (n <span class="op">&lt;=</span><span class="st"> </span><span class="dv">2</span>){
+    
+    fib &lt;-<span class="st"> </span>fib[<span class="dv">1</span><span class="op">:</span>n]
+    
+  } <span class="cf">else</span> {
+
+    <span class="co"># initialize output vector:    </span>
+    fib &lt;-<span class="st"> </span><span class="kw">c</span>(fib, <span class="kw">rep</span>(<span class="ot">NA</span>, (n<span class="op">-</span><span class="dv">2</span>)))
+    
+    <span class="co"># loop:</span>
+    <span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">3</span><span class="op">:</span>n){
+      
+      fib[i] &lt;-<span class="st"> </span>fib[i<span class="op">-</span><span class="dv">2</span>] <span class="op">+</span><span class="st"> </span>fib[i<span class="op">-</span><span class="dv">1</span>]
+      
+    } <span class="co"># end for loop.</span>
+  } <span class="co"># end if (n &gt; 2).</span>
+  
+  <span class="kw">return</span>(fib)
+
+}
+
+<span class="co"># Check:</span>
+<span class="kw">fibonacci</span>(<span class="dv">1</span>)
+<span class="co">#&gt; [1] 0</span>
+<span class="kw">fibonacci</span>(<span class="dv">2</span>)
+<span class="co">#&gt; [1] 0 1</span>
+<span class="kw">fibonacci</span>(<span class="dv">3</span>)
+<span class="co">#&gt; [1] 0 1 1</span>
+<span class="kw">fibonacci</span>(<span class="dv">4</span>)
+<span class="co">#&gt; [1] 0 1 1 2</span>
+
+<span class="co"># First 25 Fibonacci numbers:</span>
+<span class="kw">fibonacci</span>(<span class="dv">25</span>)
+<span class="co">#&gt;  [1]     0     1     1     2     3     5     8    13    21    34    55</span>
+<span class="co">#&gt; [12]    89   144   233   377   610   987  1597  2584  4181  6765 10946</span>
+<span class="co">#&gt; [23] 17711 28657 46368</span>
+
+## Errors:
+<span class="co"># fibonacci(0)</span>
+<span class="co"># fibonacci(-1)</span>
+<span class="co"># fibonacci(3/2)</span>
+<span class="co"># fibonacci(NA)</span></code></pre></div>
+</div>
+</div>
 <div id="exercise-x" class="section level2">
 <h2>Exercise X</h2>
 <p>Iteration only:</p>
@@ -1008,7 +1153,7 @@ x <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">map_db
 </ul>
 </div>
 <div id="map-functions-of-purrr" class="section level2">
-<h2><code>map</code> functions of <code>purrr</code></h2>
+<h2><code>map</code> functions of <strong>purrr</strong></h2>
 <ul>
 <li>See <a href="https://r4ds.had.co.nz/iteration.html#exercises-58" class="uri">https://r4ds.had.co.nz/iteration.html#exercises-58</a></li>
 </ul>
@@ -1018,7 +1163,7 @@ x <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">map_db
 <h1>More on iteration</h1>
 <ul>
 <li><p>For loops in general, see the <a href="https://www.rstudio.com/resources/cheatsheets/">contributed cheatsheets</a> on <em>Base R</em> and <em>Advanced R</em>.</p></li>
-<li><p>For references on functional programming (FP) with <code>purrr</code>, see <a href="https://purrr.tidyverse.org" class="uri">https://purrr.tidyverse.org</a> and the <a href="https://www.rstudio.com/resources/cheatsheets/">purrr cheatsheet</a>.</p></li>
+<li><p>For references on functional programming (FP) with <strong>purrr</strong>, see <a href="https://purrr.tidyverse.org" class="uri">https://purrr.tidyverse.org</a> and the <a href="https://www.rstudio.com/resources/cheatsheets/">purrr cheatsheet</a>.</p></li>
 <li><p>See <a href="https://r4ds.had.co.nz/iteration.html">Chapter 21: Iteration</a> of <a href="https://r4ds.had.co.nz/">r4ds</a> and its exercises.</p></li>
 </ul>
 </div>
@@ -1100,7 +1245,7 @@ Nr. | Topic       |
 10. | [Iteration](http://rpository.com/ds4psy/essentials/iteration.html) |
 +.  | [Datasets](http://rpository.com/ds4psy/essentials/datasets.html) | 
 -->
-<p>[Last update on 2019-05-04 13:08:29 by <a href="http://neth.de/">hn</a>.]</p>
+<p>[Last update on 2019-07-04 18:01:54 by <a href="http://neth.de/">hn</a>.]</p>
 <!-- eof. -->
 </div>
 </div>
@@ -1123,9 +1268,9 @@ Nr. | Topic       |
         <li><a href="#functional-programming">Functional programming</a><ul>
         <li><a href="#for-loops-vs.functionals">For loops vs. functionals</a></li>
         </ul></li>
-        <li><a href="#replacing-loops-by-apply-and-purrr">Replacing loops by <code>apply</code> and <code>purrr</code></a><ul>
+        <li><a href="#replacing-loops-by-apply-and-purrr">Replacing loops by <code>apply</code> and <strong>purrr</strong></a><ul>
         <li><a href="#using-apply">Using <code>apply</code></a></li>
-        <li><a href="#using-purrr">Using <code>purrr</code></a></li>
+        <li><a href="#using-purrr">Using <strong>purrr</strong></a></li>
         <li><a href="#map-functions"><code>map</code> functions</a></li>
         <li><a href="#map-vs.-apply"><code>map</code> vs. <code>apply</code></a></li>
         <li><a href="#dealing-with-failure">Dealing with failure</a></li>
@@ -1134,8 +1279,9 @@ Nr. | Topic       |
         </ul></li>
         </ul></li>
         <li><a href="#exercises-wpa10">Exercises (WPA10)</a><ul>
+        <li><a href="#exercise-1">Exercise 1</a></li>
         <li><a href="#exercise-x">Exercise X</a></li>
-        <li><a href="#map-functions-of-purrr"><code>map</code> functions of <code>purrr</code></a></li>
+        <li><a href="#map-functions-of-purrr"><code>map</code> functions of <strong>purrr</strong></a></li>
         </ul></li>
         <li><a href="#more-on-iteration">More on iteration</a></li>
         <li><a href="#conclusion">Conclusion</a></li>
