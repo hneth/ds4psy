@@ -454,7 +454,7 @@ plot(out[[1]])
 ```
 
 
-### Variations
+### For loop variations
 
 We can distinguish between 4 variations of the basic theme of the for loop:
 
@@ -534,7 +534,7 @@ useful when only caring about side effects
 2. loop over the _names_ of `x` with `for (nm in names(xs))`: 
 useful when names are needed for files or plots.
 
-Whenever creating named output, make sure also provide names to the results vector:
+Whenever creating named output, make sure also provide _names_ to the results vector:
 
 ```{r}
 x <- 1:3
@@ -559,16 +559,104 @@ for (i in seq_along(x)) {
 
 #### 3. Handling outputs of unknown length {-}
 
-- Problem: Not knowing how long the output will be. 
+- Problem: Knowing the number of iterations, but not knowing how long the output will be. 
 
-For example, imagine we want to simulate some random vectors of random lengths. 
+For example, imagine we knew the first `N = 1000` digits of pi (i.e., a series of digits `314159` etc.), but wanted to count how frequently a specific target subsequence (e.g., `target = 13`) occurs in this sequence. 
 
-ToDo: [etc.]
+The following code loads the first `N = 1000` digits of pi into a scalar character object `pi_1000`:
+
+```{r pi_data}
+# Data:
+## Orig. data source <http://www.geom.uiuc.edu/~huberty/math5337/groupe/digits.html>
+## pi_all <- readLines("./data/pi_100k.txt")               # from local data file
+pi_data <- "http://rpository.com/ds4psy/data/pi_100k.txt"  # from online data file
+pi_all <- readLines(pi_data)                               # read from online source
+
+N <- 1000
+pi_1000 <- paste0(substr(pi_all, 1, 1), substr(pi_all, 3, (N + 1)))  # skip the "." at position 2! 
+nchar(pi_1000)          # 1000 (qed)
+substr(pi_1000, 1, 10)  # first 10 digits
+```
+
+The following code uses a for loop to answer the questions: How many times and at which positions does the `target <- 13` occur in `pi_1000`? 
+
+```{r pi_counts_vector}
+# initialize: 
+count <- 0   # count number of occurrences
+target <- 13
+target_positions <- c()  # vector to store positions
+
+# loop:
+for (i in 1:(N-1)){
+  
+  # Current 2-digit sequence:
+  digits_i <- substr(pi_1000, i, i+1)  # as character 
+  digits_i <- as.integer(digits_i)     # as integer
+  
+  if (digits_i == target){
+    
+    count <- count + 1  # increment count
+    target_positions <- c(target_positions, i)  # add the current i to pi_3
+    
+  } # end if. 
+
+}
+
+# Results: 
+count
+target_positions
+count == length(target_positions) 
+```
+
+The answers are that `r target` occurs `r count` times in `pi_1000`. Its 1st occurence is at position `r target_positions[1]` and its `r count`-th occurrence at position `r target_positions[count]`.
+
+Note that we could specify the number of iterations (i.e., `N - 1` loops, from 1 to 999), but not the number of elements in `target_positions`. 
+
+Incrementing the `target_positions` vector by `i` every time a new target is found --- by `target_positions <- c(target_positions, i)` --- is quite slow and inefficient. 
+However, this is not problematic as long as we only do this once and for a relatively small problem (like a loop with `r (N - 1)` iterations). 
+
+A more efficient solutions could initialize `target_positions` to a _list_ (which can take any data object as an element) and then store any instance of finding the `target` at the `i`-th position of `pi_1000` as the `i`-th instance of the list. Once the loop is finished, we can use `unlist()` to flatten the list to a vector:
+
+```{r pi_counts_list}
+# initialize: 
+count <- 0   # count number of occurrences
+target <- 13
+target_positions <- vector("list", (N - 1))  # empty list (of N - 1 elements) to store positions
+
+# loop:
+for (i in 1:(N-1)){
+  
+  # Current 2-digit sequence:
+  digits_i <- substr(pi_1000, i, i+1)  # as character 
+  digits_i <- as.integer(digits_i)     # as integer
+  
+  if (digits_i == target){
+    
+    count <- count + 1        # increment count
+    target_positions[i] <- i  # add the current i to pi_3
+    
+  } # end if. 
+
+}
+
+# Results: 
+count
+# target_positions # is a list with mostly NULL  
+target_positions <- unlist(target_positions)  # flatten list to vector (removing NULL elements)
+target_positions
+count == length(target_positions) 
+```
+
+This way, we could initialize the length of `target_positions` before entering the for loop. 
+This made it possible to assign any new target to `target_positions[i]`, but made the list much larger than it actually needed to be. 
+The advantages and disadvantages of these different options should be considered for the specific problem at hand. 
+
++++ here now +++
 
 #### 4. Handling sequences of unknown length {-}
 
 - Problem: The number of iterations is not known in advance.
-- Solution: `while` loop, with a `condition` to stop loop. 
+- Solution: `while` loop, with a `condition` to stop the loop. 
 
 Sometimes we don’t even know how long the input sequence should run for. 
 This is common when doing _simulations_. 
@@ -582,6 +670,8 @@ while (condition) {
   # body
 }
 ```
+
+
 
 
 ## Functional programming
@@ -971,6 +1061,92 @@ fibonacci(25)
 # fibonacci(NA)
 ```
 
+## Exercise 2
+
+#### Looping for divisors
+
+1. Write a for loop that prints out all positive divisors of the number 1000.  
+
+(**Hint:** Use `N %% x == 0` to test whether `x` is a divisor of `N`.)
+
+#### Solution {-}
+
+```{r iter-ex2-1}
+N <- 1000
+for (i in 1:N){
+  
+  if (N %% i == 0) 
+    print(i)
+  
+}
+```
+
+2. How many iterations did your loop require? Could you achieve the same results with fewer iterations?
+
+#### Solution {-}
+
+We took `N = 1000` iterations, but can achieve the same with fewer:
+
+```{r iter-ex2-2}
+# Using a sequence of N/2 + 1 loops:
+seq <- c(1:ceiling(N/2), N)
+length(seq)
+
+for (i in seq){
+  
+  if (N %% i == 0) 
+    print(i)
+  
+}
+```
+
+3. Write a `divisors` function that uses a for loop to return a numeric vector containing all positive divisors of a natural number `N`. 
+
+(**Hint:** Note that we do not know the length of the resulting vector.)
+
+#### Solution {-}
+
+```{r iter-ex2-3}
+divisors <- function(N){
+  
+  if ( is.na(N) || (N < 1) || (N %% 1 != 0)) { stop("N should be a natural number.") }
+  
+  # initialize: 
+  out <- c() 
+  seq <- c(1:ceiling(N/2), N)
+  
+  if (N == 1) { 
+    
+    return(1) # done
+    
+  } else {
+    
+    # loop:
+    for (i in seq){
+      
+      if (N %% i == 0) 
+        
+        out <- c(out, i)
+      
+    } # end loop.
+    
+    return(out)
+    
+  }  # end if.
+  
+}
+
+# Check:
+divisors(1)
+divisors(8)
+divisors(12)
+divisors(1000)
+
+## Errors for:
+# divisors(NA)
+# divisors(-10)
+# divisors(1/2)
+```
 
 
 ## Exercise X
