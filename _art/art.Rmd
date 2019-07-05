@@ -2309,14 +2309,16 @@ N <- 10000  # set N
 ## pi data: 
 # pi_all <- numeric()
 # pi_all <- readLines("http://www.apup.org/images/digits100000.txt")        
-# orig. data source http://www.geom.uiuc.edu/~huberty/math5337/groupe/digits.html
+# orig. data source <http://www.geom.uiuc.edu/~huberty/math5337/groupe/digits.html>
 pi_all <- readLines("./data/_pi/pi_100k.txt")  # my version, based on http://www.geom.uiuc.edu/~huberty/math5337/groupe/digits.html
 # head(pi_all)  # is a string
 
 ## N digits of pi (as text string): 
 # pi_N <- numeric()
-pi_N <- paste0(substr(pi_all, 1, 1), substr(pi_all, 3, (N - 1)))  # skip the "." at position 2!  
-# substr(pi_N, 1, 10)
+pi_N <- paste0(substr(pi_all, 1, 1), substr(pi_all, 3, (N + 1)))  # skip the "." at position 2!  
+
+nchar(pi_N)
+substr(pi_N, 1, 10)
 
 ## Colors: ------ 
 
