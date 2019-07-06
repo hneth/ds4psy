@@ -1,7 +1,7 @@
 ---
 title: "Iteration, with WPA10 and solutions (ds4psy)"
 author: "Hansjörg Neth, SPDS, uni.kn"
-date: "2019 07 05"
+date: "2019 07 06"
 output:
    rmdformats::html_clean: # html_clean html_docco readthedown material #
      code_folding: show # hide
@@ -1311,7 +1311,7 @@ divisors(1000)
 
 ## Exercise 3 {#iteration:ex03}
 
-1. Implement a function `dice` that uses the **base** R function `sample()` to simulate a throw of a dice (i.e., yielding each integer from 1 and 6 with equal probability). 
+1. Implement a function `dice` that uses the **base** R function `sample()` to simulate a throw of a dice (i.e., yielding an integer from&nbsp;1 to&nbsp;6 with equal probability). 
 
 #### Solution {-}
 
@@ -1419,7 +1419,7 @@ summary(out)
 
 A histogram shows the distribution of the individual number of throws:
 
-```{r iter-ex03-4b, fig.asp=.50}
+```{r iter-ex03-4b, fig.asp = .40}
 library(tidyverse)
 library(unikn)
 
@@ -1432,9 +1432,9 @@ ggplot(tb) +
   geom_histogram(aes(x = nr), binwidth = 5, fill = Seeblau) + 
   # Show mean and median:
   geom_vline(xintercept = mean(out), linetype = 1, color = Bordeaux) +  # mean line
-  geom_text(label = paste0("mean = ", round(mean(out), 2)), x = mean(out) + 20, y = 1000, color = Bordeaux) +    # mean label
+  geom_text(label = paste0("mean = ", round(mean(out), 2)), x = mean(out) + 20, y = 950, color = Bordeaux) +    # mean label
   geom_vline(xintercept = median(out), linetype = 2, color = Petrol) +  # median line 
-  geom_text(label = paste0("median = ", round(median(out), 2)), x = median(out) + 20, y = 1100, color = Petrol) +  # mean label
+  geom_text(label = paste0("median = ", round(median(out), 2)), x = median(out) + 20, y = 750, color = Petrol) +  # mean label
   # Text and formatting: 
   labs(title = "Number of throws needed to get 6 twice in a row") + 
   coord_cartesian(xlim = c(0, 300)) +  # do not show values beyond x = 300
@@ -1507,6 +1507,6 @@ Nr. | Topic       |
 +.  | [Datasets](http://rpository.com/ds4psy/essentials/datasets.html) | 
 -->
 
-[Last update on `r Sys.time()` by [hn](http://neth.de/).]  
+[Last update on `r Sys.time()` by [hn](https://neth.de/).]  
 
 <!-- eof. --> 
