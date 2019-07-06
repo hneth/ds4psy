@@ -1313,6 +1313,8 @@ divisors(1000)
 
 1. Implement a function `dice` that uses the **base** R function `sample()` to simulate a throw of a dice (i.e., yielding each integer from 1 and 6 with equal probability). 
 
+#### Solution {-}
+
 ```{r iter-ex03-1}
 dice <- function() {
   sample(x = 1:6, size = 1)
@@ -1327,6 +1329,8 @@ for (i in 1:10){
 ```
 
 2. Add an argument `n` (for the number of throws) to your function and modify it by using a `for` loop to throw the dice `n` times, and returning a vector of length `n` that shows the results of the `n` throws.
+
+#### Solution {-}
 
 ```{r iter-ex03-2a}
 dice <- function(n = 1) {
@@ -1365,6 +1369,8 @@ dice(10)  # throw dice 10 times
 **Hint:** Given a sequence `throws`, the `n`-th element is `throws[n]`. 
 Hence, the last element of `throws` is `throws[length(throws)]`. 
 
+#### Solution {-}
+
 ```{r iter-ex03-3}
 throws <- c(dice(1), dice(1))  # first 2 throws
 throws
@@ -1385,6 +1391,8 @@ throws
 
 **Hint:** Use a `for` loop to run your solution to 3. for `N = 10000` times and store the length of the individual `throws` in a numeric vector. 
 
+#### Solution {-}
+
 ```{r iter-ex03-4}
 N <- 10000
 
@@ -1395,9 +1403,9 @@ for (n in 1:N){
   throws <- c(dice(1), dice(1))  # first 2 throws  
   
   while (!( (throws[length(throws) - 1] == 6) &&
-          (throws[length(throws)] == 6) )) {
-  
-          throws <- c(throws, dice(1))  # throw dice(1) and add it to throws
+            (throws[length(throws)] == 6) )) {
+    
+    throws <- c(throws, dice(1))  # throw dice(1) and add it to throws
   }
   
   out[n] <- length(throws)
@@ -1409,22 +1417,31 @@ mean(out)
 summary(out)
 ```
 
-To plot a histogram of the individual number of throws:
+A histogram shows the distribution of the individual number of throws:
 
-```{r iter-ex03-4b}
+```{r iter-ex03-4b, fig.asp=.50}
 library(tidyverse)
 library(unikn)
 
+# Turn out into a tibble: 
 tb <- tibble(nr = out)
-tb
+# tb
 
 # Histogram of individual number of throws:
 ggplot(tb) + 
-  geom_histogram(aes(x = nr), binwidth = 10, fill = Seeblau) + 
-  theme_unikn()
+  geom_histogram(aes(x = nr), binwidth = 5, fill = Seeblau) + 
+  # Show mean and median:
+  geom_vline(xintercept = mean(out), linetype = 1, color = Bordeaux) +  # mean line
+  geom_text(label = paste0("mean = ", round(mean(out), 2)), x = mean(out) + 20, y = 1000, color = Bordeaux) +    # mean label
+  geom_vline(xintercept = median(out), linetype = 2, color = Petrol) +  # median line 
+  geom_text(label = paste0("median = ", round(median(out), 2)), x = median(out) + 20, y = 1100, color = Petrol) +  # mean label
+  # Text and formatting: 
+  labs(title = "Number of throws needed to get 6 twice in a row") + 
+  coord_cartesian(xlim = c(0, 300)) +  # do not show values beyond x = 300
+  theme_unikn(col_title = "black")
 ```
 
-
++++ here now +++ 
 
 ## Exercise X
 
