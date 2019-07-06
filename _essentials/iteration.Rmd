@@ -1,7 +1,7 @@
 ---
 title: "Iteration, with WPA10 and solutions (ds4psy)"
 author: "Hansjörg Neth, SPDS, uni.kn"
-date: "2019 07 04"
+date: "2019 07 05"
 output:
    rmdformats::html_clean: # html_clean html_docco readthedown material #
      code_folding: show # hide
@@ -147,7 +147,7 @@ For instructions on combining text and code, see [Chapter 27: R Markdown](https:
 
 **Hint:** Try to _knit_ your `.Rmd` file immediately after saving it and marvel at the beauty of the resulting `.html`-file. If this works, keep doing this routinely from now on, putting all your R-code into code chunks, and any text (like headings or conclusions) that describes or explains what you are doing outside of them. From now on, you can share your `.html` output files, rather than your `.Rmd` source files when showing off your R and data science skills.
 
-# Iteration
+# Iteration {#iteration}
 
 Defining _iteration_ := doing things repeatedly. 
 The repetition of a procedure or process. 
@@ -217,7 +217,7 @@ Asking and answering 3 questions:
 
 3. _output_: What is the _result_ of the loop: What _type_ of object and _how many_ instances? 
 
-After answering these questions, a loop can be designed in reverse order (from output to body):
+After answering these questions, a `for` loop can be designed in reverse order (from output to body):
 
 ```{r for-loop-template, echo = TRUE, eval = FALSE}
 # (a) prepare output: 
@@ -264,7 +264,7 @@ for (i in 1:10) {
 output  
 ```
 
-**Note:** In the loop, we use `output[[i]]`, rather than `output[i]` to refer to the `i`-th element of `output` . 
+**Note:** In the `for` loop, we use `output[[i]]`, rather than `output[i]` to refer to the `i`-th element of `output` . 
 Actually, using a single `[]` would have worked as well, but the double `[[]]` makes it clear that we want to remove a level of the hierarchy and 
 assign something to a single element of `output`. 
 (See [Ch. 20.5.2 Subsetting recursive vectors (lists)](https://r4ds.had.co.nz/vectors.html#subsetting-1) for more details on this distinction.) 
@@ -272,7 +272,7 @@ assign something to a single element of `output`.
 #### Loops over data
 
 In the context of data science, we often want to iterate over (rows or columns) of data tables. 
-Let's load some data to work with:
+Let's load some data to work with: 
 
 ```{r load_data_for_loop}
 ## Load data:
@@ -300,17 +300,18 @@ When dealing with computers, _repetition_ of identical steps or commands is a si
 
 How could we use a for loop here? To design this loop, we need to answer our 3 questions from above: 
 
-1. _body_: We want to compute the mean of 4 columns (`age` to `IQ`) in `tb`.
+1. _body_: We want to compute the mean of 4 columns (`age` to `IQ`) in `tb`.  
 
-2. _sequence_: We want to iterate over columns 2 to 5 (i.e., 4 iterations). 
+2. _sequence_: We want to iterate over columns 2 to 5 (i.e., 4 iterations).  
 
-3. _output_: The _result_ or the loop is a vector of type "double", containing 4 elements. 
+3. _output_: The _result_ or the loop is a vector of type "double", containing 4 elements.  
 
-Note: 
 
-- We remove the 1st column, as no computation is needed for it.
+**Note:** 
 
-- The i-th column of tibble `tb` (or data frame `df`) can be accessed via `tb[[i]]` (or `df[[i]]`). 
+- We remove the 1st column, as no computation is needed for it.  
+
+- The i-th column of tibble `tb` (or data frame `df`) can be accessed via `tb[[i]]` (or `df[[i]]`).  
 
 ```{r loop_means_1}
 # Prepare data: 
@@ -333,7 +334,7 @@ for (i in 1:4){
 output
 ```
 
-In the **tidyverse** the loop range can be defined with a special function: 
+In the **tidyverse** the range of a `for` loop can be defined with a special function: 
 
 ```{r}
 seq_along(tb_2)  # loop through COLUMNS of a df/table
@@ -347,7 +348,7 @@ seq_along(tb_2)  # loop through COLUMNS of a df/table
 
 We create a new output vector `output_2` and need to change 2 things: 
 
-- the column numbers of the for loop statement (from `1:4` to `2:5`). 
+- the column numbers of the `for` loop statement (from `1:4` to `2:5`). 
 
 - the index to which we assign our current mean `mn` should be decreased to `i - 1` (to assign the mean of column 2 to the 1st element of `output_2`). 
 
@@ -374,12 +375,12 @@ output_2
 all.equal(output, output_2)
 ```
 
-2. We have learned that creating a for loop requires knowing (a)&nbsp;the data type of the loop results and 
+2. We have learned that creating a `for` loop requires knowing (a)&nbsp;the data type of the loop results and 
 (b)&nbsp;a data structure than can collect these results. 
-This is simple and straightforward if each loop results in a single number, as then all results can be stored in a vector. 
+This is simple and straightforward if each `for` loop results in a single number, as then all results can be stored in a vector. 
 
-However, things get more complicated if loops yield tables, lists, or plots, as outputs. 
-Try creating similar for loops that return the `summary` and a histogram (using the **base** R function `hist`) of each variable in `tb` (or each variable of `tb_2`). 
+However, things get more complicated when `for` loops yield tables, lists, or plots, as outputs. 
+Try creating similar `for` loops that return the `summary` and a histogram (using the **base** R function `hist`) of each variable in `tb` (or each variable of `tb_2`). 
 
 #### Solution {-}
 
@@ -399,7 +400,7 @@ is.vector(s)  # FALSE
 is.table(s)   # TRUE
 ```
 
-The following for loop is almost identical to the one (computing `mean` of columns 2:5 of `tb`) above. 
+The following `for` loop is almost identical to the one (computing `mean` of columns 2:5 of `tb`) above. 
 However, we initialize the `summaries` vector to a `mode = "list"`, which allows storing more complex objects in a vector: 
 
 ```{r practice-summary-2}
@@ -452,7 +453,6 @@ for (i in seq_along(tb_2)) {  # loop through COLUMNS of tb_2:
 
 plot(out[[1]])
 ```
-
 
 ### For loop variations
 
@@ -608,7 +608,7 @@ target_positions
 count == length(target_positions) 
 ```
 
-The answers are that `r target` occurs `r count` times in `pi_1000`. Its 1st occurence is at position `r target_positions[1]` and its `r count`-th occurrence at position `r target_positions[count]`.
+The answers are that `r target` occurs `r count` times in `pi_1000`. Its 1st occurrence is at position `r target_positions[1]` and its `r count`-th occurrence at position `r target_positions[count]`.
 
 Note that we could specify the number of iterations (i.e., `N - 1` loops, from 1 to 999), but not the number of elements in `target_positions`. 
 
@@ -651,19 +651,16 @@ This way, we could initialize the length of `target_positions` before entering t
 This made it possible to assign any new target to `target_positions[i]`, but made the list much larger than it actually needed to be. 
 The advantages and disadvantages of these different options should be considered for the specific problem at hand. 
 
-+++ here now +++
-
 #### 4. Handling sequences of unknown length {-}
 
 - Problem: The number of iterations is not known in advance.
-- Solution: `while` loop, with a `condition` to stop the loop. 
+- Solution: Use a `while` loop, with a `condition` to stop the loop. 
 
-Sometimes we don’t even know how long the input sequence should run for. 
-This is common when doing _simulations_. 
-For example, we might want to loop until we get three heads in a row. 
-We can’t do that sort of iteration with the `for` loop, but can use a `while` loop instead. 
+Sometimes we cannot know in advance how many iterations our loop should run for. 
+This is common when dealing with random outcomes or running simulations that need to reach some threshold value to stop. 
 
-A `while` loop is simpler than `for` loop because it only has 2 components, a condition and a body:
+We can address these problems with a `while` loop.  
+Actually, a `while` loop is simpler than a `for` loop because it only has 2&nbsp;components, a condition and a body:
 
 ```{r while_loop_structure, eval = FALSE}
 while (condition) {
@@ -671,8 +668,172 @@ while (condition) {
 }
 ```
 
+A `while` loop is also more general than a `for` loop because we can write any `for` loop as a `while` loop, but not vice versa. 
+For instance, any `for` loop with `N` steps: 
 
+```{r while-vs-for-loop-1}
+for (i in 1:N){
+  
+  # loop body
 
+}
+```
+
+can be re-written as a `while` loop that uses a counter variable `i` for the number of iterations and a condition that the maximum number of steps `N` must not be exceeded: 
+
+```{r while-vs-for-loop-2}
+i <- 1  # initialize counter
+
+while (i <= N){
+  
+  # loop body
+  
+  i <- i + 1  # increment position counter
+  
+}
+```
+
+As this requires explicit maintenance (here: the initialization and incrementation of a counter), we prefer using `for` loops when the number of iterations is known in advance. 
+
+However, we often do not know in advance how many iterations we will need. 
+For instance, let's ask ourselves the following question: 
+
+- At which position in the first 1000&nbsp;digits of pi do we first encounter the subsequence&nbsp;`13`?
+
+Actually, we do know the answer to this problem from `target_positions` above: The 1st occurrence of `r target` in `pi_1000` is at position `r target_positions[1]`. Knowing a solution makes this a good practice problem. 
+
+Assuming that we know nothing else of the sequence, we cannot do that sort of iteration with the `for` loop (unless we loop over the entire sequence, as we did above). 
+The following `while` loop solves this task by incrementally increasing `i` to inspect the corresponding digits (at positions `i` and `i + 1`) of `pi_1000` as long as we meet the condition `digits_i != target`: 
+
+```{r while-target-pi-13}
+# Data:
+# pi_1000  # 1000 digits of pi (from above)
+
+target <- 13
+i <- 1  # initialize position counter
+digits_i <- as.integer(substr(pi_1000, i, i+1)) # 2-digit integer starting at position i 
+
+while (digits_i != target){
+  
+  i <- i + 1  # increment position counter
+  digits_i <- as.integer(substr(pi_1000, i, i+1)) # 2-digit integer starting at position i 
+
+} # end while
+
+# position of 1st target: 
+i
+```
+
+A danger of `while` loops is that they may never stop. For instance, if we asked:
+
+- At which position in the first 1000&nbsp;digits of pi do we first encounter the subsequence&nbsp;`999`?
+
+we could slightly modify our code above (to accommodate `digits_i` to look for 3-digit number): 
+
+```{r while-target-pi-999}
+# Data:
+# pi_1000  # 1000 digits of pi (from above)
+
+target <- 999    # 3-digit target (found)
+# target <- 123  # alternative target (yielding error)
+
+i <- 1  # initialize position counter
+digits_i <- as.integer(substr(pi_1000, i, i+2)) # 3-digit integer starting at position i 
+
+while (digits_i != target){
+  
+  i <- i + 1  # increment position counter
+  digits_i <- as.integer(substr(pi_1000, i, i+2)) # 3-digit integer starting at position i 
+
+} # end while
+
+# position of 1st target: 
+i
+```
+
+The answer is: The digits `r target` first appear in `pi_1000` at position `r i`. 
+
+However, if we changed our target to `123` to ask the analog question:
+
+- At which position in the first 1000&nbsp;digits of pi do we first encounter the subsequence&nbsp;`123`?
+
+the same `while` loop would encounter an error message:
+
+```{r error-message, eval = FALSE}
+Error in while (digits_i != target) { : 
+  missing value where TRUE/FALSE needed
+```
+
+The source of this error becomes obvious when realizing that `i` is set to a value of&nbsp;1001: 
+We simply did not find an instance of `123` in the first 1000&nbsp;digits of pi and the counter is trying to access its 1001.&nbsp;digit, which is undefined (`NA`) and hence causes an error in our condition (`digits_i != target`). 
+
+To prevent this sort of error, we could modify our condition to also stop the `while` loop after the maximum number of possible steps has been reached. 
+In our case, the `while` loop does only makes sense as long as we do not exceed the number of characters in `pi_1000`, so that we can add the requirement `(i <= nchar(pi_1000))` as an additional (conjunctive, i.e., using `&&`) test to our condition: 
+
+```{r while-target-pi-123}
+# Data:
+# pi_1000  # 1000 digits of pi (from above)
+
+# target <- 999  # 3-digit target (found)
+target <- 123    # alternative target (not found)
+
+i <- 1  # initialize position counter
+digits_i <- as.integer(substr(pi_1000, i, i+2)) # 3-digit integer starting at position i 
+
+while ( (digits_i != target) && (i <= nchar(pi_1000)) ){
+  
+  i <- i + 1  # increment position counter
+  digits_i <- as.integer(substr(pi_1000, i, i+2)) # 3-digit integer starting at position i 
+
+} # end while
+
+# position of 1st target: 
+i
+```
+
+This way, the `while` loop is limited to a maximum of `nchar(pi_1000) =` `r nchar(pi_1000)` iterations. 
+If the counter `i` shows an impossible value of `r i`, we can conclude that the `target` sequence was not found. 
+
+#### Practice {-}
+
+- Combine a `for` loop and a `while` loop to find the positions of the first 3 occurrences of `13` in `pi_1000`. 
+
+**Hint:** Inspecting `target_positions` (computed above) tells you the solution. 
+But it's still instructive to combine both type of loops to solve this problem. 
+
+```{r practice-for-while}
+# Data:
+# pi_1000
+
+first_3 <- rep(NA, 3)  # initialize output 
+target <- 13
+i <- 1  # initialize position counter
+digits_i <- as.integer(substr(pi_1000, i, i+1)) # 2-digit integer starting at position i 
+
+for (n in seq_along(first_3)){
+  
+  while (digits_i != target){
+    
+      i <- i + 1  # increment position counter
+      digits_i <- as.integer(substr(pi_1000, i, i+1)) # 2-digit integer starting at position i 
+    
+  } # end while loop.
+  
+  first_3[n] <- i  # store current position
+
+  i <- i + 1  # increment position counter
+  digits_i <- as.integer(substr(pi_1000, i, i+1)) # 2-digit integer starting at position i 
+  
+} # end for loop,
+
+# Solution:
+first_3
+
+# Verify equality:
+all.equal(first_3, target_positions[1:3])  
+```
+
++++ here now +++
 
 ## Functional programming
 
@@ -996,11 +1157,11 @@ Adverbs:
 
 
 
-# Exercises (WPA10)
+# Exercises (WPA10) {#iteration:ex}
 
 Here are the exercises of WPA10 and possible solutions for them.
 
-## Exercise 1
+## Exercise 1 {#iteration:ex01}
 
 - Look up the term _Fibonacci numbers_ and write a function that uses a for loop to create and return the first `n` Fibonacci numbers.
 
@@ -1061,7 +1222,7 @@ fibonacci(25)
 # fibonacci(NA)
 ```
 
-## Exercise 2
+## Exercise 2 {#iteration:ex02}
 
 #### Looping for divisors
 
@@ -1147,6 +1308,122 @@ divisors(1000)
 # divisors(-10)
 # divisors(1/2)
 ```
+
+## Exercise 3 {#iteration:ex03}
+
+1. Implement a function `dice` that uses the **base** R function `sample()` to simulate a throw of a dice (i.e., yielding each integer from 1 and 6 with equal probability). 
+
+```{r iter-ex03-1}
+dice <- function() {
+  sample(x = 1:6, size = 1)
+}
+
+# Check:
+dice()
+# Using for loop to throw dice 10 times:
+for (i in 1:10){
+  print(dice())
+}
+```
+
+2. Add an argument `n` (for the number of throws) to your function and modify it by using a `for` loop to throw the dice `n` times, and returning a vector of length `n` that shows the results of the `n` throws.
+
+```{r iter-ex03-2a}
+dice <- function(n = 1) {
+  
+  out <- rep(NA, n)
+  
+  for (i in 1:n){
+    
+    out[i] <- sample(x = 1:6, size = 1)
+    
+  } # end for loop.
+  
+  return(out)
+  
+}
+  
+# Check:
+dice()
+dice(10)  # throw dice 10 times
+```
+
+Note: As the `sample` function contains a `size` argument, a simpler version of the same function could have been:
+
+```{r iter-ex03-2b}
+dice <- function(n = 1) {
+  sample(x = 1:6, size = n, replace = TRUE)
+}
+
+# Check:
+dice()
+dice(10)  # throw dice 10 times
+```
+
+3. Use a `while` loop to throw `dice(n = 1)` until you throw the number 6 twice in a row and show the sequence of all throws up to this point.
+
+**Hint:** Given a sequence `throws`, the `n`-th element is `throws[n]`. 
+Hence, the last element of `throws` is `throws[length(throws)]`. 
+
+```{r iter-ex03-3}
+throws <- c(dice(1), dice(1))  # first 2 throws
+throws
+
+while (!( (throws[length(throws) - 1] == 6) &&
+          (throws[length(throws)] == 6) )) {
+  
+          throws <- c(throws, dice(1))  # throw dice(1) and add it to throws
+  
+}
+
+throws
+```
+
+4. Use your solution of 3. to conduct a simulation that addresses the following question: 
+
+- How many times on average do we need to throw `dice(1)` to obtain the number 6 twice in a row?
+
+**Hint:** Use a `for` loop to run your solution to 3. for `N = 10000` times and store the length of the individual `throws` in a numeric vector. 
+
+```{r iter-ex03-4}
+N <- 10000
+
+out <- rep(NA, N)  # initialize output vector
+
+for (n in 1:N){
+  
+  throws <- c(dice(1), dice(1))  # first 2 throws  
+  
+  while (!( (throws[length(throws) - 1] == 6) &&
+          (throws[length(throws)] == 6) )) {
+  
+          throws <- c(throws, dice(1))  # throw dice(1) and add it to throws
+  }
+  
+  out[n] <- length(throws)
+  
+}
+
+# Results:
+mean(out)
+summary(out)
+```
+
+To plot a histogram of the individual number of throws:
+
+```{r iter-ex03-4b}
+library(tidyverse)
+library(unikn)
+
+tb <- tibble(nr = out)
+tb
+
+# Histogram of individual number of throws:
+ggplot(tb) + 
+  geom_histogram(aes(x = nr), binwidth = 10, fill = Seeblau) + 
+  theme_unikn()
+```
+
 
 
 ## Exercise X
