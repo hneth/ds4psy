@@ -1685,6 +1685,125 @@ ggplot(tb) +
   theme_unikn(col_title = "black")
 ```
 
+## Exercise 4 {#iter:ex04}
+
+#### Z-transforming tables {-}
+
+In this exercise, we will standardize an entire table of data (using a `for` loop, an `apply`, and a `map` function). 
+We will first write a utility function that achieves the desired transformation for a vector and then compare and contrast different ways of applying this function to a table of data. 
+
+In case you are not familiar with the notion of a _z score_ or _standard score_, look up these terms (e.g., [on Wikipedia](https://en.wikipedia.org/wiki/Standard_score)). 
+
+1. Write a function called `z_trans` that takes a vector `v` as input and returns the z-transformed (or standardized) values as output if `v` is numeric and returns `v` unchanged if it is non-numeric. 
+
+**Hint:** Remember that `z <- (v - mean(v)) / sd(v))`, but beware that `v` could contain `NA` values.
+
+```{r iter-ex04-1}
+z_trans <- function(v) {
+
+    if (!is.numeric(v)) {
+      message("v is not numeric: Leaving as is...")
+      return(v)
+    }
+  
+    if (NA %in% v) {
+      warning("v contains NA-values (ignored here).")
+    }
+  
+    result <- (v - mean(v, na.rm = TRUE)) / sd(v, na.rm = TRUE)
+    
+    return(result)
+}
+
+# Check:
+z_trans(v = c(-10:10))
+z_trans(v = c(-1, NA, 1))
+z_trans(v = letters[1:5])
+z_trans(v = (1:4 > 2))
+```
+
+2. Load the _false positive psychology_ data (at <http://rpository.com/ds4psy/data/falsePosPsy_all.csv>) into `falsePosPsy` and remove any non-numeric variables from it. Then use `z_trans` in combination with a `for` loop to z-transform all of its (numeric) columns. 
+Turn your resulting data structure into a tibble and print it. 
+
+```{r iter-ex04-2a}
+falsePosPsy <- read_csv(file = "http://rpository.com/ds4psy/data/falsePosPsy_all.csv")
+falsePosPsy
+```
+
+Selecting only the numeric columns into a new tibble `fpp_numeric`: 
+
+```{r iter-ex04-2b}
+fpp_numeric <- falsePosPsy %>% dplyr::select(-cond)  # notice that `cond` is non-numeric
+fpp_numeric
+
+# An automatic (but more complicated way) to select all numeric columns:
+fpp_numeric_2 <- falsePosPsy[, map_lgl(falsePosPsy, is.numeric)]
+all.equal(fpp_numeric, fpp_numeric_2)
+```
+
+Using a `for` loop to apply `z_trans` on any column of `fpp_numeric`:
+
+```{r iter-ex04-2c}
+out <- c()  # prepare output vector
+
+# for loop: 
+for (i in seq_along(fpp_numeric)){
+  
+  out <- cbind(out, z_trans(fpp_numeric[[i]]))
+  
+}
+
+# Print result (as tibble): 
+out_1 <- as_tibble(out)
+out_1
+```
+
+Note that we use `cbind` rather than `c` within the `for` loop to add the results of `z_trans` to `out`. 
+This is because `z_trans` returns a _vector_ for every column of `only_numeric`. 
+Alternatively, we also could have constructed a very long vector (with a length of `nrow(fpp_numeric) x ncol(fpp_numeric)` = `r nrow(fpp_numeric)` x `r ncol(fpp_numeric)` = `r nrow(fpp_numeric) * ncol(fpp_numeric)`) and turned it into a rectangular table later.  
+
+3. Repeat the task of 2. (i.e., applying `z_trans` to all numeric columns of `falsePosPsy`) by using the **base** R `apply` function, rather than a `for` loop.
+
+**Hint:** Remember to set the `MARGIN` argument to apply `z_trans` over all _columns_, rather than _rows_. 
+
+```{r iter-ex04-3}
+# Data:
+# fpp_numeric
+
+out_2 <- apply(X = fpp_numeric, MARGIN = 2, FUN = z_trans)
+
+# Print result (as tibble):
+out_2 <- as_tibble(out_2)
+out_2
+```
+
+4. Repeat the task of 2. and 3. (i.e., applying `z_trans` to all numeric columns of `falsePosPsy`) by using an appropriate version of a `map` function from the **purrr** package. 
+
+**Hint:** Note that the desired output structure is a rectangular data table, which is also a _list_.
+
+```{r iter-ex04-4}
+# Data:
+# fpp_numeric
+
+# Using map to return a list: 
+out_3 <- purrr::map(.x = fpp_numeric, .f = z_trans)
+
+# Print result (as tibble):
+out_3 <- as_tibble(out_3)
+out_3
+```
+
+Showing the equality of all 3 results:
+
+```{r iter-ex04-5}
+# Note that out_1 did not retain variable names:
+names(out_1) <- names(out_2)
+
+all.equal(out_1, out_2)
+all.equal(out_2, out_3)
+```
+
+
 +++ here now +++ 
 
 ## Exercise X
