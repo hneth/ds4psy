@@ -1,7 +1,7 @@
 ---
 title: "Iteration, with WPA10 and solutions (ds4psy)"
 author: "Hansjörg Neth, SPDS, uni.kn"
-date: "2019 07 06"
+date: "2019 07 07"
 output:
    rmdformats::html_clean: # html_clean html_docco readthedown material #
      code_folding: show # hide
@@ -1163,26 +1163,103 @@ Here are the exercises of WPA10 and possible solutions for them.
 
 ## Exercise 1 {#iteration:ex01}
 
-- Look up the term _Fibonacci numbers_ and write a function that uses a for loop to create and return the first `n` Fibonacci numbers.
+#### Fibonacci loop and functions {-}
 
-- Use your function to print the first 25 Fibonacci numbers.
+1. Look up the term _Fibonacci numbers_ and use a `for` loop to create a numeric vector of the first 25 Fibonacci numbers (for a series of numbers starting with `0, 1`).
+
+2. Incorporate your `for` loop into a `fibonacci` function that returns a numeric vector of the first `n` Fibonacci numbers. Test your function for `fibonacci(n = 25)`. 
+
+3. Generalize your `fibonacci` function to also accept the first 2 elements (`e1` and `e2`) as inputs to the series and then create the first `n` Fibonacci numbers given these initial elements. Test your function for `fibonacci(e1 = 1, e2 = 3, n = 25)`. 
 
 #### Solution {-}
 
-According to [Wikipedia](https://en.wikipedia.org/wiki/Fibonacci_number), a Fibonacci sequence is the integer sequence of `0, 1, 1, 2, 3, 5, 8, ...`. 
+1. According to [Wikipedia](https://en.wikipedia.org/wiki/Fibonacci_number), a Fibonacci sequence is the integer sequence of `0, 1, 1, 2, 3, 5, 8, ...`. 
 
-For any element $e_{i}$ and $i > 2$, each element is the sum of the 2 preceding elements: 
+Thus, the first 2 elements $e_{1}$ and $e_{2}$ of the series need to be provided. 
+For $i > 2$, each element $e_{i}$ is the sum of the 2&nbsp;preceding elements: 
 
 $e_{i} = e_{i-2} + e_{i-1}$.   
 
-```{r fibonacci}
+We turn this into a `for` loop as follows: 
+
+```{r iter-ex1-fibonacci-1}
+# 1: Loop to print 25 Fibonacci numbers
+N <- 25             # length of series
+fib <- rep(NA, 25)  # prepare output
+
+for (i in 1:N){
+  
+  # Distinguish between 3 cases: 
+  if (i==1) { fib[i] <- 0 }  # initialize 1st element
+  if (i==2) { fib[i] <- 1 }  # initialise 2nd element
+  
+  if (i > 2) {
+    fib[i] <- fib[i-2] + fib[i-1]
+  }
+  
+}
+
+# Result:
+fib
+```
+
+2. Incorporating the `for` loop into a function `fibonacci(n)`: 
+
+```{r iter-ex1-fibonacci-2a}
 fibonacci <- function(n){
   
   if (is.na(n) || (n < 1) || (n != round(n)))  {
     stop("n must be a positive integer.")
   }
   
-  # initialize the sequence:
+  fib <- rep(NA, n)  # initialize output vector 
+  
+  for (i in 1:n){
+    
+    # Distinguish between 3 cases: 
+    if (i==1) { fib[i] <- 0 }  # initialize 1st element
+    if (i==2) { fib[i] <- 1 }  # initialise 2nd element
+    
+    if (i > 2) {
+      fib[i] <- fib[i-2] + fib[i-1]
+    }
+    
+  }
+  
+  return(fib)
+  
+}
+```
+
+Checking the function: 
+
+```{r iter-ex1-fibonacci-2a-check}
+# Check:
+fibonacci(1)
+fibonacci(2)
+fibonacci(3)
+fibonacci(4)
+
+# First 25 Fibonacci numbers:
+fibonacci(25)
+
+## Errors:
+# fibonacci(0)
+# fibonacci(-1)
+# fibonacci(3/2)
+# fibonacci(NA)
+```
+
+Realizing that we only need the `for` loop when `n > 2`, we could re-write the same function as follows: 
+
+```{r iter-ex1-fibonacci-2b}
+fibonacci <- function(n){
+  
+  if (is.na(n) || (n < 1) || (n != round(n)))  {
+    stop("n must be a positive integer.")
+  }
+  
+  # initialize the 1st and 2nd elements:
   fib <- c(0, 1)
   
   if (n <= 2){
@@ -1205,7 +1282,11 @@ fibonacci <- function(n){
   return(fib)
 
 }
+```
 
+Checking the function: 
+
+```{r iter-ex1-fibonacci-2b-check}
 # Check:
 fibonacci(1)
 fibonacci(2)
@@ -1222,11 +1303,53 @@ fibonacci(25)
 # fibonacci(NA)
 ```
 
+3. Generalizing `fibonacci(n)` to a function `fibonacci(e1, e2, n)` is simple: 
+The following version makes the arguments `e1` and `e2` optional to return the standard sequence by default. 
+
+```{r iter-ex1-fibonacci-3}
+fibonacci <- function(e1 = 0, e2 = 1, n){
+  
+  if (is.na(n) || (n < 1) || (n != round(n)))  {
+    stop("n must be a positive integer.")
+  }
+  
+  fib <- rep(NA, n)  # initialize output vector 
+  
+  for (i in 1:n){
+    
+    # Distinguish between 3 cases: 
+    if (i==1) { fib[i] <- e1 }  # initialize 1st element
+    if (i==2) { fib[i] <- e2 }  # initialise 2nd element
+    
+    if (i > 2) {
+      fib[i] <- fib[i-2] + fib[i-1]
+    }
+    
+  }
+  
+  return(fib)
+  
+}
+```
+
+This generalized `fibonacci` function still allows all previous calls, like:
+
+```{r iter-ex1-fibonacci-3-check1}
+fibonacci(n = 25)
+```
+
+but now also allows specifying different initial elements:
+
+```{r iter-ex1-fibonacci-3-check2}
+fibonacci(e1 = 1, e2 = 3, n = 25)
+```
+
+
 ## Exercise 2 {#iteration:ex02}
 
 #### Looping for divisors
 
-1. Write a for loop that prints out all positive divisors of the number 1000.  
+1. Write a `for` loop that prints out all positive divisors of the numbers 1000.  
 
 (**Hint:** Use `N %% x == 0` to test whether `x` is a divisor of `N`.)
 
@@ -1234,6 +1357,7 @@ fibonacci(25)
 
 ```{r iter-ex2-1}
 N <- 1000
+
 for (i in 1:N){
   
   if (N %% i == 0) 
@@ -1246,11 +1370,22 @@ for (i in 1:N){
 
 #### Solution {-}
 
-We took `N = 1000` iterations, but can achieve the same with fewer:
+Our first `for` loop required `N = 1000` iterations. 
+However, realizing that the largest divisor cannot exceed `N/2` (for even numbers), and `N\3` (for odd numbers), we could achieve the same results with far fewer iterations: 
 
 ```{r iter-ex2-2}
 # Using a sequence of N/2 + 1 loops:
-seq <- c(1:ceiling(N/2), N)
+N <- 1000
+
+if (N %% 2 == 0){
+  seq <- c(1:(N/2), N)  # seq of length N/2 + 1 
+} else if (N %% 2 == 1){
+  seq <- c(1:floor(N/3), N)  # seq of length N/3 + 1 
+} else {
+  stop("N is neither even nor odd.")
+}
+
+# seq
 length(seq)
 
 for (i in seq){
@@ -1261,7 +1396,7 @@ for (i in seq){
 }
 ```
 
-3. Write a `divisors` function that uses a for loop to return a numeric vector containing all positive divisors of a natural number `N`. 
+3. Write a `divisors` function that uses a `for` loop to return a numeric vector containing all positive divisors of a natural number `N`. 
 
 (**Hint:** Note that we do not know the length of the resulting vector.)
 
@@ -1273,8 +1408,13 @@ divisors <- function(N){
   if ( is.na(N) || (N < 1) || (N %% 1 != 0)) { stop("N should be a natural number.") }
   
   # initialize: 
-  out <- c() 
-  seq <- c(1:ceiling(N/2), N)
+  out <- c()  # prepare output vector
+  
+  if (N %% 2 == 0){
+    seq <- c(1:(N/2), N)  # seq of length N/2 + 1 
+  } else if (N %% 2 == 1){
+    seq <- c(1:floor(N/3), N)  # seq of length N/3 + 1
+  }
   
   if (N == 1) { 
     
@@ -1285,9 +1425,9 @@ divisors <- function(N){
     # loop:
     for (i in seq){
       
-      if (N %% i == 0) 
-        
-        out <- c(out, i)
+      if (N %% i == 0) {  # i is a divisor of N: 
+        out <- c(out, i)  # add i to out 
+      }
       
     } # end loop.
     
@@ -1300,14 +1440,106 @@ divisors <- function(N){
 # Check:
 divisors(1)
 divisors(8)
+divisors(9)
 divisors(12)
-divisors(1000)
+divisors(13)
 
 ## Errors for:
 # divisors(NA)
 # divisors(-10)
 # divisors(1/2)
 ```
+
+4. Use your `divisors` function to answer the question: 
+Does the number&nbsp;1001 have fewer or more divisors than the number&nbsp;1000?
+
+```{r iter-ex2-4}
+d_1000 <- divisors(1000)
+d_1000
+
+d_1001 <- divisors(1001)
+d_1001
+
+# 1000 has more divisors than 1001: 
+length(d_1000) > length(d_1001)
+```
+
+5. Use your `divisors` function and another `for` loop to answer the question: 
+Which prime numbers exist between the number&nbsp;111 and the number&nbsp;1111?
+
+**Hint:** A prime number (e.g., 13) has only 2 divisors: 1 and the number itself. 
+
+```{r iter-ex2-5}
+# Parameters:
+range_min <- 111
+range_max <- 1111
+primes_found <- c()  # initialize
+
+for (i in range_min:range_max) {
+
+  if (length(divisors(i)) == 2){
+    
+    primes_found <- c(primes_found, i)
+    
+  }
+  
+}
+
+# Solution:
+primes_found
+length(primes_found)
+```
+
+Note some details:
+
+- The loop above uses the `divisors` function within a `for` loop (in the range `range_min:range_max`). 
+As the `divisors` function also uses a `for` loop to find all divisors of `N`, we are using a loop inside a loop. 
+As such structures can quickly become very inefficient, it is a good idea to try reducing the number of iterations when possible. 
+
+- The condition `length(divisors(i)) == 2` would _fail_ to detect a prime number `i=1`. 
+A more general solution would first define an `is_prime` function and then use `is_prime(i)` in the `if` statement of the `for` loop: 
+
+```{r iter-ex2-5-prime}
+is_prime <- function(N){
+  
+  if ( is.na(N) || (N < 1) || (N %% 1 != 0)) { stop("N should be a natural number.") }
+  
+  out <- NA  # initialize
+  
+  if (N == 1) { 
+    
+    out <- TRUE  # 1 is a prime number
+    
+  } else {
+    
+    if (length(divisors(N)) == 2) {
+      out <- TRUE
+    } else {
+      out <- FALSE
+    }
+    
+  }
+  
+  return(out)
+  
+}
+
+# Check:
+is_prime(1)
+is_prime(101)
+
+is_prime(111)
+divisors(111)
+
+# Errors for:
+# is_prime(NA)
+# is_prime(0)
+# is_prime(3/2)
+```
+
+The `is_prime` function can be written in many different ways, of course. 
+Check out this [stackoverflow thread](https://stackoverflow.com/questions/19767408/prime-number-function-in-r) for solutions.
+
 
 ## Exercise 3 {#iteration:ex03}
 
@@ -1419,7 +1651,7 @@ summary(out)
 
 A histogram shows the distribution of the individual number of throws:
 
-```{r iter-ex03-4b, fig.asp = .40}
+```{r iter-ex03-4b, fig.asp = .50}
 library(tidyverse)
 library(unikn)
 
