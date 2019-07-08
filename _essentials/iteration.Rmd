@@ -1,7 +1,7 @@
 ---
 title: "Iteration, with WPA10 and solutions (ds4psy)"
 author: "Hansjörg Neth, SPDS, uni.kn"
-date: "2019 07 07"
+date: "2019 07 08"
 output:
    rmdformats::html_clean: # html_clean html_docco readthedown material #
      code_folding: show # hide
@@ -833,7 +833,6 @@ first_3
 all.equal(first_3, target_positions[1:3])  
 ```
 
-+++ here now +++
 
 ## Functional programming {#iter:functional-programming}
 
@@ -1151,23 +1150,20 @@ The only problem with `vapply` is that it’s a lot of typing: `vapply(df, is.nu
 
 - One advantage of `vapply` over **purrr**’s `map` functions is that it can also produce _matrices_ --- the `map` functions only ever produce _vectors_.
 
+
+### Advanced aspects of **purrr**
+
+See the following sections of [r4ds]() for more advanced issues in combination of the `map` functions of **purrr**: 
+
+- [21.6: Dealing with failure](https://r4ds.had.co.nz/iteration.html#dealing-with-failure) for using the adverbs `safely`, `possibly`, and `quietly` in combination with `map` functions.
+
+- [21.7: Mapping over multiple arguments](https://r4ds.had.co.nz/iteration.html#mapping-over-multiple-arguments) for the `map2` variants, as well as `invoke_map`. 
+
+- [21.8: Walk](https://r4ds.had.co.nz/iteration.html#walk) to use `walk`, `walk2` and `pwalk` for calling functions for their side effects. 
+
+Rather than digging deeper into the functional programming paradigm of **purrr**, the following exercises focus on good-old fashioned `for` loops and the more essential aspects of `apply` or `map`. 
+
 <!-- +++ here now +++ --> 
-
-### Dealing with failure
-
-Adverbs:
-
-- `safely`
-- `possibly`
-- `quietly`
-
-### Mapping over multiple arguments
-
-### Walk 
-
-
-
-
 
 
 # Exercises (WPA10) {#iter:ex}
@@ -1687,7 +1683,7 @@ ggplot(tb) +
 
 ## Exercise 4 {#iter:ex04}
 
-Write code that uses one of the `apply` or `map` functions to:
+Write code that uses a function of the **base** R `apply` or **purrr** `map` family of functions to:
 
 1. Compute the mean of every column in `mtcars`.  
 2. Determine the type of each column in `ggplot2::diamonds`.  
@@ -1706,17 +1702,15 @@ mean(mtcars$mpg)
 as_tibble(mtcars) %>% map_dbl(mean)
 apply(X = mtcars, MARGIN = 2, FUN = mean)
 
-
 # 2. Determine the type of each column in `ggplot2::diamonds`:
-ggplot2::diamonds
 
 # (a) Solve for 1st column: 
 typeof(ggplot2::diamonds$carat)  # solution for 1st column
 
 # (b) Generalize to all columns:
 ggplot2::diamonds %>% map_chr(typeof)
-apply(X = ggplot2::diamonds, MARGIN = 2, FUN = typeof) # Note: all viewed as characters!
-
+apply(X = ggplot2::diamonds, MARGIN = 2, FUN = typeof) 
+# Note: All variables viewed as characters!
 
 # 3. Compute the number of unique values in each column of `iris`:
 
@@ -1729,12 +1723,16 @@ apply(X = iris, MARGIN = 2, FUN = n_distinct)
 
 # 4. Generate 10 random normal numbers for each of `μ = −100, 0, and 100`:
 
-# +++ here now +++
+# (a) Solve for 1st mean: 
+mu <- c(-100, 0, 100)
+rnorm(n = 10, mean = mu[1])
+
+# (b) Generalize to all means:
+mu %>% map(rnorm, n = 10) %>% str()
+lapply(X = mu, FUN = rnorm, n = 10) %>% str()
+
+# Note: In 4(b), we add str() to show the structure of the output lists.
 ```
-
-
-How can you create a single vector that --- for each column in a data frame --- indicates whether or not it is a variable of some type (e.g., a factor, numeric variable, etc.)?
-
 
 
 ## Exercise 5 {#iter:ex05}
@@ -1774,28 +1772,46 @@ z_trans(v = letters[1:5])
 z_trans(v = (1:4 > 2))
 ```
 
-2. Load the _false positive psychology_ data (at <http://rpository.com/ds4psy/data/falsePosPsy_all.csv>) into `falsePosPsy` and remove any non-numeric variables from it. Then use `z_trans` in combination with a `for` loop to z-transform all of its (numeric) columns. 
-Turn your resulting data structure into a tibble and print it. 
+2. Load the _false positive psychology_ data (at <http://rpository.com/ds4psy/data/falsePosPsy_all.csv>) into `falsePosPsy` and remove any non-numeric variables from it. 
 
 ```{r iter-ex05-2a}
 falsePosPsy <- read_csv(file = "http://rpository.com/ds4psy/data/falsePosPsy_all.csv")
 falsePosPsy
 ```
 
-Selecting only the numeric columns into a new tibble `fpp_numeric`: 
+- Use an appropriate `map` function to to create a single vector that --- for each column in `falsePosPsy` --- indicates whether or not it is a numeric variable?
+
+**Hint:** The function `is.numeric` tests whether a vector is numeric.
 
 ```{r iter-ex05-2b}
-fpp_numeric <- falsePosPsy %>% dplyr::select(-cond)  # notice that `cond` is non-numeric
-fpp_numeric
+# (a) Solve for individual variables: 
+is.numeric(falsePosPsy$kalimba)
+is.numeric(falsePosPsy$cond)
 
-# An automatic (but more complicated way) to select all numeric columns:
-fpp_numeric_2 <- falsePosPsy[, map_lgl(falsePosPsy, is.numeric)]
+# (b) Generalize to entire table:
+numeric_cols <- falsePosPsy %>% map_lgl(is.numeric)
+numeric_cols
+```
+
+- Use this vector to select only the numeric columns of `falsePosPsy` into a new tibble `fpp_numeric`: 
+
+```{r iter-ex05-2c}
+# Indexing columns of falsePosPsy by numeric_cols:
+fpp_numeric <- falsePosPsy[ , numeric_cols]
+# fpp_numeric
+
+# Alternative solution:
+fpp_numeric_1 <- falsePosPsy[, map_lgl(falsePosPsy, is.numeric)]
+all.equal(fpp_numeric, fpp_numeric_1)
+
+# Using dplyr::select:
+fpp_numeric_2 <- falsePosPsy %>% dplyr::select(-cond)  # notice that `cond` is non-numeric
 all.equal(fpp_numeric, fpp_numeric_2)
 ```
 
-Using a `for` loop to apply `z_trans` on any column of `fpp_numeric`:
+- Use a `for` loop to apply your `z_trans` function to `fpp_numeric` to standardize all of its columns:
 
-```{r iter-ex05-2c}
+```{r iter-ex05-2d}
 out <- c()  # prepare output vector
 
 # for loop: 
@@ -1805,6 +1821,13 @@ for (i in seq_along(fpp_numeric)){
   
 }
 
+# Result: 
+# out
+```
+
+- Turn your resulting data structure into a tibble `out_1` and print it. 
+
+```{r iter-ex05-2e}
 # Print result (as tibble): 
 out_1 <- as_tibble(out)
 out_1
@@ -1814,7 +1837,8 @@ Note that we use `cbind` rather than `c` within the `for` loop to add the result
 This is because `z_trans` returns a _vector_ for every column of `only_numeric`. 
 Alternatively, we also could have constructed a very long vector (with a length of `nrow(fpp_numeric) x ncol(fpp_numeric)` = `r nrow(fpp_numeric)` x `r ncol(fpp_numeric)` = `r nrow(fpp_numeric) * ncol(fpp_numeric)`) and turned it into a rectangular table later.  
 
-3. Repeat the task of 2. (i.e., applying `z_trans` to all numeric columns of `falsePosPsy`) by using the **base** R `apply` function, rather than a `for` loop.
+3. Repeat the task of 2. (i.e., applying `z_trans` to all numeric columns of `falsePosPsy`) by using the **base** R `apply` function, rather than a `for` loop. 
+Save and print your resulting data structure as a tibble `out_2`.  
 
 **Hint:** Remember to set the `MARGIN` argument to apply `z_trans` over all _columns_, rather than _rows_. 
 
@@ -1830,6 +1854,7 @@ out_2
 ```
 
 4. Repeat the task of 2. and 3. (i.e., applying `z_trans` to all numeric columns of `falsePosPsy`) by using an appropriate version of a `map` function from the **purrr** package. 
+Save and print your resulting data structure as a tibble `out_3`. 
 
 **Hint:** Note that the desired output structure is a rectangular data table, which is also a _list_.
 
@@ -1845,43 +1870,33 @@ out_3 <- as_tibble(out_3)
 out_3
 ```
 
-Showing the equality of all 3 results:
+5. Use `all.equal` to verify that your results of 2., 3. and 4. (i.e., `out_1`, `out_2`, and  `out_3`) are all equal.
+
+**Hint:** If a tibble `t1` lacks variable names, you can add those of another tibble `t2` by assigning `names(t1) <- names(t2)`. 
 
 ```{r iter-ex05-5}
-# Note that out_1 did not retain variable names:
-names(out_1) <- names(out_2)
+# Note that out_1 did not retain the variable names of `fpp_numeric`:
+names(out_1) <- names(fpp_numeric)  # re-adding names to out_1
 
+# Verify equality: 
 all.equal(out_1, out_2)
 all.equal(out_2, out_3)
 ```
 
 
-+++ here now +++ 
+# Additional resources
 
-## Exercise X
+## Resources on iteration
 
-Iteration only:
-
-- `z`-transform every numeric column of a table
-
-Loops in new functions
-
-- Write a function that z-transforms every numeric column in a table. 
-
-
-## `map` functions of **purrr**
-
-- See <https://r4ds.had.co.nz/iteration.html#exercises-58> 
-
-
-
-# More on iteration
+- See [Chapter 21: Iteration](https://r4ds.had.co.nz/iteration.html) of [r4ds](https://r4ds.had.co.nz/) and its exercises.
 
 - For loops in general, see the [contributed cheatsheets](https://www.rstudio.com/resources/cheatsheets/) on _Base R_ and _Advanced R_. 
 
+## Resources on functional programming
+
 - For references on functional programming (FP) with **purrr**, see <https://purrr.tidyverse.org> and the [purrr cheatsheet](https://www.rstudio.com/resources/cheatsheets/). 
 
-- See [Chapter 21: Iteration](https://r4ds.had.co.nz/iteration.html) of [r4ds](https://r4ds.had.co.nz/) and its exercises. 
+- The book [Advanced R](http://adv-r.had.co.nz/) contains several chapters on functional programming. 
 
 
 # Conclusion
