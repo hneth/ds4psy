@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit THIS (Rmd) file. -->
 <!-- ds4psy logo 1: -->
-<img src = "./pix/logo/logo_200_bwg.png" alt = "ds4psy" width = "110px" align = "right" style = "width: 150px; float: right; border:11;"/>
+<a href="https://bookdown.org/hneth/ds4psy/"> <img src = "./images/logo/logo_200_bwg.png" alt = "ds4psy" width = "110px" align = "right" style = "width: 150px; float: right; border:11;"/> </a>
 
 ds4psy
 ======
@@ -15,17 +15,25 @@ Course Coordinates
 ------------------
 
 <!-- uni.kn logo, but link to SPDS: -->
-<!-- ![](./inst/pix/uniKn_logo.png) -->
-<a href="https://www.spds.uni-konstanz.de/"> <img src = "./inst/pix/uniKn_logo.png" alt = "spds.uni.kn" width = "300px" align = "right" style = "width: 300px; float: right; border:20;"/> </a>
+<!-- ![](./inst/images/uniKn_logo.png) -->
+<a href="https://www.spds.uni-konstanz.de/"> <img src = "./inst/images/uniKn_logo.png" alt = "spds.uni.kn" width = "300px" align = "right" style = "width: 300px; float: right; border:20;"/> </a>
 
--   Taught at the [University of Konstanz](https://www.uni-konstanz.de/) by [Hansjörg Neth](http://neth.de/) (<h.neth@uni.kn>, [SPDS](https://www.spds.uni-konstanz.de/), office D507).
+-   Taught at the [University of Konstanz](https://www.uni-konstanz.de/) by [Hansjörg Neth](https://neth.de/) (<h.neth@uni.kn>, [SPDS](https://www.spds.uni-konstanz.de/), office D507).
 
--   Spring/summer 2018: Mondays, 13:30-15:00, C511 (from 2018.04.16 to 2018.07.16)
--   Links to [ZeUS](https://zeus.uni-konstanz.de:443/hioserver/pages/startFlow.xhtml?_flowId=showEvent-flow&unitId=5101&termYear=2018&termTypeValueId=1&navigationPosition=hisinoneLehrorganisation,examEventOverviewOwn) and [Ilias](https://ilias.uni-konstanz.de/ilias/goto_ilias_uni_crs_758039.html)
+-   PSY-15150, at the [University of Konstanz](https://www.uni-konstanz.de/) by [Hansjörg Neth](https://neth.de/) (<h.neth@uni.kn>, [SPDS](https://www.spds.uni-konstanz.de/), office D507).
+-   Summer 2019: Mondays, 15:15--16:45, D435.
+-   Links to current [course syllabus](http://rpository.com/ds4psy/) | [ZeUS](https://zeus.uni-konstanz.de:443/hioserver/pages/startFlow.xhtml?_flowId=detailView-flow&unitId=5101&periodId=179&navigationPosition=hisinoneLehrorganisation,examEventOverviewOwn) | [Ilias](https://ilias.uni-konstanz.de/ilias/goto_ilias_uni_crs_863036.html)
+-   The [ds4psy](https://bookdown.org/hneth/ds4psy/) ebook with examples and exercises (WPAs) is available at <https://bookdown.org/hneth/ds4psy/>.
 
--   Winter/spring 2019: Mondays, 13:30-15:00, C511 (from 2018.10.22 to 2019.02.11)
--   Links to current [course syllabus](http://rpository.com/ds4psy/) | [ZeUS](https://zeus.uni-konstanz.de/hioserver/pages/startFlow.xhtml?_flowId=detailView-flow&unitId=5101&periodId=78&navigationPosition=hisinoneLehrorganisation,examEventOverviewOwn) | [Ilias](https://ilias.uni-konstanz.de/ilias/goto_ilias_uni_crs_809936.html)
+<!-- 
 
+* Spring/summer 2018: Mondays, 13:30-15:00, C511 (from 2018.04.16 to 2018.07.16) 
+* Links to [ZeUS](https://zeus.uni-konstanz.de:443/hioserver/pages/startFlow.xhtml?_flowId=showEvent-flow&unitId=5101&termYear=2018&termTypeValueId=1&navigationPosition=hisinoneLehrorganisation,examEventOverviewOwn) and [Ilias](https://ilias.uni-konstanz.de/ilias/goto_ilias_uni_crs_758039.html)
+
+* Winter/spring 2019: Mondays, 13:30-15:00, C511 (from 2018.10.22 to 2019.02.11) 
+* Links to current [course syllabus](http://rpository.com/ds4psy/) | [ZeUS](https://zeus.uni-konstanz.de/hioserver/pages/startFlow.xhtml?_flowId=detailView-flow&unitId=5101&periodId=78&navigationPosition=hisinoneLehrorganisation,examEventOverviewOwn) |  [Ilias](https://ilias.uni-konstanz.de/ilias/goto_ilias_uni_crs_809936.html) 
+
+-->
 Course Description
 ------------------
 
@@ -50,11 +58,18 @@ Weekly exercises, mid-term test, and final test or project (to be discussed with
 References
 ----------
 
-### Textbook
+### Course materials
+
+-   A current version of the ebook [Data science for psychologists](https://bookdown.org/hneth/ds4psy/) is available online at
+    <https://bookdown.org/hneth/ds4psy/>.
+
+The script is based on the following textbook:
 
 -   Wickham, H., & Grolemund, G. (2017). *R for data science: Import, tidy, transform, visualize, and model data.* Sebastopol, Canada: O'Reilly Media, Inc. \[Available online at <http://r4ds.had.co.nz>.\]
 
 ### Software
+
+Please install the following open-source programs on your computer:
 
 -   [The R Project for Statistical Computing](http://www.r-project.org/)
 
@@ -75,10 +90,10 @@ install.packages("nycflights13", "gapminder", "Lahman", "babynames", "fueleconom
 #### Course essentials and exercises (WPAs)
 
 <!-- Table with links: -->
-All [ds4psy](http://rpository.com/ds4psy/) essentials so far:
+All [ds4psy](http://rpository.com/ds4psy/) essentials (from) previous courses):
 
 <!-- ds4psy logo: -->
-<img src = "./pix/logo/ds4psy_150_left.png" alt = "ds4psy" width = "110px" align = "right" style = "width: 150px; float: right; border:11;"/>
+<a href="https://bookdown.org/hneth/ds4psy/"> <img src = "./images/logo/ds4psy_150_left.png" alt = "ds4psy" width = "110px" align = "right" style = "width: 150px; float: right; border:11;"/> </a>
 
 |  Nr.| Topic                                                                               |
 |----:|:------------------------------------------------------------------------------------|
@@ -129,6 +144,6 @@ Nr. | Topic       |
 -   Zumel, N., & Mount, J. (2014). *Practical data science with R*. Greenwich, CT: Manning Publications.
 
 <!-- Update: -->
-\[Updated 2019-04-17 by [hn](https://neth.de).\]
+\[Updated 2019-07-10 by [hn](https://neth.de).\]
 
 <!-- eof. -->
