@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit THIS (Rmd) file. -->
 <!-- ds4psy logo 1: -->
-<a href="https://bookdown.org/hneth/ds4psy/"> <img src = "./images/logo/logo_200_bwg.png" alt = "ds4psy" width = "110px" align = "right" style = "width: 150px; float: right; border:11;"/> </a>
+<a href="https://bookdown.org/hneth/ds4psy/"> <img src = "./images/logo/logo_200_bwg.png" alt = "ds4psy" width = "150px" align = "right" style = "width: 150px; float: right; border:11;"/> </a>
 
 ds4psy
 ======
@@ -89,11 +89,11 @@ install.packages("nycflights13", "gapminder", "Lahman", "babynames", "fueleconom
 
 #### Course essentials and exercises (WPAs)
 
+<!-- ds4psy logo: -->
+<a href="https://bookdown.org/hneth/ds4psy/"> <img src = "./images/logo/ds4psy_150_left.png" alt = "ds4psy" width = "150px" align = "right" style = "width: 150px; float: right; border:11;"/> </a>
+
 <!-- Table with links: -->
 All [ds4psy](http://rpository.com/ds4psy/) essentials (from) previous courses):
-
-<!-- ds4psy logo: -->
-<a href="https://bookdown.org/hneth/ds4psy/"> <img src = "./images/logo/ds4psy_150_left.png" alt = "ds4psy" width = "110px" align = "right" style = "width: 150px; float: right; border:11;"/> </a>
 
 |  Nr.| Topic                                                                               |
 |----:|:------------------------------------------------------------------------------------|
