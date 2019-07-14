@@ -18,8 +18,10 @@
 # - regular expressions, or regexps for short. 
 #   strings usually contain unstructured or semi-structured data, 
 #   and regexps are a concise language for describing patterns in strings. 
+#
 #   When you first look at a regexp, they look cryptic, but  
 #   as your understanding improves they will soon start to make sense.
+
 
 ## 14.1.1 Prerequisites
 
@@ -33,13 +35,12 @@ library(tidyverse)
 library(stringr)
 
 
-
 ## 14.2 String basics ------ 
 
 # Strings can be created by double- "..." or single '...' quotes:
 
 string1 <- "This is a string"
-string2 <- 'If I want to include a "quote" inside a string, I use single quotes'
+string2 <- 'To include a "quote" inside a string, we can use single quotes'
 
 # To include a literal single or double quote in a string you can use \ to “escape” it:
   
@@ -52,7 +53,7 @@ single_quote <- '\'' # or "'"
 backslash <- "\\"
 backslash
 
-# Beware that the printed representation of a string is not the same as string itself, 
+# Beware that the printed representation of a string is not the same as the string itself, 
 # because the printed representation shows the escapes. 
 
 # To see the raw contents of the string, use writeLines():
@@ -78,7 +79,7 @@ x
 
 ?Unicode
 
-## Unicode for German Umlaute: -----
+## Table: Unicode for German Umlaute: -----
 
 # Zeichen |	  Unicode
 # --------|----------------------
@@ -88,7 +89,10 @@ x
 # ß 		  | \u00df
 
 name <- "Hansj\u00f6rg"
-satz <- "Es w\u00e4re sch\u00f6n, ein bi\u00dfchen \u00dcberflu\u00df zu genie\u00dfen."
+satz <- "Es w\u00e4re sch\u00f6n, in \u00d6sterreich ein bi\u00dfchen \u00dcberflu\u00df genie\u00dfen zu k\u00f6nnen."
+
+# writeLines(name)
+# writeLines(satz)
 
 # Multiple strings are often stored in a character vector, which you can create with c():
 
@@ -96,6 +100,10 @@ c("one", "two", "three")
 v <- c(double_quote, backslash, name, satz)
 v
 writeLines(v)
+
+## Practice: ----
+
+# Write some strings and sentences:
 
 
 ## 14.2.1 String length -----
@@ -110,9 +118,11 @@ writeLines(v)
 
 # For example, str_length() tells you the number of characters in a string:
   
-str_length(c("a", "R for data science", "R4DS", NA))
+str_length(c("a", "R for data science", "r4ds", NA))
 str_length(v)
 
+
+# +++ here now +++
 
 ## 14.2.2 Combining and collapsing strings -----
 
