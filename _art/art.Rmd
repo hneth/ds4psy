@@ -1,7 +1,7 @@
 ---
 title: "ds4psy Artwork" 
 author: "Hansjörg Neth, SPDS, uni.kn"
-date: "2019 05 14"
+date: "2019 07 24"
 output:
   rmdformats::html_clean:
     lightbox: TRUE 
@@ -266,24 +266,24 @@ seeblau <- rgb(0, 169, 224, names = "seeblau", maxColorValue = 255) # seeblau.4 
 
 ## (A) Web (sRGB) scale: ---- 
 
-pal_unikn = data.frame(                                 ## as df: 
-  "seeblau1" = rgb(204, 238, 249, maxColorValue = 255), #  1. seeblau1 (non-transparent)
-  "seeblau2" = rgb(166, 225, 244, maxColorValue = 255), #  2. seeblau2 (non-transparent)
-  "seeblau3" = rgb( 89, 199, 235, maxColorValue = 255), #  3. seeblau3 (non-transparent)
-  "seeblau4" = rgb(  0, 169, 224, maxColorValue = 255), #  4. seeblau4 (= seeblau base color)
-  "black"    = rgb(  0,   0,   0, maxColorValue = 255), #  5. black
-  "seegrau4" = rgb(102, 102, 102, maxColorValue = 255), #  6. grey40 (non-transparent)
-  "seegrau3" = rgb(153, 153, 153, maxColorValue = 255), #  7. grey60 (non-transparent)
-  "seegrau2" = rgb(204, 204, 204, maxColorValue = 255), #  8. grey80 (non-transparent)
-  "seegrau1" = rgb(229, 229, 229, maxColorValue = 255), #  9. grey90 (non-transparent)
-  "white"    = rgb(255, 255, 255, maxColorValue = 255), # 10. white
-  stringsAsFactors = FALSE)
-# pal_unikn
+# pal_unikn = data.frame(                                 ## as df: 
+#   "seeblau1" = rgb(204, 238, 249, maxColorValue = 255), #  1. seeblau1 (non-transparent)
+#   "seeblau2" = rgb(166, 225, 244, maxColorValue = 255), #  2. seeblau2 (non-transparent)
+#   "seeblau3" = rgb( 89, 199, 235, maxColorValue = 255), #  3. seeblau3 (non-transparent)
+#   "seeblau4" = rgb(  0, 169, 224, maxColorValue = 255), #  4. seeblau4 (= seeblau base color)
+#   "black"    = rgb(  0,   0,   0, maxColorValue = 255), #  5. black
+#   "seegrau4" = rgb(102, 102, 102, maxColorValue = 255), #  6. grey40 (non-transparent)
+#   "seegrau3" = rgb(153, 153, 153, maxColorValue = 255), #  7. grey60 (non-transparent)
+#   "seegrau2" = rgb(204, 204, 204, maxColorValue = 255), #  8. grey80 (non-transparent)
+#   "seegrau1" = rgb(229, 229, 229, maxColorValue = 255), #  9. grey90 (non-transparent)
+#   "white"    = rgb(255, 255, 255, maxColorValue = 255), # 10. white
+#   stringsAsFactors = FALSE)
+# # pal_unikn
 
 # Note: Web (sRGB) colors appear to be more vibrant.
 
-# Sensibly sorted version:
-pal_unikn <- pal_unikn[c(4:1, 10:5)] # seeblau (1) > white (5) > grey > black (10)
+# # Sensibly sorted version:
+# pal_unikn <- pal_unikn[c(4:1, 10:5)] # seeblau (1) > white (5) > grey > black (10)
 
 ### Check:
 # pal_unikn
@@ -293,23 +293,23 @@ pal_unikn <- pal_unikn[c(4:1, 10:5)] # seeblau (1) > white (5) > grey > black (1
 
 ## (B) PowerPoint scale: ---- 
 
-pal_unikn_ppt = data.frame(                                 ## as df: 
-  "seeblau1" = rgb(200, 229, 239, maxColorValue = 255), #  1. seeblau1 (non-transparent)
-  "seeblau2" = rgb(160, 211, 230, maxColorValue = 255), #  2. seeblau2 (non-transparent)
-  "seeblau3" = rgb( 89, 182, 220, maxColorValue = 255), #  3. seeblau3 (non-transparent)
-  "seeblau4" = rgb(  0, 154, 209, maxColorValue = 255), #  4. seeblau4 (= seeblau base color)
-  "black"    = rgb(  0,   0,   0, maxColorValue = 255), #  5. black
-  "seegrau4" = rgb(102, 102, 102, maxColorValue = 255), #  6. grey40 (non-transparent)
-  "seegrau3" = rgb(153, 153, 153, maxColorValue = 255), #  7. grey60 (non-transparent)
-  "seegrau2" = rgb(204, 204, 204, maxColorValue = 255), #  8. grey80 (non-transparent)
-  "seegrau1" = rgb(229, 229, 229, maxColorValue = 255), #  9. grey90 (non-transparent)
-  "white"    = rgb(255, 255, 255, maxColorValue = 255), # 10. white
-  stringsAsFactors = FALSE)
+# pal_unikn_ppt = data.frame(                                 ## as df: 
+#   "seeblau1" = rgb(200, 229, 239, maxColorValue = 255), #  1. seeblau1 (non-transparent)
+#   "seeblau2" = rgb(160, 211, 230, maxColorValue = 255), #  2. seeblau2 (non-transparent)
+#   "seeblau3" = rgb( 89, 182, 220, maxColorValue = 255), #  3. seeblau3 (non-transparent)
+#   "seeblau4" = rgb(  0, 154, 209, maxColorValue = 255), #  4. seeblau4 (= seeblau base color)
+#   "black"    = rgb(  0,   0,   0, maxColorValue = 255), #  5. black
+#   "seegrau4" = rgb(102, 102, 102, maxColorValue = 255), #  6. grey40 (non-transparent)
+#   "seegrau3" = rgb(153, 153, 153, maxColorValue = 255), #  7. grey60 (non-transparent)
+#   "seegrau2" = rgb(204, 204, 204, maxColorValue = 255), #  8. grey80 (non-transparent)
+#   "seegrau1" = rgb(229, 229, 229, maxColorValue = 255), #  9. grey90 (non-transparent)
+#   "white"    = rgb(255, 255, 255, maxColorValue = 255), # 10. white
+#   stringsAsFactors = FALSE)
 
 # Note: PowerPoint colors appear to be more muted, less vibrant.
 
-# Sensibly sorted version:
-pal_unikn_ppt <- pal_unikn_ppt[c(4:1, 10:5)] # seeblau (1) > white (5) > grey > black (10)
+## Sensibly sorted version:
+# pal_unikn_ppt <- pal_unikn_ppt[c(4:1, 10:5)] # seeblau (1) > white (5) > grey > black (10)
 
 ### Check:
 # pal_unikn_ppt
@@ -353,7 +353,8 @@ col_n_sq <- function(n = 10, pal = pal_unikn){
 
 # Reset:
 unikn.pal <- pal_unikn
-unikn.pal
+
+seecol(unikn.pal)
 ```
 
 
@@ -451,7 +452,7 @@ if (plot_plot) {
   ## Save plot: ------ 
   
   plot_name <- "logo_cur"
-  full_name <- paste0(plot_out, plot_name, ".png")
+  full_name <- paste0(plot_out, "/", plot_name, ".png")
   
   ggsave(full_name, width = 2, height = 2, units = c("cm"), dpi = 300)
   
@@ -464,6 +465,8 @@ if (plot_plot) {
 
 
 ### Leet slang (l33t)
+
+**ToDo:** Put in _Strings and text_ data chapter.
 
 See <https://simple.wikipedia.org/wiki/Leet> for details. 
 
@@ -560,7 +563,7 @@ Table `tb` with sorted and random series from 1 to `N` values (and corresponding
 n_rand <- sample(1:15, size = 1, replace = TRUE)  # random integer (1:15)
 
 n_x <- n_rand  # random number
-n_x <- 10     # a specific number
+n_x <- 5     # a specific number
 n_y <- n_x
 N <- (n_x * n_y)
 
@@ -620,7 +623,12 @@ pal_n_sq <- function(n = "all", pal = pal_unikn){
 }
 
 unikn_sort <- pal_n_sq(n = n_x, pal = pal_unikn)
-unikn_sort 
+
+## bunt colors:
+# pal_bunt <- usecol(c(pal_unikn, Karpfenblau, rev(pal_seeblau), pal_seegruen, pal_petrol, pal_bordeaux, "white", pal_grau, "black"))
+## seecol(pal_bunt)
+# unikn_sort <- pal_n_sq(n = n_x, pal = pal_bunt)
+# unikn_sort 
 
 # Label colors:
 col_sort <- rep("white", N)  # default
@@ -682,6 +690,8 @@ tile_rand
 
 # Save current plot: 
 cur_name <- paste0("tile_rand_", n_x, "_brd.png")
+# cur_name <- paste0("tile_rand_", n_x, "_brd_col.png")
+
 if (plot_size < 10) {
   plot_name <- paste0(pic_path, "/tile/", cur_name)  # insert sub-dir "tile"
 } else {
@@ -706,6 +716,8 @@ tile_sort
 
 # Save current plot: 
 cur_name <- paste0("tile_sort_", n_x, "_brd.png")
+# cur_name <- paste0("tile_sort_", n_x, "_brd_col.png")
+
 if (plot_size < 10) {
   plot_name <- paste0(pic_path, "/tile/", cur_name)
 } else {
@@ -1624,7 +1636,7 @@ Highlight the current session `session_val` in the polar chart:
 # session number:
 n_rand <- sample(0:11, size = 1, replace = TRUE)  # random integer (0:11)
 nr_session <- n_rand  # random session nr (as in polar clock plot above)
-nr_session <- 11      # specific session nr
+# nr_session <- 11      # specific session nr
 
 tol <- 8         # increase tolerance value (to leave more space for text labels)
 txt_size <- 2.0  # decrease (to keep topic labels within highlighted areas)
