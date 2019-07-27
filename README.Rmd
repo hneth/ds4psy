@@ -32,10 +32,10 @@ A course on the principles and basic methods of data science for students of psy
 
 * Taught at the [University of Konstanz](https://www.uni-konstanz.de/) by [Hansjörg Neth](https://neth.de/) (<h.neth@uni.kn>,  [SPDS](https://www.spds.uni-konstanz.de/), office D507).  
 
-* PSY-15150, at the [University of Konstanz](https://www.uni-konstanz.de/) by [Hansjörg Neth](https://neth.de/) (<h.neth@uni.kn>,  [SPDS](https://www.spds.uni-konstanz.de/), office D507).
-* Summer 2019: Mondays, 15:15--16:45, D435.  
+* PSY-15150, at the [University of Konstanz](https://www.uni-konstanz.de/) by [Hansjörg Neth](https://neth.de/) (<h.neth@uni.kn>,  [SPDS](https://www.spds.uni-konstanz.de/), office D507).  
+* Summer 2019: Mondays, 15:15--16:45, D435.   
 * Links to current [course syllabus](http://rpository.com/ds4psy/) | [ZeUS](https://zeus.uni-konstanz.de:443/hioserver/pages/startFlow.xhtml?_flowId=detailView-flow&unitId=5101&periodId=179&navigationPosition=hisinoneLehrorganisation,examEventOverviewOwn) |  [Ilias](https://ilias.uni-konstanz.de/ilias/goto_ilias_uni_crs_863036.html) 
-* The [ds4psy](https://bookdown.org/hneth/ds4psy/) ebook with examples and exercises (WPAs) is available at <https://bookdown.org/hneth/ds4psy/>. 
+* The [ds4psy](https://bookdown.org/hneth/ds4psy/) ebook with examples and exercises (WPAs) is available at <https://bookdown.org/hneth/ds4psy/>.  
 
 <!-- 
 
@@ -72,7 +72,7 @@ Weekly exercises, mid-term test, and final test or project (to be discussed with
 
 ### Course materials
 
-- A current version of the ebook [Data science for psychologists](https://bookdown.org/hneth/ds4psy/) is available online at  
+- A current version of the ebook [Data science for psychologists](https://bookdown.org/hneth/ds4psy/) is available online at   
 <https://bookdown.org/hneth/ds4psy/>.  
 
 The script is based on the following textbook:  
@@ -94,14 +94,16 @@ Please install the following open-source programs on your computer:
 # R packages:
 install.packages("tidyverse")
 
+# uni.kn Colors:
+install.packages("unikn")
+
 # Additional data packages:
 install.packages("nycflights13", "gapminder", "Lahman", "babynames", "fueleconomy")
 ```
 
 ### Other resources
 
-#### Course essentials and exercises (WPAs)
-
+<!-- #### Course essentials and exercises (WPAs) -->
 
 <!-- ds4psy logo: -->
 <a href="https://bookdown.org/hneth/ds4psy/">
@@ -110,22 +112,22 @@ install.packages("nycflights13", "gapminder", "Lahman", "babynames", "fueleconom
 
 <!-- Table with links: -->
 
-All [ds4psy](http://rpository.com/ds4psy/) essentials (from) previous courses): 
+<!-- All [ds4psy](http://rpository.com/ds4psy/) essentials (from) previous courses):  -->
 
-Nr. | Topic       |
----:|:------------| 
-0.  | [Syllabus](http://rpository.com/ds4psy/) | 
-1.  | [Basic R concepts and commands](http://rpository.com/ds4psy/essentials/basics.html) | 
-2.  | [Visualizing data](http://rpository.com/ds4psy/essentials/visualize.html) | 
-3.  | [Transforming data](http://rpository.com/ds4psy/essentials/transform.html) |
-4.  | [Exploring data (EDA)](http://rpository.com/ds4psy/essentials/explore.html) | 
-5.  | [Tibbles](http://rpository.com/ds4psy/essentials/tibbles.html) |
-6.  | [Importing data](http://rpository.com/ds4psy/essentials/import.html) |
-7.  | [Tidying data](http://rpository.com/ds4psy/essentials/tidy.html) |
-8.  | [Joining data](http://rpository.com/ds4psy/essentials/join.html) |
-9.  | [Functions](http://rpository.com/ds4psy/essentials/function.html) |
-10. | [Iteration](http://rpository.com/ds4psy/essentials/iteration.html) |
-+.  | [Datasets](http://rpository.com/ds4psy/essentials/datasets.html) | 
+<!-- Nr. | Topic       | -->
+<!-- ---:|:------------|  -->
+<!-- 0.  | [Syllabus](http://rpository.com/ds4psy/) |  -->
+<!-- 1.  | [Basic R concepts and commands](http://rpository.com/ds4psy/essentials/basics.html) |  -->
+<!-- 2.  | [Visualizing data](http://rpository.com/ds4psy/essentials/visualize.html) |  -->
+<!-- 3.  | [Transforming data](http://rpository.com/ds4psy/essentials/transform.html) | -->
+<!-- 4.  | [Exploring data (EDA)](http://rpository.com/ds4psy/essentials/explore.html) |  -->
+<!-- 5.  | [Tibbles](http://rpository.com/ds4psy/essentials/tibbles.html) | -->
+<!-- 6.  | [Importing data](http://rpository.com/ds4psy/essentials/import.html) | -->
+<!-- 7.  | [Tidying data](http://rpository.com/ds4psy/essentials/tidy.html) | -->
+<!-- 8.  | [Joining data](http://rpository.com/ds4psy/essentials/join.html) | -->
+<!-- 9.  | [Functions](http://rpository.com/ds4psy/essentials/function.html) | -->
+<!-- 10. | [Iteration](http://rpository.com/ds4psy/essentials/iteration.html) | -->
+<!-- +.  | [Datasets](http://rpository.com/ds4psy/essentials/datasets.html) |  -->
 
 <!--
 Nr. | Topic       |
