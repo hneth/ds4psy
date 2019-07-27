@@ -1,5 +1,5 @@
 ## custom_functions.R | ds4psy
-## hn | uni.kn | 2019 04 13
+## hn | uni.kn | 2019 07 27
 ## ---------------------------
 
 ## (1) Graphics: ---------- 
@@ -34,8 +34,8 @@
 #   "white"    = rgb(255, 255, 255, maxColorValue = 255), # 10. white
 #   stringsAsFactors = FALSE)
 
-# NEW:
-library(unikn)  # from dedicated package
+## NEW:
+# library(unikn)  # from dedicated package
 
 unikn.pal <- unikn::pal_unikn
 seeblau <- unikn::pal_unikn[["seeblau3"]]  # 
@@ -282,8 +282,8 @@ add_whats <- function(vec, amount, what = NA){
 
 ## (3) Counters: ---------- 
 
-nr <- 0  # task number
-pt <- 0  # point total
+# nr <- 0  # task number
+# pt <- 0  # point total
 
 
 ## ToDo: ----------

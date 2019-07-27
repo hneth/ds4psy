@@ -1,0 +1,28 @@
+Package: ds4psy
+Type: Package
+Title: Data Science for Psychologists 
+Version: 0.0.0.9000
+Date: 2019-07-25
+Authors@R: c(person("Hansjoerg", "Neth", role = c("aut", "cre"), email = "h.neth@uni.kn"))
+Author: Hansjoerg Neth [aut, cre]
+Maintainer: Hansjoerg Neth <h.neth@uni.kn>
+Description: Data Science for Psychologists contains data sets and functions supporting the corresponding book and course. 
+Depends:
+    R (>= 3.4.0)
+Imports:
+    unikn,
+    utils,
+    ggplot2 
+Suggests:
+    knitr, 
+    rmarkdown,
+    spelling
+Collate: 'custom_functions.R'
+Encoding: UTF-8
+LazyData: true
+License: CC BY-SA 4.0 
+URL: https://github.com/hneth/ds4psy/
+BugReports: https://github.com/hneth/ds4psy/issues
+VignetteBuilder: knitr
+RoxygenNote: 6.1.1
+Language: en-US
