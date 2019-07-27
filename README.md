@@ -81,7 +81,7 @@ Please install the following open-source programs on your computer:
 # R packages:
 install.packages("tidyverse")
 
-# Colors:
+# uni.kn Colors:
 install.packages("unikn")
 
 # Additional data packages:
@@ -133,7 +133,7 @@ Nr. | Topic       |
 -   Further resources on the [tidyverse](https://www.tidyverse.org/):
     -   See <https://www.tidyverse.org/articles/> for current developments
     -   See <https://www.tidyverse.org/learn/> for learning resources
--   See also collection of links on <http://rpository.com/findr/>
+-   See also the collection of links at the end of each chapter of [ds4psy](https://bookdown.org/hneth/ds4psy/) and <http://rpository.com/findr/>.
 
 #### Other scripts and books
 
