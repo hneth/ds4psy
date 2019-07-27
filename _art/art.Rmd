@@ -1,7 +1,7 @@
 ---
 title: "ds4psy Artwork" 
 author: "Hansjörg Neth, SPDS, uni.kn"
-date: "2019 07 24"
+date: "2019 07 27"
 output:
   rmdformats::html_clean:
     lightbox: TRUE 
@@ -27,6 +27,7 @@ library(knitr)
 library(tidyverse)
 library(cowplot)
 library(here)
+library(unikn)
 
 ## (d) Global options: ----- 
 options(max.print = "75")
@@ -62,7 +63,7 @@ opar <- par(no.readonly = TRUE)  # all par settings that can be changed.
 
 <!-- ds4psy logo and link: -->
 <a href="http://rpository.com/ds4psy/">
-<img src = "./../images/logo/logo_4grau3_white.png" alt = "ds4psy" style = "width: 100px; float: right; border:0;"/>
+<img src = "./../images/logo_cur.png" alt = "ds4psy" style = "width: 100px; float: right; border:0;"/>
 </a>
 
 # Course Coordinates
@@ -73,6 +74,8 @@ opar <- par(no.readonly = TRUE)  # all par settings that can be changed.
 <img src = "./../inst/images/uniKn_logo.png" alt = "spds.uni.kn" style = "width: 300px; float: right; border:20;"/>
 <!-- <img src = "./../inst/images/uniKn_logo_s.png" alt = "spds.uni.kn" style = "float: right; border:20;"/> --> 
 </a>
+
+<!-- Winter 2018: --> 
 
 * Taught at the [University of Konstanz](https://www.uni-konstanz.de/) by [Hansjörg Neth](http://neth.de/) (<h.neth@uni.kn>,  [SPDS](https://www.spds.uni-konstanz.de/), office D507). 
 
@@ -88,6 +91,8 @@ Overview over generated plots:
 ## Logo
 
 Different ds4psy logo options (created in pkg `rtwrk`):
+
+<img src = "./../images/logo_cur.png" alt = "ds4psy" style = "width: 100px; float: right; border:0;"/>
 
 <img src = "./../images/logo/logo_4grau3_white.png"  alt = "ds4psy" style = "border:0;"/>
 
