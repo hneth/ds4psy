@@ -1,4 +1,4 @@
-# .gitignore | 2019 03 15
+# .gitignore | 2019 07 26
 
 # History files
 .Rhistory
@@ -40,17 +40,22 @@ vignettes/*.pdf
 *.knit.md
 .Rproj.user
 
+*.html
+
 # Others:
+_art
+_essentials
+_essentials/*.html
 _gitless 
-_book 
+_inClass
+_r4ds_book 
 _readings
-_2018_summer/ 
-rsconnect/
+_testQuest 
 data/_BBriskStudy/
 data/_falsePosPsy/
 data/_Pegel_Bodensee/
 data/_posPsy/
-*.html
-_essentials/*.html
+images 
+rsconnect/
 
 # eof. 
