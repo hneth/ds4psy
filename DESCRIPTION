@@ -19,9 +19,10 @@ Suggests:
     spelling
 Collate: 'color_fun.R'
          'text_fun.R'
-         'theme_fun.R'
          'data_fun.R'
+         'theme_fun.R'
          'plot_fun.R'
+         'util_fun.R'
 Encoding: UTF-8
 LazyData: true
 License: CC BY-SA 4.0 
