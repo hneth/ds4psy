@@ -162,22 +162,23 @@ add_whats <- function(vec, amount, what = NA){
 
 # make_tb: Create tb for plots: --------
 
-make_tb <- function(n = NA, rseed = 815){
+make_tb <- function(n = NA, rseed = NA){
   
   tb <- NA  # initialize
   
   # Robustness:
-  if (is.na(n)) {
-    n <- sample(1:10, size = 1, replace = TRUE)  # random dim_x
-  }
   if (is.na(rseed)) {
     rseed <- sample(1:999, size = 1, replace = TRUE)  # random rseed
   }
-  
+  if (is.na(n)) {
+    n <- sample(1:10, size = 1, replace = TRUE)  # random n
+  }
+
   # Parameters:
   n_x <- n
   n_y <- n
   N   <- (n_x * n_y)
+  set.seed(seed = rseed)  # for reproducible randomness
   
   # Vectors:
   # (a) sorted: 
@@ -186,9 +187,9 @@ make_tb <- function(n = NA, rseed = 815){
   
   # Colors of text labels:
   col_sort <- rep("white", N)  # default
-  lim_black <- .245  # threshold to switch from "white" to "black" labels
+  lim_black <- .25  # threshold to switch from "white" to "black" labels
   col_sort[(v_sort > (lim_black * N)) & 
-             (v_sort < ((1 - lim_black) * N))] <- "black"  # switch to "black" in mid of range
+           (v_sort <= ((1 - lim_black) * N))] <- "black"  # switch to "black" in mid of range
   # table(col_sort)
   
   # (b) random: 
@@ -210,7 +211,11 @@ make_tb <- function(n = NA, rseed = 815){
 }
 
 ## Check: 
-# make_tb()
+make_tb(n = 3)
+
+## Check rseed: 
+# make_tb(n = 5, rseed = 1)
+# make_tb(n = 5, rseed = 1)
 
 ## ToDo: ----------
 
