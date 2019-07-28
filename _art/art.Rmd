@@ -563,6 +563,8 @@ transl33t(txt,  in_case = "up", out_case = "up")
 
 Table `tb` with sorted and random series from 1 to `N` values (and corresponding colors, etc.): 
 
++++ here now +++
+
 ```{r tb_data}
 # Dimensions:
 n_rand <- sample(1:15, size = 1, replace = TRUE)  # random integer (1:15)
@@ -647,7 +649,7 @@ set.seed(815)  # for reproducible randomness
 
 # v_rand <- runif(n = N, 0, 1)
 rand_ord <- sample(v_sort, N)   # random permutation of v_sort
-v_rand <- rand_ord              # random permutation of v_sort
+v_rand   <- rand_ord            # random permutation of v_sort
 col_rand <- col_sort[rand_ord]  # corresponding colors
 
 # Table: 
