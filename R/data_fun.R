@@ -5,7 +5,7 @@
 ## Functions for creating and manipulating data. 
 
 ## (1) Generating random datasets: ---------- 
-  
+
 # Random binary values: Flip a 0/1 coin n times  ------ 
 
 random_bin_value <- function(x = c(0, 1), n = 1, replace = TRUE) {
@@ -83,9 +83,9 @@ random_symbols <- function(n = 1, set = letters, len = 1, sep = "") {
     
     for (j in 1:len) {
       
-     j_th <- sample(set, 1, replace = TRUE)
-     i_th <- paste0(i_th, j_th, sep = sep)
-     
+      j_th <- sample(set, 1, replace = TRUE)
+      i_th <- paste0(i_th, j_th, sep = sep)
+      
     }
     
     out[i] <- i_th
@@ -156,6 +156,61 @@ add_whats <- function(vec, amount, what = NA){
 # add_whats(1:10, .5, what = "ABC")
 
 
+
+
+## (2) Tables for plots: ----------
+
+# make_tb: Create tb for plots: --------
+
+make_tb <- function(n = NA, rseed = 815){
+  
+  tb <- NA  # initialize
+  
+  # Robustness:
+  if (is.na(n)) {
+    n <- sample(1:10, size = 1, replace = TRUE)  # random dim_x
+  }
+  if (is.na(rseed)) {
+    rseed <- sample(1:999, size = 1, replace = TRUE)  # random rseed
+  }
+  
+  # Parameters:
+  n_x <- n
+  n_y <- n
+  N   <- (n_x * n_y)
+  
+  # Vectors:
+  # (a) sorted: 
+  v_sort <- 1:N         # Tile: top_left = seeblau, bottom_right = black   | Polar: outer = seeblau, center = black.
+  # v_sort <- rev(1:N)  # Tile: top_left = black,   bottom_right = seeblau | Polar: outer = black, center = seeblau.
+  
+  # Colors of text labels:
+  col_sort <- rep("white", N)  # default
+  lim_black <- .245  # threshold to switch from "white" to "black" labels
+  col_sort[(v_sort > (lim_black * N)) & 
+             (v_sort < ((1 - lim_black) * N))] <- "black"  # switch to "black" in mid of range
+  # table(col_sort)
+  
+  # (b) random: 
+  # v_rand <- runif(n = N, 0, 1)
+  rand_ord <- sample(v_sort, N)   # random permutation of v_sort
+  v_rand   <- rand_ord            # random permutation of v_sort
+  col_rand <- col_sort[rand_ord]  # corresponding colors
+  
+  # Tibble: 
+  tb <- tibble::tibble(x = rep(1:n_y, times = n_x),
+                       y = rep(n_x:1, each = n_y),
+                       sort = v_sort,
+                       rand = v_rand,
+                       col_sort = col_sort,
+                       col_rand = col_rand)
+  
+  return(tb)
+  
+}
+
+## Check: 
+# make_tb()
 
 ## ToDo: ----------
 
