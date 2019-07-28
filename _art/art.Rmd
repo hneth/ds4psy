@@ -359,7 +359,7 @@ col_n_sq <- function(n = 10, pal = pal_unikn){
 # Reset:
 unikn.pal <- pal_unikn
 
-seecol(unikn.pal)
+# seecol(unikn.pal)
 ```
 
 
