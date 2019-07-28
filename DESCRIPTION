@@ -10,14 +10,16 @@ Description: Data Science for Psychologists (ds4psy) contains data sets and func
 Depends:
     R (>= 3.4.0)
 Imports:
+    ggplot2, 
     unikn,
-    utils,
-    ggplot2 
+    utils
 Suggests:
     knitr, 
     rmarkdown,
     spelling
-Collate: 'custom_functions.R'
+Collate: 'data_functions.R'
+         'plot_functions.R'
+         'text_functions.R'
 Encoding: UTF-8
 LazyData: true
 License: CC BY-SA 4.0 
