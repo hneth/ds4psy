@@ -694,6 +694,7 @@ tile_rand <- ggplot(tb) +
   scale_fill_gradientn(colors = unikn_sort) +                   # s2: full unikn_sort palette: seeblau > white > black [default]
   # scale_fill_gradientn(colors = c(unikn_sort, "gold")) +      # s3: highlight final row
   ds_theme
+  # theme_bw()
 tile_rand
 
 # Save current plot: 
