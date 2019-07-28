@@ -568,7 +568,7 @@ Table `tb` with sorted and random series from 1 to `N` values (and corresponding
 n_rand <- sample(1:15, size = 1, replace = TRUE)  # random integer (1:15)
 
 n_x <- n_rand  # random number
-n_x <- 5     # a specific number
+n_x <- 5       # a specific number
 n_y <- n_x
 N <- (n_x * n_y)
 
@@ -584,7 +584,7 @@ v_sort <- 1:N         # Tile: top_left = seeblau, bottom_right = black   | Polar
 # NOW using new pkg: 
 library(unikn) 
 
-pal_n_sq <- function(n = "all", pal = pal_unikn){
+pal_n_sq <- function(n = "all", pal = unikn::pal_unikn){
   
   # handle inputs:
   stopifnot(length(pal) > 0)
@@ -627,6 +627,7 @@ pal_n_sq <- function(n = "all", pal = pal_unikn){
   
 }
 
+## Colors: 
 unikn_sort <- pal_n_sq(n = n_x, pal = pal_unikn)
 
 ## bunt colors:
@@ -635,7 +636,7 @@ unikn_sort <- pal_n_sq(n = n_x, pal = pal_unikn)
 # unikn_sort <- pal_n_sq(n = n_x, pal = pal_bunt)
 # unikn_sort 
 
-# Label colors:
+# Colors of text labels:
 col_sort <- rep("white", N)  # default
 lim_black <- .245  # threshold to switch from "white" to "black" labels
 col_sort[(v_sort > (lim_black * N)) & (v_sort < ((1 - lim_black) * N))] <- "black"
@@ -645,17 +646,17 @@ col_sort[(v_sort > (lim_black * N)) & (v_sort < ((1 - lim_black) * N))] <- "blac
 set.seed(815)  # for reproducible randomness
 
 # v_rand <- runif(n = N, 0, 1)
-rand_ord <- sample(v_sort, N)  # random permutation of v_sort
-v_rand <- rand_ord  # random permutation of v_sort
-col_rand <- col_sort[rand_ord]
+rand_ord <- sample(v_sort, N)   # random permutation of v_sort
+v_rand <- rand_ord              # random permutation of v_sort
+col_rand <- col_sort[rand_ord]  # corresponding colors
 
 # Table: 
-tb <- tibble(x = rep(1:n_y, times = n_x),
-             y = rep(n_x:1, each = n_y),
-             sort = v_sort,
-             rand = v_rand,
-             col_sort = col_sort,
-             col_rand = col_rand
+tb <- tibble::tibble(x = rep(1:n_y, times = n_x),
+                     y = rep(n_x:1, each = n_y),
+                     sort = v_sort,
+                     rand = v_rand,
+                     col_sort = col_sort,
+                     col_rand = col_rand
 )
 tb
 ```
