@@ -1,12 +1,12 @@
 Package: ds4psy
 Type: Package
 Title: Data Science for Psychologists 
-Version: 0.0.0.9000
-Date: 2019-07-25
+Version: 0.0.0.9001
+Date: 2019-07-28
 Authors@R: c(person("Hansjoerg", "Neth", role = c("aut", "cre"), email = "h.neth@uni.kn"))
 Author: Hansjoerg Neth [aut, cre]
 Maintainer: Hansjoerg Neth <h.neth@uni.kn>
-Description: Data Science for Psychologists contains data sets and functions supporting the corresponding book and course. 
+Description: Data Science for Psychologists (ds4psy) contains data sets and functions supporting the corresponding book and course. 
 Depends:
     R (>= 3.4.0)
 Imports:
