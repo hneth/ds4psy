@@ -74,14 +74,15 @@ pal_ds4psy <- unikn::pal_unikn
 
 pal_n_sq <- function(n = "all", pal = pal_ds4psy){
   
-  # handle inputs:
+  # Handle inputs:
   stopifnot(length(pal) > 0)
   
+  # Robustness:
   if (is.character(n) && tolower(n) == "all") { n <- length(pal) }
   stopifnot(is.numeric(n))
   stopifnot(n > 0)
   
-  out <- NA    # initialize
+  out <- NA  # initialize
   
   # # OLD version: ----
   # if (n == 1) {
@@ -119,7 +120,7 @@ pal_n_sq <- function(n = "all", pal = pal_ds4psy){
     
   } else {
     
-    out <- pal  # get entire pal
+    out <- unikn::usecol(pal, n = "all")  # get entire pal as is (i.e., without scaling it)
     
   } # if (n == etc.)
   
@@ -133,8 +134,6 @@ pal_n_sq <- function(n = "all", pal = pal_ds4psy){
 # pal_n_sq(3)
 # pal_n_sq(4)
 # pal_n_sq(99)
-
-
 
 
 ## ToDo: ----------
