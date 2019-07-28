@@ -4,22 +4,20 @@
 
 ## Functions for plotting. 
 
-
-
 ## (1) Colors: ----------
 
 ## Defining colors:
-
-# library(unikn)  # use dedicated color package
 
 #' ds4psy default color palette.
 #' 
 #' \code{pal_ds4psy} provides a dedicated color palette.
 #' 
 #' By default, \code{pal_ds4psy} is initialized to 
-#' \code{pal_unikn} of the \bold{unikn} package. 
+#' \code{unikn::pal_unikn} of the \bold{unikn} package. 
 #' 
-#' @family plot functions
+#' @family color objects and functions
+#' 
+#' @import unikn 
 #' 
 #' @export
 
@@ -41,9 +39,9 @@ pal_ds4psy <- unikn::pal_unikn
 #' \code{pal_n_sq} returns \code{n^2} dedicated colors of a color palette \code{pal} 
 #' (up to a maximum of \code{n = "all"} colors). 
 #' 
-#' Note that \code{pal_n_sq} was originally created for \code{pal = \link{pal_unikn}} 
+#' Note that \code{pal_n_sq} was originally created for \code{pal = unikn::pal_unikn} 
 #' for small values of \code{n} (\code{n = 1, 2, 3}) and 
-#' returned the 11 colors of \code{\link{pal_unikn_plus}} for any \code{n > 3}. 
+#' returned the 11 colors of \code{unikn::pal_unikn} for any \code{n > 3}. 
 #' 
 #' Use the more specialized function \code{unikn::usecol} for choosing 
 #' \code{n} dedicated colors of a known color palette. 
@@ -61,14 +59,14 @@ pal_ds4psy <- unikn::pal_unikn
 #' pal_n_sq(3)  #  9 colors (5: white)
 #' pal_n_sq(4)  # 11 colors (6: white)
 #' 
-#' @family plot functions
+#' @family color objects and functions
 #'
 #' @seealso
-#' \code{\link{unikn::seecol}} to plot color palettes; 
-#' \code{\link{unikn::usecol}} to use color palettes; 
-#' \code{\link{unikn::pal_unikn}} for the default unikn color palette. 
+#' \code{\link{plot_tiles}} to plot tile plots. 
 #' 
 #' @import unikn
+#' 
+#' @export 
 
 # - Definition: ---- 
 
@@ -99,17 +97,17 @@ pal_n_sq <- function(n = "all", pal = pal_ds4psy){
   #   
   # } else { # n > 3: 9+ colors:
   #   
-  #   if (isTRUE(all.equal(pal, pal_unikn))) {
+  #   if (isTRUE(all.equal(pal, unikn::pal_unikn))) {
   #     
   #     # out <- pal[c(1:2, 2:10)]   # 11 colors: seeblau (seeblau.3: 2x) > white (6 = mid) > black (11) [default]
   #     
-  #     out <- pal_unikn        # 11 colors: seeblau.5 > white (6 = mid) > black (11)
+  #     out <- unikn::pal_unikn        # 11 colors: seeblau.5 > white (6 = mid) > black (11)
   #     
   #   } else { # any other pal:
   #     
   #     out <- pal
   #     
-  #   } # if (isTRUE(all.equal(pal, pal_unikn))) etc. 
+  #   } # if (isTRUE(all.equal(pal, unikn::pal_unikn))) etc. 
   #   
   # } # if (n == etc.)
   
