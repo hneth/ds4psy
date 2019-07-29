@@ -1,5 +1,5 @@
 ## plot_fun.R | ds4psy
-## hn | uni.kn | 2019 07 28
+## hn | uni.kn | 2019 07 29
 ## ---------------------------
 
 ## Functions for plotting. 
@@ -21,8 +21,14 @@
 #' Default: \code{sort = TRUE} (i.e., sorted tiles).  
 #' 
 #' @param borders Add borders to tiles? 
-#' Default: \code{borders = TRUE} (i.e., use borders). 
+#' Default: \code{borders = TRUE} (i.e., use borders).
 #' 
+#' @param border_col Color of borders (if \code{borders = TRUE}). 
+#' Default: \code{border_col = grey(0, 1)} (i.e., black).  
+#' 
+#' @param border_size Size of borders (if \code{borders = TRUE}). 
+#' Default: \code{border_size = 0.2} (i.e., thin).  
+
 #' @param lbl_tiles Add numeric labels to tiles? 
 #' Default: \code{lbl_tiles = FALSE} (i.e., no labels). 
 #' 
@@ -50,7 +56,8 @@
 #' plot_tiles(n = 5, pal = c(rev(pal_bordeaux), "white", pal_petrol), 
 #'            lbl_tiles = TRUE, lbl_title = TRUE, 
 #'            sort = TRUE)
-#' 
+#' plot_tiles(n = 10, sort = FALSE, border_col = "white", border_size = 1)
+#'  
 #' # Fixed rseed:
 #' plot_tiles(n = 10, sort = FALSE, borders = TRUE, 
 #'            lbl_tiles = TRUE, lbl_title = TRUE, 
@@ -63,6 +70,8 @@
 #' plot_tiles(n =  8, polar = TRUE, borders = FALSE)   # no borders
 #' plot_tiles(n = 10, polar = TRUE, lbl_tiles = TRUE)  # with tile labels 
 #' plot_tiles(n = 10, polar = TRUE, lbl_title = TRUE)  # with title label 
+#' 
+#' plot_tiles(n = 10, sort = F, border_col = "white", border_size = 1/2, polar = T)
 #'  
 #' @family plot functions
 #'
@@ -79,6 +88,8 @@ plot_tiles <- function(n = NA,
                        pal = pal_ds4psy, 
                        sort = TRUE, 
                        borders = TRUE,
+                       border_col = grey(0, 1), 
+                       border_size = 0.2, 
                        lbl_tiles = FALSE, 
                        lbl_title = FALSE, 
                        polar = FALSE, 
@@ -100,16 +111,18 @@ plot_tiles <- function(n = NA,
   # Parameters (currently fixed):
   plot_size <-  5.0    # NORMAL: in cm (used in ggsave below): normal (small) size
   # plot_size <- 10.0  # BIG:    in cm (used in ggsave below): when "./../images/big_"
-  bg_col    <-  grey(0, 1)  # "black"
+  title_col  <- grey(.00, 1)  # "black"
+  
+  
   set.seed(seed = rseed)    # for reproducible randomness
   
   # Tile borders:
   if (borders){
-    brd_col   <- bg_col
-    brd_size  <- 0.2
+    brd_col   <- border_col
+    brd_size  <- border_size
   } else {
-    brd_col  <- NA
-    brd_size <- NA
+    brd_col  <- NA  # hide label
+    brd_size <- NA  # hide label
   }
   
   # Label (on top left):
@@ -118,7 +131,7 @@ plot_tiles <- function(n = NA,
   if (lbl_title){
     # x_lbl <- 1 
     # y_lbl <- (n + 1) # + n/15
-    top_col <- bg_col
+    top_col <- title_col
   } else {
     # x_lbl <- 1
     # y_lbl <- (n + 1)
@@ -245,5 +258,7 @@ plot_tiles <- function(n = NA,
 
 
 ## ToDo: ----------
+
+# - add option to save generated plots 
 
 ## eof. ----------------------
