@@ -5,7 +5,8 @@
 \title{Plot n-by-n tiles.}
 \usage{
 plot_tiles(n = NA, pal = pal_ds4psy, sort = TRUE, borders = TRUE,
-  lbl_tiles = FALSE, lbl_title = FALSE, polar = FALSE, rseed = NA)
+  border_col = grey(0, 1), border_size = 0.2, lbl_tiles = FALSE,
+  lbl_title = FALSE, polar = FALSE, rseed = NA)
 }
 \arguments{
 \item{n}{Basic number of tiles (on either side).}
@@ -18,6 +19,12 @@ Default: \code{sort = TRUE} (i.e., sorted tiles).}
 
 \item{borders}{Add borders to tiles? 
 Default: \code{borders = TRUE} (i.e., use borders).}
+
+\item{border_col}{Color of borders (if \code{borders = TRUE}). 
+Default: \code{border_col = grey(0, 1)} (i.e., black).}
+
+\item{border_size}{Size of borders (if \code{borders = TRUE}). 
+Default: \code{border_size = 0.2} (i.e., thin).}
 
 \item{lbl_tiles}{Add numeric labels to tiles? 
 Default: \code{lbl_tiles = FALSE} (i.e., no labels).}
