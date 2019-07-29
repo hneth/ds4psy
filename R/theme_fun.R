@@ -8,7 +8,7 @@
 
 # theme_ds4psy: ToDo: Define a generic ds4psy ggplot theme ------ 
 
-#' ds4psy default plot theme (using ggplot2).
+#' ds4psy default plot theme (using ggplot2 and unikn).
 #'
 #' \code{theme_ds4psy} provides a basic \bold{ds4psy} theme 
 #' to use in \bold{ggplot2} commands. 
