@@ -8,6 +8,73 @@
 
 # plot_tiles: Tile plot (with options): -------- 
 
+#' Plot n-by-n tiles.
+#'
+#' \code{plot_tiles} plots \code{n^2} tiles on fixed or polar coordinates.  
+#' 
+#' @param n Basic number of tiles (on either side).
+#'
+#' @param pal A color palette (automatically extended to n x n colors). 
+#' Default: \code{pal = \link{pal_ds4psy}}. 
+#' 
+#' @param sort Sort tiles? 
+#' Default: \code{sort = TRUE} (i.e., sorted tiles).  
+#' 
+#' @param borders Add borders to tiles? 
+#' Default: \code{borders = TRUE} (i.e., use borders). 
+#' 
+#' @param lbl_tiles Add numeric labels to tiles? 
+#' Default: \code{lbl_tiles = FALSE} (i.e., no labels). 
+#' 
+#' @param lbl_title Add numeric label (of n) to plot? 
+#' Default: \code{lbl_title = FALSE} (i.e., no title). 
+#'
+#' @param polar Plot on polar coordinates? 
+#' Default: \code{polar = FALSE} (i.e., using fixed coordinates). 
+#' 
+#' @param rseed Random seed (number).  
+#' Default: \code{rseed = NA} (using random seed). 
+#'
+#' @examples
+#' # (1) Tile plot:
+#' plot_tiles()  # default plot (random n, with borders, no labels)
+#' 
+#' plot_tiles(n =  6, sort = FALSE)      # random order
+#' plot_tiles(n =  8, borders = FALSE)   # no borders
+#' plot_tiles(n = 10, lbl_tiles = TRUE)  # with tile labels 
+#' plot_tiles(n = 10, lbl_title = TRUE)  # with title label 
+#' 
+#' # Set colors: 
+#' plot_tiles(n = 4, pal = c(rev(pal_seegruen), "white", pal_karpfenblau), 
+#'            lbl_tiles = TRUE, sort = TRUE)
+#' plot_tiles(n = 5, pal = c(rev(pal_bordeaux), "white", pal_petrol), 
+#'            lbl_tiles = TRUE, lbl_title = TRUE, 
+#'            sort = TRUE)
+#' 
+#' # Fixed rseed:
+#' plot_tiles(n = 10, sort = FALSE, borders = TRUE, 
+#'            lbl_tiles = TRUE, lbl_title = TRUE, 
+#'            rseed = 101)  # fix seed
+#' 
+#' # (2) polar plot:  
+#' plot_tiles(polar = TRUE)  # default polar plot (with borders, no labels)
+#' 
+#' plot_tiles(n =  6, polar = TRUE, sort = FALSE)      # random order
+#' plot_tiles(n =  8, polar = TRUE, borders = FALSE)   # no borders
+#' plot_tiles(n = 10, polar = TRUE, lbl_tiles = TRUE)  # with tile labels 
+#' plot_tiles(n = 10, polar = TRUE, lbl_title = TRUE)  # with title label 
+#'  
+#' @family plot functions
+#'
+#' @seealso
+#' \code{\link{pal_ds4psy}} for default color palette. 
+#' 
+#' @import ggplot2 
+#' @import unikn
+#' @importFrom cowplot theme_nothing 
+#' 
+#' @export 
+
 plot_tiles <- function(n = NA, 
                        pal = pal_ds4psy, 
                        sort = TRUE, 
@@ -128,52 +195,54 @@ plot_tiles <- function(n = NA,
   
 } # plot_tiles end.
 
-## Check:
-# (1) Tile plot:
-plot_tiles()  # default plot (random n, with borders, no labels)
-
-plot_tiles(n =  6, sort = FALSE)      # random order
-plot_tiles(n =  8, borders = FALSE)   # no borders
-plot_tiles(n = 10, lbl_tiles = TRUE)  # with tile labels 
-plot_tiles(n = 10, lbl_title = TRUE)  # with tile labels 
-
-# Set colors: 
-plot_tiles(n = 4, pal = c(rev(pal_seegruen), "white", pal_karpfenblau), 
-           lbl_tiles = TRUE, sort = TRUE)
-plot_tiles(n = 5, pal = c(rev(pal_bordeaux), "white", pal_petrol), 
-           lbl_tiles = TRUE, lbl_title = TRUE, 
-           sort = TRUE)
-
-# Fixed rseed:
-plot_tiles(n = 10, sort = FALSE, borders = TRUE, 
-           lbl_tiles = TRUE, lbl_title = TRUE, 
-           rseed = 101)  # fix seed
-
-# (2) polar plot:
-plot_tiles(polar = TRUE)
-
-plot_tiles(n =  6, polar = TRUE, sort = FALSE)      # random order
-plot_tiles(n =  8, polar = TRUE, borders = FALSE)   # no borders
-plot_tiles(n = 10, polar = TRUE, lbl_tiles = TRUE)  # with tile labels 
-plot_tiles(n = 10, polar = TRUE, lbl_title = TRUE)  # with tile labels 
-
-# Set colors: 
-plot_tiles(n = 4, polar = TRUE,  
-           pal = c(rev(pal_seegruen), "white", pal_karpfenblau), 
-           lbl_tiles = FALSE, lbl_title = TRUE, 
-           sort = TRUE)
-plot_tiles(n = 5, polar = TRUE, 
-           pal = c(rev(pal_bordeaux), "white", pal_petrol), 
-           lbl_tiles = TRUE, lbl_title = TRUE, 
-           sort = TRUE)
-
-# Fixed rseed:
-plot_tiles(n = 10, polar = TRUE, 
-           sort = FALSE, borders = TRUE, 
-           lbl_tiles = TRUE, lbl_title = TRUE, 
-           rseed = 101)  # fix seed
-
 # +++ here now +++ 
+
+# ## Check:
+# # (1) Tile plot:
+# plot_tiles()  # default plot (random n, with borders, no labels)
+# 
+# plot_tiles(n =  6, sort = FALSE)      # random order
+# plot_tiles(n =  8, borders = FALSE)   # no borders
+# plot_tiles(n = 10, lbl_tiles = TRUE)  # with tile labels 
+# plot_tiles(n = 10, lbl_title = TRUE)  # with title label
+# 
+# # Set colors: 
+# plot_tiles(n = 4, pal = c(rev(pal_seegruen), "white", pal_karpfenblau), 
+#            lbl_tiles = TRUE, sort = TRUE)
+# plot_tiles(n = 5, pal = c(rev(pal_bordeaux), "white", pal_petrol), 
+#            lbl_tiles = TRUE, lbl_title = TRUE, 
+#            sort = TRUE)
+# 
+# # Fixed rseed:
+# plot_tiles(n = 10, sort = FALSE, borders = TRUE, 
+#            lbl_tiles = TRUE, lbl_title = TRUE, 
+#            rseed = 101)  # fix seed
+# 
+# # (2) polar plot:
+# plot_tiles(polar = TRUE) # default plot (random n, with borders, no labels)
+# 
+# plot_tiles(n =  6, polar = TRUE, sort = FALSE)      # random order
+# plot_tiles(n =  8, polar = TRUE, borders = FALSE)   # no borders
+# plot_tiles(n = 10, polar = TRUE, lbl_tiles = TRUE)  # with tile labels 
+# plot_tiles(n = 10, polar = TRUE, lbl_title = TRUE)  # with title label 
+# 
+# # Set colors: 
+# plot_tiles(n = 4, polar = TRUE,  
+#            pal = c(rev(pal_seegruen), "white", pal_karpfenblau), 
+#            lbl_tiles = FALSE, lbl_title = TRUE, 
+#            sort = TRUE)
+# plot_tiles(n = 5, polar = TRUE, 
+#            pal = c(rev(pal_bordeaux), "white", pal_petrol), 
+#            lbl_tiles = TRUE, lbl_title = TRUE, 
+#            sort = TRUE)
+# 
+# # Fixed rseed:
+# plot_tiles(n = 10, polar = TRUE, 
+#            sort = FALSE, borders = TRUE, 
+#            lbl_tiles = TRUE, lbl_title = TRUE, 
+#            rseed = 101)  # fix seed
+
+
 
 ## ToDo: ----------
 
