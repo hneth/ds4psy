@@ -40,6 +40,12 @@
 #' 
 #' @param rseed Random seed (number).  
 #' Default: \code{rseed = NA} (using random seed). 
+#' 
+#' @param save Save plot as png file? 
+#' Default: \code{save = FALSE}. 
+#' 
+#' @param save_path Path to save plot (if \code{save = TRUE}).  
+#' Default: \code{save_path = "images/tiles"}.  
 #'
 #' @examples
 #' # (1) Tile plot:
@@ -94,8 +100,9 @@ plot_tiles <- function(n = NA,
                        lbl_tiles = FALSE, 
                        lbl_title = FALSE, 
                        polar = FALSE,
+                       rseed = NA, 
                        save = FALSE, 
-                       rseed = NA){
+                       save_path = "images/tiles"){
   
   # initialize:
   cur_col  <- NA
@@ -217,9 +224,10 @@ plot_tiles <- function(n = NA,
     full_name <- NA
     
     # directories:
-    dir_images <- "images"
-    dir_plot   <- "tiles"
-    
+    # save_path  <- "images/tiles"
+    # dir_images <- "images"
+    # dir_plot   <- "tiles"
+
     # determine plot name (from current settings):
     if (polar) { coord <- "pole" } else { coord <- "tile" }  
     if (n < 10) { num <- paste0("_", "0", n) } else { num <- paste0("_", n) }
@@ -231,7 +239,7 @@ plot_tiles <- function(n = NA,
     filext <- ".png"
     
     plot_name <- paste0(coord, num, sort_rand, brds, lbls, titl, suffix, filext)
-    full_name <- here(dir_images, dir_plot, plot_name)
+    full_name <- here(save_path, plot_name)
   
     # Parameters (currently fixed):
     # plot_size <-  5.0  # SMALL:  in cm (used in ggsave below): normal (small) size

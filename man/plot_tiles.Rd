@@ -6,7 +6,8 @@
 \usage{
 plot_tiles(n = NA, pal = pal_ds4psy, sort = TRUE, borders = TRUE,
   border_col = grey(0, 1), border_size = 0.2, lbl_tiles = FALSE,
-  lbl_title = FALSE, polar = FALSE, save = FALSE, rseed = NA)
+  lbl_title = FALSE, polar = FALSE, rseed = NA, save = FALSE,
+  save_path = "images/tiles")
 }
 \arguments{
 \item{n}{Basic number of tiles (on either side).}
@@ -37,6 +38,12 @@ Default: \code{polar = FALSE} (i.e., using fixed coordinates).}
 
 \item{rseed}{Random seed (number).
 Default: \code{rseed = NA} (using random seed).}
+
+\item{save}{Save plot as png file? 
+Default: \code{save = FALSE}.}
+
+\item{save_path}{Path to save plot (if \code{save = TRUE}).
+Default: \code{save_path = "images/tiles"}.}
 }
 \description{
 \code{plot_tiles} plots \code{n^2} tiles on fixed or polar coordinates.
