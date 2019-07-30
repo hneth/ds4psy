@@ -1,7 +1,7 @@
 ---
 title: "ds4psy Artwork" 
 author: "Hansjörg Neth, SPDS, uni.kn"
-date: "2019 07 27"
+date: "2019 07 30"
 output:
   rmdformats::html_clean:
     lightbox: TRUE 
@@ -48,7 +48,7 @@ opts_chunk$set(echo = TRUE,
 opts_knit$set(width = 75)
 
 ## (e) Custom functions: ----- 
-source(file = here("R", "custom_functions.R"))
+# source(file = here("R", "custom_functions.R"))
 ## WAS: 
 # source(file = "~/Desktop/stuff/Dropbox/_code/R/_teachR/ds4psy/R/custom_functions.R")
 
@@ -383,7 +383,7 @@ theme_ds4psy <- ds_theme
 
 ### Logo
 
-Corresponding logo (see code in project `rtwrk`):
+Corresponding logo (see code in project **rtwrk** for more recent version):
 
 ```{r logo_sketch, eval = TRUE, fig.width = 2, fig.height = 2}
 # Define some positions: ------
@@ -407,7 +407,7 @@ tb_ds4p
 
 ## Based on pal_unikn:
 
-pal_unikn <- unikn.pal
+pal_unikn <- unikn::pal_unikn  # WAS: unikn.pal
 
 # col_4 <- col_n_sq(n = 2, pal_unikn)
 # col_4
@@ -459,14 +459,18 @@ if (plot_plot) {
   plot_name <- "logo_cur"
   full_name <- paste0(plot_out, "/", plot_name, ".png")
   
-  ggsave(full_name, width = 2, height = 2, units = c("cm"), dpi = 300)
+  # ggsave(full_name, width = 2, height = 2, units = c("cm"), dpi = 300)
   
 } # if (plot_plot) etc. 
 ```
 
+**Note:** This version of the logo is obsolete. 
+Check project **rtwrk** for more current versions.
+
+
 ### Theme
 
-**ToDo:** Create a dedicated ds4psy ggplot theme.
+**ToDo:** Create a dedicated **ds4psy** ggplot theme.
 
 
 ### Leet slang (l33t)
@@ -563,8 +567,6 @@ transl33t(txt,  in_case = "up", out_case = "up")
 
 Table `tb` with sorted and random series from 1 to `N` values (and corresponding colors, etc.): 
 
-+++ here now +++
-
 ```{r tb_data}
 # Dimensions:
 n_rand <- sample(1:15, size = 1, replace = TRUE)  # random integer (1:15)
@@ -613,7 +615,7 @@ pal_n_sq <- function(n = "all", pal = unikn::pal_unikn){
     
     if (isTRUE(all.equal(pal, pal_unikn))) {
       
-      # out <- pal[c(1:2, 2:10)]   # 11 colors: seeblau (seeblau.3: 2x) > white (6 = mid) > black (11) [default]  
+      # out <- pal[c(1:2, 2:10)]   # 11 colors: Seeblau (seeblau.3: 2x) > white (6 = mid) > black (11) [default]  
       
       out <- pal_unikn        # 11 colors: seeblau.5 > white (6 = mid) > black (11)  
       
@@ -690,8 +692,8 @@ tile_rand <- ggplot(tb) +
   # labs(title = "ds4psy") + 
   labs(x = "Data", y = "Science") +
   ## Color schemes: 
-  # scale_fill_continuous(low = seeblau, high = grey(1, 1)) +   # s1: light: seeblau > white
-  scale_fill_gradientn(colors = unikn_sort) +                   # s2: full unikn_sort palette: seeblau > white > black [default]
+  # scale_fill_continuous(low = Seeblau, high = grey(1, 1)) +   # s1: light: Seeblau > white
+  scale_fill_gradientn(colors = unikn_sort) +                   # s2: full unikn_sort palette: Seeblau > white > black [default]
   # scale_fill_gradientn(colors = c(unikn_sort, "gold")) +      # s3: highlight final row
   ds_theme
   # theme_bw()
@@ -717,8 +719,8 @@ tile_sort <- ggplot(tb) +
   # labs(title = "ds4psy") + 
   labs(x = "4", y = expression(psi)) +
   ## Color schemes: 
-  # scale_fill_continuous(low = seeblau, high = grey(1, 1)) +   # s1: light: seeblau > white
-  scale_fill_gradientn(colors = unikn_sort) +                   # s2: full unikn_sort palette: seeblau > white > black [default]
+  # scale_fill_continuous(low = Seeblau, high = grey(1, 1)) +   # s1: light: Seeblau > white
+  scale_fill_gradientn(colors = unikn_sort) +                   # s2: full unikn_sort palette: Seeblau > white > black [default]
   # scale_fill_gradientn(colors = c(unikn_sort, "gold")) +      # s3: highlight final row
   ds_theme
 tile_sort
@@ -747,8 +749,8 @@ tile_rand <- ggplot(tb) +
   # labs(title = "ds4psy") + 
   labs(x = "Data", y = "Science") +
   ## Color schemes: 
-  # scale_fill_continuous(low = seeblau, high = grey(1, 1)) +   # s1: light: seeblau > white
-  scale_fill_gradientn(colors = unikn_sort) +                   # s2: full unikn_sort palette: seeblau > white > black [default]
+  # scale_fill_continuous(low = Seeblau, high = grey(1, 1)) +   # s1: light: Seeblau > white
+  scale_fill_gradientn(colors = unikn_sort) +                   # s2: full unikn_sort palette: Seeblau > white > black [default]
   # scale_fill_gradientn(colors = c(unikn_sort, "gold")) +      # s3: highlight final row
   ds_theme
 tile_rand
@@ -772,8 +774,8 @@ tile_sort <- ggplot(tb) +
   # labs(title = "ds4psy") + 
   labs(x = "4", y = expression(psi)) +
   ## Color schemes: 
-  # scale_fill_continuous(low = seeblau, high = grey(1, 1)) +   # s1: light: seeblau > white
-  scale_fill_gradientn(colors = unikn_sort) +                   # s2: full unikn_sort palette: seeblau > white > black [default]
+  # scale_fill_continuous(low = Seeblau, high = grey(1, 1)) +   # s1: light: Seeblau > white
+  scale_fill_gradientn(colors = unikn_sort) +                   # s2: full unikn_sort palette: Seeblau > white > black [default]
   # scale_fill_gradientn(colors = c(unikn_sort, "gold")) +      # s3: highlight final row
   ds_theme
 tile_sort
@@ -811,8 +813,8 @@ tile_rand_lbl <- ggplot(tb) +
   # labs(title = "ds4psy") + 
   labs(x = "Data", y = "Science") +
   ## Color schemes: 
-  # scale_fill_continuous(low = seeblau, high = grey(1, 1)) +   # s1: light: seeblau > white
-  scale_fill_gradientn(colors = unikn_sort) +                   # s2: full unikn_sort palette: seeblau > white > black [default]
+  # scale_fill_continuous(low = Seeblau, high = grey(1, 1)) +   # s1: light: Seeblau > white
+  scale_fill_gradientn(colors = unikn_sort) +                   # s2: full unikn_sort palette: Seeblau > white > black [default]
   # scale_fill_gradientn(colors = c(unikn_sort, "gold")) +      # s3: highlight final row
   ds_theme
 tile_rand_lbl
@@ -838,8 +840,8 @@ tile_sort_lbl <- ggplot(tb) +
   # labs(title = "ds4psy") + 
   labs(x = "Data", y = "Science") +
   ## Color schemes: 
-  # scale_fill_continuous(low = seeblau, high = grey(1, 1)) +   # s1: light: seeblau > white
-  scale_fill_gradientn(colors = unikn_sort) +                   # s2: full unikn_sort palette: seeblau > white > black [default]
+  # scale_fill_continuous(low = Seeblau, high = grey(1, 1)) +   # s1: light: Seeblau > white
+  scale_fill_gradientn(colors = unikn_sort) +                   # s2: full unikn_sort palette: Seeblau > white > black [default]
   # scale_fill_gradientn(colors = c(unikn_sort, "gold")) +      # s3: highlight final row
   ds_theme
 tile_sort_lbl
@@ -876,8 +878,8 @@ pole_rand <- ggplot(tb) +
   coord_polar() + 
   labs(x = "Data", y = "Science") +
   ## Color schemes: 
-  # scale_fill_continuous(low = seeblau, high = grey(1, 1)) +   # s1: light: seeblau > white
-  scale_fill_gradientn(colors = unikn_sort) +                   # s2: full unikn_sort palette: seeblau > white > black [default]
+  # scale_fill_continuous(low = Seeblau, high = grey(1, 1)) +   # s1: light: Seeblau > white
+  scale_fill_gradientn(colors = unikn_sort) +                   # s2: full unikn_sort palette: Seeblau > white > black [default]
   # scale_fill_gradientn(colors = c(unikn_sort, "gold")) +      # s3: highlight final row
   ds_theme
 pole_rand
@@ -891,8 +893,8 @@ pole_sort <- ggplot(tb) +
   labs(x = "4", y = expression(psi)) +
   coord_polar() +
   ## Color schemes: 
-  # scale_fill_continuous(low = seeblau, high = grey(1, 1)) +   # s1: light: seeblau > white
-  scale_fill_gradientn(colors = unikn_sort) +                   # s2: full unikn_sort palette: seeblau > white > black [default]
+  # scale_fill_continuous(low = Seeblau, high = grey(1, 1)) +   # s1: light: Seeblau > white
+  scale_fill_gradientn(colors = unikn_sort) +                   # s2: full unikn_sort palette: Seeblau > white > black [default]
   # scale_fill_gradientn(colors = c(unikn_sort, "gold")) +      # s3: highlight final row
   ds_theme
 pole_sort
@@ -913,8 +915,8 @@ pole_rand <- ggplot(tb) +
   coord_polar() + 
   labs(x = "Data", y = "Science") +
   ## Color schemes: 
-  # scale_fill_continuous(low = seeblau, high = grey(1, 1)) +   # s1: light: seeblau > white
-  scale_fill_gradientn(colors = unikn_sort) +                   # s2: full unikn_sort palette: seeblau > white > black [default]
+  # scale_fill_continuous(low = Seeblau, high = grey(1, 1)) +   # s1: light: Seeblau > white
+  scale_fill_gradientn(colors = unikn_sort) +                   # s2: full unikn_sort palette: Seeblau > white > black [default]
   # scale_fill_gradientn(colors = c(unikn_sort, "gold")) +      # s3: highlight final row
   ds_theme
 pole_rand
@@ -928,8 +930,8 @@ pole_sort <- ggplot(tb) +
   labs(x = "4", y = expression(psi)) +
   coord_polar() +
   ## Color schemes: 
-  # scale_fill_continuous(low = seeblau, high = grey(1, 1)) +   # s1: light: seeblau > white
-  scale_fill_gradientn(colors = unikn_sort) +                   # s2: full unikn_sort palette: seeblau > white > black [default]
+  # scale_fill_continuous(low = Seeblau, high = grey(1, 1)) +   # s1: light: Seeblau > white
+  scale_fill_gradientn(colors = unikn_sort) +                   # s2: full unikn_sort palette: Seeblau > white > black [default]
   # scale_fill_gradientn(colors = c(unikn_sort, "gold")) +      # s3: highlight final row
   ds_theme
 pole_sort
@@ -965,8 +967,8 @@ pole_rand_lbl <- ggplot(tb) +
   coord_polar() + 
   labs(x = "Data", y = "Science") +
   ## Color schemes: 
-  # scale_fill_continuous(low = seeblau, high = grey(1, 1)) +   # s1: light: seeblau > white
-  scale_fill_gradientn(colors = unikn_sort) +                   # s2: full unikn_sort palette: seeblau > white > black [default]
+  # scale_fill_continuous(low = Seeblau, high = grey(1, 1)) +   # s1: light: Seeblau > white
+  scale_fill_gradientn(colors = unikn_sort) +                   # s2: full unikn_sort palette: Seeblau > white > black [default]
   # scale_fill_gradientn(colors = c(unikn_sort, "gold")) +      # s3: highlight final row
   ds_theme
 pole_rand_lbl
@@ -985,8 +987,8 @@ pole_sort_lbl <- ggplot(tb) +
   coord_polar() + 
   labs(x = "Data", y = "Science") +
   ## Color schemes: 
-  # scale_fill_continuous(low = seeblau, high = grey(1, 1)) +   # s1: light: seeblau > white
-  scale_fill_gradientn(colors = unikn_sort) +                   # s2: full unikn_sort palette: seeblau > white > black [default]
+  # scale_fill_continuous(low = Seeblau, high = grey(1, 1)) +   # s1: light: Seeblau > white
+  scale_fill_gradientn(colors = unikn_sort) +                   # s2: full unikn_sort palette: Seeblau > white > black [default]
   # scale_fill_gradientn(colors = c(unikn_sort, "gold")) +      # s3: highlight final row
   ds_theme
 pole_sort_lbl
@@ -997,6 +999,8 @@ ggsave(plot_name, width = plot_size, height = plot_size, units = c("cm"), dpi = 
 ```
 
 ### Simpler tiles
+
++++ here now +++
 
 Simpler, more limited tile plots (containing only 1 row or 1 column):
 
@@ -1051,8 +1055,8 @@ row_sort <- ggplot(tbs) +
   # labs(title = "ds4psy") + 
   labs(x = "4", y = expression(psi)) +
   ## Color schemes: 
-  # scale_fill_continuous(low = seeblau, high = grey(1, 1)) +   # s1: light: seeblau > white
-  scale_fill_gradientn(colors = unikn_sort) +                   # s2: full unikn_sort palette: seeblau > white > black [default]
+  # scale_fill_continuous(low = Seeblau, high = grey(1, 1)) +   # s1: light: Seeblau > white
+  scale_fill_gradientn(colors = unikn_sort) +                   # s2: full unikn_sort palette: Seeblau > white > black [default]
   # scale_fill_gradientn(colors = c(unikn_sort, "gold")) +      # s3: highlight final row
   ds_theme
 row_sort
@@ -1071,8 +1075,8 @@ row_rand <- ggplot(tbs) +
   # labs(title = "ds4psy") + 
   labs(x = "4", y = expression(psi)) +
   ## Color schemes: 
-  # scale_fill_continuous(low = seeblau, high = grey(1, 1)) +   # s1: light: seeblau > white
-  scale_fill_gradientn(colors = unikn_sort) +                   # s2: full unikn_sort palette: seeblau > white > black [default]
+  # scale_fill_continuous(low = Seeblau, high = grey(1, 1)) +   # s1: light: Seeblau > white
+  scale_fill_gradientn(colors = unikn_sort) +                   # s2: full unikn_sort palette: Seeblau > white > black [default]
   # scale_fill_gradientn(colors = c(unikn_sort, "gold")) +      # s3: highlight final row
   ds_theme
 row_rand
@@ -1090,8 +1094,8 @@ pie_sort <- ggplot(tbs) +
   # labs(title = "ds4psy") + 
   labs(x = "4", y = expression(psi)) +
   ## Color schemes: 
-  # scale_fill_continuous(low = seeblau, high = grey(1, 1)) +   # s1: light: seeblau > white
-  scale_fill_gradientn(colors = unikn_sort) +                   # s2: full unikn_sort palette: seeblau > white > black [default]
+  # scale_fill_continuous(low = Seeblau, high = grey(1, 1)) +   # s1: light: Seeblau > white
+  scale_fill_gradientn(colors = unikn_sort) +                   # s2: full unikn_sort palette: Seeblau > white > black [default]
   # scale_fill_gradientn(colors = c(unikn_sort, "gold")) +      # s3: highlight final row
   ds_theme
 pie_sort
@@ -1109,8 +1113,8 @@ pie_rand <- ggplot(tbs) +
   # labs(title = "ds4psy") + 
   labs(x = "4", y = expression(psi)) +
   ## Color schemes: 
-  # scale_fill_continuous(low = seeblau, high = grey(1, 1)) +   # s1: light: seeblau > white
-  scale_fill_gradientn(colors = unikn_sort) +                   # s2: full unikn_sort palette: seeblau > white > black [default]
+  # scale_fill_continuous(low = Seeblau, high = grey(1, 1)) +   # s1: light: Seeblau > white
+  scale_fill_gradientn(colors = unikn_sort) +                   # s2: full unikn_sort palette: Seeblau > white > black [default]
   # scale_fill_gradientn(colors = c(unikn_sort, "gold")) +      # s3: highlight final row
   ds_theme
 pie_rand
@@ -1128,8 +1132,8 @@ col_sort <- ggplot(tbs) +
   # labs(title = "ds4psy") + 
   labs(x = "4", y = expression(psi)) +
   ## Color schemes: 
-  # scale_fill_continuous(low = seeblau, high = grey(1, 1)) +   # s1: light: seeblau > white
-  scale_fill_gradientn(colors = unikn_sort) +                   # s2: full unikn_sort palette: seeblau > white > black [default]
+  # scale_fill_continuous(low = Seeblau, high = grey(1, 1)) +   # s1: light: Seeblau > white
+  scale_fill_gradientn(colors = unikn_sort) +                   # s2: full unikn_sort palette: Seeblau > white > black [default]
   # scale_fill_gradientn(colors = c(unikn_sort, "gold")) +      # s3: highlight final row
   ds_theme
 col_sort
@@ -1147,8 +1151,8 @@ col_sort <- ggplot(tbs) +
   # labs(title = "ds4psy") + 
   labs(x = "4", y = expression(psi)) +
   ## Color schemes: 
-  # scale_fill_continuous(low = seeblau, high = grey(1, 1)) +   # s1: light: seeblau > white
-  scale_fill_gradientn(colors = unikn_sort) +                   # s2: full unikn_sort palette: seeblau > white > black [default]
+  # scale_fill_continuous(low = Seeblau, high = grey(1, 1)) +   # s1: light: Seeblau > white
+  scale_fill_gradientn(colors = unikn_sort) +                   # s2: full unikn_sort palette: Seeblau > white > black [default]
   # scale_fill_gradientn(colors = c(unikn_sort, "gold")) +      # s3: highlight final row
   ds_theme
 col_sort
@@ -1167,8 +1171,8 @@ tar_sort <- ggplot(tbs) +
   # labs(title = "ds4psy") + 
   labs(x = "4", y = expression(psi)) +
   ## Color schemes: 
-  # scale_fill_continuous(low = seeblau, high = grey(1, 1)) +   # s1: light: seeblau > white
-  scale_fill_gradientn(colors = unikn_sort) +                   # s2: full unikn_sort palette: seeblau > white > black [default]
+  # scale_fill_continuous(low = Seeblau, high = grey(1, 1)) +   # s1: light: Seeblau > white
+  scale_fill_gradientn(colors = unikn_sort) +                   # s2: full unikn_sort palette: Seeblau > white > black [default]
   # scale_fill_gradientn(colors = c(unikn_sort, "gold")) +      # s3: highlight final row
   ds_theme
 tar_sort
@@ -1186,8 +1190,8 @@ tar_rand <- ggplot(tbs) +
   # labs(title = "ds4psy") + 
   labs(x = "4", y = expression(psi)) +
   ## Color schemes: 
-  # scale_fill_continuous(low = seeblau, high = grey(1, 1)) +   # s1: light: seeblau > white
-  scale_fill_gradientn(colors = unikn_sort) +                   # s2: full unikn_sort palette: seeblau > white > black [default]
+  # scale_fill_continuous(low = Seeblau, high = grey(1, 1)) +   # s1: light: Seeblau > white
+  scale_fill_gradientn(colors = unikn_sort) +                   # s2: full unikn_sort palette: Seeblau > white > black [default]
   # scale_fill_gradientn(colors = c(unikn_sort, "gold")) +      # s3: highlight final row
   ds_theme
 tar_rand
@@ -1299,7 +1303,7 @@ Colors:
 # pal_unikn
 
 unikn_sort <- pal_unikn     
-unikn_pi <- rev(pal_unikn)  # 10 colors: black > white > seeblau
+unikn_pi <- rev(pal_unikn)  # 10 colors: black > white > Seeblau
 
 # unikn_pi
 ```
@@ -1311,7 +1315,7 @@ The first `r N` digits of `r expression(pi)` mapped to uni.kn color scale:
 - 0 is white
 - 1 is black
 - 2 is dark grey
-- 3 is seeblau
+- 3 is Seeblau
 
 ```{r pi_tile_plots_brd_lbl, fig.width = 6, fig.height = 6}
 # Parameters:
@@ -1333,8 +1337,8 @@ pi_tile_sort_lbl <- ggplot(tb) +
   coord_fixed() + 
   # labs(title = "ds4psy") + 
   ## Color schemes: 
-  # scale_fill_continuous(low = seeblau, high = grey(1, 1)) +   # light: seeblau > white
-  # scale_fill_gradientn(colors = unikn_sort) +               # full unikn_sort palette: seeblau > white > black
+  # scale_fill_continuous(low = Seeblau, high = grey(1, 1)) +   # light: Seeblau > white
+  # scale_fill_gradientn(colors = unikn_sort) +               # full unikn_sort palette: Seeblau > white > black
   # scale_fill_gradientn(colors = c(unikn_sort, "gold")) +    # highlight final row
   # scale_fill_gradientn(colors = c(unikn_sort, "gold")) +    # highlight final row
   scale_fill_gradientn(colors = unikn_pi) +
@@ -1374,9 +1378,9 @@ Density plots:
 lwd_all <- 3
 
 ggplot(df) +
-  geom_density(aes(x = a), col = seeblau, fill = "black", lwd = lwd_all, alpha = .25) +
+  geom_density(aes(x = a), col = Seeblau, fill = "black", lwd = lwd_all, alpha = .25) +
   # geom_density(aes(x = b), col = "black", fill = unikn.pal[[5]], alpha = .33) + 
-  geom_density(aes(x = c), col = "black", fill = seeblau, lwd = lwd_all, alpha = .33) +
+  geom_density(aes(x = c), col = "black", fill = Seeblau, lwd = lwd_all, alpha = .33) +
   theme_void()
 ```
 
@@ -1388,9 +1392,9 @@ lwd_all <- .75
 # overlay histogram and normal density
 ggplot(df) +
   geom_histogram(aes(x = c, y = stat(density)), binwidth = 150, col = "white", fill = "black", alpha = .25) +
-  geom_histogram(aes(x = a, y = stat(density)), binwidth = 150, col = "white", fill = seeblau, alpha = .25) +
+  geom_histogram(aes(x = a, y = stat(density)), binwidth = 150, col = "white", fill = Seeblau, alpha = .25) +
   stat_function(fun = dnorm, args = list(mean = mean(df$c), sd = sd(df$c)), lwd = lwd_all, col = "black", alpha = .95) + 
-  stat_function(fun = dnorm, args = list(mean = mean(df$a), sd = sd(df$a)), lwd = lwd_all, col = seeblau, alpha = .95) + 
+  stat_function(fun = dnorm, args = list(mean = mean(df$a), sd = sd(df$a)), lwd = lwd_all, col = Seeblau, alpha = .95) + 
   scale_x_continuous(limits = c(-2000, 1400)) +
   theme_void() # +
   # annotate(geom = "text", x = -1900, y = .0018, label = course_title, color = "black", alpha = .90, adj = 0, fontface = 2, size = 2.5)
@@ -1406,15 +1410,16 @@ lwd_all <- .75
 
 ggplot(df) +
   stat_function(fun = dnorm, args = list(mean = 300, sd = 275), lwd = lwd_all, col = "black", alpha = .99) + 
-  stat_function(fun = dnorm, args = list(mean =   0, sd = 300), lwd = lwd_all, col = seeblau, alpha = .40) + 
+  stat_function(fun = dnorm, args = list(mean =   0, sd = 300), lwd = lwd_all, col = Seeblau, alpha = .40) + 
   stat_function(fun = dnorm, args = list(mean = 600, sd = 250), lwd = lwd_all, col = "black", alpha = .40) +
-  stat_function(fun = dnorm, args = list(mean = 900, sd = 225), lwd = lwd_all, col = seeblau, alpha = .75) +
+  stat_function(fun = dnorm, args = list(mean = 900, sd = 225), lwd = lwd_all, col = Seeblau, alpha = .75) +
   scale_x_continuous(limits = c(-4000, 1700)) +
   theme_void() # +
   # annotate(geom = "text", x = -3900, y = .0016, label = course_title, color = "black", alpha = .90, adj = 0, fontface = 2, size = 2.5)
 
 ggsave("./../images/wave/waves_4.png", width = 15, height = 1.5, units = c("cm"), dpi = 300)
 ```
+
 
 ## ToC art 
 
@@ -1586,7 +1591,7 @@ tol <- 4  # tolerance value (for text labels)
 topic_clock <- ggplot(toc, aes(x = nr)) +
   geom_bar(aes(y = ctr, fill = nr_val), stat = "identity", color = grey(0, 1), size = .25) +
   scale_fill_gradientn(colors = unikn_toc) +
-  # scale_fill_gradient(low = "white", high = seeblau, limits = c(min_ctr, max_ctr)) +
+  # scale_fill_gradient(low = "white", high = Seeblau, limits = c(min_ctr, max_ctr)) +
   geom_text(aes(y = max_ctr + tol/2, label = tp), adj = .5, size = txt_size) + 
   scale_x_continuous(breaks = 0:N, labels = 0:N) + 
   scale_y_continuous(limits = c(0, (max_ctr + tol)), breaks = 1:max_ctr, labels = 1:max_ctr) + 
@@ -1862,10 +1867,10 @@ op = par(bg = "black", mar = rep(.5, 4))
 
 original_h <- .08  # original hue value
 # Seeblau versions:
-seeblau_rgb <- col2rgb(seeblau)
+seeblau_rgb <- col2rgb(Seeblau)
 seeblau_hsv <- rgb2hsv(seeblau_rgb)
 seeblau_hsv 
-#  seeblau
+#  Seeblau
 # h 0.5409226
 # s 1.0000000
 # v 0.8784314
@@ -2053,7 +2058,7 @@ df
 ## Plot: ------ 
 
 with(df, plot(x, y, type = "l", 
-              col = seeblau,  
+              col = Seeblau,  
               xlim = c(-2, 2), ylim = c(-2, 2), 
               xlab = "", ylab = "", 
               xaxt = 'n', yaxt = 'n'))
@@ -2199,7 +2204,7 @@ data <- rbind(make_circle(cos(0), sin(0), n, 1),                 # 1:  0 (top)  
 
 ## Colors: ------ 
 # unikn.pal  # basic color scale
-col_light <- unikn.pal[4] # seeblau 
+col_light <- unikn.pal[4] # Seeblau 
 
 # col_dark  <- unikn.pal[5] # black 
 # col_dark  <- unikn.pal[6] # dark grey
@@ -2218,7 +2223,7 @@ ggplot(data) +
 ### Note
 
 - perceived plasticity jointly depends on density (`n`), transparency (`alpha`), and color value (`val`). 
-- at some resolutions, the color in overlap regions (seeblau and dark grey) appears to be green!
+- at some resolutions, the color in overlap regions (Seeblau and dark grey) appears to be green!
 
 ### Ideas
 
@@ -2347,7 +2352,7 @@ substr(pi_N, 1, 10)
 
 ## Based on: 
 unikn.pal
-# pal <- colorRampPalette(c("white", seeblau))  # on black
+# pal <- colorRampPalette(c("white", Seeblau))  # on black
 pal <- colorRampPalette(c(unikn.pal[[4]], grey(.35, 1)))  # on white
 
 pi_col <- pal(N)
