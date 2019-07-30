@@ -1,5 +1,5 @@
 ## plot_fun.R | ds4psy
-## hn | uni.kn | 2019 07 29
+## hn | uni.kn | 2019 07 30
 ## ---------------------------
 
 ## Functions for plotting. 
@@ -78,7 +78,8 @@
 #' @seealso
 #' \code{\link{pal_ds4psy}} for default color palette. 
 #' 
-#' @import ggplot2 
+#' @import ggplot2
+#' @import here  
 #' @import unikn
 #' @importFrom cowplot theme_nothing 
 #' 
@@ -92,7 +93,8 @@ plot_tiles <- function(n = NA,
                        border_size = 0.2, 
                        lbl_tiles = FALSE, 
                        lbl_title = FALSE, 
-                       polar = FALSE, 
+                       polar = FALSE,
+                       save = FALSE, 
                        rseed = NA){
   
   # initialize:
@@ -109,11 +111,9 @@ plot_tiles <- function(n = NA,
   }
   
   # Parameters (currently fixed):
-  plot_size <-  5.0    # NORMAL: in cm (used in ggsave below): normal (small) size
-  # plot_size <- 10.0  # BIG:    in cm (used in ggsave below): when "./../images/big_"
   title_col  <- grey(.00, 1)  # "black"
   
-  
+  # Use inputs: 
   set.seed(seed = rseed)    # for reproducible randomness
   
   # Tile borders:
@@ -141,13 +141,13 @@ plot_tiles <- function(n = NA,
   if (polar){
     x_lbl <- n   
     y_lbl <- (n + 2)
-    lbl_size      <- 25/n
-    lbl_size_top  <- 42/n
+    lbl_size      <- 15/n
+    lbl_size_top  <- 30/n
   } else {
     x_lbl <- 1
     y_lbl <- (n + 1)
-    lbl_size      <- 42/n
-    lbl_size_top  <- 42/n
+    lbl_size      <- 30/n
+    lbl_size_top  <- 30/n
   }
   
   # data tb:
@@ -155,6 +155,11 @@ plot_tiles <- function(n = NA,
   
   # colors:
   cur_col <- pal_n_sq(n = n, pal = pal)
+  
+  # Catch special case: Replace the white tile for n = 2 by a grau[[1]] tile:
+  if (n == 2) { 
+    cur_col[cur_col == "#FFFFFF"] <- unikn::pal_grau[[1]] 
+    }
   
   # pick variables (in cur_tb):
   if (sort){
@@ -186,7 +191,9 @@ plot_tiles <- function(n = NA,
     ## Label (on top left): 
     ggplot2::annotate("text", x = x_lbl, y = y_lbl, label = cur_lbl, col = top_col, 
                       size = lbl_size_top, fontface = 1) +  # label (on top left)
-    ggplot2::scale_y_continuous(limits = c(0, y_lbl)) +     # scale (to fit label)
+    # Scale:
+    ggplot2::scale_y_continuous(limits = c(0, y_lbl + 1/2)) +  # scale (to fit top label)
+    # ggplot2::scale_x_continuous(limits = c(0, y_lbl)) +        # scale (to fit label)
     # coord_fixed() + 
     ## Plot labels: 
     ggplot2::labs(title = "Tiles", x = "Data", y = "Science") +
@@ -195,10 +202,45 @@ plot_tiles <- function(n = NA,
     # theme_gray()
     cowplot::theme_nothing()
   
+  # add coordinate system:
   if (polar){
     cur_plot <- cur_plot + ggplot2::coord_polar()
   } else {
     cur_plot <- cur_plot + ggplot2::coord_fixed()
+  }
+  
+  # save plot?
+  if (save) {
+    
+    # initialize:
+    plot_name <- NA
+    full_name <- NA
+    
+    # directories:
+    dir_images <- "images"
+    dir_plot   <- "tiles"
+    
+    # determine plot name (from current settings):
+    if (polar) { coord <- "pole" } else { coord <- "tile" }  
+    if (n < 10) { num <- paste0("_", "0", n) } else { num <- paste0("_", n) }
+    if (sort) { sort_rand <- "_sort" } else { sort_rand <- "_rand" }
+    if (borders) { brds <- "_brd" } else { brds <- "" }
+    if (lbl_tiles) { lbls <- "_lbl" } else { lbls <- "" }
+    if (lbl_title) { titl <- "_tit" } else { titl <- "" }
+    suffix <- ""
+    filext <- ".png"
+    
+    plot_name <- paste0(coord, num, sort_rand, brds, lbls, titl, suffix, filext)
+    full_name <- here(dir_images, dir_plot, plot_name)
+  
+    # Parameters (currently fixed):
+    # plot_size <-  5.0  # SMALL:  in cm (used in ggsave below): normal (small) size
+    plot_size <-    7.0  # NORMAL: in cm (used in ggsave below): normal (small) size
+    # plot_size <- 10.0  # BIG:    in cm (used in ggsave below): when "./../images/big_"
+    
+    # Save plot: 
+    ggsave(full_name, width = plot_size, height = plot_size, units = c("cm"), dpi = 300)
+    
   }
   
   # plot plot: 
@@ -255,6 +297,50 @@ plot_tiles <- function(n = NA,
 #            lbl_tiles = TRUE, lbl_title = TRUE, 
 #            rseed = 101)  # fix seed
 
+
+## Production loop: -------- 
+
+# # Settings for current loop:
+# n_chapters <- 10
+# save_now <- TRUE
+# 
+# col_brd <- "white"
+# siz_brd <- 1.6
+# i <- 2
+# 
+# for (i in 1:n_chapters){
+#   
+#   # (1) tile plots:
+#   plot_tiles(n = i, sort = F, polar = F, 
+#              border_col = col_brd, border_size = siz_brd, 
+#              rseed = i*137, save = save_now)  # tile rand
+#   plot_tiles(n = i, sort = T, polar = F,
+#              border_col = col_brd, border_size = siz_brd, 
+#              rseed = i*137, save = save_now)  # tile sort
+# 
+#   plot_tiles(n = i, sort = F, polar = F, lbl_title = T,
+#              border_col = col_brd, border_size = siz_brd, 
+#              rseed = i*137, save = save_now)  # tile rand with title lbl
+#   plot_tiles(n = i, sort = T, polar = F, lbl_title = T,
+#              border_col = col_brd, border_size = siz_brd, 
+#              rseed = i*137, save = save_now)  # tile sort with title lbl
+# 
+#   # (2) pole plots:
+#   plot_tiles(n = i, sort = F, polar = T,
+#              border_col = col_brd, border_size = siz_brd, 
+#              rseed = i*137, save = save_now)  # pole rand
+#   plot_tiles(n = i, sort = T, polar = T,
+#              border_col = col_brd, border_size = siz_brd, 
+#              rseed = i*137, save = save_now)  # pole sort
+# 
+#   plot_tiles(n = i, sort = F, polar = T, lbl_title = T,
+#              border_col = col_brd, border_size = siz_brd, 
+#              rseed = i*137, save = save_now)  # pole rand with title lbl
+#   plot_tiles(n = i, sort = T, polar = T, lbl_title = T,
+#              border_col = col_brd, border_size = siz_brd, 
+#              rseed = i*137, save = save_now)  # pole sort with title lbl
+# 
+# }
 
 
 ## ToDo: ----------

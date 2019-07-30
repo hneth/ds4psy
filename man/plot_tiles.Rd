@@ -6,7 +6,7 @@
 \usage{
 plot_tiles(n = NA, pal = pal_ds4psy, sort = TRUE, borders = TRUE,
   border_col = grey(0, 1), border_size = 0.2, lbl_tiles = FALSE,
-  lbl_title = FALSE, polar = FALSE, rseed = NA)
+  lbl_title = FALSE, polar = FALSE, save = FALSE, rseed = NA)
 }
 \arguments{
 \item{n}{Basic number of tiles (on either side).}
@@ -56,7 +56,8 @@ plot_tiles(n = 4, pal = c(rev(pal_seegruen), "white", pal_karpfenblau),
 plot_tiles(n = 5, pal = c(rev(pal_bordeaux), "white", pal_petrol), 
            lbl_tiles = TRUE, lbl_title = TRUE, 
            sort = TRUE)
-
+plot_tiles(n = 10, sort = FALSE, border_col = "white", border_size = 1)
+ 
 # Fixed rseed:
 plot_tiles(n = 10, sort = FALSE, borders = TRUE, 
            lbl_tiles = TRUE, lbl_title = TRUE, 
@@ -69,6 +70,8 @@ plot_tiles(n =  6, polar = TRUE, sort = FALSE)      # random order
 plot_tiles(n =  8, polar = TRUE, borders = FALSE)   # no borders
 plot_tiles(n = 10, polar = TRUE, lbl_tiles = TRUE)  # with tile labels 
 plot_tiles(n = 10, polar = TRUE, lbl_title = TRUE)  # with title label 
+
+plot_tiles(n = 10, sort = F, border_col = "white", border_size = 1/2, polar = T)
  
 }
 \seealso{
