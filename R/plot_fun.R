@@ -147,16 +147,36 @@ plot_tiles <- function(n = NA,
     top_col <- NA  # hide label
   }
   
-  if (polar){
+  if (polar){ # polar: 
+    
     x_lbl <- n   
-    y_lbl <- (n + 2)
+    
+    if (lbl_title){
+      y_lbl <- (n + 2)
+    } else {
+      y_lbl <- n
+    }
+    
     lbl_size      <- 15/n
     lbl_size_top  <- 30/n
-  } else {
+    
+  } else { # tiles:
+    
     x_lbl <- 1
-    y_lbl <- (n + 1)
+    
+    if (lbl_title){
+      y_lbl <- (n + 1)
+      
+      # # special cases: 
+      # if (n == 1) {y_lbl <- (n + .50)}
+      
+    } else {
+      y_lbl <- n
+    }
+    
     lbl_size      <- 30/n
     lbl_size_top  <- 30/n
+    
   }
   
   # data tb:
@@ -168,7 +188,7 @@ plot_tiles <- function(n = NA,
   # Catch special case: Replace the white tile for n = 2 by a grau[[1]] tile:
   if (n == 2) { 
     cur_col[cur_col == "#FFFFFF"] <- unikn::pal_grau[[1]] 
-    }
+  }
   
   # pick variables (in cur_tb):
   if (sort){
@@ -201,7 +221,7 @@ plot_tiles <- function(n = NA,
     ggplot2::annotate("text", x = x_lbl, y = y_lbl, label = cur_lbl, col = top_col, 
                       size = lbl_size_top, fontface = 1) +  # label (on top left)
     # Scale:
-    ggplot2::scale_y_continuous(limits = c(0, y_lbl + 1/2)) +  # scale (to fit top label)
+    # ggplot2::scale_y_continuous(limits = c(0, y_lbl + 1/4)) +  # scale (to fit top label)
     # ggplot2::scale_x_continuous(limits = c(0, y_lbl)) +        # scale (to fit label)
     # coord_fixed() + 
     ## Plot labels: 
@@ -229,7 +249,7 @@ plot_tiles <- function(n = NA,
     # save_path  <- "images/tiles"
     # dir_images <- "images"
     # dir_plot   <- "tiles"
-
+    
     # determine plot name (from current settings):
     if (polar) { coord <- "pole" } else { coord <- "tile" }  
     if (n < 10) { num <- paste0("_", "0", n) } else { num <- paste0("_", n) }
@@ -240,12 +260,12 @@ plot_tiles <- function(n = NA,
     filext <- ".png"
     
     # customize name:
-    prefix <- "" # "cover_"  # ""  # (e.g., "cover_")
-    suffix <- "" # "_190731" # ""  # (e.g., "_190731")
+    prefix <- ""  # "color_" # "cover_"  # ""  # (e.g., "cover_")
+    suffix <- ""  # "_190731" # ""  # (e.g., "_190731")
     
     plot_name <- paste0(prefix, coord, num, sort_rand, brds, lbls, titl, suffix, filext)
     full_name <- here(save_path, plot_name)
-  
+    
     # Parameters (currently fixed):
     # plot_size <-  5.0  # SMALL:  in cm (used in ggsave below): normal (small) size
     plot_size <-    7.0  # NORMAL: in cm (used in ggsave below): normal (small) size
@@ -320,45 +340,58 @@ plot_tiles <- function(n = NA,
 # col_brd <- "white"
 # siz_brd <- 1.6
 # i <- 2
-# 
+
 # for (i in 1:n_chapters){
-#   
+# 
 #   # (1) tile plots:
-#   plot_tiles(n = i, sort = F, polar = F, 
-#              border_col = col_brd, border_size = siz_brd, 
+#   plot_tiles(n = i, sort = F, polar = F,
+#              border_col = col_brd, border_size = siz_brd,
 #              rseed = i*137, save = save_now)  # tile rand
 #   plot_tiles(n = i, sort = T, polar = F,
-#              border_col = col_brd, border_size = siz_brd, 
+#              border_col = col_brd, border_size = siz_brd,
 #              rseed = i*137, save = save_now)  # tile sort
 # 
 #   plot_tiles(n = i, sort = F, polar = F, lbl_title = T,
-#              border_col = col_brd, border_size = siz_brd, 
+#              border_col = col_brd, border_size = siz_brd,
 #              rseed = i*137, save = save_now)  # tile rand with title lbl
 #   plot_tiles(n = i, sort = T, polar = F, lbl_title = T,
-#              border_col = col_brd, border_size = siz_brd, 
+#              border_col = col_brd, border_size = siz_brd,
 #              rseed = i*137, save = save_now)  # tile sort with title lbl
 # 
 #   # (2) pole plots:
 #   plot_tiles(n = i, sort = F, polar = T,
-#              border_col = col_brd, border_size = siz_brd, 
+#              border_col = col_brd, border_size = siz_brd,
 #              rseed = i*137, save = save_now)  # pole rand
 #   plot_tiles(n = i, sort = T, polar = T,
-#              border_col = col_brd, border_size = siz_brd, 
+#              border_col = col_brd, border_size = siz_brd,
 #              rseed = i*137, save = save_now)  # pole sort
 # 
 #   plot_tiles(n = i, sort = F, polar = T, lbl_title = T,
-#              border_col = col_brd, border_size = siz_brd, 
+#              border_col = col_brd, border_size = siz_brd,
 #              rseed = i*137, save = save_now)  # pole rand with title lbl
 #   plot_tiles(n = i, sort = T, polar = T, lbl_title = T,
-#              border_col = col_brd, border_size = siz_brd, 
+#              border_col = col_brd, border_size = siz_brd,
 #              rseed = i*137, save = save_now)  # pole sort with title lbl
 # 
 # }
 
-## Cover images: -------- 
+
+## Cover image: -------- 
 
 # plot_tiles(n = 30, sort = FALSE, border_col = "black", border_size = .1, rseed = 132)
 # plot_tiles(n = 30, sort = FALSE, border_col = "white", border_size = .25, rseed = 132, save = F)
+
+
+## Color chapter: -------
+
+# col_brd <- "white"
+# siz_brd <- 1.6
+# 
+# plot_tiles(n = 5, pal = c(usecol(pal_seeblau, n = 18), "white", Bordeaux, pal_seegruen),
+#            border_col = col_brd, border_size = siz_brd,
+#            sort = FALSE, rseed = 117, save = F)
+
+
 
 
 ## ToDo: ----------
