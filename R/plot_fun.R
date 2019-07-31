@@ -1,5 +1,5 @@
 ## plot_fun.R | ds4psy
-## hn | uni.kn | 2019 07 30
+## hn | uni.kn | 2019 07 31
 ## ---------------------------
 
 ## Functions for plotting. 
@@ -62,7 +62,7 @@
 #' plot_tiles(n = 5, pal = c(rev(pal_bordeaux), "white", pal_petrol), 
 #'            lbl_tiles = TRUE, lbl_title = TRUE, 
 #'            sort = TRUE)
-#' plot_tiles(n = 10, sort = FALSE, border_col = "white", border_size = 1)
+#' plot_tiles(n = 10, sort = FALSE, border_col = "white", border_size = 2)
 #'  
 #' # Fixed rseed:
 #' plot_tiles(n = 10, sort = FALSE, borders = TRUE, 
@@ -77,7 +77,9 @@
 #' plot_tiles(n = 10, polar = TRUE, lbl_tiles = TRUE)  # with tile labels 
 #' plot_tiles(n = 10, polar = TRUE, lbl_title = TRUE)  # with title label 
 #' 
-#' plot_tiles(n = 10, sort = F, border_col = "white", border_size = 1/2, polar = T)
+#' plot_tiles(n = 4, sort = FALSE, 
+#'            border_col = "white", border_size = 2, 
+#'            polar = TRUE)
 #'  
 #' @family plot functions
 #'
@@ -235,10 +237,13 @@ plot_tiles <- function(n = NA,
     if (borders) { brds <- "_brd" } else { brds <- "" }
     if (lbl_tiles) { lbls <- "_lbl" } else { lbls <- "" }
     if (lbl_title) { titl <- "_tit" } else { titl <- "" }
-    suffix <- ""
     filext <- ".png"
     
-    plot_name <- paste0(coord, num, sort_rand, brds, lbls, titl, suffix, filext)
+    # customize name:
+    prefix <- ""  # (e.g., "cover_")
+    suffix <- ""  # (e.g., "_190731")
+    
+    plot_name <- paste0(prefix, coord, num, sort_rand, brds, lbls, titl, suffix, filext)
     full_name <- here(save_path, plot_name)
   
     # Parameters (currently fixed):
@@ -349,6 +354,11 @@ plot_tiles <- function(n = NA,
 #              rseed = i*137, save = save_now)  # pole sort with title lbl
 # 
 # }
+
+## Cover images: -------- 
+
+# plot_tiles(n = 30, sort = FALSE, border_col = "black", border_size = .1, rseed = 132)
+# plot_tiles(n = 30, sort = FALSE, border_col = "white", border_size = .5, rseed = 132, save = TRUE)
 
 
 ## ToDo: ----------
