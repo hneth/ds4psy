@@ -240,8 +240,8 @@ plot_tiles <- function(n = NA,
     filext <- ".png"
     
     # customize name:
-    prefix <- ""  # (e.g., "cover_")
-    suffix <- ""  # (e.g., "_190731")
+    prefix <- "" # "cover_"  # ""  # (e.g., "cover_")
+    suffix <- "" # "_190731" # ""  # (e.g., "_190731")
     
     plot_name <- paste0(prefix, coord, num, sort_rand, brds, lbls, titl, suffix, filext)
     full_name <- here(save_path, plot_name)
@@ -358,7 +358,7 @@ plot_tiles <- function(n = NA,
 ## Cover images: -------- 
 
 # plot_tiles(n = 30, sort = FALSE, border_col = "black", border_size = .1, rseed = 132)
-# plot_tiles(n = 30, sort = FALSE, border_col = "white", border_size = .5, rseed = 132, save = TRUE)
+# plot_tiles(n = 30, sort = FALSE, border_col = "white", border_size = .25, rseed = 132, save = F)
 
 
 ## ToDo: ----------
