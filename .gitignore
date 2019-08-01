@@ -1,4 +1,4 @@
-# .gitignore | 2019 07 26
+# .gitignore | 2019 08 01
 
 # History files
 .Rhistory
@@ -43,19 +43,20 @@ vignettes/*.pdf
 *.html
 
 # Others:
-_art
-_essentials
-_essentials/*.html
-_gitless 
-_inClass
-_r4ds_book 
-_readings
-_testQuest 
-data/_BBriskStudy/
-data/_falsePosPsy/
-data/_Pegel_Bodensee/
-data/_posPsy/
-images 
+_gitless/
+# _art
+# _essentials
+# _essentials/*.html
+# _inClass
+# _r4ds_book 
+# _readings
+# _testQuest 
+data_raw/
+# data/_BBriskStudy/
+# data/_falsePosPsy/
+# data/_Pegel_Bodensee/
+# data/_posPsy/
+images/ 
 rsconnect/
 
-# eof. 
+# eof.
