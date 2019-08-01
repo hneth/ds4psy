@@ -271,8 +271,8 @@ plot_tiles <- function(n = NA,
     filext <- ".png"
     
     # customize name:
-    prefix <- ""  # "color_" # "cover_"  # ""  # (e.g., "cover_")
-    suffix <- ""  # "_190731" # ""  # (e.g., "_190731")
+    prefix <- ""  # "toc_" "color_" "cover_"  # ""  # (e.g., "cover_")
+    suffix <- ""  # "_ds4psy" "_190731" # ""  # (e.g., "_ds4psy")
     
     plot_name <- paste0(prefix, coord, num, sort_rand, brds, lbls, titl, suffix, filext)
     full_name <- here(save_path, plot_name)
@@ -395,7 +395,7 @@ plot_tiles <- function(n = NA,
 # plot_tiles(n = 30, sort = FALSE, border_col = "white", border_size = .25, rseed = 132, save = F)
 
 
-## Color chapter: -------
+## Color chapter: -------- 
 
 # col_brd <- "white"
 # siz_brd <- 1.6
@@ -404,7 +404,27 @@ plot_tiles <- function(n = NA,
 #            border_col = col_brd, border_size = siz_brd,
 #            sort = FALSE, rseed = 117, save = F)
 
+## ToC: -------- 
 
+# col_brd <- "white"
+# siz_brd <- 1.6
+# 
+# toc_pal <- c(rep(pal_seeblau[5], 6), rep("white", 4),
+#              rep(pal_grau[3], 8), rep("white", 2),
+#              rep(pal_seeblau[1], 6), rep("white", 4),
+#              rep(pal_seeblau[3], 5), rep("white", 5),
+#              rep(pal_grau[4], 3), rep("white", 7),
+#              rep(pal_seeblau[4], 9), rep("white", 1),
+#              rep(pal_grau[1], 5), rep("white", 5),
+#              rep(pal_grau[2], 7), rep("white", 3),
+#              rep(pal_seeblau[2], 8), rep("white", 2),
+#              rep("black", 9), rep("white", 1)
+#              )
+# 
+# plot_tiles(n = 10, pal = toc_pal,
+#            border_col = col_brd, border_size = siz_brd,
+#            sort = T, polar = F,
+#            rseed = 120, save = F)
 
 
 ## ToDo: ----------
