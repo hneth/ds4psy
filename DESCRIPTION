@@ -11,9 +11,12 @@ Depends:
     R (>= 3.4.0)
 Imports:
     ggplot2,
-    here, 
+    cowplot, 
+    here,
+    stringr, 
+    tibble, 
     unikn,
-    utils
+    tidyverse 
 Suggests:
     knitr, 
     rmarkdown,
