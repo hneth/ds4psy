@@ -1,6 +1,8 @@
-^art\.Rmd$
 ^.*\.Rproj$
 ^\.Rproj\.user$
+^index\.html$
+^index\.Rmd$
+^README\.Rmd$
 ^_art$
 ^_essentials$
 ^_gitless$
@@ -9,8 +11,6 @@
 ^_readings$
 ^_templates$
 ^_testQuest$
-^_images$
-^_rsconnect$
-^index\.html$
-^index\.Rmd$
-^README\.Rmd$
+^data_raw$
+^images$
+^rsconnect$
