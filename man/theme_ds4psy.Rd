@@ -42,7 +42,7 @@ allow emphasizing data points with color accents).
 
 }
 \seealso{
-\code{\link{unikn::theme_unikn}} for the source of the current theme.
+\code{unikn::theme_unikn} for the source of the current theme.
 
 Other plot functions: \code{\link{plot_tiles}}
 }
