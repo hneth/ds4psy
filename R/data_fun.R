@@ -1,5 +1,5 @@
 ## data_fun.R | ds4psy
-## hn | uni.kn | 2019 07 28
+## hn | uni.kn | 2019 08 01
 ## ---------------------------
 
 ## Functions for creating and manipulating data. 
@@ -154,8 +154,6 @@ add_whats <- function(vec, amount, what = NA){
 # add_whats(1:10, 3) # default: what = NA
 # add_whats(1:10, 3, what = 99)
 # add_whats(1:10, .5, what = "ABC")
-
-
 
 
 ## (2) Tables for plots: ----------

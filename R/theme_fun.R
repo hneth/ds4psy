@@ -1,5 +1,5 @@
 ## theme_fun.R | ds4psy
-## hn | uni.kn | 2019 07 28
+## hn | uni.kn | 2019 08 01
 ## ---------------------------
 
 ## Functions for ggplot2 themes. 
@@ -43,7 +43,7 @@
 #' @family plot functions
 #'
 #' @seealso
-#' \code{\link{unikn::theme_unikn}} for the source of the current theme. 
+#' \code{unikn::theme_unikn} for the source of the current theme. 
 #' 
 #' @import ggplot2
 #' @import unikn

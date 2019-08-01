@@ -87,9 +87,10 @@
 #' \code{\link{pal_ds4psy}} for default color palette. 
 #' 
 #' @import ggplot2
-#' @import here  
+#' @import here
 #' @import unikn
 #' @importFrom cowplot theme_nothing 
+#' @importFrom grDevices grey
 #' 
 #' @export 
 
@@ -215,8 +216,8 @@ plot_tiles <- function(n = NA,
   
   # create plot of tiles:
   cur_plot <- ggplot2::ggplot(cur_tb) + 
-    ggplot2::geom_tile(aes(x = x, y = y,  fill = !!sym(var_tile)), color = brd_col, size = brd_size) +  # tiles (with borders, opt.)
-    ggplot2::geom_text(aes(x = x, y = y, label = !!sym(var_tile)), color = lbl_col, size = lbl_size) +  # labels (opt.) 
+    ggplot2::geom_tile(aes(x = cur_tb$x, y = cur_tb$y,  fill = !!sym(var_tile)), color = brd_col, size = brd_size) +  # tiles (with borders, opt.)
+    ggplot2::geom_text(aes(x = cur_tb$x, y = cur_tb$y, label = !!sym(var_tile)), color = lbl_col, size = lbl_size) +  # labels (opt.) 
     ## Label (on top left): 
     ggplot2::annotate("text", x = x_lbl, y = y_lbl, label = cur_lbl, col = top_col, 
                       size = lbl_size_top, fontface = 1) +  # label (on top left)

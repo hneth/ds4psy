@@ -1,5 +1,5 @@
 ## text_fun.R | ds4psy
-## hn | uni.kn | 2019 07 28
+## hn | uni.kn | 2019 08 01
 ## ---------------------------
 
 ## Functions for text and string objects. 
@@ -9,7 +9,7 @@
 course_title     <- paste0("Data science for psychologists")
 course_title_abb <- paste0("ds4psy")
 # psi <- expression(psi)
-name_hn <- "Hansjörg Neth"
+name_hn <- "Hansjoerg Neth"
 name_course <- paste0(course_title, " (", course_title_abb, "), by ", name_hn, "")
 # name_course
 
@@ -110,7 +110,7 @@ l33t_rul35 <- c(l33t_num, my_l33t)
 #' @seealso
 #' \code{\link{l33t_rul35}} for default rules. 
 #' 
-#' @import stringr
+#' @importFrom stringr str_replace_all
 #' 
 #' @export
 
