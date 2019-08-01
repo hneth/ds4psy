@@ -1,5 +1,5 @@
 ## plot_fun.R | ds4psy
-## hn | uni.kn | 2019 07 31
+## hn | uni.kn | 2019 08 01
 ## ---------------------------
 
 ## Functions for plotting. 
@@ -231,6 +231,17 @@ plot_tiles <- function(n = NA,
     # theme_gray()
     cowplot::theme_nothing()
   
+  if (lbl_title){
+    
+    # scale y (to fit top label)}: 
+    # if (n==1) {cur_plot <- cur_plot + ggplot2::scale_y_continuous(limits = c(0, y_lbl + 1/3))}
+    # if (n==2) {cur_plot <- cur_plot + ggplot2::scale_y_continuous(limits = c(0, y_lbl + 1/4))}
+    # if (n==3) {cur_plot <- cur_plot + ggplot2::scale_y_continuous(limits = c(0, y_lbl + 1/5))}
+    
+    cur_plot <- cur_plot + ggplot2::scale_y_continuous(limits = c(0, y_lbl + 1/(n + 2)))
+    
+  }
+  
   # add coordinate system:
   if (polar){
     cur_plot <- cur_plot + ggplot2::coord_polar()
@@ -339,39 +350,41 @@ plot_tiles <- function(n = NA,
 # 
 # col_brd <- "white"
 # siz_brd <- 1.6
-# i <- 2
-
+# 
+# i    <- 2
+# rfac <- 137  # constant rfac (to use as rseed in loop)
+# 
 # for (i in 1:n_chapters){
 # 
 #   # (1) tile plots:
 #   plot_tiles(n = i, sort = F, polar = F,
 #              border_col = col_brd, border_size = siz_brd,
-#              rseed = i*137, save = save_now)  # tile rand
+#              rseed = i*rfac, save = save_now)  # tile rand
 #   plot_tiles(n = i, sort = T, polar = F,
 #              border_col = col_brd, border_size = siz_brd,
-#              rseed = i*137, save = save_now)  # tile sort
+#              rseed = i*rfac, save = save_now)  # tile sort
 # 
 #   plot_tiles(n = i, sort = F, polar = F, lbl_title = T,
 #              border_col = col_brd, border_size = siz_brd,
-#              rseed = i*137, save = save_now)  # tile rand with title lbl
+#              rseed = i*rfac, save = save_now)  # tile rand with title lbl
 #   plot_tiles(n = i, sort = T, polar = F, lbl_title = T,
 #              border_col = col_brd, border_size = siz_brd,
-#              rseed = i*137, save = save_now)  # tile sort with title lbl
+#              rseed = i*rfac, save = save_now)  # tile sort with title lbl
 # 
 #   # (2) pole plots:
 #   plot_tiles(n = i, sort = F, polar = T,
 #              border_col = col_brd, border_size = siz_brd,
-#              rseed = i*137, save = save_now)  # pole rand
+#              rseed = i*rfac, save = save_now)  # pole rand
 #   plot_tiles(n = i, sort = T, polar = T,
 #              border_col = col_brd, border_size = siz_brd,
-#              rseed = i*137, save = save_now)  # pole sort
+#              rseed = i*rfac, save = save_now)  # pole sort
 # 
 #   plot_tiles(n = i, sort = F, polar = T, lbl_title = T,
 #              border_col = col_brd, border_size = siz_brd,
-#              rseed = i*137, save = save_now)  # pole rand with title lbl
+#              rseed = i*rfac, save = save_now)  # pole rand with title lbl
 #   plot_tiles(n = i, sort = T, polar = T, lbl_title = T,
 #              border_col = col_brd, border_size = siz_brd,
-#              rseed = i*137, save = save_now)  # pole sort with title lbl
+#              rseed = i*rfac, save = save_now)  # pole sort with title lbl
 # 
 # }
 
