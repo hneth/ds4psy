@@ -12,7 +12,7 @@ pal_ds4psy
 \code{pal_ds4psy} provides a dedicated color palette.
 }
 \details{
-By default, \code{pal_ds4psy} is initialized to 
+By default, \code{pal_ds4psy} is based on   
 \code{pal_unikn} of the \bold{unikn} package.
 }
 \seealso{
