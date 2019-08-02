@@ -1,5 +1,5 @@
 ## plot_fun.R | ds4psy
-## hn | uni.kn | 2019 08 01
+## hn | uni.kn | 2019 08 02
 ## ---------------------------
 
 ## Functions for plotting. 
@@ -57,17 +57,17 @@
 #' plot_tiles(n = 10, lbl_title = TRUE)  # with title label 
 #' 
 #' # Set colors: 
-#' plot_tiles(n = 4, pal = c(rev(pal_seegruen), "white", pal_karpfenblau), 
+#' plot_tiles(n = 3, pal = c("steelblue", "white", "black"),
 #'            lbl_tiles = TRUE, sort = TRUE)
-#' plot_tiles(n = 5, pal = c(rev(pal_bordeaux), "white", pal_petrol), 
-#'            lbl_tiles = TRUE, lbl_title = TRUE, 
+#' plot_tiles(n = 5, pal = c("orange", "white", "firebrick"),
+#'            lbl_tiles = TRUE, lbl_title = TRUE,
 #'            sort = TRUE)
 #' plot_tiles(n = 10, sort = FALSE, border_col = "white", border_size = 2)
-#'  
+#'   
 #' # Fixed rseed:
-#' plot_tiles(n = 10, sort = FALSE, borders = TRUE, 
+#' plot_tiles(n = 4, sort = FALSE, borders = FALSE, 
 #'            lbl_tiles = TRUE, lbl_title = TRUE, 
-#'            rseed = 101)  # fix seed
+#'            rseed = 101)
 #' 
 #' # (2) polar plot:  
 #' plot_tiles(polar = TRUE)  # default polar plot (with borders, no labels)
@@ -77,9 +77,9 @@
 #' plot_tiles(n = 10, polar = TRUE, lbl_tiles = TRUE)  # with tile labels 
 #' plot_tiles(n = 10, polar = TRUE, lbl_title = TRUE)  # with title label 
 #' 
-#' plot_tiles(n = 4, sort = FALSE, 
+#' plot_tiles(n = 4, sort = FALSE, borders = TRUE,  
 #'            border_col = "white", border_size = 2, 
-#'            polar = TRUE)
+#'            polar = TRUE, rseed = 132)
 #'  
 #' @family plot functions
 #'
@@ -345,9 +345,9 @@ plot_tiles <- function(n = NA,
 
 ## Production loop: -------- 
 
-# # Settings for current loop:
+## Settings for current loop:
 # n_chapters <- 10
-# save_now <- TRUE
+# save_now <- FALSE
 # 
 # col_brd <- "white"
 # siz_brd <- 1.6
@@ -398,6 +398,7 @@ plot_tiles <- function(n = NA,
 
 ## Color chapter: -------- 
 
+# library(unikn)
 # col_brd <- "white"
 # siz_brd <- 1.6
 # 
@@ -407,6 +408,7 @@ plot_tiles <- function(n = NA,
 
 ## ToC: -------- 
 
+# library(unikn)
 # col_brd <- "white"
 # siz_brd <- 1.6
 # 
