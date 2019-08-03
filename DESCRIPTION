@@ -21,7 +21,8 @@ Suggests:
     knitr, 
     rmarkdown,
     spelling
-Collate: 'color_fun.R'
+Collate: 'data.R'
+         'color_fun.R'
          'text_fun.R'
          'data_fun.R'
          'theme_fun.R'
