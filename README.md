@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit THIS (Rmd) file. -->
 <!-- ds4psy logo 1: -->
-<a href="https://bookdown.org/hneth/ds4psy/"> <img src = "./images/logo/logo_200_bwg.png" alt = "ds4psy" width = "150px" align = "right" style = "width: 150px; float: right; border:11;"/> </a>
+<a href="https://bookdown.org/hneth/ds4psy/"> <img src = "./inst/images/ds4psy.png" alt = "ds4psy" width = "150px" align = "right" style = "width: 150px; float: right; border:11;"/> </a>
 
 ds4psy
 ======
@@ -92,24 +92,10 @@ install.packages("nycflights13", "gapminder", "Lahman", "babynames", "fueleconom
 
 <!-- #### Course essentials and exercises (WPAs) -->
 <!-- ds4psy logo: -->
-<a href="https://bookdown.org/hneth/ds4psy/"> <img src = "./images/logo/ds4psy_150_left.png" alt = "ds4psy" width = "150px" align = "right" style = "width: 150px; float: right; border:11;"/> </a>
+<a href="https://bookdown.org/hneth/ds4psy/"> <img src = "./inst/images/ds4psy.png" alt = "ds4psy" width = "150px" align = "right" style = "width: 150px; float: right; border:11;"/> </a>
 
 <!-- Table with links: -->
 <!-- All [ds4psy](http://rpository.com/ds4psy/) essentials (from) previous courses):  -->
-<!-- Nr. | Topic       | -->
-<!-- ---:|:------------|  -->
-<!-- 0.  | [Syllabus](http://rpository.com/ds4psy/) |  -->
-<!-- 1.  | [Basic R concepts and commands](http://rpository.com/ds4psy/essentials/basics.html) |  -->
-<!-- 2.  | [Visualizing data](http://rpository.com/ds4psy/essentials/visualize.html) |  -->
-<!-- 3.  | [Transforming data](http://rpository.com/ds4psy/essentials/transform.html) | -->
-<!-- 4.  | [Exploring data (EDA)](http://rpository.com/ds4psy/essentials/explore.html) |  -->
-<!-- 5.  | [Tibbles](http://rpository.com/ds4psy/essentials/tibbles.html) | -->
-<!-- 6.  | [Importing data](http://rpository.com/ds4psy/essentials/import.html) | -->
-<!-- 7.  | [Tidying data](http://rpository.com/ds4psy/essentials/tidy.html) | -->
-<!-- 8.  | [Joining data](http://rpository.com/ds4psy/essentials/join.html) | -->
-<!-- 9.  | [Functions](http://rpository.com/ds4psy/essentials/function.html) | -->
-<!-- 10. | [Iteration](http://rpository.com/ds4psy/essentials/iteration.html) | -->
-<!-- +.  | [Datasets](http://rpository.com/ds4psy/essentials/datasets.html) |  -->
 <!--
 Nr. | Topic       |
 ---:|:------------| 
@@ -144,6 +130,6 @@ Nr. | Topic       |
 -   Zumel, N., & Mount, J. (2014). *Practical data science with R*. Greenwich, CT: Manning Publications.
 
 <!-- Update: -->
-\[Updated 2019-07-27 by [hn](https://neth.de).\]
+\[Updated 2019-08-03 by [hn](https://neth.de).\]
 
 <!-- eof. -->
