@@ -55,6 +55,21 @@ This course assumes some basic familiarity with statistics and the [R](http://ww
 
 Weekly exercises, mid-term test, and final test or project (to be discussed with instructor).
 
+Current status
+--------------
+
+This book and the corresponding course materials are still being developed. New chapters and exercises are posted as they become available.
+
+-   A current version of the book is available at <https://bookdown.org/hneth/ds4psy/>.
+
+-   There are 2 GitHub repositories to be distinguished:
+
+    -   The repository for the [ds4psy book](https://bookdown.org/hneth/ds4psy/) is <https://github.com/hneth/ds4psy_book>.
+
+    -   The repository for the [**ds4psy** package](https://github.com/hneth/ds4psy/) is <https://github.com/hneth/ds4psy>.
+
+-   The course syllabus (for Spring 2019) and all data files used in examples and exercises are available at <http://rpository.com/ds4psy/>.
+
 References
 ----------
 
