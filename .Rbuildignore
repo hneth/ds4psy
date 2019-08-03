@@ -12,5 +12,7 @@
 ^_templates$
 ^_testQuest$
 ^data_raw$
+^data-raw$
 ^images$
 ^rsconnect$
+

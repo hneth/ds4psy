@@ -51,6 +51,7 @@ _r4ds_book/
 _readings/
 _testQuest/ 
 data_raw/
+data-raw/
 rsconnect/
 
 # eof.
