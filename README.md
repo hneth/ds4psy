@@ -11,6 +11,8 @@ Welcome to the R package **ds4psy** --- a companion to the book and course
 
 The course introduces the principles and methods of data science for students of psychology and other biological or social sciences.
 
+The source code of the corresponding [ds4psy book](https://bookdown.org/hneth/ds4psy/) is hosted at <https://github.com/hneth/ds4psy_book>.
+
 Installation
 ------------
 
@@ -108,16 +110,16 @@ Please install the following open-source programs on your computer:
 
 -   [R Studio](http://www.rstudio.com/) is an integrated development environment (IDE) for R.
 
--   R packages of the [tidyverse](https://www.tidyverse.org/) and some data packages:
+-   R packages of the [tidyverse](https://www.tidyverse.org/), [ds4psy](https://github.com/hneth/ds4psy/), and [unikn](https://CRAN.R-project.org/package=unikn):
 
 ``` r
-# Tidyverse packages:
+# Tidyverse packages: 
 install.packages("tidyverse")
 
-# Course packages:
+# Course packages: 
 install.packages("ds4psy", "unikn")
 
-# Additional data packages (optional):
+# Additional data packages (optional): 
 install.packages("nycflights13", "gapminder", "Lahman", "babynames", "fueleconomy")
 ```
 
