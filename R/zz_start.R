@@ -4,7 +4,7 @@
 
 ## Open package guide: -----------------------
 
-#' Opens the unikn package guides
+#' Opens user guide of the ds4psy package. 
 #'
 #' @import utils
 #'
