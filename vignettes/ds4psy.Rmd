@@ -1,0 +1,65 @@
+---
+title: "ds4psy"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{ds4psy}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r preamble_ds4psy, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+<!-- ds4psy logo 1: -->
+<a href="https://bookdown.org/hneth/ds4psy/">
+<img src = "./../inst/images/ds4psy.png" alt = "ds4psy" width = "125px" align = "right" style = "width: 125px; float: right; border:11;"/>
+</a>
+
+**Welcome** to the R package **ds4psy** --- a companion to the book and course  
+[Data Science for Psychologists](https://bookdown.org/hneth/ds4psy/).
+
+The course introduces the principles and methods of data science for students of psychology and social sciences.
+
+
+## Installation
+
+The current release of **ds4psy** is available from [CRAN](https://CRAN.R-project.org/) at <https://CRAN.R-project.org/package=ds4psy>:
+
+```{r install_CRAN, echo = TRUE, eval = FALSE}
+install.packages('ds4psy')  # install ds4psy from CRAN client
+library('ds4psy')           # load to use the package
+```
+
+The current development version can be installed from its [GitHub](https://github.com) repository at <https://github.com/hneth/ds4psy/>: 
+
+```{r install_github, echo = TRUE, eval = FALSE}
+# install.packages('devtools')  # (if not installed yet)
+devtools::install_github('hneth/ds4psy')
+library('ds4psy')  # load to use the package
+```
+
+
+## Resources
+
+This package and the corresponding book are still being developed and are updated as new materials become available.  
+
+- A current version of the book is available at <https://bookdown.org/hneth/ds4psy/>.  
+
+- There are 2 GitHub repositories to be distinguished:  
+
+    - The repository for the [ds4psy book](https://bookdown.org/hneth/ds4psy/) is <https://github.com/hneth/ds4psy_book>.  
+
+    - The repository for the [ds4psy package](https://github.com/hneth/ds4psy/) is <https://github.com/hneth/ds4psy>.  
+
+- The course syllabus (for Spring 2019) and all data files used in examples and exercises are available at <http://rpository.com/ds4psy/>.   
+
+
+<!-- Update: -->
+
+[Updated `r format(Sys.time(), "%Y-%m-%d")` by [hn](https://neth.de).]  
+
+<!-- eof. -->
