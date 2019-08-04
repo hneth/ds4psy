@@ -6,9 +6,10 @@
 ds4psy
 ======
 
-Welcome to the R package **ds4psy** --- a companion to the book and course *Data Science for Psychologists*.
+Welcome to the R package **ds4psy** --- a companion to the book and course
+[Data Science for Psychologists](https://bookdown.org/hneth/ds4psy/).
 
-The course introduces the principles and methods of data science for students of psychology and social sciences.
+The course introduces the principles and methods of data science for students of psychology and other biological or social sciences.
 
 Installation
 ------------
@@ -72,10 +73,10 @@ This course assumes some basic familiarity with statistics and the [R](http://ww
 
 Weekly exercises, mid-term test, and final test or project (to be discussed with instructor).
 
-Current status
---------------
+Resources
+---------
 
-This book and the corresponding course materials are still being developed. New chapters and exercises are posted as they become available.
+This package and the corresponding book are still being developed and are updated as new materials become available.
 
 -   A current version of the book is available at <https://bookdown.org/hneth/ds4psy/>.
 
@@ -92,7 +93,7 @@ References
 
 ### Course materials
 
--   A current version of the ebook [Data science for psychologists](https://bookdown.org/hneth/ds4psy/) is available online at
+-   A current version of [Data science for psychologists](https://bookdown.org/hneth/ds4psy/) is available online at
     <https://bookdown.org/hneth/ds4psy/>.
 
 The script is based on the following textbook:
@@ -110,13 +111,13 @@ Please install the following open-source programs on your computer:
 -   R packages of the [tidyverse](https://www.tidyverse.org/) and some data packages:
 
 ``` r
-# R packages:
+# Tidyverse packages:
 install.packages("tidyverse")
 
-# uni.kn Colors:
-install.packages("unikn")
+# Course packages:
+install.packages("ds4psy", "unikn")
 
-# Additional data packages:
+# Additional data packages (optional):
 install.packages("nycflights13", "gapminder", "Lahman", "babynames", "fueleconomy")
 ```
 

@@ -22,7 +22,7 @@ knitr::opts_chunk$set(
 **Welcome** to the R package **ds4psy** --- a companion to the book and course  
 [Data Science for Psychologists](https://bookdown.org/hneth/ds4psy/).
 
-The course introduces the principles and methods of data science for students of psychology and social sciences.
+The course introduces the principles and methods of data science for students of psychology and other biological or social sciences. 
 
 
 ## Installation
