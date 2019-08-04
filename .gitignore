@@ -1,4 +1,4 @@
-# .gitignore | 2019 08 01
+# .gitignore | 2019 08 04
 
 # History files
 .Rhistory
@@ -42,7 +42,11 @@ vignettes/*.pdf
 
 *.html
 
+# Vignettes:
+inst/doc 
+
 # Others:
+.gitignore
 _art/
 _essentials/
 _gitless/
@@ -55,3 +59,4 @@ data-raw/
 rsconnect/
 
 # eof.
+
