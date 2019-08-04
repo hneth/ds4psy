@@ -6,10 +6,27 @@
 ds4psy
 ======
 
-Data science for psychologists
-------------------------------
+Welcome to the R package **ds4psy** --- a companion to the book and course *Data Science for Psychologists*.
 
-A course on the principles and basic methods of data science for students of psychology and social sciences.
+The course introduces the principles and methods of data science for students of psychology and social sciences.
+
+Installation
+------------
+
+The current release of **ds4psy** is available from [CRAN](https://CRAN.R-project.org/) at <https://CRAN.R-project.org/package=ds4psy>:
+
+``` r
+install.packages('ds4psy')  # install ds4psy from CRAN client
+library('ds4psy')           # load to use the package
+```
+
+The current development version can be installed from its [GitHub](https://github.com) repository at <https://github.com/hneth/ds4psy/>:
+
+``` r
+# install.packages('devtools')  # (if not installed yet)
+devtools::install_github('hneth/ds4psy')
+library('ds4psy')  # load to use the package
+```
 
 Course Coordinates
 ------------------
@@ -66,7 +83,7 @@ This book and the corresponding course materials are still being developed. New 
 
     -   The repository for the [ds4psy book](https://bookdown.org/hneth/ds4psy/) is <https://github.com/hneth/ds4psy_book>.
 
-    -   The repository for the [**ds4psy** package](https://github.com/hneth/ds4psy/) is <https://github.com/hneth/ds4psy>.
+    -   The repository for the [ds4psy package](https://github.com/hneth/ds4psy/) is <https://github.com/hneth/ds4psy>.
 
 -   The course syllabus (for Spring 2019) and all data files used in examples and exercises are available at <http://rpository.com/ds4psy/>.
 
@@ -145,6 +162,6 @@ Nr. | Topic       |
 -   Zumel, N., & Mount, J. (2014). *Practical data science with R*. Greenwich, CT: Manning Publications.
 
 <!-- Update: -->
-\[Updated 2019-08-03 by [hn](https://neth.de).\]
+\[Updated 2019-08-04 by [hn](https://neth.de).\]
 
 <!-- eof. -->
