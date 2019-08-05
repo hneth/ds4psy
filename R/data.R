@@ -35,20 +35,28 @@
 #' @source 
 #' \strong{Articles}
 #' 
-#' Radloff, L. S. (1977). 
+#' \itemize{
+#' 
+#' \item{Radloff, L. S. (1977). 
 #' The CES-D scale: A self report depression scale for research in the general population. 
 #' \emph{Applied Psychological Measurement}, \emph{1}, 385–401. 
-#' doi: \code{10.1177/014662167700100306} 
+#' doi: \code{10.1177/014662167700100306}
+#' }
 #' 
-#' Woodworth, R. J., O’Brien‐Malone, A., Diamond, M. R., & Schüz, B. (2017). 
+#' \item{Woodworth, R. J., O’Brien‐Malone, A., Diamond, M. R., & Schüz, B. (2017). 
 #' Web‐based positive psychology interventions: A reexamination of effectiveness. 
 #' \emph{Journal of Clinical Psychology}, \emph{73}(3), 218–232. 
-#' doi: \code{10.1002/jclp.22328} 
+#' doi: \code{10.1002/jclp.22328}
+#' }
 #' 
-#' Woodworth, R. J., O’Brien-Malone, A., Diamond, M. R. and Schüz, B. (2018). 
+#' \item{Woodworth, R. J., O’Brien-Malone, A., Diamond, M. R. and Schüz, B. (2018). 
 #' Data from, ‘Web-based positive psychology interventions: A reexamination of effectiveness’. 
 #' \emph{Journal of Open Psychology Data}, \emph{6}(1). 
-#' doi: \code{10.5334/jopd.35} 
+#' doi: \code{10.5334/jopd.35}
+#' }
+#' 
+#' }
+#' 
 #' 
 #' \strong{Data}
 #' 
@@ -62,7 +70,7 @@
 
 #' Positive Psychology: AHI_CESD data.
 #'
-#' This dataset contains answers to the 24 items of the 
+#' A dataset containing answers to the 24 items of the 
 #' Authentic Happiness Inventory (AHI) and answers to the 
 #' 20 items of the Center for Epidemiological Studies Depression (CES-D) scale 
 #' (see Radloff, 1977) for multiple (1 to 6) measurement occasions. 
@@ -71,27 +79,44 @@
 #'  
 #' \strong{Codebook} 
 #' 
-#' 1. id: Particpant ID. 
+#' \itemize{
 #' 
-#' 2. occasion: Measurement occasion:  
+#' \item{1. \strong{id}: Particpant ID. 
+#' }
+#' 
+#' \item{2. \strong{occasion}: Measurement occasion:\\  
 #'   0 = Pretest (i.e., at enrolment),
 #'   1 = Posttest (i.e., 7 days after pretest),
 #'   2 = 1-week follow-up, (i.e., 14 days after pretest, 7 days after posttest),
 #'   3 = 1-month follow-up, (i.e., 38 days after pretest, 31 days after posttest),
 #'   4 = 3-month follow-up, (i.e., 98 days after pretest, 91 days after posttest),
 #'   5 = 6-month follow-up, (i.e., 189 days after pretest, 182 days after posttest).
+#'   }
 #' 
-#' 3. elapsed.days: Time since enrolment measured in fractional days. 
+#' \item{3. \strong{elapsed.days}: Time since enrolment measured in fractional days.
+#' } 
 #' 
-#' 4. intervention: Intervention group (1 to 4). 
+#' \item{4. \strong{intervention}: Type of intervention:\\ 
+#'   3 positive psychology interventions (PPIs), plus 1 control condition: 
+#'     1 = “Using signature strengths”, 
+#'     2 = “Three good things”, 
+#'     3 = “Gratitude visit”, 
+#'     4 = “Recording early memories” (control condition).
+#'     }
 #' 
-#' - Block ahi01–ahi24: Responses on 24 AHI items. 
+#' \item{5.-28. \strong{ahi01–ahi24}: Responses on 24 AHI items.
+#' }  
 #' 
-#' - Block cesd01–cesd20: Responses on 20 CES-D items. 
+#' \item{29.-48. \strong{cesd01–cesd20}: Responses on 20 CES-D items.
+#' }  
 #' 
-#' 49. ahiTotal: Total AHI score. 
+#' \item{49. \strong{ahiTotal}: Total AHI score.
+#' } 
 #' 
-#' 50. cesdTotal: Total CES-D score. 
+#' \item{50. \strong{cesdTotal}: Total CES-D score.
+#' }  
+#' 
+#' }
 #' 
 #' @family datasets
 #' 
@@ -101,20 +126,27 @@
 #' @source 
 #' \strong{Articles}
 #' 
-#' Radloff, L. S. (1977). 
+#' \itemize{
+#' 
+#' \item{Radloff, L. S. (1977). 
 #' The CES-D scale: A self report depression scale for research in the general population. 
 #' \emph{Applied Psychological Measurement}, \emph{1}, 385–401. 
-#' doi: \code{10.1177/014662167700100306} 
+#' doi: \code{10.1177/014662167700100306}
+#' }
 #' 
-#' Woodworth, R. J., O’Brien‐Malone, A., Diamond, M. R., & Schüz, B. (2017). 
+#' \item{Woodworth, R. J., O’Brien‐Malone, A., Diamond, M. R., & Schüz, B. (2017). 
 #' Web‐based positive psychology interventions: A reexamination of effectiveness. 
 #' \emph{Journal of Clinical Psychology}, \emph{73}(3), 218–232. 
-#' doi: \code{10.1002/jclp.22328} 
+#' doi: \code{10.1002/jclp.22328}
+#' }
 #' 
-#' Woodworth, R. J., O’Brien-Malone, A., Diamond, M. R. and Schüz, B. (2018). 
+#' \item{Woodworth, R. J., O’Brien-Malone, A., Diamond, M. R. and Schüz, B. (2018). 
 #' Data from, ‘Web-based positive psychology interventions: A reexamination of effectiveness’. 
 #' \emph{Journal of Open Psychology Data}, \emph{6}(1). 
-#' doi: \code{10.5334/jopd.35} 
+#' doi: \code{10.5334/jopd.35}
+#' }
+#' 
+#' }
 #' 
 #' \strong{Data}
 #' 
@@ -128,10 +160,13 @@
 
 #' Positive Psychology: AHI_CESD corrected data (in long format). 
 #'
-#' This dataset contains answers to the 24 items of the 
+#' A dataset containing answers to the 24 items of the 
 #' Authentic Happiness Inventory (AHI) and answers to the 
 #' 20 items of the Center for Epidemiological Studies Depression (CES-D) scale 
 #' (see Radloff, 1977) for multiple (1 to 6) measurement occasions.
+#' 
+#' This dataset is a corrected version of \code{\link{posPsy_AHI_CESD}} 
+#' and in long-format. 
 #' 
 #' @format A tibble with 990 cases (rows) and 50 variables (columns).
 #'  
@@ -149,20 +184,27 @@
 #' @source 
 #' \strong{Articles}
 #' 
-#' Radloff, L. S. (1977). 
+#' \itemize{
+#' 
+#' \item{Radloff, L. S. (1977). 
 #' The CES-D scale: A self report depression scale for research in the general population. 
 #' \emph{Applied Psychological Measurement}, \emph{1}, 385–401. 
-#' doi: \code{10.1177/014662167700100306} 
+#' doi: \code{10.1177/014662167700100306}
+#' }
 #' 
-#' Woodworth, R. J., O’Brien‐Malone, A., Diamond, M. R., & Schüz, B. (2017). 
+#' \item{Woodworth, R. J., O’Brien‐Malone, A., Diamond, M. R., & Schüz, B. (2017). 
 #' Web‐based positive psychology interventions: A reexamination of effectiveness. 
 #' \emph{Journal of Clinical Psychology}, \emph{73}(3), 218–232. 
-#' doi: \code{10.1002/jclp.22328} 
+#' doi: \code{10.1002/jclp.22328}
+#' }
 #' 
-#' Woodworth, R. J., O’Brien-Malone, A., Diamond, M. R. and Schüz, B. (2018). 
+#' \item{Woodworth, R. J., O’Brien-Malone, A., Diamond, M. R. and Schüz, B. (2018). 
 #' Data from, ‘Web-based positive psychology interventions: A reexamination of effectiveness’. 
 #' \emph{Journal of Open Psychology Data}, \emph{6}(1). 
-#' doi: \code{10.5334/jopd.35} 
+#' doi: \code{10.5334/jopd.35}
+#' }
+#' 
+#' }
 #' 
 #' \strong{Data}
 #' 
@@ -176,6 +218,14 @@
 
 #' Positive Psychology: All corrected data (in wide format). 
 #' 
+#' A dataset containing answers to the 24 items of the 
+#' Authentic Happiness Inventory (AHI) and answers to the 
+#' 20 items of the Center for Epidemiological Studies Depression (CES-D) scale 
+#' (see Radloff, 1977) for multiple (1 to 6) measurement occasions.
+#' 
+#' This dataset is based on \code{\link{posPsy_long}},  
+#' but in wide format. 
+#' 
 #' @family datasets
 #' 
 #' @seealso 
@@ -185,20 +235,27 @@
 #' @source 
 #' \strong{Articles}
 #' 
-#' Radloff, L. S. (1977). 
+#' \itemize{
+#' 
+#' \item{Radloff, L. S. (1977). 
 #' The CES-D scale: A self report depression scale for research in the general population. 
 #' \emph{Applied Psychological Measurement}, \emph{1}, 385–401. 
-#' doi: \code{10.1177/014662167700100306} 
+#' doi: \code{10.1177/014662167700100306}
+#' }
 #' 
-#' Woodworth, R. J., O’Brien‐Malone, A., Diamond, M. R., & Schüz, B. (2017). 
+#' \item{Woodworth, R. J., O’Brien‐Malone, A., Diamond, M. R., & Schüz, B. (2017). 
 #' Web‐based positive psychology interventions: A reexamination of effectiveness. 
 #' \emph{Journal of Clinical Psychology}, \emph{73}(3), 218–232. 
-#' doi: \code{10.1002/jclp.22328} 
+#' doi: \code{10.1002/jclp.22328}
+#' }
 #' 
-#' Woodworth, R. J., O’Brien-Malone, A., Diamond, M. R. and Schüz, B. (2018). 
+#' \item{Woodworth, R. J., O’Brien-Malone, A., Diamond, M. R. and Schüz, B. (2018). 
 #' Data from, ‘Web-based positive psychology interventions: A reexamination of effectiveness’. 
 #' \emph{Journal of Open Psychology Data}, \emph{6}(1). 
-#' doi: \code{10.5334/jopd.35} 
+#' doi: \code{10.5334/jopd.35}
+#' }
+#' 
+#' }
 #' 
 #' \strong{Data}
 #' 
@@ -217,6 +274,7 @@
 #'
 #' A dataset containing the data from 2 studies designed to 
 #' highlight problematic research practices within psychology. 
+#' 
 #' Simmons, Nelson and Simonsohn (2011) published a controversial article 
 #' with a necessarily false finding. By conducting simulations and 2 simple behavioral experiments, 
 #' the authors show that flexibility in data collection, analysis, and reporting 
@@ -266,18 +324,24 @@
 #' @source 
 #' \strong{Articles}
 #' 
-#' Simmons, J.P., Nelson, L.D., & Simonsohn, U. (2011). 
+#' \itemize{
+#' 
+#' \item{Simmons, J.P., Nelson, L.D., & Simonsohn, U. (2011). 
 #' False-positive psychology: Undisclosed flexibility in data collection and analysis 
 #' allows presenting anything as significant. 
 #' \emph{Psychological Science}, \emph{22}(11), 1359–1366. 
 #' doi: \url{https://doi.org/10.1177/0956797611417632}
+#' }
 #' 
-#' Simmons, J.P., Nelson, L.D., & Simonsohn, U. (2014). 
+#' \item{Simmons, J.P., Nelson, L.D., & Simonsohn, U. (2014). 
 #' Data from paper “False-Positive Psychology: 
 #' Undisclosed Flexibility in Data Collection and Analysis 
 #' Allows Presenting Anything as Significant”. 
 #' \emph{Journal of Open Psychology Data}, \emph{2}(1), e1. 
-#' doi: \url{http://doi.org/10.5334/jopd.aa} 
+#' doi: \url{http://doi.org/10.5334/jopd.aa}
+#' }
+#' 
+#' }
 #' 
 #' \strong{Data}
 #' 
