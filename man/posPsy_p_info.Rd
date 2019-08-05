@@ -4,23 +4,37 @@
 \name{posPsy_p_info}
 \alias{posPsy_p_info}
 \title{Positive Psychology: Participant data.}
-\format{A tibble with 295 cases (rows) and 6 variables (columns):
+\format{A tibble with 295 cases (rows) and 6 variables (columns).
+ 
+\strong{Codebook}  
+
 \describe{
   \item{id}{Participant ID.}
-  \item{intervention}{Type of intervention: 1-3: PPI, 4: control condition.}
+  \item{intervention}{Type of intervention: 
+  3 positive psychology interventions (PPIs), plus 1 control condition: 
+    1 = “Using signature strengths”, 
+    2 = “Three good things”, 
+    3 = “Gratitude visit”, 
+    4 = “Recording early memories” (control condition).}
   \item{sex}{Sex: 1 = female, 2 = male.}
-  \item{age}{Age in years.}
-  \item{educ}{Education level: 1: less than 12 years, 5: Postgraduate degree.}
-  \item{income}{Income: 1: below average, 3: above average.}
+  \item{age}{Age (in years).}
+  \item{educ}{Education level: Scale from 1 - less than 12 years, to 5 = postgraduate degree.}
+  \item{income}{Income: Scale from 1 = below average, to 3 = above average.} 
 }}
 \source{
+\strong{Articles}
+
 Woodworth, R. J., O’Brien‐Malone, A., Diamond, M. R., & Schüz, B. (2017). 
 Web‐based positive psychology interventions: A reexamination of effectiveness. 
-Journal of Clinical Psychology, 73(3), 218–232. doi: 10.1002/jclp.22328
+\emph{Journal of Clinical Psychology}, \emph{73}(3), 218–232. 
+doi: \code{10.1002/jclp.22328} 
 
 Woodworth, R. J., O’Brien-Malone, A., Diamond, M. R. and Schüz, B. (2018). 
 Data from, ‘Web-based positive psychology interventions: A reexamination of effectiveness’. 
-Journal of Open Psychology Data, 6: 1. doi: 10.5334/jopd.35
+\emph{Journal of Open Psychology Data}, \emph{6}(1). 
+doi: \code{10.5334/jopd.35} 
+
+\strong{Data}
 
 See details at \url{https://doi.org/10.6084/m9.figshare.1577563.v1}.
 }
@@ -30,4 +44,10 @@ posPsy_p_info
 \description{
 A dataset containing details of 295 participants.
 }
+\seealso{
+Other datasets: \code{\link{falsePosPsy_all}},
+  \code{\link{posPsy_AHI_CESD}}, \code{\link{posPsy_long}},
+  \code{\link{posPsy_wide}}
+}
+\concept{datasets}
 \keyword{datasets}

@@ -6,13 +6,19 @@
 \title{Positive Psychology: All corrected data (in wide format).}
 \format{An object of class \code{spec_tbl_df} (inherits from \code{tbl_df}, \code{tbl}, \code{data.frame}) with 295 rows and 294 columns.}
 \source{
+\strong{Articles}
+
 Woodworth, R. J., O’Brien‐Malone, A., Diamond, M. R., & Schüz, B. (2017). 
 Web‐based positive psychology interventions: A reexamination of effectiveness. 
-Journal of Clinical Psychology, 73(3), 218–232. doi: 10.1002/jclp.22328
+\emph{Journal of Clinical Psychology}, \emph{73}(3), 218–232. 
+doi: \code{10.1002/jclp.22328} 
 
 Woodworth, R. J., O’Brien-Malone, A., Diamond, M. R. and Schüz, B. (2018). 
 Data from, ‘Web-based positive psychology interventions: A reexamination of effectiveness’. 
-Journal of Open Psychology Data, 6: 1. doi: 10.5334/jopd.35
+\emph{Journal of Open Psychology Data}, \emph{6}(1). 
+doi: \code{10.5334/jopd.35} 
+
+\strong{Data}
 
 See details at \url{https://doi.org/10.6084/m9.figshare.1577563.v1}.
 }
@@ -22,4 +28,13 @@ posPsy_wide
 \description{
 Positive Psychology: All corrected data (in wide format).
 }
+\seealso{
+\code{\link{posPsy_AHI_CESD}} for the source of this file, 
+\code{\link{posPsy_long}} for a version of this file (in long format).
+
+Other datasets: \code{\link{falsePosPsy_all}},
+  \code{\link{posPsy_AHI_CESD}}, \code{\link{posPsy_long}},
+  \code{\link{posPsy_p_info}}
+}
+\concept{datasets}
 \keyword{datasets}
