@@ -3,13 +3,15 @@
 <!-- ds4psy logo 1: -->
 <a href="https://bookdown.org/hneth/ds4psy/"> <img src = "./inst/images/ds4psy.png" alt = "ds4psy" width = "150px" align = "right" style = "width: 150px; float: right; border:11;"/> </a>
 
-ds4psy
-======
+Data Science for Psychologists (ds4psy)
+=======================================
 
-Welcome to the R package **ds4psy** --- a companion to the book and course
+Welcome to the R package **ds4psy** — a companion to the book and course
 [Data Science for Psychologists](https://bookdown.org/hneth/ds4psy/).
 
-The course introduces the principles and methods of data science for students of psychology and other biological or social sciences.
+This R package provides datasets and functions used in the book and course.
+
+The book and course introduce the principles and methods of data science for students of psychology and other biological or social sciences.
 
 The source code of the corresponding [ds4psy book](https://bookdown.org/hneth/ds4psy/) is hosted at <https://github.com/hneth/ds4psy_book>.
 
@@ -38,28 +40,17 @@ Course Coordinates
 <!-- ![](./inst/images/uniKn_logo.png) -->
 <a href="https://www.spds.uni-konstanz.de/"> <img src = "./inst/images/uniKn_logo.png" alt = "spds.uni.kn" width = "300px" align = "right" style = "width: 300px; float: right; border:20;"/> </a>
 
--   Taught at the [University of Konstanz](https://www.uni-konstanz.de/) by [Hansjörg Neth](https://neth.de/) (<h.neth@uni.kn>, [SPDS](https://www.spds.uni-konstanz.de/), office D507).
-
 -   PSY-15150, at the [University of Konstanz](https://www.uni-konstanz.de/) by [Hansjörg Neth](https://neth.de/) (<h.neth@uni.kn>, [SPDS](https://www.spds.uni-konstanz.de/), office D507).
--   Summer 2019: Mondays, 15:15--16:45, D435.
+-   Summer/Fall 2019: Mondays, 15:15—16:45.
 -   Links to current [course syllabus](http://rpository.com/ds4psy/) | [ZeUS](https://zeus.uni-konstanz.de:443/hioserver/pages/startFlow.xhtml?_flowId=detailView-flow&unitId=5101&periodId=179&navigationPosition=hisinoneLehrorganisation,examEventOverviewOwn) | [Ilias](https://ilias.uni-konstanz.de/ilias/goto_ilias_uni_crs_863036.html)
--   The [ds4psy](https://bookdown.org/hneth/ds4psy/) ebook with examples and exercises (WPAs) is available at <https://bookdown.org/hneth/ds4psy/>.
+-   The [ds4psy book](https://bookdown.org/hneth/ds4psy/) with examples and weekly programming exercises (WPAs) is available at <https://bookdown.org/hneth/ds4psy/>.
 
-<!-- 
-
-* Spring/summer 2018: Mondays, 13:30-15:00, C511 (from 2018.04.16 to 2018.07.16) 
-* Links to [ZeUS](https://zeus.uni-konstanz.de:443/hioserver/pages/startFlow.xhtml?_flowId=showEvent-flow&unitId=5101&termYear=2018&termTypeValueId=1&navigationPosition=hisinoneLehrorganisation,examEventOverviewOwn) and [Ilias](https://ilias.uni-konstanz.de/ilias/goto_ilias_uni_crs_758039.html)
-
-* Winter/spring 2019: Mondays, 13:30-15:00, C511 (from 2018.10.22 to 2019.02.11) 
-* Links to current [course syllabus](http://rpository.com/ds4psy/) | [ZeUS](https://zeus.uni-konstanz.de/hioserver/pages/startFlow.xhtml?_flowId=detailView-flow&unitId=5101&periodId=78&navigationPosition=hisinoneLehrorganisation,examEventOverviewOwn) |  [Ilias](https://ilias.uni-konstanz.de/ilias/goto_ilias_uni_crs_809936.html) 
-
--->
 Course Description
 ------------------
 
 ### Overview
 
-Students of psychology and other social sciences are trained to analyze data. But the data they learn to work with (e.g., in courses on statistics and empirical research methods) is typically provided to them and structured in a (rectangular or "tidy") format that presupposes many steps of data processing regarding the aggregation and spatial layout of variables. When beginning to collect their own data, students inevitably struggle with these pre-processing steps which --- even for experienced data scientists --- tend to require more time and effort than choosing and conducting statistical tests.
+Students of psychology and other social sciences are trained to analyze data. But the data they learn to work with (e.g., in courses on statistics and empirical research methods) is typically provided to them and structured in a (rectangular or "tidy") format that presupposes many steps of data processing regarding the aggregation and spatial layout of variables. When beginning to collect their own data, students inevitably struggle with these pre-processing steps which — even for experienced data scientists — tend to require more time and effort than choosing and conducting statistical tests.
 
 This course develops the foundations of data analysis that allow students to collect data from real-world sources and transform and shape such data to answer scientific and practical questions. Although there are many good introductions to data science (we use [Grolemund & Wickham, 2017](http://r4ds.had.co.nz/)) they typically do not take into account the special needs (and often anxieties and reservations) of psychology students. As social scientists are not computer scientists, we introduce new concepts and commands without assuming a mathematical or computational background. Adopting a task-oriented perspective, we begin with a specific problem and then solve it with some combination of data collection, manipulation, modeling, and visualization.
 
@@ -154,17 +145,16 @@ Nr. | Topic       |
 -   Further resources on the [tidyverse](https://www.tidyverse.org/):
     -   See <https://www.tidyverse.org/articles/> for current developments
     -   See <https://www.tidyverse.org/learn/> for learning resources
--   See also the collection of links at the end of each chapter of [ds4psy](https://bookdown.org/hneth/ds4psy/) and <http://rpository.com/findr/>.
+-   See also the collection of links at the end of each chapter of the [ds4psy book](https://bookdown.org/hneth/ds4psy/) and <http://rpository.com/findr/>.
 
 #### Other scripts and books
 
 -   [R manuals](https://cran.r-project.org/manuals.html) and related [books](https://www.r-project.org/doc/bib/R-books.html)
 
--   Free books on R and data science on <https://bookdown.org/>
+-   See the free books on R and data science on <https://bookdown.org/>
 
--   Zumel, N., & Mount, J. (2014). *Practical data science with R*. Greenwich, CT: Manning Publications.
-
+<!-- - Zumel, N., & Mount, J. (2014). _Practical data science with R_. Greenwich, CT: Manning Publications. -->
 <!-- Update: -->
-\[Updated 2019-08-04 by [hn](https://neth.de).\]
+\[Updated 2019-08-05 by [hn](https://neth.de).\]
 
 <!-- eof. -->
