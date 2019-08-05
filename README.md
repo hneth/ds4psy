@@ -79,7 +79,7 @@ This package and the corresponding book are still being developed and are update
 
     -   The repository for the [ds4psy package](https://github.com/hneth/ds4psy/) is <https://github.com/hneth/ds4psy>.
 
--   The course syllabus (for Spring 2019) and all data files used in examples and exercises are available at <http://rpository.com/ds4psy/>.
+-   The current course syllabus and raw versions of all data files used in examples and exercises are available at <http://rpository.com/ds4psy/>.
 
 References
 ----------
