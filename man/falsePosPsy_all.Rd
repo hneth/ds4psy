@@ -45,18 +45,24 @@
 \source{
 \strong{Articles}
 
-Simmons, J.P., Nelson, L.D., & Simonsohn, U. (2011). 
+\itemize{
+
+\item{Simmons, J.P., Nelson, L.D., & Simonsohn, U. (2011). 
 False-positive psychology: Undisclosed flexibility in data collection and analysis 
 allows presenting anything as significant. 
 \emph{Psychological Science}, \emph{22}(11), 1359–1366. 
 doi: \url{https://doi.org/10.1177/0956797611417632}
+}
 
-Simmons, J.P., Nelson, L.D., & Simonsohn, U. (2014). 
+\item{Simmons, J.P., Nelson, L.D., & Simonsohn, U. (2014). 
 Data from paper “False-Positive Psychology: 
 Undisclosed Flexibility in Data Collection and Analysis 
 Allows Presenting Anything as Significant”. 
 \emph{Journal of Open Psychology Data}, \emph{2}(1), e1. 
-doi: \url{http://doi.org/10.5334/jopd.aa} 
+doi: \url{http://doi.org/10.5334/jopd.aa}
+}
+
+}
 
 \strong{Data}
 
@@ -69,7 +75,9 @@ falsePosPsy_all
 }
 \description{
 A dataset containing the data from 2 studies designed to 
-highlight problematic research practices within psychology. 
+highlight problematic research practices within psychology.
+}
+\details{
 Simmons, Nelson and Simonsohn (2011) published a controversial article 
 with a necessarily false finding. By conducting simulations and 2 simple behavioral experiments, 
 the authors show that flexibility in data collection, analysis, and reporting 

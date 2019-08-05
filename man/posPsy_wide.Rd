@@ -8,20 +8,27 @@
 \source{
 \strong{Articles}
 
-Radloff, L. S. (1977). 
+\itemize{
+
+\item{Radloff, L. S. (1977). 
 The CES-D scale: A self report depression scale for research in the general population. 
 \emph{Applied Psychological Measurement}, \emph{1}, 385–401. 
-doi: \code{10.1177/014662167700100306} 
+doi: \code{10.1177/014662167700100306}
+}
 
-Woodworth, R. J., O’Brien‐Malone, A., Diamond, M. R., & Schüz, B. (2017). 
+\item{Woodworth, R. J., O’Brien‐Malone, A., Diamond, M. R., & Schüz, B. (2017). 
 Web‐based positive psychology interventions: A reexamination of effectiveness. 
 \emph{Journal of Clinical Psychology}, \emph{73}(3), 218–232. 
-doi: \code{10.1002/jclp.22328} 
+doi: \code{10.1002/jclp.22328}
+}
 
-Woodworth, R. J., O’Brien-Malone, A., Diamond, M. R. and Schüz, B. (2018). 
+\item{Woodworth, R. J., O’Brien-Malone, A., Diamond, M. R. and Schüz, B. (2018). 
 Data from, ‘Web-based positive psychology interventions: A reexamination of effectiveness’. 
 \emph{Journal of Open Psychology Data}, \emph{6}(1). 
-doi: \code{10.5334/jopd.35} 
+doi: \code{10.5334/jopd.35}
+}
+
+}
 
 \strong{Data}
 
@@ -33,7 +40,14 @@ Original dataset available at \url{https://doi.org/10.6084/m9.figshare.1577563.v
 posPsy_wide
 }
 \description{
-Positive Psychology: All corrected data (in wide format).
+A dataset containing answers to the 24 items of the 
+Authentic Happiness Inventory (AHI) and answers to the 
+20 items of the Center for Epidemiological Studies Depression (CES-D) scale 
+(see Radloff, 1977) for multiple (1 to 6) measurement occasions.
+}
+\details{
+This dataset is based on \code{\link{posPsy_long}},  
+but in wide format.
 }
 \seealso{
 \code{\link{posPsy_AHI_CESD}} for the source of this file, 
