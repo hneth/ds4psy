@@ -4,9 +4,10 @@
 
 ## Documentation of datasets included in /data. 
 
-# (1) Positive Psychology: ---------- 
 
-# (1a) posPsy_p_info: ---------- 
+# (1) Positive Psychology data: ---------- 
+
+# (1a) posPsy_p_info: ------ 
 
 #' Positive Psychology: Participant data.
 #'
@@ -66,7 +67,8 @@
 
 "posPsy_p_info"
 
-# (1b) posPsy_AHI_CESD: ---------- 
+
+# (1b) posPsy_AHI_CESD: ------ 
 
 #' Positive Psychology: AHI_CESD data.
 #'
@@ -156,7 +158,7 @@
 
 "posPsy_AHI_CESD"
 
-# (1c) posPsy_long: ---------- 
+# (1c) posPsy_long: ------ 
 
 #' Positive Psychology: AHI_CESD corrected data (in long format). 
 #'
@@ -214,7 +216,7 @@
 
 "posPsy_long"
 
-# (1d) posPsy_wide: ---------- 
+# (1d) posPsy_wide: ------ 
 
 #' Positive Psychology: All corrected data (in wide format). 
 #' 
@@ -266,7 +268,9 @@
 "posPsy_wide"
 
 
-# (2) False Positive Psychology: ---------- 
+
+
+# (2) False Positive Psychology data: ---------- 
 
 # https://bookdown.org/hneth/ds4psy/B-2-datasets-false.html
 
@@ -352,7 +356,540 @@
 "falsePosPsy_all"
 
 
-# +++ here now +++ 
+
+
+# (3) Outlier data from Chapter 3: Transforming data / dplyr: ---------- 
+
+# https://bookdown.org/hneth/ds4psy/3-6-transform-ex.html 
+
+#' Outlier data.
+#'
+#' A ficticious dataset containing the sex and height of 1,000 people.  
+#' 
+#' @format A tibble with 100 cases (rows) and 3 variables (columns). 
+#' 
+#' @family datasets
+#' 
+#' @source 
+#' See CSV data at \url{http://rpository.com/ds4psy/data/out.csv}. 
+
+"outliers"
+
+
+
+
+# (4) Tables from Chapter 6: Importing data / readr: ---------- 
+
+# https://bookdown.org/hneth/ds4psy/6-3-import-essentials.html 
+
+# (4a) data_t1.csv: ---- 
+# Note: Same as (6a) below. 
+
+# data_t1 <- readr::read_csv("http://rpository.com/ds4psy/data/data_t1.csv")
+# 
+# # Check: 
+# dim(data_t1)  # => 20 observations (rows) x 4 variables (columns)
+# 
+# # Check number of missing values: 
+# sum(is.na(data_t1))  # => 3 missing values
+# 
+# # Save to /data:
+# usethis::use_data(data_t1, overwrite = TRUE)
+
+#' Data table data_t1.
+#'
+#' A ficticious dataset to practice importing and joining data (from CSV file).  
+#' 
+#' @format A tibble with 20 cases (rows) and 4 variables (columns). 
+#' 
+#' @family datasets
+#' 
+#' @source 
+#' See CSV data at \url{http://rpository.com/ds4psy/data/data_t1.csv}. 
+
+"data_t1"
+
+
+# (4b) data_t1_de.csv: ---- 
+
+# data_t1_de <- readr::read_csv2("http://rpository.com/ds4psy/data/data_t1_de.csv")
+# 
+# # Check: 
+# dim(data_t1_de)  # => 20 observations (rows) x 4 variables (columns)
+# 
+# # Check number of missing values: 
+# sum(is.na(data_t1_de))  # => 3 missing values
+# 
+# # Save to /data:
+# usethis::use_data(data_t1_de, overwrite = TRUE)
+
+#' Data import data_t1_de.
+#'
+#' A ficticious dataset to practice data import (from CSV file, European/de style).  
+#' 
+#' @format A tibble with 20 cases (rows) and 4 variables (columns). 
+#' 
+#' @family datasets
+#' 
+#' @source 
+#' See CSV data at \url{http://rpository.com/ds4psy/data/data_t1_de.csv}. 
+
+"data_t1_de"
+
+
+# (4c) data_t1_tab.csv: ---- 
+
+# data_t1_tab <- read_tsv("http://rpository.com/ds4psy/data/data_t1_tab.csv")
+# 
+# # Check: 
+# dim(data_t1_tab)  # => 20 observations (rows) x 4 variables (columns)
+# 
+# # Check number of missing values: 
+# sum(is.na(data_t1_tab))  # => 3 missing values
+# 
+# # Save to /data:
+# usethis::use_data(data_t1_tab, overwrite = TRUE)
+
+#' Data import data_t1_tab.
+#'
+#' A ficticious dataset to practice data import (from TAB file).  
+#' 
+#' @format A tibble with 20 cases (rows) and 4 variables (columns). 
+#' 
+#' @family datasets
+#' 
+#' @source 
+#' See TAB-delimited data at \url{http://rpository.com/ds4psy/data/data_t1_tab.csv}. 
+
+"data_t1_tab"
+
+
+# (4d) data_1.dat: ---- 
+
+# my_file <- "http://rpository.com/ds4psy/data/data_1.dat"
+# 
+# data_1 <- readr::read_delim(my_file, delim = ".", 
+#                             col_names = c("initials", "age", "tel", "pwd"), 
+#                             na = c("-77", "-99"))
+# 
+# # Check: 
+# dim(data_1)  # => 100 observations (rows) x 4 variables (columns)
+# 
+# # Check number of missing values: 
+# sum(is.na(data_1))  # => 15 missing values
+# 
+# # Save to /data:
+# usethis::use_data(data_1, overwrite = TRUE)
+
+#' Data import data_1.
+#'
+#' A ficticious dataset to practice data import (from DELIMITED file).  
+#' 
+#' @format A tibble with 100 cases (rows) and 4 variables (columns). 
+#' 
+#' @family datasets
+#' 
+#' @source 
+#' See DELIMITED data at \url{http://rpository.com/ds4psy/data/data_1.dat}. 
+
+"data_1"
+
+
+# (4e) data_2.dat: ---- 
+
+# my_file_path <- "http://rpository.com/ds4psy/data/data_2.dat"  # from online source
+# 
+# # read_fwf: 
+# data_2 <- readr::read_fwf(my_file_path, 
+#                           fwf_cols(initials = c(1, 2), 
+#                                    age = c(4, 5), 
+#                                    tel = c(7, 10), 
+#                                    pwd = c(12, 17)))
+# 
+# # Check: 
+# dim(data_2)  # => 100 observations (rows) x 4 variables (columns)
+# 
+# # Check number of missing values: 
+# sum(is.na(data_2))  # => 0 missing values
+# 
+# # Save to /data:
+# usethis::use_data(data_2, overwrite = TRUE)
+
+#' Data import data_2.
+#'
+#' A ficticious dataset to practice data import (from FWF file).  
+#' 
+#' @format A tibble with 100 cases (rows) and 4 variables (columns). 
+#' 
+#' @family datasets
+#' 
+#' @source 
+#' See FWF data at \url{http://rpository.com/ds4psy/data/data_2.dat}. 
+
+"data_2"
+
+
+
+
+# (5) Chapter 7: Tidying data / tidyr: ---------- 
+
+# https://bookdown.org/hneth/ds4psy/7-3-tidy-essentials.html
+
+# (5a) table6.csv: ------ 
+
+# ## Load data (as comma-separated file): 
+# table6 <- readr::read_csv("http://rpository.com/ds4psy/data/table6.csv")  # from online source
+# 
+# # Check: 
+# dim(table6)  # => 6 observations (rows) x 2 variables (columns)
+# 
+# # Check number of missing values: 
+# sum(is.na(table6))  # => 0 missing values
+# 
+# # Save to /data:
+# usethis::use_data(table6, overwrite = TRUE)
+
+#' Data table6.
+#'
+#' A ficticious dataset to practice tidying data.
+#' 
+#' This dataset is a variant of the \code{tidyr::table1} to \code{tidyr::table5} dataset.   
+#' 
+#' @format A tibble with 6 cases (rows) and 2 variables (columns). 
+#' 
+#' @family datasets
+#' 
+#' @source 
+#' See CSV data at \url{http://rpository.com/ds4psy/data/table6.csv}. 
+
+"table6"
+
+
+# (5b) table7.csv: ------ 
+
+# # Load data (as comma-separated file): 
+# table7 <- readr::read_csv("http://rpository.com/ds4psy/data/table7.csv")  # from online source
+# 
+# # Check: 
+# dim(table7)  # => 6 observations (rows) x 1 (horrendous) variable (column)
+# 
+# # Check number of missing values: 
+# sum(is.na(table7))  # => 0 missing values
+# 
+# # Save to /data:
+# usethis::use_data(table7, overwrite = TRUE)
+
+#' Data table7.
+#'
+#' A ficticious dataset to practice tidying data.
+#' 
+#' This dataset is a variant of the \code{tidyr::table1} to \code{tidyr::table5} dataset.   
+#' 
+#' @format A tibble with 6 cases (rows) and 1 (horrendous) variable (column). 
+#' 
+#' @family datasets
+#' 
+#' @source 
+#' See CSV data at \url{http://rpository.com/ds4psy/data/table7.csv}. 
+
+"table7"
+
+
+# (5c) table8.csv: ------ 
+
+# # Load data (as comma-separated file): 
+# table8 <- readr::read_csv("http://rpository.com/ds4psy/data/table8.csv")  # from online source
+# 
+# # Check: 
+# dim(table8)  # => 3 observations (rows) x 5 variables (columns)
+# 
+# # Check number of missing values: 
+# sum(is.na(table8))  # => 0 missing values
+# 
+# # Save to /data:
+# usethis::use_data(table8, overwrite = TRUE)
+
+#' Data table8.
+#'
+#' A ficticious dataset to practice tidying data.
+#' 
+#' This dataset is a variant of the \code{tidyr::table1} to \code{tidyr::table5} dataset.   
+#' 
+#' @format A tibble with 3 cases (rows) and 5 variables (columns). 
+#' 
+#' @family datasets
+#' 
+#' @source 
+#' See CSV data at \url{http://rpository.com/ds4psy/data/table8.csv}. 
+
+"table8"
+
+
+# (5d) exp_wide.csv: ------ 
+
+# https://bookdown.org/hneth/ds4psy/7-5-tidy-ex.html
+
+# exp_wide <- readr::read_csv("http://rpository.com/ds4psy/data/exp_wide.csv")  # from online source 
+# 
+# # Check: 
+# dim(exp_wide)  # => 10 observations (rows) x 7 variables (columns)
+# 
+# # Check number of missing values: 
+# sum(is.na(exp_wide))  # => 0 missing values
+# 
+# # Save to /data:
+# usethis::use_data(exp_wide, overwrite = TRUE)
+
+
+#' Data exp_wide.
+#'
+#' A ficticious dataset to practice tidying data 
+#' (here: converting from wide to long format).
+#' 
+#' @format A tibble with 10 cases (rows) and 7 variables (columns). 
+#' 
+#' @family datasets
+#' 
+#' @source 
+#' See CSV data at \url{http://rpository.com/ds4psy/data/exp_wide.csv}. 
+
+"exp_wide"
+
+
+
+# (6) Chapter 8: Joining data / dplyr: ---------- 
+
+# https://bookdown.org/hneth/ds4psy/8-3-join-essentials.html
+
+# (6a) data_t1.csv: ---- 
+# Note: Same as (4a) above. 
+
+# data_t1 <- readr::read_csv("http://rpository.com/ds4psy/data/data_t1.csv")
+# 
+# # Check: 
+# dim(data_t1)  # => 20 observations (rows) x 4 variables (columns)
+# 
+# # Check number of missing values: 
+# sum(is.na(data_t1))  # => 3 missing values
+# 
+# # Save to /data:
+# usethis::use_data(data_t1, overwrite = TRUE)
+
+# See (4a) above.
+
+
+# (6b) data_t2.csv: ---- 
+
+# data_t2 <- readr::read_csv(file = "http://rpository.com/ds4psy/data/data_t2.csv")
+# 
+# # Check: 
+# dim(data_t2)  # => 20 observations (rows) x 4 variables (columns)
+# 
+# # Check number of missing values: 
+# sum(is.na(data_t2))  # => 3 missing values
+# 
+# # Save to /data:
+# usethis::use_data(data_t2, overwrite = TRUE)
+
+
+#' Data table data_t2.
+#'
+#' A ficticious dataset to practice importing and joining data (from CSV file).  
+#' 
+#' @format A tibble with 20 cases (rows) and 4 variables (columns). 
+#' 
+#' @family datasets
+#' 
+#' @source 
+#' See CSV data at \url{http://rpository.com/ds4psy/data/data_t2.csv}. 
+
+"data_t2"
+
+
+# Exercise 1:
+
+# (6c) t3.csv: ---- 
+
+# t3 <- readr::read_csv(file = "http://rpository.com/ds4psy/data/t3.csv")
+# 
+# # Check: 
+# dim(t3)  # => 10 observations (rows) x 4 variables (columns)
+# 
+# # Check number of missing values: 
+# sum(is.na(t3))  # => 3 missing values
+# 
+# # Save to /data:
+# usethis::use_data(t3, overwrite = TRUE)
+
+#' Data table t3.
+#'
+#' A ficticious dataset to practice importing and joining data (from CSV file).  
+#' 
+#' @format A tibble with 10 cases (rows) and 4 variables (columns). 
+#' 
+#' @family datasets
+#' 
+#' @source 
+#' See CSV data at \url{http://rpository.com/ds4psy/data/t3.csv}. 
+
+"t3"
+
+# (6d) t4.csv: ---- 
+
+# t4 <- readr::read_csv(file = "http://rpository.com/ds4psy/data/t4.csv")
+# 
+# # Check: 
+# dim(t4)  # => 10 observations (rows) x 4 variables (columns)
+# 
+# # Check number of missing values: 
+# sum(is.na(t4))  # => 2 missing values
+# 
+# # Save to /data:
+# usethis::use_data(t4, overwrite = TRUE)
+
+
+#' Data table t4.
+#'
+#' A ficticious dataset to practice importing and joining data (from CSV file).  
+#' 
+#' @format A tibble with 10 cases (rows) and 4 variables (columns). 
+#' 
+#' @family datasets
+#' 
+#' @source 
+#' See CSV data at \url{http://rpository.com/ds4psy/data/t4.csv}. 
+
+"t4"
+
+
+# Exercise 3: 
+
+# (6e) data_t3.csv: ---- 
+
+# data_t3 <- readr::read_csv(file = "http://rpository.com/ds4psy/data/data_t3.csv")
+# 
+# # Check: 
+# dim(data_t3)  # => 20 observations (rows) x 4 variables (columns)
+# 
+# # Check number of missing values: 
+# sum(is.na(data_t3))  # => 3 missing values
+# 
+# # Save to /data:
+# usethis::use_data(data_t3, overwrite = TRUE)
+
+
+#' Data table data_t3.
+#'
+#' A ficticious dataset to practice importing and joining data (from CSV file).  
+#' 
+#' @format A tibble with 20 cases (rows) and 4 variables (columns). 
+#' 
+#' @family datasets
+#' 
+#' @source 
+#' See CSV data at \url{http://rpository.com/ds4psy/data/data_t3.csv}. 
+
+"data_t3"
+
+
+# (6f) data_t4.csv: ---- 
+
+# data_t4 <- readr::read_csv(file = "http://rpository.com/ds4psy/data/data_t4.csv")
+# 
+# # Check: 
+# dim(data_t4)  # => 20 observations (rows) x 4 variables (columns)
+# 
+# # Check number of missing values: 
+# sum(is.na(data_t4))  # => 3 missing values
+# 
+# # Save to /data:
+# usethis::use_data(data_t4, overwrite = TRUE)
+
+
+#' Data table data_t4.
+#'
+#' A ficticious dataset to practice importing and joining data (from CSV file).  
+#' 
+#' @format A tibble with 20 cases (rows) and 4 variables (columns). 
+#' 
+#' @family datasets
+#' 
+#' @source 
+#' See CSV data at \url{http://rpository.com/ds4psy/data/data_t4.csv}. 
+
+"data_t4"
+
+
+
+
+
+# (7) Chapter 10: Iteration / loops: -------- 
+
+# https://bookdown.org/hneth/ds4psy/10-3-iter-essentials.html
+
+# (7a) tb data: ------ 
+
+# tb <- readr::read_csv2("http://rpository.com/ds4psy/data/tb.csv") 
+# 
+# # Check:
+# dim(tb)  # => 100 cases x 5 variables
+# 
+# # Check number of missing values: 
+# sum(is.na(tb))  # => 0 missing values
+# 
+# # Save to /data:
+# usethis::use_data(tb, overwrite = TRUE)
+
+
+#' Data table tb.
+#'
+#' A ficticious dataset to practice loops and iteration (from CSV file).  
+#' 
+#' @format A tibble with 100 cases (rows) and 5 variables (columns). 
+#' 
+#' @family datasets
+#' 
+#' @source 
+#' See CSV data at \url{http://rpository.com/ds4psy/data/tb.csv}. 
+
+"tb"
+
+
+# (7b) pi data: ------ 
+
+# https://bookdown.org/hneth/ds4psy/10-3-iter-essentials.html 
+# Orig. data source <http://www.geom.uiuc.edu/~huberty/math5337/groupe/digits.html>
+
+# # pi_all <- readLines("./data/pi_100k.txt")                # from local data file
+# pi_data <- "http://rpository.com/ds4psy/data/pi_100k.txt"  # URL of online data file
+# pi_100k <- readLines(pi_data)                              # read from online source
+# 
+# # Check:
+# dim(pi_100k)  # => NULL !
+# 
+# # Check number of missing values: 
+# sum(is.na(pi_100k))  # => 0 missing values
+# 
+# # Save to /data:
+# usethis::use_data(pi_100k, overwrite = TRUE)
+
+
+#' Data: 100k digits of pi.
+#'
+#' A dataset containing the first 100k digits of pi.  
+#' 
+#' @format A character of \code{nchar(pi_100k) = 100001}. 
+#' 
+#' @family datasets 
+#' 
+#' @source 
+#' See TXT data at \url{http://rpository.com/ds4psy/data/pi_100k.txt}. 
+#' 
+#' Original data at \url{http://www.geom.uiuc.edu/~huberty/math5337/groupe/digits.html}. 
+
+"pi_100k"
+
+
 
 ## ToDo: ----------
 
