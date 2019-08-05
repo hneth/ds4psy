@@ -6,7 +6,7 @@ Date: 2019-08-05
 Authors@R: c(person("Hansjoerg", "Neth", role = c("aut", "cre"), email = "h.neth@uni.kn"))
 Author: Hansjoerg Neth [aut, cre]
 Maintainer: Hansjoerg Neth <h.neth@uni.kn>
-Description: Data Science for Psychologists (ds4psy) contains data sets and functions supporting the corresponding book and course. 
+Description: Data Science for Psychologists (ds4psy) contains datasets and functions supporting the corresponding book and course. 
 Depends:
     R (>= 3.4.0)
 Imports:
@@ -32,7 +32,7 @@ Collate: 'data.R'
 Encoding: UTF-8
 LazyData: true
 License: CC BY-SA 4.0 
-URL: https://github.com/hneth/ds4psy/
+URL: https://bookdown.org/hneth/ds4psy/, https://github.com/hneth/ds4psy/
 BugReports: https://github.com/hneth/ds4psy/issues
 VignetteBuilder: knitr
 RoxygenNote: 6.1.1
