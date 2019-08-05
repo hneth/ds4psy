@@ -35,6 +35,11 @@
 #' @source 
 #' \strong{Articles}
 #' 
+#' Radloff, L. S. (1977). 
+#' The CES-D scale: A self report depression scale for research in the general population. 
+#' \emph{Applied Psychological Measurement}, \emph{1}, 385–401. 
+#' doi: \code{10.1177/014662167700100306} 
+#' 
 #' Woodworth, R. J., O’Brien‐Malone, A., Diamond, M. R., & Schüz, B. (2017). 
 #' Web‐based positive psychology interventions: A reexamination of effectiveness. 
 #' \emph{Journal of Clinical Psychology}, \emph{73}(3), 218–232. 
@@ -47,7 +52,9 @@
 #' 
 #' \strong{Data}
 #' 
-#' See details at \url{https://doi.org/10.6084/m9.figshare.1577563.v1}.  
+#' See \url{https://openpsychologydata.metajnl.com/articles/10.5334/jopd.35/} for details.
+#' 
+#' Original dataset available at \url{https://doi.org/10.6084/m9.figshare.1577563.v1}.  
 
 "posPsy_p_info"
 
@@ -94,6 +101,11 @@
 #' @source 
 #' \strong{Articles}
 #' 
+#' Radloff, L. S. (1977). 
+#' The CES-D scale: A self report depression scale for research in the general population. 
+#' \emph{Applied Psychological Measurement}, \emph{1}, 385–401. 
+#' doi: \code{10.1177/014662167700100306} 
+#' 
 #' Woodworth, R. J., O’Brien‐Malone, A., Diamond, M. R., & Schüz, B. (2017). 
 #' Web‐based positive psychology interventions: A reexamination of effectiveness. 
 #' \emph{Journal of Clinical Psychology}, \emph{73}(3), 218–232. 
@@ -106,7 +118,9 @@
 #' 
 #' \strong{Data}
 #' 
-#' See details at \url{https://doi.org/10.6084/m9.figshare.1577563.v1}.  
+#' See \url{https://openpsychologydata.metajnl.com/articles/10.5334/jopd.35/} for details.
+#' 
+#' Original dataset available at \url{https://doi.org/10.6084/m9.figshare.1577563.v1}. 
 
 "posPsy_AHI_CESD"
 
@@ -135,6 +149,11 @@
 #' @source 
 #' \strong{Articles}
 #' 
+#' Radloff, L. S. (1977). 
+#' The CES-D scale: A self report depression scale for research in the general population. 
+#' \emph{Applied Psychological Measurement}, \emph{1}, 385–401. 
+#' doi: \code{10.1177/014662167700100306} 
+#' 
 #' Woodworth, R. J., O’Brien‐Malone, A., Diamond, M. R., & Schüz, B. (2017). 
 #' Web‐based positive psychology interventions: A reexamination of effectiveness. 
 #' \emph{Journal of Clinical Psychology}, \emph{73}(3), 218–232. 
@@ -147,7 +166,9 @@
 #' 
 #' \strong{Data}
 #' 
-#' See details at \url{https://doi.org/10.6084/m9.figshare.1577563.v1}.  
+#' See \url{https://openpsychologydata.metajnl.com/articles/10.5334/jopd.35/} for details.
+#' 
+#' Original dataset available at \url{https://doi.org/10.6084/m9.figshare.1577563.v1}.  
 
 "posPsy_long"
 
@@ -164,6 +185,11 @@
 #' @source 
 #' \strong{Articles}
 #' 
+#' Radloff, L. S. (1977). 
+#' The CES-D scale: A self report depression scale for research in the general population. 
+#' \emph{Applied Psychological Measurement}, \emph{1}, 385–401. 
+#' doi: \code{10.1177/014662167700100306} 
+#' 
 #' Woodworth, R. J., O’Brien‐Malone, A., Diamond, M. R., & Schüz, B. (2017). 
 #' Web‐based positive psychology interventions: A reexamination of effectiveness. 
 #' \emph{Journal of Clinical Psychology}, \emph{73}(3), 218–232. 
@@ -176,7 +202,9 @@
 #' 
 #' \strong{Data}
 #' 
-#' See details at \url{https://doi.org/10.6084/m9.figshare.1577563.v1}.  
+#' See \url{https://openpsychologydata.metajnl.com/articles/10.5334/jopd.35/} for details.
+#' 
+#' Original dataset available at \url{https://doi.org/10.6084/m9.figshare.1577563.v1}. 
 
 "posPsy_wide"
 
@@ -259,6 +287,8 @@
 
 "falsePosPsy_all"
 
+
+# +++ here now +++ 
 
 ## ToDo: ----------
 
