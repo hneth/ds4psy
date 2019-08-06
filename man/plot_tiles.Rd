@@ -93,6 +93,6 @@ plot_tiles(n = 4, sort = FALSE, borders = TRUE,
 \code{\link{pal_ds4psy}} for default color palette.
 
 Other plot functions: \code{\link{plot_fun}},
-  \code{\link{theme_ds4psy}}
+  \code{\link{plot_n}}, \code{\link{theme_ds4psy}}
 }
 \concept{plot functions}
