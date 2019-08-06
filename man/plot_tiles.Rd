@@ -7,7 +7,7 @@
 plot_tiles(n = NA, pal = pal_ds4psy, sort = TRUE, borders = TRUE,
   border_col = grey(0, 1), border_size = 0.2, lbl_tiles = FALSE,
   lbl_title = FALSE, polar = FALSE, rseed = NA, save = FALSE,
-  save_path = "images/tiles")
+  save_path = "images/tiles", prefix = "", suffix = "")
 }
 \arguments{
 \item{n}{Basic number of tiles (on either side).}
@@ -44,6 +44,12 @@ Default: \code{save = FALSE}.}
 
 \item{save_path}{Path to save plot (if \code{save = TRUE}).
 Default: \code{save_path = "images/tiles"}.}
+
+\item{prefix}{Prefix to plot name (if \code{save = TRUE}).
+Default: \code{prefix = ""}.}
+
+\item{suffix}{Suffix to plot name (if \code{save = TRUE}).
+Default: \code{suffix = ""}.}
 }
 \description{
 \code{plot_tiles} plots \code{n^2} tiles on fixed or polar coordinates.
@@ -86,6 +92,7 @@ plot_tiles(n = 4, sort = FALSE, borders = TRUE,
 \seealso{
 \code{\link{pal_ds4psy}} for default color palette.
 
-Other plot functions: \code{\link{theme_ds4psy}}
+Other plot functions: \code{\link{plot_fun}},
+  \code{\link{theme_ds4psy}}
 }
 \concept{plot functions}
