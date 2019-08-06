@@ -6,17 +6,17 @@
 
 ## Plotting: ---------- 
 
-
-
 ## plot_tiles: Tile plots (of n x n tiles): -------- 
 
 #' Plot n-by-n tiles.
 #'
-#' \code{plot_tiles} plots \code{n^2} tiles on fixed or polar coordinates.  
+#' \code{plot_tiles} plots an area of \code{n-by-n} tiles 
+#' on fixed or polar coordinates.  
 #' 
+#'  
 #' @param n Basic number of tiles (on either side).
 #'
-#' @param pal A color palette (automatically extended to n x n colors). 
+#' @param pal A color palette (automatically extended to \code{n x n} colors). 
 #' Default: \code{pal = \link{pal_ds4psy}}. 
 #' 
 #' @param sort Sort tiles? 
@@ -54,6 +54,7 @@
 #' 
 #' @param suffix Suffix to plot name (if \code{save = TRUE}).  
 #' Default: \code{suffix = ""}. 
+#'
 #'
 #' @examples
 #' # (1) Tile plot:
@@ -455,14 +456,14 @@ plot_tiles <- function(n = NA,
 
 
 
-## plot_fun: Wrapper for plot_tiles (with fewer and abstract options): -------- 
+## plot_fun: Wrapper around plot_tiles (with fewer and cryptic options): -------- 
 
 #' A function to plot some plot.
 #'
 #' \code{plot_fun} is a function that uses parameters to plot a plot. 
 #' 
 #' \code{plot_fun} is deliberately kept cryptic and obscure to illustrate 
-#' how function parameters can be explored -- and why transparent variable 
+#' how function parameters can be explored --- and why transparent variable 
 #' names are essential for understanding and using a function. 
 #' 
 #' @param a A (natural) number. 
@@ -504,6 +505,7 @@ plot_tiles <- function(n = NA,
 #' @family plot functions
 #'
 #' @seealso
+#' \code{\link{plot_fn}} for a related function; 
 #' \code{\link{pal_ds4psy}} for color palette. 
 #' 
 #' @import unikn
@@ -538,7 +540,7 @@ plot_fun <- function(a = NA,
              prefix = "",
              suffix = "")
   
-}
+} # plot_fun end. 
 
 ## Check:
 # plot_fun()       # Task 1: Explore and describe each parameter.
@@ -557,8 +559,6 @@ plot_fun <- function(a = NA,
 #          c2 = "white")
 
 
-
-
 ## plot_n: Simpler row or column plots (of n tiles): -------- 
 
 #' Plot n tiles. 
@@ -570,8 +570,14 @@ plot_fun <- function(a = NA,
 #' whereas a polar column makes a target plot.  
 #' 
 #' @param n Basic number of tiles (on either side).
+#' 
+#' @param row Plot as a row? 
+#' Default: \code{row = TRUE} (else plotted as a column). 
 #'
-#' @param pal A color palette (automatically extended to n x n colors). 
+#' @param polar Plot on polar coordinates? 
+#' Default: \code{polar = FALSE} (i.e., using fixed coordinates). 
+#'
+#' @param pal A color palette (automatically extended to \code{n} colors). 
 #' Default: \code{pal = \link{pal_ds4psy}}. 
 #' 
 #' @param sort Sort tiles? 
@@ -584,19 +590,13 @@ plot_fun <- function(a = NA,
 #' Default: \code{border_col = grey(0, 1)} (i.e., black).  
 #' 
 #' @param border_size Size of borders (if \code{borders = TRUE}). 
-#' Default: \code{border_size = 0.2} (i.e., thin).  
-
+#' Default: \code{border_size = 0} (i.e., invisible).  
+#' 
 #' @param lbl_tiles Add numeric labels to tiles? 
 #' Default: \code{lbl_tiles = FALSE} (i.e., no labels). 
 #' 
 #' @param lbl_title Add numeric label (of n) to plot? 
-#' Default: \code{lbl_title = FALSE} (i.e., no title). 
-#' 
-#' @param row Plot as row? 
-#' Default: \code{row = TRUE} (else plotted as column). 
-#'
-#' @param polar Plot on polar coordinates? 
-#' Default: \code{polar = FALSE} (i.e., using fixed coordinates). 
+#' Default: \code{lbl_title = FALSE} (i.e., no title).
 #' 
 #' @param rseed Random seed (number).  
 #' Default: \code{rseed = NA} (using random seed). 
@@ -665,15 +665,15 @@ plot_fun <- function(a = NA,
 #' @export 
 
 plot_n <- function(n = NA, 
-                   pal = pal_ds4psy, 
+                   row = TRUE, 
+                   polar = FALSE, 
+                   pal = pal_ds4psy,
                    sort = TRUE, 
                    borders = TRUE,
                    border_col = grey(0, 1), 
-                   border_size = 0.2, 
+                   border_size = 0,
                    lbl_tiles = FALSE, 
                    lbl_title = FALSE, 
-                   row = TRUE, 
-                   polar = FALSE,
                    rseed = NA, 
                    save = FALSE, 
                    save_path = "images/tiles",
@@ -1047,6 +1047,102 @@ plot_n <- function(n = NA,
 
 
 
+
+
+
+## plot_fn: Wrapper around plot_n (with fewer and cryptic options): -------- 
+
+#' A function to plot a plot.
+#'
+#' \code{plot_fn} is a function that uses parameters for plotting a plot. 
+#' 
+#' \code{plot_fn} is deliberately kept cryptic and obscure to illustrate 
+#' how function parameters can be explored --- and why transparent variable 
+#' names are essential for understanding and using a function. 
+#' 
+#' @param x A (natural) number. 
+#' Default: \code{x = NA}. 
+#' 
+#' @param y A (decimal) number. 
+#' Default: \code{y = 0}. 
+#' 
+#' @param A A Boolean value. 
+#' Default: \code{A = TRUE}. 
+#' 
+#' @param B A Boolean value. 
+#' Default: \code{B = FALSE}. 
+#' 
+#' @param C A Boolean value. 
+#' Default: \code{C = TRUE}. 
+#' 
+#' @param D A Boolean value. 
+#' Default: \code{D = FALSE}.
+#' 
+#' @param E A Boolean value. 
+#' Default: \code{E = FALSE}.
+#' 
+#' @param F A Boolean value. 
+#' Default: \code{F = FALSE}.
+#'
+#' @param f A color palette (e.g., as a vector). 
+#' Default: \code{f = c(rev(pal_seeblau), "white", Grau, "black", Petrol, Pinky)}. 
+#' Note: Using colors of the \code{unikn} package by default. 
+#'
+#' @param g A color (e.g., as a character). 
+#' Default: \code{g = "white"}. 
+#'
+#' @examples
+#' # Basics: 
+#' plot_fn()
+#' 
+#' # Exploring options: 
+#' plot_fn(x = 2, A = TRUE)
+#' plot_fn(x = 3, A = FALSE)
+#' plot_fn(x = 4, A = TRUE,  B = TRUE, D = TRUE)
+#' plot_fn(x = 5, A = FALSE, B = TRUE, E = TRUE)
+#' plot_fn(x = 6, A = FALSE, B = TRUE, F = TRUE, f = c("steelblue", "white", "forestgreen"))
+#' 
+#' @family plot functions
+#'
+#' @seealso
+#' \code{\link{plot_fun}} for a related function; 
+#' \code{\link{pal_ds4psy}} for color palette. 
+#' 
+#' @import unikn
+#' 
+#' @export 
+
+plot_fn <- function(x = NA,
+                    y = 1, 
+                    A = TRUE, 
+                    B = FALSE,  
+                    C = TRUE,
+                    D = FALSE, 
+                    E = FALSE, 
+                    F = FALSE,
+                    f = c(rev(pal_seeblau), "white", Grau, "black", Petrol, Pinky), 
+                    g = "white"
+){
+  
+  # pass parameters to plot_n(): 
+  plot_n(n = x, 
+         row  = A, 
+         polar = B, 
+         sort  = C, 
+         borders   = D,
+         lbl_tiles = E, 
+         lbl_title = F, 
+         border_size = y,
+         pal         = f, 
+         border_col  = g, 
+         # not used as options here: 
+         rseed = NA, 
+         save = FALSE, 
+         save_path = "images/tiles",
+         prefix = "plot_fn_",
+         suffix = "")
+  
+} # plot_fn end. 
 
 
 ## ToDo: ----------
