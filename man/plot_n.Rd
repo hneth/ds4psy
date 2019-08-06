@@ -4,16 +4,22 @@
 \alias{plot_n}
 \title{Plot n tiles.}
 \usage{
-plot_n(n = NA, pal = pal_ds4psy, sort = TRUE, borders = TRUE,
-  border_col = grey(0, 1), border_size = 0.2, lbl_tiles = FALSE,
-  lbl_title = FALSE, row = TRUE, polar = FALSE, rseed = NA,
-  save = FALSE, save_path = "images/tiles", prefix = "",
-  suffix = "")
+plot_n(n = NA, row = TRUE, polar = FALSE, pal = pal_ds4psy,
+  sort = TRUE, borders = TRUE, border_col = grey(0, 1),
+  border_size = 0, lbl_tiles = FALSE, lbl_title = FALSE,
+  rseed = NA, save = FALSE, save_path = "images/tiles",
+  prefix = "", suffix = "")
 }
 \arguments{
 \item{n}{Basic number of tiles (on either side).}
 
-\item{pal}{A color palette (automatically extended to n x n colors). 
+\item{row}{Plot as a row? 
+Default: \code{row = TRUE} (else plotted as a column).}
+
+\item{polar}{Plot on polar coordinates? 
+Default: \code{polar = FALSE} (i.e., using fixed coordinates).}
+
+\item{pal}{A color palette (automatically extended to \code{n} colors). 
 Default: \code{pal = \link{pal_ds4psy}}.}
 
 \item{sort}{Sort tiles? 
@@ -26,19 +32,13 @@ Default: \code{borders = TRUE} (i.e., use borders).}
 Default: \code{border_col = grey(0, 1)} (i.e., black).}
 
 \item{border_size}{Size of borders (if \code{borders = TRUE}). 
-Default: \code{border_size = 0.2} (i.e., thin).}
+Default: \code{border_size = 0} (i.e., invisible).}
 
 \item{lbl_tiles}{Add numeric labels to tiles? 
 Default: \code{lbl_tiles = FALSE} (i.e., no labels).}
 
 \item{lbl_title}{Add numeric label (of n) to plot? 
 Default: \code{lbl_title = FALSE} (i.e., no title).}
-
-\item{row}{Plot as row? 
-Default: \code{row = TRUE} (else plotted as column).}
-
-\item{polar}{Plot on polar coordinates? 
-Default: \code{polar = FALSE} (i.e., using fixed coordinates).}
 
 \item{rseed}{Random seed (number).
 Default: \code{rseed = NA} (using random seed).}
@@ -105,7 +105,8 @@ plot_n(n = 4, row = FALSE, sort = FALSE, borders = TRUE,
 \seealso{
 \code{\link{pal_ds4psy}} for default color palette.
 
-Other plot functions: \code{\link{plot_fun}},
-  \code{\link{plot_tiles}}, \code{\link{theme_ds4psy}}
+Other plot functions: \code{\link{plot_fn}},
+  \code{\link{plot_fun}}, \code{\link{plot_tiles}},
+  \code{\link{theme_ds4psy}}
 }
 \concept{plot functions}

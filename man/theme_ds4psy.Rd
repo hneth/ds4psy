@@ -44,7 +44,8 @@ allow emphasizing data points with color accents).
 \seealso{
 \code{unikn::theme_unikn} for the source of the current theme.
 
-Other plot functions: \code{\link{plot_fun}},
-  \code{\link{plot_n}}, \code{\link{plot_tiles}}
+Other plot functions: \code{\link{plot_fn}},
+  \code{\link{plot_fun}}, \code{\link{plot_n}},
+  \code{\link{plot_tiles}}
 }
 \concept{plot functions}

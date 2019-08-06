@@ -42,7 +42,7 @@ Default: \code{c2 = "black"}.}
 }
 \details{
 \code{plot_fun} is deliberately kept cryptic and obscure to illustrate 
-how function parameters can be explored -- and why transparent variable 
+how function parameters can be explored --- and why transparent variable 
 names are essential for understanding and using a function.
 }
 \examples{
@@ -55,9 +55,11 @@ plot_fun(a = 5, f = T, g = T, c1 = c("steelblue", "white", "firebrick"))
 
 }
 \seealso{
+\code{\link{plot_fn}} for a related function; 
 \code{\link{pal_ds4psy}} for color palette.
 
-Other plot functions: \code{\link{plot_n}},
-  \code{\link{plot_tiles}}, \code{\link{theme_ds4psy}}
+Other plot functions: \code{\link{plot_fn}},
+  \code{\link{plot_n}}, \code{\link{plot_tiles}},
+  \code{\link{theme_ds4psy}}
 }
 \concept{plot functions}

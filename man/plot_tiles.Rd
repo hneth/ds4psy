@@ -12,7 +12,7 @@ plot_tiles(n = NA, pal = pal_ds4psy, sort = TRUE, borders = TRUE,
 \arguments{
 \item{n}{Basic number of tiles (on either side).}
 
-\item{pal}{A color palette (automatically extended to n x n colors). 
+\item{pal}{A color palette (automatically extended to \code{n x n} colors). 
 Default: \code{pal = \link{pal_ds4psy}}.}
 
 \item{sort}{Sort tiles? 
@@ -52,7 +52,8 @@ Default: \code{prefix = ""}.}
 Default: \code{suffix = ""}.}
 }
 \description{
-\code{plot_tiles} plots \code{n^2} tiles on fixed or polar coordinates.
+\code{plot_tiles} plots an area of \code{n-by-n} tiles 
+on fixed or polar coordinates.
 }
 \examples{
 # (1) Tile plot:
@@ -92,7 +93,8 @@ plot_tiles(n = 4, sort = FALSE, borders = TRUE,
 \seealso{
 \code{\link{pal_ds4psy}} for default color palette.
 
-Other plot functions: \code{\link{plot_fun}},
-  \code{\link{plot_n}}, \code{\link{theme_ds4psy}}
+Other plot functions: \code{\link{plot_fn}},
+  \code{\link{plot_fun}}, \code{\link{plot_n}},
+  \code{\link{theme_ds4psy}}
 }
 \concept{plot functions}
