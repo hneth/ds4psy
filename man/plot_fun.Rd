@@ -9,7 +9,7 @@ plot_fun(a = NA, b = TRUE, c = TRUE, d = 0.2, e = FALSE,
   "black", Bordeaux), c2 = "black")
 }
 \arguments{
-\item{a}{A natural number. 
+\item{a}{A (natural) number. 
 Default: \code{a = NA}.}
 
 \item{b}{A Boolean value. 
@@ -18,7 +18,7 @@ Default: \code{b = TRUE}.}
 \item{c}{A Boolean value. 
 Default: \code{c = TRUE}.}
 
-\item{d}{A number. 
+\item{d}{A (decimal) number. 
 Default: \code{d = 0.2}.}
 
 \item{e}{A Boolean value. 
@@ -41,14 +41,18 @@ Default: \code{c2 = "black"}.}
 \code{plot_fun} is a function that uses parameters to plot a plot.
 }
 \details{
-It is deliberately kept cryptic and opaque to illustrate 
-how function parameters can be explored (and why good variable 
-names are valuable).
+\code{plot_fun} is deliberately kept cryptic and obscure to illustrate 
+how function parameters can be explored -- and why transparent variable 
+names are essential for understanding and using a function.
 }
 \examples{
+# Basics: 
 plot_fun()
-plot_fun(a = 5, b = F, e = T)
- 
+
+# Exploring options: 
+plot_fun(a = 3, b = F, e = T)
+plot_fun(a = 5, f = T, g = T, c1 = c("steelblue", "white", "firebrick"))
+
 }
 \seealso{
 \code{\link{pal_ds4psy}} for color palette.

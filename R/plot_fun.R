@@ -7,6 +7,7 @@
 ## Plotting: ---------- 
 
 
+
 ## plot_tiles: Tile plots (of n x n tiles): -------- 
 
 #' Plot n-by-n tiles.
@@ -453,17 +454,18 @@ plot_tiles <- function(n = NA,
 
 
 
+
 ## plot_fun: Wrapper for plot_tiles (with fewer and abstract options): -------- 
 
 #' A function to plot some plot.
 #'
 #' \code{plot_fun} is a function that uses parameters to plot a plot. 
 #' 
-#' It is deliberately kept cryptic and opaque to illustrate 
-#' how function parameters can be explored (and why good variable 
-#' names are valuable).
+#' \code{plot_fun} is deliberately kept cryptic and obscure to illustrate 
+#' how function parameters can be explored -- and why transparent variable 
+#' names are essential for understanding and using a function. 
 #' 
-#' @param a A natural number. 
+#' @param a A (natural) number. 
 #' Default: \code{a = NA}. 
 #' 
 #' @param b A Boolean value. 
@@ -472,7 +474,7 @@ plot_tiles <- function(n = NA,
 #' @param c A Boolean value. 
 #' Default: \code{c = TRUE}. 
 #' 
-#' @param d A number. 
+#' @param d A (decimal) number. 
 #' Default: \code{d = 0.2}. 
 #' 
 #' @param e A Boolean value. 
@@ -492,9 +494,13 @@ plot_tiles <- function(n = NA,
 #' Default: \code{c2 = "black"}. 
 #'
 #' @examples
+#' # Basics: 
 #' plot_fun()
-#' plot_fun(a = 5, b = F, e = T)
-#'  
+#' 
+#' # Exploring options: 
+#' plot_fun(a = 3, b = F, e = T)
+#' plot_fun(a = 5, f = T, g = T, c1 = c("steelblue", "white", "firebrick"))
+#' 
 #' @family plot functions
 #'
 #' @seealso
@@ -1038,6 +1044,7 @@ plot_n <- function(n = NA,
 #        sort = FALSE, borders = TRUE,
 #        lbl_tiles = TRUE, lbl_title = TRUE,
 #        rseed = 101)  # fix seed
+
 
 
 
