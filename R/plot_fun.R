@@ -1,12 +1,12 @@
 ## plot_fun.R | ds4psy
-## hn | uni.kn | 2019 08 02
+## hn | uni.kn | 2019 08 06
 ## ---------------------------
 
 ## Functions for plotting. 
 
 ## Plotting: ---------- 
 
-# plot_tiles: Tile plot (with options): -------- 
+## plot_tiles: Tile plot (with options): -------- 
 
 #' Plot n-by-n tiles.
 #'
@@ -45,7 +45,13 @@
 #' Default: \code{save = FALSE}. 
 #' 
 #' @param save_path Path to save plot (if \code{save = TRUE}).  
-#' Default: \code{save_path = "images/tiles"}.  
+#' Default: \code{save_path = "images/tiles"}. 
+#' 
+#' @param prefix Prefix to plot name (if \code{save = TRUE}).  
+#' Default: \code{prefix = ""}.
+#' 
+#' @param suffix Suffix to plot name (if \code{save = TRUE}).  
+#' Default: \code{suffix = ""}. 
 #'
 #' @examples
 #' # (1) Tile plot:
@@ -105,7 +111,9 @@ plot_tiles <- function(n = NA,
                        polar = FALSE,
                        rseed = NA, 
                        save = FALSE, 
-                       save_path = "images/tiles"){
+                       save_path = "images/tiles",
+                       prefix = "",
+                       suffix = ""){
   
   # initialize:
   cur_col  <- NA
@@ -116,8 +124,14 @@ plot_tiles <- function(n = NA,
   if (is.na(rseed)) {
     rseed <- sample(1:999, size = 1, replace = TRUE)  # random rseed
   }
+  
   if (is.na(n)) {
     n <- sample(1:12, size = 1, replace = TRUE)  # random n
+  }
+  
+  if ((!is.numeric(n)) || (n < 1) || (n %% 1 != 0)){
+    n <- sample(1:12, size = 1, replace = TRUE)  # random n
+    message(paste0("n must be a natural number: Using n = ", n, "...")) 
   }
   
   # Parameters (currently fixed):
@@ -271,9 +285,9 @@ plot_tiles <- function(n = NA,
     if (lbl_title) { titl <- "_tit" } else { titl <- "" }
     filext <- ".png"
     
-    # customize name:
-    prefix <- ""  # "toc_" "color_" "cover_"  # ""  # (e.g., "cover_")
-    suffix <- ""  # "_ds4psy" "_190731" # ""  # (e.g., "_ds4psy")
+    ## customize name:
+    # prefix <- ""  # "toc_" "color_" "cover_"  # ""  # (e.g., "cover_")
+    # suffix <- ""  # "_ds4psy" "_190731" # ""  # (e.g., "_ds4psy")
     
     plot_name <- paste0(prefix, coord, num, sort_rand, brds, lbls, titl, suffix, filext)
     full_name <- here(save_path, plot_name)
@@ -343,7 +357,7 @@ plot_tiles <- function(n = NA,
 #            rseed = 101)  # fix seed
 
 
-## Production loop: -------- 
+# Production loop: -------- 
 
 ## Settings for current loop:
 # n_chapters <- 10
@@ -390,13 +404,14 @@ plot_tiles <- function(n = NA,
 # }
 
 
-## Cover image: -------- 
+# Cover image: -------- 
 
 # plot_tiles(n = 30, sort = FALSE, border_col = "black", border_size = .1, rseed = 132)
-# plot_tiles(n = 30, sort = FALSE, border_col = "white", border_size = .25, rseed = 132, save = F)
+# plot_tiles(n = 30, sort = FALSE, border_col = "white", border_size = .25,
+#            lbl_tiles = F, rseed = 132, save = T, prefix = "cover_", suffix = "_190806")
 
 
-## Color chapter: -------- 
+# Color and Dataset chapters: -------- 
 
 # library(unikn)
 # col_brd <- "white"
@@ -404,9 +419,15 @@ plot_tiles <- function(n = NA,
 # 
 # plot_tiles(n = 5, pal = c(usecol(pal_seeblau, n = 18), "white", Bordeaux, pal_seegruen),
 #            border_col = col_brd, border_size = siz_brd,
-#            sort = FALSE, rseed = 117, save = F)
+#            sort = FALSE, rseed = 117, save = F, prefix = "colors_")
+# 
+# plot_tiles(n = 5, 
+#            pal = c(usecol(pal_seeblau, n = 12), usecol(pal_grau, n = 10), "white", rep("gold", 2)),
+#            border_col = col_brd, border_size = siz_brd,
+#            sort = FALSE, rseed = 126, save = F, prefix = "data_")
 
-## ToC: -------- 
+
+# ToC: -------- 
 
 # library(unikn)
 # col_brd <- "white"
@@ -428,6 +449,105 @@ plot_tiles <- function(n = NA,
 #            border_col = col_brd, border_size = siz_brd,
 #            sort = T, polar = F,
 #            rseed = 120, save = F)
+
+
+
+## plot_fun: Wrapper for plot_tiles (with fewer and abstract options): -------- 
+
+#' A function to plot some plot.
+#'
+#' \code{plot_fun} is a function that uses parameters to plot a plot. 
+#' 
+#' It is deliberately kept cryptic and opaque to illustrate 
+#' how function parameters can be explored (and why good variable 
+#' names are valuable).
+#' 
+#' @param a A natural number. 
+#' Default: \code{a = NA}. 
+#' 
+#' @param b A Boolean value. 
+#' Default: \code{b = TRUE}. 
+#' 
+#' @param c A Boolean value. 
+#' Default: \code{c = TRUE}. 
+#' 
+#' @param d A number. 
+#' Default: \code{d = 0.2}. 
+#' 
+#' @param e A Boolean value. 
+#' Default: \code{e = FALSE}.
+#' 
+#' @param f A Boolean value. 
+#' Default: \code{f = FALSE}. 
+#' 
+#' @param g A Boolean value. 
+#' Default: \code{g = FALSE}. 
+#'
+#' @param c1 A color palette (e.g., as a vector). 
+#' Default: \code{c1 = c(rev(pal_seeblau), "white", pal_grau, "black", Bordeaux)}. 
+#' Note: Using colors of the \code{unikn} package by default. 
+#'
+#' @param c2 A color (e.g., as a character). 
+#' Default: \code{c2 = "black"}. 
+#'
+#' @examples
+#' plot_fun()
+#' plot_fun(a = 5, b = F, e = T)
+#'  
+#' @family plot functions
+#'
+#' @seealso
+#' \code{\link{pal_ds4psy}} for color palette. 
+#' 
+#' @import unikn
+#' 
+#' @export 
+
+plot_fun <- function(a = NA, 
+                     b = TRUE, 
+                     c = TRUE,
+                     d = 0.2, 
+                     e = FALSE, 
+                     f = FALSE, 
+                     g = FALSE,
+                     c1 = c(rev(pal_seeblau), "white", pal_grau, "black", Bordeaux), 
+                     c2 = "black"
+){
+  
+  # pass parameters to plot_tiles(): 
+  plot_tiles(n = a, 
+             pal = c1, 
+             sort = b, 
+             borders = c,
+             border_col = c2, 
+             border_size = d, 
+             lbl_tiles = e, 
+             lbl_title = f, 
+             polar = g,
+             # not used as options here: 
+             rseed = NA, 
+             save = FALSE, 
+             save_path = "images/tiles",
+             prefix = "",
+             suffix = "")
+  
+}
+
+## Check:
+# plot_fun()       # Task 1: Explore and describe each parameter.
+# plot_fun(a = 5, b = F)
+# plot_fun(a = 3)  # Task 2: Find a sensible range for a.
+
+## Task 3: Re-create the following plots:
+# plot_fun(a = 5, 
+#          b = T, 
+#          c = T,
+#          d = 3,
+#          e = F,
+#          f = T,
+#          g = F,
+#          c1 = c(rev(pal_petrol), "white", pal_bordeaux),
+#          c2 = "white")
 
 
 ## ToDo: ----------
