@@ -1,4 +1,4 @@
-# .gitignore | 2019 08 04
+# .gitignore | 2019 08 06
 
 # History files
 .Rhistory
@@ -56,6 +56,7 @@ _readings/
 _testQuest/ 
 data_raw/
 data-raw/
+images/ 
 rsconnect/
 
 # eof.
