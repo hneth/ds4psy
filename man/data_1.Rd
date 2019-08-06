@@ -12,7 +12,7 @@ See DELIMITED data at \url{http://rpository.com/ds4psy/data/data_1.dat}.
 data_1
 }
 \description{
-A ficticious dataset to practice data import (from DELIMITED file).
+A fictitious dataset to practice data import (from DELIMITED file).
 }
 \seealso{
 Other datasets: \code{\link{data_2}},

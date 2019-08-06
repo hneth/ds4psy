@@ -12,7 +12,7 @@ See CSV data at \url{http://rpository.com/ds4psy/data/out.csv}.
 outliers
 }
 \description{
-A ficticious dataset containing the sex and height of 1,000 people.
+A fictitious dataset containing the sex and height of 1,000 people.
 }
 \seealso{
 Other datasets: \code{\link{data_1}}, \code{\link{data_2}},

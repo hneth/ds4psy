@@ -50,8 +50,8 @@ names are essential for understanding and using a function.
 plot_fun()
 
 # Exploring options: 
-plot_fun(a = 3, b = F, e = T)
-plot_fun(a = 5, f = T, g = T, c1 = c("steelblue", "white", "firebrick"))
+plot_fun(a = 3, b = FALSE, e = TRUE)
+plot_fun(a = 5, f = TRUE, g = TRUE, c1 = c("steelblue", "white", "firebrick"))
 
 }
 \seealso{

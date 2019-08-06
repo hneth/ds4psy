@@ -499,8 +499,8 @@ plot_tiles <- function(n = NA,
 #' plot_fun()
 #' 
 #' # Exploring options: 
-#' plot_fun(a = 3, b = F, e = T)
-#' plot_fun(a = 5, f = T, g = T, c1 = c("steelblue", "white", "firebrick"))
+#' plot_fun(a = 3, b = FALSE, e = TRUE)
+#' plot_fun(a = 5, f = TRUE, g = TRUE, c1 = c("steelblue", "white", "firebrick"))
 #' 
 #' @family plot functions
 #'
@@ -1097,10 +1097,10 @@ plot_n <- function(n = NA,
 #' 
 #' # Exploring options: 
 #' plot_fn(x = 2, A = TRUE)
-#' plot_fn(x = 3, A = FALSE)
+#' plot_fn(x = 3, A = FALSE, F = TRUE)
 #' plot_fn(x = 4, A = TRUE,  B = TRUE, D = TRUE)
-#' plot_fn(x = 5, A = FALSE, B = TRUE, E = TRUE)
-#' plot_fn(x = 6, A = FALSE, B = TRUE, F = TRUE, f = c("steelblue", "white", "forestgreen"))
+#' plot_fn(x = 5, A = FALSE, B = TRUE, E = TRUE, f = c("black", "white", "gold"))
+#' plot_fn(x = 7, A = TRUE,  B = TRUE, F = TRUE, f = c("steelblue", "white", "forestgreen"))
 #' 
 #' @family plot functions
 #'

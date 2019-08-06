@@ -12,7 +12,7 @@ See CSV data at \url{http://rpository.com/ds4psy/data/table8.csv}.
 table8
 }
 \description{
-A ficticious dataset to practice tidying data.
+A fictitious dataset to practice tidying data.
 }
 \details{
 This dataset is a variant of the \code{tidyr::table1} to \code{tidyr::table5} dataset.

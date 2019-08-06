@@ -83,7 +83,7 @@
 #' 
 #' \itemize{
 #' 
-#' \item{1. \strong{id}: Particpant ID. 
+#' \item{1. \strong{id}: Participant ID. 
 #' }
 #' 
 #' \item{2. \strong{occasion}: Measurement occasion:\\  
@@ -364,7 +364,7 @@
 
 #' Outlier data.
 #'
-#' A ficticious dataset containing the sex and height of 1,000 people.  
+#' A fictitious dataset containing the sex and height of 1,000 people.  
 #' 
 #' @format A tibble with 100 cases (rows) and 3 variables (columns). 
 #' 
@@ -398,7 +398,7 @@
 
 #' Data table data_t1.
 #'
-#' A ficticious dataset to practice importing and joining data (from CSV file).  
+#' A fictitious dataset to practice importing and joining data (from CSV file).  
 #' 
 #' @format A tibble with 20 cases (rows) and 4 variables (columns). 
 #' 
@@ -425,7 +425,7 @@
 
 #' Data import data_t1_de.
 #'
-#' A ficticious dataset to practice data import (from CSV file, European/de style).  
+#' A fictitious dataset to practice data import (from CSV file, European/de style).  
 #' 
 #' @format A tibble with 20 cases (rows) and 4 variables (columns). 
 #' 
@@ -452,7 +452,7 @@
 
 #' Data import data_t1_tab.
 #'
-#' A ficticious dataset to practice data import (from TAB file).  
+#' A fictitious dataset to practice data import (from TAB file).  
 #' 
 #' @format A tibble with 20 cases (rows) and 4 variables (columns). 
 #' 
@@ -483,7 +483,7 @@
 
 #' Data import data_1.
 #'
-#' A ficticious dataset to practice data import (from DELIMITED file).  
+#' A fictitious dataset to practice data import (from DELIMITED file).  
 #' 
 #' @format A tibble with 100 cases (rows) and 4 variables (columns). 
 #' 
@@ -517,7 +517,7 @@
 
 #' Data import data_2.
 #'
-#' A ficticious dataset to practice data import (from FWF file).  
+#' A fictitious dataset to practice data import (from FWF file).  
 #' 
 #' @format A tibble with 100 cases (rows) and 4 variables (columns). 
 #' 
@@ -551,7 +551,7 @@
 
 #' Data table6.
 #'
-#' A ficticious dataset to practice tidying data.
+#' A fictitious dataset to practice tidying data.
 #' 
 #' This dataset is a variant of the \code{tidyr::table1} to \code{tidyr::table5} dataset.   
 #' 
@@ -581,7 +581,7 @@
 
 #' Data table7.
 #'
-#' A ficticious dataset to practice tidying data.
+#' A fictitious dataset to practice tidying data.
 #' 
 #' This dataset is a variant of the \code{tidyr::table1} to \code{tidyr::table5} dataset.   
 #' 
@@ -611,7 +611,7 @@
 
 #' Data table8.
 #'
-#' A ficticious dataset to practice tidying data.
+#' A fictitious dataset to practice tidying data.
 #' 
 #' This dataset is a variant of the \code{tidyr::table1} to \code{tidyr::table5} dataset.   
 #' 
@@ -643,7 +643,7 @@
 
 #' Data exp_wide.
 #'
-#' A ficticious dataset to practice tidying data 
+#' A fictitious dataset to practice tidying data 
 #' (here: converting from wide to long format).
 #' 
 #' @format A tibble with 10 cases (rows) and 7 variables (columns). 
@@ -694,7 +694,7 @@
 
 #' Data table data_t2.
 #'
-#' A ficticious dataset to practice importing and joining data (from CSV file).  
+#' A fictitious dataset to practice importing and joining data (from CSV file).  
 #' 
 #' @format A tibble with 20 cases (rows) and 4 variables (columns). 
 #' 
@@ -723,7 +723,7 @@
 
 #' Data table t3.
 #'
-#' A ficticious dataset to practice importing and joining data (from CSV file).  
+#' A fictitious dataset to practice importing and joining data (from CSV file).  
 #' 
 #' @format A tibble with 10 cases (rows) and 4 variables (columns). 
 #' 
@@ -750,7 +750,7 @@
 
 #' Data table t4.
 #'
-#' A ficticious dataset to practice importing and joining data (from CSV file).  
+#' A fictitious dataset to practice importing and joining data (from CSV file).  
 #' 
 #' @format A tibble with 10 cases (rows) and 4 variables (columns). 
 #' 
@@ -780,7 +780,7 @@
 
 #' Data table data_t3.
 #'
-#' A ficticious dataset to practice importing and joining data (from CSV file).  
+#' A fictitious dataset to practice importing and joining data (from CSV file).  
 #' 
 #' @format A tibble with 20 cases (rows) and 4 variables (columns). 
 #' 
@@ -808,7 +808,7 @@
 
 #' Data table data_t4.
 #'
-#' A ficticious dataset to practice importing and joining data (from CSV file).  
+#' A fictitious dataset to practice importing and joining data (from CSV file).  
 #' 
 #' @format A tibble with 20 cases (rows) and 4 variables (columns). 
 #' 
@@ -843,7 +843,7 @@
 
 #' Data table tb.
 #'
-#' A ficticious dataset to practice loops and iteration (from CSV file).  
+#' A fictitious dataset to practice loops and iteration (from CSV file).  
 #' 
 #' @format A tibble with 100 cases (rows) and 5 variables (columns). 
 #' 

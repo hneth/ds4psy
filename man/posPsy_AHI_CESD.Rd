@@ -10,7 +10,7 @@
 
 \itemize{
 
-\item{1. \strong{id}: Particpant ID. 
+\item{1. \strong{id}: Participant ID. 
 }
 
 \item{2. \strong{occasion}: Measurement occasion:\\  

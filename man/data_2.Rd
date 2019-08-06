@@ -12,7 +12,7 @@ See FWF data at \url{http://rpository.com/ds4psy/data/data_2.dat}.
 data_2
 }
 \description{
-A ficticious dataset to practice data import (from FWF file).
+A fictitious dataset to practice data import (from FWF file).
 }
 \seealso{
 Other datasets: \code{\link{data_1}},

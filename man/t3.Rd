@@ -12,7 +12,7 @@ See CSV data at \url{http://rpository.com/ds4psy/data/t3.csv}.
 t3
 }
 \description{
-A ficticious dataset to practice importing and joining data (from CSV file).
+A fictitious dataset to practice importing and joining data (from CSV file).
 }
 \seealso{
 Other datasets: \code{\link{data_1}}, \code{\link{data_2}},
