@@ -1,10 +1,10 @@
 ## data_fun.R | ds4psy
-## hn | uni.kn | 2019 08 01
+## hn | uni.kn | 2019 08 06
 ## ---------------------------
 
 ## Functions for creating and manipulating data. 
 
-## (1) Generating random datasets: ---------- 
+## (1) Generate random datasets: ---------- 
 
 # Random binary values: Flip a 0/1 coin n times  ------ 
 
@@ -156,9 +156,9 @@ add_whats <- function(vec, amount, what = NA){
 # add_whats(1:10, .5, what = "ABC")
 
 
-## (2) Tables for plots: ----------
+## (2) Make tables for plots: ----------
 
-# make_tb: Create tb for plots: --------
+# make_tb: Create (n x n) table tb for plots: --------
 
 make_tb <- function(n = NA, rseed = NA){
   
@@ -166,19 +166,19 @@ make_tb <- function(n = NA, rseed = NA){
   
   # Robustness:
   if (is.na(rseed)) {
-    rseed <- sample(1:999, size = 1, replace = TRUE)  # random rseed
+    rseed <- sample(1:9999, size = 1, replace = TRUE)  # random rseed
   }
   if (is.na(n)) {
-    n <- sample(1:10, size = 1, replace = TRUE)  # random n
+    n <- sample(1:12, size = 1, replace = TRUE)  # random n
   }
-
+  
   # Parameters:
   n_x <- n
   n_y <- n
   N   <- (n_x * n_y)
   set.seed(seed = rseed)  # for reproducible randomness
   
-  # Vectors:
+  # Vectors:  
   # (a) sorted: 
   v_sort <- 1:N         # Tile: top_left = seeblau, bottom_right = black   | Polar: outer = seeblau, center = black.
   # v_sort <- rev(1:N)  # Tile: top_left = black,   bottom_right = seeblau | Polar: outer = black, center = seeblau.
@@ -187,7 +187,7 @@ make_tb <- function(n = NA, rseed = NA){
   col_sort <- rep("white", N)  # default
   lim_black <- .25  # threshold to switch from "white" to "black" labels
   col_sort[(v_sort > (lim_black * N)) & 
-           (v_sort <= ((1 - lim_black) * N))] <- "black"  # switch to "black" in mid of range
+             (v_sort <= ((1 - lim_black) * N))] <- "black"  # switch to "black" in mid of range
   # table(col_sort)
   
   # (b) random: 
@@ -206,14 +206,68 @@ make_tb <- function(n = NA, rseed = NA){
   
   return(tb)
   
-}
+} # make_tb end. 
 
 ## Check: 
-make_tb(n = 3)
+# make_tb(n = 3)
+# make_tb(n = 5, rseed = 1)  # check rseed
+# make_tb(n = 5, rseed = 1)
 
-## Check rseed: 
-# make_tb(n = 5, rseed = 1)
-# make_tb(n = 5, rseed = 1)
+# make_tbs: Create simpler (1 x n) table tbs for plots: --------
+
+make_tbs <- function(n = NA, rseed = NA){
+  
+  tbs <- NA  # initialize
+  
+  # Robustness:
+  if (is.na(rseed)) {
+    rseed <- sample(1:9999, size = 1, replace = TRUE)  # random rseed
+  }
+  if (is.na(n)) {
+    n <- sample(1:12, size = 1, replace = TRUE)  # random n
+  }
+  
+  # Parameters:
+  n_x <- n
+  n_y <- 1  # only 1 column/row 
+  N   <- (n_x * n_y)
+  set.seed(seed = rseed)  # for reproducible randomness
+  
+  # Vectors:  
+  # (a) sorted: 
+  v_sort <- 1:N         # Tile: top_left = seeblau, bottom_right = black   | Polar: outer = seeblau, center = black.
+  # v_sort <- rev(1:N)  # Tile: top_left = black,   bottom_right = seeblau | Polar: outer = black, center = seeblau.
+  
+  # Colors of text labels:
+  col_sort <- rep("white", N)  # default
+  lim_black <- .25  # threshold to switch from "white" to "black" labels
+  col_sort[(v_sort > (lim_black * N)) & 
+             (v_sort <= ((1 - lim_black) * N))] <- "black"  # switch to "black" in mid of range
+  # table(col_sort)
+  
+  # (b) random: 
+  # v_rand <- runif(n = N, 0, 1)
+  rand_ord <- sample(v_sort, N)   # random permutation of v_sort
+  v_rand   <- rand_ord            # random permutation of v_sort
+  col_rand <- col_sort[rand_ord]  # corresponding colors
+  
+  # Tibble: 
+  tbs <- tibble::tibble(x = 1:n_x,        # rep(1:n_y, times = n_x),
+                        y = rep(1, n_x),  # rep(n_x:1, each = n_y),
+                        sort = v_sort,
+                        rand = v_rand,
+                        col_sort = col_sort,
+                        col_rand = col_rand)
+  
+  return(tbs)
+  
+} # make_tbs end. 
+
+## Check: 
+# make_tbs(n = 6)
+# make_tbs(n = 6, rseed = 1)  # check rseed
+# make_tbs(n = 6, rseed = 1)
+
 
 ## ToDo: ----------
 
