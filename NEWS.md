@@ -1,11 +1,11 @@
 
 # ds4psy
 
-The current version of **ds4psy** (0.0.0.9001) is hosted at <https://github.com/hneth/ds4psy/>.
+The current version of **ds4psy** (0.0.0.9006) is hosted at <https://github.com/hneth/ds4psy/>.
 
 This project has not yet been released (on CRAN or GitHub). 
 
-- Initial release of **ds4psy** (0.1.0) on CRAN: <https://CRAN.R-project.org/package=ds4psy> [2019-09-??] 
+- Initial release of **ds4psy** (0.1.0) on CRAN: <https://CRAN.R-project.org/package=ds4psy> [2019-08-??] 
 
 ## To do
 
@@ -19,7 +19,7 @@ This project has not yet been released (on CRAN or GitHub).
 
 # ds4psy_book
 
-The current version of **ds4psy_book** (0.0.0.9500) is hosted at <https://github.com/hneth/ds4psy_book/>. 
+The current version of **ds4psy_book** (0.0.0.9506) is hosted at <https://github.com/hneth/ds4psy_book/>. 
 
 This project has not yet been released (on CRAN or GitHub). 
 
