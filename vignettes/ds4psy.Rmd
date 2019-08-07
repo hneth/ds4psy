@@ -1,6 +1,8 @@
 ---
 title: "ds4psy"
 output: rmarkdown::html_vignette
+pdf_document:
+         latex_engine: xelatex
 vignette: >
   %\VignetteIndexEntry{ds4psy}
   %\VignetteEngine{knitr::rmarkdown}
