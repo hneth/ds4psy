@@ -30,15 +30,20 @@ Default: \code{base_rect_size = base_size/20}.}
 to use in \bold{ggplot2} commands.
 }
 \details{
-Note that \code{theme_ds4psy} is currently just passed to 
-\code{theme_unikn} of \bold{unikn}.
-
 The theme is lightweight and no-nonsense, but somewhat 
 opinionated (e.g., in using mostly grey scales to 
 allow emphasizing data points with color accents).
 }
 \examples{
-# ???
+## Plotting iris dataset using ggplot2: 
+#
+# library(ggplot2)
+#
+# ggplot(datasets::iris) + 
+#   geom_jitter(aes(x = Petal.Length, y = Petal.Width, color = Species), size = 3, alpha = 2/3) + 
+#   labs(title = "Iris species", 
+#        caption = "Data from datasets::iris") + 
+#   theme_ds4psy(col_title = "black", base_size = 11)
 
 }
 \seealso{
