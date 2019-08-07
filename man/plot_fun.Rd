@@ -4,7 +4,7 @@
 \alias{plot_fun}
 \title{A function to plot some plot.}
 \usage{
-plot_fun(a = NA, b = TRUE, c = TRUE, d = 0.2, e = FALSE,
+plot_fun(a = NA, b = TRUE, c = TRUE, d = 1, e = FALSE,
   f = FALSE, g = FALSE, c1 = c(rev(pal_seeblau), "white", pal_grau,
   "black", Bordeaux), c2 = "black")
 }
@@ -19,7 +19,7 @@ Default: \code{b = TRUE}.}
 Default: \code{c = TRUE}.}
 
 \item{d}{A (decimal) number. 
-Default: \code{d = 0.2}.}
+Default: \code{d = 1.0}.}
 
 \item{e}{A Boolean value. 
 Default: \code{e = FALSE}.}
@@ -51,7 +51,7 @@ plot_fun()
 
 # Exploring options: 
 plot_fun(a = 3, b = FALSE, e = TRUE)
-plot_fun(a = 5, f = TRUE, g = TRUE, c1 = c("steelblue", "white", "firebrick"))
+plot_fun(a = 4, f = TRUE, g = TRUE, c1 = c("steelblue", "white", "firebrick"))
 
 }
 \seealso{

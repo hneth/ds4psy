@@ -6,7 +6,7 @@
 \usage{
 plot_fn(x = NA, y = 1, A = TRUE, B = FALSE, C = TRUE,
   D = FALSE, E = FALSE, F = FALSE, f = c(rev(pal_seeblau), "white",
-  Grau, "black", Petrol, Pinky), g = "white")
+  pal_pinky), g = "white")
 }
 \arguments{
 \item{x}{A (natural) number. 
@@ -34,7 +34,7 @@ Default: \code{E = FALSE}.}
 Default: \code{F = FALSE}.}
 
 \item{f}{A color palette (e.g., as a vector). 
-Default: \code{f = c(rev(pal_seeblau), "white", Grau, "black", Petrol, Pinky)}. 
+Default: \code{f = c(rev(pal_seeblau), "white", pal_pinky)}. 
 Note: Using colors of the \code{unikn} package by default.}
 
 \item{g}{A color (e.g., as a character). 
@@ -54,7 +54,7 @@ plot_fn()
 
 # Exploring options: 
 plot_fn(x = 2, A = TRUE)
-plot_fn(x = 3, A = FALSE, F = TRUE)
+plot_fn(x = 3, A = FALSE, E = TRUE)
 plot_fn(x = 4, A = TRUE,  B = TRUE, D = TRUE)
 plot_fn(x = 5, A = FALSE, B = TRUE, E = TRUE, f = c("black", "white", "gold"))
 plot_fn(x = 7, A = TRUE,  B = TRUE, F = TRUE, f = c("steelblue", "white", "forestgreen"))
