@@ -38,7 +38,7 @@ Course Coordinates
 <a href="https://www.spds.uni-konstanz.de/"> <img src = "./inst/images/uniKn_logo.png" alt = "spds.uni.kn" width = "300px" align = "right" style = "width: 300px; float: right; border:20;"/> </a>
 
 -   PSY-15150, at the [University of Konstanz](https://www.uni-konstanz.de/) by [Hansjörg Neth](https://neth.de/) (<h.neth@uni.kn>, [SPDS](https://www.spds.uni-konstanz.de/), office D507).
--   Summer/Fall 2019: Mondays, 15:15—16:45.
+-   Summer/Fall 2019: Mondays, 15:15–16:45.
 -   Links to current [course syllabus](http://rpository.com/ds4psy/) | [ZeUS](https://zeus.uni-konstanz.de:443/hioserver/pages/startFlow.xhtml?_flowId=detailView-flow&unitId=5101&periodId=180) | [Ilias](https://ilias.uni-konstanz.de/ilias/goto_ilias_uni_crs_920241.html)
 -   The [ds4psy book](https://bookdown.org/hneth/ds4psy/) with examples and weekly programming exercises (WPAs) is available at <https://bookdown.org/hneth/ds4psy/>.
 
@@ -59,7 +59,7 @@ Our main goal is to develop a set of useful skills in analyzing real-world data 
 
 ### Requirements
 
-This course assumes some basic familiarity with statistics and the [R](http://www.r-project.org/) programming language, but enthusiastic programming novices are also welcome.
+This course assumes some basic familiarity with statistics and the [R](https://www.R-project.org/) programming language, but enthusiastic programming novices are also welcome.
 
 Resources
 ---------
@@ -92,7 +92,7 @@ The script was originally based on the following textbook:
 
 Please install the following open-source programs on your computer:
 
--   [The R Project for Statistical Computing](http://www.r-project.org/)
+-   [The R Project for Statistical Computing](https://www.R-project.org/)
 
 -   [R Studio](http://www.rstudio.com/) is an integrated development environment (IDE) for R.
 

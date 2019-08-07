@@ -1,18 +1,16 @@
 
-# ds4psy
+# ds4psy (R package)
 
-The current version of **ds4psy** (0.0.0.9007) is hosted at <https://github.com/hneth/ds4psy/>.
+The current version of **ds4psy** (0.1.0.9000+) is hosted at <https://github.com/hneth/ds4psy/>. 
 
-This project has not yet been released (on CRAN or GitHub). 
-
-- Initial release of **ds4psy** (0.1.0) on CRAN: <https://CRAN.R-project.org/package=ds4psy> [2019-08-??] 
+Planned initial release of **ds4psy** (0.1.0) on CRAN: <https://CRAN.R-project.org/package=ds4psy> [submitted on 2019-08-07] 
 
 ## Done 
 
-- re-structure as a package
-- provide all data sets in the package
+- re-structured code as a package
+- provide all data sets used in [ds4psy book](https://bookdown.org/hneth/ds4psy/) in the package
 - add plotting functions (e.g., of book graphics) for exploring functions 
-- use **unikn** for colors and theme(s)
+- use **unikn** package for colors and theme(s)
 
 ## To do
 
@@ -20,13 +18,13 @@ This project has not yet been released (on CRAN or GitHub).
 
 ---------- 
 
-# ds4psy_book
-
-The current version of **ds4psy_book** (0.0.0.9507) is hosted at <https://github.com/hneth/ds4psy_book/>. 
-
-This project has not yet been released (on CRAN or GitHub). 
+# ds4psy_book (course and textbook)
 
 The current book draft is available at <https://bookdown.org/hneth/ds4psy/>. 
+
+The current source code of the **ds4psy_book** project (0.0.0.9007+) is hosted at <https://github.com/hneth/ds4psy_book/>. 
+
+This project has not yet been released (on CRAN or GitHub). 
 
 ## To do
 
