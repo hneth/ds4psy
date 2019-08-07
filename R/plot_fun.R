@@ -96,10 +96,10 @@
 #' \code{\link{pal_ds4psy}} for default color palette. 
 #' 
 #' @import ggplot2
+#' @import grDevices
 #' @import here
 #' @import unikn
 #' @importFrom cowplot theme_nothing 
-#' @importFrom grDevices grey
 #' 
 #' @export 
 
@@ -657,10 +657,10 @@ plot_fun <- function(a = NA,
 #' \code{\link{pal_ds4psy}} for default color palette. 
 #' 
 #' @import ggplot2
+#' @import grDevices
 #' @import here
 #' @import unikn
 #' @importFrom cowplot theme_nothing 
-#' @importFrom grDevices grey
 #' 
 #' @export 
 
