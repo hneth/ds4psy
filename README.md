@@ -6,8 +6,7 @@
 Data Science for Psychologists (ds4psy)
 =======================================
 
-Welcome to the R package **ds4psy** — a software companion to the book and course
-[Data Science for Psychologists](https://bookdown.org/hneth/ds4psy/).
+Welcome to the R package **ds4psy** — a software companion to the book and course</br> [Data Science for Psychologists](https://bookdown.org/hneth/ds4psy/).
 
 This R package provides datasets and functions used in the book and course.
 
@@ -45,26 +44,24 @@ Course Coordinates
 -   Links to current [course syllabus](http://rpository.com/ds4psy/) | [ZeUS](https://zeus.uni-konstanz.de:443/hioserver/pages/startFlow.xhtml?_flowId=detailView-flow&unitId=5101&periodId=180) | [Ilias](https://ilias.uni-konstanz.de/ilias/goto_ilias_uni_crs_920241.html)
 -   The [ds4psy book](https://bookdown.org/hneth/ds4psy/) with examples and weekly programming exercises (WPAs) is available at <https://bookdown.org/hneth/ds4psy/>.
 
-Course Description
-------------------
+Description
+-----------
 
-### Overview
+This book and course provide an introduction to data science that is tailored to the needs of psychologists, but is also suitable for students of the humanities and other biological or social sciences. This audience typically has some knowledge of statistics, but rarely an idea how data is prepared and shaped to allow for statistical testing. By using various data types and working with many examples, we teach tools for transforming, summarizing, and visualizing data. By keeping our eyes open for the perils of misleading representations, the book fosters fundamental skills of data literacy and cultivates reproducible research practices that enable and precede any practical use of statistics.
+
+### Audience
 
 Students of psychology and other social sciences are trained to analyze data. But the data they learn to work with (e.g., in courses on statistics and empirical research methods) is typically provided to them and structured in a (rectangular or "tidy") format that presupposes many steps of data processing regarding the aggregation and spatial layout of variables. When beginning to collect their own data, students inevitably struggle with these pre-processing steps which — even for experienced data scientists — tend to require more time and effort than choosing and conducting statistical tests.
 
-This course develops the foundations of data analysis that allow students to collect data from real-world sources and transform and shape such data to answer scientific and practical questions. Although there are many good introductions to data science (we use [Grolemund & Wickham, 2017](http://r4ds.had.co.nz/)) they typically do not take into account the special needs (and often anxieties and reservations) of psychology students. As social scientists are not computer scientists, we introduce new concepts and commands without assuming a mathematical or computational background. Adopting a task-oriented perspective, we begin with a specific problem and then solve it with some combination of data collection, manipulation, modeling, and visualization.
+This course develops the foundations of data analysis that allow students to collect data from real-world sources and transform and shape such data to answer scientific and practical questions. Although there are many good introductions to data science (e.g., [Grolemund & Wickham, 2017](http://r4ds.had.co.nz/)) they typically do not take into account the special needs — and often anxieties and reservations — of psychology students. As social scientists are not computer scientists, we introduce new concepts and commands without assuming a mathematical or computational background. Adopting a task-oriented perspective, we begin with a specific problem and then solve it with some combination of data collection, manipulation, and visualization.
 
 ### Goals
 
-Our main goal is to develop a set of useful skills in analyzing real-world data and conducting reproducible research. Upon completing this course, you will be able to read, transform, analyze, and visualize data of various types. Many interactive exercises will allow students to continuously check their understanding, practice their skills, and monitor their progress.
+Our main goal is to develop a set of useful skills in analyzing real-world data and conducting reproducible research. Upon completing this course, you will be able to use R to read, transform, analyze, and visualize data of various types. Many interactive exercises allow students to continuously check their understanding, practice their skills, and monitor their progress.
 
 ### Requirements
 
 This course assumes some basic familiarity with statistics and the [R](http://www.r-project.org/) programming language, but enthusiastic programming novices are also welcome.
-
-### Assessment
-
-Weekly exercises, mid-term test, and final test or project (to be discussed with instructor).
 
 Resources
 ---------
