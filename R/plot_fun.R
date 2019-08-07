@@ -1,5 +1,5 @@
 ## plot_fun.R | ds4psy
-## hn | uni.kn | 2019 08 06
+## hn | uni.kn | 2019 08 07
 ## ---------------------------
 
 ## Functions for plotting. 
@@ -476,7 +476,7 @@ plot_tiles <- function(n = NA,
 #' Default: \code{c = TRUE}. 
 #' 
 #' @param d A (decimal) number. 
-#' Default: \code{d = 0.2}. 
+#' Default: \code{d = 1.0}. 
 #' 
 #' @param e A Boolean value. 
 #' Default: \code{e = FALSE}.
@@ -500,7 +500,7 @@ plot_tiles <- function(n = NA,
 #' 
 #' # Exploring options: 
 #' plot_fun(a = 3, b = FALSE, e = TRUE)
-#' plot_fun(a = 5, f = TRUE, g = TRUE, c1 = c("steelblue", "white", "firebrick"))
+#' plot_fun(a = 4, f = TRUE, g = TRUE, c1 = c("steelblue", "white", "firebrick"))
 #' 
 #' @family plot functions
 #'
@@ -515,7 +515,7 @@ plot_tiles <- function(n = NA,
 plot_fun <- function(a = NA, 
                      b = TRUE, 
                      c = TRUE,
-                     d = 0.2, 
+                     d = 1.0, 
                      e = FALSE, 
                      f = FALSE, 
                      g = FALSE,
@@ -1085,7 +1085,7 @@ plot_n <- function(n = NA,
 #' Default: \code{F = FALSE}.
 #'
 #' @param f A color palette (e.g., as a vector). 
-#' Default: \code{f = c(rev(pal_seeblau), "white", Grau, "black", Petrol, Pinky)}. 
+#' Default: \code{f = c(rev(pal_seeblau), "white", pal_pinky)}. 
 #' Note: Using colors of the \code{unikn} package by default. 
 #'
 #' @param g A color (e.g., as a character). 
@@ -1097,7 +1097,7 @@ plot_n <- function(n = NA,
 #' 
 #' # Exploring options: 
 #' plot_fn(x = 2, A = TRUE)
-#' plot_fn(x = 3, A = FALSE, F = TRUE)
+#' plot_fn(x = 3, A = FALSE, E = TRUE)
 #' plot_fn(x = 4, A = TRUE,  B = TRUE, D = TRUE)
 #' plot_fn(x = 5, A = FALSE, B = TRUE, E = TRUE, f = c("black", "white", "gold"))
 #' plot_fn(x = 7, A = TRUE,  B = TRUE, F = TRUE, f = c("steelblue", "white", "forestgreen"))
@@ -1120,7 +1120,7 @@ plot_fn <- function(x = NA,
                     D = FALSE, 
                     E = FALSE, 
                     F = FALSE,
-                    f = c(rev(pal_seeblau), "white", Grau, "black", Petrol, Pinky), 
+                    f = c(rev(pal_seeblau), "white", pal_pinky), 
                     g = "white"
 ){
   
