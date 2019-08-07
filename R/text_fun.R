@@ -1,5 +1,5 @@
 ## text_fun.R | ds4psy
-## hn | uni.kn | 2019 08 01
+## hn | uni.kn | 2019 08 07
 ## ---------------------------
 
 ## Functions for text and string objects. 
@@ -27,8 +27,10 @@ course_l33t <- paste0(n4me, ":", " ", d5, " ", fp)
 
 # Automation: ----- 
 
-txt1 <- "This is a short test string with some text to leetify."
-txt2 <- "Data science is both a craft and an art. This course introduces fundamental data types, basic concepts and commands of the R programming language, and explores key packages of the so-called tidyverse. Regular exercises will help you to make your first steps from R novice to user."
+# txt1 <- "This is a short test string with some text to leetify."
+# txt2 <- "Data science is both a craft and an art. This course introduces fundamental data types, 
+#          basic concepts and commands of the R programming language, and explores key packages of the so-called tidyverse. 
+#          Regular exercises will help you to make your first steps from R novice to user."
 
 # Write functions to:  
 # - switch text to lower/upper case, capitalize, etc.
