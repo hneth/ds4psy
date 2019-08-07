@@ -20,7 +20,7 @@ knitr::opts_chunk$set(
 </a>
 
 
-**Welcome** to the R package **ds4psy** — a companion to the book and course  
+**Welcome** to the R package **ds4psy** — a software companion to the book and course  
 [Data Science for Psychologists](https://bookdown.org/hneth/ds4psy/).  
 
 This R package provides datasets and functions used in the book and course. 
@@ -67,13 +67,14 @@ This package and the corresponding book are still being developed and are update
 
 If you find these materials useful, or want to adopt or alter them for your purposes, please [let me know](https://www.spds.uni-konstanz.de/hans-neth). 
 
+
 ### Citation
 
 To cite **ds4psy** in derivations and publications, please use:
 
 - Neth, H. (2019). ds4psy: Data Science for Psychologists.  
 Social Psychology and Decision Sciences, University of Konstanz, Germany.  
-Textbook and computer software (R package version 0.0.1, August 5, 2019).  
+Textbook and computer software (R package version 0.1.0, August 8, 2019).  
 Retrieved from <https://bookdown.org/hneth/ds4psy/>.
 
 A **BibTeX** entry for LaTeX users is: 
@@ -85,7 +86,7 @@ A **BibTeX** entry for LaTeX users is:
   year = {2019},
   organization = {Social Psychology and Decision Sciences, University of Konstanz},
   address = {Konstanz, Germany},
-  note = {Textbook and R package (version 0.0.1, August 5, 2019)},
+  note = {Textbook and R package (version 0.1.0, August 8, 2019)},
   url = {https://bookdown.org/hneth/ds4psy/},
 }
 ```

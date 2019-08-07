@@ -6,7 +6,7 @@
 Data Science for Psychologists (ds4psy)
 =======================================
 
-Welcome to the R package **ds4psy** — a companion to the book and course
+Welcome to the R package **ds4psy** — a software companion to the book and course
 [Data Science for Psychologists](https://bookdown.org/hneth/ds4psy/).
 
 This R package provides datasets and functions used in the book and course.
@@ -42,7 +42,7 @@ Course Coordinates
 
 -   PSY-15150, at the [University of Konstanz](https://www.uni-konstanz.de/) by [Hansjörg Neth](https://neth.de/) (<h.neth@uni.kn>, [SPDS](https://www.spds.uni-konstanz.de/), office D507).
 -   Summer/Fall 2019: Mondays, 15:15—16:45.
--   Links to current [course syllabus](http://rpository.com/ds4psy/) | [ZeUS](https://zeus.uni-konstanz.de:443/hioserver/pages/startFlow.xhtml?_flowId=detailView-flow&unitId=5101&periodId=179&navigationPosition=hisinoneLehrorganisation,examEventOverviewOwn) | [Ilias](https://ilias.uni-konstanz.de/ilias/goto_ilias_uni_crs_863036.html)
+-   Links to current [course syllabus](http://rpository.com/ds4psy/) | [ZeUS](https://zeus.uni-konstanz.de:443/hioserver/pages/startFlow.xhtml?_flowId=detailView-flow&unitId=5101&periodId=180) | [Ilias](https://ilias.uni-konstanz.de/ilias/goto_ilias_uni_crs_920241.html)
 -   The [ds4psy book](https://bookdown.org/hneth/ds4psy/) with examples and weekly programming exercises (WPAs) is available at <https://bookdown.org/hneth/ds4psy/>.
 
 Course Description
@@ -89,7 +89,7 @@ References
 -   A current version of [Data science for psychologists](https://bookdown.org/hneth/ds4psy/) is available online at
     <https://bookdown.org/hneth/ds4psy/>.
 
-The script is based on the following textbook:
+The script was originally based on the following textbook:
 
 -   Wickham, H., & Grolemund, G. (2017). *R for data science: Import, tidy, transform, visualize, and model data.* Sebastopol, Canada: O'Reilly Media, Inc. \[Available online at <http://r4ds.had.co.nz>.\]
 
@@ -111,7 +111,7 @@ install.packages("tidyverse")
 install.packages("ds4psy", "unikn")
 
 # Additional data packages (optional): 
-install.packages("nycflights13", "gapminder", "Lahman", "babynames", "fueleconomy")
+install.packages("nycflights13", "babynames", "fueleconomy")
 ```
 
 ### Other resources
@@ -147,7 +147,7 @@ Nr. | Topic       |
     -   See <https://www.tidyverse.org/learn/> for learning resources
 -   See also the collection of links at the end of each chapter of the [ds4psy book](https://bookdown.org/hneth/ds4psy/) and <http://rpository.com/findr/>.
 
-#### Other scripts and books
+#### R manuals and books
 
 -   [R manuals](https://cran.r-project.org/manuals.html) and related [books](https://www.r-project.org/doc/bib/R-books.html)
 
@@ -165,7 +165,7 @@ To cite **ds4psy** in derivations and publications, please use:
 
 -   Neth, H. (2019). ds4psy: Data Science for Psychologists.
     Social Psychology and Decision Sciences, University of Konstanz, Germany.
-    Textbook and computer software (R package version 0.0.1, August 5, 2019).
+    Textbook and computer software (R package version 0.1.0, August 8, 2019).
     Retrieved from <https://bookdown.org/hneth/ds4psy/>.
 
 A **BibTeX** entry for LaTeX users is:
@@ -177,7 +177,7 @@ A **BibTeX** entry for LaTeX users is:
   year = {2019},
   organization = {Social Psychology and Decision Sciences, University of Konstanz},
   address = {Konstanz, Germany},
-  note = {Textbook and R package (version 0.0.1, August 5, 2019)},
+  note = {Textbook and R package (version 0.1.0, August 8, 2019)},
   url = {https://bookdown.org/hneth/ds4psy/},
 }
 ```
@@ -189,6 +189,6 @@ A **BibTeX** entry for LaTeX users is:
 <span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">**Data science for psychologists** (**ds4psy**)</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="https://neth.de" property="cc:attributionName" rel="cc:attributionURL">Hansjörg Neth</a> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.
 
 <!-- Update: -->
-\[Updated 2019-08-05 by [hn](https://neth.de).\]
+\[Updated 2019-08-07 by [hn](https://neth.de).\]
 
 <!-- eof. -->
