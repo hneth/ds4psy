@@ -8,11 +8,7 @@ Data Science for Psychologists (ds4psy)
 
 Welcome to the R package **ds4psy** — a software companion to the book and course</br> [Data Science for Psychologists](https://bookdown.org/hneth/ds4psy/).
 
-This R package provides datasets and functions used in the book and course.
-
-The book and course introduce the principles and methods of data science for students of psychology and other biological or social sciences.
-
-The source code of the corresponding [ds4psy book](https://bookdown.org/hneth/ds4psy/) is hosted at <https://github.com/hneth/ds4psy_book>.
+This R package provides datasets and functions used in the [ds4psy book](https://bookdown.org/hneth/ds4psy/) and course. The book and course introduce the principles and methods of data science for students of psychology and other biological or social sciences.
 
 Installation
 ------------
@@ -31,6 +27,8 @@ The current development version can be installed from its [GitHub](https://githu
 devtools::install_github('hneth/ds4psy')
 library('ds4psy')  # load to use the package
 ```
+
+The most recent version of the [ds4psy book](https://bookdown.org/hneth/ds4psy/) is freely available at <https://bookdown.org/hneth/ds4psy/>.
 
 Course Coordinates
 ------------------
