@@ -20,9 +20,9 @@
   \item{when64}{Did the participant hear the song ‘When I am 64’ by The Beatles? 1: yes, 2: no.}      
   \item{kalimba}{Did the participant hear the song ‘Kalimba’ by Mr. Scrub? 1: yes, 2: no.}
   \item{cond}{In which condition was the participant? 
-  - control: Subject heard the song ‘Kalimba’ by Mr. Scrub; 
-  - potato: Subject heard the song ‘Hot Potato’ by The Wiggles; 
-  - 64: Subject heard the song ‘When I am 64’ by The Beatles.}
+  control: Subject heard the song ‘Kalimba’ by Mr. Scrub; 
+  potato: Subject heard the song ‘Hot Potato’ by The Wiggles; 
+  64: Subject heard the song ‘When I am 64’ by The Beatles.}
   \item{root}{Could participant report the square root of 100? 1: yes, 2: no.}      
   \item{bird}{Imagine a restaurant you really like offered a 30% discount for dining between 4 pm and 6 pm. 
   How likely would you be to take advantage of that offer? 
@@ -38,8 +38,7 @@
   Scale: 1: very young, 2: young, 3: neither young nor old, 4: old, 5: very old.}
   \item{computer}{Computers are complicated machines. 
   Scale from 1: strongly disagree, to 5: strongly agree.}      
-  \item{diner}{Imagine you were going to a diner for dinner tonight, 
-  how much do you think you would like the food? 
+  \item{diner}{Imagine you were going to a diner for dinner tonight, how much do you think you would like the food? 
   Scale from 1: dislike extremely, to 9: like extremely.}
   }}
 \source{
@@ -47,28 +46,31 @@
 
 \itemize{
 
-\item{Simmons, J.P., Nelson, L.D., & Simonsohn, U. (2011). 
+\item Simmons, J.P., Nelson, L.D., & Simonsohn, U. (2011). 
 False-positive psychology: Undisclosed flexibility in data collection and analysis 
 allows presenting anything as significant. 
-\emph{Psychological Science}, \emph{22}(11), 1359–1366. 
+\emph{Psychological Science}, \emph{22}(11), 1359--1366. 
 doi: \url{https://doi.org/10.1177/0956797611417632}
-}
 
-\item{Simmons, J.P., Nelson, L.D., & Simonsohn, U. (2014). 
+
+\item Simmons, J.P., Nelson, L.D., & Simonsohn, U. (2014). 
 Data from paper “False-Positive Psychology: 
 Undisclosed Flexibility in Data Collection and Analysis 
 Allows Presenting Anything as Significant”. 
 \emph{Journal of Open Psychology Data}, \emph{2}(1), e1. 
-doi: \url{http://doi.org/10.5334/jopd.aa}
-}
+doi: \url{http://doi.org/10.5334/jopd.aa} 
 
 }
 
 \strong{Data}
 
-Download files at \url{https://openpsychologydata.metajnl.com/articles/10.5334/jopd.aa/}.
+\itemize{
 
-Zip-archive at \url{https://zenodo.org/record/7664}.
+\item Download files at \url{https://openpsychologydata.metajnl.com/articles/10.5334/jopd.aa/}.
+
+\item Zip-archive at \url{https://zenodo.org/record/7664}.
+
+}
 }
 \usage{
 falsePosPsy_all

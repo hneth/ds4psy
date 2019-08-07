@@ -10,40 +10,32 @@
 
 \itemize{
 
-\item{1. \strong{id}: Participant ID. 
-}
+\item 1. \strong{id}: Participant ID. 
 
-\item{2. \strong{occasion}: Measurement occasion:\\  
-  0 = Pretest (i.e., at enrolment),
-  1 = Posttest (i.e., 7 days after pretest),
-  2 = 1-week follow-up, (i.e., 14 days after pretest, 7 days after posttest),
-  3 = 1-month follow-up, (i.e., 38 days after pretest, 31 days after posttest),
-  4 = 3-month follow-up, (i.e., 98 days after pretest, 91 days after posttest),
-  5 = 6-month follow-up, (i.e., 189 days after pretest, 182 days after posttest).
-  }
+\item 2. \strong{occasion}: Measurement occasion: 
+  0 = Pretest (i.e., at enrolment),   
+  1 = Posttest (i.e., 7 days after pretest),   
+  2 = 1-week follow-up, (i.e., 14 days after pretest, 7 days after posttest),   
+  3 = 1-month follow-up, (i.e., 38 days after pretest, 31 days after posttest),   
+  4 = 3-month follow-up, (i.e., 98 days after pretest, 91 days after posttest),   
+  5 = 6-month follow-up, (i.e., 189 days after pretest, 182 days after posttest).  
 
-\item{3. \strong{elapsed.days}: Time since enrolment measured in fractional days.
-} 
+\item 3. \strong{elapsed.days}: Time since enrolment measured in fractional days.
+ 
+\item 4. \strong{intervention}: Type of intervention: 
+  3 positive psychology interventions (PPIs), plus 1 control condition:    
+    1 = “Using signature strengths”,   
+    2 = “Three good things”,   
+    3 = “Gratitude visit”,   
+    4 = “Recording early memories” (control condition). 
 
-\item{4. \strong{intervention}: Type of intervention:\\ 
-  3 positive psychology interventions (PPIs), plus 1 control condition: 
-    1 = “Using signature strengths”, 
-    2 = “Three good things”, 
-    3 = “Gratitude visit”, 
-    4 = “Recording early memories” (control condition).
-    }
+\item 5.--28. (from \strong{ahi01} to \strong{ahi24}): Responses on 24 AHI items. 
 
-\item{5.-28. \strong{ahi01–ahi24}: Responses on 24 AHI items.
-}  
+\item 29.--48. (from \strong{cesd01} to \strong{cesd20}): Responses on 20 CES-D items. 
 
-\item{29.-48. \strong{cesd01–cesd20}: Responses on 20 CES-D items.
-}  
+\item 49. \strong{ahiTotal}: Total AHI score. 
 
-\item{49. \strong{ahiTotal}: Total AHI score.
-} 
-
-\item{50. \strong{cesdTotal}: Total CES-D score.
-}  
+\item 50. \strong{cesdTotal}: Total CES-D score.   
 
 }}
 \source{
@@ -51,31 +43,33 @@
 
 \itemize{
 
-\item{Radloff, L. S. (1977). 
+\item Radloff, L. S. (1977). 
 The CES-D scale: A self report depression scale for research in the general population. 
-\emph{Applied Psychological Measurement}, \emph{1}, 385–401. 
+\emph{Applied Psychological Measurement}, \emph{1}, 385--401. 
 doi: \code{10.1177/014662167700100306}
-}
 
-\item{Woodworth, R. J., O’Brien‐Malone, A., Diamond, M. R., & Schüz, B. (2017). 
+\item Woodworth, R. J., O’Brien‐Malone, A., Diamond, M. R., & Schüz, B. (2017). 
 Web‐based positive psychology interventions: A reexamination of effectiveness. 
-\emph{Journal of Clinical Psychology}, \emph{73}(3), 218–232. 
-doi: \code{10.1002/jclp.22328}
-}
+\emph{Journal of Clinical Psychology}, \emph{73}(3), 218--232. 
+doi: \code{10.1002/jclp.22328} 
 
-\item{Woodworth, R. J., O’Brien-Malone, A., Diamond, M. R. and Schüz, B. (2018). 
+\item Woodworth, R. J., O’Brien-Malone, A., Diamond, M. R. and Schüz, B. (2018). 
 Data from, ‘Web-based positive psychology interventions: A reexamination of effectiveness’. 
 \emph{Journal of Open Psychology Data}, \emph{6}(1). 
 doi: \code{10.5334/jopd.35}
-}
 
 }
+
 
 \strong{Data}
 
-See \url{https://openpsychologydata.metajnl.com/articles/10.5334/jopd.35/} for details.
+\itemize{
 
-Original dataset available at \url{https://doi.org/10.6084/m9.figshare.1577563.v1}.
+\item See \url{https://openpsychologydata.metajnl.com/articles/10.5334/jopd.35/} for details.
+
+\item Original dataset available at \url{https://doi.org/10.6084/m9.figshare.1577563.v1}.  
+
+}
 }
 \usage{
 posPsy_AHI_CESD

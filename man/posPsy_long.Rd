@@ -14,31 +14,33 @@ See \code{\link{posPsy_AHI_CESD}}.}
 
 \itemize{
 
-\item{Radloff, L. S. (1977). 
+\item Radloff, L. S. (1977). 
 The CES-D scale: A self report depression scale for research in the general population. 
-\emph{Applied Psychological Measurement}, \emph{1}, 385–401. 
+\emph{Applied Psychological Measurement}, \emph{1}, 385--401. 
 doi: \code{10.1177/014662167700100306}
-}
 
-\item{Woodworth, R. J., O’Brien‐Malone, A., Diamond, M. R., & Schüz, B. (2017). 
+\item Woodworth, R. J., O’Brien‐Malone, A., Diamond, M. R., & Schüz, B. (2017). 
 Web‐based positive psychology interventions: A reexamination of effectiveness. 
-\emph{Journal of Clinical Psychology}, \emph{73}(3), 218–232. 
-doi: \code{10.1002/jclp.22328}
-}
+\emph{Journal of Clinical Psychology}, \emph{73}(3), 218--232. 
+doi: \code{10.1002/jclp.22328} 
 
-\item{Woodworth, R. J., O’Brien-Malone, A., Diamond, M. R. and Schüz, B. (2018). 
+\item Woodworth, R. J., O’Brien-Malone, A., Diamond, M. R. and Schüz, B. (2018). 
 Data from, ‘Web-based positive psychology interventions: A reexamination of effectiveness’. 
 \emph{Journal of Open Psychology Data}, \emph{6}(1). 
 doi: \code{10.5334/jopd.35}
-}
 
 }
+
 
 \strong{Data}
 
-See \url{https://openpsychologydata.metajnl.com/articles/10.5334/jopd.35/} for details.
+\itemize{
 
-Original dataset available at \url{https://doi.org/10.6084/m9.figshare.1577563.v1}.
+\item See \url{https://openpsychologydata.metajnl.com/articles/10.5334/jopd.35/} for details.
+
+\item Original dataset available at \url{https://doi.org/10.6084/m9.figshare.1577563.v1}.  
+
+}
 }
 \usage{
 posPsy_long
