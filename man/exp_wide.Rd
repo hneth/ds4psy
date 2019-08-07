@@ -12,7 +12,7 @@ See CSV data at \url{http://rpository.com/ds4psy/data/exp_wide.csv}.
 exp_wide
 }
 \description{
-A fictitious dataset to practice tidying data 
+\code{exp_wide} is a fictitious dataset to practice tidying data 
 (here: converting from wide to long format).
 }
 \seealso{

@@ -12,7 +12,8 @@ See TAB-delimited data at \url{http://rpository.com/ds4psy/data/data_t1_tab.csv}
 data_t1_tab
 }
 \description{
-A fictitious dataset to practice data import (from TAB file).
+\code{data_t1_tab} is a fictitious dataset to practice data import 
+(from a TAB file).
 }
 \seealso{
 Other datasets: \code{\link{data_1}}, \code{\link{data_2}},

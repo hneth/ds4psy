@@ -4,68 +4,52 @@
 \name{posPsy_p_info}
 \alias{posPsy_p_info}
 \title{Positive Psychology: Participant data.}
-\format{A tibble with 295 cases (rows) and 6 variables (columns).
- 
-\strong{Codebook}  
+\format{A tibble with 295 cases (rows) and 6 variables (columns).}
+\source{
+Woodworth, R. J., O’Brien‐Malone, A., Diamond, M. R., & Schüz, B. (2017). 
+Web‐based positive psychology interventions: A reexamination of effectiveness. 
+\emph{Journal of Clinical Psychology}, \emph{73}(3), 218-232. 
+doi: \code{10.1002/jclp.22328} 
 
+Woodworth, R. J., O’Brien-Malone, A., Diamond, M. R. and Schüz, B. (2018). 
+Data from, ‘Web-based positive psychology interventions: A reexamination of effectiveness’. 
+\emph{Journal of Open Psychology Data}, \emph{6}(1). 
+doi: \code{10.5334/jopd.35}
+
+Additional references at \url{https://bookdown.org/hneth/ds4psy/B-1-datasets-pos.html}.
+
+See \url{https://openpsychologydata.metajnl.com/articles/10.5334/jopd.35/} for details 
+and \url{https://doi.org/10.6084/m9.figshare.1577563.v1} for original dataset.
+}
+\usage{
+posPsy_p_info
+}
+\description{
+\code{posPsy_p_info} is a dataset containing details of 295 participants.
+}
+\details{
 \describe{
   
   \item{id}{Participant ID.}
   
   \item{intervention}{Type of intervention: 
   3 positive psychology interventions (PPIs), plus 1 control condition: 
-    1 = “Using signature strengths”,    
-    2 = “Three good things”,    
-    3 = “Gratitude visit”,    
-    4 = “Recording early memories” (control condition).}
+    1: "Using signature strengths", 
+    2: "Three good things", 
+    3: "Gratitude visit",  
+    4: "Recording early memories" (control condition).}
     
   \item{sex}{Sex: 1 = female, 2 = male.}
   
   \item{age}{Age (in years).}
   
-  \item{educ}{Education level: Scale from 1 - less than 12 years, to 5 = postgraduate degree.}
+  \item{educ}{Education level: Scale from 1: less than 12 years, to 5: postgraduate degree.}
   
-  \item{income}{Income: Scale from 1 = below average, to 3 = above average.} 
+  \item{income}{Income: Scale from 1: below average, to 3: above average.} 
   
-}}
-\source{
-\strong{Articles}
-
-\itemize{
-
-\item Radloff, L. S. (1977). 
-The CES-D scale: A self report depression scale for research in the general population. 
-\emph{Applied Psychological Measurement}, \emph{1}, 385--401. 
-doi: \code{10.1177/014662167700100306}
-
-\item Woodworth, R. J., O’Brien‐Malone, A., Diamond, M. R., & Schüz, B. (2017). 
-Web‐based positive psychology interventions: A reexamination of effectiveness. 
-\emph{Journal of Clinical Psychology}, \emph{73}(3), 218--232. 
-doi: \code{10.1002/jclp.22328} 
-
-\item Woodworth, R. J., O’Brien-Malone, A., Diamond, M. R. and Schüz, B. (2018). 
-Data from, ‘Web-based positive psychology interventions: A reexamination of effectiveness’. 
-\emph{Journal of Open Psychology Data}, \emph{6}(1). 
-doi: \code{10.5334/jopd.35}
-
 }
 
-
-\strong{Data}
-
-\itemize{
-
-\item See \url{https://openpsychologydata.metajnl.com/articles/10.5334/jopd.35/} for details.
-
-\item Original dataset available at \url{https://doi.org/10.6084/m9.figshare.1577563.v1}.  
-
-}
-}
-\usage{
-posPsy_p_info
-}
-\description{
-A dataset containing details of 295 participants.
+See codebook and references at \url{https://bookdown.org/hneth/ds4psy/B-1-datasets-pos.html}.
 }
 \seealso{
 Other datasets: \code{\link{data_1}}, \code{\link{data_2}},

@@ -4,9 +4,36 @@
 \name{falsePosPsy_all}
 \alias{falsePosPsy_all}
 \title{False Positive Psychology data.}
-\format{A tibble with 78 cases (rows) and 19 variables (columns):
+\format{A tibble with 78 cases (rows) and 19 variables (columns):}
+\source{
+Simmons, J.P., Nelson, L.D., & Simonsohn, U. (2011). 
+False-positive psychology: Undisclosed flexibility in data collection and analysis 
+allows presenting anything as significant. 
+\emph{Psychological Science}, \emph{22}(11), 1359-1366. 
+doi: \url{https://doi.org/10.1177/0956797611417632}
 
-\strong{Codebook} 
+Simmons, J.P., Nelson, L.D., & Simonsohn, U. (2014). 
+Data from paper “False-Positive Psychology: 
+Undisclosed Flexibility in Data Collection and Analysis 
+Allows Presenting Anything as Significant”. 
+\emph{Journal of Open Psychology Data}, \emph{2}(1), e1. 
+doi: \url{http://doi.org/10.5334/jopd.aa} 
+
+Download files at \url{https://openpsychologydata.metajnl.com/articles/10.5334/jopd.aa/} and 
+the zip-archive at \url{https://zenodo.org/record/7664} for original dataset.
+}
+\usage{
+falsePosPsy_all
+}
+\description{
+\code{falsePosPsy_all} is a dataset containing the data from 2 studies designed to 
+highlight problematic research practices within psychology.
+}
+\details{
+Simmons, Nelson and Simonsohn (2011) published a controversial article 
+with a necessarily false finding. By conducting simulations and 2 simple behavioral experiments, 
+the authors show that flexibility in data collection, analysis, and reporting 
+dramatically increases the rate of false-positive findings.
 
 \describe{
   \item{study}{Study ID.}
@@ -16,13 +43,13 @@
   \item{female}{Is participant a woman? 1: yes, 2: no.}
   \item{dad}{Father's age (in years).}
   \item{mom}{Mother's age (in years).}
-  \item{potato}{Did the participant hear the song ‘Hot Potato’ by The Wiggles? 1: yes, 2: no.}
-  \item{when64}{Did the participant hear the song ‘When I am 64’ by The Beatles? 1: yes, 2: no.}      
-  \item{kalimba}{Did the participant hear the song ‘Kalimba’ by Mr. Scrub? 1: yes, 2: no.}
+  \item{potato}{Did the participant hear the song 'Hot Potato' by The Wiggles? 1: yes, 2: no.}
+  \item{when64}{Did the participant hear the song 'When I am 64' by The Beatles? 1: yes, 2: no.}      
+  \item{kalimba}{Did the participant hear the song 'Kalimba' by Mr. Scrub? 1: yes, 2: no.}
   \item{cond}{In which condition was the participant? 
-  control: Subject heard the song ‘Kalimba’ by Mr. Scrub; 
-  potato: Subject heard the song ‘Hot Potato’ by The Wiggles; 
-  64: Subject heard the song ‘When I am 64’ by The Beatles.}
+  control: Subject heard the song 'Kalimba' by Mr. Scrub; 
+  potato: Subject heard the song 'Hot Potato' by The Wiggles; 
+  64: Subject heard the song 'When I am 64' by The Beatles.}
   \item{root}{Could participant report the square root of 100? 1: yes, 2: no.}      
   \item{bird}{Imagine a restaurant you really like offered a 30% discount for dining between 4 pm and 6 pm. 
   How likely would you be to take advantage of that offer? 
@@ -40,50 +67,9 @@
   Scale from 1: strongly disagree, to 5: strongly agree.}      
   \item{diner}{Imagine you were going to a diner for dinner tonight, how much do you think you would like the food? 
   Scale from 1: dislike extremely, to 9: like extremely.}
-  }}
-\source{
-\strong{Articles}
+  }
 
-\itemize{
-
-\item Simmons, J.P., Nelson, L.D., & Simonsohn, U. (2011). 
-False-positive psychology: Undisclosed flexibility in data collection and analysis 
-allows presenting anything as significant. 
-\emph{Psychological Science}, \emph{22}(11), 1359--1366. 
-doi: \url{https://doi.org/10.1177/0956797611417632}
-
-
-\item Simmons, J.P., Nelson, L.D., & Simonsohn, U. (2014). 
-Data from paper “False-Positive Psychology: 
-Undisclosed Flexibility in Data Collection and Analysis 
-Allows Presenting Anything as Significant”. 
-\emph{Journal of Open Psychology Data}, \emph{2}(1), e1. 
-doi: \url{http://doi.org/10.5334/jopd.aa} 
-
-}
-
-\strong{Data}
-
-\itemize{
-
-\item Download files at \url{https://openpsychologydata.metajnl.com/articles/10.5334/jopd.aa/}.
-
-\item Zip-archive at \url{https://zenodo.org/record/7664}.
-
-}
-}
-\usage{
-falsePosPsy_all
-}
-\description{
-A dataset containing the data from 2 studies designed to 
-highlight problematic research practices within psychology.
-}
-\details{
-Simmons, Nelson and Simonsohn (2011) published a controversial article 
-with a necessarily false finding. By conducting simulations and 2 simple behavioral experiments, 
-the authors show that flexibility in data collection, analysis, and reporting 
-dramatically increases the rate of false-positive findings.
+See \url{https://bookdown.org/hneth/ds4psy/B-2-datasets-false.html} for background information and codebook.
 }
 \seealso{
 Other datasets: \code{\link{data_1}}, \code{\link{data_2}},

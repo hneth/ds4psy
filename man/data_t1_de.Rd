@@ -12,7 +12,8 @@ See CSV data at \url{http://rpository.com/ds4psy/data/data_t1_de.csv}.
 data_t1_de
 }
 \description{
-A fictitious dataset to practice data import (from CSV file, European/de style).
+\code{data_t1_de} is a fictitious dataset to practice data import 
+(from a CSV file, European/de style).
 }
 \seealso{
 Other datasets: \code{\link{data_1}}, \code{\link{data_2}},

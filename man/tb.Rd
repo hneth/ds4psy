@@ -12,7 +12,8 @@ See CSV data at \url{http://rpository.com/ds4psy/data/tb.csv}.
 tb
 }
 \description{
-A fictitious dataset to practice loops and iteration (from CSV file).
+\code{tb} is a fictitious dataset to practice loops and iteration 
+(from a CSV file).
 }
 \seealso{
 Other datasets: \code{\link{data_1}}, \code{\link{data_2}},

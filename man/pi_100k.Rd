@@ -14,7 +14,7 @@ Original data at \url{http://www.geom.uiuc.edu/~huberty/math5337/groupe/digits.h
 pi_100k
 }
 \description{
-A dataset containing the first 100k digits of pi.
+\code{pi_100k} is a dataset containing the first 100k digits of pi.
 }
 \seealso{
 Other datasets: \code{\link{data_1}}, \code{\link{data_2}},

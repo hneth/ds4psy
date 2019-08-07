@@ -6,43 +6,26 @@
 \title{Positive Psychology: All corrected data (in wide format).}
 \format{An object of class \code{spec_tbl_df} (inherits from \code{tbl_df}, \code{tbl}, \code{data.frame}) with 295 rows and 294 columns.}
 \source{
-\strong{Articles}
-
-\itemize{
-
-\item Radloff, L. S. (1977). 
-The CES-D scale: A self report depression scale for research in the general population. 
-\emph{Applied Psychological Measurement}, \emph{1}, 385--401. 
-doi: \code{10.1177/014662167700100306}
-
-\item Woodworth, R. J., O’Brien‐Malone, A., Diamond, M. R., & Schüz, B. (2017). 
+Woodworth, R. J., O’Brien‐Malone, A., Diamond, M. R., & Schüz, B. (2017). 
 Web‐based positive psychology interventions: A reexamination of effectiveness. 
-\emph{Journal of Clinical Psychology}, \emph{73}(3), 218--232. 
+\emph{Journal of Clinical Psychology}, \emph{73}(3), 218-232. 
 doi: \code{10.1002/jclp.22328} 
 
-\item Woodworth, R. J., O’Brien-Malone, A., Diamond, M. R. and Schüz, B. (2018). 
+Woodworth, R. J., O’Brien-Malone, A., Diamond, M. R. and Schüz, B. (2018). 
 Data from, ‘Web-based positive psychology interventions: A reexamination of effectiveness’. 
 \emph{Journal of Open Psychology Data}, \emph{6}(1). 
 doi: \code{10.5334/jopd.35}
 
-}
+Additional references at \url{https://bookdown.org/hneth/ds4psy/B-1-datasets-pos.html}.
 
-
-\strong{Data}
-
-\itemize{
-
-\item See \url{https://openpsychologydata.metajnl.com/articles/10.5334/jopd.35/} for details.
-
-\item Original dataset available at \url{https://doi.org/10.6084/m9.figshare.1577563.v1}.  
-
-}
+See \url{https://openpsychologydata.metajnl.com/articles/10.5334/jopd.35/} for details 
+and \url{https://doi.org/10.6084/m9.figshare.1577563.v1} for original dataset.
 }
 \usage{
 posPsy_wide
 }
 \description{
-A dataset containing answers to the 24 items of the 
+\code{posPsy_wide} is a dataset containing answers to the 24 items of the 
 Authentic Happiness Inventory (AHI) and answers to the 
 20 items of the Center for Epidemiological Studies Depression (CES-D) scale 
 (see Radloff, 1977) for multiple (1 to 6) measurement occasions.
@@ -50,6 +33,8 @@ Authentic Happiness Inventory (AHI) and answers to the
 \details{
 This dataset is based on \code{\link{posPsy_long}},  
 but in wide format.
+
+See codebook and references at \url{https://bookdown.org/hneth/ds4psy/B-1-datasets-pos.html}.
 }
 \seealso{
 \code{\link{posPsy_AHI_CESD}} for the source of this file, 
