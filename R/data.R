@@ -11,11 +11,7 @@
 
 #' Positive Psychology: Participant data.
 #'
-#' A dataset containing details of 295 participants. 
-#'
-#' @format A tibble with 295 cases (rows) and 6 variables (columns).
-#'  
-#' \strong{Codebook}  
+#' \code{posPsy_p_info} is a dataset containing details of 295 participants. 
 #' 
 #' \describe{
 #'   
@@ -23,55 +19,42 @@
 #'   
 #'   \item{intervention}{Type of intervention: 
 #'   3 positive psychology interventions (PPIs), plus 1 control condition: 
-#'     1 = “Using signature strengths”,    
-#'     2 = “Three good things”,    
-#'     3 = “Gratitude visit”,    
-#'     4 = “Recording early memories” (control condition).}
+#'     1: "Using signature strengths", 
+#'     2: "Three good things", 
+#'     3: "Gratitude visit",  
+#'     4: "Recording early memories" (control condition).}
 #'     
 #'   \item{sex}{Sex: 1 = female, 2 = male.}
 #'   
 #'   \item{age}{Age (in years).}
 #'   
-#'   \item{educ}{Education level: Scale from 1 - less than 12 years, to 5 = postgraduate degree.}
+#'   \item{educ}{Education level: Scale from 1: less than 12 years, to 5: postgraduate degree.}
 #'   
-#'   \item{income}{Income: Scale from 1 = below average, to 3 = above average.} 
+#'   \item{income}{Income: Scale from 1: below average, to 3: above average.} 
 #'   
 #' }
+#' 
+#' See codebook and references at \url{https://bookdown.org/hneth/ds4psy/B-1-datasets-pos.html}.
+#'
+#' @format A tibble with 295 cases (rows) and 6 variables (columns).
 #' 
 #' @family datasets
 #' 
 #' @source 
-#' \strong{Articles}
-#' 
-#' \itemize{
-#' 
-#' \item Radloff, L. S. (1977). 
-#' The CES-D scale: A self report depression scale for research in the general population. 
-#' \emph{Applied Psychological Measurement}, \emph{1}, 385--401. 
-#' doi: \code{10.1177/014662167700100306}
-#' 
-#' \item Woodworth, R. J., O’Brien‐Malone, A., Diamond, M. R., & Schüz, B. (2017). 
+#' Woodworth, R. J., O’Brien‐Malone, A., Diamond, M. R., & Schüz, B. (2017). 
 #' Web‐based positive psychology interventions: A reexamination of effectiveness. 
-#' \emph{Journal of Clinical Psychology}, \emph{73}(3), 218--232. 
+#' \emph{Journal of Clinical Psychology}, \emph{73}(3), 218-232. 
 #' doi: \code{10.1002/jclp.22328} 
 #' 
-#' \item Woodworth, R. J., O’Brien-Malone, A., Diamond, M. R. and Schüz, B. (2018). 
+#' Woodworth, R. J., O’Brien-Malone, A., Diamond, M. R. and Schüz, B. (2018). 
 #' Data from, ‘Web-based positive psychology interventions: A reexamination of effectiveness’. 
 #' \emph{Journal of Open Psychology Data}, \emph{6}(1). 
 #' doi: \code{10.5334/jopd.35}
 #' 
-#' }
+#' Additional references at \url{https://bookdown.org/hneth/ds4psy/B-1-datasets-pos.html}.
 #' 
-#' 
-#' \strong{Data}
-#' 
-#' \itemize{
-#' 
-#' \item See \url{https://openpsychologydata.metajnl.com/articles/10.5334/jopd.35/} for details.
-#' 
-#' \item Original dataset available at \url{https://doi.org/10.6084/m9.figshare.1577563.v1}.  
-#' 
-#' }
+#' See \url{https://openpsychologydata.metajnl.com/articles/10.5334/jopd.35/} for details 
+#' and \url{https://doi.org/10.6084/m9.figshare.1577563.v1} for original dataset. 
 #' 
 
 "posPsy_p_info"
@@ -79,94 +62,47 @@
 
 # (1b) posPsy_AHI_CESD: ------ 
 
-#' Positive Psychology: AHI_CESD data.
+#' Positive Psychology: AHI CESD data.
 #'
-#' A dataset containing answers to the 24 items of the 
+#' \code{posPsy_AHI_CESD} is a dataset containing answers to the 24 items of the 
 #' Authentic Happiness Inventory (AHI) and answers to the 
 #' 20 items of the Center for Epidemiological Studies Depression (CES-D) scale 
-#' (see Radloff, 1977) for multiple (1 to 6) measurement occasions. 
+#' (Radloff, 1977) for multiple (1 to 6) measurement occasions. 
+#' 
+#' See codebook and references at \url{https://bookdown.org/hneth/ds4psy/B-1-datasets-pos.html}.
 #' 
 #' @format A tibble with 992 cases (rows) and 50 variables (columns).
 #'  
-#' \strong{Codebook} 
-#' 
-#' \itemize{
-#' 
-#' \item 1. \strong{id}: Participant ID. 
-#' 
-#' \item 2. \strong{occasion}: Measurement occasion: 
-#'   0 = Pretest (i.e., at enrolment),   
-#'   1 = Posttest (i.e., 7 days after pretest),   
-#'   2 = 1-week follow-up, (i.e., 14 days after pretest, 7 days after posttest),   
-#'   3 = 1-month follow-up, (i.e., 38 days after pretest, 31 days after posttest),   
-#'   4 = 3-month follow-up, (i.e., 98 days after pretest, 91 days after posttest),   
-#'   5 = 6-month follow-up, (i.e., 189 days after pretest, 182 days after posttest).  
-#' 
-#' \item 3. \strong{elapsed.days}: Time since enrolment measured in fractional days.
-#'  
-#' \item 4. \strong{intervention}: Type of intervention: 
-#'   3 positive psychology interventions (PPIs), plus 1 control condition:    
-#'     1 = “Using signature strengths”,   
-#'     2 = “Three good things”,   
-#'     3 = “Gratitude visit”,   
-#'     4 = “Recording early memories” (control condition). 
-#' 
-#' \item 5.--28. (from \strong{ahi01} to \strong{ahi24}): Responses on 24 AHI items. 
-#' 
-#' \item 29.--48. (from \strong{cesd01} to \strong{cesd20}): Responses on 20 CES-D items. 
-#' 
-#' \item 49. \strong{ahiTotal}: Total AHI score. 
-#' 
-#' \item 50. \strong{cesdTotal}: Total CES-D score.   
-#' 
-#' }
-#' 
 #' @family datasets
 #' 
 #' @seealso 
 #' \code{\link{posPsy_long}} for a corrected version of this file (in long format). 
 #' 
 #' @source 
-#' \strong{Articles}
-#' 
-#' \itemize{
-#' 
-#' \item Radloff, L. S. (1977). 
-#' The CES-D scale: A self report depression scale for research in the general population. 
-#' \emph{Applied Psychological Measurement}, \emph{1}, 385--401. 
-#' doi: \code{10.1177/014662167700100306}
-#' 
-#' \item Woodworth, R. J., O’Brien‐Malone, A., Diamond, M. R., & Schüz, B. (2017). 
+#' Woodworth, R. J., O’Brien‐Malone, A., Diamond, M. R., & Schüz, B. (2017). 
 #' Web‐based positive psychology interventions: A reexamination of effectiveness. 
-#' \emph{Journal of Clinical Psychology}, \emph{73}(3), 218--232. 
+#' \emph{Journal of Clinical Psychology}, \emph{73}(3), 218-232. 
 #' doi: \code{10.1002/jclp.22328} 
 #' 
-#' \item Woodworth, R. J., O’Brien-Malone, A., Diamond, M. R. and Schüz, B. (2018). 
+#' Woodworth, R. J., O’Brien-Malone, A., Diamond, M. R. and Schüz, B. (2018). 
 #' Data from, ‘Web-based positive psychology interventions: A reexamination of effectiveness’. 
 #' \emph{Journal of Open Psychology Data}, \emph{6}(1). 
 #' doi: \code{10.5334/jopd.35}
 #' 
-#' }
+#' Additional references at \url{https://bookdown.org/hneth/ds4psy/B-1-datasets-pos.html}.
 #' 
-#' 
-#' \strong{Data}
-#' 
-#' \itemize{
-#' 
-#' \item See \url{https://openpsychologydata.metajnl.com/articles/10.5334/jopd.35/} for details.
-#' 
-#' \item Original dataset available at \url{https://doi.org/10.6084/m9.figshare.1577563.v1}.  
-#' 
-#' }
+#' See \url{https://openpsychologydata.metajnl.com/articles/10.5334/jopd.35/} for details 
+#' and \url{https://doi.org/10.6084/m9.figshare.1577563.v1} for original dataset. 
 #' 
 
 "posPsy_AHI_CESD"
 
+
 # (1c) posPsy_long: ------ 
 
-#' Positive Psychology: AHI_CESD corrected data (in long format). 
+#' Positive Psychology: AHI CESD corrected data (in long format). 
 #'
-#' A dataset containing answers to the 24 items of the 
+#' \code{posPsy_long} is a dataset containing answers to the 24 items of the 
 #' Authentic Happiness Inventory (AHI) and answers to the 
 #' 20 items of the Center for Epidemiological Studies Depression (CES-D) scale 
 #' (see Radloff, 1977) for multiple (1 to 6) measurement occasions.
@@ -174,13 +110,10 @@
 #' This dataset is a corrected version of \code{\link{posPsy_AHI_CESD}} 
 #' and in long-format. 
 #' 
+#' See codebook and references at \url{https://bookdown.org/hneth/ds4psy/B-1-datasets-pos.html}.
+#' 
 #' @format A tibble with 990 cases (rows) and 50 variables (columns).
 #'  
-#' \strong{Codebook}  
-#' 
-#' See \code{\link{posPsy_AHI_CESD}}.
-#' 
-#' 
 #' @family datasets
 #' 
 #' @seealso 
@@ -188,52 +121,38 @@
 #' \code{\link{posPsy_wide}} for a version of this file (in wide format). 
 #' 
 #' @source 
-#' \strong{Articles}
-#' 
-#' \itemize{
-#' 
-#' \item Radloff, L. S. (1977). 
-#' The CES-D scale: A self report depression scale for research in the general population. 
-#' \emph{Applied Psychological Measurement}, \emph{1}, 385--401. 
-#' doi: \code{10.1177/014662167700100306}
-#' 
-#' \item Woodworth, R. J., O’Brien‐Malone, A., Diamond, M. R., & Schüz, B. (2017). 
+#' Woodworth, R. J., O’Brien‐Malone, A., Diamond, M. R., & Schüz, B. (2017). 
 #' Web‐based positive psychology interventions: A reexamination of effectiveness. 
-#' \emph{Journal of Clinical Psychology}, \emph{73}(3), 218--232. 
+#' \emph{Journal of Clinical Psychology}, \emph{73}(3), 218-232. 
 #' doi: \code{10.1002/jclp.22328} 
 #' 
-#' \item Woodworth, R. J., O’Brien-Malone, A., Diamond, M. R. and Schüz, B. (2018). 
+#' Woodworth, R. J., O’Brien-Malone, A., Diamond, M. R. and Schüz, B. (2018). 
 #' Data from, ‘Web-based positive psychology interventions: A reexamination of effectiveness’. 
 #' \emph{Journal of Open Psychology Data}, \emph{6}(1). 
 #' doi: \code{10.5334/jopd.35}
 #' 
-#' }
+#' Additional references at \url{https://bookdown.org/hneth/ds4psy/B-1-datasets-pos.html}.
 #' 
+#' See \url{https://openpsychologydata.metajnl.com/articles/10.5334/jopd.35/} for details 
+#' and \url{https://doi.org/10.6084/m9.figshare.1577563.v1} for original dataset. 
 #' 
-#' \strong{Data}
-#' 
-#' \itemize{
-#' 
-#' \item See \url{https://openpsychologydata.metajnl.com/articles/10.5334/jopd.35/} for details.
-#' 
-#' \item Original dataset available at \url{https://doi.org/10.6084/m9.figshare.1577563.v1}.  
-#' 
-#' }
-#'  
 
 "posPsy_long"
+
 
 # (1d) posPsy_wide: ------ 
 
 #' Positive Psychology: All corrected data (in wide format). 
 #' 
-#' A dataset containing answers to the 24 items of the 
+#' \code{posPsy_wide} is a dataset containing answers to the 24 items of the 
 #' Authentic Happiness Inventory (AHI) and answers to the 
 #' 20 items of the Center for Epidemiological Studies Depression (CES-D) scale 
 #' (see Radloff, 1977) for multiple (1 to 6) measurement occasions.
 #' 
 #' This dataset is based on \code{\link{posPsy_long}},  
 #' but in wide format. 
+#' 
+#' See codebook and references at \url{https://bookdown.org/hneth/ds4psy/B-1-datasets-pos.html}.
 #' 
 #' @family datasets
 #' 
@@ -242,37 +161,20 @@
 #' \code{\link{posPsy_long}} for a version of this file (in long format). 
 #' 
 #' @source 
-#' \strong{Articles}
-#' 
-#' \itemize{
-#' 
-#' \item Radloff, L. S. (1977). 
-#' The CES-D scale: A self report depression scale for research in the general population. 
-#' \emph{Applied Psychological Measurement}, \emph{1}, 385--401. 
-#' doi: \code{10.1177/014662167700100306}
-#' 
-#' \item Woodworth, R. J., O’Brien‐Malone, A., Diamond, M. R., & Schüz, B. (2017). 
+#' Woodworth, R. J., O’Brien‐Malone, A., Diamond, M. R., & Schüz, B. (2017). 
 #' Web‐based positive psychology interventions: A reexamination of effectiveness. 
-#' \emph{Journal of Clinical Psychology}, \emph{73}(3), 218--232. 
+#' \emph{Journal of Clinical Psychology}, \emph{73}(3), 218-232. 
 #' doi: \code{10.1002/jclp.22328} 
 #' 
-#' \item Woodworth, R. J., O’Brien-Malone, A., Diamond, M. R. and Schüz, B. (2018). 
+#' Woodworth, R. J., O’Brien-Malone, A., Diamond, M. R. and Schüz, B. (2018). 
 #' Data from, ‘Web-based positive psychology interventions: A reexamination of effectiveness’. 
 #' \emph{Journal of Open Psychology Data}, \emph{6}(1). 
 #' doi: \code{10.5334/jopd.35}
 #' 
-#' }
+#' Additional references at \url{https://bookdown.org/hneth/ds4psy/B-1-datasets-pos.html}.
 #' 
-#' 
-#' \strong{Data}
-#' 
-#' \itemize{
-#' 
-#' \item See \url{https://openpsychologydata.metajnl.com/articles/10.5334/jopd.35/} for details.
-#' 
-#' \item Original dataset available at \url{https://doi.org/10.6084/m9.figshare.1577563.v1}.  
-#' 
-#' }
+#' See \url{https://openpsychologydata.metajnl.com/articles/10.5334/jopd.35/} for details 
+#' and \url{https://doi.org/10.6084/m9.figshare.1577563.v1} for original dataset. 
 #' 
 
 "posPsy_wide"
@@ -286,17 +188,13 @@
 
 #' False Positive Psychology data.
 #'
-#' A dataset containing the data from 2 studies designed to 
+#' \code{falsePosPsy_all} is a dataset containing the data from 2 studies designed to 
 #' highlight problematic research practices within psychology. 
 #' 
 #' Simmons, Nelson and Simonsohn (2011) published a controversial article 
 #' with a necessarily false finding. By conducting simulations and 2 simple behavioral experiments, 
 #' the authors show that flexibility in data collection, analysis, and reporting 
 #' dramatically increases the rate of false-positive findings. 
-#'
-#' @format A tibble with 78 cases (rows) and 19 variables (columns):
-#' 
-#' \strong{Codebook} 
 #' 
 #' \describe{
 #'   \item{study}{Study ID.}
@@ -306,13 +204,13 @@
 #'   \item{female}{Is participant a woman? 1: yes, 2: no.}
 #'   \item{dad}{Father's age (in years).}
 #'   \item{mom}{Mother's age (in years).}
-#'   \item{potato}{Did the participant hear the song ‘Hot Potato’ by The Wiggles? 1: yes, 2: no.}
-#'   \item{when64}{Did the participant hear the song ‘When I am 64’ by The Beatles? 1: yes, 2: no.}      
-#'   \item{kalimba}{Did the participant hear the song ‘Kalimba’ by Mr. Scrub? 1: yes, 2: no.}
+#'   \item{potato}{Did the participant hear the song 'Hot Potato' by The Wiggles? 1: yes, 2: no.}
+#'   \item{when64}{Did the participant hear the song 'When I am 64' by The Beatles? 1: yes, 2: no.}      
+#'   \item{kalimba}{Did the participant hear the song 'Kalimba' by Mr. Scrub? 1: yes, 2: no.}
 #'   \item{cond}{In which condition was the participant? 
-#'   control: Subject heard the song ‘Kalimba’ by Mr. Scrub; 
-#'   potato: Subject heard the song ‘Hot Potato’ by The Wiggles; 
-#'   64: Subject heard the song ‘When I am 64’ by The Beatles.}
+#'   control: Subject heard the song 'Kalimba' by Mr. Scrub; 
+#'   potato: Subject heard the song 'Hot Potato' by The Wiggles; 
+#'   64: Subject heard the song 'When I am 64' by The Beatles.}
 #'   \item{root}{Could participant report the square root of 100? 1: yes, 2: no.}      
 #'   \item{bird}{Imagine a restaurant you really like offered a 30% discount for dining between 4 pm and 6 pm. 
 #'   How likely would you be to take advantage of that offer? 
@@ -332,38 +230,29 @@
 #'   Scale from 1: dislike extremely, to 9: like extremely.}
 #'   }
 #' 
+#' See \url{https://bookdown.org/hneth/ds4psy/B-2-datasets-false.html} for background information and codebook. 
+#'
+#'
+#' @format A tibble with 78 cases (rows) and 19 variables (columns):
+#' 
 #' @family datasets
 #' 
 #' @source 
-#' \strong{Articles}
-#' 
-#' \itemize{
-#' 
-#' \item Simmons, J.P., Nelson, L.D., & Simonsohn, U. (2011). 
+#' Simmons, J.P., Nelson, L.D., & Simonsohn, U. (2011). 
 #' False-positive psychology: Undisclosed flexibility in data collection and analysis 
 #' allows presenting anything as significant. 
-#' \emph{Psychological Science}, \emph{22}(11), 1359--1366. 
+#' \emph{Psychological Science}, \emph{22}(11), 1359-1366. 
 #' doi: \url{https://doi.org/10.1177/0956797611417632}
 #' 
-#' 
-#' \item Simmons, J.P., Nelson, L.D., & Simonsohn, U. (2014). 
+#' Simmons, J.P., Nelson, L.D., & Simonsohn, U. (2014). 
 #' Data from paper “False-Positive Psychology: 
 #' Undisclosed Flexibility in Data Collection and Analysis 
 #' Allows Presenting Anything as Significant”. 
 #' \emph{Journal of Open Psychology Data}, \emph{2}(1), e1. 
 #' doi: \url{http://doi.org/10.5334/jopd.aa} 
 #' 
-#' }
-#' 
-#' \strong{Data}
-#' 
-#' \itemize{
-#' 
-#' \item Download files at \url{https://openpsychologydata.metajnl.com/articles/10.5334/jopd.aa/}.
-#' 
-#' \item Zip-archive at \url{https://zenodo.org/record/7664}.
-#' 
-#' }
+#' Download files at \url{https://openpsychologydata.metajnl.com/articles/10.5334/jopd.aa/} and 
+#' the zip-archive at \url{https://zenodo.org/record/7664} for original dataset.
 #' 
 
 "falsePosPsy_all"
@@ -376,7 +265,7 @@
 
 #' Outlier data.
 #'
-#' A fictitious dataset containing the sex and height of 1,000 people.  
+#' \code{outliers} is a fictitious dataset containing the sex and height of 1,000 people.  
 #' 
 #' @format A tibble with 100 cases (rows) and 3 variables (columns). 
 #' 
@@ -408,9 +297,11 @@
 # # Save to /data:
 # usethis::use_data(data_t1, overwrite = TRUE)
 
+
 #' Data table data_t1.
 #'
-#' A fictitious dataset to practice importing and joining data (from CSV file).  
+#' \code{data_t1} is a fictitious dataset to practice importing and joining data 
+#' (from a CSV file).  
 #' 
 #' @format A tibble with 20 cases (rows) and 4 variables (columns). 
 #' 
@@ -437,7 +328,8 @@
 
 #' Data import data_t1_de.
 #'
-#' A fictitious dataset to practice data import (from CSV file, European/de style).  
+#' \code{data_t1_de} is a fictitious dataset to practice data import 
+#' (from a CSV file, European/de style).  
 #' 
 #' @format A tibble with 20 cases (rows) and 4 variables (columns). 
 #' 
@@ -462,9 +354,11 @@
 # # Save to /data:
 # usethis::use_data(data_t1_tab, overwrite = TRUE)
 
+
 #' Data import data_t1_tab.
 #'
-#' A fictitious dataset to practice data import (from TAB file).  
+#' \code{data_t1_tab} is a fictitious dataset to practice data import 
+#' (from a TAB file).  
 #' 
 #' @format A tibble with 20 cases (rows) and 4 variables (columns). 
 #' 
@@ -495,7 +389,8 @@
 
 #' Data import data_1.
 #'
-#' A fictitious dataset to practice data import (from DELIMITED file).  
+#' \code{data_1} is a fictitious dataset to practice data import 
+#' (from a DELIMITED file).  
 #' 
 #' @format A tibble with 100 cases (rows) and 4 variables (columns). 
 #' 
@@ -527,9 +422,11 @@
 # # Save to /data:
 # usethis::use_data(data_2, overwrite = TRUE)
 
+
 #' Data import data_2.
 #'
-#' A fictitious dataset to practice data import (from FWF file).  
+#' \code{data_2} is a fictitious dataset to practice data import 
+#' (from a FWF file).  
 #' 
 #' @format A tibble with 100 cases (rows) and 4 variables (columns). 
 #' 
@@ -563,7 +460,7 @@
 
 #' Data table6.
 #'
-#' A fictitious dataset to practice tidying data.
+#' \code{table6} is a fictitious dataset to practice tidying data.
 #' 
 #' This dataset is a variant of the \code{tidyr::table1} to \code{tidyr::table5} dataset.   
 #' 
@@ -593,7 +490,7 @@
 
 #' Data table7.
 #'
-#' A fictitious dataset to practice tidying data.
+#' \code{table7} is a fictitious dataset to practice tidying data.
 #' 
 #' This dataset is a variant of the \code{tidyr::table1} to \code{tidyr::table5} dataset.   
 #' 
@@ -623,7 +520,7 @@
 
 #' Data table8.
 #'
-#' A fictitious dataset to practice tidying data.
+#' \code{table8} is a fictitious dataset to practice tidying data.
 #' 
 #' This dataset is a variant of the \code{tidyr::table1} to \code{tidyr::table5} dataset.   
 #' 
@@ -655,7 +552,7 @@
 
 #' Data exp_wide.
 #'
-#' A fictitious dataset to practice tidying data 
+#' \code{exp_wide} is a fictitious dataset to practice tidying data 
 #' (here: converting from wide to long format).
 #' 
 #' @format A tibble with 10 cases (rows) and 7 variables (columns). 
@@ -706,7 +603,8 @@
 
 #' Data table data_t2.
 #'
-#' A fictitious dataset to practice importing and joining data (from CSV file).  
+#' \code{data_t2} is a fictitious dataset to practice importing and joining data 
+#' (from a CSV file).  
 #' 
 #' @format A tibble with 20 cases (rows) and 4 variables (columns). 
 #' 
@@ -735,7 +633,8 @@
 
 #' Data table t3.
 #'
-#' A fictitious dataset to practice importing and joining data (from CSV file).  
+#' \code{t3} is a fictitious dataset to practice importing and joining data 
+#' (from a CSV file).  
 #' 
 #' @format A tibble with 10 cases (rows) and 4 variables (columns). 
 #' 
@@ -762,7 +661,8 @@
 
 #' Data table t4.
 #'
-#' A fictitious dataset to practice importing and joining data (from CSV file).  
+#' \code{t4} is a fictitious dataset to practice importing and joining data 
+#' (from a CSV file).  
 #' 
 #' @format A tibble with 10 cases (rows) and 4 variables (columns). 
 #' 
@@ -792,7 +692,8 @@
 
 #' Data table data_t3.
 #'
-#' A fictitious dataset to practice importing and joining data (from CSV file).  
+#' \code{data_t3} is a fictitious dataset to practice importing and joining data 
+#' (from a CSV file).  
 #' 
 #' @format A tibble with 20 cases (rows) and 4 variables (columns). 
 #' 
@@ -820,7 +721,8 @@
 
 #' Data table data_t4.
 #'
-#' A fictitious dataset to practice importing and joining data (from CSV file).  
+#' \code{data_t4} is a fictitious dataset to practice importing and joining data 
+#' (from a CSV file).  
 #' 
 #' @format A tibble with 20 cases (rows) and 4 variables (columns). 
 #' 
@@ -830,8 +732,6 @@
 #' See CSV data at \url{http://rpository.com/ds4psy/data/data_t4.csv}. 
 
 "data_t4"
-
-
 
 
 
@@ -855,7 +755,8 @@
 
 #' Data table tb.
 #'
-#' A fictitious dataset to practice loops and iteration (from CSV file).  
+#' \code{tb} is a fictitious dataset to practice loops and iteration 
+#' (from a CSV file).  
 #' 
 #' @format A tibble with 100 cases (rows) and 5 variables (columns). 
 #' 
@@ -888,7 +789,7 @@
 
 #' Data: 100k digits of pi.
 #'
-#' A dataset containing the first 100k digits of pi.  
+#' \code{pi_100k} is a dataset containing the first 100k digits of pi. 
 #' 
 #' @format A character of \code{nchar(pi_100k) = 100001}. 
 #' 
@@ -902,7 +803,8 @@
 "pi_100k"
 
 
-
 ## ToDo: ----------
+
+## - Complete codebooks (see LaTeX codes in data_190807.R in archive).
 
 ## eof. ----------------------
