@@ -1,33 +1,35 @@
-# .gitignore | 2019 08 06
+# .gitignore | 2019 08 07
 
-# History files
+.gitignore
+
+# History files:
 .Rhistory
 .Rapp.history
 
 # Mac OS:
 .DS_Store 
 
-# Session Data files
+# Session Data files:
 .RData
 
-# Example code in package build process
+# Example code in package build process:
 *-Ex.R
 
-# Output files from R CMD build
+# Output files from R CMD build:
 /*.tar.gz
 
-# Output files from R CMD check
+# Output files from R CMD check:
 /*.Rcheck/
 
-# RStudio files
+# RStudio files:
 .Rproj.user/
 *.Rproj 
 
-# produced vignettes
+# produced vignettes:
 vignettes/*.html
 vignettes/*.pdf
 
-# OAuth2 token, see https://github.com/hadley/httr/releases/tag/v0.3
+# OAuth2 token, see https://github.com/hadley/httr/releases/tag/v0.3:
 .httr-oauth
 
 # knitr and R markdown default cache and files directories: 
@@ -35,7 +37,7 @@ vignettes/*.pdf
 */*_files/
 **/figure-html
 
-# Temporary files created by R markdown
+# Temporary files created by RMarkdown:
 *.utf8.md
 *.knit.md
 .Rproj.user
@@ -46,18 +48,9 @@ vignettes/*.pdf
 inst/doc 
 
 # Others:
-.gitignore
-_art/
-_essentials/
 _gitless/
-_inClass/
-_r4ds_book/
-_readings/
-_testQuest/ 
-data_raw/
 data-raw/
 images/ 
 rsconnect/
 
 # eof.
-
