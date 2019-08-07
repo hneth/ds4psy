@@ -16,3 +16,4 @@
 ^data-raw$
 ^images$
 ^rsconnect$
+^cran-comments\.md$

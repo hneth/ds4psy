@@ -1,6 +1,7 @@
 # .gitignore | 2019 08 07
 
 .gitignore
+cran-comments.md 
 
 # History files:
 .Rhistory
