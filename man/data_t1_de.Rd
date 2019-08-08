@@ -13,7 +13,7 @@ data_t1_de
 }
 \description{
 \code{data_t1_de} is a fictitious dataset to practice data import 
-(from a CSV file, European/de style).
+(from a CSV file, de/European style).
 }
 \seealso{
 Other datasets: \code{\link{data_1}}, \code{\link{data_2}},
