@@ -6,8 +6,8 @@
 \title{Positive Psychology: AHI CESD corrected data (in long format).}
 \format{A tibble with 990 cases (rows) and 50 variables (columns).}
 \source{
-Woodworth, R. J., O’Brien‐Malone, A., Diamond, M. R., & Schüz, B. (2017). 
-Web‐based positive psychology interventions: A reexamination of effectiveness. 
+Woodworth, R. J., O’Brien-Malone, A., Diamond, M. R., & Schüz, B. (2017). 
+Web-based positive psychology interventions: A reexamination of effectiveness. 
 \emph{Journal of Clinical Psychology}, \emph{73}(3), 218-232. 
 doi: \code{10.1002/jclp.22328} 
 
