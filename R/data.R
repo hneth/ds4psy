@@ -69,6 +69,39 @@
 #' 20 items of the Center for Epidemiological Studies Depression (CES-D) scale 
 #' (Radloff, 1977) for multiple (1 to 6) measurement occasions. 
 #' 
+#' \strong{Codebook} 
+#' 
+#' \itemize{
+#' 
+#' \item 1. \strong{id}: Participant ID. 
+#' 
+#' \item 2. \strong{occasion}: Measurement occasion: 
+#'   0: Pretest (i.e., at enrolment),   
+#'   1: Posttest (i.e., 7 days after pretest),   
+#'   2: 1-week follow-up, (i.e., 14 days after pretest, 7 days after posttest),   
+#'   3: 1-month follow-up, (i.e., 38 days after pretest, 31 days after posttest),   
+#'   4: 3-month follow-up, (i.e., 98 days after pretest, 91 days after posttest),   
+#'   5: 6-month follow-up, (i.e., 189 days after pretest, 182 days after posttest).  
+#' 
+#' \item 3. \strong{elapsed.days}: Time since enrolment measured in fractional days.
+#'  
+#' \item 4. \strong{intervention}: Type of intervention: 
+#'   3 positive psychology interventions (PPIs), plus 1 control condition: 
+#'     1: "Using signature strengths", 
+#'     2: "Three good things", 
+#'     3: "Gratitude visit", 
+#'     4: "Recording early memories" (control condition). 
+#' 
+#' \item 5.-28. (from \strong{ahi01} to \strong{ahi24}): Responses on 24 AHI items. 
+#' 
+#' \item 29.-48. (from \strong{cesd01} to \strong{cesd20}): Responses on 20 CES-D items. 
+#' 
+#' \item 49. \strong{ahiTotal}: Total AHI score. 
+#' 
+#' \item 50. \strong{cesdTotal}: Total CES-D score.   
+#' 
+#' }
+#' 
 #' See codebook and references at \url{https://bookdown.org/hneth/ds4psy/B-1-datasets-pos.html}.
 #' 
 #' @format A tibble with 992 cases (rows) and 50 variables (columns).
@@ -110,14 +143,12 @@
 #' This dataset is a corrected version of \code{\link{posPsy_AHI_CESD}} 
 #' and in long-format. 
 #' 
-#' See codebook and references at \url{https://bookdown.org/hneth/ds4psy/B-1-datasets-pos.html}.
-#' 
 #' @format A tibble with 990 cases (rows) and 50 variables (columns).
 #'  
 #' @family datasets
 #' 
 #' @seealso 
-#' \code{\link{posPsy_AHI_CESD}} for source of this file, 
+#' \code{\link{posPsy_AHI_CESD}} for source of this file and codebook information;  
 #' \code{\link{posPsy_wide}} for a version of this file (in wide format). 
 #' 
 #' @source 
@@ -149,10 +180,8 @@
 #' 20 items of the Center for Epidemiological Studies Depression (CES-D) scale 
 #' (see Radloff, 1977) for multiple (1 to 6) measurement occasions.
 #' 
-#' This dataset is based on \code{\link{posPsy_long}},  
-#' but in wide format. 
-#' 
-#' See codebook and references at \url{https://bookdown.org/hneth/ds4psy/B-1-datasets-pos.html}.
+#' This dataset is based on \code{\link{posPsy_AHI_CESD}} and 
+#' \code{\link{posPsy_long}}, but is in wide format. 
 #' 
 #' @family datasets
 #' 
@@ -178,8 +207,6 @@
 #' 
 
 "posPsy_wide"
-
-
 
 
 # (2) False Positive Psychology data: ---------- 
@@ -230,7 +257,7 @@
 #'   Scale from 1: dislike extremely, to 9: like extremely.}
 #'   }
 #' 
-#' See \url{https://bookdown.org/hneth/ds4psy/B-2-datasets-false.html} for background information and codebook. 
+#' See \url{https://bookdown.org/hneth/ds4psy/B-2-datasets-false.html} for codebook and more information. 
 #'
 #'
 #' @format A tibble with 78 cases (rows) and 19 variables (columns):
@@ -275,7 +302,6 @@
 #' See CSV data at \url{http://rpository.com/ds4psy/data/out.csv}. 
 
 "outliers"
-
 
 
 
@@ -325,6 +351,7 @@
 # 
 # # Save to /data:
 # usethis::use_data(data_t1_de, overwrite = TRUE)
+
 
 #' Data import data_t1_de.
 #'
@@ -386,6 +413,7 @@
 # 
 # # Save to /data:
 # usethis::use_data(data_1, overwrite = TRUE)
+
 
 #' Data import data_1.
 #'
@@ -458,6 +486,7 @@
 # # Save to /data:
 # usethis::use_data(table6, overwrite = TRUE)
 
+
 #' Data table6.
 #'
 #' \code{table6} is a fictitious dataset to practice tidying data.
@@ -488,6 +517,7 @@
 # # Save to /data:
 # usethis::use_data(table7, overwrite = TRUE)
 
+
 #' Data table7.
 #'
 #' \code{table7} is a fictitious dataset to practice tidying data.
@@ -517,6 +547,7 @@
 # 
 # # Save to /data:
 # usethis::use_data(table8, overwrite = TRUE)
+
 
 #' Data table8.
 #'
@@ -631,6 +662,7 @@
 # # Save to /data:
 # usethis::use_data(t3, overwrite = TRUE)
 
+
 #' Data table t3.
 #'
 #' \code{t3} is a fictitious dataset to practice importing and joining data 
@@ -644,6 +676,7 @@
 #' See CSV data at \url{http://rpository.com/ds4psy/data/t3.csv}. 
 
 "t3"
+
 
 # (6d) t4.csv: ---- 
 
@@ -805,6 +838,6 @@
 
 ## ToDo: ----------
 
-## - Complete codebooks (see LaTeX codes in data_190807.R in archive).
+## - add codebooks (see data_190807.R in archive).
 
 ## eof. ----------------------
