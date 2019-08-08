@@ -1,5 +1,5 @@
 ## data.R | ds4psy
-## hn | uni.kn | 2019 08 07
+## hn | uni.kn | 2019 08 08
 ## ---------------------------
 
 ## Documentation of datasets included in /data. 
@@ -212,7 +212,7 @@
 #'   potato: Subject heard the song 'Hot Potato' by The Wiggles; 
 #'   64: Subject heard the song 'When I am 64' by The Beatles.}
 #'   \item{root}{Could participant report the square root of 100? 1: yes, 2: no.}      
-#'   \item{bird}{Imagine a restaurant you really like offered a 30% discount for dining between 4 pm and 6 pm. 
+#'   \item{bird}{Imagine a restaurant you really like offered a 30 percent discount for dining between 4pm and 6pm. 
 #'   How likely would you be to take advantage of that offer? 
 #'   Scale from 1: very unlikely, 7: very likely.}
 #'   \item{political}{In the political spectrum, where would you place yourself? 
@@ -245,14 +245,14 @@
 #' doi: \url{https://doi.org/10.1177/0956797611417632}
 #' 
 #' Simmons, J.P., Nelson, L.D., & Simonsohn, U. (2014). 
-#' Data from paper “False-Positive Psychology: 
+#' Data from paper "False-Positive Psychology: 
 #' Undisclosed Flexibility in Data Collection and Analysis 
-#' Allows Presenting Anything as Significant”. 
+#' Allows Presenting Anything as Significant". 
 #' \emph{Journal of Open Psychology Data}, \emph{2}(1), e1. 
 #' doi: \url{http://doi.org/10.5334/jopd.aa} 
 #' 
-#' Download files at \url{https://openpsychologydata.metajnl.com/articles/10.5334/jopd.aa/} and 
-#' the zip-archive at \url{https://zenodo.org/record/7664} for original dataset.
+#' See files at \url{https://openpsychologydata.metajnl.com/articles/10.5334/jopd.aa/} and 
+#' the archive at \url{https://zenodo.org/record/7664} for original dataset.
 #' 
 
 "falsePosPsy_all"
@@ -265,7 +265,7 @@
 
 #' Outlier data.
 #'
-#' \code{outliers} is a fictitious dataset containing the sex and height of 1,000 people.  
+#' \code{outliers} is a fictitious dataset containing the sex and height of 1000 people.  
 #' 
 #' @format A tibble with 100 cases (rows) and 3 variables (columns). 
 #' 
@@ -329,7 +329,7 @@
 #' Data import data_t1_de.
 #'
 #' \code{data_t1_de} is a fictitious dataset to practice data import 
-#' (from a CSV file, European/de style).  
+#' (from a CSV file, de/European style).  
 #' 
 #' @format A tibble with 20 cases (rows) and 4 variables (columns). 
 #' 
