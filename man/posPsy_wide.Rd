@@ -31,10 +31,8 @@ Authentic Happiness Inventory (AHI) and answers to the
 (see Radloff, 1977) for multiple (1 to 6) measurement occasions.
 }
 \details{
-This dataset is based on \code{\link{posPsy_long}},  
-but in wide format.
-
-See codebook and references at \url{https://bookdown.org/hneth/ds4psy/B-1-datasets-pos.html}.
+This dataset is based on \code{\link{posPsy_AHI_CESD}} and 
+\code{\link{posPsy_long}}, but is in wide format.
 }
 \seealso{
 \code{\link{posPsy_AHI_CESD}} for the source of this file, 

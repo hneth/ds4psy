@@ -2,7 +2,7 @@
 % Please edit documentation in R/color_fun.R
 \name{pal_n_sq}
 \alias{pal_n_sq}
-\title{Get n^2 dedicated colors of a color palette.}
+\title{Get n-by-n dedicated colors of a color palette.}
 \usage{
 pal_n_sq(n = "all", pal = pal_ds4psy)
 }

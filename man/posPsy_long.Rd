@@ -33,11 +33,9 @@ Authentic Happiness Inventory (AHI) and answers to the
 \details{
 This dataset is a corrected version of \code{\link{posPsy_AHI_CESD}} 
 and in long-format.
-
-See codebook and references at \url{https://bookdown.org/hneth/ds4psy/B-1-datasets-pos.html}.
 }
 \seealso{
-\code{\link{posPsy_AHI_CESD}} for source of this file, 
+\code{\link{posPsy_AHI_CESD}} for source of this file and codebook information;  
 \code{\link{posPsy_wide}} for a version of this file (in wide format).
 
 Other datasets: \code{\link{data_1}}, \code{\link{data_2}},

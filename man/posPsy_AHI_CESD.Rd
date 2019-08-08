@@ -31,6 +31,39 @@ Authentic Happiness Inventory (AHI) and answers to the
 (Radloff, 1977) for multiple (1 to 6) measurement occasions.
 }
 \details{
+\strong{Codebook}
+
+\itemize{
+
+\item 1. \strong{id}: Participant ID.
+
+\item 2. \strong{occasion}: Measurement occasion: 
+  0: Pretest (i.e., at enrolment),   
+  1: Posttest (i.e., 7 days after pretest),   
+  2: 1-week follow-up, (i.e., 14 days after pretest, 7 days after posttest),   
+  3: 1-month follow-up, (i.e., 38 days after pretest, 31 days after posttest),   
+  4: 3-month follow-up, (i.e., 98 days after pretest, 91 days after posttest),   
+  5: 6-month follow-up, (i.e., 189 days after pretest, 182 days after posttest).
+
+\item 3. \strong{elapsed.days}: Time since enrolment measured in fractional days.
+ 
+\item 4. \strong{intervention}: Type of intervention: 
+  3 positive psychology interventions (PPIs), plus 1 control condition: 
+    1: "Using signature strengths", 
+    2: "Three good things", 
+    3: "Gratitude visit", 
+    4: "Recording early memories" (control condition).
+
+\item 5.-28. (from \strong{ahi01} to \strong{ahi24}): Responses on 24 AHI items.
+
+\item 29.-48. (from \strong{cesd01} to \strong{cesd20}): Responses on 20 CES-D items.
+
+\item 49. \strong{ahiTotal}: Total AHI score.
+
+\item 50. \strong{cesdTotal}: Total CES-D score.
+
+}
+
 See codebook and references at \url{https://bookdown.org/hneth/ds4psy/B-1-datasets-pos.html}.
 }
 \seealso{

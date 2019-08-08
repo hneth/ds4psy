@@ -42,8 +42,8 @@ Default: \code{c2 = "black"}.}
 }
 \details{
 \code{plot_fun} is deliberately kept cryptic and obscure to illustrate 
-how function parameters can be explored --- and why transparent variable 
-names are essential for understanding and using a function.
+how function parameters can be explored (and why transparent variable 
+names are essential for understanding and using a function).
 }
 \examples{
 # Basics: 
