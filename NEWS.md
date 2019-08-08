@@ -1,9 +1,9 @@
 
 # ds4psy (R package)
 
-The current version of **ds4psy** (0.1.0.9000+) is hosted at <https://github.com/hneth/ds4psy/>. 
+The current version of **ds4psy** (0.1.0.9001+) is hosted at <https://github.com/hneth/ds4psy/>. 
 
-Planned initial release of **ds4psy** (0.1.0) on CRAN: <https://CRAN.R-project.org/package=ds4psy> [to be submitted on 2019-08-08]. 
+Planned initial release of **ds4psy** (0.1.0) on CRAN: <https://CRAN.R-project.org/package=ds4psy> [submitted on 2019-08-08]. 
 
 ## Done 
 
@@ -22,7 +22,7 @@ Planned initial release of **ds4psy** (0.1.0) on CRAN: <https://CRAN.R-project.o
 
 The current book draft is available at <https://bookdown.org/hneth/ds4psy/>. 
 
-The current source code of the **ds4psy_book** project (0.0.0.9007+) is hosted at <https://github.com/hneth/ds4psy_book/>. 
+The current source code of the **ds4psy_book** project (0.0.0.9001+) is hosted at <https://github.com/hneth/ds4psy_book/>. 
 
 This project has not yet been released (on CRAN or GitHub). 
 
