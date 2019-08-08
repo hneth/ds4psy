@@ -1,12 +1,12 @@
 ## data_fun.R | ds4psy
-## hn | uni.kn | 2019 08 06
+## hn | uni.kn | 2019 08 08
 ## ---------------------------
 
 ## Functions for creating and manipulating data. 
 
 ## (1) Generate random datasets: ---------- 
 
-# Random binary values: Flip a 0/1 coin n times  ------ 
+# Random binary values: Flip a 0/1 coin n times:  ------ 
 
 random_bin_value <- function(x = c(0, 1), n = 1, replace = TRUE) {
   
@@ -23,7 +23,7 @@ random_bin_value <- function(x = c(0, 1), n = 1, replace = TRUE) {
 # random_bin_value(x = c("m", "f"), n = 100)
 
 
-# Permutations: List all permutations of a set ----------
+# Permutations: List all permutations of a set: ----------
 
 # library(combinat)
 
@@ -32,7 +32,7 @@ random_bin_value <- function(x = c(0, 1), n = 1, replace = TRUE) {
 # pm
 
 
-# Combinations: List all combinations of length n of a set ---------- 
+# Combinations: List all combinations of length n of a set: ---------- 
 
 # # (a) Using utils::combn: 
 # m <- utils::combn(x = 1:4, m = 2)
@@ -69,7 +69,7 @@ all_combinations <- function(set, length){
 # all_combinations(set = 1:25, 2)  # Note: 25 * 24 / 2 combinations.
 
 
-# n random sequence of len symbols from some set: ----- 
+# Random vector of n symbols of length len from some set: ----- 
 
 random_symbols <- function(n = 1, set = letters, len = 1, sep = "") {
   
@@ -103,7 +103,7 @@ random_symbols <- function(n = 1, set = letters, len = 1, sep = "") {
 
 ## Goal: Adding a random amount (number or proportion) of NA or other values to a vector:
 
-# add_NAs: ----- 
+# Adding to data: add_NAs: ----- 
 
 ## A function to replace a random amount (a proportion <= 1 or absolute number > 1) 
 ## of vector elements by NA values:  
@@ -130,7 +130,7 @@ add_NAs <- function(vec, amount){
 # add_NAs(letters[1:10], 3)
 
 
-# add_whats: ----- 
+# Adding to data: add_whats: ----- 
 
 ## Generalization of add_NAs: 
 ## Replace a random amount of vector elements by what: 

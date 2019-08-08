@@ -1,5 +1,5 @@
 ## theme_fun.R | ds4psy
-## hn | uni.kn | 2019 08 07
+## hn | uni.kn | 2019 08 08
 ## ---------------------------
 
 ## Functions for ggplot2 themes. 
@@ -96,8 +96,6 @@ theme_ds4psy <- function(col_title = "black", # OR: unikn::pal_seeblau[[4]],
       complete = TRUE)
   
 } # theme_ds4psy end. 
-
-# +++ here now +++ 
 
 ### Check: 
 # 
