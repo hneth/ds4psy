@@ -1,4 +1,4 @@
-## zz_start.R | ds4psy
+## start.R | ds4psy
 ## hn | uni.kn | 2019 08 08
 ## ---------------------------
 
