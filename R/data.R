@@ -4,7 +4,6 @@
 
 ## Documentation of datasets included in /data. 
 
-
 # (1) Positive Psychology data: ---------- 
 
 # (1a) posPsy_p_info: ------ 
@@ -41,8 +40,8 @@
 #' @family datasets
 #' 
 #' @source 
-#' Woodworth, R. J., O’Brien‐Malone, A., Diamond, M. R., & Schüz, B. (2017). 
-#' Web‐based positive psychology interventions: A reexamination of effectiveness. 
+#' Woodworth, R. J., O’Brien-Malone, A., Diamond, M. R., & Schüz, B. (2017). 
+#' Web-based positive psychology interventions: A reexamination of effectiveness. 
 #' \emph{Journal of Clinical Psychology}, \emph{73}(3), 218-232. 
 #' doi: \code{10.1002/jclp.22328} 
 #' 
@@ -112,8 +111,8 @@
 #' \code{\link{posPsy_long}} for a corrected version of this file (in long format). 
 #' 
 #' @source 
-#' Woodworth, R. J., O’Brien‐Malone, A., Diamond, M. R., & Schüz, B. (2017). 
-#' Web‐based positive psychology interventions: A reexamination of effectiveness. 
+#' Woodworth, R. J., O’Brien-Malone, A., Diamond, M. R., & Schüz, B. (2017). 
+#' Web-based positive psychology interventions: A reexamination of effectiveness. 
 #' \emph{Journal of Clinical Psychology}, \emph{73}(3), 218-232. 
 #' doi: \code{10.1002/jclp.22328} 
 #' 
@@ -152,8 +151,8 @@
 #' \code{\link{posPsy_wide}} for a version of this file (in wide format). 
 #' 
 #' @source 
-#' Woodworth, R. J., O’Brien‐Malone, A., Diamond, M. R., & Schüz, B. (2017). 
-#' Web‐based positive psychology interventions: A reexamination of effectiveness. 
+#' Woodworth, R. J., O’Brien-Malone, A., Diamond, M. R., & Schüz, B. (2017). 
+#' Web-based positive psychology interventions: A reexamination of effectiveness. 
 #' \emph{Journal of Clinical Psychology}, \emph{73}(3), 218-232. 
 #' doi: \code{10.1002/jclp.22328} 
 #' 
@@ -190,8 +189,8 @@
 #' \code{\link{posPsy_long}} for a version of this file (in long format). 
 #' 
 #' @source 
-#' Woodworth, R. J., O’Brien‐Malone, A., Diamond, M. R., & Schüz, B. (2017). 
-#' Web‐based positive psychology interventions: A reexamination of effectiveness. 
+#' Woodworth, R. J., O’Brien-Malone, A., Diamond, M. R., & Schüz, B. (2017). 
+#' Web-based positive psychology interventions: A reexamination of effectiveness. 
 #' \emph{Journal of Clinical Psychology}, \emph{73}(3), 218-232. 
 #' doi: \code{10.1002/jclp.22328} 
 #' 
