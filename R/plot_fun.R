@@ -1,5 +1,5 @@
 ## plot_fun.R | ds4psy
-## hn | uni.kn | 2019 08 07
+## hn | uni.kn | 2019 08 08
 ## ---------------------------
 
 ## Functions for plotting. 
@@ -13,7 +13,7 @@
 #' \code{plot_tiles} plots an area of \code{n-by-n} tiles 
 #' on fixed or polar coordinates.  
 #' 
-#'  
+#' 
 #' @param n Basic number of tiles (on either side).
 #'
 #' @param pal A color palette (automatically extended to \code{n x n} colors). 
@@ -463,8 +463,8 @@ plot_tiles <- function(n = NA,
 #' \code{plot_fun} is a function that uses parameters to plot a plot. 
 #' 
 #' \code{plot_fun} is deliberately kept cryptic and obscure to illustrate 
-#' how function parameters can be explored --- and why transparent variable 
-#' names are essential for understanding and using a function. 
+#' how function parameters can be explored (and why transparent variable 
+#' names are essential for understanding and using a function). 
 #' 
 #' @param a A (natural) number. 
 #' Default: \code{a = NA}. 
@@ -1057,8 +1057,8 @@ plot_n <- function(n = NA,
 #' \code{plot_fn} is a function that uses parameters for plotting a plot. 
 #' 
 #' \code{plot_fn} is deliberately kept cryptic and obscure to illustrate 
-#' how function parameters can be explored --- and why transparent variable 
-#' names are essential for understanding and using a function. 
+#' how function parameters can be explored (and why transparent variable 
+#' names are essential for understanding and using a function). 
 #' 
 #' @param x A (natural) number. 
 #' Default: \code{x = NA}. 
