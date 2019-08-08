@@ -26,12 +26,10 @@ pal_ds4psy <- unikn::pal_unikn
 ## Check: 
 # unikn::seecol(pal_ds4psy)
 
+# pal_n_sq: Get (n x n) specific colors of a palette [pal]: ------ 
 
-# pal_n_sq: Get n^2 (n x n) specific colors of a palette [pal]: ------ 
 
-# - Documentation: ---- 
-
-#' Get n^2 dedicated colors of a color palette.
+#' Get n-by-n dedicated colors of a color palette.
 #'
 #' \code{pal_n_sq} returns \code{n^2} dedicated colors of a color palette \code{pal} 
 #' (up to a maximum of \code{n = "all"} colors). 
@@ -61,8 +59,6 @@ pal_ds4psy <- unikn::pal_unikn
 #' @import grDevices 
 #' 
 #' @export 
-
-# - Definition: ---- 
 
 pal_n_sq <- function(n = "all", pal = pal_ds4psy){
   
