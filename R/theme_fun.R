@@ -1,5 +1,5 @@
 ## theme_fun.R | ds4psy
-## hn | uni.kn | 2019 08 08
+## hn | uni.kn | 2019 08 09
 ## ---------------------------
 
 ## Functions for ggplot2 themes. 
@@ -35,16 +35,19 @@
 #' Default: \code{base_rect_size = base_size/20}. 
 #' 
 #' @examples
-#' ## Plotting iris dataset using ggplot2: 
-#' #
-#' # library(ggplot2)
-#' #
-#' # ggplot(datasets::iris) + 
-#' #   geom_jitter(aes(x = Petal.Length, y = Petal.Width, color = Species), size = 3, alpha = 2/3) + 
-#' #   labs(title = "Iris species", 
-#' #        caption = "Data from datasets::iris") + 
-#' #   theme_ds4psy(col_title = "black", base_size = 11)
 #' 
+#' \donttest{
+#'   # Plotting iris dataset (using ggplot2 and theme_ds4psy):
+#'   
+#'   library("ggplot2")  # theme_ds4psy requires loading ggplot2 
+#'   
+#'   ggplot(datasets::iris) +
+#'     geom_jitter(aes(x = Petal.Length, y = Petal.Width, color = Species), size = 3, alpha = 2/3) +
+#'     labs(title = "Iris species",
+#'          caption = "Data from datasets::iris") +
+#'     theme_ds4psy(col_title = "black", base_size = 11)
+#' }
+#'
 #' @family plot functions
 #'
 #' @seealso
