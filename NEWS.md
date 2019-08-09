@@ -3,9 +3,9 @@
 
 <!-- Description: --> 
 
-The book and course 'Data Science for Psychologists' introduces the principles and methods of data science to students of psychology and other biological or social sciences. This package contains all data files used in the book and encourages to shape and wrangle them from a tidyverse perspective. 
+The book and course "Data Science for Psychologists" introduces the principles and methods of data science to students of psychology and other biological or social sciences. This package contains all data files used in the book and encourages to shape and wrangle them from a tidyverse perspective. 
 Additional plotting functions, a color scheme, and a ggplot2 theme support various exercises and ensure a uniform look. 
-The corresponding book (authored by Hansjoerg Neth, Konstanz University) is freely available at <https://bookdown.org/hneth/ds4psy/>.  
+The corresponding book (authored by Hansjoerg Neth, Konstanz University, 2019) is freely available at <https://bookdown.org/hneth/ds4psy/>.  
 
 - The current development version of **ds4psy** (0.1.0.9001+) is hosted at <https://github.com/hneth/ds4psy/>. 
 
