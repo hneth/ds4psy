@@ -2,11 +2,11 @@ Package: ds4psy
 Type: Package
 Title: Data Science for Psychologists 
 Version: 0.1.0
-Date: 2019-08-08
+Date: 2019-08-09
 Authors@R: c(person("Hansjoerg", "Neth", role = c("aut", "cre"), email = "h.neth@uni.kn"))
 Author: Hansjoerg Neth [aut, cre]
 Maintainer: Hansjoerg Neth <h.neth@uni.kn>
-Description: Data Science for Psychologists (ds4psy) contains datasets and functions supporting the corresponding book and course. The book and course introduce the principles and methods of data science for students of psychology and other biological or social sciences. The book is freely available at <https://bookdown.org/hneth/ds4psy/>.  
+Description: The book and course 'Data Science for Psychologists' introduces the principles and methods of data science to students of psychology and other biological or social sciences. This package contains all data files used in the book and encourages to shape and wrangle them from a tidyverse perspective. Additional plotting functions, a color scheme, and a ggplot2 theme support various exercises and ensure a uniform look. The corresponding book (authored by Hansjoerg Neth, Konstanz University) is freely available at <https://bookdown.org/hneth/ds4psy/>.
 Depends:
     R (>= 3.4.0)
 Imports:
