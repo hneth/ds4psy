@@ -3,7 +3,7 @@
 
 <!-- Description: --> 
 
-All data sets required for the examples and exercises in the book "Data Science for Psychologists" (by Hansjoerg Neth, Konstanz University, 2019), freely available at <https://bookdown.org/hneth/ds4psy/>. The book and course introduce principles and methods of data science to students of psychology and other biological or social sciences. The ds4psy package primarily provides datasets, but also functions for graphics and text-manipulation that are used in the book and its exercises. 
+All data sets required for the examples and exercises in the book "Data Science for Psychologists" (by Hansjoerg Neth, Konstanz University, 2019), freely available at <https://bookdown.org/hneth/ds4psy/>. The book and course introduce principles and methods of data science to students of psychology and other biological or social sciences. The 'ds4psy' package primarily provides datasets, but also functions for graphics and text-manipulation that are used in the book and its exercises. 
 
 - The current development version of **ds4psy** (0.1.0.9001+) is hosted at <https://github.com/hneth/ds4psy/>. 
 
