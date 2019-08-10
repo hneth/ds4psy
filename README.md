@@ -161,7 +161,7 @@ To cite **ds4psy** in derivations and publications, please use:
 
 -   Neth, H. (2019). ds4psy: Data Science for Psychologists.
     Social Psychology and Decision Sciences, University of Konstanz, Germany.
-    Textbook and computer software (R package version 0.1.0, August 9, 2019).
+    Textbook and computer software (R package version 0.1.0, August 10, 2019).
     Retrieved from <https://bookdown.org/hneth/ds4psy/>.
 
 A **BibTeX** entry for LaTeX users is:
@@ -173,7 +173,7 @@ A **BibTeX** entry for LaTeX users is:
   year = {2019},
   organization = {Social Psychology and Decision Sciences, University of Konstanz},
   address = {Konstanz, Germany},
-  note = {Textbook and R package (version 0.1.0, August 9, 2019)},
+  note = {Textbook and R package (version 0.1.0, August 10, 2019)},
   url = {https://bookdown.org/hneth/ds4psy/},
 }
 ```
@@ -185,6 +185,6 @@ A **BibTeX** entry for LaTeX users is:
 <span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">**Data science for psychologists** (**ds4psy**)</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="https://neth.de" property="cc:attributionName" rel="cc:attributionURL">Hansjörg Neth</a> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.
 
 <!-- Update: -->
-\[Updated 2019-08-09 by [hn](https://neth.de).\]
+\[Updated 2019-08-10 by [hn](https://neth.de).\]
 
 <!-- eof. -->
