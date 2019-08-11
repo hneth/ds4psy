@@ -3,22 +3,27 @@
 
 <!-- Description: --> 
 
-All data sets required for the examples and exercises in the book "Data Science for Psychologists" (by Hansjoerg Neth, Konstanz University, 2019), freely available at <https://bookdown.org/hneth/ds4psy/>. The book and course introduce principles and methods of data science to students of psychology and other biological or social sciences. The 'ds4psy' package primarily provides datasets, but also functions for graphics and text-manipulation that are used in the book and its exercises. 
+All datasets required for the examples and exercises in the book "Data Science for Psychologists" (by Hansjoerg Neth, Konstanz University, 2019), available at <https://bookdown.org/hneth/ds4psy/>. The book and course introduce principles and methods of data science to students of psychology and other biological or social sciences. The 'ds4psy' package primarily provides datasets, but also functions for graphics and text-manipulation that are used in the book and its exercises. 
 
-- The current development version of **ds4psy** (0.1.0.9001+) is hosted at <https://github.com/hneth/ds4psy/>. 
+## Current development
 
-- The initial release of **ds4psy** (0.1.0) was published on CRAN on 2019-08-10: <https://CRAN.R-project.org/package=ds4psy> 
+The current development version of **ds4psy** (0.1.0.9001+) is hosted at <https://github.com/hneth/ds4psy/>. 
 
-## Done 
+### To do
+
+- add graphical functions for clock plots (including new book chapters)
+
+
+## Initial CRAN release (2019-08-10)
+
+The initial release of **ds4psy** (0.1.0) was published on CRAN on 2019-08-10: <https://CRAN.R-project.org/package=ds4psy> 
+
+### Done 
 
 - re-structured code as a package
 - provide all data sets currently used in the [ds4psy book](https://bookdown.org/hneth/ds4psy/)
 - add plotting functions (e.g., of book graphics) for exploring functions 
 - provide a color scheme and plotting theme
-
-## To do
-
-- add functions for clock plots (including new chapters)
 
 ---------- 
 
