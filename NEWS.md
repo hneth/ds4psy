@@ -7,14 +7,14 @@ All data sets required for the examples and exercises in the book "Data Science 
 
 - The current development version of **ds4psy** (0.1.0.9001+) is hosted at <https://github.com/hneth/ds4psy/>. 
 
-- The initial release of **ds4psy** (0.1.0) on CRAN: <https://CRAN.R-project.org/package=ds4psy> was published on 2019-08-10. 
+- The initial release of **ds4psy** (0.1.0) was published on CRAN on 2019-08-10: <https://CRAN.R-project.org/package=ds4psy> 
 
 ## Done 
 
 - re-structured code as a package
-- provide all data sets used in [ds4psy book](https://bookdown.org/hneth/ds4psy/) in the package
+- provide all data sets currently used in the [ds4psy book](https://bookdown.org/hneth/ds4psy/)
 - add plotting functions (e.g., of book graphics) for exploring functions 
-- use **unikn** package for colors and theme(s)
+- provide a color scheme and plotting theme
 
 ## To do
 
