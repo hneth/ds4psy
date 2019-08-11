@@ -1,5 +1,5 @@
 ## plot_fun.R | ds4psy
-## hn | uni.kn | 2019 08 08
+## hn | uni.kn | 2019 08 11
 ## ---------------------------
 
 ## Functions for plotting. 
@@ -404,55 +404,6 @@ plot_tiles <- function(n = NA,
 #              rseed = i*rfac, save = save_now)  # pole sort with title lbl
 # 
 # }
-
-
-# Cover image: -------- 
-
-# plot_tiles(n = 30, sort = FALSE, border_col = "black", border_size = .1, rseed = 132)
-# plot_tiles(n = 30, sort = FALSE, border_col = "white", border_size = .25,
-#            lbl_tiles = F, rseed = 132, save = T, prefix = "cover_", suffix = "_190806")
-
-
-# Color and Dataset chapters: -------- 
-
-# library(unikn)
-# col_brd <- "white"
-# siz_brd <- 1.6
-# 
-# plot_tiles(n = 5, pal = c(usecol(pal_seeblau, n = 18), "white", Bordeaux, pal_seegruen),
-#            border_col = col_brd, border_size = siz_brd,
-#            sort = FALSE, rseed = 117, save = F, prefix = "colors_")
-# 
-# plot_tiles(n = 5, 
-#            pal = c(usecol(pal_seeblau, n = 12), usecol(pal_grau, n = 10), "white", rep("gold", 2)),
-#            border_col = col_brd, border_size = siz_brd,
-#            sort = FALSE, rseed = 126, save = F, prefix = "data_")
-
-
-# ToC in introduction: -------- 
-
-# library(unikn)
-# col_brd <- "white"
-# siz_brd <- 1.6
-# 
-# toc_pal <- c(rep(pal_seeblau[5], 6), rep("white", 4),
-#              rep(pal_grau[3], 8), rep("white", 2),
-#              rep(pal_seeblau[1], 6), rep("white", 4),
-#              rep(pal_seeblau[3], 5), rep("white", 5),
-#              rep(pal_grau[4], 3), rep("white", 7),
-#              rep(pal_seeblau[4], 9), rep("white", 1),
-#              rep(pal_grau[1], 5), rep("white", 5),
-#              rep(pal_grau[2], 7), rep("white", 3),
-#              rep(pal_seeblau[2], 8), rep("white", 2),
-#              rep("black", 9), rep("white", 1)
-#              )
-# 
-# plot_tiles(n = 10, pal = toc_pal,
-#            border_col = col_brd, border_size = siz_brd,
-#            sort = T, polar = F,
-#            rseed = 120, save = F)
-
-
 
 
 
@@ -1147,6 +1098,6 @@ plot_fn <- function(x = NA,
 
 ## ToDo: ----------
 
-# - add option to save generated plots 
+# - ...
 
 ## eof. ----------------------
