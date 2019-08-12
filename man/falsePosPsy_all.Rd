@@ -9,7 +9,7 @@
 Simmons, J.P., Nelson, L.D., & Simonsohn, U. (2011). 
 False-positive psychology: Undisclosed flexibility in data collection and analysis 
 allows presenting anything as significant. 
-\emph{Psychological Science}, \emph{22}(11), 1359-1366. 
+\emph{Psychological Science}, \emph{22}(11), 1359--1366. 
 doi: \url{https://doi.org/10.1177/0956797611417632}
 
 Simmons, J.P., Nelson, L.D., & Simonsohn, U. (2014). 
