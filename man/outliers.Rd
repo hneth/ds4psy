@@ -14,6 +14,13 @@ outliers
 \description{
 \code{outliers} is a fictitious dataset containing the sex and height of 1000 people.
 }
+\details{
+\describe{
+  \item{id}{Participant ID (as character code)}
+  \item{sex}{Gender (female vs. male)}
+  \item{height}{Height (in cm)}
+}
+}
 \seealso{
 Other datasets: \code{\link{data_1}}, \code{\link{data_2}},
   \code{\link{data_t1_de}}, \code{\link{data_t1_tab}},

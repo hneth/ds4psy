@@ -6,18 +6,23 @@
 \title{False Positive Psychology data.}
 \format{A tibble with 78 cases (rows) and 19 variables (columns):}
 \source{
-Simmons, J.P., Nelson, L.D., & Simonsohn, U. (2011). 
+\strong{Articles}
+
+\itemize{
+
+\item Simmons, J.P., Nelson, L.D., & Simonsohn, U. (2011). 
 False-positive psychology: Undisclosed flexibility in data collection and analysis 
 allows presenting anything as significant. 
 \emph{Psychological Science}, \emph{22}(11), 1359--1366. 
 doi: \url{https://doi.org/10.1177/0956797611417632}
 
-Simmons, J.P., Nelson, L.D., & Simonsohn, U. (2014). 
+\item Simmons, J.P., Nelson, L.D., & Simonsohn, U. (2014). 
 Data from paper "False-Positive Psychology: 
 Undisclosed Flexibility in Data Collection and Analysis 
 Allows Presenting Anything as Significant". 
 \emph{Journal of Open Psychology Data}, \emph{2}(1), e1. 
 doi: \url{http://doi.org/10.5334/jopd.aa} 
+}
 
 See files at \url{https://openpsychologydata.metajnl.com/articles/10.5334/jopd.aa/} and 
 the archive at \url{https://zenodo.org/record/7664} for original dataset.

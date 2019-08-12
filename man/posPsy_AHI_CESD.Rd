@@ -6,20 +6,25 @@
 \title{Positive Psychology: AHI CESD data.}
 \format{A tibble with 992 cases (rows) and 50 variables (columns).}
 \source{
-Woodworth, R. J., O’Brien-Malone, A., Diamond, M. R., & Schüz, B. (2017). 
+\strong{Articles}
+
+\itemize{
+
+\item Woodworth, R. J., O’Brien-Malone, A., Diamond, M. R., & Schüz, B. (2017). 
 Web-based positive psychology interventions: A reexamination of effectiveness. 
 \emph{Journal of Clinical Psychology}, \emph{73}(3), 218--232. 
 doi: \code{10.1002/jclp.22328} 
 
-Woodworth, R. J., O’Brien-Malone, A., Diamond, M. R. and Schüz, B. (2018). 
+\item Woodworth, R. J., O’Brien-Malone, A., Diamond, M. R. and Schüz, B. (2018). 
 Data from, ‘Web-based positive psychology interventions: A reexamination of effectiveness’. 
 \emph{Journal of Open Psychology Data}, \emph{6}(1). 
 doi: \code{10.5334/jopd.35}
-
-Additional references at \url{https://bookdown.org/hneth/ds4psy/B-1-datasets-pos.html}.
+}
 
 See \url{https://openpsychologydata.metajnl.com/articles/10.5334/jopd.35/} for details 
-and \url{https://doi.org/10.6084/m9.figshare.1577563.v1} for original dataset.
+and \url{https://doi.org/10.6084/m9.figshare.1577563.v1} for original dataset. 
+
+Additional references at \url{https://bookdown.org/hneth/ds4psy/B-1-datasets-pos.html}.
 }
 \usage{
 posPsy_AHI_CESD
