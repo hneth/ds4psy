@@ -19,8 +19,9 @@ The current development version of **ds4psy** (0.1.0.9001+) is hosted at <https:
 
 ### Minor changes
 
-- `data.R`: Better documentation of datasets
-- bug fix: Removed non-essential packages from Imports
+- enhancement: Better documentation of datasets (in `data.R`)
+- bug fix: Removed redundant code (from `plot_fun.R`)  
+- bug fix: Removed non-essential packages (from Imports)
 
 -------- 
 
@@ -51,6 +52,6 @@ This project has not yet been released (on CRAN or GitHub).
 - add chapter on _Dates and times_ (in Part 2: Data wrangling)
 - add _factors_ to basics chapter or a chapter on _factors_
 - consider making _conditionals_ its own chapter (in Part 3: Programming) 
-- emphasize _reproducible research_ aspect in introduction and RMarkdown appendix
+- emphasize _reproducible research_ aspect in introduction and appendix on R Markdown
 
 <!-- eof -->
