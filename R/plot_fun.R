@@ -1,5 +1,5 @@
 ## plot_fun.R | ds4psy
-## hn | uni.kn | 2019 08 11
+## hn | uni.kn | 2019 08 12
 ## ---------------------------
 
 ## Functions for plotting. 
@@ -356,55 +356,6 @@ plot_tiles <- function(n = NA,
 #            sort = FALSE, borders = TRUE, 
 #            lbl_tiles = TRUE, lbl_title = TRUE, 
 #            rseed = 101)  # fix seed
-
-
-
-# Production loop (all chapters): -------- 
-
-## Settings for current loop:
-# n_chapters <- 10
-# save_now <- FALSE
-# 
-# col_brd <- "white"
-# siz_brd <- 1.6
-# 
-# i    <- 2
-# rfac <- 137  # constant rfac (to use as rseed in loop)
-# 
-# for (i in 1:n_chapters){
-# 
-#   # (1) tile plots:
-#   plot_tiles(n = i, sort = F, polar = F,
-#              border_col = col_brd, border_size = siz_brd,
-#              rseed = i*rfac, save = save_now)  # tile rand
-#   plot_tiles(n = i, sort = T, polar = F,
-#              border_col = col_brd, border_size = siz_brd,
-#              rseed = i*rfac, save = save_now)  # tile sort
-# 
-#   plot_tiles(n = i, sort = F, polar = F, lbl_title = T,
-#              border_col = col_brd, border_size = siz_brd,
-#              rseed = i*rfac, save = save_now)  # tile rand with title lbl
-#   plot_tiles(n = i, sort = T, polar = F, lbl_title = T,
-#              border_col = col_brd, border_size = siz_brd,
-#              rseed = i*rfac, save = save_now)  # tile sort with title lbl
-# 
-#   # (2) pole plots:
-#   plot_tiles(n = i, sort = F, polar = T,
-#              border_col = col_brd, border_size = siz_brd,
-#              rseed = i*rfac, save = save_now)  # pole rand
-#   plot_tiles(n = i, sort = T, polar = T,
-#              border_col = col_brd, border_size = siz_brd,
-#              rseed = i*rfac, save = save_now)  # pole sort
-# 
-#   plot_tiles(n = i, sort = F, polar = T, lbl_title = T,
-#              border_col = col_brd, border_size = siz_brd,
-#              rseed = i*rfac, save = save_now)  # pole rand with title lbl
-#   plot_tiles(n = i, sort = T, polar = T, lbl_title = T,
-#              border_col = col_brd, border_size = siz_brd,
-#              rseed = i*rfac, save = save_now)  # pole sort with title lbl
-# 
-# }
-
 
 
 ## plot_fun: Wrapper around plot_tiles (with fewer and cryptic options): -------- 
