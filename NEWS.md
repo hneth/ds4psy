@@ -1,5 +1,5 @@
 
-# ds4psy (R package)
+# ds4psy News
 
 <!-- Description: --> 
 
@@ -19,8 +19,10 @@ The current development version of **ds4psy** (0.1.0.9001+) is hosted at <https:
 
 ### Minor changes
 
-- bug fix: removed non-essential packages from Imports
+- `data.R`: Better documentation of datasets
+- bug fix: Removed non-essential packages from Imports
 
+-------- 
 
 ## Initial CRAN release (version 0.1.0)
 
