@@ -1,5 +1,5 @@
 ## data.R | ds4psy
-## hn | uni.kn | 2019 08 08
+## hn | uni.kn | 2019 08 12
 ## ---------------------------
 
 ## Documentation of datasets included in /data. 
@@ -42,7 +42,7 @@
 #' @source 
 #' Woodworth, R. J., O’Brien-Malone, A., Diamond, M. R., & Schüz, B. (2017). 
 #' Web-based positive psychology interventions: A reexamination of effectiveness. 
-#' \emph{Journal of Clinical Psychology}, \emph{73}(3), 218-232. 
+#' \emph{Journal of Clinical Psychology}, \emph{73}(3), 218--232. 
 #' doi: \code{10.1002/jclp.22328} 
 #' 
 #' Woodworth, R. J., O’Brien-Malone, A., Diamond, M. R. and Schüz, B. (2018). 
@@ -113,7 +113,7 @@
 #' @source 
 #' Woodworth, R. J., O’Brien-Malone, A., Diamond, M. R., & Schüz, B. (2017). 
 #' Web-based positive psychology interventions: A reexamination of effectiveness. 
-#' \emph{Journal of Clinical Psychology}, \emph{73}(3), 218-232. 
+#' \emph{Journal of Clinical Psychology}, \emph{73}(3), 218--232. 
 #' doi: \code{10.1002/jclp.22328} 
 #' 
 #' Woodworth, R. J., O’Brien-Malone, A., Diamond, M. R. and Schüz, B. (2018). 
@@ -153,7 +153,7 @@
 #' @source 
 #' Woodworth, R. J., O’Brien-Malone, A., Diamond, M. R., & Schüz, B. (2017). 
 #' Web-based positive psychology interventions: A reexamination of effectiveness. 
-#' \emph{Journal of Clinical Psychology}, \emph{73}(3), 218-232. 
+#' \emph{Journal of Clinical Psychology}, \emph{73}(3), 218--232. 
 #' doi: \code{10.1002/jclp.22328} 
 #' 
 #' Woodworth, R. J., O’Brien-Malone, A., Diamond, M. R. and Schüz, B. (2018). 
@@ -191,7 +191,7 @@
 #' @source 
 #' Woodworth, R. J., O’Brien-Malone, A., Diamond, M. R., & Schüz, B. (2017). 
 #' Web-based positive psychology interventions: A reexamination of effectiveness. 
-#' \emph{Journal of Clinical Psychology}, \emph{73}(3), 218-232. 
+#' \emph{Journal of Clinical Psychology}, \emph{73}(3), 218--232. 
 #' doi: \code{10.1002/jclp.22328} 
 #' 
 #' Woodworth, R. J., O’Brien-Malone, A., Diamond, M. R. and Schüz, B. (2018). 
@@ -267,7 +267,7 @@
 #' Simmons, J.P., Nelson, L.D., & Simonsohn, U. (2011). 
 #' False-positive psychology: Undisclosed flexibility in data collection and analysis 
 #' allows presenting anything as significant. 
-#' \emph{Psychological Science}, \emph{22}(11), 1359-1366. 
+#' \emph{Psychological Science}, \emph{22}(11), 1359--1366. 
 #' doi: \url{https://doi.org/10.1177/0956797611417632}
 #' 
 #' Simmons, J.P., Nelson, L.D., & Simonsohn, U. (2014). 
