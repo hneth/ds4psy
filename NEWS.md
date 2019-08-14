@@ -15,6 +15,8 @@ The current development version of **ds4psy** (0.1.0.9001+) is hosted at <https:
 
 ### Major changes 
 
+Changes involving new functionality include:
+
 - ... 
 
 ### Minor changes
@@ -25,16 +27,19 @@ The current development version of **ds4psy** (0.1.0.9001+) is hosted at <https:
 
 -------- 
 
-## Initial CRAN release (version 0.1.0)
+## ds4psy 0.1.0
 
-The initial release of **ds4psy** (0.1.0) was published on CRAN on 2019-08-10: <https://CRAN.R-project.org/package=ds4psy> 
+- Initial release of **ds4psy** (0.1.0) on CRAN: <https://CRAN.R-project.org/package=unikn> [2019-08-10] 
 
 ### Features
 
-- re-structured code as a package
+The initial functionality is limited, as the package is designed to support the [ds4psy book](https://bookdown.org/hneth/ds4psy/): 
+
+- re-structured book code (from examples and exercises) as a package
+- provides all data sets currently used in the book (with documentation and references)
+- provides an initial color scheme and plotting theme
 - added plotting functions (e.g., of book graphics) for exploring functions 
-- provides a color scheme and plotting theme
-- provides all data sets currently used in the [ds4psy book](https://bookdown.org/hneth/ds4psy/)
+
 
 ---------- 
 
