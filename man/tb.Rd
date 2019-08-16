@@ -12,8 +12,28 @@ See CSV data at \url{http://rpository.com/ds4psy/data/tb.csv}.
 tb
 }
 \description{
-\code{tb} is a fictitious dataset to practice loops and iteration 
-(from a CSV file).
+\code{tb} is a fictitious dataset describing 
+100 non-existing, but otherwise ordinary people.
+}
+\details{
+\strong{Codebook}
+
+\itemize{
+
+\item 1. \strong{id}: Participant ID.
+
+\item 2. \strong{age}: Age (in years).
+
+\item 3. \strong{height}: Height (in cm).
+
+\item 4. \strong{shoesize}: Shoesize (EU standard).
+
+\item 5. \strong{IQ}: IQ score (according Raven's Regressive Tibbles).
+
+}
+
+\code{tb} was orginally created to practice loops and iterations 
+(as a CSV file).
 }
 \seealso{
 Other datasets: \code{\link{data_1}}, \code{\link{data_2}},

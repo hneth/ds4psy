@@ -12,9 +12,12 @@ See CSV data at \url{http://rpository.com/ds4psy/data/out.csv}.
 outliers
 }
 \description{
-\code{outliers} is a fictitious dataset containing the sex and height of 1000 people.
+\code{outliers} is a fictitious dataset containing the id, sex, and height 
+of 1000 non-existing, but otherwise normal people.
 }
 \details{
+\strong{Codebook}
+
 \describe{
   \item{id}{Participant ID (as character code)}
   \item{sex}{Gender (female vs. male)}
