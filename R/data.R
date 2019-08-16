@@ -311,7 +311,10 @@
 
 #' Outlier data.
 #'
-#' \code{outliers} is a fictitious dataset containing the sex and height of 1000 people.  
+#' \code{outliers} is a fictitious dataset containing the id, sex, and height 
+#' of 1000 non-existing, but otherwise normal people.  
+#' 
+#' \strong{Codebook}
 #' 
 #' \describe{
 #'   \item{id}{Participant ID (as character code)}
@@ -812,8 +815,27 @@
 
 #' Data table tb.
 #'
-#' \code{tb} is a fictitious dataset to practice loops and iteration 
-#' (from a CSV file).  
+#' \code{tb} is a fictitious dataset describing 
+#' 100 non-existing, but otherwise ordinary people.
+#' 
+#' \strong{Codebook} 
+#' 
+#' \itemize{
+#' 
+#' \item 1. \strong{id}: Participant ID.
+#' 
+#' \item 2. \strong{age}: Age (in years).
+#' 
+#' \item 3. \strong{height}: Height (in cm).
+#' 
+#' \item 4. \strong{shoesize}: Shoesize (EU standard).
+#' 
+#' \item 5. \strong{IQ}: IQ score (according Raven's Regressive Tibbles).
+#' 
+#' } 
+#' 
+#' \code{tb} was orginally created to practice loops and iterations 
+#' (as a CSV file). 
 #' 
 #' @format A tibble with 100 cases (rows) and 5 variables (columns). 
 #' 
