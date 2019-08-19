@@ -4,7 +4,7 @@
 \alias{num_as_char}
 \title{Convert a number to character sequence.}
 \usage{
-num_as_char(x, n_pre_dec = 2, n_dec = 2, sep = ".")
+num_as_char(x, n_pre_dec = 2, n_dec = 2, sym = "0", sep = ".")
 }
 \arguments{
 \item{x}{Number to convert (required).}
@@ -17,6 +17,11 @@ If the number of meaningful digits prior to decimal separator is greater than
 
 \item{n_dec}{Number of digits after the decimal separator. 
 Default: \code{n_dec = 2}.}
+
+\item{sym}{Symbol to add to front or back. 
+Default: \code{sym = 0}. 
+Using \code{sym = " "} or \code{sym = "_"} can make sense, 
+digits other than \code{"0"} do not.}
 
 \item{sep}{Decimal separator to use.
 Default: \code{sep = "."}.}
@@ -41,14 +46,24 @@ num_as_char((1.3333), n_pre_dec = 2, n_dec = 0)
 num_as_char((1.3333), n_pre_dec = 2, n_dec = 1)
 
 # rounding up: 
-num_as_char((1.6666), n_pre_dec = 1, n_dec = 0)
-num_as_char((1.6666), n_pre_dec = 2, n_dec = 1)
-num_as_char((1.6666), n_pre_dec = 2, n_dec = 2)
-num_as_char((1.6666), n_pre_dec = 2, n_dec = 3)
+num_as_char(1.6666, n_pre_dec = 1, n_dec = 0)
+num_as_char(1.6666, n_pre_dec = 2, n_dec = 1)
+num_as_char(1.6666, n_pre_dec = 2, n_dec = 2)
+num_as_char(1.6666, n_pre_dec = 2, n_dec = 3)
 
 # Note: If n_pre_dec is too small, actual number is used:
-num_as_char((11.33), n_pre_dec = 0, n_dec = 1)
-num_as_char((11.66), n_pre_dec = 1, n_dec = 1)
+num_as_char(11.33, n_pre_dec = 0, n_dec = 1)
+num_as_char(11.66, n_pre_dec = 1, n_dec = 1)
+
+# Details:
+num_as_char(1, sep = ",")
+num_as_char(2, sym = " ")
+num_as_char(3, sym = " ", n_dec = 0)
+
+# Beware of:
+num_as_char(4, sym = "8")
+num_as_char(5, sym = "ab")
+num_as_char(6, sym = "12")
   
 }
 \seealso{
