@@ -1,5 +1,5 @@
 ## plot_fun.R | ds4psy
-## hn | uni.kn | 2019 08 12
+## hn | uni.kn | 2019 08 19
 ## ---------------------------
 
 ## Functions for plotting. 
@@ -54,7 +54,6 @@
 #' 
 #' @param suffix Suffix to plot name (if \code{save = TRUE}).  
 #' Default: \code{suffix = ""}. 
-#'
 #'
 #' @examples
 #' # (1) Tile plot:
