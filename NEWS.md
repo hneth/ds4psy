@@ -21,6 +21,11 @@ Changes involving new functionality include:
 
 ### Minor changes
 
+- add utility function `make_grid()` 
+- add utility function `num_as_char()` 
+
+### Details 
+
 - enhancement: Better documentation of datasets (in `data.R`)
 - bug fix: Removed redundant code (from `plot_fun.R`)  
 - bug fix: Removed non-essential packages (from Imports)
@@ -39,7 +44,6 @@ The initial functionality is limited, as the package is designed to support the 
 - provides all data sets currently used in the book (with documentation and references)
 - provides an initial color scheme and plotting theme
 - added plotting functions (e.g., of book graphics) for exploring functions 
-
 
 ---------- 
 
