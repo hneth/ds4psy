@@ -98,6 +98,11 @@ make_grid <- function(x_min = 0, x_max = 2, y_min = 0, y_max = 1){
 #' 
 #' @param n_dec Number of digits after the decimal separator. 
 #' Default: \code{n_dec = 2}. 
+#' 
+#' @param sym Symbol to add to front or back. 
+#' Default: \code{sym = 0}. 
+#' Using \code{sym = " "} or \code{sym = "_"} can make sense, 
+#' digits other than \code{"0"} do not. 
 #'
 #' @param sep Decimal separator to use.  
 #' Default: \code{sep = "."}. 
@@ -113,41 +118,61 @@ make_grid <- function(x_min = 0, x_max = 2, y_min = 0, y_max = 1){
 #' num_as_char((1.3333), n_pre_dec = 2, n_dec = 1)
 #' 
 #' # rounding up: 
-#' num_as_char((1.6666), n_pre_dec = 1, n_dec = 0)
-#' num_as_char((1.6666), n_pre_dec = 2, n_dec = 1)
-#' num_as_char((1.6666), n_pre_dec = 2, n_dec = 2)
-#' num_as_char((1.6666), n_pre_dec = 2, n_dec = 3)
+#' num_as_char(1.6666, n_pre_dec = 1, n_dec = 0)
+#' num_as_char(1.6666, n_pre_dec = 2, n_dec = 1)
+#' num_as_char(1.6666, n_pre_dec = 2, n_dec = 2)
+#' num_as_char(1.6666, n_pre_dec = 2, n_dec = 3)
 #' 
 #' # Note: If n_pre_dec is too small, actual number is used:
-#' num_as_char((11.33), n_pre_dec = 0, n_dec = 1)
-#' num_as_char((11.66), n_pre_dec = 1, n_dec = 1)
+#' num_as_char(11.33, n_pre_dec = 0, n_dec = 1)
+#' num_as_char(11.66, n_pre_dec = 1, n_dec = 1)
+#' 
+#' # Details:
+#' num_as_char(1, sep = ",")
+#' num_as_char(2, sym = " ")
+#' num_as_char(3, sym = " ", n_dec = 0)
+#' 
+#' # Beware of:
+#' num_as_char(4, sym = "8")
+#' num_as_char(5, sym = "ab")
+#' num_as_char(6, sym = "12")
 #'   
 #' @family utility functions
 #'
 #' @export 
 
-num_as_char <- function(x, n_pre_dec = 2, n_dec = 2, sep = "."){
+num_as_char <- function(x, n_pre_dec = 2, n_dec = 2, sym = "0", sep = "."){
   
-  x <- round(x, n_dec)
+  # Check inputs:
+  if ((!is.na(as.numeric(sym))) && (as.numeric(sym) != 0)) {
+    message("Using numeric digits (other than '0') as sym yields confusing results:")
+  }
   
-  # split into 2 parts:
-  # (1) before decimal point (.):
-  n_num_1 <- x %/% 1
+  if (nchar(sym) > 1) {
+    message("sym should not have more than 1 char:")
+  }
+  
+  x_rounded <- round(x, n_dec)
+  
+  # Split x_rounded into 2 parts:
+  
+  # (1) Part before the decimal point:
+  n_num_1 <- x_rounded %/% 1
   
   n_char_1 <- as.character(n_num_1)
   # print(n_char_1)  # debugging
   
   if (nchar(n_char_1) < n_pre_dec){
     
-    # add zeros at front:  
+    # add series of sym (at the front):  
     dif_1 <- (n_pre_dec - nchar(n_char_1)) 
-    zeros_1 <- paste0(rep("0", dif_1), collapse = "")
-    n_char_1 <- paste0(zeros_1, n_char_1)
+    sym_1 <- paste0(rep(sym, dif_1), collapse = "")
+    n_char_1 <- paste0(sym_1, n_char_1)
     
   }
   
-  # (2) after decimal point (.):
-  n_num_2 <- x %% 1
+  # (2) Part after the decimal point:
+  n_num_2 <- x_rounded %% 1
   # print(n_num_2)  # debugging
   
   n_num_2 <- round(n_num_2, digits = n_dec)  # round to significant digits!
@@ -160,17 +185,17 @@ num_as_char <- function(x, n_pre_dec = 2, n_dec = 2, sep = "."){
   
   if (nchar(n_char_2) < n_dec){
     
-    # add zeros at back:  
+    # add series of sym (at the back):  
     dif_2 <- (n_dec - nchar(n_char_2)) 
-    zeros_2 <- paste0(rep("0", dif_2), collapse = "")
-    n_char_2 <- paste0(n_char_2, zeros_2)
+    sym_2 <- paste0(rep(sym, dif_2), collapse = "")
+    n_char_2 <- paste0(n_char_2, sym_2)
     
   }
   
-  if (n_dec > 0){
+  if (n_dec > 0) {
     out <- paste(n_char_1, n_char_2, sep = sep)
   } else {
-    out <- n_char_1
+    out <- n_char_1  # use only 1st part (and no decimal separator)
   }
   
   # return:
@@ -193,6 +218,16 @@ num_as_char <- function(x, n_pre_dec = 2, n_dec = 2, sep = "."){
 # # Note: If n_pre_dec too small, actual number is used:
 # num_as_char((1111.3333), n_pre_dec = 0, n_dec = 2)
 # num_as_char((1111.6666), n_pre_dec = 0, n_dec = 2)
+# 
+# # Details:
+# num_as_char(1, sep = ",")
+# num_as_char(2, sym = " ")
+# num_as_char(3, sym = " ", n_dec = 0)
+# 
+# # Beware of:
+# num_as_char(4, sym = "8")
+# num_as_char(5, sym = "ab")
+# num_as_char(6, sym = "12")
 
 
 # kill_all: Kill all objects in current environment (without warning): ------
