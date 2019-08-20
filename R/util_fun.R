@@ -1,5 +1,5 @@
 ## util_fun.R | ds4psy
-## hn | uni.kn | 2019 08 19
+## hn | uni.kn | 2019 08 20
 ## ---------------------------
 
 ## Utility functions. 
@@ -66,7 +66,8 @@ make_grid <- function(x_min = 0, x_max = 2, y_min = 0, y_max = 1){
                        y = rep(ys, each = length(xs)))
   
   return(tb)
-}
+  
+}  # make_grid end. 
 
 ## Check: 
 # make_grid()
@@ -76,6 +77,15 @@ make_grid <- function(x_min = 0, x_max = 2, y_min = 0, y_max = 1){
 # make_grid(x_min = 1/2, y_min = 1/3)
 
 
+
+
+# vrep: A vectorized version of rep: ------
+
+vrep <- Vectorize(rep.int, "times")
+
+## Check:
+# vrep(x = 1,   times = 1:3)
+# vrep(x = "a", times = 2:4)
 
 # num_as_char: Print a number (as character), with n_pre_dec digits prior to decimal sep, and rounded to n_dec digits: ------
 
@@ -87,6 +97,10 @@ make_grid <- function(x_min = 0, x_max = 2, y_min = 0, y_max = 1){
 #' before and after the decimal separator \code{sep}. 
 #' \code{num_as_char} tries to meet these digit numbers by adding zeros to the front 
 #' and end of \code{x}. 
+#' 
+#' Note that this function illustrates how numbers, 
+#' characters, \code{for} loops, and \code{paste()} can be combined 
+#' when writing functions. It is not written efficiently or well. 
 #' 
 #' @param x Number to convert (required).
 #'
@@ -111,7 +125,7 @@ make_grid <- function(x_min = 0, x_max = 2, y_min = 0, y_max = 1){
 #' num_as_char(1)
 #' num_as_char(10/3)
 #' num_as_char(1000/6) 
-#'  
+#' 
 #' # rounding down:
 #' num_as_char((1.3333), n_pre_dec = 0, n_dec = 0)
 #' num_as_char((1.3333), n_pre_dec = 2, n_dec = 0)
@@ -119,7 +133,7 @@ make_grid <- function(x_min = 0, x_max = 2, y_min = 0, y_max = 1){
 #' 
 #' # rounding up: 
 #' num_as_char(1.6666, n_pre_dec = 1, n_dec = 0)
-#' num_as_char(1.6666, n_pre_dec = 2, n_dec = 1)
+#' num_as_char(1.6666, n_pre_dec = 1, n_dec = 1)
 #' num_as_char(1.6666, n_pre_dec = 2, n_dec = 2)
 #' num_as_char(1.6666, n_pre_dec = 2, n_dec = 3)
 #' 
@@ -132,76 +146,92 @@ make_grid <- function(x_min = 0, x_max = 2, y_min = 0, y_max = 1){
 #' num_as_char(2, sym = " ")
 #' num_as_char(3, sym = " ", n_dec = 0)
 #' 
-#' # Beware of:
+#' # Beware of bad inputs:
 #' num_as_char(4, sym = "8")
-#' num_as_char(5, sym = "ab")
-#' num_as_char(6, sym = "12")
-#'   
+#' num_as_char(5, sym = "99")
+#' 
+#' # Works for vectors:
+#' num_as_char(1:10/1, n_pre_dec = 1, n_dec = 1)
+#' num_as_char(1:10/3, n_pre_dec = 2, n_dec = 2)
+#' 
+#' 
 #' @family utility functions
 #'
 #' @export 
 
 num_as_char <- function(x, n_pre_dec = 2, n_dec = 2, sym = "0", sep = "."){
   
-  # Check inputs:
+  # (-) Check inputs:
   if ((!is.na(as.numeric(sym))) && (as.numeric(sym) != 0)) {
-    message("Using numeric digits (other than '0') as sym yields confusing results:")
+    message("Setting sym to numeric digits (other than '0') is confusing.")
   }
-  
   if (nchar(sym) > 1) {
-    message("sym should not have more than 1 char:")
+    message("Setting sym to more than 1 character is confusing.")
   }
   
+  # (0) round x: 
   x_rounded <- round(x, n_dec)
   
   # Split x_rounded into 2 parts:
   
-  # (1) Part before the decimal point:
-  n_num_1 <- x_rounded %/% 1
+  # (1) Part BEFORE the decimal point:
+  n_num_1 <- x_rounded %/% 1 
   
-  n_char_1 <- as.character(n_num_1)
-  # print(n_char_1)  # debugging
+  n_char_1 <- as.character(n_num_1)  # as character
   
-  if (nchar(n_char_1) < n_pre_dec){
+  n_char_1_len <- nchar(n_char_1)              # length of character seq. 
+  n_sym_1_add <- (n_pre_dec - n_char_1_len)    # diff. determines missing sym 
+  sym_1_add   <- rep("", length(n_sym_1_add))  # initialize for loop
+  
+  for (i in seq_along(n_sym_1_add)){  # for loop: 
     
-    # add series of sym (at the front):  
-    dif_1 <- (n_pre_dec - nchar(n_char_1)) 
-    sym_1 <- paste0(rep(sym, dif_1), collapse = "")
-    n_char_1 <- paste0(sym_1, n_char_1)
+    n_1_add <- n_sym_1_add[i]  # n of sym to add
+    
+    if (n_1_add > 0){
+      sym_1_add[i] <- paste0(rep(sym, times = n_1_add), collapse = "")  # add sym!
+    }  # else: do not change sym_1_add.
     
   }
   
-  # (2) Part after the decimal point:
+  n_char_1_final <- paste0(sym_1_add, n_char_1)  # intermediate result 1 
+  
+  # (2) Part AFTER the decimal point:
   n_num_2 <- x_rounded %% 1
-  # print(n_num_2)  # debugging
   
-  n_num_2 <- round(n_num_2, digits = n_dec)  # round to significant digits!
-  # print(n_num_2)  # debugging
+  # round to n_dec digits (again?):
+  n_num_2 <- round(n_num_2, digits = n_dec)  # round to significant digits (again!) 
   
-  n_char_2 <- as.character(n_num_2)
+  n_char_2 <- as.character(n_num_2)  # as character
   
-  n_char_2 <- substr(n_char_2, 3, nchar(n_char_2))  # remove "0." at beginning
-  # print(n_char_2)  # debugging
+  n_char_2 <- substr(n_char_2, 3, nchar(n_char_2))  # remove "0." at beginning!
   
-  if (nchar(n_char_2) < n_dec){
+  n_char_2_len <- nchar(n_char_2)              # length of character seq.
+  n_sym_2_add <- (n_dec - n_char_2_len)        # diff. determines missing sym 
+  sym_2_add   <- rep("", length(n_sym_2_add))  # initialize for loop
+  
+  for (i in seq_along(n_sym_2_add)){  # for loop: 
     
-    # add series of sym (at the back):  
-    dif_2 <- (n_dec - nchar(n_char_2)) 
-    sym_2 <- paste0(rep(sym, dif_2), collapse = "")
-    n_char_2 <- paste0(n_char_2, sym_2)
+    n_2_add <- n_sym_2_add[i]  # n of sym to add
+    
+    if (n_2_add > 0){
+      sym_2_add[i] <- paste0(rep(sym, times = n_2_add), collapse = "")  # add sym!
+    }  # else: do not change sym_2_add.
     
   }
   
+  n_char_2_final <- paste0(n_char_2, sym_2_add) # intermediate result 2 
+  
+  # (3) paste 2 parts together again:
   if (n_dec > 0) {
-    out <- paste(n_char_1, n_char_2, sep = sep)
+    out <- paste(n_char_1_final, n_char_2_final, sep = sep)
   } else {
-    out <- n_char_1  # use only 1st part (and no decimal separator)
+    out <- n_char_1_final  # use only 1st part (and no decimal separator)
   }
   
-  # return:
+  # (+) return:
   return(out)
   
-}
+}  # num_as_char end. 
 
 # # Check:
 # num_as_char(1)
@@ -228,7 +258,10 @@ num_as_char <- function(x, n_pre_dec = 2, n_dec = 2, sym = "0", sep = "."){
 # num_as_char(4, sym = "8")
 # num_as_char(5, sym = "ab")
 # num_as_char(6, sym = "12")
-
+#
+# # Works for vectors:
+# num_as_char(1:10/1, n_pre_dec = 1, n_dec = 1)
+# num_as_char(1:10/3, n_pre_dec = 2, n_dec = 2)
 
 # kill_all: Kill all objects in current environment (without warning): ------
 
@@ -236,7 +269,7 @@ kill_all <- function(){
   
   rm(list = ls())
   
-}
+}  # kill_all end. 
 
 ## Check: 
 # kill_all()
