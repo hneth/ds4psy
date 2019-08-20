@@ -34,12 +34,16 @@ The arguments \code{n_pre_dec} and \code{n_dec} set a number of desired digits
 before and after the decimal separator \code{sep}. 
 \code{num_as_char} tries to meet these digit numbers by adding zeros to the front 
 and end of \code{x}.
+
+Note that this function illustrates how numbers, 
+characters, \code{for} loops, and \code{paste()} can be combined 
+when writing functions. It is not written efficiently or well.
 }
 \examples{
 num_as_char(1)
 num_as_char(10/3)
 num_as_char(1000/6) 
- 
+
 # rounding down:
 num_as_char((1.3333), n_pre_dec = 0, n_dec = 0)
 num_as_char((1.3333), n_pre_dec = 2, n_dec = 0)
@@ -47,7 +51,7 @@ num_as_char((1.3333), n_pre_dec = 2, n_dec = 1)
 
 # rounding up: 
 num_as_char(1.6666, n_pre_dec = 1, n_dec = 0)
-num_as_char(1.6666, n_pre_dec = 2, n_dec = 1)
+num_as_char(1.6666, n_pre_dec = 1, n_dec = 1)
 num_as_char(1.6666, n_pre_dec = 2, n_dec = 2)
 num_as_char(1.6666, n_pre_dec = 2, n_dec = 3)
 
@@ -60,11 +64,15 @@ num_as_char(1, sep = ",")
 num_as_char(2, sym = " ")
 num_as_char(3, sym = " ", n_dec = 0)
 
-# Beware of:
+# Beware of bad inputs:
 num_as_char(4, sym = "8")
-num_as_char(5, sym = "ab")
-num_as_char(6, sym = "12")
-  
+num_as_char(5, sym = "99")
+
+# Works for vectors:
+num_as_char(1:10/1, n_pre_dec = 1, n_dec = 1)
+num_as_char(1:10/3, n_pre_dec = 2, n_dec = 2)
+
+
 }
 \seealso{
 Other utility functions: \code{\link{make_grid}}
