@@ -1,5 +1,5 @@
 ## plot_fun.R | ds4psy
-## hn | uni.kn | 2019 08 19
+## hn | uni.kn | 2019 08 21
 ## ---------------------------
 
 ## Functions for plotting. 
@@ -359,13 +359,17 @@ plot_tiles <- function(n = NA,
 
 ## plot_fun: Wrapper around plot_tiles (with fewer and cryptic options): -------- 
 
-#' A function to plot some plot.
+#' Another function to plot some plot.
 #'
-#' \code{plot_fun} is a function that uses parameters to plot a plot. 
+#' \code{plot_fun} is a function that provides options for plotting a plot. 
 #' 
 #' \code{plot_fun} is deliberately kept cryptic and obscure to illustrate 
-#' how function parameters can be explored (and why transparent variable 
-#' names are essential for understanding and using a function). 
+#' how function parameters can be explored. 
+#' 
+#' \code{plot_fun} also shows that brevity in argument names should not 
+#' come at the expense of clarity. In fact, transparent argument names 
+#' are absolutely essential for understanding and using a function. 
+#' 
 #' 
 #' @param a A (natural) number. 
 #' Default: \code{a = NA}. 
@@ -394,6 +398,7 @@ plot_tiles <- function(n = NA,
 #'
 #' @param c2 A color (e.g., as a character). 
 #' Default: \code{c2 = "black"}. 
+#'
 #'
 #' @examples
 #' # Basics: 
@@ -958,14 +963,17 @@ plot_n <- function(n = NA,
 #' \code{plot_fn} is a function that uses parameters for plotting a plot. 
 #' 
 #' \code{plot_fn} is deliberately kept cryptic and obscure to illustrate 
-#' how function parameters can be explored (and why transparent variable 
-#' names are essential for understanding and using a function). 
+#' how function parameters can be explored. 
+#' 
+#' \code{plot_fn} also shows that brevity in argument names should not 
+#' come at the expense of clarity. In fact, transparent argument names 
+#' are absolutely essential for understanding and using a function. 
 #' 
 #' @param x A (natural) number. 
 #' Default: \code{x = NA}. 
 #' 
 #' @param y A (decimal) number. 
-#' Default: \code{y = 0}. 
+#' Default: \code{y = 1}. 
 #' 
 #' @param A A Boolean value. 
 #' Default: \code{A = TRUE}. 
