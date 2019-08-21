@@ -9,10 +9,6 @@ All datasets required for the examples and exercises in the book "Data Science f
 
 The current development version of **ds4psy** (0.1.0.9001+) is hosted at <https://github.com/hneth/ds4psy/>. 
 
-### To do
-
-- add graphical functions for clock plots (including new book chapters)
-
 ### Major changes 
 
 Changes involving new functionality include:
@@ -30,11 +26,17 @@ Changes involving new functionality include:
 - bug fix: Removed redundant code (from `plot_fun.R`)  
 - bug fix: Removed non-essential packages (from Imports)
 
+### To do
+
+- add graphical functions for clock plots (including new book chapters)
+- add data with text, date, and time variables
+
+
 -------- 
 
 ## ds4psy 0.1.0
 
-- Initial release of **ds4psy** (0.1.0) on CRAN: <https://CRAN.R-project.org/package=unikn> [2019-08-10] 
+- Initial release of **ds4psy** (0.1.0) on CRAN: <https://CRAN.R-project.org/package=ds4psy> [2019-08-10] 
 
 ### Features
 
@@ -57,10 +59,21 @@ This project has not yet been released (on CRAN or GitHub).
 
 ## To do
 
+New content: 
+
 - add chapter on _Text strings_ (in Part 2: Data wrangling)
 - add chapter on _Dates and times_ (in Part 2: Data wrangling)
-- add _factors_ to basics chapter or a chapter on _factors_
+- add _factors_ to Basics chapter, or a chapter on _Factors_ (in Part 2: Data wrangling) 
 - consider making _conditionals_ its own chapter (in Part 3: Programming) 
-- emphasize _reproducible research_ aspect in introduction and appendix on R Markdown
+- emphasize _reproducible research_ aspects in introduction and appendix on R Markdown
+
+Details and cosmetics:
+
+- include _Preparation_ in _Introduction_ sections
+
+## Done
+
+- remove WPA abbreviations (for both exercises and solutions)
+- make figures smaller (e.g., a maximum of 75% of column width)
 
 <!-- eof -->
