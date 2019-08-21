@@ -74,7 +74,4 @@ num_as_char(1:10/3, n_pre_dec = 2, n_dec = 2)
 
 
 }
-\seealso{
-Other utility functions: \code{\link{make_grid}}
-}
 \concept{utility functions}
