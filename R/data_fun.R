@@ -1,5 +1,5 @@
 ## data_fun.R | ds4psy
-## hn | uni.kn | 2019 08 08
+## hn | uni.kn | 2019 08 21
 ## ---------------------------
 
 ## Functions for creating and manipulating data. 
@@ -16,11 +16,33 @@ random_bin_value <- function(x = c(0, 1), n = 1, replace = TRUE) {
   
   sample(x = x, size = n, replace = replace)  
   
-}
+} # random_bin_value end. 
 
 ## Check: 
 # random_bin_value(n = 10)
 # random_bin_value(x = c("m", "f"), n = 100)
+
+
+# Random values from a normal distribution: ------ 
+
+# r_n <- rnorm(n = 10000, mean = 100, sd = 10)
+# table(round(r_n, 0))
+# hist(r_n)
+
+
+# Random values from a uniform distribution: ------ 
+
+# r_u <- runif(n = 10000, min = .500, max = 6.499)
+# table(round(r_u, 0))
+# hist(r_u)
+
+
+# Random draws from a sample: ------ 
+
+# r_s <- sample(x = 1:10, size = 1000, replace = TRUE)
+# table(r_s)
+# hist(r_s, right = TRUE)
+# hist(r_s, right = FALSE)
 
 
 # Permutations: List all permutations of a set: ----------
@@ -156,6 +178,7 @@ add_whats <- function(vec, amount, what = NA){
 # add_whats(1:10, .5, what = "ABC")
 
 
+
 ## (2) Make tables for plots: ----------
 
 # make_tb: Create (n x n) table tb for plots: --------
@@ -213,6 +236,7 @@ make_tb <- function(n = NA, rseed = NA){
 # make_tb(n = 5, rseed = 1)  # check rseed
 # make_tb(n = 5, rseed = 1)
 
+
 # make_tbs: Create simpler (1 x n) table tbs for plots: --------
 
 make_tbs <- function(n = NA, rseed = NA){
@@ -267,6 +291,80 @@ make_tbs <- function(n = NA, rseed = NA){
 # make_tbs(n = 6)
 # make_tbs(n = 6, rseed = 1)  # check rseed
 # make_tbs(n = 6, rseed = 1)
+
+
+
+# make_grid: Generate a grid of x-y coordinates (from -x:x to -y:y): ------ 
+
+#' Generate a grid of x-y coordinates (as a tibble). 
+#'
+#' \code{make_grid} generates a grid of x/y coordinates and returns it as a tibble.
+#' 
+#' @param x_min Minimum x coordinate.  
+#' Default: \code{x_min = 0}. 
+#'
+#' @param x_max Maximum x coordinate.  
+#' Default: \code{x_max = 2}. 
+#' 
+#' @param y_min Minimum y coordinate.  
+#' Default: \code{y_min = 0}. 
+#'
+#' @param y_max Maximum y coordinate.  
+#' Default: \code{y_max = 1}. 
+#'
+#' @examples
+#' make_grid()
+#' make_grid(x_min = -3, x_max = 3, y_min = -2, y_max = 2)
+#'  
+#' @family utility functions
+#'
+#' @import tibble
+#' 
+#' @export 
+
+make_grid <- function(x_min = 0, x_max = 2, y_min = 0, y_max = 1){
+  
+  # check inputs: 
+  if (!is.numeric(x_min) || !is.numeric(x_max) || 
+      !is.numeric(y_min) || !is.numeric(y_max) ) {
+    stop("All arguments must be numeric.")
+  }
+  
+  if (x_min > x_max) {
+    message("x_max should be larger than x_min: Reversing them...")
+    x_tmp <- x_min
+    x_min <- x_max
+    x_max <- x_tmp 
+  }
+  
+  if (y_min > y_max) {
+    message("y_max should be larger than y_min: Reversing them...")
+    y_tmp <- y_min
+    y_min <- y_max
+    y_max <- y_tmp 
+  }
+  
+  # initialize:
+  tb <- NA 
+  
+  # ranges: 
+  xs <- x_min:x_max
+  ys <- y_min:y_max
+  
+  # tibble:
+  tb <- tibble::tibble(x = rep(xs, times = length(ys)),
+                       y = rep(ys, each = length(xs)))
+  
+  return(tb)
+  
+}  # make_grid end. 
+
+## Check: 
+# make_grid()
+# make_grid(x_min = 0, x_max = 0, y_min = 1, y_max = 1)
+# make_grid(x_min = 1, x_max = 0, y_min = 2, y_max = 1)
+# make_grid(x_min = "A")
+# make_grid(x_min = 1/2, y_min = 1/3)
 
 
 ## ToDo: ----------
