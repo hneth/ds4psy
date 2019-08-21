@@ -189,6 +189,8 @@ num_as_char <- function(x, n_pre_dec = 2, n_dec = 2, sym = "0", sep = "."){
 # num_as_char(1:10/1, n_pre_dec = 1, n_dec = 1)
 # num_as_char(1:10/3, n_pre_dec = 2, n_dec = 2)
 
+
+
 # kill_all: Kill all objects in current environment (without warning): ------
 
 kill_all <- function(){
