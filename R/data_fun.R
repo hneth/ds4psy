@@ -22,6 +22,59 @@ random_bin_value <- function(x = c(0, 1), n = 1, replace = TRUE) {
 # random_bin_value(n = 10)
 # random_bin_value(x = c("m", "f"), n = 100)
 
+# Coin flip: Flip a fair coin n times: ------ 
+
+#' Flip a fair coin (with 2 sides "H" and "T") n times. 
+#'
+#' \code{coin} generates a sequence of events that 
+#' represent the results of flipping a fair coin \code{n} times. 
+#' 
+#' The 2 possible outcomes for each flip are 
+#' "H" (for "heads") and "T" (for "tails").
+#' 
+#' @param n Number of coin flips.
+#' Default: \code{n = 1}. 
+#'
+#' @examples
+#' # Basics: 
+#' coin()
+#' coin(n = 10)
+#' table(coin(n = 100))
+#' 
+#' # Limits:
+#' coin(NA)
+#' coin(0)
+#' coin(1/2)
+#' coin(1:2)
+#' 
+#' 
+#' @family random functions
+#'
+#' @export 
+
+coin <- function(n = 1){
+  
+  # check inputs: 
+  if ( (is.na(n)) || (n < 1) || (n %% 1 != 0) || (length(n) > 1) ) { 
+    message("n must be a positive integer. Using n = 1:") 
+    n <- 1
+  }
+  
+  sample(x = c("H", "T"), size = n, replace = TRUE)
+  
+}  # coin end. 
+
+# # Check:
+# # Basics: 
+# coin()
+# table(coin(n = 10000))
+# 
+# # Limits:
+# coin(NA)
+# coin(0)
+# coin(1/2)
+# coin(1:2)
+
 
 # Random values from a normal distribution: ------ 
 
@@ -43,6 +96,163 @@ random_bin_value <- function(x = c(0, 1), n = 1, replace = TRUE) {
 # table(r_s)
 # hist(r_s, right = TRUE)
 # hist(r_s, right = FALSE)
+
+
+# dice: n random draws from a sample (from 1 to sides): ------ 
+
+#' Throw a fair dice (with a given number of sides) n times. 
+#'
+#' \code{dice} generates a sequence of events that 
+#' represent the results of throwing a fair dice 
+#' (with a given number of \code{sides}) \code{n} times.
+#' 
+#' @param n Number of dice throws.
+#' Default: \code{n = 1}. 
+#' 
+#' @param sides Number of sides.
+#' Default: \code{sides = 6}. 
+#'
+#' @examples
+#' # Basics:
+#' dice()
+#' table(dice(10^4))
+#' 
+#' # 5-sided dice:
+#' dice(sides = 5)
+#' table(dice(100, sides = 5))
+#' 
+#' # Note:
+#' dice(10, 1)
+#' table(dice(1000, 2))
+#' 
+#' # Limits:
+#' dice(NA)
+#' dice(0)
+#' dice(1/2)
+#' dice(1:2)
+#' dice(10, sides = NA)
+#' dice(10, sides = 1/2)
+#' dice(10, sides = 1:2)
+#' 
+#' @family random functions
+#'
+#' @export 
+
+dice <- function(n = 1, sides = 6){
+  
+  # check inputs: 
+  if ( (is.na(n)) || (n < 1) || (n %% 1 != 0) || (length(n) > 1) ) { 
+    message("n must be a positive integer. Using n = 1:") 
+    n <- 1
+  }
+  
+  if ( (is.na(sides)) || (sides < 1) || (sides %% 1 != 0) || (length(sides) > 1) ) { 
+    message("sides must be a positive integer. Using sides = 6:") 
+    sides <- 6
+  }
+  
+  sample(x = 1:sides, size = n, replace = TRUE)
+  
+}  # dice end.
+
+## Check:
+# # Basics:
+# dice()
+# table(dice(10^4))
+# 
+# # 5-sided dice:
+# dice(sides = 5)
+# table(dice(10^5, sides = 5))
+# 
+# # Note:
+# dice(10, 1)
+# table(dice(10000, 2))
+# 
+# # Limits:
+# dice(NA)
+# dice(0)
+# dice(1/2)
+# dice(1:2)
+# dice(10, sides = NA)
+# dice(10, sides = 1/2)
+# dice(10, sides = 1:2)
+
+# dice_2: n non-random draws from a sample (from 1 to sides): ------ 
+
+#' Throw a questionable dice (with a given number of sides) n times. 
+#'
+#' \code{dice_2} is a variant of \code{\link{dice}} that 
+#' generates a sequence of events that 
+#' represent the results of throwing a dice 
+#' (with a given number of \code{sides}) \code{n} times.
+#' 
+#' Something is wrong with this dice. 
+#' Can you examine it and measure its problems 
+#' in a quantitative fashion?
+#' 
+#' @param n Number of dice throws.
+#' Default: \code{n = 1}. 
+#' 
+#' @param sides Number of sides.
+#' Default: \code{sides = 6}. 
+#'
+#' @examples 
+#' # Basics:
+#' dice_2()
+#' table(dice_2(100))
+#' 
+#' # 10-sided dice:
+#' dice_2(sides = 10)
+#' table(dice_2(100, sides = 10))
+#' 
+#' # Note:
+#' dice_2(10, 1)
+#' table(dice_2(200, 2))
+#' 
+#' 
+#' @family random functions
+#'
+#' @export 
+
+dice_2 <- function(n = 1, sides = 6){
+  
+  # check inputs: 
+  if ( (is.na(n)) || (n < 1) || (n %% 1 != 0) || (length(n) > 1) ) { 
+    message("n must be a positive integer. Using n = 1:") 
+    n <- 1
+  }
+  
+  if ( (is.na(sides)) || (sides < 1) || (sides %% 1 != 0) || (length(sides) > 1) ) { 
+    message("sides must be a positive integer. Using sides = 6:") 
+    sides <- 6
+  }
+  
+  ## Weigh events by some probability density distribution:
+  # pfac <- # loading factor (0: fair, 1: always final side)
+  
+  ## Fixed bias for 1 side:
+  ptru <- 1/sides
+  bias <- ptru * .075  # bias of final side 
+  pfin <- ptru + bias  # prob of biased side
+  poth <- ptru - (bias/(sides - 1))  # prob of other sides
+  pall <- c(rep(poth, (sides - 1)), pfin)
+  
+  sample(x = 1:sides, size = n, replace = TRUE, prob = pall)
+  
+}  # dice_2 end.
+
+## Check:
+# # Basics:
+# dice_2()
+# table(dice_2(10^4))
+# 
+# # 10-sided dice:
+# dice_2(sides = 10)
+# table(dice_2(10^3, sides = 10))
+# 
+# # Note:
+# dice_2(10, 1)
+# table(dice_2(2000, 2))
 
 
 # Permutations: List all permutations of a set: ----------
@@ -315,8 +525,8 @@ make_tbs <- function(n = NA, rseed = NA){
 #' @examples
 #' make_grid()
 #' make_grid(x_min = -3, x_max = 3, y_min = -2, y_max = 2)
-#'  
-#' @family utility functions
+#'
+#' @family data functions
 #'
 #' @import tibble
 #' 
