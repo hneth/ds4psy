@@ -1,5 +1,5 @@
 ## data.R | ds4psy
-## hn | uni.kn | 2019 08 12
+## hn | uni.kn | 2019 08 21
 ## ---------------------------
 
 ## Documentation of datasets included in /data. 
@@ -224,6 +224,7 @@
 "posPsy_wide"
 
 
+
 # (2) False Positive Psychology data: ---------- 
 
 # https://bookdown.org/hneth/ds4psy/B-2-datasets-false.html
@@ -305,6 +306,7 @@
 
 
 
+
 # (3) Outlier data from Chapter 3: Transforming data / dplyr: ---------- 
 
 # https://bookdown.org/hneth/ds4psy/3-6-transform-ex.html 
@@ -330,6 +332,7 @@
 #' See CSV data at \url{http://rpository.com/ds4psy/data/out.csv}. 
 
 "outliers"
+
 
 
 # (4) Tables from Chapter 6: Importing data / readr: ---------- 
@@ -495,6 +498,7 @@
 
 
 
+
 # (5) Chapter 7: Tidying data / tidyr: ---------- 
 
 # https://bookdown.org/hneth/ds4psy/7-3-tidy-essentials.html
@@ -621,6 +625,7 @@
 #' See CSV data at \url{http://rpository.com/ds4psy/data/exp_wide.csv}. 
 
 "exp_wide"
+
 
 
 
@@ -795,7 +800,8 @@
 
 
 
-# (7) Chapter 10: Iteration / loops: -------- 
+
+# (7) Chapter 12: Iteration / loops: -------- 
 
 # https://bookdown.org/hneth/ds4psy/10-3-iter-essentials.html
 
@@ -882,8 +888,12 @@
 "pi_100k"
 
 
+
 ## ToDo: ----------
 
-## - add codebooks (see data_190807.R in archive).
+# - generate ds4psy survey data
+# - add text data (Chapter 9: Text)
+# - add date/time data (Chapter 10: Time, e.g., DOB, time of test, task, etc.)
+# - add more info to codebooks (see data_190807.R in archive)
 
 ## eof. ----------------------
