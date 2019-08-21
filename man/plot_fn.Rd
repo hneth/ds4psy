@@ -13,7 +13,7 @@ plot_fn(x = NA, y = 1, A = TRUE, B = FALSE, C = TRUE,
 Default: \code{x = NA}.}
 
 \item{y}{A (decimal) number. 
-Default: \code{y = 0}.}
+Default: \code{y = 1}.}
 
 \item{A}{A Boolean value. 
 Default: \code{A = TRUE}.}
@@ -45,8 +45,11 @@ Default: \code{g = "white"}.}
 }
 \details{
 \code{plot_fn} is deliberately kept cryptic and obscure to illustrate 
-how function parameters can be explored (and why transparent variable 
-names are essential for understanding and using a function).
+how function parameters can be explored.
+
+\code{plot_fn} also shows that brevity in argument names should not 
+come at the expense of clarity. In fact, transparent argument names 
+are absolutely essential for understanding and using a function.
 }
 \examples{
 # Basics: 

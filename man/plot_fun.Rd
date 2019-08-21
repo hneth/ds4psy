@@ -2,7 +2,7 @@
 % Please edit documentation in R/plot_fun.R
 \name{plot_fun}
 \alias{plot_fun}
-\title{A function to plot some plot.}
+\title{Another function to plot some plot.}
 \usage{
 plot_fun(a = NA, b = TRUE, c = TRUE, d = 1, e = FALSE,
   f = FALSE, g = FALSE, c1 = c(rev(pal_seeblau), "white", pal_grau,
@@ -38,12 +38,15 @@ Note: Using colors of the \code{unikn} package by default.}
 Default: \code{c2 = "black"}.}
 }
 \description{
-\code{plot_fun} is a function that uses parameters to plot a plot.
+\code{plot_fun} is a function that provides options for plotting a plot.
 }
 \details{
 \code{plot_fun} is deliberately kept cryptic and obscure to illustrate 
-how function parameters can be explored (and why transparent variable 
-names are essential for understanding and using a function).
+how function parameters can be explored.
+
+\code{plot_fun} also shows that brevity in argument names should not 
+come at the expense of clarity. In fact, transparent argument names 
+are absolutely essential for understanding and using a function.
 }
 \examples{
 # Basics: 
