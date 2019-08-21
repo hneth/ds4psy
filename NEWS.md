@@ -17,19 +17,20 @@ Changes involving new functionality include:
 
 ### Minor changes
 
-- add utility function `make_grid()` 
-- add utility function `num_as_char()` 
+- added random data generation functions (e.g., for `coin()` flips and `dice()` throws)  
+- added data generation function `make_grid()` for an exercise on _visual illusions_ (Exercise 6 of Chapter 2)  
+- added utility function `num_as_char()` (used in Chapter 11: Functions)  
 
 ### Details 
 
-- enhancement: Better documentation of datasets (in `data.R`)
-- bug fix: Removed redundant code (from `plot_fun.R`)  
-- bug fix: Removed non-essential packages (from Imports)
+- enhancement: Better documentation of datasets (in `data.R`)  
+- bug fix: Removed redundant code (from `plot_fun.R`)    
+- bug fix: Removed non-essential packages (from Imports)  
 
 ### To do
 
-- add graphical functions for clock plots (including new book chapters)
-- add data with text, date, and time variables
+- add graphical functions for clock plots (including new book chapters)  
+- add data with text, date, and time variables  
 
 
 -------- 
@@ -57,12 +58,33 @@ This project has not yet been released (on CRAN or GitHub).
 
 - The current source code of the **ds4psy_book** project (0.0.0.9001+) is hosted at <https://github.com/hneth/ds4psy_book/>. 
 
+
+## Log of changes made 
+
+New content: 
+
+- added a new exercise on _Visual illusions_ using `make_grid()` function (see Exercise 6 in Chapter 2).  
+- added a new exercise on _Printing numbers as characters_ using `num_as_char()` function (see Exercise 6 in Chapter 11).  
+- added _A tidyverse caveat_ to Clarifications (see introductory chapter). 
+
+Structure:
+
+- ... 
+
+Details and cosmetics:
+
+- removed WPA abbreviations (for both exercises and solutions)
+- made figures smaller (e.g., a maximum of 75% of column width)
+
+
 ## To do
 
 New content: 
 
 - add chapter on _Text strings_ (in Part 2: Data wrangling)
 - add chapter on _Dates and times_ (in Part 2: Data wrangling)
+- add exercises on function exploration (`plot_fn()` and `plot_fun()`)   
+- add exercises on random data generation (`coin()` and `dice()`)  
 - add _factors_ to Basics chapter, or a chapter on _Factors_ (in Part 2: Data wrangling) 
 - consider making _conditionals_ its own chapter (in Part 3: Programming) 
 - emphasize _reproducible research_ aspects in introduction and appendix on R Markdown
@@ -70,10 +92,5 @@ New content:
 Details and cosmetics:
 
 - include _Preparation_ in _Introduction_ sections
-
-## Done
-
-- remove WPA abbreviations (for both exercises and solutions)
-- make figures smaller (e.g., a maximum of 75% of column width)
 
 <!-- eof -->
