@@ -12,77 +12,14 @@
 # What is it that we _usually_ want to hear as `x` when asking 
 # "What `x` is it today?" or "What `x` is it right now?"
 
+
+## (1) CUR_ functions: ---------- 
+
 # 90% of all use cases are covered by 2 functions that ask for the _current_ date or time:
 # - `cur_date()`: in 2 different orders (optional sep)
 # - `cur_time()`: with or without seconds (optional sep)
 
-# About 5% are covered by 4 additional functions that ask `what_` questions
-# about the position of some temporal unit in some larger continuum of time:
-# 
-# - `what_day()`: as name (weekday, abbr or full), or as number (in units of week, month, or year; as char or as integer)  
-# - `what_week()`: only as number (in units of month, or year; as char or as integer)  
-# - `what_month()`: as name (abbr or full) or as number (as char or as integer)  
-# - `what_year()`: only as number (abbr or full, as char or as integer) 
-#  
-# All of these take some "point in time" time as input,
-# which defaults to now (i.e., Sys.time()) but can also be a vector.
 
-# cur_time: A satisficing version of Sys.time() ------
-
-#' Current time (in hh:mm or hh:mm:ss format).  
-#'
-#' \code{cur_time} provides a satisficing version of 
-#' \code{Sys.time()} that is sufficient for most purposes. 
-#' 
-#' \code{cur_time} returns \code{Sys.time()}  
-#' (in "%H:%M" or "%H:%M:%S" format) 
-#' using current system settings.
-#' 
-#' For a time zone argument, 
-#' see the \code{now()} function of 
-#' the \strong{lubridate} package. 
-#' 
-#' @param seconds Boolean: Show time with seconds?    
-#' Default: \code{seconds = FALSE}. 
-#' 
-#' @param sep Character: Separator to use. 
-#' Default: \code{sep = ":"}. 
-#' 
-#' @examples
-#' cur_time() 
-#' cur_time(seconds = TRUE)
-#' cur_time(sep = ".")
-#' 
-#' @family date and time functions
-#' 
-#' @seealso 
-#' \code{now()} function of the \strong{lubridate} package; 
-#' \code{Sys.time()} function of \strong{base} R. 
-#' 
-#' @export 
-
-cur_time <- function(seconds = FALSE, sep = ":"){
-  
-  t <- Sys.time()
-  
-  if (seconds) {
-    
-    fmt <- paste("%H", "%M", "%S", sep = sep, collapse = "") 
-    
-  } else {
-    
-    fmt <- paste("%H", "%M", sep = sep, collapse = "") 
-    
-  }
-  
-  format(t, fmt)   
-  
-}
-
-## Check:
-# cur_time()
-# cur_time(seconds = TRUE)
-# cur_time(sep = ".")
 
 # cur_date: A relaxed version of Sys.time() ------ 
 
@@ -124,18 +61,17 @@ cur_time <- function(seconds = FALSE, sep = ":"){
 
 cur_date <- function(rev = FALSE, sep = "-"){
   
+  # Current time: 
   t <- Sys.time()
   
+  # Formatting instruction string:   
   if (rev){
-    
-    fmt <- paste("%d", "%m", "%Y", sep = sep, collapse = "") 
-    
+    fmt <- paste("%d", "%m", "%Y", sep = sep, collapse = "")  # using sep
   } else {
-    
-    fmt <- paste("%Y", "%m", "%d", sep = sep, collapse = "")    
-    
+    fmt <- paste("%Y", "%m", "%d", sep = sep, collapse = "")  # using sep
   }
   
+  # Return formatted t: 
   format(t, fmt)   
   
 }  # cur_date end. 
@@ -146,6 +82,191 @@ cur_date <- function(rev = FALSE, sep = "-"){
 # cur_date(rev = TRUE)
 # cur_date(rev = TRUE, sep = ".")
 
+
+# cur_time: A satisficing version of Sys.time() ------
+
+#' Current time (in hh:mm or hh:mm:ss format).  
+#'
+#' \code{cur_time} provides a satisficing version of 
+#' \code{Sys.time()} that is sufficient for most purposes. 
+#' 
+#' \code{cur_time} returns \code{Sys.time()}  
+#' (in "%H:%M" or "%H:%M:%S" format) 
+#' using current system settings.
+#' 
+#' For a time zone argument, 
+#' see the \code{now()} function of 
+#' the \strong{lubridate} package. 
+#' 
+#' @param seconds Boolean: Show time with seconds?    
+#' Default: \code{seconds = FALSE}. 
+#' 
+#' @param sep Character: Separator to use. 
+#' Default: \code{sep = ":"}. 
+#' 
+#' @examples
+#' cur_time() 
+#' cur_time(seconds = TRUE)
+#' cur_time(sep = ".")
+#' 
+#' @family date and time functions
+#' 
+#' @seealso 
+#' \code{now()} function of the \strong{lubridate} package; 
+#' \code{Sys.time()} function of \strong{base} R. 
+#' 
+#' @export 
+
+cur_time <- function(seconds = FALSE, sep = ":"){
+  
+  # Current time: 
+  t <- Sys.time()
+  
+  # Formatting instruction string: 
+  if (seconds) {
+    fmt <- paste("%H", "%M", "%S", sep = sep, collapse = "")  # %S and using sep
+  } else {
+    fmt <- paste("%H", "%M",       sep = sep, collapse = "")  # no %S, using sep
+  }
+  
+  # Return formatted t: 
+  format(t, fmt)   
+  
+}  # cur_time end. 
+
+## Check:
+# cur_time()
+# cur_time(seconds = TRUE)
+# cur_time(sep = ".")
+
+
+# cur_date_time: Combining cur_date and cur_time: ------ 
+
+# ToDo?  Or just call cur_date() AND cur_time()? 
+
+
+
+## (2) WHAT_ functions: ---------- 
+
+# About 5% are covered by 4 additional functions that ask `what_` questions
+# about the position of some temporal unit in some larger continuum of time:
+# 
+# - `what_day()`  : as name (weekday, abbr or full), OR as number (in units of week, month, or year; as char or as integer)  
+# - `what_week()` : only as number (in units of month, or year); return as char or as integer   
+# - `what_month()`: as name (abbr or full) OR as number (as char or as integer)  
+# - `what_year()` : only as number (abbr or full), return as char or as integer
+#  
+# All of these take some "point in time" time as input,
+# which defaults to now (i.e., Sys.time()) but can also be a vector.
+
+# what_year: What year is it? (number only) ------ 
+
+what_year <- function(time = Sys.time(), abbr = FALSE, as_integer = FALSE){
+  
+  # Check time input:
+  # ToDo 
+  
+  # initialize:
+  y <- NA
+  
+  # get year y:
+  if (abbr){ 
+    y <- format(time, "%y") 
+  } else { 
+    y <- format(time, "%Y") 
+  } 
+  
+  # as char or integer:
+  if (as_integer) {
+    as.integer(y)
+  } else {
+    y
+  }
+  
+}  # what_year end. 
+
+## Check:
+# what_year()
+# what_year(abbr = TRUE)
+# what_year(as_integer = TRUE)
+# 
+# # other dates/times:
+# dt <- as.Date("1987-07-13")
+# what_year(time = dt, abbr = TRUE, as_integer = TRUE)
+
+
+
+# what_week: What week is it? (number only) ------ 
+
+what_week <- function(time = Sys.time(), unit = "year", as_integer = FALSE){
+  
+  # Robustness:
+  unit <- substr(tolower(unit), 1, 1)  # use only 1st letter of string
+  
+  # Check time input:
+  # ToDo 
+  
+  # initialize:
+  w <- NA
+  
+  # get week w (as char):
+  if (unit == "m"){  # unit "month": 
+    
+    # Searching nr. of week corresponding to current time in current month?
+    # Sources: Adapted from a discussion at 
+    # <https://stackoverflow.com/questions/25199851/r-how-to-get-the-week-number-of-the-month>
+    
+    # current date:
+    d_now <- as.Date(time)
+    wk_n  <- as.numeric(format(d_now, "%V"))  # corresponding week (01--53) as defined in ISO 8601 (week starts Monday)
+    
+    # date of 1st in month:
+    d_1st <- as.Date(cut(d_now, "month"))
+    wk_1  <- as.numeric(format(d_1st, "%V"))  # corresponding week (01--53) as defined in ISO 8601 (week starts on Monday)
+    
+    # difference: 
+    w <- (wk_n - wk_1) + 1  # as number
+    w <- as.character(w)    # as character
+    
+  } else if (unit == "y") {  # unit "year": 
+    
+    w <- format(time, "%V")  # %V: week of the year as decimal number (01--53) as defined in ISO 8601 (week starts on Monday)
+    
+  } else {  # some other unit: 
+    
+    message("Unknown unit. Using unit = 'year' instead:")
+    w <- format(time, "%V")  # %V: week of the year as decimal number (01--53) as defined in ISO 8601 (week starts on Monday)
+    
+  } 
+  
+  # as char or integer:
+  if (as_integer) {
+    as.integer(w)
+  } else {
+    w
+  }
+  
+}  # what_week end. 
+
+
+# ## Check:
+# what_week()
+# what_week(as_integer = TRUE)
+# 
+# # other dates/times:
+# d1 <- as.Date("2019-08-23")
+# what_week(time = d1, unit = "year")
+# 
+# # Week nr. (in month):
+# d2 <- as.Date("2019-06-23") # Sunday of 4th week in June 2019.
+# what_week(time = d2, unit = "month")
+# d3 <- as.Date("2019-06-24") # Monday of 5th week in June 2019.
+# what_week(time = d3, unit = "month")
+
+
+
+
+## OLDER code: ---------- 
 
 # cur_weekday: What day of the week is it today? ------
 
@@ -224,10 +345,13 @@ cur_month_nr <- function(as_integer = FALSE){
 # cur_month_nr(as_integer = TRUE)
 
 
+
 ## ToDo: ----------
 
 # - provide all functions with a "time" argument that is set to Sys.time() by default.
 #   This allows providing other time points for which the question is answered. 
 #   e.g., On what day was my birthday? 
+
+# - add what_date() and what_time() as simple wrappers to cur_date() and cur_time()
 
 ## eof. ----------------------
