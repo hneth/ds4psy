@@ -13,13 +13,13 @@ The current development version of **ds4psy** (0.1.0.9001+) is hosted at <https:
 
 Changes involving new functionality include:
 
-- ... 
+- added simpler date and time functions (e.g., `cur_date()`, `cur_time()`)  
+- added data generation functions (e.g., for `coin()` flips and `dice()` throws)
 
 ### Minor changes
 
-- added random data generation functions (e.g., for `coin()` flips and `dice()` throws)  
 - added data generation function `make_grid()` for an exercise on _visual illusions_ (Exercise 6 of Chapter 2)  
-- added utility function `num_as_char()` (used in Chapter 11: Functions)  
+- added utility functions `num_as_char()` and `num_as_ordinal()` (to be used in Chapter 11: Functions)  
 
 ### Details 
 
@@ -93,4 +93,4 @@ Details and cosmetics:
 
 - include _Preparation_ in _Introduction_ sections
 
-<!-- eof -->
+<!-- eof. -->
