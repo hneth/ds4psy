@@ -15,20 +15,21 @@ vrep <- Vectorize(rep.int, "times")
 
 # num_as_char: Print a number (as character), with n_pre_dec digits prior to decimal sep, and rounded to n_dec digits: ------
 
-#' Convert a number to character sequence. 
+#' Convert a number into a character sequence. 
 #'
-#' \code{num_as_char} converts a given number into a character sequence. 
+#' \code{num_as_char} converts a number into a character sequence 
+#' (of a specific length). 
 #' 
 #' The arguments \code{n_pre_dec} and \code{n_dec} set a number of desired digits 
 #' before and after the decimal separator \code{sep}. 
 #' \code{num_as_char} tries to meet these digit numbers by adding zeros to the front 
 #' and end of \code{x}. 
 #' 
-#' Note that this function illustrates how numbers, 
+#' \strong{Caveat:} Note that this function illustrates how numbers, 
 #' characters, \code{for} loops, and \code{paste()} can be combined 
 #' when writing functions. It is not written efficiently or well. 
 #' 
-#' @param x Number to convert (required).
+#' @param x Number(s) to convert (required, accepts numeric vectors).
 #'
 #' @param n_pre_dec Number of digits before the decimal separator. 
 #' Default: \code{n_pre_dec = 2}. 
@@ -88,10 +89,10 @@ vrep <- Vectorize(rep.int, "times")
 num_as_char <- function(x, n_pre_dec = 2, n_dec = 2, sym = "0", sep = "."){
   
   # (-) Check inputs:
-  if ((!is.na(as.numeric(sym))) && (as.numeric(sym) != 0)) {
+  if ((!is.na(as.numeric(sym))) && (as.numeric(sym) != 0)) {  # x is numeric, but not 0: 
     message("Setting sym to numeric digits (other than '0') is confusing.")
   }
-  if (nchar(sym) > 1) {
+  if (nchar(sym) > 1) {  # sym contains multiple characters: 
     message("Setting sym to more than 1 character is confusing.")
   }
   
@@ -190,6 +191,111 @@ num_as_char <- function(x, n_pre_dec = 2, n_dec = 2, sym = "0", sep = "."){
 # num_as_char(1:10/3, n_pre_dec = 2, n_dec = 2)
 
 
+# num_as_ordinal: Convert a (cardinal) number into an ordinal string: ------
+
+#' Convert a number into an ordinal character sequence. 
+#'
+#' \code{num_as_ordinal} converts a given (cardinal) number 
+#' into an ordinal character sequence. 
+#' 
+#' The function currently only works for the English language and 
+#' does not accepts inputs that are characters, dates, or times.  
+#' 
+#' Note that the \code{toOrdinal()} function of the \strong{toOrdinal} package works 
+#' for multiple languages and provides a \code{toOrdinalDate()} function. 
+#' 
+#' \strong{Caveat:} Note that this function illustrates how numbers, 
+#' characters, \code{for} loops, and \code{paste()} can be combined 
+#' when writing functions. It is not written efficiently or well. 
+#' 
+#' @param x Number(s) to convert (required, accepts numeric vectors).
+#'
+#' @param sep Decimal separator to use.  
+#' Default: \code{sep = ""} (i.e., no separator). 
+#'
+#' @examples
+#' num_as_ordinal(1:4)
+#' num_as_ordinal(10:14)    # all with "th"
+#' num_as_ordinal(110:114)  # all with "th"
+#' num_as_ordinal(120:124)  # 4 different suffixes
+#' num_as_ordinal(1:15, sep = "-")  # using sep
+#' 
+#' # Note special cases:
+#' num_as_ordinal(NA)
+#' num_as_ordinal("1")
+#' num_as_ordinal(Sys.Date())
+#' num_as_ordinal(Sys.time())
+#' num_as_ordinal(seq(1.99, 2.14, by = .01))
+#' 
+#' 
+#' @family utility functions
+#'
+#' @seealso 
+#' \code{toOrdinal()} function of the \strong{toOrdinal} package.  
+#'
+#' @export 
+
+num_as_ordinal <- function(x, sep = ""){
+  
+  # (-) Check inputs:
+  if ( (length(x) == 1) && (is.na(x)) ) {
+    message("x is required. Using x = 0:15:")
+    x <- 0:15
+  }
+  
+  if ( is.character(x) ) {  # x is not numeric: 
+    message("x must be numeric, not character.")
+    return(x)
+  }
+  
+  if ( !is.numeric(x) ){
+    message("x must be numeric.")
+    return(x)
+  }
+  
+  if ( (any(x %% 1 != 0)) ) {  # x is no integer: 
+    message("x should be an integer, but let's try...")
+  }
+  
+  # (1) Turn x into character(s):
+  x_c <- as.character(x)
+  nchar <- nchar(x_c)
+  f_c <- substr(x_c, start = nchar, stop = nchar)        # final character
+  f2c <- substr(x_c, start = (nchar - 1), stop = nchar)  # final 2 characters
+  
+  # (2) Initialize all suffixes to default:
+  sfx <- rep("th", length(x))  
+  
+  # (3) Consider each x for suffix changes:
+  for (i in seq_along(x)){
+    
+    # Test conditions for 3 special suffixes:
+    if ( (f_c[i] == "1") && (f2c[i] != "11") ) { sfx[i] <- "st" }
+    if ( (f_c[i] == "2") && (f2c[i] != "12") ) { sfx[i] <- "nd" }
+    if ( (f_c[i] == "3") && (f2c[i] != "13") ) { sfx[i] <- "rd" }
+    
+  } # for loop end. 
+  
+  # (4) Return combination:
+  paste0(x_c, sep, sfx)
+  
+}  # num_as_ordinal end.
+
+## Checks:
+# num_as_ordinal(1:15)
+# num_as_ordinal(110:114)  # all with "th"
+# num_as_ordinal(120:124)  # 4 different suffixes
+# num_as_ordinal(1:15, sep = "-")  # using sep
+# 
+# # Note special cases:
+# num_as_ordinal(NA)
+# num_as_ordinal("1")
+# num_as_ordinal(Sys.Date())
+# num_as_ordinal(Sys.time())
+# num_as_ordinal(seq(0, 2.5, by = .1))
+# num_as_ordinal(seq(1.99, 2.15, by = .01))
+
+
 
 # kill_all: Kill all objects in current environment (without warning): ------
 
@@ -204,5 +310,8 @@ kill_all <- function(){
 
 
 ## ToDo: ----------
+
+# - Write an num_as_ordinal() function that turns a (cardinal) number into an ordial string:
+#   1st, 2nd, 3rd, 4th, ... (see toOrdinal package)
 
 ## eof. ----------------------
