@@ -2,12 +2,12 @@
 % Please edit documentation in R/util_fun.R
 \name{num_as_char}
 \alias{num_as_char}
-\title{Convert a number to character sequence.}
+\title{Convert a number into a character sequence.}
 \usage{
 num_as_char(x, n_pre_dec = 2, n_dec = 2, sym = "0", sep = ".")
 }
 \arguments{
-\item{x}{Number to convert (required).}
+\item{x}{Number(s) to convert (required, accepts numeric vectors).}
 
 \item{n_pre_dec}{Number of digits before the decimal separator. 
 Default: \code{n_pre_dec = 2}. 
@@ -27,7 +27,8 @@ digits other than \code{"0"} do not.}
 Default: \code{sep = "."}.}
 }
 \description{
-\code{num_as_char} converts a given number into a character sequence.
+\code{num_as_char} converts a number into a character sequence 
+(of a specific length).
 }
 \details{
 The arguments \code{n_pre_dec} and \code{n_dec} set a number of desired digits 
@@ -35,7 +36,7 @@ before and after the decimal separator \code{sep}.
 \code{num_as_char} tries to meet these digit numbers by adding zeros to the front 
 and end of \code{x}.
 
-Note that this function illustrates how numbers, 
+\strong{Caveat:} Note that this function illustrates how numbers, 
 characters, \code{for} loops, and \code{paste()} can be combined 
 when writing functions. It is not written efficiently or well.
 }
@@ -73,5 +74,8 @@ num_as_char(1:10/1, n_pre_dec = 1, n_dec = 1)
 num_as_char(1:10/3, n_pre_dec = 2, n_dec = 2)
 
 
+}
+\seealso{
+Other utility functions: \code{\link{num_as_ordinal}}
 }
 \concept{utility functions}
