@@ -2,7 +2,7 @@
 % Please edit documentation in R/time_fun.R
 \name{cur_date}
 \alias{cur_date}
-\title{Current date (in yyyy-mm-dd format).}
+\title{Current date (in yyyy-mm-dd or dd-mm-yyyy format).}
 \usage{
 cur_date(rev = FALSE, sep = "-")
 }
@@ -22,12 +22,12 @@ Default: \code{sep = "-"}.}
 (in "%Y-%m-%d" or "%d-%m-%Y" format) 
 using current system settings.
  
-By default, this corresponds to the "%Y-%m-%d" or "%F"    
+By default, this corresponds to the "%Y-%m-%d" (or "%F")     
 format used as the ISO 8601 standard.
 
-For additional options, see the 
+For more options, see the 
 \code{date()} and \code{Sys.Date()} functions of \strong{base} R 
-and various formatting options for \code{Sys.time()}.
+and the plethora of formatting options for \code{Sys.time()}.
 }
 \examples{
 cur_date()
