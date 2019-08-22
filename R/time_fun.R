@@ -1,5 +1,5 @@
 ## time_fun.R | ds4psy
-## hn | uni.kn | 2019 08 21
+## hn | uni.kn | 2019 08 22
 ## ---------------------------
 
 ## Functions for date and time objects. 
@@ -8,9 +8,24 @@
 # date()  # returns date as "Wed Aug 21 19:43:22 2019", 
 # which is more than we usually want.
 
-# Some simpler variants: 
+# Some simpler variants following a simple heuristic: 
+# What is it that we _usually_ want to hear as `x` when asking 
+# "What `x` is it today?" or "What `x` is it right now?"
 
+# 90% of all use cases are covered by 2 functions that ask for the _current_ date or time:
+# - `cur_date()`: in 2 different orders (optional sep)
+# - `cur_time()`: with or without seconds (optional sep)
 
+# About 5% are covered by 4 additional functions that ask `what_` questions
+# about the position of some temporal unit in some larger continuum of time:
+# 
+# - `what_day()`: as name (weekday, abbr or full), or as number (in units of week, month, or year; as char or as integer)  
+# - `what_week()`: only as number (in units of month, or year; as char or as integer)  
+# - `what_month()`: as name (abbr or full) or as number (as char or as integer)  
+# - `what_year()`: only as number (abbr or full, as char or as integer) 
+#  
+# All of these take some "point in time" time as input,
+# which defaults to now (i.e., Sys.time()) but can also be a vector.
 
 # cur_time: A satisficing version of Sys.time() ------
 
@@ -69,11 +84,9 @@ cur_time <- function(seconds = FALSE, sep = ":"){
 # cur_time(seconds = TRUE)
 # cur_time(sep = ".")
 
-# 3. cur_date: A relaxed version of Sys.time() ------ 
+# cur_date: A relaxed version of Sys.time() ------ 
 
-# `%F`: Date equivalent to `%Y-%m-%d` (ISO 8601 date format) 
-
-#' Current date (in yyyy-mm-dd format). 
+#' Current date (in yyyy-mm-dd or dd-mm-yyyy format). 
 #'
 #' \code{cur_date} provides a relaxed version of 
 #' \code{Sys.time()} that is sufficient for most purposes. 
@@ -82,12 +95,12 @@ cur_time <- function(seconds = FALSE, sep = ":"){
 #' (in "%Y-%m-%d" or "%d-%m-%Y" format) 
 #' using current system settings.
 #'  
-#' By default, this corresponds to the "%Y-%m-%d" or "%F"    
+#' By default, this corresponds to the "%Y-%m-%d" (or "%F")     
 #' format used as the ISO 8601 standard. 
 #' 
-#' For additional options, see the 
+#' For more options, see the 
 #' \code{date()} and \code{Sys.Date()} functions of \strong{base} R 
-#' and various formatting options for \code{Sys.time()}. 
+#' and the plethora of formatting options for \code{Sys.time()}. 
 #' 
 #' @param rev Boolean: Reverse from "yyyy-mm-dd" to "dd-mm-yyyy" format?    
 #' Default: \code{rev = FALSE}. 
@@ -212,5 +225,9 @@ cur_month_nr <- function(as_integer = FALSE){
 
 
 ## ToDo: ----------
+
+# - provide all functions with a "time" argument that is set to Sys.time() by default.
+#   This allows providing other time points for which the question is answered. 
+#   e.g., On what day was my birthday? 
 
 ## eof. ----------------------
