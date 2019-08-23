@@ -1,5 +1,5 @@
 ## plot_fun.R | ds4psy
-## hn | uni.kn | 2019 08 21
+## hn | uni.kn | 2019 08 23
 ## ---------------------------
 
 ## Functions for plotting. 
@@ -355,6 +355,7 @@ plot_tiles <- function(n = NA,
 #            sort = FALSE, borders = TRUE, 
 #            lbl_tiles = TRUE, lbl_title = TRUE, 
 #            rseed = 101)  # fix seed
+
 
 
 ## plot_fun: Wrapper around plot_tiles (with fewer and cryptic options): -------- 
@@ -1056,6 +1057,6 @@ plot_fn <- function(x = NA,
 
 ## ToDo: ----------
 
-# - ...
+# - add option for reading ascii art (into tile plots). 
 
 ## eof. ----------------------
