@@ -13,7 +13,8 @@
 # "What `x` is it today?" or "What `x` is it right now?"
 
 
-## (1) CUR_ functions: ---------- 
+
+## (1) cur_ functions: ---------- 
 
 # 90% of all use cases are covered by 2 functions that ask for the _current_ date or time:
 # - `cur_date()`: in 2 different orders (optional sep)
@@ -146,7 +147,8 @@ cur_time <- function(seconds = FALSE, sep = ":"){
 
 
 
-## (2) WHAT_ functions: ---------- 
+
+## (2) what_ functions: ---------- 
 
 # About 5% are covered by 4 additional functions that ask `what_` questions
 # about the position of some temporal unit in some larger continuum of time:
@@ -156,24 +158,30 @@ cur_time <- function(seconds = FALSE, sep = ":"){
 # - `what_month()`: as name (abbr or full) OR as number (as char or as integer)  
 # - `what_year()` : only as number (abbr or full), return as char or as integer
 #  
-# All of these take some "point in time" time as input,
-# which defaults to now (i.e., Sys.time()) but can also be a vector.
+# All of these functions 
+# - take some "point in time" time as input (as a "when" argument),
+#   which defaults to now (i.e., Sys.time()) but can also be a vector.
+# - return a character string (even for numbers, which can easily be converted into a number)
 
-# what_year: What year is it? (number only) ------ 
+# what_year: What year is it? ------ 
 
-what_year <- function(time = Sys.time(), abbr = FALSE, as_integer = FALSE){
+what_year <- function(when = Sys.time(), abbr = FALSE, as_integer = FALSE){
   
-  # Check time input:
-  # ToDo 
+  # Verify date/time input:
+  if ( (class(when) != "Date") && !("POSIXct" %in% class(when)) ) {
+    message(paste0("what_year: when must be of class 'Date' or 'POSIXct'."))
+    message(paste0("Currently, class(when) = ", class(when), ".")) 
+    return(when)
+  }
   
   # initialize:
   y <- NA
   
   # get year y:
   if (abbr){ 
-    y <- format(time, "%y") 
+    y <- format(when, "%y") 
   } else { 
-    y <- format(time, "%Y") 
+    y <- format(when, "%Y") 
   } 
   
   # as char or integer:
@@ -192,19 +200,25 @@ what_year <- function(time = Sys.time(), abbr = FALSE, as_integer = FALSE){
 # 
 # # other dates/times:
 # dt <- as.Date("1987-07-13")
-# what_year(time = dt, abbr = TRUE, as_integer = TRUE)
-
-
+# what_year(when = dt, abbr = TRUE, as_integer = TRUE)
+#
+# Note:
+# what_year("2020-01-01")
+# what_year(2020-01-01)
 
 # what_week: What week is it? (number only) ------ 
 
-what_week <- function(time = Sys.time(), unit = "year", as_integer = FALSE){
+what_week <- function(when = Sys.time(), unit = "year", as_integer = FALSE){
   
   # Robustness:
   unit <- substr(tolower(unit), 1, 1)  # use only 1st letter of string
   
-  # Check time input:
-  # ToDo 
+  # Verify date/time input:
+  if ( (class(when) != "Date") && !("POSIXct" %in% class(when)) ) {
+    message(paste0("what_week: when must be of class 'Date' or 'POSIXct'."))
+    message(paste0("Currently, class(when) = ", class(when), ".")) 
+    return(when)
+  }
   
   # initialize:
   w <- NA
@@ -216,26 +230,26 @@ what_week <- function(time = Sys.time(), unit = "year", as_integer = FALSE){
     # Sources: Adapted from a discussion at 
     # <https://stackoverflow.com/questions/25199851/r-how-to-get-the-week-number-of-the-month>
     
-    # current date:
-    d_now <- as.Date(time)
-    wk_n  <- as.numeric(format(d_now, "%V"))  # corresponding week (01--53) as defined in ISO 8601 (week starts Monday)
+    # desired date:
+    d_des <- as.Date(when)
+    wk_2  <- as.numeric(format(d_des, "%V"))  # corresponding week (01--53) as defined in ISO 8601 (week starts Monday)
     
-    # date of 1st in month:
-    d_1st <- as.Date(cut(d_now, "month"))
+    # date of 1st day in corresponding month:
+    d_1st <- as.Date(cut(d_des, "month"))     # date of 1st day in corresponding month
     wk_1  <- as.numeric(format(d_1st, "%V"))  # corresponding week (01--53) as defined in ISO 8601 (week starts on Monday)
     
     # difference: 
-    w <- (wk_n - wk_1) + 1  # as number
+    w <- (wk_2 - wk_1) + 1  # as number
     w <- as.character(w)    # as character
     
   } else if (unit == "y") {  # unit "year": 
     
-    w <- format(time, "%V")  # %V: week of the year as decimal number (01--53) as defined in ISO 8601 (week starts on Monday)
+    w <- format(when, "%V")  # %V: week of the year as decimal number (01--53) as defined in ISO 8601 (week starts on Monday)
     
   } else {  # some other unit: 
     
-    message("Unknown unit. Using unit = 'year' instead:")
-    w <- format(time, "%V")  # %V: week of the year as decimal number (01--53) as defined in ISO 8601 (week starts on Monday)
+    message("Unknown unit. Using unit = 'year':")
+    w <- format(when, "%V")  # %V: week of the year as decimal number (01--53) as defined in ISO 8601 (week starts on Monday)
     
   } 
   
@@ -248,20 +262,24 @@ what_week <- function(time = Sys.time(), unit = "year", as_integer = FALSE){
   
 }  # what_week end. 
 
-
 # ## Check:
 # what_week()
 # what_week(as_integer = TRUE)
 # 
-# # other dates/times:
+# # Other dates/times:
 # d1 <- as.Date("2019-08-23")
-# what_week(time = d1, unit = "year")
+# what_week(when = d1, unit = "year")
+# what_week(when = d1, unit = "month")
 # 
 # # Week nr. (in month):
-# d2 <- as.Date("2019-06-23") # Sunday of 4th week in June 2019.
-# what_week(time = d2, unit = "month")
-# d3 <- as.Date("2019-06-24") # Monday of 5th week in June 2019.
-# what_week(time = d3, unit = "month")
+# d2 <- as.Date("2019-06-23")  # Sunday of 4th week in June 2019.
+# what_week(when = d2, unit = "month")
+# d3 <- as.Date("2019-06-24")  # Monday of 5th week in June 2019.
+# what_week(when = d3, unit = "month")
+# 
+# # Note: 
+# what_week(when = d1, unit = "asdf")
+# what_week(when = "now")
 
 
 
