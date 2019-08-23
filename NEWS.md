@@ -30,9 +30,9 @@ Changes involving new functionality include:
 
 ### To do
 
-- add graphical functions for clock plots (including new book chapters)  
+- add graphical functions for _clock plots_ (including new book chapters)  
 - add data with text, date, and time variables  
-
+- add an _ascii art_ option for converting strings or text into tile plots (with colored tiles)  
 
 -------- 
 
