@@ -1,5 +1,5 @@
 ## text_fun.R | ds4psy
-## hn | uni.kn | 2019 08 07
+## hn | uni.kn | 2019 08 23
 ## ---------------------------
 
 ## Functions for text and string objects. 
@@ -142,7 +142,7 @@ transl33t <- function(txt, rules = l33t_rul35,
   
   return(out)
   
-}
+} # transl33t. 
 
 # ## Check: 
 # transl33t(txt1, rules = c("a" = "4"))
@@ -168,6 +168,74 @@ transl33t <- function(txt, rules = l33t_rul35,
 # all.equal(transl33t(txt = c(LETTERS), in_case = "lo"),
 #           transl33t(txt = c(letters)))
 
+
+## (2) Read ascii art into a tibble: ---------- 
+
+parse_ascii <- function(file = "ascii.txt"){ 
+  
+  ## constants:
+  # file <- "ascii.txt"
+  path_file <- here::here("data-raw", file)
+  
+  # initialize:
+  tb <- NA
+  ct <- 0  # initialize char counter
+  
+  # read txt: 
+  txt <- readLines(path_file)
+  # writeLines(txt)
+  
+  n_lines <- length(txt)
+  n_chars <- sum(nchar(txt))
+  
+  ## initialize a matrix to store all characters:
+  # m <- matrix(data = NA, nrow = n_lines, ncol = max(nchar(txt)))
+  
+  ## initialize a tibble to store all characters:
+  tb <- tibble::tibble(x = rep(NA, n_chars),
+                       y = x,
+                       char = x)
+  
+  ## Loop through all lines of txt and each char of each line:
+  for (y in 1:n_lines){  # loop through each line y of txt
+    
+    line <- txt[y]  # y-th line of txt
+    
+    for (x in 1:nchar(line)) { # loop through each char x in line
+      
+      # increase count of current char/row in tb: 
+      ct <- ct + 1  
+      
+      # fill count-th row of tb:
+      tb$x[ct] <- x                      # current pos nr
+      tb$y[ct] <- n_lines - (y - 1)      # current line nr (1st line on top, as n_lines)  
+      tb$char[ct] <- substr(line, x, x)  # x-th char of line
+      
+    } # for x.
+    
+  } # for y.
+  
+  # Verify that ct matches n_chars:
+  if (ct != n_chars){
+    message("parse_ascii: Count ct differs from n_chars!")
+  }
+  
+  # Adjust data types:
+  tb$x <- as.integer(tb$x)
+  tb$y <- as.integer(tb$y)
+  tb$char <- as.character(tb$char)  
+  
+  return(tb)
+  
+} # parse_ascii.
+
+## Check:
+# parse_ascii("ascii.txt")
+# parse_ascii("ascii2.txt")
+
+
 ## ToDo: ----------
+
+# - read in ascii art into table (with text label and x-y-coordinates)
 
 ## eof. ----------------------
