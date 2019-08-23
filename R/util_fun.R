@@ -296,19 +296,19 @@ num_as_ordinal <- function(x, sep = ""){
 # num_as_ordinal(seq(1.99, 2.15, by = .01))
 
 
-# is_wholenumber: Testing for integer values (which is.integer does not) ------ 
+# is.wholenumber: Testing for integer values (which is.integer does not) ------ 
 
 # Note that is.integer() tests for objects of TYPE "integer", not integer values. 
 # Source: R help on is.integer(). 
 
-is_wholenumber <- function(x, tol = .Machine$double.eps^0.5) {
+is.wholenumber <- function(x, tol = .Machine$double.eps^0.5) {
   abs(x - round(x)) < tol
 }
 
 ## Check: 
-# is_wholenumber(1) # is TRUE
+# is.wholenumber(1) # is TRUE
 # x <- seq(1, 5, by = 0.5)
-# is_wholenumber(x)
+# is.wholenumber(x)
 
 
 # kill_all: Kill all objects in current environment (without warning): ------
