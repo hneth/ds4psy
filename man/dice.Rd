@@ -27,18 +27,24 @@ table(dice(10^4))
 dice(sides = 5)
 table(dice(100, sides = 5))
 
+# Set dice:
+dice(5, sides = 8:9)
+
 # Note:
 dice(10, 1)
-table(dice(1000, 2))
+table(dice(100, 2))
+
+# Note an oddity:
+dice(10, sides = 3:4)  # works, but 
+dice(10, sides = 4:4)  # odd: see sample() for an explanation.
 
 # Limits:
 dice(NA)
 dice(0)
 dice(1/2)
-dice(1:2)
-dice(10, sides = NA)
-dice(10, sides = 1/2)
-dice(10, sides = 1:2)
+dice(2:3)
+dice(5, sides = NA)
+dice(5, sides = 1/2)
 
 }
 \seealso{

@@ -37,6 +37,10 @@ table(dice_2(100, sides = 10))
 dice_2(10, 1)
 table(dice_2(200, 2))
 
+# Note an oddity:
+dice_2(n = 10, sides = 3:4)  # works, but 
+dice_2(n = 10, sides = 4:4)  # odd: see sample() for an explanation.
+
 
 }
 \seealso{

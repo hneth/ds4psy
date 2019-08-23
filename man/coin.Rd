@@ -21,15 +21,13 @@ The 2 possible outcomes for each flip are
 \examples{
 # Basics: 
 coin()
-coin(n = 10)
 table(coin(n = 100))
 
 # Limits:
+coin(2:3)
 coin(NA)
 coin(0)
-coin(1/2)
-coin(1:2)
-
+coin(1/2) 
 
 }
 \seealso{
