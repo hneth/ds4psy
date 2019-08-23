@@ -1,8 +1,9 @@
 ## data_fun.R | ds4psy
-## hn | uni.kn | 2019 08 21
+## hn | uni.kn | 2019 08 23
 ## ---------------------------
 
 ## Functions for creating and manipulating data. 
+
 
 ## (1) Generate random datasets: ---------- 
 
@@ -11,7 +12,7 @@
 random_bin_value <- function(x = c(0, 1), n = 1, replace = TRUE) {
   
   if (length(x) != 2) {
-    warning("x should be binary.")
+    message("random_bin_value: x should be binary.")
   }
   
   sample(x = x, size = n, replace = replace)  
@@ -21,6 +22,8 @@ random_bin_value <- function(x = c(0, 1), n = 1, replace = TRUE) {
 ## Check: 
 # random_bin_value(n = 10)
 # random_bin_value(x = c("m", "f"), n = 100)
+
+
 
 # Coin flip: Flip a fair coin n times: ------ 
 
@@ -38,15 +41,13 @@ random_bin_value <- function(x = c(0, 1), n = 1, replace = TRUE) {
 #' @examples
 #' # Basics: 
 #' coin()
-#' coin(n = 10)
 #' table(coin(n = 100))
 #' 
 #' # Limits:
+#' coin(2:3)
 #' coin(NA)
 #' coin(0)
-#' coin(1/2)
-#' coin(1:2)
-#' 
+#' coin(1/2) 
 #' 
 #' @family random functions
 #'
@@ -55,25 +56,36 @@ random_bin_value <- function(x = c(0, 1), n = 1, replace = TRUE) {
 coin <- function(n = 1){
   
   # check inputs: 
-  if ( (is.na(n)) || (n < 1) || (n %% 1 != 0) || (length(n) > 1) ) { 
-    message("n must be a positive integer. Using n = 1:") 
+  if (length(n) > 1) {  # n is a vector: 
+    message(paste0("coin: n must be a scalar. Using n[1] = ", n[1], ":"))
+    n <- n[1]
+  }
+  
+  if ( (length(n) == 1) && ( is.na(n) || !is.numeric(n) || !is.wholenumber(n) || (n < 1) ) ) { 
+    message("coin: n must be a positive integer. Using n = 1:") 
     n <- 1
   }
   
-  sample(x = c("H", "T"), size = n, replace = TRUE)
+  # possible events:
+  set <- c("H", "T") 
   
-}  # coin end. 
+  # sample n outcomes: 
+  sample(x = set, size = n, replace = TRUE)
+  
+} # coin end. 
 
-# # Check:
-# # Basics: 
+# ## Check:
+# # Basics:
 # coin()
-# table(coin(n = 10000))
+# table(coin(n = 1000))
 # 
 # # Limits:
+# coin(2:3)
 # coin(NA)
+# coin("_")
 # coin(0)
 # coin(1/2)
-# coin(1:2)
+
 
 
 # Random values from a normal distribution: ------ 
@@ -121,18 +133,24 @@ coin <- function(n = 1){
 #' dice(sides = 5)
 #' table(dice(100, sides = 5))
 #' 
+#' # Set dice:
+#' dice(5, sides = 8:9)
+#' 
 #' # Note:
 #' dice(10, 1)
-#' table(dice(1000, 2))
+#' table(dice(100, 2))
+#' 
+#' # Note an oddity:
+#' dice(10, sides = 3:4)  # works, but 
+#' dice(10, sides = 4:4)  # odd: see sample() for an explanation.
 #' 
 #' # Limits:
 #' dice(NA)
 #' dice(0)
 #' dice(1/2)
-#' dice(1:2)
-#' dice(10, sides = NA)
-#' dice(10, sides = 1/2)
-#' dice(10, sides = 1:2)
+#' dice(2:3)
+#' dice(5, sides = NA)
+#' dice(5, sides = 1/2)
 #' 
 #' @family random functions
 #'
@@ -140,22 +158,43 @@ coin <- function(n = 1){
 
 dice <- function(n = 1, sides = 6){
   
-  # check inputs: 
-  if ( (is.na(n)) || (n < 1) || (n %% 1 != 0) || (length(n) > 1) ) { 
-    message("n must be a positive integer. Using n = 1:") 
+  # (a) verify n: 
+  if (length(n) > 1) {  # n is a vector: 
+    message(paste0("dice: n must be scalar. Using n[1] = ", n[1], ":"))
+    n <- n[1]
+  }
+
+  # Verify that n is a numeric integer > 1:  
+  if ((length(n) == 1) && (is.na(n) || !is.numeric(n) || !is.wholenumber(n) || (n < 1) ) ) { 
+    message("dice: n must be a positive integer. Using n = 1:") 
     n <- 1
   }
   
-  if ( (is.na(sides)) || (sides < 1) || (sides %% 1 != 0) || (length(sides) > 1) ) { 
-    message("sides must be a positive integer. Using sides = 6:") 
-    sides <- 6
+  # (b) verify sides: 
+  if (length(sides) > 1) {  # sides is a vector: 
+    
+    # message(paste0("dice: sides is a set. Using it:"))
+    
+    set_of_sides <- sides
+    
+  } else {  # sides is a scalar: length(sides) <= 1:
+    
+    # Verify that sides is a numeric integer > 1:
+    if ( is.na(sides) || !is.numeric(sides) || !is.wholenumber(n) || (sides < 1) ) { 
+      message("dice: sides must be an integer or a set. Using sides = 6:") 
+      sides <- 6
+    }
+    
+    set_of_sides <- 1:sides  # default set
+    
   }
   
-  sample(x = 1:sides, size = n, replace = TRUE)
+  # Sample from set_of_sides: 
+  sample(x = set_of_sides, size = n, replace = TRUE)
   
-}  # dice end.
+} # dice end.
 
-## Check:
+# ## Check:
 # # Basics:
 # dice()
 # table(dice(10^4))
@@ -164,18 +203,27 @@ dice <- function(n = 1, sides = 6){
 # dice(sides = 5)
 # table(dice(10^5, sides = 5))
 # 
+# # Set dice:
+# dice(5, sides = 2:3)
+# dice(5, sides = c(2, 4, 6))
+# 
 # # Note:
-# dice(10, 1)
-# table(dice(10000, 2))
+# dice(10, 1)  # always yields 1
+# table(dice(1000, 2))
 # 
 # # Limits:
 # dice(NA)
 # dice(0)
 # dice(1/2)
-# dice(1:2)
+# dice(2:3)
 # dice(10, sides = NA)
 # dice(10, sides = 1/2)
-# dice(10, sides = 1:2)
+# 
+# # Note an oddity:
+# dice(n = 10, sides = 3:4)  # works, but 
+# dice(n = 10, sides = 4:4)  # odd: see sample() for an explanation.
+
+
 
 # dice_2: n non-random draws from a sample (from 1 to sides): ------ 
 
@@ -209,6 +257,10 @@ dice <- function(n = 1, sides = 6){
 #' dice_2(10, 1)
 #' table(dice_2(200, 2))
 #' 
+#' # Note an oddity:
+#' dice_2(n = 10, sides = 3:4)  # works, but 
+#' dice_2(n = 10, sides = 4:4)  # odd: see sample() for an explanation.
+#' 
 #' 
 #' @family random functions
 #'
@@ -216,43 +268,72 @@ dice <- function(n = 1, sides = 6){
 
 dice_2 <- function(n = 1, sides = 6){
   
-  # check inputs: 
-  if ( (is.na(n)) || (n < 1) || (n %% 1 != 0) || (length(n) > 1) ) { 
-    message("n must be a positive integer. Using n = 1:") 
+  # (a) verify n: 
+  if (length(n) > 1) {  # n is a vector: 
+    message(paste0("dice_2: n must be scalar. Using n[1] = ", n[1], ":"))
+    n <- n[1]
+  }
+  
+  # Verify that n is a numeric integer > 1:  
+  if ((length(n) == 1) && (is.na(n) || !is.numeric(n) || !is.wholenumber(n) || (n < 1) ) ) { 
+    message("dice_2: n must be a positive integer. Using n = 1:") 
     n <- 1
   }
   
-  if ( (is.na(sides)) || (sides < 1) || (sides %% 1 != 0) || (length(sides) > 1) ) { 
-    message("sides must be a positive integer. Using sides = 6:") 
-    sides <- 6
+  # (b) verify sides: 
+  if (length(sides) > 1) {  # sides is a vector: 
+    
+    # message(paste0("dice_2: sides is a set. Using it:"))
+    
+    set_of_sides <- sides
+    
+  } else {  # sides is a scalar: length(sides) <= 1:
+    
+    # Verify that sides is a numeric integer > 1:
+    if ( is.na(sides) || !is.numeric(sides) || !is.wholenumber(n) || (sides < 1) ) { 
+      message("dice_2: sides must be an integer or a set. Using sides = 6:") 
+      sides <- 6
+    }
+    
+    set_of_sides <- 1:sides  # default set
+    
   }
+  
+  n_sides <- length(set_of_sides)  # number of sides
   
   ## Weigh events by some probability density distribution:
   # pfac <- # loading factor (0: fair, 1: always final side)
   
-  ## Fixed bias for 1 side:
-  ptru <- 1/sides
-  bias <- ptru * .075  # bias of final side 
-  pfin <- ptru + bias  # prob of biased side
-  poth <- ptru - (bias/(sides - 1))  # prob of other sides
-  pall <- c(rep(poth, (sides - 1)), pfin)
+  ## Bias for 1 side:
+  ptru <- 1/n_sides    # p-values of a fair dice
+  bias <- ptru * .075  # bias of 1 side 
+  p_in <- ptru + bias  # increased p of biased side
+  p_de <- ptru - (bias/(n_sides - 1))  # decreased p of other sides
+  pset <- c(rep(p_de, (n_sides - 1)), p_in)  # p-values of all sides
   
-  sample(x = 1:sides, size = n, replace = TRUE, prob = pall)
+  sample(x = set_of_sides, size = n, replace = TRUE, prob = pset)
   
-}  # dice_2 end.
+} # dice_2 end.
 
-## Check:
+# ## Check:
 # # Basics:
 # dice_2()
-# table(dice_2(10^4))
+# table(dice_2(10^5))
 # 
 # # 10-sided dice:
 # dice_2(sides = 10)
-# table(dice_2(10^3, sides = 10))
+# table(dice_2(10^6, sides = 10))
+# 
+# # Set dice:
+# table(dice_2(20000, sides = c("A", "B")))
 # 
 # # Note:
 # dice_2(10, 1)
 # table(dice_2(2000, 2))
+# 
+# # Note an oddity:
+# dice_2(n = 10, sides = 3:4)  # works, but
+# dice_2(n = 10, sides = 4:4)  # odd: see sample() for an explanation.
 
 
 # Permutations: List all permutations of a set: ----------
@@ -292,7 +373,7 @@ all_combinations <- function(set, length){
   
   return(out)
   
-}
+} # all_combinations end. 
 
 ## Check:
 # all_combinations(set = 1:3, length = 4)  # ERROR: n < m
@@ -323,8 +404,10 @@ random_symbols <- function(n = 1, set = letters, len = 1, sep = "") {
     out[i] <- i_th
     
   }
+  
   return(out)
-}
+  
+} # random_symbols end. 
 
 ## Check:
 # random_symbols(n = 10, len = 4)
@@ -353,7 +436,7 @@ add_NAs <- function(vec, amount){
   
   return(out)
   
-}
+} # add_NAs end. 
 
 ## Check:
 # add_NAs(1:10, 0)
@@ -380,12 +463,13 @@ add_whats <- function(vec, amount, what = NA){
   
   return(out)
   
-}
+}  # add_whats end. 
 
 ## Check:
 # add_whats(1:10, 3) # default: what = NA
 # add_whats(1:10, 3, what = 99)
 # add_whats(1:10, .5, what = "ABC")
+
 
 
 
@@ -577,6 +661,10 @@ make_grid <- function(x_min = 0, x_max = 2, y_min = 0, y_max = 1){
 # make_grid(x_min = 1/2, y_min = 1/3)
 
 
+
 ## ToDo: ----------
+
+# - add exercises involving coin, dice, and dice_2 fns  
+#   (pointing out R oddities with sample). 
 
 ## eof. ----------------------
