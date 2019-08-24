@@ -4,13 +4,18 @@
 \alias{read_ascii}
 \title{read_ascii parses text (from a file) into a tibble.}
 \usage{
-read_ascii(file = "data-raw/ascii.txt")
+read_ascii(file = "data-raw/ascii.txt", flip_y = FALSE)
 }
 \arguments{
 \item{file}{The text file to read or its path.
 If the text file is stored in a sub-directory, 
 enter this here (without leading or trailing "/"). 
 Default: \code{file = "data-raw/ascii.txt"}.}
+
+\item{flip_y}{Boolean: Should y-coordinates be flipped, 
+so that the lowest line in text file is set to \code{y = 1}, 
+and the top line in text file is set to \set{y = n_lines}? 
+Default: \code{flip_y = FALSE}.}
 }
 \description{
 \code{read_ascii} parses text (from a file) into 
