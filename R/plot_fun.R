@@ -1059,10 +1059,16 @@ plot_fn <- function(x = NA,
 ## plot_txt: Plot text characters as a tile plot: -------- 
 
 plot_txt <- function(file = "data-raw/hello.txt", 
+                     # colors: 
+                     col_txt = "black",  # color of text characters
                      col_bg = "white",   # bg color (for most frequent character in file)
                      pal = pal_ds4psy[1:5],  # color palette for other replacements
                      pal_extend = FALSE,  # extend color palette (to n of different characters in file)
                      case_sense = FALSE,
+                     # formatting:
+                     cex = 3,   # size of characters
+                     ftfc = 1,  # font face (1:4)
+                     # tile borders: 
                      brd_col = "grey",  # color of tile border
                      brd_size = 1/2     # width of tile border
 ){
@@ -1082,8 +1088,8 @@ plot_txt <- function(file = "data-raw/hello.txt",
     
     # (a) case-sensitive match: 
     char_freq <- tb %>% 
-      count(char) %>%   # Note: Upper- and lowercase are counted separately!
-      arrange(desc(n))
+      dplyr::count(char) %>%   # Note: Upper- and lowercase are counted separately!
+      dplyr::arrange(desc(n))
     
   } else {
     
@@ -1091,10 +1097,10 @@ plot_txt <- function(file = "data-raw/hello.txt",
     tb$char_lc <- tolower(tb$char)  # all in lowercase!
     
     char_freq <- tb %>% 
-      count(char_lc) %>% # Note: Upper- and lowercase are counted together!
-      mutate(char = char_lc) %>% 
-      select(char, n) %>% 
-      arrange(desc(n))
+      dplyr::count(char_lc) %>% # Note: Upper- and lowercase are counted together!
+      dplyr::mutate(char = char_lc) %>% 
+      dplyr::select(char, n) %>% 
+      dplyr::arrange(desc(n))
     
   }
   # char_freq
@@ -1140,7 +1146,7 @@ plot_txt <- function(file = "data-raw/hello.txt",
   # (5) Use ggplot2: 
   cur_plot <- ggplot2::ggplot(tb, aes(x = x, y = y)) +
     ggplot2::geom_tile(aes(), fill = col_map, color = brd_col, size = brd_size) +  # tiles (with borders, opt.)
-    ggplot2::geom_text(aes(label = char), size = 3, fontface = 1) + 
+    ggplot2::geom_text(aes(label = char), color = col_txt, size = cex, fontface = ftfc) + 
     ggplot2::coord_equal() + 
     # theme: 
     # theme_classic() +
@@ -1153,22 +1159,30 @@ plot_txt <- function(file = "data-raw/hello.txt",
   
 } # plot_txt. 
 
-# # Check:
+# ## Check:
 # plot_txt()
+# 
+# # Case-sensitivity: 
 # plot_txt(pal_extend = TRUE)
 # plot_txt(pal_extend = TRUE, case_sense = TRUE)
 # 
-# # Other text file:
-# plot_txt(file = "data-raw/ascii2.txt", 
+# # Customize:
+# plot_txt(col_txt = "black", col_bg = "white", 
+#          pal = pal_seeblau, pal_extend = TRUE, 
+#          brd_col = NA)
+# 
+# # Other colors:
+# plot_txt(pal = c("red2", "orange", "gold"))
+# plot_txt(pal = c("olivedrab4", "gold"), pal_extend = TRUE)
+# 
+# # Text and grid options:
+# plot_txt(col_txt = "firebrick", cex = 4, ftfc = 3, 
+#          pal = "grey90", pal_extend = TRUE, 
+#          brd_col = NA)
+# 
+# # Other file:
+# plot_txt(file = "data-raw/ascii2.txt",
 #          col_bg = "lightgrey", brd_col = "white")
-# 
-# # Other color palettes:
-# plot_txt(pal = c(Seegruen, "gold"))
-# plot_txt(pal = c(Seegruen, "gold"), pal_extend = TRUE)
-# 
-# plot_txt(pal = c(Seeblau, Seegruen, "gold"))
-# plot_txt(pal = c(Seeblau, Seegruen, "gold"), 
-#          pal_extend = TRUE, case_sense = TRUE)
 
 
 ## ToDo: ----------
