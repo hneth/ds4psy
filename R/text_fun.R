@@ -1,5 +1,5 @@
 ## text_fun.R | ds4psy
-## hn | uni.kn | 2019 08 23
+## hn | uni.kn | 2019 08 24
 ## ---------------------------
 
 ## Functions for text and string objects. 
@@ -171,37 +171,68 @@ transl33t <- function(txt, rules = l33t_rul35,
 
 ## (2) Read ascii art into a tibble: ---------- 
 
-parse_ascii <- function(file = "ascii.txt"){ 
+#' read_ascii parses text (from a file) into a tibble.
+#'
+#' \code{read_ascii} parses text (from a file) into 
+#' a tibble that contains a row for each character. 
+#' This tibble contains 3 variables: 
+#' The character's \code{x}- and \code{y}-coordinates (from top to bottom)  
+#' and a variable \code{char} for the character at this coordinate. 
+#' 
+#' The \bold{here} package is used to determine 
+#' the (absolute) file path. 
+#' 
+#' @param file The text file to read or its path.  
+#' If the text file is stored in a sub-directory, 
+#' enter this here (without leading or trailing "/"). 
+#' Default: \code{file = "data-raw/ascii.txt"}. 
+#' 
+#' @examples
+#' # depend on file.txt
+#' 
+#' @family text functions
+#'
+#' @seealso
+#' corresponding plot function
+#' 
+#' @import here
+#' @import tibble
+#' 
+#' @export
+
+read_ascii <- function(file = "data-raw/ascii.txt"){ 
   
-  ## constants:
-  # file <- "ascii.txt"
-  path_file <- here::here("data-raw", file)
+  # File path: Remove leading "." and/or "/" characters:
+  if (substr(file, 1, 1) == ".") { file <- substr(file, 2, nchar(file))}
+  if (substr(file, 1, 1) == "/") { file <- substr(file, 2, nchar(file))}
+  # ToDo: Use regex to do this more efficiently!
   
-  # initialize:
-  tb <- NA
-  ct <- 0  # initialize char counter
+  path2file <- here::here(file)  # absolute path to text file
   
-  # read txt: 
-  txt <- readLines(path_file)
+  # Read txt: 
+  txt <- readLines(path2file)
   # writeLines(txt)
   
+  # Lengths and counters:
   n_lines <- length(txt)
   n_chars <- sum(nchar(txt))
+  ct <- 0  # initialize character counter
   
   ## initialize a matrix to store all characters:
   # m <- matrix(data = NA, nrow = n_lines, ncol = max(nchar(txt)))
   
-  ## initialize a tibble to store all characters:
+  ## initialize a tibble to store all characters (as rows):
   tb <- tibble::tibble(x = rep(NA, n_chars),
                        y = x,
                        char = x)
   
-  ## Loop through all lines of txt and each char of each line:
-  for (y in 1:n_lines){  # loop through each line y of txt
+  # Loop through all y lines of txt:  
+  for (y in 1:n_lines){ 
     
     line <- txt[y]  # y-th line of txt
     
-    for (x in 1:nchar(line)) { # loop through each char x in line
+    # Loop through each char x of each line:
+    for (x in 1:nchar(line)) { 
       
       # increase count of current char/row in tb: 
       ct <- ct + 1  
@@ -217,7 +248,7 @@ parse_ascii <- function(file = "ascii.txt"){
   
   # Verify that ct matches n_chars:
   if (ct != n_chars){
-    message("parse_ascii: Count ct differs from n_chars!")
+    message("read_ascii: Count ct differs from n_chars!")
   }
   
   # Adjust data types:
@@ -227,15 +258,15 @@ parse_ascii <- function(file = "ascii.txt"){
   
   return(tb)
   
-} # parse_ascii.
+} # read_ascii.
 
 ## Check:
-# parse_ascii("ascii.txt")
-# parse_ascii("ascii2.txt")
+# read_ascii("data-raw/ascii.txt")
+# read_ascii("data-raw/ascii2.txt")  # Note: "\" became "\\"
 
 
 ## ToDo: ----------
 
-# - read in ascii art into table (with text label and x-y-coordinates)
+# - improve read_ascii (with regex and more efficient text wrangling)
 
 ## eof. ----------------------
