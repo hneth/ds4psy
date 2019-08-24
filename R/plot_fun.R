@@ -1,5 +1,5 @@
 ## plot_fun.R | ds4psy
-## hn | uni.kn | 2019 08 23
+## hn | uni.kn | 2019 08 24
 ## ---------------------------
 
 ## Functions for plotting. 
@@ -309,7 +309,7 @@ plot_tiles <- function(n = NA,
   
   # return(invisible(cur_tb))
   
-} # plot_tiles end.
+} # plot_tiles.
 
 # ## Check:
 # # (1) Tile plot:
@@ -447,7 +447,7 @@ plot_fun <- function(a = NA,
              prefix = "",
              suffix = "")
   
-} # plot_fun end. 
+} # plot_fun. 
 
 ## Check:
 # plot_fun()       # Task 1: Explore and describe each parameter.
@@ -856,7 +856,7 @@ plot_n <- function(n = NA,
   
   # return(invisible(cur_tb))
   
-} # plot_n end.
+} # plot_n.
 
 # +++ here now +++ 
 
@@ -1052,7 +1052,123 @@ plot_fn <- function(x = NA,
          prefix = "plot_fn_",
          suffix = "")
   
-} # plot_fn end. 
+} # plot_fn. 
+
+
+
+## plot_txt: Plot text characters as a tile plot: -------- 
+
+plot_txt <- function(file = "data-raw/hello.txt", 
+                     col_bg = "white",   # bg color (for most frequent character in file)
+                     pal = pal_ds4psy[1:5],  # color palette for other replacements
+                     pal_extend = FALSE,  # extend color palette (to n of different characters in file)
+                     case_sense = FALSE,
+                     brd_col = "grey",  # color of tile border
+                     brd_size = 1/2     # width of tile border
+){
+  
+  # (0) Parameters (currently fixed):
+  # brd_col  <- "grey"
+  # brd_size <- 1/4
+  
+  # (1) Read text file into tibble: 
+  tb <- read_ascii(file, flip_y = TRUE)
+  n  <- nrow(tb)
+  # tb
+  
+  
+  # (2) Determine frequency of chars:
+  if (case_sense){
+    
+    # (a) case-sensitive match: 
+    char_freq <- tb %>% 
+      count(char) %>%   # Note: Upper- and lowercase are counted separately!
+      arrange(desc(n))
+    
+  } else {
+    
+    # (b) case-INsensitive match:
+    tb$char_lc <- tolower(tb$char)  # all in lowercase!
+    
+    char_freq <- tb %>% 
+      count(char_lc) %>% # Note: Upper- and lowercase are counted together!
+      mutate(char = char_lc) %>% 
+      select(char, n) %>% 
+      arrange(desc(n))
+    
+  }
+  # char_freq
+  n_char <- nrow(char_freq)
+  
+  # (3) Create color palette:
+  if (pal_extend){
+    
+    # Stretch pal to a color gradient (of char_freq different colors): 
+    pal_ext <- unikn::usecol(pal, n = (n_char - 1))  # extended pal
+    col_pal <- c(col_bg, pal_ext)
+    
+  } else {
+    
+    col_pal <- c(col_bg, pal)  # combine 2 user inputs
+    
+  }
+  n_col <- length(col_pal)
+  
+  
+  # (4) Use color palette to create a color map for frequent chars of tb:
+  col_map <- rep(col_pal[1], n) # initialize color map
+  n_replace <- min(n_col, n_char)  # Limit number of replacements 
+  
+  for (i in 1:n_replace){
+    
+    cur_char <- char_freq$char[i]  # i-th most freq char
+    
+    # Determine positions ix in tb$char that correspond to cur_char:
+    if (case_sense){  
+      ix <- which(tb$char == cur_char)  # case-sensitive match
+    } else {
+      ix <- which(tolower(tb$char) == cur_char)  # case-insensitive match
+    }
+    
+    # use i-th color in col_pal for ALL col_map positions at [ix]:
+    col_map[ix] <- col_pal[i]  
+    
+  } # loop i.
+  # col_map
+  
+  
+  # (5) Use ggplot2: 
+  cur_plot <- ggplot2::ggplot(tb, aes(x = x, y = y)) +
+    ggplot2::geom_tile(aes(), fill = col_map, color = brd_col, size = brd_size) +  # tiles (with borders, opt.)
+    ggplot2::geom_text(aes(label = char), size = 3, fontface = 1) + 
+    ggplot2::coord_equal() + 
+    # theme: 
+    # theme_classic() +
+    cowplot::theme_nothing()
+  
+  # (6) plot plot: 
+  cur_plot
+  
+  # (+) return(invisible(tb))
+  
+} # plot_txt. 
+
+# # Check:
+# plot_txt()
+# plot_txt(pal_extend = TRUE)
+# plot_txt(pal_extend = TRUE, case_sense = TRUE)
+# 
+# # Other text file:
+# plot_txt(file = "data-raw/ascii2.txt", 
+#          col_bg = "lightgrey", brd_col = "white")
+# 
+# # Other color palettes:
+# plot_txt(pal = c(Seegruen, "gold"))
+# plot_txt(pal = c(Seegruen, "gold"), pal_extend = TRUE)
+# 
+# plot_txt(pal = c(Seeblau, Seegruen, "gold"))
+# plot_txt(pal = c(Seeblau, Seegruen, "gold"), 
+#          pal_extend = TRUE, case_sense = TRUE)
 
 
 ## ToDo: ----------
