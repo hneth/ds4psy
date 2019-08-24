@@ -14,7 +14,7 @@ Default: \code{file = "data-raw/ascii.txt"}.}
 
 \item{flip_y}{Boolean: Should y-coordinates be flipped, 
 so that the lowest line in text file is set to \code{y = 1}, 
-and the top line in text file is set to \set{y = n_lines}? 
+and the top line in text file is set to \code{y = n_lines}? 
 Default: \code{flip_y = FALSE}.}
 }
 \description{
