@@ -17,12 +17,12 @@ name_course <- paste0(course_title, " (", course_title_abb, "), by ", name_hn, "
 
 # Using leet / l33t slang: ------
 
-# l33t rul35: 
-n4me <- "h4n5j03Rg n3+h"     # e:3, a:4, s:5, o:0, t:+, r:R
-d5   <- "d4+4 5c13nc3"       # i:1 
-fp   <- "f0R p5ych0l0g15+5"
-course_l33t <- paste0(n4me, ":", " ", d5, " ", fp)
-# course_l33t
+# # l33t rul35: 
+# n4me <- "h4n5j03Rg n3+h"     # e:3, a:4, s:5, o:0, t:+, r:R
+# d5   <- "d4+4 5c13nc3"       # i:1 
+# fp   <- "f0R p5ych0l0g15+5"
+# course_l33t <- paste0(n4me, ":", " ", d5, " ", fp)
+# # course_l33t
 
 
 # Automation: ----- 
@@ -281,6 +281,8 @@ read_ascii <- function(file = "data-raw/ascii.txt", flip_y = FALSE){
 # read_ascii("data-raw/ascii.txt", flip_y = TRUE)
 # read_ascii("data-raw/ascii2.txt")  # Note: "\" became "\\"
 
+# t <- read_ascii("data-raw/hello.txt")
+# tail(t)
 
 ## ToDo: ----------
 
