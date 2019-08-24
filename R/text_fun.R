@@ -187,6 +187,11 @@ transl33t <- function(txt, rules = l33t_rul35,
 #' enter this here (without leading or trailing "/"). 
 #' Default: \code{file = "data-raw/ascii.txt"}. 
 #' 
+#' @param flip_y Boolean: Should y-coordinates be flipped, 
+#' so that the lowest line in text file is set to \code{y = 1}, 
+#' and the top line in text file is set to \set{y = n_lines}? 
+#' Default: \code{flip_y = FALSE}.  
+#' 
 #' @examples
 #' # depend on file.txt
 #' 
@@ -200,7 +205,7 @@ transl33t <- function(txt, rules = l33t_rul35,
 #' 
 #' @export
 
-read_ascii <- function(file = "data-raw/ascii.txt"){ 
+read_ascii <- function(file = "data-raw/ascii.txt", flip_y = FALSE){ 
   
   # File path: Remove leading "." and/or "/" characters:
   if (substr(file, 1, 1) == ".") { file <- substr(file, 2, nchar(file))}
@@ -218,13 +223,18 @@ read_ascii <- function(file = "data-raw/ascii.txt"){
   n_chars <- sum(nchar(txt))
   ct <- 0  # initialize character counter
   
-  ## initialize a matrix to store all characters:
+  # # initialize a matrix (to store all characters in place):
   # m <- matrix(data = NA, nrow = n_lines, ncol = max(nchar(txt)))
   
-  ## initialize a tibble to store all characters (as rows):
+  # initialize a tibble (to store all characters as rows):
   tb <- tibble::tibble(x = rep(NA, n_chars),
-                       y = x,
-                       char = x)
+                       y = rep(NA, n_chars),
+                       char = rep("", n_chars))
+  
+  # # initialize a data frame (to store all characters as rows):  
+  # df <- data.frame(x = rep(NA, n_chars),
+  #                  y = rep(NA, n_chars),
+  #                  c = rep("", n_chars))
   
   # Loop through all y lines of txt:  
   for (y in 1:n_lines){ 
@@ -234,19 +244,25 @@ read_ascii <- function(file = "data-raw/ascii.txt"){
     # Loop through each char x of each line:
     for (x in 1:nchar(line)) { 
       
-      # increase count of current char/row in tb: 
-      ct <- ct + 1  
+      cur_char <- substr(line, x, x)  # current char      
+      ct <- ct + 1  # increase count of current char 
       
       # fill count-th row of tb:
-      tb$x[ct] <- x                      # current pos nr
-      tb$y[ct] <- n_lines - (y - 1)      # current line nr (1st line on top, as n_lines)  
-      tb$char[ct] <- substr(line, x, x)  # x-th char of line
+      tb$x[ct] <- x                    # x: current pos nr
+      
+      if (flip_y){ # flip y values:    # y: 
+        tb$y[ct] <- n_lines - (y - 1)  # 1st line on top (of n_lines)  
+      } else {
+        tb$y[ct] <- y                  # current line 
+      }
+      
+      tb$char[ct] <- cur_char          # char: cur_char
       
     } # for x.
     
   } # for y.
   
-  # Verify that ct matches n_chars:
+  # Check that ct matches n_chars:
   if (ct != n_chars){
     message("read_ascii: Count ct differs from n_chars!")
   }
@@ -260,8 +276,9 @@ read_ascii <- function(file = "data-raw/ascii.txt"){
   
 } # read_ascii.
 
-## Check:
+## Check: 
 # read_ascii("data-raw/ascii.txt")
+# read_ascii("data-raw/ascii.txt", flip_y = TRUE)
 # read_ascii("data-raw/ascii2.txt")  # Note: "\" became "\\"
 
 
