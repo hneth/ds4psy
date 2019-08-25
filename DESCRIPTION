@@ -1,8 +1,8 @@
 Package: ds4psy
 Type: Package
 Title: Data Science for Psychologists 
-Version: 0.1.0.9008
-Date: 2019-08-24
+Version: 0.1.0.9009
+Date: 2019-08-25
 Authors@R: c(person("Hansjoerg", "Neth", role = c("aut", "cre"), email = "h.neth@uni.kn"))
 Author: Hansjoerg Neth [aut, cre]
 Maintainer: Hansjoerg Neth <h.neth@uni.kn>
@@ -10,8 +10,10 @@ Description: All datasets and functions required for the examples and exercises 
 Depends:
     R (>= 3.4.0)
 Imports:
+    dplyr,
     ggplot2,
-    cowplot, 
+    cowplot,
+    magrittr, 
     here,
     stringr, 
     tibble,
