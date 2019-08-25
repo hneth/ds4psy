@@ -1,5 +1,5 @@
 ## plot_fun.R | ds4psy
-## hn | uni.kn | 2019 08 24
+## hn | uni.kn | 2019 08 25
 ## ---------------------------
 
 ## Functions for plotting. 
@@ -16,34 +16,34 @@
 #' 
 #' @param n Basic number of tiles (on either side).
 #'
-#' @param pal A color palette (automatically extended to \code{n x n} colors). 
+#' @param pal Color palette (automatically extended to \code{n x n} colors). 
 #' Default: \code{pal = \link{pal_ds4psy}}. 
 #' 
-#' @param sort Sort tiles? 
+#' @param sort Boolean: Sort tiles? 
 #' Default: \code{sort = TRUE} (i.e., sorted tiles).  
 #' 
-#' @param borders Add borders to tiles? 
+#' @param borders Boolean: Add borders to tiles? 
 #' Default: \code{borders = TRUE} (i.e., use borders).
 #' 
 #' @param border_col Color of borders (if \code{borders = TRUE}). 
-#' Default: \code{border_col = grey(0, 1)} (i.e., black).  
+#' Default: \code{border_col = "black"}.
 #' 
 #' @param border_size Size of borders (if \code{borders = TRUE}). 
-#' Default: \code{border_size = 0.2} (i.e., thin).  
+#' Default: \code{border_size = 0.2}.  
 
-#' @param lbl_tiles Add numeric labels to tiles? 
+#' @param lbl_tiles Boolean: Add numeric labels to tiles? 
 #' Default: \code{lbl_tiles = FALSE} (i.e., no labels). 
 #' 
-#' @param lbl_title Add numeric label (of n) to plot? 
+#' @param lbl_title Boolean: Add numeric label (of n) to plot? 
 #' Default: \code{lbl_title = FALSE} (i.e., no title). 
 #'
-#' @param polar Plot on polar coordinates? 
+#' @param polar Boolean: Plot on polar coordinates? 
 #' Default: \code{polar = FALSE} (i.e., using fixed coordinates). 
 #' 
 #' @param rseed Random seed (number).  
 #' Default: \code{rseed = NA} (using random seed). 
 #' 
-#' @param save Save plot as png file? 
+#' @param save Boolean: Save plot as png file? 
 #' Default: \code{save = FALSE}. 
 #' 
 #' @param save_path Path to save plot (if \code{save = TRUE}).  
@@ -106,7 +106,7 @@ plot_tiles <- function(n = NA,
                        pal = pal_ds4psy, 
                        sort = TRUE, 
                        borders = TRUE,
-                       border_col = grey(0, 1), 
+                       border_col = "black", 
                        border_size = 0.2, 
                        lbl_tiles = FALSE, 
                        lbl_title = FALSE, 
@@ -375,22 +375,22 @@ plot_tiles <- function(n = NA,
 #' @param a A (natural) number. 
 #' Default: \code{a = NA}. 
 #' 
-#' @param b A Boolean value. 
+#' @param b Boolean. 
 #' Default: \code{b = TRUE}. 
 #' 
-#' @param c A Boolean value. 
+#' @param c Boolean. 
 #' Default: \code{c = TRUE}. 
 #' 
 #' @param d A (decimal) number. 
 #' Default: \code{d = 1.0}. 
 #' 
-#' @param e A Boolean value. 
+#' @param e Boolean. 
 #' Default: \code{e = FALSE}.
 #' 
-#' @param f A Boolean value. 
+#' @param f Boolean. 
 #' Default: \code{f = FALSE}. 
 #' 
-#' @param g A Boolean value. 
+#' @param g Boolean. 
 #' Default: \code{g = FALSE}. 
 #'
 #' @param c1 A color palette (e.g., as a vector). 
@@ -494,7 +494,7 @@ plot_fun <- function(a = NA,
 #' Default: \code{borders = TRUE} (i.e., use borders).
 #' 
 #' @param border_col Color of borders (if \code{borders = TRUE}). 
-#' Default: \code{border_col = grey(0, 1)} (i.e., black).  
+#' Default: \code{border_col = "black"}.  
 #' 
 #' @param border_size Size of borders (if \code{borders = TRUE}). 
 #' Default: \code{border_size = 0} (i.e., invisible).  
@@ -577,7 +577,7 @@ plot_n <- function(n = NA,
                    pal = pal_ds4psy,
                    sort = TRUE, 
                    borders = TRUE,
-                   border_col = grey(0, 1), 
+                   border_col = "black", 
                    border_size = 0,
                    lbl_tiles = FALSE, 
                    lbl_title = FALSE, 
@@ -858,8 +858,6 @@ plot_n <- function(n = NA,
   
 } # plot_n.
 
-# +++ here now +++ 
-
 ## Check:
 # # (1) ROW: 
 # plot_n()  # default plot (random n, row = TRUE, with borders, no labels)
@@ -976,22 +974,22 @@ plot_n <- function(n = NA,
 #' @param y A (decimal) number. 
 #' Default: \code{y = 1}. 
 #' 
-#' @param A A Boolean value. 
+#' @param A Boolean. 
 #' Default: \code{A = TRUE}. 
 #' 
-#' @param B A Boolean value. 
+#' @param B Boolean. 
 #' Default: \code{B = FALSE}. 
 #' 
-#' @param C A Boolean value. 
+#' @param C Boolean. 
 #' Default: \code{C = TRUE}. 
 #' 
-#' @param D A Boolean value. 
+#' @param D Boolean. 
 #' Default: \code{D = FALSE}.
 #' 
-#' @param E A Boolean value. 
+#' @param E Boolean. 
 #' Default: \code{E = FALSE}.
 #' 
-#' @param F A Boolean value. 
+#' @param F Boolean. 
 #' Default: \code{F = FALSE}.
 #'
 #' @param f A color palette (e.g., as a vector). 
@@ -1058,49 +1056,165 @@ plot_fn <- function(x = NA,
 
 ## plot_txt: Plot text characters as a tile plot: -------- 
 
-plot_txt <- function(file = "data-raw/hello.txt", 
+#' Plot text characters (from file).
+#'
+#' \code{plot_txt} parses text (from a file) 
+#' into a tibble and then plots all 
+#' its characters as a tile plot (using \strong{ggplot2}).
+#' 
+#' @param file The text file to read (or its path).  
+#' If the text file is stored in a sub-directory, 
+#' enter its path and name here (without any leading or 
+#' trailing "." or "/"). 
+#' Default: \code{file = "txt/hello.txt"}. 
+#' 
+#' @param lbl_tiles Add numeric labels to tiles? 
+#' Default: \code{lbl_tiles = TRUE} (i.e., show labels). 
+#' 
+#' @param cex Character size (numeric). 
+#' Default: \code{cex = 3}.
+#' 
+#' @param fontface Font face (numeric). 
+#' Default: \code{fontface = 1}, (from 1 to 4).
+#' 
+#' @param col_txt Color of text characters.
+#' Default: \code{col_txt = "black"} (if \code{lbl_tiles = TRUE}). 
+#' 
+#' @param col_bg Color of most frequent character in text 
+#' (typically " ", i.e., background). 
+#' Default: \code{col_bg = "white"}. 
+#' 
+#' @param pal Color palette to use for tiles 
+#' of text (used in order of character frequency). 
+#' Default: \code{pal = pal_ds4psy[1:5]}. 
+#' 
+#' @param pal_extend Boolean: Should pal be extended 
+#' to match the number of different characters in text? 
+#' Default: \code{pal_extend = TRUE}. 
+#' If \code{pal_extend = FALSE}, only the tiles of 
+#' the \code{length(pal)} most frequent characters 
+#' will be filled by the colors of \code{pal}. 
+#' 
+#' @param case_sense Boolean: Should lower- and 
+#' uppercase characters be distinguished? 
+#' Default: \code{case_sense = FALSE}. 
+#' 
+#' @param borders Boolean: Add borders to tiles? 
+#' Default: \code{borders = TRUE} (i.e., use borders).
+#' 
+#' @param border_col Color of borders (if \code{borders = TRUE}). 
+#' Default: \code{border_col = "white"}.  
+#' 
+#' @param border_size Size of borders (if \code{borders = TRUE}). 
+#' Default: \code{border_size = 0.5}.
+#' 
+#' @examples
+#' plot_txt("txt/hello.txt")  # requires txt file
+#' 
+#' # Colors, pal_extend, and case_sense:
+#' cols <- c("firebrick", "olivedrab", "steelblue", "orange", "gold")
+#' plot_txt(pal = cols, pal_extend = TRUE)
+#' plot_txt(pal = cols, pal_extend = FALSE)
+#' plot_txt(pal = cols, pal_extend = FALSE, case_sense = TRUE)
+#' 
+#' # Customize:
+#' plot_txt(col_txt = "white", borders = FALSE)
+#' plot_txt(col_txt = "white", pal = c("green4", "black"),
+#'          border_col = "black", border_size = .2)
+#' 
+#' # Color ranges:
+#' plot_txt(pal = c("red2", "orange", "gold"))
+#' plot_txt(pal = c("olivedrab4", "gold"))
+#' 
+#' # Text and grid options:
+#' plot_txt(col_txt = "firebrick", cex = 4, fontface = 3,
+#'          pal = "grey90", pal_extend = TRUE,
+#'          border_col = NA)
+#' 
+#' # Other text file:
+#' plot_txt(file = "txt/ascii.txt", cex = 5, 
+#'          col_bg = "lightgrey", border_col = "white")
+#'
+#' @family plot functions
+#'
+#' @seealso
+#' \code{\link{read_ascii}} for reading text files into a tibble; 
+#' \code{\link{pal_ds4psy}} for default color palette. 
+#' 
+#' @import dplyr  
+#' @import ggplot2
+#' @import here
+#' @import unikn
+#' @importFrom magrittr "%>%"
+#' @importFrom cowplot theme_nothing 
+#' 
+#' @export 
+
+plot_txt <- function(file = "txt/hello.txt",
+                     # text format:
+                     lbl_tiles = TRUE, 
+                     cex = 3,   # size of characters
+                     fontface = 1,  # font face (1:4)
                      # colors: 
                      col_txt = "black",  # color of text characters
                      col_bg = "white",   # bg color (for most frequent character in file)
                      pal = pal_ds4psy[1:5],  # color palette for other replacements
-                     pal_extend = FALSE,  # extend color palette (to n of different characters in file)
+                     pal_extend = TRUE,  # extend color palette (to n of different characters in file)
                      case_sense = FALSE,
-                     # formatting:
-                     cex = 3,   # size of characters
-                     ftfc = 1,  # font face (1:4)
                      # tile borders: 
-                     brd_col = "grey",  # color of tile border
-                     brd_size = 1/2     # width of tile border
+                     borders = TRUE,       # show tile borders?
+                     border_col = "white", # color of tile border 
+                     border_size = 0.5     # width of tile border
 ){
   
-  # (0) Parameters (currently fixed):
-  # brd_col  <- "grey"
-  # brd_size <- 1/4
+  # (0) Interpret inputs:
+  if (!lbl_tiles) {col_txt <- NA}
+  
+  # Tile borders:
+  if (borders){
+    brd_col   <- border_col
+    brd_size  <- border_size
+  } else {
+    brd_col  <- NA  # hide label
+    brd_size <- NA  # hide label
+  }
   
   # (1) Read text file into tibble: 
   tb <- read_ascii(file, flip_y = TRUE)
   n  <- nrow(tb)
   # tb
   
-  
   # (2) Determine frequency of chars:
   if (case_sense){
     
     # (a) case-sensitive match: 
-    char_freq <- tb %>% 
-      dplyr::count(char) %>%   # Note: Upper- and lowercase are counted separately!
-      dplyr::arrange(desc(n))
+    
+    # # Using a dplyr pipe:     
+    # char_freq <- tb %>%
+    #  dplyr::count(char) %>%   # Note: Upper- and lowercase are counted separately!
+    #  dplyr::arrange(desc(n))
+    
+    # Re-write without pipe:
+    t2 <- dplyr::count(tb, char)
+    char_freq <- dplyr::arrange(t2, desc(n))    
     
   } else {
     
     # (b) case-INsensitive match:
     tb$char_lc <- tolower(tb$char)  # all in lowercase!
     
-    char_freq <- tb %>% 
-      dplyr::count(char_lc) %>% # Note: Upper- and lowercase are counted together!
-      dplyr::mutate(char = char_lc) %>% 
-      dplyr::select(char, n) %>% 
-      dplyr::arrange(desc(n))
+    # # Using a dplyr pipe:     
+    # char_freq <- tb %>% 
+    #   dplyr::count(char_lc) %>% # Note: Upper- and lowercase are counted together!
+    #   dplyr::mutate(char = char_lc) %>%  
+    #   dplyr::select(char, n) %>% 
+    #   dplyr::arrange(desc(n))
+    
+    # Re-write without pipe:
+    t2 <- dplyr::count(tb, char_lc)
+    t3 <- dplyr::mutate(t2, char = char_lc)
+    t4 <- dplyr::select(t3, char, n)
+    char_freq <- dplyr::arrange(t4, desc(n))
     
   }
   # char_freq
@@ -1119,7 +1233,6 @@ plot_txt <- function(file = "data-raw/hello.txt",
     
   }
   n_col <- length(col_pal)
-  
   
   # (4) Use color palette to create a color map for frequent chars of tb:
   col_map <- rep(col_pal[1], n) # initialize color map
@@ -1142,11 +1255,10 @@ plot_txt <- function(file = "data-raw/hello.txt",
   } # loop i.
   # col_map
   
-  
   # (5) Use ggplot2: 
-  cur_plot <- ggplot2::ggplot(tb, aes(x = x, y = y)) +
+  cur_plot <- ggplot2::ggplot(data = tb, aes(x = tb$x, y = tb$y)) +
     ggplot2::geom_tile(aes(), fill = col_map, color = brd_col, size = brd_size) +  # tiles (with borders, opt.)
-    ggplot2::geom_text(aes(label = char), color = col_txt, size = cex, fontface = ftfc) + 
+    ggplot2::geom_text(aes(label = char), color = col_txt, size = cex, fontface = fontface) + 
     ggplot2::coord_equal() + 
     # theme: 
     # theme_classic() +
@@ -1160,29 +1272,39 @@ plot_txt <- function(file = "data-raw/hello.txt",
 } # plot_txt. 
 
 # ## Check:
-# plot_txt()
+# plot_txt("txt/hello.txt")
+# plot_txt("txt/ascii.txt", cex = 6, col_bg = "grey")
 # 
-# # Case-sensitivity: 
-# plot_txt(pal_extend = TRUE)
-# plot_txt(pal_extend = TRUE, case_sense = TRUE)
+# cols <- c("steelblue3", "steelblue2", "steelblue1", 
+#           "red3", "red2", "red1", 
+#           "orange3", "orange2", "orange1",
+#           "gold3", "gold2", "gold1")
+# plot_txt("txt/ascii.txt", cex = 6, pal = cols)
+# plot_txt("txt/ascii.txt", cex = 6, pal = cols, col_bg = "steelblue4")
+# 
+# # Colors, pal_extend, and case_sense:
+# cols <- c("firebrick", "olivedrab", "steelblue", "orange", "gold")
+# plot_txt(pal = cols, pal_extend = TRUE)
+# plot_txt(pal = cols, pal_extend = FALSE)
+# plot_txt(pal = cols, pal_extend = FALSE, case_sense = TRUE)
 # 
 # # Customize:
-# plot_txt(col_txt = "black", col_bg = "white", 
-#          pal = pal_seeblau, pal_extend = TRUE, 
-#          brd_col = NA)
+# plot_txt(col_txt = "white", borders = FALSE)
+# plot_txt(col_txt = "white", pal = c("green4", "black"),
+#          border_col = "black", border_size = .1)
 # 
 # # Other colors:
 # plot_txt(pal = c("red2", "orange", "gold"))
-# plot_txt(pal = c("olivedrab4", "gold"), pal_extend = TRUE)
+# plot_txt(pal = c("olivedrab4", "gold"))
 # 
 # # Text and grid options:
-# plot_txt(col_txt = "firebrick", cex = 4, ftfc = 3, 
-#          pal = "grey90", pal_extend = TRUE, 
-#          brd_col = NA)
+# plot_txt(col_txt = "firebrick", cex = 4, fontface = 3,
+#          pal = "grey90", pal_extend = TRUE,
+#          border_col = NA)
 # 
-# # Other file:
-# plot_txt(file = "data-raw/ascii2.txt",
-#          col_bg = "lightgrey", brd_col = "white")
+# # Other files:
+# plot_txt(file = "txt/ascii2.txt",
+#          col_bg = "lightgrey", border_col = "white")
 
 
 ## ToDo: ----------
