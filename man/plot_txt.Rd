@@ -62,6 +62,8 @@ into a tibble and then plots all
 its characters as a tile plot (using \strong{ggplot2}).
 }
 \examples{
+
+\donttest{
 plot_txt("txt/hello.txt")  # requires txt file
 
 # Colors, pal_extend, and case_sense:
@@ -87,6 +89,7 @@ plot_txt(col_txt = "firebrick", cex = 4, fontface = 3,
 # Other text file:
 plot_txt(file = "txt/ascii.txt", cex = 5, 
          col_bg = "lightgrey", border_col = "white")
+}
 
 }
 \seealso{

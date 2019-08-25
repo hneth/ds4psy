@@ -30,8 +30,11 @@ The \bold{here} package is used to determine
 the (absolute) file path.
 }
 \examples{
+
+\donttest{
 read_ascii("txt/ascii.txt")  # requires txt file
 read_ascii("txt/ascii.txt", flip_y = TRUE)
+}
 
 }
 \seealso{
