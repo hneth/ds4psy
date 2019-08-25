@@ -194,8 +194,11 @@ transl33t <- function(txt, rules = l33t_rul35,
 #' Default: \code{flip_y = FALSE}. 
 #' 
 #' @examples
+#' 
+#' \donttest{
 #' read_ascii("txt/ascii.txt")  # requires txt file
 #' read_ascii("txt/ascii.txt", flip_y = TRUE)
+#' }
 #' 
 #' @family text functions
 #'
@@ -292,6 +295,11 @@ read_ascii <- function(file = "txt/ascii.txt", flip_y = FALSE){
 # t <- read_ascii("./txt/hello.txt")
 # t
 # tail(t)
+
+# Define global variable (to allow using tb in plot_txt): ------ 
+
+# tb <- read_ascii("./txt/ascii.txt")
+## tb
 
 ## ToDo: ----------
 

@@ -1109,6 +1109,8 @@ plot_fn <- function(x = NA,
 #' Default: \code{border_size = 0.5}.
 #' 
 #' @examples
+#' 
+#' \donttest{
 #' plot_txt("txt/hello.txt")  # requires txt file
 #' 
 #' # Colors, pal_extend, and case_sense:
@@ -1134,6 +1136,7 @@ plot_fn <- function(x = NA,
 #' # Other text file:
 #' plot_txt(file = "txt/ascii.txt", cex = 5, 
 #'          col_bg = "lightgrey", border_col = "white")
+#' }
 #'
 #' @family plot functions
 #'
