@@ -1,5 +1,5 @@
 ## text_fun.R | ds4psy
-## hn | uni.kn | 2019 08 24
+## hn | uni.kn | 2019 08 25
 ## ---------------------------
 
 ## Functions for text and string objects. 
@@ -182,18 +182,20 @@ transl33t <- function(txt, rules = l33t_rul35,
 #' The \bold{here} package is used to determine 
 #' the (absolute) file path. 
 #' 
-#' @param file The text file to read or its path.  
+#' @param file The text file to read (or its path).  
 #' If the text file is stored in a sub-directory, 
-#' enter this here (without leading or trailing "/"). 
-#' Default: \code{file = "data-raw/ascii.txt"}. 
+#' enter its path and name here (without any leading or 
+#' trailing "." or "/"). 
+#' Default: \code{file = "txt/ascii.txt"}. 
 #' 
 #' @param flip_y Boolean: Should y-coordinates be flipped, 
-#' so that the lowest line in text file is set to \code{y = 1}, 
-#' and the top line in text file is set to \code{y = n_lines}? 
-#' Default: \code{flip_y = FALSE}.  
+#' so that the lowest line in the text file becomes \code{y = 1}, 
+#' and the top line in the text file becomes \code{y = n_lines}? 
+#' Default: \code{flip_y = FALSE}. 
 #' 
 #' @examples
-#' # depend on file.txt
+#' read_ascii("txt/ascii.txt")  # requires txt file
+#' read_ascii("txt/ascii.txt", flip_y = TRUE)
 #' 
 #' @family text functions
 #'
@@ -205,24 +207,28 @@ transl33t <- function(txt, rules = l33t_rul35,
 #' 
 #' @export
 
-read_ascii <- function(file = "data-raw/ascii.txt", flip_y = FALSE){ 
+read_ascii <- function(file = "txt/ascii.txt", flip_y = FALSE){ 
   
-  # File path: Remove leading "." and/or "/" characters:
+  ## (0) Default file/path:
+  # file <- "txt/ascii.txt"
+  
+  # (1) File path: Remove leading "." and/or "/" characters:
   if (substr(file, 1, 1) == ".") { file <- substr(file, 2, nchar(file))}
   if (substr(file, 1, 1) == "/") { file <- substr(file, 2, nchar(file))}
   # ToDo: Use regex to do this more efficiently!
   
   path2file <- here::here(file)  # absolute path to text file
   
-  # Read txt: 
+  # (2) Read txt: 
   txt <- readLines(path2file)
-  # writeLines(txt)
+  # writeLines(txt)  # debugging
   
-  # Lengths and counters:
+  # (3) Initialize lengths and a counter:
   n_lines <- length(txt)
   n_chars <- sum(nchar(txt))
   ct <- 0  # initialize character counter
   
+  # (4) Data structure (for results): 
   # # initialize a matrix (to store all characters in place):
   # m <- matrix(data = NA, nrow = n_lines, ncol = max(nchar(txt)))
   
@@ -236,12 +242,12 @@ read_ascii <- function(file = "data-raw/ascii.txt", flip_y = FALSE){
   #                  y = rep(NA, n_chars),
   #                  c = rep("", n_chars))
   
-  # Loop through all y lines of txt:  
+  # (5a) Loop through all y lines of txt:  
   for (y in 1:n_lines){ 
     
     line <- txt[y]  # y-th line of txt
     
-    # Loop through each char x of each line:
+    # (5b) Loop through each char x of each line:
     for (x in 1:nchar(line)) { 
       
       cur_char <- substr(line, x, x)  # current char      
@@ -262,26 +268,29 @@ read_ascii <- function(file = "data-raw/ascii.txt", flip_y = FALSE){
     
   } # for y.
   
-  # Check that ct matches n_chars:
+  # (6) Check that ct matches n_chars:
   if (ct != n_chars){
     message("read_ascii: Count ct differs from n_chars!")
   }
   
-  # Adjust data types:
+  # (7) Adjust data types:
   tb$x <- as.integer(tb$x)
   tb$y <- as.integer(tb$y)
   tb$char <- as.character(tb$char)  
   
+  # (8) Return tb: 
   return(tb)
   
 } # read_ascii.
 
 ## Check: 
-# read_ascii("data-raw/ascii.txt")
-# read_ascii("data-raw/ascii.txt", flip_y = TRUE)
-# read_ascii("data-raw/ascii2.txt")  # Note: "\" became "\\"
-
-# t <- read_ascii("data-raw/hello.txt")
+# read_ascii("./txt/ascii.txt")  # Note: "\" became "\\"
+# read_ascii("./txt/ascii.txt", flip_y = TRUE)
+# 
+# read_ascii("./txt/ascii2.txt")  
+# 
+# t <- read_ascii("./txt/hello.txt")
+# t
 # tail(t)
 
 ## ToDo: ----------
