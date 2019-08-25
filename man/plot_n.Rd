@@ -5,7 +5,7 @@
 \title{Plot n tiles.}
 \usage{
 plot_n(n = NA, row = TRUE, polar = FALSE, pal = pal_ds4psy,
-  sort = TRUE, borders = TRUE, border_col = grey(0, 1),
+  sort = TRUE, borders = TRUE, border_col = "black",
   border_size = 0, lbl_tiles = FALSE, lbl_title = FALSE,
   rseed = NA, save = FALSE, save_path = "images/tiles",
   prefix = "", suffix = "")
@@ -29,7 +29,7 @@ Default: \code{sort = TRUE} (i.e., sorted tiles).}
 Default: \code{borders = TRUE} (i.e., use borders).}
 
 \item{border_col}{Color of borders (if \code{borders = TRUE}). 
-Default: \code{border_col = grey(0, 1)} (i.e., black).}
+Default: \code{border_col = "black"}.}
 
 \item{border_size}{Size of borders (if \code{borders = TRUE}). 
 Default: \code{border_size = 0} (i.e., invisible).}
@@ -107,6 +107,6 @@ plot_n(n = 4, row = FALSE, sort = FALSE, borders = TRUE,
 
 Other plot functions: \code{\link{plot_fn}},
   \code{\link{plot_fun}}, \code{\link{plot_tiles}},
-  \code{\link{theme_ds4psy}}
+  \code{\link{plot_txt}}, \code{\link{theme_ds4psy}}
 }
 \concept{plot functions}

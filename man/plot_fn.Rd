@@ -15,22 +15,22 @@ Default: \code{x = NA}.}
 \item{y}{A (decimal) number. 
 Default: \code{y = 1}.}
 
-\item{A}{A Boolean value. 
+\item{A}{Boolean. 
 Default: \code{A = TRUE}.}
 
-\item{B}{A Boolean value. 
+\item{B}{Boolean. 
 Default: \code{B = FALSE}.}
 
-\item{C}{A Boolean value. 
+\item{C}{Boolean. 
 Default: \code{C = TRUE}.}
 
-\item{D}{A Boolean value. 
+\item{D}{Boolean. 
 Default: \code{D = FALSE}.}
 
-\item{E}{A Boolean value. 
+\item{E}{Boolean. 
 Default: \code{E = FALSE}.}
 
-\item{F}{A Boolean value. 
+\item{F}{Boolean. 
 Default: \code{F = FALSE}.}
 
 \item{f}{A color palette (e.g., as a vector). 
@@ -69,6 +69,6 @@ plot_fn(x = 7, A = TRUE,  B = TRUE, F = TRUE, f = c("steelblue", "white", "fores
 
 Other plot functions: \code{\link{plot_fun}},
   \code{\link{plot_n}}, \code{\link{plot_tiles}},
-  \code{\link{theme_ds4psy}}
+  \code{\link{plot_txt}}, \code{\link{theme_ds4psy}}
 }
 \concept{plot functions}

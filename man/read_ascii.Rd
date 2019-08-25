@@ -4,17 +4,18 @@
 \alias{read_ascii}
 \title{read_ascii parses text (from a file) into a tibble.}
 \usage{
-read_ascii(file = "data-raw/ascii.txt", flip_y = FALSE)
+read_ascii(file = "txt/ascii.txt", flip_y = FALSE)
 }
 \arguments{
-\item{file}{The text file to read or its path.
+\item{file}{The text file to read (or its path).
 If the text file is stored in a sub-directory, 
-enter this here (without leading or trailing "/"). 
-Default: \code{file = "data-raw/ascii.txt"}.}
+enter its path and name here (without any leading or 
+trailing "." or "/"). 
+Default: \code{file = "txt/ascii.txt"}.}
 
 \item{flip_y}{Boolean: Should y-coordinates be flipped, 
-so that the lowest line in text file is set to \code{y = 1}, 
-and the top line in text file is set to \code{y = n_lines}? 
+so that the lowest line in the text file becomes \code{y = 1}, 
+and the top line in the text file becomes \code{y = n_lines}? 
 Default: \code{flip_y = FALSE}.}
 }
 \description{
@@ -29,7 +30,8 @@ The \bold{here} package is used to determine
 the (absolute) file path.
 }
 \examples{
-# depend on file.txt
+read_ascii("txt/ascii.txt")  # requires txt file
+read_ascii("txt/ascii.txt", flip_y = TRUE)
 
 }
 \seealso{

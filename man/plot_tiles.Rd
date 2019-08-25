@@ -5,41 +5,41 @@
 \title{Plot n-by-n tiles.}
 \usage{
 plot_tiles(n = NA, pal = pal_ds4psy, sort = TRUE, borders = TRUE,
-  border_col = grey(0, 1), border_size = 0.2, lbl_tiles = FALSE,
+  border_col = "black", border_size = 0.2, lbl_tiles = FALSE,
   lbl_title = FALSE, polar = FALSE, rseed = NA, save = FALSE,
   save_path = "images/tiles", prefix = "", suffix = "")
 }
 \arguments{
 \item{n}{Basic number of tiles (on either side).}
 
-\item{pal}{A color palette (automatically extended to \code{n x n} colors). 
+\item{pal}{Color palette (automatically extended to \code{n x n} colors). 
 Default: \code{pal = \link{pal_ds4psy}}.}
 
-\item{sort}{Sort tiles? 
+\item{sort}{Boolean: Sort tiles? 
 Default: \code{sort = TRUE} (i.e., sorted tiles).}
 
-\item{borders}{Add borders to tiles? 
+\item{borders}{Boolean: Add borders to tiles? 
 Default: \code{borders = TRUE} (i.e., use borders).}
 
 \item{border_col}{Color of borders (if \code{borders = TRUE}). 
-Default: \code{border_col = grey(0, 1)} (i.e., black).}
+Default: \code{border_col = "black"}.}
 
 \item{border_size}{Size of borders (if \code{borders = TRUE}). 
-Default: \code{border_size = 0.2} (i.e., thin).}
+Default: \code{border_size = 0.2}.}
 
-\item{lbl_tiles}{Add numeric labels to tiles? 
+\item{lbl_tiles}{Boolean: Add numeric labels to tiles? 
 Default: \code{lbl_tiles = FALSE} (i.e., no labels).}
 
-\item{lbl_title}{Add numeric label (of n) to plot? 
+\item{lbl_title}{Boolean: Add numeric label (of n) to plot? 
 Default: \code{lbl_title = FALSE} (i.e., no title).}
 
-\item{polar}{Plot on polar coordinates? 
+\item{polar}{Boolean: Plot on polar coordinates? 
 Default: \code{polar = FALSE} (i.e., using fixed coordinates).}
 
 \item{rseed}{Random seed (number).
 Default: \code{rseed = NA} (using random seed).}
 
-\item{save}{Save plot as png file? 
+\item{save}{Boolean: Save plot as png file? 
 Default: \code{save = FALSE}.}
 
 \item{save_path}{Path to save plot (if \code{save = TRUE}).
@@ -95,6 +95,6 @@ plot_tiles(n = 4, sort = FALSE, borders = TRUE,
 
 Other plot functions: \code{\link{plot_fn}},
   \code{\link{plot_fun}}, \code{\link{plot_n}},
-  \code{\link{theme_ds4psy}}
+  \code{\link{plot_txt}}, \code{\link{theme_ds4psy}}
 }
 \concept{plot functions}

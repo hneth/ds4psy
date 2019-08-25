@@ -12,22 +12,22 @@ plot_fun(a = NA, b = TRUE, c = TRUE, d = 1, e = FALSE,
 \item{a}{A (natural) number. 
 Default: \code{a = NA}.}
 
-\item{b}{A Boolean value. 
+\item{b}{Boolean. 
 Default: \code{b = TRUE}.}
 
-\item{c}{A Boolean value. 
+\item{c}{Boolean. 
 Default: \code{c = TRUE}.}
 
 \item{d}{A (decimal) number. 
 Default: \code{d = 1.0}.}
 
-\item{e}{A Boolean value. 
+\item{e}{Boolean. 
 Default: \code{e = FALSE}.}
 
-\item{f}{A Boolean value. 
+\item{f}{Boolean. 
 Default: \code{f = FALSE}.}
 
-\item{g}{A Boolean value. 
+\item{g}{Boolean. 
 Default: \code{g = FALSE}.}
 
 \item{c1}{A color palette (e.g., as a vector). 
@@ -63,6 +63,6 @@ plot_fun(a = 4, f = TRUE, g = TRUE, c1 = c("steelblue", "white", "firebrick"))
 
 Other plot functions: \code{\link{plot_fn}},
   \code{\link{plot_n}}, \code{\link{plot_tiles}},
-  \code{\link{theme_ds4psy}}
+  \code{\link{plot_txt}}, \code{\link{theme_ds4psy}}
 }
 \concept{plot functions}

@@ -54,6 +54,6 @@ allow emphasizing data points with color accents).
 
 Other plot functions: \code{\link{plot_fn}},
   \code{\link{plot_fun}}, \code{\link{plot_n}},
-  \code{\link{plot_tiles}}
+  \code{\link{plot_tiles}}, \code{\link{plot_txt}}
 }
 \concept{plot functions}
