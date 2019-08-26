@@ -1163,12 +1163,9 @@ plot_fn <- function(x = NA,
 #' \code{\link{read_ascii}} for reading text into a tibble; 
 #' \code{\link{pal_ds4psy}} for default color palette. 
 #' 
-#' @import dplyr  
 #' @import ggplot2
 #' @import tibble 
-#' @import here
 #' @importFrom grDevices colorRampPalette 
-#' @importFrom magrittr "%>%"
 #' @importFrom cowplot theme_nothing 
 #' 
 #' @export 
