@@ -1,5 +1,5 @@
 ## text_fun.R | ds4psy
-## hn | uni.kn | 2019 08 25
+## hn | uni.kn | 2019 08 26
 ## ---------------------------
 
 ## Functions for text and string objects. 
@@ -173,20 +173,24 @@ transl33t <- function(txt, rules = l33t_rul35,
 
 #' read_ascii parses text (from a file) into a tibble.
 #'
-#' \code{read_ascii} parses text (from a file) into 
-#' a tibble that contains a row for each character. 
-#' This tibble contains 3 variables: 
-#' The character's \code{x}- and \code{y}-coordinates (from top to bottom)  
+#' \code{read_ascii} parses text 
+#' (from a file or from user input in Console) 
+#' into a tibble that contains a row for each character. 
+#' 
+#' \code{read_ascii} creates a tibble with 3 variables: 
+#' Each character's \code{x}- and \code{y}-coordinates (from top to bottom)  
 #' and a variable \code{char} for the character at this coordinate. 
 #' 
 #' The \bold{here} package is used to determine 
 #' the (absolute) file path. 
 #' 
-#' @param file The text file to read (or its path).  
-#' If the text file is stored in a sub-directory, 
+#' @param file The text file to read (or its path). 
+#' If \code{file = ""} (the default), \code{scan} is used 
+#' to read user input from the Console. 
+#' If a text file is stored in a sub-directory, 
 #' enter its path and name here (without any leading or 
 #' trailing "." or "/"). 
-#' Default: \code{file = "txt/ascii.txt"}. 
+#' Default: \code{file = ""}. 
 #' 
 #' @param flip_y Boolean: Should y-coordinates be flipped, 
 #' so that the lowest line in the text file becomes \code{y = 1}, 
@@ -194,7 +198,7 @@ transl33t <- function(txt, rules = l33t_rul35,
 #' Default: \code{flip_y = FALSE}. 
 #' 
 #' @examples
-#' # Create a text file:
+#' # Create a temporary file "test.txt":
 #' cat("Hello world!", "This is a test.", 
 #'     "Can you see this text?", 
 #'     "Good! Please carry on...", 
@@ -204,20 +208,20 @@ transl33t <- function(txt, rules = l33t_rul35,
 #' read_ascii("test.txt")
 #' read_ascii("test.txt", flip_y = TRUE)  # y flipped
 #' 
-#' unlink("test.txt")  # clean up.
+#' unlink("test.txt")  # clean up (by deleting file).
 #'  
 #' \donttest{
-#' # (b) Read text file (from subdir):
+#' # (b) Read text (from file in subdir):
 #' read_ascii("data-raw/txt/ascii.txt")  # requires txt file
 #' 
-#' # (c) Read user input (from console):
+#' # (c) Scan user input (from console):
 #' read_ascii()
 #' }
 #' 
 #' @family text functions
 #'
 #' @seealso
-#' corresponding plot function
+#' \code{\link{plot_text}} for a corresponding plot function
 #' 
 #' @import here
 #' @import tibble
@@ -248,7 +252,9 @@ read_ascii <- function(file = "", flip_y = FALSE){
   # (2) Read txt: 
   # txt <- readLines(con = cur_file)                # (a) read from file
   txt <- scan(file = cur_file, what = "character",  # (b) from file or user console
-              sep = "\n", quiet = TRUE)  
+              sep = "\n",     # i.e., treat " " as space!     
+              quiet = FALSE   # provide user feedback
+  )
   # writeLines(txt)  # debugging
   
   # (3) Initialize lengths and a counter:
@@ -313,9 +319,8 @@ read_ascii <- function(file = "", flip_y = FALSE){
   
 } # read_ascii.
 
-## Check: 
-
-# # (1) Create a text file:
+# ## Check: 
+# # Create a temporary file "test.txt":
 # cat("Hello world!",
 #     "This is a test.",
 #     "Can you see this text?", 
@@ -323,7 +328,8 @@ read_ascii <- function(file = "", flip_y = FALSE){
 #     file = "test.txt", sep = "\n")
 # read_ascii("test.txt")
 # plot_txt("test.txt")
-# unlink("test.txt") # remove file
+#
+# unlink("test.txt")  # clean up (by deleting file).
 
 # # (2) Read other text files: 
 # read_ascii("./data-raw/txt/ascii.txt")  # Note: "\" became "\\"
