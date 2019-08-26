@@ -1054,19 +1054,22 @@ plot_fn <- function(x = NA,
 
 
 
-## plot_txt: Plot text characters as a tile plot: -------- 
+## plot_text: Plot text characters as a tile plot: -------- 
 
-#' Plot text characters (from file).
+#' Plot text characters (from file or user input).
 #'
-#' \code{plot_txt} parses text (from a file) 
+#' \code{plot_text} parses text 
+#' (from a file or from user input in Console) 
 #' into a tibble and then plots all 
 #' its characters as a tile plot (using \strong{ggplot2}).
 #' 
-#' @param file The text file to read (or its path).  
-#' If the text file is stored in a sub-directory, 
+#' @param file The text file to read (or its path). 
+#' If \code{file = ""} (the default), \code{scan} is used 
+#' to read user input from the Console. 
+#' If a text file is stored in a sub-directory, 
 #' enter its path and name here (without any leading or 
 #' trailing "." or "/"). 
-#' Default: \code{file = "txt/hello.txt"}. 
+#' Default: \code{file = ""}. 
 #' 
 #' @param lbl_tiles Add numeric labels to tiles? 
 #' Default: \code{lbl_tiles = TRUE} (i.e., show labels). 
@@ -1109,49 +1112,49 @@ plot_fn <- function(x = NA,
 #' Default: \code{border_size = 0.5}.
 #' 
 #' @examples
-#' # Create a text file:
+#' # Create a temporary file "test.txt":
 #' cat("Hello world!", "This is a test.", 
 #'     "Can you see this text?", 
 #'     "Good! Please carry on...", 
 #'     file = "test.txt", sep = "\n")
 #' 
-#' # (a) Plot text from file: 
-#' plot_txt("test.txt")
+#' # (a) Plot text (from file): 
+#' plot_text("test.txt")
 #' 
 #' # Set colors, pal_extend, and case_sense:
 #' cols <- c("firebrick", "olivedrab", "steelblue", "orange", "gold")
-#' plot_txt("test.txt", pal = cols, pal_extend = TRUE)
-#' plot_txt("test.txt", pal = cols, pal_extend = FALSE)
-#' plot_txt("test.txt", pal = cols, pal_extend = FALSE, case_sense = TRUE)
+#' plot_text("test.txt", pal = cols, pal_extend = TRUE)
+#' plot_text("test.txt", pal = cols, pal_extend = FALSE)
+#' plot_text("test.txt", pal = cols, pal_extend = FALSE, case_sense = TRUE)
 #' 
 #' # Customize text and grid options:
-#' plot_txt("test.txt", col_txt = "white", borders = FALSE)
-#' plot_txt("test.txt", col_txt = "firebrick", cex = 4, fontface = 3,
-#'          pal = "grey90", pal_extend = TRUE, border_col = NA)
-#' plot_txt("test.txt", col_txt = "white", pal = c("green4", "black"),
-#'          border_col = "black", border_size = .2)
+#' plot_text("test.txt", col_txt = "white", borders = FALSE)
+#' plot_text("test.txt", col_txt = "firebrick", cex = 4, fontface = 3,
+#'           pal = "grey90", pal_extend = TRUE, border_col = NA)
+#' plot_text("test.txt", col_txt = "white", pal = c("green4", "black"),
+#'           border_col = "black", border_size = .2)
 #' 
 #' # Color ranges:
-#' plot_txt("test.txt", pal = c("red2", "orange", "gold"))
-#' plot_txt("test.txt", pal = c("olivedrab4", "gold"))
+#' plot_text("test.txt", pal = c("red2", "orange", "gold"))
+#' plot_text("test.txt", pal = c("olivedrab4", "gold"))
 #' 
-#' unlink("test.txt")  # clean up.
+#' unlink("test.txt")  # clean up (by deleting file).
 #'  
 #' \donttest{
-#' # (b) Read text file (from subdir):
-#' plot_txt("data-raw/txt/hello.txt")  # requires txt file
-#' plot_txt(file = "data-raw/txt/ascii.txt", cex = 5, 
-#'          col_bg = "lightgrey", border_col = "white")
+#' # (b) Plot text (from file in subdir):
+#' plot_text("data-raw/txt/hello.txt")  # requires txt file
+#' plot_text(file = "data-raw/txt/ascii.txt", cex = 5, 
+#'           col_bg = "lightgrey", border_col = "white")
 #'          
-#' # (c) Read user input (from console):
-#' plot_txt()
+#' # (c) Plot text input (from console):
+#' plot_text()
 #'  
 #' }
 #'
 #' @family plot functions
 #'
 #' @seealso
-#' \code{\link{read_ascii}} for reading text files into a tibble; 
+#' \code{\link{read_ascii}} for reading text into a tibble; 
 #' \code{\link{pal_ds4psy}} for default color palette. 
 #' 
 #' @import dplyr  
@@ -1163,21 +1166,21 @@ plot_fn <- function(x = NA,
 #' 
 #' @export 
 
-plot_txt <- function(file = "",  # "" read from console; "test.txt" read from file
-                     # text format:
-                     lbl_tiles = TRUE, 
-                     cex = 3,   # size of characters
-                     fontface = 1,  # font face (1:4)
-                     # colors: 
-                     col_txt = "black",  # color of text characters
-                     col_bg = "white",   # bg color (for most frequent character in file)
-                     pal = pal_ds4psy[1:5],  # color palette for other replacements
-                     pal_extend = TRUE,  # extend color palette (to n of different characters in file)
-                     case_sense = FALSE,
-                     # tile borders: 
-                     borders = TRUE,       # show tile borders?
-                     border_col = "white", # color of tile border 
-                     border_size = 0.5     # width of tile border
+plot_text <- function(file = "",  # "" read from console; "test.txt" read from file
+                      # text format:
+                      lbl_tiles = TRUE, 
+                      cex = 3,   # size of characters
+                      fontface = 1,  # font face (1:4)
+                      # colors: 
+                      col_txt = "black",  # color of text characters
+                      col_bg = "white",   # bg color (for most frequent character in file)
+                      pal = pal_ds4psy[1:5],  # color palette for other replacements
+                      pal_extend = TRUE,  # extend color palette (to n of different characters in file)
+                      case_sense = FALSE,
+                      # tile borders: 
+                      borders = TRUE,       # show tile borders?
+                      border_col = "white", # color of tile border 
+                      border_size = 0.5     # width of tile border
 ){
   
   ## (-) Default file/path:
@@ -1205,32 +1208,32 @@ plot_txt <- function(file = "",  # "" read from console; "test.txt" read from fi
     
     # (a) case-sensitive match: 
     
-    # # Using dplyr + pipe:     
-    # char_freq <- tb %>%
-    #  dplyr::count(char) %>%   # Note: Upper- and lowercase are counted separately!
-    #  dplyr::arrange(desc(n))
+    # Using dplyr + pipe:
+    char_freq <- tb %>%
+      dplyr::count(char) %>%   # Note: Upper- and lowercase are counted separately!
+      dplyr::arrange(desc(n))
     
-    # Without pipe:
-    t2 <- dplyr::count(tb, char)
-    char_freq <- dplyr::arrange(t2, desc(n))    
+    # # Without pipe:
+    # t2 <- dplyr::count(tb, char)
+    # char_freq <- dplyr::arrange(t2, desc(n))    
     
   } else {
     
     # (b) case-INsensitive match:
     tb$char_lc <- tolower(tb$char)  # all in lowercase!
     
-    # # Using dplyr + pipe:     
-    # char_freq <- tb %>% 
-    #   dplyr::count(char_lc) %>% # Note: Upper- and lowercase are counted together!
-    #   dplyr::mutate(char = char_lc) %>%  
-    #   dplyr::select(char, n) %>% 
-    #   dplyr::arrange(desc(n))
+    # Using dplyr + pipe:
+    char_freq <- tb %>%
+      dplyr::count(char_lc) %>% # Note: Upper- and lowercase are counted together!
+      dplyr::mutate(char = char_lc) %>%
+      dplyr::select(char, n) %>%
+      dplyr::arrange(desc(n))
     
-    # Without pipe:
-    t2 <- dplyr::count(tb, char_lc)
-    t3 <- dplyr::mutate(t2, char = char_lc)
-    t4 <- dplyr::select(t3, char, n)
-    char_freq <- dplyr::arrange(t4, desc(n))
+    # # Without pipe:
+    # t2 <- dplyr::count(tb, char_lc)
+    # t3 <- dplyr::mutate(t2, char = char_lc)
+    # t4 <- dplyr::select(t3, char, n)
+    # char_freq <- dplyr::arrange(t4, desc(n))
     
   }
   # char_freq
@@ -1285,45 +1288,45 @@ plot_txt <- function(file = "",  # "" read from console; "test.txt" read from fi
   
   # (+) return(invisible(tb))
   
-} # plot_txt. 
+} # plot_text. 
 
 # ## Check:
-# # Create a text file:
+# # Create a temporary file "test.txt":
 # cat("Hello world!", "This is a test.",
 #     "Can you see this text?",
 #     "Good! Please carry on...",
 #     file = "test.txt", sep = "\n")
 # 
 # # (a) Plot text from file:
-# plot_txt("test.txt")
+# plot_text("test.txt")
 # 
 # # Set colors, pal_extend, and case_sense:
 # cols <- c("firebrick", "olivedrab", "steelblue", "orange", "gold")
-# plot_txt("test.txt", pal = cols, pal_extend = TRUE)
-# plot_txt("test.txt", pal = cols, pal_extend = FALSE)
-# plot_txt("test.txt", pal = cols, pal_extend = FALSE, case_sense = TRUE)
+# plot_text("test.txt", pal = cols, pal_extend = TRUE)
+# plot_text("test.txt", pal = cols, pal_extend = FALSE)
+# plot_text("test.txt", pal = cols, pal_extend = FALSE, case_sense = TRUE)
 # 
 # # Customize text and grid options:
-# plot_txt("test.txt", col_txt = "white", borders = FALSE)
-# plot_txt("test.txt", col_txt = "firebrick", cex = 4, fontface = 3,
-#          pal = "grey90", pal_extend = TRUE, border_col = NA)
-# plot_txt("test.txt", col_txt = "white", pal = c("green4", "black"),
-#          border_col = "black", border_size = .2)
+# plot_text("test.txt", col_txt = "white", borders = FALSE)
+# plot_text("test.txt", col_txt = "firebrick", cex = 4, fontface = 3,
+#           pal = "grey90", pal_extend = TRUE, border_col = NA)
+# plot_text("test.txt", col_txt = "white", pal = c("green4", "black"),
+#           border_col = "black", border_size = .2)
 # 
 # # Color ranges:
-# plot_txt("test.txt", pal = c("red2", "orange", "gold"))
-# plot_txt("test.txt", pal = c("olivedrab4", "gold"))
+# plot_text("test.txt", pal = c("red2", "orange", "gold"))
+# plot_text("test.txt", pal = c("olivedrab4", "gold"))
 # 
-# unlink("test.txt")  # clean up.
+# unlink("test.txt")  # clean up (by deleting file). 
 # 
 # \donttest{
 # # (b) Read text file (from subdir):
-# plot_txt("data-raw/txt/hello.txt")  # requires txt file
-# plot_txt(file = "data-raw/txt/ascii.txt", cex = 5,
-#          col_bg = "lightgrey", border_col = "white")
+# plot_text("data-raw/txt/hello.txt")  # requires txt file
+# plot_text(file = "data-raw/txt/ascii.txt", cex = 5,
+#           col_bg = "lightgrey", border_col = "white")
 # 
 # # (c) Read user input (from console):
-# plot_txt()
+# plot_text()
 # 
 # }
 
