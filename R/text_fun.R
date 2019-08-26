@@ -200,17 +200,17 @@ transl33t <- function(txt, rules = l33t_rul35,
 #'     "Good! Please carry on...", 
 #'     file = "test.txt", sep = "\n")
 #' 
-#' # (a) Read text from file: 
+#' # (a) Read text (from file): 
 #' read_ascii("test.txt")
 #' read_ascii("test.txt", flip_y = TRUE)  # y flipped
 #' 
 #' unlink("test.txt")  # clean up.
 #'  
 #' \donttest{
-#' # (b) Read text file from subdir:
+#' # (b) Read text file (from subdir):
 #' read_ascii("data-raw/txt/ascii.txt")  # requires txt file
 #' 
-#' # (c) Read user input from Console:
+#' # (c) Read user input (from console):
 #' read_ascii()
 #' }
 #' 
