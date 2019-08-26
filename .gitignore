@@ -1,4 +1,4 @@
-# .gitignore | 2019 08 25
+# .gitignore | 2019 08 26
 
 .gitignore
 cran-comments.md 
@@ -53,6 +53,5 @@ _gitless/
 data-raw/
 images/ 
 rsconnect/
-txt/
 
 # eof.
