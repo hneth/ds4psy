@@ -56,9 +56,9 @@ read_ascii()
 
 }
 \seealso{
-\code{\link{plot_text}} for a corresponding plot function
+\code{\link{plot_text}} for a corresponding plot function.
 
-Other text functions: \code{\link{l33t_rul35}},
-  \code{\link{transl33t}}
+Other text functions: \code{\link{count_char}},
+  \code{\link{l33t_rul35}}, \code{\link{transl33t}}
 }
 \concept{text functions}

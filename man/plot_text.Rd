@@ -86,9 +86,9 @@ plot_text("test.txt", pal = cols, pal_extend = FALSE)
 plot_text("test.txt", pal = cols, pal_extend = FALSE, case_sense = TRUE)
 
 # Customize text and grid options:
+plot_text("test.txt", col_txt = "steelblue", cex = 4, fontface = 4,
+          pal = "gold2", pal_extend = TRUE, border_col = NA)
 plot_text("test.txt", col_txt = "white", borders = FALSE)
-plot_text("test.txt", col_txt = "firebrick", cex = 4, fontface = 3,
-          pal = "grey90", pal_extend = TRUE, border_col = NA)
 plot_text("test.txt", col_txt = "white", pal = c("green4", "black"),
           border_col = "black", border_size = .2)
 

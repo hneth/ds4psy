@@ -45,7 +45,7 @@ transl33t(txt = "hello world", out_case = "up",
 \seealso{
 \code{\link{l33t_rul35}} for default rules.
 
-Other text functions: \code{\link{l33t_rul35}},
-  \code{\link{read_ascii}}
+Other text functions: \code{\link{count_char}},
+  \code{\link{l33t_rul35}}, \code{\link{read_ascii}}
 }
 \concept{text functions}
