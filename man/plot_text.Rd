@@ -4,10 +4,10 @@
 \alias{plot_text}
 \title{Plot text characters (from file or user input).}
 \usage{
-plot_text(file = "", lbl_tiles = TRUE, cex = 3, fontface = 1,
-  col_txt = "black", col_bg = "white", pal = pal_ds4psy[1:5],
-  pal_extend = TRUE, case_sense = FALSE, borders = TRUE,
-  border_col = "white", border_size = 0.5)
+plot_text(file = "", char_bg = " ", lbl_tiles = TRUE, cex = 3,
+  fontface = 1, col_txt = "black", col_bg = "white",
+  pal = pal_ds4psy[1:5], pal_extend = TRUE, case_sense = FALSE,
+  borders = TRUE, border_col = "white", border_size = 0.5)
 }
 \arguments{
 \item{file}{The text file to read (or its path). 
@@ -17,6 +17,10 @@ If a text file is stored in a sub-directory,
 enter its path and name here (without any leading or 
 trailing "." or "/"). 
 Default: \code{file = ""}.}
+
+\item{char_bg}{Character used as background. 
+Default: \code{char_bg = " "}. 
+If \code{char_bg = NA}, the most frequent character is used.}
 
 \item{lbl_tiles}{Add numeric labels to tiles? 
 Default: \code{lbl_tiles = TRUE} (i.e., show labels).}
@@ -75,6 +79,7 @@ cat("Hello world!", "This is a test.",
 plot_text("test.txt")
 
 # Set colors, pal_extend, and case_sense:
+cols <- c("steelblue", "skyblue", "lightgrey")
 cols <- c("firebrick", "olivedrab", "steelblue", "orange", "gold")
 plot_text("test.txt", pal = cols, pal_extend = TRUE)
 plot_text("test.txt", pal = cols, pal_extend = FALSE)
@@ -97,7 +102,7 @@ unlink("test.txt")  # clean up (by deleting file).
 # (b) Plot text (from file in subdir):
 plot_text("data-raw/txt/hello.txt")  # requires txt file
 plot_text(file = "data-raw/txt/ascii.txt", cex = 5, 
-          col_bg = "lightgrey", border_col = "white")
+          col_bg = "grey", char_bg = "-")
          
 # (c) Plot text input (from console):
 plot_text()
