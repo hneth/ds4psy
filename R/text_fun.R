@@ -376,7 +376,6 @@ read_ascii <- function(file = "", flip_y = FALSE){
 #' @seealso
 #' \code{\link{plot_text}} for a corresponding plot function. 
 #' 
-#' 
 #' @export
 
 count_char <- function(s, # string of text to count
