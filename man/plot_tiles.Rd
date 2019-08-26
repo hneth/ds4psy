@@ -95,6 +95,6 @@ plot_tiles(n = 4, sort = FALSE, borders = TRUE,
 
 Other plot functions: \code{\link{plot_fn}},
   \code{\link{plot_fun}}, \code{\link{plot_n}},
-  \code{\link{plot_txt}}, \code{\link{theme_ds4psy}}
+  \code{\link{plot_text}}, \code{\link{theme_ds4psy}}
 }
 \concept{plot functions}

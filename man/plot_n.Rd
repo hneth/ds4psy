@@ -106,7 +106,7 @@ plot_n(n = 4, row = FALSE, sort = FALSE, borders = TRUE,
 \code{\link{pal_ds4psy}} for default color palette.
 
 Other plot functions: \code{\link{plot_fn}},
-  \code{\link{plot_fun}}, \code{\link{plot_tiles}},
-  \code{\link{plot_txt}}, \code{\link{theme_ds4psy}}
+  \code{\link{plot_fun}}, \code{\link{plot_text}},
+  \code{\link{plot_tiles}}, \code{\link{theme_ds4psy}}
 }
 \concept{plot functions}

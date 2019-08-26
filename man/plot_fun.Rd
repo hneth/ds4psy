@@ -62,7 +62,7 @@ plot_fun(a = 4, f = TRUE, g = TRUE, c1 = c("steelblue", "white", "firebrick"))
 \code{\link{pal_ds4psy}} for color palette.
 
 Other plot functions: \code{\link{plot_fn}},
-  \code{\link{plot_n}}, \code{\link{plot_tiles}},
-  \code{\link{plot_txt}}, \code{\link{theme_ds4psy}}
+  \code{\link{plot_n}}, \code{\link{plot_text}},
+  \code{\link{plot_tiles}}, \code{\link{theme_ds4psy}}
 }
 \concept{plot functions}

@@ -4,14 +4,16 @@
 \alias{read_ascii}
 \title{read_ascii parses text (from a file) into a tibble.}
 \usage{
-read_ascii(file = "txt/ascii.txt", flip_y = FALSE)
+read_ascii(file = "", flip_y = FALSE)
 }
 \arguments{
-\item{file}{The text file to read (or its path).
-If the text file is stored in a sub-directory, 
+\item{file}{The text file to read (or its path). 
+If \code{file = ""} (the default), \code{scan} is used 
+to read user input from the Console. 
+If a text file is stored in a sub-directory, 
 enter its path and name here (without any leading or 
 trailing "." or "/"). 
-Default: \code{file = "txt/ascii.txt"}.}
+Default: \code{file = ""}.}
 
 \item{flip_y}{Boolean: Should y-coordinates be flipped, 
 so that the lowest line in the text file becomes \code{y = 1}, 
@@ -19,26 +21,42 @@ and the top line in the text file becomes \code{y = n_lines}?
 Default: \code{flip_y = FALSE}.}
 }
 \description{
-\code{read_ascii} parses text (from a file) into 
-a tibble that contains a row for each character. 
-This tibble contains 3 variables: 
-The character's \code{x}- and \code{y}-coordinates (from top to bottom)  
-and a variable \code{char} for the character at this coordinate.
+\code{read_ascii} parses text 
+(from a file or from user input in Console) 
+into a tibble that contains a row for each character.
 }
 \details{
+\code{read_ascii} creates a tibble with 3 variables: 
+Each character's \code{x}- and \code{y}-coordinates (from top to bottom)  
+and a variable \code{char} for the character at this coordinate.
+
 The \bold{here} package is used to determine 
 the (absolute) file path.
 }
 \examples{
+# Create a temporary file "test.txt":
+cat("Hello world!", "This is a test.", 
+    "Can you see this text?", 
+    "Good! Please carry on...", 
+    file = "test.txt", sep = "\\n")
 
+# (a) Read text (from file): 
+read_ascii("test.txt")
+read_ascii("test.txt", flip_y = TRUE)  # y flipped
+
+unlink("test.txt")  # clean up (by deleting file).
+ 
 \donttest{
-read_ascii("txt/ascii.txt")  # requires txt file
-read_ascii("txt/ascii.txt", flip_y = TRUE)
+# (b) Read text (from file in subdir):
+read_ascii("data-raw/txt/ascii.txt")  # requires txt file
+
+# (c) Scan user input (from console):
+read_ascii()
 }
 
 }
 \seealso{
-corresponding plot function
+\code{\link{plot_text}} for a corresponding plot function
 
 Other text functions: \code{\link{l33t_rul35}},
   \code{\link{transl33t}}
