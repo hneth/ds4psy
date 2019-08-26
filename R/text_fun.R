@@ -2,7 +2,7 @@
 ## hn | uni.kn | 2019 08 26
 ## ---------------------------
 
-## Functions for text and string objects. 
+## Functions for text/string objects. 
 
 ## (0) Define text labels: ---------- 
 
