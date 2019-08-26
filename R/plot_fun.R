@@ -1054,6 +1054,7 @@ plot_fn <- function(x = NA,
 
 
 
+
 ## plot_text: Plot text characters as a tile plot: -------- 
 
 #' Plot text characters (from file or user input).
@@ -1133,9 +1134,9 @@ plot_fn <- function(x = NA,
 #' plot_text("test.txt", pal = cols, pal_extend = FALSE, case_sense = TRUE)
 #' 
 #' # Customize text and grid options:
+#' plot_text("test.txt", col_txt = "steelblue", cex = 4, fontface = 4,
+#'           pal = "gold2", pal_extend = TRUE, border_col = NA)
 #' plot_text("test.txt", col_txt = "white", borders = FALSE)
-#' plot_text("test.txt", col_txt = "firebrick", cex = 4, fontface = 3,
-#'           pal = "grey90", pal_extend = TRUE, border_col = NA)
 #' plot_text("test.txt", col_txt = "white", pal = c("green4", "black"),
 #'           border_col = "black", border_size = .2)
 #' 
@@ -1191,7 +1192,7 @@ plot_text <- function(file = "",  # "" read from console; "test.txt" read from f
 ){
   
   ## (-) Default file/path:
-  # file <- "test.txt"
+  # file <- "test.txt"  # 4debugging
   
   # (0) Interpret inputs:
   if (!lbl_tiles) {col_txt <- NA}
@@ -1207,80 +1208,117 @@ plot_text <- function(file = "",  # "" read from console; "test.txt" read from f
   
   # (1) Read text file into tibble: 
   tb <- read_ascii(file = file, flip_y = TRUE)
-  n  <- nrow(tb)
-  # tb
+  nr_chars <- nrow(tb)
+  # tb  # 4debugging
   
   # (2) Determine frequency of chars:
   if (case_sense){
     
     # (a) case-sensitive match: 
     
-    # Using dplyr + pipe:
-    char_freq <- tb %>%
-      dplyr::count(char) %>%   # Note: Upper- and lowercase are counted separately!
-      dplyr::arrange(desc(n))
+    # # (A) char_freq as tibble:   
+    # # Using dplyr + pipe:
+    # char_freq <- tb %>%
+    #   dplyr::count(char) %>%   # Note: Upper- and lowercase are counted separately!
+    #   dplyr::arrange(desc(n))
+    # 
+    # # # Without pipe:
+    # # t2 <- dplyr::count(tb, char)
+    # # char_freq <- dplyr::arrange(t2, desc(n))
     
-    # # Without pipe:
-    # t2 <- dplyr::count(tb, char)
-    # char_freq <- dplyr::arrange(t2, desc(n))    
+    # (B) char_freq as named vector:
+    char_freq <- count_char(tb$char, case_sense = TRUE, rm_specials = FALSE, sort_freq = TRUE)
+    nr_unique_chars <- length(char_freq)
     
   } else {
     
     # (b) case-INsensitive match:
-    tb$char_lc <- tolower(tb$char)  # all in lowercase!
     
-    # Using dplyr + pipe:
-    char_freq <- tb %>%
-      dplyr::count(char_lc) %>% # Note: Upper- and lowercase are counted together!
-      dplyr::mutate(char = char_lc) %>%
-      dplyr::select(char, n) %>%
-      dplyr::arrange(desc(n))
+    # # (A) char_freq as tibble:   
+    # tb$char_lc <- tolower(tb$char)  # all in lowercase!
+    # 
+    # # Using dplyr + pipe:
+    # char_freq <- tb %>%
+    #   dplyr::count(char_lc) %>% # Note: Upper- and lowercase are counted together!
+    #   dplyr::mutate(char = char_lc) %>%
+    #   dplyr::select(char, n) %>%
+    #   dplyr::arrange(desc(n))
+    # 
+    # # # Without pipe:
+    # # t2 <- dplyr::count(tb, char_lc)
+    # # t3 <- dplyr::mutate(t2, char = char_lc)
+    # # t4 <- dplyr::select(t3, char, n)
+    # # char_freq <- dplyr::arrange(t4, desc(n))
     
-    # # Without pipe:
-    # t2 <- dplyr::count(tb, char_lc)
-    # t3 <- dplyr::mutate(t2, char = char_lc)
-    # t4 <- dplyr::select(t3, char, n)
-    # char_freq <- dplyr::arrange(t4, desc(n))
-    
-  }
-  # char_freq
-  
-  # (3) If char_bg is defined: Make it the most frequent character:
-  if (!is.na(char_bg)){
-    
-    # Set counter of char_freq$n for char_bg to a maximum value:
-    char_freq$n[char_freq$char == char_bg] <- max(1000, (max(char_freq$n) + 1))
-    
-    # Re-arrange according to n:
-    char_freq <- char_freq %>% dplyr::arrange(desc(n))
+    # (B) char_freq as named vector:
+    char_freq <- count_char(tb$char, case_sense = FALSE, rm_specials = FALSE, sort_freq = TRUE)
+    nr_unique_chars <- length(char_freq)
     
   }
+  # char_freq  # 4debugging
+  # print(nr_unique_chars)  # 4debugging
   
-  n_char <- nrow(char_freq)
+  # (3) If char_bg is defined && NOT the most frequent in char_freq: Make it the most frequent character:
+  if (!is.na(char_bg) && (names(char_freq)[1] != char_bg)){
+    
+    # # (A) char_freq as tibble:    
+    # # Set counter of char_freq$n for char_bg to a maximum value:
+    # char_freq$n[char_freq$char == char_bg] <- max(1000, (max(char_freq$n) + 1))
+    # 
+    # # Re-arrange according to n:
+    # char_freq <- char_freq %>% dplyr::arrange(desc(n))
+    
+    # (B) char_freq as named vector:
+    ix <- names(char_freq) == char_bg
+    char_freq[ix] <- max(1000, (max(char_freq) + 1))
+    char_freq <- sort(char_freq, decreasing = TRUE)
+    
+  }
+  # print(char_freq)  # 4debugging
+  
+  # # (A) char_freq as tibble:   
+  # nr_char_freq <- nrow(char_freq)
+  
+  # (B) char_freq as named vector:
+  nr_char_freq <- sum(char_freq)
+  # nr_char_freq  # 4debugging
+  
+  ## (+) Check:
+  # if (nr_char_freq != nr_chars){
+  #   message("plot_text: nr_char_freq differs from nr_chars.")
+  # } 
+  
   
   # (4) Create color palette:
   if (pal_extend){
     
     ## Stretch pal to a color gradient (of char_freq different colors): 
-    # pal_ext <- unikn::usecol(pal, n = (n_char - 1))  # extended pal
-    pal_ext <- grDevices::colorRampPalette(pal)((n_char - 1))
+    # pal_ext <- unikn::usecol(pal, n = (nr_unique_chars - 1))  # extended pal (using unikn::usecol)
+    pal_ext <- grDevices::colorRampPalette(pal)((nr_unique_chars - 1))  # extended pal (using grDevices)
     
     col_pal <- c(col_bg, pal_ext)
     
   } else {
     
-    col_pal <- c(col_bg, pal)  # combine 2 user inputs
+    col_pal <- c(col_bg, pal)  # combine 2 user inputs (as is)
     
   }
-  n_col <- length(col_pal)
+  nr_colors <- length(col_pal)
+  # print(col_pal)  # 4debugging
+  
   
   # (5) Use color palette to create a color map for frequent chars of tb:
-  col_map <- rep(col_pal[1], n) # initialize color map
-  n_replace <- min(n_col, n_char)  # Limit number of replacements 
+  col_map <- rep(col_bg, nr_chars)       # initialize color map
+  n_replace <- min(nr_colors, nr_unique_chars)  # limit number of replacements 
+  # print(n_replace)  # 4debugging
   
   for (i in 1:n_replace){
     
-    cur_char <- char_freq$char[i]  # i-th most freq char
+    # # (A) char_freq as tibble:  
+    # cur_char <- char_freq$char[i]  # i-th most freq char
+    
+    # (B) char_freq as named vector:  
+    cur_char <- names(char_freq)[i]  # i-th char
     
     # Determine positions ix in tb$char that correspond to cur_char:
     if (case_sense){  
@@ -1295,14 +1333,16 @@ plot_text <- function(file = "",  # "" read from console; "test.txt" read from f
   } # loop i.
   # col_map
   
+  
   # (6) Use ggplot2: 
   cur_plot <- ggplot2::ggplot(data = tb, aes(x = tb$x, y = tb$y)) +
     ggplot2::geom_tile(aes(), fill = col_map, color = brd_col, size = brd_size) +  # tiles (with borders, opt.)
-    ggplot2::geom_text(aes(label = char), color = col_txt, size = cex, fontface = fontface) + 
+    ggplot2::geom_text(aes(label = tb$char), color = col_txt, size = cex, fontface = fontface) + 
     ggplot2::coord_equal() + 
     # theme: 
     # theme_classic() +
     cowplot::theme_nothing()
+  
   
   # (7) plot plot: 
   cur_plot
