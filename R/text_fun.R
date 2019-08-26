@@ -221,7 +221,7 @@ transl33t <- function(txt, rules = l33t_rul35,
 #' @family text functions
 #'
 #' @seealso
-#' \code{\link{plot_text}} for a corresponding plot function
+#' \code{\link{plot_text}} for a corresponding plot function. 
 #' 
 #' @import here
 #' @import tibble
@@ -343,6 +343,105 @@ read_ascii <- function(file = "", flip_y = FALSE){
 
 # (3) Read user input from console:
 # read_ascii()
+
+
+## count_char: Count the frequency of characters in a string: -------- 
+
+#' count_char counts the frequency of characters 
+#' in a string of text \code{s}.
+#'
+#' @param s String of text (required).
+#' 
+#' @param case_sense Boolean: Distinguish lower- vs. uppercase characters? 
+#' Default: \code{case_sense = TRUE}. 
+#' 
+#' @param rm_specials Boolean: Remove special characters? 
+#' Default: \code{rm_specials = TRUE}. 
+#' 
+#' @param sort_freq Boolean: Sort output by character frequency? 
+#' Default: \code{sort_freq = TRUE}. 
+#' 
+#' @examples
+#' # Default: 
+#' s <- c("Hello!", "This is a 1st sentence.", "This is the 2nd sentence.", "The end.")
+#' count_char(s)
+#' 
+#' # Options: 
+#' count_char(s, case_sense = FALSE)
+#' count_char(s, rm_specials = FALSE)
+#' count_char(s, sort_freq = FALSE)
+#'  
+#' @family text functions
+#'
+#' @seealso
+#' \code{\link{plot_text}} for a corresponding plot function. 
+#' 
+#' 
+#' @export
+
+count_char <- function(s, # string of text to count
+                       case_sense = TRUE, 
+                       rm_specials = TRUE, 
+                       sort_freq = TRUE
+){
+  
+  freq <- NA  # initialize
+  
+  v0 <- as.character(s)  # read input (as character)
+  
+  if (case_sense){
+    v1 <- v0  # as is
+  } else {
+    v1 <- tolower(v0)
+  }
+  
+  v2 <- paste(v1, collapse = "") 
+  v3 <- strsplit(v2, split = "")
+  v4 <- unlist(v3)
+  
+  if (rm_specials){
+    
+    # Remove punctuation: 
+    space <- c("", " ")
+    hyphens <- c("-", "--", "---")
+    punct <- c(",", ";", ":", ".", "!", "?")
+    
+    v5 <- v4[!(v4 %in% c(punct, space, hyphens))]
+    
+  } else {
+    
+    v5 <- v4  # as is 
+    
+  }
+  
+  if (sort_freq){
+    
+    freq <- sort(table(v5), decreasing = TRUE)
+    
+  } else {
+    
+    freq <- table(v5)    
+    
+  }
+  
+  return(freq)
+  
+} # count_char. 
+
+# ## Check:
+# s <- c("Hello!", "This is a 1st sentence.", "This is the 2nd sentence.", "The end.")
+# 
+# count_char(s)
+# count_char(s, case_sense = FALSE)
+# count_char(s, rm_specials = FALSE)
+# count_char(s, sort_freq = FALSE)
+# 
+## Note: count_char returns a named vector of type integer:
+# freq <- count_char(s)
+# typeof(freq)
+# freq["e"]
+
+
 
 ## ToDo: ----------
 
