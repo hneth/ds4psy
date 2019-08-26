@@ -13,6 +13,8 @@ The current development version of **ds4psy** (0.1.0.9001+) is hosted at <https:
 
 Changes involving new functionality include:
 
+- added plotting function `plot_text()` 
+- added text functions `read_ascii()` and `count_char()` 
 - added simple date and time functions (e.g., `cur_date()`, `cur_time()`)  
 - added data generation functions (e.g., for `coin()` flips and `dice()` throws)
 
