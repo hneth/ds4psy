@@ -1,5 +1,5 @@
 ## plot_fun.R | ds4psy
-## hn | uni.kn | 2019 08 25
+## hn | uni.kn | 2019 08 26
 ## ---------------------------
 
 ## Functions for plotting. 
@@ -1109,33 +1109,43 @@ plot_fn <- function(x = NA,
 #' Default: \code{border_size = 0.5}.
 #' 
 #' @examples
+#' # Create a text file:
+#' cat("Hello world!", "This is a test.", 
+#'     "Can you see this text?", 
+#'     "Good! Please carry on...", 
+#'     file = "test.txt", sep = "\n")
 #' 
-#' \donttest{
-#' plot_txt("txt/hello.txt")  # requires txt file
+#' # (a) Plot text from file: 
+#' plot_txt("test.txt")
 #' 
-#' # Colors, pal_extend, and case_sense:
+#' # Set colors, pal_extend, and case_sense:
 #' cols <- c("firebrick", "olivedrab", "steelblue", "orange", "gold")
-#' plot_txt(pal = cols, pal_extend = TRUE)
-#' plot_txt(pal = cols, pal_extend = FALSE)
-#' plot_txt(pal = cols, pal_extend = FALSE, case_sense = TRUE)
+#' plot_txt("test.txt", pal = cols, pal_extend = TRUE)
+#' plot_txt("test.txt", pal = cols, pal_extend = FALSE)
+#' plot_txt("test.txt", pal = cols, pal_extend = FALSE, case_sense = TRUE)
 #' 
-#' # Customize:
-#' plot_txt(col_txt = "white", borders = FALSE)
-#' plot_txt(col_txt = "white", pal = c("green4", "black"),
+#' # Customize text and grid options:
+#' plot_txt("test.txt", col_txt = "white", borders = FALSE)
+#' plot_txt("test.txt", col_txt = "firebrick", cex = 4, fontface = 3,
+#'          pal = "grey90", pal_extend = TRUE, border_col = NA)
+#' plot_txt("test.txt", col_txt = "white", pal = c("green4", "black"),
 #'          border_col = "black", border_size = .2)
 #' 
 #' # Color ranges:
-#' plot_txt(pal = c("red2", "orange", "gold"))
-#' plot_txt(pal = c("olivedrab4", "gold"))
+#' plot_txt("test.txt", pal = c("red2", "orange", "gold"))
+#' plot_txt("test.txt", pal = c("olivedrab4", "gold"))
 #' 
-#' # Text and grid options:
-#' plot_txt(col_txt = "firebrick", cex = 4, fontface = 3,
-#'          pal = "grey90", pal_extend = TRUE,
-#'          border_col = NA)
-#' 
-#' # Other text file:
-#' plot_txt(file = "txt/ascii.txt", cex = 5, 
+#' unlink("test.txt")  # clean up.
+#'  
+#' \donttest{
+#' # (b) Read text file (from subdir):
+#' plot_txt("data-raw/txt/hello.txt")  # requires txt file
+#' plot_txt(file = "data-raw/txt/ascii.txt", cex = 5, 
 #'          col_bg = "lightgrey", border_col = "white")
+#'          
+#' # (c) Read user input (from console):
+#' plot_txt()
+#'  
 #' }
 #'
 #' @family plot functions
@@ -1153,7 +1163,7 @@ plot_fn <- function(x = NA,
 #' 
 #' @export 
 
-plot_txt <- function(file = "txt/hello.txt",
+plot_txt <- function(file = "",  # "" read from console; "test.txt" read from file
                      # text format:
                      lbl_tiles = TRUE, 
                      cex = 3,   # size of characters
@@ -1170,6 +1180,9 @@ plot_txt <- function(file = "txt/hello.txt",
                      border_size = 0.5     # width of tile border
 ){
   
+  ## (-) Default file/path:
+  # file <- "test.txt"
+  
   # (0) Interpret inputs:
   if (!lbl_tiles) {col_txt <- NA}
   
@@ -1183,7 +1196,7 @@ plot_txt <- function(file = "txt/hello.txt",
   }
   
   # (1) Read text file into tibble: 
-  tb <- read_ascii(file, flip_y = TRUE)
+  tb <- read_ascii(file = file, flip_y = TRUE)
   n  <- nrow(tb)
   # tb
   
@@ -1192,12 +1205,12 @@ plot_txt <- function(file = "txt/hello.txt",
     
     # (a) case-sensitive match: 
     
-    # # Using a dplyr pipe:     
+    # # Using dplyr + pipe:     
     # char_freq <- tb %>%
     #  dplyr::count(char) %>%   # Note: Upper- and lowercase are counted separately!
     #  dplyr::arrange(desc(n))
     
-    # Re-write without pipe:
+    # Without pipe:
     t2 <- dplyr::count(tb, char)
     char_freq <- dplyr::arrange(t2, desc(n))    
     
@@ -1206,14 +1219,14 @@ plot_txt <- function(file = "txt/hello.txt",
     # (b) case-INsensitive match:
     tb$char_lc <- tolower(tb$char)  # all in lowercase!
     
-    # # Using a dplyr pipe:     
+    # # Using dplyr + pipe:     
     # char_freq <- tb %>% 
     #   dplyr::count(char_lc) %>% # Note: Upper- and lowercase are counted together!
     #   dplyr::mutate(char = char_lc) %>%  
     #   dplyr::select(char, n) %>% 
     #   dplyr::arrange(desc(n))
     
-    # Re-write without pipe:
+    # Without pipe:
     t2 <- dplyr::count(tb, char_lc)
     t3 <- dplyr::mutate(t2, char = char_lc)
     t4 <- dplyr::select(t3, char, n)
@@ -1275,39 +1288,44 @@ plot_txt <- function(file = "txt/hello.txt",
 } # plot_txt. 
 
 # ## Check:
-# plot_txt("txt/hello.txt")
-# plot_txt("txt/ascii.txt", cex = 6, col_bg = "grey")
+# # Create a text file:
+# cat("Hello world!", "This is a test.",
+#     "Can you see this text?",
+#     "Good! Please carry on...",
+#     file = "test.txt", sep = "\n")
 # 
-# cols <- c("steelblue3", "steelblue2", "steelblue1", 
-#           "red3", "red2", "red1", 
-#           "orange3", "orange2", "orange1",
-#           "gold3", "gold2", "gold1")
-# plot_txt("txt/ascii.txt", cex = 6, pal = cols)
-# plot_txt("txt/ascii.txt", cex = 6, pal = cols, col_bg = "steelblue4")
+# # (a) Plot text from file:
+# plot_txt("test.txt")
 # 
-# # Colors, pal_extend, and case_sense:
+# # Set colors, pal_extend, and case_sense:
 # cols <- c("firebrick", "olivedrab", "steelblue", "orange", "gold")
-# plot_txt(pal = cols, pal_extend = TRUE)
-# plot_txt(pal = cols, pal_extend = FALSE)
-# plot_txt(pal = cols, pal_extend = FALSE, case_sense = TRUE)
+# plot_txt("test.txt", pal = cols, pal_extend = TRUE)
+# plot_txt("test.txt", pal = cols, pal_extend = FALSE)
+# plot_txt("test.txt", pal = cols, pal_extend = FALSE, case_sense = TRUE)
 # 
-# # Customize:
-# plot_txt(col_txt = "white", borders = FALSE)
-# plot_txt(col_txt = "white", pal = c("green4", "black"),
-#          border_col = "black", border_size = .1)
+# # Customize text and grid options:
+# plot_txt("test.txt", col_txt = "white", borders = FALSE)
+# plot_txt("test.txt", col_txt = "firebrick", cex = 4, fontface = 3,
+#          pal = "grey90", pal_extend = TRUE, border_col = NA)
+# plot_txt("test.txt", col_txt = "white", pal = c("green4", "black"),
+#          border_col = "black", border_size = .2)
 # 
-# # Other colors:
-# plot_txt(pal = c("red2", "orange", "gold"))
-# plot_txt(pal = c("olivedrab4", "gold"))
+# # Color ranges:
+# plot_txt("test.txt", pal = c("red2", "orange", "gold"))
+# plot_txt("test.txt", pal = c("olivedrab4", "gold"))
 # 
-# # Text and grid options:
-# plot_txt(col_txt = "firebrick", cex = 4, fontface = 3,
-#          pal = "grey90", pal_extend = TRUE,
-#          border_col = NA)
+# unlink("test.txt")  # clean up.
 # 
-# # Other files:
-# plot_txt(file = "txt/ascii2.txt",
+# \donttest{
+# # (b) Read text file (from subdir):
+# plot_txt("data-raw/txt/hello.txt")  # requires txt file
+# plot_txt(file = "data-raw/txt/ascii.txt", cex = 5,
 #          col_bg = "lightgrey", border_col = "white")
+# 
+# # (c) Read user input (from console):
+# plot_txt()
+# 
+# }
 
 
 ## ToDo: ----------
