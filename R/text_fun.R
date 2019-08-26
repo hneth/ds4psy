@@ -194,10 +194,24 @@ transl33t <- function(txt, rules = l33t_rul35,
 #' Default: \code{flip_y = FALSE}. 
 #' 
 #' @examples
+#' # Create a text file:
+#' cat("Hello world!", "This is a test.", 
+#'     "Can you see this text?", 
+#'     "Good! Please carry on...", 
+#'     file = "test.txt", sep = "\n")
 #' 
+#' # (a) Read text from file: 
+#' read_ascii("test.txt")
+#' read_ascii("test.txt", flip_y = TRUE)  # y flipped
+#' 
+#' unlink("test.txt")  # clean up.
+#'  
 #' \donttest{
-#' read_ascii("txt/ascii.txt")  # requires txt file
-#' read_ascii("txt/ascii.txt", flip_y = TRUE)
+#' # (b) Read text file from subdir:
+#' read_ascii("data-raw/txt/ascii.txt")  # requires txt file
+#' 
+#' # (c) Read user input from Console:
+#' read_ascii()
 #' }
 #' 
 #' @family text functions
@@ -210,20 +224,31 @@ transl33t <- function(txt, rules = l33t_rul35,
 #' 
 #' @export
 
-read_ascii <- function(file = "txt/ascii.txt", flip_y = FALSE){ 
+read_ascii <- function(file = "", flip_y = FALSE){ 
   
   ## (0) Default file/path:
-  # file <- "txt/ascii.txt"
+  # file <- "test.txt"
   
-  # (1) File path: Remove leading "." and/or "/" characters:
-  if (substr(file, 1, 1) == ".") { file <- substr(file, 2, nchar(file))}
-  if (substr(file, 1, 1) == "/") { file <- substr(file, 2, nchar(file))}
-  # ToDo: Use regex to do this more efficiently!
-  
-  path2file <- here::here(file)  # absolute path to text file
+  # (1) Path to file:
+  if (!is.na(file) && (file != "")){
+    
+    # (a) File path: Remove leading "." and/or "/" characters:
+    if (substr(file, 1, 1) == ".") {file <- substr(file, 2, nchar(file))}
+    if (substr(file, 1, 1) == "/") {file <- substr(file, 2, nchar(file))}
+    # ToDo: Use regex to do this more efficiently!
+    
+    cur_file <- here::here(file)  # absolute path to text file
+    
+  } else {  # no file path given:
+    
+    cur_file <- ""  # use "" (to scan from Console)
+    
+  }
   
   # (2) Read txt: 
-  txt <- readLines(path2file)
+  # txt <- readLines(con = cur_file)                # (a) read from file
+  txt <- scan(file = cur_file, what = "character",  # (b) from file or user console
+              sep = "\n", quiet = TRUE)  
   # writeLines(txt)  # debugging
   
   # (3) Initialize lengths and a counter:
@@ -236,50 +261,52 @@ read_ascii <- function(file = "txt/ascii.txt", flip_y = FALSE){
   # m <- matrix(data = NA, nrow = n_lines, ncol = max(nchar(txt)))
   
   # initialize a tibble (to store all characters as rows):
+  # options(warn = -1) # ignore all warnings
   tb <- tibble::tibble(x = rep(NA, n_chars),
                        y = rep(NA, n_chars),
                        char = rep("", n_chars))
   
   # # initialize a data frame (to store all characters as rows):  
-  # df <- data.frame(x = rep(NA, n_chars),
+  # tb <- data.frame(x = rep(NA, n_chars),
   #                  y = rep(NA, n_chars),
   #                  c = rep("", n_chars))
   
-  # (5a) Loop through all y lines of txt:  
-  for (y in 1:n_lines){ 
+  # (5a) Loop through all i lines of txt:  
+  for (i in 1:n_lines){ 
     
-    line <- txt[y]  # y-th line of txt
+    line <- txt[i]  # i-th line of txt
     
-    # (5b) Loop through each char x of each line:
-    for (x in 1:nchar(line)) { 
+    # (5b) Loop through each char j of each line:
+    for (j in 1:nchar(line)) { 
       
-      cur_char <- substr(line, x, x)  # current char      
+      cur_char <- substr(line, j, j)  # current char      
       ct <- ct + 1  # increase count of current char 
       
       # fill count-th row of tb:
-      tb$x[ct] <- x                    # x: current pos nr
+      tb$x[ct] <- j                    # x: current pos nr
       
       if (flip_y){ # flip y values:    # y: 
-        tb$y[ct] <- n_lines - (y - 1)  # 1st line on top (of n_lines)  
+        tb$y[ct] <- n_lines - (i - 1)  # 1st line on top (of n_lines)  
       } else {
-        tb$y[ct] <- y                  # current line 
+        tb$y[ct] <- i                  # current line 
       }
       
       tb$char[ct] <- cur_char          # char: cur_char
       
-    } # for x.
-    
-  } # for y.
+    } # for j.
+  } # for i.
   
-  # (6) Check that ct matches n_chars:
-  if (ct != n_chars){
-    message("read_ascii: Count ct differs from n_chars!")
-  }
+  # # (6) Check that ct matches n_chars:
+  # if (ct != n_chars){
+  #   message("read_ascii: Count ct differs from n_chars!")
+  # }
+  # 
+  # # (7) Adjust data types:
+  # tb$x <- as.integer(tb$x)
+  # tb$y <- as.integer(tb$y)
+  # tb$char <- as.character(tb$char)  
   
-  # (7) Adjust data types:
-  tb$x <- as.integer(tb$x)
-  tb$y <- as.integer(tb$y)
-  tb$char <- as.character(tb$char)  
+  # options(warn = 0)  # back to default
   
   # (8) Return tb: 
   return(tb)
@@ -287,19 +314,29 @@ read_ascii <- function(file = "txt/ascii.txt", flip_y = FALSE){
 } # read_ascii.
 
 ## Check: 
-# read_ascii("./txt/ascii.txt")  # Note: "\" became "\\"
-# read_ascii("./txt/ascii.txt", flip_y = TRUE)
+
+# # (1) Create a text file:
+# cat("Hello world!",
+#     "This is a test.",
+#     "Can you see this text?", 
+#     "Good! Please carry on...",
+#     file = "test.txt", sep = "\n")
+# read_ascii("test.txt")
+# plot_txt("test.txt")
+# unlink("test.txt") # remove file
+
+# # (2) Read other text files: 
+# read_ascii("./data-raw/txt/ascii.txt")  # Note: "\" became "\\"
+# read_ascii("./data-raw/txt/ascii.txt", flip_y = TRUE)
 # 
-# read_ascii("./txt/ascii2.txt")  
+# read_ascii("./data-raw/txt/ascii2.txt")
 # 
-# t <- read_ascii("./txt/hello.txt")
+# t <- read_ascii("./data-raw/txt/hello.txt")
 # t
 # tail(t)
 
-# Define global variable (to allow using tb in plot_txt): ------ 
-
-# tb <- read_ascii("./txt/ascii.txt")
-## tb
+# (3) Read user input from console:
+# read_ascii()
 
 ## ToDo: ----------
 
