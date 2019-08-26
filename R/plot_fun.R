@@ -1071,6 +1071,10 @@ plot_fn <- function(x = NA,
 #' trailing "." or "/"). 
 #' Default: \code{file = ""}. 
 #' 
+#' @param char_bg Character used as background. 
+#' Default: \code{char_bg = " "}. 
+#' If \code{char_bg = NA}, the most frequent character is used. 
+#' 
 #' @param lbl_tiles Add numeric labels to tiles? 
 #' Default: \code{lbl_tiles = TRUE} (i.e., show labels). 
 #' 
@@ -1122,6 +1126,7 @@ plot_fn <- function(x = NA,
 #' plot_text("test.txt")
 #' 
 #' # Set colors, pal_extend, and case_sense:
+#' cols <- c("steelblue", "skyblue", "lightgrey")
 #' cols <- c("firebrick", "olivedrab", "steelblue", "orange", "gold")
 #' plot_text("test.txt", pal = cols, pal_extend = TRUE)
 #' plot_text("test.txt", pal = cols, pal_extend = FALSE)
@@ -1144,7 +1149,7 @@ plot_fn <- function(x = NA,
 #' # (b) Plot text (from file in subdir):
 #' plot_text("data-raw/txt/hello.txt")  # requires txt file
 #' plot_text(file = "data-raw/txt/ascii.txt", cex = 5, 
-#'           col_bg = "lightgrey", border_col = "white")
+#'           col_bg = "grey", char_bg = "-")
 #'          
 #' # (c) Plot text input (from console):
 #' plot_text()
@@ -1159,14 +1164,16 @@ plot_fn <- function(x = NA,
 #' 
 #' @import dplyr  
 #' @import ggplot2
+#' @import tibble 
 #' @import here
-#' @import unikn
+#' @importFrom grDevices colorRampPalette 
 #' @importFrom magrittr "%>%"
 #' @importFrom cowplot theme_nothing 
 #' 
 #' @export 
 
 plot_text <- function(file = "",  # "" read from console; "test.txt" read from file
+                      char_bg = " ",  # character used as background, if char_bg = NA: most frequent char.
                       # text format:
                       lbl_tiles = TRUE, 
                       cex = 3,   # size of characters
@@ -1174,7 +1181,7 @@ plot_text <- function(file = "",  # "" read from console; "test.txt" read from f
                       # colors: 
                       col_txt = "black",  # color of text characters
                       col_bg = "white",   # bg color (for most frequent character in file)
-                      pal = pal_ds4psy[1:5],  # color palette for other replacements
+                      pal = pal_ds4psy[1:5],  # c("steelblue", "skyblue", "lightgrey"),  # color palette for other replacements
                       pal_extend = TRUE,  # extend color palette (to n of different characters in file)
                       case_sense = FALSE,
                       # tile borders: 
@@ -1237,13 +1244,27 @@ plot_text <- function(file = "",  # "" read from console; "test.txt" read from f
     
   }
   # char_freq
+  
+  # (3) If char_bg is defined: Make it the most frequent character:
+  if (!is.na(char_bg)){
+    
+    # Set counter of char_freq$n for char_bg to a maximum value:
+    char_freq$n[char_freq$char == char_bg] <- max(1000, (max(char_freq$n) + 1))
+    
+    # Re-arrange according to n:
+    char_freq <- char_freq %>% dplyr::arrange(desc(n))
+    
+  }
+  
   n_char <- nrow(char_freq)
   
-  # (3) Create color palette:
+  # (4) Create color palette:
   if (pal_extend){
     
-    # Stretch pal to a color gradient (of char_freq different colors): 
-    pal_ext <- unikn::usecol(pal, n = (n_char - 1))  # extended pal
+    ## Stretch pal to a color gradient (of char_freq different colors): 
+    # pal_ext <- unikn::usecol(pal, n = (n_char - 1))  # extended pal
+    pal_ext <- grDevices::colorRampPalette(pal)((n_char - 1))
+    
     col_pal <- c(col_bg, pal_ext)
     
   } else {
@@ -1253,7 +1274,7 @@ plot_text <- function(file = "",  # "" read from console; "test.txt" read from f
   }
   n_col <- length(col_pal)
   
-  # (4) Use color palette to create a color map for frequent chars of tb:
+  # (5) Use color palette to create a color map for frequent chars of tb:
   col_map <- rep(col_pal[1], n) # initialize color map
   n_replace <- min(n_col, n_char)  # Limit number of replacements 
   
@@ -1274,7 +1295,7 @@ plot_text <- function(file = "",  # "" read from console; "test.txt" read from f
   } # loop i.
   # col_map
   
-  # (5) Use ggplot2: 
+  # (6) Use ggplot2: 
   cur_plot <- ggplot2::ggplot(data = tb, aes(x = tb$x, y = tb$y)) +
     ggplot2::geom_tile(aes(), fill = col_map, color = brd_col, size = brd_size) +  # tiles (with borders, opt.)
     ggplot2::geom_text(aes(label = char), color = col_txt, size = cex, fontface = fontface) + 
@@ -1283,7 +1304,7 @@ plot_text <- function(file = "",  # "" read from console; "test.txt" read from f
     # theme_classic() +
     cowplot::theme_nothing()
   
-  # (6) plot plot: 
+  # (7) plot plot: 
   cur_plot
   
   # (+) return(invisible(tb))
@@ -1333,6 +1354,8 @@ plot_text <- function(file = "",  # "" read from console; "test.txt" read from f
 
 ## ToDo: ----------
 
+# - plot_text: allow setting col_bg to 1 dedicated bg_char (e.g., bg_char = " ", 
+#              rather than to most frequent char, which might be a letter...). 
 # - add option for reading ascii art (into tile plots). 
 
 ## eof. ----------------------
