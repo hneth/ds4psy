@@ -1,5 +1,5 @@
 ## plot_fun.R | ds4psy
-## hn | uni.kn | 2019 08 26
+## hn | uni.kn | 2019 08 27
 ## ---------------------------
 
 ## Functions for plotting. 
@@ -1082,19 +1082,24 @@ plot_fn <- function(x = NA,
 #' @param cex Character size (numeric). 
 #' Default: \code{cex = 3}.
 #' 
-#' @param fontface Font face (numeric). 
+#' @param family Font family of text labels (name).
+#' Default: \code{family = "sans"}. 
+#' Alternative options: "sans", "serif", or "mono".
+#' 
+#' @param fontface Font face of text labels (numeric). 
 #' Default: \code{fontface = 1}, (from 1 to 4).
 #' 
-#' @param col_txt Color of text characters.
+#' @param col_txt Color of text labels.
 #' Default: \code{col_txt = "black"} (if \code{lbl_tiles = TRUE}). 
 #' 
-#' @param col_bg Color of most frequent character in text 
-#' (typically " ", i.e., background). 
+#' @param col_bg Color of \code(char_bg} (if defined), 
+#' or the most frequent character in text (typically " "). 
 #' Default: \code{col_bg = "white"}. 
 #' 
-#' @param pal Color palette to use for tiles 
+#' @param pal Color palette for filling tiles 
 #' of text (used in order of character frequency). 
-#' Default: \code{pal = pal_ds4psy[1:5]}. 
+#' Default: \code{pal = pal_ds4psy[1:5]} 
+#' (i.e., shades of \code{unikn::Seeblau}).  
 #' 
 #' @param pal_extend Boolean: Should pal be extended 
 #' to match the number of different characters in text? 
@@ -1134,9 +1139,9 @@ plot_fn <- function(x = NA,
 #' plot_text("test.txt", pal = cols, pal_extend = FALSE, case_sense = TRUE)
 #' 
 #' # Customize text and grid options:
-#' plot_text("test.txt", col_txt = "steelblue", cex = 4, fontface = 4,
-#'           pal = "gold2", pal_extend = TRUE, border_col = NA)
-#' plot_text("test.txt", col_txt = "white", borders = FALSE)
+#' plot_text("test.txt", col_txt = "steelblue", cex = 4, family = "sans", fontface = 4,
+#'           pal = "gold1", pal_extend = TRUE, border_col = NA)
+#' plot_text("test.txt", family = "mono", col_txt = "white", borders = FALSE)
 #' plot_text("test.txt", col_txt = "white", pal = c("green4", "black"),
 #'           border_col = "black", border_size = .2)
 #' 
@@ -1174,8 +1179,9 @@ plot_text <- function(file = "",  # "" read from console; "test.txt" read from f
                       char_bg = " ",  # character used as background, if char_bg = NA: most frequent char.
                       # text format:
                       lbl_tiles = TRUE, 
-                      cex = 3,   # size of characters
-                      fontface = 1,  # font face (1:4)
+                      cex = 3,            # size of characters
+                      fontface = 1,       # font face (1:4)
+                      family = "sans",    # font family: 1 of "sans" "serif" "mono"
                       # colors: 
                       col_txt = "black",  # color of text characters
                       col_bg = "white",   # bg color (for most frequent character in file)
@@ -1191,8 +1197,21 @@ plot_text <- function(file = "",  # "" read from console; "test.txt" read from f
   ## (-) Default file/path:
   # file <- "test.txt"  # 4debugging
   
+  ## (-) Parameters (currently fixed):
+  # fontface <- 1
+  # family <- "mono"  # 1 of "sans" "serif" "mono"
+  height <- 1
+  width <- 1
+  
   # (0) Interpret inputs:
   if (!lbl_tiles) {col_txt <- NA}
+  
+  # Font family:
+  family <- tolower(family)
+  if (!family %in% c("sans", "serif", "mono")){
+    message("plot_text: Font family should be 'sans' (default), 'serif', or 'mono'.")
+    family <- "sans"
+  }
   
   # Tile borders:
   if (borders){
@@ -1333,8 +1352,10 @@ plot_text <- function(file = "",  # "" read from console; "test.txt" read from f
   
   # (6) Use ggplot2: 
   cur_plot <- ggplot2::ggplot(data = tb, aes(x = tb$x, y = tb$y)) +
-    ggplot2::geom_tile(aes(), fill = col_map, color = brd_col, size = brd_size) +  # tiles (with borders, opt.)
-    ggplot2::geom_text(aes(label = tb$char), color = col_txt, size = cex, fontface = fontface) + 
+    ggplot2::geom_tile(aes(), fill = col_map, color = brd_col, size = brd_size,  # tiles (with borders, opt.)
+                       height = height, width = width) +  
+    ggplot2::geom_text(aes(label = tb$char), color = col_txt, size = cex, 
+                       fontface = fontface, family = family) + 
     ggplot2::coord_equal() + 
     # theme: 
     # theme_classic() +
