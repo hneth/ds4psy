@@ -1,17 +1,17 @@
 ## text_fun.R | ds4psy
-## hn | uni.kn | 2019 08 26
+## hn | uni.kn | 2019 08 27
 ## ---------------------------
 
 ## Functions for text/string objects. 
 
 ## (0) Define text labels: ---------- 
 
-course_title     <- paste0("Data science for psychologists")
-course_title_abb <- paste0("ds4psy")
-# psi <- expression(psi)
-name_hn <- "Hansjoerg Neth"
-name_course <- paste0(course_title, " (", course_title_abb, "), by ", name_hn, "")
-# name_course
+# course_title     <- paste0("Data science for psychologists")
+# course_title_abb <- paste0("ds4psy")
+# # psi <- expression(psi)
+# name_hn <- "Hansjoerg Neth"
+# name_course <- paste0(course_title, " (", course_title_abb, "), by ", name_hn, "")
+# # name_course
 
 ## (1) L33t slang: ---------- 
 
@@ -252,8 +252,8 @@ read_ascii <- function(file = "", flip_y = FALSE){
   # (2) Read txt: 
   # txt <- readLines(con = cur_file)                # (a) read from file
   txt <- scan(file = cur_file, what = "character",  # (b) from file or user console
-              sep = "\n",     # i.e., treat " " as space!     
-              quiet = FALSE   # provide user feedback
+              sep = "\n",     # i.e., keep " " as a space!     
+              quiet = FALSE   # provide user feedback? 
   )
   # writeLines(txt)  # debugging
   
@@ -263,19 +263,24 @@ read_ascii <- function(file = "", flip_y = FALSE){
   ct <- 0  # initialize character counter
   
   # (4) Data structure (for results): 
-  # # initialize a matrix (to store all characters in place):
+  # # Initialize a matrix (to store all characters in place):
   # m <- matrix(data = NA, nrow = n_lines, ncol = max(nchar(txt)))
   
-  # initialize a tibble (to store all characters as rows):
-  # options(warn = -1) # ignore all warnings
-  tb <- tibble::tibble(x = rep(NA, n_chars),
-                       y = rep(NA, n_chars),
-                       char = rep("", n_chars))
+  # # Initialize a tibble (to store all characters as rows):
+  # # options(warn = -1) # ignore all warnings
+  # tb <- tibble::tibble(x = rep(NA, n_chars),
+  #                      y = rep(NA, n_chars),
+  #                      char = rep("", n_chars))
   
-  # # initialize a data frame (to store all characters as rows):  
+  # # Initialize a data frame (to store all characters as rows):  
   # tb <- data.frame(x = rep(NA, n_chars),
   #                  y = rep(NA, n_chars),
   #                  c = rep("", n_chars))
+  
+  # Initialize 3 vectors:
+  x <- rep(NA, n_chars)
+  y <- rep(NA, n_chars)
+  char <- rep("", n_chars)
   
   # (5a) Loop through all i lines of txt:  
   for (i in 1:n_lines){ 
@@ -289,24 +294,28 @@ read_ascii <- function(file = "", flip_y = FALSE){
       ct <- ct + 1  # increase count of current char 
       
       # fill count-th row of tb:
-      tb$x[ct] <- j                    # x: current pos nr
+      # tb$x[ct] <- j               # x: current pos nr
+      x[ct] <- j                    # x: current pos nr
       
       if (flip_y){ # flip y values:    # y: 
-        tb$y[ct] <- n_lines - (i - 1)  # 1st line on top (of n_lines)  
+        # tb$y[ct] <- n_lines - (i - 1)  # 1st line on top (of n_lines)  
+        y[ct] <- n_lines - (i - 1)  # 1st line on top (of n_lines)  
       } else {
-        tb$y[ct] <- i                  # current line 
+        # tb$y[ct] <- i             # current line 
+        y[ct] <- i                  # current line 
       }
       
-      tb$char[ct] <- cur_char          # char: cur_char
+      # tb$char[ct] <- cur_char     # char: cur_char
+      char[ct] <- cur_char          # char: cur_char
       
     } # for j.
   } # for i.
   
-  # # (6) Check that ct matches n_chars:
-  # if (ct != n_chars){
-  #   message("read_ascii: Count ct differs from n_chars!")
-  # }
-  # 
+  # (6) Check that ct matches n_chars:
+  if (ct != n_chars){
+    message("read_ascii: Count ct differs from n_chars!")
+  }
+  
   # # (7) Adjust data types:
   # tb$x <- as.integer(tb$x)
   # tb$y <- as.integer(tb$y)
@@ -314,7 +323,11 @@ read_ascii <- function(file = "", flip_y = FALSE){
   
   # options(warn = 0)  # back to default
   
-  # (8) Return tb: 
+  # # Initialize a data frame (to store all characters as rows):  
+  # df <- data.frame(x, y, char)
+  tb <- tibble::tibble(x, y, char)
+  
+  # (8) Return: 
   return(tb)
   
 } # read_ascii.
@@ -391,21 +404,23 @@ count_char <- function(s, # string of text to count
   if (case_sense){
     v1 <- v0  # as is
   } else {
-    v1 <- tolower(v0)
+    v1 <- tolower(v0)  # lowercase
   }
   
-  v2 <- paste(v1, collapse = "") 
-  v3 <- strsplit(v2, split = "")
-  v4 <- unlist(v3)
+  v2 <- paste(v1, collapse = "")  # combine all into 1 string
+  v3 <- strsplit(v2, split = "")  # individual characters (in 1 list)
+  v4 <- unlist(v3)  # individual characters (in vector)
   
   if (rm_specials){
     
-    # Remove punctuation: 
+    # Define special char: 
     space <- c("", " ")
     hyphens <- c("-", "--", "---")
-    punct <- c(",", ";", ":", ".", "!", "?")
+    punct <- c(",", ";", ":", ".", "!", "?")  # punctuation 
+    spec_char <- c(punct, space, hyphens)
     
-    v5 <- v4[!(v4 %in% c(punct, space, hyphens))]
+    # Remove special characters:
+    v5 <- v4[!(v4 %in% spec_char)]
     
   } else {
     
