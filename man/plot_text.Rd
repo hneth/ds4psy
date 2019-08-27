@@ -5,9 +5,10 @@
 \title{Plot text characters (from file or user input).}
 \usage{
 plot_text(file = "", char_bg = " ", lbl_tiles = TRUE, cex = 3,
-  fontface = 1, col_txt = "black", col_bg = "white",
-  pal = pal_ds4psy[1:5], pal_extend = TRUE, case_sense = FALSE,
-  borders = TRUE, border_col = "white", border_size = 0.5)
+  fontface = 1, family = "sans", col_txt = "black",
+  col_bg = "white", pal = pal_ds4psy[1:5], pal_extend = TRUE,
+  case_sense = FALSE, borders = TRUE, border_col = "white",
+  border_size = 0.5)
 }
 \arguments{
 \item{file}{The text file to read (or its path). 
@@ -28,19 +29,20 @@ Default: \code{lbl_tiles = TRUE} (i.e., show labels).}
 \item{cex}{Character size (numeric). 
 Default: \code{cex = 3}.}
 
-\item{fontface}{Font face (numeric). 
+\item{fontface}{Font face of text labels (numeric). 
 Default: \code{fontface = 1}, (from 1 to 4).}
 
-\item{col_txt}{Color of text characters.
+\item{family}{Font family of text labels (name).
+Default: \code{family = "sans"}. 
+Alternative options: "sans", "serif", or "mono".}
+
+\item{col_txt}{Color of text labels.
 Default: \code{col_txt = "black"} (if \code{lbl_tiles = TRUE}).}
 
-\item{col_bg}{Color of most frequent character in text 
-(typically " ", i.e., background). 
-Default: \code{col_bg = "white"}.}
-
-\item{pal}{Color palette to use for tiles 
+\item{pal}{Color palette for filling tiles 
 of text (used in order of character frequency). 
-Default: \code{pal = pal_ds4psy[1:5]}.}
+Default: \code{pal = pal_ds4psy[1:5]} 
+(i.e., shades of \code{unikn::Seeblau}).}
 
 \item{pal_extend}{Boolean: Should pal be extended 
 to match the number of different characters in text? 
@@ -86,9 +88,9 @@ plot_text("test.txt", pal = cols, pal_extend = FALSE)
 plot_text("test.txt", pal = cols, pal_extend = FALSE, case_sense = TRUE)
 
 # Customize text and grid options:
-plot_text("test.txt", col_txt = "steelblue", cex = 4, fontface = 4,
-          pal = "gold2", pal_extend = TRUE, border_col = NA)
-plot_text("test.txt", col_txt = "white", borders = FALSE)
+plot_text("test.txt", col_txt = "steelblue", cex = 4, family = "sans", fontface = 4,
+          pal = "gold1", pal_extend = TRUE, border_col = NA)
+plot_text("test.txt", family = "mono", col_txt = "white", borders = FALSE)
 plot_text("test.txt", col_txt = "white", pal = c("green4", "black"),
           border_col = "black", border_size = .2)
 
