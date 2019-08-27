@@ -1175,7 +1175,8 @@ plot_fn <- function(x = NA,
 #' @import ggplot2
 #' @import tibble 
 #' @importFrom grDevices colorRampPalette 
-#' @importFrom cowplot theme_nothing 
+#' @importFrom cowplot theme_nothing
+#' @importFrom stats runif
 #' 
 #' @export 
 
@@ -1360,7 +1361,7 @@ plot_text <- function(file = "",  # "" read from console; "test.txt" read from f
   # (+) Randomize text orientation:
   # lbl_rotate <- TRUE  # FALSE (default)
   if (lbl_rotate){
-    char_angles <- round(runif(n = nr_chars, min = 0, max = 360), 0)
+    char_angles <- round(stats::runif(n = nr_chars, min = 0, max = 360), 0)
   } else {
     char_angles <- 0
   }
