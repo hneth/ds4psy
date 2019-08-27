@@ -4,11 +4,11 @@
 \alias{plot_text}
 \title{Plot text characters (from file or user input).}
 \usage{
-plot_text(file = "", char_bg = " ", lbl_tiles = TRUE, cex = 3,
-  fontface = 1, family = "sans", col_txt = "black",
-  col_bg = "white", pal = pal_ds4psy[1:5], pal_extend = TRUE,
-  case_sense = FALSE, borders = TRUE, border_col = "white",
-  border_size = 0.5)
+plot_text(file = "", char_bg = " ", lbl_tiles = TRUE,
+  lbl_rotate = FALSE, cex = 3, fontface = 1, family = "sans",
+  col_lbl = "black", col_bg = "white", pal = pal_ds4psy[1:5],
+  pal_extend = TRUE, case_sense = FALSE, borders = TRUE,
+  border_col = "white", border_size = 0.5)
 }
 \arguments{
 \item{file}{The text file to read (or its path). 
@@ -23,8 +23,11 @@ Default: \code{file = ""}.}
 Default: \code{char_bg = " "}. 
 If \code{char_bg = NA}, the most frequent character is used.}
 
-\item{lbl_tiles}{Add numeric labels to tiles? 
+\item{lbl_tiles}{Add character labels to tiles? 
 Default: \code{lbl_tiles = TRUE} (i.e., show labels).}
+
+\item{lbl_rotate}{Rotate character labels? 
+Default: \code{lbl_rotate = FALSE} (i.e., no rotation).}
 
 \item{cex}{Character size (numeric). 
 Default: \code{cex = 3}.}
@@ -36,8 +39,8 @@ Default: \code{fontface = 1}, (from 1 to 4).}
 Default: \code{family = "sans"}. 
 Alternative options: "sans", "serif", or "mono".}
 
-\item{col_txt}{Color of text labels.
-Default: \code{col_txt = "black"} (if \code{lbl_tiles = TRUE}).}
+\item{col_lbl}{Color of text labels.
+Default: \code{col_lbl = "black"} (if \code{lbl_tiles = TRUE}).}
 
 \item{col_bg}{Color of \code{char_bg} (if defined), 
 or the most frequent character in text (typically \code{" "}). 
@@ -92,10 +95,11 @@ plot_text("test.txt", pal = cols, pal_extend = FALSE)
 plot_text("test.txt", pal = cols, pal_extend = FALSE, case_sense = TRUE)
 
 # Customize text and grid options:
-plot_text("test.txt", col_txt = "steelblue", cex = 4, family = "sans", fontface = 4,
+plot_text("test.txt", col_lbl = "darkblue", cex = 4, family = "sans", fontface = 3,
           pal = "gold1", pal_extend = TRUE, border_col = NA)
-plot_text("test.txt", family = "mono", col_txt = "white", borders = FALSE)
-plot_text("test.txt", col_txt = "white", pal = c("green4", "black"),
+plot_text("test.txt", family = "serif", cex = 6, lbl_rotate = TRUE,  
+          pal = NA, borders = FALSE)
+plot_text("test.txt", col_lbl = "white", pal = c("green3", "black"),
           border_col = "black", border_size = .2)
 
 # Color ranges:
