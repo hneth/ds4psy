@@ -1092,8 +1092,8 @@ plot_fn <- function(x = NA,
 #' @param col_txt Color of text labels.
 #' Default: \code{col_txt = "black"} (if \code{lbl_tiles = TRUE}). 
 #' 
-#' @param col_bg Color of \code(char_bg} (if defined), 
-#' or the most frequent character in text (typically " "). 
+#' @param col_bg Color of \code{char_bg} (if defined), 
+#' or the most frequent character in text (typically \code{" "}). 
 #' Default: \code{col_bg = "white"}. 
 #' 
 #' @param pal Color palette for filling tiles 

@@ -39,6 +39,10 @@ Alternative options: "sans", "serif", or "mono".}
 \item{col_txt}{Color of text labels.
 Default: \code{col_txt = "black"} (if \code{lbl_tiles = TRUE}).}
 
+\item{col_bg}{Color of \code{char_bg} (if defined), 
+or the most frequent character in text (typically \code{" "}). 
+Default: \code{col_bg = "white"}.}
+
 \item{pal}{Color palette for filling tiles 
 of text (used in order of character frequency). 
 Default: \code{pal = pal_ds4psy[1:5]} 
