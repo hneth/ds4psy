@@ -1,5 +1,5 @@
 ## util_fun.R | ds4psy
-## hn | uni.kn | 2019 08 23
+## hn | uni.kn | 2019 09 13
 ## ---------------------------
 
 ## Utility functions. 
@@ -301,13 +301,46 @@ num_as_ordinal <- function(x, sep = ""){
 # Note that is.integer() tests for objects of TYPE "integer", not integer values. 
 # Source: R help on is.integer(). 
 
+#' Test for whole numbers (i.e., integers). 
+#'
+#' \code{is.wholenumber} tests if \code{x} contains integer numbers.
+#' 
+#' \code{is.wholenumber} does what the \strong{base} R function \code{is.integer} is not designed to do: 
+#' 
+#' \itemize{ 
+#' \item \code{is.wholenumber} returns TRUE or FALSE depending on whether its numeric argument \code{x} is an integer value (i.e., a whole number). 
+#' 
+#' \item \code{is.integer} returns TRUE or FALSE depending on whether its argument is of integer type, unless it is a factor when it returns FALSE.  
+#' }
+#' 
+#' See the documentation of \code{\link{is.integer}} for definition and details.
+#' 
+#' @param x Number(s) to test (required, accepts numeric vectors).
+#'
+#' @param tol Numeric tolerance value.  
+#' Default: \code{tol = .Machine$double.eps^0.5} (see \code{?.Machine} for details). 
+#'
+#' @examples
+#' is.wholenumber(1)    # is TRUE
+#' is.wholenumber(1/2)  # is FALSE
+#' x <- seq(1, 2, by = 0.5)
+#' is.wholenumber(x)
+#' 
+#' @family utility functions
+#'
+#' @seealso 
+#' \code{\link{is.integer}} function of the R \strong{base} package.  
+#'
+#' @export 
+
 is.wholenumber <- function(x, tol = .Machine$double.eps^0.5) {
   abs(x - round(x)) < tol
 }
 
 ## Check: 
-# is.wholenumber(1) # is TRUE
-# x <- seq(1, 5, by = 0.5)
+# is.wholenumber(1)    # is TRUE
+# is.wholenumber(1/2)  # is FALSE
+# x <- seq(1, 2, by = 0.5)
 # is.wholenumber(x)
 
 
