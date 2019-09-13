@@ -1,5 +1,5 @@
 ## theme_fun.R | ds4psy
-## hn | uni.kn | 2019 08 09
+## hn | uni.kn | 2019 09 13
 ## ---------------------------
 
 ## Functions for ggplot2 themes. 
@@ -91,8 +91,8 @@ theme_ds4psy <- function(col_title = "black", # OR: unikn::pal_seeblau[[4]],
       # panel.border = ggplot2::element_blank(), 
       panel.border = ggplot2::element_rect(fill = "transparent", color = grey(.10, 1), linetype = "solid", size = ggplot2::rel(2/3)), 
       # panel.grid = ggplot2::element_blank(), 
-      panel.grid.major = ggplot2::element_line(color = grey(.65, 1), linetype = "dashed", size = ggplot2::rel(1/2)), 
-      panel.grid.minor = ggplot2::element_line(color = grey(.70, 1), linetype = "dotted", size = ggplot2::rel(1/3)), 
+      panel.grid.major = ggplot2::element_line(color = grey(.80, 1), linetype = "solid", size = ggplot2::rel(1/3)), 
+      panel.grid.minor = ggplot2::element_line(color = grey(.80, 1), linetype = "dotted", size = ggplot2::rel(1/3)), 
       panel.background = ggplot2::element_blank(), 
       # background:  
       plot.background = ggplot2::element_rect(fill = "transparent", color = NA), 
