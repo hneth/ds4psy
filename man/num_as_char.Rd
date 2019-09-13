@@ -76,6 +76,7 @@ num_as_char(1:10/3, n_pre_dec = 2, n_dec = 2)
 
 }
 \seealso{
-Other utility functions: \code{\link{num_as_ordinal}}
+Other utility functions: \code{\link{is.wholenumber}},
+  \code{\link{num_as_ordinal}}
 }
 \concept{utility functions}

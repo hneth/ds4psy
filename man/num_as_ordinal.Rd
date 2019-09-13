@@ -46,6 +46,7 @@ num_as_ordinal(seq(1.99, 2.14, by = .01))
 \seealso{
 \code{toOrdinal()} function of the \strong{toOrdinal} package.
 
-Other utility functions: \code{\link{num_as_char}}
+Other utility functions: \code{\link{is.wholenumber}},
+  \code{\link{num_as_char}}
 }
 \concept{utility functions}
