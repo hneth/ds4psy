@@ -204,6 +204,6 @@ The URL of the **ds4psy** R package is <https://CRAN.R-project.org/package=ds4ps
 <span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">**Data science for psychologists** (**ds4psy**)</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="https://neth.de" property="cc:attributionName" rel="cc:attributionURL">Hansjörg Neth</a> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.
 
 <!-- Update: -->
-\[Updated 2019-08-23 by [hn](https://neth.de).\]
+\[Updated 2019-09-16 by [hn](https://neth.de).\]
 
 <!-- eof. -->
