@@ -1,7 +1,7 @@
 
-# ds4psy 0.1.0.9001+
+# ds4psy 0.1.0.9011+
 
-The current development version of **ds4psy** (0.1.0.9001+) is hosted at <https://github.com/hneth/ds4psy/>. 
+The current development version of **ds4psy** (0.1.0.9000+) is hosted at <https://github.com/hneth/ds4psy/>. 
 
 <!-- Description: --> 
 
@@ -15,6 +15,7 @@ Changes involving new functionality include:
 - added `read_ascii()` and `count_char()` text processing functions 
 - added simple date and time functions (e.g., `cur_date()`, `cur_time()`)  
 - added data generation functions (e.g., for `coin()` flips and `dice()` throws)
+- added `is.wholenumber()` to test for integer values (mentioned in R oddities)  
 
 ## Minor changes
 
@@ -23,7 +24,6 @@ Changes involving new functionality include:
 
 ## Details 
 
-- added `is.wholenumber()` to test for integer values 
 - added documentation of datasets (in `data.R`)  
 - bug fix: Removed redundant code (from `plot_fun.R`)    
 - bug fix: Removed non-essential packages (from Imports)  
@@ -31,6 +31,7 @@ Changes involving new functionality include:
 ## To do
 
 - add graphical functions for _clock plots_ (including new book chapters)  
+- create ds4psy survey (to collect user data for examples)
 - add data with text, date, and time variables  
 - add an _ascii art_ option for converting strings or text into tile plots (with colored tiles)  
 
@@ -81,11 +82,11 @@ Details and cosmetics:
 
 New content: 
 
-- add chapter on _Text strings_ (in Part 2: Data wrangling)
-- add chapter on _Dates and times_ (in Part 2: Data wrangling)
 - add exercises on function exploration (`plot_fn()` and `plot_fun()`)   
 - add exercises on random data generation (`coin()` and `dice()`)  
 - add _factors_ to Basics chapter, or a chapter on _Factors_ (in Part 2: Data wrangling) 
+- add chapter on _Text strings_ (in Part 2: Data wrangling)
+- add chapter on _Dates and times_ (in Part 2: Data wrangling)
 - consider making _conditionals_ its own chapter (in Part 3: Programming) 
 - emphasize _reproducible research_ aspects in introduction and appendix on R Markdown
 - add appendix on _R oddities_
