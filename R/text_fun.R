@@ -1,5 +1,5 @@
 ## text_fun.R | ds4psy
-## hn | uni.kn | 2019 08 27
+## hn | uni.kn | 2019 09 28
 ## ---------------------------
 
 ## Functions for text/string objects. 
@@ -420,23 +420,23 @@ count_char <- function(s, # string of text to count
     spec_char <- c(punct, space, hyphens)
     
     # Remove special characters:
-    v5 <- v4[!(v4 %in% spec_char)]
+    char_s <- v4[!(v4 %in% spec_char)]
     
   } else {
     
-    v5 <- v4  # as is 
+    char_s <- v4  # as is 
     
   }
   
   if (sort_freq){
     
-    freq <- sort(table(v5), decreasing = TRUE)
+    freq <- sort(table(char_s), decreasing = TRUE)
     
-  } else {
+  } else { # no sorting:
     
-    freq <- table(v5)    
+    freq <- table(char_s)    
     
-  }
+  } # if (sort_freq).
   
   return(freq)
   
@@ -450,7 +450,7 @@ count_char <- function(s, # string of text to count
 # count_char(s, rm_specials = FALSE)
 # count_char(s, sort_freq = FALSE)
 # 
-## Note: count_char returns a named vector of type integer:
+# # Note: count_char returns a named vector of type integer:
 # freq <- count_char(s)
 # typeof(freq)
 # freq["e"]
