@@ -1,5 +1,5 @@
 ## text_fun.R | ds4psy
-## hn | uni.kn | 2019 09 28
+## hn | uni.kn | 2019 09 29
 ## ---------------------------
 
 ## Functions for text/string objects. 
@@ -11,7 +11,25 @@
 # # psi <- expression(psi)
 # name_hn <- "Hansjoerg Neth"
 # name_course <- paste0(course_title, " (", course_title_abb, "), by ", name_hn, "")
-# # name_course
+
+# Table of contents (ToC):
+toc <- tribble(
+  ~nr, ~lbl,                 ~val,  ~part,   
+   0,  "Introduction",          2,  0,
+   1,  "R basics",             10,  0, # was: "Basic R concepts and commands",
+   2,  "Visualizing data",      8,  1, 
+   3,  "Transforming data",     9,  1, 
+   4,  "Exploring data",       10,  1, # was: "Exploring data (EDA)"
+   5,  "Tibbles",               6,  2, 
+   6,  "Importing data",        5,  2,  
+   7,  "Tidying data",          7,  2,  
+   8,  "Joining data",          6,  2,  
+   9,  "Text data",             8,  2, 
+  10,  "Time data",             6,  2,   
+  11,  "Functions",            10,  3, 
+  12,  "Iteration",             8,  3)
+
+# toc  # to be used in plot_tbar() and plot_tclock()
 
 ## (1) L33t slang: ---------- 
 
