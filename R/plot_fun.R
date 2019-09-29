@@ -1425,20 +1425,8 @@ plot_text <- function(file = "",  # "" read from console; "test.txt" read from f
 # 
 # }
 
-
-
-## plot_tbar: Plot bar plot of toc table: -------- 
-
-# Assuming: 
-# toc  # (defined in text_fun.R)
-
-# Colors:
-unikn_toc <- unikn::usecol(pal = c("white", usecol(pal = pal_seeblau, n = 12)))
-part_col  <- unikn::usecol(pal = c(pal_seegruen[3], pal_bordeaux[4], "orange2", pal_petrol[4]))
-
-
 ## ToDo: ----------
 
-# - ...
+# - Consider adding plot_tbar() and plot_tclock() (to plot toc, as in art.Rmd).
 
 ## eof. ----------------------
