@@ -1,5 +1,5 @@
 ## plot_fun.R | ds4psy
-## hn | uni.kn | 2019 10 23
+## hn | uni.kn | 2019 10 25
 ## ---------------------------
 
 ## Functions for plotting. 
@@ -371,6 +371,8 @@ plot_tiles <- function(n = NA,
 #' come at the expense of clarity. In fact, transparent argument names 
 #' are absolutely essential for understanding and using a function. 
 #' 
+#' \code{plot_fun} currently requires \code{pal_seeblau}, \code{pal_grau}, and 
+#' \code{Bordeaux} (from the \strong{unikn} package) for its default colors.
 #' 
 #' @param a A (natural) number. 
 #' Default: \code{a = NA}. 
@@ -967,6 +969,9 @@ plot_n <- function(n = NA,
 #' \code{plot_fn} also shows that brevity in argument names should not 
 #' come at the expense of clarity. In fact, transparent argument names 
 #' are absolutely essential for understanding and using a function. 
+#' 
+#' \code{plot_fn} currently requires \code{pal_seeblau} and 
+#' \code{pal_pinky} (from the \strong{unikn} package) for its default colors.
 #' 
 #' @param x A (natural) number. 
 #' Default: \code{x = NA}. 
