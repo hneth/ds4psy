@@ -50,6 +50,9 @@ how function parameters can be explored.
 \code{plot_fn} also shows that brevity in argument names should not 
 come at the expense of clarity. In fact, transparent argument names 
 are absolutely essential for understanding and using a function.
+
+\code{plot_fn} currently requires \code{pal_seeblau} and 
+\code{pal_pinky} (from the \strong{unikn} package) for its default colors.
 }
 \examples{
 # Basics: 
