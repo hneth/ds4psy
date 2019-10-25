@@ -1,5 +1,5 @@
 ## color_fun.R | ds4psy
-## hn | uni.kn | 2019 09 20
+## hn | uni.kn | 2019 09 25
 ## ---------------------------
 
 ## Functions for plotting. 
