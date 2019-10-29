@@ -1,5 +1,5 @@
 ## data.R | ds4psy
-## hn | uni.kn | 2019 08 21
+## hn | uni.kn | 2019 10 29
 ## ---------------------------
 
 ## Documentation of datasets included in /data. 
@@ -526,6 +526,8 @@
 #' 
 #' @format A tibble with 6 cases (rows) and 2 variables (columns). 
 #' 
+#' @import tidyr
+#' 
 #' @family datasets
 #' 
 #' @source 
@@ -559,6 +561,8 @@
 #' 
 #' @family datasets
 #' 
+#' @import tidyr
+#' 
 #' @source 
 #' See CSV data at \url{http://rpository.com/ds4psy/data/table7.csv}. 
 
@@ -589,6 +593,8 @@
 #' @format A tibble with 3 cases (rows) and 5 variables (columns). 
 #' 
 #' @family datasets
+#' 
+#' @import tidyr
 #' 
 #' @source 
 #' See CSV data at \url{http://rpository.com/ds4psy/data/table8.csv}. 
