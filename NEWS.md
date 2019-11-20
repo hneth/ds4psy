@@ -1,5 +1,5 @@
 
-# ds4psy 0.1.0.9011+
+# ds4psy 0.1.0.9010+
 
 The current development version of **ds4psy** (0.1.0.9000+) is hosted at <https://github.com/hneth/ds4psy/>. 
 
@@ -68,6 +68,7 @@ New content:
 - added a new exercise on _Visual illusions_ using `make_grid()` function (see Exercise 6 in Chapter 2).  
 - added a new exercise on _Printing numbers as characters_ using `num_as_char()` function (see Exercise 6 in Chapter 11).  
 - added _A tidyverse caveat_ to Clarifications (see introductory chapter). 
+- added exercises on function exploration (`plot_fn()` and `plot_fun()`) to Chapter 1: Exploring functions 
 
 Structure:
 
@@ -82,8 +83,8 @@ Details and cosmetics:
 
 New content: 
 
-- add exercises on function exploration (`plot_fn()` and `plot_fun()`)   
-- add exercises on random data generation (`coin()` and `dice()`)  
+- add exercises on random data generation (`coin()` and `dice()`) to Chapter 1 or 11: Functions? 
+
 - add _factors_ to Basics chapter, or a chapter on _Factors_ (in Part 2: Data wrangling) 
 - add chapter on _Text strings_ (in Part 2: Data wrangling)
 - add chapter on _Dates and times_ (in Part 2: Data wrangling)
