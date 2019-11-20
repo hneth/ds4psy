@@ -4,30 +4,41 @@
 \alias{coin}
 \title{Flip a fair coin (with 2 sides "H" and "T") n times.}
 \usage{
-coin(n = 1)
+coin(n = 1, events = c("H", "T"))
 }
 \arguments{
 \item{n}{Number of coin flips.
 Default: \code{n = 1}.}
+
+\item{events}{Possible outcomes (as a vector). 
+Default: \code{events = c("H", "T")}.}
 }
 \description{
 \code{coin} generates a sequence of events that 
 represent the results of flipping a fair coin \code{n} times.
 }
 \details{
-The 2 possible outcomes for each flip are 
-"H" (for "heads") and "T" (for "tails").
+By default, the 2 possible \code{events} for each flip 
+are "H" (for "heads") and "T" (for "tails").
 }
 \examples{
 # Basics: 
 coin()
 table(coin(n = 100))
+table(coin(n = 100, events = LETTERS[1:3]))
+
+#' Note an oddity:
+coin(10, events = 8:9)  # works as expected, but 
+coin(10, events = 9:9)  # odd: see sample() for an explanation.
 
 # Limits:
 coin(2:3)
 coin(NA)
 coin(0)
-coin(1/2) 
+coin(1/2)
+coin(3, events = "X")
+coin(3, events = NA)
+coin(NULL, NULL)
 
 }
 \seealso{

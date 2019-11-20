@@ -4,19 +4,24 @@
 \alias{dice}
 \title{Throw a fair dice (with a given number of sides) n times.}
 \usage{
-dice(n = 1, sides = 6)
+dice(n = 1, events = 1:6)
 }
 \arguments{
-\item{n}{Number of dice throws.
+\item{n}{Number of dice throws. 
 Default: \code{n = 1}.}
 
-\item{sides}{Number of sides.
-Default: \code{sides = 6}.}
+\item{events}{Events to draw from (or number of sides).
+Default: \code{events = 1:6}.}
 }
 \description{
 \code{dice} generates a sequence of events that 
 represent the results of throwing a fair dice 
-(with a given number of \code{sides}) \code{n} times.
+(with a given number of \code{events} or number of sides) 
+\code{n} times.
+}
+\details{
+By default, the 6 possible \code{events} for each throw of the dice  
+are the numbers from 1 to 6.
 }
 \examples{
 # Basics:
@@ -24,27 +29,29 @@ dice()
 table(dice(10^4))
 
 # 5-sided dice:
-dice(sides = 5)
-table(dice(100, sides = 5))
+dice(events = 1:5)
+table(dice(100, events = 5))
 
-# Set dice:
-dice(5, sides = 8:9)
+# Strange dice:
+dice(5, events = 8:9)
+table(dice(100, LETTERS[1:3]))
 
 # Note:
 dice(10, 1)
 table(dice(100, 2))
 
 # Note an oddity:
-dice(10, sides = 3:4)  # works, but 
-dice(10, sides = 4:4)  # odd: see sample() for an explanation.
+dice(10, events = 8:9)  # works as expected, but 
+dice(10, events = 9:9)  # odd: see sample() for an explanation.
 
 # Limits:
 dice(NA)
 dice(0)
 dice(1/2)
 dice(2:3)
-dice(5, sides = NA)
-dice(5, sides = 1/2)
+dice(5, events = NA)
+dice(5, events = 1/2)
+dice(NULL, NULL)
 
 }
 \seealso{
