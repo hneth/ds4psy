@@ -1,5 +1,5 @@
 ## data_fun.R | ds4psy
-## hn | uni.kn | 2019 08 23
+## hn | uni.kn | 2019 11 20
 ## ---------------------------
 
 ## Functions for creating and manipulating data. 
@@ -25,37 +25,57 @@ random_bin_value <- function(x = c(0, 1), n = 1, replace = TRUE) {
 
 
 
-# Coin flip: Flip a fair coin n times: ------ 
+# Coin flip: Flip a fair coin n times (with events): ------ 
 
 #' Flip a fair coin (with 2 sides "H" and "T") n times. 
 #'
 #' \code{coin} generates a sequence of events that 
 #' represent the results of flipping a fair coin \code{n} times. 
 #' 
-#' The 2 possible outcomes for each flip are 
-#' "H" (for "heads") and "T" (for "tails").
+#' By default, the 2 possible \code{events} for each flip 
+#' are "H" (for "heads") and "T" (for "tails"). 
 #' 
 #' @param n Number of coin flips.
 #' Default: \code{n = 1}. 
+#' 
+#' @param events Possible outcomes (as a vector). 
+#' Default: \code{events = c("H", "T")}. 
 #'
 #' @examples
 #' # Basics: 
 #' coin()
 #' table(coin(n = 100))
+#' table(coin(n = 100, events = LETTERS[1:3]))
+#' 
+#' #' Note an oddity:
+#' coin(10, events = 8:9)  # works as expected, but 
+#' coin(10, events = 9:9)  # odd: see sample() for an explanation.
 #' 
 #' # Limits:
 #' coin(2:3)
 #' coin(NA)
 #' coin(0)
-#' coin(1/2) 
+#' coin(1/2)
+#' coin(3, events = "X")
+#' coin(3, events = NA)
+#' coin(NULL, NULL)
 #' 
 #' @family random functions
 #'
 #' @export 
 
-coin <- function(n = 1){
+coin <- function(n = 1, events = c("H", "T")){
   
   # check inputs: 
+  if (is.null(n)){
+    message("coin: n must not be NULL. Using n = 1:") 
+    n <- 1
+  }
+  if (is.null(events)){
+    message("coin: events must not be NULL. Using events = c('H', 'T':)") 
+    events <- c("H", "T")
+  }
+  
   if (length(n) > 1) {  # n is a vector: 
     message(paste0("coin: n must be a scalar. Using n[1] = ", n[1], ":"))
     n <- n[1]
@@ -66,11 +86,8 @@ coin <- function(n = 1){
     n <- 1
   }
   
-  # possible events:
-  set <- c("H", "T") 
-  
   # sample n outcomes: 
-  sample(x = set, size = n, replace = TRUE)
+  sample(x = events, size = n, replace = TRUE)
   
 } # coin end. 
 
@@ -85,7 +102,11 @@ coin <- function(n = 1){
 # coin("_")
 # coin(0)
 # coin(1/2)
+# coin(10, NA)
+# coin(NULL, NULL)
 
+## Note:
+# table(coin(1000, 9:9))  # does NOT draw only 9...
 
 
 # Random values from a normal distribution: ------ 
@@ -110,19 +131,23 @@ coin <- function(n = 1){
 # hist(r_s, right = FALSE)
 
 
-# dice: n random draws from a sample (from 1 to sides): ------ 
+# dice: n random draws from a sample (from events): ------ 
 
 #' Throw a fair dice (with a given number of sides) n times. 
 #'
 #' \code{dice} generates a sequence of events that 
 #' represent the results of throwing a fair dice 
-#' (with a given number of \code{sides}) \code{n} times.
+#' (with a given number of \code{events} or number of sides) 
+#' \code{n} times.
 #' 
-#' @param n Number of dice throws.
+#' By default, the 6 possible \code{events} for each throw of the dice  
+#' are the numbers from 1 to 6. 
+#' 
+#' @param n Number of dice throws. 
 #' Default: \code{n = 1}. 
 #' 
-#' @param sides Number of sides.
-#' Default: \code{sides = 6}. 
+#' @param events Events to draw from (or number of sides).
+#' Default: \code{events = 1:6}. 
 #'
 #' @examples
 #' # Basics:
@@ -130,67 +155,77 @@ coin <- function(n = 1){
 #' table(dice(10^4))
 #' 
 #' # 5-sided dice:
-#' dice(sides = 5)
-#' table(dice(100, sides = 5))
+#' dice(events = 1:5)
+#' table(dice(100, events = 5))
 #' 
-#' # Set dice:
-#' dice(5, sides = 8:9)
+#' # Strange dice:
+#' dice(5, events = 8:9)
+#' table(dice(100, LETTERS[1:3]))
 #' 
 #' # Note:
 #' dice(10, 1)
 #' table(dice(100, 2))
 #' 
 #' # Note an oddity:
-#' dice(10, sides = 3:4)  # works, but 
-#' dice(10, sides = 4:4)  # odd: see sample() for an explanation.
+#' dice(10, events = 8:9)  # works as expected, but 
+#' dice(10, events = 9:9)  # odd: see sample() for an explanation.
 #' 
 #' # Limits:
 #' dice(NA)
 #' dice(0)
 #' dice(1/2)
 #' dice(2:3)
-#' dice(5, sides = NA)
-#' dice(5, sides = 1/2)
+#' dice(5, events = NA)
+#' dice(5, events = 1/2)
+#' dice(NULL, NULL)
 #' 
 #' @family random functions
 #'
 #' @export 
 
-dice <- function(n = 1, sides = 6){
+dice <- function(n = 1, events = 1:6){
   
   # (a) verify n: 
+  if (is.null(n)){
+    message("dice: n must not be NULL. Using n = 1:") 
+    n <- 1
+  }
   if (length(n) > 1) {  # n is a vector: 
     message(paste0("dice: n must be scalar. Using n[1] = ", n[1], ":"))
     n <- n[1]
   }
-
   # Verify that n is a numeric integer > 1:  
   if ((length(n) == 1) && (is.na(n) || !is.numeric(n) || !is.wholenumber(n) || (n < 1) ) ) { 
     message("dice: n must be a positive integer. Using n = 1:") 
     n <- 1
   }
   
-  # (b) verify sides: 
-  if (length(sides) > 1) {  # sides is a vector: 
+  # (b) verify events: 
+  if (is.null(events)){
+    message("dice: events must not be NULL. Using events = 1:6:") 
+    events <- 1:6
+  }
+  
+  if (length(events) > 1) {  # events is a vector: 
     
     # message(paste0("dice: sides is a set. Using it:"))
     
-    set_of_sides <- sides
+    set_of_events <- events
     
   } else {  # sides is a scalar: length(sides) <= 1:
     
-    # Verify that sides is a numeric integer > 1:
-    if ( is.na(sides) || !is.numeric(sides) || !is.wholenumber(n) || (sides < 1) ) { 
-      message("dice: sides must be an integer or a set. Using sides = 6:") 
-      sides <- 6
+    # Verify that events is a numeric integer > 1:
+    if ( is.na(events) || !is.numeric(events) || !is.wholenumber(events) || (events < 1) ) { 
+      message("dice: events must be an integer or a set. Using events = 6:") 
+      events <- 6
     }
     
-    set_of_sides <- 1:sides  # default set
+    set_of_events <- 1:events  # default set
     
   }
   
-  # Sample from set_of_sides: 
-  sample(x = set_of_sides, size = n, replace = TRUE)
+  # Sample n times from set_of_events: 
+  sample(x = set_of_events, size = n, replace = TRUE)
   
 } # dice end.
 
@@ -223,7 +258,7 @@ dice <- function(n = 1, sides = 6){
 # dice(n = 10, sides = 3:4)  # works, but 
 # dice(n = 10, sides = 4:4)  # odd: see sample() for an explanation.
 
-
+# dice(NULL, NULL)
 
 # dice_2: n non-random draws from a sample (from 1 to sides): ------ 
 
