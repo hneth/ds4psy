@@ -1,5 +1,5 @@
 ## data_fun.R | ds4psy
-## hn | uni.kn | 2019 11 20
+## hn | uni.kn | 2019 11 21
 ## ---------------------------
 
 ## Functions for creating and manipulating data. 
@@ -290,11 +290,11 @@ dice <- function(n = 1, events = 1:6){
 #' 
 #' # Note:
 #' dice_2(10, 1)
-#' table(dice_2(200, 2))
+#' table(dice_2(5000, sides = 5))
 #' 
 #' # Note an oddity:
-#' dice_2(n = 10, sides = 3:4)  # works, but 
-#' dice_2(n = 10, sides = 4:4)  # odd: see sample() for an explanation.
+#' dice_2(n = 10, sides = 8:9)  # works, but 
+#' dice_2(n = 10, sides = 9:9)  # odd: see sample() for an explanation.
 #' 
 #' 
 #' @family random functions
@@ -303,7 +303,11 @@ dice <- function(n = 1, events = 1:6){
 
 dice_2 <- function(n = 1, sides = 6){
   
-  # (a) verify n: 
+  # (a) verify n:
+  if (is.null(n)){
+    message("dice_2: n must not be NULL. Using n = 1:") 
+    n <- 1
+  }
   if (length(n) > 1) {  # n is a vector: 
     message(paste0("dice_2: n must be scalar. Using n[1] = ", n[1], ":"))
     n <- n[1]
@@ -316,6 +320,11 @@ dice_2 <- function(n = 1, sides = 6){
   }
   
   # (b) verify sides: 
+  if (is.null(sides)){
+    message("dice_2: sides must not be NULL. Using sides = 6:") 
+    sides <- 6
+  }
+  
   if (length(sides) > 1) {  # sides is a vector: 
     
     # message(paste0("dice_2: sides is a set. Using it:"))
@@ -341,10 +350,10 @@ dice_2 <- function(n = 1, sides = 6){
   
   ## Bias for 1 side:
   ptru <- 1/n_sides    # p-values of a fair dice
-  bias <- ptru * .075  # bias of 1 side 
-  p_in <- ptru + bias  # increased p of biased side
-  p_de <- ptru - (bias/(n_sides - 1))  # decreased p of other sides
-  pset <- c(rep(p_de, (n_sides - 1)), p_in)  # p-values of all sides
+  bias <- ptru * .075  # (additional) bias of 1 side 
+  p_hi <- ptru + bias  # higher p of biased side
+  p_lo <- ptru - (bias/(n_sides - 1))  # lower p of all other sides
+  pset <- c(rep(p_lo, (n_sides - 1)), p_hi)  # p-values of all sides
   
   sample(x = set_of_sides, size = n, replace = TRUE, prob = pset)
   
@@ -360,7 +369,7 @@ dice_2 <- function(n = 1, sides = 6){
 # table(dice_2(10^6, sides = 10))
 # 
 # # Set dice:
-# table(dice_2(20000, sides = c("A", "B")))
+# table(dice_2(300000, sides = c("A", "B", "C")))
 # 
 # # Note:
 # dice_2(10, 1)
