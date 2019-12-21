@@ -1,8 +1,8 @@
 Package: ds4psy
 Type: Package
 Title: Data Science for Psychologists 
-Version: 0.1.0.9014
-Date: 2019-11-20
+Version: 0.1.0.9015
+Date: 2019-12-20
 Authors@R: c(person("Hansjoerg", "Neth", role = c("aut", "cre"), email = "h.neth@uni.kn"))
 Author: Hansjoerg Neth [aut, cre]
 Maintainer: Hansjoerg Neth <h.neth@uni.kn>
@@ -38,5 +38,5 @@ License: CC BY-SA 4.0
 URL: https://bookdown.org/hneth/ds4psy/, https://github.com/hneth/ds4psy/
 BugReports: https://github.com/hneth/ds4psy/issues
 VignetteBuilder: knitr
-RoxygenNote: 6.1.1
+RoxygenNote: 7.0.2
 Language: en-US
