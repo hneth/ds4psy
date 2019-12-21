@@ -36,11 +36,11 @@ Authentic Happiness Inventory (AHI) and answers to the
 (Radloff, 1977) for multiple (1 to 6) measurement occasions.
 }
 \details{
-\strong{Codebook}
+\strong{Codebook} 
 
 \itemize{
 
-\item 1. \strong{id}: Participant ID.
+\item 1. \strong{id}: Participant ID. 
 
 \item 2. \strong{occasion}: Measurement occasion: 
   0: Pretest (i.e., at enrolment),   
@@ -48,7 +48,7 @@ Authentic Happiness Inventory (AHI) and answers to the
   2: 1-week follow-up, (i.e., 14 days after pretest, 7 days after posttest),   
   3: 1-month follow-up, (i.e., 38 days after pretest, 31 days after posttest),   
   4: 3-month follow-up, (i.e., 98 days after pretest, 91 days after posttest),   
-  5: 6-month follow-up, (i.e., 189 days after pretest, 182 days after posttest).
+  5: 6-month follow-up, (i.e., 189 days after pretest, 182 days after posttest).  
 
 \item 3. \strong{elapsed.days}: Time since enrolment measured in fractional days.
  
@@ -57,15 +57,15 @@ Authentic Happiness Inventory (AHI) and answers to the
     1: "Using signature strengths", 
     2: "Three good things", 
     3: "Gratitude visit", 
-    4: "Recording early memories" (control condition).
+    4: "Recording early memories" (control condition). 
 
-\item 5.-28. (from \strong{ahi01} to \strong{ahi24}): Responses on 24 AHI items.
+\item 5.-28. (from \strong{ahi01} to \strong{ahi24}): Responses on 24 AHI items. 
 
-\item 29.-48. (from \strong{cesd01} to \strong{cesd20}): Responses on 20 CES-D items.
+\item 29.-48. (from \strong{cesd01} to \strong{cesd20}): Responses on 20 CES-D items. 
 
-\item 49. \strong{ahiTotal}: Total AHI score.
+\item 49. \strong{ahiTotal}: Total AHI score. 
 
-\item 50. \strong{cesdTotal}: Total CES-D score.
+\item 50. \strong{cesdTotal}: Total CES-D score.   
 
 }
 
@@ -74,17 +74,28 @@ See codebook and references at \url{https://bookdown.org/hneth/ds4psy/B-1-datase
 \seealso{
 \code{\link{posPsy_long}} for a corrected version of this file (in long format).
 
-Other datasets: \code{\link{data_1}}, \code{\link{data_2}},
-  \code{\link{data_t1_de}}, \code{\link{data_t1_tab}},
-  \code{\link{data_t1}}, \code{\link{data_t2}},
-  \code{\link{data_t3}}, \code{\link{data_t4}},
-  \code{\link{exp_wide}}, \code{\link{falsePosPsy_all}},
-  \code{\link{outliers}}, \code{\link{pi_100k}},
-  \code{\link{posPsy_long}}, \code{\link{posPsy_p_info}},
-  \code{\link{posPsy_wide}}, \code{\link{t3}},
-  \code{\link{t4}}, \code{\link{table6}},
-  \code{\link{table7}}, \code{\link{table8}},
-  \code{\link{tb}}
+Other datasets: 
+\code{\link{data_1}},
+\code{\link{data_2}},
+\code{\link{data_t1_de}},
+\code{\link{data_t1_tab}},
+\code{\link{data_t1}},
+\code{\link{data_t2}},
+\code{\link{data_t3}},
+\code{\link{data_t4}},
+\code{\link{exp_wide}},
+\code{\link{falsePosPsy_all}},
+\code{\link{outliers}},
+\code{\link{pi_100k}},
+\code{\link{posPsy_long}},
+\code{\link{posPsy_p_info}},
+\code{\link{posPsy_wide}},
+\code{\link{t3}},
+\code{\link{t4}},
+\code{\link{table6}},
+\code{\link{table7}},
+\code{\link{table8}},
+\code{\link{tb}}
 }
 \concept{datasets}
 \keyword{datasets}

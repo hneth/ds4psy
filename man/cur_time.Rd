@@ -36,6 +36,7 @@ cur_time(sep = ".")
 \code{now()} function of the \strong{lubridate} package; 
 \code{Sys.time()} function of \strong{base} R.
 
-Other date and time functions: \code{\link{cur_date}}
+Other date and time functions: 
+\code{\link{cur_date}()}
 }
 \concept{date and time functions}

@@ -44,7 +44,8 @@ dice_2(n = 10, sides = 9:9)  # odd: see sample() for an explanation.
 
 }
 \seealso{
-Other random functions: \code{\link{coin}},
-  \code{\link{dice}}
+Other random functions: 
+\code{\link{coin}()},
+\code{\link{dice}()}
 }
 \concept{random functions}

@@ -28,7 +28,7 @@ into a tibble that contains a row for each character.
 \details{
 \code{read_ascii} creates a tibble with 3 variables: 
 Each character's \code{x}- and \code{y}-coordinates (from top to bottom)  
-and a variable \code{char} for the character at this coordinate.
+and a variable \code{char} for the character at this coordinate. 
 
 The \bold{here} package is used to determine 
 the (absolute) file path.
@@ -38,7 +38,7 @@ the (absolute) file path.
 cat("Hello world!", "This is a test.", 
     "Can you see this text?", 
     "Good! Please carry on...", 
-    file = "test.txt", sep = "\\n")
+    file = "test.txt", sep = "\n")
 
 # (a) Read text (from file): 
 read_ascii("test.txt")
@@ -58,7 +58,9 @@ read_ascii()
 \seealso{
 \code{\link{plot_text}} for a corresponding plot function.
 
-Other text functions: \code{\link{count_char}},
-  \code{\link{l33t_rul35}}, \code{\link{transl33t}}
+Other text functions: 
+\code{\link{count_char}()},
+\code{\link{l33t_rul35}},
+\code{\link{transl33t}()}
 }
 \concept{text functions}

@@ -42,7 +42,8 @@ coin(NULL, NULL)
 
 }
 \seealso{
-Other random functions: \code{\link{dice_2}},
-  \code{\link{dice}}
+Other random functions: 
+\code{\link{dice_2}()},
+\code{\link{dice}()}
 }
 \concept{random functions}

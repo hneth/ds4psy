@@ -55,7 +55,8 @@ dice(NULL, NULL)
 
 }
 \seealso{
-Other random functions: \code{\link{coin}},
-  \code{\link{dice_2}}
+Other random functions: 
+\code{\link{coin}()},
+\code{\link{dice_2}()}
 }
 \concept{random functions}

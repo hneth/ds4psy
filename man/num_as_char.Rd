@@ -34,7 +34,7 @@ Default: \code{sep = "."}.}
 The arguments \code{n_pre_dec} and \code{n_dec} set a number of desired digits 
 before and after the decimal separator \code{sep}. 
 \code{num_as_char} tries to meet these digit numbers by adding zeros to the front 
-and end of \code{x}.
+and end of \code{x}. 
 
 \strong{Caveat:} Note that this function illustrates how numbers, 
 characters, \code{for} loops, and \code{paste()} can be combined 
@@ -76,7 +76,8 @@ num_as_char(1:10/3, n_pre_dec = 2, n_dec = 2)
 
 }
 \seealso{
-Other utility functions: \code{\link{is.wholenumber}},
-  \code{\link{num_as_ordinal}}
+Other utility functions: 
+\code{\link{is.wholenumber}()},
+\code{\link{num_as_ordinal}()}
 }
 \concept{utility functions}

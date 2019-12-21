@@ -16,10 +16,10 @@ Default: \code{tol = .Machine$double.eps^0.5} (see \code{?.Machine} for details)
 \code{is.wholenumber} tests if \code{x} contains integer numbers.
 }
 \details{
-\code{is.wholenumber} does what the \strong{base} R function \code{is.integer} is not designed to do:
+\code{is.wholenumber} does what the \strong{base} R function \code{is.integer} is not designed to do: 
 
 \itemize{ 
-\item \code{is.wholenumber} returns TRUE or FALSE depending on whether its numeric argument \code{x} is an integer value (i.e., a whole number).
+\item \code{is.wholenumber} returns TRUE or FALSE depending on whether its numeric argument \code{x} is an integer value (i.e., a whole number). 
 
 \item \code{is.integer} returns TRUE or FALSE depending on whether its argument is of integer type, unless it is a factor when it returns FALSE.  
 }
@@ -36,7 +36,8 @@ is.wholenumber(x)
 \seealso{
 \code{\link{is.integer}} function of the R \strong{base} package.
 
-Other utility functions: \code{\link{num_as_char}},
-  \code{\link{num_as_ordinal}}
+Other utility functions: 
+\code{\link{num_as_char}()},
+\code{\link{num_as_ordinal}()}
 }
 \concept{utility functions}
