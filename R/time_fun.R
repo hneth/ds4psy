@@ -1,5 +1,5 @@
 ## time_fun.R | ds4psy
-## hn | uni.kn | 2019 08 22
+## hn | uni.kn | 2020 01 13
 ## ---------------------------
 
 ## Functions for date and time objects. 
@@ -11,6 +11,7 @@
 # Some simpler variants following a simple heuristic: 
 # What is it that we _usually_ want to hear as `x` when asking 
 # "What `x` is it today?" or "What `x` is it right now?"
+
 
 
 
@@ -148,6 +149,7 @@ cur_time <- function(seconds = FALSE, sep = ":"){
 
 
 
+
 ## (2) what_ functions: ---------- 
 
 # About 5% are covered by 4 additional functions that ask `what_` questions
@@ -163,48 +165,82 @@ cur_time <- function(seconds = FALSE, sep = ":"){
 #   which defaults to now (i.e., Sys.time()) but can also be a vector.
 # - return a character string (even for numbers, which can easily be converted into a number)
 
-# what_year: What year is it? ------ 
+# what_day: What day is it? (name or number) ------ 
+# what_day: as name (weekday, abbr or full), OR as number (in units of week, month, or year; as char or as integer) 
 
-what_year <- function(when = Sys.time(), abbr = FALSE, as_integer = FALSE){
+what_day <- function(when = Sys.time(), unit = "week", abbr = FALSE, as_integer = FALSE){
+  
+  # Robustness:
+  unit <- substr(tolower(unit), 1, 1)  # use only 1st letter of string
   
   # Verify date/time input:
   if ( (class(when) != "Date") && !("POSIXct" %in% class(when)) ) {
-    message(paste0("what_year: when must be of class 'Date' or 'POSIXct'."))
+    message(paste0("what_day: when must be of class 'Date' or 'POSIXct'."))
     message(paste0("Currently, class(when) = ", class(when), ".")) 
     return(when)
   }
   
   # initialize:
-  y <- NA
+  d <- NA
   
-  # get year y:
-  if (abbr){ 
-    y <- format(when, "%y") 
-  } else { 
-    y <- format(when, "%Y") 
+  # get day d (as char):
+  if (unit == "w"){  # unit "week": 
+    
+    if (as_integer){
+      
+      d  <- format(when, "%u")  # Weekday as a decimal number (1–7, Monday is 1).
+      
+    } else {
+      
+      if (abbr){
+        d  <- format(when, "%a")  # Abbreviated weekday name in the current locale on this platform.
+      } else {
+        d  <- format(when, "%A")  # Full weekday name in the current locale.
+      }
+      
+    }
+    
+  } else if (unit == "m") {  # unit "month": 
+    
+    d  <- format(when, "%d")  # Day of the month as decimal number (01–31).
+    
+    
+  } else if (unit == "y") {  # unit "year": 
+    
+    d  <- format(when, "%j")  # Day of year as decimal number (001–366).
+    
+  } else {  # some other unit: 
+    
+    message("Unknown unit. Using unit = 'month':")
+    d  <- format(when, "%d")  # Day of the month as decimal number (01–31).
+    
   } 
   
   # as char or integer:
   if (as_integer) {
-    as.integer(y)
+    as.integer(d)
   } else {
-    y
+    d
   }
   
-}  # what_year end. 
+}  # what_day end. 
 
-## Check:
-# what_year()
-# what_year(abbr = TRUE)
-# what_year(as_integer = TRUE)
+# ## Check:
+# what_day()
+# what_day(abbr = TRUE)
+# what_day(as_integer = TRUE)
 # 
-# # other dates/times:
-# dt <- as.Date("1987-07-13")
-# what_year(when = dt, abbr = TRUE, as_integer = TRUE)
-#
-# Note:
-# what_year("2020-01-01")
-# what_year(2020-01-01)
+# # Other dates/times:
+# d1 <- as.Date("2020-02-29")
+# what_day(when = d1)
+# what_day(when = d1, unit = "month", as_integer = TRUE)
+# what_day(when = d1, unit = "year", as_integer = TRUE)
+# 
+# # Note:
+# what_day(when = d1, unit = "asdf")
+# what_day(when = "now")
+
+
 
 # what_week: What week is it? (number only) ------ 
 
@@ -284,92 +320,116 @@ what_week <- function(when = Sys.time(), unit = "year", as_integer = FALSE){
 
 
 
-## OLDER code: ---------- 
+# what_month: What month is it? (name or number) ------ 
+# - `what_month()`: as name (abbr or full) OR as number (as char or as integer)
 
-# cur_weekday: What day of the week is it today? ------
-
-cur_weekday <- function(abbr = FALSE, as_integer = FALSE){
+what_month <- function(when = Sys.time(), abbr = FALSE, as_integer = FALSE){
   
-  t <- Sys.time()
+  # Verify date/time input:
+  if ( (class(when) != "Date") && !("POSIXct" %in% class(when)) ) {
+    message(paste0("what_month: when must be of class 'Date' or 'POSIXct'."))
+    message(paste0("Currently, class(when) = ", class(when), ".")) 
+    return(when)
+  }
   
-  if (as_integer){
+  # initialize:
+  m <- NA
+  
+  # get month m (as char):
+  
+  if (as_integer) {
     
-    as.integer(format(t, "%u"))  # Monday is 1
+    m <- format(when, "%m")
+    m <- as.integer(m)
     
-  } else {
+  } else { # month name (as character):
     
-    if (abbr) {
+    if (abbr){
       
-      format(t, "%a")        
+      m <- format(when, "%b")  # Abbreviated month name in the current locale on this platform. 
       
     } else {
       
-      format(t, "%A")       
+      m <- format(when, "%B")  # Full month name in the current locale. 
       
     }
     
   }
   
-}  # cur_weekday end.
-
-## Check:
-# cur_weekday()
-# cur_weekday(abb = TRUE)
-# cur_weekday(as_integer = TRUE)
-# cur_weekday(abb = TRUE, as_integer = TRUE)
-
-
-# cur_month_name: The name of the current month: ------ 
-
-cur_month_name <- function(abb = FALSE){
+  return(m)
   
-  if (abb){
-    
-    format(Sys.time(), "%b")  
-    
-  } else {
-    
-    format(Sys.time(), "%B")  
-    
+}  # what_month end. 
+
+# ## Check:
+# what_month()
+# what_month(abbr = TRUE)
+# what_month(as_integer = TRUE)
+# 
+# # Other dates/times:
+# d1 <- as.Date("2020-02-29")
+# what_month(when = d1)
+# what_month(when = d1, abbr = TRUE)
+# what_month(when = d1, as_integer = TRUE)
+# 
+# # Note:
+# what_month(when = "now")
+
+
+
+
+# what_year: What year is it? ------ 
+
+what_year <- function(when = Sys.time(), abbr = FALSE, as_integer = FALSE){
+  
+  # Verify date/time input:
+  if ( (class(when) != "Date") && !("POSIXct" %in% class(when)) ) {
+    message(paste0("what_year: when must be of class 'Date' or 'POSIXct'."))
+    message(paste0("Currently, class(when) = ", class(when), ".")) 
+    return(when)
   }
   
-}  # cur_monthname end. 
-
-## Check:
-# month_name()
-# month_name(abb = TRUE)
-
-
-# cur_month_nr: The number of the current month: ------ 
-
-cur_month_nr <- function(as_integer = FALSE){
+  # initialize:
+  y <- NA
   
-  mc <- format(Sys.time(), "%m")
+  # get year y:
+  if (abbr){ 
+    y <- format(when, "%y") 
+  } else { 
+    y <- format(when, "%Y") 
+  } 
   
+  # as char or integer:
   if (as_integer) {
-    
-    as.integer(mc)
-    
+    as.integer(y)
   } else {
-    
-    mc
-    
+    y
   }
   
-}
+}  # what_year end. 
 
 ## Check:
-# cur_month_nr()
-# cur_month_nr(as_integer = TRUE)
+# what_year()
+# what_year(abbr = TRUE)
+# what_year(as_integer = TRUE)
+# 
+# # other dates/times:
+# dt <- as.Date("1987-07-13")
+# what_year(when = dt, abbr = TRUE, as_integer = TRUE)
+#
+# Note:
+# what_year("2020-01-01")
+# what_year(2020-01-01)
+
+
 
 
 
 ## ToDo: ----------
 
-# - provide all functions with a "time" argument that is set to Sys.time() by default.
+# - Add what_date() and what_time() as simple wrappers to cur_date() and cur_time().
+
+# - Provide all what_ functions with a "when" argument that is set to Sys.time() by default.
 #   This allows providing other time points for which the question is answered. 
 #   e.g., On what day was my birthday? 
-
-# - add what_date() and what_time() as simple wrappers to cur_date() and cur_time()
 
 ## eof. ----------------------
