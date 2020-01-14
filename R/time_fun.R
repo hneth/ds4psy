@@ -1,5 +1,5 @@
 ## time_fun.R | ds4psy
-## hn | uni.kn | 2020 01 13
+## hn | uni.kn | 2020 01 14
 ## ---------------------------
 
 ## Functions for date and time objects. 
@@ -142,11 +142,41 @@ cur_time <- function(seconds = FALSE, sep = ":"){
 # cur_time(sep = ".")
 
 
+# what_time: More versatile version of cur_time(), allowing for a when vector: ------ 
+
+what_time <- function(when = NA, seconds = FALSE, sep = ":"){
+  
+  if (all(is.na(when))){
+    t <- Sys.time()  # use current time
+  } else {
+    t <- as.POSIXct(when)
+  }
+  
+  # Formatting instruction string: 
+  if (seconds) {
+    fmt <- paste("%H", "%M", "%S", sep = sep, collapse = "")  # %S and using sep
+  } else {
+    fmt <- paste("%H", "%M",       sep = sep, collapse = "")  # no %S, using sep
+  }
+  
+  # Return formatted t: 
+  format(t, fmt)   
+  
+}  # what_time end.
+
+# +++ here now +++
+
+# # Check:
+# what_time()  
+# # with vector (of times): 
+# ts <- c("2020-01-14 01:02:03 CET", "2020-12-31 14:15:16")
+# what_time(ts)
+# what_time(ts, seconds = TRUE, sep = "_")
+
+
 # cur_date_time: Combining cur_date and cur_time: ------ 
 
 # ToDo?  Or just call cur_date() AND cur_time()? 
-
-
 
 
 
@@ -172,6 +202,12 @@ what_day <- function(when = Sys.time(), unit = "week", abbr = FALSE, as_integer 
   
   # Robustness:
   unit <- substr(tolower(unit), 1, 1)  # use only 1st letter of string
+  
+  # Convert when into objects of class "Date" representing calendar dates:
+  if ( (class(when) != "Date") && !("POSIXct" %in% class(when)) ) {
+    message(paste0("what_day: Using as.Date() to convert 'when' into class 'Date'."))
+    when <- as.Date(when)
+  }
   
   # Verify date/time input:
   if ( (class(when) != "Date") && !("POSIXct" %in% class(when)) ) {
@@ -236,10 +272,16 @@ what_day <- function(when = Sys.time(), unit = "week", abbr = FALSE, as_integer 
 # what_day(when = d1, unit = "month", as_integer = TRUE)
 # what_day(when = d1, unit = "year", as_integer = TRUE)
 # 
-# # Note:
+# # Work with vectors (when as characters):
+# ds <- c("2020-01-01", "2020-02-29", "2020-12-24", "2020-12-31")
+# what_day(when = ds)
+# what_day(when = ds, unit = "month", as_integer = TRUE)
+# what_day(when = ds, unit = "year", as_integer = TRUE)
+# 
+# # Note: Errors
 # what_day(when = d1, unit = "asdf")
 # what_day(when = "now")
-
+# what_day(when = 123)
 
 
 # what_week: What week is it? (number only) ------ 
@@ -248,6 +290,12 @@ what_week <- function(when = Sys.time(), unit = "year", as_integer = FALSE){
   
   # Robustness:
   unit <- substr(tolower(unit), 1, 1)  # use only 1st letter of string
+  
+  # Convert when into objects of class "Date" representing calendar dates:
+  if ( (class(when) != "Date") && !("POSIXct" %in% class(when)) ) {
+    message(paste0("what_week: Using as.Date() to convert 'when' into class 'Date'."))
+    when <- as.Date(when)
+  }
   
   # Verify date/time input:
   if ( (class(when) != "Date") && !("POSIXct" %in% class(when)) ) {
@@ -307,16 +355,22 @@ what_week <- function(when = Sys.time(), unit = "year", as_integer = FALSE){
 # what_week(when = d1, unit = "year")
 # what_week(when = d1, unit = "month")
 # 
-# # Week nr. (in month):
+# Week nr. (in month):
 # d2 <- as.Date("2019-06-23")  # Sunday of 4th week in June 2019.
 # what_week(when = d2, unit = "month")
 # d3 <- as.Date("2019-06-24")  # Monday of 5th week in June 2019.
 # what_week(when = d3, unit = "month")
 # 
-# # Note: 
+# # Work with vectors (when as characters):
+# ds <- c("2020-01-01", "2020-02-29", "2020-12-24", "2020-12-31")
+# what_week(when = ds)
+# what_week(when = ds, unit = "month", as_integer = TRUE)
+# what_week(when = ds, unit = "year", as_integer = TRUE)
+# 
+# # Note: Errors
 # what_week(when = d1, unit = "asdf")
 # what_week(when = "now")
-
+# what_week(when = 123)
 
 
 
@@ -324,6 +378,12 @@ what_week <- function(when = Sys.time(), unit = "year", as_integer = FALSE){
 # - `what_month()`: as name (abbr or full) OR as number (as char or as integer)
 
 what_month <- function(when = Sys.time(), abbr = FALSE, as_integer = FALSE){
+  
+  # Convert when into objects of class "Date" representing calendar dates:
+  if ( (class(when) != "Date") && !("POSIXct" %in% class(when)) ) {
+    message(paste0("what_month: Using as.Date() to convert 'when' into class 'Date'."))
+    when <- as.Date(when)
+  }
   
   # Verify date/time input:
   if ( (class(when) != "Date") && !("POSIXct" %in% class(when)) ) {
@@ -371,15 +431,27 @@ what_month <- function(when = Sys.time(), abbr = FALSE, as_integer = FALSE){
 # what_month(when = d1, abbr = TRUE)
 # what_month(when = d1, as_integer = TRUE)
 # 
-# # Note:
+# # Work with vectors (when as characters):
+# ds <- c("2020-01-01", "2020-02-29", "2020-12-24", "2020-12-31")
+# what_month(when = ds)
+# what_month(when = ds, abbr = TRUE, as_integer = FALSE)
+# what_month(when = ds, abbr = TRUE, as_integer = TRUE)
+# 
+# # Note: Errors
 # what_month(when = "now")
-
+# what_month(when = 123)
 
 
 
 # what_year: What year is it? ------ 
 
 what_year <- function(when = Sys.time(), abbr = FALSE, as_integer = FALSE){
+  
+  # Convert when into objects of class "Date" representing calendar dates:
+  if ( (class(when) != "Date") && !("POSIXct" %in% class(when)) ) {
+    message(paste0("what_year: Using as.Date() to convert 'when' into class 'Date'."))
+    when <- as.Date(when)
+  }
   
   # Verify date/time input:
   if ( (class(when) != "Date") && !("POSIXct" %in% class(when)) ) {
@@ -407,7 +479,7 @@ what_year <- function(when = Sys.time(), abbr = FALSE, as_integer = FALSE){
   
 }  # what_year end. 
 
-## Check:
+# # Check:
 # what_year()
 # what_year(abbr = TRUE)
 # what_year(as_integer = TRUE)
@@ -415,8 +487,14 @@ what_year <- function(when = Sys.time(), abbr = FALSE, as_integer = FALSE){
 # # other dates/times:
 # dt <- as.Date("1987-07-13")
 # what_year(when = dt, abbr = TRUE, as_integer = TRUE)
-#
-# Note:
+# 
+# # Work with vectors (when as characters):
+# ds <- c("2020-01-01", "2020-02-29", "2020-12-24", "2020-12-31")
+# what_year(when = ds)
+# what_year(when = ds, abbr = TRUE, as_integer = FALSE)
+# what_year(when = ds, abbr = TRUE, as_integer = TRUE)
+# 
+# # Note: Errors
 # what_year("2020-01-01")
 # what_year(2020-01-01)
 
