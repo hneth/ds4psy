@@ -1,5 +1,5 @@
 ## time_fun.R | ds4psy
-## hn | uni.kn | 2020 01 14
+## hn | uni.kn | 2020 01 15
 ## ---------------------------
 
 ## Functions for date and time objects. 
@@ -64,7 +64,7 @@
 cur_date <- function(rev = FALSE, sep = "-"){
   
   # Current time: 
-  t <- Sys.time()
+  d <- Sys.time()
   
   # Formatting instruction string:   
   if (rev){
@@ -73,8 +73,8 @@ cur_date <- function(rev = FALSE, sep = "-"){
     fmt <- paste("%Y", "%m", "%d", sep = sep, collapse = "")  # using sep
   }
   
-  # Return formatted t: 
-  format(t, fmt)   
+  # Return formatted d: 
+  format(d, fmt)   
   
 }  # cur_date end. 
 
@@ -142,14 +142,39 @@ cur_time <- function(seconds = FALSE, sep = ":"){
 # cur_time(sep = ".")
 
 
+# cur_date_time: Combining cur_date and cur_time: ------ 
+
+# ToDo?  Or just call cur_date() AND cur_time()? 
+
+
+
+## (2) what_ functions: ---------- 
+
+# About 5% are covered by 4 additional functions that ask `what_` questions
+# about the position of some temporal unit in some larger continuum of time:
+# 
+# - `what_time()`:  more versatile version of cur_time() (accepting a when argument)
+# - `what_date()`:  more versatile version of cur_date() (accepting a when argument)
+# - `what_day()`  : as name (weekday, abbr or full), OR as number (in units of week, month, or year; as char or as integer)  
+# - `what_week()` : only as number (in units of month, or year); return as char or as integer   
+# - `what_month()`: as name (abbr or full) OR as number (as char or as integer)  
+# - `what_year()` : only as number (abbr or full), return as char or as integer
+#  
+# All of these functions 
+# - take some "point in time" time as input (as a "when" argument),
+#   which defaults to now (i.e., Sys.time()) but can also be a vector.
+# - return a character string (which can easily be converted into a number), unless specifically asking for numeric output
+
+
 # what_time: More versatile version of cur_time(), allowing for a when vector: ------ 
 
 what_time <- function(when = NA, seconds = FALSE, sep = ":"){
   
+  # Check when argument: 
   if (all(is.na(when))){
     t <- Sys.time()  # use current time
   } else {
-    t <- as.POSIXct(when)
+    t <- as.POSIXct(when)  # convert into POSIXct
   }
   
   # Formatting instruction string: 
@@ -164,8 +189,6 @@ what_time <- function(when = NA, seconds = FALSE, sep = ":"){
   
 }  # what_time end.
 
-# +++ here now +++
-
 # # Check:
 # what_time()  
 # # with vector (of times): 
@@ -174,26 +197,40 @@ what_time <- function(when = NA, seconds = FALSE, sep = ":"){
 # what_time(ts, seconds = TRUE, sep = "_")
 
 
-# cur_date_time: Combining cur_date and cur_time: ------ 
+# what_date: More versatile version of cur_date(), allowing for a when vector: ------
 
-# ToDo?  Or just call cur_date() AND cur_time()? 
+what_date <- function(when = NA, rev = FALSE, sep = "-"){
+  
+  # Check when argument: 
+  if (all(is.na(when))){
+    d <- Sys.time()  # use current time
+  } else {
+    d <- as.Date(when)  # convert into Date 
+  }
+  
+  # Formatting instruction string:   
+  if (rev){
+    fmt <- paste("%d", "%m", "%Y", sep = sep, collapse = "")  # using sep
+  } else {
+    fmt <- paste("%Y", "%m", "%d", sep = sep, collapse = "")  # using sep
+  }
+  
+  # Return formatted d: 
+  format(d, fmt)   
+  
+}  # what_date end. 
 
-
-
-## (2) what_ functions: ---------- 
-
-# About 5% are covered by 4 additional functions that ask `what_` questions
-# about the position of some temporal unit in some larger continuum of time:
+# ## Check:
+# what_date()
+# what_date(sep = "/")
+# what_date(rev = TRUE)
+# what_date(rev = TRUE, sep = ".")
 # 
-# - `what_day()`  : as name (weekday, abbr or full), OR as number (in units of week, month, or year; as char or as integer)  
-# - `what_week()` : only as number (in units of month, or year); return as char or as integer   
-# - `what_month()`: as name (abbr or full) OR as number (as char or as integer)  
-# - `what_year()` : only as number (abbr or full), return as char or as integer
-#  
-# All of these functions 
-# - take some "point in time" time as input (as a "when" argument),
-#   which defaults to now (i.e., Sys.time()) but can also be a vector.
-# - return a character string (even for numbers, which can easily be converted into a number)
+# # with vector (of dates): 
+# ds <- c("2020-01-15 01:02:03 CET", "2020-12-31 14:15:16")
+# what_date(ds)
+# what_date(ds, rev = TRUE, sep = ".")
+
 
 # what_day: What day is it? (name or number) ------ 
 # what_day: as name (weekday, abbr or full), OR as number (in units of week, month, or year; as char or as integer) 
@@ -502,12 +539,14 @@ what_year <- function(when = Sys.time(), abbr = FALSE, as_integer = FALSE){
 
 
 
-## ToDo: ----------
+## Done: ----------
 
-# - Add what_date() and what_time() as simple wrappers to cur_date() and cur_time().
-
-# - Provide all what_ functions with a "when" argument that is set to Sys.time() by default.
+# - Provided all what_ functions with a "when" argument that is set to Sys.time() by default.
 #   This allows providing other time points for which the question is answered. 
 #   e.g., On what day was my birthday? 
+
+## ToDo: ----------
+
+# - Document and export what_ functions. 
 
 ## eof. ----------------------
