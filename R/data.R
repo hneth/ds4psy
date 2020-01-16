@@ -1,5 +1,5 @@
 ## data.R | ds4psy
-## hn | uni.kn | 2019 10 29
+## hn | uni.kn | 2020 01 16
 ## ---------------------------
 
 ## Documentation of datasets included in /data. 
@@ -898,8 +898,8 @@
 ## ToDo: ----------
 
 # - generate ds4psy survey data
-# - add text data (Chapter 9: Text)
-# - add date/time data (Chapter 10: Time, e.g., DOB, time of test, task, etc.)
+# - add text data (Chapter 9: Text; e.g. attention check response on "i read instructions", some eBook for sentinent analysis, ...) 
+# - add date/time data (Chapter 10: Time, e.g., DOB, time of test, task start/end, etc.)
 # - add more info to codebooks (see data_190807.R in archive)
 
 ## eof. ----------------------
