@@ -1,5 +1,5 @@
 ## data_fun.R | ds4psy
-## hn | uni.kn | 2020 01 16
+## hn | uni.kn | 2020 01 18
 ## ---------------------------
 
 ## Functions for creating and manipulating data. 
@@ -129,6 +129,19 @@ coin <- function(n = 1, events = c("H", "T")){
 # table(r_s)
 # hist(r_s, right = TRUE)
 # hist(r_s, right = FALSE)
+
+# Random dates from a given range: ------
+
+sample_dates <- function(from = "2000-01-01", to = "2020-12-31", n = 1){
+  
+  # set.seed(1984)  
+  from_date <- as.Date(from)  
+  to_date <- as.Date(to)   
+  
+  as.Date(sample(as.numeric(from_date):as.numeric(to_date), n, 
+                 replace = TRUE), origin = '1970-01-01')
+  
+}
 
 
 # dice: n random draws from a sample (from events): ------ 
