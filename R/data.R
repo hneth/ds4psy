@@ -1,5 +1,5 @@
 ## data.R | ds4psy
-## hn | uni.kn | 2020 01 16
+## hn | uni.kn | 2020 01 18
 ## ---------------------------
 
 ## Documentation of datasets included in /data. 
