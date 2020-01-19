@@ -130,18 +130,132 @@ coin <- function(n = 1, events = c("H", "T")){
 # hist(r_s, right = TRUE)
 # hist(r_s, right = FALSE)
 
-# Random dates from a given range: ------
+# Sample random dates (from a given range): ------
 
-sample_dates <- function(from = "2000-01-01", to = "2020-12-31", n = 1){
+#' Draw a sample of n random dates (from a given range). 
+#'
+#' \code{sample_dates} draws a sample of  
+#' \code{n} random dates from a given range.
+#' 
+#' By default, \code{sample_dates} draws \code{n = 1} 
+#' random date in the range 
+#' \code{from = "1970-01-01"} 
+#' \code{to = Sys.Date()} (current date).
+#' 
+#' @param n Number dates to draw. 
+#' Default: \code{n = 1}. 
+#' 
+#' @param from Earliest date (as string). 
+#' Default: \code{from = "1970-01-01"}. 
+#' 
+#' @param to Latest date (as string). 
+#' Default: \code{to = Sys.Date()}. 
+#' 
+#' @examples
+#' sample_dates()
+#' sort(sample_dates(n = 10))
+#' sort(sample_dates(n = 10, from = "2020-02-28", to = "2020-03-01"))  # 2020 is a leap year
+#' 
+#' # Note: Oddity with sample():
+#' sort(sample_dates(n = 10, from = "2020-01-01", to = "2020-01-01"))  # range of 0!
+#' # see sample(9:9, size = 10, replace = TRUE)
+#' 
+#' @family random functions
+#'
+#' @export 
+
+sample_dates <- function(n = 1, from = "1970-01-01", to = Sys.Date()){
   
-  # set.seed(1984)  
-  from_date <- as.Date(from)  
-  to_date <- as.Date(to)   
+  # set.seed(1984)  # for reproducible randomness
+  d1 <- as.Date(from)  
+  d2 <- as.Date(to)   
   
-  as.Date(sample(as.numeric(from_date):as.numeric(to_date), n, 
+  as.Date(sample(as.numeric(d1):as.numeric(d2), size = n, 
                  replace = TRUE), origin = '1970-01-01')
   
 }
+
+## Check:
+# sample_dates()
+# sort(sample_dates(n = 10))
+# sort(sample_dates(n = 10, from = "2020-02-28", to = "2020-03-01"))  # 2020 is a leap year
+# 
+# # Note: Oddity with sample():
+# sort(sample_dates(n = 10, from = "2020-01-01", to = "2020-01-01"))  # range of 0!
+# # see sample(9:9, size = 10, replace = TRUE)
+
+
+# Sample random times (from a given range): ------
+
+#' Draw a sample of n random times (from a given range). 
+#'
+#' \code{sample_times} draws a sample of  
+#' \code{n} random times from a given range.
+#' 
+#' By default, \code{sample_times} draws \code{n = 1} 
+#' random time in the range 
+#' \code{from = "1970-01-01 00:00:00"} 
+#' \code{to = Sys.time()} (current time).
+#' 
+#' @param n Number dates to draw. 
+#' Default: \code{n = 1}. 
+#' 
+#' @param from Earliest date (as string). 
+#' Default: \code{from = "1970-01-01 00:00:00"}. 
+#' 
+#' @param to Latest date (as string). 
+#' Default: \code{to = Sys.time()}. 
+#' 
+#' @examples
+#' # Basics:
+#' sample_times()
+#' sample_times(n = 10)
+#' 
+#' # Specific ranges:
+#' sort(sample_times(n = 10, from = (Sys.time() - 60)))  # within the last minute
+#' sort(sample_times(n = 10, from = (Sys.time() - 1 * 60 * 60)))  # within the last hour
+#' sort(sample_times(n = 10, from = Sys.time(), to = (Sys.time() + 1 * 60 * 60)))  # within the next hour
+#' sort(sample_times(n = 10, from = "2020-01-01 00:00:00 CET", to = "2020-01-01 00:00:01 CET"))  # within 1 sec range
+#' 
+#' # Note: Oddity with sample(): 
+#' sort(sample_times(n = 10, from = "2020-01-01 00:00:00 CET", to = "2020-01-01 00:00:00 CET"))  # range of 0!
+#' # see sample(9:9, size = 10, replace = TRUE)
+#' 
+#' @family random functions
+#'
+#' @export
+
+sample_times <- function(n = 1, from = "1970-01-01 00:00:00", to = Sys.time()){
+  
+  t1 <- as.POSIXlt(from)
+  t2 <- as.POSIXlt(to)
+  
+  as.POSIXlt(sample(as.numeric(t1):as.numeric(t2), size = n, 
+                    replace = TRUE), origin = '1970-01-01')
+  
+}
+
+# ## Check:
+# # Basics:
+# sample_times()
+# sample_times(n = 10)
+# 
+# # Specific ranges:
+# sort(sample_times(n = 10, from = (Sys.time() - 60)))  # within the last minute
+# sort(sample_times(n = 10, from = (Sys.time() - 1 * 60 * 60)))  # within the last hour
+# sort(sample_times(n = 10, from = Sys.time(), to = (Sys.time() + 1 * 60 * 60)))  # within the next hour
+# sort(sample_times(n = 10, from = "2020-01-01 00:00:00 CET", to = "2020-01-01 00:00:01 CET"))  # within 1 sec range
+# 
+# # Note: Oddity with sample():
+# sort(sample_times(n = 10, from = "2020-01-01 00:00:00 CET", to = "2020-01-01 00:00:00 CET"))  # range of 0!
+# # see sample(9:9, size = 10, replace = TRUE)
+
+## Note: Sampling normally distributed times:
+# now <- Sys.time()
+# hist(as.POSIXlt(now) + rnorm(n = 1000, mean = 0, sd = 60*60), breaks = 10)
+# t1 <- as.POSIXlt(Sys.time())
+# t2 <- as.POSIXlt(Sys.time() + 1 * 60 * 60)  # 1 hour later
+# as.POSIXlt(sample(as.numeric(t1):as.numeric(t2), size = 10, replace = TRUE), origin = '1970-01-01')
 
 
 # dice: n random draws from a sample (from events): ------ 
