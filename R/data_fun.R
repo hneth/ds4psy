@@ -1,5 +1,5 @@
 ## data_fun.R | ds4psy
-## hn | uni.kn | 2020 01 18
+## hn | uni.kn | 2020 01 19
 ## ---------------------------
 
 ## Functions for creating and manipulating data. 
@@ -214,11 +214,14 @@ sample_dates <- function(n = 1, from = "1970-01-01", to = Sys.Date()){
 #' # Specific ranges:
 #' sort(sample_times(n = 10, from = (Sys.time() - 60)))  # within the last minute
 #' sort(sample_times(n = 10, from = (Sys.time() - 1 * 60 * 60)))  # within the last hour
-#' sort(sample_times(n = 10, from = Sys.time(), to = (Sys.time() + 1 * 60 * 60)))  # within the next hour
-#' sort(sample_times(n = 10, from = "2020-01-01 00:00:00 CET", to = "2020-01-01 00:00:01 CET"))  # within 1 sec range
-#' 
+#' sort(sample_times(n = 10, from = Sys.time(), 
+#'                             to = (Sys.time() + 1 * 60 * 60)))  # within the next hour
+#' sort(sample_times(n = 10, from = "2020-01-01 00:00:00 CET", 
+#'                             to = "2020-01-01 00:00:01 CET"))  # within 1 sec range
+#'  
 #' # Note: Oddity with sample(): 
-#' sort(sample_times(n = 10, from = "2020-01-01 00:00:00 CET", to = "2020-01-01 00:00:00 CET"))  # range of 0!
+#' sort(sample_times(n = 10, from = "2020-01-01 00:00:00 CET", 
+#'                             to = "2020-01-01 00:00:00 CET"))  # range of 0!
 #' # see sample(9:9, size = 10, replace = TRUE)
 #' 
 #' @family random functions

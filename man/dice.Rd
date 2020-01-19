@@ -57,6 +57,8 @@ dice(NULL, NULL)
 \seealso{
 Other random functions: 
 \code{\link{coin}()},
-\code{\link{dice_2}()}
+\code{\link{dice_2}()},
+\code{\link{sample_dates}()},
+\code{\link{sample_times}()}
 }
 \concept{random functions}
