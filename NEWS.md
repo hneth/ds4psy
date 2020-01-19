@@ -14,7 +14,8 @@ Changes involving new functionality include:
 - added `plot_text()` plotting function  
 - added `read_ascii()` and `count_char()` text processing functions 
 - added simple date and time functions (e.g., `cur_date()`, `cur_time()`)  
-- added data generation functions (e.g., for `coin()` flips and `dice()` throws)
+- added random data generation functions (e.g., for `coin()` flips and `dice()` throws)
+- added random date and time generation functions (e.g., for `sample_dates()` and `sample_times()`)
 - added `is.wholenumber()` to test for integer values (mentioned in R oddities)  
 
 ## Minor changes
