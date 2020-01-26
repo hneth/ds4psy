@@ -41,6 +41,7 @@ cur_date(rev = TRUE, sep = ".")
 \code{date()}, \code{Sys.Date()}, and \code{Sys.time()} functions of \strong{base} R.
 
 Other date and time functions: 
-\code{\link{cur_time}()}
+\code{\link{cur_time}()},
+\code{\link{what_time}()}
 }
 \concept{date and time functions}
