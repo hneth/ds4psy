@@ -1,5 +1,5 @@
 ## time_fun.R | ds4psy
-## hn | uni.kn | 2020 01 18
+## hn | uni.kn | 2020 01 26
 ## ---------------------------
 
 ## Functions for date and time objects. 
@@ -168,6 +168,44 @@ cur_time <- function(seconds = FALSE, sep = ":"){
 
 # what_time: More versatile version of cur_time(), allowing for a when vector: ------ 
 
+#' What time is it?  
+#'
+#' \code{what_time} provides a satisficing version of 
+#' \code{Sys.time()} that is sufficient for most purposes. 
+#' 
+#' \code{what_time} returns either a simple version of 
+#' \code{when} or \code{Sys.time()}  
+#' (in "%H:%M" or "%H:%M:%S" format) 
+#' using current system settings.
+#' 
+#' @param when Time (as a scalar or vector).    
+#' Default: \code{when = NA}. 
+#' Returning \code{Sys.time()}, if \code{when = NA}.
+#' 
+#' @param seconds Boolean: Show time with seconds?    
+#' Default: \code{seconds = FALSE}. 
+#' 
+#' @param sep Character: Separator to use. 
+#' Default: \code{sep = ":"}. 
+#' 
+#' @examples
+#' what_time()  
+#' 
+#' # with vector (of times): 
+#' ts <- c("2020-01-14 01:02:03 CET", "2020-12-31 14:15:16")
+#' what_time(ts)
+#' what_time(ts, seconds = TRUE, sep = "_")
+#' 
+#' @family date and time functions
+#' 
+#' @seealso 
+#' \code{cur_time()} function to print the current time; 
+#' \code{cur_date()} function to print the current date; 
+#' \code{now()} function of the \strong{lubridate} package; 
+#' \code{Sys.time()} function of \strong{base} R. 
+#' 
+#' @export
+
 what_time <- function(when = NA, seconds = FALSE, sep = ":"){
   
   # Check when argument: 
@@ -188,6 +226,8 @@ what_time <- function(when = NA, seconds = FALSE, sep = ":"){
   format(t, fmt)   
   
 }  # what_time end.
+
+# +++ here now +++
 
 # # Check:
 # what_time()  
