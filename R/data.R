@@ -816,7 +816,8 @@
 
 # Fame data (DOB and DOD of famous people):
 # Chapter 10 (Time data), Exercise 3
-# See https://bookdown.org/hneth/ds4psy/10-4-time-ex.html#time:ex03 
+# See Exercise 3 at https://bookdown.org/hneth/ds4psy/10-4-time-ex.html#time:ex03 
+# See file all_DATASETs.R for raw data (as tibbles).
 
 #' Data table fame.
 #'
@@ -831,6 +832,8 @@
 #' 
 #' @source 
 #' Student solutions to exercises, dates from \url{https://en.wikipedia.org}. 
+
+"fame"
 
 
 
