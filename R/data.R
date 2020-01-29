@@ -1,5 +1,5 @@
 ## data.R | ds4psy
-## hn | uni.kn | 2020 01 18
+## hn | uni.kn | 2020 01 29
 ## ---------------------------
 
 ## Documentation of datasets included in /data. 
@@ -806,8 +806,35 @@
 
 
 
+# (7) Text data: -------- 
 
-# (7) Chapter 12: Iteration / loops: -------- 
+# ToDo: Find some book/text to analyze. 
+
+
+
+# (8) Time data: --------
+
+# Fame data (DOB and DOD of famous people):
+# Chapter 10 (Time data), Exercise 3
+# See https://bookdown.org/hneth/ds4psy/10-4-time-ex.html#time:ex03 
+
+#' Data table fame.
+#'
+#' \code{fame} is a dataset to practice working with dates.
+#'  
+#' \code{fame} contains the names, areas, dates of birth (DOB), and 
+#' --- if applicable --- the dates of death (DOD) of famous people.
+#' 
+#' @format A tibble with 38 cases (rows) and 4 variables (columns). 
+#' 
+#' @family datasets
+#' 
+#' @source 
+#' Student solutions to exercises, dates from \url{https://en.wikipedia.org}. 
+
+
+
+# (9) Chapter 12: Iteration / loops: -------- 
 
 # https://bookdown.org/hneth/ds4psy/10-3-iter-essentials.html
 
