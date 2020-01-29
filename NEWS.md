@@ -21,6 +21,7 @@ Changes involving new functionality include:
 ## Minor changes
 
 - added data generation function `make_grid()` for an exercise on _visual illusions_ (Exercise 6 of Chapter 2)  
+- added `fame` dataset to illustrate working with dates (Exercise 3 of Chapter 10) 
 - added utility functions `num_as_char()` and `num_as_ordinal()` (to be used in Chapter 11: Functions)  
 
 ## Details 
@@ -69,7 +70,8 @@ New content:
 - added a new exercise on _Visual illusions_ using `make_grid()` function (see Exercise 6 in Chapter 2).  
 - added a new exercise on _Printing numbers as characters_ using `num_as_char()` function (see Exercise 6 in Chapter 11).  
 - added _A tidyverse caveat_ to Clarifications (see introductory chapter). 
-- added exercises on function exploration (`plot_fn()` and `plot_fun()`) to Chapter 1: Exploring functions 
+- added exercises on function exploration (`plot_fn()` and `plot_fun()`) to Chapter 1: Exploring functions.
+- added `fame` data (for Exercise 3 in Chapter 10: Time data)
 
 Structure:
 
