@@ -3,15 +3,19 @@
 \docType{data}
 \name{tb}
 \alias{tb}
-\title{Data table fame.}
-\format{A tibble with 38 cases (rows) and 4 variables (columns).}
+\title{Data table tb.}
+\format{A tibble with 100 cases (rows) and 5 variables (columns).}
 \source{
-Student solutions to exercises, dates from \url{https://en.wikipedia.org}. 
-Data table tb.
-
+See CSV data at \url{http://rpository.com/ds4psy/data/tb.csv}.
+}
+\usage{
+tb
+}
+\description{
 \code{tb} is a fictitious dataset describing 
 100 non-existing, but otherwise ordinary people.
-
+}
+\details{
 \strong{Codebook} 
 
 \itemize{
@@ -30,17 +34,6 @@ Data table tb.
 
 \code{tb} was orginally created to practice loops and iterations 
 (as a CSV file).
-
-See CSV data at \url{http://rpository.com/ds4psy/data/tb.csv}.
-}
-\usage{
-tb
-}
-\description{
-\code{fame} is a dataset to practice working with dates.
- 
-\code{fame} contains the names, areas, dates of birth (DOB), and 
---- if applicable --- the dates of death (DOD) of famous people.
 }
 \seealso{
 Other datasets: 
@@ -54,29 +47,7 @@ Other datasets:
 \code{\link{data_t4}},
 \code{\link{exp_wide}},
 \code{\link{falsePosPsy_all}},
-\code{\link{outliers}},
-\code{\link{pi_100k}},
-\code{\link{posPsy_AHI_CESD}},
-\code{\link{posPsy_long}},
-\code{\link{posPsy_p_info}},
-\code{\link{posPsy_wide}},
-\code{\link{t3}},
-\code{\link{t4}},
-\code{\link{table6}},
-\code{\link{table7}},
-\code{\link{table8}}
-
-Other datasets: 
-\code{\link{data_1}},
-\code{\link{data_2}},
-\code{\link{data_t1_de}},
-\code{\link{data_t1_tab}},
-\code{\link{data_t1}},
-\code{\link{data_t2}},
-\code{\link{data_t3}},
-\code{\link{data_t4}},
-\code{\link{exp_wide}},
-\code{\link{falsePosPsy_all}},
+\code{\link{fame}},
 \code{\link{outliers}},
 \code{\link{pi_100k}},
 \code{\link{posPsy_AHI_CESD}},

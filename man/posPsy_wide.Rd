@@ -54,6 +54,7 @@ Other datasets:
 \code{\link{data_t4}},
 \code{\link{exp_wide}},
 \code{\link{falsePosPsy_all}},
+\code{\link{fame}},
 \code{\link{outliers}},
 \code{\link{pi_100k}},
 \code{\link{posPsy_AHI_CESD}},
