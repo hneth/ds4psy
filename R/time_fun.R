@@ -371,13 +371,13 @@ what_day <- function(when = Sys.time(), unit = "week", abbr = FALSE, as_integer 
   unit <- substr(tolower(unit), 1, 1)  # use only 1st letter of string
   
   # Convert when into objects of class "Date" representing calendar dates:
-  if ( (class(when) != "Date") && !("POSIXct" %in% class(when)) ) {
+  if ( (class(when) != "Date") & !("POSIXct" %in% class(when)) ) {
     message(paste0("what_day: Using as.Date() to convert 'when' into class 'Date'."))
     when <- as.Date(when)
   }
   
   # Verify date/time input:
-  if ( (class(when) != "Date") && !("POSIXct" %in% class(when)) ) {
+  if ( (class(when) != "Date") & !("POSIXct" %in% class(when)) ) {
     message(paste0("what_day: when must be of class 'Date' or 'POSIXct'."))
     message(paste0("Currently, class(when) = ", class(when), ".")) 
     return(when)
@@ -460,13 +460,13 @@ what_week <- function(when = Sys.time(), unit = "year", as_integer = FALSE){
   unit <- substr(tolower(unit), 1, 1)  # use only 1st letter of string
   
   # Convert when into objects of class "Date" representing calendar dates:
-  if ( (class(when) != "Date") && !("POSIXct" %in% class(when)) ) {
+  if ( (class(when) != "Date") & !("POSIXct" %in% class(when)) ) {
     message(paste0("what_week: Using as.Date() to convert 'when' into class 'Date'."))
     when <- as.Date(when)
   }
   
   # Verify date/time input:
-  if ( (class(when) != "Date") && !("POSIXct" %in% class(when)) ) {
+  if ( (class(when) != "Date") & !("POSIXct" %in% class(when)) ) {
     message(paste0("what_week: when must be of class 'Date' or 'POSIXct'."))
     message(paste0("Currently, class(when) = ", class(when), ".")) 
     return(when)
@@ -548,13 +548,13 @@ what_week <- function(when = Sys.time(), unit = "year", as_integer = FALSE){
 what_month <- function(when = Sys.time(), abbr = FALSE, as_integer = FALSE){
   
   # Convert when into objects of class "Date" representing calendar dates:
-  if ( (class(when) != "Date") && !("POSIXct" %in% class(when)) ) {
+  if ( (class(when) != "Date") & !("POSIXct" %in% class(when)) ) {
     message(paste0("what_month: Using as.Date() to convert 'when' into class 'Date'."))
     when <- as.Date(when)
   }
   
   # Verify date/time input:
-  if ( (class(when) != "Date") && !("POSIXct" %in% class(when)) ) {
+  if ( (class(when) != "Date") & !("POSIXct" %in% class(when)) ) {
     message(paste0("what_month: when must be of class 'Date' or 'POSIXct'."))
     message(paste0("Currently, class(when) = ", class(when), ".")) 
     return(when)
@@ -616,13 +616,13 @@ what_month <- function(when = Sys.time(), abbr = FALSE, as_integer = FALSE){
 what_year <- function(when = Sys.time(), abbr = FALSE, as_integer = FALSE){
   
   # Convert when into objects of class "Date" representing calendar dates:
-  if ( (class(when) != "Date") && !("POSIXct" %in% class(when)) ) {
+  if ( (class(when) != "Date") & !("POSIXct" %in% class(when)) ) {
     message(paste0("what_year: Using as.Date() to convert 'when' into class 'Date'."))
     when <- as.Date(when)
   }
   
   # Verify date/time input:
-  if ( (class(when) != "Date") && !("POSIXct" %in% class(when)) ) {
+  if ( (class(when) != "Date") & !("POSIXct" %in% class(when)) ) {
     message(paste0("what_year: when must be of class 'Date' or 'POSIXct'."))
     message(paste0("Currently, class(when) = ", class(when), ".")) 
     return(when)
