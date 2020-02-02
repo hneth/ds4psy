@@ -371,13 +371,13 @@ what_day <- function(when = Sys.time(), unit = "week", abbr = FALSE, as_integer 
   unit <- substr(tolower(unit), 1, 1)  # use only 1st letter of string
   
   # Convert when into objects of class "Date" representing calendar dates:
-  if ( (class(when) != "Date") & !("POSIXct" %in% class(when)) ) {
+  if ( any(class(when) != "Date") & !("POSIXct" %in% class(when)) ) {
     message(paste0("what_day: Using as.Date() to convert 'when' into class 'Date'."))
     when <- as.Date(when)
   }
   
   # Verify date/time input:
-  if ( (class(when) != "Date") & !("POSIXct" %in% class(when)) ) {
+  if ( any(class(when) != "Date") & !("POSIXct" %in% class(when)) ) {
     message(paste0("what_day: when must be of class 'Date' or 'POSIXct'."))
     message(paste0("Currently, class(when) = ", class(when), ".")) 
     return(when)
@@ -450,9 +450,56 @@ what_day <- function(when = Sys.time(), unit = "week", abbr = FALSE, as_integer 
 # what_day(when = "now")
 # what_day(when = 123)
 
-# +++ here now +++
 
 # what_week: What week is it? (number only) ------ 
+
+#' What week is it?  
+#'
+#' \code{what_week} provides a satisficing version of 
+#' to determine the week corresponding to a given date.
+#' 
+#' \code{what_week} returns the week   
+#' of \code{when} or \code{Sys.Date()} 
+#' (as a name or number).
+#' 
+#' @param when Date (as a scalar or vector).    
+#' Default: \code{when = NA}. 
+#' Using \code{as.Date(when)} to convert strings into dates, 
+#' and \code{Sys.Date()}, if \code{when = NA}.
+#' 
+#' @param unit Character: Unit of week?
+#' Possible values are \code{"month", "year"}. 
+#' Default: \code{unit = "year"} (for week within year). 
+#' 
+#' @param as_integer Boolean: Return as integer? 
+#' Default: \code{as_integer = FALSE}. 
+#' 
+#' @examples
+#' what_week()
+#' what_week(as_integer = TRUE)
+#' 
+#' # Other dates/times:
+#' d1 <- as.Date("2019-08-23")
+#' what_week(when = d1, unit = "year")
+#' what_week(when = d1, unit = "month")
+#' 
+#' # Work with vectors (when as characters):
+#' ds <- c("2020-01-01", "2020-02-29", "2020-12-24", "2020-12-31")
+#' what_week(when = ds)
+#' what_week(when = ds, unit = "month", as_integer = TRUE)
+#' what_week(when = ds, unit = "year", as_integer = TRUE)
+#'  
+#' @family date and time functions
+#' 
+#' @seealso 
+#' \code{what_day()} function to obtain days; 
+#' \code{what_date()} function to obtain dates; 
+#' \code{cur_time()} function to print the current time; 
+#' \code{cur_date()} function to print the current date; 
+#' \code{now()} function of the \strong{lubridate} package; 
+#' \code{Sys.time()} function of \strong{base} R. 
+#' 
+#' @export
 
 what_week <- function(when = Sys.time(), unit = "year", as_integer = FALSE){
   
@@ -460,13 +507,13 @@ what_week <- function(when = Sys.time(), unit = "year", as_integer = FALSE){
   unit <- substr(tolower(unit), 1, 1)  # use only 1st letter of string
   
   # Convert when into objects of class "Date" representing calendar dates:
-  if ( (class(when) != "Date") & !("POSIXct" %in% class(when)) ) {
+  if ( any(class(when) != "Date") & !("POSIXct" %in% class(when)) ) {
     message(paste0("what_week: Using as.Date() to convert 'when' into class 'Date'."))
     when <- as.Date(when)
   }
   
   # Verify date/time input:
-  if ( (class(when) != "Date") & !("POSIXct" %in% class(when)) ) {
+  if ( any(class(when) != "Date") & !("POSIXct" %in% class(when)) ) {
     message(paste0("what_week: when must be of class 'Date' or 'POSIXct'."))
     message(paste0("Currently, class(when) = ", class(when), ".")) 
     return(when)
@@ -523,7 +570,7 @@ what_week <- function(when = Sys.time(), unit = "year", as_integer = FALSE){
 # what_week(when = d1, unit = "year")
 # what_week(when = d1, unit = "month")
 # 
-# Week nr. (in month):
+# # Week nr. (in month):
 # d2 <- as.Date("2019-06-23")  # Sunday of 4th week in June 2019.
 # what_week(when = d2, unit = "month")
 # d3 <- as.Date("2019-06-24")  # Monday of 5th week in June 2019.
@@ -535,26 +582,70 @@ what_week <- function(when = Sys.time(), unit = "year", as_integer = FALSE){
 # what_week(when = ds, unit = "month", as_integer = TRUE)
 # what_week(when = ds, unit = "year", as_integer = TRUE)
 # 
-# # Note: Errors
-# what_week(when = d1, unit = "asdf")
-# what_week(when = "now")
-# what_week(when = 123)
+# ## Note: Errors
+# # what_week(when = d1, unit = "asdf")
+# # what_week(when = "now")
+# # what_week(when = 123)
 
 
 
 # what_month: What month is it? (name or number) ------ 
 # - `what_month()`: as name (abbr or full) OR as number (as char or as integer)
 
+#' What month is it?  
+#'
+#' \code{what_month} provides a satisficing version of 
+#' to determine the month corresponding to a given date.
+#' 
+#' \code{what_month} returns the month    
+#' of \code{when} or \code{Sys.Date()} 
+#' (as a name or number).
+#' 
+#' @param when Date (as a scalar or vector).    
+#' Default: \code{when = NA}. 
+#' Using \code{as.Date(when)} to convert strings into dates, 
+#' and \code{Sys.Date()}, if \code{when = NA}.
+#' 
+#' @param abbr Boolean: Return abbreviated?  
+#' Default: \code{abbr = FALSE}. 
+#' 
+#' @param as_integer Boolean: Return as integer? 
+#' Default: \code{as_integer = FALSE}. 
+#' 
+#' @examples
+#' what_month()
+#' what_month(abbr = TRUE)
+#' what_month(as_integer = TRUE)
+#' 
+#' # Work with vectors (when as characters):
+#' ds <- c("2020-01-01", "2020-02-29", "2020-12-24", "2020-12-31")
+#' what_month(when = ds)
+#' what_month(when = ds, abbr = TRUE, as_integer = FALSE)
+#' what_month(when = ds, abbr = TRUE, as_integer = TRUE)
+#' 
+#'     
+#' @family date and time functions
+#' 
+#' @seealso 
+#' \code{what_week()} function to obtain weeks; 
+#' \code{what_date()} function to obtain dates; 
+#' \code{cur_time()} function to print the current time; 
+#' \code{cur_date()} function to print the current date; 
+#' \code{now()} function of the \strong{lubridate} package; 
+#' \code{Sys.time()} function of \strong{base} R. 
+#' 
+#' @export
+
 what_month <- function(when = Sys.time(), abbr = FALSE, as_integer = FALSE){
   
   # Convert when into objects of class "Date" representing calendar dates:
-  if ( (class(when) != "Date") & !("POSIXct" %in% class(when)) ) {
+  if ( any(class(when) != "Date") & !("POSIXct" %in% class(when)) ) {
     message(paste0("what_month: Using as.Date() to convert 'when' into class 'Date'."))
     when <- as.Date(when)
   }
   
   # Verify date/time input:
-  if ( (class(when) != "Date") & !("POSIXct" %in% class(when)) ) {
+  if ( any(class(when) != "Date") & !("POSIXct" %in% class(when)) ) {
     message(paste0("what_month: when must be of class 'Date' or 'POSIXct'."))
     message(paste0("Currently, class(when) = ", class(when), ".")) 
     return(when)
@@ -605,24 +696,68 @@ what_month <- function(when = Sys.time(), abbr = FALSE, as_integer = FALSE){
 # what_month(when = ds, abbr = TRUE, as_integer = FALSE)
 # what_month(when = ds, abbr = TRUE, as_integer = TRUE)
 # 
-# # Note: Errors
-# what_month(when = "now")
-# what_month(when = 123)
+# ## Note: Errors
+# # what_month(when = "now")
+# # what_month(when = 123)
 
 
 
 # what_year: What year is it? ------ 
 
+#' What year is it?  
+#'
+#' \code{what_year} provides a satisficing version of 
+#' to determine the year corresponding to a given date.
+#' 
+#' \code{what_year} returns the year     
+#' of \code{when} or \code{Sys.Date()} 
+#' (as a name or number).
+#' 
+#' @param when Date (as a scalar or vector).    
+#' Default: \code{when = NA}. 
+#' Using \code{as.Date(when)} to convert strings into dates, 
+#' and \code{Sys.Date()}, if \code{when = NA}.
+#' 
+#' @param abbr Boolean: Return abbreviated?  
+#' Default: \code{abbr = FALSE}. 
+#' 
+#' @param as_integer Boolean: Return as integer? 
+#' Default: \code{as_integer = FALSE}. 
+#' 
+#' @examples
+#' what_year()
+#' what_year(abbr = TRUE)
+#' what_year(as_integer = TRUE)
+#' 
+#' # Work with vectors (when as characters):
+#' ds <- c("2020-01-01", "2020-02-29", "2020-12-24", "2020-12-31")
+#' what_year(when = ds)
+#' what_year(when = ds, abbr = TRUE, as_integer = FALSE)
+#' what_year(when = ds, abbr = TRUE, as_integer = TRUE)
+#' 
+#'
+#' @family date and time functions
+#' 
+#' @seealso 
+#' \code{what_week()} function to obtain weeks; 
+#' \code{what_month()} function to obtain months; 
+#' \code{cur_time()} function to print the current time; 
+#' \code{cur_date()} function to print the current date; 
+#' \code{now()} function of the \strong{lubridate} package; 
+#' \code{Sys.time()} function of \strong{base} R. 
+#' 
+#' @export
+
 what_year <- function(when = Sys.time(), abbr = FALSE, as_integer = FALSE){
   
   # Convert when into objects of class "Date" representing calendar dates:
-  if ( (class(when) != "Date") & !("POSIXct" %in% class(when)) ) {
+  if ( any(class(when) != "Date") & !("POSIXct" %in% class(when)) ) {
     message(paste0("what_year: Using as.Date() to convert 'when' into class 'Date'."))
     when <- as.Date(when)
   }
   
   # Verify date/time input:
-  if ( (class(when) != "Date") & !("POSIXct" %in% class(when)) ) {
+  if ( any(class(when) != "Date") & !("POSIXct" %in% class(when)) ) {
     message(paste0("what_year: when must be of class 'Date' or 'POSIXct'."))
     message(paste0("Currently, class(when) = ", class(when), ".")) 
     return(when)
@@ -647,7 +782,7 @@ what_year <- function(when = Sys.time(), abbr = FALSE, as_integer = FALSE){
   
 }  # what_year end. 
 
-# # Check:
+# ## Check:
 # what_year()
 # what_year(abbr = TRUE)
 # what_year(as_integer = TRUE)
