@@ -44,8 +44,10 @@ dice_2(n = 10, sides = 9:9)  # odd: see sample() for an explanation.
 
 }
 \seealso{
-Other random functions: \code{\link{coin}},
-  \code{\link{dice}}, \code{\link{sample_dates}},
-  \code{\link{sample_times}}
+Other random functions: 
+\code{\link{coin}()},
+\code{\link{dice}()},
+\code{\link{sample_dates}()},
+\code{\link{sample_times}()}
 }
 \concept{random functions}

@@ -4,8 +4,7 @@
 \alias{what_day}
 \title{What day is it?}
 \usage{
-what_day(when = Sys.time(), unit = "week", abbr = FALSE,
-  as_integer = FALSE)
+what_day(when = Sys.time(), unit = "week", abbr = FALSE, as_integer = FALSE)
 }
 \arguments{
 \item{when}{Date (as a scalar or vector).
@@ -53,8 +52,10 @@ what_day(when = ds, unit = "year", as_integer = TRUE)
 \code{now()} function of the \strong{lubridate} package; 
 \code{Sys.time()} function of \strong{base} R.
 
-Other date and time functions: \code{\link{cur_date}},
-  \code{\link{cur_time}}, \code{\link{what_date}},
-  \code{\link{what_time}}
+Other date and time functions: 
+\code{\link{cur_date}()},
+\code{\link{cur_time}()},
+\code{\link{what_date}()},
+\code{\link{what_time}()}
 }
 \concept{date and time functions}

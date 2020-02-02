@@ -4,9 +4,18 @@
 \alias{plot_fn}
 \title{A function to plot a plot.}
 \usage{
-plot_fn(x = NA, y = 1, A = TRUE, B = FALSE, C = TRUE,
-  D = FALSE, E = FALSE, F = FALSE, f = c(rev(pal_seeblau), "white",
-  pal_pinky), g = "white")
+plot_fn(
+  x = NA,
+  y = 1,
+  A = TRUE,
+  B = FALSE,
+  C = TRUE,
+  D = FALSE,
+  E = FALSE,
+  F = FALSE,
+  f = c(rev(pal_seeblau), "white", pal_pinky),
+  g = "white"
+)
 }
 \arguments{
 \item{x}{A (natural) number. 
@@ -45,11 +54,11 @@ Default: \code{g = "white"}.}
 }
 \details{
 \code{plot_fn} is deliberately kept cryptic and obscure to illustrate 
-how function parameters can be explored.
+how function parameters can be explored. 
 
 \code{plot_fn} also shows that brevity in argument names should not 
 come at the expense of clarity. In fact, transparent argument names 
-are absolutely essential for understanding and using a function.
+are absolutely essential for understanding and using a function. 
 
 \code{plot_fn} currently requires \code{pal_seeblau} and 
 \code{pal_pinky} (from the \strong{unikn} package) for its default colors.
@@ -70,8 +79,11 @@ plot_fn(x = 7, A = TRUE,  B = TRUE, F = TRUE, f = c("steelblue", "white", "fores
 \code{\link{plot_fun}} for a related function; 
 \code{\link{pal_ds4psy}} for color palette.
 
-Other plot functions: \code{\link{plot_fun}},
-  \code{\link{plot_n}}, \code{\link{plot_text}},
-  \code{\link{plot_tiles}}, \code{\link{theme_ds4psy}}
+Other plot functions: 
+\code{\link{plot_fun}()},
+\code{\link{plot_n}()},
+\code{\link{plot_text}()},
+\code{\link{plot_tiles}()},
+\code{\link{theme_ds4psy}()}
 }
 \concept{plot functions}

@@ -32,6 +32,7 @@ pal_n_sq(4)  # 11 colors (6: white)
 \seealso{
 \code{\link{plot_tiles}} to plot tile plots.
 
-Other color objects and functions: \code{\link{pal_ds4psy}}
+Other color objects and functions: 
+\code{\link{pal_ds4psy}}
 }
 \concept{color objects and functions}

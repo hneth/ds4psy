@@ -18,10 +18,10 @@ into an ordinal character sequence.
 }
 \details{
 The function currently only works for the English language and 
-does not accepts inputs that are characters, dates, or times.
+does not accepts inputs that are characters, dates, or times.  
 
 Note that the \code{toOrdinal()} function of the \strong{toOrdinal} package works 
-for multiple languages and provides a \code{toOrdinalDate()} function.
+for multiple languages and provides a \code{toOrdinalDate()} function. 
 
 \strong{Caveat:} Note that this function illustrates how numbers, 
 characters, \code{for} loops, and \code{paste()} can be combined 
@@ -46,7 +46,8 @@ num_as_ordinal(seq(1.99, 2.14, by = .01))
 \seealso{
 \code{toOrdinal()} function of the \strong{toOrdinal} package.
 
-Other utility functions: \code{\link{is.wholenumber}},
-  \code{\link{num_as_char}}
+Other utility functions: 
+\code{\link{is.wholenumber}()},
+\code{\link{num_as_char}()}
 }
 \concept{utility functions}
