@@ -4,22 +4,10 @@
 \alias{plot_tiles}
 \title{Plot n-by-n tiles.}
 \usage{
-plot_tiles(
-  n = NA,
-  pal = pal_ds4psy,
-  sort = TRUE,
-  borders = TRUE,
-  border_col = "black",
-  border_size = 0.2,
-  lbl_tiles = FALSE,
-  lbl_title = FALSE,
-  polar = FALSE,
-  rseed = NA,
-  save = FALSE,
-  save_path = "images/tiles",
-  prefix = "",
-  suffix = ""
-)
+plot_tiles(n = NA, pal = pal_ds4psy, sort = TRUE, borders = TRUE,
+  border_col = "black", border_size = 0.2, lbl_tiles = FALSE,
+  lbl_title = FALSE, polar = FALSE, rseed = NA, save = FALSE,
+  save_path = "images/tiles", prefix = "", suffix = "")
 }
 \arguments{
 \item{n}{Basic number of tiles (on either side).}
@@ -105,11 +93,8 @@ plot_tiles(n = 4, sort = FALSE, borders = TRUE,
 \seealso{
 \code{\link{pal_ds4psy}} for default color palette.
 
-Other plot functions: 
-\code{\link{plot_fn}()},
-\code{\link{plot_fun}()},
-\code{\link{plot_n}()},
-\code{\link{plot_text}()},
-\code{\link{theme_ds4psy}()}
+Other plot functions: \code{\link{plot_fn}},
+  \code{\link{plot_fun}}, \code{\link{plot_n}},
+  \code{\link{plot_text}}, \code{\link{theme_ds4psy}}
 }
 \concept{plot functions}

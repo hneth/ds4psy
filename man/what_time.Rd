@@ -42,8 +42,8 @@ what_time(ts, seconds = TRUE, sep = "_")
 \code{now()} function of the \strong{lubridate} package; 
 \code{Sys.time()} function of \strong{base} R.
 
-Other date and time functions: 
-\code{\link{cur_date}()},
-\code{\link{cur_time}()}
+Other date and time functions: \code{\link{cur_date}},
+  \code{\link{cur_time}}, \code{\link{what_date}},
+  \code{\link{what_day}}
 }
 \concept{date and time functions}

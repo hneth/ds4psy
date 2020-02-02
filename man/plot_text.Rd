@@ -4,23 +4,11 @@
 \alias{plot_text}
 \title{Plot text characters (from file or user input).}
 \usage{
-plot_text(
-  file = "",
-  char_bg = " ",
-  lbl_tiles = TRUE,
-  lbl_rotate = FALSE,
-  cex = 3,
-  fontface = 1,
-  family = "sans",
-  col_lbl = "black",
-  col_bg = "white",
-  pal = pal_ds4psy[1:5],
-  pal_extend = TRUE,
-  case_sense = FALSE,
-  borders = TRUE,
-  border_col = "white",
-  border_size = 0.5
-)
+plot_text(file = "", char_bg = " ", lbl_tiles = TRUE,
+  lbl_rotate = FALSE, cex = 3, fontface = 1, family = "sans",
+  col_lbl = "black", col_bg = "white", pal = pal_ds4psy[1:5],
+  pal_extend = TRUE, case_sense = FALSE, borders = TRUE,
+  border_col = "white", border_size = 0.5)
 }
 \arguments{
 \item{file}{The text file to read (or its path). 
@@ -94,7 +82,7 @@ its characters as a tile plot (using \strong{ggplot2}).
 cat("Hello world!", "This is a test.", 
     "Can you see this text?", 
     "Good! Please carry on...", 
-    file = "test.txt", sep = "\n")
+    file = "test.txt", sep = "\\n")
 
 # (a) Plot text (from file): 
 plot_text("test.txt")
@@ -136,11 +124,8 @@ plot_text()
 \code{\link{read_ascii}} for reading text into a tibble; 
 \code{\link{pal_ds4psy}} for default color palette.
 
-Other plot functions: 
-\code{\link{plot_fn}()},
-\code{\link{plot_fun}()},
-\code{\link{plot_n}()},
-\code{\link{plot_tiles}()},
-\code{\link{theme_ds4psy}()}
+Other plot functions: \code{\link{plot_fn}},
+  \code{\link{plot_fun}}, \code{\link{plot_n}},
+  \code{\link{plot_tiles}}, \code{\link{theme_ds4psy}}
 }
 \concept{plot functions}

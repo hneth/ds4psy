@@ -13,10 +13,8 @@ l33t_rul35
 into leet/l33t slang (as a character vector).
 }
 \seealso{
-Other text functions: 
-\code{\link{count_char}()},
-\code{\link{read_ascii}()},
-\code{\link{transl33t}()}
+Other text functions: \code{\link{count_char}},
+  \code{\link{read_ascii}}, \code{\link{transl33t}}
 }
 \concept{text functions}
 \keyword{datasets}

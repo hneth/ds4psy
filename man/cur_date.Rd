@@ -23,7 +23,7 @@ Default: \code{sep = "-"}.}
 using current system settings.
  
 By default, this corresponds to the "%Y-%m-%d" (or "%F")     
-format used as the ISO 8601 standard. 
+format used as the ISO 8601 standard.
 
 For more options, see the 
 \code{date()} and \code{Sys.Date()} functions of \strong{base} R 
@@ -40,8 +40,8 @@ cur_date(rev = TRUE, sep = ".")
 \code{date()} and \code{today()} functions of the \strong{lubridate} package; 
 \code{date()}, \code{Sys.Date()}, and \code{Sys.time()} functions of \strong{base} R.
 
-Other date and time functions: 
-\code{\link{cur_time}()},
-\code{\link{what_time}()}
+Other date and time functions: \code{\link{cur_time}},
+  \code{\link{what_date}}, \code{\link{what_day}},
+  \code{\link{what_time}}
 }
 \concept{date and time functions}

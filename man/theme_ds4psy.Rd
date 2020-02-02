@@ -4,13 +4,8 @@
 \alias{theme_ds4psy}
 \title{ds4psy default plot theme (using ggplot2 and unikn).}
 \usage{
-theme_ds4psy(
-  col_title = "black",
-  base_size = 11,
-  base_family = "",
-  base_line_size = base_size/20,
-  base_rect_size = base_size/20
-)
+theme_ds4psy(col_title = "black", base_size = 11, base_family = "",
+  base_line_size = base_size/20, base_rect_size = base_size/20)
 }
 \arguments{
 \item{col_title}{Color of title (text) elements (optional, numeric).
@@ -57,11 +52,8 @@ allow emphasizing data points with color accents).
 \seealso{
 \code{unikn::theme_unikn} for the source of the current theme.
 
-Other plot functions: 
-\code{\link{plot_fn}()},
-\code{\link{plot_fun}()},
-\code{\link{plot_n}()},
-\code{\link{plot_text}()},
-\code{\link{plot_tiles}()}
+Other plot functions: \code{\link{plot_fn}},
+  \code{\link{plot_fun}}, \code{\link{plot_n}},
+  \code{\link{plot_text}}, \code{\link{plot_tiles}}
 }
 \concept{plot functions}

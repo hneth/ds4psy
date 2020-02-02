@@ -16,7 +16,7 @@ tb
 100 non-existing, but otherwise ordinary people.
 }
 \details{
-\strong{Codebook} 
+\strong{Codebook}
 
 \itemize{
 
@@ -30,35 +30,23 @@ tb
 
 \item 5. \strong{IQ}: IQ score (according Raven's Regressive Tibbles).
 
-} 
+}
 
 \code{tb} was orginally created to practice loops and iterations 
 (as a CSV file).
 }
 \seealso{
-Other datasets: 
-\code{\link{data_1}},
-\code{\link{data_2}},
-\code{\link{data_t1_de}},
-\code{\link{data_t1_tab}},
-\code{\link{data_t1}},
-\code{\link{data_t2}},
-\code{\link{data_t3}},
-\code{\link{data_t4}},
-\code{\link{exp_wide}},
-\code{\link{falsePosPsy_all}},
-\code{\link{fame}},
-\code{\link{outliers}},
-\code{\link{pi_100k}},
-\code{\link{posPsy_AHI_CESD}},
-\code{\link{posPsy_long}},
-\code{\link{posPsy_p_info}},
-\code{\link{posPsy_wide}},
-\code{\link{t3}},
-\code{\link{t4}},
-\code{\link{table6}},
-\code{\link{table7}},
-\code{\link{table8}}
+Other datasets: \code{\link{data_1}}, \code{\link{data_2}},
+  \code{\link{data_t1_de}}, \code{\link{data_t1_tab}},
+  \code{\link{data_t1}}, \code{\link{data_t2}},
+  \code{\link{data_t3}}, \code{\link{data_t4}},
+  \code{\link{exp_wide}}, \code{\link{falsePosPsy_all}},
+  \code{\link{fame}}, \code{\link{outliers}},
+  \code{\link{pi_100k}}, \code{\link{posPsy_AHI_CESD}},
+  \code{\link{posPsy_long}}, \code{\link{posPsy_p_info}},
+  \code{\link{posPsy_wide}}, \code{\link{t3}},
+  \code{\link{t4}}, \code{\link{table6}},
+  \code{\link{table7}}, \code{\link{table8}}
 }
 \concept{datasets}
 \keyword{datasets}

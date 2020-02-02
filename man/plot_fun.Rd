@@ -4,17 +4,9 @@
 \alias{plot_fun}
 \title{Another function to plot some plot.}
 \usage{
-plot_fun(
-  a = NA,
-  b = TRUE,
-  c = TRUE,
-  d = 1,
-  e = FALSE,
-  f = FALSE,
-  g = FALSE,
-  c1 = c(rev(pal_seeblau), "white", pal_grau, "black", Bordeaux),
-  c2 = "black"
-)
+plot_fun(a = NA, b = TRUE, c = TRUE, d = 1, e = FALSE,
+  f = FALSE, g = FALSE, c1 = c(rev(pal_seeblau), "white", pal_grau,
+  "black", Bordeaux), c2 = "black")
 }
 \arguments{
 \item{a}{A (natural) number. 
@@ -50,11 +42,11 @@ Default: \code{c2 = "black"}.}
 }
 \details{
 \code{plot_fun} is deliberately kept cryptic and obscure to illustrate 
-how function parameters can be explored. 
+how function parameters can be explored.
 
 \code{plot_fun} also shows that brevity in argument names should not 
 come at the expense of clarity. In fact, transparent argument names 
-are absolutely essential for understanding and using a function. 
+are absolutely essential for understanding and using a function.
 
 \code{plot_fun} currently requires \code{pal_seeblau}, \code{pal_grau}, and 
 \code{Bordeaux} (from the \strong{unikn} package) for its default colors.
@@ -72,11 +64,8 @@ plot_fun(a = 4, f = TRUE, g = TRUE, c1 = c("steelblue", "white", "firebrick"))
 \code{\link{plot_fn}} for a related function; 
 \code{\link{pal_ds4psy}} for color palette.
 
-Other plot functions: 
-\code{\link{plot_fn}()},
-\code{\link{plot_n}()},
-\code{\link{plot_text}()},
-\code{\link{plot_tiles}()},
-\code{\link{theme_ds4psy}()}
+Other plot functions: \code{\link{plot_fn}},
+  \code{\link{plot_n}}, \code{\link{plot_text}},
+  \code{\link{plot_tiles}}, \code{\link{theme_ds4psy}}
 }
 \concept{plot functions}

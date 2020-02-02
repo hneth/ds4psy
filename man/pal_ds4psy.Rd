@@ -16,8 +16,7 @@ By default, \code{pal_ds4psy} is based on
 \code{pal_unikn} of the \bold{unikn} package.
 }
 \seealso{
-Other color objects and functions: 
-\code{\link{pal_n_sq}()}
+Other color objects and functions: \code{\link{pal_n_sq}}
 }
 \concept{color objects and functions}
 \keyword{datasets}

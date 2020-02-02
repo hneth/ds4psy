@@ -5,7 +5,8 @@
 \title{count_char counts the frequency of characters 
 in a string of text \code{s}.}
 \usage{
-count_char(s, case_sense = TRUE, rm_specials = TRUE, sort_freq = TRUE)
+count_char(s, case_sense = TRUE, rm_specials = TRUE,
+  sort_freq = TRUE)
 }
 \arguments{
 \item{s}{String of text (required).}
@@ -37,9 +38,7 @@ count_char(s, sort_freq = FALSE)
 \seealso{
 \code{\link{plot_text}} for a corresponding plot function.
 
-Other text functions: 
-\code{\link{l33t_rul35}},
-\code{\link{read_ascii}()},
-\code{\link{transl33t}()}
+Other text functions: \code{\link{l33t_rul35}},
+  \code{\link{read_ascii}}, \code{\link{transl33t}}
 }
 \concept{text functions}
