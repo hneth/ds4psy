@@ -44,6 +44,9 @@ Other date and time functions:
 \code{\link{cur_time}()},
 \code{\link{what_date}()},
 \code{\link{what_day}()},
-\code{\link{what_time}()}
+\code{\link{what_month}()},
+\code{\link{what_time}()},
+\code{\link{what_week}()},
+\code{\link{what_year}()}
 }
 \concept{date and time functions}
