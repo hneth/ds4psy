@@ -1,5 +1,5 @@
 ## time_fun.R | ds4psy
-## hn | uni.kn | 2020 01 26
+## hn | uni.kn | 2020 02 02
 ## ---------------------------
 
 ## Functions for date and time objects. 
@@ -227,8 +227,6 @@ what_time <- function(when = NA, seconds = FALSE, sep = ":"){
   
 }  # what_time end.
 
-# +++ here now +++
-
 # # Check:
 # what_time()  
 # # with vector (of times): 
@@ -238,6 +236,50 @@ what_time <- function(when = NA, seconds = FALSE, sep = ":"){
 
 
 # what_date: More versatile version of cur_date(), allowing for a when vector: ------
+
+#' What date is it?  
+#'
+#' \code{what_date} provides a satisficing version of 
+#' \code{Sys.Date()} that is sufficient for most purposes. 
+#' 
+#' \code{what_date} returns either a simple version of 
+#' \code{when} or \code{Sys.Date()}  
+#' (in %Y-%m-%d format) 
+#' using current system settings.
+#' 
+#' @param when Date (as a scalar or vector).    
+#' Default: \code{when = NA}. 
+#' Using \code{as.Date(when)} to convert strings into dates, 
+#' and \code{Sys.Date()}, if \code{when = NA}.
+#' 
+#' @param rev Boolean: Reverse date (to %d-%m-%Y)?    
+#' Default: \code{rev = FALSE}. 
+#' 
+#' @param sep Character: Separator to use. 
+#' Default: \code{sep = "-"}. 
+#' 
+#' @examples
+#' what_date()  
+#' what_date(sep = "/")
+#' what_date(rev = TRUE)
+#' what_date(rev = TRUE, sep = ".")
+#' 
+#' # with vector (of dates):
+#' ds <- c("2020-01-15 01:02:03 CET", "2020-12-31 14:15:16")
+#' what_date(ds)
+#' what_date(ds, rev = TRUE, sep = ".")
+#' 
+#' @family date and time functions
+#' 
+#' @seealso 
+#' \code{what_day()} function to obtain days; 
+#' \code{what_time()} function to obtain times; 
+#' \code{cur_time()} function to print the current time; 
+#' \code{cur_date()} function to print the current date; 
+#' \code{now()} function of the \strong{lubridate} package; 
+#' \code{Sys.time()} function of \strong{base} R. 
+#' 
+#' @export
 
 what_date <- function(when = NA, rev = FALSE, sep = "-"){
   
@@ -266,7 +308,7 @@ what_date <- function(when = NA, rev = FALSE, sep = "-"){
 # what_date(rev = TRUE)
 # what_date(rev = TRUE, sep = ".")
 # 
-# # with vector (of dates): 
+# # with vector (of dates):
 # ds <- c("2020-01-15 01:02:03 CET", "2020-12-31 14:15:16")
 # what_date(ds)
 # what_date(ds, rev = TRUE, sep = ".")
@@ -274,6 +316,54 @@ what_date <- function(when = NA, rev = FALSE, sep = "-"){
 
 # what_day: What day is it? (name or number) ------ 
 # what_day: as name (weekday, abbr or full), OR as number (in units of week, month, or year; as char or as integer) 
+
+#' What day is it?  
+#'
+#' \code{what_day} provides a satisficing version of 
+#' to determine the day corresponding to a given date.
+#' 
+#' \code{what_day} returns the day  
+#' of \code{when} or \code{Sys.Date()} 
+#' (as a name or number).
+#' 
+#' @param when Date (as a scalar or vector).    
+#' Default: \code{when = NA}. 
+#' Using \code{as.Date(when)} to convert strings into dates, 
+#' and \code{Sys.Date()}, if \code{when = NA}.
+#' 
+#' @param unit Character: Unit of day?
+#' Possible values are \code{"week", "month", "year"}. 
+#' Default: \code{unit = "week"} (for day within week). 
+#' 
+#' @param sep Character: Separator to use. 
+#' Default: \code{sep = "-"}. 
+#' 
+#' @param sep Character: Separator to use. 
+#' Default: \code{sep = "-"}. 
+#' 
+#' @examples
+#' what_day()
+#' what_day(abbr = TRUE)
+#' what_day(as_integer = TRUE)
+#' 
+#' # Work with vectors (when as characters):
+#' ds <- c("2020-01-01", "2020-02-29", "2020-12-24", "2020-12-31")
+#' what_day(when = ds)
+#' what_day(when = ds, unit = "month", as_integer = TRUE)
+#' what_day(when = ds, unit = "year", as_integer = TRUE)
+#'
+#'  
+#' @family date and time functions
+#' 
+#' @seealso 
+#' \code{what_date()} function to obtain dates; 
+#' \code{what_time()} function to obtain times; 
+#' \code{cur_time()} function to print the current time; 
+#' \code{cur_date()} function to print the current date; 
+#' \code{now()} function of the \strong{lubridate} package; 
+#' \code{Sys.time()} function of \strong{base} R. 
+#' 
+#' @export
 
 what_day <- function(when = Sys.time(), unit = "week", abbr = FALSE, as_integer = FALSE){
   
@@ -360,6 +450,7 @@ what_day <- function(when = Sys.time(), unit = "week", abbr = FALSE, as_integer 
 # what_day(when = "now")
 # what_day(when = 123)
 
+# +++ here now +++
 
 # what_week: What week is it? (number only) ------ 
 
