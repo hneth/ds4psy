@@ -335,11 +335,11 @@ what_date <- function(when = NA, rev = FALSE, sep = "-"){
 #' Possible values are \code{"week", "month", "year"}. 
 #' Default: \code{unit = "week"} (for day within week). 
 #' 
-#' @param sep Character: Separator to use. 
-#' Default: \code{sep = "-"}. 
+#' @param abbr Boolean: Return abbreviated?  
+#' Default: \code{abbr = FALSE}. 
 #' 
-#' @param sep Character: Separator to use. 
-#' Default: \code{sep = "-"}. 
+#' @param as_integer Boolean: Return as integer? 
+#' Default: \code{as_integer = FALSE}. 
 #' 
 #' @examples
 #' what_day()

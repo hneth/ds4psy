@@ -17,11 +17,11 @@ and \code{Sys.Date()}, if \code{when = NA}.}
 Possible values are \code{"week", "month", "year"}. 
 Default: \code{unit = "week"} (for day within week).}
 
-\item{sep}{Character: Separator to use. 
-Default: \code{sep = "-"}.}
+\item{abbr}{Boolean: Return abbreviated?
+Default: \code{abbr = FALSE}.}
 
-\item{sep}{Character: Separator to use. 
-Default: \code{sep = "-"}.}
+\item{as_integer}{Boolean: Return as integer? 
+Default: \code{as_integer = FALSE}.}
 }
 \description{
 \code{what_day} provides a satisficing version of 
