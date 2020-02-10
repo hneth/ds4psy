@@ -17,6 +17,7 @@ Changes involving new functionality include:
 - added random data generation functions (e.g., for `coin()` flips and `dice()` throws)
 - added random date and time generation functions (e.g., for `sample_dates()` and `sample_times()`)
 - added `is.wholenumber()` to test for integer values (mentioned in R oddities)  
+- added `cur_` and `what_` functions for simple date and time queries (for Chapter 10: Time data) 
 
 ## Minor changes
 
