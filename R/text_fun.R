@@ -149,7 +149,7 @@ transl33t <- function(txt, rules = l33t_rul35,
   }
   
   # transl33t based on rules:   
-  out <- stringr::str_replace_all(txt, rules)
+  out <- stringr::str_replace_all(txt, rules)  # using stringr pkg!
   
   # handle out_case: 
   if (out_case == "lo") {
@@ -479,6 +479,9 @@ count_char <- function(s, # string of text to count
 
 ## ToDo: ----------
 
+# - write a capitalize() function to capitalize the first n letters of words 
+#   (except all words matching an exception argument).
+# - re-write transl33t without stringr package (using only base R functions)
 # - improve read_ascii (with regex and more efficient text wrangling)
 
 ## eof. ----------------------
