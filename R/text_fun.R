@@ -1,5 +1,5 @@
 ## text_fun.R | ds4psy
-## hn | uni.kn | 2019 09 29
+## hn | uni.kn | 2020 04 11
 ## ---------------------------
 
 ## Functions for text/string objects. 
@@ -162,11 +162,13 @@ transl33t <- function(txt, rules = l33t_rul35,
   
 } # transl33t. 
 
-# ## Check: 
-# transl33t(txt1, rules = c("a" = "4"))
-# transl33t(txt1)
-# transl33t(txt1 = c(txt, txt2))
-# transl33t(txt1 = c(letters, LETTERS))
+# ## Check:
+# transl33t(txt1)  # default rules
+# transl33t(txt1, rules = c("a" = "4"))  # manual rules
+# 
+# # multiple strings: 
+# transl33t(txt = c(letters, LETTERS))
+# transl33t(txt = c(txt1, txt2))
 # 
 # # 9 variants:
 # transl33t(txt1)  # leave in_case and out_case as is.
