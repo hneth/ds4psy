@@ -37,9 +37,9 @@ transl33t(txt = "hello world",
 
 # Set input and output case:
 transl33t(txt = "hello world", in_case = "up", 
-          rules = c("e" = "3", "l" = "1", "o" = "0"))
-transl33t(txt = "hello world", out_case = "up", 
-          rules = c("e" = "3", "l" = "1", "o" = "0"))
+          rules = c("e" = "3", "l" = "1", "o" = "0"))  # e only capitalized
+transl33t(txt = "hEllo world", in_case = "lo", out_case = "up", 
+          rules = c("e" = "3", "l" = "1", "o" = "0"))  # e transl33ted
 
 }
 \seealso{
