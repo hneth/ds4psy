@@ -13,6 +13,7 @@ Changes involving new functionality include:
 
 - added `plot_text()` plotting function  
 - added `read_ascii()` and `count_char()` text processing functions 
+- added `caseflip()` and `capitalize()` text processing functions 
 - added simple date and time functions (e.g., `cur_date()`, `cur_time()`)  
 - added random data generation functions (e.g., for `coin()` flips and `dice()` throws)
 - added random date and time generation functions (e.g., for `sample_dates()` and `sample_times()`)
