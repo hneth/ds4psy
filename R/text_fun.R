@@ -539,6 +539,21 @@ caseflip <- function(x){
 # caseflip(NA)
 
 
+## Text helper functions: ------- 
+
+text_to_words <- function(s, split = " "){
+  
+  unlist(strsplit(s, split = split))  
+  
+}
+
+words_to_text <- function(w, collapse = " "){
+  
+  paste(w, collapse = collapse)
+  
+}
+
+
 ## capitalize the first n letters of words (with exception): -------- 
 
 #' capitalize converts the case of 
@@ -555,10 +570,17 @@ caseflip <- function(x){
 #' Default: \code{upper = TRUE}. 
 #' 
 #' @examples
-#' x <- c("Hello world!", "This is a 1st sentence.", "This is the 2nd sentence.", "The end.")
+#' x <- c("Hello world! This is a 1st TEST sentence. The end.")
 #' capitalize(x)
 #' capitalize(x, n = 3)
-#'  
+#' capitalize(x, n = 2, upper = FALSE)
+#' 
+#' # Note: Vector of character strings is merged into one string: 
+#' x <- c("Hello world!", "This is a 1st TEST sentence.", "The end.")
+#' capitalize(x)
+#' capitalize(x, n = 3)
+#' capitalize(x, n = 2, upper = FALSE)
+#' 
 #' @family text functions
 #'
 #' @seealso
@@ -569,26 +591,50 @@ caseflip <- function(x){
 capitalize <- function(x, # string of text to capitalize
                        n = 1,  # number of initial letters to capitalize in each word
                        upper = TRUE
+                       # except = c("a", "the", "is", "do", "does", "done", "did")
                        # rm_specials = TRUE
 ){
   
   out <- NA  # initialize 
   
-  # +++ here now +++ 
+  # (1) Convert text x to vector of words:
+  words <- text_to_words(x)
+  
+  # (2) Capitalize words:
+  first <- substr(words, 1, n)      # first character of each word 
+  rest  <- substr(words, n + 1, nchar(words))  # rest of each word
+  rest  <- substring(words, n + 1)  # rest of each word (with default end)
+  
+  if (upper) {
+    Words <- paste0(toupper(first), rest) # capitalize first and paste with rest
+  } else {
+    Words <- paste0(tolower(first), rest) # lowercase first and paste with rest
+  }
+  
+  # (3) Convert vector of Words to text x:
+  out <- words_to_text(Words)
   
   return(out)
   
 }
 
-## Check:
-# x <- c("Hello world!", "This is a 1st sentence.", "This is the 2nd sentence.", "The end.")
+# ## Check:
+# x <- c("Hello world! This is a 1st TEST sentence. The end.")
 # capitalize(x)
+# capitalize(x, n = 3)
+# capitalize(x, n = 2, upper = FALSE)
+# 
+# # Note: Vector of character strings is merged into one string:
+# x <- c("Hello world!", "This is a 1st TEST sentence.", "The end.")
+# capitalize(x)
+# capitalize(x, n = 3)
+# capitalize(x, n = 2, upper = FALSE)
 
 
 ## ToDo: ----------
 
-# - write a capitalize() function to capitalize the first n letters of words 
-#   (except all words matching an exception argument).
+# - Add exception argument except to capitalize() function 
+#   (to exclude all words matching an exception argument).
 # - improve read_ascii (with regex and more efficient text wrangling)
 
 ## eof. ----------------------
