@@ -569,17 +569,23 @@ words_to_text <- function(w, collapse = " "){
 #' @param upper Convert to uppercase?
 #' Default: \code{upper = TRUE}. 
 #' 
+#' @param as_text Return word vector as text 
+#' (i.e., one character string)? 
+#' Default: \code{as_text = TRUE}.
+#' 
 #' @examples
 #' x <- c("Hello world! This is a 1st TEST sentence. The end.")
 #' capitalize(x)
 #' capitalize(x, n = 3)
 #' capitalize(x, n = 2, upper = FALSE)
+#' capitalize(x, as_text = FALSE)
 #' 
-#' # Note: Vector of character strings is merged into one string: 
+#' # Note: A vector of character strings returns the same results: 
 #' x <- c("Hello world!", "This is a 1st TEST sentence.", "The end.")
 #' capitalize(x)
 #' capitalize(x, n = 3)
 #' capitalize(x, n = 2, upper = FALSE)
+#' capitalize(x, as_text = FALSE)
 #' 
 #' @family text functions
 #'
@@ -590,7 +596,8 @@ words_to_text <- function(w, collapse = " "){
 
 capitalize <- function(x, # string of text to capitalize
                        n = 1,  # number of initial letters to capitalize in each word
-                       upper = TRUE
+                       upper = TRUE,   # convert to uppercase?
+                       as_text = TRUE  # return words as text (1 character string)? 
                        # except = c("a", "the", "is", "do", "does", "done", "did")
                        # rm_specials = TRUE
 ){
@@ -612,24 +619,29 @@ capitalize <- function(x, # string of text to capitalize
   }
   
   # (3) Convert vector of Words to text x:
-  out <- words_to_text(Words)
+  if (as_text){
+    out <- words_to_text(Words)
+  } else {
+    out <- Words
+  }
   
   return(out)
   
 }
 
 # ## Check:
-# x <- c("Hello world! This is a 1st TEST sentence. The end.")
+x <- c("Hello world! This is a 1st TEST sentence. The end.")
 # capitalize(x)
 # capitalize(x, n = 3)
 # capitalize(x, n = 2, upper = FALSE)
+# capitalize(x, as_text = FALSE)
 # 
 # # Note: Vector of character strings is merged into one string:
 # x <- c("Hello world!", "This is a 1st TEST sentence.", "The end.")
 # capitalize(x)
 # capitalize(x, n = 3)
 # capitalize(x, n = 2, upper = FALSE)
-
+# capitalize(x, as_text = FALSE)
 
 ## ToDo: ----------
 
