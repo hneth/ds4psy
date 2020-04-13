@@ -50,6 +50,8 @@ transl33t(txt = "hEllo world", in_case = "lo", out_case = "up",
 \code{\link{l33t_rul35}} for default rules.
 
 Other text functions: 
+\code{\link{capitalize}()},
+\code{\link{caseflip}()},
 \code{\link{count_char}()},
 \code{\link{l33t_rul35}},
 \code{\link{read_ascii}()}

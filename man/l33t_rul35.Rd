@@ -24,6 +24,8 @@ See \url{https://en.wikipedia.org/wiki/Leet} for details.
 }
 \seealso{
 Other text functions: 
+\code{\link{capitalize}()},
+\code{\link{caseflip}()},
 \code{\link{count_char}()},
 \code{\link{read_ascii}()},
 \code{\link{transl33t}()}

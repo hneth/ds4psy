@@ -59,6 +59,8 @@ read_ascii()
 \code{\link{plot_text}} for a corresponding plot function.
 
 Other text functions: 
+\code{\link{capitalize}()},
+\code{\link{caseflip}()},
 \code{\link{count_char}()},
 \code{\link{l33t_rul35}},
 \code{\link{transl33t}()}
