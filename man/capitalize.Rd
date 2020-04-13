@@ -7,7 +7,7 @@ each word's \code{n} initial characters
 (typically to \code{upper}) 
 in a string of text \code{x}.}
 \usage{
-capitalize(x, n = 1, upper = TRUE)
+capitalize(x, n = 1, upper = TRUE, as_text = TRUE)
 }
 \arguments{
 \item{x}{A string of text (required).}
@@ -17,6 +17,10 @@ Default: \code{n = 1}.}
 
 \item{upper}{Convert to uppercase?
 Default: \code{upper = TRUE}.}
+
+\item{as_text}{Return word vector as text 
+(i.e., one character string)? 
+Default: \code{as_text = TRUE}.}
 }
 \description{
 capitalize converts the case of 
@@ -29,12 +33,14 @@ x <- c("Hello world! This is a 1st TEST sentence. The end.")
 capitalize(x)
 capitalize(x, n = 3)
 capitalize(x, n = 2, upper = FALSE)
+capitalize(x, as_text = FALSE)
 
-# Note: Vector of character strings is merged into one string: 
+# Note: A vector of character strings returns the same results: 
 x <- c("Hello world!", "This is a 1st TEST sentence.", "The end.")
 capitalize(x)
 capitalize(x, n = 3)
 capitalize(x, n = 2, upper = FALSE)
+capitalize(x, as_text = FALSE)
 
 }
 \seealso{
