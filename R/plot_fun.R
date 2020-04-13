@@ -1,5 +1,5 @@
 ## plot_fun.R | ds4psy
-## hn | uni.kn | 2019 10 25
+## hn | uni.kn | 2020 04 12
 ## ---------------------------
 
 ## Functions for plotting. 

@@ -1,5 +1,5 @@
 ## util_fun.R | ds4psy
-## hn | uni.kn | 2020 04 10
+## hn | uni.kn | 2020 04 13
 ## ---------------------------
 
 ## Utility functions. 
@@ -342,6 +342,8 @@ is.wholenumber <- function(x, tol = .Machine$double.eps^0.5) {
 # is.wholenumber(1/2)  # is FALSE
 # x <- seq(1, 2, by = 0.5)
 # is.wholenumber(x)
+
+
 
 
 # kill_all: Kill all objects in current environment (without warning): ------
