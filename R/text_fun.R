@@ -31,6 +31,7 @@
 # 
 # # toc  # to be used in plot_tbar() and plot_tclock()
 
+
 ## (1) L33t slang: ---------- 
 
 # Using leet / l33t slang: ------
@@ -165,7 +166,7 @@ transl33t <- function(txt, rules = l33t_rul35,
   ## If used, ADD:  
   ## @importFrom stringr str_replace_all
   ## to documentation!
-
+  
   # (b) only base R commands:
   old_chars <- paste(names(rules), collapse = "")
   new_chars <- paste(rules, collapse = "")
@@ -394,16 +395,17 @@ read_ascii <- function(file = "", flip_y = FALSE){
 # t
 # tail(t)
 
-# (3) Read user input from console:
+
+# (3) Read user input from console: ---------- 
 # read_ascii()
 
 
 ## count_char: Count the frequency of characters in a string: -------- 
 
 #' count_char counts the frequency of characters 
-#' in a string of text \code{s}.
+#' in a string of text \code{x}.
 #'
-#' @param s String of text (required).
+#' @param x A string of text (required).
 #' 
 #' @param case_sense Boolean: Distinguish lower- vs. uppercase characters? 
 #' Default: \code{case_sense = TRUE}. 
@@ -416,13 +418,13 @@ read_ascii <- function(file = "", flip_y = FALSE){
 #' 
 #' @examples
 #' # Default: 
-#' s <- c("Hello!", "This is a 1st sentence.", "This is the 2nd sentence.", "The end.")
-#' count_char(s)
+#' x <- c("Hello!", "This is a 1st sentence.", "This is the 2nd sentence.", "The end.")
+#' count_char(x)
 #' 
 #' # Options: 
-#' count_char(s, case_sense = FALSE)
-#' count_char(s, rm_specials = FALSE)
-#' count_char(s, sort_freq = FALSE)
+#' count_char(x, case_sense = FALSE)
+#' count_char(x, rm_specials = FALSE)
+#' count_char(x, sort_freq = FALSE)
 #'  
 #' @family text functions
 #'
@@ -431,7 +433,7 @@ read_ascii <- function(file = "", flip_y = FALSE){
 #' 
 #' @export
 
-count_char <- function(s, # string of text to count
+count_char <- function(x, # string of text to count
                        case_sense = TRUE, 
                        rm_specials = TRUE, 
                        sort_freq = TRUE
@@ -439,7 +441,7 @@ count_char <- function(s, # string of text to count
   
   freq <- NA  # initialize
   
-  v0 <- as.character(s)  # read input (as character)
+  v0 <- as.character(x)  # read input (as character)
   
   if (case_sense){
     v1 <- v0  # as is
@@ -457,7 +459,8 @@ count_char <- function(s, # string of text to count
     space <- c("", " ")
     hyphens <- c("-", "--", "---")
     punct <- c(",", ";", ":", ".", "!", "?")  # punctuation 
-    spec_char <- c(punct, space, hyphens)
+    parents <- c("(", ")", "[", "]", "{", "}", "<", ">")  # parentheses
+    spec_char <- c(punct, space, hyphens, parents)
     
     # Remove special characters:
     char_s <- v4[!(v4 %in% spec_char)]
@@ -483,18 +486,103 @@ count_char <- function(s, # string of text to count
 } # count_char. 
 
 # ## Check:
-# s <- c("Hello!", "This is a 1st sentence.", "This is the 2nd sentence.", "The end.")
+# x <- c("Hello!", "This is a 1st sentence.", "This is the 2nd sentence.", "The end.")
 # 
-# count_char(s)
-# count_char(s, case_sense = FALSE)
-# count_char(s, rm_specials = FALSE)
-# count_char(s, sort_freq = FALSE)
+# count_char(x)
+# count_char(x, case_sense = FALSE)
+# count_char(x, rm_specials = FALSE)
+# count_char(x, sort_freq = FALSE)
 # 
 # # Note: count_char returns a named vector of type integer:
-# freq <- count_char(s)
+# freq <- count_char(x)
 # typeof(freq)
 # freq["e"]
 
+
+# (4) Capitalization ---------- 
+
+## caseflip: Flip lower to upper case and vice versa: --------  
+
+#' caseflip flips the case of characters 
+#' in a string of text \code{x}.
+#'
+#' @param x A string of text (required).
+#' 
+#' @examples
+#' x <- c("Hello world!", "This is a 1st sentence.", "This is the 2nd sentence.", "The end.")
+#' caseflip(x)
+#'  
+#' @family text functions
+#'
+#' @seealso
+#' \code{\link{capitalize}} for converting the case of initial letters. 
+#' 
+#' @export
+
+caseflip <- function(x){
+  
+  out <- NA  # initialize  
+  
+  # Rules: 
+  from <- paste0(c(letters, LETTERS), collapse = "")
+  to   <- paste0(c(LETTERS, letters), collapse = "")  
+  
+  out <- chartr(old = from, new = to, x = x)
+  
+  return(out)
+  
+}
+
+## Check:
+# caseflip("Hello World! Hope all is well?")
+# caseflip(c("Hi there", "Does this work as well?"))
+# caseflip(NA)
+
+
+## capitalize the first n letters of words (with exception): -------- 
+
+#' capitalize converts the case of 
+#' each word's \code{n} initial characters 
+#' (typically to \code{upper}) 
+#' in a string of text \code{x}.
+#'
+#' @param x A string of text (required).
+#' 
+#' @param n Number of initial characters to convert.
+#' Default: \code{n = 1}. 
+#' 
+#' @param upper Convert to uppercase?
+#' Default: \code{upper = TRUE}. 
+#' 
+#' @examples
+#' x <- c("Hello world!", "This is a 1st sentence.", "This is the 2nd sentence.", "The end.")
+#' capitalize(x)
+#' capitalize(x, n = 3)
+#'  
+#' @family text functions
+#'
+#' @seealso
+#' \code{\link{caseflip}} for converting the case of all letters. 
+#' 
+#' @export
+
+capitalize <- function(x, # string of text to capitalize
+                       n = 1,  # number of initial letters to capitalize in each word
+                       upper = TRUE
+                       # rm_specials = TRUE
+){
+  
+  out <- NA  # initialize 
+  
+  # +++ here now +++ 
+  
+  return(out)
+  
+}
+
+## Check:
+# x <- c("Hello world!", "This is a 1st sentence.", "This is the 2nd sentence.", "The end.")
+# capitalize(x)
 
 
 ## ToDo: ----------
