@@ -1,5 +1,5 @@
 ## text_fun.R | ds4psy
-## hn | uni.kn | 2020 04 12
+## hn | uni.kn | 2020 04 13
 ## ---------------------------
 
 ## Functions for text/string objects. 
@@ -72,7 +72,16 @@ my_l33t <- c("t" = "+",
 #' l33t_rul35 provides rules for translating into leet/l33t slang. 
 #' 
 #' \code{l33t_rul35} specifies rules for translating characters 
-#' into leet/l33t slang (as a character vector).
+#' into other characters (typically symbols) to mimic 
+#' leet/l33t slang (as a named character vector).
+#' 
+#' Old (i.e., to be replaced) characters are 
+#' \code{paste(names(l33t_rul35), collapse = "")}.
+#' 
+#' New (i.e., replaced) characters are 
+#' \code{paste(l33t_rul35, collapse = "")}.
+#' 
+#' See \url{https://en.wikipedia.org/wiki/Leet} for details. 
 #' 
 #' @family text functions
 #' 
@@ -90,15 +99,18 @@ l33t_rul35 <- c(l33t_num, my_l33t)
 
 ## (b) as function: 
 
-#' transl33t text into leet slang (using stringr).
+#' transl33t text into leet slang.
 #'
 #' \code{transl33t} translates text into leet (or l33t) slang 
-#' given a set of rules and the \bold{stringr} package.
+#' given a set of rules.
+#' 
+#' The current version of \code{transl33t} only uses \code{base R} commands, 
+#' rather than the \bold{stringr} package.
 #' 
 #' @param txt The text (character string) to translate.
 #' 
 #' @param rules Rules which existing character in \code{txt} 
-#' is to be replaced by which new character (as named character vector). 
+#' is to be replaced by which new character (as a named character vector). 
 #' Default: \code{rules = \link{l33t_rul35}}. 
 #' 
 #' @param in_case Change case of input string \code{txt}. 
@@ -489,7 +501,6 @@ count_char <- function(s, # string of text to count
 
 # - write a capitalize() function to capitalize the first n letters of words 
 #   (except all words matching an exception argument).
-# - re-write transl33t without stringr package (using only base R functions)
 # - improve read_ascii (with regex and more efficient text wrangling)
 
 ## eof. ----------------------
