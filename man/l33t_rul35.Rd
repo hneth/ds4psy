@@ -10,7 +10,17 @@ l33t_rul35
 }
 \description{
 \code{l33t_rul35} specifies rules for translating characters 
-into leet/l33t slang (as a character vector).
+into other characters (typically symbols) to mimic 
+leet/l33t slang (as a named character vector).
+}
+\details{
+Old (i.e., to be replaced) characters are 
+\code{paste(names(l33t_rul35), collapse = "")}.
+
+New (i.e., replaced) characters are 
+\code{paste(l33t_rul35, collapse = "")}.
+
+See \url{https://en.wikipedia.org/wiki/Leet} for details.
 }
 \seealso{
 Other text functions: 
