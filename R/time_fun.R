@@ -1,5 +1,5 @@
 ## time_fun.R | ds4psy
-## hn | uni.kn | 2020 02 02
+## hn | uni.kn | 2020 04 15
 ## ---------------------------
 
 ## Functions for date and time objects. 
@@ -258,16 +258,24 @@ what_time <- function(when = NA, seconds = FALSE, sep = ":"){
 #' @param sep Character: Separator to use. 
 #' Default: \code{sep = "-"}. 
 #' 
+#' @param month_form Character: Month format. 
+#' Default: \code{month_form = "%m"} for numeric month (01–12). 
+#' Use \code{month_form = "%b"} for abbreviated month name 
+#' and \code{month_form = "%B"} for full month name (in current locale). 
+#' 
+#' 
 #' @examples
 #' what_date()  
 #' what_date(sep = "/")
 #' what_date(rev = TRUE)
 #' what_date(rev = TRUE, sep = ".")
+#' what_date(rev = TRUE, sep = " ", month_form = "%B")
 #' 
 #' # with vector (of dates):
 #' ds <- c("2020-01-15 01:02:03 CET", "2020-12-31 14:15:16")
 #' what_date(ds)
 #' what_date(ds, rev = TRUE, sep = ".")
+#' what_date(ds, rev = TRUE, month_form = "%b")
 #' 
 #' @family date and time functions
 #' 
@@ -281,7 +289,7 @@ what_time <- function(when = NA, seconds = FALSE, sep = ":"){
 #' 
 #' @export
 
-what_date <- function(when = NA, rev = FALSE, sep = "-"){
+what_date <- function(when = NA, rev = FALSE, sep = "-", month_form = "%m"){
   
   # Check when argument: 
   if (all(is.na(when))){
@@ -292,9 +300,9 @@ what_date <- function(when = NA, rev = FALSE, sep = "-"){
   
   # Formatting instruction string:   
   if (rev){
-    fmt <- paste("%d", "%m", "%Y", sep = sep, collapse = "")  # using sep
+    fmt <- paste("%d", month_form, "%Y", sep = sep, collapse = "")  # using sep
   } else {
-    fmt <- paste("%Y", "%m", "%d", sep = sep, collapse = "")  # using sep
+    fmt <- paste("%Y", month_form, "%d", sep = sep, collapse = "")  # using sep
   }
   
   # Return formatted d: 
