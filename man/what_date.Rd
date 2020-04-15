@@ -4,7 +4,7 @@
 \alias{what_date}
 \title{What date is it?}
 \usage{
-what_date(when = NA, rev = FALSE, sep = "-")
+what_date(when = NA, rev = FALSE, sep = "-", month_form = "m")
 }
 \arguments{
 \item{when}{Date (as a scalar or vector).
@@ -17,6 +17,11 @@ Default: \code{rev = FALSE}.}
 
 \item{sep}{Character: Separator to use. 
 Default: \code{sep = "-"}.}
+
+\item{month_form}{Character: Month format. 
+Default: \code{month_form = "m"} for numeric month (01-12). 
+Use \code{month_form = "b"} for short month name 
+and \code{month_form = "B"} for full month name (in current locale).}
 }
 \description{
 \code{what_date} provides a satisficing version of 
@@ -33,11 +38,13 @@ what_date()
 what_date(sep = "/")
 what_date(rev = TRUE)
 what_date(rev = TRUE, sep = ".")
+what_date(rev = TRUE, sep = " ", month_form = "B")
 
 # with vector (of dates):
 ds <- c("2020-01-15 01:02:03 CET", "2020-12-31 14:15:16")
 what_date(ds)
 what_date(ds, rev = TRUE, sep = ".")
+what_date(ds, rev = TRUE, month_form = "b")
 
 }
 \seealso{
