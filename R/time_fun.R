@@ -259,23 +259,22 @@ what_time <- function(when = NA, seconds = FALSE, sep = ":"){
 #' Default: \code{sep = "-"}. 
 #' 
 #' @param month_form Character: Month format. 
-#' Default: \code{month_form = "%m"} for numeric month (01–12). 
-#' Use \code{month_form = "%b"} for abbreviated month name 
-#' and \code{month_form = "%B"} for full month name (in current locale). 
-#' 
-#' 
+#' Default: \code{month_form = "m"} for numeric month (01-12). 
+#' Use \code{month_form = "b"} for short month name 
+#' and \code{month_form = "B"} for full month name (in current locale).  
+#'  
 #' @examples
 #' what_date()  
 #' what_date(sep = "/")
 #' what_date(rev = TRUE)
 #' what_date(rev = TRUE, sep = ".")
-#' what_date(rev = TRUE, sep = " ", month_form = "%B")
+#' what_date(rev = TRUE, sep = " ", month_form = "B")
 #' 
 #' # with vector (of dates):
 #' ds <- c("2020-01-15 01:02:03 CET", "2020-12-31 14:15:16")
 #' what_date(ds)
 #' what_date(ds, rev = TRUE, sep = ".")
-#' what_date(ds, rev = TRUE, month_form = "%b")
+#' what_date(ds, rev = TRUE, month_form = "b")
 #' 
 #' @family date and time functions
 #' 
@@ -289,13 +288,17 @@ what_time <- function(when = NA, seconds = FALSE, sep = ":"){
 #' 
 #' @export
 
-what_date <- function(when = NA, rev = FALSE, sep = "-", month_form = "%m"){
+what_date <- function(when = NA, rev = FALSE, sep = "-", month_form = "m"){
   
   # Check when argument: 
   if (all(is.na(when))){
     d <- Sys.time()  # use current time
   } else {
     d <- as.Date(when)  # convert into Date 
+  }
+  
+  if (substr(month_form, 1, 1) != "%") {
+    month_form <- paste0("%", month_form)  # add % prefix
   }
   
   # Formatting instruction string:   
@@ -315,11 +318,13 @@ what_date <- function(when = NA, rev = FALSE, sep = "-", month_form = "%m"){
 # what_date(sep = "/")
 # what_date(rev = TRUE)
 # what_date(rev = TRUE, sep = ".")
+# what_date(rev = TRUE, sep = " ", month_form = "B")
 # 
 # # with vector (of dates):
 # ds <- c("2020-01-15 01:02:03 CET", "2020-12-31 14:15:16")
 # what_date(ds)
 # what_date(ds, rev = TRUE, sep = ".")
+# what_date(ds, rev = TRUE, month_form = "b")
 
 
 # what_day: What day is it? (name or number) ------ 
