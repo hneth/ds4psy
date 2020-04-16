@@ -1,5 +1,5 @@
 ## time_fun.R | ds4psy
-## hn | uni.kn | 2020 04 15
+## hn | uni.kn | 2020 04 16
 ## ---------------------------
 
 ## Functions for date and time objects. 
@@ -814,10 +814,6 @@ what_year <- function(when = Sys.time(), abbr = FALSE, as_integer = FALSE){
 # what_year("2020-01-01")
 # what_year(2020-01-01)
 
-
-
-
-
 ## Done: ----------
 
 # - Provided all what_ functions with a "when" argument that is set to Sys.time() by default.
@@ -826,6 +822,5 @@ what_year <- function(when = Sys.time(), abbr = FALSE, as_integer = FALSE){
 
 ## ToDo: ----------
 
-# - Document and export what_ functions. 
 
 ## eof. ----------------------
