@@ -6,14 +6,14 @@ citEntry(entry = "Manual",
          year         = "2020",
          organization = "Social Psychology and Decision Sciences, University of Konstanz",
          address      = "Konstanz, Germany",
-         note         = "R package (version 0.1.0.9020, February 2020); Textbook at <https://bookdown.org/hneth/ds4psy/>.",
+         note         = "R package (version 0.2.0, April 2020); Textbook at <https://bookdown.org/hneth/ds4psy/>.",
          url          = "https://CRAN.R-project.org/package=ds4psy",
 
          textVersion  =
            paste("Neth, H. (2020).",
                  "ds4psy: Data Science for Psychologists.",
                  "Social Psychology and Decision Sciences, University of Konstanz, Germany.",
-                 "R package (version 0.1.0.9020, February 2020); Textbook at <https://bookdown.org/hneth/ds4psy/>.",
+                 "R package (version 0.2.0, April 2020); Textbook at <https://bookdown.org/hneth/ds4psy/>.",
                  "Retrieved from <https://CRAN.R-project.org/package=ds4psy>.")
          )
          
