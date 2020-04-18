@@ -90,44 +90,44 @@ into a tibble and then plots all
 its characters as a tile plot (using \strong{ggplot2}).
 }
 \examples{
-# Create a temporary file "test.txt":
-cat("Hello world!", "This is a test.", 
-    "Can you see this text?", 
-    "Good! Please carry on...", 
-    file = "test.txt", sep = "\n")
+## Create a temporary file "test.txt":
+# cat("Hello world!", "This is a test.", 
+#     "Can you see this text?", 
+#     "Good! Please carry on...", 
+#     file = "test.txt", sep = "\n")
 
-# (a) Plot text (from file): 
-plot_text("test.txt")
+## (a) Plot text (from file): 
+# plot_text("test.txt")
 
-# Set colors, pal_extend, and case_sense:
-cols <- c("steelblue", "skyblue", "lightgrey")
-cols <- c("firebrick", "olivedrab", "steelblue", "orange", "gold")
-plot_text("test.txt", pal = cols, pal_extend = TRUE)
-plot_text("test.txt", pal = cols, pal_extend = FALSE)
-plot_text("test.txt", pal = cols, pal_extend = FALSE, case_sense = TRUE)
+## Set colors, pal_extend, and case_sense:
+# cols <- c("steelblue", "skyblue", "lightgrey")
+# cols <- c("firebrick", "olivedrab", "steelblue", "orange", "gold")
+# plot_text("test.txt", pal = cols, pal_extend = TRUE)
+# plot_text("test.txt", pal = cols, pal_extend = FALSE)
+# plot_text("test.txt", pal = cols, pal_extend = FALSE, case_sense = TRUE)
 
-# Customize text and grid options:
-plot_text("test.txt", col_lbl = "darkblue", cex = 4, family = "sans", fontface = 3,
-          pal = "gold1", pal_extend = TRUE, border_col = NA)
-plot_text("test.txt", family = "serif", cex = 6, lbl_rotate = TRUE,  
-          pal = NA, borders = FALSE)
-plot_text("test.txt", col_lbl = "white", pal = c("green3", "black"),
-          border_col = "black", border_size = .2)
+## Customize text and grid options:
+# plot_text("test.txt", col_lbl = "darkblue", cex = 4, family = "sans", fontface = 3,
+#           pal = "gold1", pal_extend = TRUE, border_col = NA)
+# plot_text("test.txt", family = "serif", cex = 6, lbl_rotate = TRUE,  
+#           pal = NA, borders = FALSE)
+# plot_text("test.txt", col_lbl = "white", pal = c("green3", "black"),
+#           border_col = "black", border_size = .2)
 
-# Color ranges:
-plot_text("test.txt", pal = c("red2", "orange", "gold"))
-plot_text("test.txt", pal = c("olivedrab4", "gold"))
+## Color ranges:
+# plot_text("test.txt", pal = c("red2", "orange", "gold"))
+# plot_text("test.txt", pal = c("olivedrab4", "gold"))
 
-unlink("test.txt")  # clean up (by deleting file).
+# unlink("test.txt")  # clean up (by deleting file).
  
 \donttest{
-# (b) Plot text (from file in subdir):
-plot_text("data-raw/txt/hello.txt")  # requires txt file
-plot_text(file = "data-raw/txt/ascii.txt", cex = 5, 
-          col_bg = "grey", char_bg = "-")
+## (b) Plot text (from file in subdir):
+# plot_text("data-raw/txt/hello.txt")  # requires txt file
+# plot_text(file = "data-raw/txt/ascii.txt", cex = 5, 
+#           col_bg = "grey", char_bg = "-")
          
-# (c) Plot text input (from console):
-plot_text()
+## (c) Plot text input (from console):
+# plot_text()
  
 }
 
