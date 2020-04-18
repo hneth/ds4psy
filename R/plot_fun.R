@@ -1,5 +1,5 @@
 ## plot_fun.R | ds4psy
-## hn | uni.kn | 2020 04 12
+## hn | uni.kn | 2020 04 18
 ## ---------------------------
 
 ## Functions for plotting. 
@@ -1066,7 +1066,7 @@ plot_fn <- function(x = NA,
 #'
 #' \code{plot_text} parses text 
 #' (from a file or from user input in Console) 
-#' into a tibble and then plots all 
+#' into a tibble \code{tb} and then plots all 
 #' its characters as a tile plot (using \strong{ggplot2}).
 #' 
 #' @param file The text file to read (or its path). 
@@ -1237,9 +1237,9 @@ plot_text <- function(file = "",  # "" read from console; "test.txt" read from f
   }
   
   # (1) Read text file into tibble: 
-  tb <- read_ascii(file = file, flip_y = TRUE)
-  nr_chars <- nrow(tb)
-  # tb  # 4debugging
+  tb_txt <- read_ascii(file = file, flip_y = TRUE)
+  nr_chars <- nrow(tb_txt)
+  # tb_txt  # 4debugging
   
   
   # (2) Determine frequency of chars:
@@ -1249,16 +1249,16 @@ plot_text <- function(file = "",  # "" read from console; "test.txt" read from f
     
     # # (A) char_freq as tibble:   
     # # Using dplyr + pipe:
-    # char_freq <- tb %>%
+    # char_freq <- tb_txt %>%
     #   dplyr::count(char) %>%   # Note: Upper- and lowercase are counted separately!
     #   dplyr::arrange(desc(n))
     # 
     # # # Without pipe:
-    # # t2 <- dplyr::count(tb, char)
+    # # t2 <- dplyr::count(tb_txt, char)
     # # char_freq <- dplyr::arrange(t2, desc(n))
     
     # (B) char_freq as named vector:
-    char_freq <- count_char(tb$char, case_sense = TRUE, rm_specials = FALSE, sort_freq = TRUE)
+    char_freq <- count_char(tb_txt$char, case_sense = TRUE, rm_specials = FALSE, sort_freq = TRUE)
     nr_unique_chars <- length(char_freq)
     
   } else {
@@ -1266,23 +1266,23 @@ plot_text <- function(file = "",  # "" read from console; "test.txt" read from f
     # (b) case-INsensitive match:
     
     # # (A) char_freq as tibble:   
-    # tb$char_lc <- tolower(tb$char)  # all in lowercase!
+    # tb_txt$char_lc <- tolower(tb_txt$char)  # all in lowercase!
     # 
     # # Using dplyr + pipe:
-    # char_freq <- tb %>%
+    # char_freq <- tb_txt %>%
     #   dplyr::count(char_lc) %>% # Note: Upper- and lowercase are counted together!
     #   dplyr::mutate(char = char_lc) %>%
     #   dplyr::select(char, n) %>%
     #   dplyr::arrange(desc(n))
     # 
     # # # Without pipe:
-    # # t2 <- dplyr::count(tb, char_lc)
+    # # t2 <- dplyr::count(tb_txt, char_lc)
     # # t3 <- dplyr::mutate(t2, char = char_lc)
     # # t4 <- dplyr::select(t3, char, n)
     # # char_freq <- dplyr::arrange(t4, desc(n))
     
     # (B) char_freq as named vector:
-    char_freq <- count_char(tb$char, case_sense = FALSE, rm_specials = FALSE, sort_freq = TRUE)
+    char_freq <- count_char(tb_txt$char, case_sense = FALSE, rm_specials = FALSE, sort_freq = TRUE)
     nr_unique_chars <- length(char_freq)
     
   }
@@ -1338,7 +1338,7 @@ plot_text <- function(file = "",  # "" read from console; "test.txt" read from f
   # print(col_pal)  # 4debugging
   
   
-  # (5) Use color palette to create a color map for frequent chars of tb:
+  # (5) Use color palette to create a color map for frequent chars of tb_txt:
   col_map <- rep(col_bg, nr_chars)       # initialize color map
   n_replace <- min(nr_colors, nr_unique_chars)  # limit number of replacements 
   # print(n_replace)  # 4debugging
@@ -1351,11 +1351,11 @@ plot_text <- function(file = "",  # "" read from console; "test.txt" read from f
     # (B) char_freq as named vector:  
     cur_char <- names(char_freq)[i]  # i-th char
     
-    # Determine positions ix in tb$char that correspond to cur_char:
+    # Determine positions ix in tb_txt$char that correspond to cur_char:
     if (case_sense){  
-      ix <- which(tb$char == cur_char)  # case-sensitive match
+      ix <- which(tb_txt$char == cur_char)  # case-sensitive match
     } else {
-      ix <- which(tolower(tb$char) == cur_char)  # case-insensitive match
+      ix <- which(tolower(tb_txt$char) == cur_char)  # case-insensitive match
     }
     
     # use i-th color in col_pal for ALL col_map positions at [ix]:
@@ -1372,11 +1372,12 @@ plot_text <- function(file = "",  # "" read from console; "test.txt" read from f
     char_angles <- 0
   }
   
+  
   # (6) Use ggplot2: 
-  cur_plot <- ggplot2::ggplot(data = tb, aes(x = tb$x, y = tb$y)) +
+  cur_plot <- ggplot2::ggplot(data = tb_txt, aes(x = tb_txt$x, y = tb_txt$y)) +
     ggplot2::geom_tile(aes(), fill = col_map, color = brd_col, size = brd_size,  # tiles (with borders, opt.)
                        height = height, width = width) +  
-    ggplot2::geom_text(aes(label = tb$char), color = col_lbl, size = cex, 
+    ggplot2::geom_text(aes(label = tb_txt$char), color = col_lbl, size = cex, 
                        fontface = fontface, family = family, angle = char_angles) + 
     ggplot2::coord_equal() + 
     # theme: 
@@ -1387,7 +1388,7 @@ plot_text <- function(file = "",  # "" read from console; "test.txt" read from f
   # (7) plot plot: 
   cur_plot
   
-  # (+) return(invisible(tb))
+  # (+) return(invisible(tb_txt))
   
 } # plot_text. 
 
