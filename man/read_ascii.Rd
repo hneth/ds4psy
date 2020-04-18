@@ -34,24 +34,24 @@ The \bold{here} package is used to determine
 the (absolute) file path.
 }
 \examples{
-# Create a temporary file "test.txt":
-cat("Hello world!", "This is a test.", 
-    "Can you see this text?", 
-    "Good! Please carry on...", 
-    file = "test.txt", sep = "\n")
+## Create a temporary file "test.txt":
+# cat("Hello world!", "This is a test.", 
+#     "Can you see this text?", 
+#     "Good! Please carry on...", 
+#     file = "test.txt", sep = "\n")
 
-# (a) Read text (from file): 
-read_ascii("test.txt")
-read_ascii("test.txt", flip_y = TRUE)  # y flipped
+## (a) Read text (from file): 
+# read_ascii("test.txt")
+# read_ascii("test.txt", flip_y = TRUE)  # y flipped
 
-unlink("test.txt")  # clean up (by deleting file).
+# unlink("test.txt")  # clean up (by deleting file).
  
 \donttest{
-# (b) Read text (from file in subdir):
-read_ascii("data-raw/txt/ascii.txt")  # requires txt file
+## (b) Read text (from file in subdir):
+# read_ascii("data-raw/txt/ascii.txt")  # requires txt file
 
-# (c) Scan user input (from console):
-read_ascii()
+## (c) Scan user input (from console):
+# read_ascii()
 }
 
 }
