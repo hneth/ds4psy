@@ -1,24 +1,33 @@
 
-# ds4psy 0.1.0.9010+
-
-The current development version of **ds4psy** (0.1.0.9000+) is hosted at <https://github.com/hneth/ds4psy/>. 
+# ds4psy 0.2.0.9000+
 
 <!-- Description: --> 
 
-All datasets and functions required for the examples and exercises of the book "Data Science for Psychologists" (by Hansjoerg Neth, Konstanz University, 2019), available at <https://bookdown.org/hneth/ds4psy/>. The book and course introduce principles and methods of data science to students of psychology and other biological or social sciences. The 'ds4psy' package primarily provides datasets, but also functions for data generation and manipulation (e.g., of text and time data) and graphics that are used in the book and its exercises. All functions included in 'ds4psy' are designed to be instructive and entertaining, rather than elegant or efficient.
+All datasets and functions required for the examples and exercises of the book "Data Science for Psychologists" (by Hansjoerg Neth, Konstanz University, 2020), available at <https://bookdown.org/hneth/ds4psy/>. The book and course introduce principles and methods of data science to students of psychology and other biological or social sciences. The 'ds4psy' package primarily provides datasets, but also functions for data generation and manipulation (e.g., of text and time data) and graphics that are used in the book and its exercises. All functions included in 'ds4psy' are designed to be instructive and entertaining, rather than elegant or efficient.
+
+<!-- Source code: --> 
+
+The current development version of **ds4psy** (0.2.0.9000+) is hosted at <https://github.com/hneth/ds4psy/>. 
+
+
+-------- 
+
+# ds4psy 0.2.0
+
+Release of **ds4psy** (0.2.0) on CRAN: <https://CRAN.R-project.org/package=ds4psy> is planned for April 2020. [2020-04-20] 
 
 ## Major changes 
 
 Changes involving new functionality include:
 
+- added random data generation functions (e.g., for `coin()` flips and `dice()` throws)
+- added `is.wholenumber()` to test for integer values (mentioned in R oddities)
 - added `plot_text()` plotting function  
 - added `read_ascii()` and `count_char()` text processing functions 
 - added `caseflip()` and `capitalize()` text processing functions 
-- added simple date and time functions (e.g., `cur_date()`, `cur_time()`)  
-- added random data generation functions (e.g., for `coin()` flips and `dice()` throws)
-- added random date and time generation functions (e.g., for `sample_dates()` and `sample_times()`)
-- added `is.wholenumber()` to test for integer values (mentioned in R oddities)  
-- added `cur_` and `what_` functions for simple date and time queries (for Chapter 10: Time data) 
+- added random date and time generation functions (e.g., for `sample_dates()` and `sample_times()`) 
+- added simple date and time functions (e.g., `cur_date()`, `cur_time()`, for Chapter 10: Time data) 
+- added `what_` functions for simple date and time queries (for Chapter 10: Time data) 
 
 ## Minor changes
 
@@ -28,22 +37,23 @@ Changes involving new functionality include:
 
 ## Details 
 
-- added documentation of datasets (in `data.R`)  
+- added documentations of datasets (in `data.R`)  
 - bug fix: Removed redundant code (from `plot_fun.R`)    
 - bug fix: Removed non-essential packages (from Imports)  
 
 ## To do
 
 - add graphical functions for _clock plots_ (including new book chapters)  
-- create ds4psy survey (to collect user data for examples)
-- add data with text, date, and time variables  
-- add an _ascii art_ option for converting strings or text into tile plots (with colored tiles)  
+- create a ds4psy survey (to collect user data for additional examples)
+- add more data with text, date, and time variables  
+- add an _ascii art_ option for converting strings or text into tile plots (with colored tiles) 
+
 
 -------- 
 
 # ds4psy 0.1.0
 
-- Initial release of **ds4psy** (0.1.0) on CRAN: <https://CRAN.R-project.org/package=ds4psy> [2019-08-10] 
+Initial release of **ds4psy** (0.1.0) on CRAN: <https://CRAN.R-project.org/package=ds4psy>. [2019-08-10] 
 
 ## Features
 
@@ -83,13 +93,15 @@ Details and cosmetics:
 
 - removed WPA abbreviations (for both exercises and solutions)
 - made figures smaller (e.g., a maximum of 75% of column width)
+- included _Preparation_ sections within _Introduction_ sections
+- use **unikn** color schemes (in most places)
+
 
 ## To do
 
 New content: 
 
 - add exercises on random data generation (`coin()` and `dice()`) to Chapter 1 or 11: Functions? 
-
 - add _factors_ to Basics chapter, or a chapter on _Factors_ (in Part 2: Data wrangling) 
 - add chapter on _Text strings_ (in Part 2: Data wrangling)
 - add chapter on _Dates and times_ (in Part 2: Data wrangling)
@@ -99,6 +111,6 @@ New content:
 
 Details and cosmetics:
 
-- include _Preparation_ sections within _Introduction_ sections
+- use a unified theme template for all plots
 
 <!-- eof. -->
