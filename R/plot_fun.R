@@ -1241,6 +1241,7 @@ plot_text <- function(file = "",  # "" read from console; "test.txt" read from f
   nr_chars <- nrow(tb)
   # tb  # 4debugging
   
+  
   # (2) Determine frequency of chars:
   if (case_sense){
     
