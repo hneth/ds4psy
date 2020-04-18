@@ -87,12 +87,11 @@ This package and the corresponding book are still being developed and are update
 
 -   There are 2 GitHub repositories to be distinguished:
 
-    -   The repository for the [ds4psy book](https://bookdown.org/hneth/ds4psy/) is <https://github.com/hneth/ds4psy> with an additional `_book` suffix.
+    -   The repository for the [ds4psy book](https://bookdown.org/hneth/ds4psy/) is <https://github.com/hneth/ds4psy> (with an additional `_book` suffix).
 
     -   The repository for the [ds4psy package](https://CRAN.R-project.org/package=ds4psy) is <https://github.com/hneth/ds4psy>.
 
--   The current course syllabus and raw versions of all data files used in examples and exercises are available at <http://rpository.com/ds4psy/>.
-
+<!-- - The current course syllabus and raw versions of all data files used in examples and exercises are available at <http://rpository.com/ds4psy/>. -->
 References
 ----------
 
@@ -157,7 +156,7 @@ Nr. | Topic       |
 -   Further resources on the [tidyverse](https://www.tidyverse.org/):
     -   See <https://www.tidyverse.org/articles/> for current developments
     -   See <https://www.tidyverse.org/learn/> for learning resources
--   See also the collection of links at the end of each chapter of the [ds4psy book](https://bookdown.org/hneth/ds4psy/) and <http://rpository.com/findr/>.
+-   See also the link collections at the end of each chapter of the [ds4psy book](https://bookdown.org/hneth/ds4psy/).
 
 #### R manuals and books
 
