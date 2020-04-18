@@ -108,7 +108,7 @@ This package and the corresponding book are still being developed and are update
 
 - There are 2 GitHub repositories to be distinguished:  
 
-    - The repository for the [ds4psy book](https://bookdown.org/hneth/ds4psy/) is <https://github.com/hneth/ds4psy_book>.  
+    - The repository for the [ds4psy book](https://bookdown.org/hneth/ds4psy/) is <https://github.com/hneth/ds4psy> with an additional `_book` suffix.  
 
     - The repository for the [ds4psy package](https://github.com/hneth/ds4psy/) is <https://github.com/hneth/ds4psy>.  
 
