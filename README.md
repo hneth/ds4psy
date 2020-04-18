@@ -55,8 +55,7 @@ Course Coordinates
 <a href="https://www.spds.uni-konstanz.de/"> <img src = "./inst/images/uniKn_logo.png" alt = "spds.uni.kn" width = "300px" align = "right" style = "width: 300px; float: right; border:20;"/> </a>
 
 -   PSY-15150, at the [University of Konstanz](https://www.uni-konstanz.de/) by [Hansjörg Neth](https://neth.de/) (<h.neth@uni.kn>, [SPDS](https://www.spds.uni-konstanz.de/), office D507).
--   Summer/Fall 2019: Mondays, 15:15–16:45.
--   Links to current [course syllabus](http://rpository.com/ds4psy/) | [ZeUS](https://zeus.uni-konstanz.de:443/hioserver/pages/startFlow.xhtml?_flowId=detailView-flow&unitId=5101&periodId=180) | [Ilias](https://ilias.uni-konstanz.de/ilias/goto_ilias_uni_crs_920241.html)
+-   Summer 2020: Mondays, 13:30–15:00, D522/online.
 -   The [ds4psy book](https://bookdown.org/hneth/ds4psy/) with examples and weekly programming exercises (WPAs) is available at <https://bookdown.org/hneth/ds4psy/>.
 
 Description
@@ -175,9 +174,9 @@ If you find these materials useful, or want to adopt or alter them for your purp
 
 To cite **ds4psy** in derivations and publications, please use:
 
--   Neth, H. (2019). ds4psy: Data Science for Psychologists.
+-   Neth, H. (2020). ds4psy: Data Science for Psychologists.
     Social Psychology and Decision Sciences, University of Konstanz, Germany.
-    Textbook and R package (version 0.1.0, August 10, 2019).
+    Textbook and R package (version 0.2.0, April 20, 2020).
     Retrieved from <https://bookdown.org/hneth/ds4psy/>.
 
 A **BibTeX** entry for LaTeX users is:
@@ -186,10 +185,10 @@ A **BibTeX** entry for LaTeX users is:
 @Manual{ds4psy,
   title = {ds4psy: Data Science for Psychologists},
   author = {Hansjörg Neth},
-  year = {2019},
+  year = {2020},
   organization = {Social Psychology and Decision Sciences, University of Konstanz},
   address = {Konstanz, Germany},
-  note = {Textbook and R package (version 0.1.0, August 10, 2019)},
+  note = {Textbook and R package (version 0.2.0, April 20, 2020)},
   url = {https://bookdown.org/hneth/ds4psy/} 
 }
 ```
@@ -204,6 +203,6 @@ The URL of the **ds4psy** R package is <https://CRAN.R-project.org/package=ds4ps
 <span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">**Data science for psychologists** (**ds4psy**)</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="https://neth.de" property="cc:attributionName" rel="cc:attributionURL">Hansjörg Neth</a> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.
 
 <!-- Update: -->
-\[Updated 2019-09-16 by [hn](https://neth.de).\]
+\[Updated 2020-04-18 by [hn](https://neth.de).\]
 
 <!-- eof. -->
