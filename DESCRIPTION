@@ -1,8 +1,8 @@
 Package: ds4psy
 Type: Package
 Title: Data Science for Psychologists 
-Version: 0.1.0.9023
-Date: 2020-04-16
+Version: 0.1.0.9024
+Date: 2020-04-18
 Authors@R: c(person("Hansjoerg", "Neth", role = c("aut", "cre"), email = "h.neth@uni.kn"))
 Author: Hansjoerg Neth [aut, cre]
 Maintainer: Hansjoerg Neth <h.neth@uni.kn>
