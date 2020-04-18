@@ -57,6 +57,7 @@ Course Coordinates
 -   PSY-15150, at the [University of Konstanz](https://www.uni-konstanz.de/) by [Hansjörg Neth](https://neth.de/) (<h.neth@uni.kn>, [SPDS](https://www.spds.uni-konstanz.de/), office D507).
 -   Summer 2020: Mondays, 13:30–15:00, D522/online.
 -   The [ds4psy book](https://bookdown.org/hneth/ds4psy/) with examples and weekly programming exercises (WPAs) is available at <https://bookdown.org/hneth/ds4psy/>.
+-   The [ds4psy package](https://CRAN.R-project.org/package=ds4psy) is available at <https://CRAN.R-project.org/package=ds4psy>.
 
 Description
 -----------
@@ -88,7 +89,7 @@ This package and the corresponding book are still being developed and are update
 
     -   The repository for the [ds4psy book](https://bookdown.org/hneth/ds4psy/) is <https://github.com/hneth/ds4psy> with an additional `_book` suffix.
 
-    -   The repository for the [ds4psy package](https://github.com/hneth/ds4psy/) is <https://github.com/hneth/ds4psy>.
+    -   The repository for the [ds4psy package](https://CRAN.R-project.org/package=ds4psy) is <https://github.com/hneth/ds4psy>.
 
 -   The current course syllabus and raw versions of all data files used in examples and exercises are available at <http://rpository.com/ds4psy/>.
 
@@ -112,7 +113,7 @@ Please install the following open-source programs on your computer:
 
 -   [R Studio](http://www.rstudio.com/) is an integrated development environment (IDE) for R.
 
--   R packages of the [tidyverse](https://www.tidyverse.org/), [ds4psy](https://github.com/hneth/ds4psy/), and [unikn](https://CRAN.R-project.org/package=unikn):
+-   R packages of the [tidyverse](https://www.tidyverse.org/), [ds4psy](https://CRAN.R-project.org/package=ds4psy), and [unikn](https://CRAN.R-project.org/package=unikn):
 
 ``` r
 # Tidyverse packages: 
