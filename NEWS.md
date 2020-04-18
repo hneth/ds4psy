@@ -72,7 +72,7 @@ This project has not yet been released (on CRAN or GitHub).
 
 - The current book draft is available at <https://bookdown.org/hneth/ds4psy/>. 
 
-- The current source code of the **ds4psy_book** project (0.0.0.9001+) is hosted at <https://github.com/hneth/ds4psy_book/>. 
+- The current source code of the **ds4psy_book** project (0.0.0.9001+) is hosted at <https://github.com/hneth/ds4psy> (with an additional suffix `_book`). 
 
 
 ## Log of changes made 
