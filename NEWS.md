@@ -39,7 +39,7 @@ Changes involving new functionality include:
 
 - added documentations of datasets (in `data.R`)  
 - bug fix: Removed redundant code (from `plot_fun.R`)    
-- bug fix: Removed non-essential packages (from Imports)  
+- bug fix: Removed non-required `tidyverse` packages (from Imports)  
 
 ## To do
 
