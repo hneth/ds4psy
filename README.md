@@ -294,9 +294,13 @@ The URL of the **ds4psy** R package is
 
 ### License
 
-<!-- <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" /></a> -->
+<!-- (a) online image: -->
 
-<a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src = "./images/CC_BY_NC_SA.png" /></a>
+<a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" /></a>
+
+<!-- (b) local image: -->
+
+<!-- <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src = "./images/CC_BY_NC_SA.png" /></a> -->
 
 <span xmlns:dct="http://purl.org/dc/terms/" data-property="dct:title">**Data
 science for psychologists** (**ds4psy**)</span> by
