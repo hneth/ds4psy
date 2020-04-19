@@ -15,7 +15,8 @@ table7
 \code{table7} is a fictitious dataset to practice tidying data.
 }
 \details{
-This dataset is a variant of the \code{tidyr::table1} to \code{tidyr::table5} dataset.
+This dataset is a variant of the \code{table1} to \code{table5} datasets 
+of the \bold{tidyr} package.
 }
 \seealso{
 Other datasets: 
