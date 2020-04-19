@@ -522,11 +522,10 @@
 #'
 #' \code{table6} is a fictitious dataset to practice tidying data.
 #' 
-#' This dataset is a variant of the \code{tidyr::table1} to \code{tidyr::table5} dataset.   
+#' This dataset is a variant of the \code{table1} to \code{table5} datasets 
+#' of the \bold{tidyr} package.   
 #' 
 #' @format A tibble with 6 cases (rows) and 2 variables (columns). 
-#' 
-#' @import tidyr
 #' 
 #' @family datasets
 #' 
@@ -555,13 +554,12 @@
 #'
 #' \code{table7} is a fictitious dataset to practice tidying data.
 #' 
-#' This dataset is a variant of the \code{tidyr::table1} to \code{tidyr::table5} dataset.   
+#' This dataset is a variant of the \code{table1} to \code{table5} datasets 
+#' of the \bold{tidyr} package.    
 #' 
 #' @format A tibble with 6 cases (rows) and 1 (horrendous) variable (column). 
 #' 
 #' @family datasets
-#' 
-#' @import tidyr
 #' 
 #' @source 
 #' See CSV data at \url{http://rpository.com/ds4psy/data/table7.csv}. 
@@ -588,13 +586,12 @@
 #'
 #' \code{table8} is a fictitious dataset to practice tidying data.
 #' 
-#' This dataset is a variant of the \code{tidyr::table1} to \code{tidyr::table5} dataset.   
+#' This dataset is a variant of the \code{table1} to \code{table5} datasets 
+#' of the \bold{tidyr} package.     
 #' 
 #' @format A tibble with 3 cases (rows) and 5 variables (columns). 
 #' 
 #' @family datasets
-#' 
-#' @import tidyr
 #' 
 #' @source 
 #' See CSV data at \url{http://rpository.com/ds4psy/data/table8.csv}. 
