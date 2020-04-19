@@ -14,7 +14,7 @@ The current development version of **ds4psy** (0.2.0.9000+) is hosted at <https:
 
 # ds4psy 0.2.0
 
-Release of **ds4psy** (0.2.0) on CRAN: <https://CRAN.R-project.org/package=ds4psy> is planned for April 2020. [2020-04-20] 
+Release of **ds4psy** (0.2.0) on CRAN: <https://CRAN.R-project.org/package=ds4psy>. [2020-04-20] 
 
 ## Major changes 
 
