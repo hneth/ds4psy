@@ -1,5 +1,5 @@
 
-# ds4psy 0.2.0.9000+
+# ds4psy 0.2.0.9001+
 
 <!-- Description: --> 
 
@@ -7,7 +7,22 @@ All datasets and functions required for the examples and exercises of the book "
 
 <!-- Source code: --> 
 
-The current development version of **ds4psy** (0.2.0.9000+) is hosted at <https://github.com/hneth/ds4psy/>. 
+The current development version of **ds4psy** (0.2.0.9001+) is hosted at <https://github.com/hneth/ds4psy/>. 
+
+## Major changes 
+
+## Minor changes
+
+## Details 
+
+- bug fix: Removed packages not used in this version (i.e., `dplyr`, and `magrittr`) from declared Imports 
+
+## To do
+
+- add graphical functions for _clock plots_ (including new book chapters)  
+- create a ds4psy survey (to collect user data for additional examples)
+- add more data with text, date, and time variables  
+- add an _ascii art_ option for converting strings or text into tile plots (with colored tiles) 
 
 
 -------- 
@@ -40,13 +55,6 @@ Changes involving new functionality include:
 - added documentations of datasets (in `data.R`)  
 - bug fix: Removed redundant code (from `plot_fun.R`)    
 - bug fix: Removed packages not used in this version (i.e., `readr`, `stringr`, `tidyr`, and `tidyverse`) from declared Imports
-
-## To do
-
-- add graphical functions for _clock plots_ (including new book chapters)  
-- create a ds4psy survey (to collect user data for additional examples)
-- add more data with text, date, and time variables  
-- add an _ascii art_ option for converting strings or text into tile plots (with colored tiles) 
 
 
 -------- 
