@@ -9,6 +9,7 @@ output: github_document
 [![CRAN_status](http://www.r-pkg.org/badges/version/ds4psy)](https://CRAN.R-project.org/package=ds4psy) 
 [![Downloads](http://cranlogs.r-pkg.org/badges/ds4psy?color=brightgreen)](http://www.r-pkg.org/pkg/ds4psy) 
 
+
 <!-- Possible status badges:
 
 [![CRAN_status](http://www.r-pkg.org/badges/version/ds4psy)](https://CRAN.R-project.org/package=ds4psy) 
@@ -55,7 +56,7 @@ install.packages('ds4psy')  # install ds4psy from CRAN client
 library('ds4psy')           # load to use the package
 ```
 
-The current development version can be installed from its [GitHub](https://github.com) repository at <https://github.com/hneth/ds4psy/>: 
+The current development version of **ds4psy** can be installed from its [GitHub](https://github.com) repository at <https://github.com/hneth/ds4psy/>: 
 
 ```{r install_github, echo = TRUE, eval = FALSE}
 # install.packages('devtools')  # (if not installed yet)
@@ -63,7 +64,7 @@ devtools::install_github('hneth/ds4psy')
 library('ds4psy')  # load to use the package
 ```
 
-The most recent version of the [ds4psy book](https://bookdown.org/hneth/ds4psy/) is freely available at <https://bookdown.org/hneth/ds4psy/>. 
+The most recent version of the [ds4psy book](https://bookdown.org/hneth/ds4psy/) is available at <https://bookdown.org/hneth/ds4psy/>. 
 
 
 ## Course Coordinates
@@ -205,11 +206,11 @@ If you find these materials useful, or want to adopt or alter them for your purp
 
 ### Citation
 
-To cite **ds4psy** in derivations and publications, please use:
+To cite **ds4psy** in derivations and publications, please use:  
 
 - Neth, H. (2020). ds4psy: Data Science for Psychologists.  
 Social Psychology and Decision Sciences, University of Konstanz, Germany.  
-Textbook and R package (version 0.2.0, April 20, 2020).  
+Textbook and R package (version 0.2.0, April 20, 2020).   
 Retrieved from <https://bookdown.org/hneth/ds4psy/>. 
 
 A **BibTeX** entry for LaTeX users is: 
@@ -227,6 +228,7 @@ A **BibTeX** entry for LaTeX users is:
 ```
 
 The URL of the **ds4psy** R package is <https://CRAN.R-project.org/package=ds4psy>.
+
 
 ### License
 

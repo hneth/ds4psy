@@ -37,7 +37,7 @@ install.packages('ds4psy')  # install ds4psy from CRAN client
 library('ds4psy')           # load to use the package
 ```
 
-The current development version can be installed from its [GitHub](https://github.com) repository at <https://github.com/hneth/ds4psy/>:
+The current development version of **ds4psy** can be installed from its [GitHub](https://github.com) repository at <https://github.com/hneth/ds4psy/>:
 
 ``` r
 # install.packages('devtools')  # (if not installed yet)
@@ -45,7 +45,7 @@ devtools::install_github('hneth/ds4psy')
 library('ds4psy')  # load to use the package
 ```
 
-The most recent version of the [ds4psy book](https://bookdown.org/hneth/ds4psy/) is freely available at <https://bookdown.org/hneth/ds4psy/>.
+The most recent version of the [ds4psy book](https://bookdown.org/hneth/ds4psy/) is available at <https://bookdown.org/hneth/ds4psy/>.
 
 Course Coordinates
 ------------------
