@@ -1,5 +1,5 @@
 ## text_fun.R | ds4psy
-## hn | uni.kn | 2020 04 13
+## hn | uni.kn | 2020 04 20
 ## ---------------------------
 
 ## Functions for text/string objects. 
