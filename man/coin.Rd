@@ -27,7 +27,7 @@ coin()
 table(coin(n = 100))
 table(coin(n = 100, events = LETTERS[1:3]))
 
-#' Note an oddity:
+# Note an oddity:
 coin(10, events = 8:9)  # works as expected, but 
 coin(10, events = 9:9)  # odd: see sample() for an explanation.
 
