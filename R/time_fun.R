@@ -1,5 +1,5 @@
 ## time_fun.R | ds4psy
-## hn | uni.kn | 2020 04 18
+## hn | uni.kn | 2020 04 20
 ## ---------------------------
 
 ## Functions for date and time objects. 
@@ -397,7 +397,7 @@ what_day <- function(when = Sys.time(), unit = "week", abbr = FALSE, as_integer 
   }
   
   # initialize:
-  d <- NA
+  d <- as.character(NA) 
   
   # get day d (as char):
   if (unit == "w"){  # unit "week": 
