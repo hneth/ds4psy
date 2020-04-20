@@ -4,7 +4,9 @@
 \name{table6}
 \alias{table6}
 \title{Data table6.}
-\format{A tibble with 6 cases (rows) and 2 variables (columns).}
+\format{
+A tibble with 6 cases (rows) and 2 variables (columns).
+}
 \source{
 See CSV data at \url{http://rpository.com/ds4psy/data/table6.csv}.
 }

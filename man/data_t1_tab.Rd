@@ -4,7 +4,9 @@
 \name{data_t1_tab}
 \alias{data_t1_tab}
 \title{Data import data_t1_tab.}
-\format{A tibble with 20 cases (rows) and 4 variables (columns).}
+\format{
+A tibble with 20 cases (rows) and 4 variables (columns).
+}
 \source{
 See TAB-delimited data at \url{http://rpository.com/ds4psy/data/data_t1_tab.csv}.
 }

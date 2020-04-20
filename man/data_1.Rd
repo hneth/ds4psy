@@ -4,7 +4,9 @@
 \name{data_1}
 \alias{data_1}
 \title{Data import data_1.}
-\format{A tibble with 100 cases (rows) and 4 variables (columns).}
+\format{
+A tibble with 100 cases (rows) and 4 variables (columns).
+}
 \source{
 See DELIMITED data at \url{http://rpository.com/ds4psy/data/data_1.dat}.
 }

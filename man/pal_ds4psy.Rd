@@ -4,7 +4,9 @@
 \name{pal_ds4psy}
 \alias{pal_ds4psy}
 \title{ds4psy default color palette.}
-\format{An object of class \code{data.frame} with 1 rows and 11 columns.}
+\format{
+An object of class \code{data.frame} with 1 rows and 11 columns.
+}
 \usage{
 pal_ds4psy
 }

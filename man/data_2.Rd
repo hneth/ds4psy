@@ -4,7 +4,9 @@
 \name{data_2}
 \alias{data_2}
 \title{Data import data_2.}
-\format{A tibble with 100 cases (rows) and 4 variables (columns).}
+\format{
+A tibble with 100 cases (rows) and 4 variables (columns).
+}
 \source{
 See FWF data at \url{http://rpository.com/ds4psy/data/data_2.dat}.
 }
