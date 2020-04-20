@@ -1,7 +1,7 @@
 Package: ds4psy
 Type: Package
 Title: Data Science for Psychologists 
-Version: 0.2.0.9000
+Version: 0.2.0.9001
 Date: 2020-04-20
 Authors@R: c(person("Hansjoerg", "Neth", role = c("aut", "cre"), email = "h.neth@uni.kn"))
 Author: Hansjoerg Neth [aut, cre]
@@ -10,10 +10,8 @@ Description: All datasets and functions required for the examples and exercises 
 Depends:
     R (>= 3.4.0)
 Imports:
-    dplyr,
     ggplot2,
     cowplot,
-    magrittr, 
     here,
     tibble,
     unikn
@@ -36,5 +34,5 @@ License: CC BY-SA 4.0
 URL: https://bookdown.org/hneth/ds4psy/, https://github.com/hneth/ds4psy/
 BugReports: https://github.com/hneth/ds4psy/issues
 VignetteBuilder: knitr
-RoxygenNote: 7.0.2
+RoxygenNote: 7.1.0
 Language: en-US
