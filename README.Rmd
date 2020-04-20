@@ -9,7 +9,6 @@ output: github_document
 [![CRAN_status](http://www.r-pkg.org/badges/version/ds4psy)](https://CRAN.R-project.org/package=ds4psy) 
 [![Downloads](http://cranlogs.r-pkg.org/badges/ds4psy?color=brightgreen)](http://www.r-pkg.org/pkg/ds4psy) 
 
-
 <!-- Possible status badges:
 
 [![CRAN_status](http://www.r-pkg.org/badges/version/ds4psy)](https://CRAN.R-project.org/package=ds4psy) 
@@ -78,7 +77,7 @@ The most recent version of the [ds4psy book](https://bookdown.org/hneth/ds4psy/)
 * PSY-15150, at the [University of Konstanz](https://www.uni-konstanz.de/) by [Hansjörg Neth](https://neth.de/)  (<h.neth@uni.kn>, [SPDS](https://www.spds.uni-konstanz.de/), office D507).  
 * Summer 2020: Mondays, 13:30&ndash;15:00, D522/online.   
 * The [ds4psy book](https://bookdown.org/hneth/ds4psy/) with examples and weekly programming exercises (WPAs) is available at <https://bookdown.org/hneth/ds4psy/>.  
-* The [ds4psy package](https://CRAN.R-project.org/package=ds4psy) is available at <https://CRAN.R-project.org/package=ds4psy>.  
+* The R package [ds4psy](https://CRAN.R-project.org/package=ds4psy) is available at <https://CRAN.R-project.org/package=ds4psy>.  
 
 ## Description
 
