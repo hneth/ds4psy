@@ -4,6 +4,13 @@
 
 ## Functions for plotting. 
 
+## Global variables: ---------- 
+
+utils::globalVariables(c("x", "y")) # to avoid the NOTE "Undefined global functions or variables". 
+
+# Source: 
+# <https://community.rstudio.com/t/how-to-solve-no-visible-binding-for-global-variable-note/28887> 
+
 ## Plotting: ---------- 
 
 ## plot_tiles: Tile plots (of n x n tiles): -------- 
@@ -231,7 +238,7 @@ plot_tiles <- function(n = NA,
   }  # if (sort) etc.
   
   # create a n x n SQUARE of tiles:
-  cur_plot <- ggplot2::ggplot(cur_tb) + 
+  cur_plot <- ggplot2::ggplot(data = cur_tb) + 
     ggplot2::geom_tile(aes(x = x, y = y,  fill = !!sym(var_tile)), color = brd_col, size = brd_size) +  # tiles (with borders, opt.)
     ggplot2::geom_text(aes(x = x, y = y, label = !!sym(var_tile)), color = lbl_col, size = lbl_size) +  # labels (opt.) 
     ## Label (on top left): 
@@ -749,7 +756,7 @@ plot_n <- function(n = NA,
   if (row) {
     
     # create a ROW of tiles:
-    cur_plot <- ggplot2::ggplot(cur_tb) + 
+    cur_plot <- ggplot2::ggplot(data = cur_tb) + 
       ggplot2::geom_tile(aes(x = x, y = y,  fill = !!sym(var_tile)), color = brd_col, size = brd_size) +  # tiles (with borders, opt.)
       ggplot2::geom_text(aes(x = x, y = y, label = !!sym(var_tile)), color = lbl_col, size = lbl_size) +  # labels (opt.) 
       ## Label (on top left): 
@@ -769,9 +776,9 @@ plot_n <- function(n = NA,
   } else { # as col: 
     
     # create a COLUMN of tiles:
-    cur_plot <- ggplot2::ggplot(cur_tb) + 
-      ggplot2::geom_tile(aes(x = cur_tb$y, y = ((n + 1) - cur_tb$x),  fill = !!sym(var_tile)), color = brd_col, size = brd_size) +  # tiles (with borders, opt.)
-      ggplot2::geom_text(aes(x = cur_tb$y, y = ((n + 1) - cur_tb$x), label = !!sym(var_tile)), color = lbl_col, size = lbl_size) +  # labels (opt.) 
+    cur_plot <- ggplot2::ggplot(data = cur_tb) + 
+      ggplot2::geom_tile(aes(x = y, y = ((n + 1) - x),  fill = !!sym(var_tile)), color = brd_col, size = brd_size) +  # tiles (with borders, opt.)
+      ggplot2::geom_text(aes(x = y, y = ((n + 1) - x), label = !!sym(var_tile)), color = lbl_col, size = lbl_size) +  # labels (opt.) 
       ## Label (on top left): 
       ggplot2::annotate("text", x = x_lbl, y = y_lbl, label = cur_lbl, col = top_col, 
                         size = lbl_size_top, fontface = 1) +  # label (on top left)
@@ -1374,10 +1381,10 @@ plot_text <- function(file = "",  # "" read from console; "test.txt" read from f
   
   
   # (6) Use ggplot2: 
-  cur_plot <- ggplot2::ggplot(data = tb_txt, aes(x = tb_txt$x, y = tb_txt$y)) +
+  cur_plot <- ggplot2::ggplot(data = tb_txt, aes(x = x, y = y)) +
     ggplot2::geom_tile(aes(), fill = col_map, color = brd_col, size = brd_size,  # tiles (with borders, opt.)
                        height = height, width = width) +  
-    ggplot2::geom_text(aes(label = tb_txt$char), color = col_lbl, size = cex, 
+    ggplot2::geom_text(aes(label = char), color = col_lbl, size = cex, 
                        fontface = fontface, family = family, angle = char_angles) + 
     ggplot2::coord_equal() + 
     # theme: 
