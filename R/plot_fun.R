@@ -1,5 +1,5 @@
 ## plot_fun.R | ds4psy
-## hn | uni.kn | 2020 04 20
+## hn | uni.kn | 2020 04 21
 ## ---------------------------
 
 ## Functions for plotting. 
@@ -232,8 +232,8 @@ plot_tiles <- function(n = NA,
   
   # create a n x n SQUARE of tiles:
   cur_plot <- ggplot2::ggplot(cur_tb) + 
-    ggplot2::geom_tile(aes(x = cur_tb$x, y = cur_tb$y,  fill = !!sym(var_tile)), color = brd_col, size = brd_size) +  # tiles (with borders, opt.)
-    ggplot2::geom_text(aes(x = cur_tb$x, y = cur_tb$y, label = !!sym(var_tile)), color = lbl_col, size = lbl_size) +  # labels (opt.) 
+    ggplot2::geom_tile(aes(x = x, y = y,  fill = !!sym(var_tile)), color = brd_col, size = brd_size) +  # tiles (with borders, opt.)
+    ggplot2::geom_text(aes(x = x, y = y, label = !!sym(var_tile)), color = lbl_col, size = lbl_size) +  # labels (opt.) 
     ## Label (on top left): 
     ggplot2::annotate("text", x = x_lbl, y = y_lbl, label = cur_lbl, col = top_col, 
                       size = lbl_size_top, fontface = 1) +  # label (on top left)
@@ -750,8 +750,8 @@ plot_n <- function(n = NA,
     
     # create a ROW of tiles:
     cur_plot <- ggplot2::ggplot(cur_tb) + 
-      ggplot2::geom_tile(aes(x = cur_tb$x, y = cur_tb$y,  fill = !!sym(var_tile)), color = brd_col, size = brd_size) +  # tiles (with borders, opt.)
-      ggplot2::geom_text(aes(x = cur_tb$x, y = cur_tb$y, label = !!sym(var_tile)), color = lbl_col, size = lbl_size) +  # labels (opt.) 
+      ggplot2::geom_tile(aes(x = x, y = y,  fill = !!sym(var_tile)), color = brd_col, size = brd_size) +  # tiles (with borders, opt.)
+      ggplot2::geom_text(aes(x = x, y = y, label = !!sym(var_tile)), color = lbl_col, size = lbl_size) +  # labels (opt.) 
       ## Label (on top left): 
       ggplot2::annotate("text", x = x_lbl, y = y_lbl, label = cur_lbl, col = top_col, 
                         size = lbl_size_top, fontface = 1) +  # label (on top left)
