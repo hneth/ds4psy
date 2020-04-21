@@ -11,10 +11,16 @@ The current development version of **ds4psy** (0.2.0.9001+) is hosted at <https:
 
 ## Major changes 
 
+None. 
+
 ## Minor changes
+
+None. 
 
 ## Details 
 
+- bug fix: Removed `.data$...` elements from `aes()` in `ggplot` calls 
+- bug fix: Added `utils::globalVariables(...)` to avoid Warning NOTE "Undefined global functions or variables"
 - bug fix: Removed packages not used in this version (i.e., `dplyr`, and `magrittr`) from declared Imports 
 
 ## To do
