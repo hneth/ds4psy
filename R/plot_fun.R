@@ -6,7 +6,7 @@
 
 ## Global variables: ---------- 
 
-utils::globalVariables(c("x", "y")) # to avoid the NOTE "Undefined global functions or variables". 
+utils::globalVariables(c("x", "y", "char"))  # to avoid Warning NOTE "Undefined global functions or variables". 
 
 # Source: 
 # <https://community.rstudio.com/t/how-to-solve-no-visible-binding-for-global-variable-note/28887> 
