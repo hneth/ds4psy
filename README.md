@@ -1,8 +1,11 @@
 
 <!-- README.md is generated from README.Rmd. Please edit THIS (Rmd) file. -->
-<!-- Use status badges: -->
-[![CRAN\_status](http://www.r-pkg.org/badges/version/ds4psy)](https://CRAN.R-project.org/package=ds4psy) [![Downloads](http://cranlogs.r-pkg.org/badges/ds4psy?color=brightgreen)](http://www.r-pkg.org/pkg/ds4psy)
+<!-- Use status badges: 
 
+[![CRAN_status](http://www.r-pkg.org/badges/version/ds4psy)](https://CRAN.R-project.org/package=ds4psy) 
+[![Downloads](http://cranlogs.r-pkg.org/badges/ds4psy?color=brightgreen)](http://www.r-pkg.org/pkg/ds4psy) 
+
+-->
 <!-- Possible status badges:
 
 [![CRAN_status](http://www.r-pkg.org/badges/version/ds4psy)](https://CRAN.R-project.org/package=ds4psy) 
@@ -197,14 +200,15 @@ The URL of the **ds4psy** R package is <https://CRAN.R-project.org/package=ds4ps
 
 ### License
 
-<!-- (a) online image: -->
-<a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" /></a>
+<!-- (a) Use online image: -->
+<!-- <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" /></a> -->
+<!-- (b) Use local image: -->
+<a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src = "./images/CC_BY_NC_SA.png" /></a>
 
-<!-- (b) local image: -->
-<!-- <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src = "./images/CC_BY_NC_SA.png" /></a> -->
+<!-- License text:  -->
 <span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">**Data science for psychologists** (**ds4psy**)</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="https://neth.de" property="cc:attributionName" rel="cc:attributionURL">Hansjörg Neth</a> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.
 
 <!-- Update: -->
-\[Updated 2020-04-20 by [hn](https://neth.de).\]
+\[Updated 2020-04-22 by [hn](https://neth.de).\]
 
 <!-- eof. -->
