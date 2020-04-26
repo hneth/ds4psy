@@ -25,6 +25,13 @@ None.
 
 ## To do
 
+Critical:
+
+- Add the 4 messy table versions of ficticious experiment data (used in 
+Exercise 1 of Chapter 6: Tidying data **Four messes and one tidy table**) to the package. 
+
+Optional:
+
 - add graphical functions for _clock plots_ (including new book chapters)  
 - create a ds4psy survey (to collect user data for additional examples)
 - add more data with text, date, and time variables  
