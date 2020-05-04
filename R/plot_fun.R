@@ -1,5 +1,5 @@
 ## plot_fun.R | ds4psy
-## hn | uni.kn | 2020 04 21
+## hn | uni.kn | 2020 05 04
 ## ---------------------------
 
 ## Functions for plotting. 
@@ -66,19 +66,17 @@ utils::globalVariables(c("x", "y", "char"))  # to avoid Warning NOTE "Undefined 
 #' # (1) Tile plot:
 #' plot_tiles()  # default plot (random n, with borders, no labels)
 #' 
-#' plot_tiles(n =  6, sort = FALSE)      # random order
-#' plot_tiles(n =  8, borders = FALSE)   # no borders
-#' plot_tiles(n = 10, lbl_tiles = TRUE)  # with tile labels 
-#' plot_tiles(n = 10, lbl_title = TRUE)  # with title label 
+#' plot_tiles(n = 4, sort = FALSE)      # random order
+#' plot_tiles(n = 6, borders = FALSE)   # no borders
+#' plot_tiles(n = 8, lbl_tiles = TRUE,  # with tile + 
+#'            lbl_title = TRUE)         # title labels 
 #' 
 #' # Set colors: 
-#' plot_tiles(n = 3, pal = c("steelblue", "white", "black"),
-#'            lbl_tiles = TRUE, sort = TRUE)
-#' plot_tiles(n = 5, pal = c("orange", "white", "firebrick"),
+#' plot_tiles(n = 4, pal = c("orange", "white", "firebrick"),
 #'            lbl_tiles = TRUE, lbl_title = TRUE,
 #'            sort = TRUE)
-#' plot_tiles(n = 10, sort = FALSE, border_col = "white", border_size = 2)
-#'   
+#' plot_tiles(n = 6, sort = FALSE, border_col = "white", border_size = 2)
+#'
 #' # Fixed rseed:
 #' plot_tiles(n = 4, sort = FALSE, borders = FALSE, 
 #'            lbl_tiles = TRUE, lbl_title = TRUE, 
@@ -87,14 +85,12 @@ utils::globalVariables(c("x", "y", "char"))  # to avoid Warning NOTE "Undefined 
 #' # (2) polar plot:  
 #' plot_tiles(polar = TRUE)  # default polar plot (with borders, no labels)
 #' 
-#' plot_tiles(n =  6, polar = TRUE, sort = FALSE)      # random order
-#' plot_tiles(n =  8, polar = TRUE, borders = FALSE)   # no borders
-#' plot_tiles(n = 10, polar = TRUE, lbl_tiles = TRUE)  # with tile labels 
-#' plot_tiles(n = 10, polar = TRUE, lbl_title = TRUE)  # with title label 
-#' 
+#' plot_tiles(n = 4, polar = TRUE, sort = FALSE)   # random order
+#' plot_tiles(n = 6, polar = TRUE, sort = TRUE,    # sorted and with 
+#'            lbl_tiles = TRUE, lbl_title = TRUE)  # tile + title labels 
 #' plot_tiles(n = 4, sort = FALSE, borders = TRUE,  
 #'            border_col = "white", border_size = 2, 
-#'            polar = TRUE, rseed = 132)
+#'            polar = TRUE, rseed = 132)           # fixed rseed
 #'  
 #' @family plot functions
 #'
@@ -534,18 +530,16 @@ plot_fun <- function(a = NA,
 #' plot_n()  # default plot (random n, row = TRUE, with borders, no labels)
 #' plot_n(row = FALSE)  # default plot (random n, with borders, no labels)
 #' 
-#' plot_n(n =  6, sort = FALSE)      # random order
-#' plot_n(n =  8, borders = FALSE)   # no borders
-#' plot_n(n = 10, lbl_tiles = TRUE)  # with tile labels 
-#' plot_n(n = 10, lbl_title = TRUE)  # with title label 
+#' plot_n(n = 4, sort = FALSE)      # random order
+#' plot_n(n = 6, borders = FALSE)   # no borders
+#' plot_n(n = 8, lbl_tiles = TRUE,  # with tile + 
+#'        lbl_title = TRUE)         # title labels 
 #' 
 #' # Set colors: 
-#' plot_n(n = 3, pal = c("forestgreen", "white", "black"),
-#'        lbl_tiles = TRUE, sort = TRUE)
 #' plot_n(n = 5, row = FALSE,  
 #'        pal = c("orange", "white", "firebrick"),
 #'        lbl_tiles = TRUE, lbl_title = TRUE, sort = TRUE)
-#' plot_n(n = 10, sort = FALSE, border_col = "white", border_size = 2)
+#' plot_n(n = 6, sort = FALSE, border_col = "white", border_size = 2)
 #'   
 #' # Fixed rseed:
 #' plot_n(n = 4, sort = FALSE, borders = FALSE, 
@@ -554,11 +548,11 @@ plot_fun <- function(a = NA,
 #' # (2) polar plot (as PIE or TARGET):    
 #' plot_n(polar = TRUE)  # PIE plot (with borders, no labels)
 #' plot_n(polar = TRUE, row = FALSE)  # TARGET plot (with borders, no labels)
-#'  
+#' 
 #' plot_n(n = 4, polar = TRUE, sort = FALSE)      # PIE in random order
 #' plot_n(n = 5, polar = TRUE, row = FALSE, borders = FALSE)   # TARGET no borders
-#' plot_n(n = 7, polar = TRUE, lbl_tiles = TRUE)  # PIE with tile labels 
-#' plot_n(n = 7, polar = TRUE, row = FALSE, lbl_title = TRUE)  # TARGET with title label 
+#' plot_n(n = 5, polar = TRUE, lbl_tiles = TRUE)  # PIE with tile labels 
+#' plot_n(n = 5, polar = TRUE, row = FALSE, lbl_title = TRUE)  # TARGET with title label 
 #' 
 #' plot_n(n = 4, row = TRUE, sort = FALSE, borders = TRUE,  
 #'        border_col = "white", border_size = 2, 
