@@ -58,7 +58,6 @@ what_date(ds, rev = TRUE, month_form = "b")
 Other date and time functions: 
 \code{\link{cur_date}()},
 \code{\link{cur_time}()},
-\code{\link{what_day_alt}()},
 \code{\link{what_day}()},
 \code{\link{what_month}()},
 \code{\link{what_time}()},
