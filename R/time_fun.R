@@ -355,28 +355,28 @@ what_date <- function(when = NA, rev = FALSE, sep = "-", month_form = "m"){
 #' Default: \code{as_integer = FALSE}. 
 #' 
 #' @examples
-#' # what_day_alt()
-#' # what_day_alt(abbr = TRUE)
-#' # what_day_alt(as_integer = TRUE)
+#' what_day_alt()
+#' what_day_alt(abbr = TRUE)
+#' what_day_alt(as_integer = TRUE)
 #' 
-#' ## Work with vectors (when as characters):
-#' # ds <- c("2020-01-01", "2020-02-29", "2020-12-24", "2020-12-31")
-#' # what_day_alt(when = ds)
-#' # what_day_alt(when = ds, unit = "month", as_integer = TRUE)
-#' # what_day_alt(when = ds, unit = "year", as_integer = TRUE)
+#' # Work with vectors (when as characters):
+#' ds <- c("2020-01-01", "2020-02-29", "2020-12-24", "2020-12-31")
+#' what_day_alt(when = ds)
+#' what_day_alt(when = ds, unit = "month", as_integer = TRUE)
+#' what_day_alt(when = ds, unit = "year", as_integer = TRUE)
 #'
 #'  
 #' @family date and time functions
 #' 
 #' @seealso 
+#' \code{what_day()} for a simpler version (only weekdays); 
 #' \code{what_date()} function to obtain dates; 
 #' \code{what_time()} function to obtain times; 
 #' \code{cur_time()} function to print the current time; 
 #' \code{cur_date()} function to print the current date; 
-#' \code{now()} function of the \strong{lubridate} package; 
 #' \code{Sys.time()} function of \strong{base} R. 
 #' 
-#'
+#' @export 
 
 what_day_alt <- function(when = Sys.time(), unit = "week", abbr = FALSE, as_integer = FALSE){
   

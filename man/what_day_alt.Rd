@@ -50,11 +50,11 @@ what_day_alt(when = ds, unit = "year", as_integer = TRUE)
  
 }
 \seealso{
+\code{what_day()} for a simpler version (only weekdays); 
 \code{what_date()} function to obtain dates; 
 \code{what_time()} function to obtain times; 
 \code{cur_time()} function to print the current time; 
 \code{cur_date()} function to print the current date; 
-\code{now()} function of the \strong{lubridate} package; 
 \code{Sys.time()} function of \strong{base} R.
 
 Other date and time functions: 
