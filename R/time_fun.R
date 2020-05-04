@@ -355,15 +355,15 @@ what_date <- function(when = NA, rev = FALSE, sep = "-", month_form = "m"){
 #' Default: \code{as_integer = FALSE}. 
 #' 
 #' @examples
-#' what_day_alt()
-#' what_day_alt(abbr = TRUE)
-#' what_day_alt(as_integer = TRUE)
+#' # what_day_alt()
+#' # what_day_alt(abbr = TRUE)
+#' # what_day_alt(as_integer = TRUE)
 #' 
-#' # Work with vectors (when as characters):
-#' ds <- c("2020-01-01", "2020-02-29", "2020-12-24", "2020-12-31")
-#' what_day_alt(when = ds)
-#' what_day_alt(when = ds, unit = "month", as_integer = TRUE)
-#' what_day_alt(when = ds, unit = "year", as_integer = TRUE)
+#' ## Work with vectors (when as characters):
+#' # ds <- c("2020-01-01", "2020-02-29", "2020-12-24", "2020-12-31")
+#' # what_day_alt(when = ds)
+#' # what_day_alt(when = ds, unit = "month", as_integer = TRUE)
+#' # what_day_alt(when = ds, unit = "year", as_integer = TRUE)
 #'
 #'  
 #' @family date and time functions
@@ -403,6 +403,7 @@ what_day_alt <- function(when = Sys.time(), unit = "week", abbr = FALSE, as_inte
   if (unit == "w"){  # unit "week": 
     
     if (as_integer){
+      
       # Weekday as a decimal number (1–7, Mon=1): 
       d  <- format(when, "%u")  # WARN: r-devel-linux-x86_64-debian-clang!
       
@@ -417,16 +418,20 @@ what_day_alt <- function(when = Sys.time(), unit = "week", abbr = FALSE, as_inte
     }
     
   } else if (unit == "m") {  # unit "month": 
+    
     # Day of the month as decimal number (01–31): 
     d  <- format(when, "%d")  # WARN: r-devel-linux-x86_64-debian-clang!
     
     
   } else if (unit == "y") {  # unit "year": 
+    
     # Day of year as decimal number (001–366): 
     d  <- format(when, "%j")  # WARN: r-devel-linux-x86_64-debian-clang!
     
   } else {  # some other unit: 
+    
     message("Unknown unit. Using unit = 'month':")
+    
     # Day of the month as decimal number (01–31):
     d  <- format(when, "%d")  # WARN: r-devel-linux-x86_64-debian-clang!
     
