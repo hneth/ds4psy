@@ -279,7 +279,7 @@ what_time <- function(when = NA, seconds = FALSE, sep = ":"){
 #' @family date and time functions
 #' 
 #' @seealso 
-#' \code{what_day()} function to obtain days; 
+#' \code{what_day()} function to obtain (week)days; 
 #' \code{what_time()} function to obtain times; 
 #' \code{cur_time()} function to print the current time; 
 #' \code{cur_date()} function to print the current date; 
@@ -327,15 +327,15 @@ what_date <- function(when = NA, rev = FALSE, sep = "-", month_form = "m"){
 # what_date(ds, rev = TRUE, month_form = "b")
 
 
-# what_day: What day is it? (name or number) ------ 
-# what_day: as name (weekday, abbr or full), OR as number (in units of week, month, or year; as char or as integer) 
+# what_day_alt: What day is it? (name or number) ------ 
+# what_day_alt: as name (weekday, abbr or full), OR as number (in units of week, month, or year; as char or as integer) 
 
-#' What day is it?  
+#' What day is it? (alternative version)  
 #'
-#' \code{what_day} provides a satisficing version of 
+#' \code{what_day_alt} provides a satisficing version of 
 #' to determine the day corresponding to a given date.
 #' 
-#' \code{what_day} returns the day  
+#' \code{what_day_alt} returns the day  
 #' of \code{when} or \code{Sys.Date()} 
 #' (as a name or number).
 #' 
@@ -355,15 +355,15 @@ what_date <- function(when = NA, rev = FALSE, sep = "-", month_form = "m"){
 #' Default: \code{as_integer = FALSE}. 
 #' 
 #' @examples
-#' what_day()
-#' what_day(abbr = TRUE)
-#' what_day(as_integer = TRUE)
+#' what_day_alt()
+#' what_day_alt(abbr = TRUE)
+#' what_day_alt(as_integer = TRUE)
 #' 
 #' # Work with vectors (when as characters):
 #' ds <- c("2020-01-01", "2020-02-29", "2020-12-24", "2020-12-31")
-#' what_day(when = ds)
-#' what_day(when = ds, unit = "month", as_integer = TRUE)
-#' what_day(when = ds, unit = "year", as_integer = TRUE)
+#' what_day_alt(when = ds)
+#' what_day_alt(when = ds, unit = "month", as_integer = TRUE)
+#' what_day_alt(when = ds, unit = "year", as_integer = TRUE)
 #'
 #'  
 #' @family date and time functions
@@ -376,12 +376,141 @@ what_date <- function(when = NA, rev = FALSE, sep = "-", month_form = "m"){
 #' \code{now()} function of the \strong{lubridate} package; 
 #' \code{Sys.time()} function of \strong{base} R. 
 #' 
-#' @export
+#'
 
-what_day <- function(when = Sys.time(), unit = "week", abbr = FALSE, as_integer = FALSE){
+what_day_alt <- function(when = Sys.time(), unit = "week", abbr = FALSE, as_integer = FALSE){
   
   # Robustness:
   unit <- substr(tolower(unit), 1, 1)  # use only 1st letter of string
+  
+  # Convert when into objects of class "Date" representing calendar dates:
+  if ( any(class(when) != "Date") & !("POSIXct" %in% class(when)) ) {
+    message(paste0("what_day_alt: Using as.Date() to convert 'when' into class 'Date'."))
+    when <- as.Date(when)
+  }
+  
+  # Verify date/time input:
+  if ( any(class(when) != "Date") & !("POSIXct" %in% class(when)) ) {
+    message(paste0("what_day_alt: when must be of class 'Date' or 'POSIXct'."))
+    message(paste0("Currently, class(when) = ", class(when), ".")) 
+    return(when)
+  }
+  
+  # initialize:
+  d <- as.character(NA) 
+  
+  # get day d (as char):
+  if (unit == "w"){  # unit "week": 
+    
+    if (as_integer){
+      # Weekday as a decimal number (1–7, Mon=1): 
+      d  <- format(when, "%u")  # WARN: r-devel-linux-x86_64-debian-clang!
+      
+    } else {
+      
+      if (abbr){
+        d  <- format(when, "%a")  # Abbreviated weekday name in the current locale on this platform.
+      } else {
+        d  <- format(when, "%A")  # Full weekday name in the current locale.
+      }
+      
+    }
+    
+  } else if (unit == "m") {  # unit "month": 
+    # Day of the month as decimal number (01–31): 
+    d  <- format(when, "%d")  # WARN: r-devel-linux-x86_64-debian-clang!
+    
+    
+  } else if (unit == "y") {  # unit "year": 
+    # Day of year as decimal number (001–366): 
+    d  <- format(when, "%j")  # WARN: r-devel-linux-x86_64-debian-clang!
+    
+  } else {  # some other unit: 
+    message("Unknown unit. Using unit = 'month':")
+    # Day of the month as decimal number (01–31):
+    d  <- format(when, "%d")  # WARN: r-devel-linux-x86_64-debian-clang!
+    
+  } 
+  
+  # as char or integer:
+  if (as_integer) {
+    as.integer(d)
+  } else {
+    d
+  }
+  
+}  # what_day_alt end. 
+
+# ## Check:
+# what_day_alt()
+# what_day_alt(abbr = TRUE)
+# what_day_alt(as_integer = TRUE)
+# 
+# # Other dates/times:
+# d1 <- as.Date("2020-02-29")
+# what_day_alt(when = d1)
+# what_day_alt(when = d1, unit = "month", as_integer = TRUE)
+# what_day_alt(when = d1, unit = "year", as_integer = TRUE)
+# 
+# # Work with vectors (when as characters):
+# ds <- c("2020-01-01", "2020-02-29", "2020-12-24", "2020-12-31")
+# what_day_alt(when = ds)
+# what_day_alt(when = ds, unit = "month", as_integer = TRUE)
+# what_day_alt(when = ds, unit = "year", as_integer = TRUE)
+# 
+# # Note: Errors
+# what_day_alt(when = d1, unit = "asdf")
+# what_day_alt(when = "now")
+# what_day_alt(when = 123)
+
+### Simplified version: providing only the weekday (as a name): 
+
+# what_day: What day is it? (name or number) ------ 
+# what_day: as name (weekday, abbr or full), OR as number (in units of week, month, or year; as char or as integer) 
+
+#' What day (of the week) is it?  
+#'
+#' \code{what_day} provides a satisficing version of 
+#' to determine the day of the week 
+#' corresponding to a given date.
+#' 
+#' \code{what_day} returns the weekday  
+#' of \code{when} or \code{Sys.Date()} 
+#' (as a name).
+#' 
+#' @param when Date (as a scalar or vector).    
+#' Default: \code{when = NA}. 
+#' Using \code{as.Date(when)} to convert strings into dates, 
+#' and \code{Sys.Date()}, if \code{when = NA}.
+#' 
+#' @param abbr Boolean: Return abbreviated?  
+#' Default: \code{abbr = FALSE}. 
+#' 
+#' @examples
+#' what_day()
+#' what_day(abbr = TRUE)
+#' 
+#' # Work with vectors (when as characters):
+#' ds <- c("2020-01-01", "2020-02-29", "2020-12-24", "2020-12-31")
+#' what_day(when = ds)
+#' what_day(when = ds, abbr = TRUE)
+#'
+#' @family date and time functions
+#' 
+#' @seealso 
+#' \code{what_date()} function to obtain dates; 
+#' \code{what_time()} function to obtain times; 
+#' \code{cur_time()} function to print the current time; 
+#' \code{cur_date()} function to print the current date; 
+#' \code{now()} function of the \strong{lubridate} package; 
+#' \code{Sys.time()} function of \strong{base} R. 
+#' 
+#' @export
+
+what_day <- function(when = Sys.time(), abbr = FALSE){
+  
+  ## Robustness:
+  # unit <- substr(tolower(unit), 1, 1)  # use only 1st letter of string
   
   # Convert when into objects of class "Date" representing calendar dates:
   if ( any(class(when) != "Date") & !("POSIXct" %in% class(when)) ) {
@@ -396,70 +525,68 @@ what_day <- function(when = Sys.time(), unit = "week", abbr = FALSE, as_integer 
     return(when)
   }
   
-  # initialize:
+  # print(when)  # debugging
+  
+  ## initialize:
   d <- as.character(NA) 
   
-  # get day d (as char):
-  if (unit == "w"){  # unit "week": 
-    
-    if (as_integer){
-      
-      d  <- format(when, "%u")  # Weekday as a decimal number (1–7, Monday is 1).
-      
-    } else {
-      
-      if (abbr){
-        d  <- format(when, "%a")  # Abbreviated weekday name in the current locale on this platform.
-      } else {
-        d  <- format(when, "%A")  # Full weekday name in the current locale.
-      }
-      
-    }
-    
-  } else if (unit == "m") {  # unit "month": 
-    
-    d  <- format(when, "%d")  # Day of the month as decimal number (01–31).
-    
-    
-  } else if (unit == "y") {  # unit "year": 
-    
-    d  <- format(when, "%j")  # Day of year as decimal number (001–366).
-    
-  } else {  # some other unit: 
-    
-    message("Unknown unit. Using unit = 'month':")
-    d  <- format(when, "%d")  # Day of the month as decimal number (01–31).
-    
-  } 
+  ## get day d (as char):
+  # if (unit == "w"){  # unit "week": 
   
-  # as char or integer:
-  if (as_integer) {
-    as.integer(d)
+  # if (as_integer){
+  
+  # d  <- format(when, "%u")  # Weekday as a decimal number (1–7, Monday is 1).
+  
+  # } else {
+  
+  if (abbr){
+    d  <- format(when, "%a")  # Abbreviated weekday name in the current locale on this platform.
   } else {
-    d
+    d  <- format(when, "%A")  # Full weekday name in the current locale.
   }
+  
+  #}
+  
+  # } else if (unit == "m") {  # unit "month": 
+  
+  # d  <- format(when, "%d")  # Day of the month as decimal number (01–31).
+  
+  
+  # } else if (unit == "y") {  # unit "year": 
+  
+  # d  <- format(when, "%j")  # Day of year as decimal number (001–366).
+  
+  # } else {  # some other unit: 
+  
+  # message("Unknown unit. Using unit = 'month':")
+  # d  <- format(when, "%d")  # Day of the month as decimal number (01–31).
+  
+  # } 
+  
+  ## as char or integer:
+  # if (as_integer) {
+  #  as.integer(d)
+  # } else {
+  d
+  # }
   
 }  # what_day end. 
 
 # ## Check:
 # what_day()
 # what_day(abbr = TRUE)
-# what_day(as_integer = TRUE)
 # 
 # # Other dates/times:
 # d1 <- as.Date("2020-02-29")
 # what_day(when = d1)
-# what_day(when = d1, unit = "month", as_integer = TRUE)
-# what_day(when = d1, unit = "year", as_integer = TRUE)
+# what_day(when = d1, abbr = TRUE)
 # 
 # # Work with vectors (when as characters):
 # ds <- c("2020-01-01", "2020-02-29", "2020-12-24", "2020-12-31")
 # what_day(when = ds)
-# what_day(when = ds, unit = "month", as_integer = TRUE)
-# what_day(when = ds, unit = "year", as_integer = TRUE)
+# what_day(when = ds, abbr = TRUE)
 # 
 # # Note: Errors
-# what_day(when = d1, unit = "asdf")
 # what_day(when = "now")
 # what_day(when = 123)
 
@@ -505,7 +632,7 @@ what_day <- function(when = Sys.time(), unit = "week", abbr = FALSE, as_integer 
 #' @family date and time functions
 #' 
 #' @seealso 
-#' \code{what_day()} function to obtain days; 
+#' \code{what_day()} function to obtain (week)days; 
 #' \code{what_date()} function to obtain dates; 
 #' \code{cur_time()} function to print the current time; 
 #' \code{cur_date()} function to print the current date; 
