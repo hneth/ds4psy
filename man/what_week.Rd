@@ -45,7 +45,7 @@ what_week(when = ds, unit = "year", as_integer = TRUE)
  
 }
 \seealso{
-\code{what_day()} function to obtain days; 
+\code{what_day()} function to obtain (week)days; 
 \code{what_date()} function to obtain dates; 
 \code{cur_time()} function to print the current time; 
 \code{cur_date()} function to print the current date; 
@@ -56,6 +56,7 @@ Other date and time functions:
 \code{\link{cur_date}()},
 \code{\link{cur_time}()},
 \code{\link{what_date}()},
+\code{\link{what_day_alt}()},
 \code{\link{what_day}()},
 \code{\link{what_month}()},
 \code{\link{what_time}()},

@@ -2,9 +2,9 @@
 % Please edit documentation in R/time_fun.R
 \name{what_day}
 \alias{what_day}
-\title{What day is it?}
+\title{What day (of the week) is it?}
 \usage{
-what_day(when = Sys.time(), unit = "week", abbr = FALSE, as_integer = FALSE)
+what_day(when = Sys.time(), abbr = FALSE)
 }
 \arguments{
 \item{when}{Date (as a scalar or vector).
@@ -12,37 +12,28 @@ Default: \code{when = NA}.
 Using \code{as.Date(when)} to convert strings into dates, 
 and \code{Sys.Date()}, if \code{when = NA}.}
 
-\item{unit}{Character: Unit of day?
-Possible values are \code{"week", "month", "year"}. 
-Default: \code{unit = "week"} (for day within week).}
-
 \item{abbr}{Boolean: Return abbreviated?
 Default: \code{abbr = FALSE}.}
-
-\item{as_integer}{Boolean: Return as integer? 
-Default: \code{as_integer = FALSE}.}
 }
 \description{
 \code{what_day} provides a satisficing version of 
-to determine the day corresponding to a given date.
+to determine the day of the week 
+corresponding to a given date.
 }
 \details{
-\code{what_day} returns the day  
+\code{what_day} returns the weekday  
 of \code{when} or \code{Sys.Date()} 
-(as a name or number).
+(as a name).
 }
 \examples{
 what_day()
 what_day(abbr = TRUE)
-what_day(as_integer = TRUE)
 
 # Work with vectors (when as characters):
 ds <- c("2020-01-01", "2020-02-29", "2020-12-24", "2020-12-31")
 what_day(when = ds)
-what_day(when = ds, unit = "month", as_integer = TRUE)
-what_day(when = ds, unit = "year", as_integer = TRUE)
+what_day(when = ds, abbr = TRUE)
 
- 
 }
 \seealso{
 \code{what_date()} function to obtain dates; 
@@ -56,6 +47,7 @@ Other date and time functions:
 \code{\link{cur_date}()},
 \code{\link{cur_time}()},
 \code{\link{what_date}()},
+\code{\link{what_day_alt}()},
 \code{\link{what_month}()},
 \code{\link{what_time}()},
 \code{\link{what_week}()},
