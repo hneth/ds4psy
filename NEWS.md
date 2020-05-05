@@ -1,5 +1,5 @@
 
-# ds4psy 0.2.0.9001+
+# ds4psy 0.2.1.9001+
 
 <!-- Description: --> 
 
@@ -7,7 +7,15 @@ All datasets and functions required for the examples and exercises of the book "
 
 <!-- Source code: --> 
 
-The current development version of **ds4psy** (0.2.0.9001+) is hosted at <https://github.com/hneth/ds4psy/>. 
+The current development version of **ds4psy** (0.2.1.9001+) is hosted at <https://github.com/hneth/ds4psy/>. 
+
+-------- 
+
+# ds4psy 0.2.1
+
+Release of **ds4psy** (0.2.1) on CRAN: <https://CRAN.R-project.org/package=ds4psy> is pending. [2020-05-05] 
+
+This is a _maintenance release_ to fix some bugs. 
 
 ## Major changes 
 
@@ -17,18 +25,22 @@ None.
 
 None. 
 
+
 ## Details 
 
+- bug fix: Replaced `what_day` with a simpler version that omits `unit` and `as_integer` arguments 
+(to avoid WARN on CRAN for `r-devel-linux-x86_64-debian-clang`)
 - bug fix: Removed `.data$...` elements from `aes()` in `ggplot` calls 
 - bug fix: Added `utils::globalVariables(...)` to avoid Warning NOTE "Undefined global functions or variables"
 - bug fix: Removed packages not used in this version (i.e., `dplyr`, and `magrittr`) from declared Imports 
+
 
 ## To do
 
 Critical:
 
 - Add the 4 messy table versions of ficticious experiment data (used in 
-Exercise 1 of Chapter 6: Tidying data **Four messes and one tidy table**) to the package. 
+**Exercise 1** of **Chapter 6: Tidying data** **Four messes and one tidy table**) to the package. 
 
 Optional:
 
