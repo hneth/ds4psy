@@ -2,7 +2,7 @@ Package: ds4psy
 Type: Package
 Title: Data Science for Psychologists 
 Version: 0.2.1
-Date: 2020-05-04
+Date: 2020-05-05
 Authors@R: c(person("Hansjoerg", "Neth", role = c("aut", "cre"), email = "h.neth@uni.kn"))
 Author: Hansjoerg Neth [aut, cre]
 Maintainer: Hansjoerg Neth <h.neth@uni.kn>
@@ -18,7 +18,8 @@ Imports:
 Suggests:
     knitr, 
     rmarkdown,
-    spelling
+    spelling,
+    utf8
 Collate: 'util_fun.R'
          'color_fun.R'
          'data.R'
