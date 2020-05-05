@@ -1,5 +1,5 @@
 ## data.R | ds4psy
-## hn | uni.kn | 2020 01 29
+## hn | uni.kn | 2020 05 05
 ## ---------------------------
 
 ## Documentation of datasets included in /data. 
@@ -630,13 +630,81 @@
 "exp_wide"
 
 
+# (6) Chapter 7: Exercise 1: 'Four messes and one tidy table': ------ 
+
+# https://bookdown.org/hneth/ds4psy/7-4-tidy-ex.html#tidy:ex01
 
 
-# (6) Chapter 8: Joining data / dplyr: ---------- 
+# (6a): t_1.csv: ----- 
+
+#' Data t_1.
+#'
+#' \code{t_1} is a fictitious dataset to practice tidying data.
+#' 
+#' @format A tibble with 8 cases (rows) and 9 variables (columns). 
+#' 
+#' @family datasets
+#' 
+#' @source 
+#' See CSV data at \url{http://rpository.com/ds4psy/data/t_1.csv}. 
+
+"t_1"
+
+
+# (6b): t_2.csv: ----- 
+
+#' Data t_2.
+#'
+#' \code{t_2} is a fictitious dataset to practice tidying data.
+#' 
+#' @format A tibble with 8 cases (rows) and 5 variables (columns). 
+#' 
+#' @family datasets
+#' 
+#' @source 
+#' See CSV data at \url{http://rpository.com/ds4psy/data/t_2.csv}. 
+
+"t_2"
+
+
+# (6c): t_3.csv: ----- 
+
+#' Data t_3.
+#'
+#' \code{t_3} is a fictitious dataset to practice tidying data.
+#' 
+#' @format A tibble with 16 cases (rows) and 6 variables (columns). 
+#' 
+#' @family datasets
+#' 
+#' @source 
+#' See CSV data at \url{http://rpository.com/ds4psy/data/t_3.csv}. 
+
+"t_3"
+
+
+# (6d): t_4.csv: ----- 
+
+#' Data t_4.
+#'
+#' \code{t_4} is a fictitious dataset to practice tidying data.
+#' 
+#' @format A tibble with 16 cases (rows) and 8 variables (columns). 
+#' 
+#' @family datasets
+#' 
+#' @source 
+#' See CSV data at \url{http://rpository.com/ds4psy/data/t_4.csv}. 
+
+"t_4"
+
+
+
+# (7) Chapter 8: Joining data / dplyr: ---------- 
 
 # https://bookdown.org/hneth/ds4psy/8-3-join-essentials.html
 
-# (6a) data_t1.csv: ---- 
+# (7a) data_t1.csv: ---- 
 # Note: Same as (4a) above. 
 
 # data_t1 <- readr::read_csv("http://rpository.com/ds4psy/data/data_t1.csv")
@@ -653,7 +721,7 @@
 # See (4a) above.
 
 
-# (6b) data_t2.csv: ---- 
+# (7b) data_t2.csv: ---- 
 
 # data_t2 <- readr::read_csv(file = "http://rpository.com/ds4psy/data/data_t2.csv")
 # 
@@ -684,7 +752,7 @@
 
 # Exercise 1:
 
-# (6c) t3.csv: ---- 
+# (7c) t3.csv: ---- 
 
 # t3 <- readr::read_csv(file = "http://rpository.com/ds4psy/data/t3.csv")
 # 
@@ -713,7 +781,7 @@
 "t3"
 
 
-# (6d) t4.csv: ---- 
+# (7d) t4.csv: ---- 
 
 # t4 <- readr::read_csv(file = "http://rpository.com/ds4psy/data/t4.csv")
 # 
@@ -744,7 +812,7 @@
 
 # Exercise 3: 
 
-# (6e) data_t3.csv: ---- 
+# (7e) data_t3.csv: ---- 
 
 # data_t3 <- readr::read_csv(file = "http://rpository.com/ds4psy/data/data_t3.csv")
 # 
@@ -773,7 +841,7 @@
 "data_t3"
 
 
-# (6f) data_t4.csv: ---- 
+# (7f) data_t4.csv: ---- 
 
 # data_t4 <- readr::read_csv(file = "http://rpository.com/ds4psy/data/data_t4.csv")
 # 
@@ -803,13 +871,13 @@
 
 
 
-# (7) Text data: -------- 
+# (8) Text data: -------- 
 
 # ToDo: Find some book/text to analyze. 
 
 
 
-# (8) Time data: --------
+# (9) Time data: --------
 
 # Fame data (DOB and DOD of famous people):
 # Chapter 10 (Time data), Exercise 3
@@ -834,11 +902,11 @@
 
 
 
-# (9) Chapter 12: Iteration / loops: -------- 
+# (10) Chapter 12: Iteration / loops: -------- 
 
 # https://bookdown.org/hneth/ds4psy/10-3-iter-essentials.html
 
-# (7a) tb data: ------ 
+# (10a) tb data: ------ 
 
 # tb <- readr::read_csv2("http://rpository.com/ds4psy/data/tb.csv") 
 # 
@@ -886,7 +954,7 @@
 "tb"
 
 
-# (7b) pi data: ------ 
+# (10b) pi data: ------ 
 
 # https://bookdown.org/hneth/ds4psy/10-3-iter-essentials.html 
 # Orig. data source <http://www.geom.uiuc.edu/~huberty/math5337/groupe/digits.html>
