@@ -15,16 +15,17 @@ The current development version of **ds4psy** (0.2.1.9001+) is hosted at <https:
 
 Release of **ds4psy** (0.2.1) on CRAN: <https://CRAN.R-project.org/package=ds4psy> is pending. [2020-05-05] 
 
-This is a _maintenance release_ to fix some bugs. 
+This is a **maintenance release** to fix bugs on CRAN platforms and add some datasets. 
 
 ## Major changes 
 
-None. 
+- None. 
 
 ## Minor changes
 
-None. 
-
+- Added 4 messy table versions of ficticious experiment data (used in 
+*Exercise 1* of *Chapter 7: Tidying data* _Four messes and one tidy table_) to the package: 
+`t_1`--`t_4`. 
 
 ## Details 
 
@@ -39,15 +40,14 @@ None.
 
 Critical:
 
-- Add the 4 messy table versions of ficticious experiment data (used in 
-**Exercise 1** of **Chapter 6: Tidying data** **Four messes and one tidy table**) to the package. 
+- None. 
 
 Optional:
 
-- add graphical functions for _clock plots_ (including new book chapters)  
-- create a ds4psy survey (to collect user data for additional examples)
-- add more data with text, date, and time variables  
-- add an _ascii art_ option for converting strings or text into tile plots (with colored tiles) 
+- Add graphical functions for _clock plots_ (including new book chapters)  
+- Create a ds4psy survey (to collect user data for additional examples)
+- Add more data with text, date, and time variables  
+- Add an _ascii art_ option for converting strings or text into tile plots (with colored tiles) 
 
 
 -------- 
