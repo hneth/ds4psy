@@ -18,8 +18,7 @@ Imports:
 Suggests:
     knitr, 
     rmarkdown,
-    spelling,
-    utf8
+    spelling
 Collate: 'util_fun.R'
          'color_fun.R'
          'data.R'
