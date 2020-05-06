@@ -1,5 +1,5 @@
 ## data_fun.R | ds4psy
-## hn | uni.kn | 2020 04 21
+## hn | uni.kn | 2020 05 06
 ## ---------------------------
 
 ## Functions for creating and manipulating data. 
@@ -645,8 +645,6 @@ add_whats <- function(vec, amount, what = NA){
 # add_whats(1:10, .5, what = "ABC")
 
 
-
-
 ## (2) Make tables for plots: ----------
 
 # make_tb: Create (n x n) table tb for plots: --------
@@ -687,13 +685,26 @@ make_tb <- function(n = NA, rseed = NA){
   v_rand   <- rand_ord            # random permutation of v_sort
   col_rand <- col_sort[rand_ord]  # corresponding colors
   
-  # Tibble: 
-  tb <- tibble::tibble(x = rep(1:n_y, times = n_x),
-                       y = rep(n_x:1, each = n_y),
-                       sort = v_sort,
-                       rand = v_rand,
-                       col_sort = col_sort,
-                       col_rand = col_rand)
+  # x and y vectors: 
+  x_vec <- rep(1:n_y, times = n_x)
+  y_vec <- rep(n_x:1, each = n_y)
+  
+  # # (a) as tibble: 
+  # tb <- tibble::tibble(x = x_vec,
+  #                      y = y_vec,
+  #                      sort = v_sort,
+  #                      rand = v_rand,
+  #                      col_sort = col_sort,
+  #                      col_rand = col_rand)
+  
+  # (b) as data frame: 
+  tb <- data.frame(x = x_vec,
+                   y = y_vec,
+                   sort = v_sort,
+                   rand = v_rand,
+                   col_sort = col_sort,
+                   col_rand = col_rand, 
+                   stringsAsFactors = FALSE)
   
   return(tb)
   
@@ -743,13 +754,26 @@ make_tbs <- function(n = NA, rseed = NA){
   v_rand   <- rand_ord            # random permutation of v_sort
   col_rand <- col_sort[rand_ord]  # corresponding colors
   
-  # Tibble: 
-  tbs <- tibble::tibble(x = 1:n_x,        # rep(1:n_y, times = n_x),
-                        y = rep(1, n_x),  # rep(n_x:1, each = n_y),
-                        sort = v_sort,
-                        rand = v_rand,
-                        col_sort = col_sort,
-                        col_rand = col_rand)
+  # x and y vectors: 
+  x_vec <- 1:n_x 
+  y_vec <- rep(1, n_x)
+  
+  # # (a) as tibble: 
+  # tbs <- tibble::tibble(x = x_vec, 
+  #                       y = y_vec, 
+  #                       sort = v_sort,
+  #                       rand = v_rand,
+  #                       col_sort = col_sort,
+  #                       col_rand = col_rand)
+  
+  # (b) as data frame: 
+  tbs <- data.frame(x = x_vec, 
+                    y = y_vec, 
+                    sort = v_sort,
+                    rand = v_rand,
+                    col_sort = col_sort,
+                    col_rand = col_rand,
+                    stringsAsFactors = FALSE)
   
   return(tbs)
   
@@ -764,9 +788,10 @@ make_tbs <- function(n = NA, rseed = NA){
 
 # make_grid: Generate a grid of x-y coordinates (from -x:x to -y:y): ------ 
 
-#' Generate a grid of x-y coordinates (as a tibble). 
+#' Generate a grid of x-y coordinates. 
 #'
-#' \code{make_grid} generates a grid of x/y coordinates and returns it as a tibble.
+#' \code{make_grid} generates a grid of x/y coordinates and returns it 
+#' (as a data frame).
 #' 
 #' @param x_min Minimum x coordinate.  
 #' Default: \code{x_min = 0}. 
@@ -786,7 +811,7 @@ make_tbs <- function(n = NA, rseed = NA){
 #'
 #' @family data functions
 #'
-#' @import tibble
+#' 
 #' 
 #' @export 
 
@@ -819,7 +844,7 @@ make_grid <- function(x_min = 0, x_max = 2, y_min = 0, y_max = 1){
   xs <- x_min:x_max
   ys <- y_min:y_max
   
-  # vectors: 
+  # x and y vectors: 
   x_vec <- rep(xs, times = length(ys)) 
   y_vec <- rep(ys, each = length(xs))             
   

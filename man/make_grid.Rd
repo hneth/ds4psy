@@ -2,7 +2,7 @@
 % Please edit documentation in R/data_fun.R
 \name{make_grid}
 \alias{make_grid}
-\title{Generate a grid of x-y coordinates (as a tibble).}
+\title{Generate a grid of x-y coordinates.}
 \usage{
 make_grid(x_min = 0, x_max = 2, y_min = 0, y_max = 1)
 }
@@ -20,7 +20,8 @@ Default: \code{y_min = 0}.}
 Default: \code{y_max = 1}.}
 }
 \description{
-\code{make_grid} generates a grid of x/y coordinates and returns it as a tibble.
+\code{make_grid} generates a grid of x/y coordinates and returns it 
+(as a data frame).
 }
 \examples{
 make_grid()
