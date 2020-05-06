@@ -13,13 +13,14 @@ The current development version of **ds4psy** (0.2.1.9001+) is hosted at <https:
 
 # ds4psy 0.2.1
 
-Release of **ds4psy** (0.2.1) on CRAN: <https://CRAN.R-project.org/package=ds4psy> is pending. [2020-05-05] 
+Release of **ds4psy** (0.2.1) on CRAN: <https://CRAN.R-project.org/package=ds4psy> is pending. [2020-05-06] 
 
-This is a **maintenance release** to fix bugs on CRAN platforms and add some datasets. 
+This is a **maintenance release** to remove some dependencies, fix bugs on CRAN platforms, and add some datasets. 
 
 ## Major changes 
 
-- None. 
+- Removed dependencies on `here` and `tibble` packages 
+  (and removed these packages from declared Imports). 
 
 ## Minor changes
 
