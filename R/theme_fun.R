@@ -1,5 +1,5 @@
 ## theme_fun.R | ds4psy
-## hn | uni.kn | 2019 09 13
+## hn | uni.kn | 2020 05 06
 ## ---------------------------
 
 ## Functions for ggplot2 themes. 
