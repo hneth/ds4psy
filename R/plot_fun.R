@@ -1067,7 +1067,7 @@ plot_fn <- function(x = NA,
 #'
 #' \code{plot_text} parses text 
 #' (from a file or from user input in Console) 
-#' into a tibble and then plots all 
+#' into a table and then plots all 
 #' its characters as a tile plot (using \strong{ggplot2}).
 #' 
 #' @param file The text file to read (or its path). 
