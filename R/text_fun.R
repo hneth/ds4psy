@@ -1,5 +1,5 @@
 ## text_fun.R | ds4psy
-## hn | uni.kn | 2020 05 04
+## hn | uni.kn | 2020 05 06
 ## ---------------------------
 
 ## Functions for text/string objects. 
@@ -212,18 +212,19 @@ transl33t <- function(txt, rules = l33t_rul35,
 
 ## (2) Read ascii art into a tibble: ---------- 
 
-#' read_ascii parses text (from a file) into a tibble.
+#' read_ascii parses text (from a file) into a table. 
 #'
 #' \code{read_ascii} parses text 
 #' (from a file or from user input in Console) 
-#' into a tibble that contains a row for each character. 
+#' into a table that contains a row for each character. 
 #' 
-#' \code{read_ascii} creates a tibble with 3 variables: 
+#' \code{read_ascii} creates a data frame with 3 variables: 
 #' Each character's \code{x}- and \code{y}-coordinates (from top to bottom)  
 #' and a variable \code{char} for the character at this coordinate. 
 #' 
-#' The \bold{here} package is used to determine 
-#' the (absolute) file path. 
+#' The \code{getwd} function is used to determine the current 
+#' working directory. This replaces the \bold{here} package, 
+#' which was used to determine an (absolute) file path. 
 #' 
 #' @param file The text file to read (or its path). 
 #' If \code{file = ""} (the default), \code{scan} is used 
@@ -264,8 +265,6 @@ transl33t <- function(txt, rules = l33t_rul35,
 #' @seealso
 #' \code{\link{plot_text}} for a corresponding plot function. 
 #' 
-#' @import here
-#' @import tibble
 #' 
 #' @export
 
@@ -282,7 +281,12 @@ read_ascii <- function(file = "", flip_y = FALSE){
     if (substr(file, 1, 1) == "/") {file <- substr(file, 2, nchar(file))}
     # ToDo: Use regex to do this more efficiently!
     
-    cur_file <- here::here(file)  # absolute path to text file
+    ## (a) using here: 
+    # cur_file <- here::here(file)  # absolute path to text file
+    
+    # (b) using getwd():
+    cur_wd   <- getwd()
+    cur_file <- paste0(cur_wd, "/", file) 
     
   } else {  # no file path given:
     
@@ -364,9 +368,13 @@ read_ascii <- function(file = "", flip_y = FALSE){
   
   # options(warn = 0)  # back to default
   
-  # # Initialize a data frame (to store all characters as rows):  
-  # df <- data.frame(x, y, char)
-  tb <- tibble::tibble(x, y, char)
+  # # Initialize a table (to store all characters as rows):  
+  # # (a) as tibble:
+  # tb <- tibble::tibble(x, y, char)
+  
+  # (b) as data frame: 
+  tb <- data.frame(x, y, char,
+                   stringsAsFactors = FALSE)
   
   # (8) Return: 
   return(tb)
