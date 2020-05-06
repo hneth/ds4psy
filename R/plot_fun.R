@@ -98,8 +98,7 @@ utils::globalVariables(c("x", "y", "char"))  # to avoid Warning NOTE "Undefined 
 #' \code{\link{pal_ds4psy}} for default color palette. 
 #' 
 #' @import ggplot2
-#' @import grDevices
-#' @import here
+#' @import grDevices 
 #' @import unikn
 #' @importFrom cowplot theme_nothing 
 #' 
@@ -295,7 +294,13 @@ plot_tiles <- function(n = NA,
     # suffix <- ""  # "_ds4psy" "_190731" # ""  # (e.g., "_ds4psy")
     
     plot_name <- paste0(prefix, coord, num, sort_rand, brds, lbls, titl, suffix, filext)
-    full_name <- here(save_path, plot_name)
+    
+    ## (a) using the here package: 
+    # full_name <- here::here(save_path, plot_name)
+    
+    # (b) using getwd() instead:
+    cur_wd   <- getwd()
+    full_name <- paste0(cur_wd, "/", save_path, "/", plot_name)  
     
     # Parameters (currently fixed):
     # plot_size <-  5.0  # SMALL:  in cm (used in ggsave below): normal (small) size
@@ -568,7 +573,6 @@ plot_fun <- function(a = NA,
 #' 
 #' @import ggplot2
 #' @import grDevices
-#' @import here
 #' @import unikn
 #' @importFrom cowplot theme_nothing 
 #' 
@@ -842,7 +846,13 @@ plot_n <- function(n = NA,
     # suffix <- ""  # "_ds4psy" "_190731" # ""  # (e.g., "_ds4psy")
     
     plot_name <- paste0(prefix, p_type, coord, num, sort_rand, brds, lbls, titl, suffix, filext)
-    full_name <- here(save_path, plot_name)
+    
+    ## (a) using the here package: 
+    # full_name <- here::here(save_path, plot_name)
+    
+    # (b) using getwd() instead:
+    cur_wd   <- getwd()
+    full_name <- paste0(cur_wd, "/", save_path, "/", plot_name) 
     
     # Parameters (currently fixed):
     # plot_size <-  5.0  # SMALL:  in cm (used in ggsave below): normal (small) size
@@ -1175,11 +1185,10 @@ plot_fn <- function(x = NA,
 #' @family plot functions
 #'
 #' @seealso
-#' \code{\link{read_ascii}} for reading text into a tibble; 
+#' \code{\link{read_ascii}} for reading text into a table; 
 #' \code{\link{pal_ds4psy}} for default color palette. 
 #' 
 #' @import ggplot2
-#' @import tibble 
 #' @importFrom grDevices colorRampPalette 
 #' @importFrom cowplot theme_nothing
 #' @importFrom stats runif
@@ -1237,7 +1246,7 @@ plot_text <- function(file = "",  # "" read from console; "test.txt" read from f
     brd_size <- NA  # hide label
   }
   
-  # (1) Read text file into tibble: 
+  # (1) Read text file into a table: 
   tb_txt <- read_ascii(file = file, flip_y = TRUE)
   nr_chars <- nrow(tb_txt)
   # tb_txt  # 4debugging
@@ -1248,7 +1257,7 @@ plot_text <- function(file = "",  # "" read from console; "test.txt" read from f
     
     # (a) case-sensitive match: 
     
-    # # (A) char_freq as tibble:   
+    # # (A) char_freq as table:   
     # # Using dplyr + pipe:
     # char_freq <- tb_txt %>%
     #   dplyr::count(char) %>%   # Note: Upper- and lowercase are counted separately!
@@ -1266,7 +1275,7 @@ plot_text <- function(file = "",  # "" read from console; "test.txt" read from f
     
     # (b) case-INsensitive match:
     
-    # # (A) char_freq as tibble:   
+    # # (A) char_freq as table:   
     # tb_txt$char_lc <- tolower(tb_txt$char)  # all in lowercase!
     # 
     # # Using dplyr + pipe:
@@ -1293,7 +1302,7 @@ plot_text <- function(file = "",  # "" read from console; "test.txt" read from f
   # (3) If char_bg is defined && NOT the most frequent in char_freq: Make it the most frequent character:
   if (!is.na(char_bg) && (names(char_freq)[1] != char_bg)){
     
-    # # (A) char_freq as tibble:    
+    # # (A) char_freq as table:    
     # # Set counter of char_freq$n for char_bg to a maximum value:
     # char_freq$n[char_freq$char == char_bg] <- max(1000, (max(char_freq$n) + 1))
     # 
@@ -1308,7 +1317,7 @@ plot_text <- function(file = "",  # "" read from console; "test.txt" read from f
   }
   # print(char_freq)  # 4debugging
   
-  # # (A) char_freq as tibble:   
+  # # (A) char_freq as table:   
   # nr_char_freq <- nrow(char_freq)
   
   # (B) char_freq as named vector:
@@ -1346,7 +1355,7 @@ plot_text <- function(file = "",  # "" read from console; "test.txt" read from f
   
   for (i in 1:n_replace){
     
-    # # (A) char_freq as tibble:  
+    # # (A) char_freq as table:  
     # cur_char <- char_freq$char[i]  # i-th most freq char
     
     # (B) char_freq as named vector:  

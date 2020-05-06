@@ -224,7 +224,7 @@ transl33t <- function(txt, rules = l33t_rul35,
 #' 
 #' The \code{getwd} function is used to determine the current 
 #' working directory. This replaces the \bold{here} package, 
-#' which was used to determine an (absolute) file path. 
+#' which was previously used to determine an (absolute) file path. 
 #' 
 #' @param file The text file to read (or its path). 
 #' If \code{file = ""} (the default), \code{scan} is used 
@@ -281,10 +281,10 @@ read_ascii <- function(file = "", flip_y = FALSE){
     if (substr(file, 1, 1) == "/") {file <- substr(file, 2, nchar(file))}
     # ToDo: Use regex to do this more efficiently!
     
-    ## (a) using here: 
+    ## (a) using the here package: 
     # cur_file <- here::here(file)  # absolute path to text file
     
-    # (b) using getwd():
+    # (b) using getwd() instead:
     cur_wd   <- getwd()
     cur_file <- paste0(cur_wd, "/", file) 
     
