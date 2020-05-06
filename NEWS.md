@@ -19,7 +19,7 @@ This is a **maintenance release** to remove some dependencies, fix bugs on CRAN 
 
 ## Major changes 
 
-- Removed dependencies on `here` and `tibble` packages 
+- Removed dependencies on the `here` and `tibble` packages 
   (and removed these packages from declared Imports). 
 
 ## Minor changes
