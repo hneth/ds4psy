@@ -133,7 +133,7 @@ its characters as a tile plot (using \strong{ggplot2}).
 
 }
 \seealso{
-\code{\link{read_ascii}} for reading text into a tibble; 
+\code{\link{read_ascii}} for reading text into a table; 
 \code{\link{pal_ds4psy}} for default color palette.
 
 Other plot functions: 

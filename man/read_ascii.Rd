@@ -32,7 +32,7 @@ and a variable \code{char} for the character at this coordinate.
 
 The \code{getwd} function is used to determine the current 
 working directory. This replaces the \bold{here} package, 
-which was used to determine an (absolute) file path.
+which was previously used to determine an (absolute) file path.
 }
 \examples{
 ## Create a temporary file "test.txt":
