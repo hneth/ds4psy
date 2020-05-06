@@ -5,7 +5,7 @@
 \alias{table8}
 \title{Data table8.}
 \format{
-A tibble with 3 cases (rows) and 5 variables (columns).
+A table with 3 cases (rows) and 5 variables (columns).
 }
 \source{
 See CSV data at \url{http://rpository.com/ds4psy/data/table8.csv}.

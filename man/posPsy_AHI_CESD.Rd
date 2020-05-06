@@ -5,7 +5,7 @@
 \alias{posPsy_AHI_CESD}
 \title{Positive Psychology: AHI CESD data.}
 \format{
-A tibble with 992 cases (rows) and 50 variables (columns).
+A table with 992 cases (rows) and 50 variables (columns).
 }
 \source{
 \strong{Articles}

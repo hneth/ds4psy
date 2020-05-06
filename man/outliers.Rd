@@ -5,7 +5,7 @@
 \alias{outliers}
 \title{Outlier data.}
 \format{
-A tibble with 100 cases (rows) and 3 variables (columns).
+A table with 100 cases (rows) and 3 variables (columns).
 }
 \source{
 See CSV data at \url{http://rpository.com/ds4psy/data/out.csv}.

@@ -5,7 +5,7 @@
 \alias{exp_wide}
 \title{Data exp_wide.}
 \format{
-A tibble with 10 cases (rows) and 7 variables (columns).
+A table with 10 cases (rows) and 7 variables (columns).
 }
 \source{
 See CSV data at \url{http://rpository.com/ds4psy/data/exp_wide.csv}.

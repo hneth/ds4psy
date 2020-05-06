@@ -5,7 +5,7 @@
 \alias{posPsy_p_info}
 \title{Positive Psychology: Participant data.}
 \format{
-A tibble with 295 cases (rows) and 6 variables (columns).
+A table with 295 cases (rows) and 6 variables (columns).
 }
 \source{
 \strong{Articles}

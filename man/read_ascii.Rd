@@ -2,7 +2,7 @@
 % Please edit documentation in R/text_fun.R
 \name{read_ascii}
 \alias{read_ascii}
-\title{read_ascii parses text (from a file) into a tibble.}
+\title{read_ascii parses text (from a file) into a table.}
 \usage{
 read_ascii(file = "", flip_y = FALSE)
 }
@@ -23,15 +23,16 @@ Default: \code{flip_y = FALSE}.}
 \description{
 \code{read_ascii} parses text 
 (from a file or from user input in Console) 
-into a tibble that contains a row for each character.
+into a table that contains a row for each character.
 }
 \details{
-\code{read_ascii} creates a tibble with 3 variables: 
+\code{read_ascii} creates a data frame with 3 variables: 
 Each character's \code{x}- and \code{y}-coordinates (from top to bottom)  
 and a variable \code{char} for the character at this coordinate. 
 
-The \bold{here} package is used to determine 
-the (absolute) file path.
+The \code{getwd} function is used to determine the current 
+working directory. This replaces the \bold{here} package, 
+which was used to determine an (absolute) file path.
 }
 \examples{
 ## Create a temporary file "test.txt":

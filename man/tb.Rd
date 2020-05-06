@@ -5,7 +5,7 @@
 \alias{tb}
 \title{Data table tb.}
 \format{
-A tibble with 100 cases (rows) and 5 variables (columns).
+A table with 100 cases (rows) and 5 variables (columns).
 }
 \source{
 See CSV data at \url{http://rpository.com/ds4psy/data/tb.csv}.
@@ -30,7 +30,7 @@ tb
 
 \item 4. \strong{shoesize}: Shoesize (EU standard).
 
-\item 5. \strong{IQ}: IQ score (according Raven's Regressive Tibbles).
+\item 5. \strong{IQ}: IQ score (according Raven's Regressive Tables).
 
 } 
 

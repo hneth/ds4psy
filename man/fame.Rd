@@ -5,7 +5,7 @@
 \alias{fame}
 \title{Data table fame.}
 \format{
-A tibble with 38 cases (rows) and 4 variables (columns).
+A table with 38 cases (rows) and 4 variables (columns).
 }
 \source{
 Student solutions to exercises, dates from \url{https://en.wikipedia.org}.

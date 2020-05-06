@@ -5,7 +5,7 @@
 \alias{posPsy_long}
 \title{Positive Psychology: AHI CESD corrected data (in long format).}
 \format{
-A tibble with 990 cases (rows) and 50 variables (columns).
+A table with 990 cases (rows) and 50 variables (columns).
 }
 \source{
 \strong{Articles}

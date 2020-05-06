@@ -5,7 +5,7 @@
 \alias{t_2}
 \title{Data t_2.}
 \format{
-A tibble with 8 cases (rows) and 5 variables (columns).
+A table with 8 cases (rows) and 5 variables (columns).
 }
 \source{
 See CSV data at \url{http://rpository.com/ds4psy/data/t_2.csv}.

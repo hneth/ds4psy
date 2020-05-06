@@ -5,7 +5,7 @@
 \alias{falsePosPsy_all}
 \title{False Positive Psychology data.}
 \format{
-A tibble with 78 cases (rows) and 19 variables (columns):
+A table with 78 cases (rows) and 19 variables (columns):
 }
 \source{
 \strong{Articles}
