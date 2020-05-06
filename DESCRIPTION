@@ -2,7 +2,7 @@ Package: ds4psy
 Type: Package
 Title: Data Science for Psychologists 
 Version: 0.2.1
-Date: 2020-05-05
+Date: 2020-05-06
 Authors@R: c(person("Hansjoerg", "Neth", role = c("aut", "cre"), email = "h.neth@uni.kn"))
 Author: Hansjoerg Neth [aut, cre]
 Maintainer: Hansjoerg Neth <h.neth@uni.kn>
@@ -12,8 +12,6 @@ Depends:
 Imports:
     ggplot2,
     cowplot,
-    here,
-    tibble,
     unikn
 Suggests:
     knitr, 
