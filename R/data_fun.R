@@ -819,9 +819,18 @@ make_grid <- function(x_min = 0, x_max = 2, y_min = 0, y_max = 1){
   xs <- x_min:x_max
   ys <- y_min:y_max
   
-  # tibble:
-  tb <- tibble::tibble(x = rep(xs, times = length(ys)),
-                       y = rep(ys, each = length(xs)))
+  # vectors: 
+  x_vec <- rep(xs, times = length(ys)) 
+  y_vec <- rep(ys, each = length(xs))             
+  
+  ## (a) as tibble:
+  # tb <- tibble::tibble(x = x_vec,
+  #                      y = y_vec) 
+  
+  # (b) as data frame:
+  tb <- data.frame(x = x_vec, 
+                   y = y_vec,
+                   stringsAsFactors = FALSE)
   
   return(tb)
   
@@ -830,9 +839,12 @@ make_grid <- function(x_min = 0, x_max = 2, y_min = 0, y_max = 1){
 ## Check: 
 # make_grid()
 # make_grid(x_min = 0, x_max = 0, y_min = 1, y_max = 1)
+# Note: 
 # make_grid(x_min = 1, x_max = 0, y_min = 2, y_max = 1)
-# make_grid(x_min = "A")
 # make_grid(x_min = 1/2, y_min = 1/3)
+## Errors: 
+# make_grid(x_min = "A")
+
 
 
 
