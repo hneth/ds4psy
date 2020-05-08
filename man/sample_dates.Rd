@@ -37,10 +37,11 @@ sort(sample_dates(n = 10, from = "2020-01-01", to = "2020-01-01"))  # range of 0
 
 }
 \seealso{
-Other random functions: 
+Other sampling functions: 
 \code{\link{coin}()},
 \code{\link{dice_2}()},
 \code{\link{dice}()},
+\code{\link{sample_chars}()},
 \code{\link{sample_times}()}
 }
-\concept{random functions}
+\concept{sampling functions}

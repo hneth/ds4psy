@@ -46,10 +46,11 @@ sort(sample_times(n = 10, from = "2020-01-01 00:00:00 CET",
 
 }
 \seealso{
-Other random functions: 
+Other sampling functions: 
 \code{\link{coin}()},
 \code{\link{dice_2}()},
 \code{\link{dice}()},
+\code{\link{sample_chars}()},
 \code{\link{sample_dates}()}
 }
-\concept{random functions}
+\concept{sampling functions}

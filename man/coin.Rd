@@ -42,10 +42,11 @@ coin(NULL, NULL)
 
 }
 \seealso{
-Other random functions: 
+Other sampling functions: 
 \code{\link{dice_2}()},
 \code{\link{dice}()},
+\code{\link{sample_chars}()},
 \code{\link{sample_dates}()},
 \code{\link{sample_times}()}
 }
-\concept{random functions}
+\concept{sampling functions}
