@@ -9,6 +9,35 @@ All datasets and functions required for the examples and exercises of the book "
 
 The current development version of **ds4psy** (0.2.1.9001+) is hosted at <https://github.com/hneth/ds4psy/>. 
 
+## Major changes 
+
+- none.
+
+
+## Minor changes 
+
+- added `sample_chars()` function.  
+
+
+## Details 
+
+- renamed family of `random functions` to `sampling functions`.
+
+
+## To do
+
+Critical:
+
+- none. 
+
+Optional:
+
+- add graphical functions for _clock plots_ (including new book chapters)  
+- create a ds4psy survey (to collect user data for additional examples)
+- add more data with text, date, and time variables  
+- add an _ascii art_ option for converting strings or text into tile plots (with colored tiles) 
+
+
 -------- 
 
 # ds4psy 0.2.1
@@ -19,12 +48,12 @@ This is a **maintenance release** to remove some dependencies, fix bugs on CRAN 
 
 ## Major changes 
 
-- Removed dependencies on the `here` and `tibble` packages 
+- removed dependencies on the `here` and `tibble` packages 
   (and removed these packages from declared Imports). 
 
 ## Minor changes
 
-- Added 4 messy table versions of ficticious experiment data (used in 
+- added 4 messy table versions of ficticious experiment data (used in 
 *Exercise 1* of *Chapter 7: Tidying data* _Four messes and one tidy table_) to the package: 
 `t_1`--`t_4`. 
 
@@ -35,20 +64,6 @@ This is a **maintenance release** to remove some dependencies, fix bugs on CRAN 
 - bug fix: Removed `.data$...` elements from `aes()` in `ggplot` calls 
 - bug fix: Added `utils::globalVariables(...)` to avoid Warning NOTE "Undefined global functions or variables"
 - bug fix: Removed packages not used in this version (i.e., `dplyr`, and `magrittr`) from declared Imports 
-
-
-## To do
-
-Critical:
-
-- None. 
-
-Optional:
-
-- Add graphical functions for _clock plots_ (including new book chapters)  
-- Create a ds4psy survey (to collect user data for additional examples)
-- Add more data with text, date, and time variables  
-- Add an _ascii art_ option for converting strings or text into tile plots (with colored tiles) 
 
 
 -------- 
