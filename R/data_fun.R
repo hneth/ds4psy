@@ -156,12 +156,19 @@ coin <- function(n = 1, events = c("H", "T")){
 #' @param replace Boolean: Sample with replacement? 
 #' Default: \code{replace = FALSE}. 
 #' 
+#' @param ... Other arguments.  
+#' (Use for specifying \code{prob}, as passed to \code{sample()}.)   
+#' 
 #' @examples
 #' sample_chars()  # default
 #' sample_chars(n = 10)
 #' sample_chars(x_char = "abc", n = 10, replace = TRUE)
 #' sample_chars(x_char = c("x y", "6 9"), n =  6, replace = FALSE)
 #' sample_chars(x_char = c("x y", "6 9"), n = 20, replace = TRUE)
+#' 
+#' # Biased sampling: 
+#' sample_chars(x_char = "abc", n = 20, replace = TRUE, 
+#'              prob = c(3/6, 2/6, 1/6))
 #' 
 #' # Note: By default, n must not exceed nchar(x_char):
 #' sample_chars(n = 52, replace = FALSE)    # works, but
@@ -182,13 +189,18 @@ sample_chars <- function(x_char = c(letters, LETTERS), n = 1, replace = FALSE, .
     message("sample_chars: x_char must be of type character.")
   }
   
-  # x_char is not "":
-  if (is.character(x_char) && nchar(x_char) == 0){
+  # # x_char is not "":
+  # if ((all(is.character(x_char))) & (sum(nchar(x_char) == 0))){
+  #   message("sample_chars: x_char must contain at least 1 character.")
+  # }
+  
+  # Split x_char into a vector of individual characters:
+  char_v <- unlist(strsplit(x_char, split = ""))
+  
+  # Check: Verify that is something to sample from:   
+  if (length(char_v) == 0){
     message("sample_chars: x_char must contain at least 1 character.")
   }
-  
-  # Split into a vector of individual characters:
-  char_v <- unlist(strsplit(x_char, split = ""))
   
   # Use sample(): 
   sample_v <- sample(x = char_v, size = n, replace = replace, ...)
@@ -207,16 +219,23 @@ sample_chars <- function(x_char = c(letters, LETTERS), n = 1, replace = FALSE, .
 # sample_chars(x_char = c("x y", "6 9"), n =  6, replace = FALSE)
 # sample_chars(x_char = c("x y", "6 9"), n = 20, replace = TRUE)
 # 
+# # Biased sampling: 
+# sample_chars(x_char = "abc", n = 20, replace = TRUE, prob = c(3/6, 2/6, 1/6))
+#
 # # Note: By default, n must not exceed nchar(x_char):
 # sample_chars(n = 52, replace = FALSE)    # works, but
 # # sample_chars(n = 53, replace = FALSE)  # yields ERROR.
 # sample_chars(n = 53, replace = TRUE)     # works again
 
 # ## Errors:
+#
 # sample_chars(x_char = 1)
-# sample_chars(x_char = "")
 # sample_chars(x_char = NA)
 # sample_chars(x_char = NULL)
+#
+# sample_chars(x_char = "")
+# sample_chars(x_char = c("", ""))
+# sample_chars(x_char = c("", "", " "))
 
 # ## R meta-characters:
 # metas <- c(". \ | ( ) [ { ^ $ * + ?")
@@ -914,8 +933,6 @@ make_tbs <- function(n = NA, rseed = NA){
 #'
 #' @family data functions
 #'
-#' 
-#' 
 #' @export 
 
 make_grid <- function(x_min = 0, x_max = 2, y_min = 0, y_max = 1){
