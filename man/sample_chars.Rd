@@ -16,6 +16,9 @@ Default: \code{n = 1}.}
 
 \item{replace}{Boolean: Sample with replacement? 
 Default: \code{replace = FALSE}.}
+
+\item{...}{Other arguments.
+(Use for specifying \code{prob}, as passed to \code{sample()}.)}
 }
 \description{
 \code{sample_chars} draws a sample of  
@@ -36,6 +39,10 @@ sample_chars(n = 10)
 sample_chars(x_char = "abc", n = 10, replace = TRUE)
 sample_chars(x_char = c("x y", "6 9"), n =  6, replace = FALSE)
 sample_chars(x_char = c("x y", "6 9"), n = 20, replace = TRUE)
+
+# Biased sampling: 
+sample_chars(x_char = "abc", n = 20, replace = TRUE, 
+             prob = c(3/6, 2/6, 1/6))
 
 # Note: By default, n must not exceed nchar(x_char):
 sample_chars(n = 52, replace = FALSE)    # works, but
