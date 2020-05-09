@@ -992,7 +992,7 @@
 # (11) Text data: ------ 
 
 
-# (11a) countries: 
+# (11a) countries: ---- 
 
 # # Source: <https://www.gapminder.org/data/documentation/gd004/>
 # file <- "GM_lifeExpectancy_by_country_v11.csv"
@@ -1008,9 +1008,10 @@
 
 #' Data: Names of countries.
 #'
-#' \code{countries} is a dataset containing the names of 197 countries. 
+#' \code{countries} is a dataset containing the names of 
+#' 197 countries (as a vector of text strings). 
 #' 
-#' @format A vector of type character 
+#' @format A vector of type \code{character}  
 #' with \code{length(countries) = 197}. 
 #' 
 #' @family datasets 
@@ -1020,6 +1021,28 @@
 #' Original data at \url{https://www.gapminder.org/data/documentation/gd004/}.
 
 "countries"
+
+
+# (11b) fruits: ---- 
+
+# Source: <https://simple.wikipedia.org/wiki/List_of_fruits>
+# fruits
+# length(fruits)  # 122
+
+#' Data: Names of fruits. 
+#'
+#' \code{fruits} is a dataset containing the names of 
+#' 122 fruits (as a vector of text strings). 
+#' 
+#' @format A vector of type \code{character}  
+#' with \code{length(fruits) = 122}. 
+#' 
+#' @family datasets 
+#' 
+#' @source 
+#' Data based on \url{https://simple.wikipedia.org/wiki/List_of_fruits}.
+
+"fruits"
 
 
 
