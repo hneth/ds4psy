@@ -32,7 +32,10 @@ Other datasets:
 \code{\link{exp_wide}},
 \code{\link{falsePosPsy_all}},
 \code{\link{fame}},
+<<<<<<< HEAD
 \code{\link{fruits}},
+=======
+>>>>>>> 6a256c8fdfa981ada165f344fc9a6c2b230d4ea9
 \code{\link{outliers}},
 \code{\link{pi_100k}},
 \code{\link{posPsy_AHI_CESD}},
