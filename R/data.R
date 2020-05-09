@@ -1,5 +1,5 @@
 ## data.R | ds4psy
-## hn | uni.kn | 2020 05 06
+## hn | uni.kn | 2020 05 09
 ## ---------------------------
 
 ## Documentation of datasets included in /data. 
@@ -989,11 +989,44 @@
 "pi_100k"
 
 
+# (11) Text data: ------ 
+
+
+# (11a) countries: 
+
+# # Source: <https://www.gapminder.org/data/documentation/gd004/>
+# file <- "GM_lifeExpectancy_by_country_v11.csv"
+# path <- "./data-raw/raw_data_sources/_gapminder/"
+# datapath <- paste0(path, file)
+# datapath
+# 
+# GM_life_expectancy <- readr::read_csv2(file = datapath)
+# GM_life_expectancy
+# 
+# countries <- GM_life_expectancy$country
+# countries
+
+#' Data: Names of countries.
+#'
+#' \code{countries} is a dataset containing the names of 197 countries. 
+#' 
+#' @format A vector of type character 
+#' with \code{length(countries) = 197}. 
+#' 
+#' @family datasets 
+#' 
+#' @source 
+#' Data from \url{https://www.gapminder.org}: 
+#' Original data at \url{https://www.gapminder.org/data/documentation/gd004/}.
+
+"countries"
+
+
 
 ## ToDo: ----------
 
 # - generate ds4psy survey data
-# - add text data (Chapter 9: Text; e.g. attention check response on "i read instructions", some eBook for sentinent analysis, ...) 
+# - add text data (Chapter 9: Text; e.g., dinos, fruit, veggies, attention check response on "i read instructions", some eBook for sentinent analysis, ...) 
 # - add date/time data (Chapter 10: Time, e.g., DOB, time of test, task start/end, etc.)
 # - add more info to codebooks (see data_190807.R in archive)
 
