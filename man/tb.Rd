@@ -39,6 +39,7 @@ tb
 }
 \seealso{
 Other datasets: 
+\code{\link{countries}},
 \code{\link{data_1}},
 \code{\link{data_2}},
 \code{\link{data_t1_de}},
@@ -50,6 +51,7 @@ Other datasets:
 \code{\link{exp_wide}},
 \code{\link{falsePosPsy_all}},
 \code{\link{fame}},
+\code{\link{fruits}},
 \code{\link{outliers}},
 \code{\link{pi_100k}},
 \code{\link{posPsy_AHI_CESD}},

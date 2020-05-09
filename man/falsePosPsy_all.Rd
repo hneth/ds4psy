@@ -80,6 +80,7 @@ See \url{https://bookdown.org/hneth/ds4psy/B-2-datasets-false.html} for codebook
 }
 \seealso{
 Other datasets: 
+\code{\link{countries}},
 \code{\link{data_1}},
 \code{\link{data_2}},
 \code{\link{data_t1_de}},
@@ -90,6 +91,7 @@ Other datasets:
 \code{\link{data_t4}},
 \code{\link{exp_wide}},
 \code{\link{fame}},
+\code{\link{fruits}},
 \code{\link{outliers}},
 \code{\link{pi_100k}},
 \code{\link{posPsy_AHI_CESD}},
