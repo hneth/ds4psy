@@ -1,5 +1,5 @@
 ## data_fun.R | ds4psy
-## hn | uni.kn | 2020 05 08
+## hn | uni.kn | 2020 05 09
 ## ---------------------------
 
 ## Functions for creating and manipulating data. 
