@@ -1,5 +1,5 @@
 ## data.R | ds4psy
-## hn | uni.kn | 2020 05 09
+## hn | uni.kn | 2020 05 10
 ## ---------------------------
 
 ## Documentation of datasets included in /data. 
@@ -1033,6 +1033,15 @@
 #'
 #' \code{fruits} is a dataset containing the names of 
 #' 122 fruits (as a vector of text strings). 
+#' 
+#' Botanically, "fruits" are the seed-bearing structures 
+#' of flowering plants (angiosperms) formed from the ovary 
+#' after flowering. 
+#' 
+#' In common usage, "fruits" refer to the fleshy 
+#' seed-associated structures of a plant 
+#' that taste sweet or sour, 
+#' and are edible in their raw state.
 #' 
 #' @format A vector of type \code{character}  
 #' with \code{length(fruits) = 122}. 
