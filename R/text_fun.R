@@ -1,5 +1,5 @@
 ## text_fun.R | ds4psy
-## hn | uni.kn | 2020 05 06
+## hn | uni.kn | 2020 05 12
 ## ---------------------------
 
 ## Functions for text/string objects. 
@@ -562,7 +562,7 @@ words_to_text <- function(w, collapse = " "){
 }
 
 
-## capitalize the first n letters of words (with exception): -------- 
+## capitalize the first n letters of words (w/o exception): -------- 
 
 #' capitalize converts the case of 
 #' each word's \code{n} initial characters 
@@ -650,6 +650,81 @@ x <- c("Hello world! This is a 1st TEST sentence. The end.")
 # capitalize(x, n = 3)
 # capitalize(x, n = 2, upper = FALSE)
 # capitalize(x, as_text = FALSE)
+
+
+
+## count the number of occurrences of a pattern in a character vector x: -------- 
+
+# Source of function: 
+# <https://aurelienmadouasse.wordpress.com/2012/05/24/r-code-how-the-to-count-the-number-of-occurrences-of-a-substring-within-a-string/> 
+
+count_str_org <- function(x, pattern, split){
+  
+  unlist(
+    lapply(strsplit(x, split), 
+           function(z) na.omit(length(grep(pattern, z)))
+    ))
+  
+}
+
+count_str <- function(x, pattern, split){
+  
+  # initialize: 
+  splitted <- NA
+  count <- NA
+  
+  splitted <- strsplit(x, split)
+  
+  count <- unlist(lapply(splitted, function(z) na.omit(length(grep(pattern, z)))))
+  
+  return(count)
+  
+}
+
+txt <- "The message is that there are no knowns. 
+There are things we know that we know. 
+There are known unknowns. 
+That is to say there are things that we now know we don't know. 
+But there are also unknown unknowns. 
+There are things we do not know we don't know. 
+So when we do the best we can and we pull all this information together, and we then say well that's basically what we see as the situation, that is really only the known knowns and the known unknowns. 
+And each year, we discover a few more of those unknown unknowns."
+
+count_str(tolower(txt), "know",    " ")   # 17
+count_str(tolower(txt), "^known",  " ")   #  5
+count_str(tolower(txt), "unknown", " ")   #  6
+
+# Source: <https://en.wikipedia.org/wiki/There_are_known_knowns>
+# From: Donald Rumsfeld, United States Secretary of Defense, at a U.S. Department of Defense (DoD) news briefing on February 12, 2002:
+
+kk <- "Reports that say that something hasn't happened are always interesting to me, 
+because as we know, there are known knowns; 
+there are things we know we know. 
+We also know there are known unknowns; 
+that is to say we know there are some things we do not know. 
+But there are also unknown unknowns -- the ones we don't know we don't know. 
+And if one looks throughout the history of our country and other free countries, 
+it is the latter category that tend to be the difficult ones."
+
+# Using count_str: 
+count_str(tolower(kk), "know",    " ")   # 14
+# contrast: 
+count_str(tolower(kk), "^know",  " ")    # 11
+count_str(tolower(kk), "^known",  " ")   #  3
+# and:
+count_str(tolower(kk), "unknown", " ")   #  3
+
+# Contrast with:
+stringr::str_count(kk, "know")      # 14
+# contrast: 
+stringr::str_count(kk, "^know")     #  0 !
+stringr::str_count(kk, "^known")    #  0 !
+# but: 
+stringr::str_count(kk, " know")     # 11
+stringr::str_count(kk, " known")    #  3
+# and:
+stringr::str_count(kk, "unknown")   #  3
+
 
 ## ToDo: ----------
 
