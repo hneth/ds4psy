@@ -662,7 +662,7 @@ count_str_org <- function(x, pattern, split){
   
   unlist(
     lapply(strsplit(x, split), 
-           function(z) na.omit(length(grep(pattern, z)))
+           function(z) stats::na.omit(length(grep(pattern, z)))
     ))
   
 }
@@ -675,7 +675,7 @@ count_str <- function(x, pattern, split){
   
   splitted <- strsplit(x, split)
   
-  count <- unlist(lapply(splitted, function(z) na.omit(length(grep(pattern, z)))))
+  count <- unlist(lapply(splitted, function(z) stats::na.omit(length(grep(pattern, z)))))
   
   return(count)
   
