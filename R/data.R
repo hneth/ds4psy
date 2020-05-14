@@ -1068,14 +1068,14 @@ flowery <- c(# (a) Mentions of "rose" in "Sacred Emily: #
   "Do we suppose that all she knows is that a rose is a rose is a rose is a rose.", # (Operas and Plays)
   "... she would carve on the tree Rose is a Rose is a Rose is a Rose is a Rose until it went all the way around.", # (The World is Round)
   "A rose tree may be a rose tree may be a rosy rose tree if watered.", # (Alphabets and Birthdays)
-  "Indeed a rose is a rose makes a pretty plate....", # (Stanzas in Meditation)
+  "Indeed a rose is a rose makes a pretty plate...", # (Stanzas in Meditation)
   "When I said: A rose is a rose is a rose is a rose. And then later made that into a ring I made poetry and what did I do I caressed completely caressed and addressed a noun.", # (Lectures in America)
   "Civilization begins with a rose. A rose is a rose is a rose is a rose. It continues with blooming and it fastens clearly upon excellent examples.", # (As Fine as Melanctha)
   "Lifting belly can please me because it is an occupation I enjoy. Rose is a rose is a rose is a rose. In print on top.", # (Bee Time Vine)
   # (c) Variations by others: # 
   "A rose by any other name would smell as sweet.", # William Shakespeare
   "Go in the garden and ask the rose its meaning.", # Pablo Picasso
-  "Evidente y secreto, como el diamante, como el agua, como el desnudo, como la rosa", # Juan Ramón Jiménez (Madrid: Sánchez Cuesta, 1929)
+  "Evidente y secreto, como el diamante, como el agua, como el desnudo, como la rosa", # Juan Ramon Jimenez (Madrid: Sanchez Cuesta, 1929)
   "a stone is a stein is a rock is a boulder is a pebble.", # Ernest Hemingway (1940): For Whom the Bell Tolls, 
   "a rose is a rose is an onion.", # Ernest Hemingway
   "a bitch is a bitch is a bitch is a bitch.", # Ernest Hemingway
@@ -1096,7 +1096,7 @@ flowery <- c(# (a) Mentions of "rose" in "Sacred Emily: #
   "La rosa es una rosa es una rosa", # used in Fernando del Paso's "Sonetos con lugares comunes" 
   "the word for word is word.", # William Burroughs wrote a linguistic variant  
   "A drink is a drink is a drink.", # late-1980s, an American public service announcement featured a message regarding identical alcohol content in three alcoholic drinks — a beer, a mixed drink, and a shot of whiskey 
-  "A es A, a rose is a rose is a rose, April is the cruellest month, cada cosa en su lugar y un lugar para cada rosa es una rosa es una rosa...", # Julio Cortázar in his novel "Rayuela" 
+  "A es A, a rose is a rose is a rose, April is the cruellest month, cada cosa en su lugar y un lugar para cada rosa es una rosa es una rosa...", # Julio Cortazar in his novel "Rayuela" 
   "Eine Rose ist eine Rose ist", # Helge Schneider shortens the sentence in German in his album "29 sehr sehr gute Erzählungen" 
   "A bank isn't a bank isn't a bank.",  # advertisment slogan by South African bank Nedbank 
   "A rose is not a rose is not a rose!", # Jonathan Safran Foer (2003): "Extremely Loud & Incredibly Close"  
