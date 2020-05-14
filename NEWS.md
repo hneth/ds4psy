@@ -16,7 +16,7 @@ The current development version of **ds4psy** (0.2.1.9001+) is hosted at <https:
 
 ## Minor changes 
 
-- added datasets of `countries` and `fruits`.  
+- added datasets of `countries`, `fruits`, and `flowery` phrases.  
 - added `sample_chars()` function.  
 
 
