@@ -1062,11 +1062,16 @@
 #' of Gertrude Stein's popular phrase 
 #' "A rose is a rose is a rose".  
 #' 
+#' The phrase stems from Gertrude Stein's poem "Sacred Emily" 
+#' (written in 1913 and published in 1922, in "Geography and Plays").  
+#' The verbatim line in the poem actually reads 
+#' "Rose is a rose is a rose is a rose". 
+#' 
 #' See \url{https://en.wikipedia.org/wiki/Rose_is_a_rose_is_a_rose_is_a_rose} 
 #' for additional variations and sources. 
 #' 
 #' @format A vector of type \code{character}  
-#' with \code{length(flowery) = 40}. 
+#' with \code{length(flowery) = 60}. 
 #' 
 #' @family datasets 
 #' 
