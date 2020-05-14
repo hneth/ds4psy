@@ -31,6 +31,7 @@ Other datasets:
 \code{\link{exp_wide}},
 \code{\link{falsePosPsy_all}},
 \code{\link{fame}},
+\code{\link{flowery}},
 \code{\link{fruits}},
 \code{\link{outliers}},
 \code{\link{pi_100k}},

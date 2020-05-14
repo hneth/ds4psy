@@ -91,6 +91,7 @@ Other datasets:
 \code{\link{data_t4}},
 \code{\link{exp_wide}},
 \code{\link{fame}},
+\code{\link{flowery}},
 \code{\link{fruits}},
 \code{\link{outliers}},
 \code{\link{pi_100k}},
