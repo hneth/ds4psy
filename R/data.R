@@ -1053,59 +1053,28 @@
 
 "fruits"
 
-# (11c) flowery sentences: ---- 
 
-# Versions and variations of Gertrude Stein's popular phrase 
-# "A rose is a rose is a rose".  
-# Source: <https://en.wikipedia.org/wiki/Rose_is_a_rose_is_a_rose_is_a_rose>
+# (11c) flowery phrases: ---- 
 
-flowery <- c(# (a) Mentions of "rose" in "Sacred Emily: # 
-  "Rose is a rose is a rose is a rose.", # "Sacred Emily", Geography and Plays
-  "It is rose in hen.",
-  "Jack Rose Jack Rose.", 
-  # (b) Versions by Gertrude Stein: # 
-  "A rose is a rose is a rose",  # popular variation
-  "Do we suppose that all she knows is that a rose is a rose is a rose is a rose.", # (Operas and Plays)
-  "... she would carve on the tree Rose is a Rose is a Rose is a Rose is a Rose until it went all the way around.", # (The World is Round)
-  "A rose tree may be a rose tree may be a rosy rose tree if watered.", # (Alphabets and Birthdays)
-  "Indeed a rose is a rose makes a pretty plate...", # (Stanzas in Meditation)
-  "When I said: A rose is a rose is a rose is a rose. And then later made that into a ring I made poetry and what did I do I caressed completely caressed and addressed a noun.", # (Lectures in America)
-  "Civilization begins with a rose. A rose is a rose is a rose is a rose. It continues with blooming and it fastens clearly upon excellent examples.", # (As Fine as Melanctha)
-  "Lifting belly can please me because it is an occupation I enjoy. Rose is a rose is a rose is a rose. In print on top.", # (Bee Time Vine)
-  # (c) Variations by others: # 
-  "A rose by any other name would smell as sweet.", # William Shakespeare
-  "Go in the garden and ask the rose its meaning.", # Pablo Picasso
-  "Evidente y secreto, como el diamante, como el agua, como el desnudo, como la rosa", # Juan Ramon Jimenez (Madrid: Sanchez Cuesta, 1929)
-  "a stone is a stein is a rock is a boulder is a pebble.", # Ernest Hemingway (1940): For Whom the Bell Tolls, 
-  "a rose is a rose is an onion.", # Ernest Hemingway
-  "a bitch is a bitch is a bitch is a bitch.", # Ernest Hemingway
-  "A Rose is a rose is a rose is a rose is / A rose is what Moses supposes his toes is / Couldn't be a lily or a taffy daphi dilli / It's gotta be a rose cuz it rhymes with mose!", # "Moses Supposes", in the 1952 musical "Singin' in the Rain"
-  "A rose is a rose is a rose. But these chair legs were chair legs were St. Michael and all angels.", # Aldous Huxley (1954): "The Doors of Perception" 
-  "An apple is an apple is an apple, whereas the moon is the moon is the moon.", #  Aldous Huxley (1958), "Brave New World Revisited"
-  "Oh, I once heard a poem that goes / A rose is a rose is a rose / But I don't agree / Take it from me / There's one rose sweeter than any that grows!", # "Rosie" (1960) Broadway musical "Bye Bye Birdie" (film in 1963), song by character Albert Peterson
-  "Stat rosa pristina nomine, nomina nuda tenemus", # Umberto Eco (1980) at the end of the book "The Name of the Rose"
-  "A crime is a crime is a crime", # UK Prime Minister Margaret Thatcher (1981) on the IRA 
-  "A Rose Is Not a Rose", # 1978 film "The Magic of Lassie", by Robert and Richard Sherman
-  "Una rosa es una rosa es una rosa", # Spanish translation of Stein's verse, chorus of a song by the pop music group Mecano that appeared on their 1991 album, "Aidalai". 
-  "a Rolls is a Rolls is a Rolls",  # Bret Easton Ellis (1991): novel "American Psycho", uttered by narrator Patrick Bateman.  
-  "What I am is what I am.", # "A Rose is Still a Rose" was the title of a 1998 album and song by Aretha Franklin and Lauryn Hill 
-  "The Things We Did and Didn't Do", # song on The Magnetic Fields album "69 Love Songs" (1999), frontman Stephin Merritt credited the sentence as an inspiration 
-  "The Flowers She Sent and the Flowers She Said She Sent", # song on The Magnetic Fields album "69 Love Songs" (1999), frontman Stephin Merritt credited the sentence as an inspiration  
-  "murder is murder is murder.", # Mordecai Richler in his novel Barney's Version ridicules the stupidity of court speeches when the prosecutor ends his opening speech with 
-  "Sometimes a breast is a breast is a breast.", # Jeanette Winterson wrote in her novel "Written on the Body" 
-  "La rosa es una rosa es una rosa", # used in Fernando del Paso's "Sonetos con lugares comunes" 
-  "the word for word is word.", # William Burroughs wrote a linguistic variant  
-  "A drink is a drink is a drink.", # late-1980s, an American public service announcement featured a message regarding identical alcohol content in three alcoholic drinks — a beer, a mixed drink, and a shot of whiskey 
-  "A es A, a rose is a rose is a rose, April is the cruellest month, cada cosa en su lugar y un lugar para cada rosa es una rosa es una rosa...", # Julio Cortazar in his novel "Rayuela" 
-  "Eine Rose ist eine Rose ist", # Helge Schneider shortens the sentence in German in his album "29 sehr sehr gute Erzählungen" 
-  "A bank isn't a bank isn't a bank.",  # advertisment slogan by South African bank Nedbank 
-  "A rose is not a rose is not a rose!", # Jonathan Safran Foer (2003): "Extremely Loud & Incredibly Close"  
-  "A bullet’s a bullet’s a bullet!", # Jonathan Safran Foer (2003): "Extremely Loud & Incredibly Close"  
-  "Leg is a leg is a leg" # Dr. House in a lecture on diagnosing leg pain in the 2005 House M.D. episode "Three Stories"
-)
+#' Data: Flowery phrases. 
+#'
+#' \code{flowery} contains versions and variations 
+#' of Gertrude Stein's popular phrase 
+#' "A rose is a rose is a rose".  
+#' 
+#' See \url{https://en.wikipedia.org/wiki/Rose_is_a_rose_is_a_rose_is_a_rose} 
+#' for additional variations and sources. 
+#' 
+#' @format A vector of type \code{character}  
+#' with \code{length(flowery) = 40}. 
+#' 
+#' @family datasets 
+#' 
+#' @source 
+#' Data based on \url{https://en.wikipedia.org/wiki/Rose_is_a_rose_is_a_rose_is_a_rose}.
 
-## Check: 
-# flowery
+"flowery"
+
 
 ## ToDo: ----------
 
