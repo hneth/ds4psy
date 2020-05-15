@@ -1,5 +1,5 @@
 ## text_fun.R | ds4psy
-## hn | uni.kn | 2020 05 12
+## hn | uni.kn | 2020 05 15
 ## ---------------------------
 
 ## Functions for text/string objects. 
@@ -638,7 +638,7 @@ capitalize <- function(x, # string of text to capitalize
 }
 
 # ## Check:
-x <- c("Hello world! This is a 1st TEST sentence. The end.")
+# x <- c("Hello world! This is a 1st TEST sentence. The end.")
 # capitalize(x)
 # capitalize(x, n = 3)
 # capitalize(x, n = 2, upper = FALSE)
@@ -653,33 +653,69 @@ x <- c("Hello world! This is a 1st TEST sentence. The end.")
 
 
 
-## count the number of occurrences of a pattern in a character vector x: -------- 
+## count_str: count the number of occurrences of a pattern in a character vector x: -------- 
 
 # Source of function: 
 # <https://aurelienmadouasse.wordpress.com/2012/05/24/r-code-how-the-to-count-the-number-of-occurrences-of-a-substring-within-a-string/> 
 
-count_str_org <- function(x, pattern, split){
-  
-  unlist(
-    lapply(strsplit(x, split), 
-           function(z) stats::na.omit(length(grep(pattern, z)))
-    ))
-  
-}
+# count_str_org <- function(x, pattern, split){
+#   
+#   unlist(
+#     lapply(strsplit(x, split), 
+#            function(z) stats::na.omit(length(grep(pattern, z)))
+#     ))
+#   
+# }
 
-count_str <- function(x, pattern, split){
+
+# Count the number of pattern matches in a string: 
+
+count_str <- function(x, pattern, split = ""){
   
   # initialize: 
-  splitted <- NA
-  count <- NA
+  count   <- NA
+  x_split <- NA
   
-  splitted <- strsplit(x, split)
+  x_split <- strsplit(x, split)
   
-  count <- unlist(lapply(splitted, function(z) stats::na.omit(length(grep(pattern, z)))))
+  # count <- unlist(lapply(x_split, function(z) stats::na.omit(length(grep(pattern = pattern, x = z, value = FALSE)))))
+  
+  count <- unlist(lapply(x_split, function(z) length(grep(pattern = pattern, x = z, value = FALSE))))
   
   return(count)
   
 }
+
+# ## Check:
+# x <- c("hello", "world!", "This is a test sentence.", "", "The end.")
+# p <- "en"
+# 
+# # splitting:
+# x_split <- strsplit(x, split = NA)  # leaves x as is
+# x_split
+# 
+# x_split <- strsplit(x, split = "")  # splits x into individual characters
+# x_split
+# 
+# # grep:
+# grep(pattern = p, x = x_split)
+# 
+# # Compare: 
+# count_str(x, p)              # number within each character object
+# count_str(x, p, split = NA)  # only 0 vs. 1 per character object
+# 
+# # Contrast with:
+# stringr::str_count(x, p)     # number within each character object
+
+# Conclusion:
+# count_str*() is not reliable, as grep() only contrasts matches with non-matches (binary) and 
+#              results thus depend on the segmentation of strings (into sub-strings). 
+# By contrast, stringr::count_str() provides a the exact frequency counts 
+# (i.e., how often a pattern is matched.)
+
+
+# Longer example from
+# <https://aurelienmadouasse.wordpress.com/2012/05/24/r-code-how-the-to-count-the-number-of-occurrences-of-a-substring-within-a-string/>:  
 
 # txt <- "The message is that there are no knowns. 
 # There are things we know that we know. 
