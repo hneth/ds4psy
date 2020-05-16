@@ -60,6 +60,7 @@ which was previously used to determine an (absolute) file path.
 \code{\link{plot_text}} for a corresponding plot function.
 
 Other text functions: 
+\code{\link{Umlaut}},
 \code{\link{capitalize}()},
 \code{\link{caseflip}()},
 \code{\link{count_char}()},

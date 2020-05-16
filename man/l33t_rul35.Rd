@@ -26,6 +26,7 @@ See \url{https://en.wikipedia.org/wiki/Leet} for details.
 }
 \seealso{
 Other text functions: 
+\code{\link{Umlaut}},
 \code{\link{capitalize}()},
 \code{\link{caseflip}()},
 \code{\link{count_char}()},

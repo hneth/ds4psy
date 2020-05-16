@@ -23,6 +23,7 @@ caseflip(x)
 \code{\link{capitalize}} for converting the case of initial letters.
 
 Other text functions: 
+\code{\link{Umlaut}},
 \code{\link{capitalize}()},
 \code{\link{count_char}()},
 \code{\link{l33t_rul35}},

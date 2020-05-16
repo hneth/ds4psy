@@ -47,6 +47,7 @@ capitalize(x, as_text = FALSE)
 \code{\link{caseflip}} for converting the case of all letters.
 
 Other text functions: 
+\code{\link{Umlaut}},
 \code{\link{caseflip}()},
 \code{\link{count_char}()},
 \code{\link{l33t_rul35}},
