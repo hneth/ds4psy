@@ -1,10 +1,85 @@
 ## text_fun.R | ds4psy
-## hn | uni.kn | 2020 05 15
+## hn | uni.kn | 2020 05 16
 ## ---------------------------
 
 ## Functions for text/string objects. 
 
 ## (0) Define text labels: ---------- 
+
+
+## Umlaute / German umlauts: ------ 
+
+# Sources: For Unicode characters, see:
+# <https://home.unicode.org/>
+# <https://www.unicode.org/charts/>
+# <https://en.wikipedia.org/wiki/List_of_Unicode_characters>
+
+uml_a <- "\U00E4"  # ä
+uml_o <- "\U00F6"  # ö
+uml_u <- "\U00FC"  # ü
+
+uml_A <- "\U00C4"  # Ä
+uml_O <- "\U00D6"  # Ö
+uml_U <- "\U00DC"  # Ü
+
+uml_s <- "\u00DF"  # ß
+
+# As named vector:
+umlaut <- c(uml_a, uml_o, uml_u, 
+            uml_A, uml_O, uml_U,
+            uml_s)
+names(umlaut) <- c("a", "o", "u", 
+                   "A", "O", "U",
+                   "s") 
+
+## Check:
+# umlaut
+# names(umlaut)
+
+# paste(umlaut, collapse = " ")
+# paste0("Hansj", umlaut["o"], "rg i", umlaut["s"], "t gern s", umlaut["u"], "sse ", umlaut["A"], "pfel.")
+
+
+#' Umlaut provides German Umlaute (as Unicode characters). 
+#' 
+#' \code{Umlaut} provides German Umlaute (aka. diaeresis/diacritic) 
+#' as a named character vector. 
+#' 
+#' For Unicode details, see 
+#' \url{https://home.unicode.org/}, 
+#  \url{https://www.unicode.org/charts/}, and 
+#  \url{https://en.wikipedia.org/wiki/List_of_Unicode_characters}. 
+#' 
+#' For details on German Umlaute (aka. diaeresis/diacritic), see 
+#' \url{https://en.wikipedia.org/wiki/Diaeresis_(diacritic)} and 
+#' \url{https://en.wikipedia.org/wiki/Germanic_umlaut}. 
+#' 
+#' @examples
+#' Umlaut
+#' names(Umlaut)
+#' 
+#' # Use:
+#' paste0("Hansj", Umlaut["o"], "rg i", Umlaut["s"], "t gern s", Umlaut["u"], "sse ", Umlaut["A"], "pfel.")
+#' paste0("Das d", Umlaut["u"], "nne M", Umlaut["a"], "dchen l", Umlaut["a"], "chelt sch", Umlaut["o"], "n.")
+#' paste0("Der b", Umlaut["o"], "se Mann macht ", Umlaut["u"], "blen ", Umlaut["A"], "rger.")
+#' 
+#' @family text functions
+#' 
+#' @export
+
+Umlaut <- umlaut 
+
+## Check:
+# Umlaut
+# names(Umlaut)
+
+## Apply:
+# paste(Umlaut, collapse = " ")
+# paste0("Hansj", Umlaut["o"], "rg i", Umlaut["s"], "t gern s", Umlaut["u"], "sse ", Umlaut["A"], "pfel.")
+# paste0("Das d", Umlaut["u"], "nne M", Umlaut["a"], "dchen l", Umlaut["a"], "chelt sch", Umlaut["o"], "n.")
+# paste0("Der b", Umlaut["o"], "se Mann macht ", Umlaut["u"], "blen ", Umlaut["A"], "rger.")
+
+
 
 # course_title     <- paste0("Data science for psychologists")
 # course_title_abb <- paste0("ds4psy")
@@ -13,7 +88,7 @@
 # name_course <- paste0(course_title, " (", course_title_abb, "), by ", name_hn, "")
 
 # # Table of contents (ToC):
-# toc <- tribble(
+# toc <- tibble::tribble(
 #   ~nr, ~lbl,                 ~val,  ~part,   
 #    0,  "Introduction",          2,  0,
 #    1,  "R basics",             10,  0, # was: "Basic R concepts and commands",
