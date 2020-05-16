@@ -16,6 +16,7 @@ The current development version of **ds4psy** (0.2.1.9001+) is hosted at <https:
 
 ## Minor changes 
 
+- added `Umlaut` as a named vector. 
 - added datasets of `countries`, `fruits`, and `flowery` phrases.  
 - added `sample_chars()` function.  
 
