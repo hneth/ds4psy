@@ -40,9 +40,9 @@ names(umlaut) <- c("a", "o", "u",
 # paste0("Hansj", umlaut["o"], "rg i", umlaut["s"], "t gern s", umlaut["u"], "sse ", umlaut["A"], "pfel.")
 
 
-#' Umlaut provides German Umlaute (as Unicode characters). 
+#' Umlaut provides German Umlaut letters (as Unicode characters). 
 #' 
-#' \code{Umlaut} provides German Umlaute (aka. diaeresis/diacritic) 
+#' \code{Umlaut} provides the German Umlaut letters (aka. diaeresis/diacritic) 
 #' as a named character vector. 
 #' 
 #' For Unicode details, see 
@@ -50,7 +50,7 @@ names(umlaut) <- c("a", "o", "u",
 #  \url{https://www.unicode.org/charts/}, and 
 #  \url{https://en.wikipedia.org/wiki/List_of_Unicode_characters}. 
 #' 
-#' For details on German Umlaute (aka. diaeresis/diacritic), see 
+#' For details on German Umlaut letters (aka. diaeresis/diacritic), see 
 #' \url{https://en.wikipedia.org/wiki/Diaeresis_(diacritic)} and 
 #' \url{https://en.wikipedia.org/wiki/Germanic_umlaut}. 
 #' 
@@ -58,10 +58,10 @@ names(umlaut) <- c("a", "o", "u",
 #' Umlaut
 #' names(Umlaut)
 #' 
-#' # Use:
-#' paste0("Hansj", Umlaut["o"], "rg i", Umlaut["s"], "t gern s", Umlaut["u"], "sse ", Umlaut["A"], "pfel.")
-#' paste0("Das d", Umlaut["u"], "nne M", Umlaut["a"], "dchen l", Umlaut["a"], "chelt sch", Umlaut["o"], "n.")
+#' paste0("Hansj", Umlaut["o"], "rg i", Umlaut["s"], "t s", Umlaut["u"], "sse ", Umlaut["A"], "pfel.")
+#' paste0("Das d", Umlaut["u"], "nne M", Umlaut["a"], "dchen l", Umlaut["a"], "chelt.")
 #' paste0("Der b", Umlaut["o"], "se Mann macht ", Umlaut["u"], "blen ", Umlaut["A"], "rger.")
+#' paste0("Das ", Umlaut["U"], "ber-Ich ist ", Umlaut["a"], "rgerlich.")
 #' 
 #' @family text functions
 #' 
