@@ -49,12 +49,13 @@ transl33t(txt = "hEllo world", in_case = "lo", out_case = "up",
 \seealso{
 \code{\link{l33t_rul35}} for default rules.
 
-Other text functions: 
+Other text objects and functions: 
 \code{\link{Umlaut}},
 \code{\link{capitalize}()},
 \code{\link{caseflip}()},
 \code{\link{count_char}()},
 \code{\link{l33t_rul35}},
+\code{\link{metachar}},
 \code{\link{read_ascii}()}
 }
-\concept{text functions}
+\concept{text objects and functions}

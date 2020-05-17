@@ -25,13 +25,14 @@ New (i.e., replaced) characters are
 See \url{https://en.wikipedia.org/wiki/Leet} for details.
 }
 \seealso{
-Other text functions: 
+Other text objects and functions: 
 \code{\link{Umlaut}},
 \code{\link{capitalize}()},
 \code{\link{caseflip}()},
 \code{\link{count_char}()},
+\code{\link{metachar}},
 \code{\link{read_ascii}()},
 \code{\link{transl33t}()}
 }
-\concept{text functions}
+\concept{text objects and functions}
 \keyword{datasets}

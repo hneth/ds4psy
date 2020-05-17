@@ -33,13 +33,14 @@ paste0("Das ", Umlaut["U"], "ber-Ich ist ", Umlaut["a"], "rgerlich.")
 
 }
 \seealso{
-Other text functions: 
+Other text objects and functions: 
 \code{\link{capitalize}()},
 \code{\link{caseflip}()},
 \code{\link{count_char}()},
 \code{\link{l33t_rul35}},
+\code{\link{metachar}},
 \code{\link{read_ascii}()},
 \code{\link{transl33t}()}
 }
-\concept{text functions}
+\concept{text objects and functions}
 \keyword{datasets}

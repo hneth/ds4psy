@@ -37,12 +37,13 @@ count_char(x, sort_freq = FALSE)
 \seealso{
 \code{\link{plot_text}} for a corresponding plot function.
 
-Other text functions: 
+Other text objects and functions: 
 \code{\link{Umlaut}},
 \code{\link{capitalize}()},
 \code{\link{caseflip}()},
 \code{\link{l33t_rul35}},
+\code{\link{metachar}},
 \code{\link{read_ascii}()},
 \code{\link{transl33t}()}
 }
-\concept{text functions}
+\concept{text objects and functions}
