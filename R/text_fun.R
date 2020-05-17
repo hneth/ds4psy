@@ -1,10 +1,10 @@
 ## text_fun.R | ds4psy
-## hn | uni.kn | 2020 05 16
+## hn | uni.kn | 2020 05 17
 ## ---------------------------
 
-## Functions for text/string objects. 
+## Character objects and functions for string/text objects. 
 
-## (0) Define text labels: ---------- 
+## (0) Define character vectors and strings of text: ---------- 
 
 
 ## Umlaute / German umlauts: ------ 
@@ -63,7 +63,7 @@ names(umlaut) <- c("a", "o", "u",
 #' paste0("Der b", Umlaut["o"], "se Mann macht ", Umlaut["u"], "blen ", Umlaut["A"], "rger.")
 #' paste0("Das ", Umlaut["U"], "ber-Ich ist ", Umlaut["a"], "rgerlich.")
 #' 
-#' @family text functions
+#' @family text objects and functions
 #' 
 #' @export
 
@@ -80,6 +80,53 @@ Umlaut <- umlaut
 # paste0("Der b", Umlaut["o"], "se Mann macht ", Umlaut["u"], "blen ", Umlaut["A"], "rger.")
 
 
+
+## Metachar: Metacharacters of extended regular expressions (in R): ------ 
+
+# metachar provides the metacharacters of extended regular expressions (as a character vector)
+# See documentation to ?regex 
+
+metas <- c(". \ | ( ) [ { ^ $ * + ?")
+
+# as vector:
+mv <- unlist(strsplit(metas, split = " "))
+# mv
+
+mv[2] <- "\\"  # correction for \
+# mv
+
+## Check:
+# writeLines(mv)
+# nchar(paste0(mv, collapse = ""))  # 12
+
+
+#' metachar provides R metacharacters 
+#' (as a character vector). 
+#' 
+#' \code{metachar} provides the metacharacters of extended regular expressions 
+#' (as a character vector).
+#' 
+#' See \code{?regex} for details. 
+#' 
+#' @examples
+#' metachar
+#' length(metachar)  # 12
+#' nchar(paste0(metachar, collapse = ""))  # 12
+#' 
+#' @family text objects and functions
+#' 
+#' @export
+
+metachar <- mv
+
+# ## Check:
+# metachar
+# length(metachar)  # 12
+# nchar(paste0(metachar, collapse = ""))  # 12
+# # writeLines(metachar)
+
+
+## Other text elements (for ds4psy course materials): ------ 
 
 # course_title     <- paste0("Data science for psychologists")
 # course_title_abb <- paste0("ds4psy")
@@ -104,7 +151,7 @@ Umlaut <- umlaut
 #   11,  "Functions",            10,  3, 
 #   12,  "Iteration",             8,  3)
 # 
-# # toc  # to be used in plot_tbar() and plot_tclock()
+# # toc  # used in plot_tbar() and plot_tclock()
 
 
 ## (1) L33t slang: ---------- 
@@ -159,7 +206,7 @@ my_l33t <- c("t" = "+",
 #' 
 #' See \url{https://en.wikipedia.org/wiki/Leet} for details. 
 #' 
-#' @family text functions
+#' @family text objects and functions
 #' 
 #' @export
 
@@ -213,7 +260,7 @@ l33t_rul35 <- c(l33t_num, my_l33t)
 #' transl33t(txt = "hEllo world", in_case = "lo", out_case = "up", 
 #'           rules = c("e" = "3", "l" = "1", "o" = "0"))  # e transl33ted
 #' 
-#' @family text functions
+#' @family text objects and functions
 #'
 #' @seealso
 #' \code{\link{l33t_rul35}} for default rules. 
@@ -335,7 +382,7 @@ transl33t <- function(txt, rules = l33t_rul35,
 #' # read_ascii()
 #' }
 #' 
-#' @family text functions
+#' @family text objects and functions
 #'
 #' @seealso
 #' \code{\link{plot_text}} for a corresponding plot function. 
@@ -509,7 +556,7 @@ read_ascii <- function(file = "", flip_y = FALSE){
 #' count_char(x, rm_specials = FALSE)
 #' count_char(x, sort_freq = FALSE)
 #'  
-#' @family text functions
+#' @family text objects and functions
 #'
 #' @seealso
 #' \code{\link{plot_text}} for a corresponding plot function. 
@@ -595,7 +642,7 @@ count_char <- function(x, # string of text to count
 #' x <- c("Hello world!", "This is a 1st sentence.", "This is the 2nd sentence.", "The end.")
 #' caseflip(x)
 #'  
-#' @family text functions
+#' @family text objects and functions
 #'
 #' @seealso
 #' \code{\link{capitalize}} for converting the case of initial letters. 
@@ -670,7 +717,7 @@ words_to_text <- function(w, collapse = " "){
 #' capitalize(x, n = 2, upper = FALSE)
 #' capitalize(x, as_text = FALSE)
 #' 
-#' @family text functions
+#' @family text objects and functions
 #'
 #' @seealso
 #' \code{\link{caseflip}} for converting the case of all letters. 
