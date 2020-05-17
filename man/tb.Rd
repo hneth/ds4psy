@@ -34,7 +34,7 @@ tb
 
 } 
 
-\code{tb} was orginally created to practice loops and iterations 
+\code{tb} was originally created to practice loops and iterations 
 (as a CSV file).
 }
 \seealso{
