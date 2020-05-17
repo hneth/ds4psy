@@ -941,7 +941,7 @@
 #' 
 #' } 
 #' 
-#' \code{tb} was orginally created to practice loops and iterations 
+#' \code{tb} was originally created to practice loops and iterations 
 #' (as a CSV file). 
 #' 
 #' @format A table with 100 cases (rows) and 5 variables (columns). 
