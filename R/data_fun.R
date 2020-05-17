@@ -1,5 +1,5 @@
 ## data_fun.R | ds4psy
-## hn | uni.kn | 2020 05 14
+## hn | uni.kn | 2020 05 17
 ## ---------------------------
 
 ## Functions for creating and manipulating data. 
@@ -136,10 +136,10 @@ coin <- function(n = 1, events = c("H", "T")){
 #' Draw a sample of n random characters 
 #' (from given characters). 
 #'
-#' \code{sample_chars} draws a sample of  
+#' \code{sample_char} draws a sample of  
 #' \code{n} random characters from a given range of characters.
 #' 
-#' By default, \code{sample_chars} draws \code{n = 1} 
+#' By default, \code{sample_char} draws \code{n = 1} 
 #' a random alphabetic character from  
 #' \code{x_char = c(letters, LETTERS)}.
 #' 
@@ -160,38 +160,38 @@ coin <- function(n = 1, events = c("H", "T")){
 #' (Use for specifying \code{prob}, as passed to \code{sample()}.)   
 #' 
 #' @examples
-#' sample_chars()  # default
-#' sample_chars(n = 10)
-#' sample_chars(x_char = "abc", n = 10, replace = TRUE)
-#' sample_chars(x_char = c("x y", "6 9"), n =  6, replace = FALSE)
-#' sample_chars(x_char = c("x y", "6 9"), n = 20, replace = TRUE)
+#' sample_char()  # default
+#' sample_char(n = 10)
+#' sample_char(x_char = "abc", n = 10, replace = TRUE)
+#' sample_char(x_char = c("x y", "6 9"), n =  6, replace = FALSE)
+#' sample_char(x_char = c("x y", "6 9"), n = 20, replace = TRUE)
 #' 
 #' # Biased sampling: 
-#' sample_chars(x_char = "abc", n = 20, replace = TRUE, 
+#' sample_char(x_char = "abc", n = 20, replace = TRUE, 
 #'              prob = c(3/6, 2/6, 1/6))
 #' 
 #' # Note: By default, n must not exceed nchar(x_char):
-#' sample_chars(n = 52, replace = FALSE)    # works, but
-#' # sample_chars(n = 53, replace = FALSE)  # would yield ERROR; 
-#' sample_chars(n = 53, replace = TRUE)     # works again.
+#' sample_char(n = 52, replace = FALSE)    # works, but
+#' # sample_char(n = 53, replace = FALSE)  # would yield ERROR; 
+#' sample_char(n = 53, replace = TRUE)     # works again.
 #' 
 #' @family sampling functions
 #'
 #' @export 
 
-sample_chars <- function(x_char = c(letters, LETTERS), n = 1, replace = FALSE, ...){
+sample_char <- function(x_char = c(letters, LETTERS), n = 1, replace = FALSE, ...){
   
   out <- NA  # initialize
   
   # Checks: 
   # x_char is a vector of characters:
   if (!is.character(x_char)){
-    message("sample_chars: x_char must be of type character.")
+    message("sample_char: x_char must be of type character.")
   }
   
   # # x_char is not "":
   # if ((all(is.character(x_char))) & (sum(nchar(x_char) == 0))){
-  #   message("sample_chars: x_char must contain at least 1 character.")
+  #   message("sample_char: x_char must contain at least 1 character.")
   # }
   
   # Split x_char into a vector of individual characters:
@@ -199,7 +199,7 @@ sample_chars <- function(x_char = c(letters, LETTERS), n = 1, replace = FALSE, .
   
   # Check: Verify that is something to sample from:   
   if (length(char_v) == 0){
-    message("sample_chars: x_char must contain at least 1 character.")
+    message("sample_char: x_char must contain at least 1 character.")
   }
   
   # Use sample(): 
@@ -210,32 +210,32 @@ sample_chars <- function(x_char = c(letters, LETTERS), n = 1, replace = FALSE, .
   
   return(out)
   
-} # sample_chars end. 
+} # sample_char end. 
 
 # ## Check: 
-# sample_chars()
-# sample_chars(n = 10)
-# sample_chars(x_char = "abc", n = 10, replace = TRUE)
-# sample_chars(x_char = c("x y", "6 9"), n =  6, replace = FALSE)
-# sample_chars(x_char = c("x y", "6 9"), n = 20, replace = TRUE)
+# sample_char()
+# sample_char(n = 10)
+# sample_char(x_char = "abc", n = 10, replace = TRUE)
+# sample_char(x_char = c("x y", "6 9"), n =  6, replace = FALSE)
+# sample_char(x_char = c("x y", "6 9"), n = 20, replace = TRUE)
 # 
 # # Biased sampling: 
-# sample_chars(x_char = "abc", n = 20, replace = TRUE, prob = c(3/6, 2/6, 1/6))
+# sample_char(x_char = "abc", n = 20, replace = TRUE, prob = c(3/6, 2/6, 1/6))
 #
 # # Note: By default, n must not exceed nchar(x_char):
-# sample_chars(n = 52, replace = FALSE)    # works, but
-# # sample_chars(n = 53, replace = FALSE)  # yields ERROR.
-# sample_chars(n = 53, replace = TRUE)     # works again
+# sample_char(n = 52, replace = FALSE)    # works, but
+# # sample_char(n = 53, replace = FALSE)  # yields ERROR.
+# sample_char(n = 53, replace = TRUE)     # works again
 
 # ## Errors:
 #
-# sample_chars(x_char = 1)
-# sample_chars(x_char = NA)
-# sample_chars(x_char = NULL)
+# sample_char(x_char = 1)
+# sample_char(x_char = NA)
+# sample_char(x_char = NULL)
 #
-# sample_chars(x_char = "")
-# sample_chars(x_char = c("", ""))
-# sample_chars(x_char = c("", "", " "))
+# sample_char(x_char = "")
+# sample_char(x_char = c("", ""))
+# sample_char(x_char = c("", "", " "))
 
 # ## R meta-characters:
 # metas <- c(". \ | ( ) [ { ^ $ * + ?")
@@ -248,18 +248,18 @@ sample_chars <- function(x_char = c(letters, LETTERS), n = 1, replace = FALSE, .
 # nmv
 # 
 # # Apply: 
-# sample_chars(x_char = c(mcv, nmv), n = 24, replace = FALSE)  # unique items
-# sample_chars(x_char = c(mcv, nmv), n = 50, replace = TRUE)   # repeated items
+# sample_char(x_char = c(mcv, nmv), n = 24, replace = FALSE)  # unique items
+# sample_char(x_char = c(mcv, nmv), n = 50, replace = TRUE)   # repeated items
 
 
 # Sample random dates (from a given range): ------
 
 #' Draw a sample of n random dates (from a given range). 
 #'
-#' \code{sample_dates} draws a sample of  
+#' \code{sample_date} draws a sample of  
 #' \code{n} random dates from a given range.
 #' 
-#' By default, \code{sample_dates} draws \code{n = 1} 
+#' By default, \code{sample_date} draws \code{n = 1} 
 #' random date in the range 
 #' \code{from = "1970-01-01"} 
 #' \code{to = Sys.Date()} (current date).
@@ -274,19 +274,19 @@ sample_chars <- function(x_char = c(letters, LETTERS), n = 1, replace = FALSE, .
 #' Default: \code{to = Sys.Date()}. 
 #' 
 #' @examples
-#' sample_dates()
-#' sort(sample_dates(n = 10))
-#' sort(sample_dates(n = 10, from = "2020-02-28", to = "2020-03-01"))  # 2020 is a leap year
+#' sample_date()
+#' sort(sample_date(n = 10))
+#' sort(sample_date(n = 10, from = "2020-02-28", to = "2020-03-01"))  # 2020 is a leap year
 #' 
 #' # Note: Oddity with sample():
-#' sort(sample_dates(n = 10, from = "2020-01-01", to = "2020-01-01"))  # range of 0!
+#' sort(sample_date(n = 10, from = "2020-01-01", to = "2020-01-01"))  # range of 0!
 #' # see sample(9:9, size = 10, replace = TRUE)
 #' 
 #' @family sampling functions
 #'
 #' @export 
 
-sample_dates <- function(n = 1, from = "1970-01-01", to = Sys.Date()){
+sample_date <- function(n = 1, from = "1970-01-01", to = Sys.Date()){
   
   # set.seed(1984)  # for reproducible randomness
   d1 <- as.Date(from)  
@@ -298,12 +298,12 @@ sample_dates <- function(n = 1, from = "1970-01-01", to = Sys.Date()){
 }
 
 ## Check:
-# sample_dates()
-# sort(sample_dates(n = 10))
-# sort(sample_dates(n = 10, from = "2020-02-28", to = "2020-03-01"))  # 2020 is a leap year
+# sample_date()
+# sort(sample_date(n = 10))
+# sort(sample_date(n = 10, from = "2020-02-28", to = "2020-03-01"))  # 2020 is a leap year
 # 
 # # Note: Oddity with sample():
-# sort(sample_dates(n = 10, from = "2020-01-01", to = "2020-01-01"))  # range of 0!
+# sort(sample_date(n = 10, from = "2020-01-01", to = "2020-01-01"))  # range of 0!
 # # see sample(9:9, size = 10, replace = TRUE)
 
 
@@ -311,10 +311,10 @@ sample_dates <- function(n = 1, from = "1970-01-01", to = Sys.Date()){
 
 #' Draw a sample of n random times (from a given range). 
 #'
-#' \code{sample_times} draws a sample of  
+#' \code{sample_time} draws a sample of  
 #' \code{n} random times from a given range.
 #' 
-#' By default, \code{sample_times} draws \code{n = 1} 
+#' By default, \code{sample_time} draws \code{n = 1} 
 #' random time in the range 
 #' \code{from = "1970-01-01 00:00:00"} 
 #' \code{to = Sys.time()} (current time).
@@ -330,27 +330,27 @@ sample_dates <- function(n = 1, from = "1970-01-01", to = Sys.Date()){
 #' 
 #' @examples
 #' # Basics:
-#' sample_times()
-#' sample_times(n = 10)
+#' sample_time()
+#' sample_time(n = 10)
 #' 
 #' # Specific ranges:
-#' sort(sample_times(n = 10, from = (Sys.time() - 60)))  # within the last minute
-#' sort(sample_times(n = 10, from = (Sys.time() - 1 * 60 * 60)))  # within the last hour
-#' sort(sample_times(n = 10, from = Sys.time(), 
-#'                             to = (Sys.time() + 1 * 60 * 60)))  # within the next hour
-#' sort(sample_times(n = 10, from = "2020-01-01 00:00:00 CET", 
-#'                             to = "2020-01-01 00:00:01 CET"))  # within 1 sec range
+#' sort(sample_time(n = 10, from = (Sys.time() - 60)))  # within the last minute
+#' sort(sample_time(n = 10, from = (Sys.time() - 1 * 60 * 60)))  # within the last hour
+#' sort(sample_time(n = 10, from = Sys.time(), 
+#'                            to = (Sys.time() + 1 * 60 * 60)))  # within the next hour
+#' sort(sample_time(n = 10, from = "2020-01-01 00:00:00 CET", 
+#'                            to = "2020-01-01 00:00:01 CET"))  # within 1 sec range
 #'  
 #' # Note: Oddity with sample(): 
-#' sort(sample_times(n = 10, from = "2020-01-01 00:00:00 CET", 
-#'                             to = "2020-01-01 00:00:00 CET"))  # range of 0!
+#' sort(sample_time(n = 10, from = "2020-01-01 00:00:00 CET", 
+#'                            to = "2020-01-01 00:00:00 CET"))  # range of 0!
 #' # see sample(9:9, size = 10, replace = TRUE)
 #' 
 #' @family sampling functions
 #'
 #' @export
 
-sample_times <- function(n = 1, from = "1970-01-01 00:00:00", to = Sys.time()){
+sample_time <- function(n = 1, from = "1970-01-01 00:00:00", to = Sys.time()){
   
   t1 <- as.POSIXlt(from)
   t2 <- as.POSIXlt(to)
@@ -362,17 +362,17 @@ sample_times <- function(n = 1, from = "1970-01-01 00:00:00", to = Sys.time()){
 
 # ## Check:
 # # Basics:
-# sample_times()
-# sample_times(n = 10)
+# sample_time()
+# sample_time(n = 10)
 # 
 # # Specific ranges:
-# sort(sample_times(n = 10, from = (Sys.time() - 60)))  # within the last minute
-# sort(sample_times(n = 10, from = (Sys.time() - 1 * 60 * 60)))  # within the last hour
-# sort(sample_times(n = 10, from = Sys.time(), to = (Sys.time() + 1 * 60 * 60)))  # within the next hour
-# sort(sample_times(n = 10, from = "2020-01-01 00:00:00 CET", to = "2020-01-01 00:00:01 CET"))  # within 1 sec range
+# sort(sample_time(n = 10, from = (Sys.time() - 60)))  # within the last minute
+# sort(sample_time(n = 10, from = (Sys.time() - 1 * 60 * 60)))  # within the last hour
+# sort(sample_time(n = 10, from = Sys.time(), to = (Sys.time() + 1 * 60 * 60)))  # within next hour
+# sort(sample_time(n = 10, from = "2020-01-01 00:00:00 CET", to = "2020-01-01 00:00:01 CET"))  # 1 sec range
 # 
 # # Note: Oddity with sample():
-# sort(sample_times(n = 10, from = "2020-01-01 00:00:00 CET", to = "2020-01-01 00:00:00 CET"))  # range of 0!
+# sort(sample_time(n = 10, from = "2020-01-01 00:00:00 CET", to = "2020-01-01 00:00:00 CET"))  # range of 0!
 # # see sample(9:9, size = 10, replace = TRUE)
 
 ## Note: Sampling normally distributed times:

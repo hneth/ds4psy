@@ -19,11 +19,12 @@ The current development version of **ds4psy** (0.2.1.9001+) is hosted at <https:
 - added `metachar` (as a character vector).  
 - added `Umlaut` (as a named character vector).  
 - added datasets of `countries`, `fruits`, and `flowery` phrases (as character vectors).  
-- added `sample_chars()` function.  
+- added `sample_char()` function.  
 
 
 ## Details 
 
+- renamed `sample_date()` and `sample_time()` (to use singular form). 
 - renamed family of `text functions` to `text objects and functions`.  
 - renamed family of `random functions` to `sampling functions`.  
 
@@ -85,7 +86,7 @@ Changes involving new functionality include:
 - added `plot_text()` plotting function  
 - added `read_ascii()` and `count_char()` text processing functions 
 - added `caseflip()` and `capitalize()` text processing functions 
-- added random date and time generation functions (e.g., for `sample_dates()` and `sample_times()`) 
+- added random date and time generation functions (e.g., for `sample_date()` and `sample_time()`) 
 - added simple date and time functions (e.g., `cur_date()`, `cur_time()`, for Chapter 10: Time data) 
 - added `what_` functions for simple date and time queries (for Chapter 10: Time data) 
 
