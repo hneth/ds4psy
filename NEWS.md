@@ -16,6 +16,7 @@ The current development version of **ds4psy** (0.2.1.9001+) is hosted at <https:
 
 ## Minor changes 
 
+- added `count_word()` function (in analogy to `count_char()` function). 
 - added `metachar` (as a character vector).  
 - added `Umlaut` (as a named character vector).  
 - added datasets of `countries`, `fruits`, and `flowery` phrases (as character vectors).  
@@ -168,6 +169,6 @@ Details and cosmetics:
 - use a unified theme template for all plots  
 
 
-[File `News.md` updated on 2020-05-17.]
+[File `News.md` updated on 2020-05-20.]
 
 <!-- eof. -->
