@@ -630,11 +630,83 @@ count_char <- function(x, # string of text to count
 # freq["e"]
 
 
-## Two text helper functions: ------- 
+## Text helper functions: ------- 
+
+## text_to_sentences: Turn a text (consisting of one or more strings) into a vector of all its sentences: ------ 
+
+#' text_to_sentences turns a string of text \code{x} 
+#' (consisting of one or more character strings) 
+#' into a vector of its sentences. 
+#' 
+#' text_to_sentences removes all (standard) punctuation marks and empty spaces 
+#' and returns a vector of all remaining character sequences  
+#' (as the sentences).
+#'
+#' @param x A string of text (required).
+#' 
+#' @examples
+#' # Default: 
+#' x <- c("Hello!", "This is a 1st sentence.", "Is this a question?", "The end.")
+#' text_to_sentences(x)
+#' 
+#' @family text objects and functions
+#'
+#' @seealso
+#' \code{\link{text_to_words}} for turning text into a vector of words. 
+#' 
+#' @export
+
+text_to_sentences <- function(x){
+  
+  s <- NA
+  
+  # Paste all into one string:
+  x1 <- paste(x, collapse = "")
+  
+  # Split at SENTENCE punctuation:
+  x2 <- unlist(strsplit(x1, split = "\\.|\\?|!"))
+  
+  # # Remove empty space:
+  # x3 <- unlist(strsplit(x2, split = "( ){2,}"))
+  
+  # Remove all instances of "":
+  s <- x2[x2 != ""]
+  
+  return(s)
+  
+}
+
+# ## Check:
+# s3 <- c("A first sentence.", "The second sentence.",
+#         "A third --- and also the final --- sentence.")
+# text_to_sentences(s3)
+
 
 ## text_to_words: Turn a text (consisting of one or more strings) into a vector of all its words: ------ 
 
-text_to_words <- function(x, split = " "){
+#' text_to_words turns a string of text \code{x} 
+#' (consisting of one or more character strings) 
+#' into a vector of its words.
+#' 
+#' text_to_words first removes all punctuation and empty spaces 
+#' and returns a vector of all remaining character symbols 
+#' (as the words).
+#'
+#' @param x A string of text (required).
+#' 
+#' @examples
+#' # Default: 
+#' x <- c("Hello!", "This is a 1st sentence.", "This is the 2nd sentence.", "The end.")
+#' text_to_words(x)
+#' 
+#' @family text objects and functions
+#'
+#' @seealso
+#' \code{\link{count_word}} for counting the frequency of words. 
+#' 
+#' @export
+
+text_to_words <- function(x){
   
   w <- NA
   
