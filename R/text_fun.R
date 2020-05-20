@@ -646,7 +646,7 @@ count_char <- function(x, # string of text to count
 #' 
 #' @examples
 #' # Default: 
-#' x <- c("Hello!", "This is a 1st sentence.", "Is this a question?", "The end.")
+#' x <- c("Hello!", "This is a 1st sentence.  Is this a question?", " The end.")
 #' text_to_sentences(x)
 #' 
 #' @family text objects and functions
@@ -666,18 +666,18 @@ text_to_sentences <- function(x){
   # Split at SENTENCE punctuation:
   x2 <- unlist(strsplit(x1, split = "\\.|\\?|!"))
   
-  # # Remove empty space:
-  # x3 <- unlist(strsplit(x2, split = "( ){2,}"))
+  # Remove empty LEADING spaces:
+  x3 <- unlist(strsplit(x2, split = "^( ){1,}"))
   
   # Remove all instances of "":
-  s <- x2[x2 != ""]
+  s <- x3[x3 != ""]
   
   return(s)
   
 }
 
 # ## Check:
-# s3 <- c("A first sentence.", "The second sentence.",
+# s3 <- c("A first sentence.  The second sentence?",
 #         "A third --- and also the final --- sentence.")
 # text_to_sentences(s3)
 
