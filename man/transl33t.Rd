@@ -57,6 +57,8 @@ Other text objects and functions:
 \code{\link{count_word}()},
 \code{\link{l33t_rul35}},
 \code{\link{metachar}},
-\code{\link{read_ascii}()}
+\code{\link{read_ascii}()},
+\code{\link{text_to_sentences}()},
+\code{\link{text_to_words}()}
 }
 \concept{text objects and functions}

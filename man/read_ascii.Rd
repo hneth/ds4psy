@@ -67,6 +67,8 @@ Other text objects and functions:
 \code{\link{count_word}()},
 \code{\link{l33t_rul35}},
 \code{\link{metachar}},
+\code{\link{text_to_sentences}()},
+\code{\link{text_to_words}()},
 \code{\link{transl33t}()}
 }
 \concept{text objects and functions}
