@@ -18,7 +18,7 @@ and returns a vector of all remaining character sequences
 }
 \examples{
 # Default: 
-x <- c("Hello!", "This is a 1st sentence.", "Is this a question?", "The end.")
+x <- c("Hello!", "This is a 1st sentence.  Is this a question?", " The end.")
 text_to_sentences(x)
 
 }
