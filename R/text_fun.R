@@ -1,5 +1,5 @@
 ## text_fun.R | ds4psy
-## hn | uni.kn | 2020 05 17
+## hn | uni.kn | 2020 05 20
 ## ---------------------------
 
 ## Character objects and functions for string/text objects. 
@@ -559,6 +559,7 @@ read_ascii <- function(file = "", flip_y = FALSE){
 #' @family text objects and functions
 #'
 #' @seealso
+#' \code{\link{count_word}} for counting the frequency of words;   
 #' \code{\link{plot_text}} for a corresponding plot function. 
 #' 
 #' @export
@@ -629,6 +630,118 @@ count_char <- function(x, # string of text to count
 # freq["e"]
 
 
+## Two text helper functions: ------- 
+
+## text_to_words: Turn a text (consisting of one or more strings) into a vector of all its words: ------ 
+
+text_to_words <- function(x, split = " "){
+  
+  w <- NA
+  
+  # Remove punctuation:
+  x2 <- unlist(strsplit(x, split = "[[:punct:]]"))
+  
+  # Remove empty space:
+  x3 <- unlist(strsplit(x2, split = "( ){1,}"))
+  
+  # Remove all instances of "":
+  w <- x3[x3 != ""]
+  
+  return(w)
+  
+}
+
+# ## Check:
+# s3 <- c("A first sentence.", "The second sentence.", 
+#         "A third --- and also the final --- sentence.")
+# wv <- text_to_words(s3)
+# wv
+
+## words_to_text: Turn a vector of words into a (single) vector: ------ 
+
+words_to_text <- function(w, collapse = " "){
+  
+  paste(w, collapse = collapse)
+  
+}
+
+## Check:
+# words_to_text(wv)
+
+
+## count_word: Count the frequency of words in a string: -------- 
+
+#' count_word counts the frequency of words  
+#' in a string of text \code{x}.
+#'
+#' @param x A string of text (required).
+#' 
+#' @param case_sense Boolean: Distinguish lower- vs. uppercase characters? 
+#' Default: \code{case_sense = TRUE}. 
+#' 
+#' @param sort_freq Boolean: Sort output by word frequency? 
+#' Default: \code{sort_freq = TRUE}. 
+#' 
+#' @examples
+#' # Default: 
+#' s3 <- c("A first sentence.", "The second sentence.", 
+#'         "A third --- and also the final --- sentence.")
+#' count_word(s3)  # case-sensitive, sorts by frequency 
+#' 
+#' # Options: 
+#' count_word(s3, case_sense = FALSE)  # case insensitive
+#' count_word(s3, sort_freq = FALSE)   # sorts alphabetically
+#'  
+#' @family text objects and functions
+#'
+#' @seealso
+#' \code{\link{count_char}} for counting the frequency of characters;   
+#' \code{\link{plot_text}} for a corresponding plot function. 
+#' 
+#' @export
+
+count_word <- function(x,  # string of text to count
+                       case_sense = TRUE, 
+                       sort_freq = TRUE
+){
+  
+  freq <- NA  # initialize
+  
+  v0 <- as.character(x)  # read input (as character)
+  
+  if (case_sense){
+    v1 <- v0  # as is
+  } else {
+    v1 <- tolower(v0)  # lowercase
+  }
+  
+  # Split input into a vector of all its words:
+  w <- text_to_words(v1)
+  
+  if (sort_freq){
+    
+    freq <- sort(table(w), decreasing = TRUE)
+    
+  } else { # no sorting:
+    
+    freq <- table(w)    
+    
+  } # if (sort_freq).
+  
+  return(freq)
+  
+} # count_word end.
+
+
+# ## Check:
+# s3 <- c("A first sentence.", "The second sentence.", 
+#         "A third --- and also the final --- sentence.")
+# 
+# count_word(s3)                      # case-sens, sorts by frequency 
+# count_word(s3, case_sense = FALSE)  # case insensitive
+# count_word(s3, sort_freq = FALSE)   # sorts alphabetically
+
+
 # (4) Capitalization ---------- 
 
 ## caseflip: Flip lower to upper case and vice versa: --------  
@@ -668,20 +781,6 @@ caseflip <- function(x){
 # caseflip(c("Hi there", "Does this work as well?"))
 # caseflip(NA)
 
-
-## Text helper functions: ------- 
-
-text_to_words <- function(s, split = " "){
-  
-  unlist(strsplit(s, split = split))  
-  
-}
-
-words_to_text <- function(w, collapse = " "){
-  
-  paste(w, collapse = collapse)
-  
-}
 
 
 ## capitalize the first n letters of words (w/o exception): -------- 
@@ -772,6 +871,8 @@ capitalize <- function(x, # string of text to capitalize
 # capitalize(x, n = 3)
 # capitalize(x, n = 2, upper = FALSE)
 # capitalize(x, as_text = FALSE)
+
+
 
 
 
