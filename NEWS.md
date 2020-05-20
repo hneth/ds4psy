@@ -16,6 +16,7 @@ The current development version of **ds4psy** (0.2.1.9001+) is hosted at <https:
 
 ## Minor changes 
 
+- added `text_to_sentences()` and `text_to_words()` functions. 
 - added `count_word()` function (in analogy to `count_char()` function). 
 - added `metachar` (as a character vector).  
 - added `Umlaut` (as a named character vector).  
