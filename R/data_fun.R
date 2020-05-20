@@ -767,6 +767,7 @@ add_whats <- function(vec, amount, what = NA){
 # add_whats(1:10, .5, what = "ABC")
 
 
+
 ## (2) Make tables for plots: ----------
 
 # make_tb: Create (n x n) table tb for plots: --------
