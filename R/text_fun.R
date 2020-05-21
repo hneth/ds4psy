@@ -662,10 +662,14 @@ count_char <- function(x, # string of text to count
 #' 
 #' @examples
 #' x <- c("Hello!", "This is a 1st sentence.  Is this a question?", " The end.")
+#' text_to_sentences(x)
 #' 
-#' text_to_sentences(x)  # default
-#' text_to_sentences(x, split_delim = "\\.")  # split only at "."
+#' # Changing split delimiters:
+#' text_to_sentences(s3, split_delim = "\\.")  # split only at "."
+#' text_to_sentences("Buy apples, berries, and coconuts.")
+#' text_to_sentences("Buy apples, berries; and coconuts.", split_delim = ",|;|\\.")
 #' 
+#' # Note: 
 #' text_to_sentences("123. 456? 789! 007 etc.")
 #' text_to_sentences("Dr. Who is problematic.")
 #' 
@@ -707,10 +711,13 @@ text_to_sentences <- function(x,  # string(s) of text
 # s3 <- c("A first sentence.  The second sentence!",
 #         "A question?  A fourth --- and final --- sentence.")
 # text_to_sentences(s3)
-# 
-# text_to_sentences(s3, split_delim = "\\.")  # split only at "."
 #
-# text_to_sentences(x = c("123. 456? 789! 007 etc."))
+# # Changing split delimiters:
+# text_to_sentences(s3, split_delim = "\\.")  # split only at "."
+# text_to_sentences("Buy apples, berries, and coconuts.")
+# text_to_sentences("Buy apples, berries; and coconuts.", split_delim = ",|;|\\.")
+#
+# text_to_sentences(c("123. 456? 789! 007 etc."))
 # text_to_sentences("Dr. Who is problematic.")
 
 
