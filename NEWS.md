@@ -11,24 +11,25 @@ The current development version of **ds4psy** (0.2.1.9001+) is hosted at <https:
 
 ## Major changes 
 
-- none.
+- added data and functions for string manipulation and text processing
 
 
 ## Minor changes 
 
-- added `text_to_sentences()` and `text_to_words()` functions. 
-- added `count_word()` function (in analogy to `count_char()` function). 
-- added `metachar` (as a character vector).  
-- added `Umlaut` (as a named character vector).  
-- added datasets of `countries`, `fruits`, and `flowery` phrases (as character vectors).  
-- added `sample_char()` function.  
+- added `text_to_sentences()` and `text_to_words()` functions for text processing   
+- added `count_words()` (in analogy to `count_chars()`) function for text processing  
+- added `metachar` (as a character vector) 
+- added `Umlaut` (as a named character vector)   
+- added datasets of `countries`, `fruits`, and `flowery` phrases (as character vectors)   
+- added `sample_char()` function
 
 
 ## Details 
 
-- renamed `sample_date()` and `sample_time()` (to use singular form). 
-- renamed family of `text functions` to `text objects and functions`.  
-- renamed family of `random functions` to `sampling functions`.  
+- renamed `count_char()` to `count_chars()` (to use plural form) 
+- renamed `sample_date()` and `sample_time()` (to use singular form)  
+- renamed family of `text functions` to `text objects and functions`  
+- renamed family of `random functions` to `sampling functions`  
 
 
 ## To do
@@ -86,8 +87,8 @@ Changes involving new functionality include:
 - added random data generation functions (e.g., for `coin()` flips and `dice()` throws)
 - added `is.wholenumber()` to test for integer values (mentioned in R oddities)
 - added `plot_text()` plotting function  
-- added `read_ascii()` and `count_char()` text processing functions 
-- added `caseflip()` and `capitalize()` text processing functions 
+- added `read_ascii()` and `count_chars()` functions for text processing 
+- added `caseflip()` and `capitalize()` functions for text processing 
 - added random date and time generation functions (e.g., for `sample_date()` and `sample_time()`) 
 - added simple date and time functions (e.g., `cur_date()`, `cur_time()`, for Chapter 10: Time data) 
 - added `what_` functions for simple date and time queries (for Chapter 10: Time data) 
