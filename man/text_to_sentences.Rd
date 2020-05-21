@@ -33,25 +33,29 @@ split strings.
 }
 \examples{
 x <- c("Hello!", "This is a 1st sentence.  Is this a question?", " The end.")
+text_to_sentences(x)
 
-text_to_sentences(x)  # default
-text_to_sentences(x, split_delim = "\\\\.")  # split only at "."
+# Changing split delimiters:
+text_to_sentences(s3, split_delim = "\\\\.")  # split only at "."
+text_to_sentences("Buy apples, berries, and coconuts.")
+text_to_sentences("Buy apples, berries; and coconuts.", split_delim = ",|;|\\\\.")
 
+# Note: 
 text_to_sentences("123. 456? 789! 007 etc.")
 text_to_sentences("Dr. Who is problematic.")
 
 }
 \seealso{
 \code{\link{text_to_words}} for splitting text into a vector of words; 
-\code{\link{count_word}} for counting the frequency of words; 
+\code{\link{count_words}} for counting the frequency of words; 
 \code{\link{strsplit}} for splitting strings.
 
 Other text objects and functions: 
 \code{\link{Umlaut}},
 \code{\link{capitalize}()},
 \code{\link{caseflip}()},
-\code{\link{count_char}()},
-\code{\link{count_word}()},
+\code{\link{count_chars}()},
+\code{\link{count_words}()},
 \code{\link{l33t_rul35}},
 \code{\link{metachar}},
 \code{\link{read_ascii}()},
