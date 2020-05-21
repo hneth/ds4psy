@@ -1,5 +1,5 @@
 ## text_fun.R | ds4psy
-## hn | uni.kn | 2020 05 20
+## hn | uni.kn | 2020 05 21
 ## ---------------------------
 
 ## Character objects and functions for string/text objects. 
@@ -634,66 +634,105 @@ count_char <- function(x, # string of text to count
 
 ## text_to_sentences: Turn a text (consisting of one or more strings) into a vector of all its sentences: ------ 
 
-#' text_to_sentences turns a string of text \code{x} 
+#' text_to_sentences splits a string of text \code{x} 
 #' (consisting of one or more character strings) 
-#' into a vector of its sentences. 
+#' into a vector of its constituting sentences. 
 #' 
-#' text_to_sentences removes all (standard) punctuation marks and empty spaces 
-#' and returns a vector of all remaining character sequences  
+#' \code{text_to_sentences} removes all punctuation marks 
+#' in \code{split_delim} (by default: \code{.|?|!}) 
+#' and any empty leading spaces 
+#' before returning a vector of the remaining character sequences  
 #' (as the sentences).
+#' 
+#' As any dot (i.e., the metacharacter \code{"\\."}) is 
+#' interpreted as a full stop, sentences containing dots 
+#' are split mid-sentence. 
+#' 
+#' \code{text_to_sentences} uses \code{\link{strsplit}} to 
+#' split strings.
+#' 
 #'
-#' @param x A string of text (required).
+#' @param x A string of text (required), 
+#' typically a character vector. 
+#' 
+#' @param split_delim Sentence delimiters (as regex) 
+#' used to split \code{x} into substrings. 
+#' By default, \code{split_delim = "\\.|\\?|!"}. 
+#' 
 #' 
 #' @examples
-#' # Default: 
 #' x <- c("Hello!", "This is a 1st sentence.  Is this a question?", " The end.")
-#' text_to_sentences(x)
+#' 
+#' text_to_sentences(x)  # default
+#' text_to_sentences(x, split_delim = "\\.")  # split only at "."
+#' 
+#' text_to_sentences("123. 456? 789! 007 etc.")
+#' text_to_sentences("Dr. Who is problematic.")
 #' 
 #' @family text objects and functions
 #'
 #' @seealso
-#' \code{\link{text_to_words}} for turning text into a vector of words. 
+#' \code{\link{text_to_words}} for splitting text into a vector of words; 
+#' \code{\link{count_word}} for counting the frequency of words; 
+#' \code{\link{strsplit}} for splitting strings. 
 #' 
 #' @export
 
-text_to_sentences <- function(x){
+text_to_sentences <- function(x,  # string(s) of text
+                              split_delim = "\\.|\\?|!"  # sentence delimiters (as regex)
+){
   
-  s <- NA
+  st <- NA
+  
+  # Turn into character (if not already):
+  x1 <- as.character(x)
   
   # Paste all into one string:
-  x1 <- paste(x, collapse = "")
+  x2 <- paste(x1, collapse = "")
   
   # Split at SENTENCE punctuation:
-  x2 <- unlist(strsplit(x1, split = "\\.|\\?|!"))
+  x3 <- unlist(strsplit(x2, split = split_delim))
   
   # Remove empty LEADING spaces:
-  x3 <- unlist(strsplit(x2, split = "^( ){1,}"))
+  x4 <- unlist(strsplit(x3, split = "^( ){1,}"))
   
   # Remove all instances of "":
-  s <- x3[x3 != ""]
+  st <- x4[x4 != ""]
   
-  return(s)
+  return(st)
   
 }
 
 # ## Check:
-# s3 <- c("A first sentence.  The second sentence?",
-#         "A third --- and also the final --- sentence.")
+# s3 <- c("A first sentence.  The second sentence!",
+#         "A question?  A fourth --- and final --- sentence.")
 # text_to_sentences(s3)
+# 
+# text_to_sentences(s3, split_delim = "\\.")  # split only at "."
+#
+# text_to_sentences(x = c("123. 456? 789! 007 etc."))
+# text_to_sentences("Dr. Who is problematic.")
 
 
-## text_to_words: Turn a text (consisting of one or more strings) into a vector of all its words: ------ 
+## text_to_words: Turn a text (consisting of one or more strings) into a vector of its words: ------ 
 
-#' text_to_words turns a string of text \code{x} 
+#' text_to_words splits a string of text \code{x} 
 #' (consisting of one or more character strings) 
-#' into a vector of its words.
+#' into a vector of its constituting words.
 #' 
-#' text_to_words first removes all punctuation and empty spaces 
-#' and returns a vector of all remaining character symbols 
+#' \code{text_to_words} removes all (standard) punctuation marks 
+#' and empty spaces in the resulting parts, 
+#' before returning a vector of the remaining character symbols 
 #' (as the words).
-#'
-#' @param x A string of text (required).
 #' 
+#' \code{text_to_words} uses \code{\link{strsplit}} to 
+#' split strings.
+#'
+#'
+#' @param x A string of text (required), 
+#' typically a character vector. 
+#'
+#'  
 #' @examples
 #' # Default: 
 #' x <- c("Hello!", "This is a 1st sentence.", "This is the 2nd sentence.", "The end.")
@@ -702,24 +741,30 @@ text_to_sentences <- function(x){
 #' @family text objects and functions
 #'
 #' @seealso
-#' \code{\link{count_word}} for counting the frequency of words. 
+#' \code{\link{text_to_sentences}} for splitting text into a vector of sentences;  
+#' \code{\link{count_word}} for counting the frequency of words; 
+#' \code{\link{strsplit}} for splitting strings. 
 #' 
 #' @export
 
-text_to_words <- function(x){
+text_to_words <- function(x  # string(s) of text
+){
   
-  w <- NA
+  ws <- NA
+  
+  # Turn into character (if not already):
+  x1 <- as.character(x)
   
   # Remove punctuation:
-  x2 <- unlist(strsplit(x, split = "[[:punct:]]"))
+  x2 <- unlist(strsplit(x1, split = "[[:punct:]]"))
   
   # Remove empty space:
   x3 <- unlist(strsplit(x2, split = "( ){1,}"))
   
   # Remove all instances of "":
-  w <- x3[x3 != ""]
+  ws <- x3[x3 != ""]
   
-  return(w)
+  return(ws)
   
 }
 
@@ -772,14 +817,15 @@ words_to_text <- function(w, collapse = " "){
 #' 
 #' @export
 
-count_word <- function(x,  # string of text to count
+count_word <- function(x,  # string(s) of text
                        case_sense = TRUE, 
                        sort_freq = TRUE
 ){
   
   freq <- NA  # initialize
   
-  v0 <- as.character(x)  # read input (as character)
+  # Turn into character (if not already):
+  v0 <- as.character(x)
   
   if (case_sense){
     v1 <- v0  # as is
