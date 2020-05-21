@@ -530,9 +530,9 @@ read_ascii <- function(file = "", flip_y = FALSE){
 # read_ascii()
 
 
-## count_char: Count the frequency of characters in a string: -------- 
+## count_chars: Count the frequency of characters in a string: -------- 
 
-#' count_char counts the frequency of characters 
+#' count_chars counts the frequency of characters 
 #' in a string of text \code{x}.
 #'
 #' @param x A string of text (required).
@@ -549,25 +549,25 @@ read_ascii <- function(file = "", flip_y = FALSE){
 #' @examples
 #' # Default: 
 #' x <- c("Hello!", "This is a 1st sentence.", "This is the 2nd sentence.", "The end.")
-#' count_char(x)
+#' count_chars(x)
 #' 
 #' # Options: 
-#' count_char(x, case_sense = FALSE)
-#' count_char(x, rm_specials = FALSE)
-#' count_char(x, sort_freq = FALSE)
+#' count_chars(x, case_sense = FALSE)
+#' count_chars(x, rm_specials = FALSE)
+#' count_chars(x, sort_freq = FALSE)
 #'  
 #' @family text objects and functions
 #'
 #' @seealso
-#' \code{\link{count_word}} for counting the frequency of words;   
+#' \code{\link{count_words}} for counting the frequency of words;   
 #' \code{\link{plot_text}} for a corresponding plot function. 
 #' 
 #' @export
 
-count_char <- function(x, # string of text to count
-                       case_sense = TRUE, 
-                       rm_specials = TRUE, 
-                       sort_freq = TRUE
+count_chars <- function(x, # string of text to count
+                        case_sense = TRUE, 
+                        rm_specials = TRUE, 
+                        sort_freq = TRUE
 ){
   
   freq <- NA  # initialize
@@ -614,18 +614,18 @@ count_char <- function(x, # string of text to count
   
   return(freq)
   
-} # count_char. 
+} # count_chars end. 
 
 # ## Check:
 # x <- c("Hello!", "This is a 1st sentence.", "This is the 2nd sentence.", "The end.")
 # 
-# count_char(x)
-# count_char(x, case_sense = FALSE)
-# count_char(x, rm_specials = FALSE)
-# count_char(x, sort_freq = FALSE)
+# count_chars(x)
+# count_chars(x, case_sense = FALSE)
+# count_chars(x, rm_specials = FALSE)
+# count_chars(x, sort_freq = FALSE)
 # 
-# # Note: count_char returns a named vector of type integer:
-# freq <- count_char(x)
+# # Note: count_chars returns a named vector of type integer:
+# freq <- count_chars(x)
 # typeof(freq)
 # freq["e"]
 
@@ -677,7 +677,7 @@ count_char <- function(x, # string of text to count
 #'
 #' @seealso
 #' \code{\link{text_to_words}} for splitting text into a vector of words; 
-#' \code{\link{count_word}} for counting the frequency of words; 
+#' \code{\link{count_words}} for counting the frequency of words; 
 #' \code{\link{strsplit}} for splitting strings. 
 #' 
 #' @export
@@ -749,7 +749,7 @@ text_to_sentences <- function(x,  # string(s) of text
 #'
 #' @seealso
 #' \code{\link{text_to_sentences}} for splitting text into a vector of sentences;  
-#' \code{\link{count_word}} for counting the frequency of words; 
+#' \code{\link{count_words}} for counting the frequency of words; 
 #' \code{\link{strsplit}} for splitting strings. 
 #' 
 #' @export
@@ -793,9 +793,9 @@ words_to_text <- function(w, collapse = " "){
 # words_to_text(wv)
 
 
-## count_word: Count the frequency of words in a string: -------- 
+## count_words: Count the frequency of words in a string: -------- 
 
-#' count_word counts the frequency of words  
+#' count_words counts the frequency of words  
 #' in a string of text \code{x}.
 #'
 #' @param x A string of text (required).
@@ -810,23 +810,23 @@ words_to_text <- function(w, collapse = " "){
 #' # Default: 
 #' s3 <- c("A first sentence.", "The second sentence.", 
 #'         "A third --- and also the final --- sentence.")
-#' count_word(s3)  # case-sensitive, sorts by frequency 
+#' count_words(s3)  # case-sensitive, sorts by frequency 
 #' 
 #' # Options: 
-#' count_word(s3, case_sense = FALSE)  # case insensitive
-#' count_word(s3, sort_freq = FALSE)   # sorts alphabetically
+#' count_words(s3, case_sense = FALSE)  # case insensitive
+#' count_words(s3, sort_freq = FALSE)   # sorts alphabetically
 #'  
 #' @family text objects and functions
 #'
 #' @seealso
-#' \code{\link{count_char}} for counting the frequency of characters;   
+#' \code{\link{count_chars}} for counting the frequency of characters;   
 #' \code{\link{plot_text}} for a corresponding plot function. 
 #' 
 #' @export
 
-count_word <- function(x,  # string(s) of text
-                       case_sense = TRUE, 
-                       sort_freq = TRUE
+count_words <- function(x,  # string(s) of text
+                        case_sense = TRUE, 
+                        sort_freq = TRUE
 ){
   
   freq <- NA  # initialize
@@ -855,16 +855,16 @@ count_word <- function(x,  # string(s) of text
   
   return(freq)
   
-} # count_word end.
+} # count_words end.
 
 
 # ## Check:
 # s3 <- c("A first sentence.", "The second sentence.", 
 #         "A third --- and also the final --- sentence.")
 # 
-# count_word(s3)                      # case-sens, sorts by frequency 
-# count_word(s3, case_sense = FALSE)  # case insensitive
-# count_word(s3, sort_freq = FALSE)   # sorts alphabetically
+# count_words(s3)                      # case-sens, sorts by frequency 
+# count_words(s3, case_sense = FALSE)  # case insensitive
+# count_words(s3, sort_freq = FALSE)   # sorts alphabetically
 
 
 # (4) Capitalization ---------- 
