@@ -35,9 +35,9 @@ split strings.
 x <- c("Hello!", "This is a 1st sentence.  Is this a question?", " The end.")
 text_to_sentences(x)
 
-# Changing split delimiters:
-text_to_sentences(s3, split_delim = "\\\\.")  # split only at "."
-text_to_sentences("Buy apples, berries, and coconuts.")
+# Setting split delimiters:
+text_to_sentences(x, split_delim = "\\\\.")  # split only at "."
+text_to_sentences("Buy apples, berries, and coconuts.")  # default
 text_to_sentences("Buy apples, berries; and coconuts.", split_delim = ",|;|\\\\.")
 
 # Note: 
