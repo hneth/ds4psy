@@ -2,28 +2,49 @@
 % Please edit documentation in R/text_fun.R
 \name{text_to_sentences}
 \alias{text_to_sentences}
-\title{text_to_sentences turns a string of text \code{x} 
+\title{text_to_sentences splits a string of text \code{x} 
 (consisting of one or more character strings) 
-into a vector of its sentences.}
+into a vector of its constituting sentences.}
 \usage{
-text_to_sentences(x)
+text_to_sentences(x, split_delim = "\\\\.|\\\\?|!")
 }
 \arguments{
-\item{x}{A string of text (required).}
+\item{x}{A string of text (required), 
+typically a character vector.}
+
+\item{split_delim}{Sentence delimiters (as regex) 
+used to split \code{x} into substrings. 
+By default, \code{split_delim = "\\.|\\?|!"}.}
 }
 \description{
-text_to_sentences removes all (standard) punctuation marks and empty spaces 
-and returns a vector of all remaining character sequences  
+\code{text_to_sentences} removes all punctuation marks 
+in \code{split_delim} (by default: \code{.|?|!}) 
+and any empty leading spaces 
+before returning a vector of the remaining character sequences  
 (as the sentences).
 }
+\details{
+As any dot (i.e., the metacharacter \code{"\\."}) is 
+interpreted as a full stop, sentences containing dots 
+are split mid-sentence. 
+
+\code{text_to_sentences} uses \code{\link{strsplit}} to 
+split strings.
+}
 \examples{
-# Default: 
 x <- c("Hello!", "This is a 1st sentence.  Is this a question?", " The end.")
-text_to_sentences(x)
+
+text_to_sentences(x)  # default
+text_to_sentences(x, split_delim = "\\\\.")  # split only at "."
+
+text_to_sentences("123. 456? 789! 007 etc.")
+text_to_sentences("Dr. Who is problematic.")
 
 }
 \seealso{
-\code{\link{text_to_words}} for turning text into a vector of words.
+\code{\link{text_to_words}} for splitting text into a vector of words; 
+\code{\link{count_word}} for counting the frequency of words; 
+\code{\link{strsplit}} for splitting strings.
 
 Other text objects and functions: 
 \code{\link{Umlaut}},
