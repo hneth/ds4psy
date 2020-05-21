@@ -1,5 +1,5 @@
 ## plot_fun.R | ds4psy
-## hn | uni.kn | 2020 05 20
+## hn | uni.kn | 2020 05 21
 ## ---------------------------
 
 ## Functions for plotting. 
@@ -1268,7 +1268,7 @@ plot_text <- function(file = "",  # "" read from console; "test.txt" read from f
     # # char_freq <- dplyr::arrange(t2, desc(n))
     
     # (B) char_freq as named vector:
-    char_freq <- count_char(tb_txt$char, case_sense = TRUE, rm_specials = FALSE, sort_freq = TRUE)
+    char_freq <- count_chars(tb_txt$char, case_sense = TRUE, rm_specials = FALSE, sort_freq = TRUE)
     nr_unique_chars <- length(char_freq)
     
   } else {
@@ -1292,7 +1292,7 @@ plot_text <- function(file = "",  # "" read from console; "test.txt" read from f
     # # char_freq <- dplyr::arrange(t4, desc(n))
     
     # (B) char_freq as named vector:
-    char_freq <- count_char(tb_txt$char, case_sense = FALSE, rm_specials = FALSE, sort_freq = TRUE)
+    char_freq <- count_chars(tb_txt$char, case_sense = FALSE, rm_specials = FALSE, sort_freq = TRUE)
     nr_unique_chars <- length(char_freq)
     
   }
