@@ -6,7 +6,7 @@
 (consisting of one or more character strings) 
 into a vector of its constituting sentences.}
 \usage{
-text_to_sentences(x, split_delim = "\\\\.|\\\\?|!")
+text_to_sentences(x, split_delim = "\\\\.|\\\\?|!", force_delim = FALSE)
 }
 \arguments{
 \item{x}{A string of text (required), 
@@ -15,34 +15,63 @@ typically a character vector.}
 \item{split_delim}{Sentence delimiters (as regex) 
 used to split \code{x} into substrings. 
 By default, \code{split_delim = "\\.|\\?|!"}.}
+
+\item{force_delim}{Boolean: Enforce splitting at 
+\code{split_delim}? 
+If \code{force_delim = FALSE} (as per default), 
+the function assumes a standard sentence-splitting pattern: 
+\code{split_delim} is followed by a single space and a capital letter. 
+If \code{force_delim = TRUE}, splits at \code{split_delim} are 
+enforced (regardless of spacing or capitalization).}
 }
 \description{
-\code{text_to_sentences} removes all punctuation marks 
-in \code{split_delim} (by default: \code{.|?|!}) 
-and any empty leading spaces 
-before returning a vector of the remaining character sequences  
-(as the sentences).
+\code{text_to_sentences} splits at given punctuation marks 
+(as a regular expression, default: \code{split_delim = "\\.|\\?|!"})  
+and removes empty leading and trailing spaces before returning 
+a vector of the remaining character sequences (as the sentences).
 }
 \details{
-As any dot (i.e., the metacharacter \code{"\\."}) is 
-interpreted as a full stop, sentences containing dots 
-are split mid-sentence. 
+The Boolean \code{force_delim} distinguishes between 
+two splitting modes:
 
-\code{text_to_sentences} uses \code{\link{strsplit}} to 
+\enumerate{
+
+  \item If \code{force_delim = FALSE} (as per default), 
+  the function assumes a standard sentence-splitting pattern: 
+  A sentence delimiter in \code{split_delim} must be followed by 
+  a single space and a capital letter starting the next sentence. 
+  Sentence delimiters in \code{split_delim} are not removed 
+  from the output.
+  
+  \item If \code{force_delim = TRUE}, 
+  the function enforces splits at each delimiter in \code{split_delim}. 
+  For instance, any dot (i.e., the metacharacter \code{"\\."}) is  
+  interpreted as a full stop, so that sentences containing dots 
+  mid-sentence (e.g., for abbreviations, etc.) are split into parts. 
+  Sentence delimiters in \code{split_delim} are removed 
+  from the output.
+  
+  }
+
+Internally, \code{text_to_sentences} uses \code{\link{strsplit}} to 
 split strings.
 }
 \examples{
-x <- c("Hello!", "This is a 1st sentence.  Is this a question?", " The end.")
+x <- c("A first sentence. Exclamation sentence!", 
+       "Any questions? But etc. can be tricky. A fourth --- and final --- sentence.")
 text_to_sentences(x)
+text_to_sentences(x, force_delim = TRUE)
 
-# Setting split delimiters:
-text_to_sentences(x, split_delim = "\\\\.")  # split only at "."
-text_to_sentences("Buy apples, berries, and coconuts.")  # default
-text_to_sentences("Buy apples, berries; and coconuts.", split_delim = ",|;|\\\\.")
+# Changing split delimiters:
+text_to_sentences(x, split_delim = "\\\\.")  # only split at "."
 
-# Note: 
-text_to_sentences("123. 456? 789! 007 etc.")
+text_to_sentences("Buy apples, berries, and coconuts.")
+text_to_sentences("Buy apples, berries; and coconuts.", 
+                  split_delim = ",|;|\\\\.", force_delim = TRUE)
+                  
+text_to_sentences(c("123. 456? 789! 007 etc."), force_delim = TRUE)
 text_to_sentences("Dr. Who is problematic.")
+
 
 }
 \seealso{

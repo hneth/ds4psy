@@ -19,7 +19,7 @@ before returning a vector of the remaining character symbols
 (as the words).
 }
 \details{
-\code{text_to_words} uses \code{\link{strsplit}} to 
+Internally, \code{text_to_words} uses \code{\link{strsplit}} to 
 split strings.
 }
 \examples{
