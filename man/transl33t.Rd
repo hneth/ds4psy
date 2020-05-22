@@ -2,7 +2,7 @@
 % Please edit documentation in R/text_fun.R
 \name{transl33t}
 \alias{transl33t}
-\title{transl33t text into leet slang.}
+\title{transl33t translates text into leet slang.}
 \usage{
 transl33t(txt, rules = l33t_rul35, in_case = "no", out_case = "no")
 }
@@ -47,7 +47,7 @@ transl33t(txt = "hEllo world", in_case = "lo", out_case = "up",
 
 }
 \seealso{
-\code{\link{l33t_rul35}} for default rules.
+\code{\link{l33t_rul35}} for default rules used.
 
 Other text objects and functions: 
 \code{\link{Umlaut}},
