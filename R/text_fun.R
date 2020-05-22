@@ -1,5 +1,5 @@
 ## text_fun.R | ds4psy
-## hn | uni.kn | 2020 05 21
+## hn | uni.kn | 2020 05 22
 ## ---------------------------
 
 ## Character objects and functions for string/text objects. 
@@ -638,17 +638,34 @@ count_chars <- function(x, # string of text to count
 #' (consisting of one or more character strings) 
 #' into a vector of its constituting sentences. 
 #' 
-#' \code{text_to_sentences} removes all punctuation marks 
-#' in \code{split_delim} (by default: \code{.|?|!}) 
-#' and any empty leading spaces 
-#' before returning a vector of the remaining character sequences  
-#' (as the sentences).
+#' \code{text_to_sentences} splits at given punctuation marks 
+#' (as a regular expression, default: \code{split_delim = "\\.|\\?|!"})  
+#' and removes empty leading and trailing spaces before returning 
+#' a vector of the remaining character sequences (as the sentences).
 #' 
-#' As any dot (i.e., the metacharacter \code{"\\."}) is 
-#' interpreted as a full stop, sentences containing dots 
-#' are split mid-sentence. 
+#' The Boolean \code{force_delim} distinguishes between 
+#' two splitting modes:
 #' 
-#' \code{text_to_sentences} uses \code{\link{strsplit}} to 
+#' \enumerate{
+#' 
+#'   \item If \code{force_delim = FALSE} (as per default), 
+#'   the function assumes a standard sentence-splitting pattern: 
+#'   A sentence delimiter in \code{split_delim} must be followed by 
+#'   a single space and a capital letter starting the next sentence. 
+#'   Sentence delimiters in \code{split_delim} are not removed 
+#'   from the output.
+#'   
+#'   \item If \code{force_delim = TRUE}, 
+#'   the function enforces splits at each delimiter in \code{split_delim}. 
+#'   For instance, any dot (i.e., the metacharacter \code{"\\."}) is  
+#'   interpreted as a full stop, so that sentences containing dots 
+#'   mid-sentence (e.g., for abbreviations, etc.) are split into parts. 
+#'   Sentence delimiters in \code{split_delim} are removed 
+#'   from the output.
+#'   
+#'   }
+#' 
+#' Internally, \code{text_to_sentences} uses \code{\link{strsplit}} to 
 #' split strings.
 #' 
 #'
@@ -659,19 +676,31 @@ count_chars <- function(x, # string of text to count
 #' used to split \code{x} into substrings. 
 #' By default, \code{split_delim = "\\.|\\?|!"}. 
 #' 
+#' @param force_delim Boolean: Enforce splitting at 
+#' \code{split_delim}? 
+#' If \code{force_delim = FALSE} (as per default), 
+#' the function assumes a standard sentence-splitting pattern: 
+#' \code{split_delim} is followed by a single space and a capital letter. 
+#' If \code{force_delim = TRUE}, splits at \code{split_delim} are 
+#' enforced (regardless of spacing or capitalization).
 #' 
+#'  
 #' @examples
-#' x <- c("Hello!", "This is a 1st sentence.  Is this a question?", " The end.")
+#' x <- c("A first sentence. Exclamation sentence!", 
+#'        "Any questions? But etc. can be tricky. A fourth --- and final --- sentence.")
 #' text_to_sentences(x)
+#' text_to_sentences(x, force_delim = TRUE)
 #' 
-#' # Setting split delimiters:
-#' text_to_sentences(x, split_delim = "\\.")  # split only at "."
-#' text_to_sentences("Buy apples, berries, and coconuts.")  # default
-#' text_to_sentences("Buy apples, berries; and coconuts.", split_delim = ",|;|\\.")
+#' # Changing split delimiters:
+#' text_to_sentences(x, split_delim = "\\.")  # only split at "."
 #' 
-#' # Note: 
-#' text_to_sentences("123. 456? 789! 007 etc.")
+#' text_to_sentences("Buy apples, berries, and coconuts.")
+#' text_to_sentences("Buy apples, berries; and coconuts.", 
+#'                   split_delim = ",|;|\\.", force_delim = TRUE)
+#'                   
+#' text_to_sentences(c("123. 456? 789! 007 etc."), force_delim = TRUE)
 #' text_to_sentences("Dr. Who is problematic.")
+#' 
 #' 
 #' @family text objects and functions
 #'
@@ -683,41 +712,69 @@ count_chars <- function(x, # string of text to count
 #' @export
 
 text_to_sentences <- function(x,  # string(s) of text
-                              split_delim = "\\.|\\?|!"  # sentence delimiters (as regex)
+                              split_delim = "\\.|\\?|!",  # sentence delimiters (as regex)
+                              force_delim = FALSE         # force split at delimiters
 ){
   
   st <- NA
+  regex <- NA
+  # split_delim <- "([[:punct:]])"  # as user argument
   
   # Turn into character (if not already):
   x1 <- as.character(x)
   
   # Paste all into one string:
-  x2 <- paste(x1, collapse = "")
+  x2 <- paste(x1, collapse = " ")
   
-  # Split at SENTENCE punctuation:
-  x3 <- unlist(strsplit(x2, split = split_delim))
+  # Split at SENTENCE punctuation provided by split_delim:
+  if (!force_delim){
+    
+    # (1) Smart splitting: Expect well-formatted pattern: 
+    #     Sentence delimiter, single space, capital letter to start sentence: 
+    
+    regex <- paste("(?<=(", split_delim, "))\\s(?=[A-Z])", sep = "") # require single space and capitalization
+    
+    x3 <- unlist(strsplit(x2, split = regex, perl = TRUE))
+    
+  } else {
+    
+    # (2) Force split at delimiter provided by split_delim 
+    #     (e.g., if multiple spaces, or no capitalization of first letter in sentence): 
+    
+    # regex <- paste("(", split_delim, ")\\s(?=[A-Z])", sep = "")  # require single space and capitalization
+    regex <- split_delim  # force split at split_delim 
+    
+    x3 <- unlist(strsplit(x2, split = regex, perl = TRUE))
+    
+  }
   
-  # Remove empty LEADING spaces:
+  # Remove empty LEADING and TRAILING spaces:
   x4 <- unlist(strsplit(x3, split = "^( ){1,}"))
   
+  x5 <- unlist(strsplit(x4, split = "$( ){1,}"))  
+  
   # Remove all instances of "":
-  st <- x4[x4 != ""]
+  st <- x5[x5 != ""]
   
   return(st)
   
 }
 
 # ## Check:
-# s3 <- c("A first sentence.  The second sentence!",
-#         "A question?  A fourth --- and final --- sentence.")
-# text_to_sentences(s3)
-#
+# x <- c("A first sentence. Exclamation sentence!",
+#        "Any questions? But etc. can be tricky. A fourth --- and final --- sentence.")
+# text_to_sentences(x)
+# text_to_sentences(x, force_delim = TRUE)
+# 
+# 
 # # Changing split delimiters:
-# text_to_sentences(s3, split_delim = "\\.")  # split only at "."
+# text_to_sentences(x, split_delim = "\\.")  # only split at "."
+# 
 # text_to_sentences("Buy apples, berries, and coconuts.")
-# text_to_sentences("Buy apples, berries; and coconuts.", split_delim = ",|;|\\.")
-#
-# text_to_sentences(c("123. 456? 789! 007 etc."))
+# text_to_sentences("Buy apples, berries; and coconuts.", 
+#                   split_delim = ",|;|\\.", force_delim = TRUE)
+# 
+# text_to_sentences(c("123. 456? 789! 007 etc."), force_delim = TRUE)
 # text_to_sentences("Dr. Who is problematic.")
 
 
@@ -732,7 +789,7 @@ text_to_sentences <- function(x,  # string(s) of text
 #' before returning a vector of the remaining character symbols 
 #' (as the words).
 #' 
-#' \code{text_to_words} uses \code{\link{strsplit}} to 
+#' Internally, \code{text_to_words} uses \code{\link{strsplit}} to 
 #' split strings.
 #'
 #'
