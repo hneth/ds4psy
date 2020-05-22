@@ -192,7 +192,9 @@ my_l33t <- c("t" = "+",
              "r" = "R"
 ) 
 
-#' l33t_rul35 provides rules for translating into leet/l33t slang. 
+
+#' l33t_rul35 provides rules for translating text 
+#' into leet/l33t slang. 
 #' 
 #' \code{l33t_rul35} specifies rules for translating characters 
 #' into other characters (typically symbols) to mimic 
@@ -206,7 +208,11 @@ my_l33t <- c("t" = "+",
 #' 
 #' See \url{https://en.wikipedia.org/wiki/Leet} for details. 
 #' 
+#' 
 #' @family text objects and functions
+#' 
+#' @seealso
+#' \code{\link{transl33t}} for a corresponding function. 
 #' 
 #' @export
 
@@ -215,6 +221,7 @@ l33t_rul35 <- c(l33t_num, my_l33t)
 ## Check: 
 # l33t_rul35
 
+
 ## transl33t function: ------ 
 
 ## (a) Test:
@@ -222,7 +229,7 @@ l33t_rul35 <- c(l33t_num, my_l33t)
 
 ## (b) as function: 
 
-#' transl33t text into leet slang.
+#' transl33t translates text into leet slang.
 #'
 #' \code{transl33t} translates text into leet (or l33t) slang 
 #' given a set of rules.
@@ -263,7 +270,7 @@ l33t_rul35 <- c(l33t_num, my_l33t)
 #' @family text objects and functions
 #'
 #' @seealso
-#' \code{\link{l33t_rul35}} for default rules. 
+#' \code{\link{l33t_rul35}} for default rules used. 
 #' 
 #' @export
 
