@@ -16,6 +16,7 @@ The current development version of **ds4psy** (0.2.1.9001+) is hosted at <https:
 
 ## Minor changes 
 
+- added datasets of `Bushisms` and `Trumpisms` (as character vectors)   
 - added `text_to_sentences()` and `text_to_words()` functions for text processing   
 - added `count_words()` (in analogy to `count_chars()`) function for text processing  
 - added `metachar` (as a character vector) 
@@ -171,6 +172,6 @@ Details and cosmetics:
 - use a unified theme template for all plots  
 
 
-[File `News.md` updated on 2020-05-20.]
+[File `News.md` updated on 2020-05-24.]
 
 <!-- eof. -->
