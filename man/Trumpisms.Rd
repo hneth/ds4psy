@@ -10,7 +10,7 @@ with \code{length(Trumpisms) = 96}.
 }
 \source{
 Data originally based on \url{https://www.yourdictionary.com/slideshow/donald-trump-20-most-frequently-used-words.html} 
-and expanded by numerous speeches and Twitter tweets on \url{https://twitter.com/realDonaldTrump}.
+and expanded by public speeches and Twitter tweets on \url{https://twitter.com/realDonaldTrump}.
 }
 \usage{
 Trumpisms
