@@ -1081,27 +1081,6 @@
 "flowery"
 
 
-# (11d) Trumpisms: ---- 
-
-#' Data: Trumpisms. 
-#'
-#' \code{Trumpisms} contains words frequently used 
-#' by U.S. president Donald J. Trump 
-#' (the 45th and current president of the United States, 
-#' as of May 2020).
-#' 
-#' @format A vector of type \code{character}  
-#' with \code{length(Trumpisms) = 96}. 
-#' 
-#' @family datasets 
-#' 
-#' @source 
-#' Data originally based on \url{https://www.yourdictionary.com/slideshow/donald-trump-20-most-frequently-used-words.html} 
-#' and expanded by numerous speeches and Twitter tweets on \url{https://twitter.com/realDonaldTrump}. 
-
-"Trumpisms"
-
-
 # (11e) Bushisms: ---- 
 
 #' Data: Bushisms.  
@@ -1120,6 +1099,30 @@
 #' Data based on \url{https://en.wikipedia.org/wiki/Bushism}. 
 
 "Bushisms" 
+
+
+
+# (11e) Trumpisms: ---- 
+
+#' Data: Trumpisms. 
+#'
+#' \code{Trumpisms} contains words frequently used 
+#' by U.S. president Donald J. Trump 
+#' (the 45th and current president of the United States, 
+#' as of May 2020).
+#' 
+#' @format A vector of type \code{character}  
+#' with \code{length(Trumpisms) = 96}. 
+#' 
+#' @family datasets 
+#' 
+#' @source 
+#' Data originally based on \url{https://www.yourdictionary.com/slideshow/donald-trump-20-most-frequently-used-words.html} 
+#' and expanded by public speeches and Twitter tweets on \url{https://twitter.com/realDonaldTrump}. 
+
+"Trumpisms"
+
+
 
 
 ## ToDo: ----------
