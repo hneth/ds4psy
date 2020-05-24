@@ -46,6 +46,8 @@ and in long-format.
 \code{\link{posPsy_wide}} for a version of this file (in wide format).
 
 Other datasets: 
+\code{\link{Bushisms}},
+\code{\link{Trumpisms}},
 \code{\link{countries}},
 \code{\link{data_1}},
 \code{\link{data_2}},
