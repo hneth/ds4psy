@@ -1,5 +1,5 @@
 ## data.R | ds4psy
-## hn | uni.kn | 2020 05 14
+## hn | uni.kn | 2020 05 24
 ## ---------------------------
 
 ## Documentation of datasets included in /data. 
@@ -1079,6 +1079,47 @@
 #' Data based on \url{https://en.wikipedia.org/wiki/Rose_is_a_rose_is_a_rose_is_a_rose}.
 
 "flowery"
+
+
+# (11d) Trumpisms: ---- 
+
+#' Data: Trumpisms. 
+#'
+#' \code{Trumpisms} contains words frequently used 
+#' by U.S. president Donald J. Trump 
+#' (the 45th and current president of the United States, 
+#' as of May 2020).
+#' 
+#' @format A vector of type \code{character}  
+#' with \code{length(Trumpisms) = 96}. 
+#' 
+#' @family datasets 
+#' 
+#' @source 
+#' Data originally based on \url{https://www.yourdictionary.com/slideshow/donald-trump-20-most-frequently-used-words.html} 
+#' and expanded by numerous speeches and Twitter tweets on \url{https://twitter.com/realDonaldTrump}. 
+
+"Trumpisms"
+
+
+# (11e) Bushisms: ---- 
+
+#' Data: Bushisms.  
+#'
+#' \code{Bushisms} contains phrases spoken by 
+#' or attributed to U.S. president George W. Bush 
+#' (the 43rd president of the United States, 
+#' in office from January 2001 to January 2009).
+#' 
+#' @format A vector of type \code{character}  
+#' with \code{length(Bushisms) = 22}. 
+#' 
+#' @family datasets 
+#' 
+#' @source 
+#' Data based on \url{https://en.wikipedia.org/wiki/Bushism}. 
+
+"Bushisms" 
 
 
 ## ToDo: ----------
