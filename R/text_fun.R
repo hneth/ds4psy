@@ -119,6 +119,9 @@ mv[2] <- "\\"  # correction for \
 #' 
 #' @family text objects and functions
 #' 
+#' @seealso
+#' \code{\link{cclass}} for a vector of character classes. 
+#' 
 #' @export
 
 metachar <- mv
@@ -179,6 +182,9 @@ names(ccv) <- c("ltr", "LTR", "dig", "hex", "pun", "spc")
 #' grep("[[:alpha:]]", cclass, value = TRUE)
 #' 
 #' @family text objects and functions
+#' 
+#' @seealso
+#' \code{\link{metachar}} for a vector of metacharacters. 
 #' 
 #' @export
 
