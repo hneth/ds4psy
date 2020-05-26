@@ -3,6 +3,7 @@
 export(Umlaut)
 export(capitalize)
 export(caseflip)
+export(cclass)
 export(coin)
 export(count_chars)
 export(count_words)
