@@ -1,5 +1,5 @@
 ## text_fun.R | ds4psy
-## hn | uni.kn | 2020 05 22
+## hn | uni.kn | 2020 05 26
 ## ---------------------------
 
 ## Character objects and functions for string/text objects. 
@@ -81,7 +81,7 @@ Umlaut <- umlaut
 
 
 
-## Metachar: Metacharacters of extended regular expressions (in R): ------ 
+## metachar: Meta-characters of extended regular expressions (in R): ------ 
 
 # metachar provides the metacharacters of extended regular expressions (as a character vector)
 # See documentation to ?regex 
@@ -106,7 +106,11 @@ mv[2] <- "\\"  # correction for \
 #' \code{metachar} provides the metacharacters of extended regular expressions 
 #' (as a character vector).
 #' 
-#' See \code{?regex} for details. 
+#' \code{metachar} allows illustrating the notion of 
+#' meta-characters in regular expressions 
+#' (and provides corresponding exemplars). 
+#' 
+#' See \code{?base::regex} for details. 
 #' 
 #' @examples
 #' metachar
@@ -126,7 +130,69 @@ metachar <- mv
 # # writeLines(metachar)
 
 
-## Other text elements (for ds4psy course materials): ------ 
+
+## cclass: A (named) vector of different character classes (in R): ------ 
+
+# letters:
+ltr <- paste(letters, collapse = "")  # lowercase
+LTR <- paste(LETTERS, collapse = "")  # uppercase
+
+# digits: "0 1 2 3 4 5 6 7 8 9"
+dig <- paste(0:9, collapse = "")
+# hex: "0 1 2 3 4 5 6 7 8 9 A B C D E F a b c d e f"
+hex <- paste(c(0:9, LETTERS[1:6], letters[1:6]), collapse = "")
+
+# punctuation:
+pun <- "! # $ % & ' ( ) * + , - . / : ; < = > ? @ [ \\ ] ^ _ ` { | } ~"
+
+# spaces (4 different kinds):
+sp1 <- " "   # space
+sp2 <- "\t"  # tab
+sp3 <- "\n"  # new line
+sp4 <- "\r"  # return
+spc <- paste(sp1, sp2, sp3, sp4, collapse = " ")
+
+# Combine (to ccv):
+ccv <- c(ltr, LTR, dig, hex, pun, spc)
+names(ccv) <- c("ltr", "LTR", "dig", "hex", "pun", "spc")
+
+## Check: 
+# ccv
+# ccv["hex"]  # select by name
+# writeLines(ccv["pun"])
+
+
+#' cclass provides character classes   
+#' (as a named vector).
+#' 
+#' \code{cclass} provides different character classes  
+#' (as a named character vector).
+#' 
+#' \code{cclass} allows illustrating matching 
+#' character classes via regular expressions. 
+#' 
+#' See \code{?base::regex} for details. 
+#' 
+#' @examples
+#' cclass["hex"]  # select by name
+#' writeLines(cclass["pun"])
+#' grep("[[:alpha:]]", cclass, value = TRUE)
+#' 
+#' @family text objects and functions
+#' 
+#' @export
+
+cclass <- ccv
+
+## Check:
+# cclass
+# cclass["hex"]  # select by name
+# writeLines(cclass["pun"])
+# grep("[[:alpha:]]", cclass, value = TRUE)
+
+
+
+## Other/specific text elements (for ds4psy course materials): ------ 
 
 # course_title     <- paste0("Data science for psychologists")
 # course_title_abb <- paste0("ds4psy")
