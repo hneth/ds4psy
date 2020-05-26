@@ -42,6 +42,7 @@ Other text objects and functions:
 \code{\link{Umlaut}},
 \code{\link{capitalize}()},
 \code{\link{caseflip}()},
+\code{\link{cclass}},
 \code{\link{count_words}()},
 \code{\link{l33t_rul35}},
 \code{\link{metachar}},

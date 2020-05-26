@@ -32,6 +32,7 @@ Other text objects and functions:
 \code{\link{Umlaut}},
 \code{\link{capitalize}()},
 \code{\link{caseflip}()},
+\code{\link{cclass}},
 \code{\link{count_chars}()},
 \code{\link{count_words}()},
 \code{\link{metachar}},

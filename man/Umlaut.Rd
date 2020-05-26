@@ -36,6 +36,7 @@ paste0("Das ", Umlaut["U"], "ber-Ich ist ", Umlaut["a"], "rgerlich.")
 Other text objects and functions: 
 \code{\link{capitalize}()},
 \code{\link{caseflip}()},
+\code{\link{cclass}},
 \code{\link{count_chars}()},
 \code{\link{count_words}()},
 \code{\link{l33t_rul35}},
