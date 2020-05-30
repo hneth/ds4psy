@@ -1,5 +1,5 @@
 ## text_fun.R | ds4psy
-## hn | uni.kn | 2020 05 26
+## hn | uni.kn | 2020 05 30
 ## ---------------------------
 
 ## Character objects and functions for string/text objects. 
@@ -146,14 +146,16 @@ dig <- paste(0:9, collapse = "")
 hex <- paste(c(0:9, LETTERS[1:6], letters[1:6]), collapse = "")
 
 # punctuation:
-pun <- "! # $ % & ' ( ) * + , - . / : ; < = > ? @ [ \\ ] ^ _ ` { | } ~"
+# pun <- "! # $ % & ' ( ) * + , - . / : ; < = > ? @ [ \\ ] ^ _ ` { | } ~"  # with space
+pun <- "!#$%&'()*+,-./:;<=>?@[\\]^_`{|}~"  # w/o space
 
 # spaces (4 different kinds):
 sp1 <- " "   # space
 sp2 <- "\t"  # tab
 sp3 <- "\n"  # new line
 sp4 <- "\r"  # return
-spc <- paste(sp1, sp2, sp3, sp4, collapse = " ")
+# spc <- paste(sp1, sp2, sp3, sp4, collapse = " ")  # with space
+spc <- paste(sp1, sp2, sp3, sp4, collapse = "")  # w/o space
 
 # Combine (to ccv):
 ccv <- c(ltr, LTR, dig, hex, pun, spc)
@@ -163,7 +165,13 @@ names(ccv) <- c("ltr", "LTR", "dig", "hex", "pun", "spc")
 # ccv
 # ccv["hex"]  # select by name
 # writeLines(ccv["pun"])
-
+# stringr::str_view(ccv, "\\.", match = TRUE)
+# stringr::str_view(ccv, "\\\\", match = TRUE)
+# stringr::str_view(ccv, "[:punct:]", match = TRUE)
+# stringr::str_view(ccv, "[:space:]", match = TRUE)
+# stringr::str_view(ccv, "[:blank:]", match = TRUE)
+# stringr::str_view(ccv, "\t", match = TRUE)
+# grep("\r", ccv, value = TRUE)
 
 #' cclass provides character classes   
 #' (as a named vector).
@@ -195,7 +203,7 @@ cclass <- ccv
 # cclass["hex"]  # select by name
 # writeLines(cclass["pun"])
 # grep("[[:alpha:]]", cclass, value = TRUE)
-
+# grep("[[:space:]]", cclass, value = TRUE)
 
 
 ## Other/specific text elements (for ds4psy course materials): ------ 
