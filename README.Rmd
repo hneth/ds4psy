@@ -4,11 +4,11 @@ output: github_document
 
 <!-- README.md is generated from README.Rmd. Please edit THIS (Rmd) file. -->
 
-<!-- Use status badges: -->
+<!-- Use status badges: 
 
 [![CRAN_status](http://www.r-pkg.org/badges/version/ds4psy)](https://CRAN.R-project.org/package=ds4psy) 
 [![Downloads](http://cranlogs.r-pkg.org/badges/ds4psy?color=brightgreen)](http://www.r-pkg.org/pkg/ds4psy) 
-
+-->
 
 <!-- Possible status badges:
 
@@ -210,7 +210,7 @@ To cite **ds4psy** in derivations and publications, please use:
 
 - Neth, H. (2020). ds4psy: Data Science for Psychologists.  
 Social Psychology and Decision Sciences, University of Konstanz, Germany.  
-Textbook and R package (version 0.2.1, May 6, 2020).   
+Textbook and R package (version 0.3.0, June 15, 2020).   
 Retrieved from <https://bookdown.org/hneth/ds4psy/>. 
 
 A **BibTeX** entry for LaTeX users is: 
@@ -222,7 +222,7 @@ A **BibTeX** entry for LaTeX users is:
   year = {2020},
   organization = {Social Psychology and Decision Sciences, University of Konstanz},
   address = {Konstanz, Germany},
-  note = {Textbook and R package (version 0.2.1, May 6, 2020)},
+  note = {Textbook and R package (version 0.3.0, June 15, 2020)},
   url = {https://bookdown.org/hneth/ds4psy/} 
 }
 ```
