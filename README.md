@@ -126,9 +126,6 @@ install.packages('unikn')   # color palettes and functions
 ### Other resources
 
 <!-- #### Course essentials and exercises (WPAs) -->
-<!-- ds4psy logo: -->
-<a href="https://bookdown.org/hneth/ds4psy/"> <img src = "./inst/images/ds4psy.png" alt = "ds4psy" width = "150px" align = "right" style = "width: 150px; float: right; border:11;"/> </a>
-
 <!-- Table with links: -->
 <!-- All [ds4psy](http://rpository.com/ds4psy/) essentials (from) previous courses):  -->
 <!--
@@ -169,6 +166,9 @@ About
 If you find these materials useful, or want to adopt or alter them for your purposes, please [let me know](https://www.spds.uni-konstanz.de/hans-neth).
 
 ### Citation
+
+<!-- ds4psy logo: -->
+<a href="https://bookdown.org/hneth/ds4psy/"> <img src = "./inst/images/ds4psy.png" alt = "ds4psy" width = "150px" align = "right" style = "width: 150px; float: right; border:11;"/> </a>
 
 To cite **ds4psy** in derivations and publications, please use:
 
