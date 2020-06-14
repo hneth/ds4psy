@@ -16,13 +16,13 @@ The current development version of **ds4psy** (0.2.1.9001+) is hosted at <https:
 
 ## Minor changes 
 
-- added datasets of `Bushisms` and `Trumpisms` (as character vectors)   
 - added `text_to_sentences()` and `text_to_words()` functions for text processing   
 - added `count_words()` (in analogy to `count_chars()`) function for text processing  
 - added `cclass` (as a named character vector) for matching character classes in regular expressions  
 - added `metachar` (as a character vector) for matching meta-characters in regular expressions
 - added `Umlaut` (as a named character vector) for showing and selecting German Umlaut characters    
 - added datasets of `countries`, `fruits`, and `flowery` phrases (as character vectors)   
+- added datasets of `Bushisms` and `Trumpisms` (as character vectors)  
 - added `sample_char()` function
 
 
@@ -173,6 +173,6 @@ Details and cosmetics:
 - use a unified theme template for all plots  
 
 
-[File `News.md` updated on 2020-05-26.]
+[File `News.md` updated on 2020-06-14.]
 
 <!-- eof. -->
