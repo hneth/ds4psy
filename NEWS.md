@@ -36,6 +36,7 @@ This release mainly adds support for text processing.
 
 ## Details 
 
+- added Travis integration to `README.Rmd` 
 - renamed `count_char()` to `count_chars()` (to use plural form) 
 - renamed `sample_date()` and `sample_time()` (to use singular form)  
 - renamed family of `text functions` to `text objects and functions`  
