@@ -7,7 +7,9 @@ All datasets and functions required for the examples and exercises of the book "
 
 <!-- Source code: --> 
 
-The current development version of **ds4psy** (0.3.0.9001+) is hosted at <https://github.com/hneth/ds4psy/>. 
+- The current development version of **ds4psy** (0.3.0.9001+) is hosted at <https://github.com/hneth/ds4psy/>. 
+
+- The current version of the textbook **Data Science for Psychologists** is available at <https://bookdown.org/hneth/ds4psy/>.
 
 -------- 
 
