@@ -1,5 +1,5 @@
 ## time_fun.R | ds4psy
-## hn | uni.kn | 2020 05 06
+## hn | uni.kn | 2020 05 14
 ## ---------------------------
 
 ## Functions for date and time objects. 
@@ -11,8 +11,6 @@
 # Some simpler variants following a simple heuristic: 
 # What is it that we _usually_ want to hear as `x` when asking 
 # "What `x` is it today?" or "What `x` is it right now?"
-
-
 
 
 ## (1) cur_ functions: ---------- 

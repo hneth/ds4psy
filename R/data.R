@@ -1,5 +1,5 @@
 ## data.R | ds4psy
-## hn | uni.kn | 2020 05 24
+## hn | uni.kn | 2020 06 14
 ## ---------------------------
 
 ## Documentation of datasets included in /data. 
@@ -306,7 +306,6 @@
 
 
 
-
 # (3) Outlier data from Chapter 3: Transforming data / dplyr: ---------- 
 
 # https://bookdown.org/hneth/ds4psy/3-6-transform-ex.html 
@@ -494,8 +493,6 @@
 #' See FWF data at \url{http://rpository.com/ds4psy/data/data_2.dat}. 
 
 "data_2"
-
-
 
 
 
@@ -876,7 +873,6 @@
 # ToDo: Find some book/text to analyze. 
 
 
-
 # (9) Time data: --------
 
 # Fame data (DOB and DOD of famous people):
@@ -899,7 +895,6 @@
 #' Student solutions to exercises, dates from \url{https://en.wikipedia.org}. 
 
 "fame"
-
 
 
 # (10) Chapter 12: Iteration / loops: -------- 
@@ -1101,7 +1096,6 @@
 "Bushisms" 
 
 
-
 # (11e) Trumpisms: ---- 
 
 #' Data: Trumpisms. 
@@ -1123,11 +1117,9 @@
 "Trumpisms"
 
 
-
-
 ## ToDo: ----------
 
-# - generate ds4psy survey data
+# - collect ds4psy survey data
 # - add text data (Chapter 9: Text; e.g., dinos, fruit, veggies, attention check response on "i read instructions", some eBook for sentinent analysis, ...) 
 # - add date/time data (Chapter 10: Time, e.g., DOB, time of test, task start/end, etc.)
 # - add more info to codebooks (see data_190807.R in archive)
