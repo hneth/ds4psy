@@ -15,7 +15,8 @@ The current development version of **ds4psy** (0.3.0.9001+) is hosted at <https:
 
 Release of **ds4psy** (0.3.0) on CRAN: <https://CRAN.R-project.org/package=ds4psy>. [2020-06-15] 
 
-This release mainly adds support for text processing. 
+This release adds support for text processing. 
+
 
 ## Major changes 
 
