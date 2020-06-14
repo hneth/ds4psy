@@ -1,5 +1,5 @@
 
-# ds4psy 0.2.1.9001+
+# ds4psy 0.3.0.9001+
 
 <!-- Description: --> 
 
@@ -7,7 +7,7 @@ All datasets and functions required for the examples and exercises of the book "
 
 <!-- Source code: --> 
 
-The current development version of **ds4psy** (0.2.1.9001+) is hosted at <https://github.com/hneth/ds4psy/>. 
+The current development version of **ds4psy** (0.3.0.9001+) is hosted at <https://github.com/hneth/ds4psy/>. 
 
 -------- 
 
@@ -181,6 +181,6 @@ Details and cosmetics:
 - use a unified theme template for all plots  
 
 
-[File `News.md` updated on 2020-06-14.]
+[File `News.md` updated on 2020-06-15.]
 
 <!-- eof. -->
