@@ -36,7 +36,6 @@ This release mainly adds support for text processing.
 
 ## Details 
 
-- include an Umlaut character in the package Description 
 - renamed `count_char()` to `count_chars()` (to use plural form) 
 - renamed `sample_date()` and `sample_time()` (to use singular form)  
 - renamed family of `text functions` to `text objects and functions`  
