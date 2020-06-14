@@ -9,9 +9,17 @@ All datasets and functions required for the examples and exercises of the book "
 
 The current development version of **ds4psy** (0.2.1.9001+) is hosted at <https://github.com/hneth/ds4psy/>. 
 
+-------- 
+
+# ds4psy 0.3.0
+
+Release of **ds4psy** (0.3.0) on CRAN: <https://CRAN.R-project.org/package=ds4psy>. [2020-06-15] 
+
+This release mainly adds support for text processing. 
+
 ## Major changes 
 
-- added data and functions for string manipulation and text processing
+- added functions and datasets for string manipulation and text processing
 
 
 ## Minor changes 
