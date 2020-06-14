@@ -116,13 +116,11 @@ Please install the following open-source programs on your computer:
 
 ``` r
 # Tidyverse packages: 
-install.packages("tidyverse")
+install.packages('tidyverse')
 
 # Course packages: 
-install.packages("ds4psy", "unikn")
-
-# Additional data packages (optional): 
-install.packages("nycflights13", "babynames", "fueleconomy")
+install.packages('ds4psy')  # datasets and functions
+install.packages('unikn')   # color palettes and functions
 ```
 
 ### Other resources
@@ -162,7 +160,7 @@ Nr. | Topic       |
 
 -   [R manuals](https://cran.r-project.org/manuals.html) and related [books](https://www.r-project.org/doc/bib/R-books.html)
 
--   See the free books on R and data science on <https://bookdown.org/>
+-   See the books on R and data science available on <https://bookdown.org/>.
 
 <!-- - Zumel, N., & Mount, J. (2014). _Practical data science with R_. Greenwich, CT: Manning Publications. -->
 About
