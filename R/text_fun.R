@@ -1,5 +1,5 @@
 ## text_fun.R | ds4psy
-## hn | uni.kn | 2020 06 14
+## hn | uni.kn | 2020 06 15
 ## ---------------------------
 
 ## Character objects and functions for string/text objects. 
