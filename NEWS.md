@@ -11,6 +11,34 @@ All datasets and functions required for the examples and exercises of the book "
 
 - The current version of the textbook **Data Science for Psychologists** is available at <https://bookdown.org/hneth/ds4psy/>.
 
+
+## Major changes 
+
+- ...
+
+
+## Minor changes 
+
+- ...
+
+## Details 
+
+- ... 
+
+
+## To do
+
+Critical:
+
+- none. 
+
+Optional:
+
+- add graphical functions for _clock plots_ (including new book chapters)  
+- create a ds4psy survey (to collect user data for additional examples)
+- add more data with text, date, and time variables  
+- add an _ascii art_ option for converting strings or text into tile plots (with colored tiles) 
+
 -------- 
 
 # ds4psy 0.3.0
@@ -44,20 +72,6 @@ This release adds support for text processing.
 - renamed `sample_date()` and `sample_time()` (to use singular form)  
 - renamed family of `text functions` to `text objects and functions`  
 - renamed family of `random functions` to `sampling functions`  
-
-
-## To do
-
-Critical:
-
-- none. 
-
-Optional:
-
-- add graphical functions for _clock plots_ (including new book chapters)  
-- create a ds4psy survey (to collect user data for additional examples)
-- add more data with text, date, and time variables  
-- add an _ascii art_ option for converting strings or text into tile plots (with colored tiles) 
 
 
 -------- 
