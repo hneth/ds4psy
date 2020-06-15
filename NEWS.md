@@ -23,14 +23,14 @@ All datasets and functions required for the examples and exercises of the book "
 
 ## Details 
 
-- ... 
-
+- bug fix: Removed non-ASCII characters from `fruits` and `flowery` 
+- ...
 
 ## To do
 
 Critical:
 
-- none. 
+- none 
 
 Optional:
 
