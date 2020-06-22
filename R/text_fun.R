@@ -1,5 +1,5 @@
 ## text_fun.R | ds4psy
-## hn | uni.kn | 2020 06 15
+## hn | uni.kn | 2020 06 22
 ## ---------------------------
 
 ## Character objects and functions for string/text objects. 
@@ -14,15 +14,15 @@
 # <https://www.unicode.org/charts/>
 # <https://en.wikipedia.org/wiki/List_of_Unicode_characters>
 
-uml_a <- "\U00E4"  # ä
-uml_o <- "\U00F6"  # ö
-uml_u <- "\U00FC"  # ü
+uml_a <- "\u00E4"  # ä
+uml_o <- "\u00F6"  # ö
+uml_u <- "\u00FC"  # ü
 
-uml_A <- "\U00C4"  # Ä
-uml_O <- "\U00D6"  # Ö
-uml_U <- "\U00DC"  # Ü
+uml_A <- "\u00C4"  # Ä
+uml_O <- "\u00D6"  # Ö
+uml_U <- "\u00DC"  # Ü
 
-uml_s <- "\U00DF"  # ß
+uml_s <- "\u00DF"  # ß
 
 # As named vector:
 umlaut <- c(uml_a, uml_o, uml_u, 
