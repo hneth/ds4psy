@@ -1,5 +1,5 @@
 ## time_fun.R | ds4psy
-## hn | uni.kn | 2020 05 14
+## hn | uni.kn | 2020 05 22
 ## ---------------------------
 
 ## Functions for date and time objects. 
@@ -28,16 +28,17 @@
 #' \code{cur_date} provides a relaxed version of 
 #' \code{Sys.time()} that is sufficient for most purposes. 
 #' 
-#' \code{cur_date} returns \code{Sys.time()} 
+#' \code{cur_date} returns \code{Sys.Date()} 
 #' (in "%Y-%m-%d" or "%d-%m-%Y" format) 
 #' using current system settings.
 #'  
-#' By default, this corresponds to the "%Y-%m-%d" (or "%F")     
-#' format used as the ISO 8601 standard. 
+#' Alternatively, consider using \code{Sys.Date()} 
+#' or \code{Sys.time()} to obtain the "%Y-%m-%d" (or "%F")     
+#' format according to the ISO 8601 standard. 
 #' 
-#' For more options, see the 
-#' \code{date()} and \code{Sys.Date()} functions of \strong{base} R 
-#' and the plethora of formatting options for \code{Sys.time()}. 
+#' For more options, see the documentations of the  
+#' \code{date()} and \code{Sys.Date()} functions of \strong{base} R   
+#' and the formatting options for \code{Sys.time()}. 
 #' 
 #' @param rev Boolean: Reverse from "yyyy-mm-dd" to "dd-mm-yyyy" format?    
 #' Default: \code{rev = FALSE}. 
@@ -61,8 +62,11 @@
 
 cur_date <- function(rev = FALSE, sep = "-"){
   
-  # Current time: 
-  d <- Sys.time()
+  ## Current time (optimizing options): 
+  # d <- Sys.time()
+  
+  # Current date (satisficing solution): 
+  d <- Sys.Date()
   
   # Formatting instruction string:   
   if (rev){
