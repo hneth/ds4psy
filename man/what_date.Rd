@@ -40,11 +40,14 @@ what_date(rev = TRUE)
 what_date(rev = TRUE, sep = ".")
 what_date(rev = TRUE, sep = " ", month_form = "B")
 
-# with vector (of dates):
-ds <- c("2020-01-15 01:02:03 CET", "2020-12-31 14:15:16")
-what_date(ds)
-what_date(ds, rev = TRUE, sep = ".")
-what_date(ds, rev = TRUE, month_form = "b")
+# with POSIXct times:
+what_date(when = Sys.time())
+
+# with time vector (strings of POSIXct times):
+ts <- c("2020-12-24 01:02:03 CET", "2020-12-31 23:59:59")
+what_date(ts)
+what_date(ts, rev = TRUE, sep = ".")
+what_date(ts, rev = TRUE, month_form = "b")
 
 }
 \seealso{

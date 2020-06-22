@@ -4,13 +4,13 @@
 \alias{what_week}
 \title{What week is it?}
 \usage{
-what_week(when = Sys.time(), unit = "year", as_integer = FALSE)
+what_week(when = Sys.Date(), unit = "year", as_integer = FALSE)
 }
 \arguments{
 \item{when}{Date (as a scalar or vector).
-Default: \code{when = NA}. 
-Using \code{as.Date(when)} to convert strings into dates, 
-and \code{Sys.Date()}, if \code{when = NA}.}
+Default: \code{when = Sys.Date()}. 
+Using \code{as.Date(when)} to convert strings into dates 
+if a different \code{when} is provided.}
 
 \item{unit}{Character: Unit of week?
 Possible values are \code{"month", "year"}. 
@@ -37,12 +37,18 @@ d1 <- as.Date("2019-08-23")
 what_week(when = d1, unit = "year")
 what_week(when = d1, unit = "month")
 
-# Work with vectors (when as characters):
+what_week(Sys.time())  # with POSIXct time 
+
+# with date vector (as characters):
 ds <- c("2020-01-01", "2020-02-29", "2020-12-24", "2020-12-31")
 what_week(when = ds)
 what_week(when = ds, unit = "month", as_integer = TRUE)
 what_week(when = ds, unit = "year", as_integer = TRUE)
- 
+
+# with time vector (strings of POSIXct times):
+ts <- c("2020-12-25 10:11:12 CET", "2020-12-31 23:59:59")
+what_week(ts)
+
 }
 \seealso{
 \code{what_day()} function to obtain (week)days; 

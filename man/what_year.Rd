@@ -4,7 +4,7 @@
 \alias{what_year}
 \title{What year is it?}
 \usage{
-what_year(when = Sys.time(), abbr = FALSE, as_integer = FALSE)
+what_year(when = Sys.Date(), abbr = FALSE, as_integer = FALSE)
 }
 \arguments{
 \item{when}{Date (as a scalar or vector).
@@ -32,12 +32,15 @@ what_year()
 what_year(abbr = TRUE)
 what_year(as_integer = TRUE)
 
-# Work with vectors (when as characters):
+# with date vectors (as characters):
 ds <- c("2020-01-01", "2020-02-29", "2020-12-24", "2020-12-31")
 what_year(when = ds)
 what_year(when = ds, abbr = TRUE, as_integer = FALSE)
 what_year(when = ds, abbr = TRUE, as_integer = TRUE)
 
+# with time vector (strings of POSIXct times):
+ts <- c("2020-02-29 10:11:12 CET", "2020-12-31 23:59:59")
+what_year(ts)
 
 }
 \seealso{

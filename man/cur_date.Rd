@@ -18,16 +18,17 @@ Default: \code{sep = "-"}.}
 \code{Sys.time()} that is sufficient for most purposes.
 }
 \details{
-\code{cur_date} returns \code{Sys.time()} 
+\code{cur_date} returns \code{Sys.Date()} 
 (in "%Y-%m-%d" or "%d-%m-%Y" format) 
 using current system settings.
  
-By default, this corresponds to the "%Y-%m-%d" (or "%F")     
-format used as the ISO 8601 standard. 
+Alternatively, consider using \code{Sys.Date()} 
+or \code{Sys.time()} to obtain the "%Y-%m-%d" (or "%F")     
+format according to the ISO 8601 standard. 
 
-For more options, see the 
-\code{date()} and \code{Sys.Date()} functions of \strong{base} R 
-and the plethora of formatting options for \code{Sys.time()}.
+For more options, see the documentations of the  
+\code{date()} and \code{Sys.Date()} functions of \strong{base} R   
+and the formatting options for \code{Sys.time()}.
 }
 \examples{
 cur_date()

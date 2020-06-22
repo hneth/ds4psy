@@ -4,13 +4,13 @@
 \alias{what_day}
 \title{What day (of the week) is it?}
 \usage{
-what_day(when = Sys.time(), abbr = FALSE)
+what_day(when = Sys.Date(), abbr = FALSE)
 }
 \arguments{
 \item{when}{Date (as a scalar or vector).
-Default: \code{when = NA}. 
-Using \code{as.Date(when)} to convert strings into dates, 
-and \code{Sys.Date()}, if \code{when = NA}.}
+Default: \code{when = Sys.Date()}. 
+Using \code{as.Date(when)} to convert strings into dates 
+if a different \code{when} is provided.}
 
 \item{abbr}{Boolean: Return abbreviated?
 Default: \code{abbr = FALSE}.}
@@ -22,17 +22,23 @@ corresponding to a given date.
 }
 \details{
 \code{what_day} returns the weekday  
-of \code{when} or \code{Sys.Date()} 
-(as a name).
+of \code{when} or of \code{Sys.Date()} 
+(as a character string).
 }
 \examples{
 what_day()
 what_day(abbr = TRUE)
 
-# Work with vectors (when as characters):
+what_day(when = Sys.time())  # with POSIXct time
+
+# with date vector (as characters):
 ds <- c("2020-01-01", "2020-02-29", "2020-12-24", "2020-12-31")
 what_day(when = ds)
 what_day(when = ds, abbr = TRUE)
+
+# with time vector (strings of POSIXct times):
+ts <- c("2020-12-25 10:11:12 CET", "2020-12-31 23:59:59")
+what_day(ts)
 
 }
 \seealso{
