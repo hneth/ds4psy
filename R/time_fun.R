@@ -62,11 +62,9 @@
 
 cur_date <- function(rev = FALSE, sep = "-"){
   
-  ## Current time (optimizing options): 
-  # d <- Sys.time()
-  
-  # Current date (satisficing solution): 
-  d <- Sys.Date()
+  # Get system date: 
+  # d <- Sys.time() # current time (optimizing options)
+  d <- Sys.Date()  # current date (satisficing solution) 
   
   # Formatting instruction string:   
   if (rev){
@@ -272,11 +270,14 @@ what_time <- function(when = NA, seconds = FALSE, sep = ":"){
 #' what_date(rev = TRUE, sep = ".")
 #' what_date(rev = TRUE, sep = " ", month_form = "B")
 #' 
-#' # with vector (of dates):
-#' ds <- c("2020-01-15 01:02:03 CET", "2020-12-31 14:15:16")
-#' what_date(ds)
-#' what_date(ds, rev = TRUE, sep = ".")
-#' what_date(ds, rev = TRUE, month_form = "b")
+#' # with POSIXct times:
+#' what_date(when = Sys.time())
+#' 
+#' # with time vector (strings of POSIXct times):
+#' ts <- c("2020-12-24 01:02:03 CET", "2020-12-31 23:59:59")
+#' what_date(ts)
+#' what_date(ts, rev = TRUE, sep = ".")
+#' what_date(ts, rev = TRUE, month_form = "b")
 #' 
 #' @family date and time functions
 #' 
@@ -294,7 +295,11 @@ what_date <- function(when = NA, rev = FALSE, sep = "-", month_form = "m"){
   
   # Check when argument: 
   if (all(is.na(when))){
-    d <- Sys.time()  # use current time
+    
+    # Get system date: 
+    # d <- Sys.time() # current time (optimizing options)
+    d <- Sys.Date()  # current date (satisficing solution) 
+    
   } else {
     d <- as.Date(when)  # convert into Date 
   }
@@ -322,7 +327,7 @@ what_date <- function(when = NA, rev = FALSE, sep = "-", month_form = "m"){
 # what_date(rev = TRUE, sep = ".")
 # what_date(rev = TRUE, sep = " ", month_form = "B")
 # 
-# # with vector (of dates):
+# # with vector (of POSIXct times):
 # ds <- c("2020-01-15 01:02:03 CET", "2020-12-31 14:15:16")
 # what_date(ds)
 # what_date(ds, rev = TRUE, sep = ".")
@@ -470,7 +475,8 @@ what_date <- function(when = NA, rev = FALSE, sep = "-", month_form = "m"){
 # what_day_alt(when = "now")
 # what_day_alt(when = 123)
 
-### Simplified version: providing only the weekday (as a name): 
+
+### Simplified version: Providing only the weekday (as a name): 
 
 # what_day: What day is it? (name or number) ------ 
 # what_day: as name (weekday, abbr or full), OR as number (in units of week, month, or year; as char or as integer) 
@@ -482,13 +488,13 @@ what_date <- function(when = NA, rev = FALSE, sep = "-", month_form = "m"){
 #' corresponding to a given date.
 #' 
 #' \code{what_day} returns the weekday  
-#' of \code{when} or \code{Sys.Date()} 
-#' (as a name).
+#' of \code{when} or of \code{Sys.Date()} 
+#' (as a character string).
 #' 
 #' @param when Date (as a scalar or vector).    
-#' Default: \code{when = NA}. 
-#' Using \code{as.Date(when)} to convert strings into dates, 
-#' and \code{Sys.Date()}, if \code{when = NA}.
+#' Default: \code{when = Sys.Date()}. 
+#' Using \code{as.Date(when)} to convert strings into dates 
+#' if a different \code{when} is provided. 
 #' 
 #' @param abbr Boolean: Return abbreviated?  
 #' Default: \code{abbr = FALSE}. 
@@ -497,11 +503,17 @@ what_date <- function(when = NA, rev = FALSE, sep = "-", month_form = "m"){
 #' what_day()
 #' what_day(abbr = TRUE)
 #' 
-#' # Work with vectors (when as characters):
+#' what_day(when = Sys.time())  # with POSIXct time
+#' 
+#' # with date vector (as characters):
 #' ds <- c("2020-01-01", "2020-02-29", "2020-12-24", "2020-12-31")
 #' what_day(when = ds)
 #' what_day(when = ds, abbr = TRUE)
-#'
+#' 
+#' # with time vector (strings of POSIXct times):
+#' ts <- c("2020-12-25 10:11:12 CET", "2020-12-31 23:59:59")
+#' what_day(ts)
+#' 
 #' @family date and time functions
 #' 
 #' @seealso 
@@ -514,7 +526,7 @@ what_date <- function(when = NA, rev = FALSE, sep = "-", month_form = "m"){
 #' 
 #' @export
 
-what_day <- function(when = Sys.time(), abbr = FALSE){
+what_day <- function(when = Sys.Date(), abbr = FALSE){
   
   ## Robustness:
   # unit <- substr(tolower(unit), 1, 1)  # use only 1st letter of string
@@ -610,9 +622,9 @@ what_day <- function(when = Sys.time(), abbr = FALSE){
 #' (as a name or number).
 #' 
 #' @param when Date (as a scalar or vector).    
-#' Default: \code{when = NA}. 
-#' Using \code{as.Date(when)} to convert strings into dates, 
-#' and \code{Sys.Date()}, if \code{when = NA}.
+#' Default: \code{when = Sys.Date()}. 
+#' Using \code{as.Date(when)} to convert strings into dates 
+#' if a different \code{when} is provided. 
 #' 
 #' @param unit Character: Unit of week?
 #' Possible values are \code{"month", "year"}. 
@@ -630,12 +642,18 @@ what_day <- function(when = Sys.time(), abbr = FALSE){
 #' what_week(when = d1, unit = "year")
 #' what_week(when = d1, unit = "month")
 #' 
-#' # Work with vectors (when as characters):
+#' what_week(Sys.time())  # with POSIXct time 
+#' 
+#' # with date vector (as characters):
 #' ds <- c("2020-01-01", "2020-02-29", "2020-12-24", "2020-12-31")
 #' what_week(when = ds)
 #' what_week(when = ds, unit = "month", as_integer = TRUE)
 #' what_week(when = ds, unit = "year", as_integer = TRUE)
-#'  
+#'
+#' # with time vector (strings of POSIXct times):
+#' ts <- c("2020-12-25 10:11:12 CET", "2020-12-31 23:59:59")
+#' what_week(ts)
+#'
 #' @family date and time functions
 #' 
 #' @seealso 
@@ -648,7 +666,7 @@ what_day <- function(when = Sys.time(), abbr = FALSE){
 #' 
 #' @export
 
-what_week <- function(when = Sys.time(), unit = "year", as_integer = FALSE){
+what_week <- function(when = Sys.Date(), unit = "year", as_integer = FALSE){
   
   # Robustness:
   unit <- substr(tolower(unit), 1, 1)  # use only 1st letter of string
@@ -764,13 +782,16 @@ what_week <- function(when = Sys.time(), unit = "year", as_integer = FALSE){
 #' what_month(abbr = TRUE)
 #' what_month(as_integer = TRUE)
 #' 
-#' # Work with vectors (when as characters):
+#' # with date vector (as characters):
 #' ds <- c("2020-01-01", "2020-02-29", "2020-12-24", "2020-12-31")
 #' what_month(when = ds)
 #' what_month(when = ds, abbr = TRUE, as_integer = FALSE)
 #' what_month(when = ds, abbr = TRUE, as_integer = TRUE)
 #' 
-#'     
+#' # with time vector (strings of POSIXct times):
+#' ts <- c("2020-02-29 10:11:12 CET", "2020-12-31 23:59:59")
+#' what_month(ts)
+#'         
 #' @family date and time functions
 #' 
 #' @seealso 
@@ -783,7 +804,7 @@ what_week <- function(when = Sys.time(), unit = "year", as_integer = FALSE){
 #' 
 #' @export
 
-what_month <- function(when = Sys.time(), abbr = FALSE, as_integer = FALSE){
+what_month <- function(when = Sys.Date(), abbr = FALSE, as_integer = FALSE){
   
   # Convert when into objects of class "Date" representing calendar dates:
   if ( any(class(when) != "Date") & !("POSIXct" %in% class(when)) ) {
@@ -876,12 +897,15 @@ what_month <- function(when = Sys.time(), abbr = FALSE, as_integer = FALSE){
 #' what_year(abbr = TRUE)
 #' what_year(as_integer = TRUE)
 #' 
-#' # Work with vectors (when as characters):
+#' # with date vectors (as characters):
 #' ds <- c("2020-01-01", "2020-02-29", "2020-12-24", "2020-12-31")
 #' what_year(when = ds)
 #' what_year(when = ds, abbr = TRUE, as_integer = FALSE)
 #' what_year(when = ds, abbr = TRUE, as_integer = TRUE)
 #' 
+#' # with time vector (strings of POSIXct times):
+#' ts <- c("2020-02-29 10:11:12 CET", "2020-12-31 23:59:59")
+#' what_year(ts)
 #'
 #' @family date and time functions
 #' 
@@ -895,7 +919,7 @@ what_month <- function(when = Sys.time(), abbr = FALSE, as_integer = FALSE){
 #' 
 #' @export
 
-what_year <- function(when = Sys.time(), abbr = FALSE, as_integer = FALSE){
+what_year <- function(when = Sys.Date(), abbr = FALSE, as_integer = FALSE){
   
   # Convert when into objects of class "Date" representing calendar dates:
   if ( any(class(when) != "Date") & !("POSIXct" %in% class(when)) ) {
