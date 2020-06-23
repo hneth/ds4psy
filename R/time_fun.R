@@ -92,9 +92,11 @@ cur_date <- function(rev = FALSE, sep = "-"){
 #' \code{cur_time} provides a satisficing version of 
 #' \code{Sys.time()} that is sufficient for most purposes. 
 #' 
-#' \code{cur_time} returns \code{Sys.time()}  
+#' \code{cur_time} prints \code{Sys.time()}  
 #' (in "%H:%M" or "%H:%M:%S" format) 
-#' using current system settings.
+#' using current system settings, 
+#' but (invisibly) returns a 
+#' POSIXct (calendar time) object. 
 #' 
 #' For a time zone argument, 
 #' see the \code{now()} function of 
@@ -111,9 +113,14 @@ cur_date <- function(rev = FALSE, sep = "-"){
 #' cur_time(seconds = TRUE)
 #' cur_time(sep = ".")
 #' 
+#' # returns POSIXct object:
+#' t <- what_time(sep = "_")
+#' format(t, "%T %Z")
+#' 
 #' @family date and time functions
 #' 
 #' @seealso 
+#' \code{what_time()} function to print times with more options;  
 #' \code{now()} function of the \strong{lubridate} package; 
 #' \code{Sys.time()} function of \strong{base} R. 
 #' 
@@ -131,8 +138,11 @@ cur_time <- function(seconds = FALSE, sep = ":"){
     fmt <- paste("%H", "%M",       sep = sep, collapse = "")  # no %S, using sep
   }
   
-  # Return formatted t: 
-  format(t, fmt)   
+  # Print formatted t: 
+  print(format(t, fmt))
+  
+  # Return POSIXct object:
+  invisible(t)
   
 }  # cur_time end. 
 
@@ -173,10 +183,16 @@ cur_time <- function(seconds = FALSE, sep = ":"){
 #' \code{what_time} provides a satisficing version of 
 #' \code{Sys.time()} that is sufficient for most purposes. 
 #' 
-#' \code{what_time} returns either a simple version of 
+#' \code{what_time} prints a simple version of 
 #' \code{when} or \code{Sys.time()}  
 #' (in "%H:%M" or "%H:%M:%S" format) 
-#' using current system settings.
+#' using current default system settings, 
+#' but (invisibly) returns 
+#' POSIXct (calendar time) object(s). 
+#' 
+#' The \code{tz} argument allows specifying time zones 
+#' (see \code{Sys.timezone()} for current setting 
+#' and \code{OlsonNames()} for options.)
 #' 
 #' @param when Time (as a scalar or vector).    
 #' Default: \code{when = NA}. 
@@ -188,13 +204,25 @@ cur_time <- function(seconds = FALSE, sep = ":"){
 #' @param sep Character: Separator to use. 
 #' Default: \code{sep = ":"}. 
 #' 
+#' @param tz Time zone.
+#' Default: \code{tz = ""} (i.e., current system time zone,  
+#' see \code{Sys.timezone()}). 
+#' Use \code{tz = "UTC"} for Universal Time, Coordinated. 
+#' 
 #' @examples
 #' what_time()  
 #' 
-#' # with vector (of times): 
-#' ts <- c("2020-01-14 01:02:03 CET", "2020-12-31 14:15:16")
+#' # with vector (of POSIXct objects): 
+#' ts <- c("2020-02-29 01:02:03", "2020-12-31 14:15:16")
 #' what_time(ts)
-#' what_time(ts, seconds = TRUE, sep = "_")
+#' 
+#' # with time zone:
+#' t1 <- what_time(ts, seconds = TRUE, sep = "_", tz = "UTC")
+#' t1
+#' 
+#' # returns POSIXct objects:
+#' t2 <- what_time("2020-02-29 12:30:45", tz = "US/Pacific")
+#' format(t2, "%T %Z")
 #' 
 #' @family date and time functions
 #' 
@@ -206,13 +234,13 @@ cur_time <- function(seconds = FALSE, sep = ":"){
 #' 
 #' @export
 
-what_time <- function(when = NA, seconds = FALSE, sep = ":"){
+what_time <- function(when = NA, seconds = FALSE, sep = ":", tz = ""){
   
   # Check when argument: 
   if (all(is.na(when))){
     t <- Sys.time()  # use current time
   } else {
-    t <- as.POSIXct(when)  # convert into POSIXct
+    t <- as.POSIXct(when, tz = tz)  # convert into POSIXct (with tz)
   }
   
   # Formatting instruction string: 
@@ -222,17 +250,28 @@ what_time <- function(when = NA, seconds = FALSE, sep = ":"){
     fmt <- paste("%H", "%M",       sep = sep, collapse = "")  # no %S, using sep
   }
   
-  # Return formatted t: 
-  format(t, fmt)   
+  # Print formatted t: 
+  print(format(t, fmt))
+  
+  # Return POSIXct object:
+  invisible(t)
   
 }  # what_time end.
 
 # # Check:
 # what_time()  
-# # with vector (of times): 
-# ts <- c("2020-01-14 01:02:03 CET", "2020-12-31 14:15:16")
+#
+# # with vector (of POSIXct objects):
+# ts <- c("2020-02-29 01:02:03", "2020-12-31 14:15:16")
 # what_time(ts)
-# what_time(ts, seconds = TRUE, sep = "_")
+# 
+# # with time zone:
+# t1 <- what_time(ts, seconds = TRUE, sep = "_", tz = "UTC")
+# t1
+# 
+# # returns POSIXct objects:
+# t2 <- what_time("2020-02-29 12:30:45", tz = "US/Pacific")
+# format(t2, "%T %Z")
 
 
 # what_date: More versatile version of cur_date(), allowing for a when vector: ------
