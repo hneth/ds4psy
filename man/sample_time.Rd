@@ -36,8 +36,8 @@ Use \code{tz = "UTC"} for Universal Time, Coordinated.}
 \code{n} random times from a given range.
 }
 \details{
-By default, \code{sample_time} draws \code{n = 1} random   
-calendar time (as a "POSIXct" object) in the range 
+By default, \code{sample_time} draws \code{n = 1} 
+random calendar time (as a "POSIXct" object) in the range 
 \code{from = "1970-01-01 00:00:00"} 
 \code{to = Sys.time()} (current time).
 

@@ -22,7 +22,7 @@ Default: \code{to = Sys.Date()}.}
 }
 \details{
 By default, \code{sample_date} draws \code{n = 1} 
-random date in the range 
+random date (as a "Date" object) in the range 
 \code{from = "1970-01-01"} 
 \code{to = Sys.Date()} (current date).
 }
