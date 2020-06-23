@@ -18,7 +18,8 @@ All datasets and functions required for the examples and exercises of the book "
 
 ## Minor changes 
 
-- date and time functions based primarily on dates (`cur_date()`, `what_date()`, etc.) now use `Sys.Date()` (i.e., an object of class "Date") rather than `Sys.time()` (i.e., a "POSIXct" time) as defaults. 
+- `sample_time()`: Switch default to sampling "POSIXct" objects (making "POSIXlt" optional) and add support for time zones `tz`.  
+- All date and time functions based primarily on dates (`cur_date()`, `what_date()`, etc.) now use `Sys.Date()` (i.e., an object of class "Date") rather than `Sys.time()` (i.e., a "POSIXct" calendar time) as defaults. 
 
 ## Details 
 
@@ -199,6 +200,6 @@ Details and cosmetics:
 - use a unified theme template for all plots  
 
 
-[File `News.md` updated on 2020-06-22.]
+[File `News.md` updated on 2020-06-23.]
 
 <!-- eof. -->
