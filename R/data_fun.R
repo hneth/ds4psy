@@ -259,7 +259,7 @@ sample_char <- function(x_char = c(letters, LETTERS), n = 1, replace = FALSE, ..
 #' \code{n} random dates from a given range.
 #' 
 #' By default, \code{sample_date} draws \code{n = 1} 
-#' random date in the range 
+#' random date (as a "Date" object) in the range 
 #' \code{from = "1970-01-01"} 
 #' \code{to = Sys.Date()} (current date).
 #' 
@@ -306,6 +306,7 @@ sample_date <- function(n = 1, from = "1970-01-01", to = Sys.Date()){
 # # see sample(9:9, size = 10, replace = TRUE)
 
 
+
 # Sample random times (from a given range): ------
 
 #' Draw a sample of n random times (from a given range). 
@@ -313,8 +314,8 @@ sample_date <- function(n = 1, from = "1970-01-01", to = Sys.Date()){
 #' \code{sample_time} draws a sample of  
 #' \code{n} random times from a given range.
 #' 
-#' By default, \code{sample_time} draws \code{n = 1} random   
-#' calendar time (as a "POSIXct" object) in the range 
+#' By default, \code{sample_time} draws \code{n = 1} 
+#' random calendar time (as a "POSIXct" object) in the range 
 #' \code{from = "1970-01-01 00:00:00"} 
 #' \code{to = Sys.time()} (current time).
 #' 
