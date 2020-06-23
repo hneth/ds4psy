@@ -1,5 +1,5 @@
 ## data_fun.R | ds4psy
-## hn | uni.kn | 2020 05 17
+## hn | uni.kn | 2020 06 23
 ## ---------------------------
 
 ## Functions for creating and manipulating data. 
@@ -22,7 +22,6 @@ random_bin_value <- function(x = c(0, 1), n = 1, replace = TRUE) {
 ## Check: 
 # random_bin_value(n = 10)
 # random_bin_value(x = c("m", "f"), n = 100)
-
 
 
 # coin: Flip a fair coin n times (with events): ------ 
@@ -314,10 +313,16 @@ sample_date <- function(n = 1, from = "1970-01-01", to = Sys.Date()){
 #' \code{sample_time} draws a sample of  
 #' \code{n} random times from a given range.
 #' 
-#' By default, \code{sample_time} draws \code{n = 1} 
-#' random time in the range 
+#' By default, \code{sample_time} draws \code{n = 1} random   
+#' calendar time (as a "POSIXct" object) in the range 
 #' \code{from = "1970-01-01 00:00:00"} 
 #' \code{to = Sys.time()} (current time).
+#' 
+#' If \code{as_POSIXct = FALSE}, a local time ("POSIXlt") object is returned 
+#' (as a list). 
+#' 
+#' The \code{tz} argument allows specifying time zones 
+#' (see \code{OlsonNames()} for options.)
 #' 
 #' @param n Number dates to draw. 
 #' Default: \code{n = 1}. 
@@ -327,6 +332,15 @@ sample_date <- function(n = 1, from = "1970-01-01", to = Sys.Date()){
 #' 
 #' @param to Latest date (as string). 
 #' Default: \code{to = Sys.time()}. 
+#' 
+#' @param as_POSIXct Boolean: Return calendar time ("POSIXct") object? 
+#' Default: \code{as_POSIXct = TRUE}. 
+#' If \code{as_POSIXct = FALSE}, a local time ("POSIXlt") object is returned 
+#' (as a list). 
+#' 
+#' @param tz Time zone.
+#' Default: \code{tz = ""} (i.e., current system time zone). 
+#' Use \code{tz = "UTC"} for Universal Time, Coordinated. 
 #' 
 #' @examples
 #' # Basics:
@@ -338,27 +352,50 @@ sample_date <- function(n = 1, from = "1970-01-01", to = Sys.Date()){
 #' sort(sample_time(n = 10, from = (Sys.time() - 1 * 60 * 60)))  # within the last hour
 #' sort(sample_time(n = 10, from = Sys.time(), 
 #'                            to = (Sys.time() + 1 * 60 * 60)))  # within the next hour
-#' sort(sample_time(n = 10, from = "2020-01-01 00:00:00 CET", 
-#'                            to = "2020-01-01 00:00:01 CET"))  # within 1 sec range
+#' sort(sample_time(n = 10, from = "2020-12-31 00:00:00 CET", 
+#'                            to = "2020-12-31 00:00:01 CET"))   # within 1 sec range
+#'                            
+#' # Local time (POSIXlt) objects (as list):
+#' sample_time(as_POSIXct = FALSE)
+#' unlist(sample_time(as_POSIXct = FALSE))
+#' 
+#' # Time zones:
+#' sample_time(n = 3, tz = "UTC")
+#' sample_time(n = 3, tz = "US/Pacific")
 #'  
 #' # Note: Oddity with sample(): 
-#' sort(sample_time(n = 10, from = "2020-01-01 00:00:00 CET", 
-#'                            to = "2020-01-01 00:00:00 CET"))  # range of 0!
+#' sort(sample_time(n = 10, from = "2020-12-31 00:00:00 CET", 
+#'                            to = "2020-12-31 00:00:00 CET"))  # range of 0!
 #' # see sample(9:9, size = 10, replace = TRUE)
 #' 
 #' @family sampling functions
 #'
 #' @export
 
-sample_time <- function(n = 1, from = "1970-01-01 00:00:00", to = Sys.time()){
+sample_time <- function(n = 1, 
+                        from = "1970-01-01 00:00:00", to = Sys.time(),
+                        as_POSIXct = TRUE, tz = ""){
+  
+  tv <- rep(NA, n)  # initialize
   
   t1 <- as.POSIXlt(from)
   t2 <- as.POSIXlt(to)
   
-  as.POSIXlt(sample(as.numeric(t1):as.numeric(t2), size = n, 
-                    replace = TRUE), origin = '1970-01-01')
+  tv <- as.POSIXlt(sample(as.numeric(t1):as.numeric(t2), size = n, 
+                          replace = TRUE), origin = '1970-01-01')
   
-}
+  # Add time zone:
+  if (as_POSIXct) { 
+    tv <- as.POSIXct(tv, tz = tz)  # convert into POSIXct with tz
+  } else {
+    tv <- as.POSIXct(tv, tz = tz)  # convert into POSIXct with tz
+    tv <- as.POSIXlt(tv, tz = tz)  # re-convert into POSIXlt
+  }
+  
+  return(tv)
+  
+} # sample_time end.
+
 
 # ## Check:
 # # Basics:
@@ -371,11 +408,19 @@ sample_time <- function(n = 1, from = "1970-01-01 00:00:00", to = Sys.time()){
 # sort(sample_time(n = 10, from = Sys.time(), to = (Sys.time() + 1 * 60 * 60)))  # within next hour
 # sort(sample_time(n = 10, from = "2020-01-01 00:00:00 CET", to = "2020-01-01 00:00:01 CET"))  # 1 sec range
 # 
+# # Local time (POSIXlt) objects (as list):
+# sample_time(as_POSIXct = FALSE)
+# unlist(sample_time(as_POSIXct = FALSE))
+# 
+# # Time zones:
+# sample_time(n = 3, tz = "UTC")
+# sample_time(n = 3, tz = "US/Pacific")
+# 
 # # Note: Oddity with sample():
 # sort(sample_time(n = 10, from = "2020-01-01 00:00:00 CET", to = "2020-01-01 00:00:00 CET"))  # range of 0!
 # # see sample(9:9, size = 10, replace = TRUE)
 
-## Note: Sampling normally distributed times:
+## ToDo: Sampling normally distributed times:
 # now <- Sys.time()
 # hist(as.POSIXlt(now) + rnorm(n = 1000, mean = 0, sd = 60*60), breaks = 10)
 # t1 <- as.POSIXlt(Sys.time())
@@ -992,11 +1037,8 @@ make_grid <- function(x_min = 0, x_max = 2, y_min = 0, y_max = 1){
 # make_grid(x_min = "A")
 
 
-
-
 ## ToDo: ----------
 
-# - add exercises involving coin, dice, and dice_2 fns  
-#   (pointing out R oddities with sample). 
+# - sample_time variant for sampling normally distributed times?
 
 ## eof. ----------------------
