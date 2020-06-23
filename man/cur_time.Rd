@@ -18,9 +18,11 @@ Default: \code{sep = ":"}.}
 \code{Sys.time()} that is sufficient for most purposes.
 }
 \details{
-\code{cur_time} returns \code{Sys.time()}  
+\code{cur_time} prints \code{Sys.time()}  
 (in "%H:%M" or "%H:%M:%S" format) 
-using current system settings.
+using current system settings, 
+but (invisibly) returns a 
+POSIXct (calendar time) object. 
 
 For a time zone argument, 
 see the \code{now()} function of 
@@ -31,8 +33,13 @@ cur_time()
 cur_time(seconds = TRUE)
 cur_time(sep = ".")
 
+# returns POSIXct object:
+t <- what_time(sep = "_")
+format(t, "\%T \%Z")
+
 }
 \seealso{
+\code{what_time()} function to print times with more options;  
 \code{now()} function of the \strong{lubridate} package; 
 \code{Sys.time()} function of \strong{base} R.
 

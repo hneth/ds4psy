@@ -4,7 +4,7 @@
 \alias{what_time}
 \title{What time is it?}
 \usage{
-what_time(when = NA, seconds = FALSE, sep = ":")
+what_time(when = NA, seconds = FALSE, sep = ":", tz = "")
 }
 \arguments{
 \item{when}{Time (as a scalar or vector).
@@ -16,24 +16,42 @@ Default: \code{seconds = FALSE}.}
 
 \item{sep}{Character: Separator to use. 
 Default: \code{sep = ":"}.}
+
+\item{tz}{Time zone.
+Default: \code{tz = ""} (i.e., current system time zone,  
+see \code{Sys.timezone()}). 
+Use \code{tz = "UTC"} for Universal Time, Coordinated.}
 }
 \description{
 \code{what_time} provides a satisficing version of 
 \code{Sys.time()} that is sufficient for most purposes.
 }
 \details{
-\code{what_time} returns either a simple version of 
+\code{what_time} prints a simple version of 
 \code{when} or \code{Sys.time()}  
 (in "%H:%M" or "%H:%M:%S" format) 
-using current system settings.
+using current default system settings, 
+but (invisibly) returns 
+POSIXct (calendar time) object(s). 
+
+The \code{tz} argument allows specifying time zones 
+(see \code{Sys.timezone()} for current setting 
+and \code{OlsonNames()} for options.)
 }
 \examples{
 what_time()  
 
-# with vector (of times): 
-ts <- c("2020-01-14 01:02:03 CET", "2020-12-31 14:15:16")
+# with vector (of POSIXct objects): 
+ts <- c("2020-02-29 01:02:03", "2020-12-31 14:15:16")
 what_time(ts)
-what_time(ts, seconds = TRUE, sep = "_")
+
+# with time zone:
+t1 <- what_time(ts, seconds = TRUE, sep = "_", tz = "UTC")
+t1
+
+# returns POSIXct objects:
+t2 <- what_time("2020-02-29 12:30:45", tz = "US/Pacific")
+format(t2, "\%T \%Z")
 
 }
 \seealso{

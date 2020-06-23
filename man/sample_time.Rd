@@ -28,7 +28,8 @@ If \code{as_POSIXct = FALSE}, a local time ("POSIXlt") object is returned
 (as a list).}
 
 \item{tz}{Time zone.
-Default: \code{tz = ""} (i.e., current system time zone). 
+Default: \code{tz = ""} (i.e., current system time zone,  
+see \code{Sys.timezone()}). 
 Use \code{tz = "UTC"} for Universal Time, Coordinated.}
 }
 \description{
@@ -45,7 +46,8 @@ If \code{as_POSIXct = FALSE}, a local time ("POSIXlt") object is returned
 (as a list). 
 
 The \code{tz} argument allows specifying time zones 
-(see \code{OlsonNames()} for options.)
+(see \code{Sys.timezone()} for current setting 
+and \code{OlsonNames()} for options.)
 }
 \examples{
 # Basics:
