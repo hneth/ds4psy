@@ -18,6 +18,7 @@ All datasets and functions required for the examples and exercises of the book "
 
 ## Minor changes 
 
+- `cur_time()` and `what_time()` print time and invisibly return "POSIXct" objects with support for time zones `tz`. 
 - `sample_time()`: Switch default to sampling "POSIXct" objects (making "POSIXlt" optional) and add support for time zones `tz`.  
 - All date and time functions based primarily on dates (`cur_date()`, `what_date()`, etc.) now use `Sys.Date()` (i.e., an object of class "Date") rather than `Sys.time()` (i.e., a "POSIXct" calendar time) as defaults. 
 
@@ -35,6 +36,7 @@ Critical:
 
 Optional:
 
+- return (invisible) dates and times (rather than format strings) in date and time functions 
 - add graphical functions for _clock plots_ (including new book chapters)  
 - create a ds4psy survey (to collect user data for additional examples)
 - add more data with text, date, and time variables  
