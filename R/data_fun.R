@@ -323,7 +323,8 @@ sample_date <- function(n = 1, from = "1970-01-01", to = Sys.Date()){
 #' (as a list). 
 #' 
 #' The \code{tz} argument allows specifying time zones 
-#' (see \code{OlsonNames()} for options.)
+#' (see \code{Sys.timezone()} for current setting 
+#' and \code{OlsonNames()} for options.) 
 #' 
 #' @param n Number dates to draw. 
 #' Default: \code{n = 1}. 
@@ -340,7 +341,8 @@ sample_date <- function(n = 1, from = "1970-01-01", to = Sys.Date()){
 #' (as a list). 
 #' 
 #' @param tz Time zone.
-#' Default: \code{tz = ""} (i.e., current system time zone). 
+#' Default: \code{tz = ""} (i.e., current system time zone,  
+#' see \code{Sys.timezone()}). 
 #' Use \code{tz = "UTC"} for Universal Time, Coordinated. 
 #' 
 #' @examples
