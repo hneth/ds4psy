@@ -16,11 +16,14 @@ All datasets and functions required for the examples and exercises of the book "
 
 ## Major changes 
 
-- Provide better date and time support: Key date and time functions now return dates and times (invisibly), `what_date()` and `what_time()` add time zones `tz`.
+- Provide better support for date and time data: 
+
+    - Key date and time functions now include options for returning dates or times, rather than formatted strings.
+    - `what_date()` and `what_time()` support time zones `tz`.
 
 ## Minor changes 
 
-- `cur_date()` and `cur_time()` now print date/time (as side effect), but invisibly return a "Date"/"POSIXct" object.  
+- `cur_date()` and `cur_time()` now print date/time (as string) or return a "Date"/"POSIXct" object.  
 - `what_date()` and `what_time()` gain support for adding time zones `tz` (but no active conversion). 
 - `sample_time()`: Switch default to sampling "POSIXct" objects (making "POSIXlt" optional) and allow specifying time zones `tz`.  
 - All date and time functions based primarily on dates (`cur_date()`, `what_date()`, etc.) now use `Sys.Date()` (i.e., an object of class "Date") rather than `Sys.time()` (i.e., a "POSIXct" calendar time) as defaults. 
