@@ -13,6 +13,9 @@ Default: \code{seconds = FALSE}.}
 \item{sep}{Character: Separator to use. 
 Default: \code{sep = ":"}.}
 }
+\value{
+an object of class "POSIXct" (invisibly)
+}
 \description{
 \code{cur_time} provides a satisficing version of 
 \code{Sys.time()} that is sufficient for most purposes.
@@ -22,10 +25,11 @@ Default: \code{sep = ":"}.}
 (in "%H:%M" or "%H:%M:%S" format) 
 using current system settings, 
 but (invisibly) returns a 
-POSIXct (calendar time) object. 
+"POSIXct" (calendar time) object. 
 
 For a time zone argument, 
-see the \code{now()} function of 
+see the \code{\link{what_time}} function, 
+or the \code{now()} function of 
 the \strong{lubridate} package.
 }
 \examples{
@@ -33,8 +37,8 @@ cur_time()
 cur_time(seconds = TRUE)
 cur_time(sep = ".")
 
-# returns POSIXct object:
-t <- what_time(sep = "_")
+# returns a "POSIXct" object:
+t <- cur_time()
 format(t, "\%T \%Z")
 
 }

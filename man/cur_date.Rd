@@ -13,14 +13,18 @@ Default: \code{rev = FALSE}.}
 \item{sep}{Character: Separator to use. 
 Default: \code{sep = "-"}.}
 }
+\value{
+an object of class "Date" (invisibly)
+}
 \description{
 \code{cur_date} provides a relaxed version of 
 \code{Sys.time()} that is sufficient for most purposes.
 }
 \details{
-\code{cur_date} returns \code{Sys.Date()} 
+\code{cur_date} prints \code{Sys.Date()} 
 (in "%Y-%m-%d" or "%d-%m-%Y" format) 
-using current system settings.
+using current system settings, 
+but (invisibly) returns a "Date" object. 
  
 Alternatively, consider using \code{Sys.Date()} 
 or \code{Sys.time()} to obtain the "%Y-%m-%d" (or "%F")     
@@ -36,8 +40,13 @@ cur_date(sep = "/")
 cur_date(rev = TRUE)
 cur_date(rev = TRUE, sep = ".")
 
+# returns a "Date" object:
+d <- cur_date()
+class(d)
+
 }
 \seealso{
+\code{what_date()} function to print dates with more options; 
 \code{date()} and \code{today()} functions of the \strong{lubridate} package; 
 \code{date()}, \code{Sys.Date()}, and \code{Sys.time()} functions of \strong{base} R.
 

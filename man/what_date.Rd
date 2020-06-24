@@ -4,10 +4,10 @@
 \alias{what_date}
 \title{What date is it?}
 \usage{
-what_date(when = NA, rev = FALSE, sep = "-", month_form = "m")
+what_date(when = NA, rev = FALSE, sep = "-", month_form = "m", tz = "")
 }
 \arguments{
-\item{when}{Date (as a scalar or vector).
+\item{when}{Date(s) (as a scalar or vector).
 Default: \code{when = NA}. 
 Using \code{as.Date(when)} to convert strings into dates, 
 and \code{Sys.Date()}, if \code{when = NA}.}
@@ -22,16 +22,34 @@ Default: \code{sep = "-"}.}
 Default: \code{month_form = "m"} for numeric month (01-12). 
 Use \code{month_form = "b"} for short month name 
 and \code{month_form = "B"} for full month name (in current locale).}
+
+\item{tz}{Time zone.
+Default: \code{tz = ""} (i.e., current system time zone,  
+see \code{Sys.timezone()}). 
+Use \code{tz = "UTC"} for Universal Time, Coordinated.}
+}
+\value{
+an object of class "Date" (invisibly)
 }
 \description{
 \code{what_date} provides a satisficing version of 
 \code{Sys.Date()} that is sufficient for most purposes.
 }
 \details{
-\code{what_date} returns either a simple version of 
+\code{what_date} prints either a simple version of 
 \code{when} or \code{Sys.Date()}  
-(in %Y-%m-%d format) 
-using current system settings.
+(in %Y-%m-%d format) using current system settings, 
+but (invisibly) returns a "Date" object. 
+
+The \code{tz} argument allows specifying time zones 
+(see \code{Sys.timezone()} for current setting 
+and \code{OlsonNames()} for options.) 
+
+However, \code{tz} is merely used to represent the 
+dates provided to the \code{when} argument. 
+Thus, there currently is no active conversion 
+of dates into other time zones 
+(see the \code{today} function of \strong{lubridate} package).
 }
 \examples{
 what_date()  
@@ -40,14 +58,23 @@ what_date(rev = TRUE)
 what_date(rev = TRUE, sep = ".")
 what_date(rev = TRUE, sep = " ", month_form = "B")
 
-# with POSIXct times:
+# with "POSIXct" times:
 what_date(when = Sys.time())
 
-# with time vector (strings of POSIXct times):
+# with time vector (of "POSIXct" objects):
 ts <- c("2020-12-24 01:02:03 CET", "2020-12-31 23:59:59")
 what_date(ts)
 what_date(ts, rev = TRUE, sep = ".")
 what_date(ts, rev = TRUE, month_form = "b")
+
+# with time zone: 
+ts <- ISOdate(2020, 12, 24, c(0, 12))  # midnight and midday UTC
+d1 <- what_date(when = ts, tz = "US/Hawaii")
+d1
+
+# returns a "Date" object:
+d2 <- what_date()
+class(d2)
 
 }
 \seealso{

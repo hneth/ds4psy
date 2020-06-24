@@ -32,24 +32,31 @@ Use \code{tz = "UTC"} for Universal Time, Coordinated.}
 (in "%H:%M" or "%H:%M:%S" format) 
 using current default system settings, 
 but (invisibly) returns 
-POSIXct (calendar time) object(s). 
+"POSIXct" (calendar time) object(s). 
 
 The \code{tz} argument allows specifying time zones 
 (see \code{Sys.timezone()} for current setting 
-and \code{OlsonNames()} for options.)
+and \code{OlsonNames()} for options.) 
+
+However, \code{tz} is merely used to represent the 
+times provided to the \code{when} argument. 
+Thus, there currently is no active conversion 
+of times into other time zones 
+(see the \code{now} function of \strong{lubridate} package).
 }
 \examples{
 what_time()  
 
-# with vector (of POSIXct objects): 
-ts <- c("2020-02-29 01:02:03", "2020-12-31 14:15:16")
-what_time(ts)
+# with vector (of "POSIXct" objects): 
+tm <- c("2020-02-29 01:02:03", "2020-12-31 14:15:16")
+what_time(tm)
 
-# with time zone:
-t1 <- what_time(ts, seconds = TRUE, sep = "_", tz = "UTC")
+# with time zone: 
+ts <- ISOdate(2020, 12, 24, c(0, 12))  # midnight and midday UTC
+t1 <- what_time(when = ts, tz = "US/Hawaii")
 t1
 
-# returns POSIXct objects:
+# returns "POSIXct" object(s):
 t2 <- what_time("2020-02-29 12:30:45", tz = "US/Pacific")
 format(t2, "\%T \%Z")
 
