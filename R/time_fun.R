@@ -73,7 +73,7 @@ cur_date <- function(rev = FALSE, sep = "-"){
   # d <- Sys.time() # current time (optimizing options)
   d <- Sys.Date()  # current date (satisficing solution) 
   
-  # Formatting instruction string:   
+  # Format instruction string:   
   if (rev){
     fmt <- paste("%d", "%m", "%Y", sep = sep, collapse = "")  # using sep
   } else {
@@ -81,8 +81,8 @@ cur_date <- function(rev = FALSE, sep = "-"){
   }
   
   # Print formatted d (as side effect): 
-  # print(format(d, fmt))  # as string
-  cat(format(d, fmt))      # no string
+  print(format(d, fmt))  # as string
+  # cat(format(d, fmt))  # no string
   
   # Return Date object:
   invisible(d)
@@ -145,7 +145,7 @@ cur_time <- function(seconds = FALSE, sep = ":"){
   # Current time: 
   t <- Sys.time()
   
-  # Formatting instruction string: 
+  # Format instruction string: 
   if (seconds) {
     fmt <- paste("%H", "%M", "%S", sep = sep, collapse = "")  # %S and using sep
   } else {
@@ -153,8 +153,8 @@ cur_time <- function(seconds = FALSE, sep = ":"){
   }
   
   # Print formatted t (as side effect): 
-  # print(format(t, fmt))  # as string
-  cat(format(t, fmt))      # no string
+  print(format(t, fmt))  # as string
+  # cat(format(t, fmt))  # no string
   
   # Return POSIXct object:
   invisible(t)
@@ -270,7 +270,7 @@ what_time <- function(when = NA, seconds = FALSE, sep = ":", tz = ""){
     message("ToDo: Actively convert time(s) t into specified tz?")
   }
   
-  # Formatting instruction string: 
+  # Format instruction string: 
   if (seconds) {
     fmt <- paste("%H", "%M", "%S", sep = sep, collapse = "")  # %S and using sep
   } else {
@@ -278,8 +278,8 @@ what_time <- function(when = NA, seconds = FALSE, sep = ":", tz = ""){
   }
   
   # Print formatted t (as side effect): 
-  # print(format(t, fmt)) # as string
-  cat(format(t, fmt))     # no string
+  print(format(t, fmt))  # as string
+  # cat(format(t, fmt))  # no string
   
   # Return POSIXct object:
   invisible(t)
@@ -402,8 +402,7 @@ what_date <- function(when = NA, rev = FALSE, sep = "-", month_form = "m", tz = 
     message("ToDo: Actively convert date(s) d into specified tz?")
   }
   
-  
-  # Formatting instruction string:
+  # Format instruction string:
   if (substr(month_form, 1, 1) != "%") {
     month_form <- paste0("%", month_form)  # add % prefix
   }
@@ -415,8 +414,8 @@ what_date <- function(when = NA, rev = FALSE, sep = "-", month_form = "m", tz = 
   }
   
   # Print formatted d (as side effect): 
-  # print(format(d, fmt))  # as string
-  cat(format(d, fmt))      # no string
+  print(format(d, fmt))  # as string
+  # cat(format(d, fmt))  # no string
   
   # Return Date object:
   invisible(d)
