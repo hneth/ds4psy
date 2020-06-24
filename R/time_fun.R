@@ -1077,11 +1077,15 @@ what_year <- function(when = Sys.Date(), abbr = FALSE, as_integer = FALSE){
 
 ## Done: ----------
 
-# - Provided all what_ functions with a "when" argument that is set to Sys.time() by default.
-#   This allows providing other time points for which the question is answered. 
-#   e.g., On what day was my birthday? 
+# - Provided all what_ functions with a "when" argument that is set to Sys.Date() 
+#   or Sys.time() by default, allowing for other dates/times for which question 
+#   is answered (e.g., On what day was my birthday?) 
 
 ## ToDo: ----------
 
+# - convert_date() and convert_time() function(s) 
+#   for converting dates ("Date") and times ("POSIXct")
+#   from current into another time zone tz.
+# - return (invisible) dates/times in all what_() functions
 
 ## eof. ----------------------
