@@ -5,21 +5,24 @@
 
 All datasets and functions required for the examples and exercises of the book "Data Science for Psychologists" (by Hansjoerg Neth, Konstanz University, 2020), available at <https://bookdown.org/hneth/ds4psy/>. The book and course introduce principles and methods of data science to students of psychology and other biological or social sciences. The 'ds4psy' package primarily provides datasets, but also functions for data generation and manipulation (e.g., of text and time data) and graphics that are used in the book and its exercises. All functions included in 'ds4psy' are designed to be instructive and entertaining, rather than elegant or efficient.
 
-<!-- Source code: --> 
+<!-- Links: --> 
+
+- The most recent release of **ds4psy** (0.3.0) is available from CRAN: <https://CRAN.R-project.org/package=ds4psy>.
 
 - The current development version of **ds4psy** (0.3.0.9001+) is hosted at <https://github.com/hneth/ds4psy/>. 
 
-- The current version of the textbook **Data Science for Psychologists** is available at <https://bookdown.org/hneth/ds4psy/>.
+- The textbook **Data Science for Psychologists** is hosted at <https://bookdown.org/hneth/ds4psy/>.
 
 
 ## Major changes 
 
-- ...
+- Provide better date and time support: Key date and time functions now return dates and times (invisibly), `what_date()` and `what_time()` add time zones `tz`.
 
 ## Minor changes 
 
-- `cur_time()` and `what_time()` print time and invisibly return "POSIXct" objects with support for time zones `tz`. 
-- `sample_time()`: Switch default to sampling "POSIXct" objects (making "POSIXlt" optional) and add support for time zones `tz`.  
+- `cur_date()` and `cur_time()` now print date/time (as side effect), but invisibly return a "Date"/"POSIXct" object.  
+- `what_date()` and `what_time()` gain support for adding time zones `tz` (but no active conversion). 
+- `sample_time()`: Switch default to sampling "POSIXct" objects (making "POSIXlt" optional) and allow specifying time zones `tz`.  
 - All date and time functions based primarily on dates (`cur_date()`, `what_date()`, etc.) now use `Sys.Date()` (i.e., an object of class "Date") rather than `Sys.time()` (i.e., a "POSIXct" calendar time) as defaults. 
 
 ## Details 
@@ -34,9 +37,13 @@ Critical:
 
 - none 
 
+Current:
+
+- add `convert_date()` and `convert_time()` functions for converting dates/times from current into other time zones `tz`  
+- return (invisible) dates and times (rather than format strings) in all date and time functions 
+
 Optional:
 
-- return (invisible) dates and times (rather than format strings) in date and time functions 
 - add graphical functions for _clock plots_ (including new book chapters)  
 - create a ds4psy survey (to collect user data for additional examples)
 - add more data with text, date, and time variables  
@@ -154,54 +161,6 @@ The initial functionality is limited, as the package is designed to support the 
 
 ---------- 
 
-# ds4psy_book (course and textbook)
-
-This project has not yet been released (on CRAN or GitHub). 
-
-- The current book draft is available at <https://bookdown.org/hneth/ds4psy/>. 
-
-- The current source code of the **ds4psy_book** project (0.0.0.9001+) is hosted at <https://github.com/hneth/ds4psy> (with an additional suffix `_book`). 
-
-
-## Log of changes made 
-
-New content: 
-
-- added a new exercise on _Visual illusions_ using `make_grid()` function (see Exercise 6 in Chapter 2).  
-- added a new exercise on _Printing numbers as characters_ using `num_as_char()` function (see Exercise 6 in Chapter 11).  
-- added _A tidyverse caveat_ to Clarifications (see introductory chapter). 
-- added exercises on function exploration (`plot_fn()` and `plot_fun()`) to Chapter 1: Exploring functions.
-- added `fame` data (for Exercise 3 in Chapter 10: Time data)
-
-Structure:
-
-- ... 
-
-Details and cosmetics:
-
-- removed WPA abbreviations (for both exercises and solutions)
-- made figures smaller (e.g., a maximum of 75% of column width)
-- included _Preparation_ sections within _Introduction_ sections
-- use **unikn** color schemes (in most places)
-
-
-## To do
-
-New content: 
-
-- add exercises on random data generation (`coin()` and `dice()`) to Chapter 1 or 11: Functions? 
-- add _factors_ to Basics chapter, or a chapter on _Factors_ (in Part 2: Data wrangling) 
-- add chapter on _Text strings_ (in Part 2: Data wrangling)
-- add chapter on _Dates and times_ (in Part 2: Data wrangling)
-- consider making _conditionals_ its own chapter (in Part 3: Programming) 
-- emphasize _reproducible research_ aspects in introduction and appendix on R Markdown
-- add appendix on _R oddities_
-
-Details and cosmetics:
-
-- use a unified theme template for all plots  
-
-
-[File `News.md` updated on 2020-06-23.]
+[File `News.md` updated on 2020-06-25.]
 
 <!-- eof. -->
