@@ -4,27 +4,31 @@
 \alias{cur_date}
 \title{Current date (in yyyy-mm-dd or dd-mm-yyyy format).}
 \usage{
-cur_date(rev = FALSE, sep = "-")
+cur_date(rev = FALSE, as_string = TRUE, sep = "-")
 }
 \arguments{
 \item{rev}{Boolean: Reverse from "yyyy-mm-dd" to "dd-mm-yyyy" format?
 Default: \code{rev = FALSE}.}
 
+\item{as_string}{Boolean: Return as character string? 
+Default: \code{as_string = TRUE}. 
+If \code{as_string = FALSE}, a "Date" object is returned.}
+
 \item{sep}{Character: Separator to use. 
 Default: \code{sep = "-"}.}
 }
 \value{
-an object of class "Date" (invisibly)
+A character string or object of class "Date".
 }
 \description{
 \code{cur_date} provides a relaxed version of 
 \code{Sys.time()} that is sufficient for most purposes.
 }
 \details{
-\code{cur_date} prints \code{Sys.Date()} 
-(in "%Y-%m-%d" or "%d-%m-%Y" format) 
-using current system settings, 
-but (invisibly) returns a "Date" object. 
+By default, \code{cur_date} returns \code{Sys.Date()} 
+as a character string (using current system settings and 
+\code{sep} for formatting).  
+If \code{as_string = FALSE}, a "Date" object is returned.  
  
 Alternatively, consider using \code{Sys.Date()} 
 or \code{Sys.time()} to obtain the "%Y-%m-%d" (or "%F")     
@@ -40,9 +44,9 @@ cur_date(sep = "/")
 cur_date(rev = TRUE)
 cur_date(rev = TRUE, sep = ".")
 
-# returns a "Date" object:
-d <- cur_date()
-class(d)
+# return a "Date" object:
+dt <- cur_date(as_string = FALSE)
+class(dt)
 
 }
 \seealso{

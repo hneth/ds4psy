@@ -4,28 +4,33 @@
 \alias{cur_time}
 \title{Current time (in hh:mm or hh:mm:ss format).}
 \usage{
-cur_time(seconds = FALSE, sep = ":")
+cur_time(seconds = FALSE, as_string = TRUE, sep = ":")
 }
 \arguments{
 \item{seconds}{Boolean: Show time with seconds?
 Default: \code{seconds = FALSE}.}
 
+\item{as_string}{Boolean: Return as character string? 
+Default: \code{as_string = TRUE}. 
+If \code{as_string = FALSE}, a "POSIXct" object is returned.}
+
 \item{sep}{Character: Separator to use. 
 Default: \code{sep = ":"}.}
 }
 \value{
-an object of class "POSIXct" (invisibly)
+A character string or object of class "POSIXct".
 }
 \description{
 \code{cur_time} provides a satisficing version of 
 \code{Sys.time()} that is sufficient for most purposes.
 }
 \details{
-\code{cur_time} prints \code{Sys.time()}  
+By default, \code{cur_time} returns a 
+\code{Sys.time()} as a character string 
 (in "%H:%M" or "%H:%M:%S" format) 
-using current system settings, 
-but (invisibly) returns a 
-"POSIXct" (calendar time) object. 
+using current system settings. 
+If \code{as_string = FALSE}, a "POSIXct" 
+(calendar time) object is returned. 
 
 For a time zone argument, 
 see the \code{\link{what_time}} function, 
@@ -37,8 +42,8 @@ cur_time()
 cur_time(seconds = TRUE)
 cur_time(sep = ".")
 
-# returns a "POSIXct" object:
-t <- cur_time()
+# return a "POSIXct" object:
+t <- cur_time(as_string = FALSE)
 format(t, "\%T \%Z")
 
 }

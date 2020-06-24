@@ -4,7 +4,14 @@
 \alias{what_date}
 \title{What date is it?}
 \usage{
-what_date(when = NA, rev = FALSE, sep = "-", month_form = "m", tz = "")
+what_date(
+  when = NA,
+  rev = FALSE,
+  as_string = TRUE,
+  sep = "-",
+  month_form = "m",
+  tz = ""
+)
 }
 \arguments{
 \item{when}{Date(s) (as a scalar or vector).
@@ -14,6 +21,10 @@ and \code{Sys.Date()}, if \code{when = NA}.}
 
 \item{rev}{Boolean: Reverse date (to %d-%m-%Y)?
 Default: \code{rev = FALSE}.}
+
+\item{as_string}{Boolean: Return as character string? 
+Default: \code{as_string = TRUE}. 
+If \code{as_string = FALSE}, a "Date" object is returned.}
 
 \item{sep}{Character: Separator to use. 
 Default: \code{sep = "-"}.}
@@ -29,17 +40,18 @@ see \code{Sys.timezone()}).
 Use \code{tz = "UTC"} for Universal Time, Coordinated.}
 }
 \value{
-an object of class "Date" (invisibly)
+A character string or object of class "Date".
 }
 \description{
 \code{what_date} provides a satisficing version of 
 \code{Sys.Date()} that is sufficient for most purposes.
 }
 \details{
-\code{what_date} prints either a simple version of 
-\code{when} or \code{Sys.Date()}  
-(in %Y-%m-%d format) using current system settings, 
-but (invisibly) returns a "Date" object. 
+By default, \code{what_date} returns either 
+\code{Sys.Date()} or the dates provided by \code{when} 
+as a character string (using current system settings and 
+\code{sep} for formatting).  
+If \code{as_string = FALSE}, a "Date" object is returned. 
 
 The \code{tz} argument allows specifying time zones 
 (see \code{Sys.timezone()} for current setting 
@@ -69,12 +81,11 @@ what_date(ts, rev = TRUE, month_form = "b")
 
 # with time zone: 
 ts <- ISOdate(2020, 12, 24, c(0, 12))  # midnight and midday UTC
-d1 <- what_date(when = ts, tz = "US/Hawaii")
-d1
+what_date(when = ts, tz = "US/Hawaii")
 
-# returns a "Date" object:
-d2 <- what_date()
-class(d2)
+# return a "Date" object:
+dt <- what_date(as_string = FALSE)
+class(dt)
 
 }
 \seealso{
