@@ -30,6 +30,7 @@ All datasets and functions required for the examples and exercises of the book "
 
 ## Details 
 
+- bug fix: Distinguish `is.wholenumber()` from `is.integer()`  
 - bug fix: Use `\u...` rather than `\U...` in `Umlaut` definitions  
 - bug fix: Removed non-ASCII characters from `fruits` and `flowery`  
 
@@ -164,6 +165,6 @@ The initial functionality is limited, as the package is designed to support the 
 
 ---------- 
 
-[File `News.md` updated on 2020-06-25.]
+[File `News.md` updated on 2020-06-27.]
 
 <!-- eof. -->
