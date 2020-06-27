@@ -1,5 +1,5 @@
 ## util_fun.R | ds4psy
-## hn | uni.kn | 2020 05 06
+## hn | uni.kn | 2020 06 27
 ## ---------------------------
 
 ## Utility functions. 
@@ -303,14 +303,14 @@ num_as_ordinal <- function(x, sep = ""){
 
 #' Test for whole numbers (i.e., integers). 
 #'
-#' \code{is.wholenumber} tests if \code{x} contains integer numbers.
+#' \code{is.wholenumber} tests if \code{x} contains only integer numbers.
 #' 
-#' \code{is.wholenumber} does what the \strong{base} R function \code{is.integer} is not designed to do: 
+#' \code{is.wholenumber} does what the \strong{base} R function \code{is.integer} is \strong{not} designed to do: 
 #' 
 #' \itemize{ 
-#' \item \code{is.wholenumber} returns TRUE or FALSE depending on whether its numeric argument \code{x} is an integer value (i.e., a whole number). 
+#' \item \code{is.wholenumber()} returns TRUE or FALSE depending on whether its numeric argument \code{x} is an integer value (i.e., a "whole" number). 
 #' 
-#' \item \code{is.integer} returns TRUE or FALSE depending on whether its argument is of integer type, unless it is a factor when it returns FALSE.  
+#' \item \code{is.integer()} returns TRUE or FALSE depending on whether its argument is of integer type, and FALSE if its argument is a factor.  
 #' }
 #' 
 #' See the documentation of \code{\link{is.integer}} for definition and details.
@@ -326,6 +326,10 @@ num_as_ordinal <- function(x, sep = ""){
 #' x <- seq(1, 2, by = 0.5)
 #' is.wholenumber(x)
 #' 
+#' # Compare:
+#' is.integer(1+2) 
+#' is.wholenumber(1+2) 
+#' 
 #' @family utility functions
 #'
 #' @seealso 
@@ -337,13 +341,15 @@ is.wholenumber <- function(x, tol = .Machine$double.eps^0.5) {
   abs(x - round(x)) < tol
 }
 
-## Check: 
+# # Check: 
 # is.wholenumber(1)    # is TRUE
 # is.wholenumber(1/2)  # is FALSE
 # x <- seq(1, 2, by = 0.5)
 # is.wholenumber(x)
-
-
+# 
+# # Compare:
+# is.integer(1+2)
+# is.wholenumber(1+2)
 
 
 # kill_all: Kill all objects in current environment (without warning): ------

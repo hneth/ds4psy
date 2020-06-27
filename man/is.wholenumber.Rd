@@ -13,15 +13,15 @@ is.wholenumber(x, tol = .Machine$double.eps^0.5)
 Default: \code{tol = .Machine$double.eps^0.5} (see \code{?.Machine} for details).}
 }
 \description{
-\code{is.wholenumber} tests if \code{x} contains integer numbers.
+\code{is.wholenumber} tests if \code{x} contains only integer numbers.
 }
 \details{
-\code{is.wholenumber} does what the \strong{base} R function \code{is.integer} is not designed to do: 
+\code{is.wholenumber} does what the \strong{base} R function \code{is.integer} is \strong{not} designed to do: 
 
 \itemize{ 
-\item \code{is.wholenumber} returns TRUE or FALSE depending on whether its numeric argument \code{x} is an integer value (i.e., a whole number). 
+\item \code{is.wholenumber()} returns TRUE or FALSE depending on whether its numeric argument \code{x} is an integer value (i.e., a "whole" number). 
 
-\item \code{is.integer} returns TRUE or FALSE depending on whether its argument is of integer type, unless it is a factor when it returns FALSE.  
+\item \code{is.integer()} returns TRUE or FALSE depending on whether its argument is of integer type, and FALSE if its argument is a factor.  
 }
 
 See the documentation of \code{\link{is.integer}} for definition and details.
@@ -31,6 +31,10 @@ is.wholenumber(1)    # is TRUE
 is.wholenumber(1/2)  # is FALSE
 x <- seq(1, 2, by = 0.5)
 is.wholenumber(x)
+
+# Compare:
+is.integer(1+2) 
+is.wholenumber(1+2) 
 
 }
 \seealso{
