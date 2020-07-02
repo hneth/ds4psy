@@ -1143,6 +1143,32 @@
 "exp_num_dt"
 
 
+# (10c) dt_10 data: 10 Danish bdays ---- 
+
+## Sources:
+# dt_10 <- readr::read_csv("./data-raw/dt_10.csv") # local file
+# dt_10_o <- readr::read_csv("http://rpository.com/ds4psy/data/dt_10.csv")  # online
+# all.equal(dt_10, dt_10_o)
+
+## Check: 
+# dim(dt_10)  # 10 x 7
+
+#' Data from 10 Danish people. 
+#'
+#' \code{dt_10} contains precise DOB information of 
+#' 10 non-existent, but definitely Danish people. 
+#' 
+#' @format A table with 10 cases (rows) and 7 variables (columns). 
+#' 
+#' @family datasets
+#' 
+#' @source 
+#' See CSV data file at 
+#' \url{http://rpository.com/ds4psy/data/dt_10.csv}. 
+
+"dt_10"
+
+
 # (11) Function data (Chapter 11): -------- 
 
 # none yet.
