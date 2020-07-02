@@ -1049,6 +1049,8 @@
 
 # (10) Time data (Chapter 10): --------
 
+# (10a) fame data: ---- 
+
 # Fame data (DOB and DOD of famous people):
 # Chapter 10 (Time data), Exercise 3
 # See Exercise 3 at https://bookdown.org/hneth/ds4psy/10-4-time-ex.html#time:ex03 
@@ -1070,7 +1072,70 @@
 
 "fame"
 
+# (10b) exp_num_dt data: ---- 
 
+# Experimental numeracy and date-time (dt) data:
+
+# File is a combination from 2 sources:
+# A. numeracy data:
+# See generating code chunk "data-create-numeracy-data" in book file "55_datasets.Rmd".
+# numeracy <- readr::read_csv("../ds4psy/data-raw/numeracy.csv")  # local csv file
+# numeracy <- readr::read_csv("http://rpository.com/ds4psy/data/numeracy.csv")  # online
+# numeracy  # 1000 x 12
+
+# B. dt data: 
+# See generating code chunk "data-create-time-bday-data" in book file "55_datasets.Rmd".
+# dt <- readr::read_csv("../ds4psy/data-raw/dt.csv")  # from local file 
+# dt <- readr::read_csv("http://rpository.com/ds4psy/data/dt.csv")  # online file
+# dt  # 1000 x 9
+
+## Check: 
+# dim(exp_num_dt)  # 1000 observations (rows) x 15 variables (columns)
+# sum(is.na(exp_num_dt))  # 130 missing values
+# usethis::use_data(exp_num_dt, overwrite = TRUE)
+
+#' Data from experiment with numeracy and date-time data.
+#'
+#' \code{exp_num_dt} is a fictitious dataset describing 
+#' 1000 non-existing, but otherwise ordinary people.
+#' 
+#' \strong{Codebook} 
+#' 
+#' \itemize{
+#' 
+#' \item 1. \strong{name}: Participant initials.
+#' 
+#' \item 2. \strong{gender}: Self-identified gender. 
+#' 
+#' \item 3. \strong{bday}: Day (within month) of DOB.
+#' \item 4. \strong{bmonth}: Month (within year) of DOB.
+#' \item 5. \strong{byear}: Year of DOB.
+#' 
+#' \item 6. \strong{height}: Height (in cm).
+#' \item 7. \strong{blood_type}: Blood type. 
+#'  
+#' \item 8. \strong{bnt_1} to 11. \strong{bnt_4}: Correct response to BNT question? (1: correct, 0: incorrect).
+#' 
+#' \item 12. \strong{g_iq} and 13. \strong{s_iq}: Scores from two IQ tests (general vs. social).
+#' 
+#' \item 14. \strong{t_1} and 15. \strong{t_2}: Start and end time. 
+#' 
+#' } 
+#' 
+#' \code{exp_num_dt} was generated for analyzing numeracy data, 
+#' for converting data from wide into long format, 
+#' and for working with date- and time-related variables. 
+#' 
+#' @format A table with 1000 cases (rows) and 15 variables (columns). 
+#' 
+#' @family datasets
+#' 
+#' @source 
+#' See CSV data files at 
+#' \url{http://rpository.com/ds4psy/data/numeracy.csv} and 
+#' \url{http://rpository.com/ds4psy/data/dt.csv}. 
+
+"exp_num_dt"
 
 
 # (11) Function data (Chapter 11): -------- 
@@ -1124,7 +1189,7 @@
 #' @family datasets
 #' 
 #' @source 
-#' See CSV data at \url{http://rpository.com/ds4psy/data/tb.csv}. 
+#' See CSV data file at \url{http://rpository.com/ds4psy/data/tb.csv}. 
 
 "tb"
 
