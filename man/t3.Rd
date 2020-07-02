@@ -30,6 +30,7 @@ Other datasets:
 \code{\link{data_t2}},
 \code{\link{data_t3}},
 \code{\link{data_t4}},
+\code{\link{exp_num_dt}},
 \code{\link{exp_wide}},
 \code{\link{falsePosPsy_all}},
 \code{\link{fame}},
