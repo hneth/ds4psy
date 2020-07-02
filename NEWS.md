@@ -23,6 +23,7 @@ All datasets and functions required for the examples and exercises of the book "
 
 ## Minor changes 
 
+- added dataset `exp_num_dt` (for studying numeracy test scores and date- and time-related data).   
 - `cur_date()` and `cur_time()` now print date/time (as string) or return a "Date"/"POSIXct" object.  
 - `what_date()` and `what_time()` gain support for adding time zones `tz` (but no active conversion). 
 - `sample_time()`: Switch default to sampling "POSIXct" objects (making "POSIXlt" optional) and allow specifying time zones `tz`.  
@@ -165,6 +166,6 @@ The initial functionality is limited, as the package is designed to support the 
 
 ---------- 
 
-[File `News.md` updated on 2020-06-27.]
+[File `News.md` updated on 2020-07-02.]
 
 <!-- eof. -->
