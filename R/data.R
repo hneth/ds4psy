@@ -1,8 +1,9 @@
 ## data.R | ds4psy
-## hn | uni.kn | 2020 06 15
+## hn | uni.kn | 2020 07 02
 ## ---------------------------
 
 ## Documentation of datasets included in /data. 
+
 
 # (1) Positive Psychology data: ---------- 
 
@@ -225,6 +226,7 @@
 
 
 
+
 # (2) False Positive Psychology data: ---------- 
 
 # https://bookdown.org/hneth/ds4psy/B-2-datasets-false.html
@@ -306,7 +308,8 @@
 
 
 
-# (3) Outlier data from Chapter 3: Transforming data / dplyr: ---------- 
+
+# (3) Transforming data / dplyr (Chapter 3): outliers ---------- 
 
 # https://bookdown.org/hneth/ds4psy/3-6-transform-ex.html 
 
@@ -334,11 +337,51 @@
 
 
 
-# (4) Tables from Chapter 6: Importing data / readr: ---------- 
+
+# (3.14) pi data: --------  
+
+# https://bookdown.org/hneth/ds4psy/10-3-iter-essentials.html 
+# Orig. data source <http://www.geom.uiuc.edu/~huberty/math5337/groupe/digits.html>
+
+# # pi_all <- readLines("./data/pi_100k.txt")                # from local data file
+# pi_data <- "http://rpository.com/ds4psy/data/pi_100k.txt"  # URL of online data file
+# pi_100k <- readLines(pi_data)                              # read from online source
+# 
+# # Check:
+# dim(pi_100k)  #  NULL !
+# 
+# # Check number of missing values: 
+# sum(is.na(pi_100k))  #  0 missing values
+# 
+# # Save to /data:
+# usethis::use_data(pi_100k, overwrite = TRUE)
+
+
+#' Data: 100k digits of pi.
+#'
+#' \code{pi_100k} is a dataset containing the first 100k digits of pi. 
+#' 
+#' @format A character of \code{nchar(pi_100k) = 100001}. 
+#' 
+#' @family datasets 
+#' 
+#' @source 
+#' See TXT data at \url{http://rpository.com/ds4psy/data/pi_100k.txt}. 
+#' 
+#' Original data at \url{http://www.geom.uiuc.edu/~huberty/math5337/groupe/digits.html}. 
+
+"pi_100k"
+
+
+
+
+
+
+# (6) Importing data / readr (Chapter 6): ---------- 
 
 # https://bookdown.org/hneth/ds4psy/6-3-import-essentials.html 
 
-# (4a) data_t1.csv: ---- 
+# (6a) data_t1.csv: ---- 
 # Note: Same as (6a) below. 
 
 # data_t1 <- readr::read_csv("http://rpository.com/ds4psy/data/data_t1.csv")
@@ -368,7 +411,7 @@
 "data_t1"
 
 
-# (4b) data_t1_de.csv: ---- 
+# (6b) data_t1_de.csv: ---- 
 
 # data_t1_de <- readr::read_csv2("http://rpository.com/ds4psy/data/data_t1_de.csv")
 # 
@@ -397,7 +440,7 @@
 "data_t1_de"
 
 
-# (4c) data_t1_tab.csv: ---- 
+# (6c) data_t1_tab.csv: ---- 
 
 # data_t1_tab <- read_tsv("http://rpository.com/ds4psy/data/data_t1_tab.csv")
 # 
@@ -426,7 +469,7 @@
 "data_t1_tab"
 
 
-# (4d) data_1.dat: ---- 
+# (6d) data_1.dat: ---- 
 
 # my_file <- "http://rpository.com/ds4psy/data/data_1.dat"
 # 
@@ -459,7 +502,7 @@
 "data_1"
 
 
-# (4e) data_2.dat: ---- 
+# (6e) data_2.dat: ---- 
 
 # my_file_path <- "http://rpository.com/ds4psy/data/data_2.dat"  # from online source
 # 
@@ -496,11 +539,12 @@
 
 
 
-# (5) Chapter 7: Tidying data / tidyr: ---------- 
+
+# (7) Tidying data / tidyr (Chapter 7):: ---------- 
 
 # https://bookdown.org/hneth/ds4psy/7-3-tidy-essentials.html
 
-# (5a) table6.csv: ------ 
+# (7a) table6.csv: ------ 
 
 # ## Load data (as comma-separated file): 
 # table6 <- readr::read_csv("http://rpository.com/ds4psy/data/table6.csv")  # from online source
@@ -532,7 +576,7 @@
 "table6"
 
 
-# (5b) table7.csv: ------ 
+# (7b) table7.csv: ------ 
 
 # # Load data (as comma-separated file): 
 # table7 <- readr::read_csv("http://rpository.com/ds4psy/data/table7.csv")  # from online source
@@ -564,7 +608,7 @@
 "table7"
 
 
-# (5c) table8.csv: ------ 
+# (7c) table8.csv: ------ 
 
 # # Load data (as comma-separated file): 
 # table8 <- readr::read_csv("http://rpository.com/ds4psy/data/table8.csv")  # from online source
@@ -596,7 +640,7 @@
 "table8"
 
 
-# (5d) exp_wide.csv: ------ 
+# (7d) exp_wide.csv: ------ 
 
 # https://bookdown.org/hneth/ds4psy/7-5-tidy-ex.html
 
@@ -627,12 +671,12 @@
 "exp_wide"
 
 
-# (6) Chapter 7: Exercise 1: 'Four messes and one tidy table': ------ 
+# (7e) Chapter 7: Exercise 1: 'Four messes and one tidy table': ------ 
 
 # https://bookdown.org/hneth/ds4psy/7-4-tidy-ex.html#tidy:ex01
 
 
-# (6a): t_1.csv: ----- 
+# (7e1): t_1.csv: ----- 
 
 #' Data t_1.
 #'
@@ -648,7 +692,7 @@
 "t_1"
 
 
-# (6b): t_2.csv: ----- 
+# (7e2): t_2.csv: ----- 
 
 #' Data t_2.
 #'
@@ -664,7 +708,7 @@
 "t_2"
 
 
-# (6c): t_3.csv: ----- 
+# (7e3): t_3.csv: ----- 
 
 #' Data t_3.
 #'
@@ -680,7 +724,7 @@
 "t_3"
 
 
-# (6d): t_4.csv: ----- 
+# (7e4): t_4.csv: ----- 
 
 #' Data t_4.
 #'
@@ -697,11 +741,12 @@
 
 
 
-# (7) Chapter 8: Joining data / dplyr: ---------- 
+
+# (8) Joining data / dplyr (Chapter 8): ---------- 
 
 # https://bookdown.org/hneth/ds4psy/8-3-join-essentials.html
 
-# (7a) data_t1.csv: ---- 
+# (8a) data_t1.csv: ---- 
 # Note: Same as (4a) above. 
 
 # data_t1 <- readr::read_csv("http://rpository.com/ds4psy/data/data_t1.csv")
@@ -718,7 +763,7 @@
 # See (4a) above.
 
 
-# (7b) data_t2.csv: ---- 
+# (8b) data_t2.csv: ---- 
 
 # data_t2 <- readr::read_csv(file = "http://rpository.com/ds4psy/data/data_t2.csv")
 # 
@@ -749,7 +794,7 @@
 
 # Exercise 1:
 
-# (7c) t3.csv: ---- 
+# (8c) t3.csv: ---- 
 
 # t3 <- readr::read_csv(file = "http://rpository.com/ds4psy/data/t3.csv")
 # 
@@ -778,7 +823,7 @@
 "t3"
 
 
-# (7d) t4.csv: ---- 
+# (8d) t4.csv: ---- 
 
 # t4 <- readr::read_csv(file = "http://rpository.com/ds4psy/data/t4.csv")
 # 
@@ -809,7 +854,7 @@
 
 # Exercise 3: 
 
-# (7e) data_t3.csv: ---- 
+# (8e) data_t3.csv: ---- 
 
 # data_t3 <- readr::read_csv(file = "http://rpository.com/ds4psy/data/data_t3.csv")
 # 
@@ -838,7 +883,7 @@
 "data_t3"
 
 
-# (7f) data_t4.csv: ---- 
+# (8f) data_t4.csv: ---- 
 
 # data_t4 <- readr::read_csv(file = "http://rpository.com/ds4psy/data/data_t4.csv")
 # 
@@ -868,12 +913,141 @@
 
 
 
-# (8) Text data: -------- 
 
-# ToDo: Find some book/text to analyze. 
+# (9) Text data (Chapter 9): -------- 
+
+# (9a) countries: ---- 
+
+# # Source: <https://www.gapminder.org/data/documentation/gd004/>
+# file <- "GM_lifeExpectancy_by_country_v11.csv"
+# path <- "./data-raw/raw_data_sources/_gapminder/"
+# datapath <- paste0(path, file)
+# datapath
+# 
+# GM_life_expectancy <- readr::read_csv2(file = datapath)
+# GM_life_expectancy
+# 
+# countries <- GM_life_expectancy$country
+# countries
+
+#' Data: Names of countries.
+#'
+#' \code{countries} is a dataset containing the names of 
+#' 197 countries (as a vector of text strings). 
+#' 
+#' @format A vector of type \code{character}  
+#' with \code{length(countries) = 197}. 
+#' 
+#' @family datasets 
+#' 
+#' @source 
+#' Data from \url{https://www.gapminder.org}: 
+#' Original data at \url{https://www.gapminder.org/data/documentation/gd004/}.
+
+"countries"
 
 
-# (9) Time data: --------
+# (9b) fruits: ---- 
+
+# Source: <https://simple.wikipedia.org/wiki/List_of_fruits>
+# fruits
+# length(fruits)  # 122
+
+#' Data: Names of fruits. 
+#'
+#' \code{fruits} is a dataset containing the names of 
+#' 122 fruits (as a vector of text strings). 
+#' 
+#' Botanically, "fruits" are the seed-bearing structures 
+#' of flowering plants (angiosperms) formed from the ovary 
+#' after flowering. 
+#' 
+#' In common usage, "fruits" refer to the fleshy 
+#' seed-associated structures of a plant 
+#' that taste sweet or sour, 
+#' and are edible in their raw state.
+#' 
+#' @format A vector of type \code{character}  
+#' with \code{length(fruits) = 122}. 
+#' 
+#' @family datasets 
+#' 
+#' @source 
+#' Data based on \url{https://simple.wikipedia.org/wiki/List_of_fruits}.
+
+"fruits"
+
+
+# (9c) flowery phrases: ---- 
+
+#' Data: Flowery phrases. 
+#'
+#' \code{flowery} contains versions and variations 
+#' of Gertrude Stein's popular phrase 
+#' "A rose is a rose is a rose".  
+#' 
+#' The phrase stems from Gertrude Stein's poem "Sacred Emily" 
+#' (written in 1913 and published in 1922, in "Geography and Plays").  
+#' The verbatim line in the poem actually reads 
+#' "Rose is a rose is a rose is a rose". 
+#' 
+#' See \url{https://en.wikipedia.org/wiki/Rose_is_a_rose_is_a_rose_is_a_rose} 
+#' for additional variations and sources. 
+#' 
+#' @format A vector of type \code{character}  
+#' with \code{length(flowery) = 60}. 
+#' 
+#' @family datasets 
+#' 
+#' @source 
+#' Data based on \url{https://en.wikipedia.org/wiki/Rose_is_a_rose_is_a_rose_is_a_rose}.
+
+"flowery"
+
+
+# (9e) Bushisms: ---- 
+
+#' Data: Bushisms.  
+#'
+#' \code{Bushisms} contains phrases spoken by 
+#' or attributed to U.S. president George W. Bush 
+#' (the 43rd president of the United States, 
+#' in office from January 2001 to January 2009).
+#' 
+#' @format A vector of type \code{character}  
+#' with \code{length(Bushisms) = 22}. 
+#' 
+#' @family datasets 
+#' 
+#' @source 
+#' Data based on \url{https://en.wikipedia.org/wiki/Bushism}. 
+
+"Bushisms" 
+
+
+# (9e) Trumpisms: ---- 
+
+#' Data: Trumpisms. 
+#'
+#' \code{Trumpisms} contains words frequently used 
+#' by U.S. president Donald J. Trump 
+#' (the 45th and current president of the United States, 
+#' as of May 2020).
+#' 
+#' @format A vector of type \code{character}  
+#' with \code{length(Trumpisms) = 96}. 
+#' 
+#' @family datasets 
+#' 
+#' @source 
+#' Data originally based on \url{https://www.yourdictionary.com/slideshow/donald-trump-20-most-frequently-used-words.html} 
+#' and expanded by public speeches and Twitter tweets on \url{https://twitter.com/realDonaldTrump}. 
+
+"Trumpisms"
+
+
+
+# (10) Time data (Chapter 10): --------
 
 # Fame data (DOB and DOD of famous people):
 # Chapter 10 (Time data), Exercise 3
@@ -897,11 +1071,18 @@
 "fame"
 
 
-# (10) Chapter 12: Iteration / loops: -------- 
+
+
+# (11) Function data (Chapter 11): -------- 
+
+# none yet.
+
+
+# (12) Iteration / loops (Chapter 12): -------- 
 
 # https://bookdown.org/hneth/ds4psy/10-3-iter-essentials.html
 
-# (10a) tb data: ------ 
+# (12a) tb data: ------ 
 
 # tb <- readr::read_csv2("http://rpository.com/ds4psy/data/tb.csv") 
 # 
@@ -949,179 +1130,21 @@
 "tb"
 
 
-# (10b) pi data: ------ 
-
-# https://bookdown.org/hneth/ds4psy/10-3-iter-essentials.html 
-# Orig. data source <http://www.geom.uiuc.edu/~huberty/math5337/groupe/digits.html>
-
-# # pi_all <- readLines("./data/pi_100k.txt")                # from local data file
-# pi_data <- "http://rpository.com/ds4psy/data/pi_100k.txt"  # URL of online data file
-# pi_100k <- readLines(pi_data)                              # read from online source
-# 
-# # Check:
-# dim(pi_100k)  #  NULL !
-# 
-# # Check number of missing values: 
-# sum(is.na(pi_100k))  #  0 missing values
-# 
-# # Save to /data:
-# usethis::use_data(pi_100k, overwrite = TRUE)
-
-
-#' Data: 100k digits of pi.
-#'
-#' \code{pi_100k} is a dataset containing the first 100k digits of pi. 
-#' 
-#' @format A character of \code{nchar(pi_100k) = 100001}. 
-#' 
-#' @family datasets 
-#' 
-#' @source 
-#' See TXT data at \url{http://rpository.com/ds4psy/data/pi_100k.txt}. 
-#' 
-#' Original data at \url{http://www.geom.uiuc.edu/~huberty/math5337/groupe/digits.html}. 
-
-"pi_100k"
-
-
-# (11) Text data: ------ 
-
-
-# (11a) countries: ---- 
-
-# # Source: <https://www.gapminder.org/data/documentation/gd004/>
-# file <- "GM_lifeExpectancy_by_country_v11.csv"
-# path <- "./data-raw/raw_data_sources/_gapminder/"
-# datapath <- paste0(path, file)
-# datapath
-# 
-# GM_life_expectancy <- readr::read_csv2(file = datapath)
-# GM_life_expectancy
-# 
-# countries <- GM_life_expectancy$country
-# countries
-
-#' Data: Names of countries.
-#'
-#' \code{countries} is a dataset containing the names of 
-#' 197 countries (as a vector of text strings). 
-#' 
-#' @format A vector of type \code{character}  
-#' with \code{length(countries) = 197}. 
-#' 
-#' @family datasets 
-#' 
-#' @source 
-#' Data from \url{https://www.gapminder.org}: 
-#' Original data at \url{https://www.gapminder.org/data/documentation/gd004/}.
-
-"countries"
-
-
-# (11b) fruits: ---- 
-
-# Source: <https://simple.wikipedia.org/wiki/List_of_fruits>
-# fruits
-# length(fruits)  # 122
-
-#' Data: Names of fruits. 
-#'
-#' \code{fruits} is a dataset containing the names of 
-#' 122 fruits (as a vector of text strings). 
-#' 
-#' Botanically, "fruits" are the seed-bearing structures 
-#' of flowering plants (angiosperms) formed from the ovary 
-#' after flowering. 
-#' 
-#' In common usage, "fruits" refer to the fleshy 
-#' seed-associated structures of a plant 
-#' that taste sweet or sour, 
-#' and are edible in their raw state.
-#' 
-#' @format A vector of type \code{character}  
-#' with \code{length(fruits) = 122}. 
-#' 
-#' @family datasets 
-#' 
-#' @source 
-#' Data based on \url{https://simple.wikipedia.org/wiki/List_of_fruits}.
-
-"fruits"
-
-
-# (11c) flowery phrases: ---- 
-
-#' Data: Flowery phrases. 
-#'
-#' \code{flowery} contains versions and variations 
-#' of Gertrude Stein's popular phrase 
-#' "A rose is a rose is a rose".  
-#' 
-#' The phrase stems from Gertrude Stein's poem "Sacred Emily" 
-#' (written in 1913 and published in 1922, in "Geography and Plays").  
-#' The verbatim line in the poem actually reads 
-#' "Rose is a rose is a rose is a rose". 
-#' 
-#' See \url{https://en.wikipedia.org/wiki/Rose_is_a_rose_is_a_rose_is_a_rose} 
-#' for additional variations and sources. 
-#' 
-#' @format A vector of type \code{character}  
-#' with \code{length(flowery) = 60}. 
-#' 
-#' @family datasets 
-#' 
-#' @source 
-#' Data based on \url{https://en.wikipedia.org/wiki/Rose_is_a_rose_is_a_rose_is_a_rose}.
-
-"flowery"
-
-
-# (11e) Bushisms: ---- 
-
-#' Data: Bushisms.  
-#'
-#' \code{Bushisms} contains phrases spoken by 
-#' or attributed to U.S. president George W. Bush 
-#' (the 43rd president of the United States, 
-#' in office from January 2001 to January 2009).
-#' 
-#' @format A vector of type \code{character}  
-#' with \code{length(Bushisms) = 22}. 
-#' 
-#' @family datasets 
-#' 
-#' @source 
-#' Data based on \url{https://en.wikipedia.org/wiki/Bushism}. 
-
-"Bushisms" 
-
-
-# (11e) Trumpisms: ---- 
-
-#' Data: Trumpisms. 
-#'
-#' \code{Trumpisms} contains words frequently used 
-#' by U.S. president Donald J. Trump 
-#' (the 45th and current president of the United States, 
-#' as of May 2020).
-#' 
-#' @format A vector of type \code{character}  
-#' with \code{length(Trumpisms) = 96}. 
-#' 
-#' @family datasets 
-#' 
-#' @source 
-#' Data originally based on \url{https://www.yourdictionary.com/slideshow/donald-trump-20-most-frequently-used-words.html} 
-#' and expanded by public speeches and Twitter tweets on \url{https://twitter.com/realDonaldTrump}. 
-
-"Trumpisms"
-
 
 ## ToDo: ----------
 
-# - collect ds4psy survey data
-# - add text data (Chapter 9: Text; e.g., dinos, fruit, veggies, attention check response on "i read instructions", some eBook for sentinent analysis, ...) 
-# - add date/time data (Chapter 10: Time, e.g., DOB, time of test, task start/end, etc.)
-# - add more info to codebooks (see data_190807.R in archive)
+# - Add date/time data (Chapter 10: Time, e.g., DOB, time of test, task start/end, etc.)
+# - Combine 2 datasets (currently online):
+#   a. numeracy.csv (1000 x 12, see book chapter 55_datasets.Rmd), 
+#   b. dt.csv (1000 x 9): date and time variables (see book chapter 10_times.Rmd)
+
+# - Consider combining with dataset `outliers` (1000 x 3), BUT: different genders and height values and regularities
+
+# - Collect ds4psy survey data
+
+# - Find some book/text to analyze (Chapter 9: Text data).
+# - Add text data (Chapter 9: Text; e.g., dinos, fruit, veggies, attention check response on "i read instructions", some eBook for sentinent analysis, ...) 
+
+# - Add more info to codebooks (see data_190807.R in archive)
 
 ## eof. ----------------------
