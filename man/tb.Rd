@@ -20,6 +20,8 @@ tb
 \details{
 \strong{Codebook} 
 
+The table contains 5 columns/variables:
+
 \itemize{
 
 \item 1. \strong{id}: Participant ID.

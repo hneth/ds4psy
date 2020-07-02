@@ -1094,12 +1094,14 @@
 # sum(is.na(exp_num_dt))  # 130 missing values
 # usethis::use_data(exp_num_dt, overwrite = TRUE)
 
-#' Data from experiment with numeracy and date-time data.
+#' Data from an experiment with numeracy and date-time variables. 
 #'
 #' \code{exp_num_dt} is a fictitious dataset describing 
-#' 1000 non-existing, but otherwise ordinary people.
+#' 1000 non-existing, but surprisingly friendly people. 
 #' 
 #' \strong{Codebook} 
+#' 
+#' The table contains 15 columns/variables:
 #' 
 #' \itemize{
 #' 
@@ -1108,10 +1110,13 @@
 #' \item 2. \strong{gender}: Self-identified gender. 
 #' 
 #' \item 3. \strong{bday}: Day (within month) of DOB.
+#' 
 #' \item 4. \strong{bmonth}: Month (within year) of DOB.
+#' 
 #' \item 5. \strong{byear}: Year of DOB.
 #' 
 #' \item 6. \strong{height}: Height (in cm).
+#' 
 #' \item 7. \strong{blood_type}: Blood type. 
 #'  
 #' \item 8. \strong{bnt_1} to 11. \strong{bnt_4}: Correct response to BNT question? (1: correct, 0: incorrect).
@@ -1122,9 +1127,9 @@
 #' 
 #' } 
 #' 
-#' \code{exp_num_dt} was generated for analyzing numeracy data, 
+#' \code{exp_num_dt} was generated for analyzing test scores (e.g., IQ, numeracy), 
 #' for converting data from wide into long format, 
-#' and for working with date- and time-related variables. 
+#' and for dealing with date- and time-related variables. 
 #' 
 #' @format A table with 1000 cases (rows) and 15 variables (columns). 
 #' 
@@ -1166,6 +1171,8 @@
 #' 100 non-existing, but otherwise ordinary people.
 #' 
 #' \strong{Codebook} 
+#' 
+#' The table contains 5 columns/variables:
 #' 
 #' \itemize{
 #' 
