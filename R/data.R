@@ -5,9 +5,9 @@
 ## Documentation of datasets included in /data. 
 
 
-# (1) Positive Psychology data: ---------- 
+# (01) Positive Psychology data: ---------- 
 
-# (1a) posPsy_p_info: ------ 
+# (01a) posPsy_p_info: ------ 
 
 #' Positive Psychology: Participant data.
 #'
@@ -64,7 +64,7 @@
 "posPsy_p_info"
 
 
-# (1b) posPsy_AHI_CESD: ------ 
+# (01b) posPsy_AHI_CESD: ------ 
 
 #' Positive Psychology: AHI CESD data.
 #'
@@ -139,7 +139,7 @@
 "posPsy_AHI_CESD"
 
 
-# (1c) posPsy_long: ------ 
+# (01c) posPsy_long: ------ 
 
 #' Positive Psychology: AHI CESD corrected data (in long format). 
 #'
@@ -183,7 +183,7 @@
 "posPsy_long"
 
 
-# (1d) posPsy_wide: ------ 
+# (01d) posPsy_wide: ------ 
 
 #' Positive Psychology: All corrected data (in wide format). 
 #' 
@@ -227,7 +227,7 @@
 
 
 
-# (2) False Positive Psychology data: ---------- 
+# (02) False Positive Psychology data: ---------- 
 
 # https://bookdown.org/hneth/ds4psy/B-2-datasets-false.html
 
@@ -309,7 +309,7 @@
 
 
 
-# (3) Transforming data / dplyr (Chapter 3): outliers ---------- 
+# (03) Transforming data / dplyr (Chapter 3): outliers ---------- 
 
 # https://bookdown.org/hneth/ds4psy/3-6-transform-ex.html 
 
@@ -338,7 +338,7 @@
 
 
 
-# (3.14) pi data: --------  
+# (03.14) pi data: --------  
 
 # https://bookdown.org/hneth/ds4psy/10-3-iter-essentials.html 
 # Orig. data source <http://www.geom.uiuc.edu/~huberty/math5337/groupe/digits.html>
@@ -377,11 +377,11 @@
 
 
 
-# (6) Importing data / readr (Chapter 6): ---------- 
+# (06) Importing data / readr (Chapter 6): ---------- 
 
 # https://bookdown.org/hneth/ds4psy/6-3-import-essentials.html 
 
-# (6a) data_t1.csv: ---- 
+# (06a) data_t1.csv: ---- 
 # Note: Same as (6a) below. 
 
 # data_t1 <- readr::read_csv("http://rpository.com/ds4psy/data/data_t1.csv")
@@ -411,7 +411,7 @@
 "data_t1"
 
 
-# (6b) data_t1_de.csv: ---- 
+# (06b) data_t1_de.csv: ---- 
 
 # data_t1_de <- readr::read_csv2("http://rpository.com/ds4psy/data/data_t1_de.csv")
 # 
@@ -440,7 +440,7 @@
 "data_t1_de"
 
 
-# (6c) data_t1_tab.csv: ---- 
+# (06c) data_t1_tab.csv: ---- 
 
 # data_t1_tab <- read_tsv("http://rpository.com/ds4psy/data/data_t1_tab.csv")
 # 
@@ -469,7 +469,7 @@
 "data_t1_tab"
 
 
-# (6d) data_1.dat: ---- 
+# (06d) data_1.dat: ---- 
 
 # my_file <- "http://rpository.com/ds4psy/data/data_1.dat"
 # 
@@ -502,7 +502,7 @@
 "data_1"
 
 
-# (6e) data_2.dat: ---- 
+# (06e) data_2.dat: ---- 
 
 # my_file_path <- "http://rpository.com/ds4psy/data/data_2.dat"  # from online source
 # 
@@ -540,11 +540,11 @@
 
 
 
-# (7) Tidying data / tidyr (Chapter 7):: ---------- 
+# (07) Tidying data / tidyr (Chapter 7): ---------- 
 
 # https://bookdown.org/hneth/ds4psy/7-3-tidy-essentials.html
 
-# (7a) table6.csv: ------ 
+# (07a) table6.csv: ------ 
 
 # ## Load data (as comma-separated file): 
 # table6 <- readr::read_csv("http://rpository.com/ds4psy/data/table6.csv")  # from online source
@@ -576,7 +576,7 @@
 "table6"
 
 
-# (7b) table7.csv: ------ 
+# (07b) table7.csv: ------ 
 
 # # Load data (as comma-separated file): 
 # table7 <- readr::read_csv("http://rpository.com/ds4psy/data/table7.csv")  # from online source
@@ -608,7 +608,7 @@
 "table7"
 
 
-# (7c) table8.csv: ------ 
+# (07c) table8.csv: ------ 
 
 # # Load data (as comma-separated file): 
 # table8 <- readr::read_csv("http://rpository.com/ds4psy/data/table8.csv")  # from online source
@@ -640,7 +640,7 @@
 "table8"
 
 
-# (7d) exp_wide.csv: ------ 
+# (07d) exp_wide.csv: ------ 
 
 # https://bookdown.org/hneth/ds4psy/7-5-tidy-ex.html
 
@@ -671,12 +671,12 @@
 "exp_wide"
 
 
-# (7e) Chapter 7: Exercise 1: 'Four messes and one tidy table': ------ 
+# (07e) Chapter 7: Exercise 1: 'Four messes and one tidy table': ------ 
 
 # https://bookdown.org/hneth/ds4psy/7-4-tidy-ex.html#tidy:ex01
 
 
-# (7e1): t_1.csv: ----- 
+# (07e1): t_1.csv: ----- 
 
 #' Data t_1.
 #'
@@ -692,7 +692,7 @@
 "t_1"
 
 
-# (7e2): t_2.csv: ----- 
+# (07e2): t_2.csv: ----- 
 
 #' Data t_2.
 #'
@@ -708,7 +708,7 @@
 "t_2"
 
 
-# (7e3): t_3.csv: ----- 
+# (07e3): t_3.csv: ----- 
 
 #' Data t_3.
 #'
@@ -724,7 +724,7 @@
 "t_3"
 
 
-# (7e4): t_4.csv: ----- 
+# (07e4): t_4.csv: ----- 
 
 #' Data t_4.
 #'
@@ -742,11 +742,11 @@
 
 
 
-# (8) Joining data / dplyr (Chapter 8): ---------- 
+# (08) Joining data / dplyr (Chapter 8): ---------- 
 
 # https://bookdown.org/hneth/ds4psy/8-3-join-essentials.html
 
-# (8a) data_t1.csv: ---- 
+# (08a) data_t1.csv: ---- 
 # Note: Same as (4a) above. 
 
 # data_t1 <- readr::read_csv("http://rpository.com/ds4psy/data/data_t1.csv")
@@ -763,7 +763,7 @@
 # See (4a) above.
 
 
-# (8b) data_t2.csv: ---- 
+# (08b) data_t2.csv: ---- 
 
 # data_t2 <- readr::read_csv(file = "http://rpository.com/ds4psy/data/data_t2.csv")
 # 
@@ -794,7 +794,7 @@
 
 # Exercise 1:
 
-# (8c) t3.csv: ---- 
+# (08c) t3.csv: ---- 
 
 # t3 <- readr::read_csv(file = "http://rpository.com/ds4psy/data/t3.csv")
 # 
@@ -823,7 +823,7 @@
 "t3"
 
 
-# (8d) t4.csv: ---- 
+# (08d) t4.csv: ---- 
 
 # t4 <- readr::read_csv(file = "http://rpository.com/ds4psy/data/t4.csv")
 # 
@@ -854,7 +854,7 @@
 
 # Exercise 3: 
 
-# (8e) data_t3.csv: ---- 
+# (08e) data_t3.csv: ---- 
 
 # data_t3 <- readr::read_csv(file = "http://rpository.com/ds4psy/data/data_t3.csv")
 # 
@@ -883,7 +883,7 @@
 "data_t3"
 
 
-# (8f) data_t4.csv: ---- 
+# (08f) data_t4.csv: ---- 
 
 # data_t4 <- readr::read_csv(file = "http://rpository.com/ds4psy/data/data_t4.csv")
 # 
@@ -914,9 +914,9 @@
 
 
 
-# (9) Text data (Chapter 9): -------- 
+# (09) Text data (Chapter 9): -------- 
 
-# (9a) countries: ---- 
+# (09a) countries: ---- 
 
 # # Source: <https://www.gapminder.org/data/documentation/gd004/>
 # file <- "GM_lifeExpectancy_by_country_v11.csv"
@@ -947,7 +947,7 @@
 "countries"
 
 
-# (9b) fruits: ---- 
+# (09b) fruits: ---- 
 
 # Source: <https://simple.wikipedia.org/wiki/List_of_fruits>
 # fruits
@@ -978,7 +978,7 @@
 "fruits"
 
 
-# (9c) flowery phrases: ---- 
+# (09c) flowery phrases: ---- 
 
 #' Data: Flowery phrases. 
 #'
@@ -1005,7 +1005,7 @@
 "flowery"
 
 
-# (9e) Bushisms: ---- 
+# (09e) Bushisms: ---- 
 
 #' Data: Bushisms.  
 #'
@@ -1025,7 +1025,7 @@
 "Bushisms" 
 
 
-# (9e) Trumpisms: ---- 
+# (09e) Trumpisms: ---- 
 
 #' Data: Trumpisms. 
 #'
@@ -1076,7 +1076,6 @@
 # (11) Function data (Chapter 11): -------- 
 
 # none yet.
-
 
 # (12) Iteration / loops (Chapter 12): -------- 
 
@@ -1137,14 +1136,10 @@
 # - Combine 2 datasets (currently online):
 #   a. numeracy.csv (1000 x 12, see book chapter 55_datasets.Rmd), 
 #   b. dt.csv (1000 x 9): date and time variables (see book chapter 10_times.Rmd)
-
 # - Consider combining with dataset `outliers` (1000 x 3), BUT: different genders and height values and regularities
-
 # - Collect ds4psy survey data
-
 # - Find some book/text to analyze (Chapter 9: Text data).
 # - Add text data (Chapter 9: Text; e.g., dinos, fruit, veggies, attention check response on "i read instructions", some eBook for sentinent analysis, ...) 
-
 # - Add more info to codebooks (see data_190807.R in archive)
 
 ## eof. ----------------------
