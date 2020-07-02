@@ -16,14 +16,15 @@ All datasets and functions required for the examples and exercises of the book "
 
 ## Major changes 
 
-- Provide better support for date and time data: 
+- This version adds support for date and time data: 
 
-    - Key date and time functions now include options for returning dates or times, rather than formatted strings.
-    - `what_date()` and `what_time()` support time zones `tz`.
+    - key date and time functions now include options for returning dates or times, rather than formatted strings.
+    - added time zone support to `what_date()` and `what_time()` functions.
+    - new datasets with date and time variables. 
 
 ## Minor changes 
 
-- added dataset `exp_num_dt` (for studying numeracy test scores and date- and time-related data).   
+- data in `dt_10` and `exp_num_dt` support exercises on dates and times. 
 - `cur_date()` and `cur_time()` now print date/time (as string) or return a "Date"/"POSIXct" object.  
 - `what_date()` and `what_time()` gain support for adding time zones `tz` (but no active conversion). 
 - `sample_time()`: Switch default to sampling "POSIXct" objects (making "POSIXlt" optional) and allow specifying time zones `tz`.  
@@ -35,7 +36,6 @@ All datasets and functions required for the examples and exercises of the book "
 - bug fix: Use `\u...` rather than `\U...` in `Umlaut` definitions  
 - bug fix: Removed non-ASCII characters from `fruits` and `flowery`  
 
-
 ## To do
 
 Critical:
@@ -44,7 +44,7 @@ Critical:
 
 Current:
 
-- add `convert_date()` and `convert_time()` functions for converting dates/times from current into other time zones `tz`  
+- add `change_tz()` and `change_time()` functions for converting dates/times from current into other time zones `tz` (see Exercise&nbsp;7 of Chapter&nbsp;11: Functions).
 - return (invisible) dates and times (rather than format strings) in all date and time functions 
 
 Optional:
