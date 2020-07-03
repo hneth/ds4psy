@@ -19,16 +19,18 @@ All datasets and functions required for the examples and exercises of the book "
 - This version adds support for date and time data: 
 
     - key date and time functions now include options for returning dates or times, rather than formatted strings.
-    - added time zone support to `what_date()` and `what_time()` functions.
+    - added time zone support to various functions.
     - new datasets with date and time variables. 
 
 ## Minor changes 
 
-- data in `dt_10` and `exp_num_dt` support exercises on dates and times. 
+- `change_tz()` and `change_time()` functions for changing the display of calendar times ("POSIXct") to local times ("POSIXlt") in different time zones `tz`, and vice versa (i.e., changing actual time, but preserving time display).  
+- `is_leap_year()` function checks dates and times (or integers denoting years in 4-digit "%Y" format) for falling within a leap year.  
+- data in `dt_10` and `exp_num_dt` support exercises on dates and times.  
 - `cur_date()` and `cur_time()` now print date/time (as string) or return a "Date"/"POSIXct" object.  
-- `what_date()` and `what_time()` gain support for adding time zones `tz` (but no active conversion). 
-- `sample_time()`: Switch default to sampling "POSIXct" objects (making "POSIXlt" optional) and allow specifying time zones `tz`.  
-- All date and time functions based primarily on dates (`cur_date()`, `what_date()`, etc.) now use `Sys.Date()` (i.e., an object of class "Date") rather than `Sys.time()` (i.e., a "POSIXct" calendar time) as defaults. 
+- `what_date()` and `what_time()` gain support for adding time zones `tz` (but no active conversion).  
+- `sample_time()`: Switch default to sampling "POSIXct" objects (making "POSIXlt" optional) and allow specifying time zones `tz`.   
+- All date and time functions based primarily on dates (`cur_date()`, `what_date()`, etc.) now use `Sys.Date()` (i.e., an object of class "Date") rather than `Sys.time()` (i.e., a "POSIXct" calendar time) as defaults.  
 
 ## Details 
 
@@ -166,6 +168,6 @@ The initial functionality is limited, as the package is designed to support the 
 
 ---------- 
 
-[File `News.md` updated on 2020-07-02.]
+[File `News.md` updated on 2020-07-03.]
 
 <!-- eof. -->
