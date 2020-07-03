@@ -1363,7 +1363,12 @@ change_time <- function(time, tz = ""){
 #' 
 #' When \code{dt} is not recognized as date or time object(s), 
 #' \code{is_leap_year} aims to interpret it as an integer  
-#' that corresponds to a year (in "yyyy" or "%Y" format). 
+#' that corresponds to a year (in the 4-digit "%Y" format). 
+#' 
+#' \code{is_leap_year} solves the task in two ways:  
+#' 1. by verifying the numeric definition of a "leap year", and 
+#' 2. by trying to use \code{as.Date()} for defining 
+#' a "Date" of Feb-29 in the corresponding year(s). 
 #' 
 #' @param dt Date or time (scalar or vector).
 #' 
@@ -1381,11 +1386,11 @@ change_time <- function(time, tz = ""){
 #' is_leap_year(as.POSIXct("2022-10-11 10:11:12"))
 #' is_leap_year(as.POSIXlt("2022-10-11 10:11:12"))
 #' 
-#' # Note:
+#' # Note rounding: 
 #' # is_leap_year(2019.5)
 #' 
 #' # With vectors:
-#' v <- 2020:2024
+#' v <- 2020:2028
 #' is_leap_year(v)
 #' 
 #' @family date and time functions
@@ -1393,11 +1398,17 @@ change_time <- function(time, tz = ""){
 #' @seealso 
 #' \code{leap_year} function of the \strong{lubridate} package. 
 #' 
+#' @source 
+#' See \url{https://en.wikipedia.org/wiki/Leap_year} for definition. 
+#' 
 #' @export
 
 is_leap_year <- function(dt){
   
+  # initialize: 
   y <- NA
+  out <- NA
+  out_2 <- NA
   
   # Determine y (as integer):
   if (is_Date(dt) | is_POSIXct(dt) | is_POSIXlt(dt)){
@@ -1422,8 +1433,19 @@ is_leap_year <- function(dt){
     
   }
   
-  # Check definition:
-  (y %% 4 == 0) & ((y %% 100 != 0) | (y %% 400 == 0))
+  # Implement 2 solutions:   
+  # 1. Using definition from <https://en.wikipedia.org/wiki/Leap_year>:
+  out <- (y %% 4 == 0) & ((y %% 100 != 0) | (y %% 400 == 0))
+  
+  # 2. Try defining Feb. 29 as "Date" (NA if non-existent):
+  feb_29 <- paste(as.character(y), "02", "29", sep = "-")
+  out_2 <- !is.na(as.Date(feb_29, format = "%Y-%m-%d"))
+  
+  if (!all.equal(out, out_2)){
+    message("is_leap_year: Two solutions yield different results. Using first...")
+  }
+  
+  return(out)
   
 } # is_leap_year end. 
 
@@ -1441,7 +1463,7 @@ is_leap_year <- function(dt){
 # is_leap_year(2019.5)
 # 
 # # For vectors:
-# v <- 2020:2024
+# v <- 2020:2028
 # is_leap_year(v)
 
 
