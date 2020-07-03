@@ -24,7 +24,7 @@ Default: \code{sep = ":"}.}
 \item{tz}{Time zone.
 Default: \code{tz = ""} (i.e., current system time zone,  
 see \code{Sys.timezone()}). 
-Use \code{tz = "UTC"} for Universal Time, Coordinated.}
+Use \code{tz = "UTC"} for Coordinated Universal Time.}
 }
 \value{
 A character string or object of class "POSIXct".
@@ -75,8 +75,11 @@ format(t2, "\%T \%Z (UTF \%z)")
 \code{Sys.time()} function of \strong{base} R.
 
 Other date and time functions: 
+\code{\link{change_time}()},
+\code{\link{change_tz}()},
 \code{\link{cur_date}()},
 \code{\link{cur_time}()},
+\code{\link{is_leap_year}()},
 \code{\link{what_date}()},
 \code{\link{what_day}()},
 \code{\link{what_month}()},

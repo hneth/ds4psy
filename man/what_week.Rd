@@ -59,8 +59,11 @@ what_week(ts)
 \code{Sys.time()} function of \strong{base} R.
 
 Other date and time functions: 
+\code{\link{change_time}()},
+\code{\link{change_tz}()},
 \code{\link{cur_date}()},
 \code{\link{cur_time}()},
+\code{\link{is_leap_year}()},
 \code{\link{what_date}()},
 \code{\link{what_day}()},
 \code{\link{what_month}()},
