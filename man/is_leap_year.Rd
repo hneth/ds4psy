@@ -41,7 +41,7 @@ is_leap_year(v)
 
 }
 \seealso{
-\code{leap_year()} function of the \strong{lubridate} package.
+\code{leap_year} function of the \strong{lubridate} package.
 
 Other date and time functions: 
 \code{\link{change_time}()},

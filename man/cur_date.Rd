@@ -25,17 +25,17 @@ A character string or object of class "Date".
 \code{Sys.time()} that is sufficient for most purposes.
 }
 \details{
-By default, \code{cur_date} returns \code{Sys.Date()} 
+By default, \code{cur_date} returns \code{Sys.Date} 
 as a character string (using current system settings and 
 \code{sep} for formatting).  
 If \code{as_string = FALSE}, a "Date" object is returned.  
  
-Alternatively, consider using \code{Sys.Date()} 
+Alternatively, consider using \code{Sys.Date} 
 or \code{Sys.time()} to obtain the "%Y-%m-%d" (or "%F")     
 format according to the ISO 8601 standard. 
 
 For more options, see the documentations of the  
-\code{date()} and \code{Sys.Date()} functions of \strong{base} R   
+\code{date} and \code{Sys.Date} functions of \strong{base} R   
 and the formatting options for \code{Sys.time()}.
 }
 \examples{

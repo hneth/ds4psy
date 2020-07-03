@@ -52,7 +52,7 @@ change_tz(tv, "US/Pacific")
 
 }
 \seealso{
-\code{\link{change_time()}} function which preserves time display but changes time; 
+\code{\link{change_time}} function which preserves time display but changes time; 
 \code{Sys.time()} function of \strong{base} R.
 
 Other date and time functions: 
