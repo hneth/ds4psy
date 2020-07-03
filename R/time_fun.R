@@ -259,7 +259,7 @@ cur_time <- function(seconds = FALSE, as_string = TRUE, sep = ":"){
 #' @param tz Time zone.
 #' Default: \code{tz = ""} (i.e., current system time zone,  
 #' see \code{Sys.timezone()}). 
-#' Use \code{tz = "UTC"} for Universal Time, Coordinated. 
+#' Use \code{tz = "UTC"} for Coordinated Universal Time. 
 #' 
 #' @return A character string or object of class "POSIXct". 
 #' 
@@ -390,7 +390,7 @@ what_time <- function(when = NA, seconds = FALSE, as_string = TRUE, sep = ":", t
 #' @param tz Time zone.
 #' Default: \code{tz = ""} (i.e., current system time zone,  
 #' see \code{Sys.timezone()}). 
-#' Use \code{tz = "UTC"} for Universal Time, Coordinated. 
+#' Use \code{tz = "UTC"} for Coordinated Universal Time. 
 #' 
 #' @return A character string or object of class "Date". 
 #'  
@@ -1185,9 +1185,9 @@ is_difftime <- function(time){
 #' without changing the denoted time.
 #' 
 #' @param tz Time zone (as character string).   
-#' Default: \code{tz = ""} implying  
-#' \code(Sys.timezone()). 
-#' See \code{OlsonNames()} for valid options. 
+#' Default: \code{tz = ""} (i.e., current system time zone,  
+#' see \code{Sys.timezone()}). 
+#' See \code{OlsonNames()} for valid options.  
 #' 
 #' @return A local time of class "POSIXlt". 
 #' 
@@ -1213,7 +1213,7 @@ is_difftime <- function(time){
 #' @family date and time functions
 #' 
 #' @seealso 
-#' \code{change_time()} function which preserves time display but changes time; 
+#' \code{\link{change_time()}} function which preserves time display but changes time; 
 #' \code{Sys.time()} function of \strong{base} R. 
 #' 
 #' @export
@@ -1275,8 +1275,8 @@ change_tz <- function(time, tz = ""){
 #' without changing the time display.
 #' 
 #' @param tz Time zone (as character string).   
-#' Default: \code{tz = ""} implying  
-#' \code(Sys.timezone()). 
+#' Default: \code{tz = ""} (i.e., current system time zone,  
+#' see \code{Sys.timezone()}). 
 #' See \code{OlsonNames()} for valid options. 
 #' 
 #' @return A calendar time of class "POSIXct". 
@@ -1308,7 +1308,7 @@ change_tz <- function(time, tz = ""){
 #' @family date and time functions
 #' 
 #' @seealso 
-#' \code{change_tz()} function which preserves time but changes time display; 
+#' \code{\link{change_tz()}} function which preserves time but changes time display; 
 #' \code{Sys.time()} function of \strong{base} R. 
 #' 
 #' @export
@@ -1318,7 +1318,7 @@ change_time <- function(time, tz = ""){
   out <- NA
   
   if (!is_POSIXlt(time)){
-    message('change_tz: Coercing time to "POSIXlt" without changing time display...')
+    message('change_time: Coercing time to "POSIXlt" without changing time display...')
     time_display <- strptime(time, "%Y-%m-%d %H:%M:%S")
     time <- as.POSIXlt(time_display, tz = tz)
   }
@@ -1353,6 +1353,96 @@ change_time <- function(time, tz = ""){
 # tv # uses tz of t1
 # change_time(tv, "US/Pacific")
 
+
+# is_leap_year:  ------ 
+
+#' Is date or time in a leap year?   
+#'
+#' \code{is_leap_year} checks whether a given date or time \code{dt} 
+#' is in a so-called leap year (with a date of February 29). 
+#' 
+#' When \code{dt} is not recognized as date or time object(s), 
+#' \code{is_leap_year} aims to interpret it as an integer  
+#' that corresponds to a year (in "yyyy" or "%Y" format). 
+#' 
+#' @param dt Date or time (scalar or vector).
+#' 
+#' @examples
+#' # Check:
+#' is_leap_year(2020)    # integer
+#' is_leap_year("2021")  # character
+#' 
+#' # Dates:
+#' is_leap_year(Sys.Date())
+#' is_leap_year(as.Date("2022-10-11"))
+#' 
+#' # Times: 
+#' is_leap_year(Sys.time())
+#' is_leap_year(as.POSIXct("2022-10-11 10:11:12"))
+#' is_leap_year(as.POSIXlt("2022-10-11 10:11:12"))
+#' 
+#' # Note:
+#' # is_leap_year(2019.5)
+#' 
+#' # With vectors:
+#' v <- 2020:2024
+#' is_leap_year(v)
+#' 
+#' @family date and time functions
+#' 
+#' @seealso 
+#' \code{leap_year()} function of the \strong{lubridate} package. 
+#' 
+#' @export
+
+is_leap_year <- function(dt){
+  
+  y <- NA
+  
+  # Determine y (as integer):
+  if (is_Date(dt) | is_POSIXct(dt) | is_POSIXlt(dt)){
+    
+    y <- as.numeric(format(dt, format = "%Y"))
+    
+  } else {  # dt NOT a date/time object: 
+    
+    if (is.character(dt)){
+      message('is_leap_year: Coercing dt from character to numeric...')
+      dt <- as.numeric(dt)
+    }
+    
+    if (all(is.wholenumber(dt))){
+      y <- dt
+    }
+    
+    if (!all(is.wholenumber(dt)) & is.numeric(dt)){
+      message('is_leap_year: dt should be date/time object or whole number.\nRounding to nearest integer...')
+      y <- round(dt, 0)
+    }
+    
+  }
+  
+  # Check definition:
+  (y %% 4 == 0) & ((y %% 100 != 0) | (y %% 400 == 0))
+  
+} # is_leap_year end. 
+
+# # Check:
+# is_leap_year(2020)
+# is_leap_year("2021")
+# 
+# is_leap_year(Sys.Date())
+# is_leap_year(as.Date("2022-10-11"))
+# 
+# is_leap_year(Sys.time())
+# is_leap_year(as.POSIXct("2022-10-11 10:11:12"))
+# is_leap_year(as.POSIXlt("2022-10-11 10:11:12"))
+# 
+# is_leap_year(2019.5)
+# 
+# # For vectors:
+# v <- 2020:2024
+# is_leap_year(v)
 
 
 ## Done: ----------
