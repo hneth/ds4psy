@@ -3,6 +3,9 @@
 \name{is_leap_year}
 \alias{is_leap_year}
 \title{Is date or time in a leap year?}
+\source{
+See \url{https://en.wikipedia.org/wiki/Leap_year} for definition.
+}
 \usage{
 is_leap_year(dt)
 }
@@ -16,7 +19,12 @@ is in a so-called leap year (with a date of February 29).
 \details{
 When \code{dt} is not recognized as date or time object(s), 
 \code{is_leap_year} aims to interpret it as an integer  
-that corresponds to a year (in "yyyy" or "%Y" format).
+that corresponds to a year (in the 4-digit "%Y" format). 
+
+\code{is_leap_year} solves the task in two ways:  
+1. by verifying the numeric definition of a "leap year", and 
+2. by trying to use \code{as.Date()} for defining 
+a "Date" of Feb-29 in the corresponding year(s).
 }
 \examples{
 # Check:
@@ -32,11 +40,11 @@ is_leap_year(Sys.time())
 is_leap_year(as.POSIXct("2022-10-11 10:11:12"))
 is_leap_year(as.POSIXlt("2022-10-11 10:11:12"))
 
-# Note:
+# Note rounding: 
 # is_leap_year(2019.5)
 
 # With vectors:
-v <- 2020:2024
+v <- 2020:2028
 is_leap_year(v)
 
 }
