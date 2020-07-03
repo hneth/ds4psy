@@ -27,17 +27,17 @@
 #' \code{cur_date} provides a relaxed version of 
 #' \code{Sys.time()} that is sufficient for most purposes. 
 #' 
-#' By default, \code{cur_date} returns \code{Sys.Date()} 
+#' By default, \code{cur_date} returns \code{Sys.Date} 
 #' as a character string (using current system settings and 
 #' \code{sep} for formatting).  
 #' If \code{as_string = FALSE}, a "Date" object is returned.  
 #'  
-#' Alternatively, consider using \code{Sys.Date()} 
+#' Alternatively, consider using \code{Sys.Date} 
 #' or \code{Sys.time()} to obtain the "%Y-%m-%d" (or "%F")     
 #' format according to the ISO 8601 standard. 
 #' 
 #' For more options, see the documentations of the  
-#' \code{date()} and \code{Sys.Date()} functions of \strong{base} R   
+#' \code{date} and \code{Sys.Date} functions of \strong{base} R   
 #' and the formatting options for \code{Sys.time()}. 
 #' 
 #' @param rev Boolean: Reverse from "yyyy-mm-dd" to "dd-mm-yyyy" format?    
@@ -1213,7 +1213,7 @@ is_difftime <- function(time){
 #' @family date and time functions
 #' 
 #' @seealso 
-#' \code{\link{change_time()}} function which preserves time display but changes time; 
+#' \code{\link{change_time}} function which preserves time display but changes time; 
 #' \code{Sys.time()} function of \strong{base} R. 
 #' 
 #' @export
@@ -1308,7 +1308,7 @@ change_tz <- function(time, tz = ""){
 #' @family date and time functions
 #' 
 #' @seealso 
-#' \code{\link{change_tz()}} function which preserves time but changes time display; 
+#' \code{\link{change_tz}} function which preserves time but changes time display; 
 #' \code{Sys.time()} function of \strong{base} R. 
 #' 
 #' @export
@@ -1391,7 +1391,7 @@ change_time <- function(time, tz = ""){
 #' @family date and time functions
 #' 
 #' @seealso 
-#' \code{leap_year()} function of the \strong{lubridate} package. 
+#' \code{leap_year} function of the \strong{lubridate} package. 
 #' 
 #' @export
 
@@ -1450,12 +1450,12 @@ is_leap_year <- function(dt){
 # - Provided all what_ functions with a "when" argument that is set to Sys.Date() 
 #   or Sys.time() by default, allowing for other dates/times for which question 
 #   is answered (e.g., On what day was my birthday?) 
+# - change_tz() and change_time() function(s) 
+#   for converting time display (in "POSIXct") into local times (in "POSIXlt"), 
+#   and vice versa (chaging times, but not time display). 
 
 ## ToDo: ----------
 
-# - Convert_date() and convert_time() function(s) 
-#   for converting dates ("Date") and times ("POSIXct")
-#   from current into another time zone tz.
 # - Return dates/times either as strings (if as_string = TRUE) or 
 #   as dates/times (of class "Date"/"POSIXct") in all what_() functions
 
