@@ -17,14 +17,7 @@ is_leap_year(dt)
 is in a so-called leap year (with a date of February 29).
 }
 \details{
-When \code{dt} is not recognized as date or time object(s), 
-\code{is_leap_year} aims to interpret it as an integer  
-that corresponds to a year (in the 4-digit "%Y" format). 
 
-\code{is_leap_year} solves the task in two ways:  
-1. by verifying the numeric definition of a "leap year", and 
-2. by trying to use \code{as.Date()} for defining 
-a "Date" of Feb-29 in the corresponding year(s).
 }
 \examples{
 is_leap_year(2020)
