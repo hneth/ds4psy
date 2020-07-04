@@ -1464,17 +1464,17 @@ change_tz <- function(time, tz = "", tz_org = ""){
 #' is_leap_year(2020)    # integer
 #' is_leap_year("2021")  # character
 #' 
-#' # Dates:
+#' # from dates:
 #' is_leap_year(Sys.Date())
 #' is_leap_year(as.Date("2022-10-11"))
 #' 
-#' # Times: 
+#' # from times: 
 #' is_leap_year(Sys.time())
 #' is_leap_year(as.POSIXct("2022-10-11 10:11:12"))
 #' is_leap_year(as.POSIXlt("2022-10-11 10:11:12"))
 #' 
-#' # Note rounding: 
-#' # is_leap_year(2019.5)
+#' # Decimal number: 
+#' is_leap_year(2019.5)
 #' 
 #' # With vectors:
 #' v <- 2020:2028
@@ -1504,32 +1504,39 @@ is_leap_year <- function(dt){
     
   } else {  # dt NOT a date/time object: 
     
-    if (is.character(dt)){
+    if (all(is.wholenumber(dt))){
+      
+      y <- dt
+      
+    } else if (is.character(dt)){
+      
       message('is_leap_year: Coercing dt from character to numeric...')
       dt <- as.numeric(dt)
-    }
-    
-    if (all(is.wholenumber(dt))){
-      y <- dt
-    }
-    
-    if (!all(is.wholenumber(dt)) & is.numeric(dt)){
-      message('is_leap_year: dt should be date/time object or whole number.\nRounding to nearest integer...')
+      
+    } else if (!all(is.wholenumber(dt)) & is.numeric(dt)){
+      
+      message('is_leap_year: Rounding numeric dt to nearest integer...')
       y <- round(dt, 0)
+      
+    } else {
+      
+      message('is_leap_year: Failed to parse dt into year.')
+      
     }
-    
   }
   
-  # Implement 2 solutions:   
+  # 2 solutions:   
   # 1. Using definition from <https://en.wikipedia.org/wiki/Leap_year>:
   out <- (y %% 4 == 0) & ((y %% 100 != 0) | (y %% 400 == 0))
-  
-  # 2. Try defining Feb. 29 as "Date" (NA if non-existent):
+  # print(out)  # debugging
+    
+  # 2. Try defining Feb-29 as "Date" (NA if non-existent):
   feb_29 <- paste(as.character(y), "02", "29", sep = "-")
-  out_2 <- !is.na(as.Date(feb_29, format = "%Y-%m-%d"))
+  out_2  <- !is.na(as.Date(feb_29, format = "%Y-%m-%d"))
+  # print(out_2)  # debugging
   
-  if (!all.equal(out, out_2)){
-    message("is_leap_year: Two solutions yield different results. Using first...")
+  if (!all(out == out_2)){  # Warn of discrepancy: 
+    warning("is_leap_year: Two solutions yield different results. Using 1st...")
   }
   
   return(out)
