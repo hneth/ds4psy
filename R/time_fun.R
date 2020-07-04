@@ -1467,11 +1467,11 @@ change_tz <- function(time, tz = ""){
 #' 
 #' When \code{dt} is not recognized as date or time object(s), 
 #' \code{is_leap_year} aims to parse a string \code{dt} 
-#' in the "yyyy" (4-digit year) format or 
-#' as a "Date" (to retrieve \code{"%Y"}), 
-#' or a numeric \code{dt} into 4-digit integers. 
+#' as describing year(s) in a "####" (4-digit year) format,  
+#' as valid "Date" strings (to retrieve the 4-digit year "\%Y"), 
+#' or as a numeric \code{dt} containing 4-digit integers. 
 #' 
-#' \code{is_leap_year} solves the task in two ways:  
+#' \code{is_leap_year} then solves the task in two ways:  
 #' 1. by verifying the numeric definition of a "leap year", and 
 #' 2. by trying to use \code{as.Date()} for defining 
 #' a "Date" of Feb-29 in the corresponding year(s). 
