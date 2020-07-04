@@ -34,20 +34,33 @@ as calendar time(s) (of the "POSIXct" class).
 \examples{
 change_time(as.POSIXlt(Sys.time()), tz = "UTC")
 
-# with "POSIXlt" time:
-(t1 <- as.POSIXlt("2020-07-01 10:00:00", tz = "Europe/Berlin"))
+# from "POSIXlt" time:
+t1 <- as.POSIXlt("2020-07-01 10:00:00", tz = "Europe/Berlin")
 change_time(t1, "NZ")
-change_time(t1, "Europe/Berlin")
-change_time(t1, "US/Eastern")
+change_time(t1, "US/Pacific")
+
+# from "POSIXct" time:
+tc <- as.POSIXct("2020-07-01 12:00:00", tz = "UTC")
+change_time(tc, "NZ")
+
+# from "Date":
+dt <- as.Date("2020-12-31", tz = "US/Hawaii")
+change_time(dt, tz = "NZ")
+
+# from time "string":
+ts <- "2020-12-31 20:30:45"
+change_time(ts, tz = "US/Pacific")
+
+# from other "string" times:
+tx <- "7:30:45"
+change_time(tx, tz = "Asia/Calcutta")
+ty <- "1:30"
+change_time(ty, tz = "Europe/London")
 
 # convert into local times:
 change_tz(change_time(t1, "NZ"), tz = "UTC")
 change_tz(change_time(t1, "Europe/Berlin"), tz = "UTC")
 change_tz(change_time(t1, "US/Eastern"), tz = "UTC")
-
-# with "POSIXct" time:
-(tc <- as.POSIXct("2020-07-01 12:00:00", tz = "UTC"))
-change_time(tc, "NZ")
 
 # with vector of "POSIXlt" times:
 t2 <- as.POSIXlt("2020-12-31 23:59:55", tz = "US/Pacific")

@@ -4,7 +4,7 @@
 \alias{change_tz}
 \title{Change time zone (without changing represented time).}
 \usage{
-change_tz(time, tz = "")
+change_tz(time, tz = "", tz_org = "")
 }
 \arguments{
 \item{time}{Time (as a scalar or vector).

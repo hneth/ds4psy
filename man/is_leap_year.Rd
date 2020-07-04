@@ -31,17 +31,17 @@ a "Date" of Feb-29 in the corresponding year(s).
 is_leap_year(2020)    # integer
 is_leap_year("2021")  # character
 
-# Dates:
+# from dates:
 is_leap_year(Sys.Date())
 is_leap_year(as.Date("2022-10-11"))
 
-# Times: 
+# from times: 
 is_leap_year(Sys.time())
 is_leap_year(as.POSIXct("2022-10-11 10:11:12"))
 is_leap_year(as.POSIXlt("2022-10-11 10:11:12"))
 
-# Note rounding: 
-# is_leap_year(2019.5)
+# Decimal number: 
+is_leap_year(2019.5)
 
 # With vectors:
 v <- 2020:2028
