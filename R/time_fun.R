@@ -1,5 +1,5 @@
 ## time_fun.R | ds4psy
-## hn | uni.kn | 2020 07 03
+## hn | uni.kn | 2020 07 04
 ## ---------------------------
 
 ## Functions for date and time objects. 
@@ -1164,7 +1164,184 @@ is_difftime <- function(time){
   inherits(time, "difftime")  
 }
 
-# change_tz:  ------ 
+
+# change_time: ------ 
+
+# Task 2: Take a Change time zone AND actual time, without changing represented time (i.e., time display): 
+
+#' Change time and time zone (without changing time display).  
+#'
+#' \code{change_time} changes the time and time zone  
+#' without changing the time display.
+#' 
+#' \code{change_time} expects inputs to \code{time} 
+#' to be local time(s) (of the "POSIXlt" class) 
+#' and a valid time zone argument \code{tz} (as a string)
+#' and returns the same time display (but different actual times) 
+#' as calendar time(s) (of the "POSIXct" class). 
+#' 
+#' @param time Time (as a scalar or vector).    
+#' If \code{time} is not a local time (of the "POSIXlt" class) 
+#' the function first tries coercing \code{time} into "POSIXlt" 
+#' without changing the time display.
+#' 
+#' @param tz Time zone (as character string).   
+#' Default: \code{tz = ""} (i.e., current system time zone,  
+#' see \code{Sys.timezone()}). 
+#' See \code{OlsonNames()} for valid options. 
+#' 
+#' @return A calendar time of class "POSIXct". 
+#' 
+#' @examples
+#' change_time(as.POSIXlt(Sys.time()), tz = "UTC")
+#' 
+#' # from "POSIXlt" time:
+#' t1 <- as.POSIXlt("2020-07-01 10:00:00", tz = "Europe/Berlin")
+#' change_time(t1, "NZ")
+#' change_time(t1, "US/Pacific")
+#' 
+#' # from "POSIXct" time:
+#' tc <- as.POSIXct("2020-07-01 12:00:00", tz = "UTC")
+#' change_time(tc, "NZ")
+#' 
+#' # from "Date":
+#' dt <- as.Date("2020-12-31", tz = "US/Hawaii")
+#' change_time(dt, tz = "NZ")
+#' 
+#' # from time "string":
+#' ts <- "2020-12-31 20:30:45"
+#' change_time(ts, tz = "US/Pacific")
+#' 
+#' # from other "string" times:
+#' tx <- "7:30:45"
+#' change_time(tx, tz = "Asia/Calcutta")
+#' ty <- "1:30"
+#' change_time(ty, tz = "Europe/London")
+#' 
+#' # convert into local times:
+#' change_tz(change_time(t1, "NZ"), tz = "UTC")
+#' change_tz(change_time(t1, "Europe/Berlin"), tz = "UTC")
+#' change_tz(change_time(t1, "US/Eastern"), tz = "UTC")
+#' 
+#' # with vector of "POSIXlt" times:
+#' t2 <- as.POSIXlt("2020-12-31 23:59:55", tz = "US/Pacific")
+#' tv <- c(t1, t2)  
+#' tv # uses tz of t1
+#' change_time(tv, "US/Pacific")
+#'  
+#' @family date and time functions
+#' 
+#' @seealso 
+#' \code{\link{change_tz}} function which preserves time but changes time display; 
+#' \code{Sys.time()} function of \strong{base} R. 
+#' 
+#' @export
+
+change_time <- function(time, tz = ""){
+  
+  time_display <- NA
+  out <- NA
+  
+  if (!is_POSIXlt(time)){
+    
+    message('change_time: Coercing time to "POSIXlt" without changing time display...')
+    
+    if (is_POSIXct(time)){
+      
+      message('change_time: Parsing time from "POSIXct" as "%Y-%m-%d %H:%M:%S"...')
+      time_display <- strptime(time, "%Y-%m-%d %H:%M:%S")
+      
+    } else if (is_Date(time)){
+      
+      message('change_time: Parsing time from "Date" as "%Y-%m-%d"...')      
+      time_display <- strptime(time, "%Y-%m-%d")
+      
+    } else if (is.character(time)){
+      
+      # Aim to parse date-time string (using standard formats):
+      if (grepl(x = time, pattern = ".*(-).*( ).*(:).*(:).*")) { # date + full time:
+        
+        message('change_time: Parsing time from string as "%Y-%m-%d %H:%M:%S"...')
+        time_display <- strptime(time, "%Y-%m-%d %H:%M:%S")
+        
+      } else if (grepl(x = time, pattern = ".*(-).*( ).*(:).*")) { # date + H:M time:
+        
+        message('change_time: Parsing time from string as "%Y-%m-%d %H:%M"...')
+        time_display <- strptime(time, "%Y-%m-%d %H:%M")
+        
+      } else if (grepl(x = time, pattern = ".*(:).*(:).*")) { # full time:
+        
+        message('change_time: Parsing time from string as "%H:%M:%S"...')
+        time_display <- strptime(time, "%H:%M:%S")
+        
+      } else if (grepl(x = time, pattern = ".*(:).*")) { # H:M time:
+        
+        message('change_time: Parsing time from string as "%H:%M"...')
+        time_display <- strptime(time, "%H:%M")
+        
+      } else {
+        
+        message('change_time: Failed to parse time string.')
+        
+      }
+      
+    } else {
+      
+      message('change_time: Cannot parse time display.')
+      
+    }
+    
+    # print(paste0("time_display = ", time_display))  # debugging
+    time <- as.POSIXlt(time_display, tz = tz)
+    
+  }
+  
+  out <- as.POSIXct(time, tz = tz)
+  
+  return(out)  
+  
+} # change_time end.
+
+# # Check:
+# change_time(as.POSIXlt(Sys.time()), tz = "UTC")
+# 
+# # from "POSIXlt" time:
+# (t1 <- as.POSIXlt("2020-07-01 10:00:00", tz = "Europe/Berlin"))
+# change_time(t1, "NZ")
+# change_time(t1, "Europe/Berlin")
+# change_time(t1, "US/Eastern")
+# 
+# # from "Date":
+# dt <- as.Date("2020-12-31", tz = "US/Hawaii")
+# change_time(dt, tz = "NZ")
+# 
+# # from time "string":
+# ts <- "2020-12-31 20:30:45"
+# change_time(ts, tz = "US/Pacific")
+# 
+# # from other "string" times:
+# tx <- "7:30:45"
+# change_time(tx, tz = "Asia/Calcutta")
+# ty <- "1:30"
+# change_time(ty, tz = "Europe/London")
+# 
+# # convert into local times:
+# change_tz(change_time(t1, "NZ"), tz = "UTC")
+# change_tz(change_time(t1, "Europe/Berlin"), tz = "UTC")
+# change_tz(change_time(t1, "US/Eastern"), tz = "UTC")
+# 
+# # from "POSIXct" time:
+# (tc <- as.POSIXct("2020-07-01 12:00:00", tz = "UTC"))
+# change_time(tc, "NZ")
+# 
+# # with vector of "POSIXlt" times:
+# t2 <- as.POSIXlt("2020-12-31 23:59:55", tz = "US/Pacific")
+# tv <- c(t1, t2)  
+# tv # uses tz of t1
+# change_time(tv, "US/Pacific")
+
+
+# change_tz: ------ 
 
 # Task 1: Change nominal time to time zone, without changing actual time.
 
@@ -1218,14 +1395,19 @@ is_difftime <- function(time){
 #' 
 #' @export
 
-change_tz <- function(time, tz = ""){
+change_tz <- function(time, tz = "", tz_org = ""){
   
   out <- NA
   
   if (!is_POSIXct(time)){
-    message('change_tz: Coercing time to "POSIXct" without changing actual time...')
-    time <- as.POSIXct(time, tz = tz)
+    # message('change_tz: Coercing time to "POSIXct" without changing actual time...')
+    # time <- as.POSIXct(time, tz = tz_cur)
+    
+    message('change_tz: Changing time to "POSIXct" with tz_org...')    
+    time <- change_time(time, tz = tz_org, tz_org = tz_org)
   }
+  
+  print(paste0("change_tz: time = ", time)) # debugging
   
   # convert nominal time (to POSIXlt):
   out <- as.POSIXlt(time, tz = tz)
@@ -1253,105 +1435,10 @@ change_tz <- function(time, tz = ""){
 # tv # uses tz of t1
 # change_tz(tv, "US/Pacific")
 
+# with "Date":
+# d <- as.Date("2020-12-31")
+# change_tz(d, tz = "NZ", tz_org = "US/Pacific")
 
-# change_time:  ------ 
-
-# Task 2: Take a Change time zone AND actual time, without changing represented time (i.e., time display): 
-
-#' Change time and time zone (without changing time display).  
-#'
-#' \code{change_time} changes the time and time zone  
-#' without changing the time display.
-#' 
-#' \code{change_time} expects inputs to \code{time} 
-#' to be local time(s) (of the "POSIXlt" class) 
-#' and a valid time zone argument \code{tz} (as a string)
-#' and returns the same time display (but different actual times) 
-#' as calendar time(s) (of the "POSIXct" class). 
-#' 
-#' @param time Time (as a scalar or vector).    
-#' If \code{time} is not a local time (of the "POSIXlt" class) 
-#' the function first tries coercing \code{time} into "POSIXlt" 
-#' without changing the time display.
-#' 
-#' @param tz Time zone (as character string).   
-#' Default: \code{tz = ""} (i.e., current system time zone,  
-#' see \code{Sys.timezone()}). 
-#' See \code{OlsonNames()} for valid options. 
-#' 
-#' @return A calendar time of class "POSIXct". 
-#' 
-#' @examples
-#' change_time(as.POSIXlt(Sys.time()), tz = "UTC")
-#' 
-#' # with "POSIXlt" time:
-#' (t1 <- as.POSIXlt("2020-07-01 10:00:00", tz = "Europe/Berlin"))
-#' change_time(t1, "NZ")
-#' change_time(t1, "Europe/Berlin")
-#' change_time(t1, "US/Eastern")
-#' 
-#' # convert into local times:
-#' change_tz(change_time(t1, "NZ"), tz = "UTC")
-#' change_tz(change_time(t1, "Europe/Berlin"), tz = "UTC")
-#' change_tz(change_time(t1, "US/Eastern"), tz = "UTC")
-#' 
-#' # with "POSIXct" time:
-#' (tc <- as.POSIXct("2020-07-01 12:00:00", tz = "UTC"))
-#' change_time(tc, "NZ")
-#' 
-#' # with vector of "POSIXlt" times:
-#' t2 <- as.POSIXlt("2020-12-31 23:59:55", tz = "US/Pacific")
-#' tv <- c(t1, t2)  
-#' tv # uses tz of t1
-#' change_time(tv, "US/Pacific")
-#'  
-#' @family date and time functions
-#' 
-#' @seealso 
-#' \code{\link{change_tz}} function which preserves time but changes time display; 
-#' \code{Sys.time()} function of \strong{base} R. 
-#' 
-#' @export
-
-change_time <- function(time, tz = ""){
-  
-  out <- NA
-  
-  if (!is_POSIXlt(time)){
-    message('change_time: Coercing time to "POSIXlt" without changing time display...')
-    time_display <- strptime(time, "%Y-%m-%d %H:%M:%S")
-    time <- as.POSIXlt(time_display, tz = tz)
-  }
-  
-  out <- as.POSIXct(time, tz = tz)
-  
-  return(out)  
-  
-} # change_time end.
-
-# # Check:
-# change_time(as.POSIXlt(Sys.time()), tz = "UTC")
-# 
-# # with "POSIXlt" time:
-# (t1 <- as.POSIXlt("2020-07-01 10:00:00", tz = "Europe/Berlin"))
-# change_time(t1, "NZ")
-# change_time(t1, "Europe/Berlin")
-# change_time(t1, "US/Eastern")
-# 
-# # convert into local times:
-# change_tz(change_time(t1, "NZ"), tz = "UTC")
-# change_tz(change_time(t1, "Europe/Berlin"), tz = "UTC")
-# change_tz(change_time(t1, "US/Eastern"), tz = "UTC")
-# 
-# # with "POSIXct" time:
-# (tc <- as.POSIXct("2020-07-01 12:00:00", tz = "UTC"))
-# change_time(tc, "NZ")
-# 
-# # with vector of "POSIXlt" times:
-# t2 <- as.POSIXlt("2020-12-31 23:59:55", tz = "US/Pacific")
-# tv <- c(t1, t2)  
-# tv # uses tz of t1
-# change_time(tv, "US/Pacific")
 
 
 # is_leap_year:  ------ 
