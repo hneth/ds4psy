@@ -1445,12 +1445,17 @@ change_tz <- function(time, tz = ""){
 # dt <- as.Date("2020-12-31")
 # change_tz(dt, "NZ")
 # change_tz(dt, "US/Hawaii")  # Note different date!
-# 
+# # Compare:
+# # lubridate::with_tz(dt, tzone = "NZ")         # same result
+# # lubridate::with_tz(dt, tzone = "US/Hawaii")  # same result
+#  
 # # with a vector of "POSIXct" times:
 # t2 <- as.POSIXct("2020-12-31 23:59:55", tz = "US/Pacific")
 # tv <- c(tc, t2)
 # tv  # Note: Both times in tz of tc
 # change_tz(tv, "US/Pacific")
+# # Compare:
+# # lubridate::with_tz(tv, tzone = "US/Pacific")  # same results
 
 
 # is_leap_year:  ------ 
@@ -1472,25 +1477,29 @@ change_tz <- function(time, tz = ""){
 #' @param dt Date or time (scalar or vector).
 #' 
 #' @examples
-#' # Check:
-#' is_leap_year(2020)    # integer
-#' is_leap_year("2021")  # character
+#' is_leap_year(2020)
 #' 
 #' # from dates:
 #' is_leap_year(Sys.Date())
-#' is_leap_year(as.Date("2022-10-11"))
+#' is_leap_year(as.Date("2022-02-28"))
 #' 
-#' # from times: 
+#' # from times:
 #' is_leap_year(Sys.time())
 #' is_leap_year(as.POSIXct("2022-10-11 10:11:12"))
 #' is_leap_year(as.POSIXlt("2022-10-11 10:11:12"))
 #' 
-#' # Decimal number: 
+#' # from non-integers:
 #' is_leap_year(2019.5)
 #' 
-#' # With vectors:
-#' v <- 2020:2028
-#' is_leap_year(v)
+#' # For vectors:
+#' is_leap_year(2020:2028)
+#' 
+#' # with dt as strings:
+#' is_leap_year(c("2020", "2021"))
+#' is_leap_year(c("2020-02-29 01:02:03", "2021-02-28 01:02"))
+#' # Note: Invalid date string would yield error
+#' # is_leap_year("2021-02-29")
+#' 
 #' 
 #' @family date and time functions
 #' 
@@ -1514,30 +1523,38 @@ is_leap_year <- function(dt){
     
     y <- as.numeric(format(dt, format = "%Y"))
     
-  } else {  # dt NOT a date/time object: 
+  } else if (is.character(dt)){
+    
+    if (all(grepl(x = dt, pattern = "^\\d\\d\\d\\d$"))) {
+      
+      # message('is_leap_year: Parsing string dt as "yyyy")...')      
+      y <- as.numeric(dt)
+      
+    } else {
+      
+      message('is_leap_year: Coercing string dt into "Date" (to get "%Y")...')
+      y <- as.numeric(format(as.Date(dt), format = "%Y"))
+      
+    }
+    
+  } else if (is.numeric(dt)){ 
     
     if (all(is.wholenumber(dt))){
       
       y <- dt
       
-    } else if (is.character(dt)){
-      
-      message('is_leap_year: Coercing dt from character to numeric...')
-      dt <- as.numeric(dt)
-      
-    } else if (!all(is.wholenumber(dt)) & is.numeric(dt)){
+    } else {
       
       message('is_leap_year: Rounding numeric dt to nearest integer...')
       y <- round(dt, 0)
       
-    } else {
+    }} else {
       
       message('is_leap_year: Failed to parse dt into year.')
       
     }
-  }
   
-  # 2 solutions:   
+  # 2 solutions:
   # 1. Using definition from <https://en.wikipedia.org/wiki/Leap_year>:
   out <- (y %% 4 == 0) & ((y %% 100 != 0) | (y %% 400 == 0))
   # print(out)  # debugging
@@ -1555,9 +1572,9 @@ is_leap_year <- function(dt){
   
 } # is_leap_year end. 
 
+
 # # Check:
 # is_leap_year(2020)
-# is_leap_year("2021")
 # 
 # is_leap_year(Sys.Date())
 # is_leap_year(as.Date("2022-10-11"))
@@ -1571,6 +1588,13 @@ is_leap_year <- function(dt){
 # # For vectors:
 # v <- 2020:2028
 # is_leap_year(v)
+# 
+# # with dt as strings:
+# is_leap_year("2000")
+# is_leap_year(c("2020", "2021"))
+# is_leap_year(c("2020-02-29 01:02:03", "2021-02-28 01:02"))
+# # Note: Invalid date string would yield error
+# # is_leap_year("2021-02-29")
 
 
 ## Done: ----------
