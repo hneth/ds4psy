@@ -1460,23 +1460,27 @@ change_tz <- function(time, tz = ""){
 
 # is_leap_year:  ------ 
 
-#' Is date or time in a leap year?   
+#' Is some year a so-called leap year?
 #'
-#' \code{is_leap_year} checks whether a given date or time \code{dt} 
-#' is in a so-called leap year (with a date of February 29). 
+#' \code{is_leap_year} checks whether a given year 
+#' (provided as a date or time \code{dt}, 
+#' or number/string denoting a 4-digit year)  
+#' lies in a so-called leap year (i.e., a year containing a date of Feb-29). 
 #' 
-#' When \code{dt} is not recognized as date or time object(s), 
+#' When \code{dt} is not recognized as "Date" or "POSIXt" object(s), 
 #' \code{is_leap_year} aims to parse a string \code{dt} 
-#' as describing year(s) in a "####" (4-digit year) format,  
-#' as valid "Date" strings (to retrieve the 4-digit year "\%Y"), 
-#' or as a numeric \code{dt} containing 4-digit integers. 
+#' as describing year(s) in a "dddd" (4-digit year) format,  
+#' as a valid "Date" string (to retrieve the 4-digit year "\%Y"), 
+#' or a numeric \code{dt} as 4-digit integer(s). 
 #' 
 #' \code{is_leap_year} then solves the task in two ways:  
 #' 1. by verifying the numeric definition of a "leap year", and 
 #' 2. by trying to use \code{as.Date()} for defining 
 #' a "Date" of Feb-29 in the corresponding year(s). 
 #' 
-#' @param dt Date or time (scalar or vector).
+#' @param dt Date or time (scalar or vector). 
+#' Numbers or strings with dates are parsed into 
+#' 4-digit numbers denoting the year
 #' 
 #' @examples
 #' is_leap_year(2020)
