@@ -27,25 +27,29 @@ that corresponds to a year (in the 4-digit "%Y" format).
 a "Date" of Feb-29 in the corresponding year(s).
 }
 \examples{
-# Check:
-is_leap_year(2020)    # integer
-is_leap_year("2021")  # character
+is_leap_year(2020)
 
 # from dates:
 is_leap_year(Sys.Date())
-is_leap_year(as.Date("2022-10-11"))
+is_leap_year(as.Date("2022-02-28"))
 
-# from times: 
+# from times:
 is_leap_year(Sys.time())
 is_leap_year(as.POSIXct("2022-10-11 10:11:12"))
 is_leap_year(as.POSIXlt("2022-10-11 10:11:12"))
 
-# Decimal number: 
+# from non-integers:
 is_leap_year(2019.5)
 
-# With vectors:
-v <- 2020:2028
-is_leap_year(v)
+# For vectors:
+is_leap_year(2020:2028)
+
+# with dt as strings:
+is_leap_year(c("2020", "2021"))
+is_leap_year(c("2020-02-29 01:02:03", "2021-02-28 01:02"))
+# Note: Invalid date string would yield error
+# is_leap_year("2021-02-29")
+
 
 }
 \seealso{

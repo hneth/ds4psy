@@ -13,8 +13,8 @@ the function first tries coercing \code{time} into "POSIXlt"
 without changing the time display.}
 
 \item{tz}{Time zone (as character string).
-Default: \code{tz = ""} (i.e., current system time zone,  
-see \code{Sys.timezone()}). 
+Default: \code{tz = ""} 
+(i.e., current system time zone, \code{Sys.timezone()}). 
 See \code{OlsonNames()} for valid options.}
 }
 \value{

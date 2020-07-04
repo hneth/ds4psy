@@ -4,7 +4,7 @@
 \alias{change_tz}
 \title{Change time zone (without changing represented time).}
 \usage{
-change_tz(time, tz = "", tz_org = "")
+change_tz(time, tz = "")
 }
 \arguments{
 \item{time}{Time (as a scalar or vector).
@@ -13,8 +13,8 @@ the function first tries coercing \code{time} into "POSIXct"
 without changing the denoted time.}
 
 \item{tz}{Time zone (as character string).
-Default: \code{tz = ""} (i.e., current system time zone,  
-see \code{Sys.timezone()}). 
+Default: \code{tz = ""} 
+(i.e., current system time zone, \code{Sys.timezone()}). 
 See \code{OlsonNames()} for valid options.}
 }
 \value{
@@ -33,22 +33,31 @@ and returns the same time(s) as local time(s)
 }
 \examples{
 change_tz(Sys.time(), tz = "NZ")
+change_tz(Sys.time(), tz = "US/Hawaii")
 
-# with "POSIXct" time:
-(t1 <- as.POSIXct("2020-07-01 12:00:00", tz = "UTC"))
-change_tz(t1, "NZ")
-change_tz(t1, "Europe/Berlin")
-change_tz(t1, "US/Eastern")
+# from "POSIXct" time:
+tc <- as.POSIXct("2020-07-01 12:00:00", tz = "UTC")
+change_tz(tc, "Australia/Melbourne")
+change_tz(tc, "Europe/Berlin")
+change_tz(tc, "US/Pacific")
 
-# with "POSIXlt" time:
-(tl <- as.POSIXlt("2020-07-01 12:00:00", tz = "UTC"))
-change_tz(tl, "NZ")
+# from "POSIXlt" time:
+tl <- as.POSIXlt("2020-07-01 12:00:00", tz = "UTC")
+change_tz(tl, "Australia/Melbourne")
+change_tz(tl, "Europe/Berlin")
+change_tz(tl, "US/Pacific")
 
-# with vector of "POSIXct" times:
+# from "Date":
+dt <- as.Date("2020-12-31")
+change_tz(dt, "NZ")
+change_tz(dt, "US/Hawaii")  # Note different date!
+
+# with a vector of "POSIXct" times:
 t2 <- as.POSIXct("2020-12-31 23:59:55", tz = "US/Pacific")
-tv <- c(t1, t2)  
-tv # uses tz of t1
+tv <- c(tc, t2)
+tv  # Note: Both times in tz of tc
 change_tz(tv, "US/Pacific")
+
 
 }
 \seealso{
