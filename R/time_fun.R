@@ -1186,8 +1186,8 @@ is_difftime <- function(time){
 #' without changing the time display.
 #' 
 #' @param tz Time zone (as character string).   
-#' Default: \code{tz = ""} (i.e., current system time zone,  
-#' see \code{Sys.timezone()}). 
+#' Default: \code{tz = ""} 
+#' (i.e., current system time zone, \code{Sys.timezone()}). 
 #' See \code{OlsonNames()} for valid options. 
 #' 
 #' @return A calendar time of class "POSIXct". 
@@ -1292,6 +1292,7 @@ change_time <- function(time, tz = ""){
     }
     
     # print(paste0("time_display = ", time_display))  # debugging
+    
     time <- as.POSIXlt(time_display, tz = tz)
     
   }
@@ -1362,30 +1363,39 @@ change_time <- function(time, tz = ""){
 #' without changing the denoted time.
 #' 
 #' @param tz Time zone (as character string).   
-#' Default: \code{tz = ""} (i.e., current system time zone,  
-#' see \code{Sys.timezone()}). 
-#' See \code{OlsonNames()} for valid options.  
+#' Default: \code{tz = ""} 
+#' (i.e., current system time zone, \code{Sys.timezone()}). 
+#' See \code{OlsonNames()} for valid options. 
 #' 
 #' @return A local time of class "POSIXlt". 
 #' 
 #' @examples
 #' change_tz(Sys.time(), tz = "NZ")
+#' change_tz(Sys.time(), tz = "US/Hawaii")
 #' 
-#' # with "POSIXct" time:
-#' (t1 <- as.POSIXct("2020-07-01 12:00:00", tz = "UTC"))
-#' change_tz(t1, "NZ")
-#' change_tz(t1, "Europe/Berlin")
-#' change_tz(t1, "US/Eastern")
+#' # from "POSIXct" time:
+#' tc <- as.POSIXct("2020-07-01 12:00:00", tz = "UTC")
+#' change_tz(tc, "Australia/Melbourne")
+#' change_tz(tc, "Europe/Berlin")
+#' change_tz(tc, "US/Pacific")
 #' 
-#' # with "POSIXlt" time:
-#' (tl <- as.POSIXlt("2020-07-01 12:00:00", tz = "UTC"))
-#' change_tz(tl, "NZ")
+#' # from "POSIXlt" time:
+#' tl <- as.POSIXlt("2020-07-01 12:00:00", tz = "UTC")
+#' change_tz(tl, "Australia/Melbourne")
+#' change_tz(tl, "Europe/Berlin")
+#' change_tz(tl, "US/Pacific")
 #' 
-#' # with vector of "POSIXct" times:
+#' # from "Date":
+#' dt <- as.Date("2020-12-31")
+#' change_tz(dt, "NZ")
+#' change_tz(dt, "US/Hawaii")  # Note different date!
+#' 
+#' # with a vector of "POSIXct" times:
 #' t2 <- as.POSIXct("2020-12-31 23:59:55", tz = "US/Pacific")
-#' tv <- c(t1, t2)  
-#' tv # uses tz of t1
+#' tv <- c(tc, t2)
+#' tv  # Note: Both times in tz of tc
 #' change_tz(tv, "US/Pacific")
+#' 
 #' 
 #' @family date and time functions
 #' 
@@ -1395,19 +1405,18 @@ change_time <- function(time, tz = ""){
 #' 
 #' @export
 
-change_tz <- function(time, tz = "", tz_org = ""){
+change_tz <- function(time, tz = ""){
   
   out <- NA
   
   if (!is_POSIXct(time)){
-    # message('change_tz: Coercing time to "POSIXct" without changing actual time...')
-    # time <- as.POSIXct(time, tz = tz_cur)
     
-    message('change_tz: Changing time to "POSIXct" with tz_org...')    
-    time <- change_time(time, tz = tz_org, tz_org = tz_org)
+    message('change_tz: Coercing time to "POSIXct" without changing represented time...')
+    time <- as.POSIXct(time)
+    
   }
   
-  print(paste0("change_tz: time = ", time)) # debugging
+  # print(paste0("change_tz: time = ", format(time, "%F %T %Z"))) # debugging
   
   # convert nominal time (to POSIXlt):
   out <- as.POSIXlt(time, tz = tz)
@@ -1418,27 +1427,30 @@ change_tz <- function(time, tz = "", tz_org = ""){
 
 # # Check:
 # change_tz(Sys.time(), tz = "NZ")
+# change_tz(Sys.time(), tz = "US/Hawaii")
 # 
-# # with "POSIXct" time:
-# (t1 <- as.POSIXct("2020-07-01 12:00:00", tz = "UTC"))
-# change_tz(t1, "NZ")
-# change_tz(t1, "Europe/Berlin")
-# change_tz(t1, "US/Eastern")
+# # from "POSIXct" time:
+# tc <- as.POSIXct("2020-07-01 12:00:00", tz = "UTC")
+# change_tz(tc, "Australia/Melbourne")
+# change_tz(tc, "Europe/Berlin")
+# change_tz(tc, "US/Pacific")
 # 
-# # with "POSIXlt" time:
-# (tl <- as.POSIXlt("2020-07-01 12:00:00", tz = "UTC"))
-# change_tz(tl, "NZ")
+# # from "POSIXlt" time:
+# tl <- as.POSIXlt("2020-07-01 12:00:00", tz = "UTC")
+# change_tz(tl, "Australia/Melbourne")
+# change_tz(tl, "Europe/Berlin")
+# change_tz(tl, "US/Pacific")
 # 
-# # with vector of "POSIXct" times:
+# # from "Date":
+# dt <- as.Date("2020-12-31")
+# change_tz(dt, "NZ")
+# change_tz(dt, "US/Hawaii")  # Note different date!
+# 
+# # with a vector of "POSIXct" times:
 # t2 <- as.POSIXct("2020-12-31 23:59:55", tz = "US/Pacific")
-# tv <- c(t1, t2)  
-# tv # uses tz of t1
+# tv <- c(tc, t2)
+# tv  # Note: Both times in tz of tc
 # change_tz(tv, "US/Pacific")
-
-# with "Date":
-# d <- as.Date("2020-12-31")
-# change_tz(d, tz = "NZ", tz_org = "US/Pacific")
-
 
 
 # is_leap_year:  ------ 
@@ -1529,7 +1541,7 @@ is_leap_year <- function(dt){
   # 1. Using definition from <https://en.wikipedia.org/wiki/Leap_year>:
   out <- (y %% 4 == 0) & ((y %% 100 != 0) | (y %% 400 == 0))
   # print(out)  # debugging
-    
+  
   # 2. Try defining Feb-29 as "Date" (NA if non-existent):
   feb_29 <- paste(as.character(y), "02", "29", sep = "-")
   out_2  <- !is.na(as.Date(feb_29, format = "%Y-%m-%d"))
