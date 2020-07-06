@@ -19,7 +19,7 @@ Trumpisms
 \code{Trumpisms} contains words frequently used 
 by U.S. president Donald J. Trump 
 (the 45th and current president of the United States, 
-as of May 2020).
+as of July 2020).
 }
 \seealso{
 Other datasets: 
