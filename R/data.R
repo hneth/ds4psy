@@ -1,5 +1,5 @@
 ## data.R | ds4psy
-## hn | uni.kn | 2020 07 02
+## hn | uni.kn | 2020 07 06
 ## ---------------------------
 
 ## Documentation of datasets included in /data. 
@@ -1032,7 +1032,7 @@
 #' \code{Trumpisms} contains words frequently used 
 #' by U.S. president Donald J. Trump 
 #' (the 45th and current president of the United States, 
-#' as of May 2020).
+#' as of July 2020).
 #' 
 #' @format A vector of type \code{character}  
 #' with \code{length(Trumpisms) = 96}. 
