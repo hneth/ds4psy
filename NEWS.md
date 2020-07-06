@@ -33,7 +33,7 @@ Current development version of **ds4psy** (0.4.0.9001+):
 
 ## Details 
 
-- none yet 
+- bug fix: Replace `\u2212` (minus sign) by `-` (dash) in `exp_num_dt$blood_type` to prevent **Note** on "marked UTF-8 strings". 
 
 -------- 
 
