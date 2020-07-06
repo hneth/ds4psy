@@ -16,11 +16,11 @@ All datasets and functions required for the examples and exercises of the book "
 
 ## Major changes 
 
-- This version adds support for date and time data: 
+- This version adds support for processing data with **dates** and **times**:   
 
-    - key date and time functions now include options for returning dates or times, rather than formatted strings.
+    - simple date and time functions now include options for returning dates or times, rather than strings.
     - added time zone support to various functions.
-    - new datasets with date and time variables. 
+    - added datasets with date and time variables. 
 
 ## Minor changes 
 
@@ -30,7 +30,7 @@ All datasets and functions required for the examples and exercises of the book "
 - `cur_date()` and `cur_time()` now print date/time (as string) or return a "Date"/"POSIXct" object.  
 - `what_date()` and `what_time()` gain support for adding time zones `tz` (but no active conversion).  
 - `sample_time()`: Switch default to sampling "POSIXct" objects (making "POSIXlt" optional) and allow specifying time zones `tz`.   
-- All date and time functions based primarily on dates (`cur_date()`, `what_date()`, etc.) now use `Sys.Date()` (i.e., an object of class "Date") rather than `Sys.time()` (i.e., a "POSIXct" calendar time) as defaults.  
+- All date and time functions based primarily on dates (`cur_date()`, `what_date()`, etc.) now use `Sys.Date()` (i.e., an object of class "Date") rather than `Sys.time()` (i.e., a "POSIXct" calendar time) as default.  
 
 ## Details 
 
@@ -46,8 +46,7 @@ Critical:
 
 Current:
 
-- add `change_tz()` and `change_time()` functions for converting dates/times from current into other time zones `tz` (see Exercise&nbsp;7 of Chapter&nbsp;11: Functions).
-- return (invisible) dates and times (rather than format strings) in all date and time functions 
+- return (invisible) dates and times (rather than format strings) in all date and time functions? 
 
 Optional:
 
@@ -62,7 +61,7 @@ Optional:
 
 Release of **ds4psy** (0.3.0) on CRAN: <https://CRAN.R-project.org/package=ds4psy>. [2020-06-15] 
 
-This release adds support for text processing. 
+This release adds support for processing **text** data. 
 
 
 ## Major changes 
@@ -168,6 +167,6 @@ The initial functionality is limited, as the package is designed to support the 
 
 ---------- 
 
-[File `News.md` updated on 2020-07-03.]
+[File `News.md` updated on 2020-07-06.]
 
 <!-- eof. -->
