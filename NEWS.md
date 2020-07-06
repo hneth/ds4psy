@@ -19,6 +19,24 @@ The book and course [Data Science for Psychologists](https://bookdown.org/hneth/
 
 -------- 
 
+# ds4psy 0.4.0.9001+
+
+Current development version of **ds4psy** (0.4.0.9001+):
+
+## Major changes 
+
+- none yet
+
+## Minor changes 
+
+- none yet
+
+## Details 
+
+- none yet 
+
+-------- 
+
 # ds4psy 0.4.0
 
 Release of **ds4psy** (0.4.0) on CRAN: <https://CRAN.R-project.org/package=ds4psy>. [2020-07-06] 
