@@ -1,18 +1,27 @@
 
-# ds4psy 0.3.0.9001+
+# ds4psy 0.4.0.9001+
 
 <!-- Description: --> 
 
 All datasets and functions required for the examples and exercises of the book "Data Science for Psychologists" (by Hansjoerg Neth, Konstanz University, 2020), available at <https://bookdown.org/hneth/ds4psy/>. The book and course introduce principles and methods of data science to students of psychology and other biological or social sciences. The 'ds4psy' package primarily provides datasets, but also functions for data generation and manipulation (e.g., of text and time data) and graphics that are used in the book and its exercises. All functions included in 'ds4psy' are designed to be instructive and entertaining, rather than elegant or efficient.
 
+### Overview {-}
+
+The book and course [Data Science for Psychologists](https://bookdown.org/hneth/ds4psy/) includes the following resources:
+
 <!-- Links: --> 
 
-- The most recent release of **ds4psy** (0.3.0) is available from CRAN: <https://CRAN.R-project.org/package=ds4psy>.
+- The most recent release of **ds4psy** (0.4.0) is available from CRAN: <https://CRAN.R-project.org/package=ds4psy>.
 
-- The current development version of **ds4psy** (0.3.0.9001+) is hosted at <https://github.com/hneth/ds4psy/>. 
+- The current development version of **ds4psy** (0.4.0.9001+) is hosted at <https://github.com/hneth/ds4psy/>. 
 
 - The textbook **Data Science for Psychologists** is hosted at <https://bookdown.org/hneth/ds4psy/>.
 
+-------- 
+
+# ds4psy 0.4.0
+
+Release of **ds4psy** (0.4.0) on CRAN: <https://CRAN.R-project.org/package=ds4psy>. [2020-07-06] 
 
 ## Major changes 
 
@@ -38,22 +47,6 @@ All datasets and functions required for the examples and exercises of the book "
 - bug fix: Use `\u...` rather than `\U...` in `Umlaut` definitions  
 - bug fix: Removed non-ASCII characters from `fruits` and `flowery`  
 
-## To do
-
-Critical:
-
-- none 
-
-Current:
-
-- return (invisible) dates and times (rather than format strings) in all date and time functions? 
-
-Optional:
-
-- add graphical functions for _clock plots_ (including new book chapters)  
-- create a ds4psy survey (to collect user data for additional examples)
-- add more data with text, date, and time variables  
-- add an _ascii art_ option for converting strings or text into tile plots (with colored tiles) 
 
 -------- 
 
