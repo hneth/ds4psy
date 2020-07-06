@@ -86,10 +86,9 @@ plot_n(n = 8, lbl_tiles = TRUE,  # with tile +
        lbl_title = TRUE)         # title labels 
 
 # Set colors: 
-plot_n(n = 5, row = FALSE,  
+plot_n(n = 5, row = TRUE, lbl_tiles = TRUE, lbl_title = TRUE,
        pal = c("orange", "white", "firebrick"),
-       lbl_tiles = TRUE, lbl_title = TRUE, sort = TRUE)
-plot_n(n = 6, sort = FALSE, border_col = "white", border_size = 2)
+       border_col = "white", border_size = 2)
   
 # Fixed rseed:
 plot_n(n = 4, sort = FALSE, borders = FALSE, 
@@ -104,12 +103,12 @@ plot_n(n = 5, polar = TRUE, row = FALSE, borders = FALSE)   # TARGET no borders
 plot_n(n = 5, polar = TRUE, lbl_tiles = TRUE)  # PIE with tile labels 
 plot_n(n = 5, polar = TRUE, row = FALSE, lbl_title = TRUE)  # TARGET with title label 
 
-plot_n(n = 4, row = TRUE, sort = FALSE, borders = TRUE,  
-       border_col = "white", border_size = 2, 
-       polar = TRUE, rseed = 132)
-plot_n(n = 4, row = FALSE, sort = FALSE, borders = TRUE,  
-       border_col = "white", border_size = 2, 
-       polar = TRUE, rseed = 134)
+# plot_n(n = 4, row = TRUE, sort = FALSE, borders = TRUE,  
+#        border_col = "white", border_size = 2, 
+#        polar = TRUE, rseed = 132)
+# plot_n(n = 4, row = FALSE, sort = FALSE, borders = TRUE,  
+#        border_col = "white", border_size = 2, 
+#        polar = TRUE, rseed = 134)
  
 }
 \seealso{
