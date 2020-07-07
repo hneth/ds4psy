@@ -1,5 +1,5 @@
 ## time_fun.R | ds4psy
-## hn | uni.kn | 2020 07 04
+## hn | uni.kn | 2020 07 07
 ## ---------------------------
 
 ## Functions for date and time objects. 
@@ -1458,7 +1458,7 @@ change_tz <- function(time, tz = ""){
 # # lubridate::with_tz(tv, tzone = "US/Pacific")  # same results
 
 
-# is_leap_year:  ------ 
+# is_leap_year: ------ 
 
 #' Is some year a so-called leap year?
 #'
@@ -1601,6 +1601,73 @@ is_leap_year <- function(dt){
 # is_leap_year(c("2020-02-29 01:02:03", "2021-02-28 01:02"))
 # # Note: Invalid date string would yield error
 # # is_leap_year("2021-02-29")
+
+
+# what_age: What is someone's (or some date's) age (in full years): ------
+
+
+#' What age does some date(s) have today (in full years)? 
+#'
+#' \code{what_age} provides the number of completed years 
+#' for a (vector of type) "Date". 
+#' 
+#' \code{dt} is assumed to be of class "Date" 
+#' and co-erced into "Date" when of class "POSIXt".  
+#' 
+#' @param dt Date or time (scalar or vector). 
+#' Numbers or strings with dates are parsed into 
+#' 4-digit numbers denoting the year
+#' 
+#' @examples
+#' y_100 <- Sys.Date() - (100 * 365.25) + -1:1
+#' what_age(y_100)
+#' 
+#' @family date and time functions
+#' 
+#' @export
+
+what_age <- function(dt){
+  
+  # Initialize:
+  age <- NA
+  
+  # Assume that dt is of class "Date", rather than "POSIXt":  
+  if (is_POSIXt(dt)){
+    
+    message('what_age: Coercing times dt into "Date"...')
+    dt <- as.Date(dt)
+    
+  }
+  
+  # birthday elements:
+  bd_year  <- as.numeric(format(dt, "%Y"))
+  bd_month <- as.numeric(format(dt, "%m"))
+  bd_day   <- as.numeric(format(dt, "%d"))
+  
+  today <- Sys.Date()
+  cur_year  <- as.numeric(format(today, "%Y"))
+  cur_month <- as.numeric(format(today, "%m"))
+  cur_day   <- as.numeric(format(today, "%d"))
+  
+  # bday in this year? 
+  bday_this_year <- ifelse((cur_month > bd_month) | ((cur_month == bd_month) & (cur_day >= bd_day)), TRUE, FALSE)
+  
+  # Compute age (in full years):
+  age <- (cur_year - bd_year) - !bday_this_year
+  
+  return(age)
+  
+} # what_age end. 
+
+
+## Check:
+# y_100 <- Sys.Date() - (100 * 365.25) + -1:1
+# what_age(y_100)
+
+# ToDo:
+# - add DOD (date-of-death) argument that is used to limit maximum age if supplied (non-NA). 
+# - add units argument (default = "years", but allowing for months and days). 
+# - add n_decimals argument (default of 0).
 
 
 ## Done: ----------
