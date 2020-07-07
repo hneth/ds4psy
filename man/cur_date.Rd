@@ -45,8 +45,8 @@ cur_date(rev = TRUE)
 cur_date(rev = TRUE, sep = ".")
 
 # return a "Date" object:
-dt <- cur_date(as_string = FALSE)
-class(dt)
+from <- cur_date(as_string = FALSE)
+class(from)
 
 }
 \seealso{

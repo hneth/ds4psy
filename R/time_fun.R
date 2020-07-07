@@ -1606,21 +1606,21 @@ is_leap_year <- function(dt){
 
 # what_age: What is someone's (or some date's) age (in full years): ------
 
-#' What is the age (in full years) between from and to (dates)? 
+#' What is the age (in full years) between from and to date? 
 #'
 #' \code{what_age} provides the number of completed years 
-#' \code{from} some "Date" \code{to} another "Date".  
+#' from some \code{from_date} to some \code{to_date}.  
 #' 
-#' If the lengths of \code{from} and \code{to} differ, 
-#' the arguments of \code{to} are recycled or 
-#' truncated to the length of \code{from}. 
+#' If the lengths of \code{from_date} and \code{to_date} differ, 
+#' the arguments of \code{to_date} are recycled or 
+#' truncated to the length of \code{from_date}. 
 #' 
-#' @param from Date (required, as scalar or vector). 
+#' @param from_date Date (required, as scalar or vector). 
 #' Date of birth (DOB), assumed to be of class "Date", 
 #' and co-erced into "Date" when of class "POSIXt". 
 #' 
-#' @param to Date (optional, as scalar or vector). 
-#' Default: \code{to = Sys.Date()}. 
+#' @param to_date Date (optional, as scalar or vector). 
+#' Default: \code{to_date = Sys.Date()}. 
 #' Maximum date/date of death (DOD), assumed to be of class "Date", 
 #' and co-erced into "Date" when of class "POSIXt". 
 #' 
@@ -1628,11 +1628,11 @@ is_leap_year <- function(dt){
 #' y_100 <- Sys.Date() - (100 * 365.25) + -1:1
 #' what_age(y_100)
 #' 
-#' # with "to" argument: 
+#' # with "to_date" argument: 
 #' y_050 <- Sys.Date() - (50 * 365.25) + -1:1 
 #' what_age(y_100, y_050)
 #' 
-#' # recycling "to" to length of "from":
+#' # recycling "to_date" to length of "from_date":
 #' y_050_2 <- Sys.Date() - (50 * 365.25)
 #' what_age(y_100, y_050_2)
 #' 
@@ -1684,9 +1684,9 @@ what_age <- function(from_date, to_date = Sys.Date()){
   
   # Replace NA values in to_date by current date:
   if (!all(is.na(to_date))){  # if NOT ALL elements of "to_date" are NA:
-
+    
     to_date[is.na(to_date)] <- Sys.Date()  # replace those NA values by Sys.Date()
-
+    
   }
   
   # Verify that from_date and to_date are "Date" objects:
