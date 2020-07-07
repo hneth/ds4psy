@@ -59,8 +59,8 @@
 #' cur_date(rev = TRUE, sep = ".")
 #' 
 #' # return a "Date" object:
-#' dt <- cur_date(as_string = FALSE)
-#' class(dt)
+#' from <- cur_date(as_string = FALSE)
+#' class(from)
 #' 
 #' @family date and time functions
 #' 
@@ -1603,51 +1603,110 @@ is_leap_year <- function(dt){
 # # is_leap_year("2021-02-29")
 
 
+
 # what_age: What is someone's (or some date's) age (in full years): ------
 
-
-#' What age does some date(s) have today (in full years)? 
+#' What is the age (in full years) between from and to (dates)? 
 #'
 #' \code{what_age} provides the number of completed years 
-#' for a (vector of type) "Date". 
+#' \code{from} some "Date" \code{to} another "Date".  
 #' 
-#' \code{dt} is assumed to be of class "Date" 
-#' and co-erced into "Date" when of class "POSIXt".  
+#' If the lengths of \code{from} and \code{to} differ, 
+#' the arguments of \code{to} are recycled or 
+#' truncated to the length of \code{from}. 
 #' 
-#' @param dt Date or time (scalar or vector). 
-#' Numbers or strings with dates are parsed into 
-#' 4-digit numbers denoting the year
+#' @param from Date (required, as scalar or vector). 
+#' Date of birth (DOB), assumed to be of class "Date", 
+#' and co-erced into "Date" when of class "POSIXt". 
+#' 
+#' @param to Date (optional, as scalar or vector). 
+#' Default: \code{to = Sys.Date()}. 
+#' Maximum date/date of death (DOD), assumed to be of class "Date", 
+#' and co-erced into "Date" when of class "POSIXt". 
 #' 
 #' @examples
 #' y_100 <- Sys.Date() - (100 * 365.25) + -1:1
 #' what_age(y_100)
 #' 
+#' # with "to" argument: 
+#' y_050 <- Sys.Date() - (50 * 365.25) + -1:1 
+#' what_age(y_100, y_050)
+#' 
+#' # recycling "to" to length of "from":
+#' y_050_2 <- Sys.Date() - (50 * 365.25)
+#' what_age(y_100, y_050_2)
+#' 
+#' # Using 'fame' data:
+#' dob <- as.Date(fame$DOB, format = "%B %d, %Y")
+#' dod <- as.Date(fame$DOD, format = "%B %d, %Y")
+#' what_age(dob, dod)
+#' 
 #' @family date and time functions
 #' 
 #' @export
 
-what_age <- function(dt){
+what_age <- function(from_date, to_date = Sys.Date()){
   
   # Initialize:
   age <- NA
   
-  # Assume that dt is of class "Date", rather than "POSIXt":  
-  if (is_POSIXt(dt)){
-    
-    message('what_age: Coercing times dt into "Date"...')
-    dt <- as.Date(dt)
-    
+  # Assume that "from_date" is of class "Date", rather than "POSIXt":  
+  if (is_POSIXt(from_date)){
+    message('what_age: Coercing "from_date" time(s) into "Date"...')
+    from_date <- as.Date(from_date)
   }
   
-  # birthday elements:
-  bd_year  <- as.numeric(format(dt, "%Y"))
-  bd_month <- as.numeric(format(dt, "%m"))
-  bd_day   <- as.numeric(format(dt, "%d"))
+  # Assume that "to_date" is of class "Date", rather than "POSIXt":  
+  if (is_POSIXt(to_date)){
+    message('what_age: Coercing "to_date" time(s) into "Date"...')
+    to_date <- as.Date(to_date)
+  }
   
-  today <- Sys.Date()
-  cur_year  <- as.numeric(format(today, "%Y"))
-  cur_month <- as.numeric(format(today, "%m"))
-  cur_day   <- as.numeric(format(today, "%d"))
+  # Recycle or truncate to_date argument based on from_date: ----  
+  n_from_date <- length(from_date)
+  n_to_date   <- length(to_date)
+  
+  if (n_from_date != n_to_date){  # arguments differ in length:     
+    
+    if (n_to_date > n_from_date){ # 1. truncate to_date to the length of n_from_date: 
+      
+      to_date <- to_date[1:n_from_date]
+      
+    } else { # 2. recycle to_date to the length of n_from_date: 
+      
+      to_date <- rep(to_date, ceiling(n_from_date/n_to_date))[1:n_from_date]
+      
+    } # end else. 
+  } # end if.
+  
+  # message(paste0("from_date = ", from_date, ". "))  # debugging
+  # message(paste0("to_date = ", to_date, ". "))      # debugging  
+  
+  # Replace NA values in to_date by current date:
+  if (!all(is.na(to_date))){  # if NOT ALL elements of "to_date" are NA:
+
+    to_date[is.na(to_date)] <- Sys.Date()  # replace those NA values by Sys.Date()
+
+  }
+  
+  # Verify that from_date and to_date are "Date" objects:
+  if (!is_Date(from_date)){
+    message('what_age: "from_date" should be of class "Date"...')    
+  }
+  
+  if (!is_Date(to_date)){
+    message('what_age: "to_date" should be of class "Date"...')    
+  }
+  
+  # from_date elements (DOB):
+  bd_year  <- as.numeric(format(from_date, "%Y"))
+  bd_month <- as.numeric(format(from_date, "%m"))
+  bd_day   <- as.numeric(format(from_date, "%d"))
+  
+  # to_date elements (DOD, max. date): 
+  cur_year  <- as.numeric(format(to_date, "%Y"))
+  cur_month <- as.numeric(format(to_date, "%m"))
+  cur_day   <- as.numeric(format(to_date, "%d"))
   
   # bday in this year? 
   bday_this_year <- ifelse((cur_month > bd_month) | ((cur_month == bd_month) & (cur_day >= bd_day)), TRUE, FALSE)
@@ -1660,12 +1719,28 @@ what_age <- function(dt){
 } # what_age end. 
 
 
-## Check:
+# ## Check:
 # y_100 <- Sys.Date() - (100 * 365.25) + -1:1
+# y_100
 # what_age(y_100)
+# 
+# # with "to_date" argument: 
+# y_050 <- Sys.Date() - (50 * 365.25) + -1:1
+# y_050
+# what_age(y_100, y_050)
+# 
+# # recycling "to_date" to length of "from_date":
+# y_050_2 <- Sys.Date() - (50 * 365.25)
+# y_050_2
+# what_age(y_100, y_050_2)
+# 
+# # Using 'fame' data:
+# dob <- as.Date(fame$DOB, format = "%B %d, %Y")
+# dod <- as.Date(fame$DOD, format = "%B %d, %Y")
+# what_age(dob, dod)
+
 
 # ToDo:
-# - add DOD (date-of-death) argument that is used to limit maximum age if supplied (non-NA). 
 # - add units argument (default = "years", but allowing for months and days). 
 # - add n_decimals argument (default of 0).
 
