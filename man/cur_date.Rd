@@ -59,6 +59,7 @@ Other date and time functions:
 \code{\link{change_tz}()},
 \code{\link{cur_time}()},
 \code{\link{is_leap_year}()},
+\code{\link{what_age}()},
 \code{\link{what_date}()},
 \code{\link{what_day}()},
 \code{\link{what_month}()},

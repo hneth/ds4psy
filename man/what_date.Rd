@@ -102,6 +102,7 @@ Other date and time functions:
 \code{\link{cur_date}()},
 \code{\link{cur_time}()},
 \code{\link{is_leap_year}()},
+\code{\link{what_age}()},
 \code{\link{what_day}()},
 \code{\link{what_month}()},
 \code{\link{what_time}()},
