@@ -29,7 +29,7 @@ Current development version of **ds4psy** (0.4.0.9001+):
 
 ## Minor changes 
 
-- none yet
+- add `what_age()` to compute age (in full years) 
 
 ## Details 
 
@@ -178,6 +178,6 @@ The initial functionality is limited, as the package is designed to support the 
 
 ---------- 
 
-[File `News.md` updated on 2020-07-06.]
+[File `News.md` updated on 2020-07-07.]
 
 <!-- eof. -->
