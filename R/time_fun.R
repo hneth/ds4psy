@@ -1,5 +1,5 @@
 ## time_fun.R | ds4psy
-## hn | uni.kn | 2020 07 07
+## hn | uni.kn | 2020 07 08
 ## ---------------------------
 
 ## Functions for date and time objects. 
@@ -1242,10 +1242,11 @@ change_time <- function(time, tz = ""){
   time_display <- NA
   out <- NA
   
-  if (!is_POSIXlt(time)){
+  if (!is_POSIXlt(time)){ # For any other time object:
     
     message('change_time: Coercing time to "POSIXlt" without changing time display...')
     
+    # A: Determine time_display: 
     if (is_POSIXct(time)){
       
       message('change_time: Parsing time from "POSIXct" as "%Y-%m-%d %H:%M:%S"...')
@@ -1261,22 +1262,22 @@ change_time <- function(time, tz = ""){
       # Aim to parse date-time string (using standard formats):
       if (grepl(x = time, pattern = ".*(-).*( ).*(:).*(:).*")) { # date + full time:
         
-        message('change_time: Parsing time from string as "%Y-%m-%d %H:%M:%S"...')
+        message('change_time: Parsing date-time from string as "%Y-%m-%d %H:%M:%S"...')
         time_display <- strptime(time, "%Y-%m-%d %H:%M:%S")
         
       } else if (grepl(x = time, pattern = ".*(-).*( ).*(:).*")) { # date + H:M time:
         
-        message('change_time: Parsing time from string as "%Y-%m-%d %H:%M"...')
+        message('change_time: Parsing date-time from string as "%Y-%m-%d %H:%M"...')
         time_display <- strptime(time, "%Y-%m-%d %H:%M")
         
-      } else if (grepl(x = time, pattern = ".*(:).*(:).*")) { # full time:
+      } else if (grepl(x = time, pattern = ".*(:).*(:).*")) { # H:M:S time:
         
-        message('change_time: Parsing time from string as "%H:%M:%S"...')
+        message('change_time: Parsing time (with default date) from string as "%H:%M:%S"...')
         time_display <- strptime(time, "%H:%M:%S")
         
       } else if (grepl(x = time, pattern = ".*(:).*")) { # H:M time:
         
-        message('change_time: Parsing time from string as "%H:%M"...')
+        message('change_time: Parsing time (with default date) from string as "%H:%M"...')
         time_display <- strptime(time, "%H:%M")
         
       } else {
@@ -1291,12 +1292,13 @@ change_time <- function(time, tz = ""){
       
     }
     
+    # B. Convert time_display into POSIXlt: 
     # print(paste0("time_display = ", time_display))  # debugging
-    
     time <- as.POSIXlt(time_display, tz = tz)
     
-  }
-  
+  } # if (!is_POSIXlt(time)) end.
+
+  # Convert from POSIXlt to POSIXct with tz:  
   out <- as.POSIXct(time, tz = tz)
   
   return(out)  
@@ -1423,7 +1425,7 @@ change_tz <- function(time, tz = ""){
   
   return(out)
   
-}  # change_tz end.
+} # change_tz end.
 
 # # Check:
 # change_tz(Sys.time(), tz = "NZ")
@@ -1741,6 +1743,7 @@ what_age <- function(from_date, to_date = Sys.Date()){
 
 
 # ToDo:
+# - extend to include differences in "months" and "days"
 # - add units argument (default = "years", but allowing for months and days). 
 # - add n_decimals argument (default of 0).
 
