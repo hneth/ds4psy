@@ -24,9 +24,9 @@ This R package provides datasets and functions used in the [ds4psy book](https:/
 The book and course introduce the principles and methods of data science for students of psychology and other biological or social sciences.
 
 <!-- Description of ds4psy package:  -->
-<!-- All datasets and functions required for the examples and exercises of the book "Data Science for Psychologists" (by Hansjoerg Neth, Konstanz University, 2019), available at <https://bookdown.org/hneth/ds4psy/>. The book and course introduce principles and methods of data science to students of psychology and other biological or social sciences.  -->
+<!-- All datasets and functions required for the examples and exercises of the book "Data Science for Psychologists" (by Hansjoerg Neth, Konstanz University, 2020), available at <https://bookdown.org/hneth/ds4psy/>. The book and course introduce principles and methods of data science to students of psychology and other biological or social sciences.  -->
 <!-- The 'ds4psy' package primarily provides datasets, but also functions for data generation and manipulation (e.g., of text and time data) and graphics that are used in the book and its exercises.  -->
-<!-- All functions included in 'ds4psy' are designed to be instructive and entertaining, rather than elegant or efficient. -->
+<!-- All functions included in 'ds4psy' are designed to be explicit and instructive, rather than elegant or efficient. -->
 Installation
 ------------
 
@@ -204,6 +204,6 @@ The URL of the **ds4psy** R package is <https://CRAN.R-project.org/package=ds4ps
 <span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">**Data science for psychologists** (**ds4psy**)</span> by <a xmlns:cc="http://creativecommons.org/ns#" href="https://neth.de" property="cc:attributionName" rel="cc:attributionURL">Hansjörg Neth</a> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.
 
 <!-- Update: -->
-\[Updated 2020-07-06 by [hn](https://neth.de).\]
+\[Updated 2020-07-08 by [hn](https://neth.de).\]
 
 <!-- eof. -->
