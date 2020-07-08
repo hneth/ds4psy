@@ -9,12 +9,12 @@ what_age(from_date, to_date = Sys.Date())
 \arguments{
 \item{from_date}{Date (required, as scalar or vector). 
 Date of birth (DOB), assumed to be of class "Date", 
-and co-erced into "Date" when of class "POSIXt".}
+and coerced into "Date" when of class "POSIXt".}
 
 \item{to_date}{Date (optional, as scalar or vector). 
 Default: \code{to_date = Sys.Date()}. 
 Maximum date/date of death (DOD), assumed to be of class "Date", 
-and co-erced into "Date" when of class "POSIXt".}
+and coerced into "Date" when of class "POSIXt".}
 }
 \description{
 \code{what_age} provides the number of completed years 

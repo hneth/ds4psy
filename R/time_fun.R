@@ -1619,12 +1619,12 @@ is_leap_year <- function(dt){
 #' 
 #' @param from_date Date (required, as scalar or vector). 
 #' Date of birth (DOB), assumed to be of class "Date", 
-#' and co-erced into "Date" when of class "POSIXt". 
+#' and coerced into "Date" when of class "POSIXt". 
 #' 
 #' @param to_date Date (optional, as scalar or vector). 
 #' Default: \code{to_date = Sys.Date()}. 
 #' Maximum date/date of death (DOD), assumed to be of class "Date", 
-#' and co-erced into "Date" when of class "POSIXt". 
+#' and coerced into "Date" when of class "POSIXt". 
 #' 
 #' @examples
 #' y_100 <- Sys.Date() - (100 * 365.25) + -1:1
