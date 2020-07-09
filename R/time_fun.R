@@ -1717,7 +1717,6 @@ is_leap_year <- function(dt){
 # # is_leap_year("2021-02-29")
 
 
-
 # what_age: What is someone's (or some date's) age (in full years): ------
 
 #' What is the age (in full years) between from and to date? 
@@ -1746,6 +1745,11 @@ is_leap_year <- function(dt){
 #' y_050 <- Sys.Date() - (50 * 365.25) + -1:1 
 #' what_age(y_100, y_050)
 #' 
+#' # robustness:
+#' what_age(Sys.time() - (13 * (60 * 60 * 24) * 366))  # for POSIXt times
+#' what_age("90-07-11", to_date = "10-07-10")          # for strings
+#' what_age(19900711, to_date = 20100710)              # for numbers
+#' 
 #' # recycling "to_date" to length of "from_date":
 #' y_050_2 <- Sys.Date() - (50 * 365.25)
 #' what_age(y_100, y_050_2)
@@ -1753,7 +1757,7 @@ is_leap_year <- function(dt){
 #' # Using 'fame' data:
 #' dob <- as.Date(fame$DOB, format = "%B %d, %Y")
 #' dod <- as.Date(fame$DOD, format = "%B %d, %Y")
-#' what_age(dob, dod)
+#' what_age(dob, dod)  # Note: Deceased people do not age further.
 #' 
 #' @family date and time functions
 #' 
@@ -1765,12 +1769,12 @@ what_age <- function(from_date, to_date = Sys.Date()){
   
   # (a) Coerce numeric inputs that are NOT date-time objects into strings:
   if (!is_date_time(from_date) & is.numeric(from_date)){
-    message('what_age: Coercing "from_date" from number into character string...')    
+    message('what_age: Coercing "from_date" from number into character...')    
     from_date <- as.character(from_date)
   }
   
   if (!is_date_time(to_date) & is.numeric(to_date)){
-    message('what_age: Coercing "to_date" from number into character string...')    
+    message('what_age: Coercing "to_date" from number into character...')    
     to_date <- as.character(to_date)
   }
   
@@ -1883,6 +1887,7 @@ what_age <- function(from_date, to_date = Sys.Date()){
 #
 # # from numbers:
 # what_age(19900710)  # turned into character > Date
+# what_age(19900711, to_date = 20100711)
 
 
 # ToDo:
