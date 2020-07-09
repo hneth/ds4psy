@@ -36,6 +36,119 @@ is_difftime <- function(time){
   inherits(time, "difftime")  
 }
 
+# is_date_time: -----
+
+is_date_time <- function(dt){
+  is_Date(dt) | is_POSIXt(dt) | is_difftime(dt)
+}
+
+
+# date_frms_*: Standard date formats: ------
+
+sps <- c("", "-", "/", ".", " ")  # separators
+
+# Ymd: 
+df_Ym <- paste0("%Y", sps, "%m", sps, "%d")
+df_Yb <- paste0("%Y", sps, "%b", sps, "%d")
+df_YB <- paste0("%Y", sps, "%B", sps, "%d")
+
+# ymd:
+df_ym <- paste0("%y", sps, "%m", sps, "%d")
+df_yb <- paste0("%y", sps, "%b", sps, "%d")
+df_yB <- paste0("%y", sps, "%B", sps, "%d")
+
+# dmY:
+df_mY <- paste0("%d", sps, "%m", sps, "%Y")
+df_bY <- paste0("%d", sps, "%b", sps, "%Y")
+df_BY <- paste0("%d", sps, "%B", sps, "%Y")
+
+# dmy:
+df_my <- paste0("%d", sps, "%m", sps, "%y")
+df_by <- paste0("%d", sps, "%b", sps, "%y")
+df_By <- paste0("%d", sps, "%B", sps, "%y")
+
+# combine: 
+date_frms_Ymd <- c(df_Ym, df_Yb, df_YB)
+date_frms_ymd <- c(df_ym, df_yb, df_yB)
+date_frms_dmY <- c(df_mY, df_bY, df_BY)
+date_frms_dmy <- c(df_my, df_by, df_By)
+
+
+# date_from_string: Parse a string into "Date": ------ 
+
+date_from_string <- function(x, ...){
+  
+  # (0) Preparation:
+  
+  if (is_Date(x)){ return(x) }
+  
+  if (!is.character(x)){
+    
+    message("date_from_string: Coercing x into a character string.")
+    
+    x <- as.character(x)
+    
+  }
+  
+  dt <- NA
+  
+  # (1) Aim to detect date format:
+  # Heuristic: Consider 1st item: Position of 4-digit year (yyyy)? 
+  x_1 <- x[1]
+  
+  if (grepl(x = x_1, pattern = "^(\\d\\d\\d\\d)")){ # yyyy first:
+    
+    date_frms <- date_frms_Ymd
+    
+  } else if (grepl(x = x_1, pattern = "(\\d\\d\\d\\d)$")){ # yyyy at end:
+    
+    date_frms <- date_frms_dmY
+    
+  } else { 
+    
+    date_frms <- c(date_frms_ymd, date_frms_dmy)  # => prefer yy first.
+    
+  }
+  
+  # (2) Parse as.Date(x):
+  dt <- as.Date(x, tryFormats = date_frms, ...)
+  
+  return(dt)
+  
+} # date_from_string end. 
+
+# ## Check:
+# date_from_string("2010-08-12")
+# date_from_string("12.08.2010")
+# date_from_string("12 Aug 2010")
+# date_from_string("12 August 2010")
+# 
+# # Note preference for year first:
+# date_from_string("10-8-12")  # "2010-08-12"
+# date_from_string("12-8-10")  # "2012-08-10"
+# 
+# # Note some flexibility:
+# date_from_string(Sys.Date())  # dates are returned as is
+# date_from_string("20100812")  # no separators (Y first)
+# date_from_string(20100812)    # coercing numbers into strings
+#
+# # for vectors:
+# date_from_string(c("10-8-12", "12-8-10"))
+# date_from_string(c(20100812, 20120810))
+# 
+# # (!) NOT accounted for:
+# date_from_string("August 10, 2010")  # mdY
+# # but providing format works:
+# date_from_string("August 10, 2010", format = "%B %d, %Y") 
+# 
+# date_from_string("12.8")  # no year
+# # but providing formats works: 
+# date_from_string("12.8", format = "%d.%m")
+# date_from_string("12.8", format = "%m.%d")
+# 
+# date_from_string(c("12-8-2010", "12-Aug-10"))  # mix of formats
+# date_from_string(c("2010-8-12", "12-8-2010"))  # mix of orders
+
 
 
 ## (2) cur_ functions: ---------- 
@@ -1258,7 +1371,7 @@ change_time <- function(time, tz = ""){
       
     } else if (is.character(time)){
       
-      # Aim to parse date-time string (using standard formats):
+      # Get time_display by parsing date-time string (using standard formats):
       if (grepl(x = time, pattern = ".*(-).*( ).*(:).*(:).*")) { # date + full time:
         
         message('change_time: Parsing date-time from string as "%Y-%m-%d %H:%M:%S"...')
@@ -1296,7 +1409,7 @@ change_time <- function(time, tz = ""){
     time <- as.POSIXlt(time_display, tz = tz)
     
   } # if (!is_POSIXlt(time)) end.
-
+  
   # Convert from POSIXlt to POSIXct with tz:  
   out <- as.POSIXct(time, tz = tz)
   
@@ -1648,22 +1761,42 @@ is_leap_year <- function(dt){
 
 what_age <- function(from_date, to_date = Sys.Date()){
   
-  # Initialize:
-  age <- NA
+  # (1) Preparation: Turn non-Date objects into "Date" objects ---- 
   
-  # Assume that "from_date" is of class "Date", rather than "POSIXt":  
+  # (a) Coerce numeric inputs that are NOT date-time objects into strings:
+  if (!is_date_time(from_date) & is.numeric(from_date)){
+    message('what_age: Coercing "from_date" from number into character string...')    
+    from_date <- as.character(from_date)
+  }
+  
+  if (!is_date_time(to_date) & is.numeric(to_date)){
+    message('what_age: Coercing "to_date" from number into character string...')    
+    to_date <- as.character(to_date)
+  }
+  
+  # (b) Coerce character string inputs into "Date": 
+  if (is.character(from_date)){
+    message('what_age: Coercing "from_date" from character into "Date"...')
+    from_date <- date_from_string(from_date)
+  }
+  
+  if (is.character(to_date)){
+    message('what_age: Coercing "to_date" from character into "Date"...')
+    to_date <- date_from_string(to_date)
+  }
+  
+  # (c) Coerce "POSIXt" inputs into "Date":
   if (is_POSIXt(from_date)){
     message('what_age: Coercing "from_date" time(s) into "Date"...')
     from_date <- as.Date(from_date)
   }
   
-  # Assume that "to_date" is of class "Date", rather than "POSIXt":  
   if (is_POSIXt(to_date)){
     message('what_age: Coercing "to_date" time(s) into "Date"...')
     to_date <- as.Date(to_date)
   }
   
-  # Recycle or truncate to_date argument based on from_date: ----  
+  # (2) Recycle or truncate to_date argument based on from_date: ---- 
   n_from_date <- length(from_date)
   n_to_date   <- length(to_date)
   
@@ -1683,14 +1816,14 @@ what_age <- function(from_date, to_date = Sys.Date()){
   # message(paste0("from_date = ", from_date, ". "))  # debugging
   # message(paste0("to_date = ", to_date, ". "))      # debugging  
   
-  # Replace NA values in to_date by current date:
-  if (!all(is.na(to_date))){  # if NOT ALL elements of "to_date" are NA:
+  # (3) Replace occasional NA values in to_date by current date: ---- 
+  if (!all(is.na(to_date))){  # only SOME to_date values are missing: 
     
     to_date[is.na(to_date)] <- Sys.Date()  # replace those NA values by Sys.Date()
     
   }
   
-  # Verify that from_date and to_date are "Date" objects:
+  # (4) Verify that from_date and to_date are "Date" objects: ---- 
   if (!is_Date(from_date)){
     message('what_age: "from_date" should be of class "Date"...')    
   }
@@ -1698,6 +1831,10 @@ what_age <- function(from_date, to_date = Sys.Date()){
   if (!is_Date(to_date)){
     message('what_age: "to_date" should be of class "Date"...')    
   }
+  
+  # (5) Main function: ---- 
+  
+  age <- NA  # initialize  
   
   # from_date elements (DOB):
   bd_year  <- as.numeric(format(from_date, "%Y"))
@@ -1709,7 +1846,7 @@ what_age <- function(from_date, to_date = Sys.Date()){
   cur_month <- as.numeric(format(to_date, "%m"))
   cur_day   <- as.numeric(format(to_date, "%d"))
   
-  # bday in this year? 
+  # bday in this year? (as Boolean): 
   bday_this_year <- ifelse((cur_month > bd_month) | ((cur_month == bd_month) & (cur_day >= bd_day)), TRUE, FALSE)
   
   # Compute age (in full years):
@@ -1739,9 +1876,17 @@ what_age <- function(from_date, to_date = Sys.Date()){
 # dob <- as.Date(fame$DOB, format = "%B %d, %Y")
 # dod <- as.Date(fame$DOD, format = "%B %d, %Y")
 # what_age(dob, dod)
+# 
+# # from strings:
+# what_age("1990-07-10")
+# what_age("90-07-11", to_date = "10-07-10")
+#
+# # from numbers:
+# what_age(19900710)  # turned into character > Date
 
 
 # ToDo:
+# - out-source conversion of non-"Date" inputs into separate function
 # - extend to include differences in "months" and "days"
 # - add units argument (default = "years", but allowing for months and days). 
 # - add n_decimals argument (default of 0).
