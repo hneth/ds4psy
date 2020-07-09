@@ -84,7 +84,7 @@ date_from_string <- function(x, ...){
   
   if (!is.character(x)){
     
-    message("date_from_string: Coercing x into a character string.")
+    # message("date_from_string: Coercing x into a character string.")
     
     x <- as.character(x)
     
@@ -160,23 +160,23 @@ date_from_nonDate <- function(x){
   
   # 1. Coerce numeric x that are NOT date-time objects into strings:
   if (!is_date_time(x) & is.numeric(x)){
-    message('date_from_nonDate: Coercing x from "number" into "character"...')    
+    # message('date_from_nonDate: Coercing x from "number" into "character"...')    
     x <- as.character(x)
   }
   
   # 2. Coerce character string inputs x into "Date": 
   if (is.character(x)){
-    message('date_from_nonDate: Aiming to parse x from "character" as "Date"...')
+    # message('date_from_nonDate: Aiming to parse x from "character" as "Date"...')
     dt <- date_from_string(x)
   }
   
   # 3. Coerce "POSIXt" inputs into "Date":
   if (is_POSIXt(x)){
-    message('date_from_nonDate: Coercing x from "POSIXt" into "Date"...')
+    # message('date_from_nonDate: Coercing x from "POSIXt" into "Date"...')
     dt <- as.Date(x)
   }
   
-  # 4. Warn if dt is no "Date": ---- 
+  # 4. Note if dt is still no "Date": ---- 
   if (!is_Date(dt)){
     message('date_from_nonDate: Failed to parse x as "Date"...')   
   }
@@ -185,14 +185,13 @@ date_from_nonDate <- function(x){
   
 } # date_from_nonDate end. 
 
-
 # # Check:
 # date_from_nonDate(20100612)    # number
 # date_from_nonDate("20100612")  # string
 # date_from_nonDate(as.POSIXct("2010-06-10 12:30:45", tz = "UTC"))
 # date_from_nonDate(as.POSIXlt("2010-06-10 12:30:45", tz = "UTC"))
 # 
-# # Errors for: 
+# # Note errors for:
 # date_from_nonDate(123)
 # date_from_nonDate("ABC")
 
@@ -1644,6 +1643,7 @@ change_tz <- function(time, tz = ""){
 #' 
 #' @examples
 #' is_leap_year(2020)
+#' (days_this_year <- 365 + is_leap_year(Sys.Date()))
 #' 
 #' # from dates:
 #' is_leap_year(Sys.Date())
@@ -1663,7 +1663,8 @@ change_tz <- function(time, tz = ""){
 #' # with dt as strings:
 #' is_leap_year(c("2020", "2021"))
 #' is_leap_year(c("2020-02-29 01:02:03", "2021-02-28 01:02"))
-#' # Note: Invalid date string would yield error
+#' 
+#' # Note: Invalid date string yields error: 
 #' # is_leap_year("2021-02-29")
 #' 
 #' 
@@ -1739,8 +1740,9 @@ is_leap_year <- function(dt){
 } # is_leap_year end. 
 
 
-# # Check:
+# ## Check:
 # is_leap_year(2020)
+# (days_this_year <- 365 + is_leap_year(Sys.Date()))
 # 
 # is_leap_year(Sys.Date())
 # is_leap_year(as.Date("2022-10-11"))
@@ -1809,9 +1811,10 @@ is_leap_year <- function(dt){
 #' what_age(y_100, y_050)
 #' 
 #' # robustness:
-#' what_age(Sys.time() - (13 * (60 * 60 * 24) * 366))  # for POSIXt times
-#' what_age("90-07-11", to_date = "10-07-10")          # for strings
-#' what_age(19900711, to_date = 20100710)              # for numbers
+#' days_this_year <- 365 + is_leap_year(Sys.Date())
+#' what_age(Sys.time() - (10 * (60 * 60 * 24) * days_this_year)) # for POSIXt times
+#' what_age("90-07-11", to_date = "10-07-10")                    # for strings
+#' what_age(19900711, to_date = 20100710)                        # for numbers
 #' 
 #' # recycling "to_date" to length of "from_date":
 #' y_050_2 <- Sys.Date() - (50 * 365.25)
@@ -1830,37 +1833,24 @@ what_age <- function(from_date, to_date = Sys.Date(), units = "y"){
   
   # (1) Preparation: Turn non-Date inputs into "Date" objects ---- 
   
-  # (a) Coerce numeric inputs that are NOT date-time objects into strings:
-  if (!is_date_time(from_date) & is.numeric(from_date)){
-    message('what_age: Coercing "from_date" from number into character...')    
-    from_date <- as.character(from_date)
+  if (any(is.na(from_date))){
+    message('what_age: "from_date" must not be NA...')    
+    return(NA)
   }
   
-  if (!is_date_time(to_date) & is.numeric(to_date)){
-    message('what_age: Coercing "to_date" from number into character...')    
-    to_date <- as.character(to_date)
+  if (all(is.na(to_date))){
+    message('what_age: Changing "to_date" from NA to "Sys.Date()"...')       
+    to_date <- Sys.Date()
   }
   
-  # (b) Coerce character string inputs into "Date": 
-  if (is.character(from_date)){
-    message('what_age: Coercing "from_date" from character into "Date"...')
-    from_date <- date_from_string(from_date)
+  if (!is_Date(from_date)){
+    # message('what_age: Aiming to parse "from_date" as "Date"...')
+    from_date <- date_from_nonDate(from_date)
   }
   
-  if (is.character(to_date)){
-    message('what_age: Coercing "to_date" from character into "Date"...')
-    to_date <- date_from_string(to_date)
-  }
-  
-  # (c) Coerce "POSIXt" inputs into "Date":
-  if (is_POSIXt(from_date)){
-    message('what_age: Coercing "from_date" time(s) into "Date"...')
-    from_date <- as.Date(from_date)
-  }
-  
-  if (is_POSIXt(to_date)){
-    message('what_age: Coercing "to_date" time(s) into "Date"...')
-    to_date <- as.Date(to_date)
+  if (!is_Date(to_date)){
+    # message('what_age: Aiming to parse "to_date" as "Date"...')
+    to_date <- date_from_nonDate(to_date)
   }
   
   # (2) Recycle or truncate to_date argument based on from_date: ---- 
@@ -1880,15 +1870,21 @@ what_age <- function(from_date, to_date = Sys.Date(), units = "y"){
     } # end else. 
   } # end if.
   
-  # message(paste0("from_date = ", from_date, ". "))  # debugging
-  # message(paste0("to_date = ", to_date, ". "))      # debugging  
-  
   # (3) Replace occasional NA values in to_date by current date: ---- 
-  if (!all(is.na(to_date))){  # only SOME to_date values are missing: 
+  # Axiom: Dead people do not age any further, but 
+  #        if to_date = NA, we want to measure until today: 
+  set_to_date_NA_to_NOW <- TRUE  # if FALSE: Occasional to_date = NA values yield NA result.
+  
+  if (set_to_date_NA_to_NOW){
     
-    to_date[is.na(to_date)] <- Sys.Date()  # replace those NA values by Sys.Date()
-    
+    if (!all(is.na(to_date))){  # only SOME to_date values are missing: 
+      
+      to_date[is.na(to_date)] <- Sys.Date()  # replace those NA values by Sys.Date()
+      
+    }
   }
+  
+  # } else { # ALL to_date are NA:
   
   # (4) Verify that from_date and to_date are "Date" objects: ---- 
   if (!is_Date(from_date)){
@@ -1929,11 +1925,11 @@ what_age <- function(from_date, to_date = Sys.Date(), units = "y"){
 # y_100
 # what_age(y_100)
 # 
-# # with "to_date" argument: 
+# # with "to_date" argument:
 # y_050 <- Sys.Date() - (50 * 365.25) + -1:1
 # y_050
 # what_age(y_100, y_050)
-# 
+#
 # # recycling "to_date" to length of "from_date":
 # y_050_2 <- Sys.Date() - (50 * 365.25)
 # y_050_2
@@ -1945,16 +1941,18 @@ what_age <- function(from_date, to_date = Sys.Date(), units = "y"){
 # what_age(dob, dod)
 # 
 # # from strings:
-# what_age("1990-07-10")
-# what_age("90-07-11", to_date = "10-07-10")
+# what_age("2000-12-31")
+# what_age("90-01-02", to_date = "10-01-01")
 #
 # # from numbers:
-# what_age(19900710)  # turned into character > Date
-# what_age(19900711, to_date = 20100711)
+# what_age(20001231)  # turned into character > Date
+# what_age(19900711, to_date = 20100710)
+# 
+# # NAs:
+# what_age(from_date = y_100, to_date = NA)
+# what_age(from_date = NA, to_date = NA)
 
-
-# ToDo:
-# - out-source conversion of non-"Date" inputs into separate function
+## ToDo: 
 # - extend to include differences in "months" and "days"
 # - add units argument (default = "years", but allowing for months and days). 
 # - add n_decimals argument (default of 0).
