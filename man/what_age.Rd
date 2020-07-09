@@ -4,17 +4,33 @@
 \alias{what_age}
 \title{What is the age (in full years) between from and to date?}
 \usage{
-what_age(from_date, to_date = Sys.Date())
+what_age(from_date, to_date = Sys.Date(), units = "y")
 }
 \arguments{
-\item{from_date}{Date (required, as scalar or vector). 
+\item{from_date}{From date (required, scalar or vector, as "Date"). 
 Date of birth (DOB), assumed to be of class "Date", 
 and coerced into "Date" when of class "POSIXt".}
 
-\item{to_date}{Date (optional, as scalar or vector). 
+\item{to_date}{To date (optional, scalar or vector, as "Date"). 
 Default: \code{to_date = Sys.Date()}. 
 Maximum date/date of death (DOD), assumed to be of class "Date", 
 and coerced into "Date" when of class "POSIXt".}
+
+\item{units}{Units used to represent output (as "character").
+Units represent human time periods, rather than 
+chronological time differences. 
+Default: \code{units = "y"} for "years". 
+Available options include:  
+
+\enumerate{
+
+  \item \code{units = "y"}: completed years (default)
+  
+  \item \code{units = "ym"}: completed years, months
+  
+  \item \code{units = "ymd"}: completed years, months, days
+  
+  }}
 }
 \description{
 \code{what_age} provides the number of completed years 
@@ -34,9 +50,10 @@ y_050 <- Sys.Date() - (50 * 365.25) + -1:1
 what_age(y_100, y_050)
 
 # robustness:
-what_age(Sys.time() - (13 * (60 * 60 * 24) * 366))  # for POSIXt times
-what_age("90-07-11", to_date = "10-07-10")          # for strings
-what_age(19900711, to_date = 20100710)              # for numbers
+days_this_year <- 365 + is_leap_year(Sys.Date())
+what_age(Sys.time() - (10 * (60 * 60 * 24) * days_this_year)) # for POSIXt times
+what_age("90-07-11", to_date = "10-07-10")                    # for strings
+what_age(19900711, to_date = 20100710)                        # for numbers
 
 # recycling "to_date" to length of "from_date":
 y_050_2 <- Sys.Date() - (50 * 365.25)

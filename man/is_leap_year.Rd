@@ -34,6 +34,7 @@ a "Date" of Feb-29 in the corresponding year(s).
 }
 \examples{
 is_leap_year(2020)
+(days_this_year <- 365 + is_leap_year(Sys.Date()))
 
 # from dates:
 is_leap_year(Sys.Date())
@@ -53,7 +54,8 @@ is_leap_year(2020:2028)
 # with dt as strings:
 is_leap_year(c("2020", "2021"))
 is_leap_year(c("2020-02-29 01:02:03", "2021-02-28 01:02"))
-# Note: Invalid date string would yield error
+
+# Note: Invalid date string yields error: 
 # is_leap_year("2021-02-29")
 
 
