@@ -78,7 +78,7 @@ date_frms_dmy <- c(df_my, df_by, df_By)
 
 date_from_string <- function(x, ...){
   
-  # (0) Preparation:
+  # 1. Preparation:
   
   if (is_Date(x)){ return(x) }
   
@@ -92,7 +92,7 @@ date_from_string <- function(x, ...){
   
   dt <- NA
   
-  # (1) Aim to detect date format:
+  # 2. Aim to detect date format:
   # Heuristic: Consider 1st item: Position of 4-digit year (yyyy)? 
   x_1 <- x[1]
   
@@ -110,7 +110,7 @@ date_from_string <- function(x, ...){
     
   }
   
-  # (2) Parse as.Date(x):
+  # 3. Parse as.Date(x):
   dt <- as.Date(x, tryFormats = date_frms, ...)
   
   return(dt)
@@ -149,6 +149,52 @@ date_from_string <- function(x, ...){
 # date_from_string(c("12-8-2010", "12-Aug-10"))  # mix of formats
 # date_from_string(c("2010-8-12", "12-8-2010"))  # mix of orders
 
+
+
+
+# date_from_nonDate: Parse a non-Date into "Date": ------ 
+
+date_from_nonDate <- function(x){
+  
+  dt <- NA
+  
+  # 1. Coerce numeric x that are NOT date-time objects into strings:
+  if (!is_date_time(x) & is.numeric(x)){
+    message('date_from_nonDate: Coercing x from "number" into "character"...')    
+    x <- as.character(x)
+  }
+  
+  # 2. Coerce character string inputs x into "Date": 
+  if (is.character(x)){
+    message('date_from_nonDate: Aiming to parse x from "character" as "Date"...')
+    dt <- date_from_string(x)
+  }
+  
+  # 3. Coerce "POSIXt" inputs into "Date":
+  if (is_POSIXt(x)){
+    message('date_from_nonDate: Coercing x from "POSIXt" into "Date"...')
+    dt <- as.Date(x)
+  }
+  
+  # 4. Warn if dt is no "Date": ---- 
+  if (!is_Date(dt)){
+    message('date_from_nonDate: Failed to parse x as "Date"...')   
+  }
+  
+  return(dt)    
+  
+} # date_from_nonDate end. 
+
+
+# # Check:
+# date_from_nonDate(20100612)    # number
+# date_from_nonDate("20100612")  # string
+# date_from_nonDate(as.POSIXct("2010-06-10 12:30:45", tz = "UTC"))
+# date_from_nonDate(as.POSIXlt("2010-06-10 12:30:45", tz = "UTC"))
+# 
+# # Errors for: 
+# date_from_nonDate(123)
+# date_from_nonDate("ABC")
 
 
 ## (2) cur_ functions: ---------- 
@@ -1728,14 +1774,31 @@ is_leap_year <- function(dt){
 #' the arguments of \code{to_date} are recycled or 
 #' truncated to the length of \code{from_date}. 
 #' 
-#' @param from_date Date (required, as scalar or vector). 
+#' @param from_date From date (required, scalar or vector, as "Date"). 
 #' Date of birth (DOB), assumed to be of class "Date", 
 #' and coerced into "Date" when of class "POSIXt". 
 #' 
-#' @param to_date Date (optional, as scalar or vector). 
+#' @param to_date To date (optional, scalar or vector, as "Date"). 
 #' Default: \code{to_date = Sys.Date()}. 
 #' Maximum date/date of death (DOD), assumed to be of class "Date", 
 #' and coerced into "Date" when of class "POSIXt". 
+#' 
+#' @param units Units used to represent output (as "character").
+#' Units represent human time periods, rather than 
+#' chronological time differences. 
+#' Default: \code{units = "y"} for "years". 
+#' Available options include:  
+#' 
+#' \enumerate{
+#' 
+#'   \item \code{units = "y"}: completed years (default)
+#'   
+#'   \item \code{units = "ym"}: completed years, months
+#'   
+#'   \item \code{units = "ymd"}: completed years, months, days
+#'   
+#'   }
+#' 
 #' 
 #' @examples
 #' y_100 <- Sys.Date() - (100 * 365.25) + -1:1
@@ -1763,9 +1826,9 @@ is_leap_year <- function(dt){
 #' 
 #' @export
 
-what_age <- function(from_date, to_date = Sys.Date()){
+what_age <- function(from_date, to_date = Sys.Date(), units = "y"){
   
-  # (1) Preparation: Turn non-Date objects into "Date" objects ---- 
+  # (1) Preparation: Turn non-Date inputs into "Date" objects ---- 
   
   # (a) Coerce numeric inputs that are NOT date-time objects into strings:
   if (!is_date_time(from_date) & is.numeric(from_date)){
