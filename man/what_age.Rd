@@ -33,6 +33,11 @@ what_age(y_100)
 y_050 <- Sys.Date() - (50 * 365.25) + -1:1 
 what_age(y_100, y_050)
 
+# robustness:
+what_age(Sys.time() - (13 * (60 * 60 * 24) * 366))  # for POSIXt times
+what_age("90-07-11", to_date = "10-07-10")          # for strings
+what_age(19900711, to_date = 20100710)              # for numbers
+
 # recycling "to_date" to length of "from_date":
 y_050_2 <- Sys.Date() - (50 * 365.25)
 what_age(y_100, y_050_2)
@@ -40,7 +45,7 @@ what_age(y_100, y_050_2)
 # Using 'fame' data:
 dob <- as.Date(fame$DOB, format = "\%B \%d, \%Y")
 dod <- as.Date(fame$DOD, format = "\%B \%d, \%Y")
-what_age(dob, dod)
+what_age(dob, dod)  # Note: Deceased people do not age further.
 
 }
 \seealso{
