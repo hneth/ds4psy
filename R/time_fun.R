@@ -1,24 +1,48 @@
 ## time_fun.R | ds4psy
-## hn | uni.kn | 2020 07 08
+## hn | uni.kn | 2020 07 09
 ## ---------------------------
 
 ## Functions for date and time objects. 
 
-# Note: The R base function 
-# date()  # returns date as "Wed Aug 21 19:43:22 2019", 
-# which is more than we usually want.
+## (1) Time helper/utility functions: Class of date/time object ----------
 
-# Some simpler variants following a simple heuristic: 
-# What is it that we _usually_ want to hear as `x` when asking 
-# "What `x` is it today?" or "What `x` is it right now?"
+# is_Date: -----
+
+is_Date <- function(date){
+  inherits(date, "Date")  
+}
+
+# is_POSIXt: -----
+
+is_POSIXt <- function(time){
+  inherits(time, "POSIXt")  
+}
+
+# is_POSIXct: -----
+
+is_POSIXct <- function(time){
+  inherits(time, "POSIXct")  
+}
+
+# is_POSIXlt: -----
+
+is_POSIXlt <- function(time){
+  inherits(time, "POSIXlt")  
+}
+
+# is_difftime: -----
+
+is_difftime <- function(time){
+  inherits(time, "difftime")  
+}
 
 
-## (1) cur_ functions: ---------- 
+
+## (2) cur_ functions: ---------- 
 
 # 90% of all use cases are covered by 2 functions that ask for the _current_ date or time:
 # - `cur_date()`: in 2 different orders (optional sep)
 # - `cur_time()`: with or without seconds (optional sep)
-
 
 # cur_date: A relaxed version of Sys.time() ------ 
 
@@ -200,7 +224,15 @@ cur_time <- function(seconds = FALSE, as_string = TRUE, sep = ":"){
 
 
 
-## (2) what_ functions: ---------- 
+## (3) what_ functions: ---------- 
+
+# Motivation: The R base function date()  
+# returns date as "Wed Aug 21 19:43:22 2019", 
+# which is more than we usually want.
+
+# Some simpler variants following a simple heuristic: 
+# What is it that we _usually_ want to hear as `x` when asking 
+# "What `x` is it today?" or "What `x` is it right now?"
 
 # About 5% are covered by 4 additional functions that ask `what_` questions
 # about the position of some temporal unit in some larger continuum of time:
@@ -216,7 +248,6 @@ cur_time <- function(seconds = FALSE, as_string = TRUE, sep = ":"){
 # - take some "point in time" time as input (as a "when" argument),
 #   which defaults to now (i.e., Sys.time()) but can also be a vector.
 # - return a character string (which can easily be converted into a number), unless specifically asking for numeric output
-
 
 # what_time: More versatile version of cur_time(), allowing for a when vector: ------ 
 
@@ -1132,39 +1163,7 @@ what_year <- function(when = Sys.Date(), abbr = FALSE, as_integer = FALSE){
 
 
 
-# Time helper functions: Class of date/time object ------
-
-# is_Date: -----
-
-is_Date <- function(date){
-  inherits(date, "Date")  
-}
-
-# is_POSIXt: -----
-
-is_POSIXt <- function(time){
-  inherits(time, "POSIXt")  
-}
-
-# is_POSIXct: -----
-
-is_POSIXct <- function(time){
-  inherits(time, "POSIXct")  
-}
-
-# is_POSIXlt: -----
-
-is_POSIXlt <- function(time){
-  inherits(time, "POSIXlt")  
-}
-
-# is_difftime: -----
-
-is_difftime <- function(time){
-  inherits(time, "difftime")  
-}
-
-
+## (4) Time zones and temporal idiosyncracies: ---------- 
 # change_time: ------ 
 
 # Task 2: Take a Change time zone AND actual time, without changing represented time (i.e., time display): 
