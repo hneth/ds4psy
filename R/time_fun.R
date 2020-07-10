@@ -1703,9 +1703,11 @@ change_tz <- function(time, tz = ""){
 
 is_leap_year <- function(dt){
   
+  # print(dt)  # debugging 
+  
   # initialize: 
   y <- NA
-  out <- NA
+  out_1 <- NA
   out_2 <- NA
   
   # Determine y (as integer):
@@ -1744,21 +1746,25 @@ is_leap_year <- function(dt){
       
     }
   
-  # 2 solutions:
-  # 1. Using definition from <https://en.wikipedia.org/wiki/Leap_year>:
-  out <- (y %% 4 == 0) & ((y %% 100 != 0) | (y %% 400 == 0))
-  # print(out)  # debugging
-  
-  # 2. Try defining Feb-29 as "Date" (NA if non-existent):
-  feb_29 <- paste(as.character(y), "02", "29", sep = "-")
-  out_2  <- !is.na(as.Date(feb_29, format = "%Y-%m-%d"))
-  # print(out_2)  # debugging
-  
-  if (!all(out == out_2)){  # Warn of discrepancy: 
-    warning("is_leap_year: Two solutions yield different results. Using 1st...")
+  if (any(is.na(y))){
+    message('is_leap_year: Some y values are NA.')
   }
   
-  return(out)
+  # Use 2 solutions:
+  # 1. Using definition from <https://en.wikipedia.org/wiki/Leap_year>:
+  out_1 <- (y %% 4 == 0) & ((y %% 100 != 0) | (y %% 400 == 0))
+  # print(out_1)  # debugging
+  
+  # # 2. Try defining Feb-29 as "Date" (NA if non-existent):
+  # feb_29 <- paste(y, "02", "29", sep = "-")
+  # out_2  <- !is.na(as.Date(feb_29, format = "%Y-%m-%d"))  # ERROR: y = NA becomes FALSE
+  # # print(out_2)  # debugging
+  
+  # if (!all.equal(out_1, out_2)){  # Warn of discrepancy: 
+  #   warning("is_leap_year: Two solutions yield different results. Using 1st...")
+  # }
+  
+  return(out_1)
   
 } # is_leap_year end. 
 
@@ -1785,8 +1791,82 @@ is_leap_year <- function(dt){
 # is_leap_year(c("2020", "2021"))
 # is_leap_year(c("2020-02-29 01:02:03", "2021-02-28 01:02"))
 # # Note: Invalid date string would yield error
-# # is_leap_year("2021-02-29")
+# is_leap_year("2021-02-29")
 
+
+# days_in_month: Get number of days in a given month (based on date): ------
+
+# Constant: 
+MONTH_DAYS <- c(31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31)
+# sum(MONTH_DAYS)  # 365
+names(MONTH_DAYS) <- base::month.abb
+
+# days_in_month: Requires "Date" (rather than only month nr.) to check for leap years. 
+
+days_in_month <- function(dt, ...){
+  
+  if (!is_Date(dt)){ dt <- date_from_nonDate(dt, ...) }
+  
+  month_nr <- as.numeric(format(dt, format = "%m"))
+  # message(paste(month_nr, collapse = " "))
+  
+  nr_days <- MONTH_DAYS[month_nr]
+  # message(paste(nr_days, collapse = " "))
+  
+  # special case: 
+  nr_days[(month_nr == 2) & (is_leap_year(dt))] <- 29 
+  
+  return(nr_days)
+  
+} # days_in_month end. 
+
+# ## Check:
+# days_in_month(Sys.Date())    # Date
+# days_in_month(Sys.time())    # POSIXct
+# days_in_month("2020-07-01")  # string
+# days_in_month(20200901)      # number
+# days_in_month(c("2020-02-10 01:02:03", "2021-02-11", "2024-02-12"))  # vectors of strings
+# 
+# # # leap years:
+# ds <- as.Date("2020-02-20") + (365 * 0:4)  # 2020 and 2024 are leap years
+# ds
+# days_in_month(ds)
+
+
+# days_last_month: Get number of days in a PRECEDING month (based on date): ------
+
+days_last_month <- function(dt, ...){
+  
+  if (!is_Date(dt)){ dt <- date_from_nonDate(dt, ...) }
+  
+  year <- as.numeric(format(dt, format = "%Y"))
+  month_nr <- as.numeric(format(dt, format = "%m"))
+  
+  last_month_nr <- (month_nr - 1) 
+  
+  # special case: 
+  last_month_nr[last_month_nr == 0] <- 12
+  
+  mid_last_month <- paste(year, last_month_nr, "15", sep = "-")
+  dt_last_month <- as.Date(mid_last_month, format = "%Y-%m-%d")
+  
+  # message(dt_last_month)  # debugging
+  
+  out <- days_in_month(dt_last_month)
+  
+  return(out)
+  
+} # days_last_month end. 
+
+## Check:
+# days_last_month(as.Date("2020-07-10"))
+
+# dts <- as.Date("2020-01-15") + 30 * 0:12
+# dts
+# days_in_month(dts)
+# days_last_month(dts)
+
+# days_last_month(c("2020-03-10", "2021-03-11", "2024-03-12"))  # vectors of strings
 
 
 ## (4) Compute differences between 2 dates (in various units/periods): ------  
@@ -1867,19 +1947,19 @@ diff_days <- function(from_date, to_date = Sys.Date(), units = "days", as_Date =
 #' Maximum date/date of death (DOD), assumed to be of class "Date", 
 #' and coerced into "Date" when of class "POSIXt". 
 #' 
-#' @param units Units used to represent output (as "character").
+#' @param unit Units used to represent output (as "character").
 #' Units represent human time periods, rather than 
 #' chronological time differences. 
-#' Default: \code{units = "y"} for "years". 
+#' Default: \code{unit = "y"} for completed years, months, and days. 
 #' Available options include:  
 #' 
 #' \enumerate{
 #' 
-#'   \item \code{units = "y"}: completed years (default)
+#'   \item \code{units = "y"}: completed years, months, and days (default)
 #'   
-#'   \item \code{units = "ym"}: completed years, months
+#'   \item \code{units = "m"}: completed months, and days
 #'   
-#'   \item \code{units = "ymd"}: completed years, months, days
+#'   \item \code{units = "d"}: completed days
 #'   
 #'   }
 #' 
@@ -1910,7 +1990,7 @@ diff_days <- function(from_date, to_date = Sys.Date(), units = "days", as_Date =
 #' 
 #' @export
 
-what_age <- function(from_date, to_date = Sys.Date(), units = "y"){
+what_age <- function(from_date, to_date = Sys.Date(), unit = "y"){
   
   # 1. Preparation: ------  
   
@@ -1983,7 +2063,29 @@ what_age <- function(from_date, to_date = Sys.Date(), units = "y"){
   
   # 2. Main function: ------ 
   
+  # print(from_date)  # debugging
+  # print(to_date)
+  
   age <- NA  # initialize  
+  full_y <- NA
+  full_m <- NA
+  full_d <- NA
+  
+  # Robustness:
+  unit <- substr(tolower(unit), 1, 1)  # use only 1st letter of string
+  
+  # Handle special case:
+  if (unit == "d"){
+    
+    full_d <- diff_days(from_date = from_date, to_date = to_date)
+    
+    age <- paste0(full_d, "d")    
+    
+    return(age)
+    
+  }
+  
+  # For other units (y, m): 
   
   # from_date elements (DOB):
   bd_year  <- as.numeric(format(from_date, "%Y"))
@@ -1996,8 +2098,7 @@ what_age <- function(from_date, to_date = Sys.Date(), units = "y"){
   cur_day   <- as.numeric(format(to_date, "%d"))
   
   
-  # (A) Compute (completed) year component:  
-  full_y <- NA
+  # (A) Compute (completed) year component: 
   
   # bday this year? (as Boolean): 
   bd_ty <- ifelse((cur_month > bd_month) | ((cur_month == bd_month) & (cur_day >= bd_day)), TRUE, FALSE) 
@@ -2007,37 +2108,55 @@ what_age <- function(from_date, to_date = Sys.Date(), units = "y"){
   
   
   # (B) Compute (completed) month component:
-  full_m <- NA
   
   # bday this month? (as Boolean): 
   bd_tm <- ifelse((cur_day >= bd_day), TRUE, FALSE) 
   # print(bd_tm)
   
-  # # Distinguish 2 cases:
+  ## Distinguish 2 cases:
   # full_m[bd_ty]  <- (cur_month[bd_ty]  - bd_month[bd_ty])  - !bd_tm[bd_ty]        # 1:  bd_ty
   # full_m[!bd_ty] <- (12 + cur_month[!bd_ty] - bd_month[!bd_ty]) - !bd_tm[!bd_ty]  # 2: !bd_ty
-  
-  # Combine both cases:
+  ## Combine both cases:
   full_m <- (cur_month - bd_month) + (12 * !bd_ty) - (1 * !bd_tm) 
   
   
   # (C) Compute (completed) day component:
-  age_d <- NA
+  
   ## bday today? (as Boolean): 
   # bd_td <- ifelse((cur_day == bd_day), TRUE, FALSE) 
   
-  # +++ here now +++ 
-  
   # Idea 1: Local solution: Determine the number N of days in last month.
   # Then use this number to compute difference from bd_day to cur_day 
+  
+  ## Distinguish 2 cases:  
+  # full_d[bd_tm]  <- cur_day[bd_tm]  - bd_day[bd_tm]  # 1:  bd_tm
+  # full_d[!bd_tm] <- cur_day[!bd_tm] - bd_day[!bd_tm] + days_last_month(to_date[!bd_tm])  # 2: !bd_tm
+  ## Combine both cases:
+  full_d <- cur_day - bd_day + (days_last_month(to_date) * !bd_tm) 
+  
+  # +++ here now +++ 
   
   # Idea 2: Global solution: Use global number of days and subtract all days of full years and months 
   # Use diff_days helper function to compute exact number of days between two dates:
   # age_d <- diff_days(DOB, to_date) - diff_days(DOB, to_date = bday_day_last_month)
   
+  # (+) Collect requested age unit:
   
-  # (+) Collect requested age units:
-  age <- paste0(full_y, "y ", full_m, "m")
+  if (unit == "y"){
+    
+    age <- paste0(full_y, "y ", full_m, "m ", full_d, "d")
+    
+  } else if (unit == "m"){
+    
+    full_m <- (12 * full_y) + full_m 
+    
+    age <- paste0(full_m, "m ", full_d, "d")
+    
+  } else {
+    
+    message('what_age: Unknown unit.')
+    
+  }
   
   return(age)
   
@@ -2045,6 +2164,13 @@ what_age <- function(from_date, to_date = Sys.Date(), units = "y"){
 
 
 # ## Check:
+
+# # Days:
+# ds_from <- as.Date("2010-02-20") + -1:1
+# ds_from
+# ds_to   <- as.Date("2020-03-20")
+# ds_to
+# what_age(from_date = ds_from, to_date = ds_to)
 
 # # Months: 
 # ms <- Sys.Date() - 366 + seq(from = -100, to = +100, by = 50)
@@ -2067,9 +2193,26 @@ what_age <- function(from_date, to_date = Sys.Date(), units = "y"){
 # 
 # # Using 'fame' data:
 # dob <- as.Date(fame$DOB, format = "%B %d, %Y")
+# dob
 # dod <- as.Date(fame$DOD, format = "%B %d, %Y")
+# dod
 # what_age(dob, dod)
-# 
+# what_age(dob, dod, unit = "m")
+# what_age(dob, dod, unit = "d")
+
+## Compare results to other methods:
+
+## (a) lubridate time spans (interval, periods): 
+# lubridate::as.period(dob %--% dod, unit = "years")
+# lubridate::as.period(lubridate::interval(dob, dod), unit = "years")
+# lubridate::as.period(lubridate::interval(dob, dod), unit = "months")
+# lubridate::as.period(lubridate::interval(dob, dod), unit = "days")
+
+## (b) base::difftime():
+# all.equal(as.numeric(dod - dob), diff_days(dob, dod))
+# all.equal(as.numeric(difftime(dod, dob)), diff_days(dob, dod))
+# difftime(dod, dob, units = "weeks")  # Note: No "weeks" in what_age().
+
 # # from strings:
 # what_age("2000-12-31")
 # what_age("90-01-02", to_date = "10-01-01")
@@ -2083,10 +2226,19 @@ what_age <- function(from_date, to_date = Sys.Date(), units = "y"){
 # what_age(from_date = NA, to_date = NA)
 
 ## ToDo: 
+
+# - if from_date is later than to_date: Reverse dates and negate result.
 # - extend to include differences in "months" and "days"
 # - add units argument (default = "years", but allowing for months and days). 
 # - add n_decimals argument (default of 0).
 # - consider renaming what_age() to diff_dates() 
+#
+# - Add exercise to Chapter 10: 
+#   Explore the what_age() function that computes 
+#   the difference between two dates (in human measurement units). 
+# - Use result to compute age in years (as number) and months (as number). 
+# - Use result to compute age in full weeks (as number). 
+# - Use result to add a week entry "Xw" between month m and day d.
 
 
 ## Done: ----------
