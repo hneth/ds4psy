@@ -40,7 +40,7 @@ what_wday(when = ds)
 what_wday(when = ds, abbr = TRUE)
 
 # time vector (strings of POSIXct times):
-ts <- c("2020-12-25 10:11:12 CET", "2020-12-31 23:59:59")
+ts <- c("1969-07-13 13:53 CET", "2020-12-31 23:59:59")
 what_wday(ts)
 
 }

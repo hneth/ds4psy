@@ -74,7 +74,7 @@ what_date(rev = TRUE, sep = " ", month_form = "B")
 what_date(when = Sys.time())
 
 # with time vector (of "POSIXct" objects):
-ts <- c("2020-12-24 01:02:03 CET", "2020-12-31 23:59:59")
+ts <- c("1969-07-13 13:53 CET", "2020-12-31 23:59:59")
 what_date(ts)
 what_date(ts, rev = TRUE, sep = ".")
 what_date(ts, rev = TRUE, month_form = "b")

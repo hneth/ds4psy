@@ -2,7 +2,7 @@
 % Please edit documentation in R/time_fun.R
 \name{what_age}
 \alias{what_age}
-\title{What is the age (or some date difference) in human units?}
+\title{What is the age (or difference between dates) in human units?}
 \usage{
 what_age(from_date, to_date = Sys.Date(), units = "y")
 }
