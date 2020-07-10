@@ -4,7 +4,10 @@
 
 ## Functions for date and time objects. 
 
-## (1) Time helper/utility functions: Class of date/time object ----------
+## (0) Time helper/utility functions: ----------
+
+
+## (A) Class of date/time object: ------ 
 
 # is_Date: -----
 
@@ -42,6 +45,8 @@ is_date_time <- function(dt){
   is_Date(dt) | is_POSIXt(dt) | is_difftime(dt)
 }
 
+
+## (B) Parsing "Date" from non-dates: ------  
 
 # date_frms_*: Standard date formats: ------
 
@@ -150,8 +155,6 @@ date_from_string <- function(x, ...){
 # date_from_string(c("2010-8-12", "12-8-2010"))  # mix of orders
 
 
-
-
 # date_from_nonDate: Parse non-Date into "Date" object(s): ------ 
 
 date_from_nonDate <- function(x){
@@ -198,36 +201,8 @@ date_from_nonDate <- function(x){
 # date_from_nonDate("ABC")
 
 
-# day_diff: Difference between two dates (in days): ------ 
 
-day_diff <- function(from_date, to_date = Sys.Date(), units = "days", ...){
-  
-  # Assume that from_date and to_date are valid dates OR times:   
-  # (Otherwise, see what_age() function below). 
-  
-  # Compute difftime:
-  t_diff <- difftime(to_date, from_date, units = units, ...)  # default: units = "days"
-  
-  n_days <- NA
-  
-  n_days <- as.numeric(t_diff)
-  
-  return(n_days)
-  
-} # day_diff end. 
-
-## Check:
-# ds <- Sys.Date() + -2:+2
-# day_diff(ds)
-# 
-# last_year <- as.numeric(what_year()) - 1
-# 
-# paste(last_year, what_month(), what_day(), sep = "-")
-
-# +++ here now +++
-
-
-## (2) cur_ functions: ---------- 
+## (1) cur_ functions: ---------- 
 
 # 90% of all use cases are covered by 2 functions that ask for the _current_ date or time:
 # - `cur_date()`: in 2 different orders (optional sep)
@@ -413,7 +388,8 @@ cur_time <- function(seconds = FALSE, as_string = TRUE, sep = ":"){
 
 
 
-## (3) what_ functions: ---------- 
+
+## (2) what_ functions: ---------- 
 
 # Motivation: The R base function date()  
 # returns date as "Wed Aug 21 19:43:22 2019", 
@@ -625,7 +601,7 @@ what_time <- function(when = NA, seconds = FALSE, as_string = TRUE, sep = ":", t
 #' what_date(when = Sys.time())
 #' 
 #' # with time vector (of "POSIXct" objects):
-#' ts <- c("2020-12-24 01:02:03 CET", "2020-12-31 23:59:59")
+#' ts <- c("1969-07-13 13:53 CET", "2020-12-31 23:59:59")
 #' what_date(ts)
 #' what_date(ts, rev = TRUE, sep = ".")
 #' what_date(ts, rev = TRUE, month_form = "b")
@@ -856,7 +832,7 @@ what_date <- function(when = NA, rev = FALSE, as_string = TRUE, sep = "-",
 
 ### Simplified version: Providing only the weekday (as a name): 
 
-# what_wday: What day is it? (name or number) ------ 
+# what_wday: What day is it? (name, NOT number) ------ 
 # what_wday: as name (weekday, abbr or full), NOT as number (in units of week, month, or year; as char or as integer) 
 
 #' What day of the week is it?  
@@ -892,7 +868,7 @@ what_date <- function(when = NA, rev = FALSE, as_string = TRUE, sep = "-",
 #' what_wday(when = ds, abbr = TRUE)
 #' 
 #' # time vector (strings of POSIXct times):
-#' ts <- c("2020-12-25 10:11:12 CET", "2020-12-31 23:59:59")
+#' ts <- c("1969-07-13 13:53 CET", "2020-12-31 23:59:59")
 #' what_wday(ts)
 #' 
 #' @family date and time functions
@@ -1367,7 +1343,8 @@ what_year <- function(when = Sys.Date(), abbr = FALSE, as_integer = FALSE){
 
 
 
-## (4) Time zones and temporal idiosyncracies: ---------- 
+
+## (3) Time zones and temporal idiosyncracies: ---------- 
 # change_time: ------ 
 
 # Task 2: Take a Change time zone AND actual time, without changing represented time (i.e., time display): 
@@ -1811,13 +1788,49 @@ is_leap_year <- function(dt){
 # # is_leap_year("2021-02-29")
 
 
-# what_age: What is someone's age (or some age difference) (in human units): ------
 
-#' What is the age (or some date difference) in human units? 
+## (4) Compute differences between 2 dates (in various units/periods): ------  
+
+# diff_days: Difference between two dates (in days): ------ 
+
+diff_days <- function(from_date, to_date = Sys.Date(), units = "days", ...){
+  
+  # Assume that from_date and to_date are valid dates OR times:   
+  # (Otherwise, see what_age() function below). 
+  
+  # Call difftime:
+  t_diff <- base::difftime(to_date, from_date, units = units, ...)  # default: units = "days"
+  
+  n_days <- NA
+  
+  n_days <- as.numeric(t_diff)
+  
+  return(n_days)
+  
+} # diff_days end. 
+
+## Check:
+# ds <- Sys.Date() + -2:+2
+# diff_days(ds)
+#
+
+
+
+# 
+# last_year <- as.numeric(what_year()) - 1
+# 
+# paste(last_year, what_month(), what_day(), sep = "-")
+#
+# +++ here now +++
+
+
+# what_age/diff_dates: What is someone's age (or some age difference) (in human units): ------
+
+#' What is the age (or difference between dates) in human units? 
 #'
 #' \code{what_age} provides the difference between two dates 
 #' (i.e., from some \code{from_date} to some \code{to_date}) 
-#' in human measurement units (periods).  
+#' in human measurement units (periods).
 #' 
 #' If not specified explicitly, \code{to_date} is set to 
 #' today's date (i.e., \code{Sys.Date()}).
@@ -2049,6 +2062,7 @@ what_age <- function(from_date, to_date = Sys.Date(), units = "y"){
 # - extend to include differences in "months" and "days"
 # - add units argument (default = "years", but allowing for months and days). 
 # - add n_decimals argument (default of 0).
+# - consider renaming what_age() to diff_dates() 
 
 
 ## Done: ----------
@@ -2061,6 +2075,15 @@ what_age <- function(from_date, to_date = Sys.Date(), units = "y"){
 #   and vice versa (chaging times, but not time display). 
 
 ## ToDo: ----------
+
+# - finish what_age (or date_diff) function. 
+
+# - move time utility/helper functions into separate file.
+
+# - update cur_ and what_ functions to use new helpers
+# - re-consider what_day() to returns NUMERIC day in week/month/year.
+
+# - fix ToDo in what_date() (Actively convert...)
 
 # - Return dates/times either as strings (if as_string = TRUE) or 
 #   as dates/times (of class "Date"/"POSIXct") in all what_() functions
