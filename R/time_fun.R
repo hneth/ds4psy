@@ -1,5 +1,5 @@
 ## time_fun.R | ds4psy
-## hn | uni.kn | 2020 07 09
+## hn | uni.kn | 2020 07 10 
 ## ---------------------------
 
 ## Functions for date and time objects. 
@@ -1765,12 +1765,16 @@ is_leap_year <- function(dt){
 # # is_leap_year("2021-02-29")
 
 
-# what_age: What is someone's (or some date's) age (in full years): ------
+# what_age: What is someone's age (or some age difference) (in human units): ------
 
-#' What is the age (in full years) between from and to date? 
+#' What is the age (or some date difference) in human units? 
 #'
-#' \code{what_age} provides the number of completed years 
-#' from some \code{from_date} to some \code{to_date}.  
+#' \code{what_age} provides the difference between two dates 
+#' (i.e., from some \code{from_date} to some \code{to_date}) 
+#' in human measurement units (periods).  
+#' 
+#' If not specified explicitly, \code{to_date} is set to 
+#' today's date (i.e., \code{Sys.Date()}).
 #' 
 #' If the lengths of \code{from_date} and \code{to_date} differ, 
 #' the arguments of \code{to_date} are recycled or 
@@ -1801,7 +1805,6 @@ is_leap_year <- function(dt){
 #'   
 #'   }
 #' 
-#' 
 #' @examples
 #' y_100 <- Sys.Date() - (100 * 365.25) + -1:1
 #' what_age(y_100)
@@ -1831,7 +1834,9 @@ is_leap_year <- function(dt){
 
 what_age <- function(from_date, to_date = Sys.Date(), units = "y"){
   
-  # (1) Preparation: Turn non-Date inputs into "Date" objects ---- 
+  # (1) Preparation: ------  
+  
+  # (a) Handle NA inputs: ----
   
   if (any(is.na(from_date))){
     message('what_age: "from_date" must not be NA...')    
@@ -1843,6 +1848,8 @@ what_age <- function(from_date, to_date = Sys.Date(), units = "y"){
     to_date <- Sys.Date()
   }
   
+  # (b) Turn non-Date inputs into "Date" objects ---- 
+  
   if (!is_Date(from_date)){
     # message('what_age: Aiming to parse "from_date" as "Date"...')
     from_date <- date_from_nonDate(from_date)
@@ -1853,7 +1860,7 @@ what_age <- function(from_date, to_date = Sys.Date(), units = "y"){
     to_date <- date_from_nonDate(to_date)
   }
   
-  # (2) Recycle or truncate to_date argument based on from_date: ---- 
+  # (c) Recycle or truncate to_date argument based on from_date: ---- 
   n_from_date <- length(from_date)
   n_to_date   <- length(to_date)
   
@@ -1870,7 +1877,7 @@ what_age <- function(from_date, to_date = Sys.Date(), units = "y"){
     } # end else. 
   } # end if.
   
-  # (3) Replace occasional NA values in to_date by current date: ---- 
+  # (d) Replace occasional NA values in to_date by current date: ---- 
   # Axiom: Dead people do not age any further, but 
   #        if to_date = NA, we want to measure until today: 
   set_to_date_NA_to_NOW <- TRUE  # if FALSE: Occasional to_date = NA values yield NA result.
@@ -1886,7 +1893,7 @@ what_age <- function(from_date, to_date = Sys.Date(), units = "y"){
   
   # } else { # ALL to_date are NA:
   
-  # (4) Verify that from_date and to_date are "Date" objects: ---- 
+  # (e) Verify that from_date and to_date are "Date" objects: ---- 
   if (!is_Date(from_date)){
     message('what_age: "from_date" should be of class "Date"...')    
   }
@@ -1895,7 +1902,7 @@ what_age <- function(from_date, to_date = Sys.Date(), units = "y"){
     message('what_age: "to_date" should be of class "Date"...')    
   }
   
-  # (5) Main function: ---- 
+  # (2) Main function: ------ 
   
   age <- NA  # initialize  
   
@@ -1909,11 +1916,25 @@ what_age <- function(from_date, to_date = Sys.Date(), units = "y"){
   cur_month <- as.numeric(format(to_date, "%m"))
   cur_day   <- as.numeric(format(to_date, "%d"))
   
+  # Compute (completed) year component:  
+  age_y <- NA
   # bday in this year? (as Boolean): 
-  bday_this_year <- ifelse((cur_month > bd_month) | ((cur_month == bd_month) & (cur_day >= bd_day)), TRUE, FALSE)
+  bday_this_year <- ifelse((cur_month > bd_month) | ((cur_month == bd_month) & (cur_day >= bd_day)), TRUE, FALSE) 
+  age_y <- (cur_year - bd_year) - !bday_this_year
   
-  # Compute age (in full years):
-  age <- (cur_year - bd_year) - !bday_this_year
+  # Compute (completed) month component:
+  age_m <- NA
+  # bday in this month? (as Boolean): 
+  bday_this_month <- ifelse((cur_day >= bd_day), TRUE, FALSE) 
+  age_m <- (cur_month - bd_month) - !bday_this_month
+  
+  # Compute (completed) day component:
+  age_d <- NA
+  ## bday today? (as Boolean): 
+  # bday_this_day <- ifelse((cur_day == bd_day), TRUE, FALSE) 
+  
+  # Need age_days() helper function to compute exact number of days between two dates:
+  # age_d <- age_days(from_date = DOB, to_date) - age_days(from_date = DOB, to_date = bday_day_last_month)
   
   return(age)
   
