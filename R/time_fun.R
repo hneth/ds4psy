@@ -152,19 +152,19 @@ date_from_string <- function(x, ...){
 
 
 
-# date_from_nonDate: Parse a non-Date into "Date": ------ 
+# date_from_nonDate: Parse non-Date into "Date" object(s): ------ 
 
 date_from_nonDate <- function(x){
   
   dt <- NA
   
-  # 1. Coerce numeric x that are NOT date-time objects into strings:
+  # 1. Coerce numeric x that are NOT date-time objects into character strings:
   if (!is_date_time(x) & is.numeric(x)){
     # message('date_from_nonDate: Coercing x from "number" into "character"...')    
     x <- as.character(x)
   }
   
-  # 2. Coerce character string inputs x into "Date": 
+  # 2. Aim to coerce character string inputs x into "Date": 
   if (is.character(x)){
     # message('date_from_nonDate: Aiming to parse x from "character" as "Date"...')
     dt <- date_from_string(x)
@@ -178,10 +178,12 @@ date_from_nonDate <- function(x){
   
   # 4. Note if dt is still no "Date": ---- 
   if (!is_Date(dt)){
-    message('date_from_nonDate: Failed to parse x as "Date"...')   
+    
+    message('date_from_nonDate: Failed to parse x as "Date"...')
+    
   }
   
-  return(dt)    
+  return(dt)
   
 } # date_from_nonDate end. 
 
@@ -194,6 +196,35 @@ date_from_nonDate <- function(x){
 # # Note errors for:
 # date_from_nonDate(123)
 # date_from_nonDate("ABC")
+
+
+# day_diff: Difference between two dates (in days): ------ 
+
+day_diff <- function(from_date, to_date = Sys.Date(), units = "days", ...){
+  
+  # Assume that from_date and to_date are valid dates OR times:   
+  # (Otherwise, see what_age() function below). 
+  
+  # Compute difftime:
+  t_diff <- difftime(to_date, from_date, units = units, ...)  # default: units = "days"
+  
+  n_days <- NA
+  
+  n_days <- as.numeric(t_diff)
+  
+  return(n_days)
+  
+} # day_diff end. 
+
+## Check:
+# ds <- Sys.Date() + -2:+2
+# day_diff(ds)
+# 
+# last_year <- as.numeric(what_year()) - 1
+# 
+# paste(last_year, what_month(), what_day(), sep = "-")
+
+# +++ here now +++
 
 
 ## (2) cur_ functions: ---------- 
@@ -275,7 +306,7 @@ cur_date <- function(rev = FALSE, as_string = TRUE, sep = "-"){
   # invisible(d)
   
   if (as_string){
-    return(format(d, fmt))  # formatted string
+    return(format(d, format = fmt))  # formatted string
     # return(print(format(d, fmt)))  # print string
     # return(cat(format(d, fmt)))    # no string
   } else {
@@ -361,7 +392,7 @@ cur_time <- function(seconds = FALSE, as_string = TRUE, sep = ":"){
   # invisible(t)
   
   if (as_string){
-    return(format(t, fmt))  # formatted string
+    return(format(t, format = fmt))  # formatted string
     # return(print(format(t, fmt)))  # print string
     # return(cat(format(t, fmt)))    # no string
   } else {
@@ -397,7 +428,7 @@ cur_time <- function(seconds = FALSE, as_string = TRUE, sep = ":"){
 # 
 # - `what_time()`:  more versatile version of cur_time() (accepting a when argument)
 # - `what_date()`:  more versatile version of cur_date() (accepting a when argument)
-# - `what_day()`  : as name (weekday, abbr or full), OR as number (in units of week, month, or year; as char or as integer)  
+# - `what_wday()`  : as name (weekday, abbr or full), OR as number (in units of week, month, or year; as char or as integer)  
 # - `what_week()` : only as number (in units of month, or year); return as char or as integer   
 # - `what_month()`: as name (abbr or full) OR as number (as char or as integer)  
 # - `what_year()` : only as number (abbr or full), return as char or as integer
@@ -508,7 +539,7 @@ what_time <- function(when = NA, seconds = FALSE, as_string = TRUE, sep = ":", t
   # invisible(t)
   
   if (as_string){
-    return(format(t, fmt))  # formatted string
+    return(format(t, format = fmt))  # formatted string
     # return(print(format(t, fmt)))  # print string
     # return(cat(format(t, fmt)))    # no string
   } else {
@@ -610,7 +641,7 @@ what_time <- function(when = NA, seconds = FALSE, as_string = TRUE, sep = ":", t
 #' @family date and time functions
 #' 
 #' @seealso 
-#' \code{what_day()} function to obtain (week)days; 
+#' \code{what_wday()} function to obtain (week)days; 
 #' \code{what_time()} function to obtain times; 
 #' \code{cur_time()} function to print the current time; 
 #' \code{cur_date()} function to print the current date; 
@@ -658,7 +689,7 @@ what_date <- function(when = NA, rev = FALSE, as_string = TRUE, sep = "-",
   # invisible(d)
   
   if (as_string){
-    return(format(d, fmt))  # formatted string
+    return(format(d, format = fmt))  # formatted string
     # return(print(format(d, fmt)))  # print string
     # return(cat(format(d, fmt)))    # no string
   } else {
@@ -684,7 +715,7 @@ what_date <- function(when = NA, rev = FALSE, as_string = TRUE, sep = "-",
 ## what_day_alt: What day is it? (OLD/ORG version: name or number) ------ 
 ## what_day_alt: as name (weekday, abbr or full), OR as number (in units of week, month, or year; as char or as integer) 
 
-# What day is it? (alternative version)
+# What day is it? (alternative OLD/ORG version)
 #
 # \code{what_day_alt} provides a satisficing version of
 # to determine the day corresponding to a given date.
@@ -825,41 +856,44 @@ what_date <- function(when = NA, rev = FALSE, as_string = TRUE, sep = "-",
 
 ### Simplified version: Providing only the weekday (as a name): 
 
-# what_day: What day is it? (name or number) ------ 
-# what_day: as name (weekday, abbr or full), OR as number (in units of week, month, or year; as char or as integer) 
+# what_wday: What day is it? (name or number) ------ 
+# what_wday: as name (weekday, abbr or full), NOT as number (in units of week, month, or year; as char or as integer) 
 
-#' What day (of the week) is it?  
+#' What day of the week is it?  
 #'
-#' \code{what_day} provides a satisficing version of 
-#' to determine the day of the week 
+#' \code{what_wday} provides a satisficing version of 
+#' to determine the day of the week  
 #' corresponding to a given date.
 #' 
-#' \code{what_day} returns the weekday  
+#' \code{what_wday} returns the name of the weekday  
 #' of \code{when} or of \code{Sys.Date()} 
 #' (as a character string).
 #' 
 #' @param when Date (as a scalar or vector).    
 #' Default: \code{when = Sys.Date()}. 
-#' Using \code{as.Date(when)} to convert strings into dates 
-#' if a different \code{when} is provided. 
+#' Aiming to convert \code{when} into "Date"  
+#' if a different object class is provided. 
 #' 
 #' @param abbr Boolean: Return abbreviated?  
 #' Default: \code{abbr = FALSE}. 
 #' 
 #' @examples
-#' what_day()
-#' what_day(abbr = TRUE)
+#' what_wday()
+#' what_wday(abbr = TRUE)
 #' 
-#' what_day(when = Sys.time())  # with POSIXct time
+#' what_wday(Sys.Date() + -1:1)  # Date (as vector)
+#' what_wday(Sys.time())         # POSIXct
+#' what_wday("2020-02-29")       # string (of valid date)
+#' what_wday(20200229)           # number (...)
 #' 
-#' # with date vector (as characters):
+#' # date vector (as characters):
 #' ds <- c("2020-01-01", "2020-02-29", "2020-12-24", "2020-12-31")
-#' what_day(when = ds)
-#' what_day(when = ds, abbr = TRUE)
+#' what_wday(when = ds)
+#' what_wday(when = ds, abbr = TRUE)
 #' 
-#' # with time vector (strings of POSIXct times):
+#' # time vector (strings of POSIXct times):
 #' ts <- c("2020-12-25 10:11:12 CET", "2020-12-31 23:59:59")
-#' what_day(ts)
+#' what_wday(ts)
 #' 
 #' @family date and time functions
 #' 
@@ -873,21 +907,33 @@ what_date <- function(when = NA, rev = FALSE, as_string = TRUE, sep = "-",
 #' 
 #' @export
 
-what_day <- function(when = Sys.Date(), abbr = FALSE){
+what_wday <- function(when = Sys.Date(), abbr = FALSE){
   
   ## Robustness:
   # unit <- substr(tolower(unit), 1, 1)  # use only 1st letter of string
   
-  # Convert when into objects of class "Date" representing calendar dates:
-  if ( any(class(when) != "Date") & !("POSIXct" %in% class(when)) ) {
-    message(paste0("what_day: Using as.Date() to convert 'when' into class 'Date'."))
-    when <- as.Date(when)
+  # ## OLD code:   
+  # # Convert when into objects of class "Date" representing calendar dates:
+  # if ( any(class(when) != "Date") & !("POSIXct" %in% class(when)) ) {
+  #   message(paste0("what_wday: Using as.Date() to convert 'when' into class 'Date'."))
+  #   when <- as.Date(when)
+  # }
+  # 
+  # # Verify date/time input:
+  # if ( any(class(when) != "Date") & !("POSIXct" %in% class(when)) ) {
+  #   message(paste0("what_wday: when must be of class 'Date' or 'POSIXct'."))
+  #   message(paste0("Currently, class(when) = ", class(when), ".")) 
+  #   return(when)
+  # }
+  
+  ## NEW code: 
+  if (!is_Date(when)){
+    # message('what_wday: Aiming to parse "when" as "Date"...')
+    when <- date_from_nonDate(when)
   }
   
-  # Verify date/time input:
-  if ( any(class(when) != "Date") & !("POSIXct" %in% class(when)) ) {
-    message(paste0("what_day: when must be of class 'Date' or 'POSIXct'."))
-    message(paste0("Currently, class(when) = ", class(when), ".")) 
+  if (!is_Date(when)){
+    message(paste0('what_wday: "when" must be of class "Date".'))
     return(when)
   }
   
@@ -906,9 +952,9 @@ what_day <- function(when = Sys.Date(), abbr = FALSE){
   # } else {
   
   if (abbr){
-    d  <- format(when, "%a")  # Abbreviated weekday name in the current locale on this platform.
+    d  <- format(when, format = "%a")  # Abbreviated weekday name in the current locale on this platform.
   } else {
-    d  <- format(when, "%A")  # Full weekday name in the current locale.
+    d  <- format(when, format = "%A")  # Full weekday name in the current locale.
   }
   
   #}
@@ -936,25 +982,25 @@ what_day <- function(when = Sys.Date(), abbr = FALSE){
   d
   # }
   
-}  # what_day end. 
+}  # what_wday end. 
 
 # ## Check:
-# what_day()
-# what_day(abbr = TRUE)
+# what_wday()
+# what_wday(abbr = TRUE)
 # 
 # # Other dates/times:
 # d1 <- as.Date("2020-02-29")
-# what_day(when = d1)
-# what_day(when = d1, abbr = TRUE)
+# what_wday(when = d1)
+# what_wday(when = d1, abbr = TRUE)
 # 
 # # Work with vectors (when as characters):
 # ds <- c("2020-01-01", "2020-02-29", "2020-12-24", "2020-12-31")
-# what_day(when = ds)
-# what_day(when = ds, abbr = TRUE)
+# what_wday(when = ds)
+# what_wday(when = ds, abbr = TRUE)
 # 
 # # Note: Errors
-# what_day(when = "now")
-# what_day(when = 123)
+# what_wday(when = "now")
+# what_wday(when = 123)
 
 
 # what_week: What week is it? (number only) ------ 
@@ -1004,7 +1050,7 @@ what_day <- function(when = Sys.Date(), abbr = FALSE){
 #' @family date and time functions
 #' 
 #' @seealso 
-#' \code{what_day()} function to obtain (week)days; 
+#' \code{what_wday()} function to obtain (week)days; 
 #' \code{what_date()} function to obtain dates; 
 #' \code{cur_time()} function to print the current time; 
 #' \code{cur_date()} function to print the current date; 
@@ -1055,12 +1101,12 @@ what_week <- function(when = Sys.Date(), unit = "year", as_integer = FALSE){
     
   } else if (unit == "y") {  # unit "year": 
     
-    w <- format(when, "%V")  # %V: week of the year as decimal number (01--53) as defined in ISO 8601 (week starts on Monday)
+    w <- format(when, format = "%V")  # %V: week of the year as decimal number (01--53) as defined in ISO 8601 (week starts on Monday)
     
   } else {  # some other unit: 
     
     message("Unknown unit. Using unit = 'year':")
-    w <- format(when, "%V")  # %V: week of the year as decimal number (01--53) as defined in ISO 8601 (week starts on Monday)
+    w <- format(when, format = "%V")  # %V: week of the year as decimal number (01--53) as defined in ISO 8601 (week starts on Monday)
     
   } 
   
@@ -1173,18 +1219,18 @@ what_month <- function(when = Sys.Date(), abbr = FALSE, as_integer = FALSE){
   
   if (as_integer) {
     
-    m <- format(when, "%m")
+    m <- format(when, format = "%m")
     m <- as.integer(m)
     
   } else { # month name (as character):
     
     if (abbr){
       
-      m <- format(when, "%b")  # Abbreviated month name in the current locale on this platform. 
+      m <- format(when, format = "%b")  # Abbreviated month name in the current locale on this platform. 
       
     } else {
       
-      m <- format(when, "%B")  # Full month name in the current locale. 
+      m <- format(when, format = "%B")  # Full month name in the current locale. 
       
     }
     
@@ -1286,9 +1332,9 @@ what_year <- function(when = Sys.Date(), abbr = FALSE, as_integer = FALSE){
   
   # get year y:
   if (abbr){ 
-    y <- format(when, "%y") 
+    y <- format(when, format = "%y") 
   } else { 
-    y <- format(when, "%Y") 
+    y <- format(when, format = "%Y") 
   } 
   
   # as char or integer:
@@ -1407,12 +1453,12 @@ change_time <- function(time, tz = ""){
     if (is_POSIXct(time)){
       
       message('change_time: Parsing time from "POSIXct" as "%Y-%m-%d %H:%M:%S"...')
-      time_display <- strptime(time, "%Y-%m-%d %H:%M:%S")
+      time_display <- strptime(time, format = "%Y-%m-%d %H:%M:%S")
       
     } else if (is_Date(time)){
       
       message('change_time: Parsing time from "Date" as "%Y-%m-%d"...')      
-      time_display <- strptime(time, "%Y-%m-%d")
+      time_display <- strptime(time, format = "%Y-%m-%d")
       
     } else if (is.character(time)){
       
@@ -1420,22 +1466,22 @@ change_time <- function(time, tz = ""){
       if (grepl(x = time, pattern = ".*(-).*( ).*(:).*(:).*")) { # date + full time:
         
         message('change_time: Parsing date-time from string as "%Y-%m-%d %H:%M:%S"...')
-        time_display <- strptime(time, "%Y-%m-%d %H:%M:%S")
+        time_display <- strptime(time, format = "%Y-%m-%d %H:%M:%S")
         
       } else if (grepl(x = time, pattern = ".*(-).*( ).*(:).*")) { # date + H:M time:
         
         message('change_time: Parsing date-time from string as "%Y-%m-%d %H:%M"...')
-        time_display <- strptime(time, "%Y-%m-%d %H:%M")
+        time_display <- strptime(time, format = "%Y-%m-%d %H:%M")
         
       } else if (grepl(x = time, pattern = ".*(:).*(:).*")) { # H:M:S time:
         
         message('change_time: Parsing time (with default date) from string as "%H:%M:%S"...')
-        time_display <- strptime(time, "%H:%M:%S")
+        time_display <- strptime(time, format = "%H:%M:%S")
         
       } else if (grepl(x = time, pattern = ".*(:).*")) { # H:M time:
         
         message('change_time: Parsing time (with default date) from string as "%H:%M"...')
-        time_display <- strptime(time, "%H:%M")
+        time_display <- strptime(time, format = "%H:%M")
         
       } else {
         
@@ -1917,24 +1963,44 @@ what_age <- function(from_date, to_date = Sys.Date(), units = "y"){
   cur_day   <- as.numeric(format(to_date, "%d"))
   
   # Compute (completed) year component:  
-  age_y <- NA
+  full_y <- NA
+  
   # bday in this year? (as Boolean): 
-  bday_this_year <- ifelse((cur_month > bd_month) | ((cur_month == bd_month) & (cur_day >= bd_day)), TRUE, FALSE) 
-  age_y <- (cur_year - bd_year) - !bday_this_year
+  bd_ty <- ifelse((cur_month > bd_month) | ((cur_month == bd_month) & (cur_day >= bd_day)), TRUE, FALSE) 
+  # print(bd_ty)
+  
+  full_y <- (cur_year - bd_year) - (1 * !bd_ty) 
   
   # Compute (completed) month component:
-  age_m <- NA
+  full_m <- NA
+  
   # bday in this month? (as Boolean): 
-  bday_this_month <- ifelse((cur_day >= bd_day), TRUE, FALSE) 
-  age_m <- (cur_month - bd_month) - !bday_this_month
+  bd_tm <- ifelse((cur_day >= bd_day), TRUE, FALSE) 
+  # print(bd_tm)
+  
+  # # Distinguish 2 cases:
+  # full_m[bd_ty]  <- (cur_month[bd_ty]  - bd_month[bd_ty])  - !bd_tm[bd_ty]        # 1:  bd_ty
+  # full_m[!bd_ty] <- (12 + cur_month[!bd_ty] - bd_month[!bd_ty]) - !bd_tm[!bd_ty]  # 2: !bd_ty
+  
+  # Combine both cases:
+  full_m <- (cur_month - bd_month) + (12 * !bd_ty) - (1 * !bd_tm) 
   
   # Compute (completed) day component:
   age_d <- NA
   ## bday today? (as Boolean): 
-  # bday_this_day <- ifelse((cur_day == bd_day), TRUE, FALSE) 
+  # bd_td <- ifelse((cur_day == bd_day), TRUE, FALSE) 
   
+  # +++ here now +++ 
+  
+  # Idea 1: Local solution: Determine N of days in last month.
+  # Then use it to compute difference from bd_day to cur_day 
+  
+  # Idea 2: Global solution: Use global number of days and subtract all days of full years and months 
   # Need age_days() helper function to compute exact number of days between two dates:
   # age_d <- age_days(from_date = DOB, to_date) - age_days(from_date = DOB, to_date = bday_day_last_month)
+  
+  # Collect requested age units:
+  age <- paste0(full_y, "y ", full_m, "m")
   
   return(age)
   
@@ -1942,6 +2008,12 @@ what_age <- function(from_date, to_date = Sys.Date(), units = "y"){
 
 
 # ## Check:
+
+# # Months: 
+# ms <- Sys.Date() - 366 + seq(from = -100, to = +100, by = 50)
+# ms
+# what_age(ms)
+
 # y_100 <- Sys.Date() - (100 * 365.25) + -1:1
 # y_100
 # what_age(y_100)
