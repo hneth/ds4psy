@@ -4,7 +4,7 @@
 \alias{what_age}
 \title{What is the age (or difference between dates) in human units?}
 \usage{
-what_age(from_date, to_date = Sys.Date(), units = "y")
+what_age(from_date, to_date = Sys.Date(), unit = "y")
 }
 \arguments{
 \item{from_date}{From date (required, scalar or vector, as "Date"). 
@@ -16,19 +16,19 @@ Default: \code{to_date = Sys.Date()}.
 Maximum date/date of death (DOD), assumed to be of class "Date", 
 and coerced into "Date" when of class "POSIXt".}
 
-\item{units}{Units used to represent output (as "character").
+\item{unit}{Units used to represent output (as "character").
 Units represent human time periods, rather than 
 chronological time differences. 
-Default: \code{units = "y"} for "years". 
+Default: \code{unit = "y"} for completed years, months, and days. 
 Available options include:  
 
 \enumerate{
 
-  \item \code{units = "y"}: completed years (default)
+  \item \code{units = "y"}: completed years, months, and days (default)
   
-  \item \code{units = "ym"}: completed years, months
+  \item \code{units = "m"}: completed months, and days
   
-  \item \code{units = "ymd"}: completed years, months, days
+  \item \code{units = "d"}: completed days
   
   }}
 }
