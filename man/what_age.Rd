@@ -2,7 +2,7 @@
 % Please edit documentation in R/time_fun.R
 \name{what_age}
 \alias{what_age}
-\title{What is the age (in full years) between from and to date?}
+\title{What is the age (or some date difference) in human units?}
 \usage{
 what_age(from_date, to_date = Sys.Date(), units = "y")
 }
@@ -33,10 +33,14 @@ Available options include:
   }}
 }
 \description{
-\code{what_age} provides the number of completed years 
-from some \code{from_date} to some \code{to_date}.
+\code{what_age} provides the difference between two dates 
+(i.e., from some \code{from_date} to some \code{to_date}) 
+in human measurement units (periods).
 }
 \details{
+If not specified explicitly, \code{to_date} is set to 
+today's date (i.e., \code{Sys.Date()}).
+
 If the lengths of \code{from_date} and \code{to_date} differ, 
 the arguments of \code{to_date} are recycled or 
 truncated to the length of \code{from_date}.
@@ -73,9 +77,9 @@ Other date and time functions:
 \code{\link{cur_time}()},
 \code{\link{is_leap_year}()},
 \code{\link{what_date}()},
-\code{\link{what_day}()},
 \code{\link{what_month}()},
 \code{\link{what_time}()},
+\code{\link{what_wday}()},
 \code{\link{what_week}()},
 \code{\link{what_year}()}
 }

@@ -59,9 +59,9 @@ Other date and time functions:
 \code{\link{is_leap_year}()},
 \code{\link{what_age}()},
 \code{\link{what_date}()},
-\code{\link{what_day}()},
 \code{\link{what_month}()},
 \code{\link{what_time}()},
+\code{\link{what_wday}()},
 \code{\link{what_week}()},
 \code{\link{what_year}()}
 }
