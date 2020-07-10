@@ -157,7 +157,7 @@ date_from_string <- function(x, ...){
 
 # date_from_nonDate: Parse non-Date into "Date" object(s): ------ 
 
-date_from_nonDate <- function(x){
+date_from_nonDate <- function(x, ...){
   
   dt <- NA
   
@@ -170,13 +170,13 @@ date_from_nonDate <- function(x){
   # 2. Aim to coerce character string inputs x into "Date": 
   if (is.character(x)){
     # message('date_from_nonDate: Aiming to parse x from "character" as "Date"...')
-    dt <- date_from_string(x)
+    dt <- date_from_string(x, ...)
   }
   
   # 3. Coerce "POSIXt" inputs into "Date":
   if (is_POSIXt(x)){
     # message('date_from_nonDate: Coercing x from "POSIXt" into "Date"...')
-    dt <- as.Date(x)
+    dt <- as.Date(x, ...) 
   }
   
   # 4. Note if dt is still no "Date": ---- 
@@ -1793,10 +1793,21 @@ is_leap_year <- function(dt){
 
 # diff_days: Difference between two dates (in days): ------ 
 
-diff_days <- function(from_date, to_date = Sys.Date(), units = "days", ...){
+diff_days <- function(from_date, to_date = Sys.Date(), units = "days", as_Date = TRUE, ...){
   
   # Assume that from_date and to_date are valid dates OR times:   
   # (Otherwise, see what_age() function below). 
+  
+  if (as_Date) { # Convert non-Date (e.g., POSIXt) into "Date" objects:
+    
+    if (!is_Date(from_date)) { from_date <- date_from_nonDate(from_date, ...) }
+    
+    if (!is_Date(to_date))   { to_date <- date_from_nonDate(to_date, ...) }
+    
+  }
+  
+  # print(from_date)  # debugging
+  # print(to_date)    # debugging
   
   # Call difftime:
   t_diff <- base::difftime(to_date, from_date, units = units, ...)  # default: units = "days"
@@ -1809,19 +1820,27 @@ diff_days <- function(from_date, to_date = Sys.Date(), units = "days", ...){
   
 } # diff_days end. 
 
-## Check:
+# ## Check:
 # ds <- Sys.Date() + -2:+2
 # diff_days(ds)
-#
-
-
-
 # 
-# last_year <- as.numeric(what_year()) - 1
+# one_year_ago <- Sys.Date() - (365 + is_leap_year(Sys.Date()))
+# diff_days(one_year_ago)
 # 
-# paste(last_year, what_month(), what_day(), sep = "-")
-#
-# +++ here now +++
+# # ## Note: Date vs. time differences:
+# t0 <- as.POSIXct("2020-07-10 00:00:01", tz = "UTC")  # start of day
+# t1 <- as.POSIXct("2020-07-10 23:59:59", tz = "UTC")  # end of day
+# t2 <- t1 + 2  # 2 seconds later (but next date)
+# 
+# # By default, only Dates are considered:
+# diff_days(t0, t1)
+# diff_days(t1, t2)
+# diff_days(t0, t2)
+# 
+# # But: Exact time differences:
+# diff_days(t0, t1, as_Date = FALSE)
+# diff_days(t1, t2, as_Date = FALSE)
+# diff_days(t0, t2)
 
 
 # what_age/diff_dates: What is someone's age (or some age difference) (in human units): ------
@@ -1893,7 +1912,7 @@ diff_days <- function(from_date, to_date = Sys.Date(), units = "days", ...){
 
 what_age <- function(from_date, to_date = Sys.Date(), units = "y"){
   
-  # (1) Preparation: ------  
+  # 1. Preparation: ------  
   
   # (a) Handle NA inputs: ----
   
@@ -1961,7 +1980,8 @@ what_age <- function(from_date, to_date = Sys.Date(), units = "y"){
     message('what_age: "to_date" should be of class "Date"...')    
   }
   
-  # (2) Main function: ------ 
+  
+  # 2. Main function: ------ 
   
   age <- NA  # initialize  
   
@@ -1975,19 +1995,21 @@ what_age <- function(from_date, to_date = Sys.Date(), units = "y"){
   cur_month <- as.numeric(format(to_date, "%m"))
   cur_day   <- as.numeric(format(to_date, "%d"))
   
-  # Compute (completed) year component:  
+  
+  # (A) Compute (completed) year component:  
   full_y <- NA
   
-  # bday in this year? (as Boolean): 
+  # bday this year? (as Boolean): 
   bd_ty <- ifelse((cur_month > bd_month) | ((cur_month == bd_month) & (cur_day >= bd_day)), TRUE, FALSE) 
   # print(bd_ty)
   
   full_y <- (cur_year - bd_year) - (1 * !bd_ty) 
   
-  # Compute (completed) month component:
+  
+  # (B) Compute (completed) month component:
   full_m <- NA
   
-  # bday in this month? (as Boolean): 
+  # bday this month? (as Boolean): 
   bd_tm <- ifelse((cur_day >= bd_day), TRUE, FALSE) 
   # print(bd_tm)
   
@@ -1998,21 +2020,23 @@ what_age <- function(from_date, to_date = Sys.Date(), units = "y"){
   # Combine both cases:
   full_m <- (cur_month - bd_month) + (12 * !bd_ty) - (1 * !bd_tm) 
   
-  # Compute (completed) day component:
+  
+  # (C) Compute (completed) day component:
   age_d <- NA
   ## bday today? (as Boolean): 
   # bd_td <- ifelse((cur_day == bd_day), TRUE, FALSE) 
   
   # +++ here now +++ 
   
-  # Idea 1: Local solution: Determine N of days in last month.
-  # Then use it to compute difference from bd_day to cur_day 
+  # Idea 1: Local solution: Determine the number N of days in last month.
+  # Then use this number to compute difference from bd_day to cur_day 
   
   # Idea 2: Global solution: Use global number of days and subtract all days of full years and months 
-  # Need age_days() helper function to compute exact number of days between two dates:
-  # age_d <- age_days(from_date = DOB, to_date) - age_days(from_date = DOB, to_date = bday_day_last_month)
+  # Use diff_days helper function to compute exact number of days between two dates:
+  # age_d <- diff_days(DOB, to_date) - diff_days(DOB, to_date = bday_day_last_month)
   
-  # Collect requested age units:
+  
+  # (+) Collect requested age units:
   age <- paste0(full_y, "y ", full_m, "m")
   
   return(age)
