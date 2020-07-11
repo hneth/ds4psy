@@ -1942,10 +1942,10 @@ diff_days <- function(from_date, to_date = Sys.Date(), units = "days", as_Date =
 #' (i.e., from some \code{from_date} to some \code{to_date}) 
 #' in human measurement units (periods).
 #' 
-#' \code{diff_dates} answers questions like  
+#' \code{diff_dates} answers questions like 
 #' "How much time has elapsed between two dates?" 
-#' or "How old are you?" 
-#' in human units of (full) years, months, or days. 
+#' or "How old are you?" in human time periods 
+#' of (full) years, months, and days. 
 #' 
 #' If not specified explicitly, \code{to_date} is set to 
 #' today's date (i.e., \code{Sys.Date()}).
@@ -1963,12 +1963,11 @@ diff_days <- function(from_date, to_date = Sys.Date(), units = "days", as_Date =
 #' Maximum date/date of death (DOD), assumed to be of class "Date", 
 #' and coerced into "Date" when of class "POSIXt". 
 #' 
-#' @param unit Largest measurement unit to represent output (as "character").
+#' @param unit Largest measurement unit for representing result. 
 #' Units represent human time periods, rather than 
 #' chronological time differences. 
 #' Default: \code{unit = "y"} for completed years, months, and days. 
 #' Available options are: 
-#' 
 #' \enumerate{
 #' 
 #'   \item \code{unit = "y"}: completed years, months, and days (default)
@@ -1981,8 +1980,9 @@ diff_days <- function(from_date, to_date = Sys.Date(), units = "days", as_Date =
 #'   
 #' @param as_character Boolean: Return output as character? 
 #' Default: \code{as_character = TRUE}.  
-#' If \code{as_character = FALSE}, output is returned 
-#' as numeric columns of a data frame. 
+#' If \code{as_character = FALSE}, results are returned 
+#' as columns of a data frame and 
+#' include \code{from_date} and \code{to_date}. 
 #' 
 #' @examples
 #' y_100 <- Sys.Date() - (100 * 365.25) + -1:1
@@ -1992,13 +1992,20 @@ diff_days <- function(from_date, to_date = Sys.Date(), units = "days", as_Date =
 #' y_050 <- Sys.Date() - (50 * 365.25) + -1:1 
 #' diff_dates(y_100, y_050)
 #' 
-#' # robustness:
-#' days_this_year <- 365 + is_leap_year(Sys.Date())
-#' diff_dates(Sys.time() - (10 * (60 * 60 * 24) * days_this_year)) # for POSIXt times
-#' diff_dates("90-07-11", to_date = "10-07-10")                    # for strings
-#' diff_dates(19900711, to_date = 20100710)                        # for numbers
+#' # Time unit and output format:
+#' ds_from <- as.Date("2010-01-01") + 0:2
+#' ds_to   <- as.Date("2020-03-01")  # (2020 is leap year)
+#' diff_dates(ds_from, ds_to, unit = "y", as_character = FALSE)  # years
+#' diff_dates(ds_from, ds_to, unit = "m", as_character = FALSE)  # months
+#' diff_dates(ds_from, ds_to, unit = "d", as_character = FALSE)  # days
 #' 
-#' # recycling "to_date" to length of "from_date":
+#' # Robustness:
+#' days_cur_year <- 365 + is_leap_year(Sys.Date())
+#' diff_dates(Sys.time() - (1 * (60 * 60 * 24) * days_cur_year))  # for POSIXt times
+#' diff_dates("10-08-11", "20-08-10")   # for strings
+#' diff_dates(20200228, 20200301)       # for numbers (2020 is leap year)
+#' 
+#' # Recycling "to_date" to length of "from_date":
 #' y_050_2 <- Sys.Date() - (50 * 365.25)
 #' diff_dates(y_100, y_050_2)
 #' 
@@ -2006,6 +2013,9 @@ diff_days <- function(from_date, to_date = Sys.Date(), units = "days", as_Date =
 #' dob <- as.Date(fame$DOB, format = "%B %d, %Y")
 #' dod <- as.Date(fame$DOD, format = "%B %d, %Y")
 #' diff_dates(dob, dod)  # Note: Deceased people do not age further.
+#' 
+#' # Numeric outputs:
+#' head(diff_dates(dob, dod, as_character = FALSE))
 #' 
 #' @family date and time functions
 #' 
@@ -2112,7 +2122,9 @@ diff_dates <- function(from_date, to_date = Sys.Date(),
       
     } else { # return as data frame:
       
-      age <- data.frame("d" = full_d)
+      age <- data.frame("from_date" = from_date,
+                        "to_date" = to_date, 
+                        "d" = full_d)
       
     }
     
@@ -2201,13 +2213,17 @@ diff_dates <- function(from_date, to_date = Sys.Date(),
     
     if (unit == "y"){
       
-      age <- data.frame("y" = full_y, 
+      age <- data.frame("from_date" = from_date,
+                        "to_date" = to_date, 
+                        "y" = full_y, 
                         "m" = full_m, 
                         "d" = full_d)
       
     } else if (unit == "m"){
       
-      age <- data.frame("m" = full_m, 
+      age <- data.frame("from_date" = from_date,
+                        "to_date" = to_date, 
+                        "m" = full_m, 
                         "d" = full_d)
       
     }
@@ -2233,7 +2249,7 @@ diff_dates <- function(from_date, to_date = Sys.Date(),
 # ms <- Sys.Date() - 366 + seq(from = -100, to = +100, by = 50)
 # ms
 # diff_dates(ms)
-
+# 
 # y_100 <- Sys.Date() - (100 * 365.25) + -1:1
 # y_100
 # diff_dates(y_100)
@@ -2257,7 +2273,7 @@ diff_dates <- function(from_date, to_date = Sys.Date(),
 # diff_dates(dob, dod, unit = "m")
 # diff_dates(dob, dod, unit = "d")
 
-## Compare results to other methods:
+## Analyze: Compare results to other methods: 
 
 ## (a) lubridate time spans (interval, periods): 
 # lubridate::as.period(dob %--% dod, unit = "years")
