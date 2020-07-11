@@ -25,14 +25,16 @@ Current development version of **ds4psy** (0.4.0.9001+):
 
 ## Major changes 
 
-- none yet
+- more support for data with **dates** and **times**
 
 ## Minor changes 
 
-- add `what_age()` to compute age (in full years) 
+- add `diff_dates()` to compute time difference between dates (in human units of years, months, days)
+- add `days_in_month()` to get number of days in months for given dates
 
 ## Details 
 
+- bug fix: Remove alternative solution in `is_leap_year()` (which yielded `FALSE` for `NA` inputs).
 - bug fix: Replace `\u2212` (minus sign) by `-` (dash) in `exp_num_dt$blood_type` to prevent **Note** on "marked UTF-8 strings". 
 
 -------- 
@@ -178,6 +180,6 @@ The initial functionality is limited, as the package is designed to support the 
 
 ---------- 
 
-[File `News.md` updated on 2020-07-08.]
+[File `News.md` updated on 2020-07-11.]
 
 <!-- eof. -->
