@@ -324,7 +324,7 @@ is_leap_year <- function(dt){
     }
   
   if (any(is.na(y))){
-    message('is_leap_year: Some y values are NA.')
+    message('is_leap_year: Some y values are NA.')  # notify user
   }
   
   # Use 2 solutions:
@@ -467,7 +467,7 @@ days_last_month <- function(dt, ...){
   # (c) Main processing: 
   last_month_nr <- (month_nr - 1)          # reduce month_nr by 1
   
-  # Special cases: 
+  # Handle special case: Dec becomes Jan of preceding year: 
   last_month_nr[last_month_nr == 0] <- 12  # Dec <- Jan
   year_nr[last_month_nr == 12] <- (year_nr[last_month_nr == 12] - 1)  # preceding year!
   
@@ -510,15 +510,8 @@ bday_eq_last_month <- function(dt, bday, ...){
   
   if (length(dt) > length(bday)){
     
-    if (length(bday) == 1){  # bday scalar: 
-      
-      bday <- rep(bday, times = length(dt))
-      
-    } else {
-      
-      bday <- rep(bday, length.out = length(dt))  # recycle bday
-      
-    }
+    bday <- rep(bday, length.out = length(dt))  # recycle bday
+    
   }
   
   # (b) Get dt elements:
@@ -528,7 +521,7 @@ bday_eq_last_month <- function(dt, bday, ...){
   # (c) Main processing: 
   last_month_nr <- (month_nr - 1)          # reduce month_nr by 1
   
-  # Special cases: 
+  # Handle special case: Dec becomes Jan of preceding year: 
   last_month_nr[last_month_nr == 0] <- 12  # Dec <- Jan!
   year_nr[last_month_nr == 12] <- (year_nr[last_month_nr == 12] - 1)  # preceding year!
   
@@ -602,11 +595,13 @@ dt_last_monthly_bd <- function(dob, to_date, ...){
   dt_y <- tod_y
   dt_m <- rep(NA, N)
   
-  # Distinguish 2 cases:
-  dt_m[bd_this_month]  <- tod_m[bd_this_month]
-  dt_m[!bd_this_month] <- tod_m[!bd_this_month] - 1
+  # # Distinguish 2 cases:
+  # dt_m[bd_this_month]  <- tod_m[bd_this_month]
+  # dt_m[!bd_this_month] <- tod_m[!bd_this_month] - 1
+  # Combine cases:
+  dt_m <- tod_m - (1 * !bd_this_month)
   
-  # Consider special case:
+  # Handle special case: Dec becomes Jan of preceding year: 
   dt_m[dt_m == 0]  <- 12  # Dec <- Jan! 
   dt_y[dt_m == 12] <- dt_y[dt_m == 12] - 1   # preceding year!
   
@@ -614,18 +609,38 @@ dt_last_monthly_bd <- function(dob, to_date, ...){
   dt_string <- paste(dt_y, dt_m, dob_d, sep = "-")
   dt <- as.Date(dt_string, format = "%Y-%m-%d")
   
+  # Handle special case: 
+  # Problem: dt is NA for non-existent dates (e.g., Feb 30, June 31, ...)
+  
+  # # Solution 1: Get LAST day of PRECEDING month:
+  # ix <- is.na(dt)
+  # dob_d[ix]     <- days_last_month(dt = to_date[ix])  # using days_last_month() helper!
+  # dt_string[ix] <- paste(dt_y[ix], dt_m[ix], dob_d[ix], sep = "-")
+  # dt[ix] <- as.Date(dt_string[ix], format = "%Y-%m-%d")
+  
+  # Solution 2: Get FIRST day of CURRENT month, then subtract 1 day:
+  ix <- is.na(dt)
+  # dob_d[ix]     <- days_last_month(dt = to_date[ix])
+  dt_string[ix] <- paste(dt_y[ix], tod_m[ix], "01", sep = "-")
+  dt[ix] <- as.Date(dt_string[ix], format = "%Y-%m-%d") - 1
+  
+  # Note: One could also argue for 1st of current month for these cases???
+  
   # (d) Output:   
   return(dt)
   
 } # dt_last_monthly_bd end. 
 
-## Check:
-# dt_last_monthly_bd(as.Date("2020-06-14") + 0:2, as.Date("2020-07-15"))
-# dt_last_monthly_bd(as.Date("2020-06-01"), as.Date("2020-07-10"))
-
-
-
-
+# ## Check:
+# (bd <- as.Date("2020-01-28") + 0:4)
+# dt_last_monthly_bd(bd, as.Date("2020-03-10"))
+# dt_last_monthly_bd(bd, "2021-03-31")
+# dt_last_monthly_bd(bd, "2021-03-01")
+# 
+# # Special cases:
+# dt_last_monthly_bd("2020-12-31", "2020-01-01")  # dob > to_date
+# dt_last_monthly_bd("2020-03-31", "2020-03-01")  # dob > to_date
+# dt_last_monthly_bd("2020-03-31", "2020-03-31")  # dob = to_date
 
 
 ## (1) cur_ functions: ---------- 
