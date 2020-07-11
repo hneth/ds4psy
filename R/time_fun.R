@@ -165,26 +165,26 @@ date_from_nonDate <- function(x, ...){
   
   # 1. Coerce numeric x that are NOT date-time objects into character strings:
   if (!is_date_time(x) & is.numeric(x)){
-    # message('date_from_nonDate: Coercing x from "number" into "character"...')    
+    # message('date_from_nonDate: Coercing x from "number" into "character".')    
     x <- as.character(x)
   }
   
   # 2. Aim to coerce character string inputs x into "Date": 
   if (is.character(x)){
-    # message('date_from_nonDate: Aiming to parse x from "character" as "Date"...')
+    # message('date_from_nonDate: Aiming to parse x from "character" as "Date".')
     dt <- date_from_string(x, ...)
   }
   
   # 3. Coerce "POSIXt" inputs into "Date":
   if (is_POSIXt(x)){
-    # message('date_from_nonDate: Coercing x from "POSIXt" into "Date"...')
+    # message('date_from_nonDate: Coercing x from "POSIXt" into "Date".')
     dt <- as.Date(x, ...) 
   }
   
   # 4. Note if dt is still no "Date": ---- 
   if (!is_Date(dt)){
     
-    message('date_from_nonDate: Failed to parse x as "Date"...')
+    message('date_from_nonDate: Failed to parse x as "Date".')
     
   }
   
@@ -290,12 +290,12 @@ is_leap_year <- function(dt){
     
     if (all(grepl(x = dt, pattern = "^\\d\\d\\d\\d$"))) {
       
-      # message('is_leap_year: Parsing string dt as "yyyy")...')      
+      # message('is_leap_year: Parsing string dt as "yyyy").')      
       y <- as.numeric(dt)
       
     } else {
       
-      message('is_leap_year: Coercing string dt into "Date" (to get "%Y")...')
+      message('is_leap_year: Coercing string dt into "Date" (to get "%Y").')
       y <- as.numeric(format(as.Date(dt), format = "%Y"))
       
     }
@@ -308,7 +308,7 @@ is_leap_year <- function(dt){
       
     } else {
       
-      message('is_leap_year: Rounding numeric dt to nearest integer...')
+      message('is_leap_year: Rounding numeric dt to nearest integer.')
       y <- round(dt, 0)
       
     }} else {
@@ -332,7 +332,7 @@ is_leap_year <- function(dt){
   # # print(out_2)  # debugging
   
   # if (!all.equal(out_1, out_2)){  # Warn of discrepancy: 
-  #   warning("is_leap_year: Two solutions yield different results. Using 1st...")
+  #   warning("is_leap_year: Two solutions yield different results. Using 1st.")
   # }
   
   return(out_1)
@@ -388,6 +388,8 @@ names(MONTH_DAYS) <- base::month.abb
 #' Default: \code{dt = Sys.Date()}. 
 #' Numbers or strings with dates are parsed into 
 #' 4-digit numbers denoting the year. 
+#' 
+#' @param ... Other parameters (passed to \code{as.Date()}). 
 #' 
 #' @return A named (numeric) vector. 
 #' 
@@ -1138,7 +1140,7 @@ what_date <- function(when = NA, rev = FALSE, as_string = TRUE, sep = "-",
 #' what_wday(Sys.Date() + -1:1)  # Date (as vector)
 #' what_wday(Sys.time())         # POSIXct
 #' what_wday("2020-02-29")       # string (of valid date)
-#' what_wday(20200229)           # number (...)
+#' what_wday(20200229)           # number (of valid date)
 #' 
 #' # date vector (as characters):
 #' ds <- c("2020-01-01", "2020-02-29", "2020-12-24", "2020-12-31")
@@ -1182,7 +1184,7 @@ what_wday <- function(when = Sys.Date(), abbr = FALSE){
   
   ## NEW code: 
   if (!is_Date(when)){
-    # message('what_wday: Aiming to parse "when" as "Date"...')
+    # message('what_wday: Aiming to parse "when" as "Date".')
     when <- date_from_nonDate(when)
   }
   
@@ -1703,17 +1705,17 @@ change_time <- function(time, tz = ""){
   
   if (!is_POSIXlt(time)){ # For any other time object:
     
-    message('change_time: Coercing time to "POSIXlt" without changing time display...')
+    message('change_time: Coercing time to "POSIXlt" without changing time display.')
     
     # A: Determine time_display: 
     if (is_POSIXct(time)){
       
-      message('change_time: Parsing time from "POSIXct" as "%Y-%m-%d %H:%M:%S"...')
+      message('change_time: Parsing time from "POSIXct" as "%Y-%m-%d %H:%M:%S".')
       time_display <- strptime(time, format = "%Y-%m-%d %H:%M:%S")
       
     } else if (is_Date(time)){
       
-      message('change_time: Parsing time from "Date" as "%Y-%m-%d"...')      
+      message('change_time: Parsing time from "Date" as "%Y-%m-%d".')      
       time_display <- strptime(time, format = "%Y-%m-%d")
       
     } else if (is.character(time)){
@@ -1721,22 +1723,22 @@ change_time <- function(time, tz = ""){
       # Get time_display by parsing date-time string (using standard formats):
       if (grepl(x = time, pattern = ".*(-).*( ).*(:).*(:).*")) { # date + full time:
         
-        message('change_time: Parsing date-time from string as "%Y-%m-%d %H:%M:%S"...')
+        message('change_time: Parsing date-time from string as "%Y-%m-%d %H:%M:%S".')
         time_display <- strptime(time, format = "%Y-%m-%d %H:%M:%S")
         
       } else if (grepl(x = time, pattern = ".*(-).*( ).*(:).*")) { # date + H:M time:
         
-        message('change_time: Parsing date-time from string as "%Y-%m-%d %H:%M"...')
+        message('change_time: Parsing date-time from string as "%Y-%m-%d %H:%M".')
         time_display <- strptime(time, format = "%Y-%m-%d %H:%M")
         
       } else if (grepl(x = time, pattern = ".*(:).*(:).*")) { # H:M:S time:
         
-        message('change_time: Parsing time (with default date) from string as "%H:%M:%S"...')
+        message('change_time: Parsing time (with default date) from string as "%H:%M:%S".')
         time_display <- strptime(time, format = "%H:%M:%S")
         
       } else if (grepl(x = time, pattern = ".*(:).*")) { # H:M time:
         
-        message('change_time: Parsing time (with default date) from string as "%H:%M"...')
+        message('change_time: Parsing time (with default date) from string as "%H:%M".')
         time_display <- strptime(time, format = "%H:%M")
         
       } else {
@@ -1872,7 +1874,7 @@ change_tz <- function(time, tz = ""){
   
   if (!is_POSIXct(time)){
     
-    message('change_tz: Coercing time to "POSIXct" without changing represented time...')
+    message('change_tz: Coercing time to "POSIXct" without changing represented time.')
     time <- as.POSIXct(time)
     
   }
@@ -2073,24 +2075,24 @@ diff_dates <- function(from_date, to_date = Sys.Date(),
   # (a) NA inputs: ----
   
   if (any(is.na(from_date))){
-    message('diff_dates: "from_date" must not be NA...')    
+    message('diff_dates: "from_date" must not be NA.')    
     return(NA)
   }
   
   if (all(is.na(to_date))){
-    message('diff_dates: Changing "to_date" from NA to "Sys.Date()"...')       
+    message('diff_dates: Changing "to_date" from NA to "Sys.Date()".')       
     to_date <- Sys.Date()
   }
   
   # (b) Turn non-Date inputs into "Date" objects ---- 
   
   if (!is_Date(from_date)){
-    # message('diff_dates: Aiming to parse "from_date" as "Date"...')
+    # message('diff_dates: Aiming to parse "from_date" as "Date".')
     from_date <- date_from_nonDate(from_date)
   }
   
   if (!is_Date(to_date)){
-    # message('diff_dates: Aiming to parse "to_date" as "Date"...')
+    # message('diff_dates: Aiming to parse "to_date" as "Date".')
     to_date <- date_from_nonDate(to_date)
   }
   
@@ -2129,12 +2131,12 @@ diff_dates <- function(from_date, to_date = Sys.Date(),
   
   # (e) Verify that from_date and to_date are "Date" objects: ---- 
   if (!is_Date(from_date)){
-    message('diff_dates: "from_date" should be of class "Date"...')
+    message('diff_dates: "from_date" should be of class "Date".')
     # print(from_date)  # debugging
   }
   
   if (!is_Date(to_date)){
-    message('diff_dates: "to_date" should be of class "Date"...')
+    message('diff_dates: "to_date" should be of class "Date".')
     # print(to_date)    # debugging
   }
   
@@ -2142,7 +2144,7 @@ diff_dates <- function(from_date, to_date = Sys.Date(),
   unit <- substr(tolower(unit), 1, 1)  # robustness: use abbreviation: y/m/d
   
   if (!unit %in% c("y", "m", "d")){
-    message('diff_dates: unit must be "y", "m", or "d". Using "y"...')
+    message('diff_dates: unit must be "y", "m", or "d". Using "y".')
     unit <- "y"
   }
   
@@ -2372,7 +2374,7 @@ diff_dates <- function(from_date, to_date = Sys.Date(),
 # ad (1) and (2): 
 # - update cur_ and what_ functions to use new helpers
 # - re-consider what_day() to return NUMERIC day in week/month/year.
-# - fix ToDo in what_date() (Actively convert...)
+# - fix ToDo in what_date() (Actively convert.)
 # - Return dates/times either as strings (if as_string = TRUE) or 
 #   as dates/times (of class "Date"/"POSIXct") in all what_() functions
 
