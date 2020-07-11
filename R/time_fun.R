@@ -223,14 +223,18 @@ date_from_nonDate <- function(x, ...){
 #' as a valid "Date" string (to retrieve the 4-digit year "\%Y"), 
 #' or a numeric \code{dt} as 4-digit integer(s). 
 #' 
-#' \code{is_leap_year} then solves the task in two ways:  
-#' 1. by verifying the numeric definition of a "leap year", and 
-#' 2. by trying to use \code{as.Date()} for defining 
-#' a "Date" of Feb-29 in the corresponding year(s). 
+#' \code{is_leap_year} then solves the task 
+#' by verifying the numeric definition of a "leap year" 
+#' (see \url{https://en.wikipedia.org/wiki/Leap_year}). 
+#' 
+#' An alternative solution that tried using  
+#' \code{as.Date()} for defining a "Date" of Feb-29 
+#' in the corresponding year(s) was removed, 
+#' as it evaluated \code{NA} values as \code{FALSE}.
 #' 
 #' @param dt Date or time (scalar or vector). 
 #' Numbers or strings with dates are parsed into 
-#' 4-digit numbers denoting the year
+#' 4-digit numbers denoting the year. 
 #' 
 #' @examples
 #' is_leap_year(2020)
@@ -257,7 +261,6 @@ date_from_nonDate <- function(x, ...){
 #' 
 #' # Note: Invalid date string yields error: 
 #' # is_leap_year("2021-02-29")
-#' 
 #' 
 #' @family date and time functions
 #' 
@@ -371,7 +374,45 @@ names(MONTH_DAYS) <- base::month.abb
 
 # days_in_month: Requires "Date" (rather than only month nr.) to check for leap years. 
 
-days_in_month <- function(dt, ...){
+#' How many days are in a month (of given date)? 
+#'
+#' \code{days_in_month} computes the number of days in the months of 
+#' given dates (provided as a date or time \code{dt}, 
+#' or number/string denoting a 4-digit year). 
+#' 
+#' The function requires \code{dt} as "Dates", 
+#' rather than month names or numbers, 
+#' to check for leap years (in which February has 29 days). 
+#'
+#' @param dt Date or time (scalar or vector). 
+#' Default: \code{dt = Sys.Date()}. 
+#' Numbers or strings with dates are parsed into 
+#' 4-digit numbers denoting the year. 
+#' 
+#' @return A named (numeric) vector. 
+#' 
+#' @examples
+#' days_in_month() 
+#' 
+#' # Robustness: 
+#' days_in_month(Sys.Date())    # Date
+#' days_in_month(Sys.time())    # POSIXct
+#' days_in_month("2020-07-01")  # string
+#' days_in_month(20200901)      # number
+#' days_in_month(c("2020-02-10 01:02:03", "2021-02-11", "2024-02-12"))  # vectors of strings
+#' 
+#' # For leap years:
+#' ds <- as.Date("2020-02-20") + (365 * 0:4)  
+#' days_in_month(ds)  # (2020/2024 are leap years)
+#' 
+#' @family date and time functions
+#' 
+#' @seealso 
+#' \code{\link{is_leap_year}} function to check for leap years. 
+#' 
+#' @export
+
+days_in_month <- function(dt = Sys.Date(), ...){
   
   if (!is_Date(dt)){ dt <- date_from_nonDate(dt, ...) }
   
@@ -1983,6 +2024,9 @@ diff_days <- function(from_date, to_date = Sys.Date(), units = "days", as_Date =
 #' If \code{as_character = FALSE}, results are returned 
 #' as columns of a data frame and 
 #' include \code{from_date} and \code{to_date}. 
+#' 
+#' @return A character vector or data frame 
+#' (with dates and numeric columns).
 #' 
 #' @examples
 #' y_100 <- Sys.Date() - (100 * 365.25) + -1:1
