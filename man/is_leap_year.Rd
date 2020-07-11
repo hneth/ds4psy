@@ -68,7 +68,7 @@ Other date and time functions:
 \code{\link{change_tz}()},
 \code{\link{cur_date}()},
 \code{\link{cur_time}()},
-\code{\link{what_age}()},
+\code{\link{diff_dates}()},
 \code{\link{what_date}()},
 \code{\link{what_month}()},
 \code{\link{what_time}()},
