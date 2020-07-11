@@ -596,14 +596,15 @@ dt_last_monthly_bd <- function(dob, to_date, ...){
   dt_m <- rep(NA, N)
   
   # # Distinguish 2 cases:
-  # dt_m[bd_this_month]  <- tod_m[bd_this_month]
-  # dt_m[!bd_this_month] <- tod_m[!bd_this_month] - 1
+  # dt_m[bd_this_month]  <- tod_m[bd_this_month]       # 1.  bd_this_month
+  # dt_m[!bd_this_month] <- tod_m[!bd_this_month] - 1  # 2. !bd_this_month
   # Combine cases:
   dt_m <- tod_m - (1 * !bd_this_month)
   
   # Handle special case: Dec becomes Jan of preceding year: 
   dt_m[dt_m == 0]  <- 12  # Dec <- Jan! 
-  dt_y[dt_m == 12] <- dt_y[dt_m == 12] - 1   # preceding year!
+  ix_1 <- (dt_m == 12) & (!bd_this_month) 
+  dt_y[ix_1] <- dt_y[ix_1] - 1   # preceding year!
   
   # Construct as date: 
   dt_string <- paste(dt_y, dt_m, dob_d, sep = "-")
@@ -619,10 +620,10 @@ dt_last_monthly_bd <- function(dob, to_date, ...){
   # dt[ix] <- as.Date(dt_string[ix], format = "%Y-%m-%d")
   
   # Solution 2: Get FIRST day of CURRENT month, then subtract 1 day:
-  ix <- is.na(dt)
+  ix_2 <- is.na(dt)
   # dob_d[ix]     <- days_last_month(dt = to_date[ix])
-  dt_string[ix] <- paste(dt_y[ix], tod_m[ix], "01", sep = "-")
-  dt[ix] <- as.Date(dt_string[ix], format = "%Y-%m-%d") - 1
+  dt_string[ix_2] <- paste(dt_y[ix_2], tod_m[ix_2], "01", sep = "-")
+  dt[ix_2] <- as.Date(dt_string[ix_2], format = "%Y-%m-%d") - 1
   
   # Note: One could also argue for 1st of current month for these cases???
   
@@ -637,10 +638,19 @@ dt_last_monthly_bd <- function(dob, to_date, ...){
 # dt_last_monthly_bd(bd, "2021-03-31")
 # dt_last_monthly_bd(bd, "2021-03-01")
 # 
+# # Birthday on Feb. 29 of leap year: 
+# dt_last_monthly_bd("2020-02-29", "2021-03-01")
+#
+# # Case with errors:
+# (bd <- as.Date(fame$DOB[35], format = "%B %d, %Y"))
+# (dd <- as.Date(fame$DOD[35], format = "%B %d, %Y"))
+# dt_last_monthly_bd(bd, dd)  # seems ok.
+# 
 # # Special cases:
-# dt_last_monthly_bd("2020-12-31", "2020-01-01")  # dob > to_date
-# dt_last_monthly_bd("2020-03-31", "2020-03-01")  # dob > to_date
-# dt_last_monthly_bd("2020-03-31", "2020-03-31")  # dob = to_date
+# dt_last_monthly_bd(dob = "2020-12-31", "2020-01-01")  # dob > to_date
+# dt_last_monthly_bd(dob = "2020-03-31", "2020-03-01")  # dob > to_date
+# dt_last_monthly_bd(dob = "2020-03-31", "2020-03-31")  # dob = to_date
+
 
 
 ## (1) cur_ functions: ---------- 
@@ -2259,18 +2269,18 @@ diff_dates <- function(from_date, to_date = Sys.Date(),
   }
   
   # (c) Recycle or truncate to_date argument based on from_date: ---- 
-  n_from_date <- length(from_date)
-  n_to_date   <- length(to_date)
+  n_from <- length(from_date)
+  n_to   <- length(to_date)
   
-  if (n_from_date != n_to_date){  # arguments differ in length:     
+  if (n_from != n_to){  # arguments differ in length:     
     
-    if (n_to_date > n_from_date){ # 1. truncate to_date to the length of n_from_date: 
+    if (n_to > n_from){ # 1. truncate to_date to the length of n_from: 
       
-      to_date <- to_date[1:n_from_date]
+      to_date <- to_date[1:n_from]
       
-    } else { # 2. recycle to_date to the length of n_from_date: 
+    } else { # 2. recycle to_date to the length of n_from: 
       
-      to_date <- rep(to_date, ceiling(n_from_date/n_to_date))[1:n_from_date]
+      to_date <- rep(to_date, ceiling(n_from/n_to))[1:n_from]
       
     } # end else. 
   } # end if.
@@ -2289,9 +2299,19 @@ diff_dates <- function(from_date, to_date = Sys.Date(),
     }
   }
   
-  # } else { # ALL to_date are NA:
+  # (e) If from_date > to_date: Swap dates and negate sign:
+  ix_rev <- (from_date > to_date)
   
-  # (e) Verify that from_date and to_date are "Date" objects: ---- 
+  from_date_temp <- from_date[ix_rev]   # temporary storage
+  from_date[ix_rev] <- to_date[ix_rev]  # from_date by to_date
+  to_date[ix_rev]   <- from_date_temp   # to_date by from_date
+  
+  sign <- rep(1, n_from)  # initialize
+  sign[ix_rev] <- -1      # negate sign
+  
+  # message(sign)  # debugging
+  
+  # (f) Verify that from_date and to_date are "Date" objects: ---- 
   if (!is_Date(from_date)){
     message('diff_dates: "from_date" should be of class "Date".')
     # print(from_date)  # debugging
@@ -2302,7 +2322,7 @@ diff_dates <- function(from_date, to_date = Sys.Date(),
     # print(to_date)    # debugging
   }
   
-  # (f) Unit: ----
+  # (g) Unit: ----
   unit <- substr(tolower(unit), 1, 1)  # robustness: use abbreviation: y/m/d
   
   if (!unit %in% c("y", "m", "d")){
@@ -2314,15 +2334,17 @@ diff_dates <- function(from_date, to_date = Sys.Date(),
   # 2. Main function: ------ 
   
   # (a) initialize: ---- 
-  age <- NA    
+  age <- NA
   full_y <- NA
   full_m <- NA
   full_d <- NA
+  
   
   # (b) Special case: unit == "d" ---- 
   if (unit == "d"){
     
     full_d <- diff_days(from_date = from_date, to_date = to_date)
+    full_d <- sign * full_d  # apply sign
     
     if (as_character){
       
@@ -2343,37 +2365,36 @@ diff_dates <- function(from_date, to_date = Sys.Date(),
   # (c) Other units (y/m): Get date elements ---- 
   
   # from_date elements (DOB):
-  bd_year  <- as.numeric(format(from_date, "%Y"))
-  bd_month <- as.numeric(format(from_date, "%m"))
-  bd_day   <- as.numeric(format(from_date, "%d"))
+  bd_y <- as.numeric(format(from_date, "%Y"))
+  bd_m <- as.numeric(format(from_date, "%m"))
+  bd_d <- as.numeric(format(from_date, "%d"))
   
   # to_date elements (DOD, max. date): 
-  cur_year  <- as.numeric(format(to_date, "%Y"))
-  cur_month <- as.numeric(format(to_date, "%m"))
-  cur_day   <- as.numeric(format(to_date, "%d"))
+  to_y <- as.numeric(format(to_date, "%Y"))
+  to_m <- as.numeric(format(to_date, "%m"))
+  to_d <- as.numeric(format(to_date, "%d"))
   
   
   # (c1) Completed years: ---- 
   
   # bday this year? (as Boolean): 
-  bd_ty <- ifelse((cur_month > bd_month) | ((cur_month == bd_month) & (cur_day >= bd_day)), TRUE, FALSE) 
+  bd_ty <- ifelse((to_m > bd_m) | ((to_m == bd_m) & (to_d >= bd_d)), TRUE, FALSE) 
   # print(bd_ty)
   
-  full_y <- (cur_year - bd_year) - (1 * !bd_ty) 
-  
+  full_y <- (to_y - bd_y) - (1 * !bd_ty)
   
   # (c2) Completed months: ---- 
   
   # bday this month? (as Boolean): 
-  bd_tm <- ifelse((cur_day >= bd_day), TRUE, FALSE) 
+  bd_tm <- ifelse((to_d >= bd_d), TRUE, FALSE) 
   # print(bd_tm)
   
   ## Distinguish 2 cases:
-  # full_m[bd_ty]  <- (cur_month[bd_ty]  - bd_month[bd_ty])  - !bd_tm[bd_ty]        # 1:  bd_ty
-  # full_m[!bd_ty] <- (12 + cur_month[!bd_ty] - bd_month[!bd_ty]) - !bd_tm[!bd_ty]  # 2: !bd_ty
+  # full_m[bd_ty]  <- (to_m[bd_ty]  - bd_m[bd_ty])  - !bd_tm[bd_ty]        # 1:  bd_ty
+  # full_m[!bd_ty] <- (12 + to_m[!bd_ty] - bd_m[!bd_ty]) - !bd_tm[!bd_ty]  # 2: !bd_ty
   
   ## Combine both cases:
-  full_m <- (cur_month - bd_month) + (12 * !bd_ty) - (1 * !bd_tm) 
+  full_m <- (to_m - bd_m) + (12 * !bd_ty) - (1 * !bd_tm) 
   
   if (unit == "m"){
     
@@ -2384,25 +2405,24 @@ diff_dates <- function(from_date, to_date = Sys.Date(),
   # (c3) Completed days: ---- 
   
   ## bday today? (as Boolean): 
-  # bd_td <- ifelse((cur_day == bd_day), TRUE, FALSE) 
+  # bd_td <- ifelse((to_d == bd_d), TRUE, FALSE) 
   
   # Idea 1: Local solution: Determine the number N of days in last month.
-  # Then use this number to compute difference from bd_day to cur_day 
+  # Then use this number to compute difference from bd_d to to_d 
   
   ## Distinguish 2 cases:  
-  # full_d[bd_tm]  <- cur_day[bd_tm]  - bd_day[bd_tm]  # 1:  bd_tm
-  # full_d[!bd_tm] <- cur_day[!bd_tm] - bd_day[!bd_tm] + days_last_month(to_date[!bd_tm])  # 2: !bd_tm
+  # full_d[bd_tm]  <- to_d[bd_tm]  - bd_d[bd_tm]  # 1:  bd_tm
+  # full_d[!bd_tm] <- to_d[!bd_tm] - bd_d[!bd_tm] + days_last_month(to_date[!bd_tm])  # 2: !bd_tm
   
-  ## Combine both cases:
-  full_d <- cur_day - bd_day + (days_last_month(to_date) * !bd_tm) 
+  ## Combine both cases:    # +++ here now +++ 
+  full_d <- to_d - bd_d + (days_last_month(to_date) * !bd_tm)   
+  # ERROR: See diverging cases below.  
   
-  message(paste(full_d, collapse = " "))  # debugging
+  # message(paste(full_d, collapse = " "))  # debugging
   
   # Idea 2: Global solution: Use global number of days and subtract all days of full years and months 
   # Use diff_days helper function to compute exact number of days between two dates:
   # age_d <- diff_days(DOB, to_date) - diff_days(DOB, to_date = bday_eq_last_month)
-  
-  # +++ here now +++ 
   
   # ToDo: Helper function bday_eq_last_month(to_date, bday): 
   #       Get closest equivalent to bday in last month (e.g., 
@@ -2410,15 +2430,37 @@ diff_dates <- function(from_date, to_date = Sys.Date(),
   #       30.11 for bday on 31.12, etc.)
   
   total_days <- diff_days(from_date = from_date, to_date = to_date)
-  dt_bday_last_month <- bday_eq_last_month(dt = to_date, bday = bd_day)
+  
+  # # Using bday_eq_last_month(to_date, bday):
+  # dt_bday_last_month <- bday_eq_last_month(dt = to_date, bday = bd_d)
+  # accounted_days <- diff_days(from_date = from_date, to_date = dt_bday_last_month)
+  
+  # Using dt_last_monthly_bd() instead:
+  dt_bday_last_month <- dt_last_monthly_bd(dob = from_date, to_date = to_date)
   accounted_days <- diff_days(from_date = from_date, to_date = dt_bday_last_month)
   
   full_d_2 <- total_days - accounted_days
   
-  message(paste(full_d_2, collapse = " "))  # debugging
+  # message(paste(full_d_2, collapse = " "))  # debugging
   
-  if (!all.equal(full_d, full_d_2)){
+  if (!all(full_d == full_d_2)){
     message('diff_dates: 2 alternative solutions for d differ.')
+    
+    # Diagnosis/debugging: 
+    ix_diff <- full_d != full_d_2
+    
+    message(paste(which(ix_diff), collapse = " "))
+    message(paste(from_date[ix_diff], collapse = " "))    
+    message(paste(to_date[ix_diff], collapse = " "))
+    
+    message(paste("y:", full_y[ix_diff], collapse = " "))    
+    
+    message(paste("m:", full_m[ix_diff], collapse = " "))    
+    
+    message(paste("d 1:", full_d[ix_diff], collapse = " "))    
+    message(paste("d_2:", full_d_2[ix_diff], collapse = " "))
+    
+    # +++ here now +++ 
   }
   
   # 3. Output: ------ 
@@ -2427,9 +2469,13 @@ diff_dates <- function(from_date, to_date = Sys.Date(),
     
     if (unit == "y"){
       
+      full_y <- sign * full_y  # apply sign
+      
       age <- paste0(full_y, "y ", full_m, "m ", full_d, "d")
       
     } else if (unit == "m"){
+      
+      full_m <- sign * full_m  # apply sign
       
       age <- paste0(full_m, "m ", full_d, "d")
       
@@ -2441,6 +2487,7 @@ diff_dates <- function(from_date, to_date = Sys.Date(),
       
       age <- data.frame("from_date" = from_date,
                         "to_date" = to_date, 
+                        "sign" = sign, 
                         "y" = full_y, 
                         "m" = full_m, 
                         "d" = full_d)
@@ -2449,6 +2496,7 @@ diff_dates <- function(from_date, to_date = Sys.Date(),
       
       age <- data.frame("from_date" = from_date,
                         "to_date" = to_date, 
+                        "sign" = sign, 
                         "m" = full_m, 
                         "d" = full_d)
       
@@ -2489,13 +2537,51 @@ diff_dates <- function(from_date, to_date = Sys.Date(),
 # diff_dates(y_100, y_050_2)
 # 
 # # Using 'fame' data:
-# dob <- as.Date(fame$DOB, format = "%B %d, %Y")
-# dob
-# dod <- as.Date(fame$DOD, format = "%B %d, %Y")
-# dod
-# diff_dates(dob, dod)
+# (dob <- as.Date(fame$DOB, format = "%B %d, %Y"))
+# (dod <- as.Date(fame$DOD, format = "%B %d, %Y"))
+# diff_dates(dob, dod, as_character = TRUE)
 # diff_dates(dob, dod, unit = "m")
 # diff_dates(dob, dod, unit = "d")
+# 
+# # Extreme cases:
+# diff_dates("1000-01-01", "2000-12-31")  # max. d + m
+# diff_dates("1000-06-01", "1000-06-01")  # min. d + m + y
+# 
+# # Negative values:
+# diff_dates("2100-01-01", "2000-01-02")  # from_date > to_date
+
+
+## Check consistency (of 2 solutions):
+
+# # # Random date samples:
+# from <- sample_date(50)
+# to   <- sample_date(50)
+# diff_dates(from, to)
+# 
+# # +++ here now +++ 
+# 
+# # Error / Diverging cases:
+# # 1: 
+# dob <- as.Date("1981-05-31")
+# dod <- as.Date("1992-05-08")
+# diff_dates(dob, dod)
+# lubridate::as.period(lubridate::interval(dob, dod), unit = "years")
+# # 2: 
+# dob <- as.Date("1983-07-30")
+# dod <- as.Date("1994-03-03")
+# diff_dates(dob, dod)
+# lubridate::as.period(lubridate::interval(dob, dod), unit = "years")
+# # 3: 
+# dob <- as.Date("1973-10-31")
+# dod <- as.Date("1982-12-29")
+# diff_dates(dob, dod)
+# lubridate::as.period(lubridate::interval(dob, dod), unit = "years")
+# # 4: 
+# dob <- as.Date("1979-07-31")
+# dod <- as.Date("1998-07-18")
+# diff_dates(dob, dod)
+# lubridate::as.period(lubridate::interval(dob, dod), unit = "years")
+
 
 ## Analyze: Compare results to other methods: 
 
