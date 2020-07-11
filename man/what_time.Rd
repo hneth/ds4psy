@@ -79,6 +79,7 @@ Other date and time functions:
 \code{\link{change_tz}()},
 \code{\link{cur_date}()},
 \code{\link{cur_time}()},
+\code{\link{days_in_month}()},
 \code{\link{diff_dates}()},
 \code{\link{is_leap_year}()},
 \code{\link{what_date}()},

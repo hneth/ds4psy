@@ -32,7 +32,7 @@ what_wday(abbr = TRUE)
 what_wday(Sys.Date() + -1:1)  # Date (as vector)
 what_wday(Sys.time())         # POSIXct
 what_wday("2020-02-29")       # string (of valid date)
-what_wday(20200229)           # number (...)
+what_wday(20200229)           # number (of valid date)
 
 # date vector (as characters):
 ds <- c("2020-01-01", "2020-02-29", "2020-12-24", "2020-12-31")
@@ -57,6 +57,7 @@ Other date and time functions:
 \code{\link{change_tz}()},
 \code{\link{cur_date}()},
 \code{\link{cur_time}()},
+\code{\link{days_in_month}()},
 \code{\link{diff_dates}()},
 \code{\link{is_leap_year}()},
 \code{\link{what_date}()},

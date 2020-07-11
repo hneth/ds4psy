@@ -37,6 +37,10 @@ If \code{as_character = FALSE}, results are returned
 as columns of a data frame and 
 include \code{from_date} and \code{to_date}.}
 }
+\value{
+A character vector or data frame 
+(with dates and numeric columns).
+}
 \description{
 \code{diff_dates} computes the difference between two dates 
 (i.e., from some \code{from_date} to some \code{to_date}) 
@@ -95,6 +99,7 @@ Other date and time functions:
 \code{\link{change_tz}()},
 \code{\link{cur_date}()},
 \code{\link{cur_time}()},
+\code{\link{days_in_month}()},
 \code{\link{is_leap_year}()},
 \code{\link{what_date}()},
 \code{\link{what_month}()},

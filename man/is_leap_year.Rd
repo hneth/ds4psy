@@ -12,7 +12,7 @@ is_leap_year(dt)
 \arguments{
 \item{dt}{Date or time (scalar or vector). 
 Numbers or strings with dates are parsed into 
-4-digit numbers denoting the year}
+4-digit numbers denoting the year.}
 }
 \description{
 \code{is_leap_year} checks whether a given year 
@@ -27,10 +27,14 @@ as describing year(s) in a "dddd" (4-digit year) format,
 as a valid "Date" string (to retrieve the 4-digit year "\%Y"), 
 or a numeric \code{dt} as 4-digit integer(s). 
 
-\code{is_leap_year} then solves the task in two ways:  
-1. by verifying the numeric definition of a "leap year", and 
-2. by trying to use \code{as.Date()} for defining 
-a "Date" of Feb-29 in the corresponding year(s).
+\code{is_leap_year} then solves the task 
+by verifying the numeric definition of a "leap year" 
+(see \url{https://en.wikipedia.org/wiki/Leap_year}). 
+
+An alternative solution that tried using  
+\code{as.Date()} for defining a "Date" of Feb-29 
+in the corresponding year(s) was removed, 
+as it evaluated \code{NA} values as \code{FALSE}.
 }
 \examples{
 is_leap_year(2020)
@@ -58,7 +62,6 @@ is_leap_year(c("2020-02-29 01:02:03", "2021-02-28 01:02"))
 # Note: Invalid date string yields error: 
 # is_leap_year("2021-02-29")
 
-
 }
 \seealso{
 \code{leap_year} function of the \strong{lubridate} package.
@@ -68,6 +71,7 @@ Other date and time functions:
 \code{\link{change_tz}()},
 \code{\link{cur_date}()},
 \code{\link{cur_time}()},
+\code{\link{days_in_month}()},
 \code{\link{diff_dates}()},
 \code{\link{what_date}()},
 \code{\link{what_month}()},
