@@ -365,14 +365,15 @@ is_leap_year <- function(dt){
 # is_leap_year("2021-02-29")
 
 
-# days_in_month: Get number of days in a given month (based on date): ------
 
-# Define constant: 
+# MONTH_DAYS: Define a CONSTANT for days in TYPICAL month (no leap year): ------  
 MONTH_DAYS <- c(31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31) 
 # sum(MONTH_DAYS)  # 365
 names(MONTH_DAYS) <- base::month.abb
 
-# days_in_month: Requires "Date" (rather than only month nr.) to check for leap years. 
+# days_in_month: Get number of days in a given month (based on date): ------
+
+# Note: Requires "Date" (rather than only month name/nr.) to check for leap years. 
 
 #' How many days are in a month (of given date)? 
 #'
