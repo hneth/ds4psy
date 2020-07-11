@@ -7,6 +7,7 @@
 ## (0) Time helper/utility functions: ----------
 
 
+
 ## (A) Class of date/time object: ------ 
 
 # is_Date: -----
@@ -44,6 +45,7 @@ is_difftime <- function(time){
 is_date_time <- function(dt){
   is_Date(dt) | is_POSIXt(dt) | is_difftime(dt)
 }
+
 
 
 ## (B) Parsing "Date" from non-dates: ------  
@@ -199,6 +201,240 @@ date_from_nonDate <- function(x, ...){
 # # Note errors for:
 # date_from_nonDate(123)
 # date_from_nonDate("ABC")
+
+
+
+
+
+## (C) Temporal idiosyncracies: ------ 
+
+# is_leap_year: ------ 
+
+#' Is some year a so-called leap year?
+#'
+#' \code{is_leap_year} checks whether a given year 
+#' (provided as a date or time \code{dt}, 
+#' or number/string denoting a 4-digit year)  
+#' lies in a so-called leap year (i.e., a year containing a date of Feb-29). 
+#' 
+#' When \code{dt} is not recognized as "Date" or "POSIXt" object(s), 
+#' \code{is_leap_year} aims to parse a string \code{dt} 
+#' as describing year(s) in a "dddd" (4-digit year) format,  
+#' as a valid "Date" string (to retrieve the 4-digit year "\%Y"), 
+#' or a numeric \code{dt} as 4-digit integer(s). 
+#' 
+#' \code{is_leap_year} then solves the task in two ways:  
+#' 1. by verifying the numeric definition of a "leap year", and 
+#' 2. by trying to use \code{as.Date()} for defining 
+#' a "Date" of Feb-29 in the corresponding year(s). 
+#' 
+#' @param dt Date or time (scalar or vector). 
+#' Numbers or strings with dates are parsed into 
+#' 4-digit numbers denoting the year
+#' 
+#' @examples
+#' is_leap_year(2020)
+#' (days_this_year <- 365 + is_leap_year(Sys.Date()))
+#' 
+#' # from dates:
+#' is_leap_year(Sys.Date())
+#' is_leap_year(as.Date("2022-02-28"))
+#' 
+#' # from times:
+#' is_leap_year(Sys.time())
+#' is_leap_year(as.POSIXct("2022-10-11 10:11:12"))
+#' is_leap_year(as.POSIXlt("2022-10-11 10:11:12"))
+#' 
+#' # from non-integers:
+#' is_leap_year(2019.5)
+#' 
+#' # For vectors:
+#' is_leap_year(2020:2028)
+#' 
+#' # with dt as strings:
+#' is_leap_year(c("2020", "2021"))
+#' is_leap_year(c("2020-02-29 01:02:03", "2021-02-28 01:02"))
+#' 
+#' # Note: Invalid date string yields error: 
+#' # is_leap_year("2021-02-29")
+#' 
+#' 
+#' @family date and time functions
+#' 
+#' @seealso 
+#' \code{leap_year} function of the \strong{lubridate} package. 
+#' 
+#' @source 
+#' See \url{https://en.wikipedia.org/wiki/Leap_year} for definition. 
+#' 
+#' @export
+
+is_leap_year <- function(dt){
+  
+  # print(dt)  # debugging 
+  
+  # initialize: 
+  y <- NA
+  out_1 <- NA
+  out_2 <- NA
+  
+  # Determine y (as integer):
+  if (is_Date(dt) | is_POSIXct(dt) | is_POSIXlt(dt)){
+    
+    y <- as.numeric(format(dt, format = "%Y"))
+    
+  } else if (is.character(dt)){
+    
+    if (all(grepl(x = dt, pattern = "^\\d\\d\\d\\d$"))) {
+      
+      # message('is_leap_year: Parsing string dt as "yyyy")...')      
+      y <- as.numeric(dt)
+      
+    } else {
+      
+      message('is_leap_year: Coercing string dt into "Date" (to get "%Y")...')
+      y <- as.numeric(format(as.Date(dt), format = "%Y"))
+      
+    }
+    
+  } else if (is.numeric(dt)){ 
+    
+    if (all(is.wholenumber(dt))){
+      
+      y <- dt
+      
+    } else {
+      
+      message('is_leap_year: Rounding numeric dt to nearest integer...')
+      y <- round(dt, 0)
+      
+    }} else {
+      
+      message('is_leap_year: Failed to parse dt into year.')
+      
+    }
+  
+  if (any(is.na(y))){
+    message('is_leap_year: Some y values are NA.')
+  }
+  
+  # Use 2 solutions:
+  # 1. Using definition from <https://en.wikipedia.org/wiki/Leap_year>:
+  out_1 <- (y %% 4 == 0) & ((y %% 100 != 0) | (y %% 400 == 0))
+  # print(out_1)  # debugging
+  
+  # # 2. Try defining Feb-29 as "Date" (NA if non-existent):
+  # feb_29 <- paste(y, "02", "29", sep = "-")
+  # out_2  <- !is.na(as.Date(feb_29, format = "%Y-%m-%d"))  # ERROR: y = NA becomes FALSE
+  # # print(out_2)  # debugging
+  
+  # if (!all.equal(out_1, out_2)){  # Warn of discrepancy: 
+  #   warning("is_leap_year: Two solutions yield different results. Using 1st...")
+  # }
+  
+  return(out_1)
+  
+} # is_leap_year end. 
+
+
+# ## Check:
+# is_leap_year(2020)
+# (days_this_year <- 365 + is_leap_year(Sys.Date()))
+# 
+# is_leap_year(Sys.Date())
+# is_leap_year(as.Date("2022-10-11"))
+# 
+# is_leap_year(Sys.time())
+# is_leap_year(as.POSIXct("2022-10-11 10:11:12"))
+# is_leap_year(as.POSIXlt("2022-10-11 10:11:12"))
+# 
+# is_leap_year(2019.5)
+# 
+# # For vectors:
+# v <- 2020:2028
+# is_leap_year(v)
+# 
+# # with dt as strings:
+# is_leap_year("2000")
+# is_leap_year(c("2020", "2021"))
+# is_leap_year(c("2020-02-29 01:02:03", "2021-02-28 01:02"))
+# # Note: Invalid date string would yield error
+# is_leap_year("2021-02-29")
+
+
+# days_in_month: Get number of days in a given month (based on date): ------
+
+# Define constant: 
+MONTH_DAYS <- c(31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31) 
+# sum(MONTH_DAYS)  # 365
+names(MONTH_DAYS) <- base::month.abb
+
+# days_in_month: Requires "Date" (rather than only month nr.) to check for leap years. 
+
+days_in_month <- function(dt, ...){
+  
+  if (!is_Date(dt)){ dt <- date_from_nonDate(dt, ...) }
+  
+  month_nr <- as.numeric(format(dt, format = "%m"))
+  # message(paste(month_nr, collapse = " "))
+  
+  nr_days <- MONTH_DAYS[month_nr]
+  # message(paste(nr_days, collapse = " "))
+  
+  # special case: Feb. of leap year has 29 days: 
+  nr_days[(month_nr == 2) & (is_leap_year(dt))] <- 29 
+  
+  return(nr_days)
+  
+} # days_in_month end. 
+
+# ## Check:
+# days_in_month(Sys.Date())    # Date
+# days_in_month(Sys.time())    # POSIXct
+# days_in_month("2020-07-01")  # string
+# days_in_month(20200901)      # number
+# days_in_month(c("2020-02-10 01:02:03", "2021-02-11", "2024-02-12"))  # vectors of strings
+# 
+# # # leap years:
+# ds <- as.Date("2020-02-20") + (365 * 0:4)  # 2020 and 2024 are leap years
+# ds
+# days_in_month(ds)
+
+
+# days_last_month: Get number of days in a PRECEDING month (based on date): ------
+
+days_last_month <- function(dt, ...){
+  
+  if (!is_Date(dt)){ dt <- date_from_nonDate(dt, ...) }
+  
+  year <- as.numeric(format(dt, format = "%Y"))
+  month_nr <- as.numeric(format(dt, format = "%m"))
+  
+  # Reduce month_nr by 1:
+  last_month_nr <- (month_nr - 1) 
+  last_month_nr[last_month_nr == 0] <- 12  # Dec <- Jan
+  
+  mid_last_month <- paste(year, last_month_nr, "15", sep = "-")
+  dt_last_month <- as.Date(mid_last_month, format = "%Y-%m-%d")
+  
+  # message(dt_last_month)  # debugging
+  
+  out <- days_in_month(dt_last_month)
+  
+  return(out)
+  
+} # days_last_month end. 
+
+## Check:
+# days_last_month(as.Date("2020-07-10"))
+
+# dts <- as.Date("2020-01-15") + 30 * 0:12
+# dts
+# days_in_month(dts)
+# days_last_month(dts)
+
+# days_last_month(c("2020-03-10", "2021-03-11", "2024-03-12"))  # vectors of strings
+
 
 
 
@@ -385,6 +621,7 @@ cur_time <- function(seconds = FALSE, as_string = TRUE, sep = ":"){
 # cur_date_time: Combining cur_date and cur_time: ------ 
 
 # ToDo?  Or just call cur_date() AND cur_time()? 
+
 
 
 
@@ -1344,7 +1581,8 @@ what_year <- function(when = Sys.Date(), abbr = FALSE, as_integer = FALSE){
 
 
 
-## (3) Time zones and temporal idiosyncracies: ---------- 
+
+## (3) Time conversions: ---------- 
 # change_time: ------ 
 
 # Task 2: Take a Change time zone AND actual time, without changing represented time (i.e., time display): 
@@ -1640,236 +1878,9 @@ change_tz <- function(time, tz = ""){
 # # lubridate::with_tz(tv, tzone = "US/Pacific")  # same results
 
 
-# is_leap_year: ------ 
-
-#' Is some year a so-called leap year?
-#'
-#' \code{is_leap_year} checks whether a given year 
-#' (provided as a date or time \code{dt}, 
-#' or number/string denoting a 4-digit year)  
-#' lies in a so-called leap year (i.e., a year containing a date of Feb-29). 
-#' 
-#' When \code{dt} is not recognized as "Date" or "POSIXt" object(s), 
-#' \code{is_leap_year} aims to parse a string \code{dt} 
-#' as describing year(s) in a "dddd" (4-digit year) format,  
-#' as a valid "Date" string (to retrieve the 4-digit year "\%Y"), 
-#' or a numeric \code{dt} as 4-digit integer(s). 
-#' 
-#' \code{is_leap_year} then solves the task in two ways:  
-#' 1. by verifying the numeric definition of a "leap year", and 
-#' 2. by trying to use \code{as.Date()} for defining 
-#' a "Date" of Feb-29 in the corresponding year(s). 
-#' 
-#' @param dt Date or time (scalar or vector). 
-#' Numbers or strings with dates are parsed into 
-#' 4-digit numbers denoting the year
-#' 
-#' @examples
-#' is_leap_year(2020)
-#' (days_this_year <- 365 + is_leap_year(Sys.Date()))
-#' 
-#' # from dates:
-#' is_leap_year(Sys.Date())
-#' is_leap_year(as.Date("2022-02-28"))
-#' 
-#' # from times:
-#' is_leap_year(Sys.time())
-#' is_leap_year(as.POSIXct("2022-10-11 10:11:12"))
-#' is_leap_year(as.POSIXlt("2022-10-11 10:11:12"))
-#' 
-#' # from non-integers:
-#' is_leap_year(2019.5)
-#' 
-#' # For vectors:
-#' is_leap_year(2020:2028)
-#' 
-#' # with dt as strings:
-#' is_leap_year(c("2020", "2021"))
-#' is_leap_year(c("2020-02-29 01:02:03", "2021-02-28 01:02"))
-#' 
-#' # Note: Invalid date string yields error: 
-#' # is_leap_year("2021-02-29")
-#' 
-#' 
-#' @family date and time functions
-#' 
-#' @seealso 
-#' \code{leap_year} function of the \strong{lubridate} package. 
-#' 
-#' @source 
-#' See \url{https://en.wikipedia.org/wiki/Leap_year} for definition. 
-#' 
-#' @export
-
-is_leap_year <- function(dt){
-  
-  # print(dt)  # debugging 
-  
-  # initialize: 
-  y <- NA
-  out_1 <- NA
-  out_2 <- NA
-  
-  # Determine y (as integer):
-  if (is_Date(dt) | is_POSIXct(dt) | is_POSIXlt(dt)){
-    
-    y <- as.numeric(format(dt, format = "%Y"))
-    
-  } else if (is.character(dt)){
-    
-    if (all(grepl(x = dt, pattern = "^\\d\\d\\d\\d$"))) {
-      
-      # message('is_leap_year: Parsing string dt as "yyyy")...')      
-      y <- as.numeric(dt)
-      
-    } else {
-      
-      message('is_leap_year: Coercing string dt into "Date" (to get "%Y")...')
-      y <- as.numeric(format(as.Date(dt), format = "%Y"))
-      
-    }
-    
-  } else if (is.numeric(dt)){ 
-    
-    if (all(is.wholenumber(dt))){
-      
-      y <- dt
-      
-    } else {
-      
-      message('is_leap_year: Rounding numeric dt to nearest integer...')
-      y <- round(dt, 0)
-      
-    }} else {
-      
-      message('is_leap_year: Failed to parse dt into year.')
-      
-    }
-  
-  if (any(is.na(y))){
-    message('is_leap_year: Some y values are NA.')
-  }
-  
-  # Use 2 solutions:
-  # 1. Using definition from <https://en.wikipedia.org/wiki/Leap_year>:
-  out_1 <- (y %% 4 == 0) & ((y %% 100 != 0) | (y %% 400 == 0))
-  # print(out_1)  # debugging
-  
-  # # 2. Try defining Feb-29 as "Date" (NA if non-existent):
-  # feb_29 <- paste(y, "02", "29", sep = "-")
-  # out_2  <- !is.na(as.Date(feb_29, format = "%Y-%m-%d"))  # ERROR: y = NA becomes FALSE
-  # # print(out_2)  # debugging
-  
-  # if (!all.equal(out_1, out_2)){  # Warn of discrepancy: 
-  #   warning("is_leap_year: Two solutions yield different results. Using 1st...")
-  # }
-  
-  return(out_1)
-  
-} # is_leap_year end. 
 
 
-# ## Check:
-# is_leap_year(2020)
-# (days_this_year <- 365 + is_leap_year(Sys.Date()))
-# 
-# is_leap_year(Sys.Date())
-# is_leap_year(as.Date("2022-10-11"))
-# 
-# is_leap_year(Sys.time())
-# is_leap_year(as.POSIXct("2022-10-11 10:11:12"))
-# is_leap_year(as.POSIXlt("2022-10-11 10:11:12"))
-# 
-# is_leap_year(2019.5)
-# 
-# # For vectors:
-# v <- 2020:2028
-# is_leap_year(v)
-# 
-# # with dt as strings:
-# is_leap_year("2000")
-# is_leap_year(c("2020", "2021"))
-# is_leap_year(c("2020-02-29 01:02:03", "2021-02-28 01:02"))
-# # Note: Invalid date string would yield error
-# is_leap_year("2021-02-29")
-
-
-# days_in_month: Get number of days in a given month (based on date): ------
-
-# Constant: 
-MONTH_DAYS <- c(31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31)
-# sum(MONTH_DAYS)  # 365
-names(MONTH_DAYS) <- base::month.abb
-
-# days_in_month: Requires "Date" (rather than only month nr.) to check for leap years. 
-
-days_in_month <- function(dt, ...){
-  
-  if (!is_Date(dt)){ dt <- date_from_nonDate(dt, ...) }
-  
-  month_nr <- as.numeric(format(dt, format = "%m"))
-  # message(paste(month_nr, collapse = " "))
-  
-  nr_days <- MONTH_DAYS[month_nr]
-  # message(paste(nr_days, collapse = " "))
-  
-  # special case: 
-  nr_days[(month_nr == 2) & (is_leap_year(dt))] <- 29 
-  
-  return(nr_days)
-  
-} # days_in_month end. 
-
-# ## Check:
-# days_in_month(Sys.Date())    # Date
-# days_in_month(Sys.time())    # POSIXct
-# days_in_month("2020-07-01")  # string
-# days_in_month(20200901)      # number
-# days_in_month(c("2020-02-10 01:02:03", "2021-02-11", "2024-02-12"))  # vectors of strings
-# 
-# # # leap years:
-# ds <- as.Date("2020-02-20") + (365 * 0:4)  # 2020 and 2024 are leap years
-# ds
-# days_in_month(ds)
-
-
-# days_last_month: Get number of days in a PRECEDING month (based on date): ------
-
-days_last_month <- function(dt, ...){
-  
-  if (!is_Date(dt)){ dt <- date_from_nonDate(dt, ...) }
-  
-  year <- as.numeric(format(dt, format = "%Y"))
-  month_nr <- as.numeric(format(dt, format = "%m"))
-  
-  last_month_nr <- (month_nr - 1) 
-  
-  # special case: 
-  last_month_nr[last_month_nr == 0] <- 12
-  
-  mid_last_month <- paste(year, last_month_nr, "15", sep = "-")
-  dt_last_month <- as.Date(mid_last_month, format = "%Y-%m-%d")
-  
-  # message(dt_last_month)  # debugging
-  
-  out <- days_in_month(dt_last_month)
-  
-  return(out)
-  
-} # days_last_month end. 
-
-## Check:
-# days_last_month(as.Date("2020-07-10"))
-
-# dts <- as.Date("2020-01-15") + 30 * 0:12
-# dts
-# days_in_month(dts)
-# days_last_month(dts)
-
-# days_last_month(c("2020-03-10", "2021-03-11", "2024-03-12"))  # vectors of strings
-
-
-## (4) Compute differences between 2 dates (in various units/periods): ------  
+## (4) Compute differences between 2 dates/times (in human time units/periods): ------  
 
 # diff_days: Difference between two dates (in days): ------ 
 
@@ -1923,7 +1934,7 @@ diff_days <- function(from_date, to_date = Sys.Date(), units = "days", as_Date =
 # diff_days(t0, t2)
 
 
-# diff_dates/what_age: Compute date difference (e.g., age) in human units: ------
+# diff_dates: Compute date difference (i.e., age) in human units: ------
 
 #' Get the difference between two dates (in human units).  
 #'
@@ -2001,7 +2012,7 @@ diff_days <- function(from_date, to_date = Sys.Date(), units = "days", as_Date =
 #' @export
 
 diff_dates <- function(from_date, to_date = Sys.Date(), 
-                     unit = "y", as_character = TRUE){
+                       unit = "y", as_character = TRUE){
   
   # 1. Handle inputs: ------  
   
@@ -2284,6 +2295,7 @@ diff_dates <- function(from_date, to_date = Sys.Date(),
 # - Use result to add a week entry "Xw" between month m and day d.
 
 
+
 ## Done: ----------
 
 # - Provided all what_ functions with a "when" argument that is set to Sys.Date() 
@@ -2295,16 +2307,17 @@ diff_dates <- function(from_date, to_date = Sys.Date(),
 
 ## ToDo: ----------
 
-# - finish diff_dates (or date_diff) function. 
+# - consider moving time utility/helper functions into separate file.
 
-# - move time utility/helper functions into separate file.
-
+# ad (1) and (2): 
 # - update cur_ and what_ functions to use new helpers
-# - re-consider what_day() to returns NUMERIC day in week/month/year.
-
+# - re-consider what_day() to return NUMERIC day in week/month/year.
 # - fix ToDo in what_date() (Actively convert...)
-
 # - Return dates/times either as strings (if as_string = TRUE) or 
 #   as dates/times (of class "Date"/"POSIXct") in all what_() functions
+
+# ad (4): Differences between dates/times:
+# - finish diff_dates (or date_diff) function. 
+# - consider adding diff_times function (analog to diff_dates, but for date-times, including H:M:S)
 
 ## eof. ----------------------
