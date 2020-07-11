@@ -1,5 +1,5 @@
 ## time_fun.R | ds4psy
-## hn | uni.kn | 2020 07 10 
+## hn | uni.kn | 2020 07 11
 ## ---------------------------
 
 ## Functions for date and time objects. 
@@ -1876,7 +1876,7 @@ days_last_month <- function(dt, ...){
 diff_days <- function(from_date, to_date = Sys.Date(), units = "days", as_Date = TRUE, ...){
   
   # Assume that from_date and to_date are valid dates OR times:   
-  # (Otherwise, see what_age() function below). 
+  # (Otherwise, see diff_dates() function below). 
   
   if (as_Date) { # Convert non-Date (e.g., POSIXt) into "Date" objects:
     
@@ -1923,13 +1923,18 @@ diff_days <- function(from_date, to_date = Sys.Date(), units = "days", as_Date =
 # diff_days(t0, t2)
 
 
-# what_age/diff_dates: What is someone's age (or some age difference) (in human units): ------
+# diff_dates/what_age: Compute date difference (e.g., age) in human units: ------
 
-#' What is the age (or difference between dates) in human units? 
+#' Get the difference between two dates (in human units).  
 #'
-#' \code{what_age} provides the difference between two dates 
+#' \code{diff_dates} computes the difference between two dates 
 #' (i.e., from some \code{from_date} to some \code{to_date}) 
 #' in human measurement units (periods).
+#' 
+#' \code{diff_dates} answers questions like  
+#' "How much time has elapsed between two dates?" 
+#' or "How old are you?" 
+#' in human units of (full) years, months, or days. 
 #' 
 #' If not specified explicitly, \code{to_date} is set to 
 #' today's date (i.e., \code{Sys.Date()}).
@@ -1947,74 +1952,80 @@ diff_days <- function(from_date, to_date = Sys.Date(), units = "days", as_Date =
 #' Maximum date/date of death (DOD), assumed to be of class "Date", 
 #' and coerced into "Date" when of class "POSIXt". 
 #' 
-#' @param unit Units used to represent output (as "character").
+#' @param unit Largest measurement unit to represent output (as "character").
 #' Units represent human time periods, rather than 
 #' chronological time differences. 
 #' Default: \code{unit = "y"} for completed years, months, and days. 
-#' Available options include:  
+#' Available options are: 
 #' 
 #' \enumerate{
 #' 
-#'   \item \code{units = "y"}: completed years, months, and days (default)
+#'   \item \code{unit = "y"}: completed years, months, and days (default)
 #'   
-#'   \item \code{units = "m"}: completed months, and days
+#'   \item \code{unit = "m"}: completed months, and days
 #'   
-#'   \item \code{units = "d"}: completed days
+#'   \item \code{unit = "d"}: completed days
 #'   
 #'   }
+#'   
+#' @param as_character Boolean: Return output as character? 
+#' Default: \code{as_character = TRUE}.  
+#' If \code{as_character = FALSE}, output is returned 
+#' as numeric columns of a data frame. 
 #' 
 #' @examples
 #' y_100 <- Sys.Date() - (100 * 365.25) + -1:1
-#' what_age(y_100)
+#' diff_dates(y_100)
 #' 
 #' # with "to_date" argument: 
 #' y_050 <- Sys.Date() - (50 * 365.25) + -1:1 
-#' what_age(y_100, y_050)
+#' diff_dates(y_100, y_050)
 #' 
 #' # robustness:
 #' days_this_year <- 365 + is_leap_year(Sys.Date())
-#' what_age(Sys.time() - (10 * (60 * 60 * 24) * days_this_year)) # for POSIXt times
-#' what_age("90-07-11", to_date = "10-07-10")                    # for strings
-#' what_age(19900711, to_date = 20100710)                        # for numbers
+#' diff_dates(Sys.time() - (10 * (60 * 60 * 24) * days_this_year)) # for POSIXt times
+#' diff_dates("90-07-11", to_date = "10-07-10")                    # for strings
+#' diff_dates(19900711, to_date = 20100710)                        # for numbers
 #' 
 #' # recycling "to_date" to length of "from_date":
 #' y_050_2 <- Sys.Date() - (50 * 365.25)
-#' what_age(y_100, y_050_2)
+#' diff_dates(y_100, y_050_2)
 #' 
 #' # Using 'fame' data:
 #' dob <- as.Date(fame$DOB, format = "%B %d, %Y")
 #' dod <- as.Date(fame$DOD, format = "%B %d, %Y")
-#' what_age(dob, dod)  # Note: Deceased people do not age further.
+#' diff_dates(dob, dod)  # Note: Deceased people do not age further.
 #' 
 #' @family date and time functions
 #' 
 #' @export
 
-what_age <- function(from_date, to_date = Sys.Date(), unit = "y"){
+diff_dates <- function(from_date, to_date = Sys.Date(), 
+                     unit = "y", as_character = TRUE){
   
-  # 1. Preparation: ------  
+  # 1. Handle inputs: ------  
   
-  # (a) Handle NA inputs: ----
+  # (a) NA inputs: ----
   
   if (any(is.na(from_date))){
-    message('what_age: "from_date" must not be NA...')    
+    message('diff_dates: "from_date" must not be NA...')    
     return(NA)
   }
   
   if (all(is.na(to_date))){
-    message('what_age: Changing "to_date" from NA to "Sys.Date()"...')       
+    message('diff_dates: Changing "to_date" from NA to "Sys.Date()"...')       
     to_date <- Sys.Date()
   }
   
   # (b) Turn non-Date inputs into "Date" objects ---- 
   
   if (!is_Date(from_date)){
-    # message('what_age: Aiming to parse "from_date" as "Date"...')
+    # message('diff_dates: Aiming to parse "from_date" as "Date"...')
     from_date <- date_from_nonDate(from_date)
   }
   
   if (!is_Date(to_date)){
-    # message('what_age: Aiming to parse "to_date" as "Date"...')
+    # message('diff_dates: Aiming to parse "to_date" as "Date"...')
     to_date <- date_from_nonDate(to_date)
   }
   
@@ -2053,39 +2064,52 @@ what_age <- function(from_date, to_date = Sys.Date(), unit = "y"){
   
   # (e) Verify that from_date and to_date are "Date" objects: ---- 
   if (!is_Date(from_date)){
-    message('what_age: "from_date" should be of class "Date"...')    
+    message('diff_dates: "from_date" should be of class "Date"...')
+    # print(from_date)  # debugging
   }
   
   if (!is_Date(to_date)){
-    message('what_age: "to_date" should be of class "Date"...')    
+    message('diff_dates: "to_date" should be of class "Date"...')
+    # print(to_date)    # debugging
+  }
+  
+  # (f) Unit: ----
+  unit <- substr(tolower(unit), 1, 1)  # robustness: use abbreviation: y/m/d
+  
+  if (!unit %in% c("y", "m", "d")){
+    message('diff_dates: unit must be "y", "m", or "d". Using "y"...')
+    unit <- "y"
   }
   
   
   # 2. Main function: ------ 
   
-  # print(from_date)  # debugging
-  # print(to_date)
-  
-  age <- NA  # initialize  
+  # (a) initialize: ---- 
+  age <- NA    
   full_y <- NA
   full_m <- NA
   full_d <- NA
   
-  # Robustness:
-  unit <- substr(tolower(unit), 1, 1)  # use only 1st letter of string
-  
-  # Handle special case:
+  # (b) Special case: unit == "d" ---- 
   if (unit == "d"){
     
     full_d <- diff_days(from_date = from_date, to_date = to_date)
     
-    age <- paste0(full_d, "d")    
+    if (as_character){
+      
+      age <- paste0(full_d, "d") 
+      
+    } else { # return as data frame:
+      
+      age <- data.frame("d" = full_d)
+      
+    }
     
     return(age)
     
   }
   
-  # For other units (y, m): 
+  # (c) Other units (y/m): Get date elements ---- 
   
   # from_date elements (DOB):
   bd_year  <- as.numeric(format(from_date, "%Y"))
@@ -2098,7 +2122,7 @@ what_age <- function(from_date, to_date = Sys.Date(), unit = "y"){
   cur_day   <- as.numeric(format(to_date, "%d"))
   
   
-  # (A) Compute (completed) year component: 
+  # (c1) Completed years: ---- 
   
   # bday this year? (as Boolean): 
   bd_ty <- ifelse((cur_month > bd_month) | ((cur_month == bd_month) & (cur_day >= bd_day)), TRUE, FALSE) 
@@ -2107,7 +2131,7 @@ what_age <- function(from_date, to_date = Sys.Date(), unit = "y"){
   full_y <- (cur_year - bd_year) - (1 * !bd_ty) 
   
   
-  # (B) Compute (completed) month component:
+  # (c2) Completed months: ---- 
   
   # bday this month? (as Boolean): 
   bd_tm <- ifelse((cur_day >= bd_day), TRUE, FALSE) 
@@ -2116,11 +2140,17 @@ what_age <- function(from_date, to_date = Sys.Date(), unit = "y"){
   ## Distinguish 2 cases:
   # full_m[bd_ty]  <- (cur_month[bd_ty]  - bd_month[bd_ty])  - !bd_tm[bd_ty]        # 1:  bd_ty
   # full_m[!bd_ty] <- (12 + cur_month[!bd_ty] - bd_month[!bd_ty]) - !bd_tm[!bd_ty]  # 2: !bd_ty
+  
   ## Combine both cases:
   full_m <- (cur_month - bd_month) + (12 * !bd_ty) - (1 * !bd_tm) 
   
+  if (unit == "m"){
+    
+    full_m <- (12 * full_y) + full_m  # express years in months
+    
+  }
   
-  # (C) Compute (completed) day component:
+  # (c3) Completed days: ---- 
   
   ## bday today? (as Boolean): 
   # bd_td <- ifelse((cur_day == bd_day), TRUE, FALSE) 
@@ -2131,6 +2161,7 @@ what_age <- function(from_date, to_date = Sys.Date(), unit = "y"){
   ## Distinguish 2 cases:  
   # full_d[bd_tm]  <- cur_day[bd_tm]  - bd_day[bd_tm]  # 1:  bd_tm
   # full_d[!bd_tm] <- cur_day[!bd_tm] - bd_day[!bd_tm] + days_last_month(to_date[!bd_tm])  # 2: !bd_tm
+  
   ## Combine both cases:
   full_d <- cur_day - bd_day + (days_last_month(to_date) * !bd_tm) 
   
@@ -2140,65 +2171,80 @@ what_age <- function(from_date, to_date = Sys.Date(), unit = "y"){
   # Use diff_days helper function to compute exact number of days between two dates:
   # age_d <- diff_days(DOB, to_date) - diff_days(DOB, to_date = bday_day_last_month)
   
-  # (+) Collect requested age unit:
   
-  if (unit == "y"){
+  # 3. Output: ------ 
+  
+  if (as_character){
     
-    age <- paste0(full_y, "y ", full_m, "m ", full_d, "d")
+    if (unit == "y"){
+      
+      age <- paste0(full_y, "y ", full_m, "m ", full_d, "d")
+      
+    } else if (unit == "m"){
+      
+      age <- paste0(full_m, "m ", full_d, "d")
+      
+    }
     
-  } else if (unit == "m"){
+  } else { # return as data frame:
     
-    full_m <- (12 * full_y) + full_m 
-    
-    age <- paste0(full_m, "m ", full_d, "d")
-    
-  } else {
-    
-    message('what_age: Unknown unit.')
-    
+    if (unit == "y"){
+      
+      age <- data.frame("y" = full_y, 
+                        "m" = full_m, 
+                        "d" = full_d)
+      
+    } else if (unit == "m"){
+      
+      age <- data.frame("m" = full_m, 
+                        "d" = full_d)
+      
+    }
   }
   
   return(age)
   
-} # what_age end. 
+} # diff_dates end. 
 
 
 # ## Check:
 
 # # Days:
-# ds_from <- as.Date("2010-02-20") + -1:1
+# ds_from <- as.Date("2010-01-02") + -1:1
 # ds_from
-# ds_to   <- as.Date("2020-03-20")
+# ds_to   <- as.Date("2020-03-01")  # Note: 2020 is leap year.
 # ds_to
-# what_age(from_date = ds_from, to_date = ds_to)
-
+# diff_dates(from_date = ds_from, to_date = ds_to)
+# diff_dates(from_date = ds_from, to_date = ds_to, unit = "m")
+# diff_dates(from_date = ds_from, to_date = ds_to, unit = "d")
+# 
 # # Months: 
 # ms <- Sys.Date() - 366 + seq(from = -100, to = +100, by = 50)
 # ms
-# what_age(ms)
+# diff_dates(ms)
 
 # y_100 <- Sys.Date() - (100 * 365.25) + -1:1
 # y_100
-# what_age(y_100)
+# diff_dates(y_100)
 # 
 # # with "to_date" argument:
 # y_050 <- Sys.Date() - (50 * 365.25) + -1:1
 # y_050
-# what_age(y_100, y_050)
+# diff_dates(y_100, y_050)
 #
 # # recycling "to_date" to length of "from_date":
 # y_050_2 <- Sys.Date() - (50 * 365.25)
 # y_050_2
-# what_age(y_100, y_050_2)
+# diff_dates(y_100, y_050_2)
 # 
 # # Using 'fame' data:
 # dob <- as.Date(fame$DOB, format = "%B %d, %Y")
 # dob
 # dod <- as.Date(fame$DOD, format = "%B %d, %Y")
 # dod
-# what_age(dob, dod)
-# what_age(dob, dod, unit = "m")
-# what_age(dob, dod, unit = "d")
+# diff_dates(dob, dod)
+# diff_dates(dob, dod, unit = "m")
+# diff_dates(dob, dod, unit = "d")
 
 ## Compare results to other methods:
 
@@ -2211,30 +2257,27 @@ what_age <- function(from_date, to_date = Sys.Date(), unit = "y"){
 ## (b) base::difftime():
 # all.equal(as.numeric(dod - dob), diff_days(dob, dod))
 # all.equal(as.numeric(difftime(dod, dob)), diff_days(dob, dod))
-# difftime(dod, dob, units = "weeks")  # Note: No "weeks" in what_age().
+# difftime(dod, dob, units = "weeks")  # Note: No "weeks" in diff_dates().
 
 # # from strings:
-# what_age("2000-12-31")
-# what_age("90-01-02", to_date = "10-01-01")
+# diff_dates("2000-12-31")
+# diff_dates("90-01-02", to_date = "10-01-01")
 #
 # # from numbers:
-# what_age(20001231)  # turned into character > Date
-# what_age(19900711, to_date = 20100710)
+# diff_dates(20001231)  # turned into character > Date
+# diff_dates(19900711, to_date = 20100710)
 # 
 # # NAs:
-# what_age(from_date = y_100, to_date = NA)
-# what_age(from_date = NA, to_date = NA)
+# diff_dates(from_date = y_100, to_date = NA)
+# diff_dates(from_date = NA, to_date = NA)
 
 ## ToDo: 
 
 # - if from_date is later than to_date: Reverse dates and negate result.
-# - extend to include differences in "months" and "days"
-# - add units argument (default = "years", but allowing for months and days). 
 # - add n_decimals argument (default of 0).
-# - consider renaming what_age() to diff_dates() 
 #
 # - Add exercise to Chapter 10: 
-#   Explore the what_age() function that computes 
+#   Explore the diff_dates() function that computes 
 #   the difference between two dates (in human measurement units). 
 # - Use result to compute age in years (as number) and months (as number). 
 # - Use result to compute age in full weeks (as number). 
@@ -2252,7 +2295,7 @@ what_age <- function(from_date, to_date = Sys.Date(), unit = "y"){
 
 ## ToDo: ----------
 
-# - finish what_age (or date_diff) function. 
+# - finish diff_dates (or date_diff) function. 
 
 # - move time utility/helper functions into separate file.
 
