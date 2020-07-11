@@ -143,9 +143,12 @@ date_from_string <- function(x, ...){
 # date_from_string(c("10-8-12", "12-8-10"))
 # date_from_string(c(20100812, 20120810))
 # 
+# # fame data (with format string):
+# date_from_string(fame$DOB, format = "%B %d, %Y")
+# 
 # # (!) NOT accounted for:
-# date_from_string("August 10, 2010")  # mdY
-# # but providing format works:
+# date_from_string("August 10, 2010")  # BdY
+# # but works with format string: 
 # date_from_string("August 10, 2010", format = "%B %d, %Y") 
 # 
 # date_from_string("12.8")  # no year
@@ -157,50 +160,53 @@ date_from_string <- function(x, ...){
 # date_from_string(c("2010-8-12", "12-8-2010"))  # mix of orders
 
 
-# date_from_nonDate: Parse non-Date into "Date" object(s): ------ 
+# date_from_non_Date: Parse non-Date into "Date" object(s): ------ 
 
-date_from_nonDate <- function(x, ...){
+date_from_non_Date <- function(x, ...){
   
   dt <- NA
   
   # 1. Coerce numeric x that are NOT date-time objects into character strings:
   if (!is_date_time(x) & is.numeric(x)){
-    # message('date_from_nonDate: Coercing x from "number" into "character".')    
+    # message('date_from_non_Date: Coercing x from "number" into "character".')    
     x <- as.character(x)
   }
   
   # 2. Aim to coerce character string inputs x into "Date": 
   if (is.character(x)){
-    # message('date_from_nonDate: Aiming to parse x from "character" as "Date".')
+    # message('date_from_non_Date: Aiming to parse x from "character" as "Date".')
     dt <- date_from_string(x, ...)
   }
   
   # 3. Coerce "POSIXt" inputs into "Date":
   if (is_POSIXt(x)){
-    # message('date_from_nonDate: Coercing x from "POSIXt" into "Date".')
+    # message('date_from_non_Date: Coercing x from "POSIXt" into "Date".')
     dt <- as.Date(x, ...) 
   }
   
   # 4. Note if dt is still no "Date": ---- 
   if (!is_Date(dt)){
     
-    message('date_from_nonDate: Failed to parse x as "Date".')
+    message('date_from_non_Date: Failed to parse x as "Date".')
     
   }
   
   return(dt)
   
-} # date_from_nonDate end. 
+} # date_from_non_Date end. 
 
 # # Check:
-# date_from_nonDate(20100612)    # number
-# date_from_nonDate("20100612")  # string
-# date_from_nonDate(as.POSIXct("2010-06-10 12:30:45", tz = "UTC"))
-# date_from_nonDate(as.POSIXlt("2010-06-10 12:30:45", tz = "UTC"))
+# date_from_non_Date(20100612)    # number
+# date_from_non_Date("20100612")  # string
+# date_from_non_Date(as.POSIXct("2010-06-10 12:30:45", tz = "UTC"))
+# date_from_non_Date(as.POSIXlt("2010-06-10 12:30:45", tz = "UTC"))
+# 
+# # fame data (with format string):
+# date_from_non_Date(fame$DOB, format = "%B %d, %Y")
 # 
 # # Note errors for:
-# date_from_nonDate(123)
-# date_from_nonDate("ABC")
+# date_from_non_Date(123)
+# date_from_non_Date("ABC")
 
 
 
@@ -417,7 +423,7 @@ names(MONTH_DAYS) <- base::month.abb
 
 days_in_month <- function(dt = Sys.Date(), ...){
   
-  if (!is_Date(dt)){ dt <- date_from_nonDate(dt, ...) }
+  if (!is_Date(dt)){ dt <- date_from_non_Date(dt, ...) }
   
   month_nr <- as.numeric(format(dt, format = "%m"))
   # message(paste(month_nr, collapse = " "))
@@ -449,35 +455,175 @@ days_in_month <- function(dt = Sys.Date(), ...){
 
 days_last_month <- function(dt, ...){
   
-  if (!is_Date(dt)){ dt <- date_from_nonDate(dt, ...) }
+  out <- NA
   
-  year <- as.numeric(format(dt, format = "%Y"))
+  # (a) Handle inputs:   
+  if (!is_Date(dt)){ dt <- date_from_non_Date(dt, ...) }
+  
+  # (b) Get dt elements: 
+  year_nr  <- as.numeric(format(dt, format = "%Y"))
   month_nr <- as.numeric(format(dt, format = "%m"))
   
-  # Reduce month_nr by 1:
-  last_month_nr <- (month_nr - 1) 
-  last_month_nr[last_month_nr == 0] <- 12  # Dec <- Jan
+  # (c) Main processing: 
+  last_month_nr <- (month_nr - 1)          # reduce month_nr by 1
   
-  mid_last_month <- paste(year, last_month_nr, "15", sep = "-")
+  # Special cases: 
+  last_month_nr[last_month_nr == 0] <- 12  # Dec <- Jan
+  year_nr[last_month_nr == 12] <- (year_nr[last_month_nr == 12] - 1)  # preceding year!
+  
+  # Construct as date: 
+  # Heuristic: A 15. day exists for all months, but cannot be mistaken for month_nr: 
+  mid_last_month <- paste(year_nr, last_month_nr, "15", sep = "-")
   dt_last_month <- as.Date(mid_last_month, format = "%Y-%m-%d")
   
-  # message(dt_last_month)  # debugging
+  # message(paste(dt_last_month, collapse = " "))  # debugging
   
-  out <- days_in_month(dt_last_month)
+  # Get days_in_month() for dates of dt_last_month: 
+  out <- days_in_month(dt_last_month) 
   
+  # (d) Output:  
   return(out)
   
 } # days_last_month end. 
 
 ## Check:
-# days_last_month(as.Date("2020-07-10"))
-
-# dts <- as.Date("2020-01-15") + 30 * 0:12
-# dts
+# days_last_month(as.Date("2020-01-10"))
+# 
+# (dts <- as.Date("2020-01-15") + 30 * 0:12)
 # days_in_month(dts)
 # days_last_month(dts)
+# 
+# days_last_month(c("2020-01-10", "2020-02-11", "2020-03-12"))  # vectors of strings
 
-# days_last_month(c("2020-03-10", "2021-03-11", "2024-03-12"))  # vectors of strings
+
+# bday_eq_last_month: Get closest equivalent to bday in last month: ------ 
+
+# Helper function bday_eq_last_month(to_date, bday): 
+# Get closest equivalent to bday in last month (e.g., 
+# - 28.02. if bday on 30.03 and no leap year,
+# - 30.11 for bday on 31.12, etc.)
+
+bday_eq_last_month <- function(dt, bday, ...){
+  
+  # (a) Handle inputs:
+  if (!is_Date(dt)){ dt <- date_from_non_Date(dt, ...) }
+  
+  if (length(dt) > length(bday)){
+    
+    if (length(bday) == 1){  # bday scalar: 
+      
+      bday <- rep(bday, times = length(dt))
+      
+    } else {
+      
+      bday <- rep(bday, length.out = length(dt))  # recycle bday
+      
+    }
+  }
+  
+  # (b) Get dt elements:
+  year_nr  <- as.numeric(format(dt, format = "%Y"))
+  month_nr <- as.numeric(format(dt, format = "%m"))
+  
+  # (c) Main processing: 
+  last_month_nr <- (month_nr - 1)          # reduce month_nr by 1
+  
+  # Special cases: 
+  last_month_nr[last_month_nr == 0] <- 12  # Dec <- Jan!
+  year_nr[last_month_nr == 12] <- (year_nr[last_month_nr == 12] - 1)  # preceding year!
+  
+  # How many days were there last month?
+  max_day_last_month <- days_last_month(dt)
+  
+  day_nr <- rep(NA, length(dt))
+  
+  # Distinguish 2 cases:
+  day_nr[max_day_last_month >= bday] <- bday[max_day_last_month >= bday]  # 1. bday exists in last month; OR 
+  day_nr[max_day_last_month < bday]  <- max_day_last_month[max_day_last_month < bday]  # 2. take max_day_last_month instead.
+  
+  # Construct as date: 
+  bd_last_month <- paste(year_nr, last_month_nr, day_nr, sep = "-")
+  dt_last_month <- as.Date(bd_last_month, format = "%Y-%m-%d")
+  
+  # message(dt_last_month)  # debugging
+  
+  # (d) Output:   
+  return(dt_last_month)
+  
+} # bday_eq_last_month end. 
+
+## Check:
+# bday_eq_last_month("2020-01-01", bday = 31)
+# bday_eq_last_month("2020-12-01", bday = 31)
+# 
+# bday_eq_last_month("2020-03-01", bday = 29)  # 2020 is leap year
+# bday_eq_last_month("2020-03-01", bday = 30)
+# bday_eq_last_month("2020-03-01", bday = 31)
+# 
+# bday_eq_last_month("2021-03-01", bday = 29)  # 2021 is NO leap year
+# bday_eq_last_month("2021-03-01", bday = 30)
+# bday_eq_last_month("2021-03-01", bday = 31)
+# 
+# # For vectors:
+# (ds <- paste("2021", 1:12, 15, sep = "-"))  # 2021 is NO leap year
+# bday_eq_last_month(ds, bday = 29)
+# bday_eq_last_month(ds, bday = 30)
+# bday_eq_last_month(ds, bday = 31)
+
+
+# dt_last_monthly_bd: Get last full-month bday: ------ 
+
+dt_last_monthly_bd <- function(dob, to_date, ...){
+  
+  # (a) Handle inputs:
+  if (!is_Date(dob)){ dob <- date_from_non_Date(dob, ...) }
+  if (!is_Date(to_date)){to_date <- date_from_non_Date(to_date, ...) }
+  
+  N <- length(dob)
+  
+  if (N > length(to_date)){
+    
+    to_date <- rep(to_date, length.out = N)  # recycle to_date
+    
+  }
+  
+  # (b) Get dt elements:
+  dob_y <- as.numeric(format(dob, format = "%Y"))
+  dob_m <- as.numeric(format(dob, format = "%m"))
+  dob_d <- as.numeric(format(dob, format = "%d"))
+  
+  tod_y <- as.numeric(format(to_date, format = "%Y"))
+  tod_m <- as.numeric(format(to_date, format = "%m"))
+  tod_d <- as.numeric(format(to_date, format = "%d"))
+  
+  # (c) Main processing: 
+  bd_this_month <- tod_d >= dob_d  # flag
+  
+  dt_y <- tod_y
+  dt_m <- rep(NA, N)
+  
+  # Distinguish 2 cases:
+  dt_m[bd_this_month]  <- tod_m[bd_this_month]
+  dt_m[!bd_this_month] <- tod_m[!bd_this_month] - 1
+  
+  # Consider special case:
+  dt_m[dt_m == 0]  <- 12  # Dec <- Jan! 
+  dt_y[dt_m == 12] <- dt_y[dt_m == 12] - 1   # preceding year!
+  
+  # Construct as date: 
+  dt_string <- paste(dt_y, dt_m, dob_d, sep = "-")
+  dt <- as.Date(dt_string, format = "%Y-%m-%d")
+  
+  # (d) Output:   
+  return(dt)
+  
+} # dt_last_monthly_bd end. 
+
+## Check:
+# dt_last_monthly_bd(as.Date("2020-06-14") + 0:2, as.Date("2020-07-15"))
+# dt_last_monthly_bd(as.Date("2020-06-01"), as.Date("2020-07-10"))
+
+
 
 
 
@@ -1186,7 +1332,7 @@ what_wday <- function(when = Sys.Date(), abbr = FALSE){
   ## NEW code: 
   if (!is_Date(when)){
     # message('what_wday: Aiming to parse "when" as "Date".')
-    when <- date_from_nonDate(when)
+    when <- date_from_non_Date(when)
   }
   
   if (!is_Date(when)){
@@ -1935,9 +2081,9 @@ diff_days <- function(from_date, to_date = Sys.Date(), units = "days", as_Date =
   
   if (as_Date) { # Convert non-Date (e.g., POSIXt) into "Date" objects:
     
-    if (!is_Date(from_date)) { from_date <- date_from_nonDate(from_date, ...) }
+    if (!is_Date(from_date)) { from_date <- date_from_non_Date(from_date, ...) }
     
-    if (!is_Date(to_date))   { to_date <- date_from_nonDate(to_date, ...) }
+    if (!is_Date(to_date))   { to_date <- date_from_non_Date(to_date, ...) }
     
   }
   
@@ -2089,12 +2235,12 @@ diff_dates <- function(from_date, to_date = Sys.Date(),
   
   if (!is_Date(from_date)){
     # message('diff_dates: Aiming to parse "from_date" as "Date".')
-    from_date <- date_from_nonDate(from_date)
+    from_date <- date_from_non_Date(from_date)
   }
   
   if (!is_Date(to_date)){
     # message('diff_dates: Aiming to parse "to_date" as "Date".')
-    to_date <- date_from_nonDate(to_date)
+    to_date <- date_from_non_Date(to_date)
   }
   
   # (c) Recycle or truncate to_date argument based on from_date: ---- 
@@ -2235,12 +2381,30 @@ diff_dates <- function(from_date, to_date = Sys.Date(),
   ## Combine both cases:
   full_d <- cur_day - bd_day + (days_last_month(to_date) * !bd_tm) 
   
-  # +++ here now +++ 
+  message(paste(full_d, collapse = " "))  # debugging
   
   # Idea 2: Global solution: Use global number of days and subtract all days of full years and months 
   # Use diff_days helper function to compute exact number of days between two dates:
-  # age_d <- diff_days(DOB, to_date) - diff_days(DOB, to_date = bday_day_last_month)
+  # age_d <- diff_days(DOB, to_date) - diff_days(DOB, to_date = bday_eq_last_month)
   
+  # +++ here now +++ 
+  
+  # ToDo: Helper function bday_eq_last_month(to_date, bday): 
+  #       Get closest equivalent to bday in last month (e.g., 
+  #       28.02. if bday on 30.03 and no leap year,
+  #       30.11 for bday on 31.12, etc.)
+  
+  total_days <- diff_days(from_date = from_date, to_date = to_date)
+  dt_bday_last_month <- bday_eq_last_month(dt = to_date, bday = bd_day)
+  accounted_days <- diff_days(from_date = from_date, to_date = dt_bday_last_month)
+  
+  full_d_2 <- total_days - accounted_days
+  
+  message(paste(full_d_2, collapse = " "))  # debugging
+  
+  if (!all.equal(full_d, full_d_2)){
+    message('diff_dates: 2 alternative solutions for d differ.')
+  }
   
   # 3. Output: ------ 
   
@@ -2284,10 +2448,8 @@ diff_dates <- function(from_date, to_date = Sys.Date(),
 # ## Check:
 
 # # Days:
-# ds_from <- as.Date("2010-01-02") + -1:1
-# ds_from
-# ds_to   <- as.Date("2020-03-01")  # Note: 2020 is leap year.
-# ds_to
+# (ds_from <- as.Date("2010-01-02") + -1:1)
+# (ds_to   <- as.Date("2020-03-01"))  # Note: 2020 is leap year.
 # diff_dates(from_date = ds_from, to_date = ds_to)
 # diff_dates(from_date = ds_from, to_date = ds_to, unit = "m")
 # diff_dates(from_date = ds_from, to_date = ds_to, unit = "d")
@@ -2375,7 +2537,7 @@ diff_dates <- function(from_date, to_date = Sys.Date(),
 # ad (1) and (2): 
 # - update cur_ and what_ functions to use new helpers
 # - re-consider what_day() to return NUMERIC day in week/month/year.
-# - fix ToDo in what_date() (Actively convert.)
+# - fix ToDo in what_date() (Actively convert time?)
 # - Return dates/times either as strings (if as_string = TRUE) or 
 #   as dates/times (of class "Date"/"POSIXct") in all what_() functions
 
