@@ -2172,7 +2172,7 @@ diff_days <- function(from_date, to_date = Sys.Date(), units = "days", as_Date =
 #'   \item If \code{to_date} is missing (i.e., \code{NA}), 
 #'   \code{to_date} is set to today's date (i.e., \code{Sys.Date()}).
 #'   
-#'   \item If \code{to_date} is specified, any intermittend missing values 
+#'   \item If \code{to_date} is specified, any intermittent missing values 
 #'   (i.e., \code{NA}) are set to today's date (i.e., \code{Sys.Date()}). 
 #'   Thus, dead people (with both birth dates and death dates specified) 
 #'   do not age any further, but people still alive (with \code{is.na(to_date)}, 
@@ -2325,7 +2325,7 @@ diff_dates <- function(from_date, to_date = Sys.Date(),
     } # end else. 
   } # end if.
   
-  # (d) Replace intermittend NA values in to_date by current date: ---- 
+  # (d) Replace intermittent NA values in to_date by current date: ---- 
   # Axiom: Dead people do not age any further, but 
   #        if to_date = NA, we want to measure until today: 
   set_to_date_NA_to_NOW <- TRUE  # if FALSE: Occasional to_date = NA values yield NA result.
