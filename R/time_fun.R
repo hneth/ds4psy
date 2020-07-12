@@ -503,47 +503,47 @@ days_last_month <- function(dt, ...){
 # - 28.02. if bday on 30.03 and no leap year,
 # - 30.11 for bday on 31.12, etc.)
 
-bday_eq_last_month <- function(dt, bday, ...){
-  
-  # (a) Handle inputs:
-  if (!is_Date(dt)){ dt <- date_from_non_Date(dt, ...) }
-  
-  if (length(dt) > length(bday)){
-    
-    bday <- rep(bday, length.out = length(dt))  # recycle bday
-    
-  }
-  
-  # (b) Get dt elements:
-  year_nr  <- as.numeric(format(dt, format = "%Y"))
-  month_nr <- as.numeric(format(dt, format = "%m"))
-  
-  # (c) Main processing: 
-  last_month_nr <- (month_nr - 1)          # reduce month_nr by 1
-  
-  # Handle special case: Dec becomes Jan of preceding year: 
-  last_month_nr[last_month_nr == 0] <- 12  # Dec <- Jan!
-  year_nr[last_month_nr == 12] <- (year_nr[last_month_nr == 12] - 1)  # preceding year!
-  
-  # How many days were there last month?
-  max_day_last_month <- days_last_month(dt)
-  
-  day_nr <- rep(NA, length(dt))
-  
-  # Distinguish 2 cases:
-  day_nr[max_day_last_month >= bday] <- bday[max_day_last_month >= bday]  # 1. bday exists in last month; OR 
-  day_nr[max_day_last_month < bday]  <- max_day_last_month[max_day_last_month < bday]  # 2. take max_day_last_month instead.
-  
-  # Construct as date: 
-  bd_last_month <- paste(year_nr, last_month_nr, day_nr, sep = "-")
-  dt_last_month <- as.Date(bd_last_month, format = "%Y-%m-%d")
-  
-  # message(dt_last_month)  # debugging
-  
-  # (d) Output:   
-  return(dt_last_month)
-  
-} # bday_eq_last_month end. 
+# bday_eq_last_month <- function(dt, bday, ...){
+#   
+#   # (a) Handle inputs:
+#   if (!is_Date(dt)){ dt <- date_from_non_Date(dt, ...) }
+#   
+#   if (length(dt) > length(bday)){
+#     
+#     bday <- rep(bday, length.out = length(dt))  # recycle bday
+#     
+#   }
+#   
+#   # (b) Get dt elements:
+#   year_nr  <- as.numeric(format(dt, format = "%Y"))
+#   month_nr <- as.numeric(format(dt, format = "%m"))
+#   
+#   # (c) Main processing: 
+#   last_month_nr <- (month_nr - 1)          # reduce month_nr by 1
+#   
+#   # Handle special case: Dec becomes Jan of preceding year: 
+#   last_month_nr[last_month_nr == 0] <- 12  # Dec <- Jan!
+#   year_nr[last_month_nr == 12] <- (year_nr[last_month_nr == 12] - 1)  # preceding year!
+#   
+#   # How many days were there last month?
+#   max_day_last_month <- days_last_month(dt)
+#   
+#   day_nr <- rep(NA, length(dt))
+#   
+#   # Distinguish 2 cases:
+#   day_nr[max_day_last_month >= bday] <- bday[max_day_last_month >= bday]  # 1. bday exists in last month; OR 
+#   day_nr[max_day_last_month < bday]  <- max_day_last_month[max_day_last_month < bday]  # 2. take max_day_last_month instead.
+#   
+#   # Construct as date: 
+#   bd_last_month <- paste(year_nr, last_month_nr, day_nr, sep = "-")
+#   dt_last_month <- as.Date(bd_last_month, format = "%Y-%m-%d")
+#   
+#   # message(dt_last_month)  # debugging
+#   
+#   # (d) Output:   
+#   return(dt_last_month)
+#   
+# } # bday_eq_last_month end. 
 
 ## Check:
 # bday_eq_last_month("2020-01-01", bday = 31)
@@ -2162,12 +2162,34 @@ diff_days <- function(from_date, to_date = Sys.Date(), units = "days", as_Date =
 #' or "How old are you?" in human time periods 
 #' of (full) years, months, and days. 
 #' 
-#' If not specified explicitly, \code{to_date} is set to 
-#' today's date (i.e., \code{Sys.Date()}).
+#' Characteristics and features:
 #' 
-#' If the lengths of \code{from_date} and \code{to_date} differ, 
-#' the arguments of \code{to_date} are recycled or 
-#' truncated to the length of \code{from_date}. 
+#' \itemize{
+#' 
+#'   \item If \code{to_date} or \code{from_date} are not "Date" objects, 
+#'   \code{diff_dates} aims to coerce them into "Date" objects. 
+#' 
+#'   \item If \code{to_date} is missing (i.e., \code{NA}), 
+#'   \code{to_date} is set to today's date (i.e., \code{Sys.Date()}).
+#'   
+#'   \item If \code{to_date} is specified, any intermittend missing values 
+#'   (i.e., \code{NA}) are set to today's date (i.e., \code{Sys.Date()}). 
+#'   Thus, dead people (with both birth dates and death dates specified) 
+#'   do not age any further, but people still alive (with \code{is.na(to_date)}, 
+#'   are measured to today's date (i.e., \code{Sys.Date()}). 
+#' 
+#'   \item If \code{to_date} precedes \code{from_date} (i.e., \code{from_date > to_date}) 
+#'   computations are performed on swapped days and 
+#'   the result is marked as negative (by a character \code{"-"}) in the output.
+#' 
+#'   \item If the lengths of \code{from_date} and \code{to_date} differ, 
+#'   the arguments of \code{to_date} are recycled or 
+#'   truncated to the length of \code{from_date}. 
+#' 
+#' }
+#' 
+#' By default, \code{diff_dates} provides output as (signed) character strings. 
+#' For numeric outputs, use \code{as_character = FALSE}. 
 #' 
 #' @param from_date From date (required, scalar or vector, as "Date"). 
 #' Date of birth (DOB), assumed to be of class "Date", 
@@ -2178,11 +2200,11 @@ diff_days <- function(from_date, to_date = Sys.Date(), units = "days", as_Date =
 #' Maximum date/date of death (DOD), assumed to be of class "Date", 
 #' and coerced into "Date" when of class "POSIXt". 
 #' 
-#' @param unit Largest measurement unit for representing result. 
+#' @param unit Largest measurement unit for representing results. 
 #' Units represent human time periods, rather than 
 #' chronological time differences. 
 #' Default: \code{unit = "y"} for completed years, months, and days. 
-#' Available options are: 
+#' Options available: 
 #' \enumerate{
 #' 
 #'   \item \code{unit = "y"}: completed years, months, and days (default)
@@ -2196,11 +2218,11 @@ diff_days <- function(from_date, to_date = Sys.Date(), units = "days", as_Date =
 #' @param as_character Boolean: Return output as character? 
 #' Default: \code{as_character = TRUE}.  
 #' If \code{as_character = FALSE}, results are returned 
-#' as columns of a data frame and 
-#' include \code{from_date} and \code{to_date}. 
+#' as columns of a data frame 
+#' and include \code{from_date} and \code{to_date}. 
 #' 
-#' @return A character vector or data frame 
-#' (with dates and numeric columns).
+#' @return A character vector or a data frame 
+#' with dates, sign, and numeric columns for units.
 #' 
 #' @examples
 #' y_100 <- Sys.Date() - (100 * 365.25) + -1:1
@@ -2227,15 +2249,33 @@ diff_days <- function(from_date, to_date = Sys.Date(), units = "days", as_Date =
 #' y_050_2 <- Sys.Date() - (50 * 365.25)
 #' diff_dates(y_100, y_050_2)
 #' 
+#' # Note maxima and minima: 
+#' diff_dates("0000-01-01", "9999-12-31")  # max. d + m + y
+#' diff_dates("1000-06-01", "1000-06-01")  # min. d + m + y
+#' 
+#' # If from_date == to_date:
+#' diff_dates("2000-01-01", "2000-01-01")
+#' 
+#' # If from_date > to_date:
+#' diff_dates("2000-01-02", "2000-01-01")  # Note negation "-"
+#' diff_dates("2000-02-01", "2000-01-01", as_character = TRUE)
+#' diff_dates("2001-02-02", "2000-02-02", as_character = FALSE)
+#' 
+#' # Test random date samples:
+#' f_d <- sample_date(10)
+#' t_d <- sample_date(10)
+#' diff_dates(f_d, t_d, as_character = TRUE)
+#' 
 #' # Using 'fame' data:
 #' dob <- as.Date(fame$DOB, format = "%B %d, %Y")
 #' dod <- as.Date(fame$DOD, format = "%B %d, %Y")
-#' diff_dates(dob, dod)  # Note: Deceased people do not age further.
-#' 
-#' # Numeric outputs:
-#' head(diff_dates(dob, dod, as_character = FALSE))
+#' head(diff_dates(dob, dod))  # Note: Deceased people do not age further.
+#' head(diff_dates(dob, dod, as_character = FALSE))  # numeric outputs
 #' 
 #' @family date and time functions
+#' 
+#' @seealso 
+#' Time spans (\code{interval} \code{as.period}) in the \strong{lubridate} package. 
 #' 
 #' @export
 
@@ -2285,7 +2325,7 @@ diff_dates <- function(from_date, to_date = Sys.Date(),
     } # end else. 
   } # end if.
   
-  # (d) Replace occasional NA values in to_date by current date: ---- 
+  # (d) Replace intermittend NA values in to_date by current date: ---- 
   # Axiom: Dead people do not age any further, but 
   #        if to_date = NA, we want to measure until today: 
   set_to_date_NA_to_NOW <- TRUE  # if FALSE: Occasional to_date = NA values yield NA result.
@@ -2349,6 +2389,7 @@ diff_dates <- function(from_date, to_date = Sys.Date(),
   # (b) Special case: unit == "d" ---- 
   if (unit == "d"){
     
+    # Use diff_days() helper/utility function: 
     full_d <- diff_days(from_date = from_date, to_date = to_date)
     
     if (as_character){
@@ -2413,46 +2454,39 @@ diff_dates <- function(from_date, to_date = Sys.Date(),
   ## bday today? (as Boolean): 
   # bd_td <- ifelse((to_d == bd_d), TRUE, FALSE) 
   
-  # Idea 1: Local solution: Determine the number N of days in last month.
-  # Then use this number to compute difference from bd_d to to_d 
+  # Use 2 solutions:
+  
+  # s_1: LOCAL solution: Determine the number N of days in last month.
+  #      Then use this number to compute difference from bd_d to to_d 
   
   ## Distinguish 2 cases:  
   # full_d[bd_tm]  <- to_d[bd_tm]  - bd_d[bd_tm]  # 1:  bd_tm: days since bd_tm
   # full_d[!bd_tm] <- to_d[!bd_tm] - bd_d[!bd_tm] + days_last_month(to_date[!bd_tm])  # 2: !bd_tm
   
-  ## Combine both cases:
+  ## Combine cases:
   dlm_to <- days_last_month(to_date)
-  full_d <- to_d - bd_d + (dlm_to * !bd_tm)   
-  # ERROR: See diverging cases below.  
-  
-  # +++ here now +++ 
-  
-  ## BUG FIX (in case 2: !bd_tm)
-  # dlm <- days_last_month(to_date[!bd_tm])
-  # full_d[!bd_tm] <- to_d[!bd_tm] - min(bd_d[!bd_tm], dlm) + dlm  # 2: !bd_tm  
+  # full_d <- to_d - bd_d + (dlm_to * !bd_tm)  # ERROR: See diverging cases below.  
   
   ## Bug FIX: If bday would have been after the maximum day of last month:
   ix_2_fix <- !bd_tm & (bd_d > dlm_to)  # ix of cases to fix:
-  full_d[ix_2_fix] <- to_d[ix_2_fix]    # full_d <- to_d for these cases
+  # full_d[ix_2_fix] <- to_d[ix_2_fix]    # full_d <- to_d for these cases
+  
+  ## ALL-in-ONE: 
+  full_d <- to_d - bd_d + (dlm_to * !bd_tm) + ((bd_d - dlm_to) * ix_2_fix)
   
   # message(paste(full_d, collapse = " "))  # debugging
   
-  # Idea 2: Global solution: Use global number of days and subtract all days of full years and months 
-  # Use diff_days helper function to compute exact number of days between two dates:
-  # age_d <- diff_days(DOB, to_date) - diff_days(DOB, to_date = bday_eq_last_month)
   
-  # ToDo: Helper function bday_eq_last_month(to_date, bday): 
-  #       Get closest equivalent to bday in last month (e.g., 
-  #       28.02. if bday on 30.03 and no leap year,
-  #       30.11 for bday on 31.12, etc.)
+  # s_2: GLOBAL solution: Start from total number of days and 
+  #      subtract all days of full years and months already accounted for.   
+  #      Use diff_days() helper function to compute exact number of days between two dates:
+  #      full_d_2 <- total_days              - accounted_days   
+  #                = diff_days(DOB, to_date) - diff_days(DOB, to_date = dt_bday_last_month(to_date))
   
+  # Use diff_days() helper/utility function: 
   total_days <- diff_days(from_date = from_date, to_date = to_date)
   
-  # # Using bday_eq_last_month(to_date, bday):
-  # dt_bday_last_month <- bday_eq_last_month(dt = to_date, bday = bd_d)
-  # accounted_days <- diff_days(from_date = from_date, to_date = dt_bday_last_month)
-  
-  # Using dt_last_monthly_bd() instead:
+  # Use dt_bday_last_month() helper/utility function: 
   dt_bday_last_month <- dt_last_monthly_bd(dob = from_date, to_date = to_date)
   accounted_days <- diff_days(from_date = from_date, to_date = dt_bday_last_month)
   
@@ -2460,23 +2494,24 @@ diff_dates <- function(from_date, to_date = Sys.Date(),
   
   # message(paste(full_d_2, collapse = " "))  # debugging
   
-  # Check equality of both solutions: 
+  
+  # s+3: Verify equality of both solutions: 
   if (!all(full_d == full_d_2)){
-    message('diff_dates: 2 alternative solutions for d differ.')
     
-    # Diagnosis/debugging: 
-    ix_diff <- full_d != full_d_2
+    warning('diff_dates: 2 solutions for full_d yield different results.')
     
-    message(paste(which(ix_diff), collapse = " "))
+    ix_diff <- full_d != full_d_2  # Diagnostic info for debugging: 
+    
+    message(paste(which(ix_diff),     collapse = " "))
     message(paste(from_date[ix_diff], collapse = " "))    
-    message(paste(to_date[ix_diff], collapse = " "))
+    message(paste(to_date[ix_diff],   collapse = " "))
     message(paste("y:", full_y[ix_diff], collapse = " "))    
     message(paste("m:", full_m[ix_diff], collapse = " "))    
-    message(paste("d 1:", full_d[ix_diff], collapse = " "))    
+    message(paste("d 1:", full_d[ix_diff],   collapse = " "))    
     message(paste("d_2:", full_d_2[ix_diff], collapse = " "))
     
-    # +++ here now +++ 
   }
+  
   
   # 3. Output: ------ 
   
@@ -2565,9 +2600,10 @@ diff_dates <- function(from_date, to_date = Sys.Date(),
 # diff_dates("2000-02-01", "2000-01-01", as_character = TRUE)
 # diff_dates("2001-02-02", "2000-02-02", as_character = FALSE)
 
+
 ## Check consistency (of 2 solutions):
 
-# ## Test with random date samples:
+## Test with random date samples:
 # from <- sample_date(100)
 # to   <- sample_date(100)
 # diff_dates(from, to, as_character = TRUE)
@@ -2607,9 +2643,6 @@ diff_dates <- function(from_date, to_date = Sys.Date(),
 # lubridate::as.period(lubridate::interval(dob, dod), unit = "years")
 
 
-
-
-
 ## Analyze: Compare results to other methods: 
 
 ## (a) lubridate time spans (interval, periods): 
@@ -2637,7 +2670,6 @@ diff_dates <- function(from_date, to_date = Sys.Date(),
 
 ## ToDo: 
 
-# - if from_date is later than to_date: Reverse dates and negate result.
 # - add n_decimals argument (default of 0).
 #
 # - Add exercise to Chapter 10: 
@@ -2646,7 +2678,6 @@ diff_dates <- function(from_date, to_date = Sys.Date(),
 # - Use result to compute age in years (as number) and months (as number). 
 # - Use result to compute age in full weeks (as number). 
 # - Use result to add a week entry "Xw" between month m and day d.
-
 
 
 ## Done: ----------
