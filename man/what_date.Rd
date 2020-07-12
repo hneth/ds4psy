@@ -79,13 +79,13 @@ what_date(ts)
 what_date(ts, rev = TRUE, sep = ".")
 what_date(ts, rev = TRUE, month_form = "b")
 
-# with time zone: 
-ts <- ISOdate(2020, 12, 24, c(0, 12))  # midnight and midday UTC
-what_date(when = ts, tz = "US/Hawaii")
-
 # return a "Date" object:
 dt <- what_date(as_string = FALSE)
 class(dt)
+
+# with time zone: 
+ts <- ISOdate(2020, 12, 24, c(0, 12))  # midnight and midday UTC
+what_date(when = ts, tz = "US/Hawaii", as_string = FALSE)
 
 }
 \seealso{
