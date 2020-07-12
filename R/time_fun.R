@@ -1060,13 +1060,13 @@ what_time <- function(when = NA, seconds = FALSE, as_string = TRUE, sep = ":", t
 #' what_date(ts, rev = TRUE, sep = ".")
 #' what_date(ts, rev = TRUE, month_form = "b")
 #' 
-#' # with time zone: 
-#' ts <- ISOdate(2020, 12, 24, c(0, 12))  # midnight and midday UTC
-#' what_date(when = ts, tz = "US/Hawaii")
-#' 
 #' # return a "Date" object:
 #' dt <- what_date(as_string = FALSE)
 #' class(dt)
+#' 
+#' # with time zone: 
+#' ts <- ISOdate(2020, 12, 24, c(0, 12))  # midnight and midday UTC
+#' what_date(when = ts, tz = "US/Hawaii", as_string = FALSE)
 #' 
 #' @family date and time functions
 #' 
@@ -1090,13 +1090,31 @@ what_date <- function(when = NA, rev = FALSE, as_string = TRUE, sep = "-",
     # d <- Sys.time() # current time (optimizing options)
     d <- Sys.Date()  # current date (satisficing solution) 
     
-  } else {
-    d <- as.Date(when, tz = tz)  # as Date (with passive tz) 
+  } else {  
+    
+    ## NEW code: 
+    if (!is_Date(when)){
+      # message('what_date: Aiming to parse "when" as "Date".')
+      d <- date_from_non_Date(when, tz = tz)
+    } else {
+      d <- as.Date(when, tz = tz)  # as Date (with passive tz) 
+    }
+    
   }
   
-  # Convert into time zone tz: 
+  # message(d)  # debugging
+  
+  if (!is_Date(d)){
+    message(paste0('what_date: "d" must be of class "Date".'))
+    return(d)
+  }
+  
+  # Convert into time zone tz:
   if (tz != ""){
-    message("ToDo: Actively convert date(s) d into specified tz?")
+    
+    message("Converting date(s) into specified tz.")
+    d <- change_tz(d, tz = tz)
+    
   }
   
   # Format instruction string:
@@ -1135,9 +1153,9 @@ what_date <- function(when = NA, rev = FALSE, as_string = TRUE, sep = "-",
 # what_date(rev = TRUE, sep = ".")
 # what_date(rev = TRUE, sep = " ", month_form = "B")
 # 
-# # with vector (of POSIXct times):
-# ds <- c("2020-01-15 01:02:03 CET", "2020-12-31 14:15:16")
-# what_date(ds)
+# what_date(c("2020-01-01", "2020-12-31"), tz = "Australia/Sydney", as_string = FALSE)
+# ds <- c("2020-01-15 01:02:03 NZ", "2020-12-31 14:15:16")  # POSIXct
+# what_date(ds, tz = "NZ", as_string = FALSE)
 # what_date(ds, rev = TRUE, sep = ".")
 # what_date(ds, rev = TRUE, month_form = "b")
 
