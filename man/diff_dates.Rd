@@ -16,11 +16,11 @@ Default: \code{to_date = Sys.Date()}.
 Maximum date/date of death (DOD), assumed to be of class "Date", 
 and coerced into "Date" when of class "POSIXt".}
 
-\item{unit}{Largest measurement unit for representing result. 
+\item{unit}{Largest measurement unit for representing results. 
 Units represent human time periods, rather than 
 chronological time differences. 
 Default: \code{unit = "y"} for completed years, months, and days. 
-Available options are: 
+Options available: 
 \enumerate{
 
   \item \code{unit = "y"}: completed years, months, and days (default)
@@ -34,12 +34,12 @@ Available options are:
 \item{as_character}{Boolean: Return output as character? 
 Default: \code{as_character = TRUE}.  
 If \code{as_character = FALSE}, results are returned 
-as columns of a data frame and 
-include \code{from_date} and \code{to_date}.}
+as columns of a data frame 
+and include \code{from_date} and \code{to_date}.}
 }
 \value{
-A character vector or data frame 
-(with dates and numeric columns).
+A character vector or a data frame 
+with dates, sign, and numeric columns for units.
 }
 \description{
 \code{diff_dates} computes the difference between two dates 
@@ -52,12 +52,34 @@ in human measurement units (periods).
 or "How old are you?" in human time periods 
 of (full) years, months, and days. 
 
-If not specified explicitly, \code{to_date} is set to 
-today's date (i.e., \code{Sys.Date()}).
+Characteristics and features:
 
-If the lengths of \code{from_date} and \code{to_date} differ, 
-the arguments of \code{to_date} are recycled or 
-truncated to the length of \code{from_date}.
+\itemize{
+
+  \item If \code{to_date} or \code{from_date} are not "Date" objects, 
+  \code{diff_dates} aims to coerce them into "Date" objects. 
+
+  \item If \code{to_date} is missing (i.e., \code{NA}), 
+  \code{to_date} is set to today's date (i.e., \code{Sys.Date()}).
+  
+  \item If \code{to_date} is specified, any intermittend missing values 
+  (i.e., \code{NA}) are set to today's date (i.e., \code{Sys.Date()}). 
+  Thus, dead people (with both birth dates and death dates specified) 
+  do not age any further, but people still alive (with \code{is.na(to_date)}, 
+  are measured to today's date (i.e., \code{Sys.Date()}). 
+
+  \item If \code{to_date} precedes \code{from_date} (i.e., \code{from_date > to_date}) 
+  computations are performed on swapped days and 
+  the result is marked as negative (by a character \code{"-"}) in the output.
+
+  \item If the lengths of \code{from_date} and \code{to_date} differ, 
+  the arguments of \code{to_date} are recycled or 
+  truncated to the length of \code{from_date}. 
+
+}
+
+By default, \code{diff_dates} provides output as (signed) character strings. 
+For numeric outputs, use \code{as_character = FALSE}.
 }
 \examples{
 y_100 <- Sys.Date() - (100 * 365.25) + -1:1
@@ -84,16 +106,33 @@ diff_dates(20200228, 20200301)       # for numbers (2020 is leap year)
 y_050_2 <- Sys.Date() - (50 * 365.25)
 diff_dates(y_100, y_050_2)
 
+# Note maxima and minima: 
+diff_dates("0000-01-01", "9999-12-31")  # max. d + m + y
+diff_dates("1000-06-01", "1000-06-01")  # min. d + m + y
+
+# If from_date == to_date:
+diff_dates("2000-01-01", "2000-01-01")
+
+# If from_date > to_date:
+diff_dates("2000-01-02", "2000-01-01")  # Note negation "-"
+diff_dates("2000-02-01", "2000-01-01", as_character = TRUE)
+diff_dates("2001-02-02", "2000-02-02", as_character = FALSE)
+
+# Test random date samples:
+f_d <- sample_date(10)
+t_d <- sample_date(10)
+diff_dates(f_d, t_d, as_character = TRUE)
+
 # Using 'fame' data:
 dob <- as.Date(fame$DOB, format = "\%B \%d, \%Y")
 dod <- as.Date(fame$DOD, format = "\%B \%d, \%Y")
-diff_dates(dob, dod)  # Note: Deceased people do not age further.
-
-# Numeric outputs:
-head(diff_dates(dob, dod, as_character = FALSE))
+head(diff_dates(dob, dod))  # Note: Deceased people do not age further.
+head(diff_dates(dob, dod, as_character = FALSE))  # numeric outputs
 
 }
 \seealso{
+Time spans (\code{interval} \code{as.period}) in the \strong{lubridate} package.
+
 Other date and time functions: 
 \code{\link{change_time}()},
 \code{\link{change_tz}()},
