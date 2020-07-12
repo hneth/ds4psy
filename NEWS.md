@@ -29,12 +29,12 @@ Current development version of **ds4psy** (0.4.0.9001+):
 
 ## Minor changes 
 
-- add `diff_dates()` to compute time difference between dates (in human units of years, months, days)
-- add `days_in_month()` to get number of days in months for given dates
+- add `diff_dates()` to compute time difference between dates (in human units of years, months, days) 
+- add `days_in_month()` to obtain number of days in months for given dates (accounting for leap years) 
 
 ## Details 
 
-- bug fix: Remove alternative solution in `is_leap_year()` (which yielded `FALSE` for `NA` inputs).
+- bug fix: Remove alternative solution in `is_leap_year()` (which yielded `FALSE` for `NA` inputs). 
 - bug fix: Replace `\u2212` (minus sign) by `-` (dash) in `exp_num_dt$blood_type` to prevent **Note** on "marked UTF-8 strings". 
 
 -------- 
@@ -180,6 +180,6 @@ The initial functionality is limited, as the package is designed to support the 
 
 ---------- 
 
-[File `News.md` updated on 2020-07-11.]
+[File `News.md` updated on 2020-07-12.]
 
 <!-- eof. -->
