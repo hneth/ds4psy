@@ -1,5 +1,5 @@
 ## time_fun.R | ds4psy
-## hn | uni.kn | 2020 07 11
+## hn | uni.kn | 2020 07 12
 ## ---------------------------
 
 ## Functions for date and time objects. 
@@ -2299,19 +2299,7 @@ diff_dates <- function(from_date, to_date = Sys.Date(),
     }
   }
   
-  # (e) If from_date > to_date: Swap dates and negate sign:
-  ix_rev <- (from_date > to_date)
-  
-  from_date_temp <- from_date[ix_rev]   # temporary storage
-  from_date[ix_rev] <- to_date[ix_rev]  # from_date by to_date
-  to_date[ix_rev]   <- from_date_temp   # to_date by from_date
-  
-  sign <- rep(1, n_from)  # initialize
-  sign[ix_rev] <- -1      # negate sign
-  
-  # message(sign)  # debugging
-  
-  # (f) Verify that from_date and to_date are "Date" objects: ---- 
+  # (e) Verify that from_date and to_date are "Date" objects: ---- 
   if (!is_Date(from_date)){
     message('diff_dates: "from_date" should be of class "Date".')
     # print(from_date)  # debugging
@@ -2321,6 +2309,24 @@ diff_dates <- function(from_date, to_date = Sys.Date(),
     message('diff_dates: "to_date" should be of class "Date".')
     # print(to_date)    # debugging
   }
+  
+  
+  # (f) If from_date > to_date: Swap dates and negate sign:
+  
+  from_date_org <- from_date  # store original orders
+  to_date_org   <- to_date    # (to list in outputs)
+  
+  ix_rev <- (from_date > to_date)       # ix of cases to reverse 
+  from_date_temp <- from_date[ix_rev]   # temporary storage
+  
+  from_date[ix_rev] <- to_date[ix_rev]  # from_date by to_date
+  to_date[ix_rev]   <- from_date_temp   # to_date by from_date
+  
+  sign <- rep("", n_from)  # initialize (as character)
+  sign[ix_rev] <- "-"      # negate sign (character)
+  
+  # message(sign)  # debugging
+  
   
   # (g) Unit: ----
   unit <- substr(tolower(unit), 1, 1)  # robustness: use abbreviation: y/m/d
@@ -2344,16 +2350,16 @@ diff_dates <- function(from_date, to_date = Sys.Date(),
   if (unit == "d"){
     
     full_d <- diff_days(from_date = from_date, to_date = to_date)
-    full_d <- sign * full_d  # apply sign
     
     if (as_character){
       
-      age <- paste0(full_d, "d") 
+      age <- paste0(sign, full_d, "d") 
       
     } else { # return as data frame:
       
-      age <- data.frame("from_date" = from_date,
-                        "to_date" = to_date, 
+      age <- data.frame("from_date" = from_date_org,
+                        "to_date"   = to_date_org, 
+                        "neg" = sign,  # negation sign? 
                         "d" = full_d)
       
     }
@@ -2411,12 +2417,23 @@ diff_dates <- function(from_date, to_date = Sys.Date(),
   # Then use this number to compute difference from bd_d to to_d 
   
   ## Distinguish 2 cases:  
-  # full_d[bd_tm]  <- to_d[bd_tm]  - bd_d[bd_tm]  # 1:  bd_tm
+  # full_d[bd_tm]  <- to_d[bd_tm]  - bd_d[bd_tm]  # 1:  bd_tm: days since bd_tm
   # full_d[!bd_tm] <- to_d[!bd_tm] - bd_d[!bd_tm] + days_last_month(to_date[!bd_tm])  # 2: !bd_tm
   
-  ## Combine both cases:    # +++ here now +++ 
-  full_d <- to_d - bd_d + (days_last_month(to_date) * !bd_tm)   
+  ## Combine both cases:
+  dlm_to <- days_last_month(to_date)
+  full_d <- to_d - bd_d + (dlm_to * !bd_tm)   
   # ERROR: See diverging cases below.  
+  
+  # +++ here now +++ 
+  
+  ## BUG FIX (in case 2: !bd_tm)
+  # dlm <- days_last_month(to_date[!bd_tm])
+  # full_d[!bd_tm] <- to_d[!bd_tm] - min(bd_d[!bd_tm], dlm) + dlm  # 2: !bd_tm  
+  
+  ## Bug FIX: If bday would have been after the maximum day of last month:
+  ix_2_fix <- !bd_tm & (bd_d > dlm_to)  # ix of cases to fix:
+  full_d[ix_2_fix] <- to_d[ix_2_fix]    # full_d <- to_d for these cases
   
   # message(paste(full_d, collapse = " "))  # debugging
   
@@ -2443,6 +2460,7 @@ diff_dates <- function(from_date, to_date = Sys.Date(),
   
   # message(paste(full_d_2, collapse = " "))  # debugging
   
+  # Check equality of both solutions: 
   if (!all(full_d == full_d_2)){
     message('diff_dates: 2 alternative solutions for d differ.')
     
@@ -2452,11 +2470,8 @@ diff_dates <- function(from_date, to_date = Sys.Date(),
     message(paste(which(ix_diff), collapse = " "))
     message(paste(from_date[ix_diff], collapse = " "))    
     message(paste(to_date[ix_diff], collapse = " "))
-    
     message(paste("y:", full_y[ix_diff], collapse = " "))    
-    
     message(paste("m:", full_m[ix_diff], collapse = " "))    
-    
     message(paste("d 1:", full_d[ix_diff], collapse = " "))    
     message(paste("d_2:", full_d_2[ix_diff], collapse = " "))
     
@@ -2469,15 +2484,11 @@ diff_dates <- function(from_date, to_date = Sys.Date(),
     
     if (unit == "y"){
       
-      full_y <- sign * full_y  # apply sign
-      
-      age <- paste0(full_y, "y ", full_m, "m ", full_d, "d")
+      age <- paste0(sign, full_y, "y ", full_m, "m ", full_d, "d")
       
     } else if (unit == "m"){
       
-      full_m <- sign * full_m  # apply sign
-      
-      age <- paste0(full_m, "m ", full_d, "d")
+      age <- paste0(sign, full_m, "m ", full_d, "d")
       
     }
     
@@ -2485,18 +2496,18 @@ diff_dates <- function(from_date, to_date = Sys.Date(),
     
     if (unit == "y"){
       
-      age <- data.frame("from_date" = from_date,
-                        "to_date" = to_date, 
-                        "sign" = sign, 
+      age <- data.frame("from_date" = from_date_org,
+                        "to_date"   = to_date_org, 
+                        "neg" = sign,  # negation sign? 
                         "y" = full_y, 
                         "m" = full_m, 
                         "d" = full_d)
       
     } else if (unit == "m"){
       
-      age <- data.frame("from_date" = from_date,
-                        "to_date" = to_date, 
-                        "sign" = sign, 
+      age <- data.frame("from_date" = from_date_org,
+                        "to_date"   = to_date_org, 
+                        "neg" = sign,  # negation sign? 
                         "m" = full_m, 
                         "d" = full_d)
       
@@ -2543,44 +2554,60 @@ diff_dates <- function(from_date, to_date = Sys.Date(),
 # diff_dates(dob, dod, unit = "m")
 # diff_dates(dob, dod, unit = "d")
 # 
-# # Extreme cases:
+# # Extreme cases: 
+# # (a) from_date == to_date:
 # diff_dates("1000-01-01", "2000-12-31")  # max. d + m
 # diff_dates("1000-06-01", "1000-06-01")  # min. d + m + y
 # 
-# # Negative values:
-# diff_dates("2100-01-01", "2000-01-02")  # from_date > to_date
-
+# # (b) from_date > to_date: 
+# # Reverse result and add negation sign ("-"):
+# diff_dates("2000-01-02", "2000-01-03")
+# diff_dates("2000-02-01", "2000-01-01", as_character = TRUE)
+# diff_dates("2001-02-02", "2000-02-02", as_character = FALSE)
 
 ## Check consistency (of 2 solutions):
 
-# # # Random date samples:
-# from <- sample_date(50)
-# to   <- sample_date(50)
-# diff_dates(from, to)
+# ## Test with random date samples:
+# from <- sample_date(100)
+# to   <- sample_date(100)
+# diff_dates(from, to, as_character = TRUE)
 # 
-# # +++ here now +++ 
+# # +++ here now +++
 # 
-# # Error / Diverging cases:
-# # 1: 
+# # Check possibly diverging cases:
+# 
+# # 1:
 # dob <- as.Date("1981-05-31")
 # dod <- as.Date("1992-05-08")
 # diff_dates(dob, dod)
 # lubridate::as.period(lubridate::interval(dob, dod), unit = "years")
-# # 2: 
+# 
+# # 2:
 # dob <- as.Date("1983-07-30")
 # dod <- as.Date("1994-03-03")
 # diff_dates(dob, dod)
 # lubridate::as.period(lubridate::interval(dob, dod), unit = "years")
-# # 3: 
+# 
+# # 3:
 # dob <- as.Date("1973-10-31")
 # dod <- as.Date("1982-12-29")
 # diff_dates(dob, dod)
 # lubridate::as.period(lubridate::interval(dob, dod), unit = "years")
-# # 4: 
+# 
+# # 4:
 # dob <- as.Date("1979-07-31")
 # dod <- as.Date("1998-07-18")
 # diff_dates(dob, dod)
 # lubridate::as.period(lubridate::interval(dob, dod), unit = "years")
+# 
+# # 5:
+# dob <- as.Date("1999-05-31")
+# dod <- as.Date("1999-10-07")
+# diff_dates(dob, dod)
+# lubridate::as.period(lubridate::interval(dob, dod), unit = "years")
+
+
+
 
 
 ## Analyze: Compare results to other methods: 
