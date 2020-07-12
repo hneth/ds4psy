@@ -209,7 +209,9 @@ date_from_non_Date <- function(x, ...){
 # date_from_non_Date("ABC")
 
 
+# ToDo: time_from_non_POSIXt: Parse time from string or other time object. ------ 
 
+# Write time parser analog to date_from_non_Date() function.
 
 
 ## (C) Temporal idiosyncracies: ------ 
@@ -2691,6 +2693,10 @@ diff_dates <- function(from_date, to_date = Sys.Date(),
 
 ## ToDo: ----------
 
+# ad (0):
+# - consider making simple parser functions (date_from_non_Date() available to users by export.   
+# - consider creating corresponding time parser function time_from_non_POSIXt(). 
+# - consider making test functions is_Date / is_POSIXt available to users by export. 
 # - consider moving time utility/helper functions into separate file.
 
 # ad (1) and (2): 
