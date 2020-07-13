@@ -1,5 +1,5 @@
 ## time_fun.R | ds4psy
-## hn | uni.kn | 2020 07 12
+## hn | uni.kn | 2020 07 13
 ## ---------------------------
 
 ## Functions for date and time objects. 
@@ -85,9 +85,12 @@ date_frms_dmy <- c(df_my, df_by, df_By)
 
 date_from_string <- function(x, ...){
   
-  # 1. Preparation:
+  # 0. Initialize: 
+  dt <- NA
   
-  if (is_Date(x)){ return(x) }
+  # 1. Prepare: ---- 
+  
+  if (is_Date(x)){ return(x) }  # fast exit
   
   if (!is.character(x)){
     
@@ -97,11 +100,9 @@ date_from_string <- function(x, ...){
     
   }
   
-  dt <- NA
+  # 2. Aim to identify date format: ---- 
   
-  # 2. Aim to detect date format:
-  # Heuristic: Consider 1st item: Position of 4-digit year (yyyy)? 
-  x_1 <- x[1]
+  x_1 <- x[1]  # Heuristic: Check 1st item: Position of 4-digit year (yyyy)? 
   
   if (grepl(x = x_1, pattern = "^(\\d\\d\\d\\d)")){ # yyyy first:
     
@@ -111,15 +112,16 @@ date_from_string <- function(x, ...){
     
     date_frms <- date_frms_dmY
     
-  } else { 
+  } else { # year is yy:  
     
     date_frms <- c(date_frms_ymd, date_frms_dmy)  # => prefer yy first.
     
   }
   
-  # 3. Parse as.Date(x):
+  # 3. Main: Parse x as.Date(x) using date_frms: ---- 
   dt <- as.Date(x, tryFormats = date_frms, ...)
   
+  # 4. Output: 
   return(dt)
   
 } # date_from_string end. 
@@ -164,33 +166,41 @@ date_from_string <- function(x, ...){
 
 date_from_non_Date <- function(x, ...){
   
+  # 0. Initialize: 
   dt <- NA
   
-  # 1. Coerce numeric x that are NOT date-time objects into character strings:
+  # 1. Prepare: ---- 
+  
+  if (is_Date(x)){ return(x) }  # fast exit
+  
+  # Coerce numeric x that are NOT date-time objects into character strings:
   if (!is_date_time(x) & is.numeric(x)){
     # message('date_from_non_Date: Coercing x from "number" into "character".')    
     x <- as.character(x)
   }
   
-  # 2. Aim to coerce character string inputs x into "Date": 
+  # 2. Main: Coerce non-Date objects into "Date" objects: ---- 
+  
+  # A. Aim to coerce character string inputs x into "Date": 
   if (is.character(x)){
     # message('date_from_non_Date: Aiming to parse x from "character" as "Date".')
     dt <- date_from_string(x, ...)
   }
   
-  # 3. Coerce "POSIXt" inputs into "Date":
+  # B. Coerce "POSIXt" inputs into "Date":
   if (is_POSIXt(x)){
     # message('date_from_non_Date: Coercing x from "POSIXt" into "Date".')
     dt <- as.Date(x, ...) 
   }
   
-  # 4. Note if dt is still no "Date": ---- 
+  # 3. Verify "Date": ---- 
   if (!is_Date(dt)){
     
     message('date_from_non_Date: Failed to parse x as "Date".')
     
   }
   
+  # 4. Output: 
   return(dt)
   
 } # date_from_non_Date end. 
@@ -211,7 +221,171 @@ date_from_non_Date <- function(x, ...){
 
 # ToDo: time_from_non_POSIXt: Parse time from string or other time object. ------ 
 
-# Write time parser analog to date_from_non_Date() function.
+# Write time parsers analog to date_from_non_Date() function:
+
+# time_from_string: Parse a string into "POSIXt" (without tz): ------
+
+time_from_string <- function(x, tz = "", ...){
+  
+  # 0. Initialize: 
+  t <- NA
+  
+  # 1. Prepare: ---- 
+  
+  if (is_POSIXt(x)){ return(x) }  # fast exit
+  
+  if (!is.character(x)){
+    
+    # message("time_from_string: Coercing x into a character string.")
+    x <- as.character(x)
+    
+  }
+  
+  # 2. Main: Convert x into POSIXct: ---- 
+  t <- as.POSIXct(x, 
+                  tz = tz, # Note: tz = "" by default. 
+                  tryFormats = c(# format strings:
+                    # y: yy
+                    "%y%m%d%H%M%OS",
+                    "%y-%m-%d %H:%M:%OS",
+                    "%y/%m/%d %H:%M:%OS",
+                    "%y-%m-%d %H.%M.%OS",
+                    "%y/%m/%d %H.%M.%OS",
+                    "%y%m%d%H%M",
+                    "%y-%m-%d %H:%M",
+                    "%y/%m/%d %H:%M",
+                    "%y-%m-%d %H.%M",
+                    "%y/%m/%d %H.%M",
+                    "%y%m%d",
+                    "%y-%m-%d",
+                    "%y/%m/%d",
+                    # Y: yyyy 
+                    "%Y%m%d%H%M%OS",
+                    "%Y-%m-%d %H:%M:%OS",
+                    "%Y/%m/%d %H:%M:%OS",
+                    "%Y-%m-%d %H.%M.%OS",
+                    "%Y/%m/%d %H.%M.%OS",
+                    "%Y%m%d%H%M",
+                    "%Y-%m-%d %H:%M",
+                    "%Y/%m/%d %H:%M",
+                    "%Y-%m-%d %H.%M",
+                    "%Y/%m/%d %H.%M",
+                    "%Y%m%d",
+                    "%Y-%m-%d",
+                    "%Y/%m/%d",
+                    # no date:
+                    "%H%M%OS",
+                    "%H:%M:%OS",
+                    "%H.%M.%OS",
+                    "%H%M",
+                    "%H:%M",
+                    "%H.%M"),
+                  optional = FALSE, 
+                  ...)
+  
+  # 3. Output: 
+  return(t)
+  
+} # time_from_string end. 
+
+# ## Check:
+# # from character:
+# time_from_string(c("2020-01-01 10:30:45", "2020-06-30 22:30:50"))
+# time_from_string(c("2020/01/01 10.30.45", "2020/06/30 22.30.50"))
+# time_from_string(c("20-01-01 10:30", "20-06-30 22:30"))
+# 
+# # # from numeric:
+# time_from_string(201005103045)  # date-time
+# time_from_string(201005)        # date
+# time_from_string(1030)          # time (today)
+#
+# # with format:
+# time_from_string(c("6|8|10 10<30<45"), format = "%m|%d|%y %H<%M<%S")
+# time_from_string(c("June 8, 2010, 10-30"), format = "%B %d, %Y, %H-%M")
+# 
+# # with tz: 
+# time_from_string(c("20-01-01 10:30:45", "20-06-30 22:30:50"), tz = "NZ")
+
+
+# time_from_non_POSIXt: Parse non-time into "POSIXt" object(s): ------ 
+
+time_from_non_POSIXt <- function(x, tz = "", ...){
+  
+  # 0. Initialize: 
+  t <- NA
+  
+  # 1. Prepare: ---- 
+  
+  if (is_POSIXt(x)){ return(x) }  # fast exit
+  
+  # Coerce numeric x that are NOT date-time objects into character strings:
+  if (!is_date_time(x) & is.numeric(x)){
+    
+    # message('time_from_non_POSIXt: Coercing x from "number" into "character".')    
+    x <- as.character(x)
+    
+  }
+  
+  # 2. Main: Coerce non-time objects into "POSIXct" objects: ---- 
+  
+  # A. Aim to coerce character string inputs x into "POSIXct": 
+  if (is.character(x)){
+    
+    # message('time_from_non_POSIXt: Aiming to parse x from "character" as "POSIXct".')   
+    t <- time_from_string(x, tz = tz, ...)  # Note: tz = "" by default. 
+    
+  }
+  
+  # B. Coerce "Date" inputs into "POSIXct" objects:
+  if (is_Date(x)){
+    
+    # message('time_from_non_POSIXt: Coercing x from "Date" into "POSIXct".')      
+    t <- as.POSIXct(x, tz = tz, ...)  # Note: tz = "" by default. 
+    
+  }
+  
+  # 3. Verify "POSIXct": ---- 
+  if (!is_POSIXct(t)){
+    
+    message('time_from_non_POSIXt: Failed to parse x as "POSIXct".')
+    
+  }
+  
+  # # +. Convert from POSIXct to POSIXlt with tz:  
+  # t <- as.POSIXlt(t, tz = tz, ...)  # Note: tz = "" by default. 
+  
+  # 4. Output: 
+  return(t)  
+  
+} # time_from_non_POSIXt end. 
+
+# ## Check:
+# # POSIXt returned as is:
+# is_POSIXct(time_from_non_POSIXt(Sys.time() + 0:2))
+# is_POSIXlt(time_from_non_POSIXt(as.POSIXlt(Sys.time() + 0:2))) 
+# 
+# # from "Date":
+# time_from_non_POSIXt(Sys.Date() + seq(0, 720, by = 180))  # note tz changes
+# 
+# # from character:
+# time_from_non_POSIXt(c("2020-01-01 10:30:45", "2020-06-30 22:30:50"))
+# time_from_non_POSIXt(c("2020/01/01 10.30.45", "2020/06/30 22.30.50"))
+# time_from_non_POSIXt(c("20-01-01 10:30", "20-06-30 22:30"))
+# 
+# # # from numeric:
+# time_from_non_POSIXt(201005103045)  # date-time
+# time_from_non_POSIXt(201005)        # date
+# time_from_non_POSIXt(1030)          # time (today)
+# 
+# # with format:
+# time_from_non_POSIXt(c("6|8|10 10<30<45"), format = "%m|%d|%y %H<%M<%S")
+# time_from_non_POSIXt(c("June 8, 2010, 10-30"), format = "%B %d, %Y, %H-%M")
+# 
+# # with tz:
+# time_from_non_POSIXt(c("20-01-01 10:30:45", "20-06-30 22:30:50"), tz = "NZ")
+
+
+# +++ here now +++ 
 
 
 ## (C) Temporal idiosyncracies: ------ 
@@ -941,19 +1115,32 @@ cur_time <- function(seconds = FALSE, as_string = TRUE, sep = ":"){
 
 what_time <- function(when = NA, seconds = FALSE, as_string = TRUE, sep = ":", tz = ""){
   
-  # Check when argument: 
+  # 1. Check when argument: 
   if (all(is.na(when))){
+    
     t <- Sys.time()  # use current time
-  } else {
-    t <- as.POSIXct(when, tz = tz)  # as POSIXct (with passive tz)
+    
+  } else { # interpret when:
+    
+    t <- as.POSIXct(when, tz = tz)  # Note: tz = "" by default. 
+    
   }
   
-  # Convert into time zone tz: 
+  # 2. Verify class: 
+  if (!is_POSIXt(t)){
+    message(paste0('what_time: "t" is not of class "POSIXt".'))
+    # return(t)
+  }
+  
+  # 3. Convert into time zone tz:
   if (tz != ""){
-    message("ToDo: Actively convert time(s) t into specified tz?")
+    
+    message("Converting time(s) into tz.")
+    t <- change_tz(t, tz = tz)
+    
   }
   
-  # Format instruction string: 
+  # 4. Format output:
   if (seconds) {
     fmt <- paste("%H", "%M", "%S", sep = sep, collapse = "")  # %S and using sep
   } else {
@@ -968,12 +1155,13 @@ what_time <- function(when = NA, seconds = FALSE, as_string = TRUE, sep = ":", t
   # # Return POSIXct object:
   # invisible(t)
   
+  # 5. Output: 
   if (as_string){
     return(format(t, format = fmt))  # formatted string
     # return(print(format(t, fmt)))  # print string
     # return(cat(format(t, fmt)))    # no string
   } else {
-    return(t)  # as POSIXct
+    return(t)  # as POSIXt
   }
   
 }  # what_time end.
@@ -1080,19 +1268,18 @@ what_time <- function(when = NA, seconds = FALSE, as_string = TRUE, sep = ":", t
 #' 
 #' @export
 
-what_date <- function(when = NA, rev = FALSE, as_string = TRUE, sep = "-", 
-                      month_form = "m", tz = ""){
+what_date <- function(when = NA, rev = FALSE, as_string = TRUE, 
+                      sep = "-", month_form = "m", tz = ""){
   
-  # Check when argument: 
+  # 1. Check when argument: 
   if (all(is.na(when))){
     
-    # Get system date: 
     # d <- Sys.time() # current time (optimizing options)
     d <- Sys.Date()  # current date (satisficing solution) 
     
   } else {  
     
-    ## NEW code: 
+    # interpret when: 
     if (!is_Date(when)){
       # message('what_date: Aiming to parse "when" as "Date".')
       d <- date_from_non_Date(when, tz = tz)
@@ -1102,22 +1289,21 @@ what_date <- function(when = NA, rev = FALSE, as_string = TRUE, sep = "-",
     
   }
   
-  # message(d)  # debugging
-  
+  # 2. Verify class: 
   if (!is_Date(d)){
-    message(paste0('what_date: "d" must be of class "Date".'))
-    return(d)
+    message(paste0('what_date: "d" is not of class "Date".'))
+    # return(d)
   }
   
-  # Convert into time zone tz:
+  # 3. Convert into time zone tz:
   if (tz != ""){
     
-    message("Converting date(s) into specified tz.")
+    message("Converting date(s) into tz.")
     d <- change_tz(d, tz = tz)
     
   }
   
-  # Format instruction string:
+  # 4. Format output:
   if (substr(month_form, 1, 1) != "%") {
     month_form <- paste0("%", month_form)  # add % prefix
   }
@@ -1136,6 +1322,7 @@ what_date <- function(when = NA, rev = FALSE, as_string = TRUE, sep = "-",
   # # Return Date object:
   # invisible(d)
   
+  # 5. Output: 
   if (as_string){
     return(format(d, format = fmt))  # formatted string
     # return(print(format(d, fmt)))  # print string
@@ -1148,6 +1335,8 @@ what_date <- function(when = NA, rev = FALSE, as_string = TRUE, sep = "-",
 
 # ## Check:
 # what_date()
+# what_date(as_string = FALSE)
+#
 # what_date(sep = "/")
 # what_date(rev = TRUE)
 # what_date(rev = TRUE, sep = ".")
@@ -1892,46 +2081,53 @@ what_year <- function(when = Sys.Date(), abbr = FALSE, as_integer = FALSE){
 
 change_time <- function(time, tz = ""){
   
-  time_display <- NA
-  out <- NA
+  # 0. Initialize: 
+  ct <- NA
+  t_display <- NA
   
-  if (!is_POSIXlt(time)){ # For any other time object:
+  # +++ here now +++ 
+  
+  # 1. Need local time "POSIXlt" input: If NOT:
+  # A. Parse time to get t_display:   
+  # B. Convert t_display into "POSIXlt" 
+  
+  if (!is_POSIXlt(time)){
     
     message('change_time: Coercing time to "POSIXlt" without changing time display.')
     
-    # A: Determine time_display: 
+    # A: Parse various time objects into t_display: 
     if (is_POSIXct(time)){
       
       message('change_time: Parsing time from "POSIXct" as "%Y-%m-%d %H:%M:%S".')
-      time_display <- strptime(time, format = "%Y-%m-%d %H:%M:%S")
+      t_display <- strptime(time, format = "%Y-%m-%d %H:%M:%S")
       
     } else if (is_Date(time)){
       
       message('change_time: Parsing time from "Date" as "%Y-%m-%d".')      
-      time_display <- strptime(time, format = "%Y-%m-%d")
+      t_display <- strptime(time, format = "%Y-%m-%d")
       
     } else if (is.character(time)){
       
-      # Get time_display by parsing date-time string (using standard formats):
+      # Get t_display by parsing date-time string (using standard formats):
       if (grepl(x = time, pattern = ".*(-).*( ).*(:).*(:).*")) { # date + full time:
         
         message('change_time: Parsing date-time from string as "%Y-%m-%d %H:%M:%S".')
-        time_display <- strptime(time, format = "%Y-%m-%d %H:%M:%S")
+        t_display <- strptime(time, format = "%Y-%m-%d %H:%M:%S")
         
       } else if (grepl(x = time, pattern = ".*(-).*( ).*(:).*")) { # date + H:M time:
         
         message('change_time: Parsing date-time from string as "%Y-%m-%d %H:%M".')
-        time_display <- strptime(time, format = "%Y-%m-%d %H:%M")
+        t_display <- strptime(time, format = "%Y-%m-%d %H:%M")
         
       } else if (grepl(x = time, pattern = ".*(:).*(:).*")) { # H:M:S time:
         
         message('change_time: Parsing time (with default date) from string as "%H:%M:%S".')
-        time_display <- strptime(time, format = "%H:%M:%S")
+        t_display <- strptime(time, format = "%H:%M:%S")
         
       } else if (grepl(x = time, pattern = ".*(:).*")) { # H:M time:
         
         message('change_time: Parsing time (with default date) from string as "%H:%M".')
-        time_display <- strptime(time, format = "%H:%M")
+        t_display <- strptime(time, format = "%H:%M")
         
       } else {
         
@@ -1943,18 +2139,19 @@ change_time <- function(time, tz = ""){
       
       message('change_time: Cannot parse time display.')
       
-    }
+    } # various time classes end.
     
-    # B. Convert time_display into POSIXlt: 
-    # print(paste0("time_display = ", time_display))  # debugging
-    time <- as.POSIXlt(time_display, tz = tz)
+    # B. Convert t_display into POSIXlt: 
+    # print(paste0("t_display = ", t_display))  # debugging
+    time <- as.POSIXlt(t_display, tz = tz)  # Note: tz = "" by default. 
     
   } # if (!is_POSIXlt(time)) end.
   
-  # Convert from POSIXlt to POSIXct with tz:  
-  out <- as.POSIXct(time, tz = tz)
+  # 2. Main: Convert time from POSIXlt to POSIXct with tz:  
+  ct <- as.POSIXct(time, tz = tz)  # Note: tz = "" by default. 
   
-  return(out)  
+  # 3. Output: 
+  return(ct)  
   
 } # change_time end.
 
@@ -2062,20 +2259,23 @@ change_time <- function(time, tz = ""){
 
 change_tz <- function(time, tz = ""){
   
+  # 0. Initialize: 
   out <- NA
   
+  # 1. Parse time: 
   if (!is_POSIXct(time)){
     
     message('change_tz: Coercing time to "POSIXct" without changing represented time.')
-    time <- as.POSIXct(time)
+    time <- as.POSIXct(time)  # Note: tz = "" by default. 
     
   }
   
   # print(paste0("change_tz: time = ", format(time, "%F %T %Z"))) # debugging
   
-  # convert nominal time (to POSIXlt):
-  out <- as.POSIXlt(time, tz = tz)
+  # 2. Main: Convert nominal time (to POSIXlt):
+  out <- as.POSIXlt(time, tz = tz)  # Note: tz = "" by default. 
   
+  # 3. Output: 
   return(out)
   
 } # change_tz end.
