@@ -35,7 +35,7 @@ as calendar time(s) (of the "POSIXct" class).
 change_time(as.POSIXlt(Sys.time()), tz = "UTC")
 
 # from "POSIXlt" time:
-t1 <- as.POSIXlt("2020-07-01 10:00:00", tz = "Europe/Berlin")
+t1 <- as.POSIXlt("2020-01-01 10:20:30", tz = "Europe/Berlin")
 change_time(t1, "NZ")
 change_time(t1, "US/Pacific")
 
@@ -58,15 +58,15 @@ ty <- "1:30"
 change_time(ty, tz = "Europe/London")
 
 # convert into local times:
-change_tz(change_time(t1, "NZ"), tz = "UTC")
-change_tz(change_time(t1, "Europe/Berlin"), tz = "UTC")
-change_tz(change_time(t1, "US/Eastern"), tz = "UTC")
+(l1 <- as.POSIXlt("2020-06-01 10:11:12"))
+change_tz(change_time(l1, "NZ"), tz = "UTC")
+change_tz(change_time(l1, "Europe/Berlin"), tz = "UTC")
+change_tz(change_time(l1, "US/Eastern"), tz = "UTC")
 
 # with vector of "POSIXlt" times:
-t2 <- as.POSIXlt("2020-12-31 23:59:55", tz = "US/Pacific")
-tv <- c(t1, t2)  
-tv # uses tz of t1
-change_time(tv, "US/Pacific")
+(l2 <- as.POSIXlt("2020-12-31 23:59:55", tz = "US/Pacific"))
+(tv <- c(l1, l2))              # uses tz of l1
+change_time(tv, "US/Pacific")  # change time and tz
  
 }
 \seealso{
