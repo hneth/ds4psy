@@ -2709,14 +2709,14 @@ diff_dates <- function(from_date, to_date = Sys.Date(),
   # Use diff_days() helper/utility function: 
   total_days <- diff_days(from_date = from_date, to_date = to_date)
   
-  # Use dt_bday_last_month() helper/utility function: 
+  # Use dt_bday_last_month() helper/utility function (Note: may return decimals):  
   dt_bday_last_month <- dt_last_monthly_bd(dob = from_date, to_date = to_date)
   accounted_days <- diff_days(from_date = from_date, to_date = dt_bday_last_month)
   
-  full_d_2 <- total_days - accounted_days
+  full_d_2 <- total_days - accounted_days  # may contain decimals!
   
-  # Only consider completed/full days (as integers, whereas diff_days may return decimals as well): 
-  full_d_2 <- floor(total_days - accounted_days)
+  # Only consider completed/full days (as integers): 
+  full_d_2 <- floor(full_d_2)
   
   # message(paste("total_days = ", total_days, collapse = ", "))          # debugging
   # message(paste("accounted_days = ", accounted_days, collapse = ", "))  # debugging  
