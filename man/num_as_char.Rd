@@ -56,7 +56,7 @@ num_as_char(1.6666, n_pre_dec = 1, n_dec = 1)
 num_as_char(1.6666, n_pre_dec = 2, n_dec = 2)
 num_as_char(1.6666, n_pre_dec = 2, n_dec = 3)
 
-# Note: If n_pre_dec is too small, actual number is used:
+# Note: If n_pre_dec is too small, actual number is kept:
 num_as_char(11.33, n_pre_dec = 0, n_dec = 1)
 num_as_char(11.66, n_pre_dec = 1, n_dec = 1)
 
@@ -69,10 +69,9 @@ num_as_char(3, sym = " ", n_dec = 0)
 num_as_char(4, sym = "8")
 num_as_char(5, sym = "99")
 
-# Works for vectors:
+# for vectors:
 num_as_char(1:10/1, n_pre_dec = 1, n_dec = 1)
 num_as_char(1:10/3, n_pre_dec = 2, n_dec = 2)
-
 
 }
 \seealso{

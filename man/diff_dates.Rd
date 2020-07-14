@@ -88,6 +88,7 @@ diff_dates(y_100)
 # with "to_date" argument: 
 y_050 <- Sys.Date() - (50 * 365.25) + -1:1 
 diff_dates(y_100, y_050)
+diff_dates(y_100, y_050, unit = "d") # days (with decimals)
 
 # Time unit and output format:
 ds_from <- as.Date("2010-01-01") + 0:2

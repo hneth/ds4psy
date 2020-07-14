@@ -19,9 +19,9 @@ Default: \code{tol = .Machine$double.eps^0.5} (see \code{?.Machine} for details)
 \code{is.wholenumber} does what the \strong{base} R function \code{is.integer} is \strong{not} designed to do: 
 
 \itemize{ 
-\item \code{is.wholenumber()} returns TRUE or FALSE depending on whether its numeric argument \code{x} is an integer value (i.e., a "whole" number). 
+  \item \code{is.wholenumber()} returns TRUE or FALSE depending on whether its numeric argument \code{x} is an integer value (i.e., a "whole" number). 
 
-\item \code{is.integer()} returns TRUE or FALSE depending on whether its argument is of integer type, and FALSE if its argument is a factor.  
+  \item \code{is.integer()} returns TRUE or FALSE depending on whether its argument is of integer type, and FALSE if its argument is a factor.  
 }
 
 See the documentation of \code{\link{is.integer}} for definition and details.

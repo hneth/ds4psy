@@ -7,9 +7,9 @@
 num_as_ordinal(x, sep = "")
 }
 \arguments{
-\item{x}{Number(s) to convert (required, accepts numeric vectors).}
+\item{x}{Number(s) to convert (required, scalar or vector).}
 
-\item{sep}{Decimal separator to use.
+\item{sep}{Decimal separator to use. 
 Default: \code{sep = ""} (i.e., no separator).}
 }
 \description{
@@ -25,7 +25,10 @@ for multiple languages and provides a \code{toOrdinalDate()} function.
 
 \strong{Caveat:} Note that this function illustrates how numbers, 
 characters, \code{for} loops, and \code{paste()} can be combined 
-when writing functions. It is not written efficiently or well.
+when writing functions. 
+It is instructive, but not written efficiently or well 
+(see the function definition for an alternative solution 
+using vector indexing).
 }
 \examples{
 num_as_ordinal(1:4)
@@ -40,7 +43,6 @@ num_as_ordinal("1")
 num_as_ordinal(Sys.Date())
 num_as_ordinal(Sys.time())
 num_as_ordinal(seq(1.99, 2.14, by = .01))
-
 
 }
 \seealso{
