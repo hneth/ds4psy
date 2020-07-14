@@ -1,5 +1,5 @@
 ## util_fun.R | ds4psy
-## hn | uni.kn | 2020 06 27
+## hn | uni.kn | 2020 07 14
 ## ---------------------------
 
 ## Utility functions. 
@@ -12,6 +12,45 @@ vrep <- Vectorize(rep.int, "times")
 # vrep(x = 1,   times = 1:3)
 # vrep(x = "a", times = 2:4)
 ## => works, but returns a list.
+
+
+# align_vector_length: Recycle or truncate a vector to the length of a main one: ------ 
+
+align_vector_length <- function(v_fixed, v_change){
+  
+  v_out <- v_change  # default: original v_change
+  
+  # Length of vectors: 
+  n_main <- length(v_fixed)
+  n_else <- length(v_change)
+  
+  # Main: 
+  if (n_main != n_else){  # different lengths:
+    
+    if (n_else > n_main){ # 1. truncate v_change to the length of n_main: 
+      
+      v_out <- v_change[1:n_main]
+      
+    } else { # 2. recycle v_change to the length of n_main: 
+      
+      v_out <- rep(v_change, ceiling(n_main/n_else))[1:n_main]
+      
+    } # end else. 
+  } # end if.  
+  
+  return(v_out)
+  
+} # align_vector_length end. 
+
+# ## Check:
+# align_vector_length(1:5, v_change = LETTERS[1:5])
+# align_vector_length(1:5, v_change = LETTERS[1:3])
+# align_vector_length(1:5, v_change = LETTERS[1:10])
+# 
+# # Note:
+# align_vector_length(NA, v_change = LETTERS[1:3])
+# align_vector_length(1:5, v_change = NA)
+
 
 # num_as_char: Print a number (as character), with n_pre_dec digits prior to decimal sep, and rounded to n_dec digits: ------
 
@@ -64,7 +103,7 @@ vrep <- Vectorize(rep.int, "times")
 #' num_as_char(1.6666, n_pre_dec = 2, n_dec = 2)
 #' num_as_char(1.6666, n_pre_dec = 2, n_dec = 3)
 #' 
-#' # Note: If n_pre_dec is too small, actual number is used:
+#' # Note: If n_pre_dec is too small, actual number is kept:
 #' num_as_char(11.33, n_pre_dec = 0, n_dec = 1)
 #' num_as_char(11.66, n_pre_dec = 1, n_dec = 1)
 #' 
@@ -77,10 +116,9 @@ vrep <- Vectorize(rep.int, "times")
 #' num_as_char(4, sym = "8")
 #' num_as_char(5, sym = "99")
 #' 
-#' # Works for vectors:
+#' # for vectors:
 #' num_as_char(1:10/1, n_pre_dec = 1, n_dec = 1)
 #' num_as_char(1:10/3, n_pre_dec = 2, n_dec = 2)
-#' 
 #' 
 #' @family utility functions
 #'
@@ -88,20 +126,23 @@ vrep <- Vectorize(rep.int, "times")
 
 num_as_char <- function(x, n_pre_dec = 2, n_dec = 2, sym = "0", sep = "."){
   
-  # (-) Check inputs:
+  # 0. Initialize:
+  char <- NA
+  
+  # 1. Handle inputs:
   if ((!is.na(as.numeric(sym))) && (as.numeric(sym) != 0)) {  # x is numeric, but not 0: 
     message("Setting sym to numeric digits (other than '0') is confusing.")
   }
+  
   if (nchar(sym) > 1) {  # sym contains multiple characters: 
     message("Setting sym to more than 1 character is confusing.")
   }
   
-  # (0) round x: 
+  # 2. Main: Split x_rounded into 2 parts: ---- 
+  
   x_rounded <- round(x, n_dec)
   
-  # Split x_rounded into 2 parts:
-  
-  # (1) Part BEFORE the decimal point:
+  # A. Part BEFORE the decimal point:
   n_num_1 <- x_rounded %/% 1 
   
   n_char_1 <- as.character(n_num_1)  # as character
@@ -122,7 +163,7 @@ num_as_char <- function(x, n_pre_dec = 2, n_dec = 2, sym = "0", sep = "."){
   
   n_char_1_final <- paste0(sym_1_add, n_char_1)  # intermediate result 1 
   
-  # (2) Part AFTER the decimal point:
+  # B. Part AFTER the decimal point:
   n_num_2 <- x_rounded %% 1
   
   # round to n_dec digits (again?):
@@ -148,17 +189,17 @@ num_as_char <- function(x, n_pre_dec = 2, n_dec = 2, sym = "0", sep = "."){
   
   n_char_2_final <- paste0(n_char_2, sym_2_add) # intermediate result 2 
   
-  # (3) paste 2 parts together again:
+  # 3. Paste 2 parts together again:
   if (n_dec > 0) {
-    out <- paste(n_char_1_final, n_char_2_final, sep = sep)
+    char <- paste(n_char_1_final, n_char_2_final, sep = sep)
   } else {
-    out <- n_char_1_final  # use only 1st part (and no decimal separator)
+    char <- n_char_1_final  # use only 1st part (and no decimal separator)
   }
   
-  # (+) return:
-  return(out)
+  # 4. Output: 
+  return(char)
   
-}  # num_as_char end. 
+} # num_as_char end. 
 
 # # Check:
 # num_as_char(1)
@@ -206,11 +247,14 @@ num_as_char <- function(x, n_pre_dec = 2, n_dec = 2, sym = "0", sep = "."){
 #' 
 #' \strong{Caveat:} Note that this function illustrates how numbers, 
 #' characters, \code{for} loops, and \code{paste()} can be combined 
-#' when writing functions. It is not written efficiently or well. 
+#' when writing functions. 
+#' It is instructive, but not written efficiently or well 
+#' (see the function definition for an alternative solution 
+#' using vector indexing). 
 #' 
-#' @param x Number(s) to convert (required, accepts numeric vectors).
+#' @param x Number(s) to convert (required, scalar or vector).
 #'
-#' @param sep Decimal separator to use.  
+#' @param sep Decimal separator to use. 
 #' Default: \code{sep = ""} (i.e., no separator). 
 #'
 #' @examples
@@ -227,7 +271,6 @@ num_as_char <- function(x, n_pre_dec = 2, n_dec = 2, sym = "0", sep = "."){
 #' num_as_ordinal(Sys.time())
 #' num_as_ordinal(seq(1.99, 2.14, by = .01))
 #' 
-#' 
 #' @family utility functions
 #'
 #' @seealso 
@@ -237,7 +280,10 @@ num_as_char <- function(x, n_pre_dec = 2, n_dec = 2, sym = "0", sep = "."){
 
 num_as_ordinal <- function(x, sep = ""){
   
-  # (-) Check inputs:
+  # 0. Initialize:
+  char <- NA
+  
+  # 1. Handle inputs:
   if ( (length(x) == 1) && (is.na(x)) ) {
     message("x is required. Using x = 0:15:")
     x <- 0:15
@@ -257,16 +303,16 @@ num_as_ordinal <- function(x, sep = ""){
     message("x should be an integer, but let's try...")
   }
   
-  # (1) Turn x into character(s):
+  # 1. Main: Turn x into character(s): ---- 
   x_c <- as.character(x)
   nchar <- nchar(x_c)
   f_c <- substr(x_c, start = nchar, stop = nchar)        # final character
   f2c <- substr(x_c, start = (nchar - 1), stop = nchar)  # final 2 characters
   
-  # (2) Initialize all suffixes to default:
+  # 2. Initialize to default suffix "th": ---- 
   sfx <- rep("th", length(x))  
   
-  # (3) Consider each x for suffix changes:
+  # 3a. Loop through all x for suffix changes: ---- 
   for (i in seq_along(x)){
     
     # Test conditions for 3 special suffixes:
@@ -276,10 +322,18 @@ num_as_ordinal <- function(x, sep = ""){
     
   } # for loop end. 
   
-  # (4) Return combination:
-  paste0(x_c, sep, sfx)
+  ## 3b. Replace loop by vector indexing: ----
+  # sfx[(f_c == "1") & (f2c != "11")] <- "st"
+  # sfx[(f_c == "2") & (f2c != "12")] <- "nd"
+  # sfx[(f_c == "3") & (f2c != "13")] <- "rd"
   
-}  # num_as_ordinal end.
+  # 4. Combine:
+  char <- paste0(x_c, sep, sfx)
+  
+  # 5. Output: 
+  return(char)
+  
+} # num_as_ordinal end.
 
 ## Checks:
 # num_as_ordinal(1:15)
@@ -308,9 +362,9 @@ num_as_ordinal <- function(x, sep = ""){
 #' \code{is.wholenumber} does what the \strong{base} R function \code{is.integer} is \strong{not} designed to do: 
 #' 
 #' \itemize{ 
-#' \item \code{is.wholenumber()} returns TRUE or FALSE depending on whether its numeric argument \code{x} is an integer value (i.e., a "whole" number). 
+#'   \item \code{is.wholenumber()} returns TRUE or FALSE depending on whether its numeric argument \code{x} is an integer value (i.e., a "whole" number). 
 #' 
-#' \item \code{is.integer()} returns TRUE or FALSE depending on whether its argument is of integer type, and FALSE if its argument is a factor.  
+#'   \item \code{is.integer()} returns TRUE or FALSE depending on whether its argument is of integer type, and FALSE if its argument is a factor.  
 #' }
 #' 
 #' See the documentation of \code{\link{is.integer}} for definition and details.
@@ -338,8 +392,10 @@ num_as_ordinal <- function(x, sep = ""){
 #' @export 
 
 is.wholenumber <- function(x, tol = .Machine$double.eps^0.5) {
+  
   abs(x - round(x)) < tol
-}
+  
+} # is.wholenumber end.
 
 # # Check: 
 # is.wholenumber(1)    # is TRUE
@@ -358,7 +414,7 @@ kill_all <- function(){
   
   rm(list = ls())
   
-}  # kill_all end. 
+} # kill_all end. 
 
 ## Check: 
 # kill_all()
