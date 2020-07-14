@@ -1,5 +1,5 @@
 ## time_fun.R | ds4psy
-## hn | uni.kn | 2020 07 13
+## hn | uni.kn | 2020 07 14
 ## ---------------------------
 
 ## Functions for date and time objects. 
@@ -162,9 +162,9 @@ date_from_string <- function(x, ...){
 # date_from_string(c("2010-8-12", "12-8-2010"))  # mix of orders
 
 
-# date_from_non_Date: Parse non-Date into "Date" object(s): ------ 
+# date_from_noDate: Parse non-Date into "Date" object(s): ------ 
 
-date_from_non_Date <- function(x, ...){
+date_from_noDate <- function(x, ...){
   
   # 0. Initialize: 
   dt <- NA
@@ -175,7 +175,7 @@ date_from_non_Date <- function(x, ...){
   
   # Coerce numeric x that are NOT date-time objects into character strings:
   if (!is_date_time(x) & is.numeric(x)){
-    # message('date_from_non_Date: Coercing x from "number" into "character".')    
+    # message('date_from_noDate: Coercing x from "number" into "character".')    
     x <- as.character(x)
   }
   
@@ -183,40 +183,40 @@ date_from_non_Date <- function(x, ...){
   
   # A. Aim to coerce character string inputs x into "Date": 
   if (is.character(x)){
-    # message('date_from_non_Date: Aiming to parse x from "character" as "Date".')
+    # message('date_from_noDate: Aiming to parse x from "character" as "Date".')
     dt <- date_from_string(x, ...)
   }
   
   # B. Coerce "POSIXt" inputs into "Date":
   if (is_POSIXt(x)){
-    # message('date_from_non_Date: Coercing x from "POSIXt" into "Date".')
+    # message('date_from_noDate: Coercing x from "POSIXt" into "Date".')
     dt <- as.Date(x, ...) 
   }
   
   # 3. Verify "Date": ---- 
   if (!is_Date(dt)){
     
-    message('date_from_non_Date: Failed to parse x as "Date".')
+    message('date_from_noDate: Failed to parse x as "Date".')
     
   }
   
   # 4. Output: 
   return(dt)
   
-} # date_from_non_Date end. 
+} # date_from_noDate end. 
 
 # # Check:
-# date_from_non_Date(20100612)    # number
-# date_from_non_Date("20100612")  # string
-# date_from_non_Date(as.POSIXct("2010-06-10 12:30:45", tz = "UTC"))
-# date_from_non_Date(as.POSIXlt("2010-06-10 12:30:45", tz = "UTC"))
+# date_from_noDate(20100612)    # number
+# date_from_noDate("20100612")  # string
+# date_from_noDate(as.POSIXct("2010-06-10 12:30:45", tz = "UTC"))
+# date_from_noDate(as.POSIXlt("2010-06-10 12:30:45", tz = "UTC"))
 # 
 # # fame data (with format string):
-# date_from_non_Date(fame$DOB, format = "%B %d, %Y")
+# date_from_noDate(fame$DOB, format = "%B %d, %Y")
 # 
 # # Note errors for:
-# date_from_non_Date(123)
-# date_from_non_Date("ABC")
+# date_from_noDate(123)
+# date_from_noDate("ABC")
 
 
 # time_from_string: Parse a string into "POSIXt" (without tz): ------
@@ -303,9 +303,9 @@ time_from_string <- function(x, tz = "", ...){
 # time_from_string(c("20-01-01 10:30:45", "20-06-30 22:30:50"), tz = "NZ")
 
 
-# time_from_non_POSIXt: Parse non-time into "POSIXt" object(s): ------ 
+# time_from_noPOSIXt: Parse non-time into "POSIXt" object(s): ------ 
 
-time_from_non_POSIXt <- function(x, tz = "", ...){
+time_from_noPOSIXt <- function(x, tz = "", ...){
   
   # 0. Initialize: 
   t <- NA
@@ -317,7 +317,7 @@ time_from_non_POSIXt <- function(x, tz = "", ...){
   # Coerce numeric x that are NOT date-time objects into character strings:
   if (!is_date_time(x) & is.numeric(x)){
     
-    # message('time_from_non_POSIXt: Coercing x from "number" into "character".')    
+    # message('time_from_noPOSIXt: Coercing x from "number" into "character".')    
     x <- as.character(x)
     
   }
@@ -327,7 +327,7 @@ time_from_non_POSIXt <- function(x, tz = "", ...){
   # A. Aim to coerce character string inputs x into "POSIXct": 
   if (is.character(x)){
     
-    # message('time_from_non_POSIXt: Aiming to parse x from "character" as "POSIXct".')   
+    # message('time_from_noPOSIXt: Aiming to parse x from "character" as "POSIXct".')   
     t <- time_from_string(x, tz = tz, ...)  # Note: tz = "" by default. 
     
   }
@@ -335,7 +335,7 @@ time_from_non_POSIXt <- function(x, tz = "", ...){
   # B. Coerce "Date" inputs into "POSIXct" objects:
   if (is_Date(x)){
     
-    # message('time_from_non_POSIXt: Coercing x from "Date" into "POSIXct".')      
+    # message('time_from_noPOSIXt: Coercing x from "Date" into "POSIXct".')      
     t <- as.POSIXct(x, tz = tz, ...)  # Note: tz = "" by default. 
     
   }
@@ -343,7 +343,7 @@ time_from_non_POSIXt <- function(x, tz = "", ...){
   # 3. Verify "POSIXct": ---- 
   if (!is_POSIXct(t)){
     
-    message('time_from_non_POSIXt: Failed to parse x as "POSIXct".')
+    message('time_from_noPOSIXt: Failed to parse x as "POSIXct".')
     
   }
   
@@ -353,32 +353,32 @@ time_from_non_POSIXt <- function(x, tz = "", ...){
   # 4. Output: 
   return(t)  
   
-} # time_from_non_POSIXt end. 
+} # time_from_noPOSIXt end. 
 
 # ## Check:
 # # POSIXt returned as is:
-# is_POSIXct(time_from_non_POSIXt(Sys.time() + 0:2))
-# is_POSIXlt(time_from_non_POSIXt(as.POSIXlt(Sys.time() + 0:2))) 
+# is_POSIXct(time_from_noPOSIXt(Sys.time() + 0:2))
+# is_POSIXlt(time_from_noPOSIXt(as.POSIXlt(Sys.time() + 0:2))) 
 # 
 # # from "Date":
-# time_from_non_POSIXt(Sys.Date() + seq(0, 720, by = 180))  # note tz changes
+# time_from_noPOSIXt(Sys.Date() + seq(0, 720, by = 180))  # note tz changes
 # 
 # # from character:
-# time_from_non_POSIXt(c("2020-01-01 10:30:45", "2020-06-30 22:30:50"))
-# time_from_non_POSIXt(c("2020/01/01 10.30.45", "2020/06/30 22.30.50"))
-# time_from_non_POSIXt(c("20-01-01 10:30", "20-06-30 22:30"))
+# time_from_noPOSIXt(c("2020-01-01 10:30:45", "2020-06-30 22:30:50"))
+# time_from_noPOSIXt(c("2020/01/01 10.30.45", "2020/06/30 22.30.50"))
+# time_from_noPOSIXt(c("20-01-01 10:30", "20-06-30 22:30"))
 # 
 # # # from numeric:
-# time_from_non_POSIXt(201005103045)  # date-time
-# time_from_non_POSIXt(201005)        # date
-# time_from_non_POSIXt(1030)          # time (today)
+# time_from_noPOSIXt(201005103045)  # date-time
+# time_from_noPOSIXt(201005)        # date
+# time_from_noPOSIXt(1030)          # time (today)
 # 
 # # with format:
-# time_from_non_POSIXt(c("6|8|10 10<30<45"), format = "%m|%d|%y %H<%M<%S")
-# time_from_non_POSIXt(c("June 8, 2010, 10-30"), format = "%B %d, %Y, %H-%M")
+# time_from_noPOSIXt(c("6|8|10 10<30<45"), format = "%m|%d|%y %H<%M<%S")
+# time_from_noPOSIXt(c("June 8, 2010, 10-30"), format = "%B %d, %Y, %H-%M")
 # 
 # # with tz:
-# time_from_non_POSIXt(c("20-01-01 10:30:45", "20-06-30 22:30:50"), tz = "NZ")
+# time_from_noPOSIXt(c("20-01-01 10:30:45", "20-06-30 22:30:50"), tz = "NZ")
 
 
 # +++ here now +++ 
@@ -595,7 +595,7 @@ names(MONTH_DAYS) <- base::month.abb
 
 days_in_month <- function(dt = Sys.Date(), ...){
   
-  if (!is_Date(dt)){ dt <- date_from_non_Date(dt, ...) }
+  if (!is_Date(dt)){ dt <- date_from_noDate(dt, ...) }
   
   month_nr <- as.numeric(format(dt, format = "%m"))
   # message(paste(month_nr, collapse = " "))
@@ -630,7 +630,7 @@ days_last_month <- function(dt, ...){
   out <- NA
   
   # (a) Handle inputs:   
-  if (!is_Date(dt)){ dt <- date_from_non_Date(dt, ...) }
+  if (!is_Date(dt)){ dt <- date_from_noDate(dt, ...) }
   
   # (b) Get dt elements: 
   year_nr  <- as.numeric(format(dt, format = "%Y"))
@@ -678,7 +678,7 @@ days_last_month <- function(dt, ...){
 # bday_eq_last_month <- function(dt, bday, ...){
 #   
 #   # (a) Handle inputs:
-#   if (!is_Date(dt)){ dt <- date_from_non_Date(dt, ...) }
+#   if (!is_Date(dt)){ dt <- date_from_noDate(dt, ...) }
 #   
 #   if (length(dt) > length(bday)){
 #     
@@ -741,8 +741,8 @@ days_last_month <- function(dt, ...){
 dt_last_monthly_bd <- function(dob, to_date, ...){
   
   # (a) Handle inputs:
-  if (!is_Date(dob)){ dob <- date_from_non_Date(dob, ...) }
-  if (!is_Date(to_date)){to_date <- date_from_non_Date(to_date, ...) }
+  if (!is_Date(dob)){ dob <- date_from_noDate(dob, ...) }
+  if (!is_Date(to_date)){to_date <- date_from_noDate(to_date, ...) }
   
   N <- length(dob)
   
@@ -1278,7 +1278,7 @@ what_date <- function(when = NA, rev = FALSE, as_string = TRUE,
     # interpret when: 
     if (!is_Date(when)){
       # message('what_date: Aiming to parse "when" as "Date".')
-      d <- date_from_non_Date(when, tz = tz)
+      d <- date_from_noDate(when, tz = tz)
     } else {
       d <- as.Date(when, tz = tz)  # as Date (with passive tz) 
     }
@@ -1562,7 +1562,7 @@ what_wday <- function(when = Sys.Date(), abbr = FALSE){
   ## NEW code: 
   if (!is_Date(when)){
     # message('what_wday: Aiming to parse "when" as "Date".')
-    when <- date_from_non_Date(when)
+    when <- date_from_noDate(when)
   }
   
   if (!is_Date(when)){
@@ -2323,9 +2323,9 @@ diff_days <- function(from_date, to_date = Sys.Date(), units = "days", as_Date =
   
   if (as_Date) { # Convert non-Date (e.g., POSIXt) into "Date" objects:
     
-    if (!is_Date(from_date)) { from_date <- date_from_non_Date(from_date, ...) }
+    if (!is_Date(from_date)) { from_date <- date_from_noDate(from_date, ...) }
     
-    if (!is_Date(to_date))   { to_date <- date_from_non_Date(to_date, ...) }
+    if (!is_Date(to_date))   { to_date <- date_from_noDate(to_date, ...) }
     
   }
   
@@ -2517,12 +2517,12 @@ diff_dates <- function(from_date, to_date = Sys.Date(),
   
   if (!is_Date(from_date)){
     # message('diff_dates: Aiming to parse "from_date" as "Date".')
-    from_date <- date_from_non_Date(from_date)
+    from_date <- date_from_noDate(from_date)
   }
   
   if (!is_Date(to_date)){
     # message('diff_dates: Aiming to parse "to_date" as "Date".')
-    to_date <- date_from_non_Date(to_date)
+    to_date <- date_from_noDate(to_date)
   }
   
   # (c) Recycle or truncate to_date argument based on from_date: ---- 
@@ -2909,8 +2909,8 @@ diff_dates <- function(from_date, to_date = Sys.Date(),
 ## ToDo: ----------
 
 # ad (0):
-# - consider making simple parser functions (date_from_non_Date() available to users by export.   
-# - consider creating corresponding time parser function time_from_non_POSIXt(). 
+# - consider making date and time parser functions (date_from_noDate/time_from_noPOSIX) available to users by export.   
+# - consider creating corresponding time parser function time_from_noPOSIXt(). 
 # - consider making test functions is_Date / is_POSIXt available to users by export. 
 # - consider moving time utility/helper functions into separate file.
 
