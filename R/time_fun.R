@@ -2709,26 +2709,26 @@ diff_dates <- function(from_date, to_date = Sys.Date(),
   # Use diff_days() helper/utility function: 
   total_days <- diff_days(from_date = from_date, to_date = to_date)
   
-  # Only consider completed/full days (whereas diff_days returns decimals as well):
-  total_days <- floor(total_days)
-  
   # Use dt_bday_last_month() helper/utility function: 
   dt_bday_last_month <- dt_last_monthly_bd(dob = from_date, to_date = to_date)
   accounted_days <- diff_days(from_date = from_date, to_date = dt_bday_last_month)
   
   full_d_2 <- total_days - accounted_days
   
-  # message(paste("total_days = ", total_days, collapse = ", "))  # debugging
+  # Only consider completed/full days (as integers, whereas diff_days may return decimals as well): 
+  full_d_2 <- floor(total_days - accounted_days)
+  
+  # message(paste("total_days = ", total_days, collapse = ", "))          # debugging
   # message(paste("accounted_days = ", accounted_days, collapse = ", "))  # debugging  
-  # message(paste("full_d_2 = ", full_d_2, collapse = ", "))  # debugging
+  # message(paste("full_d_2 = ", full_d_2, collapse = ", "))              # debugging
   
   # s+3: Verify equality of both solutions: 
   if (!all(full_d == full_d_2)){
     
     warning('diff_dates: 2 solutions for full_d yield different results.')
     
-    ix_diff <- full_d != full_d_2  # Diagnostic info for debugging: 
-    
+    # Diagnostic info (for debugging): 
+    ix_diff <- full_d != full_d_2  
     message(paste(which(ix_diff),     collapse = ", "))
     message(paste(from_date[ix_diff], collapse = ", "))    
     message(paste(to_date[ix_diff],   collapse = ", "))
@@ -2782,7 +2782,6 @@ diff_dates <- function(from_date, to_date = Sys.Date(),
 
 
 # ## Check:
-
 # # Days:
 # (ds_from <- as.Date("2010-01-02") + -1:1)
 # (ds_to   <- as.Date("2020-03-01"))  # Note: 2020 is leap year.
@@ -2828,16 +2827,21 @@ diff_dates <- function(from_date, to_date = Sys.Date(),
 # diff_dates("2001-02-02", "2000-02-02", as_character = FALSE)
 
 
-## Check consistency (of 2 solutions):
-
-## Test with random date samples:
-# from <- sample_date(100)
-# to   <- sample_date(100)
-# diff_dates(from, to, as_character = TRUE)
+# ## Check consistency (of 2 solutions):
 # 
-# # +++ here now +++
+# ## Test with random date samples:
+# from <- sample_date(100) - 0.11
+# to   <- sample_date(100) + 0.22
+# diff_dates(from, to, unit = "y", as_character = TRUE)
+# diff_dates(from, to, unit = "d", as_character = TRUE)
 # 
-# # Check possibly diverging cases:
+# ## Test with random TIME samples:
+# from <- sample_time(100) - .25
+# to   <- sample_time(100) + .25
+# diff_dates(from, to, unit = "y", as_character = TRUE) 
+# diff_dates(from, to, unit = "d", as_character = TRUE) 
+# 
+# # Verify possibly diverging cases:
 # 
 # # 1:
 # dob <- as.Date("1981-05-31")
@@ -2897,7 +2901,7 @@ diff_dates <- function(from_date, to_date = Sys.Date(),
 
 ## ToDo: 
 
-# - add n_decimals argument (default of 0).
+# - add n_decimals argument? (default of 0).
 #
 # - Add exercise to Chapter 10: 
 #   Explore the diff_dates() function that computes 
@@ -2919,8 +2923,7 @@ diff_dates <- function(from_date, to_date = Sys.Date(),
 ## ToDo: ----------
 
 # ad (0):
-# - consider making date and time parser functions (date_from_noDate/time_from_noPOSIX) available to users by export.   
-# - consider creating corresponding time parser function time_from_noPOSIXt(). 
+# - consider making date and time parser functions (date_from_noDate/time_from_noPOSIX) available to users by export.
 # - consider making test functions is_Date / is_POSIXt available to users by export. 
 # - consider moving time utility/helper functions into separate file.
 
@@ -2932,7 +2935,7 @@ diff_dates <- function(from_date, to_date = Sys.Date(),
 #   as dates/times (of class "Date"/"POSIXct") in all what_() functions
 
 # ad (4): Differences between dates/times:
-# - finish diff_dates (or date_diff) function. 
+# - finish and clean up diff_dates (or date_diff) function. 
 # - consider adding diff_times function (analog to diff_dates, but for date-times, including H:M:S)
 
 ## eof. ----------------------
