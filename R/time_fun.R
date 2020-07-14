@@ -1327,7 +1327,7 @@ what_date <- function(when = NA, rev = FALSE, as_string = TRUE,
     return(d)  # as Date
   }
   
-}  # what_date end. 
+} # what_date end. 
 
 # ## Check:
 # what_date()
@@ -1615,7 +1615,7 @@ what_wday <- function(when = Sys.Date(), abbr = FALSE){
   d
   # }
   
-}  # what_wday end. 
+} # what_wday end. 
 
 # ## Check:
 # what_wday()
@@ -2596,7 +2596,7 @@ diff_dates <- function(from_date, to_date = Sys.Date(),
   
   # 2. Main function: ------ 
   
-  # (a) initialize: ---- 
+  # (a) initialize:  
   age <- NA
   full_y <- NA
   full_m <- NA
@@ -2604,6 +2604,7 @@ diff_dates <- function(from_date, to_date = Sys.Date(),
   
   
   # (b) Special case: unit == "d" ---- 
+  
   if (unit == "d"){
     
     # Use diff_days() helper/utility function: 
@@ -2639,7 +2640,7 @@ diff_dates <- function(from_date, to_date = Sys.Date(),
   to_d <- as.numeric(format(to_date, "%d"))
   
   
-  # (c1) Completed years: ---- 
+  # (c1) Completed years: 
   
   # bday this year? (as Boolean): 
   bd_ty <- ifelse((to_m > bd_m) | ((to_m == bd_m) & (to_d >= bd_d)), TRUE, FALSE) 
@@ -2647,7 +2648,7 @@ diff_dates <- function(from_date, to_date = Sys.Date(),
   
   full_y <- (to_y - bd_y) - (1 * !bd_ty)
   
-  # (c2) Completed months: ---- 
+  # (c2) Completed months: 
   
   # bday this month? (as Boolean): 
   bd_tm <- ifelse((to_d >= bd_d), TRUE, FALSE) 
@@ -2666,7 +2667,7 @@ diff_dates <- function(from_date, to_date = Sys.Date(),
     
   }
   
-  # (c3) Completed days: ---- 
+  # (c3) Completed days: 
   
   ## bday today? (as Boolean): 
   # bd_td <- ifelse((to_d == bd_d), TRUE, FALSE) 
