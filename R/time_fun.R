@@ -2448,6 +2448,7 @@ diff_days <- function(from_date, to_date = Sys.Date(), units = "days", as_Date =
 #' # with "to_date" argument: 
 #' y_050 <- Sys.Date() - (50 * 365.25) + -1:1 
 #' diff_dates(y_100, y_050)
+#' diff_dates(y_100, y_050, unit = "d") # days (with decimals)
 #' 
 #' # Time unit and output format:
 #' ds_from <- as.Date("2010-01-01") + 0:2
@@ -2526,21 +2527,25 @@ diff_dates <- function(from_date, to_date = Sys.Date(),
   }
   
   # (c) Recycle or truncate to_date argument based on from_date: ---- 
-  n_from <- length(from_date)
-  n_to   <- length(to_date)
+  to_date <- align_vector_length(v_fixed = from_date, v_change = to_date)
   
-  if (n_from != n_to){  # arguments differ in length:     
-    
-    if (n_to > n_from){ # 1. truncate to_date to the length of n_from: 
-      
-      to_date <- to_date[1:n_from]
-      
-    } else { # 2. recycle to_date to the length of n_from: 
-      
-      to_date <- rep(to_date, ceiling(n_from/n_to))[1:n_from]
-      
-    } # end else. 
-  } # end if.
+  ## WAS: 
+  # n_from <- length(from_date)
+  # n_to   <- length(to_date)
+  # 
+  # if (n_from != n_to){  # arguments differ in length:     
+  #   
+  #   if (n_to > n_from){ # 1. truncate to_date to the length of n_from: 
+  #     
+  #     to_date <- to_date[1:n_from]
+  #     
+  #   } else { # 2. recycle to_date to the length of n_from: 
+  #     
+  #     to_date <- rep(to_date, ceiling(n_from/n_to))[1:n_from]
+  #     
+  #   } # end else. 
+  # } # end if.
+  
   
   # (d) Replace intermittent NA values in to_date by current date: ---- 
   # Axiom: Dead people do not age any further, but 
@@ -2579,8 +2584,8 @@ diff_dates <- function(from_date, to_date = Sys.Date(),
   from_date[ix_rev] <- to_date[ix_rev]  # from_date by to_date
   to_date[ix_rev]   <- from_date_temp   # to_date by from_date
   
-  sign <- rep("", n_from)  # initialize (as character)
-  sign[ix_rev] <- "-"      # negate sign (character)
+  sign <- rep("", length(from_date))    # initialize (as character)
+  sign[ix_rev] <- "-"                   # negate sign (character)
   
   # message(sign)  # debugging
   
@@ -2704,14 +2709,18 @@ diff_dates <- function(from_date, to_date = Sys.Date(),
   # Use diff_days() helper/utility function: 
   total_days <- diff_days(from_date = from_date, to_date = to_date)
   
+  # Only consider completed/full days (whereas diff_days returns decimals as well):
+  total_days <- floor(total_days)
+  
   # Use dt_bday_last_month() helper/utility function: 
   dt_bday_last_month <- dt_last_monthly_bd(dob = from_date, to_date = to_date)
   accounted_days <- diff_days(from_date = from_date, to_date = dt_bday_last_month)
   
   full_d_2 <- total_days - accounted_days
   
-  # message(paste(full_d_2, collapse = " "))  # debugging
-  
+  # message(paste("total_days = ", total_days, collapse = ", "))  # debugging
+  # message(paste("accounted_days = ", accounted_days, collapse = ", "))  # debugging  
+  # message(paste("full_d_2 = ", full_d_2, collapse = ", "))  # debugging
   
   # s+3: Verify equality of both solutions: 
   if (!all(full_d == full_d_2)){
@@ -2720,13 +2729,13 @@ diff_dates <- function(from_date, to_date = Sys.Date(),
     
     ix_diff <- full_d != full_d_2  # Diagnostic info for debugging: 
     
-    message(paste(which(ix_diff),     collapse = " "))
-    message(paste(from_date[ix_diff], collapse = " "))    
-    message(paste(to_date[ix_diff],   collapse = " "))
-    message(paste("y:", full_y[ix_diff], collapse = " "))    
-    message(paste("m:", full_m[ix_diff], collapse = " "))    
-    message(paste("d 1:", full_d[ix_diff],   collapse = " "))    
-    message(paste("d_2:", full_d_2[ix_diff], collapse = " "))
+    message(paste(which(ix_diff),     collapse = ", "))
+    message(paste(from_date[ix_diff], collapse = ", "))    
+    message(paste(to_date[ix_diff],   collapse = ", "))
+    message(paste("y:", full_y[ix_diff], collapse = ", "))    
+    message(paste("m:", full_m[ix_diff], collapse = ", "))    
+    message(paste("d 1:", full_d[ix_diff],   collapse = ", "))    
+    message(paste("d_2:", full_d_2[ix_diff], collapse = ", "))
     
   }
   
