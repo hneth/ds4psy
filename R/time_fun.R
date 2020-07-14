@@ -740,17 +740,12 @@ days_last_month <- function(dt, ...){
 
 dt_last_monthly_bd <- function(dob, to_date, ...){
   
-  # (a) Handle inputs:
+  # (a) Handle inputs: ---- 
   if (!is_Date(dob)){ dob <- date_from_noDate(dob, ...) }
   if (!is_Date(to_date)){to_date <- date_from_noDate(to_date, ...) }
   
-  N <- length(dob)
-  
-  if (N > length(to_date)){
-    
-    to_date <- rep(to_date, length.out = N)  # recycle to_date
-    
-  }
+  # Recycle or truncate to_date argument based on dob: 
+  to_date <- align_vector_length(v_fixed = dob, v_change = to_date)
   
   # (b) Get dt elements:
   dob_y <- as.numeric(format(dob, format = "%Y"))
@@ -761,11 +756,11 @@ dt_last_monthly_bd <- function(dob, to_date, ...){
   tod_m <- as.numeric(format(to_date, format = "%m"))
   tod_d <- as.numeric(format(to_date, format = "%d"))
   
-  # (c) Main processing: 
+  # (c) Main processing: ---- 
   bd_this_month <- tod_d >= dob_d  # flag
   
   dt_y <- tod_y
-  dt_m <- rep(NA, N)
+  dt_m <- rep(NA, length(dob))
   
   # # Distinguish 2 cases:
   # dt_m[bd_this_month]  <- tod_m[bd_this_month]       # 1.  bd_this_month
@@ -810,9 +805,9 @@ dt_last_monthly_bd <- function(dob, to_date, ...){
 # dt_last_monthly_bd(bd, "2021-03-31")
 # dt_last_monthly_bd(bd, "2021-03-01")
 # 
-# # Birthday on Feb. 29 of leap year: 
+# # Birthday on Feb. 29 of leap year:
 # dt_last_monthly_bd("2020-02-29", "2021-03-01")
-#
+# 
 # # Case with errors:
 # (bd <- as.Date(fame$DOB[35], format = "%B %d, %Y"))
 # (dd <- as.Date(fame$DOD[35], format = "%B %d, %Y"))
@@ -2314,7 +2309,7 @@ change_tz <- function(time, tz = ""){
 
 ## (4) Compute differences between 2 dates/times (in human time units/periods): ------  
 
-# diff_days: Difference between two dates (in days): ------ 
+# diff_days: Difference between two dates (in days, with decimals): ------ 
 
 diff_days <- function(from_date, to_date = Sys.Date(), units = "days", as_Date = TRUE, ...){
   
@@ -2349,21 +2344,26 @@ diff_days <- function(from_date, to_date = Sys.Date(), units = "days", as_Date =
 # 
 # one_year_ago <- Sys.Date() - (365 + is_leap_year(Sys.Date()))
 # diff_days(one_year_ago)
+#
+# ## Note: "Date" objects with DECIMALS are possible:
+# (d1 <- Sys.Date())
+# (d2 <- Sys.Date() + 1.5)
+# diff_days(d1, d2)
 # 
-# # ## Note: Date vs. time differences:
+# ## Note: Date vs. time differences:
 # t0 <- as.POSIXct("2020-07-10 00:00:01", tz = "UTC")  # start of day
 # t1 <- as.POSIXct("2020-07-10 23:59:59", tz = "UTC")  # end of day
-# t2 <- t1 + 2  # 2 seconds later (but next date)
+# t2 <- t1 + 2  # 2 seconds after t1 (but next date)
 # 
 # # By default, only Dates are considered:
 # diff_days(t0, t1)
 # diff_days(t1, t2)
 # diff_days(t0, t2)
 # 
-# # But: Exact time differences:
+# # Exact time differences (with decimals): 
 # diff_days(t0, t1, as_Date = FALSE)
 # diff_days(t1, t2, as_Date = FALSE)
-# diff_days(t0, t2)
+# diff_days(t0, t2, as_Date = FALSE)
 
 
 # diff_dates: Compute date difference (i.e., age) in human units: ------
