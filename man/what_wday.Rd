@@ -43,6 +43,10 @@ what_wday(when = ds, abbr = TRUE)
 ts <- c("1969-07-13 13:53 CET", "2020-12-31 23:59:59")
 what_wday(ts)
 
+# fame data:
+greta_dob <- as.Date(fame[grep(fame$name, pattern = "Greta") , ]$DOB, "\%B \%d, \%Y")
+what_wday(greta_dob)  # Friday, of course.
+
 }
 \seealso{
 \code{what_date()} function to obtain dates; 
