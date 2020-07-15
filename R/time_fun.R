@@ -1,5 +1,5 @@
 ## time_fun.R | ds4psy
-## hn | uni.kn | 2020 07 14
+## hn | uni.kn | 2020 07 15
 ## ---------------------------
 
 ## Functions for date and time objects. 
@@ -1523,6 +1523,10 @@ what_date <- function(when = NA, rev = FALSE, as_string = TRUE,
 #' ts <- c("1969-07-13 13:53 CET", "2020-12-31 23:59:59")
 #' what_wday(ts)
 #' 
+#' # fame data:
+#' greta_dob <- as.Date(fame[grep(fame$name, pattern = "Greta") , ]$DOB, "%B %d, %Y")
+#' what_wday(greta_dob)  # Friday, of course.
+#' 
 #' @family date and time functions
 #' 
 #' @seealso 
@@ -1629,6 +1633,10 @@ what_wday <- function(when = Sys.Date(), abbr = FALSE){
 # # Note: Errors
 # what_wday(when = "now")
 # what_wday(when = 123)
+# 
+# Bday of Greta Thunberg?
+# greta_dob <- as.Date(fame[grep(fame$name, pattern = "Greta") , ]$DOB, "%B %d, %Y")
+# what_wday(greta_dob)  # Friday, of course.
 
 
 # what_week: What week is it? (number only) ------ 
