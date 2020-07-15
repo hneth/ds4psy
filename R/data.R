@@ -1,7 +1,5 @@
 ## data.R | ds4psy
-## hn | uni.kn | 2020 07 06
-## ---------------------------
-
+## hn | uni.kn | 2020 07 15 
 ## Documentation of datasets included in /data. 
 
 
@@ -1063,12 +1061,12 @@
 #' \code{fame} contains the names, areas, dates of birth (DOB), and 
 #' --- if applicable --- the dates of death (DOD) of famous people.
 #' 
-#' @format A table with 38 cases (rows) and 4 variables (columns). 
+#' @format A table with 66 cases (rows) and 4 variables (columns). 
 #' 
 #' @family datasets
 #' 
 #' @source 
-#' Student solutions to exercises, dates from \url{https://en.wikipedia.org}. 
+#' Student solutions to exercises, dates mostly from \url{https://en.wikipedia.org}. 
 
 "fame"
 
