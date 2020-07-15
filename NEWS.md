@@ -31,6 +31,7 @@ Current development version of **ds4psy** (0.4.0.9001+):
 
 - add `diff_dates()` to compute time difference between dates (in human units of years, months, days) 
 - add `days_in_month()` to obtain number of days in months for given dates (accounting for leap years) 
+- update `fame` data
 
 ## Details 
 
@@ -180,6 +181,6 @@ The initial functionality is limited, as the package is designed to support the 
 
 ---------- 
 
-[File `News.md` updated on 2020-07-12.]
+[File `News.md` updated on 2020-07-15.]
 
 <!-- eof. -->
