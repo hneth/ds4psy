@@ -1,5 +1,5 @@
 ## data.R | ds4psy
-## hn | uni.kn | 2020 07 15 
+## hn | uni.kn | 2020 07 16 
 ## Documentation of datasets included in /data. 
 
 
@@ -1070,6 +1070,7 @@
 
 "fame"
 
+
 # (10b) exp_num_dt data: ---- 
 
 # Experimental numeracy and date-time (dt) data:
@@ -1224,6 +1225,12 @@
 
 "tb"
 
+
+## Check data: ------ 
+
+## Check for "marked UTF-8 strings":
+
+# tools:::.check_package_datasets(".")
 
 
 ## ToDo: ----------
