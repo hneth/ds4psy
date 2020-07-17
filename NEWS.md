@@ -181,6 +181,6 @@ The initial functionality is limited, as the package is designed to support the 
 
 ---------- 
 
-[File `News.md` updated on 2020-07-15.]
+[File `News.md` updated on 2020-07-17.]
 
 <!-- eof. -->
