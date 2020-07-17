@@ -1,5 +1,5 @@
 ## text_fun.R | ds4psy
-## hn | uni.kn | 2020 06 22
+## hn | uni.kn | 2020 07 17
 ## ---------------------------
 
 ## Character objects and functions for string/text objects. 
@@ -803,12 +803,15 @@ text_to_sentences <- function(x,  # string(s) of text
                               force_delim = FALSE         # force split at delimiters
 ){
   
+  # 0. Initialize:
   st <- NA
   regex <- NA
   # split_delim <- "([[:punct:]])"  # as user argument
   
-  # Turn into character (if not already):
+  # 1. Handle inputs:
   x1 <- as.character(x)
+  
+  # 2. Main:
   
   # Paste all into one string:
   x2 <- paste(x1, collapse = " ")
@@ -843,9 +846,10 @@ text_to_sentences <- function(x,  # string(s) of text
   # Remove all instances of "":
   st <- x5[x5 != ""]
   
+  # 3. Output: 
   return(st)
   
-}
+} # text_to_sentences end. 
 
 # ## Check:
 # x <- c("A first sentence. Exclamation sentence!",
@@ -901,23 +905,21 @@ text_to_sentences <- function(x,  # string(s) of text
 text_to_words <- function(x  # string(s) of text
 ){
   
-  ws <- NA
+  # 0. Initialize:
+  wds <- NA
   
-  # Turn into character (if not already):
+  # 1. Handle inputs:
   x1 <- as.character(x)
   
-  # Remove punctuation:
-  x2 <- unlist(strsplit(x1, split = "[[:punct:]]"))
+  # 2. Main: 
+  x2 <- unlist(strsplit(x1, split = "[[:punct:]]"))  # remove punctuation
+  x3 <- unlist(strsplit(x2, split = "( ){1,}"))      # remove spaces
+  wds <- x3[x3 != ""]  # remove instances of ""
   
-  # Remove empty space:
-  x3 <- unlist(strsplit(x2, split = "( ){1,}"))
+  # 3. Output: 
+  return(wds)
   
-  # Remove all instances of "":
-  ws <- x3[x3 != ""]
-  
-  return(ws)
-  
-}
+} # text_to_words end. 
 
 # ## Check:
 # s3 <- c("A first sentence.", "The second sentence.", 
@@ -931,7 +933,7 @@ words_to_text <- function(w, collapse = " "){
   
   paste(w, collapse = collapse)
   
-}
+} # words_to_text end. 
 
 ## Check:
 # words_to_text(wv)
@@ -973,9 +975,10 @@ count_words <- function(x,  # string(s) of text
                         sort_freq = TRUE
 ){
   
-  freq <- NA  # initialize
+  # 0. Initialize: 
+  freq <- NA
   
-  # Turn into character (if not already):
+  # 1. Handle inputs: 
   v0 <- as.character(x)
   
   if (case_sense){
@@ -984,9 +987,10 @@ count_words <- function(x,  # string(s) of text
     v1 <- tolower(v0)  # lowercase
   }
   
-  # Split input into a vector of all its words:
+  # 2. Main: Split input into a vector of all its words:
   w <- text_to_words(v1)
   
+  # 3. Prepare outputs: 
   if (sort_freq){
     
     freq <- sort(table(w), decreasing = TRUE)
@@ -1000,7 +1004,6 @@ count_words <- function(x,  # string(s) of text
   return(freq)
   
 } # count_words end.
-
 
 # ## Check:
 # s3 <- c("A first sentence.", "The second sentence.", 

@@ -1,5 +1,5 @@
 ## time_fun.R | ds4psy
-## hn | uni.kn | 2020 07 15
+## hn | uni.kn | 2020 07 17
 ## ---------------------------
 
 ## Functions for date and time objects. 
