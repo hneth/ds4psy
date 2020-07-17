@@ -189,10 +189,6 @@ cur_time <- function(seconds = FALSE, as_string = TRUE, sep = ":"){
 # ToDo?  Or just call cur_date() AND cur_time()? 
 
 
-
-
-
-
 ## (2) what_ functions: ---------- 
 
 # Motivation: The R base function date()  
@@ -1165,7 +1161,7 @@ what_year <- function(when = Sys.Date(), abbr = FALSE, as_integer = FALSE){
     y
   }
   
-}  # what_year end. 
+} # what_year end. 
 
 # ## Check:
 # what_year()
@@ -1501,16 +1497,16 @@ change_tz <- function(time, tz = ""){
 
 
 
-
 ## (4) Compute differences between 2 dates/times (in human time units/periods): ------  
 
 # diff_days: Difference between two dates (in days, with decimals): ------ 
 
 diff_days <- function(from_date, to_date = Sys.Date(), units = "days", as_Date = TRUE, ...){
   
-  # Assume that from_date and to_date are valid dates OR times:   
-  # (Otherwise, see diff_dates() function below). 
+  # 0. Initialize:
+  n_days <- NA
   
+  # 1. Handle inputs: Assume/convert times into 2 "Date" objects 
   if (as_Date) { # Convert non-Date (e.g., POSIXt) into "Date" objects:
     
     if (!is_Date(from_date)) { from_date <- date_from_noDate(from_date, ...) }
@@ -1518,15 +1514,11 @@ diff_days <- function(from_date, to_date = Sys.Date(), units = "days", as_Date =
     if (!is_Date(to_date))   { to_date <- date_from_noDate(to_date, ...) }
     
   }
-  
-  # print(from_date)  # debugging
-  # print(to_date)    # debugging
-  
-  # Call difftime:
+
+  # 2. Main: Call difftime:
   t_diff <- base::difftime(to_date, from_date, units = units, ...)  # default: units = "days"
   
-  n_days <- NA
-  
+  # 3. Output:
   n_days <- as.numeric(t_diff)
   
   return(n_days)
@@ -2068,7 +2060,6 @@ diff_dates <- function(from_date, to_date = Sys.Date(),
 # diff_dates(dob, dod)
 # lubridate::as.period(lubridate::interval(dob, dod), unit = "years")
 
-
 ## Analyze: Compare results to other methods: 
 
 ## (a) lubridate time spans (interval, periods): 
@@ -2094,6 +2085,7 @@ diff_dates <- function(from_date, to_date = Sys.Date(),
 # diff_dates(from_date = y_100, to_date = NA)
 # diff_dates(from_date = NA, to_date = NA)
 
+
 ## ToDo: 
 
 # - add n_decimals argument? (default of 0).
@@ -2104,8 +2096,6 @@ diff_dates <- function(from_date, to_date = Sys.Date(),
 # - Use result to compute age in years (as number) and months (as number). 
 # - Use result to compute age in full weeks (as number). 
 # - Use result to add a week entry "Xw" between month m and day d.
-
-
 
 ## Done: ----------
 
