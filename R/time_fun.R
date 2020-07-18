@@ -361,6 +361,7 @@ what_time <- function(when = NA, seconds = FALSE, as_string = TRUE, sep = ":", t
   } else {
     
     fmt <- paste("%H", "%M",       sep = sep, collapse = "")  # no %S, using sep
+    
   }
   
   # ## Side effect and invisible return:   
@@ -528,12 +529,17 @@ what_date <- function(when = NA, rev = FALSE, as_string = TRUE,
   
   # 4. Format output:
   if (substr(month_form, 1, 1) != "%") {
+    
     month_form <- paste0("%", month_form)  # add % prefix
+    
   }
   
   if (rev){
+    
     fmt <- paste("%d", month_form, "%Y", sep = sep, collapse = "")  # using sep
+    
   } else {
+    
     fmt <- paste("%Y", month_form, "%d", sep = sep, collapse = "")  # using sep
   }
   
@@ -547,11 +553,15 @@ what_date <- function(when = NA, rev = FALSE, as_string = TRUE,
   
   # 5. Output: 
   if (as_string){
+    
     return(format(d, format = fmt))  # formatted string
     # return(print(format(d, fmt)))  # print string
     # return(cat(format(d, fmt)))    # no string
+    
   } else {
+    
     return(d)  # as Date
+    
   }
   
 } # what_date end. 
@@ -773,40 +783,24 @@ what_date <- function(when = NA, rev = FALSE, as_string = TRUE,
 
 what_wday <- function(when = Sys.Date(), abbr = FALSE){
   
-  ## Robustness:
-  # unit <- substr(tolower(unit), 1, 1)  # use only 1st letter of string
+  # 0. Initialize:
+  d <- as.character(NA) 
   
-  # ## OLD code:   
-  # # Convert when into objects of class "Date" representing calendar dates:
-  # if ( any(class(when) != "Date") & !("POSIXct" %in% class(when)) ) {
-  #   message(paste0("what_wday: Using as.Date() to convert 'when' into class 'Date'."))
-  #   when <- as.Date(when)
-  # }
-  # 
-  # # Verify date/time input:
-  # if ( any(class(when) != "Date") & !("POSIXct" %in% class(when)) ) {
-  #   message(paste0("what_wday: when must be of class 'Date' or 'POSIXct'."))
-  #   message(paste0("Currently, class(when) = ", class(when), ".")) 
-  #   return(when)
-  # }
-  
-  ## NEW code: 
+  # 1. Handle inputs: 
   if (!is_Date(when)){
     # message('what_wday: Aiming to parse "when" as "Date".')
     when <- date_from_noDate(when)
   }
   
   if (!is_Date(when)){
+    
     message(paste0('what_wday: "when" must be of class "Date".'))
     return(when)
+    
   }
   
-  # print(when)  # debugging
+  # 2. Main: weekday d (as char):
   
-  ## initialize:
-  d <- as.character(NA) 
-  
-  ## get day d (as char):
   # if (unit == "w"){  # unit "week": 
   
   # if (as_integer){
@@ -816,9 +810,13 @@ what_wday <- function(when = Sys.Date(), abbr = FALSE){
   # } else {
   
   if (abbr){
+    
     d  <- format(when, format = "%a")  # Abbreviated weekday name in the current locale on this platform.
+    
   } else {
+    
     d  <- format(when, format = "%A")  # Full weekday name in the current locale.
+    
   }
   
   #}
@@ -839,6 +837,7 @@ what_wday <- function(when = Sys.Date(), abbr = FALSE){
   
   # } 
   
+  # 3. Output: 
   ## as char or integer:
   # if (as_integer) {
   #  as.integer(d)
@@ -899,7 +898,7 @@ what_wday <- function(when = Sys.Date(), abbr = FALSE){
 #' what_week(as_integer = TRUE)
 #' 
 #' # Other dates/times:
-#' d1 <- as.Date("2019-08-23")
+#' d1 <- as.Date("2020-12-24")
 #' what_week(when = d1, unit = "year")
 #' what_week(when = d1, unit = "month")
 #' 
@@ -929,26 +928,29 @@ what_wday <- function(when = Sys.Date(), abbr = FALSE){
 
 what_week <- function(when = Sys.Date(), unit = "year", as_integer = FALSE){
   
+  # 0. Initialize:
+  w <- NA
+  
+  # 1. Handle inputs: 
+  if (!is_Date(when)){
+    
+    # message('what_wday: Aiming to parse "when" as "Date".')
+    when <- date_from_noDate(when)
+    
+  }
+  
+  if (!is_Date(when)){
+    
+    message(paste0('what_wday: "when" must be of class "Date".'))
+    return(when)
+    
+  }
+  
   # Robustness:
   unit <- substr(tolower(unit), 1, 1)  # use only 1st letter of string
   
-  # Convert when into objects of class "Date" representing calendar dates:
-  if ( any(class(when) != "Date") & !("POSIXct" %in% class(when)) ) {
-    message(paste0("what_week: Using as.Date() to convert 'when' into class 'Date'."))
-    when <- as.Date(when)
-  }
   
-  # Verify date/time input:
-  if ( any(class(when) != "Date") & !("POSIXct" %in% class(when)) ) {
-    message(paste0("what_week: when must be of class 'Date' or 'POSIXct'."))
-    message(paste0("Currently, class(when) = ", class(when), ".")) 
-    return(when)
-  }
-  
-  # initialize:
-  w <- NA
-  
-  # get week w (as char):
+  # 2. Main: Get week w (as char):
   if (unit == "m"){  # unit "month": 
     
     # Searching nr. of week corresponding to current time in current month?
@@ -978,11 +980,15 @@ what_week <- function(when = Sys.Date(), unit = "year", as_integer = FALSE){
     
   } 
   
-  # as char or integer:
+  # 3. Output (as char or integer):
   if (as_integer) {
-    as.integer(w)
+    
+    return(as.integer(w))
+    
   } else {
-    w
+    
+    return(w)
+    
   }
   
 }  # what_week end. 
@@ -1067,24 +1073,25 @@ what_week <- function(when = Sys.Date(), unit = "year", as_integer = FALSE){
 
 what_month <- function(when = Sys.Date(), abbr = FALSE, as_integer = FALSE){
   
-  # Convert when into objects of class "Date" representing calendar dates:
-  if ( any(class(when) != "Date") & !("POSIXct" %in% class(when)) ) {
-    message(paste0("what_month: Using as.Date() to convert 'when' into class 'Date'."))
-    when <- as.Date(when)
-  }
-  
-  # Verify date/time input:
-  if ( any(class(when) != "Date") & !("POSIXct" %in% class(when)) ) {
-    message(paste0("what_month: when must be of class 'Date' or 'POSIXct'."))
-    message(paste0("Currently, class(when) = ", class(when), ".")) 
-    return(when)
-  }
-  
-  # initialize:
+  # 0. Initialize:
   m <- NA
   
-  # get month m (as char):
+  # 1. Handle inputs: 
+  if (!is_Date(when)){
+    
+    # message('what_wday: Aiming to parse "when" as "Date".')
+    when <- date_from_noDate(when)
+    
+  }
   
+  if (!is_Date(when)){
+    
+    message(paste0('what_wday: "when" must be of class "Date".'))
+    return(when)
+    
+  }
+  
+  # 2. Main: Get month m (as char):
   if (as_integer) {
     
     m <- format(when, format = "%m")
@@ -1104,6 +1111,7 @@ what_month <- function(when = Sys.Date(), abbr = FALSE, as_integer = FALSE){
     
   }
   
+  # 3. Output (as char or integer):
   return(m)
   
 }  # what_month end. 
@@ -1182,34 +1190,44 @@ what_month <- function(when = Sys.Date(), abbr = FALSE, as_integer = FALSE){
 
 what_year <- function(when = Sys.Date(), abbr = FALSE, as_integer = FALSE){
   
-  # Convert when into objects of class "Date" representing calendar dates:
-  if ( any(class(when) != "Date") & !("POSIXct" %in% class(when)) ) {
-    message(paste0("what_year: Using as.Date() to convert 'when' into class 'Date'."))
-    when <- as.Date(when)
-  }
-  
-  # Verify date/time input:
-  if ( any(class(when) != "Date") & !("POSIXct" %in% class(when)) ) {
-    message(paste0("what_year: when must be of class 'Date' or 'POSIXct'."))
-    message(paste0("Currently, class(when) = ", class(when), ".")) 
-    return(when)
-  }
-  
-  # initialize:
+  # 0. Initialize:
   y <- NA
   
-  # get year y:
+  # 1. Handle inputs: 
+  if (!is_Date(when)){
+    
+    # message('what_wday: Aiming to parse "when" as "Date".')
+    when <- date_from_noDate(when)
+    
+  }
+  
+  if (!is_Date(when)){
+    
+    message(paste0('what_wday: "when" must be of class "Date".'))
+    return(when)
+    
+  }
+  
+  # 2. Main: Get year y:
   if (abbr){ 
+    
     y <- format(when, format = "%y") 
+    
   } else { 
+    
     y <- format(when, format = "%Y") 
+    
   } 
   
-  # as char or integer:
+  # 3. Output (as char or integer):
   if (as_integer) {
-    as.integer(y)
+    
+    return(as.integer(y))
+    
   } else {
-    y
+    
+    return(y)
+    
   }
   
 } # what_year end. 
@@ -1235,10 +1253,9 @@ what_year <- function(when = Sys.Date(), abbr = FALSE, as_integer = FALSE){
 
 
 
-
-
-
 ## (3) Time conversions: ---------- 
+
+
 # change_time: ------ 
 
 # Task 2: Change time zone AND actual time, without changing represented time (i.e., time display): 
@@ -1479,7 +1496,6 @@ change_time <- function(time, tz = ""){
 #' tv <- c(tc, t2)
 #' tv  # Note: Both times in tz of tc
 #' change_tz(tv, "US/Pacific")
-#' 
 #' 
 #' @family date and time functions
 #' 
