@@ -63,16 +63,24 @@
 
 cur_date <- function(rev = FALSE, as_string = TRUE, sep = "-"){
   
-  # Get system date: 
+  # 0. Initialize: 
+  d <- NA  
+  
+  # 1. Get system date: 
   # d <- Sys.time() # current time (optimizing options)
   d <- Sys.Date()  # current date (satisficing solution) 
   
-  # Format instruction string:   
+  # 2. Format instruction string:   
   if (rev){
+    
     fmt <- paste("%d", "%m", "%Y", sep = sep, collapse = "")  # using sep
+    
   } else {
+    
     fmt <- paste("%Y", "%m", "%d", sep = sep, collapse = "")  # using sep
   }
+  
+  # 3. Output: 
   
   # ## Side effect and invisible return: 
   # # Print formatted d (as side effect): 
@@ -83,14 +91,18 @@ cur_date <- function(rev = FALSE, as_string = TRUE, sep = "-"){
   # invisible(d)
   
   if (as_string){
+    
     return(format(d, format = fmt))  # formatted string
     # return(print(format(d, fmt)))  # print string
     # return(cat(format(d, fmt)))    # no string
+    
   } else {
+    
     return(d)  # as Date
+    
   }
   
-}  # cur_date end. 
+} # cur_date end. 
 
 # ## Check:
 # cur_date()
@@ -150,15 +162,23 @@ cur_date <- function(rev = FALSE, as_string = TRUE, sep = "-"){
 
 cur_time <- function(seconds = FALSE, as_string = TRUE, sep = ":"){
   
-  # Current time: 
+  # 0. Initialize: 
+  t <- NA
+  
+  # 1. Current time: 
   t <- Sys.time()
   
-  # Format instruction string: 
+  # 2. Format instruction string: 
   if (seconds) {
+    
     fmt <- paste("%H", "%M", "%S", sep = sep, collapse = "")  # %S and using sep
+    
   } else {
+    
     fmt <- paste("%H", "%M",       sep = sep, collapse = "")  # no %S, using sep
   }
+  
+  # 3. Output: 
   
   # ## Side effect and invisible return:   
   # # Print formatted t (as side effect): 
@@ -169,11 +189,15 @@ cur_time <- function(seconds = FALSE, as_string = TRUE, sep = ":"){
   # invisible(t)
   
   if (as_string){
+    
     return(format(t, format = fmt))  # formatted string
     # return(print(format(t, fmt)))  # print string
     # return(cat(format(t, fmt)))    # no string
+    
   } else {
+    
     return(t)  # as POSIXct
+    
   }
   
 }  # cur_time end. 
@@ -269,11 +293,15 @@ cur_time <- function(seconds = FALSE, as_string = TRUE, sep = ":"){
 #' # with time zone: 
 #' ts <- ISOdate(2020, 12, 24, c(0, 12))  # midnight and midday UTC
 #' t1 <- what_time(when = ts, tz = "US/Hawaii")
-#' t1
+#' t1  # time display changed, due to tz
 #' 
 #' # return "POSIXct" object(s):
-#' t2 <- what_time("2020-02-29 12:30:45", as_string = FALSE, tz = "US/Hawaii")
-#' format(t2, "%T %Z (UTF %z)")
+#' # Same time in differen tz:
+#' t2 <- what_time(as.POSIXct("2020-02-29 10:00:00"), as_string = FALSE, tz = "US/Hawaii")
+#' format(t2, "%F %T %Z (UTF %z)")
+#' # from string:
+#' t3 <- what_time("2020-02-29 10:00:00", as_string = FALSE, tz = "US/Hawaii")
+#' format(t3, "%F %T %Z (UTF %z)")
 #' 
 #' @family date and time functions
 #' 
@@ -287,6 +315,9 @@ cur_time <- function(seconds = FALSE, as_string = TRUE, sep = ":"){
 
 what_time <- function(when = NA, seconds = FALSE, as_string = TRUE, sep = ":", tz = ""){
   
+  # 0. Initialize:
+  t <- NA
+  
   # 1. Check when argument: 
   if (all(is.na(when))){
     
@@ -294,8 +325,18 @@ what_time <- function(when = NA, seconds = FALSE, as_string = TRUE, sep = ":", t
     
   } else { # interpret when:
     
-    t <- as.POSIXct(when, tz = tz)  # Note: tz = "" by default. 
-    
+    if (!is_POSIXct(when)){    
+      
+      t <- time_from_noPOSIXt(when)
+      
+      # # same time display in different tz (i.e., different time): 
+      # t <- time_from_noPOSIXt(when, tz = tz)
+      
+    } else {
+      
+      t <- when  # copy
+      
+    }
   }
   
   # 2. Verify class: 
@@ -304,18 +345,21 @@ what_time <- function(when = NA, seconds = FALSE, as_string = TRUE, sep = ":", t
     # return(t)
   }
   
-  # 3. Convert into time zone tz:
+  # 3. Change time display into time zone tz:
   if (tz != ""){
     
-    message("Converting time(s) into tz.")
+    message("Changing tz (but keeping original time).")
     t <- change_tz(t, tz = tz)
     
   }
   
   # 4. Format output:
   if (seconds) {
+    
     fmt <- paste("%H", "%M", "%S", sep = sep, collapse = "")  # %S and using sep
+    
   } else {
+    
     fmt <- paste("%H", "%M",       sep = sep, collapse = "")  # no %S, using sep
   }
   
@@ -329,14 +373,18 @@ what_time <- function(when = NA, seconds = FALSE, as_string = TRUE, sep = ":", t
   
   # 5. Output: 
   if (as_string){
+    
     return(format(t, format = fmt))  # formatted string
     # return(print(format(t, fmt)))  # print string
     # return(cat(format(t, fmt)))    # no string
+    
   } else {
+    
     return(t)  # as POSIXt
+    
   }
   
-}  # what_time end.
+} # what_time end.
 
 # # Check:
 # what_time()  
@@ -442,6 +490,9 @@ what_time <- function(when = NA, seconds = FALSE, as_string = TRUE, sep = ":", t
 
 what_date <- function(when = NA, rev = FALSE, as_string = TRUE, 
                       sep = "-", month_form = "m", tz = ""){
+  
+  # 0. Initialize: 
+  d <- NA
   
   # 1. Check when argument: 
   if (all(is.na(when))){
@@ -1514,7 +1565,7 @@ diff_days <- function(from_date, to_date = Sys.Date(), units = "days", as_Date =
     if (!is_Date(to_date))   { to_date <- date_from_noDate(to_date, ...) }
     
   }
-
+  
   # 2. Main: Call difftime:
   t_diff <- base::difftime(to_date, from_date, units = units, ...)  # default: units = "days"
   
