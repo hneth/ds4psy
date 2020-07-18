@@ -1,5 +1,5 @@
 ## time_util_fun.R | ds4psy
-## hn | uni.kn | 2020 07 17
+## hn | uni.kn | 2020 07 18
 ## ---------------------------
 
 ## Utility functions for date and time objects. 
@@ -455,14 +455,12 @@ time_from_noPOSIXt <- function(x, tz = "", ...){
 
 is_leap_year <- function(dt){
   
-  # print(dt)  # debugging 
-  
-  # initialize: 
+  # 0. Initialize: 
   y <- NA
   out_1 <- NA
   out_2 <- NA
   
-  # Determine y (as integer):
+  # 1. Handle input: Determine y (as integer): ---- 
   if (is_Date(dt) | is_POSIXct(dt) | is_POSIXlt(dt)){
     
     y <- as.numeric(format(dt, format = "%Y"))
@@ -499,23 +497,27 @@ is_leap_year <- function(dt){
     }
   
   if (any(is.na(y))){
-    message('is_leap_year: Some y values are NA.')  # notify user
+    
+    message('is_leap_year: Some year values are NA.')  # notify user
+    
   }
   
-  # Use 2 solutions:
+  # Main: ---- 
   # 1. Using definition from <https://en.wikipedia.org/wiki/Leap_year>:
   out_1 <- (y %% 4 == 0) & ((y %% 100 != 0) | (y %% 400 == 0))
   # print(out_1)  # debugging
   
   # # 2. Try defining Feb-29 as "Date" (NA if non-existent):
+  # ToDo: Remove NAs and do the following only for non-NA entries:
   # feb_29 <- paste(y, "02", "29", sep = "-")
-  # out_2  <- !is.na(as.Date(feb_29, format = "%Y-%m-%d"))  # ERROR: y = NA becomes FALSE
+  # out_2  <- !is.na(as.Date(feb_29, format = "%Y-%m-%d"))  # ERROR: y = NA and FALSE both become TRUE
   # # print(out_2)  # debugging
   
   # if (!all.equal(out_1, out_2)){  # Warn of discrepancy: 
   #   warning("is_leap_year: Two solutions yield different results. Using 1st.")
   # }
   
+  # Output: 
   return(out_1)
   
 } # is_leap_year end. 
@@ -546,9 +548,12 @@ is_leap_year <- function(dt){
 
 
 # MONTH_DAYS: Define a CONSTANT for days in TYPICAL month (no leap year): ------  
+
 MONTH_DAYS <- c(31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31) 
-# sum(MONTH_DAYS)  # 365
+
+# sum(MONTH_DAYS)  # 365 (no leap year)
 names(MONTH_DAYS) <- base::month.abb
+
 
 # days_in_month: Get number of days in a given month (based on date): ------
 
@@ -596,17 +601,22 @@ names(MONTH_DAYS) <- base::month.abb
 
 days_in_month <- function(dt = Sys.Date(), ...){
   
+  nr_days <- NA  # initialize
+  
+  # Handle inputs:
   if (!is_Date(dt)){ dt <- date_from_noDate(dt, ...) }
   
+  # Main: ---- 
   month_nr <- as.numeric(format(dt, format = "%m"))
   # message(paste(month_nr, collapse = " "))
   
-  nr_days <- MONTH_DAYS[month_nr]
+  nr_days <- MONTH_DAYS[month_nr]  # look up days in constant 
   # message(paste(nr_days, collapse = " "))
   
-  # special case: Feb. of leap year has 29 days: 
+  # Special case: Feb. of leap year has 29 days: 
   nr_days[(month_nr == 2) & (is_leap_year(dt))] <- 29 
   
+  # Output: 
   return(nr_days)
   
 } # days_in_month end. 
@@ -629,23 +639,23 @@ days_in_month <- function(dt = Sys.Date(), ...){
 
 days_last_month <- function(dt, ...){
   
-  out <- NA
+  nr <- NA  # initialize 
   
-  # (a) Handle inputs:   
+  # 1. Handle inputs:   
   if (!is_Date(dt)){ dt <- date_from_noDate(dt, ...) }
   
-  # (b) Get dt elements: 
+  # 2. Get dt elements: 
   year_nr  <- as.numeric(format(dt, format = "%Y"))
   month_nr <- as.numeric(format(dt, format = "%m"))
   
-  # (c) Main processing: 
+  # 3. Main processing: ----  
   last_month_nr <- (month_nr - 1)          # reduce month_nr by 1
   
   # Handle special case: Dec becomes Jan of preceding year: 
   last_month_nr[last_month_nr == 0] <- 12  # Dec <- Jan
   year_nr[last_month_nr == 12] <- (year_nr[last_month_nr == 12] - 1)  # preceding year!
   
-  # Construct as date: 
+  # Express as valid date:
   # Heuristic: A 15. day exists for all months, but cannot be mistaken for month_nr: 
   mid_last_month <- paste(year_nr, last_month_nr, "15", sep = "-")
   dt_last_month <- as.Date(mid_last_month, format = "%Y-%m-%d")
@@ -653,10 +663,10 @@ days_last_month <- function(dt, ...){
   # message(paste(dt_last_month, collapse = " "))  # debugging
   
   # Get days_in_month() for dates of dt_last_month: 
-  out <- days_in_month(dt_last_month) 
+  nr <- days_in_month(dt_last_month) 
   
-  # (d) Output:  
-  return(out)
+  # 4. Output:  
+  return(nr)
   
 } # days_last_month end. 
 
@@ -670,7 +680,6 @@ days_last_month <- function(dt, ...){
 # days_last_month(c("2020-01-10", "2020-02-11", "2020-03-12"))  # vectors of strings
 
 
-
 # bday_eq_last_month: Get closest equivalent to bday in last month: ------ 
 
 # Helper function bday_eq_last_month(to_date, bday): 
@@ -679,46 +688,46 @@ days_last_month <- function(dt, ...){
 # - 30.11 for bday on 31.12, etc.)
 
 # bday_eq_last_month <- function(dt, bday, ...){
-#   
+# 
 #   # (a) Handle inputs:
 #   if (!is_Date(dt)){ dt <- date_from_noDate(dt, ...) }
-#   
+# 
 #   if (length(dt) > length(bday)){
-#     
+# 
 #     bday <- rep(bday, length.out = length(dt))  # recycle bday
-#     
+# 
 #   }
-#   
+# 
 #   # (b) Get dt elements:
 #   year_nr  <- as.numeric(format(dt, format = "%Y"))
 #   month_nr <- as.numeric(format(dt, format = "%m"))
-#   
-#   # (c) Main processing: 
+# 
+#   # (c) Main processing:
 #   last_month_nr <- (month_nr - 1)          # reduce month_nr by 1
-#   
-#   # Handle special case: Dec becomes Jan of preceding year: 
+# 
+#   # Handle special case: Dec becomes Jan of preceding year:
 #   last_month_nr[last_month_nr == 0] <- 12  # Dec <- Jan!
 #   year_nr[last_month_nr == 12] <- (year_nr[last_month_nr == 12] - 1)  # preceding year!
-#   
+# 
 #   # How many days were there last month?
 #   max_day_last_month <- days_last_month(dt)
-#   
+# 
 #   day_nr <- rep(NA, length(dt))
-#   
+# 
 #   # Distinguish 2 cases:
-#   day_nr[max_day_last_month >= bday] <- bday[max_day_last_month >= bday]  # 1. bday exists in last month; OR 
+#   day_nr[max_day_last_month >= bday] <- bday[max_day_last_month >= bday]  # 1. bday exists in last month; OR
 #   day_nr[max_day_last_month < bday]  <- max_day_last_month[max_day_last_month < bday]  # 2. take max_day_last_month instead.
-#   
-#   # Construct as date: 
+# 
+#   # Construct as date:
 #   bd_last_month <- paste(year_nr, last_month_nr, day_nr, sep = "-")
 #   dt_last_month <- as.Date(bd_last_month, format = "%Y-%m-%d")
-#   
+# 
 #   # message(dt_last_month)  # debugging
-#   
-#   # (d) Output:   
+# 
+#   # (d) Output:
 #   return(dt_last_month)
-#   
-# } # bday_eq_last_month end. 
+# 
+# } # bday_eq_last_month end.
 
 ## Check:
 # bday_eq_last_month("2020-01-01", bday = 31)
@@ -734,13 +743,17 @@ days_last_month <- function(dt, ...){
 # 
 # # For vectors:
 # (ds <- paste("2021", 1:12, 15, sep = "-"))  # 2021 is NO leap year
+# bday_eq_last_month(ds, bday = 20)
 # bday_eq_last_month(ds, bday = 29)
 # bday_eq_last_month(ds, bday = 30)
 # bday_eq_last_month(ds, bday = 31)
 
 
+# dt_last_monthly_bd: Get date of last full-month bday: ------ 
 
-# dt_last_monthly_bd: Get last full-month bday: ------ 
+# Question: On which day of last/previous month would one's monthly bday fall?
+# Problem: Some days (e.g., 29, 30, 31) do not exist in last month.
+# Solution: Use last day of previous month in those cases. 
 
 dt_last_monthly_bd <- function(dob, to_date, ...){
   
@@ -821,8 +834,6 @@ dt_last_monthly_bd <- function(dob, to_date, ...){
 # dt_last_monthly_bd(dob = "2020-12-31", "2020-01-01")  # dob > to_date
 # dt_last_monthly_bd(dob = "2020-03-31", "2020-03-01")  # dob > to_date
 # dt_last_monthly_bd(dob = "2020-03-31", "2020-03-31")  # dob = to_date
-
-
 
 
 ## Done: ----------

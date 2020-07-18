@@ -1,5 +1,5 @@
 ## time_fun.R | ds4psy
-## hn | uni.kn | 2020 07 17
+## hn | uni.kn | 2020 07 18
 ## ---------------------------
 
 ## Main functions for date and time objects. 
@@ -1499,7 +1499,7 @@ change_tz <- function(time, tz = ""){
 
 ## (4) Compute differences between 2 dates/times (in human time units/periods): ------  
 
-# diff_days: Difference between two dates (in days, with decimals): ------ 
+# diff_days: Difference between two dates (in days, with optional decimals): ------ 
 
 diff_days <- function(from_date, to_date = Sys.Date(), units = "days", as_Date = TRUE, ...){
   
