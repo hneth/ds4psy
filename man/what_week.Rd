@@ -33,7 +33,7 @@ what_week()
 what_week(as_integer = TRUE)
 
 # Other dates/times:
-d1 <- as.Date("2019-08-23")
+d1 <- as.Date("2020-12-24")
 what_week(when = d1, unit = "year")
 what_week(when = d1, unit = "month")
 

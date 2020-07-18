@@ -58,7 +58,6 @@ tv <- c(tc, t2)
 tv  # Note: Both times in tz of tc
 change_tz(tv, "US/Pacific")
 
-
 }
 \seealso{
 \code{\link{change_time}} function which preserves time display but changes time; 
