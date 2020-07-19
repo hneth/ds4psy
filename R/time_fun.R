@@ -1,5 +1,5 @@
 ## time_fun.R | ds4psy
-## hn | uni.kn | 2020 07 18
+## hn | uni.kn | 2020 07 19
 ## ---------------------------
 
 ## Main functions for date and time objects. 
@@ -1582,7 +1582,7 @@ diff_days <- function(from_date, to_date = Sys.Date(), units = "days", as_Date =
     
   }
   
-  # 2. Main: Call difftime:
+  # 2. Main: Use difftime:
   t_diff <- base::difftime(to_date, from_date, units = units, ...)  # default: units = "days"
   
   # 3. Output:
@@ -1598,10 +1598,10 @@ diff_days <- function(from_date, to_date = Sys.Date(), units = "days", as_Date =
 # 
 # one_year_ago <- Sys.Date() - (365 + is_leap_year(Sys.Date()))
 # diff_days(one_year_ago)
-#
+# 
 # ## Note: "Date" objects with DECIMALS are possible:
 # (d1 <- Sys.Date())
-# (d2 <- Sys.Date() + 1.5)
+# (d2 <- Sys.Date() + 1.75)
 # diff_days(d1, d2)
 # 
 # ## Note: Date vs. time differences:
@@ -1614,7 +1614,16 @@ diff_days <- function(from_date, to_date = Sys.Date(), units = "days", as_Date =
 # diff_days(t1, t2)
 # diff_days(t0, t2)
 # 
-# # Exact time differences (with decimals): 
+# # Other units: as_Date must be FALSE:
+# diff_days(t0, t1, units = "secs", as_Date = FALSE)
+# diff_days(t1, t2, units = "secs", as_Date = FALSE)
+# diff_days(t0, t2, units = "secs", as_Date = FALSE)
+# 
+# diff_days(t0, t1, units = "weeks", as_Date = FALSE)
+# diff_days(t1, t2, units = "hours", as_Date = FALSE)
+# diff_days(t0, t2, units = "mins", as_Date = FALSE)
+# 
+# # Exact time differences (with decimals):
 # diff_days(t0, t1, as_Date = FALSE)
 # diff_days(t1, t2, as_Date = FALSE)
 # diff_days(t0, t2, as_Date = FALSE)
@@ -2160,8 +2169,8 @@ diff_dates <- function(from_date, to_date = Sys.Date(),
 # - Add exercise to Chapter 10: 
 #   Explore the diff_dates() function that computes 
 #   the difference between two dates (in human measurement units). 
-# - Use result to compute age in years (as number) and months (as number). 
-# - Use result to compute age in full weeks (as number). 
+# - Use result to compute age in years (as a number) and months (as a number). 
+# - Use result to compute age in full weeks (as a number). 
 # - Use result to add a week entry "Xw" between month m and day d.
 
 ## Done: ----------
