@@ -1642,7 +1642,7 @@ diff_days <- function(from_date, to_date = Sys.Date(), units = "days", as_Date =
 #' or "How old are you?" in human time periods 
 #' of (full) years, months, and days. 
 #' 
-#' Characteristics and features:
+#' Key characteristics:
 #' 
 #' \itemize{
 #' 
@@ -1683,17 +1683,18 @@ diff_days <- function(from_date, to_date = Sys.Date(), units = "days", as_Date =
 #' @param unit Largest measurement unit for representing results. 
 #' Units represent human time periods, rather than 
 #' chronological time differences. 
-#' Default: \code{unit = "y"} for completed years, months, and days. 
+#' Default: \code{unit = "years"} for completed years, months, and days. 
 #' Options available: 
 #' \enumerate{
 #' 
-#'   \item \code{unit = "y"}: completed years, months, and days (default)
+#'   \item \code{unit = "years"}: completed years, months, and days (default)
 #'   
-#'   \item \code{unit = "m"}: completed months, and days
+#'   \item \code{unit = "months"}: completed months, and days
 #'   
-#'   \item \code{unit = "d"}: completed days
+#'   \item \code{unit = "days"}: completed days
 #'   
 #'   }
+#' Units may be abbreviated. 
 #'   
 #' @param as_character Boolean: Return output as character? 
 #' Default: \code{as_character = TRUE}.  
@@ -1761,7 +1762,7 @@ diff_days <- function(from_date, to_date = Sys.Date(), units = "days", as_Date =
 #' @export
 
 diff_dates <- function(from_date, to_date = Sys.Date(), 
-                       unit = "y", as_character = TRUE){
+                       unit = "years", as_character = TRUE){
   
   # 0. Initialize: 
   age   <- NA
@@ -1861,7 +1862,7 @@ diff_dates <- function(from_date, to_date = Sys.Date(),
   unit <- substr(tolower(unit), 1, 1)  # robustness: use only 1st letter: y/m/d
   
   if (!unit %in% c("y", "m", "d")){
-    message('diff_dates: unit must be "y", "m", or "d". Using "y".')
+    message('diff_dates: unit must be "year", "month", or "day". Using "year".')
     unit <- "y"
   }
   
@@ -2180,6 +2181,503 @@ diff_dates <- function(from_date, to_date = Sys.Date(),
 # - Use result to compute age in years (as a number) and months (as a number). 
 # - Use result to compute age in full weeks (as a number). 
 # - Use result to add a week entry "Xw" between month m and day d.
+
+
+
+# diff_times: Compute time difference (i.e., age) in human units: ------
+
+#' Get the difference between two times (in human units).  
+#'
+#' \code{diff_times} computes the difference between two times 
+#' (i.e., from some \code{from_time} to some \code{to_time}) 
+#' in human measurement units (periods).
+#' 
+#' \code{diff_times} answers questions like 
+#' "How much time has elapsed between two dates?" 
+#' or "How old are you?" in human time periods 
+#' of (full) years, months, and days. 
+#' 
+#' Key characteristics:
+#' 
+#' \itemize{
+#' 
+#'   \item If \code{to_time} or \code{from_time} are not "POSIXct" objects, 
+#'   \code{diff_times} aims to coerce them into "POSIXct" objects. 
+#' 
+#'   \item If \code{to_time} is missing (i.e., \code{NA}), 
+#'   \code{to_time} is set to the current time (i.e., \code{Sys.time()}).
+#'   
+#'   \item If \code{to_time} is specified, any intermittent missing values 
+#'   (i.e., \code{NA}) are set to the current time (i.e., \code{Sys.time()}). 
+#' 
+#'   \item If \code{to_time} precedes \code{from_time} (i.e., \code{from_time > to_time}) 
+#'   computations are performed on swapped times and 
+#'   the result is marked as negative (by a character \code{"-"}) in the output.
+#' 
+#'   \item If the lengths of \code{from_time} and \code{to_time} differ, 
+#'   the arguments of \code{to_time} are recycled or 
+#'   truncated to the length of \code{from_time}. 
+#' 
+#' }
+#' 
+#' By default, \code{diff_times} provides output as (signed) character strings. 
+#' For numeric outputs, use \code{as_character = FALSE}. 
+#' 
+#' @param from_time From time (required, scalar or vector, as "POSIXct"). 
+#' Origin time, assumed to be of class "POSIXct", 
+#' and coerced into "POSIXct" when of class "Date" or "POSIXlt. 
+#' 
+#' @param to_time To time (optional, scalar or vector, as "POSIXct"). 
+#' Default: \code{to_time = Sys.time()}. 
+#' Maximum time, assumed to be of class "POSIXct", 
+#' and coerced into "POSIXct" when of class "Date" or "POSIXlt". 
+#' 
+#' @param unit Largest measurement unit for representing results. 
+#' Units represent human time periods, rather than 
+#' chronological time differences. 
+#' Default: \code{unit = "days"} for completed days, hours, minutes, and seconds. 
+#' Options available: 
+#' \enumerate{
+#' 
+#'   \item \code{unit = "years"}: completed years, months, and days (default)
+#'   
+#'   \item \code{unit = "months"}: completed months, and days
+#'   
+#'   \item \code{unit = "days"}: completed days
+#'   
+#'   \item \code{unit = "hours"}: completed hours 
+#'   
+#'   \item \code{unit = "minutes"}: completed minutes
+#'   
+#'   \item \code{unit = "seconds"}: completed seconds
+#'   
+#'   }
+#' Units may be abbreviated. 
+#'   
+#' @param as_character Boolean: Return output as character? 
+#' Default: \code{as_character = TRUE}.  
+#' If \code{as_character = FALSE}, results are returned 
+#' as columns of a data frame 
+#' and include \code{from_date} and \code{to_date}. 
+#' 
+#' @return A character vector or data frame 
+#' (with times, sign, and numeric columns for units).
+#' 
+#' @examples
+#' 
+#' @family date and time functions
+#' 
+#' @seealso 
+#' \code{\link{diff_dates}} for date differences;  
+#' time spans (\code{interval} \code{as.period}) in the \strong{lubridate} package. 
+#' 
+#' 
+
+diff_times <- function(from_time, to_time = Sys.time(), 
+                       unit = "days", as_character = TRUE){
+  
+  # 0. Initialize: 
+  age   <- NA
+  now <- Sys.time()  # (do only once)
+  
+  # 1. Handle inputs: ------  
+  
+  # (a) NA inputs: ----
+  
+  if (any(is.na(from_time))){
+    message('diff_times: "from_time" must not be NA.')    
+    return(NA)
+  }
+  
+  if (all(is.na(to_time))){
+    message('diff_times: Changing "to_time" from NA to "Sys.time()".')       
+    to_time <- now 
+  }
+  
+  # (b) Turn non-Date inputs into "Date" objects ---- 
+  
+  if (!is_POSIXct(from_time)){
+    # message('diff_times: Aiming to parse "from_time" as "POSIXct".')
+    from_time <- time_from_noPOSIXt(from_time)
+  }
+  
+  if (!is_POSIXct(to_time)){
+    # message('diff_times: Aiming to parse "to_time" as "POSIXct".')
+    to_time <- time_from_noPOSIXt(to_time)
+  }
+  
+  # (c) Recycle or truncate to_date argument based on from_date: ---- 
+  to_time <- align_vector_length(v_fixed = from_time, v_change = to_time)
+  
+  # (d) Replace intermittent NA values in to_time by current time: ---- 
+  # Axiom: Entities with a given to_time do not age any further, but 
+  #        if to_time = NA, we want to measure until now: 
+  set_to_time_NA_to_NOW <- TRUE  # if FALSE: Occasional to_time = NA values yield NA result.
+  
+  if (set_to_time_NA_to_NOW){
+    
+    if (!all(is.na(to_time))){  # only SOME to_time values are missing: 
+      
+      to_time[is.na(to_time)] <- now  # replace those NA values by now = Sys.time()
+      
+    }
+  }
+  
+  # (e) Verify that from_time and to_time are "POSIXct" objects: ---- 
+  if (!is_POSIXct(from_time)){
+    message('diff_times: "from_time" should be of class "POSIXct".')
+    # print(from_time)  # debugging
+  }
+  
+  if (!is_POSIXct(to_time)){
+    message('diff_times: "to_time" should be of class "POSIXct".')
+    # print(to_time)    # debugging
+  }
+  
+  
+  # (f) If from_time > to_time: Swap dates and negate sign:
+  
+  from_time_org <- from_time  # store original orders
+  to_time_org   <- to_time    # (to list in outputs)
+  
+  ix_rev <- (from_time > to_time)       # ix of cases to reverse 
+  from_time_temp <- from_time[ix_rev]   # temporary storage
+  
+  from_time[ix_rev] <- to_time[ix_rev]  # from_time by to_time
+  to_time[ix_rev]   <- from_time_temp   # to_time by from_time
+  
+  sign <- rep("", length(from_time))    # initialize (as character)
+  sign[ix_rev] <- "-"                   # negate sign (character)
+  
+  # message(sign)  # debugging
+  
+  
+  # (g) Unit: ----
+  unit <- substr(tolower(unit), 1, 2)  # robustness: use only 1st letter: y/m/d
+  
+  if (!unit %in% c("ye", "mo", "da", "ho", "mi", "se")){
+    message('diff_dates: unit must be "year", "month", "day", "hour", "min", "sec". Using "day".')
+    unit <- "da"
+  }
+  
+  # +++ here now +++ 
+  
+  # 2. Main function: ------ 
+  
+  # (a) initialize other variables: 
+  full_y <- NA
+  full_m <- NA
+  full_d <- NA
+  
+  # (b) Special case: unit == "d" ---- 
+  
+  if (unit == "d"){
+    
+    # Use diff_days() helper/utility function: 
+    full_d <- diff_days(from_date = from_date, to_date = to_date)
+    
+    if (as_character){
+      
+      age <- paste0(sign, full_d, "d") 
+      
+    } else { # return a data frame:
+      
+      age <- data.frame("from_date" = from_date_org,
+                        "to_date"   = to_date_org, 
+                        "neg" = sign,  # negation sign? 
+                        "d" = full_d)
+    }
+    
+    return(age)
+    
+  }
+  
+  # (c) All other units (y/m): Get date elements ---- 
+  
+  # from_date elements (DOB):
+  bd_y <- as.numeric(format(from_date, "%Y"))
+  bd_m <- as.numeric(format(from_date, "%m"))
+  bd_d <- as.numeric(format(from_date, "%d"))
+  
+  # to_date elements (DOD, max. date): 
+  to_y <- as.numeric(format(to_date, "%Y"))
+  to_m <- as.numeric(format(to_date, "%m"))
+  to_d <- as.numeric(format(to_date, "%d"))
+  
+  
+  # (c1) Completed years: 
+  
+  # bday this year? (as Boolean): 
+  bd_ty <- ifelse((to_m > bd_m) | ((to_m == bd_m) & (to_d >= bd_d)), TRUE, FALSE) 
+  # print(bd_ty)
+  
+  full_y <- (to_y - bd_y) - (1 * !bd_ty)
+  
+  
+  # (c2) Completed months: 
+  
+  # bday this month? (as Boolean): 
+  bd_tm <- ifelse((to_d >= bd_d), TRUE, FALSE) 
+  # print(bd_tm)
+  
+  ## Distinguish 2 cases:
+  # full_m[bd_ty]  <- (to_m[bd_ty]  - bd_m[bd_ty])  - !bd_tm[bd_ty]        # 1:  bd_ty
+  # full_m[!bd_ty] <- (12 + to_m[!bd_ty] - bd_m[!bd_ty]) - !bd_tm[!bd_ty]  # 2: !bd_ty
+  
+  ## Combine both cases:
+  full_m <- (to_m - bd_m) + (12 * !bd_ty) - (1 * !bd_tm) 
+  
+  if (unit == "m"){
+    
+    full_m <- (12 * full_y) + full_m  # express years in months
+    
+  }
+  
+  
+  # (c3) Completed days: 
+  
+  ## bday today? (as Boolean): 
+  # bd_td <- ifelse((to_d == bd_d), TRUE, FALSE) 
+  
+  # Use 2 solutions:
+  
+  # s_1: LOCAL solution: Determine the number N of days in last month.
+  #      Then use this number to compute difference from bd_d to to_d 
+  
+  ## Distinguish 2 cases:  
+  # full_d[bd_tm]  <- to_d[bd_tm]  - bd_d[bd_tm]  # 1:  bd_tm: days since bd_tm
+  # full_d[!bd_tm] <- to_d[!bd_tm] - bd_d[!bd_tm] + days_last_month(to_date[!bd_tm])  # 2: !bd_tm
+  
+  ## Combine cases:
+  dlm_to <- days_last_month(to_date)
+  # full_d <- to_d - bd_d + (dlm_to * !bd_tm)  # ERROR: See diverging cases below.  
+  
+  ## Bug FIX: If bday would have been after the maximum day of last month:
+  ix_2_fix <- !bd_tm & (bd_d > dlm_to)  # ix of cases to fix:
+  # full_d[ix_2_fix] <- to_d[ix_2_fix]    # full_d <- to_d for these cases
+  
+  ## ALL-in-ONE: 
+  full_d <- to_d - bd_d + (dlm_to * !bd_tm) + ((bd_d - dlm_to) * ix_2_fix)
+  
+  # message(paste(full_d, collapse = " "))  # debugging
+  
+  
+  # s_2: GLOBAL solution: Start from total number of days and 
+  #      subtract all days of full years and months already accounted for.   
+  #      Use diff_days() helper function to compute exact number of days between two dates:
+  #      full_d_2 <- total_days              - accounted_days   
+  #                = diff_days(DOB, to_date) - diff_days(DOB, to_date = dt_bday_last_month(to_date))
+  
+  # Use diff_days() helper/utility function: 
+  total_days <- diff_days(from_date = from_date, to_date = to_date)
+  
+  # Use dt_bday_last_month() helper/utility function (Note: may return decimals):  
+  dt_bday_last_month <- dt_last_monthly_bd(dob = from_date, to_date = to_date)
+  accounted_days <- diff_days(from_date = from_date, to_date = dt_bday_last_month)
+  
+  full_d_2 <- total_days - accounted_days  # may contain decimals!
+  
+  # Only consider completed/full days (as integers): 
+  full_d_2 <- floor(full_d_2)
+  
+  # message(paste("total_days = ", total_days, collapse = ", "))          # debugging
+  # message(paste("accounted_days = ", accounted_days, collapse = ", "))  # debugging  
+  # message(paste("full_d_2 = ", full_d_2, collapse = ", "))              # debugging
+  
+  # s+3: Verify equality of both solutions: 
+  if (!all(full_d == full_d_2)){
+    
+    warning('diff_dates: 2 solutions for full_d yield different results.')
+    
+    # Diagnostic info (for debugging): 
+    ix_diff <- full_d != full_d_2  
+    message(paste(which(ix_diff),     collapse = ", "))
+    message(paste(from_date[ix_diff], collapse = ", "))    
+    message(paste(to_date[ix_diff],   collapse = ", "))
+    message(paste("y:", full_y[ix_diff], collapse = ", "))    
+    message(paste("m:", full_m[ix_diff], collapse = ", "))    
+    message(paste("d 1:", full_d[ix_diff],   collapse = ", "))    
+    message(paste("d_2:", full_d_2[ix_diff], collapse = ", "))
+    
+  }
+  
+  
+  # 3. Output: ------ 
+  
+  if (as_character){
+    
+    if (unit == "y"){
+      
+      age <- paste0(sign, full_y, "y ", full_m, "m ", full_d, "d")
+      
+    } else if (unit == "m"){
+      
+      age <- paste0(sign, full_m, "m ", full_d, "d")
+      
+    }
+    
+  } else { # return a data frame:
+    
+    if (unit == "y"){
+      
+      age <- data.frame("from_date" = from_date_org,
+                        "to_date"   = to_date_org, 
+                        "neg" = sign,  # negation sign? 
+                        "y" = full_y, 
+                        "m" = full_m, 
+                        "d" = full_d)
+      
+    } else if (unit == "m"){
+      
+      age <- data.frame("from_date" = from_date_org,
+                        "to_date"   = to_date_org, 
+                        "neg" = sign,  # negation sign? 
+                        "m" = full_m, 
+                        "d" = full_d)
+      
+    }
+  }
+  
+  return(age)
+  
+} # diff_times end. 
+
+# ## Check:
+# # Days:
+# (ds_from <- as.Date("2010-01-02") + -1:1)
+# (ds_to   <- as.Date("2020-03-01"))  # Note: 2020 is leap year.
+# diff_dates(from_date = ds_from, to_date = ds_to)
+# diff_dates(from_date = ds_from, to_date = ds_to, unit = "m")
+# diff_dates(from_date = ds_from, to_date = ds_to, unit = "d")
+# 
+# # Months: 
+# ms <- Sys.Date() - 366 + seq(from = -100, to = +100, by = 50)
+# ms
+# diff_dates(ms)
+# 
+# y_100 <- Sys.Date() - (100 * 365.25) + -1:1
+# y_100
+# diff_dates(y_100)
+# 
+# # with "to_date" argument:
+# y_050 <- Sys.Date() - (50 * 365.25) + -1:1
+# y_050
+# diff_dates(y_100, y_050)
+#
+# # recycling "to_date" to length of "from_date":
+# y_050_2 <- Sys.Date() - (50 * 365.25)
+# y_050_2
+# diff_dates(y_100, y_050_2)
+# 
+# # Using 'fame' data:
+# (dob <- as.Date(fame$DOB, format = "%B %d, %Y"))
+# (dod <- as.Date(fame$DOD, format = "%B %d, %Y"))
+# diff_dates(dob, dod, as_character = TRUE)
+# diff_dates(dob, dod, unit = "m")
+# diff_dates(dob, dod, unit = "d")
+# 
+# # Extreme cases: 
+# # (a) from_date == to_date:
+# diff_dates("1000-01-01", "2000-12-31")  # max. d + m
+# diff_dates("1000-06-01", "1000-06-01")  # min. d + m + y
+# 
+# # (b) from_date > to_date: 
+# # Reverse result and add negation sign ("-"):
+# diff_dates("2000-01-02", "2000-01-03")
+# diff_dates("2000-02-01", "2000-01-01", as_character = TRUE)
+# diff_dates("2001-02-02", "2000-02-02", as_character = FALSE)
+#
+# ## Check consistency (of 2 solutions):
+# 
+# ## Test with random date samples:
+# from <- sample_date(100) - 0.11
+# to   <- sample_date(100) + 0.22
+# diff_dates(from, to, unit = "y", as_character = TRUE)
+# diff_dates(from, to, unit = "d", as_character = TRUE)
+# 
+# ## Test with random TIME samples:
+# from <- sample_time(100) - .25
+# to   <- sample_time(100) + .25
+# diff_dates(from, to, unit = "y", as_character = TRUE)
+# diff_dates(from, to, unit = "d", as_character = TRUE)
+# 
+# # Verify possibly diverging cases:
+# 
+# # 1:
+# dob <- as.Date("1981-05-31")
+# dod <- as.Date("1992-05-08")
+# diff_dates(dob, dod)
+# lubridate::as.period(lubridate::interval(dob, dod), unit = "years")
+# 
+# # 2:
+# dob <- as.Date("1983-07-30")
+# dod <- as.Date("1994-03-03")
+# diff_dates(dob, dod)
+# lubridate::as.period(lubridate::interval(dob, dod), unit = "years")
+# 
+# # 3:
+# dob <- as.Date("1973-10-31")
+# dod <- as.Date("1982-12-29")
+# diff_dates(dob, dod)
+# lubridate::as.period(lubridate::interval(dob, dod), unit = "years")
+# 
+# # 4:
+# dob <- as.Date("1979-07-31")
+# dod <- as.Date("1998-07-18")
+# diff_dates(dob, dod)
+# lubridate::as.period(lubridate::interval(dob, dod), unit = "years")
+# 
+# # 5:
+# dob <- as.Date("1999-05-31")
+# dod <- as.Date("1999-10-07")
+# diff_dates(dob, dod)
+# lubridate::as.period(lubridate::interval(dob, dod), unit = "years")
+# 
+# ## Analyze: Compare results to other methods: 
+# 
+# ## (a) lubridate time spans (interval, periods): 
+# lubridate::as.period(dob %--% dod, unit = "years")
+# 
+# lubridate::as.period(lubridate::interval(dob, dod), unit = "years")
+# diff_dates(dob, dod, unit = "years")
+# 
+# lubridate::as.period(lubridate::interval(dob, dod), unit = "months")
+# diff_dates(dob, dod, unit = "months")
+# 
+# lubridate::as.period(lubridate::interval(dob, dod), unit = "days")
+# diff_dates(dob, dod, unit = "days")
+# 
+# ## (b) base::difftime():
+# all.equal(as.numeric(dod - dob), diff_days(dob, dod))
+# all.equal(as.numeric(difftime(dod, dob)), diff_days(dob, dod))
+# difftime(dod, dob, units = "weeks")  # Note: No "weeks" in diff_dates().
+# 
+# # from strings:
+# diff_dates("2000-12-31")
+# diff_dates("90-01-02", to_date = "10-01-01")
+#
+# # from numbers:
+# diff_dates(20001231)  # turned into character > Date
+# diff_dates(19900711, to_date = 20100710)
+# 
+# # NAs:
+# diff_dates(from_date = y_100, to_date = NA)
+# diff_dates(from_date = NA, to_date = NA)
+
+
+
+## ToDo: 
+
+# - add n_decimals argument? (default of 0).
+#
+# - Add exercise to Chapter 10: 
+#   Explore the diff_dates() function that computes 
+#   the difference between two dates (in human measurement units). 
+# - Use result to compute age in years (as a number) and months (as a number). 
+# - Use result to compute age in full weeks (as a number). 
+# - Use result to add a week entry "Xw" between month m and day d.
+
+
 
 ## Done: ----------
 
