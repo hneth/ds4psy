@@ -64,6 +64,7 @@ is_leap_year(c("2020-02-29 01:02:03", "2021-02-28 01:02"))
 
 }
 \seealso{
+\code{\link{days_in_month}} for the number of days in given months; 
 \code{leap_year} function of the \strong{lubridate} package.
 
 Other date and time functions: 

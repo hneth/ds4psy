@@ -43,7 +43,8 @@ days_in_month(ds)  # (2020/2024 are leap years)
 
 }
 \seealso{
-\code{\link{is_leap_year}} function to check for leap years.
+\code{\link{is_leap_year}} to check for leap years; 
+\code{days_in_month} function of the \strong{lubridate} package.
 
 Other date and time functions: 
 \code{\link{change_time}()},
