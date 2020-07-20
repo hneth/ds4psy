@@ -1,5 +1,5 @@
 ## time_fun.R | ds4psy
-## hn | uni.kn | 2020 07 19
+## hn | uni.kn | 2020 07 20
 ## ---------------------------
 
 ## Main functions for date and time objects. 
@@ -1701,8 +1701,8 @@ diff_days <- function(from_date, to_date = Sys.Date(), units = "days", as_Date =
 #' as columns of a data frame 
 #' and include \code{from_date} and \code{to_date}. 
 #' 
-#' @return A character vector or a data frame 
-#' with dates, sign, and numeric columns for units.
+#' @return A character vector or data frame 
+#' (with dates, sign, and numeric columns for units).
 #' 
 #' @examples
 #' y_100 <- Sys.Date() - (100 * 365.25) + -1:1
@@ -1763,6 +1763,10 @@ diff_days <- function(from_date, to_date = Sys.Date(), units = "days", as_Date =
 diff_dates <- function(from_date, to_date = Sys.Date(), 
                        unit = "y", as_character = TRUE){
   
+  # 0. Initialize: 
+  age   <- NA
+  today <- Sys.Date()  # (do only once)
+  
   # 1. Handle inputs: ------  
   
   # (a) NA inputs: ----
@@ -1774,7 +1778,7 @@ diff_dates <- function(from_date, to_date = Sys.Date(),
   
   if (all(is.na(to_date))){
     message('diff_dates: Changing "to_date" from NA to "Sys.Date()".')       
-    to_date <- Sys.Date()
+    to_date <- today 
   }
   
   # (b) Turn non-Date inputs into "Date" objects ---- 
@@ -1819,7 +1823,7 @@ diff_dates <- function(from_date, to_date = Sys.Date(),
     
     if (!all(is.na(to_date))){  # only SOME to_date values are missing: 
       
-      to_date[is.na(to_date)] <- Sys.Date()  # replace those NA values by Sys.Date()
+      to_date[is.na(to_date)] <- today  # replace those NA values by today = Sys.Date()
       
     }
   }
@@ -1854,7 +1858,7 @@ diff_dates <- function(from_date, to_date = Sys.Date(),
   
   
   # (g) Unit: ----
-  unit <- substr(tolower(unit), 1, 1)  # robustness: use abbreviation: y/m/d
+  unit <- substr(tolower(unit), 1, 1)  # robustness: use only 1st letter: y/m/d
   
   if (!unit %in% c("y", "m", "d")){
     message('diff_dates: unit must be "y", "m", or "d". Using "y".')
@@ -1864,12 +1868,10 @@ diff_dates <- function(from_date, to_date = Sys.Date(),
   
   # 2. Main function: ------ 
   
-  # (a) initialize:  
-  age <- NA
+  # (a) initialize other variables: 
   full_y <- NA
   full_m <- NA
   full_d <- NA
-  
   
   # (b) Special case: unit == "d" ---- 
   
@@ -1882,20 +1884,19 @@ diff_dates <- function(from_date, to_date = Sys.Date(),
       
       age <- paste0(sign, full_d, "d") 
       
-    } else { # return as data frame:
+    } else { # return a data frame:
       
       age <- data.frame("from_date" = from_date_org,
                         "to_date"   = to_date_org, 
                         "neg" = sign,  # negation sign? 
                         "d" = full_d)
-      
     }
     
     return(age)
     
   }
   
-  # (c) Other units (y/m): Get date elements ---- 
+  # (c) All other units (y/m): Get date elements ---- 
   
   # from_date elements (DOB):
   bd_y <- as.numeric(format(from_date, "%Y"))
@@ -1916,6 +1917,7 @@ diff_dates <- function(from_date, to_date = Sys.Date(),
   
   full_y <- (to_y - bd_y) - (1 * !bd_ty)
   
+  
   # (c2) Completed months: 
   
   # bday this month? (as Boolean): 
@@ -1934,6 +1936,7 @@ diff_dates <- function(from_date, to_date = Sys.Date(),
     full_m <- (12 * full_y) + full_m  # express years in months
     
   }
+  
   
   # (c3) Completed days: 
   
@@ -2017,7 +2020,7 @@ diff_dates <- function(from_date, to_date = Sys.Date(),
       
     }
     
-  } else { # return as data frame:
+  } else { # return a data frame:
     
     if (unit == "y"){
       
@@ -2042,7 +2045,6 @@ diff_dates <- function(from_date, to_date = Sys.Date(),
   return(age)
   
 } # diff_dates end. 
-
 
 # ## Check:
 # # Days:
@@ -2160,7 +2162,6 @@ diff_dates <- function(from_date, to_date = Sys.Date(),
 # # NAs:
 # diff_dates(from_date = y_100, to_date = NA)
 # diff_dates(from_date = NA, to_date = NA)
-
 
 ## ToDo: 
 
