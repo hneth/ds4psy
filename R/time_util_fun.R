@@ -1,5 +1,5 @@
 ## time_util_fun.R | ds4psy
-## hn | uni.kn | 2020 07 18
+## hn | uni.kn | 2020 07 20
 ## ---------------------------
 
 ## Utility functions for date and time objects. 
@@ -383,11 +383,9 @@ time_from_noPOSIXt <- function(x, tz = "", ...){
 # time_from_noPOSIXt(c("20-01-01 10:30:45", "20-06-30 22:30:50"), tz = "NZ")
 
 
-# +++ here now +++ 
-
-
 
 ## (C) Temporal idiosyncracies: ------ 
+
 
 # is_leap_year: ------ 
 
@@ -446,6 +444,7 @@ time_from_noPOSIXt <- function(x, tz = "", ...){
 #' @family date and time functions
 #' 
 #' @seealso 
+#' \code{\link{days_in_month}} for the number of days in given months; 
 #' \code{leap_year} function of the \strong{lubridate} package. 
 #' 
 #' @source 
@@ -457,8 +456,8 @@ is_leap_year <- function(dt){
   
   # 0. Initialize: 
   y <- NA
-  out_1 <- NA
-  out_2 <- NA
+  out <- NA
+  alt <- NA
   
   # 1. Handle input: Determine y (as integer): ---- 
   if (is_Date(dt) | is_POSIXct(dt) | is_POSIXlt(dt)){
@@ -502,23 +501,23 @@ is_leap_year <- function(dt){
     
   }
   
-  # Main: ---- 
-  # 1. Using definition from <https://en.wikipedia.org/wiki/Leap_year>:
-  out_1 <- (y %% 4 == 0) & ((y %% 100 != 0) | (y %% 400 == 0))
-  # print(out_1)  # debugging
+  # 2. Main: ---- 
+  # A. Using definition from <https://en.wikipedia.org/wiki/Leap_year>:
+  out <- (y %% 4 == 0) & ((y %% 100 != 0) | (y %% 400 == 0))
+  # print(out)  # debugging
   
-  # # 2. Try defining Feb-29 as "Date" (NA if non-existent):
+  # # B. Try defining Feb-29 as "Date" (NA if non-existent):
   # ToDo: Remove NAs and do the following only for non-NA entries:
   # feb_29 <- paste(y, "02", "29", sep = "-")
-  # out_2  <- !is.na(as.Date(feb_29, format = "%Y-%m-%d"))  # ERROR: y = NA and FALSE both become TRUE
-  # # print(out_2)  # debugging
+  # alt  <- !is.na(as.Date(feb_29, format = "%Y-%m-%d"))  # ERROR: y = NA and FALSE both become TRUE
+  # # print(alt)  # debugging
   
-  # if (!all.equal(out_1, out_2)){  # Warn of discrepancy: 
+  # if (!all.equal(out, alt)){  # Warn of discrepancy: 
   #   warning("is_leap_year: Two solutions yield different results. Using 1st.")
   # }
   
-  # Output: 
-  return(out_1)
+  # 3. Output: 
+  return(out)
   
 } # is_leap_year end. 
 
@@ -595,18 +594,20 @@ names(MONTH_DAYS) <- base::month.abb
 #' @family date and time functions
 #' 
 #' @seealso 
-#' \code{\link{is_leap_year}} function to check for leap years. 
+#' \code{\link{is_leap_year}} to check for leap years; 
+#' \code{days_in_month} function of the \strong{lubridate} package.   
 #' 
 #' @export
 
 days_in_month <- function(dt = Sys.Date(), ...){
   
-  nr_days <- NA  # initialize
+  # 0. Initialize:
+  nr_days <- NA  
   
-  # Handle inputs:
+  # 1. Handle inputs:
   if (!is_Date(dt)){ dt <- date_from_noDate(dt, ...) }
   
-  # Main: ---- 
+  # 2. Main: Look up days, accounting for leap years ---- 
   month_nr <- as.numeric(format(dt, format = "%m"))
   # message(paste(month_nr, collapse = " "))
   
@@ -616,7 +617,7 @@ days_in_month <- function(dt = Sys.Date(), ...){
   # Special case: Feb. of leap year has 29 days: 
   nr_days[(month_nr == 2) & (is_leap_year(dt))] <- 29 
   
-  # Output: 
+  # 3. Output: 
   return(nr_days)
   
 } # days_in_month end. 
@@ -843,7 +844,7 @@ dt_last_monthly_bd <- function(dob, to_date, ...){
 ## ToDo: ----------
 
 # ad (0):
+# - consider making class test functions is_Date / is_POSIXt available to users by export. 
 # - consider making date and time parser functions (date_from_noDate/time_from_noPOSIX) available to users by export.
-# - consider making test functions is_Date / is_POSIXt available to users by export. 
 
 ## eof. ----------------------
