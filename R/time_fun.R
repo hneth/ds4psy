@@ -2090,8 +2090,7 @@ diff_dates <- function(from_date, to_date = Sys.Date(),
 # diff_dates("2000-01-02", "2000-01-03")
 # diff_dates("2000-02-01", "2000-01-01", as_character = TRUE)
 # diff_dates("2001-02-02", "2000-02-02", as_character = FALSE)
-
-
+#
 # ## Check consistency (of 2 solutions):
 # 
 # ## Test with random date samples:
@@ -2103,8 +2102,8 @@ diff_dates <- function(from_date, to_date = Sys.Date(),
 # ## Test with random TIME samples:
 # from <- sample_time(100) - .25
 # to   <- sample_time(100) + .25
-# diff_dates(from, to, unit = "y", as_character = TRUE) 
-# diff_dates(from, to, unit = "d", as_character = TRUE) 
+# diff_dates(from, to, unit = "y", as_character = TRUE)
+# diff_dates(from, to, unit = "d", as_character = TRUE)
 # 
 # # Verify possibly diverging cases:
 # 
@@ -2137,20 +2136,26 @@ diff_dates <- function(from_date, to_date = Sys.Date(),
 # dod <- as.Date("1999-10-07")
 # diff_dates(dob, dod)
 # lubridate::as.period(lubridate::interval(dob, dod), unit = "years")
-
-## Analyze: Compare results to other methods: 
-
-## (a) lubridate time spans (interval, periods): 
+# 
+# ## Analyze: Compare results to other methods: 
+# 
+# ## (a) lubridate time spans (interval, periods): 
 # lubridate::as.period(dob %--% dod, unit = "years")
+# 
 # lubridate::as.period(lubridate::interval(dob, dod), unit = "years")
+# diff_dates(dob, dod, unit = "years")
+# 
 # lubridate::as.period(lubridate::interval(dob, dod), unit = "months")
+# diff_dates(dob, dod, unit = "months")
+# 
 # lubridate::as.period(lubridate::interval(dob, dod), unit = "days")
-
-## (b) base::difftime():
+# diff_dates(dob, dod, unit = "days")
+# 
+# ## (b) base::difftime():
 # all.equal(as.numeric(dod - dob), diff_days(dob, dod))
 # all.equal(as.numeric(difftime(dod, dob)), diff_days(dob, dod))
 # difftime(dod, dob, units = "weeks")  # Note: No "weeks" in diff_dates().
-
+# 
 # # from strings:
 # diff_dates("2000-12-31")
 # diff_dates("90-01-02", to_date = "10-01-01")
@@ -2162,6 +2167,8 @@ diff_dates <- function(from_date, to_date = Sys.Date(),
 # # NAs:
 # diff_dates(from_date = y_100, to_date = NA)
 # diff_dates(from_date = NA, to_date = NA)
+
+
 
 ## ToDo: 
 
