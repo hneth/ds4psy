@@ -38,8 +38,8 @@ as columns of a data frame
 and include \code{from_date} and \code{to_date}.}
 }
 \value{
-A character vector or a data frame 
-with dates, sign, and numeric columns for units.
+A character vector or data frame 
+(with dates, sign, and numeric columns for units).
 }
 \description{
 \code{diff_dates} computes the difference between two dates 
