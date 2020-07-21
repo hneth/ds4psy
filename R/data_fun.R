@@ -1,5 +1,5 @@
 ## data_fun.R | ds4psy
-## hn | uni.kn | 2020 06 23
+## hn | uni.kn | 2020 07 20
 ## ---------------------------
 
 ## Functions for creating and manipulating data. 
@@ -287,14 +287,22 @@ sample_char <- function(x_char = c(letters, LETTERS), n = 1, replace = FALSE, ..
 
 sample_date <- function(n = 1, from = "1970-01-01", to = Sys.Date()){
   
+  # 0. Initialize:
+  dt <- rep(NA, n) 
+  
+  # 1. Handle inputs:
   # set.seed(1984)  # for reproducible randomness
   d1 <- as.Date(from)  
   d2 <- as.Date(to)   
   
-  as.Date(sample(as.numeric(d1):as.numeric(d2), size = n, 
-                 replace = TRUE), origin = '1970-01-01')
+  # 2. Main: Use sample() 
+  dt <- as.Date(sample(as.numeric(d1):as.numeric(d2), size = n, 
+                       replace = TRUE), origin = '1970-01-01')
   
-}
+  # 3. Output:
+  return(dt)
+  
+} # sample_date end. 
 
 ## Check:
 # sample_date()
@@ -379,15 +387,18 @@ sample_time <- function(n = 1,
                         from = "1970-01-01 00:00:00", to = Sys.time(),
                         as_POSIXct = TRUE, tz = ""){
   
-  tv <- rep(NA, n)  # initialize
+  # 0. Initialize:
+  tv <- rep(NA, n)  
   
+  # 1. Handle inputs:
   t1 <- as.POSIXlt(from)
   t2 <- as.POSIXlt(to)
   
+  # 2. Main: Use sample()
   tv <- as.POSIXlt(sample(as.numeric(t1):as.numeric(t2), size = n, 
                           replace = TRUE), origin = '1970-01-01')
   
-  # Add time zone:
+  # 3. Add time zone:
   if (as_POSIXct) { 
     tv <- as.POSIXct(tv, tz = tz)  # convert into POSIXct with tz
   } else {
@@ -395,6 +406,7 @@ sample_time <- function(n = 1,
     tv <- as.POSIXlt(tv, tz = tz)  # re-convert into POSIXlt
   }
   
+  # 4. Output: 
   return(tv)
   
 } # sample_time end.
