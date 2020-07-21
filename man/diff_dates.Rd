@@ -4,7 +4,12 @@
 \alias{diff_dates}
 \title{Get the difference between two dates (in human units).}
 \usage{
-diff_dates(from_date, to_date = Sys.Date(), unit = "y", as_character = TRUE)
+diff_dates(
+  from_date,
+  to_date = Sys.Date(),
+  unit = "years",
+  as_character = TRUE
+)
 }
 \arguments{
 \item{from_date}{From date (required, scalar or vector, as "Date"). 
@@ -19,17 +24,18 @@ and coerced into "Date" when of class "POSIXt".}
 \item{unit}{Largest measurement unit for representing results. 
 Units represent human time periods, rather than 
 chronological time differences. 
-Default: \code{unit = "y"} for completed years, months, and days. 
+Default: \code{unit = "years"} for completed years, months, and days. 
 Options available: 
 \enumerate{
 
-  \item \code{unit = "y"}: completed years, months, and days (default)
+  \item \code{unit = "years"}: completed years, months, and days (default)
   
-  \item \code{unit = "m"}: completed months, and days
+  \item \code{unit = "months"}: completed months, and days
   
-  \item \code{unit = "d"}: completed days
+  \item \code{unit = "days"}: completed days
   
-  }}
+  }
+Units may be abbreviated.}
 
 \item{as_character}{Boolean: Return output as character? 
 Default: \code{as_character = TRUE}.  
@@ -52,7 +58,7 @@ in human measurement units (periods).
 or "How old are you?" in human time periods 
 of (full) years, months, and days. 
 
-Characteristics and features:
+Key characteristics:
 
 \itemize{
 
@@ -140,6 +146,7 @@ Other date and time functions:
 \code{\link{cur_date}()},
 \code{\link{cur_time}()},
 \code{\link{days_in_month}()},
+\code{\link{diff_times}()},
 \code{\link{is_leap_year}()},
 \code{\link{what_date}()},
 \code{\link{what_month}()},
