@@ -86,6 +86,9 @@ By default, \code{diff_times} provides output as (signed) character strings.
 For numeric outputs, use \code{as_character = FALSE}.
 }
 \examples{
+t1 <- as.POSIXct("1969-07-13 13:53 CET")
+diff_times(t1, unit = "years", as_character = TRUE)
+diff_times(t1, unit = "secs", as_character = TRUE)
 
 }
 \seealso{
