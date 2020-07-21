@@ -2274,7 +2274,7 @@ diff_dates <- function(from_date, to_date = Sys.Date(),
 #' \code{\link{diff_dates}} for date differences;  
 #' time spans (\code{interval} \code{as.period}) in the \strong{lubridate} package. 
 #' 
-#' 
+#' @export 
 
 diff_times <- function(from_time, to_time = Sys.time(), 
                        unit = "days", as_character = TRUE){
