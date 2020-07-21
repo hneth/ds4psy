@@ -1,5 +1,5 @@
 ## time_util_fun.R | ds4psy
-## hn | uni.kn | 2020 07 20
+## hn | uni.kn | 2020 07 21
 ## ---------------------------
 
 ## Utility functions for date and time objects. 
@@ -754,7 +754,7 @@ days_last_month <- function(dt, ...){
 
 # Question: On which day of last/previous month would one's monthly bday fall?
 # Problem: Some days (e.g., 29, 30, 31) do not exist in last month.
-# Solution: Use last day of previous month in those cases. 
+# Solution: Use the last/final day of previous month in those cases. 
 
 dt_last_monthly_bd <- function(dob, to_date, ...){
   
