@@ -2360,8 +2360,6 @@ diff_times <- function(from_time, to_time = Sys.time(),
     unit <- "da"
   }
   
-  # +++ here now +++ 
-  
   # 2. Main function: ------ 
   
   # (a) initialize other variables: 
@@ -2369,42 +2367,56 @@ diff_times <- function(from_time, to_time = Sys.time(),
   full_m <- NA
   full_d <- NA
   
-  # (b) Special case: unit == "d" ---- 
+  full_H <- NA
+  full_M <- NA
+  full_S <- NA
   
-  if (unit == "d"){
+  # (b) Special case: unit == "sec" ---- 
+  
+  if (unit == "se"){
     
     # Use diff_days() helper/utility function: 
-    full_d <- diff_days(from_date = from_date, to_date = to_date)
+    full_S <- diff_days(from_date = from_time, to_date = to_time, units = "sec", as_Date = FALSE)
     
     if (as_character){
       
-      age <- paste0(sign, full_d, "d") 
+      age <- paste0(sign, full_S, "S") 
       
     } else { # return a data frame:
       
-      age <- data.frame("from_date" = from_date_org,
-                        "to_date"   = to_date_org, 
+      age <- data.frame("from_time" = from_time_org,
+                        "to_time"   = to_time_org, 
                         "neg" = sign,  # negation sign? 
-                        "d" = full_d)
+                        "S" = full_S)
     }
     
     return(age)
     
   }
   
+  # +++ here now +++ 
+  
   # (c) All other units (y/m): Get date elements ---- 
   
-  # from_date elements (DOB):
-  bd_y <- as.numeric(format(from_date, "%Y"))
-  bd_m <- as.numeric(format(from_date, "%m"))
-  bd_d <- as.numeric(format(from_date, "%d"))
+  # from_time elements (DOB):
+  bd_y <- as.numeric(format(from_time, "%Y"))
+  bd_m <- as.numeric(format(from_time, "%m"))
+  bd_d <- as.numeric(format(from_time, "%d"))
   
-  # to_date elements (DOD, max. date): 
-  to_y <- as.numeric(format(to_date, "%Y"))
-  to_m <- as.numeric(format(to_date, "%m"))
-  to_d <- as.numeric(format(to_date, "%d"))
+  bd_H <- as.numeric(format(from_time, "%H"))
+  bd_M <- as.numeric(format(from_time, "%M"))
+  bd_S <- as.numeric(format(from_time, "%S"))
   
+  # to_time elements (DOD, max. time): 
+  to_y <- as.numeric(format(to_time, "%Y"))
+  to_m <- as.numeric(format(to_time, "%m"))
+  to_d <- as.numeric(format(to_time, "%d"))
+
+  to_H <- as.numeric(format(to_time, "%H"))
+  to_M <- as.numeric(format(to_time, "%M"))
+  to_S <- as.numeric(format(to_time, "%S"))
   
+    
   # (c1) Completed years: 
   
   # bday this year? (as Boolean): 
@@ -2427,7 +2439,7 @@ diff_times <- function(from_time, to_time = Sys.time(),
   ## Combine both cases:
   full_m <- (to_m - bd_m) + (12 * !bd_ty) - (1 * !bd_tm) 
   
-  if (unit == "m"){
+  if (unit == "mo"){
     
     full_m <- (12 * full_y) + full_m  # express years in months
     
@@ -2449,7 +2461,7 @@ diff_times <- function(from_time, to_time = Sys.time(),
   # full_d[!bd_tm] <- to_d[!bd_tm] - bd_d[!bd_tm] + days_last_month(to_date[!bd_tm])  # 2: !bd_tm
   
   ## Combine cases:
-  dlm_to <- days_last_month(to_date)
+  dlm_to <- days_last_month(to_time)
   # full_d <- to_d - bd_d + (dlm_to * !bd_tm)  # ERROR: See diverging cases below.  
   
   ## Bug FIX: If bday would have been after the maximum day of last month:
@@ -2469,11 +2481,11 @@ diff_times <- function(from_time, to_time = Sys.time(),
   #                = diff_days(DOB, to_date) - diff_days(DOB, to_date = dt_bday_last_month(to_date))
   
   # Use diff_days() helper/utility function: 
-  total_days <- diff_days(from_date = from_date, to_date = to_date)
+  total_days <- diff_days(from_date = from_time, to_date = to_time)
   
   # Use dt_bday_last_month() helper/utility function (Note: may return decimals):  
-  dt_bday_last_month <- dt_last_monthly_bd(dob = from_date, to_date = to_date)
-  accounted_days <- diff_days(from_date = from_date, to_date = dt_bday_last_month)
+  dt_bday_last_month <- dt_last_monthly_bd(dob = from_time, to_date = to_time)
+  accounted_days <- diff_days(from_date = from_time, to_date = dt_bday_last_month)
   
   full_d_2 <- total_days - accounted_days  # may contain decimals!
   
@@ -2487,13 +2499,13 @@ diff_times <- function(from_time, to_time = Sys.time(),
   # s+3: Verify equality of both solutions: 
   if (!all(full_d == full_d_2)){
     
-    warning('diff_dates: 2 solutions for full_d yield different results.')
+    warning('diff_times: 2 solutions for full_d yield different results.')
     
     # Diagnostic info (for debugging): 
     ix_diff <- full_d != full_d_2  
     message(paste(which(ix_diff),     collapse = ", "))
-    message(paste(from_date[ix_diff], collapse = ", "))    
-    message(paste(to_date[ix_diff],   collapse = ", "))
+    message(paste(from_time[ix_diff], collapse = ", "))    
+    message(paste(to_time[ix_diff],   collapse = ", "))
     message(paste("y:", full_y[ix_diff], collapse = ", "))    
     message(paste("m:", full_m[ix_diff], collapse = ", "))    
     message(paste("d 1:", full_d[ix_diff],   collapse = ", "))    
@@ -2506,11 +2518,11 @@ diff_times <- function(from_time, to_time = Sys.time(),
   
   if (as_character){
     
-    if (unit == "y"){
+    if (unit == "ye"){
       
       age <- paste0(sign, full_y, "y ", full_m, "m ", full_d, "d")
       
-    } else if (unit == "m"){
+    } else if (unit == "mo"){
       
       age <- paste0(sign, full_m, "m ", full_d, "d")
       
@@ -2518,19 +2530,19 @@ diff_times <- function(from_time, to_time = Sys.time(),
     
   } else { # return a data frame:
     
-    if (unit == "y"){
+    if (unit == "ye"){
       
-      age <- data.frame("from_date" = from_date_org,
-                        "to_date"   = to_date_org, 
+      age <- data.frame("from_time" = from_time_org,
+                        "to_time"   = to_time_org, 
                         "neg" = sign,  # negation sign? 
                         "y" = full_y, 
                         "m" = full_m, 
                         "d" = full_d)
       
-    } else if (unit == "m"){
+    } else if (unit == "mo"){
       
-      age <- data.frame("from_date" = from_date_org,
-                        "to_date"   = to_date_org, 
+      age <- data.frame("from_time" = from_time_org,
+                        "to_time"   = to_time_org, 
                         "neg" = sign,  # negation sign? 
                         "m" = full_m, 
                         "d" = full_d)
@@ -2543,6 +2555,17 @@ diff_times <- function(from_time, to_time = Sys.time(),
 } # diff_times end. 
 
 # ## Check:
+
+# ## Test with random TIME samples:
+# from <- sample_time(10, from = "2000-01-01")
+# to   <- sample_time(10, from = "2020-04-01")
+# diff_times(from, to, unit = "sec", as_character = TRUE)
+# diff_times(from, to, unit = "sec", as_character = FALSE)
+# 
+# diff_times(from, to, unit = "year", as_character = FALSE)
+
+
+# From diff_dates (above):
 # # Days:
 # (ds_from <- as.Date("2010-01-02") + -1:1)
 # (ds_to   <- as.Date("2020-03-01"))  # Note: 2020 is leap year.
