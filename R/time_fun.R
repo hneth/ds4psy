@@ -1,5 +1,5 @@
 ## time_fun.R | ds4psy
-## hn | uni.kn | 2020 07 20
+## hn | uni.kn | 2020 07 21
 ## ---------------------------
 
 ## Main functions for date and time objects. 
@@ -2264,6 +2264,9 @@ diff_dates <- function(from_date, to_date = Sys.Date(),
 #' (with times, sign, and numeric columns for units).
 #' 
 #' @examples
+#' t1 <- as.POSIXct("1969-07-13 13:53 CET")
+#' diff_times(t1, unit = "years", as_character = TRUE)
+#' diff_times(t1, unit = "secs", as_character = TRUE)
 #' 
 #' @family date and time functions
 #' 
@@ -2356,7 +2359,7 @@ diff_times <- function(from_time, to_time = Sys.time(),
   unit <- substr(tolower(unit), 1, 2)  # robustness: use only 1st letter: y/m/d
   
   if (!unit %in% c("ye", "mo", "da", "ho", "mi", "se")){
-    message('diff_dates: unit must be "year", "month", "day", "hour", "min", "sec". Using "day".')
+    message('diff_times: unit must be "year", "month", "day", "hour", "min", "sec". Using "day".')
     unit <- "da"
   }
   
@@ -2411,16 +2414,19 @@ diff_times <- function(from_time, to_time = Sys.time(),
   to_y <- as.numeric(format(to_time, "%Y"))
   to_m <- as.numeric(format(to_time, "%m"))
   to_d <- as.numeric(format(to_time, "%d"))
-
+  
   to_H <- as.numeric(format(to_time, "%H"))
   to_M <- as.numeric(format(to_time, "%M"))
   to_S <- as.numeric(format(to_time, "%S"))
   
-    
+  
   # (c1) Completed years: 
   
   # bday this year? (as Boolean): 
-  bd_ty <- ifelse((to_m > bd_m) | ((to_m == bd_m) & (to_d >= bd_d)), TRUE, FALSE) 
+  bd_ty <- ifelse(( (to_m > bd_m) | ((to_m == bd_m) & (to_d > bd_d)) | 
+                      ((to_m == bd_m) & (to_d == bd_d) & (to_H > bd_H)) |
+                      ((to_m == bd_m) & (to_d == bd_d) & (to_H == bd_H) & (to_M > bd_M)) |
+                      ((to_m == bd_m) & (to_d == bd_d) & (to_H == bd_H) & (to_M == bd_M) & (to_S >= bd_S))), TRUE, FALSE) 
   # print(bd_ty)
   
   full_y <- (to_y - bd_y) - (1 * !bd_ty)
@@ -2429,7 +2435,9 @@ diff_times <- function(from_time, to_time = Sys.time(),
   # (c2) Completed months: 
   
   # bday this month? (as Boolean): 
-  bd_tm <- ifelse((to_d >= bd_d), TRUE, FALSE) 
+  bd_tm <- ifelse(((to_d > bd_d) | ((to_d == bd_d) & (to_H > bd_H)) | 
+                     ((to_d == bd_d) & (to_H == bd_H) & (to_M > bd_M)) | 
+                     ((to_d == bd_d) & (to_H == bd_H) & (to_M == bd_M) & (to_S >= bd_S))), TRUE, FALSE) 
   # print(bd_tm)
   
   ## Distinguish 2 cases:
@@ -2481,7 +2489,7 @@ diff_times <- function(from_time, to_time = Sys.time(),
   #                = diff_days(DOB, to_date) - diff_days(DOB, to_date = dt_bday_last_month(to_date))
   
   # Use diff_days() helper/utility function: 
-  total_days <- diff_days(from_date = from_time, to_date = to_time)
+  total_days <- diff_days(from_date = from_time, to_date = to_time, units = "days", as_Date = FALSE)
   
   # Use dt_bday_last_month() helper/utility function (Note: may return decimals):  
   dt_bday_last_month <- dt_last_monthly_bd(dob = from_time, to_date = to_time)
@@ -2555,15 +2563,20 @@ diff_times <- function(from_time, to_time = Sys.time(),
 } # diff_times end. 
 
 # ## Check:
-
+#  
+# t1 <- as.POSIXct("1969-07-13 13:53 CET")
+# diff_times(t1, unit = "year", as_character = TRUE)
+# diff_times(t1, unit = "sec", as_character = TRUE)
+# 
 # ## Test with random TIME samples:
-# from <- sample_time(10, from = "2000-01-01")
+# from <- sample_time(10, from = "2020-01-01")
 # to   <- sample_time(10, from = "2020-04-01")
 # diff_times(from, to, unit = "sec", as_character = TRUE)
 # diff_times(from, to, unit = "sec", as_character = FALSE)
 # 
 # diff_times(from, to, unit = "year", as_character = FALSE)
-
+# 
+# lubridate::as.period(lubridate::interval(from, to), unit = "years")
 
 # From diff_dates (above):
 # # Days:
