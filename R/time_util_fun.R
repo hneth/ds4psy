@@ -1,5 +1,5 @@
 ## time_util_fun.R | ds4psy
-## hn | uni.kn | 2020 07 21
+## hn | uni.kn | 2020 07 22
 ## ---------------------------
 
 ## Utility functions for date and time objects. 
@@ -212,7 +212,11 @@ date_from_noDate <- function(x, ...){
 # date_from_noDate("20100612")  # string
 # date_from_noDate(as.POSIXct("2010-06-10 12:30:45", tz = "UTC"))
 # date_from_noDate(as.POSIXlt("2010-06-10 12:30:45", tz = "UTC"))
-# 
+
+# # Note difference:
+# date_from_noDate(as.POSIXct("2020-07-01 01:29:06"))  # WHY???
+# date_from_noDate(as.POSIXct("2020-07-01 01:29:06"), tz = "")
+
 # # fame data (with format string):
 # date_from_noDate(fame$DOB, format = "%B %d, %Y")
 # 
@@ -760,8 +764,13 @@ dt_last_monthly_bd <- function(dob, to_date, ...){
   
   # (a) Handle inputs: ---- 
   if (!is_Date(dob)){ dob <- date_from_noDate(dob, ...) }
-  if (!is_Date(to_date)){to_date <- date_from_noDate(to_date, ...) }
   
+  if (!is_Date(to_date)){
+    # message(paste0("1. to_date = ", to_date))  # debugging 
+    to_date <- date_from_noDate(to_date, ...)
+    # message(paste0("2. to_date = ", to_date))  # debugging 
+  }
+
   # Recycle or truncate to_date argument based on dob: 
   to_date <- align_vector_length(v_fixed = dob, v_change = to_date)
   
@@ -835,6 +844,12 @@ dt_last_monthly_bd <- function(dob, to_date, ...){
 # dt_last_monthly_bd(dob = "2020-12-31", "2020-01-01")  # dob > to_date
 # dt_last_monthly_bd(dob = "2020-03-31", "2020-03-01")  # dob > to_date
 # dt_last_monthly_bd(dob = "2020-03-31", "2020-03-31")  # dob = to_date
+# 
+# # Previous error case:
+# t1 <- "2020-05-31 05:41:27"
+# t2 <- "2020-07-01 01:29:06"
+# dt_last_monthly_bd(t1, t2)
+# dt_last_monthly_bd(t1, t2, tz = "")
 
 
 ## Done: ----------
