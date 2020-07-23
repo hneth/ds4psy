@@ -1,5 +1,5 @@
 ## time_fun.R | ds4psy
-## hn | uni.kn | 2020 07 22
+## hn | uni.kn | 2020 07 23
 ## ---------------------------
 
 ## Main functions for date and time objects. 
@@ -2427,7 +2427,7 @@ diff_times <- function(from_time, to_time = Sys.time(),
   to_M <- as.numeric(format(to_time, "%M"))
   to_S <- as.numeric(format(to_time, "%S"))
   
-  # (e) Case: largest unit year/month: 
+  # (e) Case: largest unit year/month: ---- 
   if (unit == "ye" || unit == "mo"){
     
     # (e1) Completed years: 
@@ -2491,7 +2491,7 @@ diff_times <- function(from_time, to_time = Sys.time(),
     
     ## ALL-in-ONE: 
     full_d_1 <- to_d - bd_d + (dlm_to * !bd_tm) + ((bd_d - dlm_to) * ix_2_fix) - (1 * !bd_td)
-    message(paste(full_d_1, collapse = " "))  # debugging
+    message(paste("full_d_1 = ", full_d_1, collapse = ", "))  # debugging
     
     # s_2: GLOBAL solution: Start from total number of days and 
     #      subtract all days of full years and months already accounted for.   
@@ -2501,21 +2501,21 @@ diff_times <- function(from_time, to_time = Sys.time(),
     
     # Use diff_days() helper/utility function: 
     total_days <- diff_days(from_date = from_time, to_date = to_time, units = "days", as_Date = FALSE)
-    # message(paste("total_days = ", total_days, collapse = ", "))    # debugging
+    message(paste("total_days = ", total_days, collapse = ", "))  # debugging
     
     # Use dt_bday_last_month() helper/utility function (Note: may return decimals):  
-    dt_bday_last_month <- dt_last_monthly_bd(dob = from_time, to_date = to_time, tz = "")  # tz = "" is necessary!!
-    # message(paste("dt_bday_last_month = ", dt_bday_last_month, collapse = ", "))  # debugging  
+    dt_bday_last_month <- dt_last_monthly_bd(dob = from_time, to_date = to_time)  # tz = "" is NO LONGER necessary!!
+    message(paste("dt_bday_last_month = ", dt_bday_last_month, collapse = ", "))  # debugging  
     
     accounted_days_ym2 <- diff_days(from_date = from_time, to_date = dt_bday_last_month)
-    # message(paste("accounted_days_ym2 = ", accounted_days_ym2, collapse = ", "))  # debugging  
+    message(paste("accounted_days_ym2 = ", accounted_days_ym2, collapse = ", "))  # debugging  
     
     unaccounted_days <- total_days - accounted_days_ym2  # may contain decimals!
-    # message(paste("unaccounted_days = ", unaccounted_days, collapse = ", "))  # debugging  
+    message(paste("unaccounted_days = ", unaccounted_days, collapse = ", "))  # debugging  
     
     # Only consider completed/full days (as integers): 
     full_d_2 <- floor(unaccounted_days)
-    # message(paste("full_d_2 = ", full_d_2, collapse = ", "))              # debugging
+    message(paste("full_d_2 = ", full_d_2, collapse = ", "))  # debugging
     
     # +++ here now +++ 
 
@@ -2554,7 +2554,7 @@ diff_times <- function(from_time, to_time = Sys.time(),
   } # if (unit == "ye" | unit == "mo") end. 
   
   
-  # (f) Case: largest unit day:   
+  # (f) Case: largest unit day: ---- 
   if (unit == "da"){
     
     # Use diff_days() helper/utility function: 
@@ -2580,7 +2580,7 @@ diff_times <- function(from_time, to_time = Sys.time(),
   }
   
   
-  # (c4) Time units:
+  # (c4) Remaining time units: ---- 
   
   # Global approach: Determine total time (in sec) and subtract accounted time (in sec): 
   unaccounted_time_sec <- (total_time_sec - accounted_time_sec)
@@ -2733,19 +2733,23 @@ diff_times <- function(from_time, to_time = Sys.time(),
 
 
 # ## Former problems/error cases:
-
-# (a)
+#
+# # A. now resolved:
+#
+# # (a)
 # t1 <- "2020-05-31 05:41:27"
 # t2 <- "2020-07-01 01:29:06"
 # diff_times(t1, t2, unit = "year", as_character = FALSE)
 # lubridate::as.period(lubridate::interval(t1, t2), unit = "years")
 # 
-# Bug fix: Add tz = "" to call of: 
-# dt_last_monthly_bd(t1, t2, tz = "")
+# # Bug fix: Add default argument tz = "" to date_from_noDate() and date_from_string() functions: 
+# dt_last_monthly_bd(t1, t2)  # "2020-06-30"
 #
+# # B. NOT resolved YET: 
+# 
 # # (b)
-# t1 <- "2020-06-07 01:08:48" 
-# t2 <- "2020-07-09 22:49:20" 
+# t1 <- "2020-06-07 01:08:48"
+# t2 <- "2020-07-09 22:49:20"
 # diff_times(t1, t2, unit = "year", as_character = TRUE)
 # lubridate::as.period(lubridate::interval(t1, t2), unit = "years")
 
