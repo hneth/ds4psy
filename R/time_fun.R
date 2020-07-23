@@ -2314,7 +2314,7 @@ diff_times <- function(from_time, to_time = Sys.time(),
     to_time <- time_from_noPOSIXt(to_time)
   }
   
-  # (c) Recycle or truncate to_date argument based on from_date: ---- 
+  # (c) Recycle or truncate to_time argument based on from_time: ---- 
   to_time <- align_vector_length(v_fixed = from_time, v_change = to_time)
   
   # (d) Replace intermittent NA values in to_time by current time: ---- 
@@ -2490,9 +2490,8 @@ diff_times <- function(from_time, to_time = Sys.time(),
     # full_d_1[ix_2_fix] <- to_d[ix_2_fix]  # full_d <- to_d for these cases
     
     ## ALL-in-ONE: 
-    full_d_1 <- to_d - bd_d + (dlm_to * !bd_tm) + ((bd_d - dlm_to) * ix_2_fix) - (1 * !bd_td)
-    message(paste("full_d_1 = ", full_d_1, collapse = ", "))  # debugging
-    
+    full_d_1 <- (to_d - bd_d) + (dlm_to * !bd_tm) + ((bd_d - dlm_to) * ix_2_fix) - (1 * !bd_td)
+
     # s_2: GLOBAL solution: Start from total number of days and 
     #      subtract all days of full years and months already accounted for.   
     #      Use diff_days() helper function to compute exact number of days between two dates:
@@ -2508,20 +2507,36 @@ diff_times <- function(from_time, to_time = Sys.time(),
     accounted_days_ym2 <- diff_days(from_date = from_time, to_date = dt_bday_last_month)
     unaccounted_days   <- (total_days - accounted_days_ym2)  # may contain decimals!
 
+    # Special case: Account for possible tz difference:
+    tz_diff_mins <- diff_tz(t1 = from_time, t2 = to_time, in_min = TRUE)
+    tz_diff_days <- tz_diff_mins / (60 * 24)  # in days
+    
+    # Correction: If tz_diff_mins differ from zero: 
+    ix_tz_diff <- (tz_diff_mins != 0)
+    unaccounted_days[ix_tz_diff] <- unaccounted_days[ix_tz_diff] + tz_diff_days[ix_tz_diff]
+    
     # Only consider completed/full days (as integers): 
-    full_d_2 <- floor(unaccounted_days)
+    full_d_2 <- floor(unaccounted_days) 
+    
+    ## Correction: Add 1 day if bd_td is TRUE:
+    # full_d_2[bd_td] <- full_d_2[bd_td] + 1   # Problem: Too general (lots of error cases).
 
     # +++ here now +++ 
 
     debugging_feedback <- FALSE  # TRUE = debugging info
     
     if (debugging_feedback){
+      
+      message(paste("1. full_d_1 = ", full_d_1, collapse = ", "))  # debugging
 
       message(paste("total_days = ", total_days, collapse = ", "))  # debugging
       message(paste("dt_bday_last_month = ", dt_bday_last_month, collapse = ", "))  # debugging        
       message(paste("accounted_days_ym2 = ", accounted_days_ym2, collapse = ", "))  # debugging        
       message(paste("unaccounted_days = ", unaccounted_days, collapse = ", "))  # debugging        
-      message(paste("full_d_2 = ", full_d_2, collapse = ", "))  # debugging      
+      message(paste("tz_diff_mins = ", tz_diff_mins, collapse = ", "))  # debugging
+      message(paste("tz_diff_days = ", tz_diff_days, collapse = ", "))  # debugging
+      
+      message(paste("2. full_d_2 = ", full_d_2, collapse = ", "))  # debugging      
     
     }
     
@@ -2589,7 +2604,10 @@ diff_times <- function(from_time, to_time = Sys.time(),
   # (c4) Remaining time units: ---- 
   
   # Global approach: Determine total time (in sec) and subtract accounted time (in sec): 
-  unaccounted_time_sec <- (total_time_sec - accounted_time_sec)
+  unaccounted_time_sec <- (total_time_sec - accounted_time_sec) 
+  
+  # Special case: Account for possible tz difference:
+  unaccounted_time_sec <- unaccounted_time_sec + (tz_diff_mins * 60)
   
   full_H <- unaccounted_time_sec %/% (60 * 60)
   full_M <- (unaccounted_time_sec - (full_H * (60 * 60))) %/% 60 
@@ -2710,8 +2728,8 @@ diff_times <- function(from_time, to_time = Sys.time(),
 # # "year":
 # diff_times(from, to, unit = "year", as_character = FALSE)
 # lubridate::as.period(lubridate::interval(from, to), unit = "years")
-# # Note differences in hour counts (due to DSL).
-# # But: diff_times more consistent (see results for unit = "days")!
+# Note differences in hour counts (due to DSL).
+# But: diff_times more consistent (see results for unit = "days")!
 # 
 # # "month":
 # diff_times(from, to, unit = "month", as_character = FALSE)
@@ -2738,9 +2756,9 @@ diff_times <- function(from_time, to_time = Sys.time(),
 
 
 # ## Former problems/error cases:
-#
+# 
 # # A. now resolved:
-#
+# 
 # # (a)
 # t1 <- "2020-05-31 05:41:27"
 # t2 <- "2020-07-01 01:29:06"
@@ -2755,9 +2773,26 @@ diff_times <- function(from_time, to_time = Sys.time(),
 # t2 <- "2020-07-09 22:49:20"
 # diff_times(t1, t2, unit = "year", as_character = TRUE)
 # lubridate::as.period(lubridate::interval(t1, t2), unit = "years")
-#
-# # B. NOT resolved YET: 
-#
+# 
+# # (c) DSL switch (a: spring ahead):
+# t1 <- "2020-03-28 12:00:00"  # before DSL switch
+# t2 <- "2020-03-29 12:00:00"  # after DSL switch (on 2020-03-29: 02:00:00 > 03:00:00)
+# diff_times(t1, t2, unit = "year", as_character = TRUE)
+# lubridate::as.period(lubridate::interval(t1, t2), unit = "years")
+# 
+# # Solved by using new utility/helper function:
+# diff_tz(t1, t2, in_min = TRUE)
+# 
+# # (d) DSL switch (b: fall back):
+# t1 <- "2020-10-24 12:00:00"  # before DSL switch
+# t2 <- "2020-10-25 12:00:00"  # after DSL switch (on 2020-10-25: 03:00:00 > 02:00:00)
+# diff_times(t1, t2, unit = "year", as_character = TRUE)
+# lubridate::as.period(lubridate::interval(t1, t2), unit = "years")
+# 
+# # Solved by using new utility/helper function:
+# diff_tz(t1, t2, in_min = TRUE)
+# 
+# # B. NOT resolved YET:
 
 # +++ here now +++ 
 
