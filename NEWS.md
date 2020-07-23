@@ -36,8 +36,9 @@ Current development version of **ds4psy** (0.4.0.9001+):
 
 ## Details 
 
-- bug fix: Remove alternative solution in `is_leap_year()` (which yielded `FALSE` for `NA` inputs). 
-- bug fix: Replace `\u2212` (minus sign) by `-` (dash) in `exp_num_dt$blood_type` to prevent **Note** on "marked UTF-8 strings". 
+- bug fix: `num_as_char()` now also works for negative numbers.  
+- bug fix: Remove alternative solution in `is_leap_year()` (which yielded `FALSE` for `NA` inputs).  
+- bug fix: Replace `\u2212` (minus sign) by `-` (dash) in `exp_num_dt$blood_type` to prevent **Note** on "marked UTF-8 strings".  
 
 -------- 
 
@@ -182,6 +183,6 @@ The initial functionality is limited, as the package is designed to support the 
 
 ---------- 
 
-[File `News.md` updated on 2020-07-22.]
+[File `News.md` updated on 2020-07-23.]
 
 <!-- eof. -->
