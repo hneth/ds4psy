@@ -1,5 +1,5 @@
 ## time_util_fun.R | ds4psy
-## hn | uni.kn | 2020 07 22
+## hn | uni.kn | 2020 07 23
 ## ---------------------------
 
 ## Utility functions for date and time objects. 
@@ -85,7 +85,7 @@ date_frms_dmy <- c(df_my, df_by, df_By)
 
 # date_from_string: Parse a string into "Date": ------ 
 
-date_from_string <- function(x, ...){
+date_from_string <- function(x, tz = "", ...){
   
   # 0. Initialize: 
   dt <- NA
@@ -121,7 +121,7 @@ date_from_string <- function(x, ...){
   }
   
   # 3. Main: Parse x as.Date(x) using date_frms: ---- 
-  dt <- as.Date(x, tryFormats = date_frms, ...)
+  dt <- as.Date(x, tz = tz, tryFormats = date_frms, ...)
   
   # 4. Output: 
   return(dt)
@@ -142,7 +142,8 @@ date_from_string <- function(x, ...){
 # date_from_string(Sys.Date())  # dates are returned as is
 # date_from_string("20100812")  # no separators (Y first)
 # date_from_string(20100812)    # coercing numbers into strings
-#
+# date_from_string(Sys.time())  # times are returned as dates
+# 
 # # for vectors:
 # date_from_string(c("10-8-12", "12-8-10"))
 # date_from_string(c(20100812, 20120810))
@@ -152,11 +153,11 @@ date_from_string <- function(x, ...){
 # 
 # # (!) NOT accounted for:
 # date_from_string("August 10, 2010")  # BdY
-# # but works with format string: 
-# date_from_string("August 10, 2010", format = "%B %d, %Y") 
+# # but works with format string:
+# date_from_string("August 10, 2010", format = "%B %d, %Y")
 # 
 # date_from_string("12.8")  # no year
-# # but providing formats works: 
+# # but providing formats works (adding default year):
 # date_from_string("12.8", format = "%d.%m")
 # date_from_string("12.8", format = "%m.%d")
 # 
@@ -166,7 +167,7 @@ date_from_string <- function(x, ...){
 
 # date_from_noDate: Parse non-Date into "Date" object(s): ------ 
 
-date_from_noDate <- function(x, ...){
+date_from_noDate <- function(x, tz = "", ...){
   
   # 0. Initialize: 
   dt <- NA
@@ -186,13 +187,13 @@ date_from_noDate <- function(x, ...){
   # A. Aim to coerce character string inputs x into "Date": 
   if (is.character(x)){
     # message('date_from_noDate: Aiming to parse x from "character" as "Date".')
-    dt <- date_from_string(x, ...)
+    dt <- date_from_string(x, tz = tz, ...)
   }
   
   # B. Coerce "POSIXt" inputs into "Date":
   if (is_POSIXt(x)){
     # message('date_from_noDate: Coercing x from "POSIXt" into "Date".')
-    dt <- as.Date(x, ...) 
+    dt <- as.Date(x, tz = tz, ...) 
   }
   
   # 3. Verify "Date": ---- 
@@ -207,19 +208,26 @@ date_from_noDate <- function(x, ...){
   
 } # date_from_noDate end. 
 
-# # Check:
+# ## Check:
 # date_from_noDate(20100612)    # number
 # date_from_noDate("20100612")  # string
-# date_from_noDate(as.POSIXct("2010-06-10 12:30:45", tz = "UTC"))
-# date_from_noDate(as.POSIXlt("2010-06-10 12:30:45", tz = "UTC"))
-
-# # Note difference:
-# date_from_noDate(as.POSIXct("2020-07-01 01:29:06"))  # WHY???
-# date_from_noDate(as.POSIXct("2020-07-01 01:29:06"), tz = "")
-
+# 
+# # Note effect of time zones:
+# # (a) calendar times (POSIXct):
+# date_from_noDate(as.POSIXct("2020-01-01 08:00:00", tz = "NZ"))             # is interpreted as
+# date_from_noDate(as.POSIXct("2020-01-01 08:00:00", tz = "NZ"), tz = "")    # NZ time in current time zone!
+# date_from_noDate(as.POSIXct("2020-01-01 08:00:00", tz = "NZ"), tz = "NZ")  # NZ time in NZ time zone.
+# # (b) local times (POSIXlt): 
+# date_from_noDate(as.POSIXlt("2020-01-01 08:00:00", tz = "NZ"))
+# 
+# # Former problem/error now resolved:
+# date_from_noDate(as.POSIXct("2020-07-01 01:29:06"))          # was "2020-06-30" - WHY???
+# date_from_noDate(as.POSIXct("2020-07-01 01:29:06"), tz = "") # now "2020-07-01"
+# Solution: Add default argument tz = "".
+ 
 # # fame data (with format string):
 # date_from_noDate(fame$DOB, format = "%B %d, %Y")
-# 
+#  
 # # Note errors for:
 # date_from_noDate(123)
 # date_from_noDate("ABC")
@@ -754,7 +762,7 @@ days_last_month <- function(dt, ...){
 # bday_eq_last_month(ds, bday = 31)
 
 
-# dt_last_monthly_bd: Get date of last full-month bday: ------ 
+# dt_last_monthly_bd: Get the date of last full-month bday: ------ 
 
 # Question: On which day of last/previous month would one's monthly bday fall?
 # Problem: Some days (e.g., 29, 30, 31) do not exist in last month.
@@ -845,11 +853,11 @@ dt_last_monthly_bd <- function(dob, to_date, ...){
 # dt_last_monthly_bd(dob = "2020-03-31", "2020-03-01")  # dob > to_date
 # dt_last_monthly_bd(dob = "2020-03-31", "2020-03-31")  # dob = to_date
 # 
-# # Previous error case:
+# # Former problem/error now resolved:
 # t1 <- "2020-05-31 05:41:27"
 # t2 <- "2020-07-01 01:29:06"
-# dt_last_monthly_bd(t1, t2)
-# dt_last_monthly_bd(t1, t2, tz = "")
+# dt_last_monthly_bd(t1, t2)  # now: "2020-06-30"
+# dt_last_monthly_bd(t1, t2, tz = "")  # now: "2020-06-30"
 
 
 ## Done: ----------
