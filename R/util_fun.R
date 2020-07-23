@@ -1,5 +1,5 @@
 ## util_fun.R | ds4psy
-## hn | uni.kn | 2020 07 14
+## hn | uni.kn | 2020 07 23
 ## ---------------------------
 
 ## Utility functions. 
@@ -62,13 +62,17 @@ align_vector_length <- function(v_fixed, v_change){
 #' The arguments \code{n_pre_dec} and \code{n_dec} set a number of desired digits 
 #' before and after the decimal separator \code{sep}. 
 #' \code{num_as_char} tries to meet these digit numbers by adding zeros to the front 
-#' and end of \code{x}. 
+#' and end of \code{x}. However, when \code{n_pre_dec} is lower than the 
+#' number of relevant (pre-decimal) digits, all relevant digits are shown. 
+#' 
+#' \code{n_pre_dec} also works for negative numbers, but 
+#' the minus symbol is not counted as a (pre-decimal) digit. 
 #' 
 #' \strong{Caveat:} Note that this function illustrates how numbers, 
 #' characters, \code{for} loops, and \code{paste()} can be combined 
 #' when writing functions. It is not written efficiently or well. 
 #' 
-#' @param x Number(s) to convert (required, accepts numeric vectors).
+#' @param x Number(s) to convert (required, accepts numeric vectors). 
 #'
 #' @param n_pre_dec Number of digits before the decimal separator. 
 #' Default: \code{n_pre_dec = 2}. 
@@ -107,18 +111,23 @@ align_vector_length <- function(v_fixed, v_change){
 #' num_as_char(11.33, n_pre_dec = 0, n_dec = 1)
 #' num_as_char(11.66, n_pre_dec = 1, n_dec = 1)
 #' 
-#' # Details:
+#' # Note:
 #' num_as_char(1, sep = ",")
 #' num_as_char(2, sym = " ")
 #' num_as_char(3, sym = " ", n_dec = 0)
 #' 
-#' # Beware of bad inputs:
-#' num_as_char(4, sym = "8")
-#' num_as_char(5, sym = "99")
-#' 
 #' # for vectors:
 #' num_as_char(1:10/1, n_pre_dec = 1, n_dec = 1)
 #' num_as_char(1:10/3, n_pre_dec = 2, n_dec = 2)
+#' 
+#' # for negative numbers (adding relevant pre-decimals):
+#' mix <- c(10.33, -10.33, 10.66, -10.66)
+#' num_as_char(mix, n_pre_dec = 1, n_dec = 1)
+#' num_as_char(mix, n_pre_dec = 1, n_dec = 0)
+#' 
+#' # Beware of bad inputs:
+#' num_as_char(4, sym = "8")
+#' num_as_char(5, sym = "99")
 #' 
 #' @family utility functions
 #'
@@ -138,12 +147,18 @@ num_as_char <- function(x, n_pre_dec = 2, n_dec = 2, sym = "0", sep = "."){
     message("Setting sym to more than 1 character is confusing.")
   }
   
+  # Handle negative imputs:
+  neg_sign <- rep("", length(x)) # initialize
+  neg_sign[x < 0] <- "-"  # mark negative cases
+  x <- abs(x)  # consider only positive cases
+  
   # 2. Main: Split x_rounded into 2 parts: ---- 
   
   x_rounded <- round(x, n_dec)
+  # message(paste0("x_rounded = ", x_rounded))  # debugging 
   
-  # A. Part BEFORE the decimal point:
-  n_num_1 <- x_rounded %/% 1 
+  # A. Part BEFORE the decimal point: ---- 
+  n_num_1 <- x_rounded %/% 1  # Note: numerator of +1 assumes positive values.  
   
   n_char_1 <- as.character(n_num_1)  # as character
   
@@ -163,15 +178,19 @@ num_as_char <- function(x, n_pre_dec = 2, n_dec = 2, sym = "0", sep = "."){
   
   n_char_1_final <- paste0(sym_1_add, n_char_1)  # intermediate result 1 
   
-  # B. Part AFTER the decimal point:
-  n_num_2 <- x_rounded %% 1
+  # B. Part AFTER the decimal point: ---- 
+  n_num_2 <- x_rounded %% 1  # Note: numerator of +1 assumes positive values.  
+  # message(paste0("1. n_num_2 = ", n_num_2))  # debugging 
   
   # round to n_dec digits (again?):
   n_num_2 <- round(n_num_2, digits = n_dec)  # round to significant digits (again!) 
+  # message(paste0("2. n_num_2 = ", n_num_2))  # debugging 
   
   n_char_2 <- as.character(n_num_2)  # as character
+  # message(paste0("1. n_char_2 = ", n_char_2))  # debugging 
   
   n_char_2 <- substr(n_char_2, 3, nchar(n_char_2))  # remove "0." at beginning!
+  # message(paste0("2. n_char_2 = ", n_char_2))  # debugging 
   
   n_char_2_len <- nchar(n_char_2)              # length of character seq.
   n_sym_2_add <- (n_dec - n_char_2_len)        # diff. determines missing sym 
@@ -189,12 +208,16 @@ num_as_char <- function(x, n_pre_dec = 2, n_dec = 2, sym = "0", sep = "."){
   
   n_char_2_final <- paste0(n_char_2, sym_2_add) # intermediate result 2 
   
-  # 3. Paste 2 parts together again:
+  # 3. Prepare output: ---- 
+  # (a) Paste 2 parts together again:
   if (n_dec > 0) {
     char <- paste(n_char_1_final, n_char_2_final, sep = sep)
   } else {
-    char <- n_char_1_final  # use only 1st part (and no decimal separator)
+    char <- paste0(n_char_1_final)  # use only 1st part (and no decimal separator)
   }
+  
+  # (b) Add neg_sign (if applicable):
+  char <- paste0(neg_sign, char)
   
   # 4. Output: 
   return(char)
@@ -230,6 +253,21 @@ num_as_char <- function(x, n_pre_dec = 2, n_dec = 2, sym = "0", sep = "."){
 # # Works for vectors:
 # num_as_char(1:10/1, n_pre_dec = 1, n_dec = 1)
 # num_as_char(1:10/3, n_pre_dec = 2, n_dec = 2)
+#
+# # For negative numbers:
+# num_as_char(-11.666, n_pre_dec = 1, n_dec = 2)
+# num_as_char(-11.666, n_pre_dec = 1, n_dec = 1)
+# num_as_char(-11.666, n_pre_dec = 1, n_dec = 0)
+# 
+# num_as_char(1:12/-1, n_pre_dec = 1, n_dec = 2)
+# num_as_char(1:12/-3, n_pre_dec = 1, n_dec = 2)
+#
+# # Mix of positive and negative numbers:
+# mix <- c(10.33, -10.33, 10.66, -10.66)
+# num_as_char(mix, n_pre_dec = 1, n_dec = 3)
+# num_as_char(mix, n_pre_dec = 1, n_dec = 2)
+# num_as_char(mix, n_pre_dec = 1, n_dec = 1)
+# num_as_char(mix, n_pre_dec = 1, n_dec = 0)
 
 
 # num_as_ordinal: Convert a (cardinal) number into an ordinal string: ------
