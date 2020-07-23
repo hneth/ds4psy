@@ -2501,24 +2501,30 @@ diff_times <- function(from_time, to_time = Sys.time(),
     
     # Use diff_days() helper/utility function: 
     total_days <- diff_days(from_date = from_time, to_date = to_time, units = "days", as_Date = FALSE)
-    message(paste("total_days = ", total_days, collapse = ", "))  # debugging
-    
+
     # Use dt_bday_last_month() helper/utility function (Note: may return decimals):  
     dt_bday_last_month <- dt_last_monthly_bd(dob = from_time, to_date = to_time)  # tz = "" is NO LONGER necessary!!
-    message(paste("dt_bday_last_month = ", dt_bday_last_month, collapse = ", "))  # debugging  
-    
+
     accounted_days_ym2 <- diff_days(from_date = from_time, to_date = dt_bday_last_month)
-    message(paste("accounted_days_ym2 = ", accounted_days_ym2, collapse = ", "))  # debugging  
-    
-    unaccounted_days <- total_days - accounted_days_ym2  # may contain decimals!
-    message(paste("unaccounted_days = ", unaccounted_days, collapse = ", "))  # debugging  
-    
+    unaccounted_days   <- (total_days - accounted_days_ym2)  # may contain decimals!
+
     # Only consider completed/full days (as integers): 
     full_d_2 <- floor(unaccounted_days)
-    message(paste("full_d_2 = ", full_d_2, collapse = ", "))  # debugging
-    
+
     # +++ here now +++ 
 
+    debugging_feedback <- FALSE  # TRUE = debugging info
+    
+    if (debugging_feedback){
+
+      message(paste("total_days = ", total_days, collapse = ", "))  # debugging
+      message(paste("dt_bday_last_month = ", dt_bday_last_month, collapse = ", "))  # debugging        
+      message(paste("accounted_days_ym2 = ", accounted_days_ym2, collapse = ", "))  # debugging        
+      message(paste("unaccounted_days = ", unaccounted_days, collapse = ", "))  # debugging        
+      message(paste("full_d_2 = ", full_d_2, collapse = ", "))  # debugging      
+    
+    }
+    
     # s+3: Verify equality of both solutions: 
     if (!all(full_d_1 == full_d_2)){
       
@@ -2731,7 +2737,6 @@ diff_times <- function(from_time, to_time = Sys.time(),
 # lubridate::as.period(lubridate::interval(from, to), unit = "sec")
 
 
-
 # ## Former problems/error cases:
 #
 # # A. now resolved:
@@ -2742,16 +2747,17 @@ diff_times <- function(from_time, to_time = Sys.time(),
 # diff_times(t1, t2, unit = "year", as_character = FALSE)
 # lubridate::as.period(lubridate::interval(t1, t2), unit = "years")
 # 
-# # Bug fix: Add default argument tz = "" to date_from_noDate() and date_from_string() functions: 
-# dt_last_monthly_bd(t1, t2)  # "2020-06-30"
-#
-# # B. NOT resolved YET: 
+# # Bug fix: Add default argument tz = "" to date_from_noDate() and date_from_string() functions:
+# dt_last_monthly_bd(t1, t2)  # "2020-06-30" is correct.
 # 
 # # (b)
 # t1 <- "2020-06-07 01:08:48"
 # t2 <- "2020-07-09 22:49:20"
 # diff_times(t1, t2, unit = "year", as_character = TRUE)
 # lubridate::as.period(lubridate::interval(t1, t2), unit = "years")
+#
+# # B. NOT resolved YET: 
+#
 
 # +++ here now +++ 
 
