@@ -398,6 +398,141 @@ time_from_noPOSIXt <- function(x, tz = "", ...){
 
 ## (C) Temporal idiosyncracies: ------ 
 
+# diff_tz: Difference between 2 time zones (in "HH:MM" format or as nr. of minutes): ------
+
+diff_tz <- function(t1, t2, in_min = FALSE){
+  
+  # 0. Initialize: 
+  n <- length(t1)
+  hm_diff <- rep(NA, n) 
+  hr_diff <- rep(NA, n)
+  mi_diff <- rep(NA, n)
+  
+  # 1. Handle inputs: ---- 
+  if (!is_POSIXct(t1)){
+    t1 <- time_from_noPOSIXt(t1)
+  }
+  
+  if (!is_POSIXct(t2)){
+    t2 <- time_from_noPOSIXt(t2)
+  }
+  
+  # Recycle or truncate t2 argument based on t1: ---- 
+  t2 <- align_vector_length(v_fixed = t1, v_change = t2)
+  message(paste0("t2 = ", t2, collapse = " "))  # debugging 
+  
+  
+  # 2. Main: ---- 
+  
+  # Query t1 and t2:
+  tz_1 <- format(t1, "%Z")  # time zone label
+  tz_2 <- format(t2, "%Z")  
+  
+  td_1 <- format(t1, "%z")  # difference from UTC 
+  td_2 <- format(t2, "%z")  
+  
+  
+  # Compute difference for different tz:
+  
+  # # (a) If tz differ: 
+  # if ((tz_1 != tz_2) | (td_1 != td_2)){
+  #   
+  #   # message("Time zones differ. Computing difference t2 - t1:")
+  #   
+  #   hr_diff <- num_as_char(as.numeric(substr(td_2, 1, 3)) - as.numeric(substr(td_1, 1, 3)), n_pre_dec = 2, n_dec = 0)
+  #   mi_diff <- num_as_char(as.numeric(substr(td_2, 4, 5)) - as.numeric(substr(td_1, 4, 5)), n_pre_dec = 2, n_dec = 0)
+  #     
+  # }
+  
+  # (b) Vectorized solution:
+  ix_diff <- ((tz_1 != tz_2) | (td_1 != td_2))  # identify cases with tz differences
+  
+  hr_diff[ix_diff] <- as.numeric(substr(td_2[ix_diff], 1, 3)) - as.numeric(substr(td_1[ix_diff], 1, 3))
+  mi_diff[ix_diff] <- as.numeric(substr(td_2[ix_diff], 4, 5)) - as.numeric(substr(td_1[ix_diff], 4, 5))
+  
+  hr_diff[!ix_diff] <- 0 
+  mi_diff[!ix_diff] <- 0 
+  
+  
+  # 3. Prepare output: ---- 
+  if (in_min){
+    
+    hm_diff <- (hr_diff * 60) + mi_diff
+    
+    
+  } else {  # return as character (in HH:MM format):
+   
+    hr_diff <- num_as_char(hr_diff, n_pre_dec = 2, n_dec = 0)
+    mi_diff <- num_as_char(mi_diff, n_pre_dec = 2, n_dec = 0)    
+     
+    hm_diff <- paste0(hr_diff, ":", mi_diff)
+  
+  }
+  
+  # 4. Output: 
+  return(hm_diff)
+  
+} # diff_tz end. 
+
+
+# ## Check:
+# 
+# ## A. DSL shift:
+# 
+# # (a) Spring ahead:
+# s1 <- "2020-03-28 12:00:00"  # before DSL switch
+# s2 <- "2020-03-29 12:00:00"  # after DSL switch (on 2020-03-29: 02:00:00 > 03:00:00)
+# t1 <- as.POSIXct(s1)  # CET
+# t2 <- as.POSIXct(s2)  # CEST
+# # format(t1, "%F %T %Z %z")
+# # format(t2, "%F %T %Z %z")
+# 
+# diff_tz(t1, t2)
+# diff_tz(t1, t2, in_min = TRUE)
+# 
+# # (b) Fall back:
+# s3 <- "2020-10-24 12:00:00"  # before DSL switch
+# s4 <- "2020-10-25 12:00:00"  # after DSL switch (on 2020-10-25: 03:00:00 > 02:00:00)
+# t3 <- as.POSIXct(s3)  # CEST
+# t4 <- as.POSIXct(s4)  # CET
+# # format(t3, "%F %T %Z %z")
+# # format(t4, "%F %T %Z %z")
+# 
+# diff_tz(t3, t4)
+# diff_tz(t3, t4, in_min = TRUE)
+# 
+# # No difference:
+# diff_tz(t1, t4)  # both CET
+# diff_tz(t2, t3)  # both CEST
+# 
+# diff_tz(t1, t4, in_min = TRUE)
+# diff_tz(t2, t3, in_min = TRUE)
+# 
+# ## B. Different time zones:
+# 
+# ts <- "2020-01-01 01:00:00"
+# 
+# t1 <- as.POSIXct(ts, tz = "NZ")
+# t2 <- as.POSIXct(ts, tz = "Europe/Berlin")
+# t3 <- as.POSIXct(ts, tz = "US/Hawaii")
+# 
+# diff_tz(t1, t2)
+# diff_tz(t2, t3)
+# diff_tz(t1, t3)
+# 
+# diff_tz(t1, t2, in_min = TRUE)
+# diff_tz(t2, t3, in_min = TRUE)
+# diff_tz(t1, t3, in_min = TRUE)
+# 
+# ## With vectors:
+# t1 <- as.POSIXct("2020-01-01 01:00:00", tz = "")
+# t2 <- as.POSIXct("2020-06-01 02:22:22", tz = "NZ")
+# t3 <- as.POSIXct("2020-01-01 05:55:55", tz = "")
+# 
+# c(t1, t2, t3)  # Note: CET vs. CEST
+# diff_tz(c(t1, t2, t3), t3)  # Note: only tz/DSL matters
+# diff_tz(c(t1, t2, t3), t3, in_min = TRUE)
+
 
 # is_leap_year: ------ 
 
@@ -869,5 +1004,6 @@ dt_last_monthly_bd <- function(dob, to_date, ...){
 # ad (0):
 # - consider making class test functions is_Date / is_POSIXt available to users by export. 
 # - consider making date and time parser functions (date_from_noDate/time_from_noPOSIX) available to users by export.
+# - consider making diff_tz function available to users by export. 
 
 ## eof. ----------------------
