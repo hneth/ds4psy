@@ -2290,7 +2290,7 @@ diff_times <- function(from_time, to_time = Sys.time(),
   
   # 1. Handle inputs: ------  
   
-  # (a) NA inputs: ----
+  # (a) NA inputs: 
   
   if (any(is.na(from_time))){
     message('diff_times: "from_time" must not be NA.')    
@@ -2302,7 +2302,7 @@ diff_times <- function(from_time, to_time = Sys.time(),
     to_time <- now 
   }
   
-  # (b) Turn non-Date inputs into "Date" objects ---- 
+  # (b) Turn non-Date inputs into "Date" objects 
   
   if (!is_POSIXct(from_time)){
     # message('diff_times: Aiming to parse "from_time" as "POSIXct".')
@@ -2314,10 +2314,10 @@ diff_times <- function(from_time, to_time = Sys.time(),
     to_time <- time_from_noPOSIXt(to_time)
   }
   
-  # (c) Recycle or truncate to_time argument based on from_time: ---- 
+  # (c) Recycle or truncate to_time argument based on from_time:  
   to_time <- align_vector_length(v_fixed = from_time, v_change = to_time)
   
-  # (d) Replace intermittent NA values in to_time by current time: ---- 
+  # (d) Replace intermittent NA values in to_time by current time: 
   # Axiom: Entities with a given to_time do not age any further, but 
   #        if to_time = NA, we want to measure until now: 
   set_to_time_NA_to_NOW <- TRUE  # if FALSE: Occasional to_time = NA values yield NA result.
@@ -2331,7 +2331,7 @@ diff_times <- function(from_time, to_time = Sys.time(),
     }
   }
   
-  # (e) Verify that from_time and to_time are "POSIXct" objects: ---- 
+  # (e) Verify that from_time and to_time are "POSIXct" objects: 
   if (!is_POSIXct(from_time)){
     message('diff_times: "from_time" should be of class "POSIXct".')
     # print(from_time)  # debugging
@@ -2360,7 +2360,7 @@ diff_times <- function(from_time, to_time = Sys.time(),
   # message(sign)  # debugging
   
   
-  # (g) Unit: ----
+  # (g) Unit: 
   unit <- substr(tolower(unit), 1, 2)  # robustness: use only 1st letter: y/m/d
   
   if (!unit %in% c("ye", "mo", "da", "ho", "mi", "se")){
@@ -2426,7 +2426,13 @@ diff_times <- function(from_time, to_time = Sys.time(),
   to_H <- as.numeric(format(to_time, "%H"))
   to_M <- as.numeric(format(to_time, "%M"))
   to_S <- as.numeric(format(to_time, "%S"))
+
   
+  # (+) Special case: Consider possible time difference due to different time zones:
+  tz_diff_mins <- diff_tz(t1 = from_time, t2 = to_time, in_min = TRUE)
+  tz_diff_days <- tz_diff_mins / (60 * 24)  # in days
+  
+    
   # (e) Case: largest unit year/month: ---- 
   if (unit == "ye" || unit == "mo"){
     
@@ -2507,10 +2513,6 @@ diff_times <- function(from_time, to_time = Sys.time(),
     accounted_days_ym2 <- diff_days(from_date = from_time, to_date = dt_bday_last_month)
     unaccounted_days   <- (total_days - accounted_days_ym2)  # may contain decimals!
 
-    # Special case: Account for possible tz difference:
-    tz_diff_mins <- diff_tz(t1 = from_time, t2 = to_time, in_min = TRUE)
-    tz_diff_days <- tz_diff_mins / (60 * 24)  # in days
-    
     # Correction: If tz_diff_mins differ from zero: 
     ix_tz_diff <- (tz_diff_mins != 0)
     unaccounted_days[ix_tz_diff] <- unaccounted_days[ix_tz_diff] + tz_diff_days[ix_tz_diff]
@@ -2541,9 +2543,11 @@ diff_times <- function(from_time, to_time = Sys.time(),
     }
     
     # s+3: Verify equality of both solutions: 
-    if (!all(full_d_1 == full_d_2)){
+    verify_equality <- TRUE 
+    
+    if (verify_equality & (!all(full_d_1 == full_d_2))){
       
-      warning('diff_times: 2 solutions (full_d_1 vs. full_d_2) yield different results.')
+      message('diff_times: 2 methods yield conflicting results (d_1 vs. d_2):')
       
       # Diagnostic info (for debugging): 
       ix_diff <- full_d_1 != full_d_2  
@@ -2710,8 +2714,8 @@ diff_times <- function(from_time, to_time = Sys.time(),
   
 } # diff_times end. 
 
-## Check:
-
+# ## Check:
+# 
 # t1 <- as.POSIXct("1969-07-13 13:53 CET")
 # t2 <- Sys.time()
 # diff_times(t1, t2, unit = "year", as_character = TRUE)
@@ -2722,28 +2726,28 @@ diff_times <- function(from_time, to_time = Sys.time(),
 # diff_times(t1, t2, unit = "sec", as_character = TRUE)
 # 
 # ## Test with random TIME samples:
-# from <- sample_time(10, from = "2020-01-01")
-# to   <- sample_time(10, from = "2020-04-01")
+# from <- sample_time(100, from = "2020-01-01")
+# to   <- sample_time(100, from = "2020-04-01")
 # 
 # # "year":
 # diff_times(from, to, unit = "year", as_character = FALSE)
 # lubridate::as.period(lubridate::interval(from, to), unit = "years")
-# Note differences in hour counts (due to DSL).
-# But: diff_times more consistent (see results for unit = "days")!
+# # Note differences in hour counts (due to DSL).
+# # But: diff_times more consistent (see results for unit = "days")!
 # 
 # # "month":
-# diff_times(from, to, unit = "month", as_character = FALSE)
-# lubridate::as.period(lubridate::interval(from, to), unit = "month")
+# diff_times(from, to, unit = "month", as_character = TRUE)
+# lubridate::as.period(lubridate::interval(from, to), unit = "months")
 # # Note differences in hour counts (due to DSL).
 # # But: diff_times more consistent (see results for unit = "days")!
 # 
 # # "day":
-# diff_times(from, to, unit = "day", as_character = TRUE)
-# lubridate::as.period(lubridate::interval(from, to), unit = "days")
+# diff_times(from, to, unit = "day", as_character = FALSE)
+# lubridate::as.period(lubridate::interval(from, to), unit = "day")
 # #
 # 
 # # "hour":
-# diff_times(from, to, unit = "hour", as_character = TRUE)
+# diff_times(from, to, unit = "hour", as_character = FALSE)
 # lubridate::as.period(lubridate::interval(from, to), unit = "hour")
 # 
 # # "min":
@@ -2793,6 +2797,32 @@ diff_times <- function(from_time, to_time = Sys.time(),
 # diff_tz(t1, t2, in_min = TRUE)
 # 
 # # B. NOT resolved YET:
+# 
+# # (e)
+# t1 <- "2020-04-23 16:15:22" 
+# t2 <- "2020-06-23 04:14:54"  
+# diff_times(t1, t2, unit = "year", as_character = TRUE)
+# lubridate::as.period(lubridate::interval(t1, t2), unit = "years")
+# 
+# dt_last_monthly_bd(t1, t2)  # "2020-06-23" is correct.
+# 
+# 
+# # Differences between diff_times() and lubridate solution:
+# 
+# t1 <- "2020-06-04 08:39:07" 
+# t2 <- "2020-04-19 09:32:36"
+# diff_times(t1, t2, unit = "years", as_character = TRUE)
+# lubridate::as.period(lubridate::interval(t1, t2), unit = "years")
+# 
+# t1 <- "2020-03-26 23:26:38" 
+# t2 <- "2020-05-02 19:13:20"
+# diff_times(t1, t2, unit = "days", as_character = TRUE)
+# lubridate::as.period(lubridate::interval(t1, t2), unit = "days")
+# 
+# t1 <- "2020-03-05 05:18:25"
+# t2 <- "2020-05-24 07:27:05"
+# diff_times(t1, t2, unit = "days", as_character = TRUE)
+# lubridate::as.period(lubridate::interval(t1, t2), unit = "days")
 
 # +++ here now +++ 
 
