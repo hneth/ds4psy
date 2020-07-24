@@ -7,8 +7,6 @@
 ## (0) Time helper/utility functions: ----------
 
 
-
-
 ## (A) Class of date/time object: ------ 
 
 # is_Date: -----
@@ -407,15 +405,11 @@ time_from_noPOSIXt <- function(x, tz = "", ...){
 #' that is due to both times being in different time zones. 
 #' 
 #' \code{diff_tz} allows adjusting time-based computations 
-#' for shifts that are entirely due to time zone differences 
-#' (rather than differences in actual times).
+#' for shifts that are entirely due to time zone differences,  
+#' rather than differences in actual times. 
 #' 
-#' Internally, \code{diff_tz} contrasts the POSIX 
-#' conversion specifications  
-#' \code{format(t1, "%Z")} with \code{format(t2, "%Z")}, 
-#' and computes the difference 
-#' \code{format(t2, "%z") - format(t1, "%z")} 
-#' (in numeric form). 
+#' Internally, \code{diff_tz} uses and compares the POSIX 
+#' conversion specifications "%Z" and "%z" (in numeric form). 
 #' 
 #' If the lengths of \code{t1} and \code{t2} differ, 
 #' the arguments of \code{t2} are recycled or 
