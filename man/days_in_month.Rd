@@ -44,6 +44,7 @@ days_in_month(ds)  # (2020/2024 are leap years)
 }
 \seealso{
 \code{\link{is_leap_year}} to check for leap years; 
+\code{\link{diff_tz}} for time zone-based time differences; 
 \code{days_in_month} function of the \strong{lubridate} package.
 
 Other date and time functions: 
@@ -53,6 +54,7 @@ Other date and time functions:
 \code{\link{cur_time}()},
 \code{\link{diff_dates}()},
 \code{\link{diff_times}()},
+\code{\link{diff_tz}()},
 \code{\link{is_leap_year}()},
 \code{\link{what_date}()},
 \code{\link{what_month}()},

@@ -14,6 +14,9 @@ is_leap_year(dt)
 Numbers or strings with dates are parsed into 
 4-digit numbers denoting the year.}
 }
+\value{
+Boolean vector.
+}
 \description{
 \code{is_leap_year} checks whether a given year 
 (provided as a date or time \code{dt}, 
@@ -65,6 +68,7 @@ is_leap_year(c("2020-02-29 01:02:03", "2021-02-28 01:02"))
 }
 \seealso{
 \code{\link{days_in_month}} for the number of days in given months; 
+\code{\link{diff_tz}} for time zone-based time differences; 
 \code{leap_year} function of the \strong{lubridate} package.
 
 Other date and time functions: 
@@ -75,6 +79,7 @@ Other date and time functions:
 \code{\link{days_in_month}()},
 \code{\link{diff_dates}()},
 \code{\link{diff_times}()},
+\code{\link{diff_tz}()},
 \code{\link{what_date}()},
 \code{\link{what_month}()},
 \code{\link{what_time}()},

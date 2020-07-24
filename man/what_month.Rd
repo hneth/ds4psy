@@ -59,6 +59,7 @@ Other date and time functions:
 \code{\link{days_in_month}()},
 \code{\link{diff_dates}()},
 \code{\link{diff_times}()},
+\code{\link{diff_tz}()},
 \code{\link{is_leap_year}()},
 \code{\link{what_date}()},
 \code{\link{what_time}()},
