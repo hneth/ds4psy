@@ -1,5 +1,5 @@
 ## time_util_fun.R | ds4psy
-## hn | uni.kn | 2020 07 23
+## hn | uni.kn | 2020 07 24
 ## ---------------------------
 
 ## Utility functions for date and time objects. 
@@ -400,6 +400,77 @@ time_from_noPOSIXt <- function(x, tz = "", ...){
 
 # diff_tz: Difference between 2 time zones (in "HH:MM" format or as nr. of minutes): ------
 
+#' Get the time zone difference between two times. 
+#'
+#' \code{diff_tz} computes the time difference 
+#' between two times \code{t1} and \code{t2} 
+#' that is due to both times being in different time zones. 
+#' 
+#' \code{diff_tz} allows adjusting time-based computations 
+#' for shifts that are entirely due to time zone differences 
+#' (rather than differences in actual times).
+#' 
+#' Internally, \code{diff_tz} contrasts the POSIX 
+#' conversion specifications  
+#' \code{format(t1, "%Z")} with \code{format(t2, "%Z")}, 
+#' and computes the difference 
+#' \code{format(t2, "%z") - format(t1, "%z")} 
+#' (in numeric form). 
+#' 
+#' If the lengths of \code{t1} and \code{t2} differ, 
+#' the arguments of \code{t2} are recycled or 
+#' truncated to the length of \code{t1}. 
+#' 
+#' @param t1 1st time point (required, as "POSIXt").
+#'  
+#' @param t2 2nd time point (required, as "POSIXt"). 
+#' 
+#' @param in_min Return time-zone based time 
+#' difference in minutes (Boolean)? 
+#' Default: \code{in_min = FALSE}. 
+#' 
+#' @return A character (in "HH:MM" format) or 
+#' numeric vector (number of minutes). 
+#' 
+#' @examples 
+#' # Time zones differences:
+#' tm <- "2020-01-01 01:00:00"  # nominal time
+#' t1 <- as.POSIXct(tm, tz = "NZ")
+#' t2 <- as.POSIXct(tm, tz = "Europe/Berlin")
+#' t3 <- as.POSIXct(tm, tz = "US/Hawaii")
+#' 
+#' # as character (in "HH:MM"):
+#' diff_tz(t1, t2)
+#' diff_tz(t2, t3)
+#' diff_tz(t1, t3)
+#' 
+#' # as numeric (in minutes):
+#' diff_tz(t1, t2, in_min = TRUE)
+#' diff_tz(t2, t3, in_min = TRUE)
+#' diff_tz(t1, t3, in_min = TRUE)
+#' 
+#' # Compare local times (POSIXlt): 
+#' t1 <- as.POSIXlt(Sys.time(), tz = "NZ")
+#' t2 <- as.POSIXlt(Sys.time(), tz = "Europe/Berlin")
+#' diff_tz(t1, t2)
+#' 
+#' # DSL shift: Spring ahead (on 2020-03-29: 02:00:00 > 03:00:00):
+#' s1 <- "2020-03-29 01:00:00 CET"   # before DSL switch
+#' s2 <- "2020-03-29 03:00:00 CEST"  # after DSL switch
+#' t1 <- as.POSIXct(s1, tz = "Europe/Berlin")  # CET
+#' t2 <- as.POSIXct(s2, tz = "Europe/Berlin")  # CEST
+#' 
+#' diff_tz(t1, t2)
+#' diff_tz(t1, t2, in_min = TRUE)
+#' 
+#' @family date and time functions
+#' 
+#' @seealso 
+#' \code{\link{days_in_month}} for the number of days in given months; 
+#' \code{\link{is_leap_year}} to check for leap years.  
+#' 
+#' @export
+
 diff_tz <- function(t1, t2, in_min = FALSE){
   
   # 0. Initialize: 
@@ -476,60 +547,62 @@ diff_tz <- function(t1, t2, in_min = FALSE){
 
 
 # ## Check:
+#  
+# ## 1. Time zones differences:
+# tm <- "2020-01-01 01:00:00"  # nominal time
+# t1 <- as.POSIXct(tm, tz = "NZ")
+# t2 <- as.POSIXct(tm, tz = "Europe/Berlin")
+# t3 <- as.POSIXct(tm, tz = "US/Hawaii")
 # 
-# ## A. DSL shift:
+# # as character (in "HH:MM"):
+# diff_tz(t1, t2)
+# diff_tz(t2, t3)
+# diff_tz(t1, t3)
 # 
-# # (a) Spring ahead:
-# s1 <- "2020-03-28 12:00:00"  # before DSL switch
-# s2 <- "2020-03-29 12:00:00"  # after DSL switch (on 2020-03-29: 02:00:00 > 03:00:00)
-# t1 <- as.POSIXct(s1)  # CET
-# t2 <- as.POSIXct(s2)  # CEST
+# # as numeric (in minutes):
+# diff_tz(t1, t2, in_min = TRUE)
+# diff_tz(t2, t3, in_min = TRUE)
+# diff_tz(t1, t3, in_min = TRUE)
+# 
+# ## 2. Compare local times (POSIXlt): 
+# t1 <- as.POSIXlt(Sys.time(), tz = "NZ")
+# t2 <- as.POSIXlt(Sys.time(), tz = "Europe/Berlin")
+# diff_tz(t1, t2)
+# 
+# ## 3. DSL shift: Spring ahead (on 2020-03-29: 02:00:00 > 03:00:00):
+# s1 <- "2020-03-29 01:00:00 CET"   # before DSL switch
+# s2 <- "2020-03-29 03:00:00 CEST"  # after DSL switch
+# t1 <- as.POSIXct(s1, tz = "Europe/Berlin")  # CET
+# t2 <- as.POSIXct(s2, tz = "Europe/Berlin")  # CEST
 # # format(t1, "%F %T %Z %z")
 # # format(t2, "%F %T %Z %z")
 # 
 # diff_tz(t1, t2)
 # diff_tz(t1, t2, in_min = TRUE)
 # 
-# # (b) Fall back:
-# s3 <- "2020-10-24 12:00:00"  # before DSL switch
-# s4 <- "2020-10-25 12:00:00"  # after DSL switch (on 2020-10-25: 03:00:00 > 02:00:00)
-# t3 <- as.POSIXct(s3)  # CEST
-# t4 <- as.POSIXct(s4)  # CET
+# # (b) Fall back (on 2020-10-25: 03:00:00 > 02:00:00): 
+# s3 <- "2020-10-25 01:00:00 CEST"  # before DSL switch
+# s4 <- "2020-10-25 03:00:00 CET"   # after DSL switch 
+# t3 <- as.POSIXct(s3, tz = "Europe/Berlin")  # CEST
+# t4 <- as.POSIXct(s4, tz = "Europe/Berlin")  # CET
 # # format(t3, "%F %T %Z %z")
 # # format(t4, "%F %T %Z %z")
 # 
 # diff_tz(t3, t4)
 # diff_tz(t3, t4, in_min = TRUE)
 # 
-# # No difference:
+# # No differences:
 # diff_tz(t1, t4)  # both CET
 # diff_tz(t2, t3)  # both CEST
-# 
 # diff_tz(t1, t4, in_min = TRUE)
 # diff_tz(t2, t3, in_min = TRUE)
 # 
-# ## B. Different time zones:
-# 
-# ts <- "2020-01-01 01:00:00"
-# 
-# t1 <- as.POSIXct(ts, tz = "NZ")
-# t2 <- as.POSIXct(ts, tz = "Europe/Berlin")
-# t3 <- as.POSIXct(ts, tz = "US/Hawaii")
-# 
-# diff_tz(t1, t2)
-# diff_tz(t2, t3)
-# diff_tz(t1, t3)
-# 
-# diff_tz(t1, t2, in_min = TRUE)
-# diff_tz(t2, t3, in_min = TRUE)
-# diff_tz(t1, t3, in_min = TRUE)
-# 
-# ## With vectors:
-# t1 <- as.POSIXct("2020-01-01 01:00:00", tz = "")
+# ## 4. With vectors:
+# t1 <- as.POSIXct("2020-01-01 01:00:00", tz = "Europe/Berlin")
 # t2 <- as.POSIXct("2020-06-01 02:22:22", tz = "NZ")
 # t3 <- as.POSIXct("2020-01-01 05:55:55", tz = "")
 # 
-# c(t1, t2, t3)  # Note: CET vs. CEST
+# c(t1, t2, t3)  # Note: CET vs. CEST, NZ is dropped! 
 # diff_tz(c(t1, t2, t3), t3)  # Note: only tz/DSL matters
 # diff_tz(c(t1, t2, t3), t3, in_min = TRUE)
 
@@ -562,6 +635,8 @@ diff_tz <- function(t1, t2, in_min = FALSE){
 #' Numbers or strings with dates are parsed into 
 #' 4-digit numbers denoting the year. 
 #' 
+#' @return Boolean vector. 
+#' 
 #' @examples
 #' is_leap_year(2020)
 #' (days_this_year <- 365 + is_leap_year(Sys.Date()))
@@ -592,6 +667,7 @@ diff_tz <- function(t1, t2, in_min = FALSE){
 #' 
 #' @seealso 
 #' \code{\link{days_in_month}} for the number of days in given months; 
+#' \code{\link{diff_tz}} for time zone-based time differences; 
 #' \code{leap_year} function of the \strong{lubridate} package. 
 #' 
 #' @source 
@@ -742,6 +818,7 @@ names(MONTH_DAYS) <- base::month.abb
 #' 
 #' @seealso 
 #' \code{\link{is_leap_year}} to check for leap years; 
+#' \code{\link{diff_tz}} for time zone-based time differences; 
 #' \code{days_in_month} function of the \strong{lubridate} package.   
 #' 
 #' @export
@@ -1003,7 +1080,6 @@ dt_last_monthly_bd <- function(dob, to_date, ...){
 
 # ad (0):
 # - consider making class test functions is_Date / is_POSIXt available to users by export. 
-# - consider making date and time parser functions (date_from_noDate/time_from_noPOSIX) available to users by export.
-# - consider making diff_tz function available to users by export. 
+# - consider making date and time parser functions (date_from_noDate/time_from_noPOSIX) available to users by export. 
 
 ## eof. ----------------------
