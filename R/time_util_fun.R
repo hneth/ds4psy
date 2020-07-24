@@ -488,7 +488,7 @@ diff_tz <- function(t1, t2, in_min = FALSE){
   
   # Recycle or truncate t2 argument based on t1: ---- 
   t2 <- align_vector_length(v_fixed = t1, v_change = t2)
-  message(paste0("t2 = ", t2, collapse = " "))  # debugging 
+  # message(paste0("t2 = ", t2, collapse = " "))  # debugging 
   
   
   # 2. Main: ---- 
@@ -546,7 +546,7 @@ diff_tz <- function(t1, t2, in_min = FALSE){
 
 # ## Check:
 #  
-# ## 1. Time zones differences:
+## 1. Time zones differences:
 # tm <- "2020-01-01 01:00:00"  # nominal time
 # t1 <- as.POSIXct(tm, tz = "NZ")
 # t2 <- as.POSIXct(tm, tz = "Europe/Berlin")
@@ -562,47 +562,47 @@ diff_tz <- function(t1, t2, in_min = FALSE){
 # diff_tz(t2, t3, in_min = TRUE)
 # diff_tz(t1, t3, in_min = TRUE)
 # 
-# ## 2. Compare local times (POSIXlt): 
-# t1 <- as.POSIXlt(Sys.time(), tz = "NZ")
-# t2 <- as.POSIXlt(Sys.time(), tz = "Europe/Berlin")
-# diff_tz(t1, t2)
+# ## 2. Compare local times (POSIXlt):
+# t4 <- as.POSIXlt(Sys.time(), tz = "NZ")
+# t5 <- as.POSIXlt(Sys.time(), tz = "Europe/Berlin")
+# diff_tz(t4, t5)
 # 
 # ## 3. DSL shift: Spring ahead (on 2020-03-29: 02:00:00 > 03:00:00):
-# s1 <- "2020-03-29 01:00:00 CET"   # before DSL switch
-# s2 <- "2020-03-29 03:00:00 CEST"  # after DSL switch
-# t1 <- as.POSIXct(s1, tz = "Europe/Berlin")  # CET
-# t2 <- as.POSIXct(s2, tz = "Europe/Berlin")  # CEST
-# # format(t1, "%F %T %Z %z")
-# # format(t2, "%F %T %Z %z")
+# s6 <- "2020-03-29 01:00:00 CET"   # before DSL switch
+# s7 <- "2020-03-29 03:00:00 CEST"  # after DSL switch
+# t6 <- as.POSIXct(s6, tz = "Europe/Berlin")  # CET
+# t7 <- as.POSIXct(s7, tz = "Europe/Berlin")  # CEST
+# # format(t6, "%F %T %Z %z")
+# # format(t7, "%F %T %Z %z")
 # 
-# diff_tz(t1, t2)
-# diff_tz(t1, t2, in_min = TRUE)
+# diff_tz(t6, t7)
+# diff_tz(t6, t7, in_min = TRUE)
 # 
-# # (b) Fall back (on 2020-10-25: 03:00:00 > 02:00:00): 
-# s3 <- "2020-10-25 01:00:00 CEST"  # before DSL switch
-# s4 <- "2020-10-25 03:00:00 CET"   # after DSL switch 
-# t3 <- as.POSIXct(s3, tz = "Europe/Berlin")  # CEST
-# t4 <- as.POSIXct(s4, tz = "Europe/Berlin")  # CET
-# # format(t3, "%F %T %Z %z")
-# # format(t4, "%F %T %Z %z")
+# # (b) Fall back (on 2020-10-25: 03:00:00 > 02:00:00):
+# s8 <- "2020-10-25 01:00:00 CEST"  # before DSL switch
+# s9 <- "2020-10-25 03:00:00 CET"   # after DSL switch
+# t8 <- as.POSIXct(s8, tz = "Europe/Berlin")  # CEST
+# t9 <- as.POSIXct(s9, tz = "Europe/Berlin")  # CET
+# # format(t8, "%F %T %Z %z")
+# # format(t9, "%F %T %Z %z")
 # 
-# diff_tz(t3, t4)
-# diff_tz(t3, t4, in_min = TRUE)
+# diff_tz(t8, t9)
+# diff_tz(t8, t9, in_min = TRUE)
 # 
 # # No differences:
-# diff_tz(t1, t4)  # both CET
-# diff_tz(t2, t3)  # both CEST
-# diff_tz(t1, t4, in_min = TRUE)
-# diff_tz(t2, t3, in_min = TRUE)
+# diff_tz(t6, t9)  # both CET
+# diff_tz(t7, t8)  # both CEST
+# diff_tz(t6, t9, in_min = TRUE)
+# diff_tz(t7, t8, in_min = TRUE)
 # 
 # ## 4. With vectors:
-# t1 <- as.POSIXct("2020-01-01 01:00:00", tz = "Europe/Berlin")
-# t2 <- as.POSIXct("2020-06-01 02:22:22", tz = "NZ")
-# t3 <- as.POSIXct("2020-01-01 05:55:55", tz = "")
+# ta <- as.POSIXct("2020-01-01 01:00:00", tz = "Europe/Berlin")
+# tb <- as.POSIXct("2020-06-01 02:22:22", tz = "NZ")
+# tc <- as.POSIXct("2020-01-01 05:55:55", tz = "")
 # 
-# c(t1, t2, t3)  # Note: CET vs. CEST, NZ is dropped! 
-# diff_tz(c(t1, t2, t3), t3)  # Note: only tz/DSL matters
-# diff_tz(c(t1, t2, t3), t3, in_min = TRUE)
+# c(ta, tb, tc)  # Note: CET vs. CEST, NZ is dropped!
+# diff_tz(c(ta, tb, tc), tc)  # Note: only tz/DSL matters
+# diff_tz(c(ta, tb, tc), tc, in_min = TRUE)
 
 
 # is_leap_year: ------ 
