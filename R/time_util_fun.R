@@ -402,14 +402,19 @@ time_from_noPOSIXt <- function(x, tz = "", ...){
 #'
 #' \code{diff_tz} computes the time difference 
 #' between two times \code{t1} and \code{t2} 
-#' that is due to both times being in different time zones. 
+#' that is exclusively due to both times being in 
+#' different time zones. 
 #' 
-#' \code{diff_tz} allows adjusting time-based computations 
-#' for shifts that are entirely due to time zone differences,  
+#' \code{diff_tz} ignores all differences in nominal times, 
+#' but allows adjusting time-based computations 
+#' for time shifts that are due to time zone differences 
+#' (e.g., different locations, or 
+#' changes to/from daylight saving time, DSL),  
 #' rather than differences in actual times. 
 #' 
-#' Internally, \code{diff_tz} uses and compares the POSIX 
-#' conversion specifications "%Z" and "%z" (in numeric form). 
+#' Internally, \code{diff_tz} determines and contrasts the POSIX 
+#' conversion specifications "%Z" and "%z" for both times 
+#' (in numeric form). 
 #' 
 #' If the lengths of \code{t1} and \code{t2} differ, 
 #' the arguments of \code{t2} are recycled or 
@@ -439,23 +444,22 @@ time_from_noPOSIXt <- function(x, tz = "", ...){
 #' diff_tz(t1, t3)
 #' 
 #' # as numeric (in minutes):
-#' diff_tz(t1, t2, in_min = TRUE)
-#' diff_tz(t2, t3, in_min = TRUE)
 #' diff_tz(t1, t3, in_min = TRUE)
 #' 
 #' # Compare local times (POSIXlt): 
-#' t1 <- as.POSIXlt(Sys.time(), tz = "NZ")
-#' t2 <- as.POSIXlt(Sys.time(), tz = "Europe/Berlin")
-#' diff_tz(t1, t2)
+#' t4 <- as.POSIXlt(Sys.time(), tz = "NZ")
+#' t5 <- as.POSIXlt(Sys.time(), tz = "Europe/Berlin")
+#' diff_tz(t4, t5)
+#' diff_tz(t4, t5, in_min = TRUE)
 #' 
 #' # DSL shift: Spring ahead (on 2020-03-29: 02:00:00 > 03:00:00):
-#' s1 <- "2020-03-29 01:00:00 CET"   # before DSL switch
-#' s2 <- "2020-03-29 03:00:00 CEST"  # after DSL switch
-#' t1 <- as.POSIXct(s1, tz = "Europe/Berlin")  # CET
-#' t2 <- as.POSIXct(s2, tz = "Europe/Berlin")  # CEST
+#' s6 <- "2020-03-29 01:00:00 CET"   # before DSL switch
+#' s7 <- "2020-03-29 03:00:00 CEST"  # after DSL switch
+#' t6 <- as.POSIXct(s6, tz = "Europe/Berlin")  # CET
+#' t7 <- as.POSIXct(s7, tz = "Europe/Berlin")  # CEST
 #' 
-#' diff_tz(t1, t2)
-#' diff_tz(t1, t2, in_min = TRUE)
+#' diff_tz(t6, t7)  # 1 hour forwards
+#' diff_tz(t6, t7, in_min = TRUE)
 #' 
 #' @family date and time functions
 #' 
