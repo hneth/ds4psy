@@ -20,6 +20,11 @@ so that the lowest line in the text file becomes \code{y = 1},
 and the top line in the text file becomes \code{y = n_lines}? 
 Default: \code{flip_y = FALSE}.}
 }
+\value{
+A data frame with 3 variables: 
+Each character's \code{x}- and \code{y}-coordinates (from top to bottom)  
+and a variable \code{char} for the character at this coordinate.
+}
 \description{
 \code{read_ascii} parses text 
 (from a file or from user input in Console) 

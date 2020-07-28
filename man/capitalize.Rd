@@ -2,10 +2,7 @@
 % Please edit documentation in R/text_fun.R
 \name{capitalize}
 \alias{capitalize}
-\title{capitalize converts the case of 
-each word's \code{n} initial characters 
-(typically to \code{upper}) 
-in a string of text \code{x}.}
+\title{Capitalize initial characters in strings of text \code{x}.}
 \usage{
 capitalize(x, n = 1, upper = TRUE, as_text = TRUE)
 }
@@ -22,8 +19,11 @@ Default: \code{upper = TRUE}.}
 (i.e., one character string)? 
 Default: \code{as_text = TRUE}.}
 }
+\value{
+A character vector.
+}
 \description{
-capitalize converts the case of 
+\code{capitalize} converts the case of 
 each word's \code{n} initial characters 
 (typically to \code{upper}) 
 in a string of text \code{x}.

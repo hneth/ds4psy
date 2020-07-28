@@ -22,6 +22,9 @@ the function assumes a standard sentence-splitting pattern:
 If \code{force_delim = TRUE}, splits at \code{split_delim} are 
 enforced (regardless of spacing or capitalization).}
 }
+\value{
+A character vector.
+}
 \description{
 \code{text_to_sentences} splits text \code{x} 
 (consisting of one or more character strings) 

@@ -10,6 +10,9 @@ text_to_words(x)
 \item{x}{A string of text (required), 
 typically a character vector.}
 }
+\value{
+A character vector.
+}
 \description{
 \code{text_to_words} splits a string of text \code{x} 
 (consisting of one or more character strings) 

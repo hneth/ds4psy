@@ -2,17 +2,24 @@
 % Please edit documentation in R/text_fun.R
 \name{caseflip}
 \alias{caseflip}
-\title{caseflip flips the case of characters 
-in a string of text \code{x}.}
+\title{Flip the case of characters in a string of text \code{x}.}
 \usage{
 caseflip(x)
 }
 \arguments{
 \item{x}{A string of text (required).}
 }
+\value{
+A character vector.
+}
 \description{
-caseflip flips the case of characters 
+\code{caseflip} flips the case of all characters 
 in a string of text \code{x}.
+}
+\details{
+Internally, \code{caseflip} uses the \code{letters} and \code{LETTERS} 
+constants of \strong{base} R and the \code{chartr} function 
+for replacing characters in strings of text.
 }
 \examples{
 x <- c("Hello world!", "This is a 1st sentence.", "This is the 2nd sentence.", "The end.")
@@ -20,7 +27,8 @@ caseflip(x)
  
 }
 \seealso{
-\code{\link{capitalize}} for converting the case of initial letters.
+\code{\link{capitalize}} for converting the case of initial letters; 
+\code{chartr} for replacing characters in strings of text.
 
 Other text objects and functions: 
 \code{\link{Umlaut}},

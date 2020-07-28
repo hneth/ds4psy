@@ -21,6 +21,9 @@ Set to \code{"lo"} or \code{"up"} for lower or uppercase, respectively.}
 Default: \code{out_case = "no"}. 
 Set to \code{"lo"} or \code{"up"} for lower or uppercase, respectively.}
 }
+\value{
+A character vector.
+}
 \description{
 \code{transl33t} translates text into leet (or l33t) slang 
 given a set of rules.

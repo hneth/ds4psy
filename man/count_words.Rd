@@ -15,6 +15,9 @@ Default: \code{case_sense = TRUE}.}
 \item{sort_freq}{Boolean: Sort output by word frequency? 
 Default: \code{sort_freq = TRUE}.}
 }
+\value{
+A named numeric vector.
+}
 \description{
 Count the frequency of words in a string of text \code{x}.
 }
@@ -27,7 +30,7 @@ count_words(s3)  # case-sensitive, sorts by frequency
 # Options: 
 count_words(s3, case_sense = FALSE)  # case insensitive
 count_words(s3, sort_freq = FALSE)   # sorts alphabetically
- 
+
 }
 \seealso{
 \code{\link{count_chars}} for counting the frequency of characters;   
