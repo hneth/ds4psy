@@ -1,5 +1,5 @@
 ## text_fun.R | ds4psy
-## hn | uni.kn | 2020 07 17
+## hn | uni.kn | 2020 07 28
 ## ---------------------------
 
 ## Character objects and functions for string/text objects. 
@@ -619,8 +619,7 @@ read_ascii <- function(file = "", flip_y = FALSE){
 
 ## count_chars: Count the frequency of characters in a string: -------- 
 
-#' count_chars counts the frequency of characters 
-#' in a string of text \code{x}.
+#' Count the frequency of characters in a string of text \code{x}.
 #'
 #' @param x A string of text (required).
 #' 
@@ -721,17 +720,19 @@ count_chars <- function(x, # string of text to count
 
 ## text_to_sentences: Turn a text (consisting of one or more strings) into a vector of all its sentences: ------ 
 
-#' text_to_sentences splits a string of text \code{x} 
+#' Split strings of text \code{x} into sentences. 
+#' 
+#' \code{text_to_sentences} splits text \code{x} 
 #' (consisting of one or more character strings) 
 #' into a vector of its constituting sentences. 
 #' 
-#' \code{text_to_sentences} splits at given punctuation marks 
-#' (as a regular expression, default: \code{split_delim = "\\.|\\?|!"})  
-#' and removes empty leading and trailing spaces before returning 
-#' a vector of the remaining character sequences (as the sentences).
+#' The splits of \code{x} will occur at given punctuation marks 
+#' (provided as a regular expression, default: \code{split_delim = "\\.|\\?|!"}).   
+#' Empty leading and trailing spaces are removed before returning 
+#' a vector of the remaining character sequences (i.e., the sentences).
 #' 
-#' The Boolean \code{force_delim} distinguishes between 
-#' two splitting modes:
+#' The Boolean argument \code{force_delim} distinguishes between 
+#' two splitting modes: 
 #' 
 #' \enumerate{
 #' 
@@ -755,7 +756,6 @@ count_chars <- function(x, # string of text to count
 #' Internally, \code{text_to_sentences} uses \code{\link{strsplit}} to 
 #' split strings.
 #' 
-#'
 #' @param x A string of text (required), 
 #' typically a character vector. 
 #' 
@@ -871,9 +871,11 @@ text_to_sentences <- function(x,  # string(s) of text
 
 ## text_to_words: Turn a text (consisting of one or more strings) into a vector of its words: ------ 
 
-#' text_to_words splits a string of text \code{x} 
+#' Split strings text \code{x} into words. 
+#' 
+#' \code{text_to_words} splits a string of text \code{x} 
 #' (consisting of one or more character strings) 
-#' into a vector of its constituting words.
+#' into a vector of its constituting words. 
 #' 
 #' \code{text_to_words} removes all (standard) punctuation marks 
 #' and empty spaces in the resulting parts, 
@@ -883,11 +885,9 @@ text_to_sentences <- function(x,  # string(s) of text
 #' Internally, \code{text_to_words} uses \code{\link{strsplit}} to 
 #' split strings.
 #'
-#'
 #' @param x A string of text (required), 
 #' typically a character vector. 
 #'
-#'  
 #' @examples
 #' # Default: 
 #' x <- c("Hello!", "This is a 1st sentence.", "This is the 2nd sentence.", "The end.")
@@ -941,8 +941,7 @@ words_to_text <- function(w, collapse = " "){
 
 ## count_words: Count the frequency of words in a string: -------- 
 
-#' count_words counts the frequency of words  
-#' in a string of text \code{x}.
+#' Count the frequency of words in a string of text \code{x}.
 #'
 #' @param x A string of text (required).
 #' 
