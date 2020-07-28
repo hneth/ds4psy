@@ -331,6 +331,8 @@ l33t_rul35 <- c(l33t_num, my_l33t)
 #' Default: \code{out_case = "no"}. 
 #' Set to \code{"lo"} or \code{"up"} for lower or uppercase, respectively.  
 #' 
+#' @return A character vector. 
+#' 
 #' @examples
 #' # Use defaults:
 #' transl33t(txt = "hello world")
@@ -448,6 +450,10 @@ transl33t <- function(txt, rules = l33t_rul35,
 #' and the top line in the text file becomes \code{y = n_lines}? 
 #' Default: \code{flip_y = FALSE}. 
 #' 
+#' @return A data frame with 3 variables: 
+#' Each character's \code{x}- and \code{y}-coordinates (from top to bottom)  
+#' and a variable \code{char} for the character at this coordinate. 
+#' 
 #' @examples
 #' ## Create a temporary file "test.txt":
 #' # cat("Hello world!", "This is a test.", 
@@ -473,7 +479,6 @@ transl33t <- function(txt, rules = l33t_rul35,
 #'
 #' @seealso
 #' \code{\link{plot_text}} for a corresponding plot function. 
-#' 
 #' 
 #' @export
 
@@ -631,7 +636,9 @@ read_ascii <- function(file = "", flip_y = FALSE){
 #' 
 #' @param sort_freq Boolean: Sort output by character frequency? 
 #' Default: \code{sort_freq = TRUE}. 
-#' 
+#'
+#' @return A named numeric vector. 
+#'
 #' @examples
 #' # Default: 
 #' x <- c("Hello!", "This is a 1st sentence.", "This is the 2nd sentence.", "The end.")
@@ -641,7 +648,7 @@ read_ascii <- function(file = "", flip_y = FALSE){
 #' count_chars(x, case_sense = FALSE)
 #' count_chars(x, rm_specials = FALSE)
 #' count_chars(x, sort_freq = FALSE)
-#'  
+#'
 #' @family text objects and functions
 #'
 #' @seealso
@@ -771,7 +778,8 @@ count_chars <- function(x, # string of text to count
 #' If \code{force_delim = TRUE}, splits at \code{split_delim} are 
 #' enforced (regardless of spacing or capitalization).
 #' 
-#'  
+#' @return A character vector. 
+#' 
 #' @examples
 #' x <- c("A first sentence. Exclamation sentence!", 
 #'        "Any questions? But etc. can be tricky. A fourth --- and final --- sentence.")
@@ -887,6 +895,8 @@ text_to_sentences <- function(x,  # string(s) of text
 #'
 #' @param x A string of text (required), 
 #' typically a character vector. 
+#' 
+#' @return A character vector. 
 #'
 #' @examples
 #' # Default: 
@@ -950,6 +960,8 @@ words_to_text <- function(w, collapse = " "){
 #' 
 #' @param sort_freq Boolean: Sort output by word frequency? 
 #' Default: \code{sort_freq = TRUE}. 
+#'
+#' @return A named numeric vector. 
 #' 
 #' @examples
 #' # Default: 
@@ -960,7 +972,7 @@ words_to_text <- function(w, collapse = " "){
 #' # Options: 
 #' count_words(s3, case_sense = FALSE)  # case insensitive
 #' count_words(s3, sort_freq = FALSE)   # sorts alphabetically
-#'  
+#'
 #' @family text objects and functions
 #'
 #' @seealso
@@ -1017,10 +1029,18 @@ count_words <- function(x,  # string(s) of text
 
 ## caseflip: Flip lower to upper case and vice versa: --------  
 
-#' caseflip flips the case of characters 
+#' Flip the case of characters in a string of text \code{x}.
+#' 
+#' \code{caseflip} flips the case of all characters 
 #' in a string of text \code{x}.
+#' 
+#' Internally, \code{caseflip} uses the \code{letters} and \code{LETTERS} 
+#' constants of \strong{base} R and the \code{chartr} function 
+#' for replacing characters in strings of text. 
 #'
 #' @param x A string of text (required).
+#' 
+#' @return A character vector. 
 #' 
 #' @examples
 #' x <- c("Hello world!", "This is a 1st sentence.", "This is the 2nd sentence.", "The end.")
@@ -1029,7 +1049,8 @@ count_words <- function(x,  # string(s) of text
 #' @family text objects and functions
 #'
 #' @seealso
-#' \code{\link{capitalize}} for converting the case of initial letters. 
+#' \code{\link{capitalize}} for converting the case of initial letters; 
+#' \code{chartr} for replacing characters in strings of text. 
 #' 
 #' @export
 
@@ -1056,10 +1077,14 @@ caseflip <- function(x){
 
 ## capitalize the first n letters of words (w/o exception): -------- 
 
-#' capitalize converts the case of 
+#' Capitalize initial characters in strings of text \code{x}.  
+#' 
+#' \code{capitalize} converts the case of 
 #' each word's \code{n} initial characters 
 #' (typically to \code{upper}) 
 #' in a string of text \code{x}.
+#'
+#' @return A character vector. 
 #'
 #' @param x A string of text (required).
 #' 
@@ -1142,8 +1167,6 @@ capitalize <- function(x, # string of text to capitalize
 # capitalize(x, n = 3)
 # capitalize(x, n = 2, upper = FALSE)
 # capitalize(x, as_text = FALSE)
-
-
 
 
 
