@@ -2,8 +2,7 @@
 % Please edit documentation in R/text_fun.R
 \name{count_words}
 \alias{count_words}
-\title{count_words counts the frequency of words  
-in a string of text \code{x}.}
+\title{Count the frequency of words in a string of text \code{x}.}
 \usage{
 count_words(x, case_sense = TRUE, sort_freq = TRUE)
 }
@@ -17,8 +16,7 @@ Default: \code{case_sense = TRUE}.}
 Default: \code{sort_freq = TRUE}.}
 }
 \description{
-count_words counts the frequency of words  
-in a string of text \code{x}.
+Count the frequency of words in a string of text \code{x}.
 }
 \examples{
 # Default: 

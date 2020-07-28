@@ -2,9 +2,7 @@
 % Please edit documentation in R/text_fun.R
 \name{text_to_words}
 \alias{text_to_words}
-\title{text_to_words splits a string of text \code{x} 
-(consisting of one or more character strings) 
-into a vector of its constituting words.}
+\title{Split strings text \code{x} into words.}
 \usage{
 text_to_words(x)
 }
@@ -13,12 +11,16 @@ text_to_words(x)
 typically a character vector.}
 }
 \description{
+\code{text_to_words} splits a string of text \code{x} 
+(consisting of one or more character strings) 
+into a vector of its constituting words.
+}
+\details{
 \code{text_to_words} removes all (standard) punctuation marks 
 and empty spaces in the resulting parts, 
 before returning a vector of the remaining character symbols 
 (as the words).
-}
-\details{
+
 Internally, \code{text_to_words} uses \code{\link{strsplit}} to 
 split strings.
 }

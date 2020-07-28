@@ -2,9 +2,7 @@
 % Please edit documentation in R/text_fun.R
 \name{text_to_sentences}
 \alias{text_to_sentences}
-\title{text_to_sentences splits a string of text \code{x} 
-(consisting of one or more character strings) 
-into a vector of its constituting sentences.}
+\title{Split strings of text \code{x} into sentences.}
 \usage{
 text_to_sentences(x, split_delim = "\\\\.|\\\\?|!", force_delim = FALSE)
 }
@@ -25,14 +23,18 @@ If \code{force_delim = TRUE}, splits at \code{split_delim} are
 enforced (regardless of spacing or capitalization).}
 }
 \description{
-\code{text_to_sentences} splits at given punctuation marks 
-(as a regular expression, default: \code{split_delim = "\\.|\\?|!"})  
-and removes empty leading and trailing spaces before returning 
-a vector of the remaining character sequences (as the sentences).
+\code{text_to_sentences} splits text \code{x} 
+(consisting of one or more character strings) 
+into a vector of its constituting sentences.
 }
 \details{
-The Boolean \code{force_delim} distinguishes between 
-two splitting modes:
+The splits of \code{x} will occur at given punctuation marks 
+(provided as a regular expression, default: \code{split_delim = "\\.|\\?|!"}).   
+Empty leading and trailing spaces are removed before returning 
+a vector of the remaining character sequences (i.e., the sentences).
+
+The Boolean argument \code{force_delim} distinguishes between 
+two splitting modes: 
 
 \enumerate{
 

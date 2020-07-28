@@ -2,8 +2,7 @@
 % Please edit documentation in R/text_fun.R
 \name{count_chars}
 \alias{count_chars}
-\title{count_chars counts the frequency of characters 
-in a string of text \code{x}.}
+\title{Count the frequency of characters in a string of text \code{x}.}
 \usage{
 count_chars(x, case_sense = TRUE, rm_specials = TRUE, sort_freq = TRUE)
 }
@@ -20,8 +19,7 @@ Default: \code{rm_specials = TRUE}.}
 Default: \code{sort_freq = TRUE}.}
 }
 \description{
-count_chars counts the frequency of characters 
-in a string of text \code{x}.
+Count the frequency of characters in a string of text \code{x}.
 }
 \examples{
 # Default: 
