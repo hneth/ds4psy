@@ -1,5 +1,5 @@
 ## time_fun.R | ds4psy
-## hn | uni.kn | 2020 07 24
+## hn | uni.kn | 2020 07 28
 ## ---------------------------
 
 ## Main functions for date and time objects. 
@@ -1765,8 +1765,8 @@ diff_dates <- function(from_date, to_date = Sys.Date(),
                        unit = "years", as_character = TRUE){
   
   # 0. Initialize: 
-  age   <- NA
   today <- Sys.Date()  # (do only once)
+  age   <- NA
   
   # 1. Handle inputs: ------  
   
@@ -2269,7 +2269,7 @@ diff_dates <- function(from_date, to_date = Sys.Date(),
 #' (with times, sign, and numeric columns for units).
 #' 
 #' @examples
-#' t1 <- as.POSIXct("1969-07-13 13:53 CET")
+#' t1 <- as.POSIXct("1969-07-13 13:53 CET")  # (before UNIX epoch)
 #' diff_times(t1, unit = "years", as_character = TRUE)
 #' diff_times(t1, unit = "secs", as_character = TRUE)
 #' 
@@ -2277,7 +2277,7 @@ diff_dates <- function(from_date, to_date = Sys.Date(),
 #' 
 #' @seealso 
 #' \code{\link{diff_dates}} for date differences;  
-#' time spans (\code{interval} \code{as.period}) in the \strong{lubridate} package. 
+#' time spans (an \code{interval} \code{as.period}) in the \strong{lubridate} package. 
 #' 
 #' @export 
 
@@ -2285,8 +2285,8 @@ diff_times <- function(from_time, to_time = Sys.time(),
                        unit = "days", as_character = TRUE){
   
   # 0. Initialize: 
-  age   <- NA
   now <- Sys.time()  # (do only once)
+  age <- NA
   
   # 1. Handle inputs: ------  
   
@@ -2732,13 +2732,13 @@ diff_times <- function(from_time, to_time = Sys.time(),
 # # "year":
 # diff_times(from, to, unit = "year", as_character = FALSE)
 # lubridate::as.period(lubridate::interval(from, to), unit = "years")
-# # Note differences in hour counts (due to DSL).
+# # Note differences in hour counts (due to DST).
 # # But: diff_times more consistent (see results for unit = "days")!
 # 
 # # "month":
 # diff_times(from, to, unit = "month", as_character = TRUE)
 # lubridate::as.period(lubridate::interval(from, to), unit = "months")
-# # Note differences in hour counts (due to DSL).
+# # Note differences in hour counts (due to DST).
 # # But: diff_times more consistent (see results for unit = "days")!
 # 
 # # "day":
@@ -2778,18 +2778,18 @@ diff_times <- function(from_time, to_time = Sys.time(),
 # diff_times(t1, t2, unit = "year", as_character = TRUE)
 # lubridate::as.period(lubridate::interval(t1, t2), unit = "years")
 # 
-# # (c) DSL switch (a: spring ahead):
-# t1 <- "2020-03-28 12:00:00"  # before DSL switch
-# t2 <- "2020-03-29 12:00:00"  # after DSL switch (on 2020-03-29: 02:00:00 > 03:00:00)
+# # (c) DST switch (a: spring ahead):
+# t1 <- "2020-03-28 12:00:00"  # before DST switch
+# t2 <- "2020-03-29 12:00:00"  # after DST switch (on 2020-03-29: 02:00:00 > 03:00:00)
 # diff_times(t1, t2, unit = "year", as_character = TRUE)
 # lubridate::as.period(lubridate::interval(t1, t2), unit = "years")
 # 
 # # Solved by using new utility/helper function:
 # diff_tz(t1, t2, in_min = TRUE)
 # 
-# # (d) DSL switch (b: fall back):
-# t1 <- "2020-10-24 12:00:00"  # before DSL switch
-# t2 <- "2020-10-25 12:00:00"  # after DSL switch (on 2020-10-25: 03:00:00 > 02:00:00)
+# # (d) DST switch (b: fall back):
+# t1 <- "2020-10-24 12:00:00"  # before DST switch
+# t2 <- "2020-10-25 12:00:00"  # after DST switch (on 2020-10-25: 03:00:00 > 02:00:00)
 # diff_times(t1, t2, unit = "year", as_character = TRUE)
 # lubridate::as.period(lubridate::interval(t1, t2), unit = "years")
 # 
