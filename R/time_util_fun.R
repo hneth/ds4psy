@@ -1,5 +1,5 @@
 ## time_util_fun.R | ds4psy
-## hn | uni.kn | 2020 07 24
+## hn | uni.kn | 2020 07 28
 ## ---------------------------
 
 ## Utility functions for date and time objects. 
@@ -409,7 +409,7 @@ time_from_noPOSIXt <- function(x, tz = "", ...){
 #' but allows adjusting time-based computations 
 #' for time shifts that are due to time zone differences 
 #' (e.g., different locations, or 
-#' changes to/from daylight saving time, DSL),  
+#' changes to/from daylight saving time, DST),  
 #' rather than differences in actual times. 
 #' 
 #' Internally, \code{diff_tz} determines and contrasts the POSIX 
@@ -420,9 +420,9 @@ time_from_noPOSIXt <- function(x, tz = "", ...){
 #' the arguments of \code{t2} are recycled or 
 #' truncated to the length of \code{t1}. 
 #' 
-#' @param t1 1st time point (required, as "POSIXt").
+#' @param t1 First time (required, as "POSIXt" time point/moment).
 #'  
-#' @param t2 2nd time point (required, as "POSIXt"). 
+#' @param t2 Second time (required, as "POSIXt" time point/moment). 
 #' 
 #' @param in_min Return time-zone based time 
 #' difference in minutes (Boolean)? 

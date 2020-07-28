@@ -2216,8 +2216,8 @@ diff_dates <- function(from_date, to_date = Sys.Date(),
 #'   (i.e., \code{NA}) are set to the current time (i.e., \code{Sys.time()}). 
 #' 
 #'   \item If \code{to_time} precedes \code{from_time} (i.e., \code{from_time > to_time}) 
-#'   computations are performed on swapped times and 
-#'   the result is marked as negative (by a character \code{"-"}) in the output.
+#'   computations are performed on swapped times and the result is marked 
+#'   as negative (by a character \code{"-"}) in the output.
 #' 
 #'   \item If the lengths of \code{from_time} and \code{to_time} differ, 
 #'   the arguments of \code{to_time} are recycled or 
