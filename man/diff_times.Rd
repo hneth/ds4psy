@@ -73,8 +73,8 @@ Key characteristics:
   (i.e., \code{NA}) are set to the current time (i.e., \code{Sys.time()}). 
 
   \item If \code{to_time} precedes \code{from_time} (i.e., \code{from_time > to_time}) 
-  computations are performed on swapped times and 
-  the result is marked as negative (by a character \code{"-"}) in the output.
+  computations are performed on swapped times and the result is marked 
+  as negative (by a character \code{"-"}) in the output.
 
   \item If the lengths of \code{from_time} and \code{to_time} differ, 
   the arguments of \code{to_time} are recycled or 
@@ -86,14 +86,14 @@ By default, \code{diff_times} provides output as (signed) character strings.
 For numeric outputs, use \code{as_character = FALSE}.
 }
 \examples{
-t1 <- as.POSIXct("1969-07-13 13:53 CET")
+t1 <- as.POSIXct("1969-07-13 13:53 CET")  # (before UNIX epoch)
 diff_times(t1, unit = "years", as_character = TRUE)
 diff_times(t1, unit = "secs", as_character = TRUE)
 
 }
 \seealso{
 \code{\link{diff_dates}} for date differences;  
-time spans (\code{interval} \code{as.period}) in the \strong{lubridate} package.
+time spans (an \code{interval} \code{as.period}) in the \strong{lubridate} package.
 
 Other date and time functions: 
 \code{\link{change_time}()},

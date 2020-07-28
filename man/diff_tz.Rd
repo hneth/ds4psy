@@ -7,9 +7,9 @@
 diff_tz(t1, t2, in_min = FALSE)
 }
 \arguments{
-\item{t1}{1st time point (required, as "POSIXt").}
+\item{t1}{First time (required, as "POSIXt" time point/moment).}
 
-\item{t2}{2nd time point (required, as "POSIXt").}
+\item{t2}{Second time (required, as "POSIXt" time point/moment).}
 
 \item{in_min}{Return time-zone based time 
 difference in minutes (Boolean)? 
@@ -30,7 +30,7 @@ different time zones.
 but allows adjusting time-based computations 
 for time shifts that are due to time zone differences 
 (e.g., different locations, or 
-changes to/from daylight saving time, DSL),  
+changes to/from daylight saving time, DST),  
 rather than differences in actual times. 
 
 Internally, \code{diff_tz} determines and contrasts the POSIX 
