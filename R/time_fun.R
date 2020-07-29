@@ -1,5 +1,5 @@
 ## time_fun.R | ds4psy
-## hn | uni.kn | 2020 07 28
+## hn | uni.kn | 2020 07 29
 ## ---------------------------
 
 ## Main functions for date and time objects. 
@@ -1846,14 +1846,14 @@ diff_dates <- function(from_date, to_date = Sys.Date(),
   from_date_org <- from_date  # store original orders
   to_date_org   <- to_date    # (to list in outputs)
   
-  ix_rev <- (from_date > to_date)       # ix of cases to reverse 
-  from_date_temp <- from_date[ix_rev]   # temporary storage
+  ix_swap <- (from_date > to_date)       # ix of cases to swap 
+  from_date_temp <- from_date[ix_swap]   # temporary storage
   
-  from_date[ix_rev] <- to_date[ix_rev]  # from_date by to_date
-  to_date[ix_rev]   <- from_date_temp   # to_date by from_date
+  from_date[ix_swap] <- to_date[ix_swap] # from_date by to_date
+  to_date[ix_swap]   <- from_date_temp   # to_date by from_date
   
-  sign <- rep("", length(from_date))    # initialize (as character)
-  sign[ix_rev] <- "-"                   # negate sign (character)
+  sign <- rep("", length(from_date))     # initialize (as character)
+  sign[ix_swap] <- "-"                   # negate sign (character)
   
   # message(sign)  # debugging
   
@@ -1991,7 +1991,8 @@ diff_dates <- function(from_date, to_date = Sys.Date(),
   # message(paste("accounted_days = ", accounted_days, collapse = ", "))  # debugging  
   # message(paste("full_d_2 = ", full_d_2, collapse = ", "))              # debugging
   
-  # s+3: Verify equality of both solutions: 
+  
+  # s+3: Verify equality of both solutions: ---- 
   if (!all(full_d_1 == full_d_2)){
     
     warning('diff_dates: 2 solutions (full_d_1 vs. full_d_2) yield different results.')
@@ -2348,14 +2349,14 @@ diff_times <- function(from_time, to_time = Sys.time(),
   from_time_org <- from_time  # store original orders
   to_time_org   <- to_time    # (to list in outputs)
   
-  ix_rev <- (from_time > to_time)       # ix of cases to reverse 
-  from_time_temp <- from_time[ix_rev]   # temporary storage
+  ix_swap <- (from_time > to_time)       # ix of cases to swap 
+  from_time_temp <- from_time[ix_swap]   # temporary storage
   
-  from_time[ix_rev] <- to_time[ix_rev]  # from_time by to_time
-  to_time[ix_rev]   <- from_time_temp   # to_time by from_time
+  from_time[ix_swap] <- to_time[ix_swap]  # from_time by to_time
+  to_time[ix_swap]   <- from_time_temp    # to_time by from_time
   
   sign <- rep("", length(from_time))    # initialize (as character)
-  sign[ix_rev] <- "-"                   # negate sign (character)
+  sign[ix_swap] <- "-"                  # negate sign (character)
   
   # message(sign)  # debugging
   
@@ -2426,13 +2427,13 @@ diff_times <- function(from_time, to_time = Sys.time(),
   to_H <- as.numeric(format(to_time, "%H"))
   to_M <- as.numeric(format(to_time, "%M"))
   to_S <- as.numeric(format(to_time, "%S"))
-
+  
   
   # (+) Special case: Consider possible time difference due to different time zones:
   tz_diff_mins <- diff_tz(t1 = from_time, t2 = to_time, in_min = TRUE)
   tz_diff_days <- tz_diff_mins / (60 * 24)  # in days
   
-    
+  
   # (e) Case: largest unit year/month: ---- 
   if (unit == "ye" || unit == "mo"){
     
@@ -2497,7 +2498,7 @@ diff_times <- function(from_time, to_time = Sys.time(),
     
     ## ALL-in-ONE: 
     full_d_1 <- (to_d - bd_d) + (dlm_to * !bd_tm) + ((bd_d - dlm_to) * ix_2_fix) - (1 * !bd_td)
-
+    
     # s_2: GLOBAL solution: Start from total number of days and 
     #      subtract all days of full years and months already accounted for.   
     #      Use diff_days() helper function to compute exact number of days between two dates:
@@ -2506,13 +2507,13 @@ diff_times <- function(from_time, to_time = Sys.time(),
     
     # Use diff_days() helper/utility function: 
     total_days <- diff_days(from_date = from_time, to_date = to_time, units = "days", as_Date = FALSE)
-
+    
     # Use dt_bday_last_month() helper/utility function (Note: may return decimals):  
     dt_bday_last_month <- dt_last_monthly_bd(dob = from_time, to_date = to_time)  # tz = "" is NO LONGER necessary!!
-
+    
     accounted_days_ym2 <- diff_days(from_date = from_time, to_date = dt_bday_last_month)
     unaccounted_days   <- (total_days - accounted_days_ym2)  # may contain decimals!
-
+    
     # Correction: If tz_diff_mins differ from zero: 
     ix_tz_diff <- (tz_diff_mins != 0)
     unaccounted_days[ix_tz_diff] <- unaccounted_days[ix_tz_diff] + tz_diff_days[ix_tz_diff]
@@ -2522,15 +2523,20 @@ diff_times <- function(from_time, to_time = Sys.time(),
     
     ## Correction: Add 1 day if bd_td is TRUE:
     # full_d_2[bd_td] <- full_d_2[bd_td] + 1   # Problem: Too general (lots of error cases).
-
-    # +++ here now +++ 
-
+    
+    
     debugging_feedback <- FALSE  # TRUE = debugging info
     
     if (debugging_feedback){
       
-      message(paste("1. full_d_1 = ", full_d_1, collapse = ", "))  # debugging
-
+      message('diff_times debugging info (computing full_d_1 vs. full_d_2):')
+      
+      # above: 
+      message(paste("full_y = ", full_y, collapse = ", "))  # debugging
+      message(paste("full_m = ", full_m, collapse = ", "))  # debugging
+      message(paste("full_d_1 = ", full_d_1, collapse = ", "))  # debugging
+      
+      # new:
       message(paste("total_days = ", total_days, collapse = ", "))  # debugging
       message(paste("dt_bday_last_month = ", dt_bday_last_month, collapse = ", "))  # debugging        
       message(paste("accounted_days_ym2 = ", accounted_days_ym2, collapse = ", "))  # debugging        
@@ -2538,40 +2544,48 @@ diff_times <- function(from_time, to_time = Sys.time(),
       message(paste("tz_diff_mins = ", tz_diff_mins, collapse = ", "))  # debugging
       message(paste("tz_diff_days = ", tz_diff_days, collapse = ", "))  # debugging
       
-      message(paste("2. full_d_2 = ", full_d_2, collapse = ", "))  # debugging      
-    
+      message(paste("full_d_2 = ", full_d_2, collapse = ", "))  # debugging      
+      
     }
     
-    # s+3: Verify equality of both solutions: 
+    # +++ here now +++ 
+    
+    # s+3: Verify equality of both solutions: ---- 
+    
     verify_equality <- TRUE 
     
     if (verify_equality & (!all(full_d_1 == full_d_2))){
       
-      message('diff_times: 2 methods yield conflicting results (d_1 vs. d_2):')
+      message('diff_times: 2 methods for full days yield different results (d_1 vs. d_2):')
       
       # Diagnostic info (for debugging): 
-      ix_diff <- full_d_1 != full_d_2  
-      message(paste(which(ix_diff),     collapse = ", "))
-      message(paste(from_time[ix_diff], collapse = ", "))    
-      message(paste(to_time[ix_diff],   collapse = ", "))
-      message(paste("y:", full_y[ix_diff], collapse = ", "))    
-      message(paste("m:", full_m[ix_diff], collapse = ", "))    
+      ix_diff <- (full_d_1 != full_d_2)  
+      
+      message(paste("ixd:", which(ix_diff),  collapse = ", "))
+      message(paste("f_t:", from_time[ix_diff], collapse = ", "))    
+      message(paste("t_t:", to_time[ix_diff],   collapse = ", "))
+      
+      message(paste("y:", full_y[ix_diff],  collapse = ", "))    
+      message(paste("m:", full_m[ix_diff],  collapse = ", "))    
       message(paste("d_1:", full_d_1[ix_diff], collapse = ", "))    
       message(paste("d_2:", full_d_2[ix_diff], collapse = ", "))
       
     }
     
-    # Decision 1: Go with full_d_1:
-    full_d <- full_d_1
+    ## Decision 1: Go with full_d_1:
+    # full_d <- full_d_1
     
     # Problem: accounted_time_sec cannot be computed! 
     
     # Decision 2: Go with full_d_2.
     full_d <- full_d_2
     
-    ## Special case: full_d_2 is negative:
-    ix_neg_days <- (full_d_2 < 0)
-    full_m[ix_neg_days] <- full_m[ix_neg_days] + 1
+    ## Special case: full_d_2 is negative: 
+    if (any(full_d_2 < 0)){
+      message('diff_times: Incrementing month count for negative full day count.')
+      ix_neg_days <- (full_d_2 < 0)
+      full_m[ix_neg_days] <- full_m[ix_neg_days] + 1  # increment month count 
+    }
     
     # Store accounted time (in sec):
     accounted_time_sec <- (accounted_days_ym2 * (24 * 60 * 60)) + (full_d * (24 * 60 * 60))
@@ -2580,6 +2594,7 @@ diff_times <- function(from_time, to_time = Sys.time(),
   
   
   # (f) Case: largest unit day: ---- 
+  
   if (unit == "da"){
     
     # Use diff_days() helper/utility function: 
@@ -2725,15 +2740,15 @@ diff_times <- function(from_time, to_time = Sys.time(),
 # diff_times(t1, t2, unit = "min", as_character = TRUE)
 # diff_times(t1, t2, unit = "sec", as_character = TRUE)
 # 
-# ## Test with random TIME samples:
+## Test with random TIME samples:
 # from <- sample_time(100, from = "2020-01-01")
 # to   <- sample_time(100, from = "2020-04-01")
-# 
-# # "year":
+
+# "year":
 # diff_times(from, to, unit = "year", as_character = FALSE)
 # lubridate::as.period(lubridate::interval(from, to), unit = "years")
-# # Note differences in hour counts (due to DST).
-# # But: diff_times more consistent (see results for unit = "days")!
+# Note differences in hour counts (due to DST).
+# But: diff_times more consistent (see results for unit = "days")!
 # 
 # # "month":
 # diff_times(from, to, unit = "month", as_character = TRUE)
@@ -2796,25 +2811,8 @@ diff_times <- function(from_time, to_time = Sys.time(),
 # # Solved by using new utility/helper function:
 # diff_tz(t1, t2, in_min = TRUE)
 # 
-# # B. NOT resolved YET:
-# 
-# # (e)
-# t1 <- "2020-04-23 16:15:22" 
-# t2 <- "2020-06-23 04:14:54"  
-# diff_times(t1, t2, unit = "year", as_character = TRUE)
-# lubridate::as.period(lubridate::interval(t1, t2), unit = "years")
-# 
-# dt_last_monthly_bd(t1, t2)  # "2020-06-23" is correct.
-# 
-# 
-# # Differences between diff_times() and lubridate solution:
-# 
-# t1 <- "2020-06-04 08:39:07" 
-# t2 <- "2020-04-19 09:32:36"
-# diff_times(t1, t2, unit = "years", as_character = TRUE)
-# lubridate::as.period(lubridate::interval(t1, t2), unit = "years")
-# 
-# t1 <- "2020-03-26 23:26:38" 
+# # (e) Differences between diff_times() and lubridate solution: 
+# t1 <- "2020-03-26 23:26:38"
 # t2 <- "2020-05-02 19:13:20"
 # diff_times(t1, t2, unit = "days", as_character = TRUE)
 # lubridate::as.period(lubridate::interval(t1, t2), unit = "days")
@@ -2825,6 +2823,22 @@ diff_times <- function(from_time, to_time = Sys.time(),
 # lubridate::as.period(lubridate::interval(t1, t2), unit = "days")
 
 # +++ here now +++ 
+
+# # B. NOT resolved YET:
+# 
+# # (x) Error case:
+# t1 <- "2020-04-23 16:15:22"
+# t2 <- "2020-06-23 04:14:54"
+# diff_times(t1, t2, unit = "year", as_character = TRUE)
+# lubridate::as.period(lubridate::interval(t1, t2), unit = "years")
+# 
+# dt_last_monthly_bd(t1, t2)  # "2020-06-23" is correct.
+# 
+# # (y) Differences between diff_times() and lubridate solution:
+# t1 <- "2020-06-04 08:39:07"
+# t2 <- "2020-04-19 09:32:36"
+# diff_times(t1, t2, unit = "years", as_character = TRUE)
+# lubridate::as.period(lubridate::interval(t1, t2), unit = "years")
 
 
 ## ToDo: 
@@ -2844,6 +2858,7 @@ diff_times <- function(from_time, to_time = Sys.time(),
 #   (Distinguish surface differences vs. actual number differences)
 #   Can they be explained? 
 
+
 ## Done: ----------
 
 # - Provided all what_ functions with a "when" argument that is set to Sys.Date() 
@@ -2853,6 +2868,7 @@ diff_times <- function(from_time, to_time = Sys.time(),
 #   for converting time display (in "POSIXct") into local times (in "POSIXlt"), 
 #   and vice versa (changing times, but not time display). 
 # - Moved time utility/helper functions into separate file.
+
 
 ## ToDo: ----------
 
