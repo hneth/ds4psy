@@ -1,5 +1,5 @@
 ## data_fun.R | ds4psy
-## hn | uni.kn | 2020 07 20
+## hn | uni.kn | 2020 07 30
 ## ---------------------------
 
 ## Functions for creating and manipulating data. 
@@ -158,6 +158,8 @@ coin <- function(n = 1, events = c("H", "T")){
 #' @param ... Other arguments.  
 #' (Use for specifying \code{prob}, as passed to \code{sample()}.)   
 #' 
+#' @return A text string (scalar character vector). 
+#' 
 #' @examples
 #' sample_char()  # default
 #' sample_char(n = 10)
@@ -272,6 +274,8 @@ sample_char <- function(x_char = c(letters, LETTERS), n = 1, replace = FALSE, ..
 #' @param to Latest date (as string). 
 #' Default: \code{to = Sys.Date()}. 
 #' 
+#' @return A vector of class "Date". 
+#' 
 #' @examples
 #' sample_date()
 #' sort(sample_date(n = 10))
@@ -352,6 +356,8 @@ sample_date <- function(n = 1, from = "1970-01-01", to = Sys.Date()){
 #' Default: \code{tz = ""} (i.e., current system time zone,  
 #' see \code{Sys.timezone()}). 
 #' Use \code{tz = "UTC"} for Universal Time, Coordinated. 
+#' 
+#' @return A vector of class "POSIXct" or "POSIXlt".   
 #' 
 #' @examples
 #' # Basics:
