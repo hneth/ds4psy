@@ -32,6 +32,9 @@ Default: \code{tz = ""} (i.e., current system time zone,
 see \code{Sys.timezone()}). 
 Use \code{tz = "UTC"} for Universal Time, Coordinated.}
 }
+\value{
+A vector of class "POSIXct" or "POSIXlt".
+}
 \description{
 \code{sample_time} draws a sample of  
 \code{n} random times from a given range.

@@ -20,6 +20,9 @@ Default: \code{replace = FALSE}.}
 \item{...}{Other arguments.
 (Use for specifying \code{prob}, as passed to \code{sample()}.)}
 }
+\value{
+A text string (scalar character vector).
+}
 \description{
 \code{sample_char} draws a sample of  
 \code{n} random characters from a given range of characters.

@@ -16,6 +16,9 @@ Default: \code{from = "1970-01-01"}.}
 \item{to}{Latest date (as string). 
 Default: \code{to = Sys.Date()}.}
 }
+\value{
+A vector of class "Date".
+}
 \description{
 \code{sample_date} draws a sample of  
 \code{n} random dates from a given range.
