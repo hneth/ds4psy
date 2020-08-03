@@ -1,5 +1,5 @@
 ## time_fun.R | ds4psy
-## hn | uni.kn | 2020 07 29
+## hn | uni.kn | 2020 08 03
 ## ---------------------------
 
 ## Main functions for date and time objects. 
@@ -1663,8 +1663,7 @@ diff_days <- function(from_date, to_date = Sys.Date(), units = "days", as_Date =
 #'   the result is marked as negative (by a character \code{"-"}) in the output.
 #' 
 #'   \item If the lengths of \code{from_date} and \code{to_date} differ, 
-#'   the arguments of \code{to_date} are recycled or 
-#'   truncated to the length of \code{from_date}. 
+#'   the shorter vector is recycled to the length of the longer one. 
 #' 
 #' }
 #' 
@@ -1794,25 +1793,14 @@ diff_dates <- function(from_date, to_date = Sys.Date(),
     to_date <- date_from_noDate(to_date)
   }
   
-  # (c) Recycle or truncate to_date argument based on from_date: ---- 
-  to_date <- align_vector_length(v_fixed = from_date, v_change = to_date)
+  # (c) Recycle shorter date vector to length of longer one: ----
+  aligned_v  <- align_vector_pair(v1 = from_date, v2 = to_date)
+  from_date <- aligned_v[[1]]
+  to_date   <- aligned_v[[2]]
   
   ## WAS: 
-  # n_from <- length(from_date)
-  # n_to   <- length(to_date)
-  # 
-  # if (n_from != n_to){  # arguments differ in length:     
-  #   
-  #   if (n_to > n_from){ # 1. truncate to_date to the length of n_from: 
-  #     
-  #     to_date <- to_date[1:n_from]
-  #     
-  #   } else { # 2. recycle to_date to the length of n_from: 
-  #     
-  #     to_date <- rep(to_date, ceiling(n_from/n_to))[1:n_from]
-  #     
-  #   } # end else. 
-  # } # end if.
+  # (c) Recycle or truncate to_date argument based on from_date: 
+  # to_date <- align_vector_length(v_fixed = from_date, v_change = to_date)
   
   
   # (d) Replace intermittent NA values in to_date by current date: ---- 
@@ -2075,10 +2063,15 @@ diff_dates <- function(from_date, to_date = Sys.Date(),
 # y_050
 # diff_dates(y_100, y_050)
 #
-# # recycling "to_date" to length of "from_date":
+# Recycling vector lengths:
+# # # (a) recycling "to_date" to length of "from_date":
 # y_050_2 <- Sys.Date() - (50 * 365.25)
 # y_050_2
-# diff_dates(y_100, y_050_2)
+# diff_dates(y_100, y_050_2, as_character = FALSE)
+# 
+# # (b) recycling "from_date" to length of "to_date":
+# to_dates <- paste("2020", 1:12, "15", sep = "-")
+# diff_dates(from_date = "2000-01-01", to_dates, as_character = FALSE) 
 # 
 # # Using 'fame' data:
 # (dob <- as.Date(fame$DOB, format = "%B %d, %Y"))
@@ -2221,8 +2214,7 @@ diff_dates <- function(from_date, to_date = Sys.Date(),
 #'   as negative (by a character \code{"-"}) in the output.
 #' 
 #'   \item If the lengths of \code{from_time} and \code{to_time} differ, 
-#'   the arguments of \code{to_time} are recycled or 
-#'   truncated to the length of \code{from_time}. 
+#'   the shorter vector is recycled to the length of the longer one. 
 #' 
 #' }
 #' 
@@ -2314,9 +2306,16 @@ diff_times <- function(from_time, to_time = Sys.time(),
     # message('diff_times: Aiming to parse "to_time" as "POSIXct".')
     to_time <- time_from_noPOSIXt(to_time)
   }
+
   
-  # (c) Recycle or truncate to_time argument based on from_time:  
-  to_time <- align_vector_length(v_fixed = from_time, v_change = to_time)
+  # (c) Recycle shorter time vector to length of longer one: ----
+  aligned_v  <- align_vector_pair(v1 = from_time, v2 = to_time)
+  from_time <- aligned_v[[1]]
+  to_time   <- aligned_v[[2]]
+  
+  ## WAS: (c) Recycle or truncate to_time argument based on from_time:  
+  # to_time <- align_vector_length(v_fixed = from_time, v_change = to_time)
+  
   
   # (d) Replace intermittent NA values in to_time by current time: 
   # Axiom: Entities with a given to_time do not age any further, but 
