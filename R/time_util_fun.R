@@ -1,5 +1,5 @@
 ## time_util_fun.R | ds4psy
-## hn | uni.kn | 2020 07 28
+## hn | uni.kn | 2020 08 03
 ## ---------------------------
 
 ## Utility functions for date and time objects. 
@@ -417,8 +417,7 @@ time_from_noPOSIXt <- function(x, tz = "", ...){
 #' (in numeric form). 
 #' 
 #' If the lengths of \code{t1} and \code{t2} differ, 
-#' the arguments of \code{t2} are recycled or 
-#' truncated to the length of \code{t1}. 
+#' the shorter vector is recycled to the length of the longer one. 
 #' 
 #' @param t1 First time (required, as "POSIXt" time point/moment).
 #'  
@@ -485,9 +484,14 @@ diff_tz <- function(t1, t2, in_min = FALSE){
   if (!is_POSIXct(t2)){
     t2 <- time_from_noPOSIXt(t2)
   }
-  
-  # Recycle or truncate t2 argument based on t1: ---- 
-  t2 <- align_vector_length(v_fixed = t1, v_change = t2)
+
+  # Recycle shorter time argument to length of longer one: ---- 
+  aligned_v <- align_vector_pair(v1 = t1, v2 = t2)
+  t1 <- aligned_v[[1]]
+  t2 <- aligned_v[[2]]
+
+  # # WAS: Recycle or truncate t2 argument based on t1:  
+  # t2 <- align_vector_length(v_fixed = t1, v_change = t2)
   # message(paste0("t2 = ", t2, collapse = " "))  # debugging 
   
   
@@ -595,7 +599,7 @@ diff_tz <- function(t1, t2, in_min = FALSE){
 # diff_tz(t6, t9, in_min = TRUE)
 # diff_tz(t7, t8, in_min = TRUE)
 # 
-# ## 4. With vectors:
+# # 4. With vectors:
 # ta <- as.POSIXct("2020-01-01 01:00:00", tz = "Europe/Berlin")
 # tb <- as.POSIXct("2020-06-01 02:22:22", tz = "NZ")
 # tc <- as.POSIXct("2020-01-01 05:55:55", tz = "")
@@ -603,6 +607,10 @@ diff_tz <- function(t1, t2, in_min = FALSE){
 # c(ta, tb, tc)  # Note: CET vs. CEST, NZ is dropped!
 # diff_tz(c(ta, tb, tc), tc)  # Note: only tz/DSL matters
 # diff_tz(c(ta, tb, tc), tc, in_min = TRUE)
+# 
+# # 5. Recycle 1st argument to length of 2nd:
+# diff_tz(tc, c(ta, tb, tc))
+
 
 
 # is_leap_year: ------ 
@@ -989,8 +997,13 @@ dt_last_monthly_bd <- function(dob, to_date, ...){
     # message(paste0("2. to_date = ", to_date))  # debugging 
   }
 
-  # Recycle or truncate to_date argument based on dob: 
-  to_date <- align_vector_length(v_fixed = dob, v_change = to_date)
+  # Recycle shorter date argument to length of longer one: ---- 
+  aligned_v <- align_vector_pair(v1 = dob, v2 = to_date)
+  dob <- aligned_v[[1]]
+  to_date <- aligned_v[[2]]
+  
+  # # WAS: Recycle or truncate to_date argument based on dob: 
+  # to_date <- align_vector_length(v_fixed = dob, v_change = to_date)
   
   # (b) Get dt elements:
   dob_y <- as.numeric(format(dob, format = "%Y"))
@@ -1049,9 +1062,12 @@ dt_last_monthly_bd <- function(dob, to_date, ...){
 # dt_last_monthly_bd(bd, as.Date("2020-03-10"))
 # dt_last_monthly_bd(bd, "2021-03-31")
 # dt_last_monthly_bd(bd, "2021-03-01")
-# 
-# # Birthday on Feb. 29 of leap year:
+# # 
+# # # Birthday on Feb. 29 of leap year:
 # dt_last_monthly_bd("2020-02-29", "2021-03-01")
+# 
+# # Recycling length of 2nd argument:
+# dt_last_monthly_bd(c("2020-02-28", "2020-02-29", "2020-03-01"), "2021-03-01")
 # 
 # # Case with errors:
 # (bd <- as.Date(fame$DOB[35], format = "%B %d, %Y"))
