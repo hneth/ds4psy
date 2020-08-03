@@ -79,8 +79,7 @@ Key characteristics:
   the result is marked as negative (by a character \code{"-"}) in the output.
 
   \item If the lengths of \code{from_date} and \code{to_date} differ, 
-  the arguments of \code{to_date} are recycled or 
-  truncated to the length of \code{from_date}. 
+  the shorter vector is recycled to the length of the longer one. 
 
 }
 
