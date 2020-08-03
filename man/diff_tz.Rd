@@ -38,8 +38,7 @@ conversion specifications "%Z" and "%z" for both times
 (in numeric form). 
 
 If the lengths of \code{t1} and \code{t2} differ, 
-the arguments of \code{t2} are recycled or 
-truncated to the length of \code{t1}.
+the shorter vector is recycled to the length of the longer one.
 }
 \examples{
 # Time zones differences:
