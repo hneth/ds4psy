@@ -1,5 +1,5 @@
 ## util_fun.R | ds4psy
-## hn | uni.kn | 2020 07 23
+## hn | uni.kn | 2020 08 03
 ## ---------------------------
 
 ## Utility functions. 
@@ -16,40 +16,85 @@ vrep <- Vectorize(rep.int, "times")
 
 # align_vector_length: Recycle or truncate a vector to the length of a main one: ------ 
 
-align_vector_length <- function(v_fixed, v_change){
+# align_vector_length <- function(v_fixed, v_change){
+#   
+#   v_out <- v_change  # default: original v_change
+#   
+#   # Length of vectors: 
+#   n_main <- length(v_fixed)
+#   n_else <- length(v_change)
+#   
+#   # Main: 
+#   if (n_main != n_else){  # different lengths:
+#     
+#     if (n_else > n_main){ # 1. truncate v_change to the length of n_main: 
+#       
+#       v_out <- v_change[1:n_main]
+#       
+#     } else { # 2. recycle v_change to the length of n_main: 
+#       
+#       v_out <- rep(v_change, ceiling(n_main/n_else))[1:n_main]
+#       
+#     } # end else. 
+#   } # end if.  
+#   
+#   return(v_out)
+#   
+# } # align_vector_length end. 
+# 
+# # ## Check:
+# # align_vector_length(1:5, v_change = LETTERS[1:5])
+# # align_vector_length(1:5, v_change = LETTERS[1:3])
+# # align_vector_length(1:5, v_change = LETTERS[1:10])
+# # 
+# # # Note:
+# # align_vector_length(NA, v_change = LETTERS[1:3])
+# # align_vector_length(1:5, v_change = NA)
+
+
+# align_vector_pair: Recycle a pair of vector to the length of the longer one: ------ 
+
+align_vector_pair <- function(v1, v2){
   
-  v_out <- v_change  # default: original v_change
+  # Initialize: 
+  out <- NA
+  o1 <- v1
+  o2 <- v2 
   
   # Length of vectors: 
-  n_main <- length(v_fixed)
-  n_else <- length(v_change)
+  n1 <- length(v1)
+  n2 <- length(v2)
   
   # Main: 
-  if (n_main != n_else){  # different lengths:
+  if (n1 != n2){  # different lengths:
     
-    if (n_else > n_main){ # 1. truncate v_change to the length of n_main: 
+    if (n2 > n1){ # 1. recycle v1 to length of v2:
       
-      v_out <- v_change[1:n_main]
+      o1 <- rep(v1, ceiling(n2/n1))[1:n2]
       
-    } else { # 2. recycle v_change to the length of n_main: 
+    } else { # 2. recycle v2 to the length of v1: 
       
-      v_out <- rep(v_change, ceiling(n_main/n_else))[1:n_main]
+      o2 <- rep(v2, ceiling(n1/n2))[1:n1]
       
     } # end else. 
   } # end if.  
   
-  return(v_out)
+  # Output: Combine and return a list of both vectors: 
+  out <- list(o1, o2) 
   
-} # align_vector_length end. 
+  return(out)
+  
+} # align_vector_pair
 
 # ## Check:
-# align_vector_length(1:5, v_change = LETTERS[1:5])
-# align_vector_length(1:5, v_change = LETTERS[1:3])
-# align_vector_length(1:5, v_change = LETTERS[1:10])
+# align_vector_pair(1:5, LETTERS[1:5])  # same length
+# align_vector_pair(1:5, LETTERS[1:3])  # 2nd vector is recycled
+# align_vector_pair(1:5, LETTERS[1:10]) # 1st vector is recycled
 # 
-# # Note:
-# align_vector_length(NA, v_change = LETTERS[1:3])
-# align_vector_length(1:5, v_change = NA)
+# # Note: Handling NA cases
+# align_vector_pair(NA, LETTERS[1:3])
+# align_vector_pair(1:5, NA)
+
 
 
 # num_as_char: Print a number (as character), with n_pre_dec digits prior to decimal sep, and rounded to n_dec digits: ------
