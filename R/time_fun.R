@@ -1743,8 +1743,8 @@ diff_days <- function(from_date, to_date = Sys.Date(), units = "days", as_Date =
 #' diff_dates("2001-02-02", "2000-02-02", as_character = FALSE)
 #' 
 #' # Test random date samples:
-#' f_d <- sample_date(10)
-#' t_d <- sample_date(10)
+#' f_d <- sample_date(size = 10)
+#' t_d <- sample_date(size = 10)
 #' diff_dates(f_d, t_d, as_character = TRUE)
 #' 
 #' # Using 'fame' data:
@@ -2101,14 +2101,14 @@ diff_dates <- function(from_date, to_date = Sys.Date(),
 # ## Check consistency (of 2 solutions):
 # 
 # ## Test with random date samples:
-# from <- sample_date(100) - 0.11
-# to   <- sample_date(100) + 0.22
+# from <- sample_date(size = 100) - 0.11
+# to   <- sample_date(size = 100) + 0.22
 # diff_dates(from, to, unit = "y", as_character = FALSE)
 # diff_dates(from, to, unit = "d", as_character = TRUE)
 # 
 # ## Test with random TIME samples:
-# from <- sample_time(100) - .25
-# to   <- sample_time(100) + .25
+# from <- sample_time(size = 100) - .25
+# to   <- sample_time(size = 100) + .25
 # diff_dates(from, to, unit = "y", as_character = TRUE)
 # diff_dates(from, to, unit = "d", as_character = TRUE)
 # 
@@ -2761,8 +2761,8 @@ diff_times <- function(from_time, to_time = Sys.time(),
 # diff_times(t1, t2, unit = "sec", as_character = TRUE)
 # 
 # # Test with random TIME samples:
-# from <- sample_time(100, from = "2020-01-01")
-# to   <- sample_time(100, from = "2020-04-01")
+# from <- sample_time(size = 100, from = "2020-01-01")
+# to   <- sample_time(size = 100, from = "2020-04-01")
 # 
 # # "year":
 # diff_times(from, to, unit = "year", as_character = FALSE)
