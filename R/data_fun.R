@@ -265,10 +265,10 @@ sample_char <- function(x_char = c(letters, LETTERS), n = 1, replace = FALSE, ..
 #' \code{from = "1970-01-01"} 
 #' \code{to = Sys.Date()} (current date).
 #' 
-#' @param from Earliest date (as string). 
+#' @param from Earliest date (as "Date" or string). 
 #' Default: \code{from = "1970-01-01"}. 
 #' 
-#' @param to Latest date (as string). 
+#' @param to Latest date (as "Date" or string). 
 #' Default: \code{to = Sys.Date()}. 
 #' 
 #' @param size Size of date samples to draw. 
@@ -299,12 +299,19 @@ sample_date <- function(from = "1970-01-01", to = Sys.Date(), size = 1, ...){
   dt <- rep(NA, size) 
   
   # 1. Handle inputs:
-  # set.seed(1984)  # for reproducible randomness
-  d1 <- as.Date(from)  
-  d2 <- as.Date(to)   
+  if (!is_Date(from)){
+    # message('sample_date: Aiming to parse "from" as "Date".')
+    from <- date_from_noDate(from)
+  }
   
-  # 2. Main: Use sample() 
-  dt <- as.Date(sample(as.numeric(d1):as.numeric(d2), size = size, ...), origin = '1970-01-01')
+  if (!is_Date(to)){
+    # message('sample_date: Aiming to parse "to" as "Date".')
+    to <- date_from_noDate(to)
+  }
+  
+  # 2. Main: Use sample()
+  # set.seed(1984)  # for reproducible randomness
+  dt <- as.Date(sample(as.numeric(from):as.numeric(to), size = size, ...), origin = '1970-01-01')
   
   # 3. Output:
   return(dt)
@@ -379,8 +386,8 @@ sample_date <- function(from = "1970-01-01", to = Sys.Date(), size = 1, ...){
 #'                  size = 10, replace = TRUE))  # within 1 sec range 
 #'                            
 #' # Local time (POSIXlt) objects (as list):
-#' sample_time(as_POSIXct = FALSE)
-#' unlist(sample_time(as_POSIXct = FALSE))
+#' (lt_sample <- sample_time(as_POSIXct = FALSE))
+#' unlist(lt_sample)
 #' 
 #' # Time zones:
 #' sample_time(size = 3, tz = "UTC")
@@ -395,20 +402,35 @@ sample_date <- function(from = "1970-01-01", to = Sys.Date(), size = 1, ...){
 #'
 #' @export
 
-sample_time <- function(from = "1970-01-01 00:00:00", to = Sys.time(),
+sample_time <- function(from = "1970-01-01 00:00:00", 
+                        to = Sys.time(),
                         size = 1, 
                         as_POSIXct = TRUE, tz = "", 
                         ...){
   
   # 0. Initialize:
   tv <- rep(NA, size)  
+  lt1 <- rep(NA, size)  
+  lt2 <- rep(NA, size)  
   
   # 1. Handle inputs:
-  t1 <- as.POSIXlt(from)
-  t2 <- as.POSIXlt(to)
+  if (!is_POSIXt(from)){
+    # message('sample_time: Aiming to parse "from" as "POSIXct".')
+    from <- time_from_noPOSIXt(from)
+  }
+  
+  if (!is_POSIXt(to)){
+    # message('sample_time: Aiming to parse "to" as "POSIXct".')
+    to <- time_from_noPOSIXt(to)
+  }
+  
+  # Convert into local times:
+  lt1 <- as.POSIXlt(from)
+  lt2 <- as.POSIXlt(to)
   
   # 2. Main: Use sample()
-  tv <- as.POSIXlt(sample(as.numeric(t1):as.numeric(t2), size = size, ...), origin = '1970-01-01')
+  # set.seed(1984)  # for reproducible randomness
+  tv <- as.POSIXlt(sample(as.numeric(lt1):as.numeric(lt2), size = size, ...), origin = '1970-01-01')
   
   # 3. Add time zone:
   if (as_POSIXct) { 
