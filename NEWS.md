@@ -25,13 +25,15 @@ Current development version of **ds4psy** (0.4.0.9001+):
 
 ## Major changes 
 
-- more support for data with **dates** and **times**
+- Add support for **dates** and **times**:
+
+    - add `diff_times()` to compute temporal differences between times (in human units of years, months, days, hours, minutes, and seconds) 
+    - add `diff_dates()` to compute temporal differences between dates (in human units of years, months, and days) 
+    - add `diff_tz()` to compute time difference based on time zone differences  
 
 ## Minor changes 
 
-- add `diff_times()` to compute temporal differences between times (in human units of years, months, days, hours, minutes, and seconds) 
-- add `diff_dates()` to compute temporal differences between dates (in human units of years, months, and days) 
-- add `diff_tz()` to compute time difference based on time zone differences  
+- align arguments of `sample_date()` and `sample_time()` with those of `sample()` 
 - add `days_in_month()` to obtain number of days in months for given dates (accounting for leap years) 
 - update `fame` data
 
@@ -184,6 +186,6 @@ The initial functionality is limited, as the package is designed to support the 
 
 ---------- 
 
-[File `News.md` updated on 2020-07-24.]
+[File `News.md` updated on 2020-08-04.]
 
 <!-- eof. -->
