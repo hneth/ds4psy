@@ -2329,6 +2329,9 @@ diff_times <- function(from_time, to_time = Sys.time(),
   ## WAS: (c) Recycle or truncate to_time argument based on from_time:  
   # to_time <- align_vector_length(v_fixed = from_time, v_change = to_time)
   
+  # Note: from_time and to_time now have the same length: 
+  n_times <- length(from_time)
+  
   
   # (d) Replace intermittent NA values in to_time by current time: 
   # Axiom: Entities with a given to_time do not age any further, but 
@@ -2367,8 +2370,8 @@ diff_times <- function(from_time, to_time = Sys.time(),
   from_time[ix_swap] <- to_time[ix_swap]  # from_time by to_time
   to_time[ix_swap]   <- from_time_temp    # to_time by from_time
   
-  sign <- rep("", length(from_time))    # initialize (as character)
-  sign[ix_swap] <- "-"                  # negate sign (character)
+  sign <- rep("", n_times)  # initialize (as character)
+  sign[ix_swap] <- "-"      # negate sign (character)
   
   # message(sign)  # debugging
   
@@ -2413,7 +2416,8 @@ diff_times <- function(from_time, to_time = Sys.time(),
       age <- data.frame("from_time" = from_time_org,
                         "to_time"   = to_time_org, 
                         "neg" = sign,  # negation sign? 
-                        "S" = full_S)
+                        "S" = full_S,
+                        row.names = 1:n_times)
     }
     
     return(age)
@@ -2572,12 +2576,13 @@ diff_times <- function(from_time, to_time = Sys.time(),
       # Diagnostic info (for debugging): 
       ix_diff <- (full_d_1 != full_d_2)  
       
-      message(paste("ix_diff:", which(ix_diff),  collapse = ", "))
-      message(paste("from_time:", from_time[ix_diff], collapse = ", "))    
-      message(paste("to_time:", to_time[ix_diff],   collapse = ", "))
-      
-      # message(paste("y:", full_y[ix_diff],  collapse = ", "))    
-      # message(paste("m:", full_m[ix_diff],  collapse = ", "))    
+      if (n_times > 1){
+        message(paste("ix_diff:", which(ix_diff),  collapse = ", "))
+        message(paste("from_time:", from_time[ix_diff], collapse = ", "))    
+        message(paste("to_time:", to_time[ix_diff],   collapse = ", "))
+      }
+      message(paste("y:", full_y[ix_diff],  collapse = ", "))    
+      message(paste("m:", full_m[ix_diff],  collapse = ", "))    
       message(paste("d_1:", full_d_1[ix_diff], collapse = ", "))    
       message(paste("d_2:", full_d_2[ix_diff], collapse = ", "))
       
@@ -2692,7 +2697,8 @@ diff_times <- function(from_time, to_time = Sys.time(),
                         "d" = full_d, 
                         "H" = full_H,
                         "M" = full_M,
-                        "S" = full_S)
+                        "S" = full_S,
+                        row.names = 1:n_times)
       
     } else if (unit == "mo"){
       
@@ -2703,7 +2709,8 @@ diff_times <- function(from_time, to_time = Sys.time(),
                         "d" = full_d,
                         "H" = full_H,
                         "M" = full_M,
-                        "S" = full_S)
+                        "S" = full_S,
+                        row.names = 1:n_times)
       
     } else if (unit == "da"){
       
@@ -2713,7 +2720,8 @@ diff_times <- function(from_time, to_time = Sys.time(),
                         "d" = full_d,
                         "H" = full_H,
                         "M" = full_M,
-                        "S" = full_S)
+                        "S" = full_S,
+                        row.names = 1:n_times)
       
     } else if (unit == "ho"){
       
@@ -2722,7 +2730,8 @@ diff_times <- function(from_time, to_time = Sys.time(),
                         "neg" = sign,  # negation sign? 
                         "H" = full_H,
                         "M" = full_M,
-                        "S" = full_S)
+                        "S" = full_S,
+                        row.names = 1:n_times)
       
     } else if (unit == "mi"){
       
@@ -2730,7 +2739,8 @@ diff_times <- function(from_time, to_time = Sys.time(),
                         "to_time"   = to_time_org, 
                         "neg" = sign,  # negation sign? 
                         "M" = full_M,
-                        "S" = full_S)
+                        "S" = full_S,
+                        row.names = 1:n_times)
     }
     
   }
@@ -2757,8 +2767,8 @@ diff_times <- function(from_time, to_time = Sys.time(),
 # # "year":
 # diff_times(from, to, unit = "year", as_character = FALSE)
 # lubridate::as.period(lubridate::interval(from, to), unit = "years")
-# # Note differences in hour counts (due to DST).
-# # But: diff_times more consistent (see results for unit = "days")!
+# Note differences in hour counts (due to DST).
+# But: diff_times more consistent (see results for unit = "days")!
 #
 # # "month":
 # diff_times(from, to, unit = "month", as_character = TRUE)
@@ -2835,7 +2845,7 @@ diff_times <- function(from_time, to_time = Sys.time(),
 
 # # B. NOT resolved YET:
 # 
-# # (x) Error case:
+# (x) Error/discrepancy case:
 # t1 <- "2020-04-23 16:15:22"
 # t2 <- "2020-06-23 04:14:54"
 # diff_times(t1, t2, unit = "year", as_character = TRUE)
@@ -2843,7 +2853,7 @@ diff_times <- function(from_time, to_time = Sys.time(),
 # 
 # dt_last_monthly_bd(t1, t2)  # "2020-06-23" is correct.
 # 
-# # (y) Differences between diff_times() and lubridate solution:
+# (y) Differences between diff_times() and lubridate solution:
 # t1 <- "2020-06-04 08:39:07"
 # t2 <- "2020-04-19 09:32:36"
 # diff_times(t1, t2, unit = "years", as_character = TRUE)
