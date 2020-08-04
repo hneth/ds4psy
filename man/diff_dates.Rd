@@ -125,8 +125,8 @@ diff_dates("2000-02-01", "2000-01-01", as_character = TRUE)
 diff_dates("2001-02-02", "2000-02-02", as_character = FALSE)
 
 # Test random date samples:
-f_d <- sample_date(10)
-t_d <- sample_date(10)
+f_d <- sample_date(size = 10)
+t_d <- sample_date(size = 10)
 diff_dates(f_d, t_d, as_character = TRUE)
 
 # Using 'fame' data:
