@@ -5,22 +5,23 @@
 \title{Draw a sample of n random times (from a given range).}
 \usage{
 sample_time(
-  n = 1,
   from = "1970-01-01 00:00:00",
   to = Sys.time(),
+  size = 1,
   as_POSIXct = TRUE,
-  tz = ""
+  tz = "",
+  ...
 )
 }
 \arguments{
-\item{n}{Number dates to draw. 
-Default: \code{n = 1}.}
-
-\item{from}{Earliest date (as string). 
+\item{from}{Earliest date-time (as string). 
 Default: \code{from = "1970-01-01 00:00:00"}.}
 
-\item{to}{Latest date (as string). 
+\item{to}{Latest date-time (as string). 
 Default: \code{to = Sys.time()}.}
+
+\item{size}{Size of time samples to draw. 
+Default: \code{size = 1}.}
 
 \item{as_POSIXct}{Boolean: Return calendar time ("POSIXct") object? 
 Default: \code{as_POSIXct = TRUE}. 
@@ -31,6 +32,9 @@ If \code{as_POSIXct = FALSE}, a local time ("POSIXlt") object is returned
 Default: \code{tz = ""} (i.e., current system time zone,  
 see \code{Sys.timezone()}). 
 Use \code{tz = "UTC"} for Universal Time, Coordinated.}
+
+\item{...}{Other arguments.
+(Use for specifying \code{replace}, as passed to \code{sample()}.)}
 }
 \value{
 A vector of class "POSIXct" or "POSIXlt".
@@ -55,27 +59,27 @@ and \code{OlsonNames()} for options.)
 \examples{
 # Basics:
 sample_time()
-sample_time(n = 10)
+sample_time(size = 10)
 
 # Specific ranges:
-sort(sample_time(n = 10, from = (Sys.time() - 60)))  # within the last minute
-sort(sample_time(n = 10, from = (Sys.time() - 1 * 60 * 60)))  # within the last hour
-sort(sample_time(n = 10, from = Sys.time(), 
-                           to = (Sys.time() + 1 * 60 * 60)))  # within the next hour
-sort(sample_time(n = 10, from = "2020-12-31 00:00:00 CET", 
-                           to = "2020-12-31 00:00:01 CET"))   # within 1 sec range
+sort(sample_time(from = (Sys.time() - 60), size = 10))  # within last minute
+sort(sample_time(from = (Sys.time() - 1 * 60 * 60), size = 10))  # within last hour
+sort(sample_time(from = Sys.time(), to = (Sys.time() + 1 * 60 * 60), 
+     size = 10, replace = FALSE))  # within next hour
+sort(sample_time(from = "2020-12-31 00:00:00 CET", to = "2020-12-31 00:00:01 CET",
+                 size = 10, replace = TRUE))  # within 1 sec range 
                            
 # Local time (POSIXlt) objects (as list):
 sample_time(as_POSIXct = FALSE)
 unlist(sample_time(as_POSIXct = FALSE))
 
 # Time zones:
-sample_time(n = 3, tz = "UTC")
-sample_time(n = 3, tz = "US/Pacific")
+sample_time(size = 3, tz = "UTC")
+sample_time(size = 3, tz = "US/Pacific")
  
 # Note: Oddity with sample(): 
-sort(sample_time(n = 10, from = "2020-12-31 00:00:00 CET", 
-                           to = "2020-12-31 00:00:00 CET"))  # range of 0!
+sort(sample_time(from = "2020-12-31 00:00:00 CET", to = "2020-12-31 00:00:00 CET",
+     size = 10, replace = TRUE))  # range of 0!
 # see sample(9:9, size = 10, replace = TRUE)
 
 }

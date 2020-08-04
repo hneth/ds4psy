@@ -4,17 +4,20 @@
 \alias{sample_date}
 \title{Draw a sample of n random dates (from a given range).}
 \usage{
-sample_date(n = 1, from = "1970-01-01", to = Sys.Date())
+sample_date(from = "1970-01-01", to = Sys.Date(), size = 1, ...)
 }
 \arguments{
-\item{n}{Number dates to draw. 
-Default: \code{n = 1}.}
-
 \item{from}{Earliest date (as string). 
 Default: \code{from = "1970-01-01"}.}
 
 \item{to}{Latest date (as string). 
 Default: \code{to = Sys.Date()}.}
+
+\item{size}{Size of date samples to draw. 
+Default: \code{size = 1}.}
+
+\item{...}{Other arguments.
+(Use for specifying \code{replace}, as passed to \code{sample()}.)}
 }
 \value{
 A vector of class "Date".
@@ -31,11 +34,12 @@ random date (as a "Date" object) in the range
 }
 \examples{
 sample_date()
-sort(sample_date(n = 10))
-sort(sample_date(n = 10, from = "2020-02-28", to = "2020-03-01"))  # 2020 is a leap year
+sort(sample_date(size = 10))
+sort(sample_date(from = "2020-02-28", to = "2020-03-01", 
+     size = 10, replace = TRUE))  # 2020 is a leap year
 
 # Note: Oddity with sample():
-sort(sample_date(n = 10, from = "2020-01-01", to = "2020-01-01"))  # range of 0!
+sort(sample_date(from = "2020-01-01", to = "2020-01-01", size = 10, replace = TRUE))  # range of 0!
 # see sample(9:9, size = 10, replace = TRUE)
 
 }
