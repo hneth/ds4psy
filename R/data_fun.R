@@ -1,5 +1,5 @@
 ## data_fun.R | ds4psy
-## hn | uni.kn | 2020 07 30
+## hn | uni.kn | 2020 08 04
 ## ---------------------------
 
 ## Functions for creating and manipulating data. 
@@ -265,34 +265,38 @@ sample_char <- function(x_char = c(letters, LETTERS), n = 1, replace = FALSE, ..
 #' \code{from = "1970-01-01"} 
 #' \code{to = Sys.Date()} (current date).
 #' 
-#' @param n Number dates to draw. 
-#' Default: \code{n = 1}. 
-#' 
 #' @param from Earliest date (as string). 
 #' Default: \code{from = "1970-01-01"}. 
 #' 
 #' @param to Latest date (as string). 
 #' Default: \code{to = Sys.Date()}. 
 #' 
+#' @param size Size of date samples to draw. 
+#' Default: \code{size = 1}. 
+#' 
+#' @param ... Other arguments.  
+#' (Use for specifying \code{replace}, as passed to \code{sample()}.) 
+#' 
 #' @return A vector of class "Date". 
 #' 
 #' @examples
 #' sample_date()
-#' sort(sample_date(n = 10))
-#' sort(sample_date(n = 10, from = "2020-02-28", to = "2020-03-01"))  # 2020 is a leap year
+#' sort(sample_date(size = 10))
+#' sort(sample_date(from = "2020-02-28", to = "2020-03-01", 
+#'      size = 10, replace = TRUE))  # 2020 is a leap year
 #' 
 #' # Note: Oddity with sample():
-#' sort(sample_date(n = 10, from = "2020-01-01", to = "2020-01-01"))  # range of 0!
+#' sort(sample_date(from = "2020-01-01", to = "2020-01-01", size = 10, replace = TRUE))  # range of 0!
 #' # see sample(9:9, size = 10, replace = TRUE)
 #' 
 #' @family sampling functions
 #'
 #' @export 
 
-sample_date <- function(n = 1, from = "1970-01-01", to = Sys.Date()){
+sample_date <- function(from = "1970-01-01", to = Sys.Date(), size = 1, ...){
   
   # 0. Initialize:
-  dt <- rep(NA, n) 
+  dt <- rep(NA, size) 
   
   # 1. Handle inputs:
   # set.seed(1984)  # for reproducible randomness
@@ -300,21 +304,20 @@ sample_date <- function(n = 1, from = "1970-01-01", to = Sys.Date()){
   d2 <- as.Date(to)   
   
   # 2. Main: Use sample() 
-  dt <- as.Date(sample(as.numeric(d1):as.numeric(d2), size = n, 
-                       replace = TRUE), origin = '1970-01-01')
+  dt <- as.Date(sample(as.numeric(d1):as.numeric(d2), size = size, ...), origin = '1970-01-01')
   
   # 3. Output:
   return(dt)
   
 } # sample_date end. 
 
-## Check:
+# ## Check:
 # sample_date()
-# sort(sample_date(n = 10))
-# sort(sample_date(n = 10, from = "2020-02-28", to = "2020-03-01"))  # 2020 is a leap year
+# sort(sample_date(size = 10))
+# sort(sample_date(from = "2020-02-28", to = "2020-03-01", size = 10, replace = TRUE))  # 2020 is a leap year
 # 
 # # Note: Oddity with sample():
-# sort(sample_date(n = 10, from = "2020-01-01", to = "2020-01-01"))  # range of 0!
+# sort(sample_date(from = "2020-01-01", to = "2020-01-01", size = 10, replace = TRUE))  # range of 0!
 # # see sample(9:9, size = 10, replace = TRUE)
 
 
@@ -338,14 +341,14 @@ sample_date <- function(n = 1, from = "1970-01-01", to = Sys.Date()){
 #' (see \code{Sys.timezone()} for current setting 
 #' and \code{OlsonNames()} for options.) 
 #' 
-#' @param n Number dates to draw. 
-#' Default: \code{n = 1}. 
-#' 
-#' @param from Earliest date (as string). 
+#' @param from Earliest date-time (as string). 
 #' Default: \code{from = "1970-01-01 00:00:00"}. 
 #' 
-#' @param to Latest date (as string). 
+#' @param to Latest date-time (as string). 
 #' Default: \code{to = Sys.time()}. 
+#' 
+#' @param size Size of time samples to draw. 
+#' Default: \code{size = 1}. 
 #' 
 #' @param as_POSIXct Boolean: Return calendar time ("POSIXct") object? 
 #' Default: \code{as_POSIXct = TRUE}. 
@@ -357,52 +360,55 @@ sample_date <- function(n = 1, from = "1970-01-01", to = Sys.Date()){
 #' see \code{Sys.timezone()}). 
 #' Use \code{tz = "UTC"} for Universal Time, Coordinated. 
 #' 
+#' @param ... Other arguments.  
+#' (Use for specifying \code{replace}, as passed to \code{sample()}.) 
+#' 
 #' @return A vector of class "POSIXct" or "POSIXlt".   
 #' 
 #' @examples
 #' # Basics:
 #' sample_time()
-#' sample_time(n = 10)
+#' sample_time(size = 10)
 #' 
 #' # Specific ranges:
-#' sort(sample_time(n = 10, from = (Sys.time() - 60)))  # within the last minute
-#' sort(sample_time(n = 10, from = (Sys.time() - 1 * 60 * 60)))  # within the last hour
-#' sort(sample_time(n = 10, from = Sys.time(), 
-#'                            to = (Sys.time() + 1 * 60 * 60)))  # within the next hour
-#' sort(sample_time(n = 10, from = "2020-12-31 00:00:00 CET", 
-#'                            to = "2020-12-31 00:00:01 CET"))   # within 1 sec range
+#' sort(sample_time(from = (Sys.time() - 60), size = 10))  # within last minute
+#' sort(sample_time(from = (Sys.time() - 1 * 60 * 60), size = 10))  # within last hour
+#' sort(sample_time(from = Sys.time(), to = (Sys.time() + 1 * 60 * 60), 
+#'      size = 10, replace = FALSE))  # within next hour
+#' sort(sample_time(from = "2020-12-31 00:00:00 CET", to = "2020-12-31 00:00:01 CET",
+#'                  size = 10, replace = TRUE))  # within 1 sec range 
 #'                            
 #' # Local time (POSIXlt) objects (as list):
 #' sample_time(as_POSIXct = FALSE)
 #' unlist(sample_time(as_POSIXct = FALSE))
 #' 
 #' # Time zones:
-#' sample_time(n = 3, tz = "UTC")
-#' sample_time(n = 3, tz = "US/Pacific")
+#' sample_time(size = 3, tz = "UTC")
+#' sample_time(size = 3, tz = "US/Pacific")
 #'  
 #' # Note: Oddity with sample(): 
-#' sort(sample_time(n = 10, from = "2020-12-31 00:00:00 CET", 
-#'                            to = "2020-12-31 00:00:00 CET"))  # range of 0!
+#' sort(sample_time(from = "2020-12-31 00:00:00 CET", to = "2020-12-31 00:00:00 CET",
+#'      size = 10, replace = TRUE))  # range of 0!
 #' # see sample(9:9, size = 10, replace = TRUE)
 #' 
 #' @family sampling functions
 #'
 #' @export
 
-sample_time <- function(n = 1, 
-                        from = "1970-01-01 00:00:00", to = Sys.time(),
-                        as_POSIXct = TRUE, tz = ""){
+sample_time <- function(from = "1970-01-01 00:00:00", to = Sys.time(),
+                        size = 1, 
+                        as_POSIXct = TRUE, tz = "", 
+                        ...){
   
   # 0. Initialize:
-  tv <- rep(NA, n)  
+  tv <- rep(NA, size)  
   
   # 1. Handle inputs:
   t1 <- as.POSIXlt(from)
   t2 <- as.POSIXlt(to)
   
   # 2. Main: Use sample()
-  tv <- as.POSIXlt(sample(as.numeric(t1):as.numeric(t2), size = n, 
-                          replace = TRUE), origin = '1970-01-01')
+  tv <- as.POSIXlt(sample(as.numeric(t1):as.numeric(t2), size = size, ...), origin = '1970-01-01')
   
   # 3. Add time zone:
   if (as_POSIXct) { 
@@ -417,28 +423,30 @@ sample_time <- function(n = 1,
   
 } # sample_time end.
 
-
 # ## Check:
 # # Basics:
 # sample_time()
-# sample_time(n = 10)
+# sample_time(size = 10)
 # 
 # # Specific ranges:
-# sort(sample_time(n = 10, from = (Sys.time() - 60)))  # within the last minute
-# sort(sample_time(n = 10, from = (Sys.time() - 1 * 60 * 60)))  # within the last hour
-# sort(sample_time(n = 10, from = Sys.time(), to = (Sys.time() + 1 * 60 * 60)))  # within next hour
-# sort(sample_time(n = 10, from = "2020-01-01 00:00:00 CET", to = "2020-01-01 00:00:01 CET"))  # 1 sec range
+# sort(sample_time(from = (Sys.time() - 60), size = 10))  # within the last minute
+# sort(sample_time(from = (Sys.time() -  2), size = 10, replace = TRUE))  # with duplicates
+# sort(sample_time(from = (Sys.time() - 1 * 60 * 60), size = 10))  # within the last hour
+# sort(sample_time(from = Sys.time(), to = (Sys.time() + 1 * 60 * 60), size = 10))  # within next hour
+# sort(sample_time(from = "2020-01-01 00:00:00 CET", to = "2020-01-01 00:00:01 CET", 
+#                  size = 10, replace = TRUE))  # 1 sec range
 # 
 # # Local time (POSIXlt) objects (as list):
 # sample_time(as_POSIXct = FALSE)
 # unlist(sample_time(as_POSIXct = FALSE))
 # 
 # # Time zones:
-# sample_time(n = 3, tz = "UTC")
-# sample_time(n = 3, tz = "US/Pacific")
+# sample_time(size = 3, tz = "UTC")
+# sample_time(size = 3, tz = "US/Pacific")
 # 
 # # Note: Oddity with sample():
-# sort(sample_time(n = 10, from = "2020-01-01 00:00:00 CET", to = "2020-01-01 00:00:00 CET"))  # range of 0!
+# sort(sample_time(from = "2020-01-01 00:00:00 CET", to = "2020-01-01 00:00:00 CET", 
+#                  size = 10, replace = TRUE))  # range of 0!
 # # see sample(9:9, size = 10, replace = TRUE)
 
 ## ToDo: Sampling normally distributed times:
