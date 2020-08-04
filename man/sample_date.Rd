@@ -7,10 +7,10 @@
 sample_date(from = "1970-01-01", to = Sys.Date(), size = 1, ...)
 }
 \arguments{
-\item{from}{Earliest date (as string). 
+\item{from}{Earliest date (as "Date" or string). 
 Default: \code{from = "1970-01-01"}.}
 
-\item{to}{Latest date (as string). 
+\item{to}{Latest date (as "Date" or string). 
 Default: \code{to = Sys.Date()}.}
 
 \item{size}{Size of date samples to draw. 

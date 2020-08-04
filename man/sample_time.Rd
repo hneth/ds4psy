@@ -70,8 +70,8 @@ sort(sample_time(from = "2020-12-31 00:00:00 CET", to = "2020-12-31 00:00:01 CET
                  size = 10, replace = TRUE))  # within 1 sec range 
                            
 # Local time (POSIXlt) objects (as list):
-sample_time(as_POSIXct = FALSE)
-unlist(sample_time(as_POSIXct = FALSE))
+(lt_sample <- sample_time(as_POSIXct = FALSE))
+unlist(lt_sample)
 
 # Time zones:
 sample_time(size = 3, tz = "UTC")
