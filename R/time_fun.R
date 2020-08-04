@@ -1,5 +1,5 @@
 ## time_fun.R | ds4psy
-## hn | uni.kn | 2020 08 03
+## hn | uni.kn | 2020 08 04
 ## ---------------------------
 
 ## Main functions for date and time objects. 
@@ -2523,7 +2523,6 @@ diff_times <- function(from_time, to_time = Sys.time(),
     ## Correction: Add 1 day if bd_td is TRUE:
     # full_d_2[bd_td] <- full_d_2[bd_td] + 1   # Problem: Too general (lots of error cases).
     
-    
     debugging_feedback <- FALSE  # TRUE = debugging info
     
     if (debugging_feedback){
@@ -2560,28 +2559,27 @@ diff_times <- function(from_time, to_time = Sys.time(),
       # Diagnostic info (for debugging): 
       ix_diff <- (full_d_1 != full_d_2)  
       
-      message(paste("ixd:", which(ix_diff),  collapse = ", "))
-      message(paste("f_t:", from_time[ix_diff], collapse = ", "))    
-      message(paste("t_t:", to_time[ix_diff],   collapse = ", "))
+      message(paste("ix_diff:", which(ix_diff),  collapse = ", "))
+      message(paste("from_time:", from_time[ix_diff], collapse = ", "))    
+      message(paste("to_time:", to_time[ix_diff],   collapse = ", "))
       
-      message(paste("y:", full_y[ix_diff],  collapse = ", "))    
-      message(paste("m:", full_m[ix_diff],  collapse = ", "))    
+      # message(paste("y:", full_y[ix_diff],  collapse = ", "))    
+      # message(paste("m:", full_m[ix_diff],  collapse = ", "))    
       message(paste("d_1:", full_d_1[ix_diff], collapse = ", "))    
       message(paste("d_2:", full_d_2[ix_diff], collapse = ", "))
       
     }
     
-    ## Decision 1: Go with full_d_1:
+    # # Decision 1: Go with full_d_1:
     # full_d <- full_d_1
-    
-    # Problem: accounted_time_sec cannot be computed! 
+    # Problem: We need accounted_days_ym2 for computing accounted_time_sec! 
     
     # Decision 2: Go with full_d_2.
     full_d <- full_d_2
     
     ## Special case: full_d_2 is negative: 
     if (any(full_d_2 < 0)){
-      message('diff_times: Incrementing month count for negative full day count.')
+      # message('diff_times: Incrementing month count for negative full day count.')
       ix_neg_days <- (full_d_2 < 0)
       full_m[ix_neg_days] <- full_m[ix_neg_days] + 1  # increment month count 
     }
