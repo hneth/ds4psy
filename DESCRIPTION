@@ -17,11 +17,11 @@ Suggests:
     rmarkdown,
     spelling
 Collate: 'util_fun.R'
+         'time_util_fun.R'
          'color_fun.R'
          'data.R'
          'data_fun.R'
          'text_fun.R'
-         'time_util_fun.R'
          'time_fun.R'
          'theme_fun.R'
          'plot_fun.R'
