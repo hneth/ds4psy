@@ -1802,6 +1802,8 @@ diff_dates <- function(from_date, to_date = Sys.Date(),
   # (c) Recycle or truncate to_date argument based on from_date: 
   # to_date <- align_vector_length(v_fixed = from_date, v_change = to_date)
   
+  # Note: from_date and to_date now have the same length: 
+  n_dates <- length(from_date)
   
   # (d) Replace intermittent NA values in to_date by current date: ---- 
   # Axiom: Dead people do not age any further, but 
@@ -1829,7 +1831,7 @@ diff_dates <- function(from_date, to_date = Sys.Date(),
   }
   
   
-  # (f) If from_date > to_date: Swap dates and negate sign:
+  # (f) For cases of (from_date > to_date): Swap dates and negate sign:
   
   from_date_org <- from_date  # store original orders
   to_date_org   <- to_date    # (to list in outputs)
@@ -1840,8 +1842,8 @@ diff_dates <- function(from_date, to_date = Sys.Date(),
   from_date[ix_swap] <- to_date[ix_swap] # from_date by to_date
   to_date[ix_swap]   <- from_date_temp   # to_date by from_date
   
-  sign <- rep("", length(from_date))     # initialize (as character)
-  sign[ix_swap] <- "-"                   # negate sign (character)
+  sign <- rep("", n_dates)  # initialize (as character)
+  sign[ix_swap] <- "-"      # negate sign (character)
   
   # message(sign)  # debugging
   
@@ -1880,7 +1882,8 @@ diff_dates <- function(from_date, to_date = Sys.Date(),
       age <- data.frame("from_date" = from_date_org,
                         "to_date"   = to_date_org, 
                         "neg" = sign,  # negation sign? 
-                        "d" = full_d)
+                        "d" = full_d, 
+                        row.names = 1:n_dates) 
     }
     
     return(age)
@@ -1986,10 +1989,12 @@ diff_dates <- function(from_date, to_date = Sys.Date(),
     warning('diff_dates: 2 solutions (full_d_1 vs. full_d_2) yield different results.')
     
     # Diagnostic info (for debugging): 
-    ix_diff <- (full_d_1 != full_d_2)  
-    message(paste(which(ix_diff),     collapse = ", "))
-    message(paste(from_date[ix_diff], collapse = ", "))    
-    message(paste(to_date[ix_diff],   collapse = ", "))
+    ix_diff <- (full_d_1 != full_d_2) 
+    if (n_dates > 1){
+      message(paste(which(ix_diff),     collapse = ", "))
+      message(paste(from_date[ix_diff], collapse = ", "))    
+      message(paste(to_date[ix_diff],   collapse = ", "))
+    }
     message(paste("y:", full_y[ix_diff], collapse = ", "))    
     message(paste("m:", full_m[ix_diff], collapse = ", "))    
     message(paste("d 1:", full_d_1[ix_diff],   collapse = ", "))    
@@ -2024,7 +2029,8 @@ diff_dates <- function(from_date, to_date = Sys.Date(),
                         "neg" = sign,  # negation sign? 
                         "y" = full_y, 
                         "m" = full_m, 
-                        "d" = full_d)
+                        "d" = full_d,
+                        row.names = 1:n_dates)
       
     } else if (unit == "m"){
       
@@ -2032,7 +2038,8 @@ diff_dates <- function(from_date, to_date = Sys.Date(),
                         "to_date"   = to_date_org, 
                         "neg" = sign,  # negation sign? 
                         "m" = full_m, 
-                        "d" = full_d)
+                        "d" = full_d,
+                        row.names = 1:n_dates)
       
     }
   }
@@ -2096,7 +2103,7 @@ diff_dates <- function(from_date, to_date = Sys.Date(),
 # ## Test with random date samples:
 # from <- sample_date(100) - 0.11
 # to   <- sample_date(100) + 0.22
-# diff_dates(from, to, unit = "y", as_character = TRUE)
+# diff_dates(from, to, unit = "y", as_character = FALSE)
 # diff_dates(from, to, unit = "d", as_character = TRUE)
 # 
 # ## Test with random TIME samples:
@@ -2105,6 +2112,12 @@ diff_dates <- function(from_date, to_date = Sys.Date(),
 # diff_dates(from, to, unit = "y", as_character = TRUE)
 # diff_dates(from, to, unit = "d", as_character = TRUE)
 # 
+## Test with date strings:
+# from <- "2000-01-01"
+# to <- paste("2020", 1:12, "11", sep = "-")
+# diff_dates(from, to, unit = "y", as_character = FALSE)
+#
+#
 # # Verify possibly diverging cases:
 # 
 # # 1:
@@ -2306,7 +2319,7 @@ diff_times <- function(from_time, to_time = Sys.time(),
     # message('diff_times: Aiming to parse "to_time" as "POSIXct".')
     to_time <- time_from_noPOSIXt(to_time)
   }
-
+  
   
   # (c) Recycle shorter time vector to length of longer one: ----
   aligned_v  <- align_vector_pair(v1 = from_time, v2 = to_time)
@@ -2737,16 +2750,16 @@ diff_times <- function(from_time, to_time = Sys.time(),
 # diff_times(t1, t2, unit = "min", as_character = TRUE)
 # diff_times(t1, t2, unit = "sec", as_character = TRUE)
 # 
-## Test with random TIME samples:
+# # Test with random TIME samples:
 # from <- sample_time(100, from = "2020-01-01")
 # to   <- sample_time(100, from = "2020-04-01")
-
-# "year":
+# 
+# # "year":
 # diff_times(from, to, unit = "year", as_character = FALSE)
 # lubridate::as.period(lubridate::interval(from, to), unit = "years")
-# Note differences in hour counts (due to DST).
-# But: diff_times more consistent (see results for unit = "days")!
-# 
+# # Note differences in hour counts (due to DST).
+# # But: diff_times more consistent (see results for unit = "days")!
+#
 # # "month":
 # diff_times(from, to, unit = "month", as_character = TRUE)
 # lubridate::as.period(lubridate::interval(from, to), unit = "months")
@@ -2756,7 +2769,6 @@ diff_times <- function(from_time, to_time = Sys.time(),
 # # "day":
 # diff_times(from, to, unit = "day", as_character = FALSE)
 # lubridate::as.period(lubridate::interval(from, to), unit = "day")
-# #
 # 
 # # "hour":
 # diff_times(from, to, unit = "hour", as_character = FALSE)
