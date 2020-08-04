@@ -1781,7 +1781,7 @@ diff_dates <- function(from_date, to_date = Sys.Date(),
     to_date <- today 
   }
   
-  # (b) Turn non-Date inputs into "Date" objects ---- 
+  # (b) Turn non-Date inputs into "Date" objects: ---- 
   
   if (!is_Date(from_date)){
     # message('diff_dates: Aiming to parse "from_date" as "Date".')

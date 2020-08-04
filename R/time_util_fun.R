@@ -1,5 +1,5 @@
 ## time_util_fun.R | ds4psy
-## hn | uni.kn | 2020 08 03
+## hn | uni.kn | 2020 08 04
 ## ---------------------------
 
 ## Utility functions for date and time objects. 
@@ -222,7 +222,7 @@ date_from_noDate <- function(x, tz = "", ...){
 # date_from_noDate(as.POSIXct("2020-07-01 01:29:06"))          # was "2020-06-30" - WHY???
 # date_from_noDate(as.POSIXct("2020-07-01 01:29:06"), tz = "") # now "2020-07-01"
 # Solution: Add default argument tz = "".
- 
+
 # # fame data (with format string):
 # date_from_noDate(fame$DOB, format = "%B %d, %Y")
 #  
@@ -315,7 +315,7 @@ time_from_string <- function(x, tz = "", ...){
 # time_from_string(c("20-01-01 10:30:45", "20-06-30 22:30:50"), tz = "NZ")
 
 
-# time_from_noPOSIXt: Parse non-time into "POSIXt" object(s): ------ 
+# time_from_noPOSIXt: Parse non-time into "POSIXt" (typically POSIXct) object(s): ------ 
 
 time_from_noPOSIXt <- function(x, tz = "", ...){
   
@@ -368,7 +368,7 @@ time_from_noPOSIXt <- function(x, tz = "", ...){
 } # time_from_noPOSIXt end. 
 
 # ## Check:
-# # POSIXt returned as is:
+# # Any POSIXt returned as is:
 # is_POSIXct(time_from_noPOSIXt(Sys.time() + 0:2))
 # is_POSIXlt(time_from_noPOSIXt(as.POSIXlt(Sys.time() + 0:2))) 
 # 
@@ -484,12 +484,12 @@ diff_tz <- function(t1, t2, in_min = FALSE){
   if (!is_POSIXct(t2)){
     t2 <- time_from_noPOSIXt(t2)
   }
-
+  
   # Recycle shorter time argument to length of longer one: ---- 
   aligned_v <- align_vector_pair(v1 = t1, v2 = t2)
   t1 <- aligned_v[[1]]
   t2 <- aligned_v[[2]]
-
+  
   # # WAS: Recycle or truncate t2 argument based on t1:  
   # t2 <- align_vector_length(v_fixed = t1, v_change = t2)
   # message(paste0("t2 = ", t2, collapse = " "))  # debugging 
@@ -534,12 +534,12 @@ diff_tz <- function(t1, t2, in_min = FALSE){
     
     
   } else {  # return as character (in HH:MM format):
-   
+    
     hr_diff <- num_as_char(hr_diff, n_pre_dec = 2, n_dec = 0)
     mi_diff <- num_as_char(mi_diff, n_pre_dec = 2, n_dec = 0)    
-     
+    
     hm_diff <- paste0(hr_diff, ":", mi_diff)
-  
+    
   }
   
   # 4. Output: 
@@ -996,7 +996,7 @@ dt_last_monthly_bd <- function(dob, to_date, ...){
     to_date <- date_from_noDate(to_date, ...)
     # message(paste0("2. to_date = ", to_date))  # debugging 
   }
-
+  
   # Recycle shorter date argument to length of longer one: ---- 
   aligned_v <- align_vector_pair(v1 = dob, v2 = to_date)
   dob <- aligned_v[[1]]
