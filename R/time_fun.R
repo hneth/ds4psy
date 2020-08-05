@@ -1,5 +1,5 @@
 ## time_fun.R | ds4psy
-## hn | uni.kn | 2020 08 04
+## hn | uni.kn | 2020 08 05
 ## ---------------------------
 
 ## Main functions for date and time objects. 
@@ -1794,13 +1794,13 @@ diff_dates <- function(from_date, to_date = Sys.Date(),
   }
   
   # (c) Recycle shorter date vector to length of longer one: ----
-  aligned_v  <- align_vector_pair(v1 = from_date, v2 = to_date)
+  aligned_v <- align_vec_pair(v1 = from_date, v2 = to_date)
   from_date <- aligned_v[[1]]
   to_date   <- aligned_v[[2]]
   
   ## WAS: 
   # (c) Recycle or truncate to_date argument based on from_date: 
-  # to_date <- align_vector_length(v_fixed = from_date, v_change = to_date)
+  # to_date <- align_vec(v_mod = to_date, v_fix = from_date)
   
   # Note: from_date and to_date now have the same length: 
   n_dates <- length(from_date)
@@ -1984,17 +1984,22 @@ diff_dates <- function(from_date, to_date = Sys.Date(),
   
   
   # s+3: Verify equality of both solutions: ---- 
-  if (!all(full_d_1 == full_d_2)){
+  
+  verify_equality <- TRUE 
+  
+  if (verify_equality & (!all(full_d_1 == full_d_2))){
     
-    warning('diff_dates: 2 solutions (full_d_1 vs. full_d_2) yield different results.')
+    message('diff_dates: 2 methods for full days yield different results (d_1 vs. d_2):')
     
     # Diagnostic info (for debugging): 
     ix_diff <- (full_d_1 != full_d_2) 
+    
     if (n_dates > 1){
       message(paste(which(ix_diff),     collapse = ", "))
       message(paste(from_date[ix_diff], collapse = ", "))    
       message(paste(to_date[ix_diff],   collapse = ", "))
     }
+    
     message(paste("y:", full_y[ix_diff], collapse = ", "))    
     message(paste("m:", full_m[ix_diff], collapse = ", "))    
     message(paste("d 1:", full_d_1[ix_diff],   collapse = ", "))    
@@ -2322,12 +2327,12 @@ diff_times <- function(from_time, to_time = Sys.time(),
   
   
   # (c) Recycle shorter time vector to length of longer one: ----
-  aligned_v  <- align_vector_pair(v1 = from_time, v2 = to_time)
+  aligned_v <- align_vec_pair(v1 = from_time, v2 = to_time)
   from_time <- aligned_v[[1]]
   to_time   <- aligned_v[[2]]
   
   ## WAS: (c) Recycle or truncate to_time argument based on from_time:  
-  # to_time <- align_vector_length(v_fixed = from_time, v_change = to_time)
+  # to_time <- align_vec(v_mod = to_time, v_fix = from_time)
   
   # Note: from_time and to_time now have the same length: 
   n_times <- length(from_time)
@@ -2581,6 +2586,7 @@ diff_times <- function(from_time, to_time = Sys.time(),
         message(paste("from_time:", from_time[ix_diff], collapse = ", "))    
         message(paste("to_time:", to_time[ix_diff],   collapse = ", "))
       }
+      
       message(paste("y:", full_y[ix_diff],  collapse = ", "))    
       message(paste("m:", full_m[ix_diff],  collapse = ", "))    
       message(paste("d_1:", full_d_1[ix_diff], collapse = ", "))    
@@ -2588,11 +2594,11 @@ diff_times <- function(from_time, to_time = Sys.time(),
       
     }
     
-    # # Decision 1: Go with full_d_1:
+    # # Decision 1: Use full_d_1:
     # full_d <- full_d_1
     # Problem: We need accounted_days_ym2 for computing accounted_time_sec! 
     
-    # Decision 2: Go with full_d_2.
+    # Decision 2: Use full_d_2.
     full_d <- full_d_2
     
     ## Special case: full_d_2 is negative: 
