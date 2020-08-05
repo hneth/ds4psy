@@ -1,5 +1,5 @@
 ## util_fun.R | ds4psy
-## hn | uni.kn | 2020 08 03
+## hn | uni.kn | 2020 08 05
 ## ---------------------------
 
 ## Utility functions. 
@@ -14,50 +14,54 @@ vrep <- Vectorize(rep.int, "times")
 ## => works, but returns a list.
 
 
-# align_vector_length: Recycle or truncate a vector to the length of a main one: ------ 
+# align_vec: Recycle or truncate a vector to the length of a main one: ------
 
-# align_vector_length <- function(v_fixed, v_change){
-#   
-#   v_out <- v_change  # default: original v_change
-#   
-#   # Length of vectors: 
-#   n_main <- length(v_fixed)
-#   n_else <- length(v_change)
-#   
-#   # Main: 
-#   if (n_main != n_else){  # different lengths:
-#     
-#     if (n_else > n_main){ # 1. truncate v_change to the length of n_main: 
-#       
-#       v_out <- v_change[1:n_main]
-#       
-#     } else { # 2. recycle v_change to the length of n_main: 
-#       
-#       v_out <- rep(v_change, ceiling(n_main/n_else))[1:n_main]
-#       
-#     } # end else. 
-#   } # end if.  
-#   
-#   return(v_out)
-#   
-# } # align_vector_length end. 
+# Return the modified vector (with a different length).
+
+align_vec <- function(v_mod, v_fix){
+  
+  v_out <- v_mod  # default: original v_mod
+  
+  # Lengths:
+  n_fix <- length(v_fix)
+  n_org <- length(v_mod)
+  
+  # Main:
+  if (n_fix != n_org){  # different lengths:
+    
+    if (n_org > n_fix){ # 1. truncate v_mod to the length of n_fix:
+      
+      v_out <- v_mod[1:n_fix]
+      
+    } else { # 2. recycle v_mod to the length of n_fix:
+      
+      v_out <- rep(v_mod, ceiling(n_fix/n_org))[1:n_fix]
+      
+    } # end else.
+  } # end if.
+  
+  return(v_out)
+  
+} # align_vec end.
+
+# ## Check:
+# align_vec(LETTERS[1:4], 1:4)  # same length
+# align_vec(LETTERS[1:4], 1:6)  # lengthen v_mod
+# align_vec(LETTERS[1:6], 1:4)  # shorten v_mod
 # 
-# # ## Check:
-# # align_vector_length(1:5, v_change = LETTERS[1:5])
-# # align_vector_length(1:5, v_change = LETTERS[1:3])
-# # align_vector_length(1:5, v_change = LETTERS[1:10])
-# # 
-# # # Note:
-# # align_vector_length(NA, v_change = LETTERS[1:3])
-# # align_vector_length(1:5, v_change = NA)
+# # Note:
+# align_vec(LETTERS[1:3], NA)
+# align_vec(NA, 1:4)
 
 
-# align_vector_pair: Recycle a pair of vector to the length of the longer one: ------ 
+# align_vec_pair: Recycle a pair of vector to the length of the longer one: ------ 
 
-align_vector_pair <- function(v1, v2){
+# Return the pair of both vectors (as a list). 
+
+align_vec_pair <- function(v1, v2){
   
   # Initialize: 
-  out <- NA
+  lo <- NA
   o1 <- v1
   o2 <- v2 
   
@@ -79,21 +83,21 @@ align_vector_pair <- function(v1, v2){
     } # end else. 
   } # end if.  
   
-  # Output: Combine and return a list of both vectors: 
-  out <- list(o1, o2) 
+  # Output: Return both vectors (as a list): 
+  lo <- list(o1, o2) 
   
-  return(out)
+  return(lo)
   
-} # align_vector_pair
+} # align_vec_pair
 
 # ## Check:
-# align_vector_pair(1:5, LETTERS[1:5])  # same length
-# align_vector_pair(1:5, LETTERS[1:3])  # 2nd vector is recycled
-# align_vector_pair(1:5, LETTERS[1:10]) # 1st vector is recycled
+# align_vec_pair(1:5, LETTERS[1:5])  # same length
+# align_vec_pair(1:5, LETTERS[1:3])  # 2nd vector is recycled
+# align_vec_pair(1:5, LETTERS[1:10]) # 1st vector is recycled
 # 
 # # Note: Handling NA cases
-# align_vector_pair(NA, LETTERS[1:3])
-# align_vector_pair(1:5, NA)
+# align_vec_pair(NA, LETTERS[1:3])
+# align_vec_pair(1:5, NA)
 
 
 
