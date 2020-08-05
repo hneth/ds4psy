@@ -1,5 +1,5 @@
 ## time_util_fun.R | ds4psy
-## hn | uni.kn | 2020 08 04
+## hn | uni.kn | 2020 08 05
 ## ---------------------------
 
 ## Utility functions for date and time objects. 
@@ -486,7 +486,7 @@ diff_tz <- function(t1, t2, in_min = FALSE){
   }
   
   # Recycle shorter time argument to length of longer one: ---- 
-  aligned_v <- align_vector_pair(v1 = t1, v2 = t2)
+  aligned_v <- align_vec_pair(v1 = t1, v2 = t2)
   t1 <- aligned_v[[1]]
   t2 <- aligned_v[[2]]
   
@@ -998,7 +998,7 @@ dt_last_monthly_bd <- function(dob, to_date, ...){
   }
   
   # Recycle shorter date argument to length of longer one: ---- 
-  aligned_v <- align_vector_pair(v1 = dob, v2 = to_date)
+  aligned_v <- align_vec_pair(v1 = dob, v2 = to_date)
   dob <- aligned_v[[1]]
   to_date <- aligned_v[[2]]
   
