@@ -2869,19 +2869,6 @@ diff_times <- function(from_time, to_time = Sys.time(),
 ## ToDo: 
 
 # - add n_decimals argument? (default of 0).
-#
-# - Add exercise to Chapter 10: 
-#   Explore the diff_dates() function that computes 
-#   the difference between two dates (in human measurement units). 
-# - Use result to compute age in years (as a number) and months (as a number). 
-# - Use result to compute age in full weeks (as a number). 
-# - Use result to add a week entry "Xw" between month m and day d.
-
-# - Add advanced exercise to Chapter 10: 
-#   Sample random dates/times and compare diff_times() with lubridate solution.
-#   Which differences in computed results do occur? 
-#   (Distinguish surface differences vs. actual number differences)
-#   Can they be explained? 
 
 
 ## Done: ----------
