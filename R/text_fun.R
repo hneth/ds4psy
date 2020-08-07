@@ -1,5 +1,5 @@
 ## text_fun.R | ds4psy
-## hn | uni.kn | 2020 07 28
+## hn | uni.kn | 2020 08 07
 ## ---------------------------
 
 ## Character objects and functions for string/text objects. 
@@ -214,7 +214,7 @@ cclass <- ccv
 # name_hn <- "Hansjoerg Neth"
 # name_course <- paste0(course_title, " (", course_title_abb, "), by ", name_hn, "")
 
-# # Table of contents (ToC):
+# # Table of contents (ToC) [Spring 2020]: 
 # toc <- tibble::tribble(
 #   ~nr, ~lbl,                 ~val,  ~part,   
 #    0,  "Introduction",          2,  0,
@@ -226,8 +226,8 @@ cclass <- ccv
 #    6,  "Importing data",        5,  2,  
 #    7,  "Tidying data",          7,  2,  
 #    8,  "Joining data",          6,  2,  
-#    9,  "Text data",             8,  2, 
-#   10,  "Time data",             6,  2,   
+#    9,  "Text data",             9,  2, # increased value 
+#   10,  "Time data",             8,  2, # increased value 
 #   11,  "Functions",            10,  3, 
 #   12,  "Iteration",             8,  3)
 # 
