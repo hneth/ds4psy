@@ -6,7 +6,7 @@
 \title{Data: Trumpisms.}
 \format{
 A vector of type \code{character}  
-with \code{length(Trumpisms) = 96}.
+with \code{length(Trumpisms) = 106}.
 }
 \source{
 Data originally based on \url{https://www.yourdictionary.com/slideshow/donald-trump-20-most-frequently-used-words.html} 
@@ -19,7 +19,7 @@ Trumpisms
 \code{Trumpisms} contains words frequently used 
 by U.S. president Donald J. Trump 
 (the 45th and current president of the United States, 
-as of July 2020).
+as of August 2020).
 }
 \seealso{
 Other datasets: 
