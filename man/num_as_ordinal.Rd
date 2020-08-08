@@ -50,6 +50,7 @@ num_as_ordinal(seq(1.99, 2.14, by = .01))
 
 Other utility functions: 
 \code{\link{is.wholenumber}()},
-\code{\link{num_as_char}()}
+\code{\link{num_as_char}()},
+\code{\link{num_equal}()}
 }
 \concept{utility functions}

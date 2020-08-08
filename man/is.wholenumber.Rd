@@ -10,7 +10,8 @@ is.wholenumber(x, tol = .Machine$double.eps^0.5)
 \item{x}{Number(s) to test (required, accepts numeric vectors).}
 
 \item{tol}{Numeric tolerance value.
-Default: \code{tol = .Machine$double.eps^0.5} (see \code{?.Machine} for details).}
+Default: \code{tol = .Machine$double.eps^0.5} 
+(see \code{?.Machine} for details).}
 }
 \description{
 \code{is.wholenumber} tests if \code{x} contains only integer numbers.
@@ -42,6 +43,7 @@ is.wholenumber(1+2)
 
 Other utility functions: 
 \code{\link{num_as_char}()},
-\code{\link{num_as_ordinal}()}
+\code{\link{num_as_ordinal}()},
+\code{\link{num_equal}()}
 }
 \concept{utility functions}
