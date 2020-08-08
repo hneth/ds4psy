@@ -709,7 +709,7 @@ is_leap_year <- function(dt){
     
   } else if (is.numeric(dt)){ 
     
-    if (all(is.wholenumber(dt))){
+    if (all(is_wholenumber(dt))){
       
       y <- dt
       

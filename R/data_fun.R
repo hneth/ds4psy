@@ -80,7 +80,7 @@ coin <- function(n = 1, events = c("H", "T")){
     n <- n[1]
   }
   
-  if ( (length(n) == 1) && ( is.na(n) || !is.numeric(n) || !is.wholenumber(n) || (n < 1) ) ) { 
+  if ( (length(n) == 1) && ( is.na(n) || !is.numeric(n) || !is_wholenumber(n) || (n < 1) ) ) { 
     message("coin: n must be a positive integer. Using n = 1:") 
     n <- 1
   }
@@ -543,7 +543,7 @@ dice <- function(n = 1, events = 1:6){
     n <- n[1]
   }
   # Verify that n is a numeric integer > 1:  
-  if ((length(n) == 1) && (is.na(n) || !is.numeric(n) || !is.wholenumber(n) || (n < 1) ) ) { 
+  if ((length(n) == 1) && (is.na(n) || !is.numeric(n) || !is_wholenumber(n) || (n < 1) ) ) { 
     message("dice: n must be a positive integer. Using n = 1:") 
     n <- 1
   }
@@ -563,7 +563,7 @@ dice <- function(n = 1, events = 1:6){
   } else {  # sides is a scalar: length(sides) <= 1:
     
     # Verify that events is a numeric integer > 1:
-    if ( is.na(events) || !is.numeric(events) || !is.wholenumber(events) || (events < 1) ) { 
+    if ( is.na(events) || !is.numeric(events) || !is_wholenumber(events) || (events < 1) ) { 
       message("dice: events must be an integer or a set. Using events = 6:") 
       events <- 6
     }
@@ -662,7 +662,7 @@ dice_2 <- function(n = 1, sides = 6){
   }
   
   # Verify that n is a numeric integer > 1:  
-  if ((length(n) == 1) && (is.na(n) || !is.numeric(n) || !is.wholenumber(n) || (n < 1) ) ) { 
+  if ((length(n) == 1) && (is.na(n) || !is.numeric(n) || !is_wholenumber(n) || (n < 1) ) ) { 
     message("dice_2: n must be a positive integer. Using n = 1:") 
     n <- 1
   }
@@ -682,7 +682,7 @@ dice_2 <- function(n = 1, sides = 6){
   } else {  # sides is a scalar: length(sides) <= 1:
     
     # Verify that sides is a numeric integer > 1:
-    if ( is.na(sides) || !is.numeric(sides) || !is.wholenumber(n) || (sides < 1) ) { 
+    if ( is.na(sides) || !is.numeric(sides) || !is_wholenumber(n) || (sides < 1) ) { 
       message("dice_2: sides must be an integer or a set. Using sides = 6:") 
       sides <- 6
     }
