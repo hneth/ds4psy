@@ -1,5 +1,5 @@
 ## util_fun.R | ds4psy
-## hn | uni.kn | 2020 08 05
+## hn | uni.kn | 2020 08 08
 ## ---------------------------
 
 ## Utility functions. 
@@ -459,7 +459,8 @@ num_as_ordinal <- function(x, sep = ""){
 #' @param x Number(s) to test (required, accepts numeric vectors).
 #'
 #' @param tol Numeric tolerance value.  
-#' Default: \code{tol = .Machine$double.eps^0.5} (see \code{?.Machine} for details). 
+#' Default: \code{tol = .Machine$double.eps^0.5} 
+#' (see \code{?.Machine} for details). 
 #'
 #' @examples
 #' is.wholenumber(1)    # is TRUE
@@ -493,6 +494,79 @@ is.wholenumber <- function(x, tol = .Machine$double.eps^0.5) {
 # # Compare:
 # is.integer(1+2)
 # is.wholenumber(1+2)
+
+
+# num_equal: Testing 2 numerical vectors for (near) equality ------ 
+
+# See also 
+# base::all.equal() and 
+# dplyr::near for similar functions.
+
+#' Test two numeric vectors for (near) equality. 
+#'
+#' \code{num_equal} tests if two numeric vectors \code{x} and \code{y} are pairwise equal 
+#' (within some tolerance value `tol`). 
+#' 
+#' \code{num_equal} is a safer way to verify the (near) equality of numeric vectors than \code{==},  
+#' as numbers may contain floating point effects. 
+#' 
+#' @param x Number(s) to test (required, assumes a numeric vector).
+#'
+#' @param y Number(s) to test (required, assumes a numeric vector).
+#'
+#' @param tol Numeric tolerance value.  
+#' Default: \code{tol = .Machine$double.eps^0.5} 
+#' (see \code{?.Machine} for details). 
+#'
+#' @examples
+#' num_equal(2, sqrt(2)^2)
+#' 
+#' # Recycling: 
+#' num_equal(c(2, 3), c(sqrt(2)^2, sqrt(3)^2, 4/2, 9/3))
+#' 
+#' # Contrast:
+#' .1 == .3/3
+#' num_equal(.1, .3/3)
+#' 
+#' # Contrast:
+#' v <- c(.9 - .8, .8 - .7, .7 - .6, .6 - .5, 
+#'        .5 - .4, .4 - .3, .3 - .2, .2 -.1, .1)
+#' unique(v)
+#' .1 == v
+#' num_equal(.1, v)
+#'  
+#' @family utility functions
+#'
+#' @seealso 
+#' \code{\link{all.equal}} function of the R \strong{base} package;
+#' \code{near} function of the \strong{dplyr} package. 
+#'
+#' @export 
+
+num_equal <- function(x, y, tol = .Machine$double.eps^0.5){
+  
+  abs(x - y) < tol 
+
+} # num_equal end. 
+
+# ## Check:
+# num_equal(2, sqrt(2)^2)
+# 
+# # Recycling: 
+# num_equal(c(2, 3), c(sqrt(2)^2, sqrt(3)^2, 4/2, 9/3))
+# 
+# # Contrast:
+# .1 == .3/3
+# num_equal(.1, .3/3)
+# 
+# # Contrast:
+# v <- c(.9 - .8, .8 - .7, .7 - .6, .6 - .5, 
+#        .5 - .4, .4 - .3, .3 - .2, .2 -.1, .1)
+# unique(v)
+# .1 == v
+# num_equal(.1, v)
+
+
 
 
 # kill_all: Kill all objects in current environment (without warning): ------
