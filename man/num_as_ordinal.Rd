@@ -49,7 +49,7 @@ num_as_ordinal(seq(1.99, 2.14, by = .01))
 \code{toOrdinal()} function of the \strong{toOrdinal} package.
 
 Other utility functions: 
-\code{\link{is.wholenumber}()},
+\code{\link{is_wholenumber}()},
 \code{\link{num_as_char}()},
 \code{\link{num_equal}()}
 }

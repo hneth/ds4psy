@@ -46,7 +46,7 @@ num_equal(.1, v)
 \code{near} function of the \strong{dplyr} package.
 
 Other utility functions: 
-\code{\link{is.wholenumber}()},
+\code{\link{is_wholenumber}()},
 \code{\link{num_as_char}()},
 \code{\link{num_as_ordinal}()}
 }
