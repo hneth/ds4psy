@@ -1,5 +1,5 @@
 ## data_fun.R | ds4psy
-## hn | uni.kn | 2020 08 04
+## hn | uni.kn | 2020 08 14
 ## ---------------------------
 
 ## Functions for creating and manipulating data. 
@@ -322,6 +322,15 @@ sample_date <- function(from = "1970-01-01", to = Sys.Date(), size = 1, ...){
 # sample_date()
 # sort(sample_date(size = 10))
 # sort(sample_date(from = "2020-02-28", to = "2020-03-01", size = 10, replace = TRUE))  # 2020 is a leap year
+# 
+# # with vectors:
+# (f <- as.Date(c("1970-01-01", "1980-01-01", "1990-01-01")))
+# (t <- as.Date(c("1979-12-31", "1989-12-31", "1999-12-31")))
+# sample_date(f, t, 10)  # only uses 1st elements
+# 
+# ft <- data.frame(f, t)
+# apply(ft, MARGIN = 1, FUN = function(from, to) sample(x = from:to, size = 1))
+# # ToDo: Vectorized version of sample_date().
 # 
 # # Note: Oddity with sample():
 # sort(sample_date(from = "2020-01-01", to = "2020-01-01", size = 10, replace = TRUE))  # range of 0!
@@ -1090,6 +1099,9 @@ make_grid <- function(x_min = 0, x_max = 2, y_min = 0, y_max = 1){
 
 ## ToDo: ----------
 
+# - Vectorized versions of sample_date() and sample_time() 
+#   that allow inputs of (recycled) vectors from and to and draw 
+#   n = size samples from each pair-wise range.
 # - sample_time variant for sampling normally distributed times?
 
 ## eof. ----------------------
