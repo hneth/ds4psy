@@ -15,10 +15,12 @@ sample_time(
 }
 \arguments{
 \item{from}{Earliest date-time (as string). 
-Default: \code{from = "1970-01-01 00:00:00"}.}
+Default: \code{from = "1970-01-01 00:00:00"} 
+(as a scalar).}
 
 \item{to}{Latest date-time (as string). 
-Default: \code{to = Sys.time()}.}
+Default: \code{to = Sys.time()} 
+(as a scalar).}
 
 \item{size}{Size of time samples to draw. 
 Default: \code{size = 1}.}
@@ -48,6 +50,9 @@ By default, \code{sample_time} draws \code{n = 1}
 random calendar time (as a "POSIXct" object) in the range 
 \code{from = "1970-01-01 00:00:00"} 
 \code{to = Sys.time()} (current time).
+
+Both \code{from} and \code{to} currently 
+need to be scalars (i.e., with a length of 1). 
 
 If \code{as_POSIXct = FALSE}, a local time ("POSIXlt") object is returned 
 (as a list). 

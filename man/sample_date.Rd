@@ -8,10 +8,12 @@ sample_date(from = "1970-01-01", to = Sys.Date(), size = 1, ...)
 }
 \arguments{
 \item{from}{Earliest date (as "Date" or string). 
-Default: \code{from = "1970-01-01"}.}
+Default: \code{from = "1970-01-01"} 
+(as a scalar).}
 
 \item{to}{Latest date (as "Date" or string). 
-Default: \code{to = Sys.Date()}.}
+Default: \code{to = Sys.Date()} 
+(as a scalar).}
 
 \item{size}{Size of date samples to draw. 
 Default: \code{size = 1}.}
@@ -31,6 +33,9 @@ By default, \code{sample_date} draws \code{n = 1}
 random date (as a "Date" object) in the range 
 \code{from = "1970-01-01"} 
 \code{to = Sys.Date()} (current date).
+
+Both \code{from} and \code{to} currently 
+need to be scalars (i.e., with a length of 1).
 }
 \examples{
 sample_date()
