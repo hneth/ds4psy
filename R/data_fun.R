@@ -1,5 +1,5 @@
 ## data_fun.R | ds4psy
-## hn | uni.kn | 2020 08 14
+## hn | uni.kn | 2020 08 15
 ## ---------------------------
 
 ## Functions for creating and manipulating data. 
@@ -265,11 +265,16 @@ sample_char <- function(x_char = c(letters, LETTERS), n = 1, replace = FALSE, ..
 #' \code{from = "1970-01-01"} 
 #' \code{to = Sys.Date()} (current date).
 #' 
+#' Both \code{from} and \code{to} currently 
+#' need to be scalars (i.e., with a length of 1). 
+#' 
 #' @param from Earliest date (as "Date" or string). 
-#' Default: \code{from = "1970-01-01"}. 
+#' Default: \code{from = "1970-01-01"} 
+#' (as a scalar). 
 #' 
 #' @param to Latest date (as "Date" or string). 
-#' Default: \code{to = Sys.Date()}. 
+#' Default: \code{to = Sys.Date()} 
+#' (as a scalar).  
 #' 
 #' @param size Size of date samples to draw. 
 #' Default: \code{size = 1}. 
@@ -350,6 +355,9 @@ sample_date <- function(from = "1970-01-01", to = Sys.Date(), size = 1, ...){
 #' \code{from = "1970-01-01 00:00:00"} 
 #' \code{to = Sys.time()} (current time).
 #' 
+#' Both \code{from} and \code{to} currently 
+#' need to be scalars (i.e., with a length of 1). 
+#' 
 #' If \code{as_POSIXct = FALSE}, a local time ("POSIXlt") object is returned 
 #' (as a list). 
 #' 
@@ -358,10 +366,12 @@ sample_date <- function(from = "1970-01-01", to = Sys.Date(), size = 1, ...){
 #' and \code{OlsonNames()} for options.) 
 #' 
 #' @param from Earliest date-time (as string). 
-#' Default: \code{from = "1970-01-01 00:00:00"}. 
+#' Default: \code{from = "1970-01-01 00:00:00"} 
+#' (as a scalar). 
 #' 
 #' @param to Latest date-time (as string). 
-#' Default: \code{to = Sys.time()}. 
+#' Default: \code{to = Sys.time()} 
+#' (as a scalar). 
 #' 
 #' @param size Size of time samples to draw. 
 #' Default: \code{size = 1}. 
