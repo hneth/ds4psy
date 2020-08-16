@@ -31,7 +31,7 @@ Current development version of **ds4psy** (0.4.0.9001+):
     - add `diff_dates()` to compute temporal differences between dates (in human units of years, months, and days) 
     - add `diff_tz()` to compute time difference based on time zone differences  
 
-- Add `num_equal()` to check (near) equality of numeric vectors
+- Add `is_equal()` and `num_equal()` to check pairwise (near) equality of vectors  
 
 ## Minor changes 
 
@@ -189,6 +189,6 @@ The initial functionality is limited, as the package is designed to support the 
 
 ---------- 
 
-[File `News.md` updated on 2020-08-08.]
+[File `News.md` updated on 2020-08-16.]
 
 <!-- eof. -->
