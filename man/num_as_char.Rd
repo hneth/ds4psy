@@ -85,6 +85,7 @@ num_as_char(5, sym = "99")
 }
 \seealso{
 Other utility functions: 
+\code{\link{is_equal}()},
 \code{\link{is_wholenumber}()},
 \code{\link{num_as_ordinal}()},
 \code{\link{num_equal}()}

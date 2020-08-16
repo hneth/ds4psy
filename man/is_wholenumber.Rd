@@ -42,6 +42,7 @@ is_wholenumber(1+2)
 \code{\link{is.integer}} function of the R \strong{base} package.
 
 Other utility functions: 
+\code{\link{is_equal}()},
 \code{\link{num_as_char}()},
 \code{\link{num_as_ordinal}()},
 \code{\link{num_equal}()}

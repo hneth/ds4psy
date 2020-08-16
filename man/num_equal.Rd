@@ -7,9 +7,9 @@
 num_equal(x, y, tol = .Machine$double.eps^0.5)
 }
 \arguments{
-\item{x}{Number(s) to test (required, assumes a numeric vector).}
+\item{x}{1st numeric vector to compare (required, assumes a numeric vector).}
 
-\item{y}{Number(s) to test (required, assumes a numeric vector).}
+\item{y}{2nd numeric vector to compare (required, assumes a numeric vector).}
 
 \item{tol}{Numeric tolerance value.
 Default: \code{tol = .Machine$double.eps^0.5} 
@@ -21,7 +21,7 @@ Default: \code{tol = .Machine$double.eps^0.5}
 }
 \details{
 \code{num_equal} is a safer way to verify the (near) equality of numeric vectors than \code{==},  
-as numbers may contain floating point effects.
+as numbers may exhibit floating point effects.
 }
 \examples{
 num_equal(2, sqrt(2)^2)
@@ -42,10 +42,12 @@ num_equal(.1, v)
  
 }
 \seealso{
+\code{\link{is_equal}} function for generic vectors;
 \code{\link{all.equal}} function of the R \strong{base} package;
 \code{near} function of the \strong{dplyr} package.
 
 Other utility functions: 
+\code{\link{is_equal}()},
 \code{\link{is_wholenumber}()},
 \code{\link{num_as_char}()},
 \code{\link{num_as_ordinal}()}
