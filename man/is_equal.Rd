@@ -34,11 +34,12 @@ is_equal(2, sqrt(2)^2, tol = 0)
 is_equal(c(2, 3), c(sqrt(2)^2, sqrt(3)^2, 4/2, 9/3))
 
 # other data types:
-is_equal((1:4 > 2), (1:4 > 3))  # logical/Boolean
+is_equal((1:3 > 1), (1:3 > 2))                         # logical
 is_equal(c("A", "B", "c"), toupper(c("a", "b", "c")))  # character
+is_equal(as.Date("2020-08-16"), Sys.Date())            # dates
 
 # as factors:
-is_equal((1:4 > 2), as.factor((1:4 > 3)))  
+is_equal((1:3 > 1), as.factor((1:3 > 2)))  
 is_equal(c(1, 2, 3), as.factor(c(1, 2, 3)))
 is_equal(c("A", "B", "C"), as.factor(c("A", "B", "C"))) 
  
