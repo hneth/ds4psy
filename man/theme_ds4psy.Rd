@@ -13,7 +13,9 @@ theme_ds4psy(
   col_txt_1 = grey(0.1, 1),
   col_txt_2 = grey(0.2, 1),
   col_txt_3 = grey(0.1, 1),
-  col_bg = "transparent"
+  col_bg_1 = "transparent",
+  col_bg_2 = grey(1, 1),
+  col_bg_3 = grey(0.95, 1)
 )
 }
 \arguments{
@@ -21,7 +23,8 @@ theme_ds4psy(
 Default: \code{base_size = 11}.}
 
 \item{base_family}{Base font family (optional, character). 
-Default: \code{base_family = ""}.}
+Default: \code{base_family = ""}. 
+Options include \code{"mono"}, \code{"sans"} (default), and "serif".}
 
 \item{base_line_size}{Base line size (optional, numeric). 
 Default: \code{base_line_size = base_size/20}.}
@@ -32,17 +35,23 @@ Default: \code{base_rect_size = base_size/20}.}
 \item{col_title}{Color of plot title (text) elements (optional).
 Default: \code{col_title = grey(.0, 1)} (i.e., "black").}
 
-\item{col_txt_1}{Color of text elements of headings and axis labels (optional).
+\item{col_txt_1}{Color of text headings and axis labels (optional).
 Default: \code{col_title = grey(.1, 1)}.}
 
-\item{col_txt_2}{Color of text elements of legend and axis text/ticks (optional).
+\item{col_txt_2}{Color of legend and axis text/ticks (optional).
 Default: \code{col_title = grey(.2, 1)}.}
 
-\item{col_txt_3}{Color of text elements of facet strips (optional).
+\item{col_txt_3}{Color of facet strip text (optional).
 Default: \code{col_title = grey(.1, 1)}.}
 
-\item{col_bg}{Color of plot background (optional).
-Default: \code{col_bg = "transparent"}.}
+\item{col_bg_1}{Color of plot background (optional).
+Default: \code{col_bg_1 = "transparent"}.}
+
+\item{col_bg_2}{Color of panel background (optional).
+Default: \code{col_bg_2 = grey(1.0, 1)} (i.e., "white").}
+
+\item{col_bg_3}{Color of facet strip background (optional).
+Default: \code{col_bg_3 = grey(.95, 1)} (i.e., nearly "white").}
 }
 \description{
 \code{theme_ds4psy} provides a basic \bold{ds4psy} theme 
@@ -61,13 +70,14 @@ the panel background is assumed to be white.
 \donttest{
   # Plotting iris dataset (using ggplot2 and theme_ds4psy):
   
-  library("ggplot2")  # theme_ds4psy requires loading ggplot2 
+  library("ggplot2")  # theme_ds4psy requires ggplot2 
   
   ggplot(datasets::iris) +
     geom_jitter(aes(x = Petal.Length, y = Petal.Width, color = Species), size = 3, alpha = 2/3) +
     labs(title = "Iris species",
          caption = "Data from datasets::iris") +
-    theme_ds4psy(col_title = "black", base_size = 11)
+    theme_ds4psy()
+    
 }
 
 }
