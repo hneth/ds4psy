@@ -5,19 +5,18 @@
 \title{ds4psy default plot theme (using ggplot2 and unikn).}
 \usage{
 theme_ds4psy(
-  col_title = "black",
   base_size = 11,
   base_family = "",
   base_line_size = base_size/20,
-  base_rect_size = base_size/20
+  base_rect_size = base_size/20,
+  col_title = grey(0, 1),
+  col_txt_1 = grey(0.1, 1),
+  col_txt_2 = grey(0.2, 1),
+  col_txt_3 = grey(0.1, 1),
+  col_bg = "transparent"
 )
 }
 \arguments{
-\item{col_title}{Color of title (text) elements (optional, numeric).
-Default: \code{col_title = "black"}.  
-Consider using \code{col_title = unikn::pal_seeblau[[4]]} 
-in combination with black or grey data points.}
-
 \item{base_size}{Base font size (optional, numeric). 
 Default: \code{base_size = 11}.}
 
@@ -29,6 +28,21 @@ Default: \code{base_line_size = base_size/20}.}
 
 \item{base_rect_size}{Base rectangle size (optional, numeric). 
 Default: \code{base_rect_size = base_size/20}.}
+
+\item{col_title}{Color of plot title (text) elements (optional).
+Default: \code{col_title = grey(.0, 1)} (i.e., "black").}
+
+\item{col_txt_1}{Color of text elements of headings and axis labels (optional).
+Default: \code{col_title = grey(.1, 1)}.}
+
+\item{col_txt_2}{Color of text elements of legend and axis text/ticks (optional).
+Default: \code{col_title = grey(.2, 1)}.}
+
+\item{col_txt_3}{Color of text elements of facet strips (optional).
+Default: \code{col_title = grey(.1, 1)}.}
+
+\item{col_bg}{Color of plot background (optional).
+Default: \code{col_bg = "transparent"}.}
 }
 \description{
 \code{theme_ds4psy} provides a basic \bold{ds4psy} theme 
@@ -37,7 +51,10 @@ to use in \bold{ggplot2} commands.
 \details{
 The theme is lightweight and no-nonsense, but somewhat 
 opinionated (e.g., in using mostly grey scales to 
-allow emphasizing data points with color accents).
+allow emphasizing data points with color accents). 
+
+Whereas the colors of text elements and the plot background can be specified, 
+the panel background is assumed to be white.
 }
 \examples{
 
