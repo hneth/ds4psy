@@ -17,8 +17,9 @@
 #' opinionated (e.g., in using mostly grey scales to 
 #' allow emphasizing data points with color accents). 
 #' 
-#' Whereas the colors of text elements and the plot background can be specified, 
-#' the panel background is assumed to be white. 
+#' The colors of text elements and background elements can be specified. 
+#' However, avoid excessive customization. 
+#' It is difficult to improve on the \strong{ggplot2} default themes. 
 #' 
 #' @param base_size Base font size (optional, numeric). 
 #' Default: \code{base_size = 11}. 
