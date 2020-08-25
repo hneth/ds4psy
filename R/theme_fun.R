@@ -24,10 +24,11 @@
 #' Default: \code{base_size = 11}. 
 #' 
 #' @param base_family Base font family (optional, character). 
-#' Default: \code{base_family = ""}.  
+#' Default: \code{base_family = ""}. 
+#' Options include \code{"mono"}, \code{"sans"} (default), and "serif". 
 #' 
 #' @param base_line_size Base line size (optional, numeric). 
-#' Default: \code{base_line_size = base_size/20}.  
+#' Default: \code{base_line_size = base_size/20}. 
 #' 
 #' @param base_rect_size Base rectangle size (optional, numeric). 
 #' Default: \code{base_rect_size = base_size/20}. 
@@ -35,30 +36,37 @@
 #' @param col_title Color of plot title (text) elements (optional).  
 #' Default: \code{col_title = grey(.0, 1)} (i.e., "black").  
 #' 
-#' @param col_txt_1 Color of text elements of headings and axis labels (optional).  
+#' @param col_txt_1 Color of text headings and axis labels (optional).  
 #' Default: \code{col_title = grey(.1, 1)}. 
 #' 
-#' @param col_txt_2 Color of text elements of legend and axis text/ticks (optional).  
+#' @param col_txt_2 Color of legend and axis text/ticks (optional).  
 #' Default: \code{col_title = grey(.2, 1)}.  
 #' 
-#' @param col_txt_3 Color of text elements of facet strips (optional).  
+#' @param col_txt_3 Color of facet strip text (optional).  
 #' Default: \code{col_title = grey(.1, 1)}. 
 #' 
-#' @param col_bg Color of plot background (optional).  
-#' Default: \code{col_bg = "transparent"}.  
+#' @param col_bg_1 Color of plot background (optional).  
+#' Default: \code{col_bg_1 = "transparent"}. 
+#' 
+#' @param col_bg_2 Color of panel background (optional).  
+#' Default: \code{col_bg_2 = grey(1.0, 1)} (i.e., "white"). 
+#'  
+#' @param col_bg_3 Color of facet strip background (optional).  
+#' Default: \code{col_bg_3 = grey(.95, 1)} (i.e., nearly "white"). 
 #' 
 #' @examples
 #' 
 #' \donttest{
 #'   # Plotting iris dataset (using ggplot2 and theme_ds4psy):
 #'   
-#'   library("ggplot2")  # theme_ds4psy requires loading ggplot2 
+#'   library("ggplot2")  # theme_ds4psy requires ggplot2 
 #'   
 #'   ggplot(datasets::iris) +
 #'     geom_jitter(aes(x = Petal.Length, y = Petal.Width, color = Species), size = 3, alpha = 2/3) +
 #'     labs(title = "Iris species",
 #'          caption = "Data from datasets::iris") +
-#'     theme_ds4psy(col_title = "black", base_size = 11)
+#'     theme_ds4psy()
+#'     
 #' }
 #'
 #' @family plot functions
@@ -76,11 +84,13 @@ theme_ds4psy <- function(base_size = 11,
                          base_family = "", 
                          base_line_size = base_size/20, 
                          base_rect_size = base_size/20,
-                         col_title = grey(.0, 1),  # "black" OR unikn::pal_seeblau[[4]], 
-                         col_txt_1 = grey(.1, 1),  # (used for headings and axis labels)
-                         col_txt_2 = grey(.2, 1),  # (used for legend and axis text/ticks)
-                         col_txt_3 = grey(.1, 1),  # (used for strip labels of facets)
-                         col_bg = "transparent"    # grey(1, 1) "white"
+                         col_title = grey(.0, 1),  # (main title) "black" OR unikn::pal_seeblau[[4]], 
+                         col_txt_1 = grey(.1, 1),  # (subtitle, headings, and axis labels)
+                         col_txt_2 = grey(.2, 1),  # (legend and axis text/ticks)
+                         col_txt_3 = grey(.1, 1),  # (labels of facet strips)
+                         col_bg_1 = "transparent", # (main background)  grey(1, 1) OR "white"
+                         col_bg_2 = grey(1.0, 1),  # (panel background) grey(1, 1) OR "white"
+                         col_bg_3 = grey(.95, 1)   # (strip background) grey(.95, 1) OR "lightgrey"
 ) {ggplot2::theme_bw(base_size = base_size, 
                      base_family = base_family, 
                      base_line_size = base_line_size, 
@@ -88,9 +98,9 @@ theme_ds4psy <- function(base_size = 11,
     ggplot2::theme(#
       # titles: 
       title = ggplot2::element_text(color = col_title, face = "bold", 
-                                    margin = ggplot2::margin(t = 10, r = 5, b = 8, l = 5, unit = "pt")), 
+                                    margin = ggplot2::margin(t = 10, r = 4, b = 4, l = 4, unit = "pt")), 
       plot.subtitle = ggplot2::element_text(color = col_txt_1, face = "plain", hjust = 0,
-                                            margin = ggplot2::margin(t = 2, r = 5, b = 8, l = 5, unit = "pt")),  
+                                            margin = ggplot2::margin(t = 2, r = 4, b = 8, l = 4, unit = "pt")),  
       plot.caption  = ggplot2::element_text(color = col_txt_2, face = "plain", size = ggplot2::rel(.80), hjust = 1), 
       # axes:
       axis.line =  ggplot2::element_line(color = "black", size = ggplot2::rel(1)), 
@@ -104,21 +114,21 @@ theme_ds4psy <- function(base_size = 11,
       legend.key = ggplot2::element_blank(), 
       # strip: 
       # strip.background = ggplot2::element_blank(), 
-      strip.background = ggplot2::element_rect(fill = grey(.95, 1), color = grey(.10, 1),  # light grey strip background  
+      strip.background = ggplot2::element_rect(fill = col_bg_3, color = grey(.10, 1),  # strip background  
                                                size = ggplot2::rel(1.0)), 
       strip.text = ggplot2::element_text(color = col_txt_3, size = ggplot2::rel(1.0), 
-                                         margin = ggplot2::margin(t = 5, r = 5, b = 5, l = 5, unit = "pt")), 
+                                         margin = ggplot2::margin(t = 4, r = 4, b = 4, l = 4, unit = "pt")), 
       # panel: 
       # panel.border = ggplot2::element_blank(), 
       panel.border = ggplot2::element_rect(fill = "transparent", color = grey(.10, 1), linetype = "solid", 
                                            size = ggplot2::rel(2/3)), 
       # panel.grid = ggplot2::element_blank(), 
-      panel.grid.major = ggplot2::element_line(color = grey(.80, 1), linetype = "solid",  size = ggplot2::rel(1/3)), 
-      panel.grid.minor = ggplot2::element_line(color = grey(.80, 1), linetype = "dotted", size = ggplot2::rel(1/4)), 
+      panel.grid.major = ggplot2::element_line(color = grey(.80, 1), linetype = "solid",  size = ggplot2::rel(.35)), 
+      panel.grid.minor = ggplot2::element_line(color = grey(.80, 1), linetype = "dotted", size = ggplot2::rel(.25)), 
       # panel.background = ggplot2::element_blank(),  # no panel background 
-      panel.background = ggplot2::element_rect(fill = grey(1.0, 1), color = NA), # AE: "white" panel background 
+      panel.background = ggplot2::element_rect(fill = col_bg_2, color = NA), # panel background 
       # background:  
-      plot.background = ggplot2::element_rect(fill = col_bg, color = NA), 
+      plot.background = ggplot2::element_rect(fill = col_bg_1, color = NA), # main background
       complete = TRUE)
   
 } # theme_ds4psy end. 
