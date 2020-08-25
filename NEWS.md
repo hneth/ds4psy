@@ -39,6 +39,7 @@ Current development version of **ds4psy** (0.4.0.9001+):
 - add `days_in_month()` to obtain number of days in months for given dates (accounting for leap years) 
 - update `fame` data
 - rename `is.wholenumber()` to `is_wholenumber()`
+- revise `theme_ds4psy()` to provide control over color of plot background and text elements 
 
 ## Details 
 
@@ -189,6 +190,6 @@ The initial functionality is limited, as the package is designed to support the 
 
 ---------- 
 
-[File `News.md` updated on 2020-08-16.]
+[File `News.md` updated on 2020-08-25.]
 
 <!-- eof. -->
