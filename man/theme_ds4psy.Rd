@@ -7,15 +7,18 @@
 theme_ds4psy(
   base_size = 11,
   base_family = "",
-  base_line_size = base_size/20,
-  base_rect_size = base_size/20,
+  base_line_size = base_size/22,
+  base_rect_size = base_size/22,
   col_title = grey(0, 1),
   col_txt_1 = grey(0.1, 1),
   col_txt_2 = grey(0.2, 1),
   col_txt_3 = grey(0.1, 1),
-  col_bg_1 = "transparent",
-  col_bg_2 = grey(1, 1),
-  col_bg_3 = grey(0.95, 1)
+  col_bgr_1 = "transparent",
+  col_bgr_2 = grey(1, 1),
+  col_bgr_3 = grey(0.95, 1),
+  col_lin_1 = grey(0, 1),
+  col_lin_2 = grey(0.75, 1),
+  col_lin_3 = grey(0.05, 1)
 )
 }
 \arguments{
@@ -27,31 +30,40 @@ Default: \code{base_family = ""}.
 Options include \code{"mono"}, \code{"sans"} (default), and "serif".}
 
 \item{base_line_size}{Base line size (optional, numeric). 
-Default: \code{base_line_size = base_size/20}.}
+Default: \code{base_line_size = base_size/22}.}
 
 \item{base_rect_size}{Base rectangle size (optional, numeric). 
-Default: \code{base_rect_size = base_size/20}.}
+Default: \code{base_rect_size = base_size/22}.}
 
-\item{col_title}{Color of plot title (text) elements (optional).
+\item{col_title}{Color of plot title (and tag). 
 Default: \code{col_title = grey(.0, 1)} (i.e., "black").}
 
-\item{col_txt_1}{Color of text headings and axis labels (optional).
+\item{col_txt_1}{Color of primary text (headings and axis labels).
 Default: \code{col_title = grey(.1, 1)}.}
 
-\item{col_txt_2}{Color of legend and axis text/ticks (optional).
+\item{col_txt_2}{Color of secondary text (caption, legend, axes labels/ticks). 
 Default: \code{col_title = grey(.2, 1)}.}
 
-\item{col_txt_3}{Color of facet strip text (optional).
+\item{col_txt_3}{Color of other text (facet strip labels).
 Default: \code{col_title = grey(.1, 1)}.}
 
-\item{col_bg_1}{Color of plot background (optional).
-Default: \code{col_bg_1 = "transparent"}.}
+\item{col_bgr_1}{Color of main plot background.
+Default: \code{col_bgr_1 = "transparent"}.}
 
-\item{col_bg_2}{Color of panel background (optional).
-Default: \code{col_bg_2 = grey(1.0, 1)} (i.e., "white").}
+\item{col_bgr_2}{Color of panel background(s).
+Default: \code{col_bgr_2 = grey(1.0, 1)} (i.e., "white").}
 
-\item{col_bg_3}{Color of facet strip background (optional).
-Default: \code{col_bg_3 = grey(.95, 1)} (i.e., nearly "white").}
+\item{col_bgr_3}{Color of other backgrounds (facet strips).
+Default: \code{col_bgr_3 = grey(.95, 1)} (i.e., nearly "white").}
+
+\item{col_lin_1}{Color of primary lines (axes). 
+Default: \code{col_lin_1 = grey(.00, 1)} (i.e., "black").}
+
+\item{col_lin_2}{Color of secondary lines (major and minor panel lines). 
+Default: \code{col_lin_2 = grey(.75, 1)} (i.e., light "grey").}
+
+\item{col_lin_3}{Color of other lines (panel and strip borders). 
+Default: \code{col_lin_3 = grey(.05, 1)} (i.e., nearly "black").}
 }
 \description{
 \code{theme_ds4psy} provides a basic \bold{ds4psy} theme 
@@ -62,9 +74,9 @@ The theme is lightweight and no-nonsense, but somewhat
 opinionated (e.g., in using mostly grey scales to 
 allow emphasizing data points with color accents). 
 
-The colors of text elements and background elements can be specified, 
-but excessive customization rarely yields aesthetic improvements 
-beyond the \strong{ggplot2} default themes.
+The colors of text elements, backgrounds, and lines can be specified. 
+However, excessive customization rarely yields aesthetic improvements 
+over the standard \strong{ggplot2} themes.
 }
 \examples{
 
@@ -105,7 +117,7 @@ ggplot(datasets::iris) +
        subtitle = "A demo plot using unikn::Seeblau colors", 
        caption = "Data from datasets::iris") + 
   coord_fixed(ratio = 3/2) + 
-  theme_ds4psy(col_title = pal_seeblau[[4]], col_bg_3 = pal_seeblau[[1]])
+  theme_ds4psy(col_title = pal_seeblau[[4]], col_bgr_3 = pal_seeblau[[1]])
 
 }
 
