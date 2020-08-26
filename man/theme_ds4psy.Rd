@@ -62,23 +62,51 @@ The theme is lightweight and no-nonsense, but somewhat
 opinionated (e.g., in using mostly grey scales to 
 allow emphasizing data points with color accents). 
 
-The colors of text elements and background elements can be specified. 
-However, avoid excessive customization. 
-It is difficult to improve on the \strong{ggplot2} default themes.
+The colors of text elements and background elements can be specified, 
+but excessive customization rarely yields aesthetic improvements 
+beyond the \strong{ggplot2} default themes.
 }
 \examples{
 
 \donttest{
-  # Plotting iris dataset (using ggplot2 and theme_ds4psy):
-  
-  library("ggplot2")  # theme_ds4psy requires ggplot2 
-  
-  ggplot(datasets::iris) +
-    geom_jitter(aes(x = Petal.Length, y = Petal.Width, color = Species), size = 3, alpha = 2/3) +
-    labs(title = "Iris species",
-         caption = "Data from datasets::iris") +
-    theme_ds4psy()
-    
+
+# Plotting iris dataset (using ggplot2 and unikn):
+
+library('ggplot2')  # theme_ds4psy() requires ggplot2
+library('unikn')    # for colors and usecol() function
+   
+ggplot(datasets::iris) +
+  geom_jitter(aes(x = Petal.Length, y = Petal.Width, color = Species), size = 3, alpha = 2/3) +
+  scale_color_manual(values = usecol(pal = c(Pinky, Seeblau, Seegruen))) +
+  labs(title = "Iris petals",
+       subtitle = "The subtitle of this plot", 
+       caption = "Data from datasets::iris") +
+  theme_ds4psy()
+
+ggplot(datasets::iris) +
+  geom_jitter(aes(x = Sepal.Length, y = Sepal.Width, color = Species), size = 3, alpha = 2/3) +
+  facet_wrap(~Species) +
+  scale_color_manual(values = usecol(pal = c(Pinky, Seeblau, Seegruen))) +
+  labs(tag = "A",
+       title = "Iris sepals",
+       subtitle = "This is a demo plot with facets and default colors", 
+       caption = "Data from datasets::iris") + 
+  coord_fixed(ratio = 3/2) + 
+  theme_ds4psy()
+
+# in unikn::Seeblau look:
+
+ggplot(datasets::iris) +
+  geom_jitter(aes(x = Sepal.Length, y = Sepal.Width, color = Species), size = 3, alpha = 2/3) +
+  facet_wrap(~Species) +
+  scale_color_manual(values = usecol(pal = c(Pinky, Seeblau, Seegruen))) +
+  labs(tag = "B",
+       title = "Iris sepals",
+       subtitle = "A demo plot using unikn::Seeblau colors", 
+       caption = "Data from datasets::iris") + 
+  coord_fixed(ratio = 3/2) + 
+  theme_ds4psy(col_title = pal_seeblau[[4]], col_bg_3 = pal_seeblau[[1]])
+
 }
 
 }
