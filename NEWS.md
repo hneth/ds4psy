@@ -27,9 +27,11 @@ Current development version of **ds4psy** (0.4.0.9001+):
 
 - Add functions for **dates** and **times**:
 
-    - add `diff_times()` to compute temporal differences between times (in human units of years, months, days, hours, minutes, and seconds) 
-    - add `diff_dates()` to compute temporal differences between dates (in human units of years, months, and days) 
+    - add `diff_dates()` to compute temporal differences between dates (in human time units of years, months, and days) 
+    - add `diff_times()` to compute temporal differences between times (in human time units of years, ..., and seconds) 
     - add `diff_tz()` to compute time difference based on time zone differences  
+
+<!-- Add blank line.  --> 
 
 - Add `is_equal()` and `num_equal()` to check pairwise (near) equality of vectors  
 
@@ -39,7 +41,9 @@ Current development version of **ds4psy** (0.4.0.9001+):
 - add `days_in_month()` to obtain number of days in months for given dates (accounting for leap years) 
 - update `fame` data
 - rename `is.wholenumber()` to `is_wholenumber()`
-- revise `theme_ds4psy()` to provide control over color of plot background and text elements 
+- revise `theme_ds4psy()` to provide control over colors and text elements
+
+<!-- Add blank line.  --> 
 
 ## Details 
 
@@ -60,6 +64,8 @@ Release of **ds4psy** (0.4.0) on CRAN: <https://CRAN.R-project.org/package=ds4ps
     - simple date and time functions now include options for returning dates or times, rather than strings.
     - added time zone support to various functions.
     - added datasets with date and time variables. 
+
+<!-- Add blank line.  --> 
 
 ## Minor changes 
 
@@ -190,6 +196,6 @@ The initial functionality is limited, as the package is designed to support the 
 
 ---------- 
 
-[File `News.md` updated on 2020-08-25.]
+[File `News.md` updated on 2020-08-26.]
 
 <!-- eof. -->
