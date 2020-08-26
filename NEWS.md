@@ -39,9 +39,9 @@ Current development version of **ds4psy** (0.4.0.9001+):
 
 - align arguments of `sample_date()` and `sample_time()` with those of `sample()` 
 - add `days_in_month()` to obtain number of days in months for given dates (accounting for leap years) 
-- update `fame` data
-- rename `is.wholenumber()` to `is_wholenumber()`
-- revise `theme_ds4psy()` to provide control over colors and text elements
+- update `fame` data 
+- rename `is.wholenumber()` to `is_wholenumber()`  
+- revise `theme_ds4psy()` to control colors of backgrounds, lines, and text elements 
 
 <!-- Add blank line.  --> 
 
