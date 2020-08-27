@@ -2,7 +2,7 @@
 % Please edit documentation in R/theme_fun.R
 \name{theme_ds4psy}
 \alias{theme_ds4psy}
-\title{ds4psy default plot theme (using ggplot2 and unikn).}
+\title{A clean and flexible plot theme (using ggplot2 and unikn).}
 \usage{
 theme_ds4psy(
   base_size = 11,
@@ -13,12 +13,12 @@ theme_ds4psy(
   col_txt_1 = grey(0.1, 1),
   col_txt_2 = grey(0.2, 1),
   col_txt_3 = grey(0.1, 1),
-  col_bgr_1 = "transparent",
-  col_bgr_2 = grey(1, 1),
-  col_bgr_3 = grey(0.95, 1),
-  col_lin_1 = grey(0, 1),
-  col_lin_2 = grey(0.75, 1),
-  col_lin_3 = grey(0.05, 1)
+  col_bgrnd = "transparent",
+  col_panel = grey(1, 1),
+  col_strip = "transparent",
+  col_axes = grey(0, 1),
+  col_grids = grey(0.75, 1),
+  col_brdrs = "transparent"
 )
 }
 \arguments{
@@ -47,35 +47,36 @@ Default: \code{col_title = grey(.2, 1)}.}
 \item{col_txt_3}{Color of other text (facet strip labels).
 Default: \code{col_title = grey(.1, 1)}.}
 
-\item{col_bgr_1}{Color of main plot background.
-Default: \code{col_bgr_1 = "transparent"}.}
+\item{col_bgrnd}{Color of plot background.
+Default: \code{col_bgrnd = "transparent"}.}
 
-\item{col_bgr_2}{Color of panel background(s).
-Default: \code{col_bgr_2 = grey(1.0, 1)} (i.e., "white").}
+\item{col_panel}{Color of panel background(s).
+Default: \code{col_panel = grey(1.0, 1)} (i.e., "white").}
 
-\item{col_bgr_3}{Color of other backgrounds (facet strips).
-Default: \code{col_bgr_3 = grey(.95, 1)} (i.e., nearly "white").}
+\item{col_strip}{Color of facet strips. 
+Default: \code{col_strip = "transparent"}.}
 
-\item{col_lin_1}{Color of primary lines (axes). 
-Default: \code{col_lin_1 = grey(.00, 1)} (i.e., "black").}
+\item{col_axes}{Color of (x and y) axes. 
+Default: \code{col_axes = grey(.00, 1)} (i.e., "black").}
 
-\item{col_lin_2}{Color of secondary lines (major and minor panel lines). 
-Default: \code{col_lin_2 = grey(.75, 1)} (i.e., light "grey").}
+\item{col_grids}{Color of (major and minor) panel lines. 
+Default: \code{col_grids = grey(.75, 1)} (i.e., light "grey").}
 
-\item{col_lin_3}{Color of other lines (panel and strip borders). 
-Default: \code{col_lin_3 = grey(.05, 1)} (i.e., nearly "black").}
+\item{col_brdrs}{Color of (panel and strip) borders. 
+Default: \code{col_brdrs = "transparent"}.}
 }
 \description{
-\code{theme_ds4psy} provides a basic \bold{ds4psy} theme 
+\code{theme_ds4psy} provides a generic \bold{ds4psy} theme 
 to use in \bold{ggplot2} commands.
 }
 \details{
 The theme is lightweight and no-nonsense, but somewhat 
-opinionated (e.g., in using mostly grey scales to 
-allow emphasizing data points with color accents). 
+opinionated (e.g., in using transparency and gridlines, 
+and relying on grey tones for emphasizing data with color accents). 
 
-The colors of text elements, backgrounds, and lines can be specified. 
-However, excessive customization rarely yields aesthetic improvements 
+Basic sizes and the colors of text elements, 
+backgrounds, and lines can be specified. 
+However, excessive customizations rarely yield aesthetic improvements 
 over the standard \strong{ggplot2} themes.
 }
 \examples{
@@ -117,7 +118,7 @@ ggplot(datasets::iris) +
        subtitle = "A demo plot using unikn::Seeblau colors", 
        caption = "Data from datasets::iris") + 
   coord_fixed(ratio = 3/2) + 
-  theme_ds4psy(col_title = pal_seeblau[[4]], col_bgr_3 = pal_seeblau[[1]])
+  theme_ds4psy(col_title = pal_seeblau[[4]], col_strip = pal_seeblau[[1]], col_brdrs = Grau)
 
 }
 
@@ -130,6 +131,7 @@ Other plot functions:
 \code{\link{plot_fun}()},
 \code{\link{plot_n}()},
 \code{\link{plot_text}()},
-\code{\link{plot_tiles}()}
+\code{\link{plot_tiles}()},
+\code{\link{theme_clean}()}
 }
 \concept{plot functions}

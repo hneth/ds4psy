@@ -84,6 +84,7 @@ Other plot functions:
 \code{\link{plot_n}()},
 \code{\link{plot_text}()},
 \code{\link{plot_tiles}()},
+\code{\link{theme_clean}()},
 \code{\link{theme_ds4psy}()}
 }
 \concept{plot functions}
