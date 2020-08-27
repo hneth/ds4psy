@@ -8,7 +8,7 @@
 
 # theme_ds4psy: A clean and flexible ggplot2 theme ------ 
 
-#' A clean and flexible plot theme (using ggplot2 and unikn).
+#' A basic and flexible plot theme (using ggplot2 and unikn).
 #'
 #' \code{theme_ds4psy} provides a generic \bold{ds4psy} theme 
 #' to use in \bold{ggplot2} commands. 
@@ -219,7 +219,8 @@ theme_ds4psy <- function(base_size = 11,
 #' \donttest{
 #' # Plotting iris dataset (using ggplot2, theme_grau, and unikn colors):
 #'   
-#' library('ggplot2')  # theme_clean requires ggplot2 
+#' library('ggplot2')  # theme_clean() requires ggplot2
+#' library('unikn')    # for colors and usecol() function
 #'    
 #' ggplot(datasets::iris) +
 #'   geom_jitter(aes(x = Sepal.Length, y = Sepal.Width, color = Species), size = 3, alpha = 3/4) +
