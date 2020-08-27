@@ -71,12 +71,12 @@ to use in \bold{ggplot2} commands.
 }
 \details{
 The theme is lightweight and no-nonsense, but somewhat 
-opinionated (e.g., in using transparency and gridlines, 
+opinionated (e.g., in using transparency and grid lines, 
 and relying on grey tones for emphasizing data with color accents). 
 
 Basic sizes and the colors of text elements, 
 backgrounds, and lines can be specified. 
-However, excessive customizations rarely yield aesthetic improvements 
+However, excessive customization rarely yields aesthetic improvements 
 over the standard \strong{ggplot2} themes.
 }
 \examples{
