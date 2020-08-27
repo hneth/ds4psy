@@ -58,7 +58,8 @@ but is of limited use with transparent colors.
 \donttest{
 # Plotting iris dataset (using ggplot2, theme_grau, and unikn colors):
   
-library('ggplot2')  # theme_clean requires ggplot2 
+library('ggplot2')  # theme_clean() requires ggplot2
+library('unikn')    # for colors and usecol() function
    
 ggplot(datasets::iris) +
   geom_jitter(aes(x = Sepal.Length, y = Sepal.Width, color = Species), size = 3, alpha = 3/4) +

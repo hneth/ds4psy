@@ -2,7 +2,7 @@
 % Please edit documentation in R/theme_fun.R
 \name{theme_ds4psy}
 \alias{theme_ds4psy}
-\title{A clean and flexible plot theme (using ggplot2 and unikn).}
+\title{A basic and flexible plot theme (using ggplot2 and unikn).}
 \usage{
 theme_ds4psy(
   base_size = 11,
