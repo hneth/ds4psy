@@ -1,6 +1,6 @@
-# .gitignore | ds4psy | 2019 08 26
+## .gitignore | ds4psy | 2019 08 27
 
-# (a) generic stuff: -----
+## 1. generic stuff: -----
 
 # self:
 # .gitignore
@@ -8,8 +8,7 @@
 # Mac OS:
 .DS_Store
 
-
-# (b) R stuff: -----
+## 2. R stuff: -----
 
 # History:
 .Rhistory
@@ -62,10 +61,10 @@ docs/
 
 # CRAN: 
 cran-comments.md 
-CRAN-RELEASE 
+^CRAN-RELEASE$
 
 
-# (c) project files: -----
+## 3. Project files: -----
 
 # dirs:
 _gitless
@@ -77,4 +76,4 @@ rsconnect
 # files:
 *.html
 
-# eof.
+## eof.
