@@ -25,23 +25,24 @@ Current development version of **ds4psy** (0.4.0.9001+):
 
 ## Major changes 
 
-- Add functions for **dates** and **times**:
+- Additional functions for **dates** and **times**:
 
-    - add `diff_dates()` to compute temporal differences between dates (in human time units of years, months, and days) 
-    - add `diff_times()` to compute temporal differences between times (in human time units of years, ..., and seconds) 
-    - add `diff_tz()` to compute time difference based on time zone differences  
+    - added `diff_dates()` to compute temporal differences between dates (in human time units of years, months, and days) 
+    - added `diff_times()` to compute temporal differences between times (in human time units of years, ..., and seconds) 
+    - added `diff_tz()` to compute time difference based on time zone differences  
+    - added `days_in_month()` to obtain number of days in months for given dates (accounting for leap years)  
 
 <!-- Add blank line.  --> 
 
-- Add `is_equal()` and `num_equal()` to check pairwise (near) equality of vectors  
+- added `is_equal()` and `num_equal()` to check pairwise (near) equality of vectors  
+- added `theme_clean()` as an alternative to `theme_ds4psy()` 
 
 ## Minor changes 
 
-- align arguments of `sample_date()` and `sample_time()` with those of `sample()` 
-- add `days_in_month()` to obtain number of days in months for given dates (accounting for leap years) 
-- update `fame` data 
-- rename `is.wholenumber()` to `is_wholenumber()`  
-- revise `theme_ds4psy()` to control colors of backgrounds, lines, and text elements 
+- renamed `is.wholenumber()` to `is_wholenumber()`  
+- revised arguments of `sample_date()` and `sample_time()` to align with `sample()` 
+- revised `theme_ds4psy()` to control colors of backgrounds, lines, and text elements 
+- updated `fame` data 
 
 <!-- Add blank line.  --> 
 
@@ -118,6 +119,7 @@ This release adds support for processing **text** data.
 - renamed family of `text functions` to `text objects and functions`  
 - renamed family of `random functions` to `sampling functions`  
 
+<!-- Add blank line.  --> 
 
 -------- 
 
@@ -146,6 +148,8 @@ This is a **maintenance release** to remove some dependencies, fix bugs on CRAN 
 - bug fix: Added `utils::globalVariables(...)` to avoid Warning NOTE "Undefined global functions or variables"
 - bug fix: Removed packages not used in this version (i.e., `dplyr`, and `magrittr`) from declared Imports 
 
+
+<!-- Add blank line.  --> 
 
 -------- 
 
@@ -179,6 +183,8 @@ Changes involving new functionality include:
 - bug fix: Removed packages not used in this version (i.e., `readr`, `stringr`, `tidyr`, and `tidyverse`) from declared Imports
 
 
+<!-- Add blank line.  --> 
+
 -------- 
 
 # ds4psy 0.1.0
@@ -194,8 +200,10 @@ The initial functionality is limited, as the package is designed to support the 
 - provides an initial color scheme and plotting theme
 - added plotting functions (e.g., of book graphics) for exploring functions 
 
+<!-- Add blank line.  --> 
+
 ---------- 
 
-[File `News.md` updated on 2020-08-26.]
+[File `NEWS.md` updated on 2020-08-26.]
 
 <!-- eof. -->
