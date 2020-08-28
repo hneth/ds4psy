@@ -35,14 +35,14 @@ Current development version of **ds4psy** (0.4.0.9001+):
 <!-- Add blank line.  --> 
 
 - added `is_equal()` and `num_equal()` to check pairwise (near) equality of vectors  
-- added `theme_clean()` as an alternative to `theme_ds4psy()` 
+- added `theme_clean()` as an alternative to `theme_ds4psy()`  
 
 ## Minor changes 
 
 - renamed `is.wholenumber()` to `is_wholenumber()`  
 - revised arguments of `sample_date()` and `sample_time()` to align with `sample()` 
-- revised `theme_ds4psy()` to control colors of backgrounds, lines, and text elements 
-- updated `fame` data 
+- revised `theme_ds4psy()` to provide control over colors of backgrounds, lines, and text elements 
+- updated `fame` data  
 
 <!-- Add blank line.  --> 
 
@@ -204,6 +204,6 @@ The initial functionality is limited, as the package is designed to support the 
 
 ---------- 
 
-[File `NEWS.md` updated on 2020-08-26.]
+[File `NEWS.md` updated on 2020-08-28.]
 
 <!-- eof. -->
