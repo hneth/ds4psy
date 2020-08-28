@@ -17,7 +17,8 @@ theme_ds4psy(
   col_panel = grey(1, 1),
   col_strip = "transparent",
   col_axes = grey(0, 1),
-  col_grids = grey(0.75, 1),
+  col_gridx = grey(0.75, 1),
+  col_gridy = grey(0.75, 1),
   col_brdrs = "transparent"
 )
 }
@@ -59,8 +60,11 @@ Default: \code{col_strip = "transparent"}.}
 \item{col_axes}{Color of (x and y) axes. 
 Default: \code{col_axes = grey(.00, 1)} (i.e., "black").}
 
-\item{col_grids}{Color of (major and minor) panel lines. 
-Default: \code{col_grids = grey(.75, 1)} (i.e., light "grey").}
+\item{col_gridx}{Color of (major and minor) panel lines (through x/vertical). 
+Default: \code{col_gridx = grey(.75, 1)} (i.e., light "grey").}
+
+\item{col_gridy}{Color of (major and minor) panel lines (through y/horizontal). 
+Default: \code{col_gridy = grey(.75, 1)} (i.e., light "grey").}
 
 \item{col_brdrs}{Color of (panel and strip) borders. 
 Default: \code{col_brdrs = "transparent"}.}

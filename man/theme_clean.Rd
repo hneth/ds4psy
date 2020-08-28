@@ -11,7 +11,8 @@ theme_clean(
   base_rect_size = base_size/22,
   col_title = grey(0, 1),
   col_panel = grey(0.85, 1),
-  col_grids = grey(1, 1),
+  col_gridx = grey(1, 1),
+  col_gridy = grey(1, 1),
   col_ticks = grey(0.1, 1)
 )
 }
@@ -35,8 +36,11 @@ Default: \code{col_title = grey(.0, 1)} (i.e., "black").}
 \item{col_panel}{Color of panel background(s). 
 Default: \code{col_panel = grey(.85, 1)} (i.e., light "grey").}
 
-\item{col_grids}{Color of panel lines (only major lines shown). 
-Default: \code{col_grids = grey(1.0, 1)} (i.e., "white").}
+\item{col_gridx}{Color of (major) panel lines (through x/vertical). 
+Default: \code{col_gridx = grey(1.0, 1)} (i.e., "white").}
+
+\item{col_gridy}{Color of (major) panel lines (through y/horizontal). 
+Default: \code{col_gridy = grey(1.0, 1)} (i.e., "white").}
 
 \item{col_ticks}{Color of axes text and ticks. 
 Default: \code{col_ticks = grey(.10, 1)} (i.e., near "black").}
