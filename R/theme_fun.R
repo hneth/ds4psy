@@ -59,8 +59,11 @@
 #' @param col_axes Color of (x and y) axes. 
 #' Default: \code{col_axes = grey(.00, 1)} (i.e., "black"). 
 #' 
-#' @param col_grids Color of (major and minor) panel lines. 
-#' Default: \code{col_grids = grey(.75, 1)} (i.e., light "grey"). 
+#' @param col_gridx Color of (major and minor) panel lines (through x/vertical). 
+#' Default: \code{col_gridx = grey(.75, 1)} (i.e., light "grey"). 
+#' 
+#' @param col_gridy Color of (major and minor) panel lines (through y/horizontal). 
+#' Default: \code{col_gridy = grey(.75, 1)} (i.e., light "grey"). 
 #' 
 #' @param col_brdrs Color of (panel and strip) borders. 
 #' Default: \code{col_brdrs = "transparent"}. 
@@ -131,7 +134,9 @@ theme_ds4psy <- function(base_size = 11,
                          col_panel = grey(1.0, 1),  # (panel background): grey(1, 1) OR "white"
                          col_strip = "transparent", # (strip background): "transparent" OR grey(.95, 1)/light "grey"
                          col_axes  = grey(0.0, 1),  # (axes): grey(0, 1) OR "black"
-                         col_grids = grey(.75, 1),  # (grid lines): grey(.50, 1) OR "grey"
+                         # col_grids = grey(.75, 1),  # (grid lines): grey(.50, 1) OR light "grey"
+                         col_gridx = grey(.75, 1),  # (grid lines through x): grey(.75, 1) OR light "grey"
+                         col_gridy = grey(.75, 1),  # (grid lines through y): grey(.75, 1) OR light "grey"
                          col_brdrs = "transparent"  # (panel and strip borders): "transparent" OR grey(.05, 1)/nearly "black" 
 ) {ggplot2::theme_bw(base_size = base_size, 
                      base_family = base_family, 
@@ -159,13 +164,21 @@ theme_ds4psy <- function(base_size = 11,
       strip.background = ggplot2::element_rect(fill = col_strip, color = col_brdrs, size = ggplot2::rel(1.0)), 
       strip.text = ggplot2::element_text(color = col_txt_3, size = ggplot2::rel(1.0), 
                                          margin = ggplot2::margin(t = 4, r = 4, b = 4, l = 4, unit = "pt")), 
-      # panel: 
+      # panel border: 
       # panel.border = ggplot2::element_blank(), 
       panel.border = ggplot2::element_rect(fill = "transparent", color = col_brdrs, linetype = "solid", 
-                                           size = ggplot2::rel(1.0)), 
+                                           size = ggplot2::rel(1.0)),
+      # grid lines: 
       # panel.grid = ggplot2::element_blank(), 
-      panel.grid.major = ggplot2::element_line(color = col_grids, linetype = "solid", size = ggplot2::rel(.40)), 
-      panel.grid.minor = ggplot2::element_line(color = col_grids, linetype = "solid", size = ggplot2::rel(.40)), # "dotted"/"solid" 
+      #
+      # panel.grid.major = ggplot2::element_line(color = col_grids, linetype = "solid", size = ggplot2::rel(.40)), 
+      panel.grid.major.x = ggplot2::element_line(color = col_gridx, linetype = "solid", size = ggplot2::rel(.40)), 
+      panel.grid.major.y = ggplot2::element_line(color = col_gridy, linetype = "solid", size = ggplot2::rel(.40)), 
+      #
+      # panel.grid.minor = ggplot2::element_line(color = col_grids, linetype = "solid", size = ggplot2::rel(.40)), # "dotted"/"solid"
+      panel.grid.minor.x = ggplot2::element_line(color = col_gridx, linetype = "solid", size = ggplot2::rel(.40)), # "dotted"/"solid"      
+      panel.grid.minor.y = ggplot2::element_line(color = col_gridy, linetype = "solid", size = ggplot2::rel(.40)), # "dotted"/"solid"
+      #
       # panel.background = ggplot2::element_blank(),  # no panel background 
       panel.background = ggplot2::element_rect(fill = col_panel, color = NA), # panel background 
       # background:  
@@ -208,8 +221,11 @@ theme_ds4psy <- function(base_size = 11,
 #' @param col_panel Color of panel background(s). 
 #' Default: \code{col_panel = grey(.85, 1)} (i.e., light "grey"). 
 #' 
-#' @param col_grids Color of panel lines (only major lines shown). 
-#' Default: \code{col_grids = grey(1.0, 1)} (i.e., "white"). 
+#' @param col_gridx Color of (major) panel lines (through x/vertical). 
+#' Default: \code{col_gridx = grey(1.0, 1)} (i.e., "white"). 
+#' 
+#' @param col_gridy Color of (major) panel lines (through y/horizontal). 
+#' Default: \code{col_gridy = grey(1.0, 1)} (i.e., "white"). 
 #' 
 #' @param col_ticks Color of axes text and ticks. 
 #' Default: \code{col_ticks = grey(.10, 1)} (i.e., near "black").
@@ -251,7 +267,9 @@ theme_clean <- function(base_size = 11,
                         base_rect_size = base_size/22,
                         col_title = grey(0.0, 1),  # (main title): "black" OR unikn::pal_seeblau[[4]], 
                         col_panel = grey(.85, 1),  # (panel background): grey(.85, 1) OR light "grey"
-                        col_grids = grey(1.0, 1),  # (panel lines, major): grey(1, 1) or "white"
+                        # col_grids = grey(1.0, 1),  # (panel lines, major): grey(1, 1) or "white"
+                        col_gridx = grey(1.0, 1),  # (grid lines through x): grey(.75, 1) OR "grey"
+                        col_gridy = grey(1.0, 1),  # (grid lines through y): grey(.75, 1) OR "grey"
                         col_ticks = grey(.10, 1)   # (axis text and ticks): grey(.10, 1) OR "black"
 ) {ggplot2::theme_bw(base_size = base_size, 
                      base_family = base_family, 
@@ -283,15 +301,22 @@ theme_clean <- function(base_size = 11,
       strip.background = ggplot2::element_rect(fill = "transparent", color = NA, size = ggplot2::rel(1.0)),  # transparent strip 
       strip.text = ggplot2::element_text(color = grey(0, 1), size = ggplot2::rel(.95), 
                                          margin = ggplot2::margin(t = 4, r = 4, b = 4, l = 4, unit = "pt")), 
-      # panel: 
+      # panel border: 
       panel.border = ggplot2::element_blank(), 
       # panel.border = ggplot2::element_rect(fill = "transparent", color = grey(.10, 1), linetype = "solid", size = ggplot2::rel(2/3)), 
+      # panel background: 
       # panel.background = ggplot2::element_blank(), 
       panel.background = ggplot2::element_rect(fill = col_panel, color = col_panel), # panel background
-      # panel.grid = ggplot2::element_blank(), 
-      panel.grid.major = ggplot2::element_line(color = col_grids, linetype = "solid", size = ggplot2::rel(.90)), # major lines
-      panel.grid.minor = ggplot2::element_blank(), 
+      # grid lines:
+      # panel.grid = ggplot2::element_blank(),
+      #
+      # panel.grid.major = ggplot2::element_line(color = col_grids, linetype = "solid", size = ggplot2::rel(.90)), # major grid lines
+      panel.grid.major.x = ggplot2::element_line(color = col_gridx, linetype = "solid", size = ggplot2::rel(.90)), # major grid through x
+      panel.grid.major.y = ggplot2::element_line(color = col_gridy, linetype = "solid", size = ggplot2::rel(.90)), # major grid through y
+      #
+      panel.grid.minor = ggplot2::element_blank(), # no minor grid lines 
       # panel.grid.minor = ggplot2::element_line(color = grey(.95, 1), linetype = "solid", size = ggplot2::rel(2/3)), 
+      #
       # background:  
       plot.background = ggplot2::element_rect(fill = "transparent", color = NA), 
       complete = TRUE)
