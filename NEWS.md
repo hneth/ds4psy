@@ -1,5 +1,5 @@
 
-# ds4psy 0.4.0.9001+
+# ds4psy 0.5.0+
 
 <!-- Description: --> 
 
@@ -11,17 +11,17 @@ The book and course [Data Science for Psychologists](https://bookdown.org/hneth/
 
 <!-- Links: --> 
 
-- The most recent release of **ds4psy** (0.4.0) is available from CRAN: <https://CRAN.R-project.org/package=ds4psy>.
+- The most recent release of **ds4psy** (0.5.0) is available from CRAN: <https://CRAN.R-project.org/package=ds4psy>.
 
-- The current development version of **ds4psy** (0.4.0.9001+) is hosted at <https://github.com/hneth/ds4psy/>. 
+- The current development version of **ds4psy** (0.5.0.9001+) is hosted at <https://github.com/hneth/ds4psy/>. 
 
 - The textbook **Data Science for Psychologists** is hosted at <https://bookdown.org/hneth/ds4psy/>.
 
 -------- 
 
-# ds4psy 0.4.0.9001+
+# ds4psy 0.5.0
 
-Current development version of **ds4psy** (0.4.0.9001+):
+Release of **ds4psy** (0.5.0) on CRAN: <https://CRAN.R-project.org/package=ds4psy>. [2020-09-01] 
 
 ## Major changes 
 
@@ -51,6 +51,12 @@ Current development version of **ds4psy** (0.4.0.9001+):
 - bug fix: `num_as_char()` now also works for negative numbers.  
 - bug fix: Remove alternative solution in `is_leap_year()` (which yielded `FALSE` for `NA` inputs).  
 - bug fix: Replace `\u2212` (minus sign) by `-` (dash) in `exp_num_dt$blood_type` to prevent **Note** on "marked UTF-8 strings".  
+
+<!-- Add blank line.  --> 
+
+The current development version of **ds4psy** (0.5.0.9001+) is hosted at <https://github.com/hneth/ds4psy/>. 
+
+<!-- Add blank line.  --> 
 
 -------- 
 
@@ -204,6 +210,6 @@ The initial functionality is limited, as the package is designed to support the 
 
 ---------- 
 
-[File `NEWS.md` updated on 2020-08-28.]
+[File `NEWS.md` updated on 2020-08-31.]
 
 <!-- eof. -->
