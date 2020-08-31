@@ -1067,7 +1067,7 @@
 #' @family datasets
 #' 
 #' @source 
-#' Student solutions to exercises, dates mostly from \url{https://en.wikipedia.org}. 
+#' Student solutions to exercises, dates mostly from \url{https://www.wikipedia.org/}. 
 
 "fame"
 
