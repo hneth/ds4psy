@@ -23,7 +23,7 @@ Data from paper "False-Positive Psychology:
 Undisclosed Flexibility in Data Collection and Analysis 
 Allows Presenting Anything as Significant". 
 \emph{Journal of Open Psychology Data}, \emph{2}(1), e1. 
-doi: \url{http://doi.org/10.5334/jopd.aa} 
+doi: \url{https://doi.org/10.5334/jopd.aa} 
 }
 
 See files at \url{https://openpsychologydata.metajnl.com/articles/10.5334/jopd.aa/} and 
