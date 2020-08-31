@@ -8,7 +8,7 @@
 A table with 66 cases (rows) and 4 variables (columns).
 }
 \source{
-Student solutions to exercises, dates mostly from \url{https://en.wikipedia.org}.
+Student solutions to exercises, dates mostly from \url{https://www.wikipedia.org/}.
 }
 \usage{
 fame

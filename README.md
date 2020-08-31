@@ -118,7 +118,7 @@ This course develops the foundations of data analysis that allow
 students to collect data from real-world sources and transform and shape
 such data to answer scientific and practical questions. Although there
 are many good introductions to data science (e.g., [Grolemund &
-Wickham, 2017](http://r4ds.had.co.nz/)) they typically do not take into
+Wickham, 2017](https://r4ds.had.co.nz/)) they typically do not take into
 account the special needs — and often anxieties and reservations — of
 psychology students. As social scientists are not computer scientists,
 we introduce new concepts and commands without assuming a mathematical
@@ -176,7 +176,7 @@ The script was originally based on the following textbook:
   - Wickham, H., & Grolemund, G. (2017). *R for data science: Import,
     tidy, transform, visualize, and model data.* Sebastopol, Canada:
     O’Reilly Media, Inc. \[Available online at
-    <http://r4ds.had.co.nz>.\]
+    [https://r4ds.had.co.nz](https://r4ds.had.co.nz/).\]
 
 ### Software
 
@@ -185,7 +185,7 @@ Please install the following open-source programs on your computer:
   - [The R Project for Statistical
     Computing](https://www.R-project.org/)
 
-  - [R Studio](http://www.rstudio.com/) is an integrated development
+  - [R Studio](https://rstudio.com/) is an integrated development
     environment (IDE) for R.
 
   - R packages of the [tidyverse](https://www.tidyverse.org/),
@@ -230,13 +230,11 @@ Nr. | Topic       |
 
 #### Online
 
-  - [RStudio cheat
-    sheets](https://www.rstudio.com/resources/cheatsheets/)
+  - [RStudio cheat sheets](https://rstudio.com/resources/cheatsheets/)
 
   - Further resources on the [tidyverse](https://www.tidyverse.org/):
     
-      - See <https://www.tidyverse.org/articles/> for current
-        developments
+      - See <https://www.tidyverse.org/blog/> for current developments
       - See <https://www.tidyverse.org/learn/> for learning resources
 
   - See also the link collections at the end of each chapter of the

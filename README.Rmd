@@ -91,7 +91,7 @@ By using various data types and working with many examples, we teach tools for t
 
 Students of psychology and other social sciences are trained to analyze data. But the data they learn to work with (e.g., in courses on statistics and empirical research methods) is typically provided to them and structured in a (rectangular or "tidy") format that presupposes many steps of data processing regarding the aggregation and spatial layout of variables.  When beginning to collect their own data, students inevitably struggle with these pre-processing steps which &mdash; even for experienced data scientists &mdash; tend to require more time and effort than choosing and conducting statistical tests. 
 
-This course develops the foundations of data analysis that allow students to collect data from real-world sources and transform and shape such data to answer scientific and practical questions. Although there are many good introductions to data science (e.g., [Grolemund & Wickham, 2017](http://r4ds.had.co.nz/)) they typically do not take into account the special needs &mdash; and often anxieties and reservations &mdash; of psychology students. As social scientists are not computer scientists, we introduce new concepts and commands without assuming a mathematical or computational background. Adopting a task-oriented perspective, we begin with a specific problem and then solve it with some combination of data collection, manipulation, and visualization. 
+This course develops the foundations of data analysis that allow students to collect data from real-world sources and transform and shape such data to answer scientific and practical questions. Although there are many good introductions to data science (e.g., [Grolemund & Wickham, 2017](https://r4ds.had.co.nz/)) they typically do not take into account the special needs &mdash; and often anxieties and reservations &mdash; of psychology students. As social scientists are not computer scientists, we introduce new concepts and commands without assuming a mathematical or computational background. Adopting a task-oriented perspective, we begin with a specific problem and then solve it with some combination of data collection, manipulation, and visualization. 
 
 ### Goals
 
@@ -127,7 +127,7 @@ This package and the corresponding book are still being developed and are update
 The script was originally based on the following textbook:  
 
 - Wickham, H., & Grolemund, G. (2017). _R for data science: Import, tidy, transform, visualize, and model data._ 
-Sebastopol, Canada: O'Reilly Media, Inc.  [Available online at [http://r4ds.had.co.nz](http://r4ds.had.co.nz).]
+Sebastopol, Canada: O'Reilly Media, Inc.  [Available online at [https://r4ds.had.co.nz](https://r4ds.had.co.nz/).]
 
 ### Software 
 
@@ -135,7 +135,7 @@ Please install the following open-source programs on your computer:
 
 - [The R Project for Statistical Computing](https://www.R-project.org/)
 
-- [R Studio](http://www.rstudio.com/) is an integrated development environment (IDE) for R.
+- [R Studio](https://rstudio.com/) is an integrated development environment (IDE) for R.
 
 - R packages of the [tidyverse](https://www.tidyverse.org/), [ds4psy](https://CRAN.R-project.org/package=ds4psy), and [unikn](https://CRAN.R-project.org/package=unikn): 
 
@@ -176,10 +176,10 @@ Nr. | Topic       |
 
 #### Online 
 
-- [RStudio cheat sheets](https://www.rstudio.com/resources/cheatsheets/)
+- [RStudio cheat sheets](https://rstudio.com/resources/cheatsheets/)
 
 - Further resources on the [tidyverse](https://www.tidyverse.org/):
-    - See <https://www.tidyverse.org/articles/> for current developments
+    - See <https://www.tidyverse.org/blog/> for current developments
     - See <https://www.tidyverse.org/learn/> for learning resources 
 
 - See also the link collections at the end of each chapter of the [ds4psy book](https://bookdown.org/hneth/ds4psy/). 
