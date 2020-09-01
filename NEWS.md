@@ -1,9 +1,10 @@
 
-# ds4psy 0.5.0+
+# ds4psy 0.5.0.9001+ 
 
 <!-- Description: --> 
 
 All datasets and functions required for the examples and exercises of the book "Data Science for Psychologists" (by Hansjoerg Neth, Konstanz University, 2020), available at <https://bookdown.org/hneth/ds4psy/>. The book and course introduce principles and methods of data science to students of psychology and other biological or social sciences. The 'ds4psy' package primarily provides datasets, but also functions for data generation and manipulation (e.g., of text and time data) and graphics that are used in the book and its exercises. All functions included in 'ds4psy' are designed to be explicit and instructive, rather than elegant or efficient.
+
 
 ### Overview {-}
 
@@ -16,6 +17,23 @@ The book and course [Data Science for Psychologists](https://bookdown.org/hneth/
 - The current development version of **ds4psy** (0.5.0.9001+) is hosted at <https://github.com/hneth/ds4psy/>. 
 
 - The textbook **Data Science for Psychologists** is hosted at <https://bookdown.org/hneth/ds4psy/>.
+
+
+## Major changes 
+
+- none yet
+
+## Minor changes 
+
+- none yet
+
+## Details 
+
+- none yet
+
+<!-- Add blank line.  --> 
+
+The current development version of **ds4psy** (0.5.0.9001+) is hosted at <https://github.com/hneth/ds4psy/>. 
 
 -------- 
 
@@ -51,10 +69,6 @@ Release of **ds4psy** (0.5.0) on CRAN: <https://CRAN.R-project.org/package=ds4ps
 - bug fix: `num_as_char()` now also works for negative numbers.  
 - bug fix: Remove alternative solution in `is_leap_year()` (which yielded `FALSE` for `NA` inputs).  
 - bug fix: Replace `\u2212` (minus sign) by `-` (dash) in `exp_num_dt$blood_type` to prevent **Note** on "marked UTF-8 strings".  
-
-<!-- Add blank line.  --> 
-
-The current development version of **ds4psy** (0.5.0.9001+) is hosted at <https://github.com/hneth/ds4psy/>. 
 
 <!-- Add blank line.  --> 
 
@@ -210,6 +224,6 @@ The initial functionality is limited, as the package is designed to support the 
 
 ---------- 
 
-[File `NEWS.md` updated on 2020-08-31.]
+[File `NEWS.md` updated on 2020-09-01.]
 
 <!-- eof. -->
