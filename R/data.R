@@ -1,5 +1,5 @@
 ## data.R | ds4psy
-## hn | uni.kn | 2020 09 03
+## hn | uni.kn | 2020 09 19
 ## Documentation of datasets included in /data. 
 
 
@@ -1033,8 +1033,8 @@
 #' as of September 2020).
 #' 
 #' @format A vector of type \code{character}  
-#' with \code{length(Trumpisms) = 111} 
-#' (as of 2020-09-03). 
+#' with \code{length(Trumpisms) = 114} 
+#' (as of 2020-09-19). 
 #' 
 #' @family datasets 
 #' 
