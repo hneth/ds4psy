@@ -25,7 +25,7 @@ The book and course [Data Science for Psychologists](https://bookdown.org/hneth/
 
 ## Minor changes 
 
-- none yet
+- updated `fame` data 
 
 ## Details 
 
@@ -224,6 +224,6 @@ The initial functionality is limited, as the package is designed to support the 
 
 ---------- 
 
-[File `NEWS.md` updated on 2020-09-01.]
+[File `NEWS.md` updated on 2020-09-20.]
 
 <!-- eof. -->
