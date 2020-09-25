@@ -1,8 +1,9 @@
 ## text_fun.R | ds4psy
-## hn | uni.kn | 2020 08 07
+## hn | uni.kn | 2020 09 25
 ## ---------------------------
 
 ## Character objects and functions for string/text objects. 
+
 
 ## (0) Define character vectors and strings of text: ---------- 
 
@@ -234,31 +235,18 @@ cclass <- ccv
 # # toc  # used in plot_tbar() and plot_tclock()
 
 
-## (1) L33t slang: ---------- 
 
-# Using leet / l33t slang: ------
+## (1) Leet/l33t slang: ---------- 
 
-# # l33t rul35: 
+## l33t ex4mpl35: ----
+
 # n4me <- "h4n5j03Rg n3+h"     # e:3, a:4, s:5, o:0, t:+, r:R
 # d5   <- "d4+4 5c13nc3"       # i:1 
 # fp   <- "f0R p5ych0l0g15+5"
 # course_l33t <- paste0(n4me, ":", " ", d5, " ", fp)
-# # course_l33t
 
 
-# Automation: ----- 
-
-# txt1 <- "This is a short test string with some text to leetify."
-# txt2 <- "Data science is both a craft and an art. This course introduces fundamental data types,
-#          basic concepts and commands of the R programming language, and explores key packages of the so-called tidyverse.
-#          Regular exercises will help you to make your first steps from R novice to user."
-
-# Write functions to:  
-# - switch text to lower/upper case, capitalize, etc.
-# - leetify a string of text (with sets of rules)
-# - mix content (letters, words, ...) with noise (punctuation, space, random characters)
-
-## l33t_rul35: leet rules: ------ 
+## l33t_rul35: leet rules: ----
 
 l33t_num <- c("a" = "4", "A" = "4", 
               "e" = "3", "E" = "3", 
@@ -271,7 +259,6 @@ l33t_num <- c("a" = "4", "A" = "4",
 my_l33t <- c("t" = "+",
              "r" = "R"
 ) 
-
 
 #' l33t_rul35 provides rules for translating text 
 #' into leet/l33t slang. 
@@ -288,7 +275,6 @@ my_l33t <- c("t" = "+",
 #' 
 #' See \url{https://en.wikipedia.org/wiki/Leet} for details. 
 #' 
-#' 
 #' @family text objects and functions
 #' 
 #' @seealso
@@ -302,7 +288,7 @@ l33t_rul35 <- c(l33t_num, my_l33t)
 # l33t_rul35
 
 
-## transl33t function: ------ 
+## transl33t function: ----
 
 ## (a) Test:
 # stringr::str_replace_all(txt, l33t_rul35)
@@ -395,6 +381,11 @@ transl33t <- function(txt, rules = l33t_rul35,
 } # transl33t. 
 
 # ## Check:
+# txt1 <- "This is a short test string with some text to leetify."
+# txt2 <- "Data science is both a craft and an art. This course introduces fundamental data types,
+#          basic concepts and commands of the R programming language, and explores key packages of the so-called tidyverse.
+#          Regular exercises will help you to make your first steps from R novice to user."
+
 # transl33t(txt1)  # default rules
 # transl33t(txt1, rules = c("a" = "4"))  # manual rules
 # 
@@ -421,7 +412,9 @@ transl33t <- function(txt, rules = l33t_rul35,
 #           transl33t(txt = c(letters)))
 
 
-## (2) Read ascii art into a tibble: ---------- 
+
+
+## (2) Read ascii text (from file) into a tibble: ---------- 
 
 #' read_ascii parses text (from a file) into a table. 
 #'
@@ -618,8 +611,9 @@ read_ascii <- function(file = "", flip_y = FALSE){
 # tail(t)
 
 
-# (3) Read user input from console: ---------- 
-# read_ascii()
+
+
+## (3) Counting and converting text strings: ---------- 
 
 
 ## count_chars: Count the frequency of characters in a string: -------- 
@@ -722,8 +716,6 @@ count_chars <- function(x, # string of text to count
 # typeof(freq)
 # freq["e"]
 
-
-## Text helper functions: ------- 
 
 ## text_to_sentences: Turn a text (consisting of one or more strings) into a vector of all its sentences: ------ 
 
@@ -1025,7 +1017,8 @@ count_words <- function(x,  # string(s) of text
 # count_words(s3, sort_freq = FALSE)   # sorts alphabetically
 
 
-# (4) Capitalization ---------- 
+
+## (4) Capitalization ---------- 
 
 ## caseflip: Flip lower to upper case and vice versa: --------  
 
@@ -1231,8 +1224,17 @@ count_str <- function(x, pattern, split = ""){
 # (i.e., how often a pattern is matched.)
 
 
+
+## Done: ---------- 
+
+# Write functions to:  
+# - switch text to lower/upper case, capitalize, etc.
+# - leetify a string of text (with sets of rules)
+
 ## ToDo: ----------
 
+# Write functions to:
+# - mix content (letters, words, ...) with noise (punctuation, space, random characters)
 # - Add exception argument except to capitalize() function 
 #   (to exclude all words matching an exception argument).
 # - improve read_ascii (with regex and more efficient text wrangling)
