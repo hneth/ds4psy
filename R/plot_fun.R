@@ -1,5 +1,5 @@
 ## plot_fun.R | ds4psy
-## hn | uni.kn | 2020 07 06
+## hn | uni.kn | 2020 09 25
 ## ---------------------------
 
 ## Functions for plotting. 
@@ -1443,6 +1443,7 @@ plot_text <- function(file = "",  # "" read from console; "test.txt" read from f
 
 ## ToDo: ----------
 
-# - Consider adding plot_tbar() and plot_tclock() (to plot toc, as in art.Rmd).
+# - Consider adding plot_tbar() and plot_tclock() 
+#   (to plot toc, see file images/art.Rmd).
 
 ## eof. ----------------------
