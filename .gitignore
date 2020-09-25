@@ -69,9 +69,11 @@ cran-comments.md
 # dirs:
 _gitless
 data-raw 
-images
 libs
 rsconnect
+
+# artwork:
+images
 
 # files:
 *.html
