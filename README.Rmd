@@ -39,8 +39,7 @@ knitr::opts_chunk$set(
 Welcome to the R package **ds4psy** &mdash; a software companion to the book and course</br> 
 [Data Science for Psychologists](https://bookdown.org/hneth/ds4psy/). 
 
-This R package provides datasets and functions used in the [ds4psy book](https://bookdown.org/hneth/ds4psy/) and course.  
-The book and course introduce the principles and methods of data science for students of psychology and other biological or social sciences. 
+This R package provides datasets and functions used in the [ds4psy book](https://bookdown.org/hneth/ds4psy/) and course. The book and course introduce the principles and methods of data science for students of psychology and other biological or social sciences. 
 
 <!-- Description of ds4psy package:  -->
 
@@ -77,8 +76,8 @@ The most recent version of the [ds4psy book](https://bookdown.org/hneth/ds4psy/)
 </a>
 
 * PSY-15150, at the [University of Konstanz](https://www.uni-konstanz.de/) by [Hansjörg Neth](https://neth.de/)  (<h.neth@uni.kn>, [SPDS](https://www.spds.uni-konstanz.de/), office D507).  
-* Summer 2020: Mondays, 13:30&ndash;15:00, D522/online.   
-* The [ds4psy book](https://bookdown.org/hneth/ds4psy/) with examples and weekly programming exercises (WPAs) is available at <https://bookdown.org/hneth/ds4psy/>.  
+* Term 2020/2021: Mondays, 13:30&ndash;15:00, R513/online.   
+* The [ds4psy book](https://bookdown.org/hneth/ds4psy/) with examples and exercises is available at <https://bookdown.org/hneth/ds4psy/>.  
 * The R package [ds4psy](https://CRAN.R-project.org/package=ds4psy) is available at <https://CRAN.R-project.org/package=ds4psy>.  
 
 ## Description
@@ -124,10 +123,12 @@ This package and the corresponding book are still being developed and are update
 - A current version of [Data science for psychologists](https://bookdown.org/hneth/ds4psy/) is available online at   
 <https://bookdown.org/hneth/ds4psy/>.  
 
-The script was originally based on the following textbook:  
+The book and course was originally based on the following textbook:  
 
 - Wickham, H., & Grolemund, G. (2017). _R for data science: Import, tidy, transform, visualize, and model data._ 
 Sebastopol, Canada: O'Reilly Media, Inc.  [Available online at [https://r4ds.had.co.nz](https://r4ds.had.co.nz/).]
+
+<!-- Add blank line.  -->
 
 ### Software 
 
@@ -138,6 +139,8 @@ Please install the following open-source programs on your computer:
 - [R Studio](https://rstudio.com/) is an integrated development environment (IDE) for R.
 
 - R packages of the [tidyverse](https://www.tidyverse.org/), [ds4psy](https://CRAN.R-project.org/package=ds4psy), and [unikn](https://CRAN.R-project.org/package=unikn): 
+
+<!-- Add blank line.  -->
 
 ```{r install-pkgs, eval = FALSE, warning = FALSE}
 # Tidyverse packages: 
@@ -174,17 +177,6 @@ Nr. | Topic       |
 -->
 
 
-#### Online 
-
-- [RStudio cheat sheets](https://rstudio.com/resources/cheatsheets/)
-
-- Further resources on the [tidyverse](https://www.tidyverse.org/):
-    - See <https://www.tidyverse.org/blog/> for current developments
-    - See <https://www.tidyverse.org/learn/> for learning resources 
-
-- See also the link collections at the end of each chapter of the [ds4psy book](https://bookdown.org/hneth/ds4psy/). 
-
-
 #### R manuals and books
 
 - [R manuals](https://cran.r-project.org/manuals.html) and related [books](https://www.r-project.org/doc/bib/R-books.html)
@@ -193,6 +185,18 @@ Nr. | Topic       |
 
 <!-- - Zumel, N., & Mount, J. (2014). _Practical data science with R_. Greenwich, CT: Manning Publications. -->
 
+
+#### RStudio resources  
+
+- [R Studio](https://rstudio.com/) [IDE](https://rstudio.com/products/rstudio/), [R Markdown](https://rmarkdown.rstudio.com/), and various [cheat sheets](https://rstudio.com/resources/cheatsheets/) 
+
+- [Tidyverse](https://www.tidyverse.org/) resources:  
+    - See <https://www.tidyverse.org/blog/> for current developments
+    - See <https://www.tidyverse.org/learn/> for learning resources 
+
+<!-- Add blank line.  -->
+
+- See also the link collections at the end of each chapter of the [ds4psy book](https://bookdown.org/hneth/ds4psy/). 
 
 
 ## About
@@ -213,6 +217,8 @@ To cite **ds4psy** in derivations and publications, please use:
 Social Psychology and Decision Sciences, University of Konstanz, Germany.  
 Textbook and R package (version 0.5.0, Sep 1, 2020).   
 Retrieved from <https://bookdown.org/hneth/ds4psy/>. 
+
+<!-- Add blank line.  -->
 
 A **BibTeX** entry for LaTeX users is: 
 
