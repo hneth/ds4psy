@@ -6,12 +6,12 @@
 \title{Data: Trumpisms.}
 \format{
 A vector of type \code{character}  
-with \code{length(Trumpisms) = 114} 
-(as of 2020-09-19).
+with \code{length(Trumpisms) = 127} 
+(as of 2020-09-30).
 }
 \source{
 Data originally based on \url{https://www.yourdictionary.com/slideshow/donald-trump-20-most-frequently-used-words.html} 
-and expanded by public speeches and Twitter tweets on \url{https://twitter.com/realDonaldTrump}.
+and expanded by interviews, public speeches, and Twitter tweets at \url{https://twitter.com/realDonaldTrump}.
 }
 \usage{
 Trumpisms
