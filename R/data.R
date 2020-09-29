@@ -1,5 +1,5 @@
 ## data.R | ds4psy
-## hn | uni.kn | 2020 09 19
+## hn | uni.kn | 2020 09 29
 ## Documentation of datasets included in /data. 
 
 
@@ -1033,14 +1033,14 @@
 #' as of September 2020).
 #' 
 #' @format A vector of type \code{character}  
-#' with \code{length(Trumpisms) = 114} 
-#' (as of 2020-09-19). 
+#' with \code{length(Trumpisms) = 127} 
+#' (as of 2020-09-30). 
 #' 
 #' @family datasets 
 #' 
 #' @source 
 #' Data originally based on \url{https://www.yourdictionary.com/slideshow/donald-trump-20-most-frequently-used-words.html} 
-#' and expanded by public speeches and Twitter tweets on \url{https://twitter.com/realDonaldTrump}. 
+#' and expanded by interviews, public speeches, and Twitter tweets at \url{https://twitter.com/realDonaldTrump}. 
 
 "Trumpisms"
 
