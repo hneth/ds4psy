@@ -1,4 +1,4 @@
-## .gitignore | ds4psy | 2019 08 27
+## .gitignore | ds4psy | 2020 10 05
 
 ## 1. generic stuff: -----
 
@@ -72,7 +72,8 @@ data-raw
 libs
 rsconnect
 
-# artwork:
+# artwork/images:
+art
 images
 
 # files:
