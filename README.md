@@ -4,7 +4,7 @@
 
 [![CRAN\_status](https://www.r-pkg.org/badges/version/ds4psy)](https://CRAN.R-project.org/package=ds4psy)
 [![Build\_status](https://travis-ci.org/hneth/ds4psy.svg?branch=master)](https://travis-ci.org/hneth/ds4psy)
-[![Downloads](https://cranlogs.r-pkg.org/badges/ds4psy?color=blue)](https://www.r-pkg.org/pkg/ds4psy)
+[![Downloads](https://cranlogs.r-pkg.org/badges/ds4psy?color=brightgreen)](https://www.r-pkg.org/pkg/ds4psy)
 
 <!-- Possible status badges:
 
@@ -314,6 +314,6 @@ License</a>.
 
 <!-- Update: -->
 
-\[Updated 2020-10-05 by [hn](https://neth.de).\]
+\[Updated 2020-10-06 by [hn](https://neth.de).\]
 
 <!-- eof. -->
