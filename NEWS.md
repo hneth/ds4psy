@@ -21,7 +21,7 @@ The book and course [Data Science for Psychologists](https://bookdown.org/hneth/
 
 ## Major changes 
 
-- none yet
+- added `get_set()` for motivating visualizations 
 
 ## Minor changes 
 
@@ -224,6 +224,6 @@ The initial functionality is limited, as the package is designed to support the 
 
 ---------- 
 
-[File `NEWS.md` updated on 2020-09-29.]
+[File `NEWS.md` updated on 2020-11-01.]
 
 <!-- eof. -->
