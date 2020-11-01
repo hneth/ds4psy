@@ -1,5 +1,5 @@
 ## data_fun.R | ds4psy
-## hn | uni.kn | 2020 08 15
+## hn | uni.kn | 2020 11 01
 ## ---------------------------
 
 ## Functions for creating and manipulating data. 
@@ -1095,7 +1095,7 @@ make_grid <- function(x_min = 0, x_max = 2, y_min = 0, y_max = 1){
   
   return(tb)
   
-}  # make_grid end. 
+} # make_grid end. 
 
 ## Check: 
 # make_grid()
@@ -1105,6 +1105,75 @@ make_grid <- function(x_min = 0, x_max = 2, y_min = 0, y_max = 1){
 # make_grid(x_min = 1/2, y_min = 1/3)
 ## Errors: 
 # make_grid(x_min = "A")
+
+
+
+## (3) Misc: ----------
+
+#' Get a set of x-y coordinates. 
+#'
+#' \code{get_set} obtains a set of x/y coordinates and returns it 
+#' (as a data frame).
+#' 
+#' The set stems from Anscombe's Quartet 
+#' (hence \code{1 <= 0 <= 4}) and is returned as a 
+#' data frame (with 11 rows and 2 columns). 
+#' 
+#' @source See \code{?datasets:anscombe} for details and references. 
+#' 
+#' @param n Number of set (as an integer).  
+#' Default: \code{n = 1}. 
+#'
+#' @examples
+#' get_set(1)
+#' plot(get_set(2), col = "red")
+#'
+#' @family data functions
+#'
+#' @export 
+
+# Obtain a set of x- and y- values out of Anscombe's quartet: 
+
+get_set <- function(n = 1){
+  
+  set <- NA  # initialize 
+  
+  # check inputs: 
+  if (is.null(n)){
+    message("get_set: n must not be NULL. Using n = 1:") 
+    n <- 1
+  }
+  
+  if (length(n) > 1) {  # n is a vector: 
+    message(paste0("get_set: n must be a scalar. Using n[1] = ", n[1], ":"))
+    n <- n[1]
+  }
+  
+  if ( (length(n) == 1) && ( is.na(n) || !is.numeric(n) || !is_wholenumber(n) || (n < 1) || (n > 4)) ) { 
+    message("get_set: n must be a positive integer (from 1 to 4). Using n = 1:") 
+    n <- 1
+  }
+  
+  # main:   
+  df <- datasets::anscombe  # get data
+  
+  ans <- with(df, data.frame(x = c(x1, x2, x3, x4), 
+                             y = c(y1, y2, y3, y4), 
+                             nr = gl(4, nrow(df))))
+  
+  set <- ans[ans$nr == n, 1:2]  # get subset
+  
+  rownames(set) <- paste0("p", num_as_char(1:nrow(set), n_pre_dec = 2, n_dec = 0))
+  
+  return(set)
+  
+} # get_set end. 
+
+
+## Check: 
+# get_set(1)
+# get_set(pi)
+# plot(get_set(2), col = "red")
 
 
 ## ToDo: ----------
