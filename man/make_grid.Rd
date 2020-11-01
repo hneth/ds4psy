@@ -28,4 +28,8 @@ make_grid()
 make_grid(x_min = -3, x_max = 3, y_min = -2, y_max = 2)
 
 }
+\seealso{
+Other data functions: 
+\code{\link{get_set}()}
+}
 \concept{data functions}
