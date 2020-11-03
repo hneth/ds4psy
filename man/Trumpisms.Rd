@@ -6,7 +6,7 @@
 \title{Data: Trumpisms.}
 \format{
 A vector of type \code{character}  
-with \code{length(Trumpisms) = 130} 
+with \code{length(Trumpisms) = 131} 
 (as of 2020-11-03).
 }
 \source{

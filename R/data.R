@@ -1033,7 +1033,7 @@
 #' as of November 3, 2020).
 #' 
 #' @format A vector of type \code{character}  
-#' with \code{length(Trumpisms) = 130} 
+#' with \code{length(Trumpisms) = 131} 
 #' (as of 2020-11-03). 
 #' 
 #' @family datasets 
