@@ -75,7 +75,7 @@ Course Coordinates
     Neth](https://neth.de/)
     (<a href="mailto:h.neth@uni.kn" class="email">h.neth@uni.kn</a>,
     [SPDS](https://www.spds.uni-konstanz.de/), office D507).  
--   Term 2020/2021: Mondays, 13:30–15:00, R513/online.  
+-   Term 2020/2021: Mondays, 15:15–16:45, online.  
 -   The [ds4psy book](https://bookdown.org/hneth/ds4psy/) with examples
     and exercises is available at
     <a href="https://bookdown.org/hneth/ds4psy/" class="uri">https://bookdown.org/hneth/ds4psy/</a>.  
@@ -314,6 +314,6 @@ License</a>.
 
 <!-- Update: -->
 
-\[Updated 2020-10-06 by [hn](https://neth.de).\]
+\[Updated 2020-11-03 by [hn](https://neth.de).\]
 
 <!-- eof. -->
