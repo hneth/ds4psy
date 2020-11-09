@@ -6,8 +6,8 @@
 \title{Data: Trumpisms.}
 \format{
 A vector of type \code{character}  
-with \code{length(Trumpisms) = 142} 
-(as of 2020-11-08).
+with \code{length(Trumpisms) = 144} 
+(as of 2020-11-09).
 }
 \source{
 Data originally based on \url{https://www.yourdictionary.com/slideshow/donald-trump-20-most-frequently-used-words.html} 
