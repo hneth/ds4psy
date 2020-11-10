@@ -1030,11 +1030,11 @@
 #' \code{Trumpisms} contains words frequently used 
 #' by U.S. president Donald J. Trump 
 #' (the 45th and current president of the United States, 
-#' as of November 8, 2020).
+#' as of November 10, 2020).
 #' 
 #' @format A vector of type \code{character}  
-#' with \code{length(Trumpisms) = 144} 
-#' (as of 2020-11-09). 
+#' with \code{length(Trumpisms) = 145} 
+#' (as of 2020-11-10). 
 #' 
 #' @family datasets 
 #' 
