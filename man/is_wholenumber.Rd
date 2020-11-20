@@ -43,6 +43,7 @@ is_wholenumber(1+2)
 
 Other utility functions: 
 \code{\link{is_equal}()},
+\code{\link{is_vector}()},
 \code{\link{num_as_char}()},
 \code{\link{num_as_ordinal}()},
 \code{\link{num_equal}()}
