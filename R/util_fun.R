@@ -1,5 +1,5 @@
 ## util_fun.R | ds4psy
-## hn | uni.kn | 2020 08 16
+## hn | uni.kn | 2020 11 20
 ## ---------------------------
 
 ## Utility functions. 
@@ -435,6 +435,96 @@ num_as_ordinal <- function(x, sep = ""){
 # num_as_ordinal(Sys.time())
 # num_as_ordinal(seq(0, 2.5, by = .1))
 # num_as_ordinal(seq(1.99, 2.15, by = .01))
+
+
+
+# is_vector: Testing for a vector (which is.vector does not) ------ 
+
+#' Test for a vector (i.e., atomic vector or list). 
+#'
+#' \code{is_vector} tests if \code{x} is a vector.
+#' 
+#' \code{is_vector} does what the \strong{base} R function \code{is.vector} is \strong{not} designed to do: 
+#' 
+#' \itemize{ 
+#'   \item \code{is_vector()} returns TRUE if \code{x} is an atomic vector or a list (irrespective of its attributes). 
+#' 
+#'   \item \code{is.vector()} returns TRUE if \code{x} is a vector of the specified \code{mode} having no attributes other than names, otherwise FALSE.
+#' }
+#' 
+#' Internally, the function is a wrapper for \code{is.atomic(x) | is.list(x)}. 
+#' 
+#' See the documentations of \code{\link{is.atomic}}, \code{\link{is.list}}, and \code{\link{is.vector}} for details.
+#' 
+#' @param x Vector(s) to test (required).
+#'
+#' @examples
+#' # Define 3 types of vectors:
+#' v1 <- 1:3  # (a) atomic vector
+#' names(v1) <- LETTERS[v1]  # with names
+#' 
+#' v2 <- v1   # (b) copy vector
+#' attr(v2, "my_attr") <- "foo"  # add an attribute
+#' ls <- list(1, 2, "C")  # (c) list
+#' 
+#' # Compare:
+#' is.vector(v1)
+#' is.list(v1)
+#' is_vector(v1)
+#' 
+#' is.vector(v2)  # FALSE
+#' is.list(v2)
+#' is_vector(v2)  # TRUE
+#' 
+#' is.vector(ls)
+#' is.list(ls)
+#' is_vector(ls)
+#' 
+#' @family utility functions
+#'
+#' @seealso 
+#' \code{\link{is.atomic}} function of the R \strong{base} package; 
+#' \code{\link{is.list}} function of the R \strong{base} package;  
+#' \code{\link{is.vector}} function of the R \strong{base} package.  
+#'
+#' @export 
+
+is_vector <- function(x) {
+  
+  is.atomic(x) | is.list(x)
+    
+} # is_vector end.
+
+
+# ## Check: 
+# # 3 types of vectors:
+# v1 <- 1:3  # (a) atomic vector
+# names(v1) <- LETTERS[v1]  # with names
+# 
+# v2 <- v1   # (b) copy vector
+# attr(v2, "my_attr") <- "foo"  # add an attribute
+# 
+# ls <- list(1, 2, "C")  # (c) list
+# 
+# # Compare:
+# is.vector(v1)
+# is.list(v1)
+# is_vector(v1)
+# 
+# is.vector(v2)  # FALSE
+# is.list(v2)
+# is_vector(v2)  # TRUE
+# 
+# is.vector(ls)
+# is.list(ls)
+# is_vector(ls)
+# 
+# # Vectors of vectors:
+# vs <- c(v1, v2, ls)
+# df <- data.frame(v1, v2)
+# 
+# is.vector(vs)
+# is.vector(df)
 
 
 # is_wholenumber: Testing for integer values (which is.integer does not) ------ 
