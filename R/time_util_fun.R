@@ -1,5 +1,5 @@
 ## time_util_fun.R | ds4psy
-## hn | uni.kn | 2020 08 05
+## hn | uni.kn | 2020 11 20
 ## ---------------------------
 
 ## Utility functions for date and time objects. 
@@ -39,13 +39,48 @@ is_difftime <- function(time){
   inherits(time, "difftime")  
 }
 
+# is_time: -----
+
+is_time <- function(t){
+  is_POSIXt(t) | is_difftime(t)
+}
+
 # is_date_time: -----
 
 is_date_time <- function(dt){
-  is_Date(dt) | is_POSIXt(dt) | is_difftime(dt)
+  is_Date(dt) | is_time(dt)
 }
 
-
+# ## Check:
+# d <- Sys.Date()
+# t <- Sys.time()
+# 
+# is_Date(d)
+# is_Date(t)
+# 
+# is_POSIXt(d)
+# is_POSIXt(t)
+# 
+# is_POSIXct(d)
+# is_POSIXct(t)
+# 
+# is_POSIXlt(d)
+# is_POSIXlt(t)
+# is_POSIXlt(as.POSIXlt(t))
+# 
+# is_difftime(d)
+# is_difftime(t)
+# is_difftime((t + 1) - t)
+# 
+# is_time(d)
+# is_time(t)
+# is_time(as.POSIXlt(t))
+# is_time((t + 1) - t)
+# 
+# is_date_time(d)
+# is_date_time(t)
+# is_date_time(as.POSIXlt(t))
+# is_date_time((t + 1) - t)
 
 
 ## (B) Parsing "Date" from non-dates: ------  
