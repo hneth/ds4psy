@@ -454,6 +454,8 @@ num_as_ordinal <- function(x, sep = ""){
 #' 
 #' Internally, the function is a wrapper for \code{is.atomic(x) | is.list(x)}. 
 #' 
+#' Note that data frames are also vectors.
+#' 
 #' See the documentations of \code{\link{is.atomic}}, \code{\link{is.list}}, and \code{\link{is.vector}} for details.
 #' 
 #' @param x Vector(s) to test (required).
@@ -479,6 +481,10 @@ num_as_ordinal <- function(x, sep = ""){
 #' is.vector(ls)
 #' is.list(ls)
 #' is_vector(ls)
+#' 
+#' # Data frames are also vectors: 
+#' df <- as.data.frame(1:3)
+#' is_vector(df)  # is TRUE
 #' 
 #' @family utility functions
 #'
@@ -525,6 +531,10 @@ is_vector <- function(x) {
 # 
 # is.vector(vs)
 # is.vector(df)
+# 
+# # Data frames are also vectors: 
+# df <- as.data.frame(1:3)
+# is_vector(df)  # is TRUE
 
 
 # is_wholenumber: Testing for integer values (which is.integer does not) ------ 
