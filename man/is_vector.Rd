@@ -23,6 +23,8 @@ is_vector(x)
 
 Internally, the function is a wrapper for \code{is.atomic(x) | is.list(x)}. 
 
+Note that data frames are also vectors.
+
 See the documentations of \code{\link{is.atomic}}, \code{\link{is.list}}, and \code{\link{is.vector}} for details.
 }
 \examples{
@@ -46,6 +48,10 @@ is_vector(v2)  # TRUE
 is.vector(ls)
 is.list(ls)
 is_vector(ls)
+
+# Data frames are also vectors: 
+df <- as.data.frame(1:3)
+is_vector(df)  # is TRUE
 
 }
 \seealso{
