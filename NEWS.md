@@ -225,6 +225,6 @@ The initial functionality is limited, as the package is designed to support the 
 
 ---------- 
 
-[File `NEWS.md` updated on 2020-11-20.]
+[File `NEWS.md` updated on 2021-01-09.]
 
 <!-- eof. -->
