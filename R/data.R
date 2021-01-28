@@ -1,5 +1,5 @@
 ## data.R | ds4psy
-## hn | uni.kn | 2021 01 20
+## hn | uni.kn | 2021 01 28
 ## Documentation of datasets included in /data. 
 
 
@@ -1032,8 +1032,8 @@
 #' in office from January 20, 2017, to January 20, 2021). 
 #' 
 #' @format A vector of type \code{character}  
-#' with \code{length(Trumpisms) = 165} 
-#' (on 2021-01-20).
+#' with \code{length(Trumpisms) = 168} 
+#' (on 2021-01-28).
 #' 
 #' @family datasets 
 #' 
