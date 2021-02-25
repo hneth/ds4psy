@@ -21,12 +21,15 @@ The book and course [Data Science for Psychologists](https://bookdown.org/hneth/
 
 ## Major changes 
 
-- added `is_vector()` to check for vectors (i.e., atomic vectors or lists)   
+- added `is_vector()` to check for vectors (i.e., atomic vectors or lists)
+
 - added `get_set()` for motivating visualizations 
+
 
 ## Minor changes 
 
 - updated data in `fame` and `Trumpisms` 
+
 
 ## Details 
 
@@ -225,6 +228,6 @@ The initial functionality is limited, as the package is designed to support the 
 
 ---------- 
 
-[File `NEWS.md` updated on 2021-01-09.]
+[File `NEWS.md` updated on 2021-02-25.]
 
 <!-- eof. -->
