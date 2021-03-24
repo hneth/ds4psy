@@ -21,8 +21,7 @@
 <img src = "./inst/images/ds4psy.png" alt = "ds4psy" width = "150px" align = "right" style = "width: 150px; float: right; border:11;"/>
 </a>
 
-Data Science for Psychologists (ds4psy)
-=======================================
+# Data Science for Psychologists (ds4psy)
 
 Welcome to the R package **ds4psy** — a software companion to the book
 and course</br> [Data Science for
@@ -38,8 +37,7 @@ of psychology and other biological or social sciences.
 <!-- The 'ds4psy' package primarily provides datasets, but also functions for data generation and manipulation (e.g., of text and time data) and graphics that are used in the book and its exercises.  -->
 <!-- All functions included in 'ds4psy' are designed to be explicit and instructive, rather than elegant or efficient. -->
 
-Installation
-------------
+## Installation
 
 The current release of **ds4psy** is available from
 [CRAN](https://CRAN.R-project.org/) at
@@ -60,8 +58,7 @@ The most recent version of the [ds4psy
 book](https://bookdown.org/hneth/ds4psy/) is available at
 <a href="https://bookdown.org/hneth/ds4psy/" class="uri">https://bookdown.org/hneth/ds4psy/</a>.
 
-Course Coordinates
-------------------
+## Course Coordinates
 
 <!-- uni.kn logo, but link to SPDS: -->
 <!-- ![](./inst/images/uniKn_logo.png) -->
@@ -75,7 +72,7 @@ Course Coordinates
     Neth](https://neth.de/)
     (<a href="mailto:h.neth@uni.kn" class="email">h.neth@uni.kn</a>,
     [SPDS](https://www.spds.uni-konstanz.de/), office D507).  
--   Term 2020/2021: Mondays, 15:15–16:45, online.  
+-   Summer 2021: Mondays, 15:15–16:45, online.  
 -   The [ds4psy book](https://bookdown.org/hneth/ds4psy/) with examples
     and exercises is available at
     <a href="https://bookdown.org/hneth/ds4psy/" class="uri">https://bookdown.org/hneth/ds4psy/</a>.  
@@ -83,8 +80,7 @@ Course Coordinates
     available at
     <a href="https://CRAN.R-project.org/package=ds4psy" class="uri">https://CRAN.R-project.org/package=ds4psy</a>.
 
-Description
------------
+## Description
 
 This book and course provide an introduction to data science that is
 tailored to the needs of psychologists, but is also suitable for
@@ -136,8 +132,7 @@ This course assumes some basic familiarity with statistics and the
 [R](https://www.R-project.org/) programming language, but enthusiastic
 programming novices are also welcome.
 
-Resources
----------
+## Resources
 
 This package and the corresponding book are still being developed and
 are updated as new materials become available.
@@ -158,8 +153,7 @@ are updated as new materials become available.
 
 <!-- - The current course syllabus and raw versions of all data files used in examples and exercises are available at <http://rpository.com/ds4psy/>. -->
 
-References
-----------
+## References
 
 ### Course materials
 
@@ -253,8 +247,7 @@ Nr. | Topic       |
 -   See also the link collections at the end of each chapter of the
     [ds4psy book](https://bookdown.org/hneth/ds4psy/).
 
-About
------
+## About
 
 If you find these materials useful, or want to adopt or alter them for
 your purposes, please [let me
@@ -314,6 +307,6 @@ License</a>.
 
 <!-- Update: -->
 
-\[Updated 2020-11-03 by [hn](https://neth.de).\]
+\[Updated 2021-03-24 by [hn](https://neth.de).\]
 
 <!-- eof. -->
