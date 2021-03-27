@@ -91,12 +91,12 @@
 #'   scale_color_manual(values = usecol(pal = c(Pinky, Seeblau, Seegruen))) +
 #'   labs(tag = "A",
 #'        title = "Iris sepals",
-#'        subtitle = "This is a demo plot with facets and default colors", 
+#'        subtitle = "Demo plot with facets and default colors", 
 #'        caption = "Data from datasets::iris") + 
 #'   coord_fixed(ratio = 3/2) + 
 #'   theme_ds4psy()
 #' 
-#' # in unikn::Seeblau look:
+#' # A unikn::Seeblau look:
 #' 
 #' ggplot(datasets::iris) +
 #'   geom_jitter(aes(x = Sepal.Length, y = Sepal.Width, color = Species), size = 3, alpha = 2/3) +
@@ -104,7 +104,7 @@
 #'   scale_color_manual(values = usecol(pal = c(Pinky, Seeblau, Seegruen))) +
 #'   labs(tag = "B",
 #'        title = "Iris sepals",
-#'        subtitle = "A demo plot using unikn::Seeblau colors", 
+#'        subtitle = "Demo plot in unikn::Seeblau colors", 
 #'        caption = "Data from datasets::iris") + 
 #'   coord_fixed(ratio = 3/2) + 
 #'   theme_ds4psy(col_title = pal_seeblau[[4]], col_strip = pal_seeblau[[1]], col_brdrs = Grau)
@@ -114,7 +114,7 @@
 #' @family plot functions
 #'
 #' @seealso
-#' \code{unikn::theme_unikn} for the source of the current theme. 
+#' \code{unikn::theme_unikn} inspired the current theme. 
 #' 
 #' @import ggplot2
 #' @import unikn

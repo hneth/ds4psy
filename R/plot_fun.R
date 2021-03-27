@@ -1,5 +1,5 @@
 ## plot_fun.R | ds4psy
-## hn | uni.kn | 2020 09 25
+## hn | uni.kn | 2021 03 27
 ## ---------------------------
 
 ## Functions for plotting. 
@@ -204,9 +204,10 @@ plot_tiles <- function(n = NA,
   # colors:
   cur_col <- pal_n_sq(n = n, pal = pal)
   
-  # Catch special case: Replace the white tile for n = 2 by a grau[[1]] tile:
+  # Special case: Replace a white tile for n = 2 by a grey tile:
   if (n == 2) { 
-    cur_col[cur_col == "#FFFFFF"] <- unikn::pal_grau[[1]] 
+    # print(cur_col)  # debugging
+    cur_col[cur_col == "#FFFFFF"] <- "#E1E2E5"  # HEX of unikn::pal_grau[[1]] 
   }
   
   # pick variables (in cur_tb):
@@ -722,9 +723,10 @@ plot_n <- function(n = NA,
   # cur_col <- pal_n_sq(n = n, pal = pal)  # use pal_n_sq helper function
   cur_col <- grDevices::colorRampPalette(colors = pal)(n)  # scale pal to length n
   
-  # Catch special case: Replace the white tile for n = 2 by a grau[[1]] tile:
+  # Special case: Replace a white tile for n = 2 by a grey tile:
   if (n == 2) { 
-    cur_col[cur_col == "#FFFFFF"] <- unikn::pal_grau[[1]] 
+    # print(cur_col)  # debugging
+    cur_col[cur_col == "#FFFFFF"] <- "#E1E2E5"  # HEX of unikn::pal_grau[[1]] 
   }
   
   # pick variables (in cur_tb):
@@ -1117,7 +1119,7 @@ plot_fn <- function(x = NA,
 #' @param pal Color palette for filling tiles 
 #' of text (used in order of character frequency). 
 #' Default: \code{pal = pal_ds4psy[1:5]} 
-#' (i.e., shades of \code{unikn::Seeblau}).  
+#' (i.e., shades of \code{Seeblau}).
 #' 
 #' @param pal_extend Boolean: Should pal be extended 
 #' to match the number of different characters in text? 

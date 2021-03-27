@@ -1,8 +1,9 @@
 ## color_fun.R | ds4psy
-## hn | uni.kn | 2020 05 06
+## hn | uni.kn | 2021 03 27
 ## ---------------------------
 
 ## Functions for plotting. 
+
 
 ## (1) Colors: ----------
 
@@ -26,8 +27,8 @@ pal_ds4psy <- unikn::pal_unikn
 ## Check: 
 # unikn::seecol(pal_ds4psy)
 
-# pal_n_sq: Get (n x n) specific colors of a palette [pal]: ------ 
 
+# pal_n_sq: Get (n x n) specific colors of a palette [pal]: ------ 
 
 #' Get n-by-n dedicated colors of a color palette.
 #'
@@ -75,11 +76,12 @@ pal_n_sq <- function(n = "all", pal = pal_ds4psy){
   if (n < 4) {
     
     # (a) using unikn:    
+    # out <- unikn::Seeblau  # HEX code of seeblau3 = "#59C7EB"
     # out <- unikn::usecol(pal = pal, n = n^2)  # use unikn::usecol() to get n^2 colors of pal
     
     # (b) NOT using unikn:
     if (n == 1){
-      out <- unikn::Seeblau
+      out <- "#59C7EB"  # = HEX of unikn::Seeblau / seeblau3
     } else {
       out <- grDevices::colorRampPalette(colors = pal)(n^2)  
     }
@@ -96,7 +98,7 @@ pal_n_sq <- function(n = "all", pal = pal_ds4psy){
   
   return(out)
   
-}
+} # pal_n_sq() end. 
 
 ## Check:
 # pal_n_sq(1)
