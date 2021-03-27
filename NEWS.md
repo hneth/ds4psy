@@ -33,7 +33,8 @@ The book and course [Data Science for Psychologists](https://bookdown.org/hneth/
 
 ## Details 
 
-- none yet
+- reduced depedencies on **unikn** by replacing some colors with corresponding HEX codes 
+
 
 <!-- Add blank line.  --> 
 
@@ -228,6 +229,6 @@ The initial functionality is limited, as the package is designed to support the 
 
 ---------- 
 
-[File `NEWS.md` updated on 2021-03-24.]
+[File `NEWS.md` updated on 2021-03-27.]
 
 <!-- eof. -->
