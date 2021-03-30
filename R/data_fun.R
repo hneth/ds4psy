@@ -1,5 +1,5 @@
 ## data_fun.R | ds4psy
-## hn | uni.kn | 2020 11 01
+## hn | uni.kn | 2021 03 30
 ## ---------------------------
 
 ## Functions for creating and manipulating data. 
@@ -747,13 +747,42 @@ dice_2 <- function(n = 1, sides = 6){
 # dice_2(n = 10, sides = 4:4)  # odd: see sample() for an explanation.
 
 
-# Permutations: List all permutations of a set: ----------
+# Permutations: List ALL permutations of a vector/set x / permute a set/vector x: ----------
 
 # library(combinat)
-
+# 
 # set <- c("a", "b", "c")
 # pm <- combinat::permn(x = set)
 # pm
+
+all_permutations <- function(x) {
+  
+  pm <- NA  # initialize 
+  n <- length(x)
+  
+  if (n == 1) { # basic case: 
+    
+    pm <- x
+    
+  } else { # recursive solution:
+    
+    pm <- NULL  # init/stopping case
+    
+    for (i in 1:n) {
+      
+      pm <- rbind(pm, cbind(x[i], permute(x[-i])))
+      
+    }
+  }
+  
+  return(pm)
+  
+} # all_permutations() end. 
+
+## Check:
+# all_permutations(246)
+# all_permutations(1:3)
+# all_permutations(c("A", "B", "b", "a"))
 
 
 # Combinations: List all combinations of length n of a set: ---------- 
@@ -767,24 +796,24 @@ dice_2 <- function(n = 1, sides = 6){
 
 all_combinations <- function(set, length){
   
-  out <- NA  # initialize
+  cb <- NA  # initialize
   
   # Use utils::combn to obtain matrix:
   m <- utils::combn(x = set, m = length)
   
   if (is.vector(m)){
     
-    out <- m  # return as is
+    cb <- m  # return as is
     
   } else if (is.matrix(m)){
     
-    out <- t(m)  # transpose m into matrix of rows 
+    cb <- t(m)  # transpose m into matrix of rows 
     
   }
   
-  return(out)
+  return(cb)
   
-} # all_combinations end. 
+} # all_combinations() end. 
 
 ## Check:
 # all_combinations(set = 1:3, length = 4)  # ERROR: n < m
