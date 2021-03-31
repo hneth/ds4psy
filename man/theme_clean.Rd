@@ -45,6 +45,9 @@ Default: \code{col_gridy = grey(1.0, 1)} (i.e., "white").}
 \item{col_ticks}{Color of axes text and ticks. 
 Default: \code{col_ticks = grey(.10, 1)} (i.e., near "black").}
 }
+\value{
+A \bold{ggplot2} theme.
+}
 \description{
 \code{theme_clean} provides an alternative \bold{ds4psy} theme 
 to use in \bold{ggplot2} commands.
@@ -87,6 +90,7 @@ Other plot functions:
 \code{\link{plot_n}()},
 \code{\link{plot_text}()},
 \code{\link{plot_tiles}()},
-\code{\link{theme_ds4psy}()}
+\code{\link{theme_ds4psy}()},
+\code{\link{theme_empty}()}
 }
 \concept{plot functions}

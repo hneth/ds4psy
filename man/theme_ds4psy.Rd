@@ -69,6 +69,9 @@ Default: \code{col_gridy = grey(.75, 1)} (i.e., light "grey").}
 \item{col_brdrs}{Color of (panel and strip) borders. 
 Default: \code{col_brdrs = "transparent"}.}
 }
+\value{
+A \bold{ggplot2} theme.
+}
 \description{
 \code{theme_ds4psy} provides a generic \bold{ds4psy} theme 
 to use in \bold{ggplot2} commands.
@@ -136,6 +139,7 @@ Other plot functions:
 \code{\link{plot_n}()},
 \code{\link{plot_text}()},
 \code{\link{plot_tiles}()},
-\code{\link{theme_clean}()}
+\code{\link{theme_clean}()},
+\code{\link{theme_empty}()}
 }
 \concept{plot functions}
