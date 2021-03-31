@@ -21,7 +21,7 @@ The book and course [Data Science for Psychologists](https://bookdown.org/hneth/
 
 -------- 
 
-# ds4psy 0.5.0.9009 
+# ds4psy 0.5.0.9010 
 
 The current development version of **ds4psy** is hosted at <https://github.com/hneth/ds4psy/>. 
 
@@ -42,6 +42,7 @@ Changes since last release:
 
 ## Details 
 
+- removed import of **cowplot** by adding `theme_empty()` 
 - reduced reliance on **unikn** by replacing some colors with corresponding HEX codes 
 
 
@@ -244,6 +245,6 @@ The initial functionality is limited, as the package is designed to support the 
 
 ---------- 
 
-[File `NEWS.md` updated on 2021-03-30.]
+[File `NEWS.md` updated on 2021-03-31.]
 
 <!-- eof. -->
