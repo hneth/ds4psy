@@ -1,10 +1,159 @@
 ## theme_fun.R | ds4psy
-## hn | uni.kn | 2020 08 27
+## hn | uni.kn | 2021 03 31
 ## ---------------------------
 
 ## Functions for ggplot2 themes. 
 
 ## Themes: ---------- 
+
+
+# theme_empty: An empty/blank ggplot2 theme ------ 
+
+#' A basic and flexible plot theme (using ggplot2 and unikn).
+#'
+#' \code{theme_empty} provides an empty (blank) theme 
+#' to use in \bold{ggplot2} commands. 
+#' 
+#' \code{theme_empty} shows nothing but the plot panel.
+#' 
+#' \code{theme_empty} is based on 
+#' \code{theme_nothing} of the \bold{cowplot} package 
+#' and uses  
+#' \code{theme_void} of the \bold{ggplot2} package.  
+#' 
+#' @param font_size Overall font size. 
+#' Default: \code{font_size = 12}.
+#' 
+#' @param font_family Base font family.
+#' Default: \code{font_family = ""}.
+#' 
+#' @param rel_small Relative size of smaller text. 
+#' Default: \code{rel_small = 10/12}. 
+#' 
+#' @return A \bold{ggplot2} theme. 
+#' 
+#' @examples
+#' 
+#' \donttest{
+#' 
+#' # Plotting iris dataset (using ggplot2):
+#'
+#' library('ggplot2')  # theme_empty() requires ggplot2
+#'    
+#' ggplot(datasets::iris) +
+#'   geom_jitter(aes(x = Petal.Length, y = Petal.Width, color = Species), size = 4, alpha = 1/2) +
+#'   scale_color_manual(values = c("firebrick3", "deepskyblue3", "olivedrab3")) +
+#'   labs(title = "NOT SHOWN: Title",
+#'        subtitle = "NOT SHOWN: Subtitle", 
+#'        caption = "NOT SHOWN: Data from datasets::iris") +
+#'   theme_empty()
+#' 
+#' }
+#'   
+#' @family plot functions
+#'
+#' @seealso
+#' \code{cowplot::theme_nothing} is the inspiration and source of this theme. 
+#' 
+#' @import ggplot2
+#' @import datasets
+#' 
+#' @export
+
+theme_empty <- function(font_size = 12, 
+                        font_family = "", 
+                        rel_small = 12/14
+){ # base on ggplot2::theme_void() in case the underlying ggplot2 code changes: 
+  ggplot2::theme_void(base_size = font_size, base_family = font_family) %+replace%
+    theme(#
+      # Elements in this block are not used directly, but inherited: 
+      line = element_blank(),
+      rect = element_blank(),
+      text = element_text(
+        family = font_family, face = "plain",
+        color = "black", size = font_size,
+        lineheight = 0.9, hjust = 0.5, vjust = 0.5, angle = 0,
+        margin = margin(), debug = FALSE
+      ),
+      
+      # axis: 
+      axis.line =          element_blank(),
+      axis.line.x =        NULL,
+      axis.line.y =        NULL,
+      axis.text =          element_blank(),
+      axis.text.x =        NULL,
+      axis.text.x.top =    NULL,
+      axis.text.y =        NULL,
+      axis.text.y.right =  NULL,
+      axis.ticks =         element_blank(),
+      axis.ticks.length =  unit(0, "pt"),
+      axis.title =         element_blank(),
+      axis.title.x =       NULL,
+      axis.title.x.top =   NULL,
+      axis.title.y =       NULL,
+      axis.title.y.right = NULL,
+      
+      # legend: 
+      legend.background =  element_blank(),
+      legend.spacing =     unit(font_size, "pt"),
+      legend.spacing.x =   NULL,
+      legend.spacing.y =   NULL,
+      legend.margin =      margin(0, 0, 0, 0),
+      legend.key =         element_blank(),
+      legend.key.size =    unit(1.1*font_size, "pt"),
+      legend.key.height =  NULL,
+      legend.key.width =   NULL,
+      legend.text =        element_text(size = rel(rel_small)),
+      legend.text.align =  NULL,
+      legend.title =       element_text(hjust = 0),
+      legend.title.align = NULL,
+      legend.position =    "none",
+      legend.direction =   NULL,
+      legend.justification = "center",
+      legend.box =         NULL,
+      legend.box.margin =  margin(0, 0, 0, 0),
+      legend.box.background = element_blank(),
+      legend.box.spacing = unit(font_size, "pt"),
+      
+      # panel: 
+      panel.background =   element_blank(),
+      panel.border =       element_blank(),
+      panel.grid =         element_blank(),
+      panel.grid.major =   NULL,
+      panel.grid.minor =   NULL,
+      panel.spacing =      unit(font_size / 2, "pt"),
+      panel.spacing.x =    NULL,
+      panel.spacing.y =    NULL,
+      panel.ontop    =     FALSE,
+      
+      # strip: 
+      strip.background =   element_blank(),
+      strip.text =         element_blank(),
+      strip.text.x =       NULL,
+      strip.text.y =       NULL,
+      strip.placement =    "inside",
+      strip.placement.x =  NULL,
+      strip.placement.y =  NULL,
+      strip.switch.pad.grid = unit(0., "cm"),
+      strip.switch.pad.wrap = unit(0., "cm"),
+      
+      # plot: 
+      plot.background =    element_blank(),
+      plot.title =         element_blank(),
+      plot.subtitle =      element_blank(),
+      plot.caption =       element_blank(),
+      plot.tag           = element_text(
+        face = "bold",
+        hjust = 0, vjust = 0.7
+      ),
+      plot.tag.position = c(0, 1), 
+      plot.margin =        margin(0, 0, 0, 0),
+      
+      # note:   
+      complete = TRUE
+    )
+}
+
 
 # theme_ds4psy: A clean and flexible ggplot2 theme ------ 
 
@@ -67,6 +216,8 @@
 #' 
 #' @param col_brdrs Color of (panel and strip) borders. 
 #' Default: \code{col_brdrs = "transparent"}. 
+#' 
+#' @return A \bold{ggplot2} theme.
 #' 
 #' @examples
 #' 
@@ -138,10 +289,11 @@ theme_ds4psy <- function(base_size = 11,
                          col_gridx = grey(.75, 1),  # (grid lines through x): grey(.75, 1) OR light "grey"
                          col_gridy = grey(.75, 1),  # (grid lines through y): grey(.75, 1) OR light "grey"
                          col_brdrs = "transparent"  # (panel and strip borders): "transparent" OR grey(.05, 1)/nearly "black" 
-) {ggplot2::theme_bw(base_size = base_size, 
-                     base_family = base_family, 
-                     base_line_size = base_line_size, 
-                     base_rect_size = base_rect_size) %+replace% 
+){ # base on ggplot2::theme_bw() in case the underlying ggplot2 code changes: 
+  ggplot2::theme_bw(base_size = base_size, 
+                    base_family = base_family, 
+                    base_line_size = base_line_size, 
+                    base_rect_size = base_rect_size) %+replace% 
     ggplot2::theme(#
       # titles: 
       title = ggplot2::element_text(color = col_title, face = "bold", 
@@ -149,22 +301,25 @@ theme_ds4psy <- function(base_size = 11,
       plot.subtitle = ggplot2::element_text(color = col_txt_1, face = "plain", hjust = 0,
                                             margin = ggplot2::margin(t = 2, r = 4, b = 8, l = 4, unit = "pt")),  
       plot.caption  = ggplot2::element_text(color = col_txt_2, face = "plain", size = ggplot2::rel(.80), hjust = 1), 
+      
       # axes:
       axis.line =  ggplot2::element_line(color = col_axes, size = ggplot2::rel(1.1)), 
       axis.title = ggplot2::element_text(color = col_txt_1), 
       axis.text =  ggplot2::element_text(color = col_txt_2, size = ggplot2::rel(.90)), 
       axis.ticks = ggplot2::element_line(color = col_txt_2, size = ggplot2::rel(.80)), 
+      
       # legend: 
       legend.title = ggplot2::element_text(color = col_txt_1), 
       legend.text = ggplot2::element_text(color = col_txt_2), 
       legend.background = ggplot2::element_blank(), 
       legend.key = ggplot2::element_blank(), 
+      
       # strip: 
       # strip.background = ggplot2::element_blank(), 
       strip.background = ggplot2::element_rect(fill = col_strip, color = col_brdrs, size = ggplot2::rel(1.0)), 
       strip.text = ggplot2::element_text(color = col_txt_3, size = ggplot2::rel(1.0), 
                                          margin = ggplot2::margin(t = 4, r = 4, b = 4, l = 4, unit = "pt")), 
-      # panel border: 
+      # panel: 
       # panel.border = ggplot2::element_blank(), 
       panel.border = ggplot2::element_rect(fill = "transparent", color = col_brdrs, linetype = "solid", 
                                            size = ggplot2::rel(1.0)),
@@ -183,6 +338,8 @@ theme_ds4psy <- function(base_size = 11,
       panel.background = ggplot2::element_rect(fill = col_panel, color = NA), # panel background 
       # background:  
       plot.background = ggplot2::element_rect(fill = col_bgrnd, color = NA), # main background
+      
+      # note:   
       complete = TRUE)
   
 } # theme_ds4psy end. 
@@ -230,6 +387,8 @@ theme_ds4psy <- function(base_size = 11,
 #' @param col_ticks Color of axes text and ticks. 
 #' Default: \code{col_ticks = grey(.10, 1)} (i.e., near "black").
 #'  
+#' @return A \bold{ggplot2} theme.
+#' 
 #' @examples
 #' 
 #' \donttest{
@@ -271,10 +430,11 @@ theme_clean <- function(base_size = 11,
                         col_gridx = grey(1.0, 1),  # (grid lines through x): grey(.75, 1) OR "grey"
                         col_gridy = grey(1.0, 1),  # (grid lines through y): grey(.75, 1) OR "grey"
                         col_ticks = grey(.10, 1)   # (axis text and ticks): grey(.10, 1) OR "black"
-) {ggplot2::theme_bw(base_size = base_size, 
-                     base_family = base_family, 
-                     base_line_size = base_line_size, 
-                     base_rect_size = base_rect_size) %+replace% 
+){ # base on ggplot2::theme_bw() in case the underlying ggplot2 code changes: 
+  ggplot2::theme_bw(base_size = base_size, 
+                    base_family = base_family, 
+                    base_line_size = base_line_size, 
+                    base_rect_size = base_rect_size) %+replace% 
     ggplot2::theme(#
       # titles: 
       title = ggplot2::element_text(color = col_title, face = "bold",
@@ -282,18 +442,21 @@ theme_clean <- function(base_size = 11,
       plot.subtitle = ggplot2::element_text(color = grey(.10, 1), face = "plain", hjust = 0,
                                             margin = ggplot2::margin(t = 2, r = 4, b = 8, l = 4, unit = "pt")), 
       plot.caption = ggplot2::element_text(color =  grey(.20, 1), face = "plain", size = ggplot2::rel(.80), hjust = 1), 
-      # axes:
+      
+      # axis:
       axis.line =  ggplot2::element_blank(), 
       # axis.line =  ggplot2::element_line(color = "black", size = ggplot2::rel(1)), 
       # axis.ticks = ggplot2::element_line(color = "black"), 
       axis.ticks = ggplot2::element_line(color = col_ticks), 
       axis.title = ggplot2::element_text(color = grey(.20, 1)), 
       axis.text =  ggplot2::element_text(color = col_ticks, size = ggplot2::rel(.90)), 
+      
       # legend: 
       legend.title = ggplot2::element_text(color = grey(.20, 1)), 
       legend.text =  ggplot2::element_text(color = grey(.10, 1), size = ggplot2::rel(.95)), 
       legend.background = ggplot2::element_blank(), 
       legend.key = ggplot2::element_blank(), 
+      
       # strip: 
       # strip.background = ggplot2::element_blank(),
       # strip.background = ggplot2::element_rect(fill = pal_seeblau[[1]], color = pal_seeblau[[5]], size = ggplot2::rel(5/3)), 
@@ -307,18 +470,18 @@ theme_clean <- function(base_size = 11,
       # panel background: 
       # panel.background = ggplot2::element_blank(), 
       panel.background = ggplot2::element_rect(fill = col_panel, color = col_panel), # panel background
+      
       # grid lines:
-      # panel.grid = ggplot2::element_blank(),
-      #
+      # panel.grid = ggplot2::element_blank(), 
       # panel.grid.major = ggplot2::element_line(color = col_grids, linetype = "solid", size = ggplot2::rel(.90)), # major grid lines
       panel.grid.major.x = ggplot2::element_line(color = col_gridx, linetype = "solid", size = ggplot2::rel(.90)), # major grid through x
       panel.grid.major.y = ggplot2::element_line(color = col_gridy, linetype = "solid", size = ggplot2::rel(.90)), # major grid through y
-      #
       panel.grid.minor = ggplot2::element_blank(), # no minor grid lines 
       # panel.grid.minor = ggplot2::element_line(color = grey(.95, 1), linetype = "solid", size = ggplot2::rel(2/3)), 
-      #
+      
       # background:  
       plot.background = ggplot2::element_rect(fill = "transparent", color = NA), 
+      # note: 
       complete = TRUE)
   
 } # theme_clean end. 
