@@ -1,5 +1,5 @@
 ## data_fun.R | ds4psy
-## hn | uni.kn | 2021 03 30
+## hn | uni.kn | 2021 03 31
 ## ---------------------------
 
 ## Functions for creating and manipulating data. 
@@ -755,20 +755,22 @@ dice_2 <- function(n = 1, sides = 6){
 # pm <- combinat::permn(x = set)
 # pm
 
+# Recursive definition: 
+
 all_permutations <- function(x) {
   
-  out <- NA  # initialize 
+  out <- NA  # initialize ----
   n <- length(x)
   
-  if (n == 1) { # basic case: 
+  if (n == 1) { # basic case: ----  
     
     out <- x
     
-  } else { # recursion:
+  } else { # Use recursion: ---- 
     
     out <- NULL  # init/stopping case
     
-    for (i in 1:n) {
+    for (i in 1:n) { # loop: ----
       
       out <- rbind(out, cbind(x[i], all_permutations(x[-i])))
       
@@ -785,7 +787,7 @@ all_permutations <- function(x) {
 # all_permutations(c("A", "B", "b", "a"))
 
 
-# Combinations: List all combinations of length n of a set: ------ 
+# Combinations: List all combinations of length n of a set x: ------ 
 
 # # (a) Using utils::combn: 
 # m <- utils::combn(x = 1:4, m = 2)
@@ -794,12 +796,23 @@ all_permutations <- function(x) {
 # t(m)
 # is.vector(m)  # if m == length(x)
 
-all_combinations <- function(set, length){
+all_combinations <- function(x, length){
   
+  # Prepare: ---- 
   out <- NA  # initialize
   
-  # Use utils::combn to obtain matrix:
-  m <- utils::combn(x = set, m = length)
+  # Verify inputs: 
+  if (is.na(x) || is.na(length)){
+    return(NA)
+  }
+  
+  if (length > length(x)){
+    message(paste0("all_combinations: length must not exceed length(x). Using length = ", length(x)))
+    length <- length(x)
+  }
+  
+  # Main: Use utils::combn to obtain matrix: ---- 
+  m <- utils::combn(x = x, m = length)
   
   if (is.vector(m)){
     
@@ -811,16 +824,19 @@ all_combinations <- function(set, length){
     
   }
   
+  # Output:
   return(out)
   
 } # all_combinations() end. 
 
 ## Check:
-# all_combinations(set = c("a", "b", "c"), 2)
-# all_combinations(set = 1:5, length = 2)
-# all_combinations(set = 1:25, 2)  # Note: 25 * 24 / 2 = 300 combinations.
-# all_combinations(set = 1:3, length = 4)  # ERROR: n < m
-
+# all_combinations(x = c("a", "b", "c"), 2)
+# all_combinations(x = 1:5, length = 2)
+# all_combinations(x = 1:25, 2)  # Note: 25 * 24 / 2 = 300 combinations.
+# all_combinations(x = 1:3, length = 1)
+# all_combinations(x = 1:3, length = 88)
+# all_combinations(x = 1:3, length = NA)
+# all_combinations(x = NA, length = 1)
 
 # Random vector of n symbols of length len from some set: ----- 
 
