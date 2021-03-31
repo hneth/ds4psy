@@ -1,5 +1,5 @@
 ## plot_fun.R | ds4psy
-## hn | uni.kn | 2021 03 27
+## hn | uni.kn | 2021 03 31
 ## ---------------------------
 
 ## Functions for plotting. 
@@ -19,7 +19,6 @@ utils::globalVariables(c("x", "y", "char"))  # to avoid Warning NOTE "Undefined 
 #'
 #' \code{plot_tiles} plots an area of \code{n-by-n} tiles 
 #' on fixed or polar coordinates.  
-#' 
 #' 
 #' @param n Basic number of tiles (on either side).
 #'
@@ -100,7 +99,6 @@ utils::globalVariables(c("x", "y", "char"))  # to avoid Warning NOTE "Undefined 
 #' @import ggplot2
 #' @import grDevices 
 #' @import unikn
-#' @importFrom cowplot theme_nothing 
 #' 
 #' @export 
 
@@ -248,8 +246,7 @@ plot_tiles <- function(n = NA,
     ggplot2::labs(title = "Tiles", x = "Data", y = "Science") +
     ## Colors: 
     ggplot2::scale_fill_gradientn(colors = cur_col) +  # s2: full unikn_sort palette: seeblau > white > black [default]
-    # theme_gray()
-    cowplot::theme_nothing()
+    theme_empty() # theme_gray() # cowplot::theme_nothing()
   
   if (lbl_title){
     
@@ -364,7 +361,8 @@ plot_tiles <- function(n = NA,
 #            sort = FALSE, borders = TRUE, 
 #            lbl_tiles = TRUE, lbl_title = TRUE, 
 #            rseed = 101)  # fix seed
-
+#
+# # Note: theme_empty() removed need for: #' @importFrom cowplot theme_nothing 
 
 
 ## plot_fun: Wrapper around plot_tiles (with fewer and cryptic options): -------- 
@@ -574,7 +572,6 @@ plot_fun <- function(a = NA,
 #' @import ggplot2
 #' @import grDevices
 #' @import unikn
-#' @importFrom cowplot theme_nothing 
 #' 
 #' @export 
 
@@ -769,8 +766,7 @@ plot_n <- function(n = NA,
       ggplot2::labs(title = "Tiles", x = "Data", y = "Science") +
       ## Colors: 
       ggplot2::scale_fill_gradientn(colors = cur_col) +  # s2: full unikn_sort palette: seeblau > white > black [default]
-      # theme_gray()
-      cowplot::theme_nothing()
+      theme_empty() # theme_gray() # cowplot::theme_nothing()
     
   } else { # as col: 
     
@@ -789,8 +785,7 @@ plot_n <- function(n = NA,
       ggplot2::labs(title = "Tiles", x = "Data", y = "Science") +
       ## Colors: 
       ggplot2::scale_fill_gradientn(colors = cur_col) +  # s2: full unikn_sort palette: seeblau > white > black [default]
-      # theme_gray()
-      cowplot::theme_nothing()
+      theme_empty() # theme_gray() # cowplot::theme_nothing()
     
   } # if (row) etc. 
   
@@ -963,10 +958,8 @@ plot_n <- function(n = NA,
 #        sort = FALSE, borders = TRUE,
 #        lbl_tiles = TRUE, lbl_title = TRUE,
 #        rseed = 101)  # fix seed
-
-
-
-
+#
+# # Note: theme_empty() removed need for: #' @importFrom cowplot theme_nothing 
 
 
 ## plot_fn: Wrapper around plot_n (with fewer and cryptic options): -------- 
@@ -1191,7 +1184,6 @@ plot_fn <- function(x = NA,
 #' 
 #' @import ggplot2
 #' @importFrom grDevices colorRampPalette 
-#' @importFrom cowplot theme_nothing
 #' @importFrom stats runif
 #' 
 #' @export 
@@ -1330,7 +1322,6 @@ plot_text <- function(file = "",  # "" read from console; "test.txt" read from f
   #   message("plot_text: nr_char_freq differs from nr_chars.")
   # } 
   
-  
   # (4) Create color palette:
   if (pal_extend){
     
@@ -1383,7 +1374,6 @@ plot_text <- function(file = "",  # "" read from console; "test.txt" read from f
     char_angles <- 0
   }
   
-  
   # (6) Use ggplot2: 
   cur_plot <- ggplot2::ggplot(data = tb_txt, aes(x = x, y = y)) +
     ggplot2::geom_tile(aes(), fill = col_map, color = brd_col, size = brd_size,  # tiles (with borders, opt.)
@@ -1392,9 +1382,7 @@ plot_text <- function(file = "",  # "" read from console; "test.txt" read from f
                        fontface = fontface, family = family, angle = char_angles) + 
     ggplot2::coord_equal() + 
     # theme: 
-    # theme_classic() +
-    cowplot::theme_nothing()
-  
+    theme_empty() # theme_gray() # theme_classic() # cowplot::theme_nothing()
   
   # (7) plot plot: 
   cur_plot
@@ -1442,6 +1430,13 @@ plot_text <- function(file = "",  # "" read from console; "test.txt" read from f
 # plot_text()
 # 
 # }
+#
+# # Note: theme_empty() removed need for: #' @importFrom cowplot theme_nothing 
+
+
+## Done: ----------
+
+# - theme_empty() removed need for: #' @importFrom cowplot theme_nothing 
 
 ## ToDo: ----------
 
