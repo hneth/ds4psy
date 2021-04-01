@@ -1,5 +1,5 @@
 ## start.R | ds4psy
-## hn | uni.kn | 2020 05 06
+## hn | uni.kn | 2021 04 01
 ## ---------------------------
 
 ## Open pkg guide: ----------
@@ -56,6 +56,7 @@ ds4psy.guide <- function() {
 }
 
 ## ToDo: ------
-## - ...
+
+## - etc.
 
 ## eof. ----------
