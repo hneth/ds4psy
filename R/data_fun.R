@@ -1174,7 +1174,7 @@ make_grid <- function(x_min = 0, x_max = 2, y_min = 0, y_max = 1){
 #' (as a data frame).
 #' 
 #' Each set stems from Anscombe's Quartet 
-#' (see \code {datasets::anscombe}, hence 
+#' (see \code{datasets::anscombe}, hence 
 #' \code{1 <= n <= 4}) and is returned as an 
 #' \code{11 x 2} data frame. 
 #' 
