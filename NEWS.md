@@ -21,7 +21,7 @@ The book and course [Data Science for Psychologists](https://bookdown.org/hneth/
 
 -------- 
 
-# ds4psy 0.5.0.9010 
+# ds4psy 0.5.0.9010
 
 The current development version of **ds4psy** is hosted at <https://github.com/hneth/ds4psy/>. 
 
