@@ -1,5 +1,5 @@
 ## util_fun.R | ds4psy
-## hn | uni.kn | 2020 11 20
+## hn | uni.kn | 2021 04 01
 ## ---------------------------
 
 ## Utility functions. 
@@ -784,6 +784,6 @@ kill_all <- function(){
 
 ## ToDo: ----------
 
-# - ... 
+# - etc.
 
 ## eof. ----------------------
