@@ -41,7 +41,6 @@ table(dice_2(5000, sides = 5))
 dice_2(n = 10, sides = 8:9)  # works, but 
 dice_2(n = 10, sides = 9:9)  # odd: see sample() for an explanation.
 
-
 }
 \seealso{
 Other sampling functions: 

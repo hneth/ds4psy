@@ -10,7 +10,7 @@ See \code{?datasets:anscombe} for details and references.
 get_set(n = 1)
 }
 \arguments{
-\item{n}{Number of set (as an integer).
+\item{n}{Number of set (as an integer from 1 to 4)).
 Default: \code{n = 1}.}
 }
 \description{
@@ -18,9 +18,10 @@ Default: \code{n = 1}.}
 (as a data frame).
 }
 \details{
-The set stems from Anscombe's Quartet 
-(hence \code{1 <= 0 <= 4}) and is returned as a 
-data frame (with 11 rows and 2 columns).
+Each set stems from Anscombe's Quartet 
+(see \code{datasets::anscombe}, hence 
+\code{1 <= n <= 4}) and is returned as an 
+\code{11 x 2} data frame.
 }
 \examples{
 get_set(1)
