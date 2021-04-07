@@ -12,18 +12,19 @@ The book and course [Data Science for Psychologists](https://bookdown.org/hneth/
 
 <!-- Links: --> 
 
-- The most recent release of **ds4psy** (0.5.0) is available from CRAN: <https://CRAN.R-project.org/package=ds4psy>.
-- The current development version of **ds4psy** (0.5.0.9001+) is hosted at <https://github.com/hneth/ds4psy/>. 
-- The textbook **Data Science for Psychologists** is hosted at <https://bookdown.org/hneth/ds4psy/>.
+- The textbook **Data Science for Psychologists** is hosted at <https://bookdown.org/hneth/ds4psy/>. 
+- The most recent release of **ds4psy** (0.6.0) is available from CRAN: <https://CRAN.R-project.org/package=ds4psy>.
+- The current development version of **ds4psy** (0.6.0.9001+) is hosted at <https://github.com/hneth/ds4psy/>. 
 
 
 <!-- Add blank line.  --> 
 
 -------- 
 
-# ds4psy 0.5.0.9012
+# ds4psy 0.6.0
 
-The current development version of **ds4psy** is hosted at <https://github.com/hneth/ds4psy/>. 
+Release of **ds4psy** (0.6.0) [on CRAN](https://CRAN.R-project.org/package=ds4psy) 
+adds functionality, updates data, and reduces dependencies. [2021-04-08] 
 
 <!-- Log of changes: --> 
 
@@ -45,14 +46,16 @@ Changes since last release:
 - removed import of **cowplot** by adding `theme_empty()` 
 - reduced reliance on **unikn** by replacing some colors with corresponding HEX codes 
 
-
 <!-- Add blank line.  --> 
+
+The current development version of **ds4psy** is hosted at <https://github.com/hneth/ds4psy/>. 
 
 -------- 
 
 # ds4psy 0.5.0
 
-Release of **ds4psy** (0.5.0) on CRAN: <https://CRAN.R-project.org/package=ds4psy>. [2020-09-01] 
+Release of **ds4psy** (0.5.0) [on CRAN](https://CRAN.R-project.org/package=ds4psy) 
+adds and revises functionality, updates data, and fixes bugs. [2020-09-01] 
 
 Changes since last release:
 
@@ -91,7 +94,7 @@ Changes since last release:
 
 # ds4psy 0.4.0
 
-This release of **ds4psy** (0.4.0) on on [CRAN](https://CRAN.R-project.org/package=ds4psy) 
+Release of **ds4psy** (0.4.0) [on CRAN](https://CRAN.R-project.org/package=ds4psy) 
 adds new functionality and fixes minor bugs. [2020-07-06] 
 
 Changes since last release:
@@ -127,7 +130,7 @@ Changes since last release:
 
 # ds4psy 0.3.0
 
-This release of **ds4psy** (0.3.0) on on [CRAN](https://CRAN.R-project.org/package=ds4psy) 
+Release of **ds4psy** (0.3.0) [on CRAN](https://CRAN.R-project.org/package=ds4psy) 
 adds new functionality (e.g., support for processing text data, new datasets, and functions). [2020-06-15] 
 
 Changes since last release:
@@ -163,7 +166,7 @@ Changes since last release:
 
 # ds4psy 0.2.1
 
-This release of **ds4psy** (0.2.1) on [CRAN](https://CRAN.R-project.org/package=ds4psy) 
+Release of **ds4psy** (0.2.1) [on CRAN](https://CRAN.R-project.org/package=ds4psy) 
 is a **maintenance release** (to remove some dependencies, fix bugs on CRAN platforms, and add some datasets). [2020-05-06] 
 
 Changes since last release:
@@ -194,7 +197,7 @@ Changes since last release:
 
 # ds4psy 0.2.0
 
-Release of **ds4psy** (0.2.0) on [CRAN](https://CRAN.R-project.org/package=ds4psy) adds functionality and fixes some bugs. [2020-04-20] 
+Release of **ds4psy** (0.2.0) [on CRAN](https://CRAN.R-project.org/package=ds4psy) adds functionality and fixes some bugs. [2020-04-20] 
 
 Changes since last release:
 
@@ -230,7 +233,7 @@ Changes involving new functionality include:
 
 # ds4psy 0.1.0
 
-Initial release of **ds4psy** (0.1.0) on [CRAN](https://CRAN.R-project.org/package=ds4psy). [2019-08-10] 
+Initial release of **ds4psy** (0.1.0) [on CRAN](https://CRAN.R-project.org/package=ds4psy). [2019-08-10] 
 
 ## Contents 
 
@@ -245,6 +248,6 @@ The initial functionality is limited, as the package is designed to support the 
 
 ---------- 
 
-[File `NEWS.md` updated on 2021-04-06.]
+[File `NEWS.md` updated on 2021-04-08.]
 
 <!-- eof. -->
