@@ -18,4 +18,5 @@
 ^rsconnect$
 ^cran-comments\.md$
 ^CRAN-RELEASE$
+^revdep$
 ^\.travis\.yml$
