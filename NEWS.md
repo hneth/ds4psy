@@ -17,7 +17,7 @@ The book and course [Data Science for Psychologists](https://bookdown.org/hneth/
 - The current development version of **ds4psy** (0.6.0.9001+) is hosted at <https://github.com/hneth/ds4psy/>. 
 
 
-<!-- Add blank line.  --> 
+<!-- Current release:  --> 
 
 -------- 
 
@@ -46,9 +46,11 @@ Changes since last release:
 - removed import of **cowplot** by adding `theme_empty()` 
 - reduced reliance on **unikn** by replacing some colors with corresponding HEX codes 
 
-<!-- Add blank line.  --> 
+<!-- Note:  --> 
 
 The current development version of **ds4psy** is hosted at <https://github.com/hneth/ds4psy/>. 
+
+<!-- Previous release:  --> 
 
 -------- 
 
@@ -88,7 +90,7 @@ Changes since last release:
 - bug fix: Remove alternative solution in `is_leap_year()` (which yielded `FALSE` for `NA` inputs).  
 - bug fix: Replace `\u2212` (minus sign) by `-` (dash) in `exp_num_dt$blood_type` to prevent **Note** on "marked UTF-8 strings".  
 
-<!-- Add blank line.  --> 
+<!-- Previous release:  --> 
 
 -------- 
 
@@ -125,6 +127,7 @@ Changes since last release:
 - bug fix: Use `\u...` rather than `\U...` in `Umlaut` definitions  
 - bug fix: Removed non-ASCII characters from `fruits` and `flowery`  
 
+<!-- Previous release:  --> 
 
 -------- 
 
@@ -160,7 +163,7 @@ Changes since last release:
 - renamed family of `text functions` to `text objects and functions`  
 - renamed family of `random functions` to `sampling functions`  
 
-<!-- Add blank line.  --> 
+<!-- Previous release:  --> 
 
 -------- 
 
@@ -191,7 +194,7 @@ Changes since last release:
 - bug fix: Removed packages not used in this version (i.e., `dplyr`, and `magrittr`) from declared Imports 
 
 
-<!-- Add blank line.  --> 
+<!-- Previous release:  --> 
 
 -------- 
 
@@ -227,7 +230,7 @@ Changes involving new functionality include:
 - bug fix: Removed packages not used in this version (i.e., `readr`, `stringr`, `tidyr`, and `tidyverse`) from declared Imports
 
 
-<!-- Add blank line.  --> 
+<!-- Previous release:  --> 
 
 -------- 
 
@@ -244,7 +247,7 @@ The initial functionality is limited, as the package is designed to support the 
 - provides an initial color scheme and plotting theme
 - added plotting functions (e.g., of book graphics) for exploring functions 
 
-<!-- Add blank line.  --> 
+<!-- Footer: --> 
 
 ---------- 
 
