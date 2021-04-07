@@ -179,7 +179,7 @@ Please install the following open-source programs on your computer:
 -   [The R Project for Statistical
     Computing](https://www.R-project.org/)
 
--   [R Studio](https://rstudio.com/) is an integrated development
+-   [R Studio](https://www.rstudio.com/) is an integrated development
     environment (IDE) for R.
 
 -   R packages of the [tidyverse](https://www.tidyverse.org/),
@@ -219,7 +219,7 @@ Nr. | Topic       |
 
 #### R manuals and books
 
--   [R manuals](https://cran.r-project.org/manuals.html) and related
+-   [R manuals](https://cran.r-project.org/manuals.html) and related
     [books](https://www.r-project.org/doc/bib/R-books.html)
 
 -   See the books on R and data science available on
@@ -229,10 +229,10 @@ Nr. | Topic       |
 
 #### RStudio resources
 
--   [R Studio](https://rstudio.com/)
-    [IDE](https://rstudio.com/products/rstudio/), [R
-    Markdown](https://rmarkdown.rstudio.com/), and various [cheat
-    sheets](https://rstudio.com/resources/cheatsheets/)
+-   [RStudio](https://www.rstudio.com/)
+    [IDE](https://www.rstudio.com/products/rstudio/),
+    [R Markdown](https://rmarkdown.rstudio.com/), and various [cheat
+    sheets](https://www.rstudio.com/resources/cheatsheets/)
 
 -   [Tidyverse](https://www.tidyverse.org/) resources:
 
