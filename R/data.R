@@ -1,5 +1,5 @@
 ## data.R | ds4psy
-## hn | uni.kn | 2021 01 28
+## hn | uni.kn | 2021 04 07
 ## Documentation of datasets included in /data. 
 
 
@@ -55,7 +55,7 @@
 #' }
 #' 
 #' See \url{https://openpsychologydata.metajnl.com/articles/10.5334/jopd.35/} for details 
-#' and \url{https://doi.org/10.6084/m9.figshare.1577563.v1} for original dataset. 
+#' and \doi{10.6084/m9.figshare.1577563.v1} for original dataset. 
 #' 
 #' Additional references at \url{https://bookdown.org/hneth/ds4psy/B-1-datasets-pos.html}. 
 
@@ -130,7 +130,7 @@
 #' }
 #' 
 #' See \url{https://openpsychologydata.metajnl.com/articles/10.5334/jopd.35/} for details 
-#' and \url{https://doi.org/10.6084/m9.figshare.1577563.v1} for original dataset. 
+#' and \doi{10.6084/m9.figshare.1577563.v1} for original dataset. 
 #' 
 #' Additional references at \url{https://bookdown.org/hneth/ds4psy/B-1-datasets-pos.html}. 
 
@@ -174,7 +174,7 @@
 #' }
 #' 
 #' See \url{https://openpsychologydata.metajnl.com/articles/10.5334/jopd.35/} for details 
-#' and \url{https://doi.org/10.6084/m9.figshare.1577563.v1} for original dataset. 
+#' and \doi{10.6084/m9.figshare.1577563.v1} for original dataset. 
 #' 
 #' Additional references at \url{https://bookdown.org/hneth/ds4psy/B-1-datasets-pos.html}. 
 
@@ -216,7 +216,7 @@
 #' }
 #' 
 #' See \url{https://openpsychologydata.metajnl.com/articles/10.5334/jopd.35/} for details 
-#' and \url{https://doi.org/10.6084/m9.figshare.1577563.v1} for original dataset. 
+#' and \doi{10.6084/m9.figshare.1577563.v1} for original dataset. 
 #' 
 #' Additional references at \url{https://bookdown.org/hneth/ds4psy/B-1-datasets-pos.html}. 
 
@@ -289,14 +289,14 @@
 #' False-positive psychology: Undisclosed flexibility in data collection and analysis 
 #' allows presenting anything as significant. 
 #' \emph{Psychological Science}, \emph{22}(11), 1359--1366. 
-#' doi: \url{https://doi.org/10.1177/0956797611417632}
+#' doi: \doi{10.1177/0956797611417632}
 #' 
 #' \item Simmons, J.P., Nelson, L.D., & Simonsohn, U. (2014). 
 #' Data from paper "False-Positive Psychology: 
 #' Undisclosed Flexibility in Data Collection and Analysis 
 #' Allows Presenting Anything as Significant". 
 #' \emph{Journal of Open Psychology Data}, \emph{2}(1), e1. 
-#' doi: \url{https://doi.org/10.5334/jopd.aa} 
+#' doi: \doi{10.5334/jopd.aa} 
 #' }
 #' 
 #' See files at \url{https://openpsychologydata.metajnl.com/articles/10.5334/jopd.aa/} and 
