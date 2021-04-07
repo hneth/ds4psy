@@ -3,17 +3,17 @@ citHeader("To cite ds4psy in derivations and publications use:")
 citEntry(entry = "Manual",
          title        = "ds4psy: Data Science for Psychologists",
          author       = personList(as.person("Hansjörg Neth")),
-         year         = "2020",
+         year         = "2021",
          organization = "Social Psychology and Decision Sciences, University of Konstanz",
          address      = "Konstanz, Germany",
-         note         = "R package (version 0.5.0, Sep 1, 2020); Textbook at <https://bookdown.org/hneth/ds4psy/>.",
+         note         = "R package (version 0.6.0, April 8, 2021); Textbook at <https://bookdown.org/hneth/ds4psy/>.",
          url          = "https://CRAN.R-project.org/package=ds4psy",
 
          textVersion  =
-           paste("Neth, H. (2020).",
+           paste("Neth, H. (2021).",
                  "ds4psy: Data Science for Psychologists.",
                  "Social Psychology and Decision Sciences, University of Konstanz, Germany.",
-                 "R package (version 0.5.0, Sep 1, 2020); Textbook at <https://bookdown.org/hneth/ds4psy/>.",
+                 "R package (version 0.6.0, April 8, 2021); Textbook at <https://bookdown.org/hneth/ds4psy/>.",
                  "Retrieved from <https://CRAN.R-project.org/package=ds4psy>.")
          )
          

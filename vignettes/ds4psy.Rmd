@@ -67,7 +67,7 @@ This package and the corresponding book are still being developed and are update
 
 - The current R package is available at <https://CRAN.R-project.org/package=ds4psy>.  
 
-- For source versions, there are 2 GitHub repositories to be distinguished:  
+- For source versions, there are two GitHub repositories to be distinguished:  
 
     - The repository for the [ds4psy book](https://bookdown.org/hneth/ds4psy/) is <https://github.com/hneth/ds4psy> (with an additional suffix `_book`). 
 
@@ -85,9 +85,9 @@ If you find these materials useful, or want to adopt or alter them for your purp
 
 To cite **ds4psy** in derivations and publications, please use:
 
-- Neth, H. (2020). ds4psy: Data Science for Psychologists.  
+- Neth, H. (2021). ds4psy: Data Science for Psychologists.  
 Social Psychology and Decision Sciences, University of Konstanz, Germany.  
-Textbook and R package (version 0.5.0, Sep 1, 2020).  
+Textbook and R package (version 0.6.0, April 8, 2021).  
 Retrieved from <https://bookdown.org/hneth/ds4psy/>.
 
 A **BibTeX** entry for LaTeX users is: 
@@ -96,10 +96,10 @@ A **BibTeX** entry for LaTeX users is:
 @Manual{ds4psy,
   title = {ds4psy: Data Science for Psychologists},
   author = {Hansjörg Neth},
-  year = {2020},
+  year = {2021},
   organization = {Social Psychology and Decision Sciences, University of Konstanz},
   address = {Konstanz, Germany},
-  note = {Textbook and R package (version 0.5.0, Sep 1, 2020)},
+  note = {Textbook and R package (version 0.6.0, April 8, 2021)},
   url = {https://bookdown.org/hneth/ds4psy/}
 }
 ```

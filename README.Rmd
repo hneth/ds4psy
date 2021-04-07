@@ -81,9 +81,10 @@ The most recent version of the [ds4psy book](https://bookdown.org/hneth/ds4psy/)
 
 ## Description
 
-This book and course provide an introduction to data science that is tailored to the needs of psychologists, but is also suitable for students of the humanities and other biological or social sciences. 
+This book and course provide an introduction to data science that is tailored to the needs of students in psychology, but is also suitable for students of the humanities and other biological or social sciences. 
 This audience typically has some knowledge of statistics, but rarely an idea how data is prepared and shaped to allow for statistical testing. 
-By using various data types and working with many examples, we teach tools for transforming, summarizing, and visualizing data. By keeping our eyes open for the perils of misleading representations, the book fosters fundamental skills of data literacy and cultivates reproducible research practices that enable and precede any practical use of statistics. 
+By using various data types and working with many examples, we teach tools for transforming, summarizing, and visualizing data. 
+By keeping our eyes open for the perils of misleading representations, the book fosters fundamental skills of data literacy and cultivates reproducible research practices that enable and precede any practical use of statistics. 
 
 ### Audience 
 
@@ -212,9 +213,9 @@ If you find these materials useful, or want to adopt or alter them for your purp
 
 To cite **ds4psy** in derivations and publications, please use:  
 
-- Neth, H. (2020). ds4psy: Data Science for Psychologists.  
+- Neth, H. (2021). ds4psy: Data Science for Psychologists.  
 Social Psychology and Decision Sciences, University of Konstanz, Germany.  
-Textbook and R package (version 0.5.0, Sep 1, 2020).   
+Textbook and R package (version 0.6.0, April 8, 2021).   
 Retrieved from <https://bookdown.org/hneth/ds4psy/>. 
 
 <!-- Add blank line.  -->
@@ -225,10 +226,10 @@ A **BibTeX** entry for LaTeX users is:
 @Manual{ds4psy,
   title = {ds4psy: Data Science for Psychologists},
   author = {Hansjörg Neth},
-  year = {2020},
+  year = {2021},
   organization = {Social Psychology and Decision Sciences, University of Konstanz},
   address = {Konstanz, Germany},
-  note = {Textbook and R package (version 0.5.0, Sep 1, 2020)},
+  note = {Textbook and R package (version 0.6.0, April 8, 2021)},
   url = {https://bookdown.org/hneth/ds4psy/} 
 }
 ```
