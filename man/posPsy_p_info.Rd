@@ -24,7 +24,7 @@ doi: \code{10.5334/jopd.35}
 }
 
 See \url{https://openpsychologydata.metajnl.com/articles/10.5334/jopd.35/} for details 
-and \url{https://doi.org/10.6084/m9.figshare.1577563.v1} for original dataset. 
+and \doi{10.6084/m9.figshare.1577563.v1} for original dataset. 
 
 Additional references at \url{https://bookdown.org/hneth/ds4psy/B-1-datasets-pos.html}.
 }
