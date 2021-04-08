@@ -17,7 +17,37 @@ The book and course [Data Science for Psychologists](https://bookdown.org/hneth/
 - The current development version of **ds4psy** (0.6.0.9001+) is hosted at <https://github.com/hneth/ds4psy/>. 
 
 
-<!-- Current release:  --> 
+<!-- Current version:  --> 
+
+-------- 
+
+# ds4psy 0.6.0.9001
+
+Current development version of **ds4psy** (0.6.0.9001+) [on GitHub](https://github.com/hneth/ds4psy/). [2021-04-08] 
+
+<!-- Log of changes: --> 
+
+Changes since last release: 
+
+## Major changes 
+
+- none yet
+
+
+## Minor changes 
+
+- none yet
+
+
+## Details 
+
+- bug fix: removed marked UTF-8 strings from `Trumpisms` 
+
+<!-- Note:  --> 
+
+The current development version of **ds4psy** is hosted at <https://github.com/hneth/ds4psy/>. 
+
+<!-- Latest CRAN release:  --> 
 
 -------- 
 
@@ -45,10 +75,6 @@ Changes since last release:
 
 - removed import of **cowplot** by adding `theme_empty()` 
 - reduced reliance on **unikn** by replacing some colors with corresponding HEX codes 
-
-<!-- Note:  --> 
-
-The current development version of **ds4psy** is hosted at <https://github.com/hneth/ds4psy/>. 
 
 <!-- Previous release:  --> 
 
