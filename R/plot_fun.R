@@ -1,5 +1,5 @@
 ## plot_fun.R | ds4psy
-## hn | uni.kn | 2021 03 31
+## hn | uni.kn | 2021 04 12
 ## ---------------------------
 
 ## Functions for plotting. 
@@ -1303,8 +1303,8 @@ plot_text <- function(file = "",  # "" read from console; "test.txt" read from f
     # char_freq <- char_freq %>% dplyr::arrange(desc(n))
     
     # (B) char_freq as named vector:
-    ix <- names(char_freq) == char_bg
-    char_freq[ix] <- max(1000, (max(char_freq) + 1))
+    ix <- (names(char_freq) == char_bg)  # ix of char_bg in char_freq
+    char_freq[ix] <- max(1000, (max(char_freq) + 1))  # some high val
     char_freq <- sort(char_freq, decreasing = TRUE)
     
   }
