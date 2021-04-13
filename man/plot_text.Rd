@@ -63,7 +63,7 @@ of text (used in order of character frequency).
 Default: \code{pal = pal_ds4psy[1:5]} 
 (i.e., shades of \code{Seeblau}).}
 
-\item{pal_extend}{Boolean: Should pal be extended 
+\item{pal_extend}{Boolean: Should \code{pal} be extended 
 to match the number of different characters in text? 
 Default: \code{pal_extend = TRUE}. 
 If \code{pal_extend = FALSE}, only the tiles of 
@@ -71,7 +71,8 @@ the \code{length(pal)} most frequent characters
 will be filled by the colors of \code{pal}.}
 
 \item{case_sense}{Boolean: Should lower- and 
-uppercase characters be distinguished? 
+uppercase characters be distinguished 
+(in applying color \code{pal})? 
 Default: \code{case_sense = FALSE}.}
 
 \item{borders}{Boolean: Add borders to tiles? 
@@ -86,8 +87,8 @@ Default: \code{border_size = 0.5}.}
 \description{
 \code{plot_text} parses text 
 (from a file or from user input in Console) 
-into a table and then plots all 
-its characters as a tile plot (using \strong{ggplot2}).
+into a table and then plots its individual characters 
+as a tile plot (using \strong{ggplot2}).
 }
 \examples{
 ## Create a temporary file "test.txt":
