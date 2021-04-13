@@ -1,5 +1,5 @@
 ## plot_fun.R | ds4psy
-## hn | uni.kn | 2021 04 12
+## hn | uni.kn | 2021 04 13
 ## ---------------------------
 
 ## Functions for plotting. 
@@ -1071,8 +1071,8 @@ plot_fn <- function(x = NA,
 #'
 #' \code{plot_text} parses text 
 #' (from a file or from user input in Console) 
-#' into a table and then plots all 
-#' its characters as a tile plot (using \strong{ggplot2}).
+#' into a table and then plots its individual characters 
+#' as a tile plot (using \strong{ggplot2}).
 #' 
 #' @param file The text file to read (or its path). 
 #' If \code{file = ""} (the default), \code{scan} is used 
@@ -1114,7 +1114,7 @@ plot_fn <- function(x = NA,
 #' Default: \code{pal = pal_ds4psy[1:5]} 
 #' (i.e., shades of \code{Seeblau}).
 #' 
-#' @param pal_extend Boolean: Should pal be extended 
+#' @param pal_extend Boolean: Should \code{pal} be extended 
 #' to match the number of different characters in text? 
 #' Default: \code{pal_extend = TRUE}. 
 #' If \code{pal_extend = FALSE}, only the tiles of 
@@ -1122,7 +1122,8 @@ plot_fn <- function(x = NA,
 #' will be filled by the colors of \code{pal}. 
 #' 
 #' @param case_sense Boolean: Should lower- and 
-#' uppercase characters be distinguished? 
+#' uppercase characters be distinguished 
+#' (in applying color \code{pal})? 
 #' Default: \code{case_sense = FALSE}. 
 #' 
 #' @param borders Boolean: Add borders to tiles? 
@@ -1246,49 +1247,56 @@ plot_text <- function(file = "",  # "" read from console; "test.txt" read from f
   
   
   # (2) Determine frequency of chars:
-  if (case_sense){
-    
-    # (a) case-sensitive match: 
-    
-    # # (A) char_freq as table:   
-    # # Using dplyr + pipe:
-    # char_freq <- tb_txt %>%
-    #   dplyr::count(char) %>%   # Note: Upper- and lowercase are counted separately!
-    #   dplyr::arrange(desc(n))
-    # 
-    # # # Without pipe:
-    # # t2 <- dplyr::count(tb_txt, char)
-    # # char_freq <- dplyr::arrange(t2, desc(n))
-    
-    # (B) char_freq as named vector:
-    char_freq <- count_chars(tb_txt$char, case_sense = TRUE, rm_specials = FALSE, sort_freq = TRUE)
-    nr_unique_chars <- length(char_freq)
-    
-  } else {
-    
-    # (b) case-INsensitive match:
-    
-    # # (A) char_freq as table:   
-    # tb_txt$char_lc <- tolower(tb_txt$char)  # all in lowercase!
-    # 
-    # # Using dplyr + pipe:
-    # char_freq <- tb_txt %>%
-    #   dplyr::count(char_lc) %>% # Note: Upper- and lowercase are counted together!
-    #   dplyr::mutate(char = char_lc) %>%
-    #   dplyr::select(char, n) %>%
-    #   dplyr::arrange(desc(n))
-    # 
-    # # # Without pipe:
-    # # t2 <- dplyr::count(tb_txt, char_lc)
-    # # t3 <- dplyr::mutate(t2, char = char_lc)
-    # # t4 <- dplyr::select(t3, char, n)
-    # # char_freq <- dplyr::arrange(t4, desc(n))
-    
-    # (B) char_freq as named vector:
-    char_freq <- count_chars(tb_txt$char, case_sense = FALSE, rm_specials = FALSE, sort_freq = TRUE)
-    nr_unique_chars <- length(char_freq)
-    
-  }
+  
+  ## Too complicated: 
+  # if (case_sense){
+  #   
+  #   # (a) case-sensitive match: 
+  #   
+  #   # # (A) char_freq as table:   
+  #   # # Using dplyr + pipe:
+  #   # char_freq <- tb_txt %>%
+  #   #   dplyr::count(char) %>%   # Note: Upper- and lowercase are counted separately!
+  #   #   dplyr::arrange(desc(n))
+  #   # 
+  #   # # # Without pipe:
+  #   # # t2 <- dplyr::count(tb_txt, char)
+  #   # # char_freq <- dplyr::arrange(t2, desc(n))
+  #   
+  #   # (B) char_freq as named vector:
+  #   char_freq <- count_chars(tb_txt$char, case_sense = TRUE, rm_specials = FALSE, sort_freq = TRUE)
+  #   nr_unique_chars <- length(char_freq)
+  #   
+  # } else {
+  #   
+  #   # (b) case-INsensitive match:
+  #   
+  #   # # (A) char_freq as table:   
+  #   # tb_txt$char_lc <- tolower(tb_txt$char)  # all in lowercase!
+  #   # 
+  #   # # Using dplyr + pipe:
+  #   # char_freq <- tb_txt %>%
+  #   #   dplyr::count(char_lc) %>% # Note: Upper- and lowercase are counted together!
+  #   #   dplyr::mutate(char = char_lc) %>%
+  #   #   dplyr::select(char, n) %>%
+  #   #   dplyr::arrange(desc(n))
+  #   # 
+  #   # # # Without pipe:
+  #   # # t2 <- dplyr::count(tb_txt, char_lc)
+  #   # # t3 <- dplyr::mutate(t2, char = char_lc)
+  #   # # t4 <- dplyr::select(t3, char, n)
+  #   # # char_freq <- dplyr::arrange(t4, desc(n))
+  #   
+  #   # (B) char_freq as named vector:
+  #   char_freq <- count_chars(tb_txt$char, case_sense = FALSE, rm_specials = FALSE, sort_freq = TRUE)
+  #   nr_unique_chars <- length(char_freq)
+  #   
+  # }
+  
+  # (A+B) Simplify: Pass case_sense to char_freq():
+  char_freq <- count_chars(tb_txt$char, case_sense = case_sense, rm_specials = FALSE, sort_freq = TRUE)
+  nr_unique_chars <- length(char_freq)
+  
   # char_freq  # 4debugging
   # print(nr_unique_chars)  # 4debugging
   
