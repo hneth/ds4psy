@@ -1441,6 +1441,224 @@ plot_text <- function(file = "",  # "" read from console; "test.txt" read from f
 #
 # # Note: theme_empty() removed need for: #' @importFrom cowplot theme_nothing 
 
+## plot_txt: Alternative to plot_text (with regex functionality): -------- 
+
+# Note: As the above plot_text() function is character-based, 
+#       it should probably be called plot_char()?
+
+plot_txt <- function(file = "",  # "" read from console; "test.txt" read from file
+                     char_bg = " ",  # character used as background, if char_bg = NA: most frequent char.
+                     # text format:
+                     lbl_tiles = TRUE, 
+                     lbl_rotate = FALSE,  # TRUE rotates labels 
+                     cex = 3,             # size of characters
+                     fontface = 1,        # font face (1:4)
+                     family = "sans",     # font family: 1 of "sans" "serif" "mono"
+                     # colors: 
+                     col_lbl = "black",   # color of text characters
+                     col_bg = "white",    # bg color (for most frequent character in file)
+                     pal = pal_ds4psy[1:5],  # c("steelblue", "skyblue", "lightgrey"),  # color palette for other replacements
+                     pal_extend = TRUE,   # extend color palette (to n of different characters in file)
+                     case_sense = FALSE,
+                     # tile borders: 
+                     borders = TRUE,        # show tile borders?
+                     border_col = "white",  # color of tile border 
+                     border_size = 0.5      # width of tile border
+){
+  
+  ## (-) Default file/path:
+  # file <- "test.txt"  # 4debugging
+  
+  ## (-) Parameters (currently fixed):
+  # (a) Text:
+  # fontface <- 1
+  # family <- "mono"  # 1 of "sans" "serif" "mono"
+  # angle <- 0
+  # (b) Tile:
+  height <- 1
+  width <- 1
+  
+  # (0) Interpret inputs:
+  if (!lbl_tiles) {col_lbl <- NA}
+  
+  # Font family:
+  family <- tolower(family)
+  if (!family %in% c("sans", "serif", "mono")){
+    message("plot_text: Font family should be 'sans' (default), 'serif', or 'mono'.")
+    family <- "sans"
+  }
+  
+  # Tile borders:
+  if (borders){
+    brd_col   <- border_col
+    brd_size  <- border_size
+  } else {
+    brd_col  <- NA  # hide label
+    brd_size <- NA  # hide label
+  }
+  
+  # (1) Read text file into a table: 
+  tb_txt <- read_ascii(file = file, flip_y = TRUE)
+  nr_chars <- nrow(tb_txt)
+  # tb_txt  # 4debugging
+  
+  
+  # (2) Determine frequency of chars:
+  char_freq <- count_chars(tb_txt$char, case_sense = case_sense, rm_specials = FALSE, sort_freq = TRUE)
+  nr_unique_chars <- length(char_freq)
+  
+  # char_freq  # 4debugging
+  # print(nr_unique_chars)  # 4debugging
+  
+  # (3) If char_bg is defined && NOT the most frequent in char_freq: Make it the most frequent character:
+  if (!is.na(char_bg) && (names(char_freq)[1] != char_bg)){
+    
+    # # (A) char_freq as table:    
+    # # Set counter of char_freq$n for char_bg to a maximum value:
+    # char_freq$n[char_freq$char == char_bg] <- max(1000, (max(char_freq$n) + 1))
+    # 
+    # # Re-arrange according to n:
+    # char_freq <- char_freq %>% dplyr::arrange(desc(n))
+    
+    # (B) char_freq as named vector:
+    ix <- (names(char_freq) == char_bg)  # ix of char_bg in char_freq
+    char_freq[ix] <- max(1000, (max(char_freq) + 1))  # some high val
+    char_freq <- sort(char_freq, decreasing = TRUE)
+    
+  }
+  # print(char_freq)  # 4debugging
+  
+  # # (A) char_freq as table:   
+  # nr_char_freq <- nrow(char_freq)
+  
+  # (B) char_freq as named vector:
+  nr_char_freq <- sum(char_freq)
+  # nr_char_freq  # 4debugging
+  
+  ## (+) Check:
+  # if (nr_char_freq != nr_chars){
+  #   message("plot_text: nr_char_freq differs from nr_chars.")
+  # } 
+  
+  # (4) Create color palette:
+  if (pal_extend){
+    
+    ## Stretch pal to a color gradient (of char_freq different colors): 
+    # pal_ext <- unikn::usecol(pal, n = (nr_unique_chars - 1))  # extended pal (using unikn::usecol)
+    pal_ext <- grDevices::colorRampPalette(pal)((nr_unique_chars - 1))  # extended pal (using grDevices)
+    
+    col_pal <- c(col_bg, pal_ext)
+    
+  } else {
+    
+    col_pal <- c(col_bg, pal)  # combine 2 user inputs (as is)
+    
+  }
+  nr_colors <- length(col_pal)
+  # print(col_pal)  # 4debugging
+  
+  
+  # (5) Use color palette to create a color map for frequent chars of tb_txt:
+  col_map <- rep(col_bg, nr_chars)  # initialize color map
+  n_replace <- min(nr_colors, nr_unique_chars)  # limit number of replacements 
+  # print(n_replace)  # 4debugging
+  
+  for (i in 1:n_replace){
+    
+    # # (A) char_freq as table:  
+    # cur_char <- char_freq$char[i]  # i-th most freq char
+    
+    # (B) char_freq as named vector:  
+    cur_char <- names(char_freq)[i]  # i-th char
+    
+    # Determine positions ix in tb_txt$char that correspond to cur_char:
+    if (case_sense){  
+      ix <- which(tb_txt$char == cur_char)  # case-sensitive match
+    } else {
+      ix <- which(tolower(tb_txt$char) == cur_char)  # case-insensitive match
+    }
+    
+    # use i-th color in col_pal for ALL col_map positions at [ix]:
+    col_map[ix] <- col_pal[i]  
+    
+  } # loop i.
+  # col_map
+  
+  # (+) Randomize text orientation:
+  # lbl_rotate <- TRUE  # FALSE (default)
+  if (lbl_rotate){
+    char_angles <- round(stats::runif(n = nr_chars, min = 0, max = 360), 0)
+  } else {
+    char_angles <- 0
+  }
+  
+  
+  # NEW PARTS: ------  
+  # 2 regex patterns:
+  char_fg <- "[:graph:]"
+  char_bg <- "[:space:]"
+  
+  # Get chars in tb_txt$char (as string):
+  char_v <- tb_txt$char   # char vector
+  
+  # Translate vector of characters (char_v) into a string (char_s): 
+  my_space <- "_136473_"  # some cryptic replacement for " " (in character string)
+  char_v_hlp <- gsub(pattern = " ", replacement = my_space, x = char_v)  # helper (with replaced spaces)
+  char_s_hlp <- paste(char_v_hlp, collapse = "")  # char string helper (with spaces as my_space)
+  char_s <- gsub(pattern = my_space, replacement = " ", x = char_s_hlp)  # char string (with original spaces)
+  
+  # Check (for debugging): Does nchar(char_s) equal nr_chars = nrow(tb_txt)? 
+  if (nchar(char_s) != nrow(tb_txt)){
+    message(paste0("plot_txt: nchar(char_s) = ", nchar(char_s), " differs from nrow(tb_txt) = ", nrow(tb_txt), "."))
+  }
+  
+  # Apply regex to char_s:
+  # Use util function that applies regex and returns a vector... 
+  # +++ here now: +++
+  
+  # Translate into color vector: 
+  fg_cols <- rep("black", nchar(char_s))  # fg default colors (as vector)
+  
+  # Create color maps:
+  col_bg_map <- rep(col_bg,  nr_chars)   # initialize
+  col_fg_map <- rep(col_lbl, nr_chars)
+  
+  
+  # (6) Use ggplot2: 
+  cur_plot <- ggplot2::ggplot(data = tb_txt, aes(x = x, y = y)) +
+    ggplot2::geom_tile(aes(), fill = col_bg_map, color = brd_col, size = brd_size,  # tiles (with borders, opt.)
+                       height = height, width = width) +  
+    ggplot2::geom_text(aes(label = char), color = col_fg_map, size = cex, 
+                       fontface = fontface, family = family, angle = char_angles) + 
+    ggplot2::coord_equal() + 
+    # theme: 
+    theme_empty() # theme_gray() # theme_classic() # cowplot::theme_nothing()
+  
+  # (7) plot plot: 
+  cur_plot
+  
+  # (+) Return:
+  # return(invisible(tb_txt))
+  return(char_s)
+  
+} # plot_txt. 
+
+
+col_match <- function(string = "ene mene mu", regex = "ene"){
+  
+  m_l <- gregexpr(pattern = regex, text = string)  # => LIST of matches
+  
+  m_pos <- unlist(m_l)  # starting positions of all matches
+  # m_len <- ???: HOW to get length of "match.length" attributes?
+  # +++ here now: +++
+  
+  # etc.
+  
+  # Return: 
+  return(m_pos)
+  
+} # col_match.  
+
 
 ## Done: ----------
 
