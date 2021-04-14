@@ -1,5 +1,5 @@
 ## data_fun.R | ds4psy
-## hn | uni.kn | 2021 04 01
+## hn | uni.kn | 2021 04 14
 ## ---------------------------
 
 ## Functions for creating and manipulating data. 
@@ -17,7 +17,7 @@ random_bin_value <- function(x = c(0, 1), n = 1, replace = TRUE) {
   
   sample(x = x, size = n, replace = replace)  
   
-} # random_bin_value() end. 
+} # random_bin_value(). 
 
 ## Check: 
 # random_bin_value(n = 10)
@@ -88,7 +88,7 @@ coin <- function(n = 1, events = c("H", "T")){
   # sample n outcomes: 
   sample(x = events, size = n, replace = TRUE)
   
-} # coin() end. 
+} # coin(). 
 
 # ## Check:
 # # Basics:
@@ -211,7 +211,7 @@ sample_char <- function(x_char = c(letters, LETTERS), n = 1, replace = FALSE, ..
   
   return(out)
   
-} # sample_char() end. 
+} # sample_char(). 
 
 # ## Check: 
 # sample_char()
@@ -321,7 +321,7 @@ sample_date <- function(from = "1970-01-01", to = Sys.Date(), size = 1, ...){
   # 3. Output:
   return(dt)
   
-} # sample_date() end. 
+} # sample_date(). 
 
 
 # ## Check:
@@ -462,7 +462,7 @@ sample_time <- function(from = "1970-01-01 00:00:00",
   # 4. Output: 
   return(tv)
   
-} # sample_time() end.
+} # sample_time().
 
 # ## Check:
 # # Basics:
@@ -594,7 +594,7 @@ dice <- function(n = 1, events = 1:6){
   # Sample n times from set_of_events: 
   sample(x = set_of_events, size = n, replace = TRUE)
   
-} # dice() end.
+} # dice().
 
 # ## Check:
 # # Basics:
@@ -724,7 +724,7 @@ dice_2 <- function(n = 1, sides = 6){
   
   sample(x = set_of_sides, size = n, replace = TRUE, prob = pset)
   
-} # dice_2() end.
+} # dice_2().
 
 ## Check:
 # # Basics:
@@ -779,7 +779,7 @@ all_permutations <- function(x) {
   
   return(out)
   
-} # all_permutations() end. 
+} # all_permutations(). 
 
 ## Check:
 # all_permutations(246)
@@ -827,7 +827,7 @@ all_combinations <- function(x, length){
   # Output:
   return(out)
   
-} # all_combinations() end. 
+} # all_combinations(). 
 
 ## Check:
 # all_combinations(x = c("a", "b", "c"), 2)
@@ -873,7 +873,7 @@ random_symbols <- function(x = letters, len = 1, n = 1, sep = "", replace = TRUE
   
   return(out)
   
-} # random_symbols() end. 
+} # random_symbols(). 
 
 ## Check:
 # random_symbols()
@@ -903,7 +903,7 @@ add_NAs <- function(v, amount){
   
   return(out)
   
-} # add_NAs() end. 
+} # add_NAs(). 
 
 # Check:
 # add_NAs(1:10, 0)
@@ -930,7 +930,7 @@ add_whats <- function(v, amount, what = NA){
   
   return(out)
   
-} # add_whats() end. 
+} # add_whats(). 
 
 ## Check:
 # add_whats(1:10,  5)  # default: what = NA
@@ -1002,7 +1002,7 @@ make_tb <- function(n = NA, rseed = NA){
   
   return(tb)
   
-} # make_tb() end. 
+} # make_tb(). 
 
 ## Check: 
 # make_tb(n = 3)
@@ -1071,7 +1071,7 @@ make_tbs <- function(n = NA, rseed = NA){
   
   return(tbs)
   
-} # make_tbs() end. 
+} # make_tbs(). 
 
 ## Check: 
 # make_tbs(n = 6)
@@ -1150,7 +1150,7 @@ make_grid <- function(x_min = 0, x_max = 2, y_min = 0, y_max = 1){
   
   return(tb)
   
-} # make_grid() end. 
+} # make_grid(). 
 
 ## Check: 
 # make_grid()
@@ -1226,7 +1226,7 @@ get_set <- function(n = 1){
   
   return(set)
   
-} # get_set() end. 
+} # get_set(). 
 
 ## Check: 
 # get_set(1)

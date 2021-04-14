@@ -1,5 +1,5 @@
 ## time_fun.R | ds4psy
-## hn | uni.kn | 2020 08 05
+## hn | uni.kn | 2021 04 14
 ## ---------------------------
 
 ## Main functions for date and time objects. 
@@ -102,7 +102,7 @@ cur_date <- function(rev = FALSE, as_string = TRUE, sep = "-"){
     
   }
   
-} # cur_date end. 
+} # cur_date(). 
 
 # ## Check:
 # cur_date()
@@ -200,7 +200,7 @@ cur_time <- function(seconds = FALSE, as_string = TRUE, sep = ":"){
     
   }
   
-}  # cur_time end. 
+}  # cur_time().
 
 ## Check:
 # cur_time()
@@ -385,7 +385,7 @@ what_time <- function(when = NA, seconds = FALSE, as_string = TRUE, sep = ":", t
     
   }
   
-} # what_time end.
+} # what_time().
 
 # # Check:
 # what_time()  
@@ -564,7 +564,7 @@ what_date <- function(when = NA, rev = FALSE, as_string = TRUE,
     
   }
   
-} # what_date end. 
+} # what_date(). 
 
 # ## Check:
 # what_date()
@@ -699,7 +699,7 @@ what_date <- function(when = NA, rev = FALSE, as_string = TRUE,
 #     d
 #   }
 #   
-# }  # what_day_alt end. 
+# }  # what_day_alt(). 
 
 # ## Check:
 # what_day_alt()
@@ -845,7 +845,7 @@ what_wday <- function(when = Sys.Date(), abbr = FALSE){
   d
   # }
   
-} # what_wday end. 
+} # what_wday(). 
 
 # ## Check:
 # what_wday()
@@ -991,7 +991,7 @@ what_week <- function(when = Sys.Date(), unit = "year", as_integer = FALSE){
     
   }
   
-}  # what_week end. 
+}  # what_week(). 
 
 # ## Check:
 # what_week()
@@ -1114,7 +1114,7 @@ what_month <- function(when = Sys.Date(), abbr = FALSE, as_integer = FALSE){
   # 3. Output (as char or integer):
   return(m)
   
-}  # what_month end. 
+}  # what_month(). 
 
 # ## Check:
 # what_month()
@@ -1230,7 +1230,7 @@ what_year <- function(when = Sys.Date(), abbr = FALSE, as_integer = FALSE){
     
   }
   
-} # what_year end. 
+} # what_year(). 
 
 # ## Check:
 # what_year()
@@ -1401,7 +1401,7 @@ change_time <- function(time, tz = ""){
   # 3. Output: 
   return(ct)  
   
-} # change_time end.
+} # change_time().
 
 # ## Check:
 # change_time(as.POSIXlt(Sys.time()), tz = "NZ")
@@ -1527,7 +1527,7 @@ change_tz <- function(time, tz = ""){
   # 3. Output: 
   return(out)
   
-} # change_tz end.
+} # change_tz().
 
 # # Check:
 # change_tz(Sys.time(), tz = "NZ")
@@ -1590,7 +1590,7 @@ diff_days <- function(from_date, to_date = Sys.Date(), units = "days", as_Date =
   
   return(n_days)
   
-} # diff_days end. 
+} # diff_days. 
 
 # ## Check:
 # ds <- Sys.Date() + -2:+2
@@ -2051,7 +2051,7 @@ diff_dates <- function(from_date, to_date = Sys.Date(),
   
   return(age)
   
-} # diff_dates end. 
+} # diff_dates. 
 
 # ## Check:
 # # Days:
@@ -2611,7 +2611,7 @@ diff_times <- function(from_time, to_time = Sys.time(),
     # Store accounted time (in sec):
     accounted_time_sec <- (accounted_days_ym2 * (24 * 60 * 60)) + (full_d * (24 * 60 * 60))
     
-  } # if (unit == "ye" | unit == "mo") end. 
+  } # if (unit == "ye" | unit == "mo"). 
   
   
   # (f) Case: largest unit day: ---- 
@@ -2630,7 +2630,7 @@ diff_times <- function(from_time, to_time = Sys.time(),
     # Store accounted time (in sec):
     accounted_time_sec <- (full_d * (24 * 60 * 60))
     
-  } # if (unit == "da") end. 
+  } # if (unit == "da"). 
   
   
   # (g) Case: largest unit hour/min: 
@@ -2753,7 +2753,7 @@ diff_times <- function(from_time, to_time = Sys.time(),
   
   return(age)
   
-} # diff_times end. 
+} # diff_times. 
 
 # ## Check:
 # 

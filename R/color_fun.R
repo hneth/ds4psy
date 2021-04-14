@@ -1,5 +1,5 @@
 ## color_fun.R | ds4psy
-## hn | uni.kn | 2021 03 27
+## hn | uni.kn | 2021 04 14
 ## ---------------------------
 
 ## Functions for plotting. 
@@ -98,7 +98,7 @@ pal_n_sq <- function(n = "all", pal = pal_ds4psy){
   
   return(out)
   
-} # pal_n_sq() end. 
+} # pal_n_sq().  
 
 ## Check:
 # pal_n_sq(1)
