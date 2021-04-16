@@ -1422,7 +1422,7 @@ plot_text <- function(file = "",  # "" read from console; "test.txt" read from f
 
 ## plot_text_match: Alternative to plot_text (with regex functionality): -------- 
 
-#' Plot text characters matching regex (from file or user input).
+#' Plot text characters (from file or user input) and match patterns.
 #'
 #' \code{plot_text_match} parses text 
 #' (from a file or from user input in Console) 
@@ -1454,19 +1454,18 @@ plot_text <- function(file = "",  # "" read from console; "test.txt" read from f
 #' trailing "." or "/"). 
 #' Default: \code{file = ""}. 
 #' 
+#' 
 #' @param lbl_hi Labels to highlight (as regex). 
 #' Default: \code{lbl_hi = NA}. 
 #' 
 #' @param lbl_lo Labels to de-emphasize (as regex). 
 #' Default: \code{lbl_lo = NA}. 
 #' 
-#' 
 #' @param bg_hi Background tiles to highlight (as regex). 
 #' Default: \code{bg_hi = NA}. 
 #' 
 #' @param bg_lo Background tiles to de-emphasize (as regex). 
 #' Default: \code{bg_lo = "[[:space:]]"}. 
-#' 
 #' 
 #' @param lbl_tiles Add character labels to tiles? 
 #' Default: \code{lbl_tiles = TRUE} (i.e., show labels). 
@@ -1483,7 +1482,6 @@ plot_text <- function(file = "",  # "" read from console; "test.txt" read from f
 #' 
 #' @param fontface Font face of text labels (numeric). 
 #' Default: \code{fontface = 1}, (from 1 to 4).
-#' 
 #' 
 #' @param col_lbl Default color of text labels.
 #' Default: \code{col_lbl = "black"} (if \code{lbl_tiles = TRUE}). 
@@ -1503,9 +1501,8 @@ plot_text <- function(file = "",  # "" read from console; "test.txt" read from f
 #' @param col_bg_lo De-emphasizing color to fill background tiles.
 #' Default: \code{col_bg_lo = "white"}.
 #' 
-#' 
 #' @param borders Boolean: Add borders to tiles? 
-#' Default: \code{borders = TRUE} (i.e., use borders).
+#' Default: \code{borders = FALSE} (i.e., no borders).
 #' 
 #' @param border_col Color of borders (if \code{borders = TRUE}). 
 #' Default: \code{border_col = "white"}.  
@@ -1513,39 +1510,36 @@ plot_text <- function(file = "",  # "" read from console; "test.txt" read from f
 #' @param border_size Size of borders (if \code{borders = TRUE}). 
 #' Default: \code{border_size = 0.5}.
 #' 
-#' @examples
-#' # plot_text_match()  # (A) Use interactive user input.
-#' #
-#' # (B) Create a temporary file "test.txt":
-#' # cat("Hi there!", "This is a test.",
-#' #     "Can you see this text?", "Good! Please carry on...", 
+#' @examples 
+#' ## Create a temporary file "test.txt":
+#' # cat("Hello world!", "This is a test.", 
+#' #     "Can you see this text?", 
+#' #     "Good! Please carry on...", 
 #' #     file = "test.txt", sep = "\n")
-#' #
-#' # (a) Plot text from file:
+#' 
+#' ## (a) Plot text from file:
 #' # plot_text_match("test.txt")  # default
 #' # plot_text_match("test.txt", lbl_hi = "[[:upper:]]", lbl_lo = "[[:punct:]]", 
 #' #                 col_lbl_hi = "red", col_lbl_lo = "blue")
-#' # plot_text_match("test.txt", lbl_hi = "\\b\\w{4}\\b", col_lbl_hi = "red", 
-#' #                  col_bg = "white", bg_hi = "see")  # mark fg of four-letter words
-#' # plot_text_match("test.txt", bg_hi = "\\b\\w{4}\\b", col_bg_hi = "gold") # mark bg of 4-letter words
+#'  
+#' # plot_text_match("test.txt", lbl_hi = "[aeiou]", col_lbl_hi = "red", 
+#' #                  col_bg = "white", bg_hi = "see")  # mark vowels and "see" (in bg)
+#' # plot_text_match("test.txt", bg_hi = "[aeiou]", col_bg_hi = "gold")  # mark (bg of) vowels
 #' 
-#' # plot_text_match("test.txt", lbl_rotate = TRUE)
-#' 
-#' # Note: plot_text_match() invisibly returns a description of the plot (as df):
+#' # # Note: plot_text_match() invisibly returns a description of the plot (as df):
 #' # tb <- plot_text_match("test.txt", lbl_hi = "[aeiou]", lbl_rotate = TRUE)
 #' # head(tb)
 #' 
 #' # unlink("test.txt")  # clean up (by deleting file).
-#'  
+#' 
 #' \donttest{
 #' ## (b) Plot text (from file in subdir):
 #' # plot_text_match("data-raw/txt/hello.txt")  # requires txt file
 #' # plot_text_match(file = "data-raw/txt/ascii.txt", cex = 5, 
 #' #                 col_bg = "grey", char_bg = "-")
-#'          
+#'            
 #' ## (c) Plot text input (from console):
 #' # plot_text_match()
-#'  
 #' }
 #'
 #' @family plot functions
@@ -1721,7 +1715,9 @@ plot_text_match <- function(file = "",  # "" read from console; "test.txt" read 
 # plot_text_match("test.txt")  # default
 # plot_text_match("test.txt", lbl_hi = "[[:upper:]]", lbl_lo = "[[:punct:]]", col_lbl_hi = "red", col_lbl_lo = "blue")
 # plot_text_match("test.txt", lbl_hi = "\\b\\w{4}\\b", col_lbl_hi = "red", col_bg = "white", bg_hi = "see")  # mark fg of four-letter words
+# plot_text_match("test.txt", lbl_hi = "[aeiou]", col_lbl_hi = "red", col_bg = "white", bg_hi = "see")  # mark vowels and "see"
 # plot_text_match("test.txt", bg_hi = "\\b\\w{4}\\b", col_bg_hi = "gold")  # mark bg of 4-letter words
+# plot_text_match("test.txt", bg_hi = "[aeiou]", col_bg_hi = "gold")  # mark vowels (in bg)
 # 
 # plot_text_match("test.txt", lbl_rotate = TRUE)
 # 
