@@ -37,7 +37,7 @@ Changes since last release:
 
 ## Minor changes 
 
-- revised `plot_text()` to invisibly return plot description (as df) 
+- revised `plot_text()` to invisibly return plot description (as a data frame)  
 - added utility functions for locating, identifying, and assigning a color map that marks the positions of text strings matching a pattern
 
 
