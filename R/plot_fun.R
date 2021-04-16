@@ -1082,7 +1082,7 @@ plot_fn <- function(x = NA,
 #' to indicate character frequency.
 #' 
 #' \code{plot_text} invisibly returns a 
-#' description of the plot (as df). 
+#' description of the plot (as a data frame). 
 #' 
 #' @param file The text file to read (or its path). 
 #' If \code{file = ""} (the default), \code{scan} is used 
@@ -1358,7 +1358,7 @@ plot_text <- function(file = "",  # "" read from console; "test.txt" read from f
     theme_empty() # theme_gray() # theme_classic() # cowplot::theme_nothing()
   
   # plot plot: 
-  plot(cur_plot)
+  print(cur_plot)
   
   # (+) Output:
   
@@ -1443,7 +1443,7 @@ plot_text <- function(file = "",  # "" read from console; "test.txt" read from f
 #' that match the provided patterns.
 #' 
 #' \code{plot_text_match} invisibly returns a 
-#' description of the plot (as df). 
+#' description of the plot (as a data frame). 
 #' 
 #' 
 #' @param file The text file to read (or its path). 
@@ -1688,7 +1688,7 @@ plot_text_match <- function(file = "",  # "" read from console; "test.txt" read 
     theme_empty() # theme_gray() # theme_classic() # cowplot::theme_nothing()
   
   # plot plot: 
-  plot(cur_plot) 
+  print(cur_plot) 
   
   # (6) Output:
   
