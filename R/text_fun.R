@@ -1,5 +1,5 @@
 ## text_fun.R | ds4psy
-## hn | uni.kn | 2021 04 14
+## hn | uni.kn | 2021 04 16
 ## ---------------------------
 
 ## Character objects and functions for string/text objects. 
@@ -612,8 +612,136 @@ read_ascii <- function(file = "", flip_y = FALSE){
 
 
 
+## (3) Locating the positions and IDs of text strings matching a pattern: ---------- 
 
-## (3) Counting and converting text strings: ---------- 
+
+## locate_str: Locate pattern matches in a string of text ------ 
+
+# locate_str locates all sub-strings matching a pattern in a string of text 
+# and returns a data frame of their IDs and positions (start, end, len). 
+
+# This is merely a more convenient version of gregexpr() 
+# similar to stringr::str_locate(). 
+
+locate_str <- function(pattern, text){
+  
+  # (1) Using gregexpr(): Locations of matches
+  m_l <- gregexpr(pattern = pattern, text = text)  # LIST of matches
+  
+  m_start <- unlist(m_l)  # start positions of all matches
+  
+  if (m_start[1] == -1){  # NO matches were found:  
+    return(NA)  # return early!
+  } 
+  
+  # ELSE: matches were found:  
+  
+  # (2) Get match locations:  
+  m_l_1 <- m_l[[1]]  # 1st element of list
+  m_len <- attr(m_l_1, "match.length")  # len of all matches
+  m_end <- m_start + m_len - 1  # end position of all matches
+  
+  # (3) Get match IDs:
+  nr_match <- length(m_start)
+  id_txt <- rep(NA, nr_match)
+  
+  for (i in 1:nr_match){
+    id_txt[i] <- substr(x = text, start = m_start[i], stop = m_end[i])
+  }
+  
+  # (4) Output: 
+  df <- data.frame(id_txt, m_start, m_end, m_len)
+  names(df) <- c("id", "start", "end", "len")
+  
+  return(df) 
+  
+} # locate_str(). 
+
+## Check:
+# s <- "This is a test that tests this function."
+# locate_str("t|T", s)
+# locate_str("t..t", s)
+# locate_str("t.t", s)
+
+
+## locate_str_logical: Variant of locate_str() that returns a logical vector ------ 
+
+# - TRUE  for all matching locations (positions) in text
+# - FALSE for all non-matching locations (positions) in text
+
+locate_str_logical <- function(pattern, text){
+  
+  # Initialize:
+  df  <- NA
+  out <- rep(FALSE, nchar(text))  # initialize logical vector
+  
+  # Locate all matches of pattern in text:
+  df <- locate_str(pattern = pattern, text = text)  # use util function (above)
+  
+  if (!all(is.na(df))){  # matches were found:
+    
+    # Set logical vector to TRUE for matches:
+    for (i in 1:nrow(df)){  # for each match in df:
+      
+      out[df$start[i]:df$end[i]] <- TRUE  # identify matching positions
+      
+    }
+    
+  }
+  
+  # Return: 
+  return(out)
+  
+} # locate_str_logical(). 
+
+# ## Check:
+# txt <- "This is a test that tests this function."
+# locate_str_logical("t..t", txt)
+# locate_str_logical("xyz", txt)
+# 
+# s_v <- unlist(strsplit(s, ""))  # as vector elements
+# 
+# # Apply logical string to s_v:
+# s_v[locate_str_logical("t|T", txt)]
+# s_v[locate_str_logical("t..t", txt)]
+# s_v[locate_str_logical("t.t", txt)]
+
+
+## color_map_match: Assign 2 colors to string positions based on matching a pattern ------ 
+
+# Inputs: Enter text and pattern, and 2 colors (col_fg for matches vs. col_bg for non-matches)
+# Return: A vector of colors (with length of nchar(text), i.e., for each char in text):
+#         either col_fg for maching positions, OR col_bg for non-matching positions
+
+color_map_match <- function(text, pattern = "[^[:space:]]", col_fg = "black", col_bg = "white"){
+  
+  # Initialize:
+  col_vec <- rep(col_bg, nchar(text))  # default: Only col_bg
+  
+  # Locate all matches of pattern in text (as a logical vector):
+  logical_vec_matches <- locate_str_logical(pattern = pattern, text = text)
+  
+  # Apply logical vector:
+  col_vec[logical_vec_matches] <- col_fg 
+  
+  # Return: 
+  return(col_vec)
+  
+} # color_map_match().   
+
+# ## Check:
+# s <- "This  is a test that tests..."
+# color_map_match(s)
+# color_map_match(s, "\\.")
+# color_map_match(s, "test")
+# color_map_match(s, " ")
+# color_map_match(s, "t|T")
+# color_map_match(s, "t..t")
+# color_map_match(s, "t.t")
+
+
+
+## (4) Counting and converting text strings: ---------- 
 
 
 ## count_chars: Count the frequency of characters in a string: -------- 
@@ -1018,7 +1146,7 @@ count_words <- function(x,  # string(s) of text
 
 
 
-## (4) Capitalization ---------- 
+## (5) Capitalization ---------- 
 
 ## caseflip: Flip lower to upper case and vice versa: --------  
 
