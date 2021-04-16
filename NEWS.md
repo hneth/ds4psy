@@ -21,13 +21,14 @@ The book and course [Data Science for Psychologists](https://bookdown.org/hneth/
 
 -------- 
 
-# ds4psy 0.6.0.9001
+# ds4psy 0.6.0.9002
 
 Current development version of **ds4psy** (0.6.0.9001+) [on GitHub](https://github.com/hneth/ds4psy/). [2021-04-08] 
 
 <!-- Log of changes: --> 
 
 Changes since last release: 
+
 
 ## Major changes 
 
@@ -36,7 +37,7 @@ Changes since last release:
 
 ## Minor changes 
 
-- none yet
+- added utility functions for locating, identifying, and assigning a color map that marks the positions of text strings matching a pattern
 
 
 ## Details 
@@ -277,6 +278,6 @@ The initial functionality is limited, as the package is designed to support the 
 
 ---------- 
 
-[File `NEWS.md` updated on 2021-04-08.]
+[File `NEWS.md` updated on 2021-04-16.]
 
 <!-- eof. -->
