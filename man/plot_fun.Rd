@@ -75,6 +75,7 @@ plot_fun(a = 4, f = TRUE, g = TRUE, c1 = c("steelblue", "white", "firebrick"))
 Other plot functions: 
 \code{\link{plot_fn}()},
 \code{\link{plot_n}()},
+\code{\link{plot_text_match}()},
 \code{\link{plot_text}()},
 \code{\link{plot_tiles}()},
 \code{\link{theme_clean}()},

@@ -105,6 +105,7 @@ Other plot functions:
 \code{\link{plot_fn}()},
 \code{\link{plot_fun}()},
 \code{\link{plot_n}()},
+\code{\link{plot_text_match}()},
 \code{\link{plot_text}()},
 \code{\link{theme_clean}()},
 \code{\link{theme_ds4psy}()},

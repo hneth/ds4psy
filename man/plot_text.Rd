@@ -90,6 +90,18 @@ Default: \code{border_size = 0.5}.}
 into a table and then plots its individual characters 
 as a tile plot (using \strong{ggplot2}).
 }
+\details{
+\code{plot_text} is character-based: 
+Individual characters are plotted at equidistant x-y-positions 
+with color settings for text labels and tile fill colors.
+
+By default, the color palette \code{pal} 
+(used for tile fill colors) is scaled 
+to indicate character frequency.
+
+\code{plot_text} invisibly returns a 
+description of the plot (as df).
+}
 \examples{
 ## Create a temporary file "test.txt":
 # cat("Hello world!", "This is a test.", 
@@ -134,6 +146,7 @@ as a tile plot (using \strong{ggplot2}).
 
 }
 \seealso{
+\code{\link{plot_text_match}} for controlling (regex) matches and color options; 
 \code{\link{read_ascii}} for reading text into a table; 
 \code{\link{pal_ds4psy}} for default color palette.
 
@@ -141,6 +154,7 @@ Other plot functions:
 \code{\link{plot_fn}()},
 \code{\link{plot_fun}()},
 \code{\link{plot_n}()},
+\code{\link{plot_text_match}()},
 \code{\link{plot_tiles}()},
 \code{\link{theme_clean}()},
 \code{\link{theme_ds4psy}()},
