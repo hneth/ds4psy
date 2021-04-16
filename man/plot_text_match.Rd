@@ -2,7 +2,7 @@
 % Please edit documentation in R/plot_fun.R
 \name{plot_text_match}
 \alias{plot_text_match}
-\title{Plot text characters matching regex (from file or user input).}
+\title{Plot text characters (from file or user input) and match patterns.}
 \usage{
 plot_text_match(
   file = "",
@@ -82,7 +82,7 @@ Default: \code{col_bg_hi = pal_ds4psy[[4]]}.}
 Default: \code{col_bg_lo = "white"}.}
 
 \item{borders}{Boolean: Add borders to tiles? 
-Default: \code{borders = TRUE} (i.e., use borders).}
+Default: \code{borders = FALSE} (i.e., no borders).}
 
 \item{border_col}{Color of borders (if \code{borders = TRUE}). 
 Default: \code{border_col = "white"}.}
@@ -112,6 +112,39 @@ that match the provided patterns.
 
 \code{plot_text_match} invisibly returns a 
 description of the plot (as df).
+}
+\examples{
+## Create a temporary file "test.txt":
+# cat("Hello world!", "This is a test.", 
+#     "Can you see this text?", 
+#     "Good! Please carry on...", 
+#     file = "test.txt", sep = "\n")
+
+## (a) Plot text from file:
+# plot_text_match("test.txt")  # default
+# plot_text_match("test.txt", lbl_hi = "[[:upper:]]", lbl_lo = "[[:punct:]]", 
+#                 col_lbl_hi = "red", col_lbl_lo = "blue")
+ 
+# plot_text_match("test.txt", lbl_hi = "[aeiou]", col_lbl_hi = "red", 
+#                  col_bg = "white", bg_hi = "see")  # mark vowels and "see" (in bg)
+# plot_text_match("test.txt", bg_hi = "[aeiou]", col_bg_hi = "gold")  # mark (bg of) vowels
+
+# # Note: plot_text_match() invisibly returns a description of the plot (as df):
+# tb <- plot_text_match("test.txt", lbl_hi = "[aeiou]", lbl_rotate = TRUE)
+# head(tb)
+
+# unlink("test.txt")  # clean up (by deleting file).
+
+\donttest{
+## (b) Plot text (from file in subdir):
+# plot_text_match("data-raw/txt/hello.txt")  # requires txt file
+# plot_text_match(file = "data-raw/txt/ascii.txt", cex = 5, 
+#                 col_bg = "grey", char_bg = "-")
+           
+## (c) Plot text input (from console):
+# plot_text_match()
+}
+
 }
 \seealso{
 \code{\link{plot_text}} for plotting characters and color tiles by frequency; 
