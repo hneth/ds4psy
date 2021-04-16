@@ -1,5 +1,5 @@
 ## plot_fun.R | ds4psy
-## hn | uni.kn | 2021 04 13
+## hn | uni.kn | 2021 04 16
 ## ---------------------------
 
 ## Functions for plotting. 
@@ -1644,20 +1644,7 @@ plot_txt <- function(file = "",  # "" read from console; "test.txt" read from fi
 } # plot_txt. 
 
 
-col_match <- function(string = "ene mene mu", regex = "ene"){
-  
-  m_l <- gregexpr(pattern = regex, text = string)  # => LIST of matches
-  
-  m_pos <- unlist(m_l)  # starting positions of all matches
-  # m_len <- ???: HOW to get length of "match.length" attributes?
-  # +++ here now: +++
-  
-  # etc.
-  
-  # Return: 
-  return(m_pos)
-  
-} # col_match.  
+
 
 
 ## Done: ----------
