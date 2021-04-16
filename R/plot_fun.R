@@ -1566,9 +1566,9 @@ plot_text_hi <- function(file = "",  # "" read from console; "test.txt" read fro
 } # plot_text_hi(). 
 
 ## Check:
-# plot_text_hi()  # interactive user input
+# plot_text_hi()  # (A) Use interactive user input.
 # 
-# ## Create a temporary file "test.txt":
+# # (B) Create a temporary file "test.txt":
 # cat("Hello world!", "This is a test.",
 #     "Can you see this text?",
 #     "Good! Please carry on...",
@@ -1579,6 +1579,8 @@ plot_text_hi <- function(file = "",  # "" read from console; "test.txt" read fro
 # plot_text_hi("test.txt", lbl_hi = "test", col_lbl_hi = "red")
 # plot_text_hi("test.txt", lbl_hi = "\\b\\w{4}\\b", col_lbl_hi = "red")  # mark fg of four-letter words
 # plot_text_hi("test.txt", lbl_hi = "asdf", bg_hi = "\\b\\w{4}\\b", col_bg_hi = "gold")  # mark bg of 4-letter words
+# 
+# unlink("test.txt")  # clean up (by deleting file).
 
 
 ## Done: ----------
