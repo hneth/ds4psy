@@ -100,7 +100,7 @@ By default, the color palette \code{pal}
 to indicate character frequency.
 
 \code{plot_text} invisibly returns a 
-description of the plot (as df).
+description of the plot (as a data frame).
 }
 \examples{
 ## Create a temporary file "test.txt":

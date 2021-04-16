@@ -111,7 +111,7 @@ characters (i.e., text labels or fill colors).
 that match the provided patterns.
 
 \code{plot_text_match} invisibly returns a 
-description of the plot (as df).
+description of the plot (as a data frame).
 }
 \examples{
 ## Create a temporary file "test.txt":
