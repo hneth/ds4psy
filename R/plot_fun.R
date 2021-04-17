@@ -1239,7 +1239,7 @@ plot_text <- function(file = "",  # "" read from console; "test.txt" read from f
   # angle <- 0
   # (b) Tile:
   height <- 1
-  width <- 1
+  width  <- 1
   
   # (0) Interpret inputs: ------ 
   
@@ -1397,7 +1397,7 @@ plot_text <- function(file = "",  # "" read from console; "test.txt" read from f
 #     "Good! Please carry on...",
 #     file = "test.txt", sep = "\n")
 # 
-# (a) Plot text from file:
+# # (a) Plot text from file:
 # plot_text("test.txt")
 # 
 # # Set colors, pal_extend, and case_sense:
@@ -1617,7 +1617,7 @@ plot_text_match <- function(file = "",  # "" read from console; "test.txt" read 
   # angle <- 0
   # (b) Tile:
   height <- 1
-  width <- 1
+  width  <- 1
   
   # (0) Interpret inputs: ------  
   if (!lbl_tiles) {col_lbl <- NA}
