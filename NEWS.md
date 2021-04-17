@@ -27,6 +27,8 @@ Current development version of **ds4psy** (0.6.0.9001+) [on GitHub](https://gith
 
 <!-- Log of changes: --> 
 
+This version adds functionality and fixes a bug in text data. 
+
 Changes since last release: 
 
 ## Major changes 
@@ -37,8 +39,8 @@ Changes since last release:
 
 ## Minor changes 
 
-- revised `plot_text()` to invisibly return plot description (as a data frame)  
-- added utility functions for locating, identifying, and assigning a color map that marks the positions of text strings matching a pattern
+- added functionality to `plot_text()` 
+- added utility functions for locating, identifying, and assigning a color map to text strings matching a pattern
 
 
 ## Details 
