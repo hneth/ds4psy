@@ -97,8 +97,13 @@ into a table and then plots its individual characters
 as a tile plot (using \strong{ggplot2}).
 }
 \details{
+\code{plot_text_match} blurs the boundary between a text 
+and its graphical representation by adding visual options 
+for coloring characters based on matching patterns. 
+
 \code{plot_text_match} is based on \code{\link{plot_text_match}}, 
 but provides additional support for coloring characters 
+(i.e., the text label and background fill color of each tile) 
 based on matching regular expression (regex).  
 
 The output of \code{plot_text_match} is character-based: 
@@ -115,7 +120,7 @@ description of the plot (as a data frame).
 }
 \examples{
 ## Create a temporary file "test.txt":
-# cat("Hello world!", "This is a test.", 
+# cat("Hello world!", "This is a test file.", 
 #     "Can you see this text?", 
 #     "Good! Please carry on...", 
 #     file = "test.txt", sep = "\n")

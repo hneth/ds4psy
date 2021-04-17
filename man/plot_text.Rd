@@ -86,25 +86,31 @@ Default: \code{border_size = 0.5}.}
 }
 \description{
 \code{plot_text} parses text 
-(from a file or from user input in Console) 
-into a table and then plots its individual characters 
+(from a file or from user input) 
+and plots its individual characters 
 as a tile plot (using \strong{ggplot2}).
 }
 \details{
+\code{plot_text} blurs the boundary between a text 
+and its graphical representation by adding visual options 
+for coloring characters based on their frequency counts. 
+(Note that \code{\link{plot_text_match}} provides additional 
+support for matching regular expressions.) 
+
 \code{plot_text} is character-based: 
 Individual characters are plotted at equidistant x-y-positions 
 with color settings for text labels and tile fill colors.
 
 By default, the color palette \code{pal} 
 (used for tile fill colors) is scaled 
-to indicate character frequency.
+to indicate character frequency. 
 
 \code{plot_text} invisibly returns a 
 description of the plot (as a data frame).
 }
 \examples{
 ## Create a temporary file "test.txt":
-# cat("Hello world!", "This is a test.", 
+# cat("Hello world!", "This is a test file.", 
 #     "Can you see this text?", 
 #     "Good! Please carry on...", 
 #     file = "test.txt", sep = "\n")
