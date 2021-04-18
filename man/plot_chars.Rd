@@ -11,7 +11,7 @@ plot_chars(
   bg_hi = NA,
   bg_lo = "[[:space:]]",
   lbl_tiles = TRUE,
-  lbl_rotate = FALSE,
+  lbl_angle = 0,
   cex = 3,
   fontface = 1,
   family = "sans",
@@ -50,8 +50,9 @@ Default: \code{bg_lo = "[[:space:]]"}.}
 \item{lbl_tiles}{Add character labels to tiles? 
 Default: \code{lbl_tiles = TRUE} (i.e., show labels).}
 
-\item{lbl_rotate}{Rotate character labels? 
-Default: \code{lbl_rotate = FALSE} (i.e., no rotation).}
+\item{lbl_angle}{Angle of rotation of character labels.
+Default: \code{lbl_angle = 0} (i.e., no rotation). 
+If \code{length(lbl_angle) > 1}, a random value in \code{range(lbl_angle)} is used.}
 
 \item{cex}{Character size (numeric). 
 Default: \code{cex = 3}.}
@@ -134,17 +135,21 @@ description of the plot (as a data frame).
 #             col_bg = "white", bg_hi = "see")  # mark vowels and "see" (in bg)
 # plot_chars("test.txt", bg_hi = "[aeiou]", col_bg_hi = "gold")  # mark (bg of) vowels
 
-# # Note: plot_chars() invisibly returns a description of the plot (as df):
+## Label options:
+# plot_chars("test.txt", bg_hi = "see", lbl_tiles = FALSE)
+# plot_chars("test.txt", cex = 5, family = "mono", fontface = 4, lbl_angle = c(-20, 20))
+
+## Note: plot_chars() invisibly returns a description of the plot (as df):
 # tb <- plot_chars("test.txt", lbl_hi = "[aeiou]", lbl_rotate = TRUE)
 # head(tb)
 
 # unlink("test.txt")  # clean up (by deleting file).
 
 \donttest{
-## (b) Plot text (from file in subdir):
+## (b) Plot text (from files in subdir):
 # plot_chars("data-raw/txt/hello.txt")  # requires txt file
-# plot_chars(file = "data-raw/txt/ascii.txt", cex = 5, 
-#            col_bg = "grey", char_bg = "-")
+# plot_chars("data-raw/txt/ascii.txt", lbl_hi = "[2468]", bg_lo = "[[:digit:]]", 
+#            col_lbl_hi = "red", cex = 10, fontface = 2)
            
 ## (c) Plot text input (from console):
 # plot_chars()
