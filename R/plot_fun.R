@@ -1,5 +1,5 @@
 ## plot_fun.R | ds4psy
-## hn | uni.kn | 2021 04 17
+## hn | uni.kn | 2021 04 18
 ## ---------------------------
 
 ## Functions for plotting. 
@@ -1076,7 +1076,7 @@ plot_fn <- function(x = NA,
 #' \code{plot_text} blurs the boundary between a text 
 #' and its graphical representation by adding visual options 
 #' for coloring characters based on their frequency counts. 
-#' (Note that \code{\link{plot_text_match}} provides additional 
+#' (Note that \code{\link{plot_chars}} provides additional 
 #' support for matching regular expressions.) 
 #' 
 #' \code{plot_text} is character-based: 
@@ -1196,7 +1196,7 @@ plot_fn <- function(x = NA,
 #' @family plot functions
 #'
 #' @seealso
-#' \code{\link{plot_text_match}} for controlling (regex) matches and color options; 
+#' \code{\link{plot_chars}} for controlling (regex) matches and color options; 
 #' \code{\link{read_ascii}} for reading text into a table; 
 #' \code{\link{pal_ds4psy}} for default color palette. 
 #' 
@@ -1438,25 +1438,25 @@ plot_text <- function(file = "",  # "" read from console; "test.txt" read from f
 
 
 
-## plot_text_match: Alternative to plot_text (with regex functionality): -------- 
+## plot_chars: Alternative to plot_text (with regex functionality): -------- 
 
 #' Plot text characters (from file or user input) and match patterns.
 #'
-#' \code{plot_text_match} parses text 
-#' (from a file or from user input in Console) 
+#' \code{plot_chars} parses text 
+#' (from a file or user input) 
 #' into a table and then plots its individual characters 
 #' as a tile plot (using \strong{ggplot2}).
 #' 
-#' \code{plot_text_match} blurs the boundary between a text 
+#' \code{plot_chars} blurs the boundary between a text 
 #' and its graphical representation by adding visual options 
 #' for coloring characters based on matching patterns. 
 #' 
-#' \code{plot_text_match} is based on \code{\link{plot_text_match}}, 
+#' \code{plot_chars} is based on \code{\link{plot_chars}}, 
 #' but provides additional support for coloring characters 
 #' (i.e., the text label and background fill color of each tile) 
 #' based on matching regular expression (regex).  
 #' 
-#' The output of \code{plot_text_match} is character-based: 
+#' The output of \code{plot_chars} is character-based: 
 #' Individual characters are plotted at equidistant x-y-positions 
 #' with color settings for text labels and tile fill colors.
 #' 
@@ -1465,7 +1465,7 @@ plot_text <- function(file = "",  # "" read from console; "test.txt" read from f
 #' characters (i.e., text labels or fill colors).
 #' that match the provided patterns.
 #' 
-#' \code{plot_text_match} invisibly returns a 
+#' \code{plot_chars} invisibly returns a 
 #' description of the plot (as a data frame). 
 #' 
 #' 
@@ -1541,28 +1541,28 @@ plot_text <- function(file = "",  # "" read from console; "test.txt" read from f
 #' #     file = "test.txt", sep = "\n")
 #' 
 #' ## (a) Plot text from file:
-#' # plot_text_match("test.txt")  # default
-#' # plot_text_match("test.txt", lbl_hi = "[[:upper:]]", lbl_lo = "[[:punct:]]", 
-#' #                 col_lbl_hi = "red", col_lbl_lo = "blue")
+#' # plot_chars("test.txt")  # default
+#' # plot_chars("test.txt", lbl_hi = "[[:upper:]]", lbl_lo = "[[:punct:]]", 
+#' #             col_lbl_hi = "red", col_lbl_lo = "blue")
 #'  
-#' # plot_text_match("test.txt", lbl_hi = "[aeiou]", col_lbl_hi = "red", 
-#' #                  col_bg = "white", bg_hi = "see")  # mark vowels and "see" (in bg)
-#' # plot_text_match("test.txt", bg_hi = "[aeiou]", col_bg_hi = "gold")  # mark (bg of) vowels
+#' # plot_chars("test.txt", lbl_hi = "[aeiou]", col_lbl_hi = "red", 
+#' #             col_bg = "white", bg_hi = "see")  # mark vowels and "see" (in bg)
+#' # plot_chars("test.txt", bg_hi = "[aeiou]", col_bg_hi = "gold")  # mark (bg of) vowels
 #' 
-#' # # Note: plot_text_match() invisibly returns a description of the plot (as df):
-#' # tb <- plot_text_match("test.txt", lbl_hi = "[aeiou]", lbl_rotate = TRUE)
+#' # # Note: plot_chars() invisibly returns a description of the plot (as df):
+#' # tb <- plot_chars("test.txt", lbl_hi = "[aeiou]", lbl_rotate = TRUE)
 #' # head(tb)
 #' 
 #' # unlink("test.txt")  # clean up (by deleting file).
 #' 
 #' \donttest{
 #' ## (b) Plot text (from file in subdir):
-#' # plot_text_match("data-raw/txt/hello.txt")  # requires txt file
-#' # plot_text_match(file = "data-raw/txt/ascii.txt", cex = 5, 
-#' #                 col_bg = "grey", char_bg = "-")
+#' # plot_chars("data-raw/txt/hello.txt")  # requires txt file
+#' # plot_chars(file = "data-raw/txt/ascii.txt", cex = 5, 
+#' #            col_bg = "grey", char_bg = "-")
 #'            
 #' ## (c) Plot text input (from console):
-#' # plot_text_match()
+#' # plot_chars()
 #' }
 #'
 #' @family plot functions
@@ -1578,33 +1578,33 @@ plot_text <- function(file = "",  # "" read from console; "test.txt" read from f
 #' 
 #' @export 
 
-plot_text_match <- function(file = "",  # "" read from console; "test.txt" read from file
-                            
-                            # 4 regex patterns (to emphasize and de-emphasize matching characters in text string): 
-                            lbl_hi = NA, # "asdf",   # [[:upper:]]",   # labels to highlight (as regex)
-                            lbl_lo = NA, # "qwer",   # [[:punct:]]",   # labels to de-emphasize (as regex)
-                            bg_hi  = NA, # "zxcv",   # background tiles to highlight (as regex)
-                            bg_lo  = "[[:space:]]",  # background tiles to de-emphasize (as regex)
-                            
-                            # text format:
-                            lbl_tiles = TRUE, 
-                            lbl_rotate = FALSE,  # rotate labels? 
-                            cex = 3,             # size of characters
-                            fontface = 1,        # font face (1:4)
-                            family = "sans",     # font family: 1 of "sans" "serif" "mono"
-                            
-                            # 6 colors: 
-                            col_lbl = "black",             # normal text label color
-                            col_lbl_hi = pal_ds4psy[[1]],  # highlighted labels (matching lbl_hi)
-                            col_lbl_lo = pal_ds4psy[[9]],  # de-emphasized labels (matching lbl_lo)
-                            col_bg = pal_ds4psy[[7]],      # normal tile fill color
-                            col_bg_hi = pal_ds4psy[[4]],   # "gold", # highlighted tiles (matching bg_hi)
-                            col_bg_lo = "white",           # de-emphasized tiles (matching bg_lo)
-                            
-                            # tile borders: 
-                            borders = FALSE,       # show tile borders?
-                            border_col = "white",  # color of tile border 
-                            border_size = 0.5      # width of tile border
+plot_chars <- function(file = "",  # "" read from console; "test.txt" read from file
+                       
+                       # 4 regex patterns (to emphasize and de-emphasize matching characters in text string): 
+                       lbl_hi = NA, # "asdf",   # [[:upper:]]",   # labels to highlight (as regex)
+                       lbl_lo = NA, # "qwer",   # [[:punct:]]",   # labels to de-emphasize (as regex)
+                       bg_hi  = NA, # "zxcv",   # background tiles to highlight (as regex)
+                       bg_lo  = "[[:space:]]",  # background tiles to de-emphasize (as regex)
+                       
+                       # text format:
+                       lbl_tiles = TRUE, 
+                       lbl_rotate = FALSE,  # rotate labels? 
+                       cex = 3,             # size of characters
+                       fontface = 1,        # font face (1:4)
+                       family = "sans",     # font family: 1 of "sans" "serif" "mono"
+                       
+                       # 6 colors: 
+                       col_lbl = "black",             # normal text label color
+                       col_lbl_hi = pal_ds4psy[[1]],  # highlighted labels (matching lbl_hi)
+                       col_lbl_lo = pal_ds4psy[[9]],  # de-emphasized labels (matching lbl_lo)
+                       col_bg = pal_ds4psy[[7]],      # normal tile fill color
+                       col_bg_hi = pal_ds4psy[[4]],   # "gold", # highlighted tiles (matching bg_hi)
+                       col_bg_lo = "white",           # de-emphasized tiles (matching bg_lo)
+                       
+                       # tile borders: 
+                       borders = FALSE,       # show tile borders?
+                       border_col = "white",  # color of tile border 
+                       border_size = 0.5      # width of tile border
 ){
   
   ## (-) Default file/path:
@@ -1645,10 +1645,10 @@ plot_text_match <- function(file = "",  # "" read from console; "test.txt" read 
   
   
   # (2) Get chars in tb_txt$char (as a single string): ------ 
-  char_v <- tb_txt$char   # char vector
+  char_v <- tb_txt$char  # char vector
   
-  # Translate vector of characters (char_v) into a string (char_s): 
-  my_space <- "_136473_"  # some cryptic replacement for " " (in character string)
+  # Convert vector of characters (char_v) into a string (char_s): 
+  my_space <- "_cy136473rp_"  # some cryptic replacement for " " (in character string)
   char_v_hlp <- gsub(pattern = " ", replacement = my_space, x = char_v)  # helper (with replaced spaces)
   char_s_hlp <- paste(char_v_hlp, collapse = "")  # char string helper (with spaces as my_space)
   char_s <- gsub(pattern = my_space, replacement = " ", x = char_s_hlp)  # char string (with original spaces)
@@ -1656,11 +1656,12 @@ plot_text_match <- function(file = "",  # "" read from console; "test.txt" read 
   
   # Check (for debugging): Does nchar(char_s) equal nr_chars = nrow(tb_txt)? 
   if (n_char != nr_chars){
-    message(paste0("plot_text_match: nchar(char_s) = ", n_char, " differs from nrow(tb_txt) = ", nr_chars, "."))
+    message(paste0("plot_chars: nchar(char_s) = ", n_char, " differs from nrow(tb_txt) = ", nr_chars, "."))
   }
   
   
   # (3) Color maps: ------  
+  
   # Apply 2x2 regex patterns to color char_s (to highlight/de-emphasize both labels and tiles, i.e., fg and bg): 
   # Use color_map_match() repeatedly to match a regex to a text string and return a vector of colors: 
   # Create 2 color vectors (with 3 levels of color each):
@@ -1720,11 +1721,11 @@ plot_text_match <- function(file = "",  # "" read from console; "test.txt" read 
   # B. return(char_s)
   return(invisible(tb_txt))
   
-} # plot_text_match(). 
+} # plot_chars(). 
 
 ## Check:
-# plot_text_match()  # (A) Use interactive user input.
-# #
+# plot_chars()  # (A) Use interactive user input.
+# 
 # # (B) Create a temporary file "test.txt":
 # cat("Hello world!", "This is a test file.",
 #     "Can you see this text?",
@@ -1732,26 +1733,26 @@ plot_text_match <- function(file = "",  # "" read from console; "test.txt" read 
 #     file = "test.txt", sep = "\n")
 # 
 # # (a) Plot text from file:
-# plot_text_match("test.txt")  # default
-# plot_text_match("test.txt", lbl_hi = "[[:upper:]]", lbl_lo = "[[:punct:]]", col_lbl_hi = "red", col_lbl_lo = "blue")
-# plot_text_match("test.txt", lbl_hi = "\\b\\w{4}\\b", col_lbl_hi = "red", col_bg = "white", bg_hi = "see")  # mark fg of four-letter words
-# plot_text_match("test.txt", lbl_hi = "[aeiou]", col_lbl_hi = "red", col_bg = "white", bg_hi = "see")  # mark vowels and "see"
-# plot_text_match("test.txt", bg_hi = "\\b\\w{4}\\b", col_bg_hi = "gold")  # mark bg of 4-letter words
-# plot_text_match("test.txt", bg_hi = "[aeiou]", col_bg_hi = "gold")  # mark vowels (in bg)
+# plot_chars("test.txt")  # default
+# plot_chars("test.txt", lbl_hi = "[[:upper:]]", lbl_lo = "[[:punct:]]", col_lbl_hi = "red", col_lbl_lo = "blue")
+# plot_chars("test.txt", lbl_hi = "\\b\\w{4}\\b", col_lbl_hi = "red", col_bg = "white", bg_hi = "see")  # mark fg of four-letter words
+# plot_chars("test.txt", lbl_hi = "[aeiou]", col_lbl_hi = "red", col_bg = "white", bg_hi = "see")  # mark vowels and "see"
+# plot_chars("test.txt", bg_hi = "\\b\\w{4}\\b", col_bg_hi = "gold")  # mark bg of 4-letter words
+# plot_chars("test.txt", bg_hi = "[aeiou]", col_bg_hi = "gold")  # mark vowels (in bg)
 # 
-# plot_text_match("test.txt", lbl_rotate = TRUE)
+# plot_chars("test.txt", lbl_rotate = TRUE)
 # 
 # # Highlight labels and tiles of same matches:
-# plot_text_match(file = "test.txt", lbl_hi = "te.t", bg_hi = "te.t", 
-#                 col_bg = "white", col_bg_hi = "cyan", col_lbl_hi = "red", 
-#                 borders = TRUE, border_col = "black")
+# plot_chars(file = "test.txt", lbl_hi = "te.t", bg_hi = "te.t", 
+#            col_bg = "white", col_bg_hi = "cyan", col_lbl_hi = "red", 
+#            borders = TRUE, border_col = "black")
 # 
-# plot_text_match(file = "test.txt", lbl_hi = "te.t", bg_hi = "te.t", 
-#                 col_bg_hi = "cyan", col_lbl_hi = "red", 
-#                 borders = TRUE, border_col = "black")
+# plot_chars(file = "test.txt", lbl_hi = "te.t", bg_hi = "te.t", 
+#            col_bg_hi = "cyan", col_lbl_hi = "red", 
+#            borders = TRUE, border_col = "black")
 # 
-# # Note: plot_text_match() invisibly returns a description of the plot (as df):
-# tb <- plot_text_match("test.txt", lbl_hi = "[aeiou]", lbl_rotate = TRUE)
+# # Note: plot_chars() invisibly returns a description of the plot (as df):
+# tb <- plot_chars("test.txt", lbl_hi = "[aeiou]", lbl_rotate = TRUE)
 # head(tb)
 # 
 # unlink("test.txt")  # clean up (by deleting file).
@@ -1759,7 +1760,7 @@ plot_text_match <- function(file = "",  # "" read from console; "test.txt" read 
 
 ## Done: ----------
 
-# - added plot_text_match() for more control over regex matches and colors
+# - added plot_chars() for more control over regex matches and colors
 # - revised plot_text() to invisibly return plot description (as df)
 # - theme_empty() removed need for: #' @importFrom cowplot theme_nothing 
 
