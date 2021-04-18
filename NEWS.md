@@ -21,9 +21,9 @@ The book and course [Data Science for Psychologists](https://bookdown.org/hneth/
 
 -------- 
 
-# ds4psy 0.6.0.9004
+# ds4psy 0.6.0.9005
 
-Current development version of **ds4psy** (0.6.0.9001+) [on GitHub](https://github.com/hneth/ds4psy/). [2021-04-08] 
+Current development version of **ds4psy** (0.6.0.9001+) [on GitHub](https://github.com/hneth/ds4psy/). [2021-04-18] 
 
 <!-- Log of changes: --> 
 
@@ -33,14 +33,14 @@ Changes since last release:
 
 ## Major changes 
 
-- added `plot_text_match()` for plotting text characters and controlling the colors 
-(of character labels and background tiles) that match a pattern (specified as regular expressions) 
+- added `plot_chars()` for plotting text characters and visualizing pattern matches (specified as regular expressions) 
+by coloring labels and background tiles 
 
 
 ## Minor changes 
 
-- added functionality to `plot_text()` 
-- added utility functions for locating, identifying, and assigning a color map to text strings matching a pattern
+- added functionality to `plot_text()` (to be replaced by `plot_chars()`) 
+- added utility functions for locating, identifying, and assigning color maps to text strings matching a pattern 
 
 
 ## Details 
@@ -281,6 +281,6 @@ The initial functionality is limited, as the package is designed to support the 
 
 ---------- 
 
-[File `NEWS.md` updated on 2021-04-16.]
+[File `NEWS.md` updated on 2021-04-18.]
 
 <!-- eof. -->
