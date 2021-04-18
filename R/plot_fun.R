@@ -1495,7 +1495,8 @@ plot_text <- function(file = "",  # "" read from console; "test.txt" read from f
 #' 
 #' @param lbl_angle Angle of rotation of character labels.  
 #' Default: \code{lbl_angle = 0} (i.e., no rotation). 
-#' If \code{length(lbl_angle) > 1}, a random value in \code{range(lbl_angle)} is used. 
+#' If \code{length(lbl_angle) > 1}, a random value 
+#' in \code{range(lbl_angle)} is used for every character. 
 #' 
 #' @param cex Character size (numeric). 
 #' Default: \code{cex = 3}.
@@ -1508,7 +1509,7 @@ plot_text <- function(file = "",  # "" read from console; "test.txt" read from f
 #' Default: \code{fontface = 1}, (from 1 to 4).
 #' 
 #' @param col_lbl Default color of text labels.
-#' Default: \code{col_lbl = "black"} (if \code{lbl_tiles = TRUE}). 
+#' Default: \code{col_lbl = "black"}. 
 #' 
 #' @param col_lbl_hi Highlighting color of text labels.
 #' Default: \code{col_lbl_hi = pal_ds4psy[[1]]}. 
@@ -1525,13 +1526,16 @@ plot_text <- function(file = "",  # "" read from console; "test.txt" read from f
 #' @param col_bg_lo De-emphasizing color to fill background tiles.
 #' Default: \code{col_bg_lo = "white"}.
 #' 
+#' @param col_sample Boolean: Sample color vectors (within category)?
+#' Default: \code{col_sample = FALSE}. 
+#' 
 #' @param borders Boolean: Add borders to tiles? 
 #' Default: \code{borders = FALSE} (i.e., no borders).
 #' 
-#' @param border_col Color of borders (if \code{borders = TRUE}). 
+#' @param border_col Color of tile borders. 
 #' Default: \code{border_col = "white"}.  
 #' 
-#' @param border_size Size of borders (if \code{borders = TRUE}). 
+#' @param border_size Size of tile borders. 
 #' Default: \code{border_size = 0.5}.
 #' 
 #' @examples 
@@ -1605,6 +1609,7 @@ plot_chars <- function(file = "",  # "" read from console; "test.txt" read from 
                        col_bg = pal_ds4psy[[7]],      # normal tile fill color
                        col_bg_hi = pal_ds4psy[[4]],   # "gold", # highlighted tiles (matching bg_hi)
                        col_bg_lo = "white",           # de-emphasized tiles (matching bg_lo)
+                       col_sample = FALSE,            # sample from color vectors (within category)?
                        
                        # tile borders: 
                        borders = FALSE,       # show tile borders?
@@ -1670,8 +1675,6 @@ plot_chars <- function(file = "",  # "" read from console; "test.txt" read from 
   # Apply 2x2 regex patterns to color char_s (to highlight/de-emphasize both labels and tiles, i.e., fg and bg): 
   # Use color_map_match() repeatedly to match a regex to a text string and return a vector of colors: 
   # Create 2 color vectors (with 3 levels of color each):
-  
-  col_sample <- FALSE
   
   # (a) Text labels (fg):
   if (lbl_tiles) {
@@ -1772,9 +1775,16 @@ plot_chars <- function(file = "",  # "" read from console; "test.txt" read from 
 # plot_chars(file = "test.txt", lbl_hi = "[aeiou]", bg_hi = "te.t",
 #            col_lbl = c("grey99", "grey85"),
 #            col_bg = c("grey10", "grey15", "grey20"),
-#            col_bg_hi = pal_ds4psy[1:3], col_bg_lo = "grey80", 
-#            col_lbl_hi = c("gold1", "gold2"), 
+#            col_bg_hi = pal_ds4psy[1:3], col_bg_lo = "grey80",
+#            col_lbl_hi = c("gold1", "gold2"),
 #            cex = 5, fontface = 2)
+# 
+# # Sampling colors (within each category only): 
+# plot_chars(file = "test.txt", lbl_hi = "[aeiou]", bg_hi = "te.t",
+#            col_lbl = c("grey95", "grey85"), col_bg = c("grey10", "grey20"),
+#            col_bg_hi = pal_ds4psy[1:3],  col_bg_lo = c("grey80", "grey70"),
+#            col_lbl_hi = c("gold1", "gold3"),
+#            col_sample = TRUE, cex = 5, fontface = 2)
 # 
 # # Highlight labels and tiles of same matches:
 # plot_chars(file = "test.txt", lbl_hi = "te.t", bg_hi = "te.t",
