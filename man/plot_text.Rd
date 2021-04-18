@@ -94,7 +94,7 @@ as a tile plot (using \strong{ggplot2}).
 \code{plot_text} blurs the boundary between a text 
 and its graphical representation by adding visual options 
 for coloring characters based on their frequency counts. 
-(Note that \code{\link{plot_text_match}} provides additional 
+(Note that \code{\link{plot_chars}} provides additional 
 support for matching regular expressions.) 
 
 \code{plot_text} is character-based: 
@@ -152,15 +152,15 @@ description of the plot (as a data frame).
 
 }
 \seealso{
-\code{\link{plot_text_match}} for controlling (regex) matches and color options; 
+\code{\link{plot_chars}} for controlling (regex) matches and color options; 
 \code{\link{read_ascii}} for reading text into a table; 
 \code{\link{pal_ds4psy}} for default color palette.
 
 Other plot functions: 
+\code{\link{plot_chars}()},
 \code{\link{plot_fn}()},
 \code{\link{plot_fun}()},
 \code{\link{plot_n}()},
-\code{\link{plot_text_match}()},
 \code{\link{plot_tiles}()},
 \code{\link{theme_clean}()},
 \code{\link{theme_ds4psy}()},

@@ -134,10 +134,10 @@ ggplot(datasets::iris) +
 \code{unikn::theme_unikn} inspired the current theme.
 
 Other plot functions: 
+\code{\link{plot_chars}()},
 \code{\link{plot_fn}()},
 \code{\link{plot_fun}()},
 \code{\link{plot_n}()},
-\code{\link{plot_text_match}()},
 \code{\link{plot_text}()},
 \code{\link{plot_tiles}()},
 \code{\link{theme_clean}()},

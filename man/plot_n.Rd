@@ -115,9 +115,9 @@ plot_n(n = 5, polar = TRUE, row = FALSE, lbl_title = TRUE)  # TARGET with title 
 \code{\link{pal_ds4psy}} for default color palette.
 
 Other plot functions: 
+\code{\link{plot_chars}()},
 \code{\link{plot_fn}()},
 \code{\link{plot_fun}()},
-\code{\link{plot_text_match}()},
 \code{\link{plot_text}()},
 \code{\link{plot_tiles}()},
 \code{\link{theme_clean}()},
