@@ -730,7 +730,7 @@ color_map_match <- function(text, pattern = "[^[:space:]]",
   
   # Sample colors (within category only): 
   if (col_sample){
-    col_vec <- sample(col_vec)    
+    # col_vec <- sample(col_vec) # destructive in iterative applications!
     col_fg  <- sample(col_fg)
   }
   
@@ -756,7 +756,7 @@ color_map_match <- function(text, pattern = "[^[:space:]]",
 # color_map_match(s, "test", col_fg = c("fore11", "fore22"))
 # color_map_match(s, "test", col_bg = c("back11", "back22"))
 #
-# # Stack multiple levels of color maps (using previous ones as bg):
+# # Stack iterative color maps (always using previous ones as bg):
 # cm_1 <- color_map_match(s, "[[:graph:]]", col_fg = "f_1", col_bg = c("b_1", "b_2"))
 # cm_2 <- color_map_match(s, "test", col_fg = "f_2", col_bg = cm_1)
 # cm_3 <- color_map_match(s, "t|T",  col_fg = "f_3", col_bg = cm_2)
