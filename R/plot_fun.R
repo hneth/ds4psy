@@ -1671,18 +1671,24 @@ plot_chars <- function(file = "",  # "" read from console; "test.txt" read from 
   # Use color_map_match() repeatedly to match a regex to a text string and return a vector of colors: 
   # Create 2 color vectors (with 3 levels of color each):
   
+  col_sample <- FALSE
+  
   # (a) Text labels (fg):
   if (lbl_tiles) {
     
     # col_lbl <- rep(col_lbl, n_char)  # 0. initialize col_lbl (as a vector)
     col_lbl <- recycle_vec(col_lbl, len = n_char)  # 0. initialize (to len of n_char)
     
-    if (!is.na(lbl_lo)){
-      col_lbl <- color_map_match(char_s, pattern = lbl_lo, col_fg = col_lbl_lo, col_bg = col_lbl) # 1. add col_lbl_lo to matches of lbl_lo
+    if (col_sample) { col_lbl <- sample(col_lbl) }
+    
+    if (!is.na(lbl_lo)){  # 1. add col_lbl_lo to matches of lbl_lo: 
+      col_lbl <- color_map_match(char_s, pattern = lbl_lo, 
+                                 col_fg = col_lbl_lo, col_bg = col_lbl, col_sample = col_sample) 
     }
     
-    if (!is.na(lbl_hi)){
-      col_lbl <- color_map_match(char_s, pattern = lbl_hi, col_fg = col_lbl_hi, col_bg = col_lbl) # 2. add col_lbl_hi to matches of lbl_hi
+    if (!is.na(lbl_hi)){  # 2. add col_lbl_hi to matches of lbl_hi: 
+      col_lbl <- color_map_match(char_s, pattern = lbl_hi, 
+                                 col_fg = col_lbl_hi, col_bg = col_lbl, col_sample = col_sample) 
     }
     
   } # if (lbl_tiles) end.
@@ -1692,12 +1698,16 @@ plot_chars <- function(file = "",  # "" read from console; "test.txt" read from 
   # col_bgv <- rep(col_bg, n_char)  # 0. initialize col_bgv (as a vector)
   col_bgv <- recycle_vec(col_bg, len = n_char)  # 0. initialize (to len of n_char)
   
-  if (!is.na(bg_lo)){  
-    col_bgv <- color_map_match(char_s, pattern = bg_lo, col_fg = col_bg_lo, col_bg = col_bgv) # 1. add col_bg_lo to matches of bg_lo
+  if (col_sample) { col_bgv <- sample(col_bgv) }
+  
+  if (!is.na(bg_lo)){  # 1. add col_bg_lo to matches of bg_lo: 
+    col_bgv <- color_map_match(char_s, pattern = bg_lo, 
+                               col_fg = col_bg_lo, col_bg = col_bgv, col_sample = col_sample) 
   }
   
-  if (!is.na(bg_hi)){
-    col_bgv <- color_map_match(char_s, pattern = bg_hi, col_fg = col_bg_hi, col_bg = col_bgv) # 2. add col_bg_hi to matches of bg_hi
+  if (!is.na(bg_hi)){  # 2. add col_bg_hi to matches of bg_hi:
+    col_bgv <- color_map_match(char_s, pattern = bg_hi, 
+                               col_fg = col_bg_hi, col_bg = col_bgv, col_sample = col_sample)
   }
   
   
@@ -1758,14 +1768,22 @@ plot_chars <- function(file = "",  # "" read from console; "test.txt" read from 
 # plot_chars("test.txt", bg_hi = "see", lbl_tiles = FALSE)
 # plot_chars("test.txt", cex = 5, family = "mono", fontface = 4, lbl_angle = c(-20, 20))
 # 
+# # Multiple colors:
+# plot_chars(file = "test.txt", lbl_hi = "[aeiou]", bg_hi = "te.t",
+#            col_lbl = c("grey99", "grey85"),
+#            col_bg = c("grey10", "grey15", "grey20"),
+#            col_bg_hi = pal_ds4psy[1:3], col_bg_lo = "grey80", 
+#            col_lbl_hi = c("gold1", "gold2"), 
+#            cex = 5, fontface = 2)
+# 
 # # Highlight labels and tiles of same matches:
 # plot_chars(file = "test.txt", lbl_hi = "te.t", bg_hi = "te.t",
 #            col_bg = "white", col_bg_hi = "gold", col_lbl_hi = "red",
 #            borders = TRUE, border_col = "black")
 # 
 # plot_chars(file = "test.txt", lbl_hi = "te.t", bg_hi = "te.t",
-#            col_bg_hi = "gold", col_lbl_hi = "red3", 
-#            cex = 6, family = "mono", fontface = 2, 
+#            col_bg_hi = "gold", col_lbl_hi = "red3",
+#            cex = 6, family = "mono", fontface = 2,
 #            borders = TRUE, border_col = "black", border_size = .2)
 # 
 # # Note: plot_chars() invisibly returns a description of the plot (as df):
