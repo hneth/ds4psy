@@ -1493,8 +1493,9 @@ plot_text <- function(file = "",  # "" read from console; "test.txt" read from f
 #' @param lbl_tiles Add character labels to tiles? 
 #' Default: \code{lbl_tiles = TRUE} (i.e., show labels). 
 #' 
-#' @param lbl_rotate Rotate character labels? 
-#' Default: \code{lbl_rotate = FALSE} (i.e., no rotation). 
+#' @param lbl_angle Angle of rotation of character labels.  
+#' Default: \code{lbl_angle = 0} (i.e., no rotation). 
+#' If \code{length(lbl_angle) > 1}, a random value in \code{range(lbl_angle)} is used. 
 #' 
 #' @param cex Character size (numeric). 
 #' Default: \code{cex = 3}.
@@ -1549,17 +1550,21 @@ plot_text <- function(file = "",  # "" read from console; "test.txt" read from f
 #' #             col_bg = "white", bg_hi = "see")  # mark vowels and "see" (in bg)
 #' # plot_chars("test.txt", bg_hi = "[aeiou]", col_bg_hi = "gold")  # mark (bg of) vowels
 #' 
-#' # # Note: plot_chars() invisibly returns a description of the plot (as df):
+#' ## Label options:
+#' # plot_chars("test.txt", bg_hi = "see", lbl_tiles = FALSE)
+#' # plot_chars("test.txt", cex = 5, family = "mono", fontface = 4, lbl_angle = c(-20, 20))
+#' 
+#' ## Note: plot_chars() invisibly returns a description of the plot (as df):
 #' # tb <- plot_chars("test.txt", lbl_hi = "[aeiou]", lbl_rotate = TRUE)
 #' # head(tb)
 #' 
 #' # unlink("test.txt")  # clean up (by deleting file).
 #' 
 #' \donttest{
-#' ## (b) Plot text (from file in subdir):
+#' ## (b) Plot text (from files in subdir):
 #' # plot_chars("data-raw/txt/hello.txt")  # requires txt file
-#' # plot_chars(file = "data-raw/txt/ascii.txt", cex = 5, 
-#' #            col_bg = "grey", char_bg = "-")
+#' # plot_chars("data-raw/txt/ascii.txt", lbl_hi = "[2468]", bg_lo = "[[:digit:]]", 
+#' #            col_lbl_hi = "red", cex = 10, fontface = 2)
 #'            
 #' ## (c) Plot text input (from console):
 #' # plot_chars()
@@ -1587,11 +1592,11 @@ plot_chars <- function(file = "",  # "" read from console; "test.txt" read from 
                        bg_lo  = "[[:space:]]",  # background tiles to de-emphasize (as regex)
                        
                        # text format:
-                       lbl_tiles = TRUE, 
-                       lbl_rotate = FALSE,  # rotate labels? 
-                       cex = 3,             # size of characters
-                       fontface = 1,        # font face (1:4)
-                       family = "sans",     # font family: 1 of "sans" "serif" "mono"
+                       lbl_tiles = TRUE,  # show labels (using col_lbl_? below)
+                       lbl_angle = 0,     # angle of rotation (0 := no rotation) 
+                       cex = 3,           # character size
+                       fontface = 1,      # font face (1:4)
+                       family = "sans",   # font family: 1 of "sans" "serif" "mono"
                        
                        # 6 colors: 
                        col_lbl = "black",             # normal text label color
@@ -1667,14 +1672,18 @@ plot_chars <- function(file = "",  # "" read from console; "test.txt" read from 
   # Create 2 color vectors (with 3 levels of color each):
   
   # (a) Text labels (fg):
-  col_lbl <- rep(col_lbl, rep(n_char))  # 0. initialize col_lbl (as a vector)
-  
-  if (!is.na(lbl_lo)){
-    col_lbl <- color_map_match(char_s, pattern = lbl_lo, col_fg = col_lbl_lo, col_bg = col_lbl) # 1. add col_lbl_lo to matches of lbl_lo
-  }
-  if (!is.na(lbl_hi)){
-    col_lbl <- color_map_match(char_s, pattern = lbl_hi, col_fg = col_lbl_hi, col_bg = col_lbl) # 2. add col_lbl_hi to matches of lbl_hi
-  }
+  if (lbl_tiles) {
+    
+    col_lbl <- rep(col_lbl, rep(n_char))  # 0. initialize col_lbl (as a vector)
+    
+    if (!is.na(lbl_lo)){
+      col_lbl <- color_map_match(char_s, pattern = lbl_lo, col_fg = col_lbl_lo, col_bg = col_lbl) # 1. add col_lbl_lo to matches of lbl_lo
+    }
+    if (!is.na(lbl_hi)){
+      col_lbl <- color_map_match(char_s, pattern = lbl_hi, col_fg = col_lbl_hi, col_bg = col_lbl) # 2. add col_lbl_hi to matches of lbl_hi
+    }
+    
+  } # if (lbl_tiles) end.
   
   # (b) Tile fill color (bg):
   col_bgv <- rep(col_bg, rep(n_char))  # 0. initialize col_bgv (as a vector)
@@ -1687,13 +1696,13 @@ plot_chars <- function(file = "",  # "" read from console; "test.txt" read from 
   }
   
   
-  # (4) Rotation/orientation: ------ 
+  # (4) Angle/rotation/orientation: ------ 
   
-  # lbl_rotate <- TRUE  # FALSE (default)
-  if (lbl_rotate){
-    char_angles <- round(stats::runif(n = nr_chars, min = 0, max = 360), 0)
+  if (length(lbl_angle) > 1){
+    rangel <- range(lbl_angle)
+    char_angles <- round(stats::runif(n = nr_chars, min = rangel[1], max = rangel[2]), 0)
   } else {
-    char_angles <- 0
+    char_angles <- lbl_angle
   }
   
   # (5) Plot (using ggplot2): ------  
@@ -1734,25 +1743,28 @@ plot_chars <- function(file = "",  # "" read from console; "test.txt" read from 
 # 
 # # (a) Plot text from file:
 # plot_chars("test.txt")  # default
-# plot_chars("test.txt", lbl_hi = "[[:upper:]]", lbl_lo = "[[:punct:]]", col_lbl_hi = "red", col_lbl_lo = "blue")
+# plot_chars("test.txt", lbl_hi = "[[:upper:]]", lbl_lo = "[[:punct:]]", col_lbl_hi = "red", col_lbl_lo = "cyan")
 # plot_chars("test.txt", lbl_hi = "\\b\\w{4}\\b", col_lbl_hi = "red", col_bg = "white", bg_hi = "see")  # mark fg of four-letter words
 # plot_chars("test.txt", lbl_hi = "[aeiou]", col_lbl_hi = "red", col_bg = "white", bg_hi = "see")  # mark vowels and "see"
 # plot_chars("test.txt", bg_hi = "\\b\\w{4}\\b", col_bg_hi = "gold")  # mark bg of 4-letter words
 # plot_chars("test.txt", bg_hi = "[aeiou]", col_bg_hi = "gold")  # mark vowels (in bg)
 # 
-# plot_chars("test.txt", lbl_rotate = TRUE)
+# # Label options:
+# plot_chars("test.txt", bg_hi = "see", lbl_tiles = FALSE)
+# plot_chars("test.txt", cex = 5, family = "mono", fontface = 4, lbl_angle = c(-20, 20))
 # 
 # # Highlight labels and tiles of same matches:
-# plot_chars(file = "test.txt", lbl_hi = "te.t", bg_hi = "te.t", 
-#            col_bg = "white", col_bg_hi = "cyan", col_lbl_hi = "red", 
+# plot_chars(file = "test.txt", lbl_hi = "te.t", bg_hi = "te.t",
+#            col_bg = "white", col_bg_hi = "gold", col_lbl_hi = "red",
 #            borders = TRUE, border_col = "black")
 # 
-# plot_chars(file = "test.txt", lbl_hi = "te.t", bg_hi = "te.t", 
-#            col_bg_hi = "cyan", col_lbl_hi = "red", 
-#            borders = TRUE, border_col = "black")
+# plot_chars(file = "test.txt", lbl_hi = "te.t", bg_hi = "te.t",
+#            col_bg_hi = "gold", col_lbl_hi = "red3", 
+#            cex = 6, family = "mono", fontface = 2, 
+#            borders = TRUE, border_col = "black", border_size = .2)
 # 
 # # Note: plot_chars() invisibly returns a description of the plot (as df):
-# tb <- plot_chars("test.txt", lbl_hi = "[aeiou]", lbl_rotate = TRUE)
+# tb <- plot_chars("test.txt", lbl_hi = "[aeiou]", lbl_angle = c(0, 360))
 # head(tb)
 # 
 # unlink("test.txt")  # clean up (by deleting file).
