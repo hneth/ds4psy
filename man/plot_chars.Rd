@@ -21,6 +21,7 @@ plot_chars(
   col_bg = pal_ds4psy[[7]],
   col_bg_hi = pal_ds4psy[[4]],
   col_bg_lo = "white",
+  col_sample = FALSE,
   borders = FALSE,
   border_col = "white",
   border_size = 0.5
@@ -52,7 +53,8 @@ Default: \code{lbl_tiles = TRUE} (i.e., show labels).}
 
 \item{lbl_angle}{Angle of rotation of character labels.
 Default: \code{lbl_angle = 0} (i.e., no rotation). 
-If \code{length(lbl_angle) > 1}, a random value in \code{range(lbl_angle)} is used.}
+If \code{length(lbl_angle) > 1}, a random value 
+in \code{range(lbl_angle)} is used for every character.}
 
 \item{cex}{Character size (numeric). 
 Default: \code{cex = 3}.}
@@ -65,7 +67,7 @@ Default: \code{family = "sans"}.
 Alternative options: "sans", "serif", or "mono".}
 
 \item{col_lbl}{Default color of text labels.
-Default: \code{col_lbl = "black"} (if \code{lbl_tiles = TRUE}).}
+Default: \code{col_lbl = "black"}.}
 
 \item{col_lbl_hi}{Highlighting color of text labels.
 Default: \code{col_lbl_hi = pal_ds4psy[[1]]}.}
@@ -82,13 +84,16 @@ Default: \code{col_bg_hi = pal_ds4psy[[4]]}.}
 \item{col_bg_lo}{De-emphasizing color to fill background tiles.
 Default: \code{col_bg_lo = "white"}.}
 
+\item{col_sample}{Boolean: Sample color vectors (within category)?
+Default: \code{col_sample = FALSE}.}
+
 \item{borders}{Boolean: Add borders to tiles? 
 Default: \code{borders = FALSE} (i.e., no borders).}
 
-\item{border_col}{Color of borders (if \code{borders = TRUE}). 
+\item{border_col}{Color of tile borders. 
 Default: \code{border_col = "white"}.}
 
-\item{border_size}{Size of borders (if \code{borders = TRUE}). 
+\item{border_size}{Size of tile borders. 
 Default: \code{border_size = 0.5}.}
 }
 \description{
