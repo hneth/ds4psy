@@ -1674,11 +1674,13 @@ plot_chars <- function(file = "",  # "" read from console; "test.txt" read from 
   # (a) Text labels (fg):
   if (lbl_tiles) {
     
-    col_lbl <- rep(col_lbl, rep(n_char))  # 0. initialize col_lbl (as a vector)
+    # col_lbl <- rep(col_lbl, n_char)  # 0. initialize col_lbl (as a vector)
+    col_lbl <- recycle_vec(col_lbl, len = n_char)  # 0. initialize (to len of n_char)
     
     if (!is.na(lbl_lo)){
       col_lbl <- color_map_match(char_s, pattern = lbl_lo, col_fg = col_lbl_lo, col_bg = col_lbl) # 1. add col_lbl_lo to matches of lbl_lo
     }
+    
     if (!is.na(lbl_hi)){
       col_lbl <- color_map_match(char_s, pattern = lbl_hi, col_fg = col_lbl_hi, col_bg = col_lbl) # 2. add col_lbl_hi to matches of lbl_hi
     }
@@ -1686,11 +1688,14 @@ plot_chars <- function(file = "",  # "" read from console; "test.txt" read from 
   } # if (lbl_tiles) end.
   
   # (b) Tile fill color (bg):
-  col_bgv <- rep(col_bg, rep(n_char))  # 0. initialize col_bgv (as a vector)
+  
+  # col_bgv <- rep(col_bg, n_char)  # 0. initialize col_bgv (as a vector)
+  col_bgv <- recycle_vec(col_bg, len = n_char)  # 0. initialize (to len of n_char)
   
   if (!is.na(bg_lo)){  
     col_bgv <- color_map_match(char_s, pattern = bg_lo, col_fg = col_bg_lo, col_bg = col_bgv) # 1. add col_bg_lo to matches of bg_lo
   }
+  
   if (!is.na(bg_hi)){
     col_bgv <- color_map_match(char_s, pattern = bg_hi, col_fg = col_bg_hi, col_bg = col_bgv) # 2. add col_bg_hi to matches of bg_hi
   }
