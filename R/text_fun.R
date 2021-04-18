@@ -709,39 +709,33 @@ locate_str_logical <- function(pattern, text){
 
 ## color_map_match: Assign 2 colors to string positions based on matching a pattern ------ 
 
-# Inputs: Enter text and pattern, and 2 colors (col_fg for matches vs. col_bg for non-matches)
+# Inputs: A text and pattern, and 2 color vectors (col_fg for matches vs. col_bg for non-matches)
 # Return: A vector of colors (with length of nchar(text), i.e., for each char in text):
 #         either col_fg for maching positions, OR col_bg for non-matching positions
+# Note:   col_sample = TRUE randomizes color sequence WITHIN category (fg/bg). 
 
-color_map_match <- function(text, pattern = "[^[:space:]]", col_fg = "black", col_bg = "white"){
+color_map_match <- function(text, pattern = "[^[:space:]]", 
+                            col_fg = "black", col_bg = "white",
+                            col_sample = FALSE){
   
   # Initialize:
-  nr_col_bg <- length(col_bg)
-  
-  if (nr_col_bg == 1){
-    
-    col_vec <- rep(col_bg, nchar(text))  # set all to col_bg (default)
-    
-  } else {  
-    
-    # check longer col_bg arguments: 
-    if (nr_col_bg != nchar(text)){ 
-      
-      message(paste0("color_map_match: len(col_bg) = ", nr_col_bg, 
-                     " differs from nchar(text) = ", nchar(text)))
-      
-      # ToDo: Consider extending color palette of col_bg.
-    }
-    
-    col_vec <- col_bg  # use color vector provided
-    
-  }
+  nr_char <- nchar(text)
+  col_vec <- recycle_vec(col_bg, len = nr_char)  # recycle col_bg to len of nr_char!
   
   # Locate all matches of pattern in text (as a logical vector):
   logical_vec_matches <- locate_str_logical(pattern = pattern, text = text)
   
-  # Apply logical vector:
-  col_vec[logical_vec_matches] <- col_fg 
+  # Recycle col_fg to number of matches:
+  col_fg <- recycle_vec(col_fg, len = sum(logical_vec_matches))
+  
+  # Sample colors (within category only): 
+  if (col_sample){
+    col_vec <- sample(col_vec)    
+    col_fg  <- sample(col_fg)
+  }
+  
+  # Change col_vec to col_fg (by applying logical vector):
+  col_vec[logical_vec_matches] <- col_fg  
   
   # Return: 
   return(col_vec)
@@ -758,11 +752,16 @@ color_map_match <- function(text, pattern = "[^[:space:]]", col_fg = "black", co
 # color_map_match(s, "t..t")
 # color_map_match(s, "t.t")
 # 
-# # Several levels of color maps (using previous ones as bg):
-# cm_1 <- color_map_match(s, "[[:graph:]]")
-# cm_2 <- color_map_match(s, "test", col_fg = "blue1", col_bg = cm_1) 
-# cm_3 <- color_map_match(s, "t|T",  col_fg = "pink3", col_bg = cm_2) 
+# # Longer lengths of col_fg and col_bg:
+# color_map_match(s, "test", col_fg = c("fore11", "fore22"))
+# color_map_match(s, "test", col_bg = c("back11", "back22"))
+#
+# # Stack multiple levels of color maps (using previous ones as bg):
+# cm_1 <- color_map_match(s, "[[:graph:]]", col_fg = "f_1", col_bg = c("b_1", "b_2"))
+# cm_2 <- color_map_match(s, "test", col_fg = "f_2", col_bg = cm_1)
+# cm_3 <- color_map_match(s, "t|T",  col_fg = "f_3", col_bg = cm_2)
 # cm_3
+
 
 ## (4) Counting and converting text strings: ---------- 
 
