@@ -770,6 +770,8 @@ color_map_match <- function(text, pattern = "[^[:space:]]", case_sense = TRUE,
 # cm_2 <- color_map_match(s, "test", col_fg = "f_2", col_bg = cm_1)
 # cm_3 <- color_map_match(s, "t|T",  col_fg = "f_3", col_bg = cm_2)
 # cm_3
+# 
+# color_map_match(s, pattern = NA)  # => Error!
 
 
 ## angle_map_match: Assign a numeric angle to string positions based on matching a pattern ------ 
@@ -829,6 +831,8 @@ angle_map_match <- function(text, pattern = "[^[:space:]]", case_sense = TRUE,
 # angle_map_match(s, angle_fg = 1, angle_bg = -1)
 # angle_map_match(s, angle_fg = 1:5, angle_bg = -6:-9)
 # angle_map_match(s, "xyz", angle_fg = 8)  # no matches!
+# 
+# angle_map_match(s, pattern = NA)  # => Error!
 
 
 ## (4) Counting and converting text strings: ---------- 
