@@ -1503,11 +1503,6 @@ plot_text <- function(file = "",  # "" read from console; "test.txt" read from f
 #' @param lbl_tiles Add character labels to tiles? 
 #' Default: \code{lbl_tiles = TRUE} (i.e., show labels). 
 #' 
-#' @param lbl_angle Angle of rotation of character labels.  
-#' Default: \code{lbl_angle = 0} (i.e., no rotation). 
-#' If \code{length(lbl_angle) > 1}, a random value 
-#' in \code{range(lbl_angle)} is used for every character. 
-#' 
 #' @param angle_fg Angle(s) for rotating character labels 
 #' matching the pattern of the \code{lbl_rotate} expression. 
 #' Default: \code{angle_fg = c(-90, 90)}. 

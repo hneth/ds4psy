@@ -112,11 +112,6 @@ Default: \code{border_col = "white"}.}
 
 \item{border_size}{Size of tile borders. 
 Default: \code{border_size = 0.5}.}
-
-\item{lbl_angle}{Angle of rotation of character labels.
-Default: \code{lbl_angle = 0} (i.e., no rotation). 
-If \code{length(lbl_angle) > 1}, a random value 
-in \code{range(lbl_angle)} is used for every character.}
 }
 \value{
 An invisible data frame describing the plot.
