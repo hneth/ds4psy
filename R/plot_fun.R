@@ -1,5 +1,5 @@
 ## plot_fun.R | ds4psy
-## hn | uni.kn | 2021 04 18
+## hn | uni.kn | 2021 04 19
 ## ---------------------------
 
 ## Functions for plotting. 
@@ -315,9 +315,9 @@ plot_tiles <- function(n = NA,
   
   # return(invisible(cur_tb))
   
-} # plot_tiles.
+} # plot_tiles().
 
-# ## Check:
+## Check:
 # # (1) Tile plot:
 # plot_tiles()  # default plot (random n, with borders, no labels)
 # 
@@ -456,7 +456,7 @@ plot_fun <- function(a = NA,
              prefix = "",
              suffix = "")
   
-} # plot_fun. 
+} # plot_fun(). 
 
 ## Check:
 # plot_fun()       # Task 1: Explore and describe each parameter.
@@ -865,7 +865,7 @@ plot_n <- function(n = NA,
   
   # return(invisible(cur_tb))
   
-} # plot_n.
+} # plot_n().
 
 ## Check:
 # # (1) ROW: 
@@ -1060,7 +1060,7 @@ plot_fn <- function(x = NA,
          prefix = "plot_fn_",
          suffix = "")
   
-} # plot_fn. 
+} # plot_fn(). 
 
 
 
@@ -1089,6 +1089,8 @@ plot_fn <- function(x = NA,
 #' 
 #' \code{plot_text} invisibly returns a 
 #' description of the plot (as a data frame). 
+#' 
+#' @return An invisible data frame describing the plot.
 #' 
 #' @param file The text file to read (or its path). 
 #' If \code{file = ""} (the default), \code{scan} is used 
@@ -1468,6 +1470,7 @@ plot_text <- function(file = "",  # "" read from console; "test.txt" read from f
 #' \code{plot_chars} invisibly returns a 
 #' description of the plot (as a data frame). 
 #' 
+#' @return An invisible data frame describing the plot.
 #' 
 #' @param file The text file to read (or its path). 
 #' If \code{file = ""} (the default), \code{scan} is used 
