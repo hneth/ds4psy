@@ -1638,7 +1638,7 @@ plot_chars <- function(file = "",  # "" read from console; "test.txt" read from 
   # Font family:
   family <- tolower(family)
   if (!family %in% c("sans", "serif", "mono")){
-    message("plot_text: Font family should be 'sans' (default), 'serif', or 'mono'.")
+    message("plot_chars: Font family should be 'sans' (default), 'serif', or 'mono'.")
     family <- "sans"
   }
   

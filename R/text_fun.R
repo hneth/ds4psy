@@ -471,7 +471,7 @@ transl33t <- function(txt, rules = l33t_rul35,
 #' @family text objects and functions
 #'
 #' @seealso
-#' \code{\link{plot_text}} for a corresponding plot function. 
+#' \code{\link{plot_chars}} for a character plotting function. 
 #' 
 #' @export
 
