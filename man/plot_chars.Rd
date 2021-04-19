@@ -10,6 +10,7 @@ plot_chars(
   lbl_lo = NA,
   bg_hi = NA,
   bg_lo = "[[:space:]]",
+  case_sense = TRUE,
   lbl_tiles = TRUE,
   lbl_angle = 0,
   cex = 3,
@@ -47,6 +48,10 @@ Default: \code{bg_hi = NA}.}
 
 \item{bg_lo}{Background tiles to de-emphasize (as regex). 
 Default: \code{bg_lo = "[[:space:]]"}.}
+
+\item{case_sense}{Boolean: Distinguish 
+lower- vs. uppercase characters? 
+Default: \code{case_sense = TRUE}.}
 
 \item{lbl_tiles}{Add character labels to tiles? 
 Default: \code{lbl_tiles = TRUE} (i.e., show labels).}

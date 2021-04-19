@@ -70,9 +70,8 @@ If \code{pal_extend = FALSE}, only the tiles of
 the \code{length(pal)} most frequent characters 
 will be filled by the colors of \code{pal}.}
 
-\item{case_sense}{Boolean: Should lower- and 
-uppercase characters be distinguished 
-(in applying color \code{pal})? 
+\item{case_sense}{Boolean: Distinguish 
+lower- vs. uppercase characters? 
 Default: \code{case_sense = FALSE}.}
 
 \item{borders}{Boolean: Add borders to tiles? 
