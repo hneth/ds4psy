@@ -1,5 +1,5 @@
 ## text_fun.R | ds4psy
-## hn | uni.kn | 2021 04 16
+## hn | uni.kn | 2021 04 19
 ## ---------------------------
 
 ## Character objects and functions for string/text objects. 
@@ -740,7 +740,7 @@ color_map_match <- function(text, pattern = "[^[:space:]]",
   # Return: 
   return(col_vec)
   
-} # color_map_match().   
+} # color_map_match(). 
 
 # ## Check:
 # s <- "This  is a test that tests..."
@@ -769,6 +769,14 @@ color_map_match <- function(text, pattern = "[^[:space:]]",
 ## count_chars: Count the frequency of characters in a string: -------- 
 
 #' Count the frequency of characters in a string of text \code{x}.
+#' 
+#' \code{count_chars} distinguishes and counts the characters in 
+#' a character vector \code{x} and returns their frequency counts 
+#' as a named numeric vector.
+#' 
+#' Arguments allow some options for case sensitivity, removing special 
+#' characters, and sorting the output by frequency. Note that all these 
+#' currently work without using regular expressions.
 #'
 #' @param x A string of text (required).
 #' 
@@ -796,8 +804,8 @@ color_map_match <- function(text, pattern = "[^[:space:]]",
 #' @family text objects and functions
 #'
 #' @seealso
-#' \code{\link{count_words}} for counting the frequency of words;   
-#' \code{\link{plot_text}} for a corresponding plot function. 
+#' \code{\link{count_words}} for counting the frequency of words; 
+#' \code{\link{plot_chars}} for a corresponding plot function. 
 #' 
 #' @export
 
@@ -823,12 +831,14 @@ count_chars <- function(x, # string of text to count
   
   if (rm_specials){
     
-    # Define special char: 
-    space <- c("", " ")
+    # Define special chars: 
+    space <- c("", " ")  # [[:space:]]
     hyphens <- c("-", "--", "---")
-    punct <- c(",", ";", ":", ".", "!", "?")  # punctuation 
+    punct <- c(",", ";", ":", ".", "!", "?")  # punctuation [[:punct:]]  
     parents <- c("(", ")", "[", "]", "{", "}", "<", ">")  # parentheses
     spec_char <- c(punct, space, hyphens, parents)
+    
+    # Note: cclass includes additional symbols.
     
     # Remove special characters:
     char_s <- v4[!(v4 %in% spec_char)]
@@ -851,9 +861,9 @@ count_chars <- function(x, # string of text to count
   
   return(freq)
   
-} # count_chars end. 
+} # count_chars(). 
 
-# ## Check:
+## Check:
 # x <- c("Hello!", "This is a 1st sentence.", "This is the 2nd sentence.", "The end.")
 # 
 # count_chars(x)
@@ -999,9 +1009,9 @@ text_to_sentences <- function(x,  # string(s) of text
   # 3. Output: 
   return(st)
   
-} # text_to_sentences end. 
+} # text_to_sentences(). 
 
-# ## Check:
+## Check:
 # x <- c("A first sentence. Exclamation sentence!",
 #        "Any questions? But etc. can be tricky. A fourth --- and final --- sentence.")
 # text_to_sentences(x)
@@ -1071,13 +1081,14 @@ text_to_words <- function(x  # string(s) of text
   # 3. Output: 
   return(wds)
   
-} # text_to_words end. 
+} # text_to_words(). 
 
-# ## Check:
+## Check:
 # s3 <- c("A first sentence.", "The second sentence.", 
 #         "A third --- and also the final --- sentence.")
 # wv <- text_to_words(s3)
 # wv
+
 
 ## words_to_text: Turn a vector of words into a (single) vector: ------ 
 
@@ -1085,7 +1096,7 @@ words_to_text <- function(w, collapse = " "){
   
   paste(w, collapse = collapse)
   
-} # words_to_text end. 
+} # words_to_text(). 
 
 ## Check:
 # words_to_text(wv)
@@ -1119,7 +1130,7 @@ words_to_text <- function(w, collapse = " "){
 #'
 #' @seealso
 #' \code{\link{count_chars}} for counting the frequency of characters;   
-#' \code{\link{plot_text}} for a corresponding plot function. 
+#' \code{\link{plot_chars}} for a character plotting function. 
 #' 
 #' @export
 
@@ -1156,7 +1167,7 @@ count_words <- function(x,  # string(s) of text
   
   return(freq)
   
-} # count_words end.
+} # count_words().
 
 # ## Check:
 # s3 <- c("A first sentence.", "The second sentence.", 
@@ -1209,7 +1220,7 @@ caseflip <- function(x){
   
   return(out)
   
-}
+} # caseflip(). 
 
 ## Check:
 # caseflip("Hello World! Hope all is well?")
@@ -1295,7 +1306,7 @@ capitalize <- function(x, # string of text to capitalize
   
   return(out)
   
-}
+} # capitalize(). 
 
 # ## Check:
 # x <- c("Hello world! This is a 1st TEST sentence. The end.")
@@ -1344,7 +1355,7 @@ count_str <- function(x, pattern, split = ""){
   
   return(count)
   
-}
+} # count_str(). 
 
 # ## Check:
 # x <- c("hello", "world!", "This is a test sentence.", "", "The end.")
