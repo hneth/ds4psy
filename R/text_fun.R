@@ -719,7 +719,7 @@ locate_str_logical <- function(pattern, text, case_sense = TRUE){
 
 # Inputs: A text and pattern, and 2 color vectors (col_fg for matches vs. col_bg for non-matches)
 # Return: A vector of colors (with length of nchar(text), i.e., for each char in text):
-#         either col_fg for maching positions, OR col_bg for non-matching positions
+#         either col_fg for matching positions, OR col_bg for non-matching positions
 # Note:   col_sample = TRUE randomizes color sequence WITHIN category (fg/bg). 
 
 color_map_match <- function(text, pattern = "[^[:space:]]", case_sense = TRUE, 
@@ -776,8 +776,8 @@ color_map_match <- function(text, pattern = "[^[:space:]]", case_sense = TRUE,
 
 # Inputs: A text and pattern, and 2 numeric angle values (angle_fg for matches vs. angle_bg for default/non-matches)
 # Return: A vector of numeric angle values (with length of nchar(text), i.e., for each char in text):
-#         either angle_fg for maching positions, OR angle_bg for non-matching default positions
-# Note:   If length of angles > 1: Random value from (uniform) range of angle values.
+#         either angle_fg for matching positions, OR angle_bg for non-matching default positions
+# Note:   If a length of angle values > 1: Get a random value from (uniform) range of angle values.
 
 angle_map_match <- function(text, pattern = "[^[:space:]]", case_sense = TRUE, 
                             angle_fg = 0, angle_bg = 0){
