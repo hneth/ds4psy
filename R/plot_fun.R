@@ -36,7 +36,7 @@ utils::globalVariables(c("x", "y", "char"))  # to avoid Warning NOTE "Undefined 
 #' 
 #' @param border_size Size of borders (if \code{borders = TRUE}). 
 #' Default: \code{border_size = 0.2}.  
-
+#' 
 #' @param lbl_tiles Boolean: Add numeric labels to tiles? 
 #' Default: \code{lbl_tiles = FALSE} (i.e., no labels). 
 #' 
