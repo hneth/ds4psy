@@ -723,8 +723,7 @@ locate_str_logical <- function(pattern, text, case_sense = TRUE){
 # Note:   col_sample = TRUE randomizes color sequence WITHIN category (fg/bg). 
 
 color_map_match <- function(text, pattern = "[^[:space:]]", case_sense = TRUE, 
-                            col_fg = "black", col_bg = "white",
-                            col_sample = FALSE){
+                            col_fg = "black", col_bg = "white", col_sample = FALSE){
   
   # Initialize:
   nr_char <- nchar(text)
@@ -771,6 +770,65 @@ color_map_match <- function(text, pattern = "[^[:space:]]", case_sense = TRUE,
 # cm_2 <- color_map_match(s, "test", col_fg = "f_2", col_bg = cm_1)
 # cm_3 <- color_map_match(s, "t|T",  col_fg = "f_3", col_bg = cm_2)
 # cm_3
+
+
+## angle_map_match: Assign a numeric angle to string positions based on matching a pattern ------ 
+
+# Inputs: A text and pattern, and 2 numeric angle values (angle_fg for matches vs. angle_bg for default/non-matches)
+# Return: A vector of numeric angle values (with length of nchar(text), i.e., for each char in text):
+#         either angle_fg for maching positions, OR angle_bg for non-matching default positions
+# Note:   If length of angles > 1: Random value from (uniform) range of angle values.
+
+angle_map_match <- function(text, pattern = "[^[:space:]]", case_sense = TRUE, 
+                            angle_fg = 0, angle_bg = 0){
+  
+  # (0) Initialize:
+  nr_char <- nchar(text)
+  ang_vec <- rep(NA, nr_char)
+  
+  # (1) Define default angles:
+  if (length(angle_bg) > 1){  # random value from uniform range:
+    
+    range_bg <- range(angle_bg)
+    ang_vec  <- round(stats::runif(n = nr_char, min = range_bg[1], max = range_bg[2]), 0)
+    
+  } else { # recycle angle_bg to len of nr_char: 
+    
+    ang_vec <- recycle_vec(angle_bg, len = nr_char)  
+    
+  }
+  
+  # (2) Locate all matches of pattern in text (as a logical vector):
+  logical_vec_matches <- locate_str_logical(pattern = pattern, text = text, case_sense = case_sense)
+  nr_matches <- sum(logical_vec_matches)
+  
+  # (3) Define angles ang_hit of matching chars:
+  if (length(angle_fg) > 1){  # random value from uniform range:
+    
+    range_fg <- range(angle_fg)
+    ang_hits <- round(stats::runif(n = nr_matches, min = range_fg[1], max = range_fg[2]), 0)
+    
+  } else { # recycle angle_fg to len of nr_matches: 
+    
+    ang_hits <- recycle_vec(angle_fg, len = nr_matches)  
+    
+  }
+  
+  # (4) Combine default and matching angles (by logical indexing):
+  ang_vec[logical_vec_matches] <- ang_hits   
+  
+  # Return: 
+  return(ang_vec)
+  
+} # angle_map_match(). 
+
+## Check:
+# s <- "This  is a test that tests THIS function..."
+# angle_map_match(s, angle_fg = 1)
+# angle_map_match(s, "t", angle_fg = 3:9, case_sense = FALSE)
+# angle_map_match(s, angle_fg = 1, angle_bg = -1)
+# angle_map_match(s, angle_fg = 1:5, angle_bg = -6:-9)
+# angle_map_match(s, "xyz", angle_fg = 8)  # no matches!
 
 
 ## (4) Counting and converting text strings: ---------- 
