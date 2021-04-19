@@ -1139,9 +1139,8 @@ plot_fn <- function(x = NA,
 #' the \code{length(pal)} most frequent characters 
 #' will be filled by the colors of \code{pal}. 
 #' 
-#' @param case_sense Boolean: Should lower- and 
-#' uppercase characters be distinguished 
-#' (in applying color \code{pal})? 
+#' @param case_sense Boolean: Distinguish 
+#' lower- vs. uppercase characters? 
 #' Default: \code{case_sense = FALSE}. 
 #' 
 #' @param borders Boolean: Add borders to tiles? 
@@ -1493,6 +1492,10 @@ plot_text <- function(file = "",  # "" read from console; "test.txt" read from f
 #' @param bg_lo Background tiles to de-emphasize (as regex). 
 #' Default: \code{bg_lo = "[[:space:]]"}. 
 #' 
+#' @param case_sense Boolean: Distinguish 
+#' lower- vs. uppercase characters? 
+#' Default: \code{case_sense = TRUE}. 
+#' 
 #' @param lbl_tiles Add character labels to tiles? 
 #' Default: \code{lbl_tiles = TRUE} (i.e., show labels). 
 #' 
@@ -1597,6 +1600,7 @@ plot_chars <- function(file = "",  # "" read from console; "test.txt" read from 
                        lbl_lo = NA, # "qwer",   # [[:punct:]]",   # labels to de-emphasize (as regex)
                        bg_hi  = NA, # "zxcv",   # background tiles to highlight (as regex)
                        bg_lo  = "[[:space:]]",  # background tiles to de-emphasize (as regex)
+                       case_sense = TRUE,       # distinguish lower/uppercase?
                        
                        # text format:
                        lbl_tiles = TRUE,  # show labels (using col_lbl_? below)
@@ -1673,7 +1677,7 @@ plot_chars <- function(file = "",  # "" read from console; "test.txt" read from 
   }
   
   
-  # (3) Color maps: ------  
+  # (3) Create color maps (based on regex matches): ------  
   
   # Apply 2x2 regex patterns to color char_s (to highlight/de-emphasize both labels and tiles, i.e., fg and bg): 
   # Use color_map_match() repeatedly to match a regex to a text string and return a vector of colors: 
@@ -1688,12 +1692,12 @@ plot_chars <- function(file = "",  # "" read from console; "test.txt" read from 
     if (col_sample) { col_lbl <- sample(col_lbl) }
     
     if (!is.na(lbl_lo)){  # 1. add col_lbl_lo to matches of lbl_lo: 
-      col_lbl <- color_map_match(char_s, pattern = lbl_lo, 
+      col_lbl <- color_map_match(char_s, pattern = lbl_lo, case_sense = case_sense, 
                                  col_fg = col_lbl_lo, col_bg = col_lbl, col_sample = col_sample) 
     }
     
     if (!is.na(lbl_hi)){  # 2. add col_lbl_hi to matches of lbl_hi: 
-      col_lbl <- color_map_match(char_s, pattern = lbl_hi, 
+      col_lbl <- color_map_match(char_s, pattern = lbl_hi, case_sense = case_sense, 
                                  col_fg = col_lbl_hi, col_bg = col_lbl, col_sample = col_sample) 
     }
     
@@ -1707,12 +1711,12 @@ plot_chars <- function(file = "",  # "" read from console; "test.txt" read from 
   if (col_sample) { col_bgv <- sample(col_bgv) }
   
   if (!is.na(bg_lo)){  # 1. add col_bg_lo to matches of bg_lo: 
-    col_bgv <- color_map_match(char_s, pattern = bg_lo, 
+    col_bgv <- color_map_match(char_s, pattern = bg_lo, case_sense = case_sense, 
                                col_fg = col_bg_lo, col_bg = col_bgv, col_sample = col_sample) 
   }
   
   if (!is.na(bg_hi)){  # 2. add col_bg_hi to matches of bg_hi:
-    col_bgv <- color_map_match(char_s, pattern = bg_hi, 
+    col_bgv <- color_map_match(char_s, pattern = bg_hi, case_sense = case_sense, 
                                col_fg = col_bg_hi, col_bg = col_bgv, col_sample = col_sample)
   }
   
@@ -1770,6 +1774,10 @@ plot_chars <- function(file = "",  # "" read from console; "test.txt" read from 
 # plot_chars("test.txt", bg_hi = "\\b\\w{4}\\b", col_bg_hi = "gold")  # mark bg of 4-letter words
 # plot_chars("test.txt", bg_hi = "[aeiou]", col_bg_hi = "gold")  # mark vowels (in bg)
 # 
+# # Case sensitivity:
+# plot_chars("test.txt", lbl_hi = "c", bg_hi = "h", case_sense = TRUE, cex = 5)
+# plot_chars("test.txt", lbl_hi = "c", bg_hi = "h", case_sense = FALSE, cex = 5)
+# 
 # # Label options:
 # plot_chars("test.txt", bg_hi = "see", lbl_tiles = FALSE)
 # plot_chars("test.txt", cex = 5, family = "mono", fontface = 4, lbl_angle = c(-20, 20))
@@ -1782,7 +1790,7 @@ plot_chars <- function(file = "",  # "" read from console; "test.txt" read from 
 #            col_lbl_hi = c("gold1", "gold2"),
 #            cex = 5, fontface = 2)
 # 
-# # Sampling colors (within each category only): 
+# # Sampling colors (within each category only):
 # plot_chars(file = "test.txt", lbl_hi = "[aeiou]", bg_hi = "te.t",
 #            col_lbl = c("grey95", "grey85"), col_bg = c("grey10", "grey20"),
 #            col_bg_hi = pal_ds4psy[1:3],  col_bg_lo = c("grey80", "grey70"),
