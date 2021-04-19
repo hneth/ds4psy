@@ -22,7 +22,14 @@ Default: \code{sort_freq = TRUE}.}
 A named numeric vector.
 }
 \description{
-Count the frequency of characters in a string of text \code{x}.
+\code{count_chars} distinguishes and counts the characters in 
+a character vector \code{x} and returns their frequency counts 
+as a named numeric vector.
+}
+\details{
+Arguments allow some options for case sensitivity, removing special 
+characters, and sorting the output by frequency. Note that all these 
+currently work without using regular expressions.
 }
 \examples{
 # Default: 
@@ -36,8 +43,8 @@ count_chars(x, sort_freq = FALSE)
 
 }
 \seealso{
-\code{\link{count_words}} for counting the frequency of words;   
-\code{\link{plot_text}} for a corresponding plot function.
+\code{\link{count_words}} for counting the frequency of words; 
+\code{\link{plot_chars}} for a corresponding plot function.
 
 Other text objects and functions: 
 \code{\link{Umlaut}},

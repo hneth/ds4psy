@@ -84,6 +84,9 @@ Default: \code{border_col = "white"}.}
 \item{border_size}{Size of borders (if \code{borders = TRUE}). 
 Default: \code{border_size = 0.5}.}
 }
+\value{
+An invisible data frame describing the plot.
+}
 \description{
 \code{plot_text} parses text 
 (from a file or from user input) 

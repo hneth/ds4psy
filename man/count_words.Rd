@@ -34,7 +34,7 @@ count_words(s3, sort_freq = FALSE)   # sorts alphabetically
 }
 \seealso{
 \code{\link{count_chars}} for counting the frequency of characters;   
-\code{\link{plot_text}} for a corresponding plot function.
+\code{\link{plot_chars}} for a character plotting function.
 
 Other text objects and functions: 
 \code{\link{Umlaut}},
