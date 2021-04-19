@@ -623,25 +623,27 @@ read_ascii <- function(file = "", flip_y = FALSE){
 # This is merely a more convenient version of gregexpr() 
 # similar to stringr::str_locate(). 
 
-locate_str <- function(pattern, text){
+locate_str <- function(pattern, text, case_sense = TRUE){
   
-  # (1) Using gregexpr(): Locations of matches
-  m_l <- gregexpr(pattern = pattern, text = text)  # LIST of matches
+  # (1) Locate matches (using gregexpr()):
+  m_l <- gregexpr(pattern = pattern, text = text, ignore.case = !case_sense)  # LIST of matches
   
+  # (2) Match positions (in list):
   m_start <- unlist(m_l)  # start positions of all matches
   
-  if (m_start[1] == -1){  # NO matches were found:  
+  # (3) Cases: 
+  # (A) NO matches were found:  
+  if (m_start[1] == -1){  
     return(NA)  # return early!
   } 
   
-  # ELSE: matches were found:  
-  
-  # (2) Get match locations:  
+  # (B) ELSE: matches were found:  
+  # (a) Get match locations:  
   m_l_1 <- m_l[[1]]  # 1st element of list
   m_len <- attr(m_l_1, "match.length")  # len of all matches
   m_end <- m_start + m_len - 1  # end position of all matches
   
-  # (3) Get match IDs:
+  # (b) Get match IDs:
   nr_match <- length(m_start)
   id_txt <- rep(NA, nr_match)
   
@@ -658,8 +660,10 @@ locate_str <- function(pattern, text){
 } # locate_str(). 
 
 ## Check:
-# s <- "This is a test that tests this function."
+# s <- "This is a test that tests THIS function."
 # locate_str("t|T", s)
+# locate_str("T", s, case_sense = TRUE)
+# locate_str("T", s, case_sense = FALSE)
 # locate_str("t..t", s)
 # locate_str("t.t", s)
 
@@ -669,14 +673,14 @@ locate_str <- function(pattern, text){
 # - TRUE  for all matching locations (positions) in text
 # - FALSE for all non-matching locations (positions) in text
 
-locate_str_logical <- function(pattern, text){
+locate_str_logical <- function(pattern, text, case_sense = TRUE){
   
   # Initialize:
   df  <- NA
   out <- rep(FALSE, nchar(text))  # initialize logical vector
   
   # Locate all matches of pattern in text:
-  df <- locate_str(pattern = pattern, text = text)  # use util function (above)
+  df <- locate_str(pattern = pattern, text = text, case_sense = case_sense)  # util function (above)
   
   if (!all(is.na(df))){  # matches were found:
     
@@ -694,17 +698,21 @@ locate_str_logical <- function(pattern, text){
   
 } # locate_str_logical(). 
 
-# ## Check:
-# txt <- "This is a test that tests this function."
-# locate_str_logical("t..t", txt)
-# locate_str_logical("xyz", txt)
+## Check:
+# s <- "This is a test that tests THIS function."
+# locate_str_logical("t..t", s)
+# sum(locate_str_logical("t", s, case_sense = TRUE))
+# sum(locate_str_logical("T", s, case_sense = TRUE))
+# sum(locate_str_logical("T", s, case_sense = FALSE))
+# locate_str_logical("xyz", s)
 # 
+# # Use case: Logical indexing on a vector of s:
 # s_v <- unlist(strsplit(s, ""))  # as vector elements
-# 
 # # Apply logical string to s_v:
-# s_v[locate_str_logical("t|T", txt)]
-# s_v[locate_str_logical("t..t", txt)]
-# s_v[locate_str_logical("t.t", txt)]
+# s_v[locate_str_logical("t|T", s)]
+# s_v[locate_str_logical("T", s, case_sense = FALSE)]
+# s_v[locate_str_logical("t..t", s)]
+# s_v[locate_str_logical("t.t", s)]
 
 
 ## color_map_match: Assign 2 colors to string positions based on matching a pattern ------ 
@@ -714,7 +722,7 @@ locate_str_logical <- function(pattern, text){
 #         either col_fg for maching positions, OR col_bg for non-matching positions
 # Note:   col_sample = TRUE randomizes color sequence WITHIN category (fg/bg). 
 
-color_map_match <- function(text, pattern = "[^[:space:]]", 
+color_map_match <- function(text, pattern = "[^[:space:]]", case_sense = TRUE, 
                             col_fg = "black", col_bg = "white",
                             col_sample = FALSE){
   
@@ -723,7 +731,7 @@ color_map_match <- function(text, pattern = "[^[:space:]]",
   col_vec <- recycle_vec(col_bg, len = nr_char)  # recycle col_bg to len of nr_char!
   
   # Locate all matches of pattern in text (as a logical vector):
-  logical_vec_matches <- locate_str_logical(pattern = pattern, text = text)
+  logical_vec_matches <- locate_str_logical(pattern = pattern, text = text, case_sense = case_sense)
   
   # Recycle col_fg to number of matches:
   col_fg <- recycle_vec(col_fg, len = sum(logical_vec_matches))
@@ -742,13 +750,15 @@ color_map_match <- function(text, pattern = "[^[:space:]]",
   
 } # color_map_match(). 
 
-# ## Check:
-# s <- "This  is a test that tests..."
+## Check:
+# s <- "This  is a test that tests THIS function..."
 # color_map_match(s)
 # color_map_match(s, "\\.")
 # color_map_match(s, "test")
 # color_map_match(s, " ")
 # color_map_match(s, "t|T")
+# color_map_match(s, "H", case_sense = TRUE)
+# color_map_match(s, "H", case_sense = FALSE)
 # color_map_match(s, "t..t")
 # color_map_match(s, "t.t")
 # 
