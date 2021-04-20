@@ -1,5 +1,5 @@
 ## util_fun.R | ds4psy
-## hn | uni.kn | 2021 04 18
+## hn | uni.kn | 2021 04 20
 ## ---------------------------
 
 ## Utility functions. 
