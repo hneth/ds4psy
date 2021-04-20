@@ -1476,31 +1476,54 @@ text_stats <- function(x, case_sense = TRUE){
 } # text_stats(). 
 
 ## Check:
-s3 <- c("A first sentence.", "The second sentence.",
-        "A third --- and also THE  FINAL --- sentence.")
-
-## Parts: 
-sum(nchar(s3))
-tolower(s3)
-
-(char_freq_vc <- count_chars(s3, case_sense = TRUE, rm_specials = FALSE, sort_freq = FALSE))
-(char_freq_vc <- count_chars(s3, case_sense = FALSE, rm_specials = FALSE, sort_freq = FALSE))
-(char_freq_vc <- count_chars(tolower(s3), case_sense = TRUE, rm_specials = FALSE, sort_freq = FALSE))
-(char_freq_vc <- count_chars(tolower(s3), case_sense = FALSE, rm_specials = FALSE, sort_freq = FALSE))
-
-char_freq_df <- as.data.frame(char_freq_vc)
-names(char_freq_df) <- c("char", "freq")
-dim(char_freq_df)
-head(char_freq_df)
-
-(word_freq_vc <- count_words(s3, case_sense = TRUE, sort_freq = TRUE))
-word_freq_df <- as.data.frame(word_freq_vc)
-names(word_freq_df) <- c("word", "freq")
-head(word_freq_df)
-
-## All in one:
-head(text_stats(s3))
-head(text_stats(s3, case_sense = FALSE))  # Check counts for a/A, i/I, and t/T! 
+# s3 <- c("A first sentence.", "The second sentence.",
+#         "A third --- and also THE  FINAL --- sentence.")
+# 
+# ## Parts: 
+# sum(nchar(s3))
+# tolower(s3)
+# 
+# (char_freq_vc <- count_chars(s3, case_sense = TRUE, rm_specials = FALSE, sort_freq = FALSE))
+# (char_freq_vc <- count_chars(s3, case_sense = FALSE, rm_specials = FALSE, sort_freq = FALSE))
+# (char_freq_vc <- count_chars(tolower(s3), case_sense = TRUE, rm_specials = FALSE, sort_freq = FALSE))
+# (char_freq_vc <- count_chars(tolower(s3), case_sense = FALSE, rm_specials = FALSE, sort_freq = FALSE))
+# 
+# char_freq_df <- as.data.frame(char_freq_vc)
+# names(char_freq_df) <- c("char", "freq")
+# dim(char_freq_df)
+# head(char_freq_df)
+# 
+# (word_freq_vc <- count_words(s3, case_sense = TRUE, sort_freq = TRUE))
+# word_freq_df <- as.data.frame(word_freq_vc)
+# names(word_freq_df) <- c("word", "freq")
+# head(word_freq_df)
+# 
+# ## All in one:
+# head(text_stats(s3))
+# head(text_stats(s3, case_sense = FALSE))  # Check counts for a/A, i/I, and t/T! 
+# 
+# 
+# # Find current word for each position in a string:
+# s4 <- "This is a test."
+# text_to_words("This is a test.")
+# (ls <- gregexpr("(\\w+)", text = s4))  # get all word start and lengths (as list)!
+# (word_start  <- unlist(ls))
+# (word_length <- attr(ls[[1]], "match.length"))
+# 
+# for (i in 1:nchar(s4)){
+#   
+#   ix_start <- which(i > word_start)
+#   ix_last_start <- word_start[length(ix_start)]
+#   
+#   cur_start  <- s4[ix_last_start]
+#   cur_length <- word_length[ix_last_start]
+#   
+#   cur_word <- substr(s4, start = cur_start, stop = (cur_length - 1))
+#   
+#   print(paste0("i = ", i, ": cur_word = ", cur_word))
+#   
+# }
+# 
 
 
 
