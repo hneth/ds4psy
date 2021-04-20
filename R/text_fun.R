@@ -1,5 +1,5 @@
 ## text_fun.R | ds4psy
-## hn | uni.kn | 2021 04 19
+## hn | uni.kn | 2021 04 20
 ## ---------------------------
 
 ## Character objects and functions for string/text objects. 
@@ -1110,12 +1110,13 @@ text_to_sentences <- function(x,  # string(s) of text
 #' into a vector of its constituting words. 
 #' 
 #' \code{text_to_words} removes all (standard) punctuation marks 
-#' and empty spaces in the resulting parts, 
+#' and empty spaces in the resulting text parts, 
 #' before returning a vector of the remaining character symbols 
-#' (as the words).
+#' (as its words).
 #' 
 #' Internally, \code{text_to_words} uses \code{\link{strsplit}} to 
-#' split strings.
+#' split strings at punctuation marks (\code{split = "[[:punct:]]"}) 
+#' and spaces (\code{split = "( ){1,}"}).
 #'
 #' @param x A string of text (required), 
 #' typically a character vector. 
@@ -1147,7 +1148,7 @@ text_to_words <- function(x  # string(s) of text
   
   # 2. Main: 
   x2 <- unlist(strsplit(x1, split = "[[:punct:]]"))  # remove punctuation
-  x3 <- unlist(strsplit(x2, split = "( ){1,}"))      # remove spaces
+  x3 <- unlist(strsplit(x2, split = "( ){1,}"))      # remove 1+ spaces
   wds <- x3[x3 != ""]  # remove instances of ""
   
   # 3. Output: 
@@ -1156,22 +1157,78 @@ text_to_words <- function(x  # string(s) of text
 } # text_to_words(). 
 
 ## Check:
-# s3 <- c("A first sentence.", "The second sentence.", 
+# s3 <- c("A first sentence.", "The second sentence.",
 #         "A third --- and also the final --- sentence.")
 # wv <- text_to_words(s3)
 # wv
 
 
-## words_to_text: Turn a vector of words into a (single) vector: ------ 
+## words_to_text: Turn a vector of words x into a (single) vector: ------ 
 
-words_to_text <- function(w, collapse = " "){
+# Inverse of text_to_words() above:
+# Currently only adds spaces between words 
+# (collapsing multiple strings into one).
+
+words_to_text <- function(x, collapse = " "){
   
-  paste(w, collapse = collapse)
+  paste(x, collapse = collapse)
   
 } # words_to_text(). 
 
 ## Check:
 # words_to_text(wv)
+# words_to_text(c("This", "is only", "a test"))
+
+
+## chars_to_text: Turn a character vector x into a (single) string of text: ------
+
+# Assume that x consists of individual characters, but may contain spaces. 
+# Goal: Exactly preserve all characters (e.g., punctuation and spaces).
+# Note: Simply using paste(x, collapse = "") would lose all spaces. 
+
+chars_to_text <- function(x){
+  
+  # Initialize:
+  char_t <- NA
+  
+  # Ensure that x consists only of individual characters:
+  if (any(nchar(x) > 1)){
+    one_cv <- paste(x, collapse = "")  # paste all into a single char vector
+    char_v <- unlist(strsplit(one_cv, split = ""))  # split into a vector of individual characters
+  } else {
+    char_v <- x  # use vector of single characters
+  }
+  # print(char_v)  # 4debugging
+  
+  # Main: Convert char_v into char_t (preserving spaces): 
+  my_space <- "_h3d8o5m1v7z4_"  # some cryptic replacement for any " " (in character string)
+  char_v_hlp <- gsub(pattern = " ", replacement = my_space, x = char_v)  # helper (with spaces replaced)
+  char_s_hlp <- paste(char_v_hlp, collapse = "")  # char string helper (with spaces as my_space)
+  char_t <- gsub(pattern = my_space, replacement = " ", x = char_s_hlp)  # char string (with original spaces)
+  
+  # Check: Does nchar(char_s) equal length(char_v)? 
+  n_char_v <- length(char_v)
+  n_char_t <- nchar(char_t)
+  if (n_char_t != n_char_v){
+    message(paste0("chars_to_text: nchar(char_t) = ", n_char_t, 
+                   " differs from length(char_v) = ", n_char_v, "."))
+  }
+  
+  return(char_t)
+  
+} # chars_to_text.
+
+## Check:
+# t <- "Hello world! This is _A   TEST_. Does this work?"
+# (cv <- unlist(strsplit(t, split = "")))
+# chars_to_text(cv)
+# # Use with longer input strings (nchar > 1):
+# s <- c("Abc", "   ", "Xyz.")
+# chars_to_text(s)
+# # Note: 
+# chars_to_text("Hi there!")
+# chars_to_text(1:3)
+
 
 
 ## count_words: Count the frequency of words in a string: -------- 
@@ -1223,7 +1280,7 @@ count_words <- function(x,  # string(s) of text
     v1 <- tolower(v0)  # lowercase
   }
   
-  # 2. Main: Split input into a vector of all its words:
+  # 2. Main: Split input into a vector of its words:
   w <- text_to_words(v1)
   
   # 3. Prepare outputs: 
