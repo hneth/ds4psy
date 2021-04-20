@@ -1208,7 +1208,8 @@ count_chars <- function(x, # string of text to count
                         sort_freq = TRUE
 ){
   
-  freq <- NA  # initialize
+  freq  <- NA  # initialize
+  chars <- NA
   
   v0 <- as.character(x)  # read input (as character)
   
@@ -1234,21 +1235,21 @@ count_chars <- function(x, # string of text to count
     # Note: cclass includes additional symbols.
     
     # Remove special characters:
-    char_s <- v4[!(v4 %in% spec_char)]
+    chars <- v4[!(v4 %in% spec_char)]
     
   } else {
     
-    char_s <- v4  # as is 
+    chars <- v4  # as is 
     
   }
   
   if (sort_freq){
     
-    freq <- sort(table(char_s), decreasing = TRUE)
+    freq <- sort(table(chars), decreasing = TRUE)
     
   } else { # no sorting:
     
-    freq <- table(char_s)    
+    freq <- table(chars)    
     
   } # if (sort_freq).
   
@@ -1265,8 +1266,9 @@ count_chars <- function(x, # string of text to count
 # count_chars(x, sort_freq = FALSE)
 # 
 # # Note: count_chars returns a named vector of type integer:
-# freq <- count_chars(x)
+# (freq <- count_chars(x))
 # typeof(freq)
+# length(freq)
 # freq["e"]
 
 
@@ -1308,7 +1310,8 @@ count_words <- function(x,  # string(s) of text
 ){
   
   # 0. Initialize: 
-  freq <- NA
+  freq  <- NA
+  words <- NA
   
   # 1. Handle inputs: 
   v0 <- as.character(x)
@@ -1320,16 +1323,16 @@ count_words <- function(x,  # string(s) of text
   }
   
   # 2. Main: Split input into a vector of its words:
-  w <- text_to_words(v1)
+  words <- text_to_words(v1)
   
   # 3. Prepare outputs: 
   if (sort_freq){
     
-    freq <- sort(table(w), decreasing = TRUE)
+    freq <- sort(table(words), decreasing = TRUE)
     
   } else { # no sorting:
     
-    freq <- table(w)    
+    freq <- table(words)    
     
   } # if (sort_freq).
   
@@ -1337,13 +1340,81 @@ count_words <- function(x,  # string(s) of text
   
 } # count_words().
 
-# ## Check:
-# s3 <- c("A first sentence.", "The second sentence.", 
-#         "A third --- and also the final --- sentence.")
+## Check:
+# s3 <- c("A first sentence.", "The second sentence.",
+#         "A third --- and also THE  FINAL --- sentence.")
 # 
-# count_words(s3)                      # case-sens, sorts by frequency 
+# count_words(s3)                      # case-sens, sorts by frequency
 # count_words(s3, case_sense = FALSE)  # case insensitive
 # count_words(s3, sort_freq = FALSE)   # sorts alphabetically
+# 
+# # Note: count_words returns a named vector of type integer:
+# (freq <- count_words(s3))
+# typeof(freq)
+# length(freq)
+# freq["and"]
+
+
+## count_str: count the number of occurrences of a pattern in a character vector x: -------- 
+
+# Source of function: 
+# <https://aurelienmadouasse.wordpress.com/2012/05/24/r-code-how-the-to-count-the-number-of-occurrences-of-a-substring-within-a-string/> 
+
+# count_str_org <- function(x, pattern, split){
+#   
+#   unlist(
+#     lapply(strsplit(x, split), 
+#            function(z) stats::na.omit(length(grep(pattern, z)))
+#     ))
+#   
+# }
+
+
+## Count the number of pattern matches in a string: -------- 
+
+count_str <- function(x, pattern, split = ""){
+  
+  # initialize: 
+  count   <- NA
+  x_split <- NA
+  
+  x_split <- strsplit(x, split)
+  
+  # count <- unlist(lapply(x_split, function(z) stats::na.omit(length(grep(pattern = pattern, x = z, value = FALSE)))))
+  
+  count <- unlist(lapply(x_split, function(z) length(grep(pattern = pattern, x = z, value = FALSE))))
+  
+  return(count)
+  
+} # count_str(). 
+
+## Check:
+# x <- c("hello", "world!", "This is a test sentence.", "", "The end.")
+# p <- "en"
+# 
+# # splitting:
+# x_split <- strsplit(x, split = NA)  # leaves x as is
+# x_split
+# 
+# x_split <- strsplit(x, split = "")  # splits x into individual characters
+# x_split
+# 
+# # grep:
+# grep(pattern = p, x = x_split)
+# 
+# # Compare: 
+# count_str(x, p)              # number within each character object
+# count_str(x, p, split = NA)  # only 0 vs. 1 per character object
+# 
+# # Contrast with:
+# stringr::str_count(x, p)     # number within each character object
+
+# Conclusion:
+# count_str*() is not reliable, as grep() only contrasts matches with non-matches (binary) and 
+#              results thus depend on the segmentation of strings (into sub-strings). 
+# By contrast, stringr::count_str() provides a the exact frequency counts 
+# (i.e., how often a pattern is matched.)
+
 
 
 ## text_stats: Count the frequency of chars and corresponding words in string(s) of text (by char): -------- 
@@ -1351,25 +1422,81 @@ count_words <- function(x,  # string(s) of text
 # Goal: Given a string of text x, quantify the character and word frequency 
 #       for each character (i.e., in a table that contains as many rows as characters in x).
 
-text_stats <- function(x){
+# Note: Function is case sensitive (i.e., freq counts for "t" typically differ from those of "T").
+#       Convert cases in x prior to matching to get case-insensitive results!
+
+text_stats <- function(x, case_sense = TRUE){
   
-  # Convert into vector:
-  char_v <- text_to_chars(x)
+  # Initialize:
+  x0 <- NA
+  if (!case_sense) {
+    x0 <- tolower(x)  # work with lowercase x (everywhere)
+  }  else {
+    x0 <- x
+  }
   
-  # Get stats:
-  char_freq <- count_chars(x, case_sense = TRUE, rm_specials = FALSE, sort_freq = TRUE)
-  word_freq <- count_words(x, case_sense = TRUE, sort_freq = TRUE)
+  # Convert x0 into vector:
+  char_vc <- text_to_chars(x = x0)
+  char_df <- as.data.frame(char_vc)  # as df
+  names(char_df) <- c("char")  
+  char_df$ix <- 1:nrow(char_df)  # add ix of row (to enable sorting by it later)
+  
+  # +++ here now +++ 
+  
+  # Get stats (using x0, NOT char_df$char):
+  # 1. Character frequency:
+  char_freq_vc <- count_chars(x = x0, case_sense = case_sense, rm_specials = FALSE, sort_freq = FALSE)  # (named) vector
+  char_freq_df <- as.data.frame(char_freq)  # as df
+  names(char_freq_df) <- c("char_f", "freq")
+  
+  # 2. Word frequency (using x0): 
+  word_freq_vc <- count_words(x = x0, case_sense = case_sense, sort_freq = FALSE)  # (named) vector
+  word_freq_df <- as.data.frame(word_freq_vc)  # as df
+  names(word_freq_df) <- c("word", "freq")
   
   # ToDo:
-  # - map char_freq to char_v 
-  # - determine the containing word for each char in char_v
-  # - map word_freq to char_v
+  # 1. map char_freq to char_v:
+  # NOTE that merge() has trouble merging characters with different ("t" vs. "T") cases!
+  mdf <- merge(x = char_df, y = char_freq_df, 
+               by.x = "char", by.y = "char_f", 
+               all.x = TRUE, sort = FALSE, no.dups = FALSE)
   
-  return(char_v)
+  # 2. determine the containing word for each char in char_v
+  # 3. map word_freq to char_v
+  
+  # Prepare output: 
+  mdf <- mdf[order(mdf$ix), ]               # sort rows of mdf into original char order (ix):
+  row.names(mdf) <- 1:nrow(mdf)             # add row names 1:n
+  mdf <- mdf[, -which(names(mdf) == "ix")]  # remove "ix" column
+  
+  return(mdf)
   
 } # text_stats(). 
 
-
+## Check:
+# s3 <- c("A first sentence.", "The second sentence.",
+#         "A third --- and also THE  FINAL --- sentence.")
+# sum(nchar(s3))
+# tolower(s3)
+# 
+# (char_freq_vc <- count_chars(s3, case_sense = TRUE, rm_specials = FALSE, sort_freq = FALSE))
+# (char_freq_vc <- count_chars(s3, case_sense = FALSE, rm_specials = FALSE, sort_freq = FALSE))
+# (char_freq_vc <- count_chars(tolower(s3), case_sense = TRUE, rm_specials = FALSE, sort_freq = FALSE))
+# (char_freq_vc <- count_chars(tolower(s3), case_sense = FALSE, rm_specials = FALSE, sort_freq = FALSE))
+# 
+# char_freq_df <- as.data.frame(char_freq_vc)
+# names(char_freq_df) <- c("char", "freq")
+# dim(char_freq_df)
+# head(char_freq_df)
+# 
+# (word_freq_vc <- count_words(s3, case_sense = TRUE, sort_freq = TRUE))
+# word_freq_df <- as.data.frame(word_freq_vc)
+# names(word_freq_df) <- c("word", "freq")
+# head(word_freq_df)
+# 
+# text_stats(s3)
+# +++ here now +++ 
+# text_stats(s3, case_sense = FALSE)  # Counts for a/A and t/T are wrong!
 
 
 
@@ -1517,66 +1644,6 @@ capitalize <- function(x, # string of text to capitalize
 # capitalize(x, as_text = FALSE)
 
 
-
-## count_str: count the number of occurrences of a pattern in a character vector x: -------- 
-
-# Source of function: 
-# <https://aurelienmadouasse.wordpress.com/2012/05/24/r-code-how-the-to-count-the-number-of-occurrences-of-a-substring-within-a-string/> 
-
-# count_str_org <- function(x, pattern, split){
-#   
-#   unlist(
-#     lapply(strsplit(x, split), 
-#            function(z) stats::na.omit(length(grep(pattern, z)))
-#     ))
-#   
-# }
-
-
-# Count the number of pattern matches in a string: 
-
-count_str <- function(x, pattern, split = ""){
-  
-  # initialize: 
-  count   <- NA
-  x_split <- NA
-  
-  x_split <- strsplit(x, split)
-  
-  # count <- unlist(lapply(x_split, function(z) stats::na.omit(length(grep(pattern = pattern, x = z, value = FALSE)))))
-  
-  count <- unlist(lapply(x_split, function(z) length(grep(pattern = pattern, x = z, value = FALSE))))
-  
-  return(count)
-  
-} # count_str(). 
-
-# ## Check:
-# x <- c("hello", "world!", "This is a test sentence.", "", "The end.")
-# p <- "en"
-# 
-# # splitting:
-# x_split <- strsplit(x, split = NA)  # leaves x as is
-# x_split
-# 
-# x_split <- strsplit(x, split = "")  # splits x into individual characters
-# x_split
-# 
-# # grep:
-# grep(pattern = p, x = x_split)
-# 
-# # Compare: 
-# count_str(x, p)              # number within each character object
-# count_str(x, p, split = NA)  # only 0 vs. 1 per character object
-# 
-# # Contrast with:
-# stringr::str_count(x, p)     # number within each character object
-
-# Conclusion:
-# count_str*() is not reliable, as grep() only contrasts matches with non-matches (binary) and 
-#              results thus depend on the segmentation of strings (into sub-strings). 
-# By contrast, stringr::count_str() provides a the exact frequency counts 
-# (i.e., how often a pattern is matched.)
 
 
 
