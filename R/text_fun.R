@@ -414,7 +414,7 @@ transl33t <- function(txt, rules = l33t_rul35,
 
 
 
-## (2) Read ascii text (from file) into a tibble: ---------- 
+## (2) Reading ascii text (from file) into a tibble: ---------- 
 
 #' read_ascii parses text (from a file) into a table. 
 #'
@@ -835,119 +835,7 @@ angle_map_match <- function(text, pattern = "[^[:space:]]", case_sense = TRUE,
 # angle_map_match(s, pattern = NA)  # => Error!
 
 
-## (4) Counting and converting text strings: ---------- 
-
-
-## count_chars: Count the frequency of characters in a string: -------- 
-
-#' Count the frequency of characters in a string of text \code{x}.
-#' 
-#' \code{count_chars} distinguishes and counts the characters in 
-#' a character vector \code{x} and returns their frequency counts 
-#' as a named numeric vector.
-#' 
-#' Arguments allow some options for case sensitivity, removing special 
-#' characters, and sorting the output by frequency. Note that all these 
-#' currently work without using regular expressions.
-#'
-#' @param x A string of text (required).
-#' 
-#' @param case_sense Boolean: Distinguish lower- vs. uppercase characters? 
-#' Default: \code{case_sense = TRUE}. 
-#' 
-#' @param rm_specials Boolean: Remove special characters? 
-#' Default: \code{rm_specials = TRUE}. 
-#' 
-#' @param sort_freq Boolean: Sort output by character frequency? 
-#' Default: \code{sort_freq = TRUE}. 
-#'
-#' @return A named numeric vector. 
-#'
-#' @examples
-#' # Default: 
-#' x <- c("Hello!", "This is a 1st sentence.", "This is the 2nd sentence.", "The end.")
-#' count_chars(x)
-#' 
-#' # Options: 
-#' count_chars(x, case_sense = FALSE)
-#' count_chars(x, rm_specials = FALSE)
-#' count_chars(x, sort_freq = FALSE)
-#'
-#' @family text objects and functions
-#'
-#' @seealso
-#' \code{\link{count_words}} for counting the frequency of words; 
-#' \code{\link{plot_chars}} for a corresponding plot function. 
-#' 
-#' @export
-
-count_chars <- function(x, # string of text to count
-                        case_sense = TRUE, 
-                        rm_specials = TRUE, 
-                        sort_freq = TRUE
-){
-  
-  freq <- NA  # initialize
-  
-  v0 <- as.character(x)  # read input (as character)
-  
-  if (case_sense){
-    v1 <- v0  # as is
-  } else {
-    v1 <- tolower(v0)  # lowercase
-  }
-  
-  v2 <- paste(v1, collapse = "")  # combine all into 1 string
-  v3 <- strsplit(v2, split = "")  # individual characters (in 1 list)
-  v4 <- unlist(v3)  # individual characters (in vector)
-  
-  if (rm_specials){
-    
-    # Define special chars: 
-    space <- c("", " ")  # [[:space:]]
-    hyphens <- c("-", "--", "---")
-    punct <- c(",", ";", ":", ".", "!", "?")  # punctuation [[:punct:]]  
-    parents <- c("(", ")", "[", "]", "{", "}", "<", ">")  # parentheses
-    spec_char <- c(punct, space, hyphens, parents)
-    
-    # Note: cclass includes additional symbols.
-    
-    # Remove special characters:
-    char_s <- v4[!(v4 %in% spec_char)]
-    
-  } else {
-    
-    char_s <- v4  # as is 
-    
-  }
-  
-  if (sort_freq){
-    
-    freq <- sort(table(char_s), decreasing = TRUE)
-    
-  } else { # no sorting:
-    
-    freq <- table(char_s)    
-    
-  } # if (sort_freq).
-  
-  return(freq)
-  
-} # count_chars(). 
-
-## Check:
-# x <- c("Hello!", "This is a 1st sentence.", "This is the 2nd sentence.", "The end.")
-# 
-# count_chars(x)
-# count_chars(x, case_sense = FALSE)
-# count_chars(x, rm_specials = FALSE)
-# count_chars(x, sort_freq = FALSE)
-# 
-# # Note: count_chars returns a named vector of type integer:
-# freq <- count_chars(x)
-# typeof(freq)
-# freq["e"]
-
+## (4) Converting character and text strings (into other units, e.g., sentences, words): ---------- 
 
 ## text_to_sentences: Turn a text (consisting of one or more strings) into a vector of all its sentences: ------ 
 
@@ -1231,6 +1119,120 @@ chars_to_text <- function(x){
 
 
 
+
+## (5) Counting text strings (i.e., frequency of characters or words): ---------- 
+
+## count_chars: Count the frequency of characters in a string: -------- 
+
+#' Count the frequency of characters in a string of text \code{x}.
+#' 
+#' \code{count_chars} distinguishes and counts the characters in 
+#' a character vector \code{x} and returns their frequency counts 
+#' as a named numeric vector.
+#' 
+#' Arguments allow some options for case sensitivity, removing special 
+#' characters, and sorting the output by frequency. Note that all these 
+#' currently work without using regular expressions.
+#'
+#' @param x A string of text (required).
+#' 
+#' @param case_sense Boolean: Distinguish lower- vs. uppercase characters? 
+#' Default: \code{case_sense = TRUE}. 
+#' 
+#' @param rm_specials Boolean: Remove special characters? 
+#' Default: \code{rm_specials = TRUE}. 
+#' 
+#' @param sort_freq Boolean: Sort output by character frequency? 
+#' Default: \code{sort_freq = TRUE}. 
+#'
+#' @return A named numeric vector. 
+#'
+#' @examples
+#' # Default: 
+#' x <- c("Hello!", "This is a 1st sentence.", "This is the 2nd sentence.", "The end.")
+#' count_chars(x)
+#' 
+#' # Options: 
+#' count_chars(x, case_sense = FALSE)
+#' count_chars(x, rm_specials = FALSE)
+#' count_chars(x, sort_freq = FALSE)
+#'
+#' @family text objects and functions
+#'
+#' @seealso
+#' \code{\link{count_words}} for counting the frequency of words; 
+#' \code{\link{plot_chars}} for a corresponding plot function. 
+#' 
+#' @export
+
+count_chars <- function(x, # string of text to count
+                        case_sense = TRUE, 
+                        rm_specials = TRUE, 
+                        sort_freq = TRUE
+){
+  
+  freq <- NA  # initialize
+  
+  v0 <- as.character(x)  # read input (as character)
+  
+  if (case_sense){
+    v1 <- v0  # as is
+  } else {
+    v1 <- tolower(v0)  # lowercase
+  }
+  
+  v2 <- paste(v1, collapse = "")  # combine all into 1 string
+  v3 <- strsplit(v2, split = "")  # individual characters (in 1 list)
+  v4 <- unlist(v3)  # individual characters (in vector)
+  
+  if (rm_specials){
+    
+    # Define special chars: 
+    space <- c("", " ")  # [[:space:]]
+    hyphens <- c("-", "--", "---")
+    punct <- c(",", ";", ":", ".", "!", "?")  # punctuation [[:punct:]]  
+    parents <- c("(", ")", "[", "]", "{", "}", "<", ">")  # parentheses
+    spec_char <- c(punct, space, hyphens, parents)
+    
+    # Note: cclass includes additional symbols.
+    
+    # Remove special characters:
+    char_s <- v4[!(v4 %in% spec_char)]
+    
+  } else {
+    
+    char_s <- v4  # as is 
+    
+  }
+  
+  if (sort_freq){
+    
+    freq <- sort(table(char_s), decreasing = TRUE)
+    
+  } else { # no sorting:
+    
+    freq <- table(char_s)    
+    
+  } # if (sort_freq).
+  
+  return(freq)
+  
+} # count_chars(). 
+
+## Check:
+# x <- c("Hello!", "This is a 1st sentence.", "This is the 2nd sentence.", "The end.")
+# 
+# count_chars(x)
+# count_chars(x, case_sense = FALSE)
+# count_chars(x, rm_specials = FALSE)
+# count_chars(x, sort_freq = FALSE)
+# 
+# # Note: count_chars returns a named vector of type integer:
+# freq <- count_chars(x)
+# typeof(freq)
+# freq["e"]
+
+
 ## count_words: Count the frequency of words in a string: -------- 
 
 #' Count the frequency of words in a string of text \code{x}.
@@ -1308,7 +1310,7 @@ count_words <- function(x,  # string(s) of text
 
 
 
-## (5) Capitalization ---------- 
+## (6) Capitalization ---------- 
 
 ## caseflip: Flip lower to upper case and vice versa: --------  
 
