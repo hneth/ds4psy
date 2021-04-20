@@ -20,12 +20,13 @@ into a vector of its constituting words.
 }
 \details{
 \code{text_to_words} removes all (standard) punctuation marks 
-and empty spaces in the resulting parts, 
+and empty spaces in the resulting text parts, 
 before returning a vector of the remaining character symbols 
-(as the words).
+(as its words).
 
 Internally, \code{text_to_words} uses \code{\link{strsplit}} to 
-split strings.
+split strings at punctuation marks (\code{split = "[[:punct:]]"}) 
+and spaces (\code{split = "( ){1,}"}).
 }
 \examples{
 # Default: 
