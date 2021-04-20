@@ -1435,68 +1435,72 @@ text_stats <- function(x, case_sense = TRUE){
     x0 <- x
   }
   
-  # Convert x0 into vector:
+  # Convert x0 into vector & data frame:
   char_vc <- text_to_chars(x = x0)
   char_df <- as.data.frame(char_vc)  # as df
-  names(char_df) <- c("char")  
+  names(char_df) <- c("char_0")  
   char_df$ix <- 1:nrow(char_df)  # add ix of row (to enable sorting by it later)
-  
-  # +++ here now +++ 
   
   # Get stats (using x0, NOT char_df$char):
   # 1. Character frequency:
   char_freq_vc <- count_chars(x = x0, case_sense = case_sense, rm_specials = FALSE, sort_freq = FALSE)  # (named) vector
-  char_freq_df <- as.data.frame(char_freq)  # as df
-  names(char_freq_df) <- c("char_f", "freq")
+  char_freq_df <- as.data.frame(char_freq_vc)  # as df
+  names(char_freq_df) <- c("char_1", "char_freq")
   
-  # 2. Word frequency (using x0): 
-  word_freq_vc <- count_words(x = x0, case_sense = case_sense, sort_freq = FALSE)  # (named) vector
-  word_freq_df <- as.data.frame(word_freq_vc)  # as df
-  names(word_freq_df) <- c("word", "freq")
-  
-  # ToDo:
-  # 1. map char_freq to char_v:
+  # 2. Map/merge char_freq to char_df:
   # NOTE that merge() has trouble merging characters with different ("t" vs. "T") cases!
   mdf <- merge(x = char_df, y = char_freq_df, 
-               by.x = "char", by.y = "char_f", 
+               by.x = "char_0", by.y = "char_1", 
                all.x = TRUE, sort = FALSE, no.dups = FALSE)
   
-  # 2. determine the containing word for each char in char_v
-  # 3. map word_freq to char_v
+  # 3. Word frequency (using x0): 
+  word_freq_vc <- count_words(x = x0, case_sense = case_sense, sort_freq = FALSE)  # (named) vector
+  word_freq_df <- as.data.frame(word_freq_vc)  # as df
+  names(word_freq_df) <- c("word", "word_freq")
   
-  # Prepare output: 
+  # ToDo: +++ here now +++ 
+  
+  # 4. determine the containing word for each char in char_v
+  
+  # 5. Map/merge word_freq to char_df 
+  
+  
+  # Prepare output (of mdf): 
   mdf <- mdf[order(mdf$ix), ]               # sort rows of mdf into original char order (ix):
   row.names(mdf) <- 1:nrow(mdf)             # add row names 1:n
   mdf <- mdf[, -which(names(mdf) == "ix")]  # remove "ix" column
+  names(mdf) <- c("char", "char_freq")      # set names
   
   return(mdf)
   
 } # text_stats(). 
 
 ## Check:
-# s3 <- c("A first sentence.", "The second sentence.",
-#         "A third --- and also THE  FINAL --- sentence.")
-# sum(nchar(s3))
-# tolower(s3)
-# 
-# (char_freq_vc <- count_chars(s3, case_sense = TRUE, rm_specials = FALSE, sort_freq = FALSE))
-# (char_freq_vc <- count_chars(s3, case_sense = FALSE, rm_specials = FALSE, sort_freq = FALSE))
-# (char_freq_vc <- count_chars(tolower(s3), case_sense = TRUE, rm_specials = FALSE, sort_freq = FALSE))
-# (char_freq_vc <- count_chars(tolower(s3), case_sense = FALSE, rm_specials = FALSE, sort_freq = FALSE))
-# 
-# char_freq_df <- as.data.frame(char_freq_vc)
-# names(char_freq_df) <- c("char", "freq")
-# dim(char_freq_df)
-# head(char_freq_df)
-# 
-# (word_freq_vc <- count_words(s3, case_sense = TRUE, sort_freq = TRUE))
-# word_freq_df <- as.data.frame(word_freq_vc)
-# names(word_freq_df) <- c("word", "freq")
-# head(word_freq_df)
-# 
-# text_stats(s3)
-# +++ here now +++ 
-# text_stats(s3, case_sense = FALSE)  # Counts for a/A and t/T are wrong!
+s3 <- c("A first sentence.", "The second sentence.",
+        "A third --- and also THE  FINAL --- sentence.")
+
+## Parts: 
+sum(nchar(s3))
+tolower(s3)
+
+(char_freq_vc <- count_chars(s3, case_sense = TRUE, rm_specials = FALSE, sort_freq = FALSE))
+(char_freq_vc <- count_chars(s3, case_sense = FALSE, rm_specials = FALSE, sort_freq = FALSE))
+(char_freq_vc <- count_chars(tolower(s3), case_sense = TRUE, rm_specials = FALSE, sort_freq = FALSE))
+(char_freq_vc <- count_chars(tolower(s3), case_sense = FALSE, rm_specials = FALSE, sort_freq = FALSE))
+
+char_freq_df <- as.data.frame(char_freq_vc)
+names(char_freq_df) <- c("char", "freq")
+dim(char_freq_df)
+head(char_freq_df)
+
+(word_freq_vc <- count_words(s3, case_sense = TRUE, sort_freq = TRUE))
+word_freq_df <- as.data.frame(word_freq_vc)
+names(word_freq_df) <- c("word", "freq")
+head(word_freq_df)
+
+## All in one:
+head(text_stats(s3))
+head(text_stats(s3, case_sense = FALSE))  # Check counts for a/A, i/I, and t/T! 
 
 
 
