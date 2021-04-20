@@ -1051,6 +1051,43 @@ text_to_words <- function(x  # string(s) of text
 # wv
 
 
+
+## text_to_chars: Turn a text (consisting of one or more strings) into a vector of its characters: ------ 
+
+# Note: Currently leaves all punctuation and spaces intact.
+
+text_to_chars <- function(x  # string(s) of text
+){
+  
+  # 0. Initialize:
+  chars <- NA
+  
+  # 1. Handle inputs:
+  x1 <- as.character(x)
+  
+  # 2. Main: 
+  # x2 <- unlist(strsplit(x1, split = "[[:punct:]]"))  # remove punctuation
+  # x3 <- unlist(strsplit(x2, split = "( ){1,}"))      # remove 1+ spaces
+  # wds <- x3[x3 != ""]  # remove instances of ""
+  
+  chars <- unlist(strsplit(x1, split = ""))
+  
+  # 3. Output: 
+  return(chars)
+  
+} # text_to_chars(). 
+
+## Check:
+# s3 <- c("A first sentence.", "The second sentence.",
+#         "A third --- and also THE   FINAL --- sentence.")
+# wv <- text_to_chars(s3)
+# text_to_chars(c("See 3 spaces:   ?"))
+# # Note: 
+# text_to_chars(c(1:3))
+# text_to_chars(c(NA, NA))
+# text_to_chars(c(NA))
+
+
 ## words_to_text: Turn a vector of words x into a (single) vector: ------ 
 
 # Inverse of text_to_words() above:
@@ -1307,6 +1344,19 @@ count_words <- function(x,  # string(s) of text
 # count_words(s3)                      # case-sens, sorts by frequency 
 # count_words(s3, case_sense = FALSE)  # case insensitive
 # count_words(s3, sort_freq = FALSE)   # sorts alphabetically
+
+
+## char_stats: Count the frequency of chars and corresponding words in a string (by char): -------- 
+
+# Goal: Given a string of text x, quantify the character and word frequency 
+#       for each character (i.e., in a table that contains as many rows as characters in x).
+
+char_stats <- function(x){
+  
+  
+  
+  
+}
 
 
 
