@@ -1051,7 +1051,6 @@ text_to_words <- function(x  # string(s) of text
 # wv
 
 
-
 ## text_to_chars: Turn a text (consisting of one or more strings) into a vector of its characters: ------ 
 
 # Note: Currently leaves all punctuation and spaces intact.
@@ -1523,7 +1522,86 @@ text_stats <- function(x, case_sense = TRUE){
 #   print(paste0("i = ", i, ": cur_word = ", cur_word))
 #   
 # }
-# 
+
+char_word <- function(x){
+  
+  len_x <- nchar(x)
+  no_word <- "[[:space:][:punct:]]"  # regex
+  
+  df <- data.frame(cur_char = rep(NA, len_x), 
+                   prev_char = rep(NA, len_x), 
+                   post_char = rep(NA, len_x),
+                   cur_word = rep(NA, len_x))
+  
+  if (len_x == 0){
+    
+    return(df)
+    
+  } else if (len_x == 1){
+    
+    df$cur_char[1] <- substr(x, 1, 1)
+    df$prev_char[1] <- ""
+    df$post_char[1] <- ""
+    df$cur_word[1] <- df$cur_char[1]
+    
+  } else { # len_x > 1: 
+    
+    # first char:
+    df$cur_char[1]  <- substr(x, 1, 1)
+    df$prev_char[1] <- ""
+    df$post_char[1] <- substr(x, 2, len_x)
+    
+    if (grepl(no_word, x = df$cur_char[1])){
+      df$cur_word[1] <- df$cur_char[1]
+    } else { # cur_char is part of cur_word:
+      all_post_words <- text_to_words(df$post_char[1])
+      df$cur_word[1] <- paste0(df$cur_char[1], all_post_words[1])
+    }
+    
+    if (len_x > 2){  
+      for (i in 2:(len_x - 1)){
+        
+        # middle chars:
+        df$cur_char[i]  <- substr(x, i, i)
+        df$prev_char[i] <- substr(x, 1, i - 1)
+        df$post_char[i] <- substr(x, i + 1, len_x)
+        
+        if (grepl(no_word, x = df$cur_char[i])){
+          df$cur_word[i] <- df$cur_char[i]
+        } else { # cur_char is part of cur_word:
+          all_prev_words <- text_to_words(df$prev_char[i])
+          all_post_words <- text_to_words(df$post_char[i])
+          n_prev_words   <- length(all_prev_words) 
+          df$cur_word[i] <- paste0(all_prev_words[n_prev_words], df$cur_char[i], all_post_words[1])
+        }
+        
+      }
+    }
+    
+    # final char:
+    df$cur_char[len_x]  <- substr(x, len_x, len_x)
+    df$prev_char[len_x] <- substr(x, 1, len_x - 1)
+    df$post_char[len_x] <- ""
+    
+    if (grepl(no_word, x = df$cur_char[len_x])){
+      df$cur_word[len_x] <- df$cur_char[len_x]
+    } else { # cur_char is part of cur_word:
+      all_prev_words <- text_to_words(df$prev_char[len_x])
+      # all_post_words <- text_to_words(df$post_char[len_x])
+      n_prev_words   <- length(all_prev_words) 
+      df$cur_word[len_x] <- paste0(all_prev_words[n_prev_words], df$cur_char[i])
+    }
+    
+  }
+  
+  return(df)
+  
+} # char_word(). 
+
+## Check:
+# char_word("The test.")
+# char_word(".")
+
 
 
 
