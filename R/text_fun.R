@@ -1346,17 +1346,30 @@ count_words <- function(x,  # string(s) of text
 # count_words(s3, sort_freq = FALSE)   # sorts alphabetically
 
 
-## char_stats: Count the frequency of chars and corresponding words in a string (by char): -------- 
+## text_stats: Count the frequency of chars and corresponding words in string(s) of text (by char): -------- 
 
 # Goal: Given a string of text x, quantify the character and word frequency 
 #       for each character (i.e., in a table that contains as many rows as characters in x).
 
-char_stats <- function(x){
+text_stats <- function(x){
   
+  # Convert into vector:
+  char_v <- text_to_chars(x)
   
+  # Get stats:
+  char_freq <- count_chars(x, case_sense = TRUE, rm_specials = FALSE, sort_freq = TRUE)
+  word_freq <- count_words(x, case_sense = TRUE, sort_freq = TRUE)
   
+  # ToDo:
+  # - map char_freq to char_v 
+  # - determine the containing word for each char in char_v
+  # - map word_freq to char_v
   
-}
+  return(char_v)
+  
+} # text_stats(). 
+
+
 
 
 
