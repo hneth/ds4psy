@@ -1,5 +1,5 @@
 ## plot_fun.R | ds4psy
-## hn | uni.kn | 2021 04 20
+## hn | uni.kn | 2021 04 21
 ## ---------------------------
 
 ## Functions for plotting. 
@@ -1840,6 +1840,48 @@ plot_chars <- function(file = "",  # "" read from console; "test.txt" read from 
 # head(tb)
 # 
 # unlink("test.txt")  # clean up (by deleting file).
+
+# # An artistic example:
+# # Source: H.C. Andersen: "Der Wassertropfen"
+# # See <https://www.projekt-gutenberg.org/andersen/reuscher/chap30.html>
+# txt <- c("Was hast du da fragte ein anderer",
+#          "alter Zauberer der keinen Namen",
+#          "hatte und das war ja gerade das",
+#          "feine an ihm",
+#          "Ja wenn du raten kannst was das",
+#          "ist sagte Kribbelkrabbel dann",
+#          "will ich es dir schenken aber",
+#          "es ist nicht leicht es ausfindig",
+#          "zu machen wenn man es nicht",
+#          "weisz",
+#          "der Zauberer der keinen Namen",
+#          "hatte blickte durch das Vergroe",
+#          "szerungsglas darunter sah es",
+#          "wirklich aus wie in einr gros",
+#          "szen Stadt in der alle Menschen",
+#          "ohne Kleider herumlaufen Es war",
+#          "schauderhaft aber erst recht",
+#          "schauerlich war es zu sehen wie",
+#          "der eine den anderen beiseite",
+#          "schob puffte und stiesz Wie sie",
+#          "hackten und schnappten zwick",
+#          "ten und zwackten wie sie einan",
+#          "der zerrten und zausten und bis")
+# 
+# TXT <- toupper(txt)
+# cat(TXT, file = "art.txt", sep = "\n")
+# 
+# # Plot: 
+# plot_chars("art.txt", col_bg = "white",
+#            lbl_rotate = "[:alpha:]", angle_bg = c(-180, +180),
+#            bg_hi = "Zauberer", lbl_hi = "Namen", case_sense = FALSE,
+#            cex = 5, borders = F, border_col = "grey80")
+# 
+# # Text stats:
+# head(text_stats(txt, case_sense = TRUE))
+# tail(text_stats(txt, case_sense = TRUE))
+# 
+# unlink("art.txt")  # clean up
 
 
 ## Done: ----------
