@@ -919,7 +919,7 @@ angle_map_match <- function(text, pattern = "[^[:space:]]", case_sense = TRUE,
 #' @export
 
 text_to_sentences <- function(x,  # string(s) of text
-                              split_delim = "\\.|\\?|!",  # sentence delimiters (as regex)
+                              split_delim = "\\.|\\?|!",  # sentence delimiters (as regex). ToDo: Consider "[[:punct:]]".
                               force_delim = FALSE         # force split at delimiters
 ){
   
@@ -1025,8 +1025,7 @@ text_to_sentences <- function(x,  # string(s) of text
 #' 
 #' @export
 
-text_to_words <- function(x  # string(s) of text
-){
+text_to_words <- function(x){  # string(s) of text
   
   # 0. Initialize:
   wds <- NA
@@ -1047,8 +1046,22 @@ text_to_words <- function(x  # string(s) of text
 ## Check:
 # s3 <- c("A first sentence.", "The second sentence.",
 #         "A third --- and also the final --- sentence.")
-# wv <- text_to_words(s3)
-# wv
+# (wv <- text_to_words(s3))
+
+
+# text_to_words_regex: Alternative to text_to_words (using 1 regex): -------- 
+
+text_to_words_regex <- function(x){  # string(s) of text
+  
+  unlist(regmatches(x, gregexpr(pattern = "\\w+", x)))
+  
+}
+
+## Check:
+# s2 <- c("This is  a  test.", "Does this work?")
+# text_to_words_regex(s2)
+# text_to_words_regex(s3)
+
 
 
 ## text_to_chars: Turn a text (consisting of one or more strings) into a vector of its characters: ------ 
@@ -1415,6 +1428,156 @@ count_str <- function(x, pattern, split = ""){
 # (i.e., how often a pattern is matched.)
 
 
+## Get the rest of the cur word (or next word part) of text string x from a current position i: ------
+
+cur_word_rest <- function(x, i){
+  
+  len_x <- nchar(x)
+  no_word <- "[[:space:][:punct:]]"  # regex
+  nwp <- NA 
+  
+  if (i > len_x){
+    
+    return(NA)
+    
+  } else {
+    
+    # Main: 
+    remaining_chars <- substr(x, i, len_x)
+    bounds_ls <- gregexpr(pattern = no_word, remaining_chars)  # location/lengths of all bounds (as list)
+    bounds_vc <- unlist(bounds_ls[[1]])  # locations of all bounds (as vector)
+    
+    if (bounds_vc[1] == -1){  # no more bounds:
+      nwp <- remaining_chars  # new word is all of remaining_chars
+    } else {  # there are bounds: 
+      nwp <- substr(remaining_chars, 1, (bounds_vc[1] - 1))  # word rest goes from HERE to (next bound - 1)
+    }
+    
+  }
+  
+  return(nwp)
+  
+} # cur_word_rest(). 
+
+## Check: 
+# ts <- "=A test!"
+# nchar(ts)
+# cur_word_rest(ts, i = 1)
+# cur_word_rest(ts, i = 2)
+# cur_word_rest(ts, i = 3)
+# cur_word_rest(ts, i = 4)
+# cur_word_rest(ts, i = 7)
+# cur_word_rest(ts, i = 8)
+
+
+## Get all characters and their corresponding words (of a text string x) as df: ------ 
+
+char_word <- function(x){  # A string of text x
+  
+  # Inputs:
+  x0 <- as.character(x)
+  
+  if (length(x0) > 1){  # Collapse multi-string inputs:
+    x0 <- paste(x0, collapse = " ")  # collapse x0 into 1 string (ADDING 1 space between strings!)
+  }
+  
+  # Initialize:
+  len_x <- nchar(x0)
+  no_word <- "[[:space:][:punct:]]"  # regex
+  
+  cur_char  <- rep("", len_x) 
+  # first_char <- rep(NA, len_x)  # 4debugging 
+  cur_word  <- rep("", len_x)
+  
+  
+  if (len_x == 0){
+    
+    df <- data.frame(cur_char,
+                     # first_char, # 4debugging 
+                     cur_word, 
+                     stringsAsFactors = FALSE)
+    names(df) <- c("char", "word")
+    
+    return(df)  # return early!
+    
+  } else { # len_x > 0: 
+    
+    # (A) initial char:
+    cur_char[1]  <- substr(x0, 1, 1)
+    
+    # Is initial char a new first char?
+    if (grepl(no_word, x = cur_char[1])){
+      
+      # first_char[1] <- FALSE
+      cur_word[1] <- ""  # no word
+      
+    } else { # cur_char is first_char:
+      
+      # first_char[1] <- TRUE
+      cur_word[1] <- cur_word_rest(x0, i = 1)  # get new cur_word!
+      
+    } # if first char end.
+    
+    if (len_x > 2){  
+      for (i in 2:len_x){
+        
+        # (B) middle chars:
+        cur_char[i]  <- substr(x0, i, i)
+        
+        # Is current char a new first char?
+        if (grepl(no_word, x = cur_char[(i - 1)])){ # previous char was NOT a word:
+          
+          if (grepl(no_word, x = cur_char[i])){ # Is cur char NOT a word?
+            
+            # first_char[i] <- FALSE
+            cur_word[i]   <- ""  # no word
+            
+          } else { # cur_char is a new first_char:
+            
+            # first_char[i] <- TRUE
+            cur_word[i] <- cur_word_rest(x0, i = i)  # get new cur_word!
+            
+          }
+          
+        } else { # previous char WAS (part of) a word:
+          
+          # first_char[i] <- FALSE 
+          
+          if (grepl(no_word, x = cur_char[i])){ # Is cur char NOT a word?
+            
+            cur_word[i]   <- ""  # no word
+            
+          } else { # cur_char is a new first_char:
+            
+            cur_word[i] <- cur_word[(i - 1)]  # keep last word
+            
+          }
+        }
+        
+      } # loop i end. 
+    } # (len_x > 2) end.
+  } # (len_x > 0) end.  
+  
+  # Output:
+  df <- data.frame(cur_char,
+                   # first_char, # 4debugging 
+                   cur_word, 
+                   stringsAsFactors = FALSE)
+  names(df) <- c("char", "word")
+  
+  return(df)
+  
+} # char_word(). 
+
+## Check:
+# char_word("The ? test etc.")
+# char_word("A")
+# char_word(" Hi! WOW?? good")
+# # Note:
+# ms <- c("Nr. 1", "2nd etc.")
+# char_word(ms)  # Numbers viewed as words
+# char_word("")
+
 
 ## text_stats: Count the frequency of chars and corresponding words in string(s) of text (by char): -------- 
 
@@ -1426,25 +1589,29 @@ count_str <- function(x, pattern, split = ""){
 
 text_stats <- function(x, case_sense = TRUE){
   
-  # Initialize:
-  x0 <- NA
+  # Inputs:
+  x0 <- as.character(x)
+  
+  if (length(x0) > 1){  # Collapse multi-string inputs:
+    x0 <- paste(x0, collapse = " ")  # collapse x0 into 1 string (ADDING 1 space between strings!)
+  }
+  
   if (!case_sense) {
-    x0 <- tolower(x)  # work with lowercase x (everywhere)
-  }  else {
-    x0 <- x
+    x0 <- tolower(x0)  # work with lowercase x (everywhere)
   }
   
   # Convert x0 into vector & data frame:
   char_vc <- text_to_chars(x = x0)
   char_df <- as.data.frame(char_vc)  # as df
-  names(char_df) <- c("char_0")  
+  names(char_df) <- c("char_0")
   char_df$ix <- 1:nrow(char_df)  # add ix of row (to enable sorting by it later)
   
   # Get stats (using x0, NOT char_df$char):
-  # 1. Character frequency:
+  # 1. Get character frequency:
   char_freq_vc <- count_chars(x = x0, case_sense = case_sense, rm_specials = FALSE, sort_freq = FALSE)  # (named) vector
   char_freq_df <- as.data.frame(char_freq_vc)  # as df
   names(char_freq_df) <- c("char_1", "char_freq")
+  
   
   # 2. Map/merge char_freq to char_df:
   # NOTE that merge() has trouble merging characters with different ("t" vs. "T") cases!
@@ -1452,31 +1619,49 @@ text_stats <- function(x, case_sense = TRUE){
                by.x = "char_0", by.y = "char_1", 
                all.x = TRUE, sort = FALSE, no.dups = FALSE)
   
-  # 3. Word frequency (using x0): 
+  # Note that merge changes row order:
+  mdf <- mdf[order(mdf$ix), ]  # restore original char order (ix):
+
+  
+  # 3. Determine the containing word for each char in char_vc:
+  char_word_df <- char_word(x = x0)  # use helper function (on x0)!  
+  
+  if (nrow(char_word_df) == nrow(mdf)){  # check for same nrow() in both df:
+    
+    mdf$word <- char_word_df$word  # add word to mdf  
+    
+  } else {
+    
+    message("text_stats: nrow() of 2 dfs differ, but should not.")
+    
+  }
+  
+  
+  # 4. Get word frequency (using x0): 
   word_freq_vc <- count_words(x = x0, case_sense = case_sense, sort_freq = FALSE)  # (named) vector
   word_freq_df <- as.data.frame(word_freq_vc)  # as df
   names(word_freq_df) <- c("word", "word_freq")
   
+
   # ToDo: +++ here now +++ 
-  
-  # 4. determine the containing word for each char in char_v
   
   # 5. Map/merge word_freq to char_df 
   
   
   # Prepare output (of mdf): 
-  mdf <- mdf[order(mdf$ix), ]               # sort rows of mdf into original char order (ix):
+
   row.names(mdf) <- 1:nrow(mdf)             # add row names 1:n
   mdf <- mdf[, -which(names(mdf) == "ix")]  # remove "ix" column
-  names(mdf) <- c("char", "char_freq")      # set names
+  
+  names(mdf) <- c("char", "char_freq", "word")  # set names
   
   return(mdf)
   
 } # text_stats(). 
 
 ## Check:
-# s3 <- c("A first sentence.", "The second sentence.",
-#         "A third --- and also THE  FINAL --- sentence.")
+s3 <- c("A 1st sentence.", "The 2nd sentence.",
+        "A 3rd --- and THE  FINAL --- sentence.")
 # 
 # ## Parts: 
 # sum(nchar(s3))
@@ -1498,110 +1683,15 @@ text_stats <- function(x, case_sense = TRUE){
 # head(word_freq_df)
 # 
 # ## All in one:
-# head(text_stats(s3))
-# head(text_stats(s3, case_sense = FALSE))  # Check counts for a/A, i/I, and t/T! 
+head(text_stats(s3))
+head(text_stats(s3, case_sense = FALSE))  # Check counts for a/A, i/I, and t/T! 
+tail(text_stats(s3))
+tail(text_stats(s3, case_sense = FALSE))
 # 
 # 
 # # Find current word for each position in a string:
 # s4 <- "This is a test."
-# text_to_words("This is a test.")
-# (ls <- gregexpr("(\\w+)", text = s4))  # get all word start and lengths (as list)!
-# (word_start  <- unlist(ls))
-# (word_length <- attr(ls[[1]], "match.length"))
-# 
-# for (i in 1:nchar(s4)){
-#   
-#   ix_start <- which(i > word_start)
-#   ix_last_start <- word_start[length(ix_start)]
-#   
-#   cur_start  <- s4[ix_last_start]
-#   cur_length <- word_length[ix_last_start]
-#   
-#   cur_word <- substr(s4, start = cur_start, stop = (cur_length - 1))
-#   
-#   print(paste0("i = ", i, ": cur_word = ", cur_word))
-#   
-# }
-
-char_word <- function(x){
-  
-  len_x <- nchar(x)
-  no_word <- "[[:space:][:punct:]]"  # regex
-  
-  df <- data.frame(cur_char = rep(NA, len_x), 
-                   prev_char = rep(NA, len_x), 
-                   post_char = rep(NA, len_x),
-                   cur_word = rep(NA, len_x))
-  
-  if (len_x == 0){
-    
-    return(df)
-    
-  } else if (len_x == 1){
-    
-    df$cur_char[1] <- substr(x, 1, 1)
-    df$prev_char[1] <- ""
-    df$post_char[1] <- ""
-    df$cur_word[1] <- df$cur_char[1]
-    
-  } else { # len_x > 1: 
-    
-    # first char:
-    df$cur_char[1]  <- substr(x, 1, 1)
-    df$prev_char[1] <- ""
-    df$post_char[1] <- substr(x, 2, len_x)
-    
-    if (grepl(no_word, x = df$cur_char[1])){
-      df$cur_word[1] <- df$cur_char[1]
-    } else { # cur_char is part of cur_word:
-      all_post_words <- text_to_words(df$post_char[1])
-      df$cur_word[1] <- paste0(df$cur_char[1], all_post_words[1])
-    }
-    
-    if (len_x > 2){  
-      for (i in 2:(len_x - 1)){
-        
-        # middle chars:
-        df$cur_char[i]  <- substr(x, i, i)
-        df$prev_char[i] <- substr(x, 1, i - 1)
-        df$post_char[i] <- substr(x, i + 1, len_x)
-        
-        if (grepl(no_word, x = df$cur_char[i])){
-          df$cur_word[i] <- df$cur_char[i]
-        } else { # cur_char is part of cur_word:
-          all_prev_words <- text_to_words(df$prev_char[i])
-          all_post_words <- text_to_words(df$post_char[i])
-          n_prev_words   <- length(all_prev_words) 
-          df$cur_word[i] <- paste0(all_prev_words[n_prev_words], df$cur_char[i], all_post_words[1])
-        }
-        
-      }
-    }
-    
-    # final char:
-    df$cur_char[len_x]  <- substr(x, len_x, len_x)
-    df$prev_char[len_x] <- substr(x, 1, len_x - 1)
-    df$post_char[len_x] <- ""
-    
-    if (grepl(no_word, x = df$cur_char[len_x])){
-      df$cur_word[len_x] <- df$cur_char[len_x]
-    } else { # cur_char is part of cur_word:
-      all_prev_words <- text_to_words(df$prev_char[len_x])
-      # all_post_words <- text_to_words(df$post_char[len_x])
-      n_prev_words   <- length(all_prev_words) 
-      df$cur_word[len_x] <- paste0(all_prev_words[n_prev_words], df$cur_char[i])
-    }
-    
-  }
-  
-  return(df)
-  
-} # char_word(). 
-
-## Check:
-# char_word("The test.")
-# char_word(".")
-
+# char_word(s4)
 
 
 
