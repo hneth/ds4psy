@@ -1,5 +1,5 @@
 ## text_fun.R | ds4psy
-## hn | uni.kn | 2021 04 20
+## hn | uni.kn | 2021 04 21
 ## ---------------------------
 
 ## Character objects and functions for string/text objects. 
@@ -1049,7 +1049,7 @@ text_to_words <- function(x){  # string(s) of text
 # (wv <- text_to_words(s3))
 
 
-# text_to_words_regex: Alternative to text_to_words (using 1 regex): -------- 
+## text_to_words_regex: Alternative to text_to_words (using 1 regex): -------- 
 
 text_to_words_regex <- function(x){  # string(s) of text
   
@@ -1381,8 +1381,7 @@ count_words <- function(x,  # string(s) of text
 #   
 # }
 
-
-## Count the number of pattern matches in a string: -------- 
+## Count the number of pattern matches in a string:
 
 count_str <- function(x, pattern, split = ""){
   
@@ -1428,7 +1427,7 @@ count_str <- function(x, pattern, split = ""){
 # (i.e., how often a pattern is matched.)
 
 
-## Get the rest of the cur word (or next word part) of text string x from a current position i: ------
+## cur_word_rest: Get rest of cur word (or next word part) in text string x from a current position i: ------
 
 cur_word_rest <- function(x, i){
   
@@ -1470,7 +1469,7 @@ cur_word_rest <- function(x, i){
 # cur_word_rest(ts, i = 8)
 
 
-## Get all characters and their corresponding words (of a text string x) as df: ------ 
+## char_word: Get all characters and their corresponding words (of a text string x, as df): ------ 
 
 char_word <- function(x){  # A string of text x
   
@@ -1621,7 +1620,7 @@ text_stats <- function(x, case_sense = TRUE){
   
   # Note that merge changes row order:
   mdf <- mdf[order(mdf$ix), ]  # restore original char order (ix):
-
+  
   
   # 3. Determine the containing word for each char in char_vc:
   char_word_df <- char_word(x = x0)  # use helper function (on x0)!  
@@ -1640,58 +1639,38 @@ text_stats <- function(x, case_sense = TRUE){
   # 4. Get word frequency (using x0): 
   word_freq_vc <- count_words(x = x0, case_sense = case_sense, sort_freq = FALSE)  # (named) vector
   word_freq_df <- as.data.frame(word_freq_vc)  # as df
-  names(word_freq_df) <- c("word", "word_freq")
-  
-
-  # ToDo: +++ here now +++ 
-  
-  # 5. Map/merge word_freq to char_df 
+  names(word_freq_df) <- c("word_2", "word_freq")
   
   
-  # Prepare output (of mdf): 
-
+  # 5. Map/merge word_freq to char_df: 
+  mdf <- merge(x = mdf, y = word_freq_df, 
+               by.x = "word", by.y = "word_2", 
+               all.x = TRUE, sort = FALSE, no.dups = FALSE)
+  
+  # Note that merge changes row and col order:
+  mdf <- mdf[order(mdf$ix), ]  # restore original char order (ix):
+  mdf <- mdf[ , order(names(mdf))]  # sort column order
+  
+  
+  # 6. Output: 
   row.names(mdf) <- 1:nrow(mdf)             # add row names 1:n
   mdf <- mdf[, -which(names(mdf) == "ix")]  # remove "ix" column
-  
-  names(mdf) <- c("char", "char_freq", "word")  # set names
+  names(mdf) <- c("char", "char_freq", "word", "word_freq")  # set names
   
   return(mdf)
   
 } # text_stats(). 
 
 ## Check:
-s3 <- c("A 1st sentence.", "The 2nd sentence.",
-        "A 3rd --- and THE  FINAL --- sentence.")
-# 
-# ## Parts: 
-# sum(nchar(s3))
-# tolower(s3)
-# 
-# (char_freq_vc <- count_chars(s3, case_sense = TRUE, rm_specials = FALSE, sort_freq = FALSE))
-# (char_freq_vc <- count_chars(s3, case_sense = FALSE, rm_specials = FALSE, sort_freq = FALSE))
-# (char_freq_vc <- count_chars(tolower(s3), case_sense = TRUE, rm_specials = FALSE, sort_freq = FALSE))
-# (char_freq_vc <- count_chars(tolower(s3), case_sense = FALSE, rm_specials = FALSE, sort_freq = FALSE))
-# 
-# char_freq_df <- as.data.frame(char_freq_vc)
-# names(char_freq_df) <- c("char", "freq")
-# dim(char_freq_df)
-# head(char_freq_df)
-# 
-# (word_freq_vc <- count_words(s3, case_sense = TRUE, sort_freq = TRUE))
-# word_freq_df <- as.data.frame(word_freq_vc)
-# names(word_freq_df) <- c("word", "freq")
-# head(word_freq_df)
-# 
-# ## All in one:
-head(text_stats(s3))
-head(text_stats(s3, case_sense = FALSE))  # Check counts for a/A, i/I, and t/T! 
-tail(text_stats(s3))
-tail(text_stats(s3, case_sense = FALSE))
-# 
-# 
-# # Find current word for each position in a string:
-# s4 <- "This is a test."
-# char_word(s4)
+# text_stats("A test to TEST a fun.")
+# text_stats("A test to TEST a fun.", case_sense = FALSE)
+# # Multiple text strings:
+# s3 <- c("A 1st sentence.", "The 2nd sentence.",
+#         "A 3rd --- and THE  FINAL --- sentence.")
+# head(text_stats(s3))
+# head(text_stats(s3, case_sense = FALSE))  # Check counts for a/A, i/I, and t/T! 
+# tail(text_stats(s3))
+# tail(text_stats(s3, case_sense = FALSE))
 
 
 
