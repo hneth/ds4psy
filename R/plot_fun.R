@@ -1264,7 +1264,7 @@ plot_text <- function(file = "",  # "" read from console; "test.txt" read from f
   
   # (1) Read text file into a table: 
   tb_txt <- read_ascii(file = file, flip_y = TRUE)
-  nr_chars <- nrow(tb_txt)
+  nr_txt <- nrow(tb_txt)  # (nrows in txt)
   # tb_txt  # 4debugging
   
   
@@ -1302,8 +1302,8 @@ plot_text <- function(file = "",  # "" read from console; "test.txt" read from f
   # nr_char_freq  # 4debugging
   
   ## (+) Check:
-  # if (nr_char_freq != nr_chars){
-  #   message("plot_text: nr_char_freq differs from nr_chars.")
+  # if (nr_char_freq != nr_txt){
+  #   message("plot_text: nr_char_freq differs from nr_txt.")
   # } 
   
   
@@ -1328,7 +1328,7 @@ plot_text <- function(file = "",  # "" read from console; "test.txt" read from f
   
   
   # (B) Use color palette to create a color map (by frequency of chars in tb_txt):
-  col_map <- rep(col_bg, nr_chars)       # initialize color map
+  col_map <- rep(col_bg, nr_txt)       # initialize color map
   n_replace <- min(nr_colors, nr_unique_chars)  # limit number of replacements 
   # print(n_replace)  # 4debugging
   
@@ -1358,7 +1358,7 @@ plot_text <- function(file = "",  # "" read from console; "test.txt" read from f
   
   # lbl_rotate <- TRUE  # FALSE (default)
   if (lbl_rotate){
-    char_angles <- round(stats::runif(n = nr_chars, min = 0, max = 360), 0)
+    char_angles <- round(stats::runif(n = nr_txt, min = 0, max = 360), 0)
   } else {
     char_angles <- 0
   }
@@ -1672,7 +1672,7 @@ plot_chars <- function(file = "",  # "" read from console; "test.txt" read from 
   # (1) Read text file into a table: ------  
   
   tb_txt <- read_ascii(file = file, flip_y = TRUE)
-  nr_chars <- nrow(tb_txt)
+  nr_txt <- nrow(tb_txt)  # (nrows in txt)
   # tb_txt  # 4debugging
   
   
@@ -1741,7 +1741,7 @@ plot_chars <- function(file = "",  # "" read from console; "test.txt" read from 
       
       if (length(angle_bg) > 1){
         rangel <- range(angle_bg)
-        char_angles <- round(stats::runif(n = nr_chars, min = rangel[1], max = rangel[2]), 0)
+        char_angles <- round(stats::runif(n = nr_txt, min = rangel[1], max = rangel[2]), 0)
       } else {
         char_angles <- angle_bg
       }
@@ -1774,8 +1774,8 @@ plot_chars <- function(file = "",  # "" read from console; "test.txt" read from 
   
   
   # (6) Output: ------ 
-  # return(char_s)  # 4debugging 
   return(invisible(tb_txt))
+  # return(char_s)  # 4debugging 
   
 } # plot_chars(). 
 
@@ -1788,11 +1788,11 @@ plot_chars <- function(file = "",  # "" read from console; "test.txt" read from 
 #     "Good! Please carry on...",
 #     file = "test.txt", sep = "\n")
 # 
-# # (a) Plot text from file:
+# # (a) Plot & mark text from file:
 # plot_chars("test.txt")  # default
 # plot_chars("test.txt", lbl_hi = "[[:upper:]]", lbl_lo = "[[:punct:]]", col_lbl_hi = "red", col_lbl_lo = "cyan")
 # plot_chars("test.txt", lbl_hi = "\\b\\w{4}\\b", col_lbl_hi = "red", col_bg = "white", bg_hi = "see")  # mark fg of four-letter words
-# plot_chars("test.txt", lbl_hi = "[aeiou]", col_lbl_hi = "red", col_bg = "white", bg_hi = "see")  # mark vowels and "see"
+# plot_chars("test.txt", lbl_hi = "[aeiou]", col_lbl_hi = "red", col_bg = "white", bg_hi = "test")  # mark vowels and "see"
 # plot_chars("test.txt", bg_hi = "\\b\\w{4}\\b", col_bg_hi = "gold")  # mark bg of 4-letter words
 # plot_chars("test.txt", bg_hi = "[aeiou]", col_bg_hi = "gold")  # mark vowels (in bg)
 # 
@@ -1815,12 +1815,12 @@ plot_chars <- function(file = "",  # "" read from console; "test.txt" read from 
 #            col_bg = c("grey10", "grey15", "grey20"),
 #            col_bg_hi = pal_ds4psy[1:3], col_bg_lo = "grey80",
 #            col_lbl_hi = c("gold1", "gold2"),
-#            cex = 5, fontface = 2)
+#            col_sample = FALSE, cex = 5, fontface = 2)
 # 
 # # Sampling colors (within each category only):
 # plot_chars(file = "test.txt", lbl_hi = "[aeiou]", bg_hi = "te.t",
-#            col_lbl = c("grey95", "grey85"), col_bg = c("grey10", "grey20"),
-#            col_bg_hi = pal_ds4psy[1:3],  col_bg_lo = c("grey80", "grey70"),
+#            col_lbl = c("grey95", "grey85"), col_bg = c("grey1", "grey10", "grey20"),
+#            col_bg_hi = pal_ds4psy[1:3],  col_bg_lo = c("grey90", "grey80", "grey70"),
 #            col_lbl_hi = c("gold1", "gold3"),
 #            col_sample = TRUE, cex = 5, fontface = 2)
 # 
@@ -1829,7 +1829,8 @@ plot_chars <- function(file = "",  # "" read from console; "test.txt" read from 
 #            col_bg = "white", col_bg_hi = "gold", col_lbl_hi = "red",
 #            borders = TRUE, border_col = "black")
 # 
-# plot_chars(file = "test.txt", lbl_hi = "te.t", bg_hi = "te.t",
+# plot_chars(file = "test.txt", 
+#            lbl_hi = "te.t", bg_hi = "te.t", lbl_rotate = ".his", 
 #            col_bg_hi = "gold", col_lbl_hi = "red3",
 #            cex = 6, family = "mono", fontface = 2,
 #            borders = TRUE, border_col = "black", border_size = .2)
@@ -1871,11 +1872,11 @@ plot_chars <- function(file = "",  # "" read from console; "test.txt" read from 
 # TXT <- toupper(txt)
 # cat(TXT, file = "art.txt", sep = "\n")
 # 
-# # Plot: 
+# # Plot:
 # plot_chars("art.txt", col_bg = "white",
 #            lbl_rotate = "[:alpha:]", angle_bg = c(-180, +180),
 #            bg_hi = "Zauberer", lbl_hi = "Namen", case_sense = FALSE,
-#            cex = 5, borders = F, border_col = "grey80")
+#            cex = 7, borders = F, border_col = "grey80")
 # 
 # # Text stats:
 # head(text_stats(txt, case_sense = TRUE))
