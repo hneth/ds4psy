@@ -36,7 +36,7 @@ working directory. This replaces the \bold{here} package,
 which was previously used to determine an (absolute) file path. 
 
 Note that \code{read_ascii} originally contained  
-\code{\link{map_text_chars}}, but has been separated to 
+\code{\link{map_text_coord}}, but has been separated to 
 enable independent access to separate functionalities.
 }
 \examples{
@@ -62,7 +62,7 @@ enable independent access to separate functionalities.
 
 }
 \seealso{
-\code{\link{map_text_chars}} for mapping text to a table of characters;  
+\code{\link{map_text_coord}} for mapping text to a table of character coordinates;  
 \code{\link{plot_chars}} for a character plotting function.
 
 Other text objects and functions: 
@@ -75,6 +75,7 @@ Other text objects and functions:
 \code{\link{count_words}()},
 \code{\link{l33t_rul35}},
 \code{\link{map_text_chars}()},
+\code{\link{map_text_coord}()},
 \code{\link{metachar}},
 \code{\link{text_to_sentences}()},
 \code{\link{text_to_words}()},
