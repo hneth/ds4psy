@@ -21,7 +21,7 @@ The book and course [Data Science for Psychologists](https://bookdown.org/hneth/
 
 -------- 
 
-# ds4psy 0.6.0.9008
+# ds4psy 0.6.0.9010
 
 Current development version of **ds4psy** (0.6.0.9001+) [on GitHub](https://github.com/hneth/ds4psy/). [2021-04-22] 
 
@@ -33,14 +33,21 @@ Changes since last release:
 
 ## Major changes 
 
-- added `plot_chars()` for plotting text characters and visualizing pattern matches (specified as regular expressions) 
-by coloring labels and background tiles 
-- added `count_chars_words()` for counting the frequency of both characters and words in text strings 
+- Breaking change: The function `read_ascii()` was split into 2 parts (to enable independent access to their functionality): 
+    1. A new `read_ascii()` reads text (from file or user input) into a character string;  
+    2. A new `map_text_chars()` converts a character string into a table of its characters (with x/y-coordinates).  
+
+<!-- Add blank line. --> 
+
+- Added `plot_chars()` for plotting text characters and visualizing pattern matches (specified as regular expressions) 
+by coloring labels and background tiles.  
+
+- Added `count_chars_words()` for counting the frequency of both characters and words in text strings.  
 
 
 ## Minor changes 
 
-- added functionality to `plot_text()` (to be replaced by `plot_chars()`) 
+- added functionality to `plot_text()` (but see `plot_chars()`) 
 - added utility functions for locating, identifying, and assigning vectors (of color/angle maps) to text strings matching a pattern 
 - added utility functions for converting (individual) character strings to text (preserving spaces) 
 - added utility functions for counting the frequency of characters and words in text strings 
