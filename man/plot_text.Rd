@@ -5,6 +5,7 @@
 \title{Plot text characters (from file or user input).}
 \usage{
 plot_text(
+  x = NA,
   file = "",
   char_bg = " ",
   lbl_tiles = TRUE,
@@ -23,13 +24,18 @@ plot_text(
 )
 }
 \arguments{
-\item{file}{The text file to read (or its path). 
-If \code{file = ""} (the default), \code{scan} is used 
-to read user input from the Console. 
+\item{x}{The text to plot (as a character vector). 
+Different elements denote different lines of text. 
+If \code{x = NA} (as per default), 
+the \code{file} argument is used to read 
+a text file or user input from the Console.}
+
+\item{file}{A text file to read (or its path). 
+If \code{file = ""} (as per default), 
+\code{scan} is used to read user input from the Console. 
 If a text file is stored in a sub-directory, 
 enter its path and name here (without any leading or 
-trailing "." or "/"). 
-Default: \code{file = ""}.}
+trailing "." or "/").}
 
 \item{char_bg}{Character used as background. 
 Default: \code{char_bg = " "}. 
