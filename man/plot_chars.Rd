@@ -185,7 +185,8 @@ description of the plot (as a data frame).
 }
 \seealso{
 \code{\link{plot_text}} for plotting characters and color tiles by frequency; 
-\code{\link{read_ascii}} for reading text into a table; 
+\code{\link{read_ascii}} for reading text inputs into a character string; 
+\code{\link{map_text_chars}} for mapping text to a table of characters; 
 \code{\link{pal_ds4psy}} for default color palette.
 
 Other plot functions: 
