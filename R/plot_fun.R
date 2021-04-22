@@ -1092,13 +1092,18 @@ plot_fn <- function(x = NA,
 #' 
 #' @return An invisible data frame describing the plot.
 #' 
-#' @param file The text file to read (or its path). 
-#' If \code{file = ""} (the default), \code{scan} is used 
-#' to read user input from the Console. 
+#' @param x The text to plot (as a character vector). 
+#' Different elements denote different lines of text. 
+#' If \code{x = NA} (as per default), 
+#' the \code{file} argument is used to read 
+#' a text file or user input from the Console. 
+#' 
+#' @param file A text file to read (or its path). 
+#' If \code{file = ""} (as per default), 
+#' \code{scan} is used to read user input from the Console. 
 #' If a text file is stored in a sub-directory, 
 #' enter its path and name here (without any leading or 
 #' trailing "." or "/"). 
-#' Default: \code{file = ""}. 
 #' 
 #' @param char_bg Character used as background. 
 #' Default: \code{char_bg = " "}. 
@@ -1208,8 +1213,10 @@ plot_fn <- function(x = NA,
 #' 
 #' @export 
 
-plot_text <- function(file = "",  # "" read from console; "test.txt" read from file
-                      char_bg = " ",  # character used as background, if char_bg = NA: most frequent char.
+plot_text <- function(x = NA,     # Text string(s) to plot 
+                      file = "",  # "" reads user input from console; "test.txt" reads from file
+                      
+                      char_bg = " ",  # A character used as background, if char_bg = NA: most frequent char.
                       
                       # text format:
                       lbl_tiles = TRUE, 
@@ -1243,6 +1250,7 @@ plot_text <- function(file = "",  # "" read from console; "test.txt" read from f
   height <- 1
   width  <- 1
   
+  
   # (0) Interpret inputs: ------ 
   
   if (!lbl_tiles) {col_lbl <- NA}
@@ -1263,11 +1271,22 @@ plot_text <- function(file = "",  # "" read from console; "test.txt" read from f
     brd_size <- NA  # hide label
   }
   
-  # (1) Read text input into a text string (txt_ip) and character table (tb_txt): 
-  txt_ui <- read_ascii(file = file, quiet = FALSE)     # 1. read user input
-  tb_txt <- map_text_chars(x = txt_ui, flip_y = TRUE)  # 2. map to x/y-table
-  nr_txt <- nrow(tb_txt)                               # =  elements/nrows in txt_ui
+  
+  # (1) Read text input into a text string (txt_ui) and character table (tb_txt): ------ 
+  
+  if (all(is.na(x))){  # Case 1: Read text from file or user input (Console): 
+    
+    txt_ui <- read_ascii(file = file, quiet = FALSE)     # 1. read user input (UI)
+    tb_txt <- map_text_chars(x = txt_ui, flip_y = TRUE)  # 2. map UI to x/y-table
+    
+  } else {  # Case 2: Use the character vector provided as x:
+    
+    tb_txt <- map_text_chars(x = x, flip_y = TRUE)       # 3. map x to x/y-table
+    
+  } # if (is,na(x)) end.
+  
   # tb_txt  # 4debugging
+  nr_txt <- nrow(tb_txt)  # (elements/nrows of x/text)
   
   
   # (2) Determine frequency of chars: ------ 
@@ -1475,13 +1494,18 @@ plot_text <- function(file = "",  # "" read from console; "test.txt" read from f
 #' 
 #' @return An invisible data frame describing the plot.
 #' 
-#' @param file The text file to read (or its path). 
-#' If \code{file = ""} (the default), \code{scan} is used 
-#' to read user input from the Console. 
+#' @param x The text to plot (as a character vector). 
+#' Different elements denote different lines of text. 
+#' If \code{x = NA} (as per default), 
+#' the \code{file} argument is used to read 
+#' a text file or user input from the Console. 
+#' 
+#' @param file A text file to read (or its path). 
+#' If \code{file = ""} (as per default), 
+#' \code{scan} is used to read user input from the Console. 
 #' If a text file is stored in a sub-directory, 
 #' enter its path and name here (without any leading or 
 #' trailing "." or "/"). 
-#' Default: \code{file = ""}. 
 #' 
 #' @param lbl_hi Labels to highlight (as regex). 
 #' Default: \code{lbl_hi = NA}. 
@@ -1607,7 +1631,8 @@ plot_text <- function(file = "",  # "" read from console; "test.txt" read from f
 #' 
 #' @export 
 
-plot_chars <- function(file = "",  # "" read from console; "test.txt" read from file
+plot_chars <- function(x = NA,     # Text string(s) to plot 
+                       file = "",  # "" reads user input from console; "test.txt" reads from file
                        
                        # 5 regex patterns (to emphasize and de-emphasize matching characters in text string): 
                        lbl_hi = NA, # "asdf",   # [[:upper:]]",   # labels to highlight (as regex)
@@ -1672,13 +1697,22 @@ plot_chars <- function(file = "",  # "" read from console; "test.txt" read from 
     brd_size <- NA  # hide
   }
   
-
-  # (1) Read text input into a text string (txt_ip) and character table (tb_txt): ------ 
   
-  txt_ui <- read_ascii(file = file, quiet = FALSE)     # 1. read user input
-  tb_txt <- map_text_chars(x = txt_ui, flip_y = TRUE)  # 2. map to x/y-table
-  nr_txt <- nrow(tb_txt)                               # =  elements/nrows in txt_ui
+  # (1) Read text input into a text string (txt_ui) and character table (tb_txt): ------ 
+  
+  if (all(is.na(x))){  # Case 1: Read text from file or user input (Console): 
+    
+    txt_ui <- read_ascii(file = file, quiet = FALSE)     # 1. read user input (UI)
+    tb_txt <- map_text_chars(x = txt_ui, flip_y = TRUE)  # 2. map UI to x/y-table
+    
+  } else {  # Case 2: Use the character vector provided as x:
+    
+    tb_txt <- map_text_chars(x = x, flip_y = TRUE)       # 3. map x to x/y-table
+    
+  } # if (is,na(x)) end.
+  
   # tb_txt  # 4debugging
+  nr_txt <- nrow(tb_txt)  # (elements/nrows of x/text)
   
   
   # (2) Get chars in tb_txt$char (as a single string): ------ 
@@ -1874,8 +1908,8 @@ plot_chars <- function(file = "",  # "" read from console; "test.txt" read from 
 #          "ten und zwackten wie sie einan",
 #          "der zerrten und zausten und bis")
 # 
-# TXT <- toupper(txt)
-# cat(TXT, file = "art.txt", sep = "\n")
+# txt <- toupper(txt)
+# cat(txt, file = "art.txt", sep = "\n")
 # 
 # # Plot:
 # plot_chars("art.txt", col_bg = "white",
