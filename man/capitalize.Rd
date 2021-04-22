@@ -50,6 +50,7 @@ Other text objects and functions:
 \code{\link{Umlaut}},
 \code{\link{caseflip}()},
 \code{\link{cclass}},
+\code{\link{count_chars_words}()},
 \code{\link{count_chars}()},
 \code{\link{count_words}()},
 \code{\link{l33t_rul35}},

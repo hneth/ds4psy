@@ -22,18 +22,24 @@ Default: \code{sort_freq = TRUE}.}
 A named numeric vector.
 }
 \description{
-\code{count_chars} distinguishes and counts the characters in 
-a character vector \code{x} and returns their frequency counts 
+\code{count_chars} provides frequency counts of the 
+characters in a string of text \code{x} 
 as a named numeric vector.
 }
 \details{
-Arguments allow some options for case sensitivity, removing special 
-characters, and sorting the output by frequency. Note that all these 
-currently work without using regular expressions.
+If \code{rm_specials = TRUE} (as per default), 
+most special (or non-word) characters are 
+removed and not counted. (Note that this currently works 
+without using regular expressions.)
+
+The quantification is case-sensitive and the resulting  
+vector is sorted by name (alphabetically) or 
+by frequency (per default).
 }
 \examples{
 # Default: 
-x <- c("Hello!", "This is a 1st sentence.", "This is the 2nd sentence.", "The end.")
+x <- c("Hello world!", "This is a 1st sentence.", 
+       "This is the 2nd sentence.", "THE END.")
 count_chars(x)
 
 # Options: 
@@ -44,13 +50,15 @@ count_chars(x, sort_freq = FALSE)
 }
 \seealso{
 \code{\link{count_words}} for counting the frequency of words; 
-\code{\link{plot_chars}} for a corresponding plot function.
+\code{\link{count_chars_words}} for counting both characters and words; 
+\code{\link{plot_chars}} for a corresponding plotting function.
 
 Other text objects and functions: 
 \code{\link{Umlaut}},
 \code{\link{capitalize}()},
 \code{\link{caseflip}()},
 \code{\link{cclass}},
+\code{\link{count_chars_words}()},
 \code{\link{count_words}()},
 \code{\link{l33t_rul35}},
 \code{\link{metachar}},

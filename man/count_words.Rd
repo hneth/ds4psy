@@ -19,12 +19,21 @@ Default: \code{sort_freq = TRUE}.}
 A named numeric vector.
 }
 \description{
-Count the frequency of words in a string of text \code{x}.
+\code{count_words} provides frequency counts of the 
+words in a string of text \code{x} 
+as a named numeric vector.
+}
+\details{
+Special (or non-word) characters are removed and not counted. 
+
+The quantification is case-sensitive and the resulting  
+vector is sorted by name (alphabetically) or 
+by frequency (per default).
 }
 \examples{
 # Default: 
 s3 <- c("A first sentence.", "The second sentence.", 
-        "A third --- and also the final --- sentence.")
+        "A third --- and also THE FINAL --- SENTENCE.")
 count_words(s3)  # case-sensitive, sorts by frequency 
 
 # Options: 
@@ -34,6 +43,7 @@ count_words(s3, sort_freq = FALSE)   # sorts alphabetically
 }
 \seealso{
 \code{\link{count_chars}} for counting the frequency of characters;   
+\code{\link{count_chars_words}} for counting both characters and words; 
 \code{\link{plot_chars}} for a character plotting function.
 
 Other text objects and functions: 
@@ -41,6 +51,7 @@ Other text objects and functions:
 \code{\link{capitalize}()},
 \code{\link{caseflip}()},
 \code{\link{cclass}},
+\code{\link{count_chars_words}()},
 \code{\link{count_chars}()},
 \code{\link{l33t_rul35}},
 \code{\link{metachar}},
