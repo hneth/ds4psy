@@ -432,7 +432,7 @@ transl33t <- function(txt, rules = l33t_rul35,
 #' which was previously used to determine an (absolute) file path. 
 #' 
 #' Note that \code{read_ascii} originally contained  
-#' \code{\link{map_text_chars}}, but has been separated to 
+#' \code{\link{map_text_coord}}, but has been separated to 
 #' enable independent access to separate functionalities. 
 #' 
 #' @param file The text file to read (or its path). 
@@ -473,7 +473,7 @@ transl33t <- function(txt, rules = l33t_rul35,
 #' @family text objects and functions
 #'
 #' @seealso
-#' \code{\link{map_text_chars}} for mapping text to a table of characters;  
+#' \code{\link{map_text_coord}} for mapping text to a table of character coordinates;  
 #' \code{\link{plot_chars}} for a character plotting function. 
 #' 
 #' @export
@@ -607,7 +607,7 @@ read_ascii <- function(file = "", quiet = FALSE){
 #' \code{\link{read_ascii}} for parsing text from file or user input;  
 #' \code{\link{plot_chars}} for a character plotting function. 
 #' 
-#' @export
+#' 
 
 map_text_chars <- function(x, flip_y = FALSE){ 
   
@@ -679,7 +679,7 @@ map_text_chars <- function(x, flip_y = FALSE){
     # options(warn = 0)  # back to default
     
     # Initialize a table (to store all characters as rows):  
-    tb <- data.frame(x, y, char,
+    tb <- data.frame(char, x, y, 
                      stringsAsFactors = FALSE)
     
   } # if (n_chars > 0) end. 
@@ -694,12 +694,16 @@ map_text_chars <- function(x, flip_y = FALSE){
 # map_text_chars(c("Hello", "world!"))       # 2 lines of text
 # map_text_chars(c("Hello", " ", "world!"))  # 3 lines of text
 # 
+# txt <- c("1: AB", "2: C", "3.")
+# map_text_chars(txt)
+# map_text_chars(txt, flip_y = TRUE)
+#
 # # Note: 
 # map_text_chars(NA)   # => NA
 # map_text_chars("")   # => NA
 # map_text_chars(" ")  # yields table
 # 
-# # Reading text from file (using read_ascii()): ----
+# # Reading text from file (using read_ascii()): 
 # # Create a temporary file "test.txt":
 # cat("Hello world!", "This is a test.",
 #     "Can you see this text?", "Good! Please carry on...",
@@ -708,6 +712,133 @@ map_text_chars <- function(x, flip_y = FALSE){
 # map_text_chars(txt)
 # unlink("test.txt")  # clean up (by deleting file).
 
+
+
+
+## map_text_coord: Map text (from a text string) to a table/df of characters (with x/y-coordinates) --------   
+
+# Note: A newer and simpler version of map_text_chars: 
+#       Just describe the text string txt as 2 vectors x and y: 
+
+#' map_text_coord maps the characters of a text string into a table (with x/y-coordinates).  
+#'
+#' \code{map_text_coord} parses text 
+#' (from a text string \code{x}) 
+#' into a table that contains a row for each character 
+#' and x/y-coordinates corresponding to the character positions in \code{x}.  
+#' 
+#' \code{map_text_coord} creates a data frame with 3 variables: 
+#' Each character's \code{x}- and \code{y}-coordinates (from top to bottom)  
+#' and a variable \code{char} for the character at this coordinate. 
+#' 
+#' Note that \code{map_text_coord} was originally a part of 
+#' \code{\link{read_ascii}}, but has been separated to 
+#' enable independent access to separate functionalities. 
+#' 
+#' @param x The text string(s) to map (required). 
+#' If \code{length(x) > 1}, elements are mapped to different lines 
+#' (i.e., y-coordinates). 
+#' 
+#' @param flip_y Boolean: Should y-coordinates be flipped, 
+#' so that the lowest line in the text file becomes \code{y = 1}, 
+#' and the top line in the text file becomes \code{y = n_lines}? 
+#' Default: \code{flip_y = FALSE}. 
+#' 
+#' @return A data frame with 3 variables: 
+#' Each character's \code{x}- and \code{y}-coordinates (from top to bottom)  
+#' and a variable \code{char} for the character at this coordinate. 
+#' 
+#' @examples
+#' map_text_coord("Hello world!")             # 1 line of text
+#' map_text_coord(c("Hello", "world!"))       # 2 lines of text
+#' map_text_coord(c("Hello", " ", "world!"))  # 3 lines of text
+#'  
+#' \donttest{
+#' # Reading text from file: ----
+#' 
+#' # Create a temporary file "test.txt":
+#' cat("Hello world!", "This is a test.",
+#'     "Can you see this text?", "Good! Please carry on...",
+#'     file = "test.txt", sep = "\n")
+#'  
+#' txt <- read_ascii("test.txt")
+#' map_text_coord(txt)
+#' 
+#' unlink("test.txt")  # clean up (by deleting file). 
+#' }
+#' 
+#' @family text objects and functions
+#'
+#' @seealso
+#' \code{\link{read_ascii}} for parsing text from file or user input;  
+#' \code{\link{plot_chars}} for a character plotting function. 
+#' 
+#' @export
+
+map_text_coord <- function(x, flip_y = FALSE){
+  
+  # (0) Initialize:
+  if (all(is.na(x)) || x == ""){ return(NA) }  # handle NA and "" cases 
+  x0 <- as.character(x)
+  df <- NA
+  
+  # (1) Individual characters:
+  chars <- unlist(strsplit(x0, split = ""))
+  
+  # (2) Coordinates:
+  n_rows    <- length(x0)
+  n_per_row <- nchar(x0)  
+  N_chars   <- sum(n_per_row)
+  
+  v_x <- rep(NA, N_chars)
+  v_y <- rep(NA, N_chars)
+  pos <- 0 # position counter
+  
+  for (i in 1:n_rows){ # loop for each row:
+    
+    v_x[(pos + 1):(pos + n_per_row[i])] <- 1:n_per_row[i]
+    
+    if (flip_y){
+      v_y[(pos + 1):(pos + n_per_row[i])] <- (n_rows - i + 1)
+    } else {
+      v_y[(pos + 1):(pos + n_per_row[i])] <- i
+    }
+    
+    pos <- pos + n_per_row[i]  # increment position counter
+    
+  }
+  
+  # (3) Output: 
+  df <- data.frame(chars, v_x, v_y, stringsAsFactors = FALSE)
+  names(df) <- c("char", "x", "y")
+  
+  return(df)
+  
+} # map_text_coord(). 
+
+## Check:
+# map_text_coord("Hello world!")             # 1 line of text
+# map_text_coord(c("Hello", "world!"))       # 2 lines of text
+# map_text_coord(c("Hello", " ", "world!"))  # 3 lines of text
+#  
+# txt <- c("1: AB", "2: C", "3.")
+# map_text_coord(txt)
+# map_text_coord(txt, flip_y = TRUE)
+# 
+# # Note:
+# map_text_coord(NA)   # => NA
+# map_text_coord("")   # => NA
+# map_text_coord(" ")  # yields table
+# 
+# # Reading text from file (using read_ascii()):
+# # Create a temporary file "test.txt":
+# cat("Hello world!", "This is a test.",
+#     "Can you see this text?", "Good! Please carry on...",
+#     file = "test.txt", sep = "\n")
+# txt <- read_ascii("test.txt")
+# map_text_coord(txt)
+# map_text_coord(txt, flip_y = TRUE)
+# unlink("test.txt")  # clean up (by deleting file).
 
 
 ## (3) Locating the positions and IDs of text strings matching a pattern: ---------- 
@@ -1980,8 +2111,8 @@ capitalize <- function(x, # string of text to capitalize
 
 # - Split read_ascii() into 2 functions [2021-04-22]:
 #   A. new read_ascii(): Read a file into a string of text x.
-#   B. new map_text_chars(): Turn a string of text x into a table (with x/y-coordinates). 
-#   Reason: Enabled use of map_text_chars() separately (i.e., mapping strings of text)!
+#   B. new map_text_chars() and simpler map_text_coord(): Turn a string of text x into a table (with x/y-coordinates). 
+#   Reason: Enabled use of map_text_coord() separately (i.e., mapping strings of text)!
 # 
 # - Added more character/word/text combination/splitting functions.
 
