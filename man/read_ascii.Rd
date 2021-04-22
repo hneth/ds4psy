@@ -2,9 +2,9 @@
 % Please edit documentation in R/text_fun.R
 \name{read_ascii}
 \alias{read_ascii}
-\title{read_ascii parses text (from a file) into a table (df). --------}
+\title{read_ascii parses text inputs into string(s) of text.}
 \usage{
-read_ascii(file = "", flip_y = FALSE)
+read_ascii(file = "", quiet = FALSE)
 }
 \arguments{
 \item{file}{The text file to read (or its path). 
@@ -15,29 +15,29 @@ enter its path and name here (without any leading or
 trailing "." or "/"). 
 Default: \code{file = ""}.}
 
-\item{flip_y}{Boolean: Should y-coordinates be flipped, 
-so that the lowest line in the text file becomes \code{y = 1}, 
-and the top line in the text file becomes \code{y = n_lines}? 
-Default: \code{flip_y = FALSE}.}
+\item{quiet}{Boolean: Provide user feedback? 
+Default: \code{quiet = FALSE}.}
 }
 \value{
-A data frame with 3 variables: 
-Each character's \code{x}- and \code{y}-coordinates (from top to bottom)  
-and a variable \code{char} for the character at this coordinate.
+A character vector, with its elements 
+denoting different lines of text.
 }
 \description{
-\code{read_ascii} parses text 
-(from a file or from user input in Console) 
-into a table that contains a row for each character.
+\code{read_ascii} parses text inputs 
+(from a file or from user input in the Console) 
+into a character vector.
 }
 \details{
-\code{read_ascii} creates a data frame with 3 variables: 
-Each character's \code{x}- and \code{y}-coordinates (from top to bottom)  
-and a variable \code{char} for the character at this coordinate. 
+Different lines of text are represented by different elements 
+of the character vector returned. 
 
 The \code{getwd} function is used to determine the current 
 working directory. This replaces the \bold{here} package, 
-which was previously used to determine an (absolute) file path.
+which was previously used to determine an (absolute) file path. 
+
+Note that \code{read_ascii} originally contained  
+\code{\link{map_text_chars}}, but has been separated to 
+enable independent access to separate functionalities.
 }
 \examples{
 ## Create a temporary file "test.txt":
@@ -48,7 +48,7 @@ which was previously used to determine an (absolute) file path.
 
 ## (a) Read text (from file): 
 # read_ascii("test.txt")
-# read_ascii("test.txt", flip_y = TRUE)  # y flipped
+# read_ascii("test.txt", quiet = TRUE)  # y flipped
 
 # unlink("test.txt")  # clean up (by deleting file).
  
@@ -62,6 +62,7 @@ which was previously used to determine an (absolute) file path.
 
 }
 \seealso{
+\code{\link{map_text_chars}} for mapping text to a table of characters;  
 \code{\link{plot_chars}} for a character plotting function.
 
 Other text objects and functions: 
@@ -73,6 +74,7 @@ Other text objects and functions:
 \code{\link{count_chars}()},
 \code{\link{count_words}()},
 \code{\link{l33t_rul35}},
+\code{\link{map_text_chars}()},
 \code{\link{metachar}},
 \code{\link{text_to_sentences}()},
 \code{\link{text_to_words}()},
