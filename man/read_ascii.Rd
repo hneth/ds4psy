@@ -2,7 +2,7 @@
 % Please edit documentation in R/text_fun.R
 \name{read_ascii}
 \alias{read_ascii}
-\title{read_ascii parses text (from a file) into a table.}
+\title{read_ascii parses text (from a file) into a table (df). --------}
 \usage{
 read_ascii(file = "", flip_y = FALSE)
 }
