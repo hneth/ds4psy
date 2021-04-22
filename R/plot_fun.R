@@ -1204,7 +1204,7 @@ plot_fn <- function(x = NA,
 #' @seealso
 #' \code{\link{plot_chars}} for controlling (regex) matches and color options; 
 #' \code{\link{read_ascii}} for reading text inputs into a character string; 
-#' \code{\link{map_text_chars}} for mapping text to a table of characters; 
+#' \code{\link{map_text_coord}} for mapping text to a table of character coordinates; 
 #' \code{\link{pal_ds4psy}} for default color palette. 
 #' 
 #' @import ggplot2
@@ -1277,11 +1277,11 @@ plot_text <- function(x = NA,     # Text string(s) to plot
   if (all(is.na(x))){  # Case 1: Read text from file or user input (Console): 
     
     txt_ui <- read_ascii(file = file, quiet = FALSE)     # 1. read user input (UI)
-    tb_txt <- map_text_chars(x = txt_ui, flip_y = TRUE)  # 2. map UI to x/y-table
+    tb_txt <- map_text_coord(x = txt_ui, flip_y = TRUE)  # 2. map UI to x/y-table
     
   } else {  # Case 2: Use the character vector provided as x:
     
-    tb_txt <- map_text_chars(x = x, flip_y = TRUE)       # 3. map x to x/y-table
+    tb_txt <- map_text_coord(x = x, flip_y = TRUE)       # 3. map x to x/y-table
     
   } # if (is,na(x)) end.
   
@@ -1622,7 +1622,7 @@ plot_text <- function(x = NA,     # Text string(s) to plot
 #' @seealso
 #' \code{\link{plot_text}} for plotting characters and color tiles by frequency; 
 #' \code{\link{read_ascii}} for reading text inputs into a character string; 
-#' \code{\link{map_text_chars}} for mapping text to a table of characters; 
+#' \code{\link{map_text_coord}} for mapping text to a table of character coordinates; 
 #' \code{\link{pal_ds4psy}} for default color palette. 
 #' 
 #' @import ggplot2
@@ -1703,11 +1703,11 @@ plot_chars <- function(x = NA,     # Text string(s) to plot
   if (all(is.na(x))){  # Case 1: Read text from file or user input (Console): 
     
     txt_ui <- read_ascii(file = file, quiet = FALSE)     # 1. read user input (UI)
-    tb_txt <- map_text_chars(x = txt_ui, flip_y = TRUE)  # 2. map UI to x/y-table
+    tb_txt <- map_text_coord(x = txt_ui, flip_y = TRUE)  # 2. map UI to x/y-table
     
   } else {  # Case 2: Use the character vector provided as x:
     
-    tb_txt <- map_text_chars(x = x, flip_y = TRUE)       # 3. map x to x/y-table
+    tb_txt <- map_text_coord(x = x, flip_y = TRUE)       # 3. map x to x/y-table
     
   } # if (is,na(x)) end.
   
