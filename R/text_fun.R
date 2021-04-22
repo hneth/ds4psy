@@ -563,7 +563,7 @@ read_ascii <- function(file = "", quiet = FALSE){
 #' 
 #' \code{map_text_chars} creates a data frame with 3 variables: 
 #' Each character's \code{x}- and \code{y}-coordinates (from top to bottom)  
-#' and a variable \code{char} for the character at this coordinate. 
+#' and a variable \code{char} for the character at these coordinates. 
 #' 
 #' Note that \code{map_text_chars} was originally a part of 
 #' \code{\link{read_ascii}}, but has been separated to 
@@ -710,7 +710,7 @@ map_text_chars <- function(x, flip_y = FALSE){
 #' 
 #' \code{map_text_coord} creates a data frame with 3 variables: 
 #' Each character's \code{x}- and \code{y}-coordinates (from top to bottom)  
-#' and a variable \code{char} for the character at this coordinate. 
+#' and a variable \code{char} for the character at these coordinates. 
 #' 
 #' Note that \code{map_text_coord} was originally a part of 
 #' \code{\link{read_ascii}}, but has been separated to 
@@ -735,17 +735,17 @@ map_text_chars <- function(x, flip_y = FALSE){
 #' map_text_coord(c("Hello", " ", "world!"))  # 3 lines of text
 #'  
 #' \donttest{
-#' # Reading text from file: ----
+#' ## Read text from file:
 #' 
-#' # Create a temporary file "test.txt":
-#' cat("Hello world!", "This is a test.",
-#'     "Can you see this text?", "Good! Please carry on...",
-#'     file = "test.txt", sep = "\n")
+#' ## Create a temporary file "test.txt":
+#' # cat("Hello world!", "This is a test.",
+#' #     "Can you see this text?", "Good! Please carry on...",
+#' #      file = "test.txt", sep = "\n")
 #'  
-#' txt <- read_ascii("test.txt")
-#' map_text_coord(txt)
+#' # txt <- read_ascii("test.txt")
+#' # map_text_coord(txt)
 #' 
-#' unlink("test.txt")  # clean up (by deleting file). 
+#' # unlink("test.txt")  # clean up (by deleting file). 
 #' }
 #' 
 #' @family text objects and functions
