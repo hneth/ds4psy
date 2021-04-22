@@ -153,6 +153,9 @@ and the aesthetic settings provided for text labels and tile fill colors.
 description of the plot (as a data frame).
 }
 \examples{
+plot_chars(x = c("Hello world!", "Does this work?", 
+           "That's good.", "Please carry on..."))
+           
 ## Create a temporary file "test.txt":
 # cat("Hello world!", "This is a test file.", 
 #     "Can you see this text?", 
@@ -160,28 +163,28 @@ description of the plot (as a data frame).
 #     file = "test.txt", sep = "\n")
 
 ## (a) Plot text from file:
-# plot_chars("test.txt")  # default
-# plot_chars("test.txt", lbl_hi = "[[:upper:]]", lbl_lo = "[[:punct:]]", 
+# plot_chars(file = "test.txt")  # default
+# plot_chars(file = "test.txt", lbl_hi = "[[:upper:]]", lbl_lo = "[[:punct:]]", 
 #             col_lbl_hi = "red", col_lbl_lo = "blue")
  
-# plot_chars("test.txt", lbl_hi = "[aeiou]", col_lbl_hi = "red", 
+# plot_chars(file = "test.txt", lbl_hi = "[aeiou]", col_lbl_hi = "red", 
 #             col_bg = "white", bg_hi = "see")  # mark vowels and "see" (in bg)
-# plot_chars("test.txt", bg_hi = "[aeiou]", col_bg_hi = "gold")  # mark (bg of) vowels
+# plot_chars(file = "test.txt", bg_hi = "[aeiou]", col_bg_hi = "gold")  # mark (bg of) vowels
 
 ## Label options:
-# plot_chars("test.txt", bg_hi = "see", lbl_tiles = FALSE)
-# plot_chars("test.txt", cex = 5, family = "mono", fontface = 4, lbl_angle = c(-20, 20))
+# plot_chars(file = "test.txt", bg_hi = "see", lbl_tiles = FALSE)
+# plot_chars(file = "test.txt", cex = 5, family = "mono", fontface = 4, lbl_angle = c(-20, 20))
 
 ## Note: plot_chars() invisibly returns a description of the plot (as df):
-# tb <- plot_chars("test.txt", lbl_hi = "[aeiou]", lbl_rotate = TRUE)
+# tb <- plot_chars(file = "test.txt", lbl_hi = "[aeiou]", lbl_rotate = TRUE)
 # head(tb)
 
 # unlink("test.txt")  # clean up (by deleting file).
 
 \donttest{
 ## (b) Plot text (from files in subdir):
-# plot_chars("data-raw/txt/hello.txt")  # requires txt file
-# plot_chars("data-raw/txt/ascii.txt", lbl_hi = "[2468]", bg_lo = "[[:digit:]]", 
+# plot_chars(file = "data-raw/txt/hello.txt")  # requires txt file
+# plot_chars(file = "data-raw/txt/ascii.txt", lbl_hi = "[2468]", bg_lo = "[[:digit:]]", 
 #            col_lbl_hi = "red", cex = 10, fontface = 2)
            
 ## (c) Plot text input (from console):
