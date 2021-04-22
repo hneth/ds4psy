@@ -1,5 +1,5 @@
 ## plot_fun.R | ds4psy
-## hn | uni.kn | 2021 04 21
+## hn | uni.kn | 2021 04 22
 ## ---------------------------
 
 ## Functions for plotting. 
@@ -1878,9 +1878,9 @@ plot_chars <- function(file = "",  # "" read from console; "test.txt" read from 
 #            bg_hi = "Zauberer", lbl_hi = "Namen", case_sense = FALSE,
 #            cex = 7, borders = F, border_col = "grey80")
 # 
-# # Text stats:
-# head(text_stats(txt, case_sense = TRUE))
-# tail(text_stats(txt, case_sense = TRUE))
+# # Get char and word counts (as df):
+# head(count_chars_words(txt, case_sense = TRUE))
+# tail(count_chars_words(txt, case_sense = TRUE))
 # 
 # unlink("art.txt")  # clean up
 
