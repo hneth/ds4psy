@@ -35,7 +35,7 @@ Changes since last release:
 
 - Breaking change: The function `read_ascii()` was split into 2 parts (to enable independent access to their functionality): 
     1. A new `read_ascii()` reads text (from file or user input) into a character string;  
-    2. A new `map_text_chars()` converts a character string into a table of its characters (with x/y-coordinates).  
+    2. A new `map_text_coord()` converts a character string into a table of its characters (with x/y-coordinates).  
 
 <!-- Add blank line. --> 
 
