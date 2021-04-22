@@ -1889,10 +1889,12 @@ plot_chars <- function(file = "",  # "" read from console; "test.txt" read from 
 
 # - added plot_chars() for more control over regex matches and colors
 # - revised plot_text() to invisibly return plot description (as df)
-# - theme_empty() removed need for: #' @importFrom cowplot theme_nothing 
-
+# - added theme_empty() to remove need for: #' @importFrom cowplot theme_nothing 
 
 ## ToDo: ----------
+
+# - Revise plot_text() to use count_chars_words() and 
+#   allow coloring by character or word frequency.
 
 # - Consider adding plot_tbar() and plot_tclock() 
 #   (to plot toc, see file images/art.Rmd).

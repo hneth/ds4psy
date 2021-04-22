@@ -414,9 +414,9 @@ transl33t <- function(txt, rules = l33t_rul35,
 
 
 
-## (2) Reading ascii text (from file) into a tibble: ---------- 
+## (2) Reading ascii text (from a file) into a table (data frame): ---------- 
 
-#' read_ascii parses text (from a file) into a table. 
+#' read_ascii parses text (from a file) into a table (df). -------- 
 #'
 #' \code{read_ascii} parses text 
 #' (from a file or from user input in Console) 
@@ -477,6 +477,8 @@ transl33t <- function(txt, rules = l33t_rul35,
 
 read_ascii <- function(file = "", flip_y = FALSE){ 
   
+  ## PART A: Read a file into text string txt: ------ 
+  
   ## (0) Default file/path:
   # file <- "test.txt"
   
@@ -508,6 +510,9 @@ read_ascii <- function(file = "", flip_y = FALSE){
               quiet = FALSE   # provide user feedback? 
   )
   # writeLines(txt)  # debugging
+  
+  
+  ## PART B: Turn text string txt into a table (df with x/y-coordinates): ------ 
   
   # (3) Initialize lengths and a counter:
   n_lines <- length(txt)
@@ -586,7 +591,7 @@ read_ascii <- function(file = "", flip_y = FALSE){
   # (8) Return: 
   return(tb)
   
-} # read_ascii.
+} # read_ascii().
 
 # ## Check: 
 # # Create a temporary file "test.txt":
@@ -610,6 +615,10 @@ read_ascii <- function(file = "", flip_y = FALSE){
 # t
 # tail(t)
 
+## ToDo: Split read_ascii() into 2 functions:
+##       A. Read a file into a string of text x.
+##       B. Turn a string of text x into a table (with x/y-coordinates). 
+## Goal: Enable use of B. separately (from strings of text)!
 
 
 ## (3) Locating the positions and IDs of text strings matching a pattern: ---------- 
@@ -833,6 +842,7 @@ angle_map_match <- function(text, pattern = "[^[:space:]]", case_sense = TRUE,
 # angle_map_match(s, "xyz", angle_fg = 8)  # no matches!
 # 
 # angle_map_match(s, pattern = NA)  # => Error!
+
 
 
 ## (4) Converting character and text strings (into other units, e.g., sentences, words): ---------- 
@@ -1169,9 +1179,10 @@ chars_to_text <- function(x){
 
 
 
+
 ## (5) Counting text strings (i.e., frequency of characters or words): ---------- 
 
-## count_chars: Count the frequency of characters in a string: -------- 
+## count_chars: Count the frequency of characters (in a text string x, as vector): -------- 
 
 #' Count the frequency of characters in a string of text \code{x}.
 #' 
@@ -1291,7 +1302,7 @@ count_chars <- function(x, # string of text to count
 # freq["e"]
 
 
-## count_words: Count the frequency of words in a string: -------- 
+## count_words: Count the frequency of words (in a text string x, as vector): -------- 
 
 #' Count the frequency of words in a string of text \code{x}.
 #' 
@@ -1599,7 +1610,7 @@ char_word <- function(x){  # A string of text x
 
 ## count_chars_words: Count the frequency of chars and corresponding words in string(s) of text (by char): -------- 
 
-#' Count the character and word frequency in a string of text \code{x}.
+#' Count the frequency of characters and words in a string of text \code{x}.
 #'
 #' \code{count_chars_words} provides frequency counts of the 
 #' characters and words of a string of text \code{x} 
@@ -1879,6 +1890,7 @@ capitalize <- function(x, # string of text to capitalize
 
 
 
+
 ## Done: ---------- 
 
 # Write functions to:  
@@ -1887,9 +1899,14 @@ capitalize <- function(x, # string of text to capitalize
 
 ## ToDo: ----------
 
-# Write functions to:
-# - mix content (letters, words, ...) with noise (punctuation, space, random characters)
-# - Add exception argument except to capitalize() function 
+# - Split read_ascii() into 2 functions:
+#   A. Read a file into a string of text x.
+#   B. Turn a string of text x into a table (with x/y-coordinates). 
+# Goal: Enable use of B. separately (from strings of text)!
+
+# General: Write functions to:
+# - mix alpha-numeric content (letters, words, numbers...) with noise (punctuation, space, random characters)
+# - Add an exception argument except to capitalize() function 
 #   (to exclude all words matching an exception argument).
 # - improve read_ascii (with regex and more efficient text wrangling)
 
