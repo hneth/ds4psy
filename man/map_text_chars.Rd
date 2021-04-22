@@ -30,7 +30,7 @@ and x/y-coordinates corresponding to the character positions in \code{x}.
 \details{
 \code{map_text_chars} creates a data frame with 3 variables: 
 Each character's \code{x}- and \code{y}-coordinates (from top to bottom)  
-and a variable \code{char} for the character at this coordinate. 
+and a variable \code{char} for the character at these coordinates. 
 
 Note that \code{map_text_chars} was originally a part of 
 \code{\link{read_ascii}}, but has been separated to 
