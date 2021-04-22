@@ -1,5 +1,5 @@
 ## text_fun.R | ds4psy
-## hn | uni.kn | 2021 04 21
+## hn | uni.kn | 2021 04 22
 ## ---------------------------
 
 ## Character objects and functions for string/text objects. 
@@ -1175,13 +1175,18 @@ chars_to_text <- function(x){
 
 #' Count the frequency of characters in a string of text \code{x}.
 #' 
-#' \code{count_chars} distinguishes and counts the characters in 
-#' a character vector \code{x} and returns their frequency counts 
+#' \code{count_chars} provides frequency counts of the 
+#' characters in a string of text \code{x} 
 #' as a named numeric vector.
 #' 
-#' Arguments allow some options for case sensitivity, removing special 
-#' characters, and sorting the output by frequency. Note that all these 
-#' currently work without using regular expressions.
+#' If \code{rm_specials = TRUE} (as per default), 
+#' most special (or non-word) characters are 
+#' removed and not counted. (Note that this currently works 
+#' without using regular expressions.)
+#' 
+#' The quantification is case-sensitive and the resulting  
+#' vector is sorted by name (alphabetically) or 
+#' by frequency (per default). 
 #'
 #' @param x A string of text (required).
 #' 
@@ -1198,7 +1203,8 @@ chars_to_text <- function(x){
 #'
 #' @examples
 #' # Default: 
-#' x <- c("Hello!", "This is a 1st sentence.", "This is the 2nd sentence.", "The end.")
+#' x <- c("Hello world!", "This is a 1st sentence.", 
+#'        "This is the 2nd sentence.", "THE END.")
 #' count_chars(x)
 #' 
 #' # Options: 
@@ -1210,7 +1216,8 @@ chars_to_text <- function(x){
 #'
 #' @seealso
 #' \code{\link{count_words}} for counting the frequency of words; 
-#' \code{\link{plot_chars}} for a corresponding plot function. 
+#' \code{\link{count_chars_words}} for counting both characters and words; 
+#' \code{\link{plot_chars}} for a corresponding plotting function. 
 #' 
 #' @export
 
@@ -1287,6 +1294,16 @@ count_chars <- function(x, # string of text to count
 ## count_words: Count the frequency of words in a string: -------- 
 
 #' Count the frequency of words in a string of text \code{x}.
+#' 
+#' \code{count_words} provides frequency counts of the 
+#' words in a string of text \code{x} 
+#' as a named numeric vector.
+#' 
+#' Special (or non-word) characters are removed and not counted. 
+#' 
+#' The quantification is case-sensitive and the resulting  
+#' vector is sorted by name (alphabetically) or 
+#' by frequency (per default).  
 #'
 #' @param x A string of text (required).
 #' 
@@ -1301,7 +1318,7 @@ count_chars <- function(x, # string of text to count
 #' @examples
 #' # Default: 
 #' s3 <- c("A first sentence.", "The second sentence.", 
-#'         "A third --- and also the final --- sentence.")
+#'         "A third --- and also THE FINAL --- SENTENCE.")
 #' count_words(s3)  # case-sensitive, sorts by frequency 
 #' 
 #' # Options: 
@@ -1312,6 +1329,7 @@ count_chars <- function(x, # string of text to count
 #'
 #' @seealso
 #' \code{\link{count_chars}} for counting the frequency of characters;   
+#' \code{\link{count_chars_words}} for counting both characters and words; 
 #' \code{\link{plot_chars}} for a character plotting function. 
 #' 
 #' @export
@@ -1367,7 +1385,7 @@ count_words <- function(x,  # string(s) of text
 # freq["and"]
 
 
-## count_str: count the number of occurrences of a pattern in a character vector x: -------- 
+## count_str: Count the number of occurrences of a pattern in a character vector x: -------- 
 
 # Source of function: 
 # <https://aurelienmadouasse.wordpress.com/2012/05/24/r-code-how-the-to-count-the-number-of-occurrences-of-a-substring-within-a-string/> 
@@ -1578,15 +1596,55 @@ char_word <- function(x){  # A string of text x
 # char_word("")
 
 
-## text_stats: Count the frequency of chars and corresponding words in string(s) of text (by char): -------- 
 
-# Goal: Given a string of text x, quantify the character and word frequency 
-#       for each character (i.e., in a table that contains as many rows as characters in x).
+## count_chars_words: Count the frequency of chars and corresponding words in string(s) of text (by char): -------- 
 
-# Note: Function is case sensitive (i.e., freq counts for "t" typically differ from those of "T").
-#       Convert cases in x prior to matching to get case-insensitive results!
+#' Count the character and word frequency in a string of text \code{x}.
+#'
+#' \code{count_chars_words} provides frequency counts of the 
+#' characters and words of a string of text \code{x} 
+#' on a per character basis.
+#' 
+#' \code{count_chars_words} calls both \code{\link{count_chars}} and 
+#' \code{\link{count_words}} and maps their results 
+#' to a data frame that contains a row for each 
+#' character of \code{x}. 
+#' 
+#' The quantifications are case-sensitive. 
+#' Special characters (e.g., parentheses, punctuation, and spaces) 
+#' are counted as characters, but removed from word counts. 
+#' 
+#' If input \code{x} consists of multiple text strings, 
+#' they are collapsed with an added " " (space) between them. 
+#'
+#' @param x A string of text (required).
+#' 
+#' @param case_sense Boolean: Distinguish lower- vs. uppercase characters? 
+#' Default: \code{case_sense = TRUE}. 
+#' 
+#' @return A data frame with 4 variables 
+#' (\code{char}, \code{char_freq}, \code{word}, \code{word_freq}). 
+#' 
+#' @examples
+#' s1 <- ("This test is to test this function.")
+#' head(count_chars_words(s1))
+#' head(count_chars_words(s1, case_sense = FALSE))
+#' 
+#' s3 <- c("A 1st sentence.", "The 2nd sentence.", 
+#'         "A 3rd --- and also THE  FINAL --- SENTENCE.")
+#' tail(count_chars_words(s3))
+#' tail(count_chars_words(s3, case_sense = FALSE))
+#' 
+#' @family text objects and functions
+#'
+#' @seealso
+#' \code{\link{count_chars}} for counting the frequency of characters;  
+#' \code{\link{count_words}} for counting the frequency of words;   
+#' \code{\link{plot_chars}} for a character plotting function. 
+#' 
+#' @export
 
-text_stats <- function(x, case_sense = TRUE){
+count_chars_words <- function(x, case_sense = TRUE){
   
   # Inputs:
   x0 <- as.character(x)
@@ -1631,7 +1689,7 @@ text_stats <- function(x, case_sense = TRUE){
     
   } else {
     
-    message("text_stats: nrow() of 2 dfs differ, but should not.")
+    message("count_chars_words: nrow() of 2 dfs differ, but should not.")
     
   }
   
@@ -1659,18 +1717,18 @@ text_stats <- function(x, case_sense = TRUE){
   
   return(mdf)
   
-} # text_stats(). 
+} # count_chars_words(). 
 
 ## Check:
-# text_stats("A test to TEST a fun.")
-# text_stats("A test to TEST a fun.", case_sense = FALSE)
+# count_chars_words("A test to TEST a fun.")
+# count_chars_words("A test to TEST a fun.", case_sense = FALSE)
 # # Multiple text strings:
 # s3 <- c("A 1st sentence.", "The 2nd sentence.",
 #         "A 3rd --- and THE  FINAL --- sentence.")
-# head(text_stats(s3))
-# head(text_stats(s3, case_sense = FALSE))  # Check counts for a/A, i/I, and t/T! 
-# tail(text_stats(s3))
-# tail(text_stats(s3, case_sense = FALSE))
+# head(count_chars_words(s3))
+# head(count_chars_words(s3, case_sense = FALSE))  # Check counts for a/A, i/I, and t/T! 
+# tail(count_chars_words(s3))
+# tail(count_chars_words(s3, case_sense = FALSE))
 
 
 
