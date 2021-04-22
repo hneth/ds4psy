@@ -704,8 +704,7 @@ map_text_chars <- function(x, flip_y = FALSE){
 
 #' map_text_coord maps the characters of a text string into a table (with x/y-coordinates).  
 #'
-#' \code{map_text_coord} parses text 
-#' (from a text string \code{x}) 
+#' \code{map_text_coord} parses text (from a text string \code{x}) 
 #' into a table that contains a row for each character 
 #' and x/y-coordinates corresponding to the character positions in \code{x}.  
 #' 
@@ -760,20 +759,22 @@ map_text_chars <- function(x, flip_y = FALSE){
 map_text_coord <- function(x, flip_y = FALSE){
   
   # (0) Initialize:
-  if (all(is.na(x)) || x == ""){ return(NA) }  # handle NA and "" cases 
+  if (all(is.na(x))){ return(NA) }  # handle NAs
   x0 <- as.character(x)
   df <- NA
   
   # (1) Individual characters:
   chars <- unlist(strsplit(x0, split = ""))
   
-  # (2) Coordinates:
+  # (2) Assign coordinates:
   n_rows    <- length(x0)
   n_per_row <- nchar(x0)  
   N_chars   <- sum(n_per_row)
+  if (N_chars == 0){ return(NA) }  # handle empty string inputs
   
   v_x <- rep(NA, N_chars)
   v_y <- rep(NA, N_chars)
+  
   pos <- 0 # position counter
   
   for (i in 1:n_rows){ # loop for each row:
@@ -788,7 +789,7 @@ map_text_coord <- function(x, flip_y = FALSE){
     
     pos <- pos + n_per_row[i]  # increment position counter
     
-  }
+  } # loop i end.
   
   # (3) Output: 
   df <- data.frame(chars, v_x, v_y, stringsAsFactors = FALSE)
@@ -802,7 +803,7 @@ map_text_coord <- function(x, flip_y = FALSE){
 # map_text_coord("Hello world!")             # 1 line of text
 # map_text_coord(c("Hello", "world!"))       # 2 lines of text
 # map_text_coord(c("Hello", " ", "world!"))  # 3 lines of text
-#  
+# 
 # txt <- c("1: AB", "2: C", "3.")
 # map_text_coord(txt)
 # map_text_coord(txt, flip_y = TRUE)
