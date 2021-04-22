@@ -569,6 +569,9 @@ read_ascii <- function(file = "", quiet = FALSE){
 #' \code{\link{read_ascii}}, but has been separated to 
 #' enable independent access to separate functionalities. 
 #' 
+#' Note that \code{map_text_chars} is replaced by the simpler 
+#' \code{map_text_coord} function. 
+#' 
 #' @param x The text string(s) to map (required). 
 #' If \code{length(x) > 1}, elements are mapped to different lines 
 #' (i.e., y-coordinates). 
@@ -582,32 +585,11 @@ read_ascii <- function(file = "", quiet = FALSE){
 #' Each character's \code{x}- and \code{y}-coordinates (from top to bottom)  
 #' and a variable \code{char} for the character at this coordinate. 
 #' 
-#' @examples
-#' map_text_chars("Hello world!")             # 1 line of text
-#' map_text_chars(c("Hello", "world!"))       # 2 lines of text
-#' map_text_chars(c("Hello", " ", "world!"))  # 3 lines of text
-#'  
-#' \donttest{
-#' # Reading text from file: ----
-#' 
-#' # Create a temporary file "test.txt":
-#' cat("Hello world!", "This is a test.",
-#'     "Can you see this text?", "Good! Please carry on...",
-#'     file = "test.txt", sep = "\n")
-#'  
-#' txt <- read_ascii("test.txt")
-#' map_text_chars(txt)
-#' 
-#' unlink("test.txt")  # clean up (by deleting file). 
-#' }
-#' 
 #' @family text objects and functions
 #'
 #' @seealso
 #' \code{\link{read_ascii}} for parsing text from file or user input;  
 #' \code{\link{plot_chars}} for a character plotting function. 
-#' 
-#' 
 
 map_text_chars <- function(x, flip_y = FALSE){ 
   
