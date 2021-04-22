@@ -34,27 +34,10 @@ and a variable \code{char} for the character at this coordinate.
 
 Note that \code{map_text_chars} was originally a part of 
 \code{\link{read_ascii}}, but has been separated to 
-enable independent access to separate functionalities.
-}
-\examples{
-map_text_chars("Hello world!")             # 1 line of text
-map_text_chars(c("Hello", "world!"))       # 2 lines of text
-map_text_chars(c("Hello", " ", "world!"))  # 3 lines of text
- 
-\donttest{
-# Reading text from file: ----
+enable independent access to separate functionalities. 
 
-# Create a temporary file "test.txt":
-cat("Hello world!", "This is a test.",
-    "Can you see this text?", "Good! Please carry on...",
-    file = "test.txt", sep = "\n")
- 
-txt <- read_ascii("test.txt")
-map_text_chars(txt)
-
-unlink("test.txt")  # clean up (by deleting file). 
-}
-
+Note that \code{map_text_chars} is replaced by the simpler 
+\code{map_text_coord} function.
 }
 \seealso{
 \code{\link{read_ascii}} for parsing text from file or user input;  
