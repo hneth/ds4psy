@@ -612,83 +612,77 @@ read_ascii <- function(file = "", quiet = FALSE){
 map_text_chars <- function(x, flip_y = FALSE){ 
   
   # (0) Initialize:
+  if (all(is.na(x))){ return(NA) }  # handle NAs 
+  tb  <- NA 
   txt <- as.character(x)
   
-  ## PART B: Turn text string txt into a table (df with x/y-coordinates): ------ 
+  ## WAS originally Part B of read_ascii(): Turn text string txt into a table (df with x/y-coordinates): ------ 
   
   # (1) Initialize lengths and a counter:
   n_lines <- length(txt)
   n_chars <- sum(nchar(txt))
-  ct <- 0  # initialize character counter
   
   # (2) Data structure (for results): 
   # # Initialize a matrix (to store all characters in place):
   # m <- matrix(data = NA, nrow = n_lines, ncol = max(nchar(txt)))
   
-  # # Initialize a tibble (to store all characters as rows):
-  # # options(warn = -1) # ignore all warnings
-  # tb <- tibble::tibble(x = rep(NA, n_chars),
-  #                      y = rep(NA, n_chars),
-  #                      char = rep("", n_chars))
+  # (3) Main: Data structure (for results) and loops through txt: ----    
   
-  # # Initialize a data frame (to store all characters as rows):  
-  # tb <- data.frame(x = rep(NA, n_chars),
-  #                  y = rep(NA, n_chars),
-  #                  c = rep("", n_chars))
-  
-  # Initialize 3 vectors:
-  x <- rep(NA, n_chars)
-  y <- rep(NA, n_chars)
-  char <- rep("", n_chars)
-  
-  # (3a) Loop through all i lines of txt:  
-  for (i in 1:n_lines){ 
+  if (n_chars > 0) { # there is something to map: 
     
-    line <- txt[i]  # i-th line of txt
+    # Initialize:
+    ct <- 0                # character counter
+    x <- rep(NA, n_chars)  # 3 vectors
+    y <- rep(NA, n_chars)
+    char <- rep("", n_chars)
     
-    # (3b) Loop through each char j of each line:
-    for (j in 1:nchar(line)) { 
+    # (3a) Loop through all i lines of txt:  
+    for (i in 1:n_lines){ 
       
-      cur_char <- substr(line, j, j)  # current char      
-      ct <- ct + 1  # increase count of current char 
+      line <- txt[i]  # i-th line of txt
       
-      # fill count-th row of tb:
-      # tb$x[ct] <- j               # x: current pos nr
-      x[ct] <- j                    # x: current pos nr
-      
-      if (flip_y){ # flip y values:    # y: 
-        # tb$y[ct] <- n_lines - (i - 1)  # 1st line on top (of n_lines)  
-        y[ct] <- n_lines - (i - 1)  # 1st line on top (of n_lines)  
-      } else {
-        # tb$y[ct] <- i             # current line 
-        y[ct] <- i                  # current line 
-      }
-      
-      # tb$char[ct] <- cur_char     # char: cur_char
-      char[ct] <- cur_char          # char: cur_char
-      
-    } # for j.
-  } # for i.
-  
-  # (4) Check that ct matches n_chars:
-  if (ct != n_chars){
-    message("read_ascii: Count ct differs from n_chars!")
-  }
-  
-  # # (5) Adjust data types:
-  # tb$x <- as.integer(tb$x)
-  # tb$y <- as.integer(tb$y)
-  # tb$char <- as.character(tb$char)  
-  
-  # options(warn = 0)  # back to default
-  
-  # # Initialize a table (to store all characters as rows):  
-  # # (a) as tibble:
-  # tb <- tibble::tibble(x, y, char)
-  
-  # (b) as data frame: 
-  tb <- data.frame(x, y, char,
-                   stringsAsFactors = FALSE)
+      # (3b) Loop through each char j of each line:
+      for (j in 1:nchar(line)) { 
+        
+        cur_char <- substr(line, j, j)  # current char      
+        ct <- ct + 1  # increase count of current char 
+        
+        # fill count-th row of tb:
+        # tb$x[ct] <- j               # x: current pos nr
+        x[ct] <- j                    # x: current pos nr
+        
+        if (flip_y){ # flip y values:    # y: 
+          # tb$y[ct] <- n_lines - (i - 1)  # 1st line on top (of n_lines)  
+          y[ct] <- n_lines - (i - 1)  # 1st line on top (of n_lines)  
+        } else {
+          # tb$y[ct] <- i             # current line 
+          y[ct] <- i                  # current line 
+        }
+        
+        # tb$char[ct] <- cur_char     # char: cur_char
+        char[ct] <- cur_char          # char: cur_char
+        
+      } # for j.
+    } # for i.
+    
+    # (4) Check that ct matches n_chars (if > 0):
+    if ((n_chars > 0) & (ct != n_chars)){
+      msg <- paste0("map_text_chars: Count ct = ", ct, " differs from n_chars = ", n_chars, "!")
+      message(msg)
+    }
+    
+    ## (5) Prepare output:
+    # tb$x <- as.integer(tb$x)
+    # tb$y <- as.integer(tb$y)
+    # tb$char <- as.character(tb$char)  
+    
+    # options(warn = 0)  # back to default
+    
+    # Initialize a table (to store all characters as rows):  
+    tb <- data.frame(x, y, char,
+                     stringsAsFactors = FALSE)
+    
+  } # if (n_chars > 0) end. 
   
   # (6) Return: 
   return(tb)
@@ -700,6 +694,11 @@ map_text_chars <- function(x, flip_y = FALSE){
 # map_text_chars(c("Hello", "world!"))       # 2 lines of text
 # map_text_chars(c("Hello", " ", "world!"))  # 3 lines of text
 # 
+# # Note: 
+# map_text_chars(NA)   # => NA
+# map_text_chars("")   # => NA
+# map_text_chars(" ")  # yields table
+# 
 # # Reading text from file (using read_ascii()): ----
 # # Create a temporary file "test.txt":
 # cat("Hello world!", "This is a test.",
@@ -708,7 +707,6 @@ map_text_chars <- function(x, flip_y = FALSE){
 # txt <- read_ascii("test.txt")
 # map_text_chars(txt)
 # unlink("test.txt")  # clean up (by deleting file).
-
 
 
 
