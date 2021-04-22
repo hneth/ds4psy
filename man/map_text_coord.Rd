@@ -22,8 +22,7 @@ Each character's \code{x}- and \code{y}-coordinates (from top to bottom)
 and a variable \code{char} for the character at this coordinate.
 }
 \description{
-\code{map_text_coord} parses text 
-(from a text string \code{x}) 
+\code{map_text_coord} parses text (from a text string \code{x}) 
 into a table that contains a row for each character 
 and x/y-coordinates corresponding to the character positions in \code{x}.
 }
