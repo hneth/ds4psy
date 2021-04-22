@@ -1198,7 +1198,8 @@ plot_fn <- function(x = NA,
 #'
 #' @seealso
 #' \code{\link{plot_chars}} for controlling (regex) matches and color options; 
-#' \code{\link{read_ascii}} for reading text into a table; 
+#' \code{\link{read_ascii}} for reading text inputs into a character string; 
+#' \code{\link{map_text_chars}} for mapping text to a table of characters; 
 #' \code{\link{pal_ds4psy}} for default color palette. 
 #' 
 #' @import ggplot2
@@ -1262,9 +1263,10 @@ plot_text <- function(file = "",  # "" read from console; "test.txt" read from f
     brd_size <- NA  # hide label
   }
   
-  # (1) Read text file into a table: 
-  tb_txt <- read_ascii(file = file, flip_y = TRUE)
-  nr_txt <- nrow(tb_txt)  # (nrows in txt)
+  # (1) Read text input into a text string (txt_ip) and character table (tb_txt): 
+  txt_ui <- read_ascii(file = file, quiet = FALSE)     # 1. read user input
+  tb_txt <- map_text_chars(x = txt_ui, flip_y = TRUE)  # 2. map to x/y-table
+  nr_txt <- nrow(tb_txt)                               # =  elements/nrows in txt_ui
   # tb_txt  # 4debugging
   
   
@@ -1595,7 +1597,8 @@ plot_text <- function(file = "",  # "" read from console; "test.txt" read from f
 #'
 #' @seealso
 #' \code{\link{plot_text}} for plotting characters and color tiles by frequency; 
-#' \code{\link{read_ascii}} for reading text into a table; 
+#' \code{\link{read_ascii}} for reading text inputs into a character string; 
+#' \code{\link{map_text_chars}} for mapping text to a table of characters; 
 #' \code{\link{pal_ds4psy}} for default color palette. 
 #' 
 #' @import ggplot2
@@ -1669,10 +1672,12 @@ plot_chars <- function(file = "",  # "" read from console; "test.txt" read from 
     brd_size <- NA  # hide
   }
   
-  # (1) Read text file into a table: ------  
+
+  # (1) Read text input into a text string (txt_ip) and character table (tb_txt): ------ 
   
-  tb_txt <- read_ascii(file = file, flip_y = TRUE)
-  nr_txt <- nrow(tb_txt)  # (nrows in txt)
+  txt_ui <- read_ascii(file = file, quiet = FALSE)     # 1. read user input
+  tb_txt <- map_text_chars(x = txt_ui, flip_y = TRUE)  # 2. map to x/y-table
+  nr_txt <- nrow(tb_txt)                               # =  elements/nrows in txt_ui
   # tb_txt  # 4debugging
   
   
