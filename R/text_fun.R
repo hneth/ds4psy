@@ -235,157 +235,12 @@ cclass <- ccv
 
 
 
-## (1) Capitalization ---------- 
-
-## caseflip: Flip lower to upper case and vice versa: --------  
-
-#' Flip the case of characters in a string of text \code{x}.
-#' 
-#' \code{caseflip} flips the case of all characters 
-#' in a string of text \code{x}.
-#' 
-#' Internally, \code{caseflip} uses the \code{letters} and \code{LETTERS} 
-#' constants of \strong{base} R and the \code{chartr} function 
-#' for replacing characters in strings of text. 
-#'
-#' @param x A string of text (required).
-#' 
-#' @return A character vector. 
-#' 
-#' @examples
-#' x <- c("Hello world!", "This is a 1st sentence.", "This is the 2nd sentence.", "The end.")
-#' caseflip(x)
-#'  
-#' @family text objects and functions
-#'
-#' @seealso
-#' \code{\link{capitalize}} for converting the case of initial letters; 
-#' \code{chartr} for replacing characters in strings of text. 
-#' 
-#' @export
-
-caseflip <- function(x){
-  
-  out <- NA  # initialize  
-  
-  # Rules: 
-  from <- paste0(c(letters, LETTERS), collapse = "")
-  to   <- paste0(c(LETTERS, letters), collapse = "")  
-  
-  out <- chartr(old = from, new = to, x = x)
-  
-  return(out)
-  
-} # caseflip(). 
-
-## Check:
-# caseflip("Hello World! Hope all is well?")
-# caseflip(c("Hi there", "Does this work as well?"))
-# caseflip(NA)
-
-
-
-## capitalize: the first n letters of words (w/o exception): -------- 
-
-#' Capitalize initial characters in strings of text \code{x}.  
-#' 
-#' \code{capitalize} converts the case of 
-#' each word's \code{n} initial characters 
-#' (typically to \code{upper}) 
-#' in a string of text \code{x}.
-#'
-#' @return A character vector. 
-#'
-#' @param x A string of text (required).
-#' 
-#' @param n Number of initial characters to convert.
-#' Default: \code{n = 1}. 
-#' 
-#' @param upper Convert to uppercase?
-#' Default: \code{upper = TRUE}. 
-#' 
-#' @param as_text Return word vector as text 
-#' (i.e., one character string)? 
-#' Default: \code{as_text = TRUE}.
-#' 
-#' @examples
-#' x <- c("Hello world! This is a 1st TEST sentence. The end.")
-#' capitalize(x)
-#' capitalize(x, n = 3)
-#' capitalize(x, n = 2, upper = FALSE)
-#' capitalize(x, as_text = FALSE)
-#' 
-#' # Note: A vector of character strings returns the same results: 
-#' x <- c("Hello world!", "This is a 1st TEST sentence.", "The end.")
-#' capitalize(x)
-#' capitalize(x, n = 3)
-#' capitalize(x, n = 2, upper = FALSE)
-#' capitalize(x, as_text = FALSE)
-#' 
-#' @family text objects and functions
-#'
-#' @seealso
-#' \code{\link{caseflip}} for converting the case of all letters. 
-#' 
-#' @export
-
-capitalize <- function(x, # string of text to capitalize
-                       n = 1,  # number of initial letters to capitalize in each word
-                       upper = TRUE,   # convert to uppercase?
-                       as_text = TRUE  # return words as text (1 character string)? 
-                       # except = c("a", "the", "is", "do", "does", "done", "did")
-                       # rm_specials = TRUE
-){
-  
-  out <- NA  # initialize 
-  
-  # (1) Convert text x to vector of words:
-  words <- text_to_words(x)
-  
-  # (2) Capitalize words:
-  first <- substr(words, 1, n)      # first character of each word 
-  rest  <- substr(words, n + 1, nchar(words))  # rest of each word
-  rest  <- substring(words, n + 1)  # rest of each word (with default end)
-  
-  if (upper) {
-    Words <- paste0(toupper(first), rest) # capitalize first and paste with rest
-  } else {
-    Words <- paste0(tolower(first), rest) # lowercase first and paste with rest
-  }
-  
-  # (3) Convert vector of Words to text x:
-  if (as_text){
-    out <- words_to_text(Words)
-  } else {
-    out <- Words
-  }
-  
-  return(out)
-  
-} # capitalize(). 
-
-# ## Check:
-# x <- c("Hello world! This is a 1st TEST sentence. The end.")
-# capitalize(x)
-# capitalize(x, n = 3)
-# capitalize(x, n = 2, upper = FALSE)
-# capitalize(x, as_text = FALSE)
-# 
-# # Note: Vector of character strings is merged into one string:
-# x <- c("Hello world!", "This is a 1st TEST sentence.", "The end.")
-# capitalize(x)
-# capitalize(x, n = 3)
-# capitalize(x, n = 2, upper = FALSE)
-# capitalize(x, as_text = FALSE)
-
-
-
-## (2) Converting text strings (between units, e.g., sentences, words, characters): ---------- 
+## (1) Converting text strings (between units, e.g., sentences, words, characters): ---------- 
 
 ## collapse_chars: Turn a multi-element character string into a 1-element character string: ------ 
 
 # (Note: A utility function to ensure that multi-element text inputs are handled consistently.)
-# (Note: Currently not exported.)
+# (Note: Currently not exported, but used.)
 
 collapse_chars <- function(x, sep = " "){
   
@@ -607,7 +462,7 @@ text_to_sentences <- function(x,  # string(s) of text
 #' 
 #' @export
 
-text_to_words <- function(x){  # string(s) of text
+text_to_words <- function(x){
   
   # 0. Initialize:
   wds <- NA
@@ -633,9 +488,9 @@ text_to_words <- function(x){  # string(s) of text
 
 ## text_to_words_regex: Alternative to text_to_words (using 1 regex): -------- 
 
-# (Note: Currently not exported/used.)
+# (Note: Currently not exported, and not used.)
 
-text_to_words_regex <- function(x){  # string(s) of text
+text_to_words_regex <- function(x){
   
   unlist(regmatches(x, gregexpr(pattern = "\\w+", x)))
   
@@ -694,7 +549,7 @@ text_to_chars <- function(x, sep = ""){
 # Inverse of text_to_words() above:
 # Currently only adds spaces between words 
 # (collapsing multiple strings into one).
-# (Note: Currently not exported/used.)
+# (Note: Currently not exported, but used.)
 
 words_to_text <- function(x, collapse = " "){
   
@@ -756,6 +611,150 @@ chars_to_text <- function(x){
 # # Note: 
 # chars_to_text("Hi there!")
 # chars_to_text(1:3)
+
+
+
+## (2) Capitalization: ---------- 
+
+## capitalize: the first n letters of words (w/o exception): -------- 
+
+#' Capitalize initial characters in strings of text \code{x}.  
+#' 
+#' \code{capitalize} converts the case of 
+#' each word's \code{n} initial characters 
+#' (typically to \code{upper}) 
+#' in a string of text \code{x}.
+#'
+#' @return A character vector. 
+#'
+#' @param x A string of text (required).
+#' 
+#' @param n Number of initial characters to convert.
+#' Default: \code{n = 1}. 
+#' 
+#' @param upper Convert to uppercase?
+#' Default: \code{upper = TRUE}. 
+#' 
+#' @param as_text Return word vector as text 
+#' (i.e., one character string)? 
+#' Default: \code{as_text = TRUE}.
+#' 
+#' @examples
+#' x <- c("Hello world! This is a 1st TEST sentence. The end.")
+#' capitalize(x)
+#' capitalize(x, n = 3)
+#' capitalize(x, n = 2, upper = FALSE)
+#' capitalize(x, as_text = FALSE)
+#' 
+#' # Note: A vector of character strings returns the same results: 
+#' x <- c("Hello world!", "This is a 1st TEST sentence.", "The end.")
+#' capitalize(x)
+#' capitalize(x, n = 3)
+#' capitalize(x, n = 2, upper = FALSE)
+#' capitalize(x, as_text = FALSE)
+#' 
+#' @family text objects and functions
+#'
+#' @seealso
+#' \code{\link{caseflip}} for converting the case of all letters. 
+#' 
+#' @export
+
+capitalize <- function(x, # string of text to capitalize
+                       n = 1,  # number of initial letters to capitalize in each word
+                       upper = TRUE,   # convert to uppercase?
+                       as_text = TRUE  # return words as text (1 character string)? 
+                       # except = c("a", "the", "is", "do", "does", "done", "did")
+                       # rm_specials = TRUE
+){
+  
+  out <- NA  # initialize 
+  
+  # (1) Convert text x to vector of words:
+  words <- text_to_words(x)
+  
+  # (2) Capitalize words:
+  first <- substr(words, 1, n)      # first character of each word 
+  rest  <- substr(words, n + 1, nchar(words))  # rest of each word
+  rest  <- substring(words, n + 1)  # rest of each word (with default end)
+  
+  if (upper) {
+    Words <- paste0(toupper(first), rest) # capitalize first and paste with rest
+  } else {
+    Words <- paste0(tolower(first), rest) # lowercase first and paste with rest
+  }
+  
+  # (3) Convert vector of Words to text x:
+  if (as_text){
+    out <- words_to_text(Words)
+  } else {
+    out <- Words
+  }
+  
+  return(out)
+  
+} # capitalize(). 
+
+# ## Check:
+# x <- c("Hello world! This is a 1st TEST sentence. The end.")
+# capitalize(x)
+# capitalize(x, n = 3)
+# capitalize(x, n = 2, upper = FALSE)
+# capitalize(x, as_text = FALSE)
+# 
+# # Note: Vector of character strings is merged into one string:
+# x <- c("Hello world!", "This is a 1st TEST sentence.", "The end.")
+# capitalize(x)
+# capitalize(x, n = 3)
+# capitalize(x, n = 2, upper = FALSE)
+# capitalize(x, as_text = FALSE)
+
+
+## caseflip: Flip lower to upper case and vice versa: --------  
+
+#' Flip the case of characters in a string of text \code{x}.
+#' 
+#' \code{caseflip} flips the case of all characters 
+#' in a string of text \code{x}.
+#' 
+#' Internally, \code{caseflip} uses the \code{letters} and \code{LETTERS} 
+#' constants of \strong{base} R and the \code{chartr} function 
+#' for replacing characters in strings of text. 
+#'
+#' @param x A string of text (required).
+#' 
+#' @return A character vector. 
+#' 
+#' @examples
+#' x <- c("Hello world!", "This is a 1st sentence.", "This is the 2nd sentence.", "The end.")
+#' caseflip(x)
+#'  
+#' @family text objects and functions
+#'
+#' @seealso
+#' \code{\link{capitalize}} for converting the case of initial letters; 
+#' \code{chartr} for replacing characters in strings of text. 
+#' 
+#' @export
+
+caseflip <- function(x){
+  
+  out <- NA  # initialize  
+  
+  # Rules: 
+  from <- paste0(c(letters, LETTERS), collapse = "")
+  to   <- paste0(c(LETTERS, letters), collapse = "")  
+  
+  out <- chartr(old = from, new = to, x = x)
+  
+  return(out)
+  
+} # caseflip(). 
+
+## Check:
+# caseflip("Hello World! Hope all is well?")
+# caseflip(c("Hi there", "Does this work as well?"))
+# caseflip(NA)
 
 
 
@@ -1377,9 +1376,11 @@ transl33t <- function(txt, rules = l33t_rul35,
 
 # locate_str locates all sub-strings matching a pattern in a string of text 
 # and returns a data frame of their IDs and positions (start, end, len). 
-
+#
 # This is merely a more convenient version of gregexpr() 
 # similar to stringr::str_locate(). 
+#
+# (Note: Currently not exported, but used.)
 
 locate_str <- function(pattern, text, case_sense = TRUE){
   
@@ -1430,6 +1431,7 @@ locate_str <- function(pattern, text, case_sense = TRUE){
 
 # - TRUE  for all matching locations (positions) in text
 # - FALSE for all non-matching locations (positions) in text
+# (Note: Currently not exported, but used.)
 
 locate_str_logical <- function(pattern, text, case_sense = TRUE){
   
@@ -1479,6 +1481,7 @@ locate_str_logical <- function(pattern, text, case_sense = TRUE){
 # Return: A vector of colors (with length of nchar(text), i.e., for each char in text):
 #         either col_fg for matching positions, OR col_bg for non-matching positions
 # Note:   col_sample = TRUE randomizes color sequence WITHIN category (fg/bg). 
+# (Note: Currently not exported, but used.)
 
 color_map_match <- function(text, pattern = "[^[:space:]]", case_sense = TRUE, 
                             col_fg = "black", col_bg = "white", col_sample = FALSE){
@@ -1538,6 +1541,7 @@ color_map_match <- function(text, pattern = "[^[:space:]]", case_sense = TRUE,
 # Return: A vector of numeric angle values (with length of nchar(text), i.e., for each char in text):
 #         either angle_fg for matching positions, OR angle_bg for non-matching default positions
 # Note:   If a length of angle values > 1: Get a random value from (uniform) range of angle values.
+# (Note: Currently not exported, but used.)
 
 angle_map_match <- function(text, pattern = "[^[:space:]]", case_sense = TRUE, 
                             angle_fg = 0, angle_bg = 0){
@@ -1591,7 +1595,6 @@ angle_map_match <- function(text, pattern = "[^[:space:]]", case_sense = TRUE,
 # angle_map_match(s, "xyz", angle_fg = 8)  # no matches!
 # 
 # angle_map_match(s, pattern = NA)  # => Error!
-
 
 
 
@@ -1827,6 +1830,8 @@ count_words <- function(x,  # string(s) of text
 
 ## Count the number of pattern matches in a string:
 
+# (Note: Currently not exported, and not used.)
+
 count_str <- function(x, pattern, split = ""){
   
   # initialize: 
@@ -1873,6 +1878,8 @@ count_str <- function(x, pattern, split = ""){
 
 ## cur_word_rest: Get rest of cur word (or next word part) in text string x from a current position i: ------
 
+# (Note: Currently not exported, but used.)
+
 cur_word_rest <- function(x, i){
   
   len_x <- nchar(x)
@@ -1914,6 +1921,8 @@ cur_word_rest <- function(x, i){
 
 
 ## char_word: Get all characters and their corresponding words (of a text string x, as df): ------ 
+
+# (Note: Currently not exported, but used.)
 
 char_word <- function(x, sep = " "){
   
@@ -2155,7 +2164,6 @@ count_chars_words <- function(x, case_sense = TRUE, sep = " "){
 # head(count_chars_words(s3, case_sense = FALSE))  # Check counts for a/A, i/I, and t/T! 
 # tail(count_chars_words(s3))
 # tail(count_chars_words(s3, case_sense = FALSE))
-
 
 
 
