@@ -1,5 +1,5 @@
 ## plot_fun.R | ds4psy
-## hn | uni.kn | 2021 04 22
+## hn | uni.kn | 2021 04 23
 ## ---------------------------
 
 ## Functions for plotting. 
@@ -1096,7 +1096,7 @@ plot_fn <- function(x = NA,
 #' Different elements denote different lines of text. 
 #' If \code{x = NA} (as per default), 
 #' the \code{file} argument is used to read 
-#' a text file or user input from the Console. 
+#' a text file or scan user input (entering text in Console).  
 #' 
 #' @param file A text file to read (or its path). 
 #' If \code{file = ""} (as per default), 
@@ -1158,21 +1158,20 @@ plot_fn <- function(x = NA,
 #' Default: \code{border_size = 0.5}.
 #' 
 #' @examples
-#' # (A) Plot text:
+#' # (A) From text string(s):
 #' plot_text(x = c("Hello", "world!"))
 #' plot_text(x = c("Hello world!", "How are you today?"))
 #' 
-#' # (B) User input:
-#' # plot_text()  # (enter in Console)
+#' # (B) From user input:
+#' # plot_text()  # (enter text in Console)
 #' 
-#' # (C) From file: 
+#' # (C) From text file:
 #' ## Create a temporary file "test.txt":
 #' # cat("Hello world!", "This is a test file.", 
 #' #     "Can you see this text?", 
 #' #     "Good! Please carry on...", 
 #' #     file = "test.txt", sep = "\n")
 #' 
-#' ## (a) Plot text (from file): 
 #' # plot_text(file = "test.txt")
 #' 
 #' ## Set colors, pal_extend, and case_sense:
@@ -1197,13 +1196,13 @@ plot_fn <- function(x = NA,
 #' # unlink("test.txt")  # clean up.
 #'  
 #' \donttest{
-#' ## Plot text (from file in subdir):
+#' ## (B) From text file (in subdir):
 #' # plot_text(file = "data-raw/txt/hello.txt")  # requires txt file
 #' # plot_text(file = "data-raw/txt/ascii.txt", cex = 5, 
 #' #           col_bg = "grey", char_bg = "-")
 #'          
-#' ## Plot user input (from console):
-#' # plot_text()
+#' ## (C) From user input:
+#' # plot_text()  # (enter text in Console)
 #' }
 #'
 #' @family plot functions
@@ -1420,14 +1419,14 @@ plot_text <- function(x = NA,     # Text string(s) to plot
 
 
 ## Check:
-# # (A) Plot text:
+# # (A) From text string(s):
 # plot_text(x = c("Hello", "world!"))
 # plot_text(x = c("Hello world!", "Howdy?"))
 # 
-# # (B) User input:
+# # (B) From user input:
 # plot_text()
 # 
-# # (C) From file:
+# # (C) From text file:
 # # Create a temporary file "test.txt":
 # cat("Hello world!", "This is a test file.",
 #     "Can you see this text?",
@@ -1460,13 +1459,13 @@ plot_text <- function(x = NA,     # Text string(s) to plot
 # unlink("test.txt")  # clean up (by deleting file).
 # 
 # \donttest{
-# # (b) Read text file (from subdir):
+# # (B) From text file (from subdir):
 # plot_text("data-raw/txt/hello.txt")  # requires txt file
 # plot_text(file = "data-raw/txt/ascii.txt", cex = 5,
 #           col_bg = "lightgrey", border_col = "white")
 # 
-# # (c) Read user input (from console):
-# plot_text()
+# # (C) From user input:
+# plot_text()  # (enter text in Console)
 # 
 # }
 
@@ -1593,14 +1592,15 @@ plot_text <- function(x = NA,     # Text string(s) to plot
 #' Default: \code{border_size = 0.5}.
 #' 
 #' @examples 
-#' # (A) Using text string(s): 
+#' # (A) From text string(s):
 #' plot_chars(x = c("Hello world!", "Does this work?", 
 #'                  "That's good.", "Please carry on..."))
 #'
-#' # (B) Interactive user input:
-#' plot_chars()  # (enter text in Console)
+#' # (B) From user input:
+#' # plot_chars()  # (enter text in Console)
 #' 
-#' # (C) Create and use a text file:
+#' # (C) From text file:
+#' # Create and use a text file: 
 #' # cat("Hello world!", "This is a test file.", 
 #' #     "Can you see this text?", 
 #' #     "Good! Please carry on...", 
@@ -1625,13 +1625,13 @@ plot_text <- function(x = NA,     # Text string(s) to plot
 #' # unlink("test.txt")  # clean up (by deleting file).
 #' 
 #' \donttest{
-#' ## (b) Plot text (from files in subdir):
+#' ## (B) From text file (in subdir):
 #' # plot_chars(file = "data-raw/txt/hello.txt")  # requires txt file
 #' # plot_chars(file = "data-raw/txt/ascii.txt", lbl_hi = "[2468]", bg_lo = "[[:digit:]]", 
 #' #            col_lbl_hi = "red", cex = 10, fontface = 2)
 #'            
-#' ## (c) Plot text input (from console):
-#' # plot_chars()
+#' ## (C) User input:
+#' # plot_chars()  # (enter text in Console)
 #' }
 #'
 #' @family plot functions
@@ -1717,7 +1717,7 @@ plot_chars <- function(x = NA,     # Text string(s) to plot
   
   # (1) Read text input into a text string (txt_ui) and character table (tb_txt): ------ 
   
-  if (all(is.na(x))){  # Case 1: Read text from file or user input (Console): 
+  if (all(is.na(x))){  # Case 1: Read text from file or user input (enter text in Console):
     
     txt_ui <- read_ascii(file = file, quiet = FALSE)     # 1. read user input (UI)
     tb_txt <- map_text_coord(x = txt_ui, flip_y = TRUE)  # 2. map UI to x/y-table
@@ -1836,10 +1836,14 @@ plot_chars <- function(x = NA,     # Text string(s) to plot
 } # plot_chars(). 
 
 ## Check:
+# # (A) From text string(s):
 # plot_chars("Hello world!")  # (A) Using x (text input)
-# plot_chars()                # (B) Use interactive user input.
 # 
-# # (C) Create and use a temporary file "test.txt":
+# # (B) From user input:
+# plot_chars()  # # (enter text in Console)
+# 
+# # (C) From text file:
+# # Create a temporary file "test.txt":
 # cat("Hello world!", "This is a test file.",
 #     "Can you see this text?",
 #     "Good! Please carry on...",
@@ -1931,12 +1935,12 @@ plot_chars <- function(x = NA,     # Text string(s) to plot
 # 
 # # Plot (txt):
 # plot_chars(x = txt, col_bg = "white",
-#            lbl_rotate = "[[:alpha:]]", angle_fg = c(-180, +180),  
+#            lbl_rotate = "[[:alpha:]]", angle_fg = c(-180, +180),
 #            bg_hi = "Zauberer", lbl_hi = "Namen", case_sense = FALSE,
 #            cex = 7, borders = F, border_col = "grey80")
 # 
 # # Plot (from file):
-# plot_chars(file = "art.txt", col_bg = "white", col_bg_hi = pal_ds4psy[3:5], 
+# plot_chars(file = "art.txt", col_bg = "white", col_bg_hi = pal_ds4psy[3:5],
 #            lbl_rotate = "[[:alpha:]]", angle_bg = c(-180, +180),
 #            bg_hi = "[fghjklpqrtvwxyz]", lbl_hi = "[aeiou]", case_sense = FALSE,
 #            cex = 7, borders = F, border_col = "grey80")
