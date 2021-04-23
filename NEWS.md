@@ -21,9 +21,9 @@ The book and course [Data Science for Psychologists](https://bookdown.org/hneth/
 
 -------- 
 
-# ds4psy 0.6.0.9010
+# ds4psy 0.6.0.9011
 
-Current development version of **ds4psy** (0.6.0.9001+) [on GitHub](https://github.com/hneth/ds4psy/). [2021-04-22] 
+Current development version of **ds4psy** (0.6.0.9001+) [on GitHub](https://github.com/hneth/ds4psy/). [2021-04-23] 
 
 <!-- Log of changes: --> 
 
@@ -49,7 +49,7 @@ by coloring labels and background tiles.
 
 - added functionality to `plot_text()` (but see `plot_chars()`) 
 - added utility functions for locating, identifying, and assigning vectors (of color/angle maps) to text strings matching a pattern 
-- added utility functions for converting (individual) character strings to text (preserving spaces) 
+- added `text_to_chars()` and related functions for converting character strings (e.g., text to characters, preserving spaces) 
 - added utility functions for counting the frequency of characters and words in text strings 
 
 
@@ -291,6 +291,6 @@ The initial functionality is limited, as the package is designed to support the 
 
 ---------- 
 
-[File `NEWS.md` updated on 2021-04-22.]
+[File `NEWS.md` updated on 2021-04-23.]
 
 <!-- eof. -->
