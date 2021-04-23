@@ -4,7 +4,7 @@
 \alias{map_text_coord}
 \title{map_text_coord maps the characters of a text string into a table (with x/y-coordinates).}
 \usage{
-map_text_coord(x, flip_y = FALSE)
+map_text_coord(x, flip_y = FALSE, sep = "")
 }
 \arguments{
 \item{x}{The text string(s) to map (required). 
@@ -15,6 +15,10 @@ If \code{length(x) > 1}, elements are mapped to different lines
 so that the lowest line in the text file becomes \code{y = 1}, 
 and the top line in the text file becomes \code{y = n_lines}? 
 Default: \code{flip_y = FALSE}.}
+
+\item{sep}{Character to insert between the elements 
+of a multi-element character vector as input \code{x}? 
+Default: \code{sep = ""} (i.e., add nothing).}
 }
 \value{
 A data frame with 3 variables: 

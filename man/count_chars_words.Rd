@@ -4,13 +4,17 @@
 \alias{count_chars_words}
 \title{Count the frequency of characters and words in a string of text \code{x}.}
 \usage{
-count_chars_words(x, case_sense = TRUE)
+count_chars_words(x, case_sense = TRUE, sep = " ")
 }
 \arguments{
 \item{x}{A string of text (required).}
 
 \item{case_sense}{Boolean: Distinguish lower- vs. uppercase characters? 
 Default: \code{case_sense = TRUE}.}
+
+\item{sep}{Character to insert between the elements 
+of a multi-element character vector as input \code{x}? 
+Default: \code{sep = " "} (i.e., add 1 space).}
 }
 \value{
 A data frame with 4 variables 
