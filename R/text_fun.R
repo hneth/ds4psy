@@ -625,10 +625,11 @@ words_to_text <- function(x, collapse = " "){
 
 ## chars_to_text: Turn a character vector x into a (single) string of text: ------
 
+# Inverse of text_to_chars() above: 
 # Assume that x consists of individual characters, but may contain spaces. 
 # Goal: Exactly preserve all characters (e.g., punctuation and spaces).
 # (Note: Simply using paste(x, collapse = "") would lose all spaces.) 
-# (Note: Currently not exported/used.)
+# (Note: Currently not exported, but used.)
 
 chars_to_text <- function(x){
   
@@ -660,7 +661,7 @@ chars_to_text <- function(x){
   
   return(char_t)
   
-} # chars_to_text.
+} # chars_to_text().
 
 ## Check:
 # t <- "Hello world! This is _A   TEST_. Does this work?"
@@ -1101,7 +1102,6 @@ map_text_chars <- function(x, flip_y = FALSE){
 # txt <- read_ascii("test.txt")
 # map_text_chars(txt)
 # unlink("test.txt")  # clean up (by deleting file).
-
 
 
 
