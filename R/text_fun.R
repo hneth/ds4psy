@@ -7,7 +7,6 @@
 
 ## (0) Define character vectors and strings of text: ---------- 
 
-
 ## Umlaute / German umlauts: ------ 
 
 # Sources: For Unicode characters, see:
@@ -236,8 +235,7 @@ cclass <- ccv
 
 
 
-
-## (6) Capitalization ---------- 
+## (1) Capitalization ---------- 
 
 ## caseflip: Flip lower to upper case and vice versa: --------  
 
@@ -287,7 +285,7 @@ caseflip <- function(x){
 
 
 
-## capitalize the first n letters of words (w/o exception): -------- 
+## capitalize: the first n letters of words (w/o exception): -------- 
 
 #' Capitalize initial characters in strings of text \code{x}.  
 #' 
@@ -382,7 +380,346 @@ capitalize <- function(x, # string of text to capitalize
 
 
 
-## (2) Reading ascii text (from a file) into a table (data frame): ---------- 
+## (2) Converting text strings (between units, e.g., sentences, words, characters): ---------- 
+
+
+## text_to_sentences: Turn a text (consisting of one or more strings) into a vector of all its sentences: ------ 
+
+#' Split strings of text \code{x} into sentences. 
+#' 
+#' \code{text_to_sentences} splits text \code{x} 
+#' (consisting of one or more character strings) 
+#' into a vector of its constituting sentences. 
+#' 
+#' The splits of \code{x} will occur at given punctuation marks 
+#' (provided as a regular expression, default: \code{split_delim = "\\.|\\?|!"}).   
+#' Empty leading and trailing spaces are removed before returning 
+#' a vector of the remaining character sequences (i.e., the sentences).
+#' 
+#' The Boolean argument \code{force_delim} distinguishes between 
+#' two splitting modes: 
+#' 
+#' \enumerate{
+#' 
+#'   \item If \code{force_delim = FALSE} (as per default), 
+#'   the function assumes a standard sentence-splitting pattern: 
+#'   A sentence delimiter in \code{split_delim} must be followed by 
+#'   a single space and a capital letter starting the next sentence. 
+#'   Sentence delimiters in \code{split_delim} are not removed 
+#'   from the output.
+#'   
+#'   \item If \code{force_delim = TRUE}, 
+#'   the function enforces splits at each delimiter in \code{split_delim}. 
+#'   For instance, any dot (i.e., the metacharacter \code{"\\."}) is  
+#'   interpreted as a full stop, so that sentences containing dots 
+#'   mid-sentence (e.g., for abbreviations, etc.) are split into parts. 
+#'   Sentence delimiters in \code{split_delim} are removed 
+#'   from the output.
+#'   
+#'   }
+#' 
+#' Internally, \code{text_to_sentences} uses \code{\link{strsplit}} to 
+#' split strings.
+#' 
+#' @param x A string of text (required), 
+#' typically a character vector. 
+#' 
+#' @param split_delim Sentence delimiters (as regex) 
+#' used to split \code{x} into substrings. 
+#' By default, \code{split_delim = "\\.|\\?|!"}. 
+#' 
+#' @param force_delim Boolean: Enforce splitting at 
+#' \code{split_delim}? 
+#' If \code{force_delim = FALSE} (as per default), 
+#' the function assumes a standard sentence-splitting pattern: 
+#' \code{split_delim} is followed by a single space and a capital letter. 
+#' If \code{force_delim = TRUE}, splits at \code{split_delim} are 
+#' enforced (regardless of spacing or capitalization).
+#' 
+#' @return A character vector. 
+#' 
+#' @examples
+#' x <- c("A first sentence. Exclamation sentence!", 
+#'        "Any questions? But etc. can be tricky. A fourth --- and final --- sentence.")
+#' text_to_sentences(x)
+#' text_to_sentences(x, force_delim = TRUE)
+#' 
+#' # Changing split delimiters:
+#' text_to_sentences(x, split_delim = "\\.")  # only split at "."
+#' 
+#' text_to_sentences("Buy apples, berries, and coconuts.")
+#' text_to_sentences("Buy apples, berries; and coconuts.", 
+#'                   split_delim = ",|;|\\.", force_delim = TRUE)
+#'                   
+#' text_to_sentences(c("123. 456? 789! 007 etc."), force_delim = TRUE)
+#' text_to_sentences("Dr. Who is problematic.")
+#' 
+#' 
+#' @family text objects and functions
+#'
+#' @seealso
+#' \code{\link{text_to_words}} for splitting text into a vector of words; 
+#' \code{\link{count_words}} for counting the frequency of words; 
+#' \code{\link{strsplit}} for splitting strings. 
+#' 
+#' @export
+
+text_to_sentences <- function(x,  # string(s) of text
+                              split_delim = "\\.|\\?|!",  # sentence delimiters (as regex). ToDo: Consider "[[:punct:]]".
+                              force_delim = FALSE         # force split at delimiters
+){
+  
+  # 0. Initialize:
+  st <- NA
+  regex <- NA
+  # split_delim <- "([[:punct:]])"  # as user argument
+  
+  # 1. Handle inputs:
+  x1 <- as.character(x)
+  
+  # 2. Main:
+  
+  # Paste all into one string:
+  x2 <- paste(x1, collapse = " ")
+  
+  # Split at SENTENCE punctuation provided by split_delim:
+  if (!force_delim){
+    
+    # (1) Smart splitting: Expect well-formatted pattern: 
+    #     Sentence delimiter, single space, capital letter to start sentence: 
+    
+    regex <- paste("(?<=(", split_delim, "))\\s(?=[A-Z])", sep = "") # require single space and capitalization
+    
+    x3 <- unlist(strsplit(x2, split = regex, perl = TRUE))
+    
+  } else {
+    
+    # (2) Force split at delimiter provided by split_delim 
+    #     (e.g., if multiple spaces, or no capitalization of first letter in sentence): 
+    
+    # regex <- paste("(", split_delim, ")\\s(?=[A-Z])", sep = "")  # require single space and capitalization
+    regex <- split_delim  # force split at split_delim 
+    
+    x3 <- unlist(strsplit(x2, split = regex, perl = TRUE))
+    
+  }
+  
+  # Remove empty LEADING and TRAILING spaces:
+  x4 <- unlist(strsplit(x3, split = "^( ){1,}"))
+  
+  x5 <- unlist(strsplit(x4, split = "$( ){1,}"))  
+  
+  # Remove all instances of "":
+  st <- x5[x5 != ""]
+  
+  # 3. Output: 
+  return(st)
+  
+} # text_to_sentences(). 
+
+## Check:
+# x <- c("A first sentence. Exclamation sentence!",
+#        "Any questions? But etc. can be tricky. A fourth --- and final --- sentence.")
+# text_to_sentences(x)
+# text_to_sentences(x, force_delim = TRUE)
+# 
+# 
+# # Changing split delimiters:
+# text_to_sentences(x, split_delim = "\\.")  # only split at "."
+# 
+# text_to_sentences("Buy apples, berries, and coconuts.")
+# text_to_sentences("Buy apples, berries; and coconuts.", 
+#                   split_delim = ",|;|\\.", force_delim = TRUE)
+# 
+# text_to_sentences(c("123. 456? 789! 007 etc."), force_delim = TRUE)
+# text_to_sentences("Dr. Who is problematic.")
+
+
+## text_to_words: Turn a text (consisting of one or more strings) into a vector of its words: ------ 
+
+#' Split strings text \code{x} into words. 
+#' 
+#' \code{text_to_words} splits a string of text \code{x} 
+#' (consisting of one or more character strings) 
+#' into a vector of its constituting words. 
+#' 
+#' \code{text_to_words} removes all (standard) punctuation marks 
+#' and empty spaces in the resulting text parts, 
+#' before returning a vector of the remaining character symbols 
+#' (as its words).
+#' 
+#' Internally, \code{text_to_words} uses \code{\link{strsplit}} to 
+#' split strings at punctuation marks (\code{split = "[[:punct:]]"}) 
+#' and spaces (\code{split = "( ){1,}"}).
+#'
+#' @param x A string of text (required), 
+#' typically a character vector. 
+#' 
+#' @return A character vector. 
+#'
+#' @examples
+#' # Default: 
+#' x <- c("Hello!", "This is a 1st sentence.", "This is the 2nd sentence.", "The end.")
+#' text_to_words(x)
+#' 
+#' @family text objects and functions
+#'
+#' @seealso
+#' \code{\link{text_to_sentences}} for splitting text into a vector of sentences;  
+#' \code{\link{count_words}} for counting the frequency of words; 
+#' \code{\link{strsplit}} for splitting strings. 
+#' 
+#' @export
+
+text_to_words <- function(x){  # string(s) of text
+  
+  # 0. Initialize:
+  wds <- NA
+  
+  # 1. Handle inputs:
+  x1 <- as.character(x)
+  
+  # 2. Main: 
+  x2 <- unlist(strsplit(x1, split = "[[:punct:]]"))  # remove punctuation
+  x3 <- unlist(strsplit(x2, split = "( ){1,}"))      # remove 1+ spaces
+  wds <- x3[x3 != ""]  # remove instances of ""
+  
+  # 3. Output: 
+  return(wds)
+  
+} # text_to_words(). 
+
+## Check:
+# s3 <- c("A first sentence.", "The second sentence.",
+#         "A third --- and also the final --- sentence.")
+# (wv <- text_to_words(s3))
+
+
+## text_to_words_regex: Alternative to text_to_words (using 1 regex): -------- 
+
+# (Note: Currently not exported/used.)
+
+text_to_words_regex <- function(x){  # string(s) of text
+  
+  unlist(regmatches(x, gregexpr(pattern = "\\w+", x)))
+  
+}
+
+## Check:
+# s2 <- c("This is  a  test.", "Does this work?")
+# text_to_words_regex(s2)
+# text_to_words_regex(s3)
+
+
+
+## text_to_chars: Turn a text (consisting of one or more strings) into a vector of its characters: ------ 
+
+# (Note: Currently leaves all punctuation and spaces intact.)
+# (Note: Currently not exported/used.)
+
+text_to_chars <- function(x  # string(s) of text
+){
+  
+  # 0. Initialize:
+  chars <- NA
+  
+  # 1. Handle inputs:
+  x1 <- as.character(x)
+  
+  # 2. Main: 
+  # x2 <- unlist(strsplit(x1, split = "[[:punct:]]"))  # remove punctuation
+  # x3 <- unlist(strsplit(x2, split = "( ){1,}"))      # remove 1+ spaces
+  # wds <- x3[x3 != ""]  # remove instances of ""
+  
+  chars <- unlist(strsplit(x1, split = ""))
+  
+  # 3. Output: 
+  return(chars)
+  
+} # text_to_chars(). 
+
+## Check:
+# s3 <- c("A first sentence.", "The second sentence.",
+#         "A third --- and also THE   FINAL --- sentence.")
+# wv <- text_to_chars(s3)
+# text_to_chars(c("See 3 spaces:   ?"))
+# # Note: 
+# text_to_chars(c(1:3))
+# text_to_chars(c(NA, NA))
+# text_to_chars(c(NA))
+
+
+## words_to_text: Turn a vector of words x into a (single) vector: ------ 
+
+# Inverse of text_to_words() above:
+# Currently only adds spaces between words 
+# (collapsing multiple strings into one).
+# (Note: Currently not exported/used.)
+
+words_to_text <- function(x, collapse = " "){
+  
+  paste(x, collapse = collapse)
+  
+} # words_to_text(). 
+
+## Check:
+# words_to_text(wv)
+# words_to_text(c("This", "is only", "a test"))
+
+
+## chars_to_text: Turn a character vector x into a (single) string of text: ------
+
+# Assume that x consists of individual characters, but may contain spaces. 
+# Goal: Exactly preserve all characters (e.g., punctuation and spaces).
+# (Note: Simply using paste(x, collapse = "") would lose all spaces.) 
+# (Note: Currently not exported/used.)
+
+chars_to_text <- function(x){
+  
+  # Initialize:
+  char_t <- NA
+  
+  # Ensure that x consists only of individual characters:
+  if (any(nchar(x) > 1)){
+    one_cv <- paste(x, collapse = "")  # paste all into a single char vector
+    char_v <- unlist(strsplit(one_cv, split = ""))  # split into a vector of individual characters
+  } else {
+    char_v <- x  # use vector of single characters
+  }
+  # print(char_v)  # 4debugging
+  
+  # Main: Convert char_v into char_t (preserving spaces): 
+  my_space <- "_h3d8o5m1v7z4_"  # some cryptic replacement for any " " (in character string)
+  char_v_hlp <- gsub(pattern = " ", replacement = my_space, x = char_v)  # helper (with spaces replaced)
+  char_s_hlp <- paste(char_v_hlp, collapse = "")  # char string helper (with spaces as my_space)
+  char_t <- gsub(pattern = my_space, replacement = " ", x = char_s_hlp)  # char string (with original spaces)
+  
+  # Check: Does nchar(char_s) equal length(char_v)? 
+  n_char_v <- length(char_v)
+  n_char_t <- nchar(char_t)
+  if (n_char_t != n_char_v){
+    message(paste0("chars_to_text: nchar(char_t) = ", n_char_t, 
+                   " differs from length(char_v) = ", n_char_v, "."))
+  }
+  
+  return(char_t)
+  
+} # chars_to_text.
+
+## Check:
+# t <- "Hello world! This is _A   TEST_. Does this work?"
+# (cv <- unlist(strsplit(t, split = "")))
+# chars_to_text(cv)
+# # Use with longer input strings (nchar > 1):
+# s <- c("Abc", "   ", "Xyz.")
+# chars_to_text(s)
+# # Note: 
+# chars_to_text("Hi there!")
+# chars_to_text(1:3)
+
+
+
+## (3) Reading ascii text (from a file) into a table (data frame): ---------- 
 
 ## read_ascii: Parse text (from a file) into string(s) of text (txt). -------- 
 
@@ -521,6 +858,9 @@ read_ascii <- function(file = "", quiet = FALSE){
 
 
 ## map_text_chars: Map text (from a text string) to a table/df of characters (with x/y-coordinates) --------   
+
+# (Note: Replaced by map_text_coord() below.)
+# (Note: Currently not exported/used.)
 
 #' map_text_chars maps the characters of a text string into a table (with x/y coordinates).  
 #'
@@ -793,7 +1133,7 @@ map_text_coord <- function(x, flip_y = FALSE){
 
 
 
-## (1) Mapping/replacing characters (e.g., Leet/l33t slang): ---------- 
+## (4) Mapping/replacing characters (e.g., Leet/l33t slang): ---------- 
 
 ## l33t ex4mpl35: ----
 
@@ -973,7 +1313,7 @@ transl33t <- function(txt, rules = l33t_rul35,
 
 
 
-## (3) Locating the positions and IDs of text strings matching a pattern: ---------- 
+## (5) Locating the positions and IDs of text strings matching a pattern: ---------- 
 
 
 ## locate_str: Locate pattern matches in a string of text ------ 
@@ -1198,343 +1538,7 @@ angle_map_match <- function(text, pattern = "[^[:space:]]", case_sense = TRUE,
 
 
 
-## (4) Converting character and text strings (into other units, e.g., sentences, words): ---------- 
-
-## text_to_sentences: Turn a text (consisting of one or more strings) into a vector of all its sentences: ------ 
-
-#' Split strings of text \code{x} into sentences. 
-#' 
-#' \code{text_to_sentences} splits text \code{x} 
-#' (consisting of one or more character strings) 
-#' into a vector of its constituting sentences. 
-#' 
-#' The splits of \code{x} will occur at given punctuation marks 
-#' (provided as a regular expression, default: \code{split_delim = "\\.|\\?|!"}).   
-#' Empty leading and trailing spaces are removed before returning 
-#' a vector of the remaining character sequences (i.e., the sentences).
-#' 
-#' The Boolean argument \code{force_delim} distinguishes between 
-#' two splitting modes: 
-#' 
-#' \enumerate{
-#' 
-#'   \item If \code{force_delim = FALSE} (as per default), 
-#'   the function assumes a standard sentence-splitting pattern: 
-#'   A sentence delimiter in \code{split_delim} must be followed by 
-#'   a single space and a capital letter starting the next sentence. 
-#'   Sentence delimiters in \code{split_delim} are not removed 
-#'   from the output.
-#'   
-#'   \item If \code{force_delim = TRUE}, 
-#'   the function enforces splits at each delimiter in \code{split_delim}. 
-#'   For instance, any dot (i.e., the metacharacter \code{"\\."}) is  
-#'   interpreted as a full stop, so that sentences containing dots 
-#'   mid-sentence (e.g., for abbreviations, etc.) are split into parts. 
-#'   Sentence delimiters in \code{split_delim} are removed 
-#'   from the output.
-#'   
-#'   }
-#' 
-#' Internally, \code{text_to_sentences} uses \code{\link{strsplit}} to 
-#' split strings.
-#' 
-#' @param x A string of text (required), 
-#' typically a character vector. 
-#' 
-#' @param split_delim Sentence delimiters (as regex) 
-#' used to split \code{x} into substrings. 
-#' By default, \code{split_delim = "\\.|\\?|!"}. 
-#' 
-#' @param force_delim Boolean: Enforce splitting at 
-#' \code{split_delim}? 
-#' If \code{force_delim = FALSE} (as per default), 
-#' the function assumes a standard sentence-splitting pattern: 
-#' \code{split_delim} is followed by a single space and a capital letter. 
-#' If \code{force_delim = TRUE}, splits at \code{split_delim} are 
-#' enforced (regardless of spacing or capitalization).
-#' 
-#' @return A character vector. 
-#' 
-#' @examples
-#' x <- c("A first sentence. Exclamation sentence!", 
-#'        "Any questions? But etc. can be tricky. A fourth --- and final --- sentence.")
-#' text_to_sentences(x)
-#' text_to_sentences(x, force_delim = TRUE)
-#' 
-#' # Changing split delimiters:
-#' text_to_sentences(x, split_delim = "\\.")  # only split at "."
-#' 
-#' text_to_sentences("Buy apples, berries, and coconuts.")
-#' text_to_sentences("Buy apples, berries; and coconuts.", 
-#'                   split_delim = ",|;|\\.", force_delim = TRUE)
-#'                   
-#' text_to_sentences(c("123. 456? 789! 007 etc."), force_delim = TRUE)
-#' text_to_sentences("Dr. Who is problematic.")
-#' 
-#' 
-#' @family text objects and functions
-#'
-#' @seealso
-#' \code{\link{text_to_words}} for splitting text into a vector of words; 
-#' \code{\link{count_words}} for counting the frequency of words; 
-#' \code{\link{strsplit}} for splitting strings. 
-#' 
-#' @export
-
-text_to_sentences <- function(x,  # string(s) of text
-                              split_delim = "\\.|\\?|!",  # sentence delimiters (as regex). ToDo: Consider "[[:punct:]]".
-                              force_delim = FALSE         # force split at delimiters
-){
-  
-  # 0. Initialize:
-  st <- NA
-  regex <- NA
-  # split_delim <- "([[:punct:]])"  # as user argument
-  
-  # 1. Handle inputs:
-  x1 <- as.character(x)
-  
-  # 2. Main:
-  
-  # Paste all into one string:
-  x2 <- paste(x1, collapse = " ")
-  
-  # Split at SENTENCE punctuation provided by split_delim:
-  if (!force_delim){
-    
-    # (1) Smart splitting: Expect well-formatted pattern: 
-    #     Sentence delimiter, single space, capital letter to start sentence: 
-    
-    regex <- paste("(?<=(", split_delim, "))\\s(?=[A-Z])", sep = "") # require single space and capitalization
-    
-    x3 <- unlist(strsplit(x2, split = regex, perl = TRUE))
-    
-  } else {
-    
-    # (2) Force split at delimiter provided by split_delim 
-    #     (e.g., if multiple spaces, or no capitalization of first letter in sentence): 
-    
-    # regex <- paste("(", split_delim, ")\\s(?=[A-Z])", sep = "")  # require single space and capitalization
-    regex <- split_delim  # force split at split_delim 
-    
-    x3 <- unlist(strsplit(x2, split = regex, perl = TRUE))
-    
-  }
-  
-  # Remove empty LEADING and TRAILING spaces:
-  x4 <- unlist(strsplit(x3, split = "^( ){1,}"))
-  
-  x5 <- unlist(strsplit(x4, split = "$( ){1,}"))  
-  
-  # Remove all instances of "":
-  st <- x5[x5 != ""]
-  
-  # 3. Output: 
-  return(st)
-  
-} # text_to_sentences(). 
-
-## Check:
-# x <- c("A first sentence. Exclamation sentence!",
-#        "Any questions? But etc. can be tricky. A fourth --- and final --- sentence.")
-# text_to_sentences(x)
-# text_to_sentences(x, force_delim = TRUE)
-# 
-# 
-# # Changing split delimiters:
-# text_to_sentences(x, split_delim = "\\.")  # only split at "."
-# 
-# text_to_sentences("Buy apples, berries, and coconuts.")
-# text_to_sentences("Buy apples, berries; and coconuts.", 
-#                   split_delim = ",|;|\\.", force_delim = TRUE)
-# 
-# text_to_sentences(c("123. 456? 789! 007 etc."), force_delim = TRUE)
-# text_to_sentences("Dr. Who is problematic.")
-
-
-## text_to_words: Turn a text (consisting of one or more strings) into a vector of its words: ------ 
-
-#' Split strings text \code{x} into words. 
-#' 
-#' \code{text_to_words} splits a string of text \code{x} 
-#' (consisting of one or more character strings) 
-#' into a vector of its constituting words. 
-#' 
-#' \code{text_to_words} removes all (standard) punctuation marks 
-#' and empty spaces in the resulting text parts, 
-#' before returning a vector of the remaining character symbols 
-#' (as its words).
-#' 
-#' Internally, \code{text_to_words} uses \code{\link{strsplit}} to 
-#' split strings at punctuation marks (\code{split = "[[:punct:]]"}) 
-#' and spaces (\code{split = "( ){1,}"}).
-#'
-#' @param x A string of text (required), 
-#' typically a character vector. 
-#' 
-#' @return A character vector. 
-#'
-#' @examples
-#' # Default: 
-#' x <- c("Hello!", "This is a 1st sentence.", "This is the 2nd sentence.", "The end.")
-#' text_to_words(x)
-#' 
-#' @family text objects and functions
-#'
-#' @seealso
-#' \code{\link{text_to_sentences}} for splitting text into a vector of sentences;  
-#' \code{\link{count_words}} for counting the frequency of words; 
-#' \code{\link{strsplit}} for splitting strings. 
-#' 
-#' @export
-
-text_to_words <- function(x){  # string(s) of text
-  
-  # 0. Initialize:
-  wds <- NA
-  
-  # 1. Handle inputs:
-  x1 <- as.character(x)
-  
-  # 2. Main: 
-  x2 <- unlist(strsplit(x1, split = "[[:punct:]]"))  # remove punctuation
-  x3 <- unlist(strsplit(x2, split = "( ){1,}"))      # remove 1+ spaces
-  wds <- x3[x3 != ""]  # remove instances of ""
-  
-  # 3. Output: 
-  return(wds)
-  
-} # text_to_words(). 
-
-## Check:
-# s3 <- c("A first sentence.", "The second sentence.",
-#         "A third --- and also the final --- sentence.")
-# (wv <- text_to_words(s3))
-
-
-## text_to_words_regex: Alternative to text_to_words (using 1 regex): -------- 
-
-text_to_words_regex <- function(x){  # string(s) of text
-  
-  unlist(regmatches(x, gregexpr(pattern = "\\w+", x)))
-  
-}
-
-## Check:
-# s2 <- c("This is  a  test.", "Does this work?")
-# text_to_words_regex(s2)
-# text_to_words_regex(s3)
-
-
-
-## text_to_chars: Turn a text (consisting of one or more strings) into a vector of its characters: ------ 
-
-# Note: Currently leaves all punctuation and spaces intact.
-
-text_to_chars <- function(x  # string(s) of text
-){
-  
-  # 0. Initialize:
-  chars <- NA
-  
-  # 1. Handle inputs:
-  x1 <- as.character(x)
-  
-  # 2. Main: 
-  # x2 <- unlist(strsplit(x1, split = "[[:punct:]]"))  # remove punctuation
-  # x3 <- unlist(strsplit(x2, split = "( ){1,}"))      # remove 1+ spaces
-  # wds <- x3[x3 != ""]  # remove instances of ""
-  
-  chars <- unlist(strsplit(x1, split = ""))
-  
-  # 3. Output: 
-  return(chars)
-  
-} # text_to_chars(). 
-
-## Check:
-# s3 <- c("A first sentence.", "The second sentence.",
-#         "A third --- and also THE   FINAL --- sentence.")
-# wv <- text_to_chars(s3)
-# text_to_chars(c("See 3 spaces:   ?"))
-# # Note: 
-# text_to_chars(c(1:3))
-# text_to_chars(c(NA, NA))
-# text_to_chars(c(NA))
-
-
-## words_to_text: Turn a vector of words x into a (single) vector: ------ 
-
-# Inverse of text_to_words() above:
-# Currently only adds spaces between words 
-# (collapsing multiple strings into one).
-
-words_to_text <- function(x, collapse = " "){
-  
-  paste(x, collapse = collapse)
-  
-} # words_to_text(). 
-
-## Check:
-# words_to_text(wv)
-# words_to_text(c("This", "is only", "a test"))
-
-
-## chars_to_text: Turn a character vector x into a (single) string of text: ------
-
-# Assume that x consists of individual characters, but may contain spaces. 
-# Goal: Exactly preserve all characters (e.g., punctuation and spaces).
-# Note: Simply using paste(x, collapse = "") would lose all spaces. 
-
-chars_to_text <- function(x){
-  
-  # Initialize:
-  char_t <- NA
-  
-  # Ensure that x consists only of individual characters:
-  if (any(nchar(x) > 1)){
-    one_cv <- paste(x, collapse = "")  # paste all into a single char vector
-    char_v <- unlist(strsplit(one_cv, split = ""))  # split into a vector of individual characters
-  } else {
-    char_v <- x  # use vector of single characters
-  }
-  # print(char_v)  # 4debugging
-  
-  # Main: Convert char_v into char_t (preserving spaces): 
-  my_space <- "_h3d8o5m1v7z4_"  # some cryptic replacement for any " " (in character string)
-  char_v_hlp <- gsub(pattern = " ", replacement = my_space, x = char_v)  # helper (with spaces replaced)
-  char_s_hlp <- paste(char_v_hlp, collapse = "")  # char string helper (with spaces as my_space)
-  char_t <- gsub(pattern = my_space, replacement = " ", x = char_s_hlp)  # char string (with original spaces)
-  
-  # Check: Does nchar(char_s) equal length(char_v)? 
-  n_char_v <- length(char_v)
-  n_char_t <- nchar(char_t)
-  if (n_char_t != n_char_v){
-    message(paste0("chars_to_text: nchar(char_t) = ", n_char_t, 
-                   " differs from length(char_v) = ", n_char_v, "."))
-  }
-  
-  return(char_t)
-  
-} # chars_to_text.
-
-## Check:
-# t <- "Hello world! This is _A   TEST_. Does this work?"
-# (cv <- unlist(strsplit(t, split = "")))
-# chars_to_text(cv)
-# # Use with longer input strings (nchar > 1):
-# s <- c("Abc", "   ", "Xyz.")
-# chars_to_text(s)
-# # Note: 
-# chars_to_text("Hi there!")
-# chars_to_text(1:3)
-
-
-
-
-
-
-## (5) Counting text strings (i.e., frequency of characters or words): ---------- 
+## (6) Counting text strings (i.e., frequency of characters or words): ---------- 
 
 ## count_chars: Count the frequency of characters (in a text string x, as vector): -------- 
 
