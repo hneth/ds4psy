@@ -1,5 +1,5 @@
 ## text_fun.R | ds4psy
-## hn | uni.kn | 2021 04 22
+## hn | uni.kn | 2021 04 23
 ## ---------------------------
 
 ## Character objects and functions for string/text objects. 
@@ -236,181 +236,149 @@ cclass <- ccv
 
 
 
-## (1) Leet/l33t slang: ---------- 
 
-## l33t ex4mpl35: ----
+## (6) Capitalization ---------- 
 
-# n4me <- "h4n5j03Rg n3+h"     # e:3, a:4, s:5, o:0, t:+, r:R
-# d5   <- "d4+4 5c13nc3"       # i:1 
-# fp   <- "f0R p5ych0l0g15+5"
-# course_l33t <- paste0(n4me, ":", " ", d5, " ", fp)
+## caseflip: Flip lower to upper case and vice versa: --------  
 
-
-## l33t_rul35: leet rules: ----
-
-l33t_num <- c("a" = "4", "A" = "4", 
-              "e" = "3", "E" = "3", 
-              "i" = "1", "I" = "1", 
-              "o" = "0", "O" = "0", 
-              "s" = "5", "S" = "5", 
-              "T" = "7"
-)
-
-my_l33t <- c("t" = "+",
-             "r" = "R"
-) 
-
-#' l33t_rul35 provides rules for translating text 
-#' into leet/l33t slang. 
+#' Flip the case of characters in a string of text \code{x}.
 #' 
-#' \code{l33t_rul35} specifies rules for translating characters 
-#' into other characters (typically symbols) to mimic 
-#' leet/l33t slang (as a named character vector).
+#' \code{caseflip} flips the case of all characters 
+#' in a string of text \code{x}.
 #' 
-#' Old (i.e., to be replaced) characters are 
-#' \code{paste(names(l33t_rul35), collapse = "")}.
-#' 
-#' New (i.e., replaced) characters are 
-#' \code{paste(l33t_rul35, collapse = "")}.
-#' 
-#' See \url{https://en.wikipedia.org/wiki/Leet} for details. 
-#' 
-#' @family text objects and functions
-#' 
-#' @seealso
-#' \code{\link{transl33t}} for a corresponding function. 
-#' 
-#' @export
-
-l33t_rul35 <- c(l33t_num, my_l33t)
-
-## Check: 
-# l33t_rul35
-
-
-## transl33t function: ----
-
-## (a) Test:
-# stringr::str_replace_all(txt, l33t_rul35)
-
-## (b) as function: 
-
-#' transl33t translates text into leet slang.
+#' Internally, \code{caseflip} uses the \code{letters} and \code{LETTERS} 
+#' constants of \strong{base} R and the \code{chartr} function 
+#' for replacing characters in strings of text. 
 #'
-#' \code{transl33t} translates text into leet (or l33t) slang 
-#' given a set of rules.
-#' 
-#' The current version of \code{transl33t} only uses \code{base R} commands, 
-#' rather than the \bold{stringr} package.
-#' 
-#' @param txt The text (character string) to translate.
-#' 
-#' @param rules Rules which existing character in \code{txt} 
-#' is to be replaced by which new character (as a named character vector). 
-#' Default: \code{rules = \link{l33t_rul35}}. 
-#' 
-#' @param in_case Change case of input string \code{txt}. 
-#' Default: \code{in_case = "no"}. 
-#' Set to \code{"lo"} or \code{"up"} for lower or uppercase, respectively.  
-#' 
-#' @param out_case Change case of output string. 
-#' Default: \code{out_case = "no"}. 
-#' Set to \code{"lo"} or \code{"up"} for lower or uppercase, respectively.  
+#' @param x A string of text (required).
 #' 
 #' @return A character vector. 
 #' 
 #' @examples
-#' # Use defaults:
-#' transl33t(txt = "hello world")
-#' transl33t(txt = c(letters))
-#' transl33t(txt = c(LETTERS))
+#' x <- c("Hello world!", "This is a 1st sentence.", "This is the 2nd sentence.", "The end.")
+#' caseflip(x)
+#'  
+#' @family text objects and functions
+#'
+#' @seealso
+#' \code{\link{capitalize}} for converting the case of initial letters; 
+#' \code{chartr} for replacing characters in strings of text. 
 #' 
-#' # Specify rules:
-#' transl33t(txt = "hello world", 
-#'           rules = c("e" = "3", "l" = "1", "o" = "0"))
+#' @export
+
+caseflip <- function(x){
+  
+  out <- NA  # initialize  
+  
+  # Rules: 
+  from <- paste0(c(letters, LETTERS), collapse = "")
+  to   <- paste0(c(LETTERS, letters), collapse = "")  
+  
+  out <- chartr(old = from, new = to, x = x)
+  
+  return(out)
+  
+} # caseflip(). 
+
+## Check:
+# caseflip("Hello World! Hope all is well?")
+# caseflip(c("Hi there", "Does this work as well?"))
+# caseflip(NA)
+
+
+
+## capitalize the first n letters of words (w/o exception): -------- 
+
+#' Capitalize initial characters in strings of text \code{x}.  
 #' 
-#' # Set input and output case:
-#' transl33t(txt = "hello world", in_case = "up", 
-#'           rules = c("e" = "3", "l" = "1", "o" = "0"))  # e only capitalized
-#' transl33t(txt = "hEllo world", in_case = "lo", out_case = "up", 
-#'           rules = c("e" = "3", "l" = "1", "o" = "0"))  # e transl33ted
+#' \code{capitalize} converts the case of 
+#' each word's \code{n} initial characters 
+#' (typically to \code{upper}) 
+#' in a string of text \code{x}.
+#'
+#' @return A character vector. 
+#'
+#' @param x A string of text (required).
+#' 
+#' @param n Number of initial characters to convert.
+#' Default: \code{n = 1}. 
+#' 
+#' @param upper Convert to uppercase?
+#' Default: \code{upper = TRUE}. 
+#' 
+#' @param as_text Return word vector as text 
+#' (i.e., one character string)? 
+#' Default: \code{as_text = TRUE}.
+#' 
+#' @examples
+#' x <- c("Hello world! This is a 1st TEST sentence. The end.")
+#' capitalize(x)
+#' capitalize(x, n = 3)
+#' capitalize(x, n = 2, upper = FALSE)
+#' capitalize(x, as_text = FALSE)
+#' 
+#' # Note: A vector of character strings returns the same results: 
+#' x <- c("Hello world!", "This is a 1st TEST sentence.", "The end.")
+#' capitalize(x)
+#' capitalize(x, n = 3)
+#' capitalize(x, n = 2, upper = FALSE)
+#' capitalize(x, as_text = FALSE)
 #' 
 #' @family text objects and functions
 #'
 #' @seealso
-#' \code{\link{l33t_rul35}} for default rules used. 
+#' \code{\link{caseflip}} for converting the case of all letters. 
 #' 
 #' @export
 
-transl33t <- function(txt, rules = l33t_rul35,
-                      in_case = "no", out_case = "no") {
+capitalize <- function(x, # string of text to capitalize
+                       n = 1,  # number of initial letters to capitalize in each word
+                       upper = TRUE,   # convert to uppercase?
+                       as_text = TRUE  # return words as text (1 character string)? 
+                       # except = c("a", "the", "is", "do", "does", "done", "did")
+                       # rm_specials = TRUE
+){
   
-  # robustness: 
-  in_case  <- tolower(substr(in_case,  1 , 2))  # 1st 2 letters of in_case
-  out_case <- tolower(substr(out_case, 1 , 2))  # 1st 2 letters of out_case  
+  out <- NA  # initialize 
   
-  # handle in_case: 
-  if (in_case == "lo") {
-    txt <- tolower(txt)
-  } else if (in_case == "up") {
-    txt <- toupper(txt)
+  # (1) Convert text x to vector of words:
+  words <- text_to_words(x)
+  
+  # (2) Capitalize words:
+  first <- substr(words, 1, n)      # first character of each word 
+  rest  <- substr(words, n + 1, nchar(words))  # rest of each word
+  rest  <- substring(words, n + 1)  # rest of each word (with default end)
+  
+  if (upper) {
+    Words <- paste0(toupper(first), rest) # capitalize first and paste with rest
+  } else {
+    Words <- paste0(tolower(first), rest) # lowercase first and paste with rest
   }
   
-  # transl33t based on rules:   
-  
-  ## (a) using stringr pkg: 
-  # out <- stringr::str_replace_all(txt, rules)
-  ## If used, ADD:  
-  ## @importFrom stringr str_replace_all
-  ## to documentation!
-  
-  # (b) only base R commands:
-  old_chars <- paste(names(rules), collapse = "")
-  new_chars <- paste(rules, collapse = "")
-  out <- chartr(old_chars, new_chars, x = txt)
-  
-  # handle out_case: 
-  if (out_case == "lo") {
-    out <- tolower(out)
-  } else  if (out_case == "up") {
-    out <- toupper(out)
+  # (3) Convert vector of Words to text x:
+  if (as_text){
+    out <- words_to_text(Words)
+  } else {
+    out <- Words
   }
   
   return(out)
   
-} # transl33t. 
+} # capitalize(). 
 
 # ## Check:
-# txt1 <- "This is a short test string with some text to leetify."
-# txt2 <- "Data science is both a craft and an art. This course introduces fundamental data types,
-#          basic concepts and commands of the R programming language, and explores key packages of the so-called tidyverse.
-#          Regular exercises will help you to make your first steps from R novice to user."
-
-# transl33t(txt1)  # default rules
-# transl33t(txt1, rules = c("a" = "4"))  # manual rules
+# x <- c("Hello world! This is a 1st TEST sentence. The end.")
+# capitalize(x)
+# capitalize(x, n = 3)
+# capitalize(x, n = 2, upper = FALSE)
+# capitalize(x, as_text = FALSE)
 # 
-# # multiple strings:
-# transl33t(txt = c(letters, LETTERS))
-# transl33t(txt = c(txt1, txt2))
-# 
-# # 9 variants:
-# transl33t(txt1)  # leave in_case and out_case as is.
-# transl33t(txt1,  in_case = "lo")
-# transl33t(txt1,  in_case = "up")
-# transl33t(txt1, out_case = "lo")
-# transl33t(txt1, out_case = "up")
-# transl33t(txt1,  in_case = "lo", out_case = "lo")
-# transl33t(txt1,  in_case = "lo", out_case = "up")
-# transl33t(txt1,  in_case = "up", out_case = "lo")
-# transl33t(txt1,  in_case = "up", out_case = "up")
-# 
-# # Check:
-# all.equal(transl33t(txt = c(letters), in_case = "up"),
-#           transl33t(txt = c(LETTERS)))
-# 
-# all.equal(transl33t(txt = c(LETTERS), in_case = "lo"),
-#           transl33t(txt = c(letters)))
-
+# # Note: Vector of character strings is merged into one string:
+# x <- c("Hello world!", "This is a 1st TEST sentence.", "The end.")
+# capitalize(x)
+# capitalize(x, n = 3)
+# capitalize(x, n = 2, upper = FALSE)
+# capitalize(x, as_text = FALSE)
 
 
 
@@ -824,6 +792,187 @@ map_text_coord <- function(x, flip_y = FALSE){
 # unlink("test.txt")  # clean up (by deleting file).
 
 
+
+## (1) Mapping/replacing characters (e.g., Leet/l33t slang): ---------- 
+
+## l33t ex4mpl35: ----
+
+# n4me <- "h4n5j03Rg n3+h"     # e:3, a:4, s:5, o:0, t:+, r:R
+# d5   <- "d4+4 5c13nc3"       # i:1 
+# fp   <- "f0R p5ych0l0g15+5"
+# course_l33t <- paste0(n4me, ":", " ", d5, " ", fp)
+
+
+## l33t_rul35: leet rules: ----
+
+l33t_num <- c("a" = "4", "A" = "4", 
+              "e" = "3", "E" = "3", 
+              "i" = "1", "I" = "1", 
+              "o" = "0", "O" = "0", 
+              "s" = "5", "S" = "5", 
+              "T" = "7"
+)
+
+my_l33t <- c("t" = "+",
+             "r" = "R"
+) 
+
+#' l33t_rul35 provides rules for translating text 
+#' into leet/l33t slang. 
+#' 
+#' \code{l33t_rul35} specifies rules for translating characters 
+#' into other characters (typically symbols) to mimic 
+#' leet/l33t slang (as a named character vector).
+#' 
+#' Old (i.e., to be replaced) characters are 
+#' \code{paste(names(l33t_rul35), collapse = "")}.
+#' 
+#' New (i.e., replaced) characters are 
+#' \code{paste(l33t_rul35, collapse = "")}.
+#' 
+#' See \url{https://en.wikipedia.org/wiki/Leet} for details. 
+#' 
+#' @family text objects and functions
+#' 
+#' @seealso
+#' \code{\link{transl33t}} for a corresponding function. 
+#' 
+#' @export
+
+l33t_rul35 <- c(l33t_num, my_l33t)
+
+## Check: 
+# l33t_rul35
+
+
+## transl33t function: ----
+
+## (a) Test:
+# stringr::str_replace_all(txt, l33t_rul35)
+
+## (b) as function: 
+
+#' transl33t translates text into leet slang.
+#'
+#' \code{transl33t} translates text into leet (or l33t) slang 
+#' given a set of rules.
+#' 
+#' The current version of \code{transl33t} only uses \code{base R} commands, 
+#' rather than the \bold{stringr} package.
+#' 
+#' @param txt The text (character string) to translate.
+#' 
+#' @param rules Rules which existing character in \code{txt} 
+#' is to be replaced by which new character (as a named character vector). 
+#' Default: \code{rules = \link{l33t_rul35}}. 
+#' 
+#' @param in_case Change case of input string \code{txt}. 
+#' Default: \code{in_case = "no"}. 
+#' Set to \code{"lo"} or \code{"up"} for lower or uppercase, respectively.  
+#' 
+#' @param out_case Change case of output string. 
+#' Default: \code{out_case = "no"}. 
+#' Set to \code{"lo"} or \code{"up"} for lower or uppercase, respectively.  
+#' 
+#' @return A character vector. 
+#' 
+#' @examples
+#' # Use defaults:
+#' transl33t(txt = "hello world")
+#' transl33t(txt = c(letters))
+#' transl33t(txt = c(LETTERS))
+#' 
+#' # Specify rules:
+#' transl33t(txt = "hello world", 
+#'           rules = c("e" = "3", "l" = "1", "o" = "0"))
+#' 
+#' # Set input and output case:
+#' transl33t(txt = "hello world", in_case = "up", 
+#'           rules = c("e" = "3", "l" = "1", "o" = "0"))  # e only capitalized
+#' transl33t(txt = "hEllo world", in_case = "lo", out_case = "up", 
+#'           rules = c("e" = "3", "l" = "1", "o" = "0"))  # e transl33ted
+#' 
+#' @family text objects and functions
+#'
+#' @seealso
+#' \code{\link{l33t_rul35}} for default rules used. 
+#' 
+#' @export
+
+transl33t <- function(txt, rules = l33t_rul35,
+                      in_case = "no", out_case = "no") {
+  
+  # robustness: 
+  in_case  <- tolower(substr(in_case,  1 , 2))  # 1st 2 letters of in_case
+  out_case <- tolower(substr(out_case, 1 , 2))  # 1st 2 letters of out_case  
+  
+  # handle in_case: 
+  if (in_case == "lo") {
+    txt <- tolower(txt)
+  } else if (in_case == "up") {
+    txt <- toupper(txt)
+  }
+  
+  # transl33t based on rules:   
+  
+  ## (a) using stringr pkg: 
+  # out <- stringr::str_replace_all(txt, rules)
+  ## If used, ADD:  
+  ## @importFrom stringr str_replace_all
+  ## to documentation!
+  
+  # (b) only base R commands:
+  old_chars <- paste(names(rules), collapse = "")
+  new_chars <- paste(rules, collapse = "")
+  out <- chartr(old_chars, new_chars, x = txt)
+  
+  # handle out_case: 
+  if (out_case == "lo") {
+    out <- tolower(out)
+  } else  if (out_case == "up") {
+    out <- toupper(out)
+  }
+  
+  return(out)
+  
+} # transl33t. 
+
+# ## Check:
+# txt1 <- "This is a short test string with some text to leetify."
+# txt2 <- "Data science is both a craft and an art. This course introduces fundamental data types,
+#          basic concepts and commands of the R programming language, and explores key packages of the so-called tidyverse.
+#          Regular exercises will help you to make your first steps from R novice to user."
+
+# transl33t(txt1)  # default rules
+# transl33t(txt1, rules = c("a" = "4"))  # manual rules
+# 
+# # multiple strings:
+# transl33t(txt = c(letters, LETTERS))
+# transl33t(txt = c(txt1, txt2))
+# 
+# # 9 variants:
+# transl33t(txt1)  # leave in_case and out_case as is.
+# transl33t(txt1,  in_case = "lo")
+# transl33t(txt1,  in_case = "up")
+# transl33t(txt1, out_case = "lo")
+# transl33t(txt1, out_case = "up")
+# transl33t(txt1,  in_case = "lo", out_case = "lo")
+# transl33t(txt1,  in_case = "lo", out_case = "up")
+# transl33t(txt1,  in_case = "up", out_case = "lo")
+# transl33t(txt1,  in_case = "up", out_case = "up")
+# 
+# # Check:
+# all.equal(transl33t(txt = c(letters), in_case = "up"),
+#           transl33t(txt = c(LETTERS)))
+# 
+# all.equal(transl33t(txt = c(LETTERS), in_case = "lo"),
+#           transl33t(txt = c(letters)))
+
+
+
+
+
+
 ## (3) Locating the positions and IDs of text strings matching a pattern: ---------- 
 
 
@@ -1045,6 +1194,7 @@ angle_map_match <- function(text, pattern = "[^[:space:]]", case_sense = TRUE,
 # angle_map_match(s, "xyz", angle_fg = 8)  # no matches!
 # 
 # angle_map_match(s, pattern = NA)  # => Error!
+
 
 
 
@@ -1378,6 +1528,7 @@ chars_to_text <- function(x){
 # # Note: 
 # chars_to_text("Hi there!")
 # chars_to_text(1:3)
+
 
 
 
@@ -1945,149 +2096,6 @@ count_chars_words <- function(x, case_sense = TRUE){
 # tail(count_chars_words(s3, case_sense = FALSE))
 
 
-
-## (6) Capitalization ---------- 
-
-## caseflip: Flip lower to upper case and vice versa: --------  
-
-#' Flip the case of characters in a string of text \code{x}.
-#' 
-#' \code{caseflip} flips the case of all characters 
-#' in a string of text \code{x}.
-#' 
-#' Internally, \code{caseflip} uses the \code{letters} and \code{LETTERS} 
-#' constants of \strong{base} R and the \code{chartr} function 
-#' for replacing characters in strings of text. 
-#'
-#' @param x A string of text (required).
-#' 
-#' @return A character vector. 
-#' 
-#' @examples
-#' x <- c("Hello world!", "This is a 1st sentence.", "This is the 2nd sentence.", "The end.")
-#' caseflip(x)
-#'  
-#' @family text objects and functions
-#'
-#' @seealso
-#' \code{\link{capitalize}} for converting the case of initial letters; 
-#' \code{chartr} for replacing characters in strings of text. 
-#' 
-#' @export
-
-caseflip <- function(x){
-  
-  out <- NA  # initialize  
-  
-  # Rules: 
-  from <- paste0(c(letters, LETTERS), collapse = "")
-  to   <- paste0(c(LETTERS, letters), collapse = "")  
-  
-  out <- chartr(old = from, new = to, x = x)
-  
-  return(out)
-  
-} # caseflip(). 
-
-## Check:
-# caseflip("Hello World! Hope all is well?")
-# caseflip(c("Hi there", "Does this work as well?"))
-# caseflip(NA)
-
-
-
-## capitalize the first n letters of words (w/o exception): -------- 
-
-#' Capitalize initial characters in strings of text \code{x}.  
-#' 
-#' \code{capitalize} converts the case of 
-#' each word's \code{n} initial characters 
-#' (typically to \code{upper}) 
-#' in a string of text \code{x}.
-#'
-#' @return A character vector. 
-#'
-#' @param x A string of text (required).
-#' 
-#' @param n Number of initial characters to convert.
-#' Default: \code{n = 1}. 
-#' 
-#' @param upper Convert to uppercase?
-#' Default: \code{upper = TRUE}. 
-#' 
-#' @param as_text Return word vector as text 
-#' (i.e., one character string)? 
-#' Default: \code{as_text = TRUE}.
-#' 
-#' @examples
-#' x <- c("Hello world! This is a 1st TEST sentence. The end.")
-#' capitalize(x)
-#' capitalize(x, n = 3)
-#' capitalize(x, n = 2, upper = FALSE)
-#' capitalize(x, as_text = FALSE)
-#' 
-#' # Note: A vector of character strings returns the same results: 
-#' x <- c("Hello world!", "This is a 1st TEST sentence.", "The end.")
-#' capitalize(x)
-#' capitalize(x, n = 3)
-#' capitalize(x, n = 2, upper = FALSE)
-#' capitalize(x, as_text = FALSE)
-#' 
-#' @family text objects and functions
-#'
-#' @seealso
-#' \code{\link{caseflip}} for converting the case of all letters. 
-#' 
-#' @export
-
-capitalize <- function(x, # string of text to capitalize
-                       n = 1,  # number of initial letters to capitalize in each word
-                       upper = TRUE,   # convert to uppercase?
-                       as_text = TRUE  # return words as text (1 character string)? 
-                       # except = c("a", "the", "is", "do", "does", "done", "did")
-                       # rm_specials = TRUE
-){
-  
-  out <- NA  # initialize 
-  
-  # (1) Convert text x to vector of words:
-  words <- text_to_words(x)
-  
-  # (2) Capitalize words:
-  first <- substr(words, 1, n)      # first character of each word 
-  rest  <- substr(words, n + 1, nchar(words))  # rest of each word
-  rest  <- substring(words, n + 1)  # rest of each word (with default end)
-  
-  if (upper) {
-    Words <- paste0(toupper(first), rest) # capitalize first and paste with rest
-  } else {
-    Words <- paste0(tolower(first), rest) # lowercase first and paste with rest
-  }
-  
-  # (3) Convert vector of Words to text x:
-  if (as_text){
-    out <- words_to_text(Words)
-  } else {
-    out <- Words
-  }
-  
-  return(out)
-  
-} # capitalize(). 
-
-# ## Check:
-# x <- c("Hello world! This is a 1st TEST sentence. The end.")
-# capitalize(x)
-# capitalize(x, n = 3)
-# capitalize(x, n = 2, upper = FALSE)
-# capitalize(x, as_text = FALSE)
-# 
-# # Note: Vector of character strings is merged into one string:
-# x <- c("Hello world!", "This is a 1st TEST sentence.", "The end.")
-# capitalize(x)
-# capitalize(x, n = 3)
-# capitalize(x, n = 2, upper = FALSE)
-# capitalize(x, as_text = FALSE)
 
 
 ## Done: ---------- 
