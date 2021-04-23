@@ -382,6 +382,42 @@ capitalize <- function(x, # string of text to capitalize
 
 ## (2) Converting text strings (between units, e.g., sentences, words, characters): ---------- 
 
+## collapse_chars: Turn a multi-element character string into a 1-element character string: ------ 
+
+# (Note: A utility function to ensure that multi-element text inputs are handled consistently.)
+# (Note: Currently not exported.)
+
+collapse_chars <- function(x, sep = " "){
+  
+  # Initialize: 
+  x0 <- as.character(x)
+  x1 <- NA
+  
+  # Main: 
+  if (length(x0) > 1){  # A multi-element character vector:
+    
+    # sep <- " " # Use "" OR " " OR "\n" "\r" "\t" # (see ?"'" for character constants)
+    x1 <- paste(x0, collapse = sep)  # collapse multi-element strings (ADDING sep between elements). 
+    
+  } else {  # do nothing: 
+    
+    x1 <- x0  
+    
+  }
+  
+  # Output: 
+  return(x1)
+  
+}
+
+## Check:
+# collapse_chars(c("Hello", "world", "!"))
+# collapse_chars(c(".", " . ", "  .  "), sep = "|")
+# writeLines(collapse_chars(c("Hello", "world", "!"), sep = "\n"))
+# collapse_chars(NA)
+# collapse_chars("")
+# collapse_chars(1:3)
+
 
 ## text_to_sentences: Turn a text (consisting of one or more strings) into a vector of all its sentences: ------ 
 
@@ -615,16 +651,18 @@ text_to_words_regex <- function(x){  # string(s) of text
 ## text_to_chars: Turn a text (consisting of one or more strings) into a vector of its characters: ------ 
 
 # (Note: Currently leaves all punctuation and spaces intact.)
-# (Note: Currently not exported/used.)
+# (Note: Currently not exported, but used.)
 
-text_to_chars <- function(x  # string(s) of text
-){
+text_to_chars <- function(x, sep = ""){
   
   # 0. Initialize:
   chars <- NA
   
-  # 1. Handle inputs:
-  x1 <- as.character(x)
+  # 1. Inputs:
+  if (all(is.na(x))){ return(x) }  # handle NAs (by returning x unaltered)
+  x0 <- as.character(x)
+  
+  x1 <- collapse_chars(x0, sep = sep)  # collapse multi-element strings (ADDING sep between elements). 
   
   # 2. Main: 
   # x2 <- unlist(strsplit(x1, split = "[[:punct:]]"))  # remove punctuation
@@ -641,9 +679,11 @@ text_to_chars <- function(x  # string(s) of text
 ## Check:
 # s3 <- c("A first sentence.", "The second sentence.",
 #         "A third --- and also THE   FINAL --- sentence.")
-# wv <- text_to_chars(s3)
+# (wv <- text_to_chars(s3))
+# (wv_2 <- text_to_chars(s3, sep = "\n"))
+# 
 # text_to_chars(c("See 3 spaces:   ?"))
-# # Note: 
+# # Note:
 # text_to_chars(c(1:3))
 # text_to_chars(c(NA, NA))
 # text_to_chars(c(NA))
@@ -901,8 +941,8 @@ read_ascii <- function(file = "", quiet = FALSE){
 
 map_text_chars <- function(x, flip_y = FALSE){ 
   
-  # (0) Initialize:
-  if (all(is.na(x))){ return(NA) }  # handle NAs 
+  # (0) Inputs:
+  if (all(is.na(x))){ return(x) }  # handle NAs (by returning x unaltered)
   tb  <- NA 
   txt <- as.character(x)
   
@@ -1033,6 +1073,10 @@ map_text_chars <- function(x, flip_y = FALSE){
 #' and the top line in the text file becomes \code{y = n_lines}? 
 #' Default: \code{flip_y = FALSE}. 
 #' 
+#' @param sep Character to insert between the elements 
+#' of a multi-element character vector as input \code{x}? 
+#' Default: \code{sep = ""} (i.e., add nothing).
+#' 
 #' @return A data frame with 3 variables: 
 #' Each character's \code{x}- and \code{y}-coordinates (from top to bottom)  
 #' and a variable \code{char} for the character at this coordinate. 
@@ -1064,19 +1108,20 @@ map_text_chars <- function(x, flip_y = FALSE){
 #' 
 #' @export
 
-map_text_coord <- function(x, flip_y = FALSE){
+map_text_coord <- function(x, flip_y = FALSE, sep = ""){
   
-  # (0) Initialize:
-  if (all(is.na(x))){ return(NA) }  # handle NAs
+  # (0) Inputs and initialize:
+  if (all(is.na(x))){ return(x) }  # handle NAs (by returning x unaltered)
   x0 <- as.character(x)
   df <- NA
   
-  # (1) Individual characters:
-  chars <- unlist(strsplit(x0, split = ""))
+  # (1) Get individual characters: 
+  chars <- text_to_chars(x0, sep = sep)  # Note: (ADDING sep between elements).
+  # WAS: chars <- unlist(strsplit(x0, split = "")) 
   
   # (2) Assign coordinates:
   n_rows    <- length(x0)
-  n_per_row <- nchar(x0)  
+  n_per_row <- nchar(x0) + c(rep(nchar(sep), n_rows -1), 0)  # sep only BETWEEN rows (NOT last)!!!
   N_chars   <- sum(n_per_row)
   if (N_chars == 0){ return(NA) }  # handle empty string inputs
   
@@ -1089,17 +1134,24 @@ map_text_coord <- function(x, flip_y = FALSE){
     
     v_x[(pos + 1):(pos + n_per_row[i])] <- 1:n_per_row[i]
     
-    if (flip_y){
-      v_y[(pos + 1):(pos + n_per_row[i])] <- (n_rows - i + 1)
-    } else {
-      v_y[(pos + 1):(pos + n_per_row[i])] <- i
-    }
+    #if (flip_y){
+    #  v_y[(pos + 1):(pos + n_per_row[i])] <- (n_rows - i + 1)
+    #} else {
+    
+    v_y[(pos + 1):(pos + n_per_row[i])] <- i
+    
+    #}
     
     pos <- pos + n_per_row[i]  # increment position counter
     
   } # loop i end.
   
-  # (3) Output: 
+  # (3) Handle flip_y:
+  if (flip_y){
+    v_y <- (n_rows + 1) - v_y  # invert values of v_y
+  }
+  
+  # (4) Output: 
   df <- data.frame(chars, v_x, v_y, stringsAsFactors = FALSE)
   names(df) <- c("char", "x", "y")
   
@@ -1110,16 +1162,20 @@ map_text_coord <- function(x, flip_y = FALSE){
 ## Check:
 # map_text_coord("Hello world!")             # 1 line of text
 # map_text_coord(c("Hello", "world!"))       # 2 lines of text
-# map_text_coord(c("Hello", " ", "world!"))  # 3 lines of text
+# map_text_coord(c("Hello", "world!"), sep = " ") # 2 lines of text (+ 1 space BTW rows)
+# map_text_coord(c("Hello", "_:_", "world!"))  # 3 lines of text
+# map_text_coord(c("Hello", "_:_", "world!"), sep = "\n")  # 3 lines of text (+ \n BTW rows)
 # 
-# txt <- c("1: AB", "2: C", "3.")
+# txt <- c("1:AB", "2:C", "3.")
 # map_text_coord(txt)
-# map_text_coord(txt, flip_y = TRUE)
+# map_text_coord(txt, sep = " ")
+# map_text_coord(txt, sep = " ", flip_y = TRUE)
 # 
 # # Note:
 # map_text_coord(NA)   # => NA
+# map_text_coord(c(NA, NA))  # => NA NA
 # map_text_coord("")   # => NA
-# map_text_coord(" ")  # yields table
+# map_text_coord(" ")  # yields primitive table
 # 
 # # Reading text from file (using read_ascii()):
 # # Create a temporary file "test.txt":
@@ -1128,7 +1184,8 @@ map_text_coord <- function(x, flip_y = FALSE){
 #     file = "test.txt", sep = "\n")
 # txt <- read_ascii("test.txt")
 # map_text_coord(txt)
-# map_text_coord(txt, flip_y = TRUE)
+# map_text_coord(txt, sep = " ")
+# map_text_coord(txt, sep = " ", flip_y = TRUE)
 # unlink("test.txt")  # clean up (by deleting file).
 
 
@@ -1858,14 +1915,12 @@ cur_word_rest <- function(x, i){
 
 ## char_word: Get all characters and their corresponding words (of a text string x, as df): ------ 
 
-char_word <- function(x){  # A string of text x
+char_word <- function(x, sep = " "){
   
   # Inputs:
   x0 <- as.character(x)
   
-  if (length(x0) > 1){  # Collapse multi-string inputs:
-    x0 <- paste(x0, collapse = " ")  # collapse x0 into 1 string (ADDING 1 space between strings!)
-  }
+  x0 <- collapse_chars(x0, sep = sep)  # collapse multi-element strings (ADDING sep between elements). 
   
   # Initialize:
   len_x <- nchar(x0)
@@ -1991,6 +2046,10 @@ char_word <- function(x){  # A string of text x
 #' @param case_sense Boolean: Distinguish lower- vs. uppercase characters? 
 #' Default: \code{case_sense = TRUE}. 
 #' 
+#' @param sep Character to insert between the elements 
+#' of a multi-element character vector as input \code{x}? 
+#' Default: \code{sep = " "} (i.e., add 1 space). 
+#' 
 #' @return A data frame with 4 variables 
 #' (\code{char}, \code{char_freq}, \code{word}, \code{word_freq}). 
 #' 
@@ -2013,14 +2072,12 @@ char_word <- function(x){  # A string of text x
 #' 
 #' @export
 
-count_chars_words <- function(x, case_sense = TRUE){
+count_chars_words <- function(x, case_sense = TRUE, sep = " "){
   
   # Inputs:
   x0 <- as.character(x)
   
-  if (length(x0) > 1){  # Collapse multi-string inputs:
-    x0 <- paste(x0, collapse = " ")  # collapse x0 into 1 string (ADDING 1 space between strings!)
-  }
+  x0 <- collapse_chars(x0, sep = sep)  # collapse multi-element strings (ADDING sep between elements). 
   
   if (!case_sense) {
     x0 <- tolower(x0)  # work with lowercase x (everywhere)
