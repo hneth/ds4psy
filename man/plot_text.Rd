@@ -117,6 +117,14 @@ to indicate character frequency.
 description of the plot (as a data frame).
 }
 \examples{
+# (A) Plot text:
+plot_text(x = c("Hello", "world!"))
+plot_text(x = c("Hello world!", "How are you today?"))
+
+# (B) User input:
+# plot_text()  # (enter in Console)
+
+# (C) From file: 
 ## Create a temporary file "test.txt":
 # cat("Hello world!", "This is a test file.", 
 #     "Can you see this text?", 
@@ -124,38 +132,37 @@ description of the plot (as a data frame).
 #     file = "test.txt", sep = "\n")
 
 ## (a) Plot text (from file): 
-# plot_text("test.txt")
+# plot_text(file = "test.txt")
 
 ## Set colors, pal_extend, and case_sense:
 # cols <- c("steelblue", "skyblue", "lightgrey")
 # cols <- c("firebrick", "olivedrab", "steelblue", "orange", "gold")
-# plot_text("test.txt", pal = cols, pal_extend = TRUE)
-# plot_text("test.txt", pal = cols, pal_extend = FALSE)
-# plot_text("test.txt", pal = cols, pal_extend = FALSE, case_sense = TRUE)
+# plot_text(file = "test.txt", pal = cols, pal_extend = TRUE)
+# plot_text(file = "test.txt", pal = cols, pal_extend = FALSE)
+# plot_text(file = "test.txt", pal = cols, pal_extend = FALSE, case_sense = TRUE)
 
 ## Customize text and grid options:
-# plot_text("test.txt", col_lbl = "darkblue", cex = 4, family = "sans", fontface = 3,
+# plot_text(file = "test.txt", col_lbl = "darkblue", cex = 4, family = "sans", fontface = 3,
 #           pal = "gold1", pal_extend = TRUE, border_col = NA)
-# plot_text("test.txt", family = "serif", cex = 6, lbl_rotate = TRUE,  
+# plot_text(file = "test.txt", family = "serif", cex = 6, lbl_rotate = TRUE,  
 #           pal = NA, borders = FALSE)
-# plot_text("test.txt", col_lbl = "white", pal = c("green3", "black"),
+# plot_text(file = "test.txt", col_lbl = "white", pal = c("green3", "black"),
 #           border_col = "black", border_size = .2)
 
 ## Color ranges:
-# plot_text("test.txt", pal = c("red2", "orange", "gold"))
-# plot_text("test.txt", pal = c("olivedrab4", "gold"))
+# plot_text(file = "test.txt", pal = c("red2", "orange", "gold"))
+# plot_text(file = "test.txt", pal = c("olivedrab4", "gold"))
 
-# unlink("test.txt")  # clean up (by deleting file).
+# unlink("test.txt")  # clean up.
  
 \donttest{
-## (b) Plot text (from file in subdir):
-# plot_text("data-raw/txt/hello.txt")  # requires txt file
+## Plot text (from file in subdir):
+# plot_text(file = "data-raw/txt/hello.txt")  # requires txt file
 # plot_text(file = "data-raw/txt/ascii.txt", cex = 5, 
 #           col_bg = "grey", char_bg = "-")
          
-## (c) Plot text input (from console):
+## Plot user input (from console):
 # plot_text()
- 
 }
 
 }

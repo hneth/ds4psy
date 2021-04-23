@@ -153,22 +153,25 @@ and the aesthetic settings provided for text labels and tile fill colors.
 description of the plot (as a data frame).
 }
 \examples{
+# (A) Using text string(s): 
 plot_chars(x = c("Hello world!", "Does this work?", 
-           "That's good.", "Please carry on..."))
-           
-## Create a temporary file "test.txt":
+                 "That's good.", "Please carry on..."))
+
+# (B) Interactive user input:
+plot_chars()  # (enter text in Console)
+
+# (C) Create and use a text file:
 # cat("Hello world!", "This is a test file.", 
 #     "Can you see this text?", 
 #     "Good! Please carry on...", 
 #     file = "test.txt", sep = "\n")
 
-## (a) Plot text from file:
 # plot_chars(file = "test.txt")  # default
 # plot_chars(file = "test.txt", lbl_hi = "[[:upper:]]", lbl_lo = "[[:punct:]]", 
-#             col_lbl_hi = "red", col_lbl_lo = "blue")
+#            col_lbl_hi = "red", col_lbl_lo = "blue")
  
 # plot_chars(file = "test.txt", lbl_hi = "[aeiou]", col_lbl_hi = "red", 
-#             col_bg = "white", bg_hi = "see")  # mark vowels and "see" (in bg)
+#            col_bg = "white", bg_hi = "see")  # mark vowels and "see" (in bg)
 # plot_chars(file = "test.txt", bg_hi = "[aeiou]", col_bg_hi = "gold")  # mark (bg of) vowels
 
 ## Label options:
