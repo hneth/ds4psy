@@ -350,6 +350,7 @@ collapse_chars <- function(x, sep = " "){
 #'
 #' @seealso
 #' \code{\link{text_to_words}} for splitting text into a vector of words; 
+#' \code{\link{text_to_chars}} for splitting text into a vector of characters; 
 #' \code{\link{count_words}} for counting the frequency of words; 
 #' \code{\link{strsplit}} for splitting strings. 
 #' 
@@ -428,7 +429,7 @@ text_to_sentences <- function(x,  # string(s) of text
 
 ## text_to_words: Turn a text (consisting of one or more strings) into a vector of its words: ------ 
 
-#' Split strings text \code{x} into words. 
+#' Split string(s) of text \code{x} into words. 
 #' 
 #' \code{text_to_words} splits a string of text \code{x} 
 #' (consisting of one or more character strings) 
@@ -457,6 +458,7 @@ text_to_sentences <- function(x,  # string(s) of text
 #'
 #' @seealso
 #' \code{\link{text_to_sentences}} for splitting text into a vector of sentences;  
+#' \code{\link{text_to_chars}} for splitting text into a vector of characters;  
 #' \code{\link{count_words}} for counting the frequency of words; 
 #' \code{\link{strsplit}} for splitting strings. 
 #' 
@@ -502,13 +504,49 @@ text_to_words_regex <- function(x){
 # text_to_words_regex(s3)
 
 
-
 ## text_to_chars: Turn a text (consisting of one or more strings) into a vector of its characters: ------ 
 
-# (Note: Currently leaves all punctuation and spaces intact.)
-# (Note: Currently not exported, but used.)
+#' Split string(s) of text \code{x} into its characters. 
+#' 
+#' \code{text_to_chars} splits a string of text \code{x} 
+#' (consisting of one or more character strings) 
+#' into a vector of its individual characters.  
+#' 
+#' If \code{rm_specials = TRUE}, 
+#' most special (or non-word) characters are 
+#' removed. (Note that this currently works 
+#' without using regular expressions.)
+#' 
+#' @param x A string of text (required).
+#' 
+#' @param rm_specials Boolean: Remove special characters? 
+#' Default: \code{rm_specials = TRUE}. 
+#' 
+#' @param sep Character to insert between the elements 
+#' of a multi-element character vector as input \code{x}? 
+#' Default: \code{sep = ""} (i.e., add nothing).
+#'
+#' @return A character vector (containing individual characters). 
+#'
+#' @examples
+#' s3 <- c("A 1st sentence.", "The 2nd sentence.",
+#'         "A 3rd --- and  FINAL --- sentence.")
+#' text_to_chars(s3)
+#' text_to_chars(s3, sep = "\n")
+#' text_to_chars(s3, rm_specials = TRUE) 
+#'
+#' @family text objects and functions
+#'
+#' @seealso
+#' \code{\link{text_to_sentences}} for splitting text into a vector of sentences; 
+#' \code{\link{text_to_words}} for splitting text into a vector of words; 
+#' \code{\link{count_chars}} for counting the frequency of characters; 
+#' \code{\link{count_words}} for counting the frequency of words; 
+#' \code{\link{strsplit}} for splitting strings. 
+#' 
+#' @export
 
-text_to_chars <- function(x, sep = ""){
+text_to_chars <- function(x, rm_specials = FALSE, sep = ""){
   
   # 0. Initialize:
   chars <- NA
@@ -519,23 +557,46 @@ text_to_chars <- function(x, sep = ""){
   
   x1 <- collapse_chars(x0, sep = sep)  # collapse multi-element strings (ADDING sep between elements). 
   
-  # 2. Main: 
+  # 2. Remove special characters: 
   # x2 <- unlist(strsplit(x1, split = "[[:punct:]]"))  # remove punctuation
   # x3 <- unlist(strsplit(x2, split = "( ){1,}"))      # remove 1+ spaces
-  # wds <- x3[x3 != ""]  # remove instances of ""
+  # x4 <- x3[x3 != ""]  # remove instances of ""
   
-  chars <- unlist(strsplit(x1, split = ""))
+  # 3. Main: 
+  x2 <- unlist(strsplit(x1, split = ""))
   
-  # 3. Output: 
+  # 4. Remove special characters: 
+  if (rm_specials){
+    
+    # Define special chars: 
+    space <- c("", " ")  # [[:space:]]
+    hyphens <- c("-", "--", "---")
+    punct <- c(",", ";", ":", ".", "!", "?")  # punctuation [[:punct:]]  
+    parents <- c("(", ")", "[", "]", "{", "}", "<", ">")  # parentheses
+    spec_char <- c(punct, space, hyphens, parents)
+    
+    # Note: cclass includes additional symbols.
+    
+    # Remove special characters:
+    chars <- x2[!(x2 %in% spec_char)]
+    
+  } else {
+    
+    chars <- x2  # as is 
+    
+  } # if (rm_specials). 
+  
+  # 4. Output: 
   return(chars)
   
 } # text_to_chars(). 
 
 ## Check:
 # s3 <- c("A first sentence.", "The second sentence.",
-#         "A third --- and also THE   FINAL --- sentence.")
+#        "A third --- and also THE   FINAL --- sentence.")
 # (wv <- text_to_chars(s3))
 # (wv_2 <- text_to_chars(s3, sep = "\n"))
+# (wv_3 <- text_to_chars(s3, rm_specials = TRUE))
 # 
 # text_to_chars(c("See 3 spaces:   ?"))
 # # Note:
@@ -1689,7 +1750,7 @@ count_chars <- function(x, # string of text to count
     
     chars <- v4  # as is 
     
-  }
+  } # if (rm_specials). 
   
   if (sort_freq){
     
