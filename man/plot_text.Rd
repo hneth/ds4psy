@@ -28,7 +28,7 @@ plot_text(
 Different elements denote different lines of text. 
 If \code{x = NA} (as per default), 
 the \code{file} argument is used to read 
-a text file or user input from the Console.}
+a text file or scan user input (entering text in Console).}
 
 \item{file}{A text file to read (or its path). 
 If \code{file = ""} (as per default), 
@@ -117,21 +117,20 @@ to indicate character frequency.
 description of the plot (as a data frame).
 }
 \examples{
-# (A) Plot text:
+# (A) From text string(s):
 plot_text(x = c("Hello", "world!"))
 plot_text(x = c("Hello world!", "How are you today?"))
 
-# (B) User input:
-# plot_text()  # (enter in Console)
+# (B) From user input:
+# plot_text()  # (enter text in Console)
 
-# (C) From file: 
+# (C) From text file:
 ## Create a temporary file "test.txt":
 # cat("Hello world!", "This is a test file.", 
 #     "Can you see this text?", 
 #     "Good! Please carry on...", 
 #     file = "test.txt", sep = "\n")
 
-## (a) Plot text (from file): 
 # plot_text(file = "test.txt")
 
 ## Set colors, pal_extend, and case_sense:
@@ -156,13 +155,13 @@ plot_text(x = c("Hello world!", "How are you today?"))
 # unlink("test.txt")  # clean up.
  
 \donttest{
-## Plot text (from file in subdir):
+## (B) From text file (in subdir):
 # plot_text(file = "data-raw/txt/hello.txt")  # requires txt file
 # plot_text(file = "data-raw/txt/ascii.txt", cex = 5, 
 #           col_bg = "grey", char_bg = "-")
          
-## Plot user input (from console):
-# plot_text()
+## (C) From user input:
+# plot_text()  # (enter text in Console)
 }
 
 }

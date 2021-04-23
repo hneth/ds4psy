@@ -153,14 +153,15 @@ and the aesthetic settings provided for text labels and tile fill colors.
 description of the plot (as a data frame).
 }
 \examples{
-# (A) Using text string(s): 
+# (A) From text string(s):
 plot_chars(x = c("Hello world!", "Does this work?", 
                  "That's good.", "Please carry on..."))
 
-# (B) Interactive user input:
-plot_chars()  # (enter text in Console)
+# (B) From user input:
+# plot_chars()  # (enter text in Console)
 
-# (C) Create and use a text file:
+# (C) From text file:
+# Create and use a text file: 
 # cat("Hello world!", "This is a test file.", 
 #     "Can you see this text?", 
 #     "Good! Please carry on...", 
@@ -185,13 +186,13 @@ plot_chars()  # (enter text in Console)
 # unlink("test.txt")  # clean up (by deleting file).
 
 \donttest{
-## (b) Plot text (from files in subdir):
+## (B) From text file (in subdir):
 # plot_chars(file = "data-raw/txt/hello.txt")  # requires txt file
 # plot_chars(file = "data-raw/txt/ascii.txt", lbl_hi = "[2468]", bg_lo = "[[:digit:]]", 
 #            col_lbl_hi = "red", cex = 10, fontface = 2)
            
-## (c) Plot text input (from console):
-# plot_chars()
+## (C) User input:
+# plot_chars()  # (enter text in Console)
 }
 
 }
