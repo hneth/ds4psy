@@ -1158,6 +1158,14 @@ plot_fn <- function(x = NA,
 #' Default: \code{border_size = 0.5}.
 #' 
 #' @examples
+#' # (A) Plot text:
+#' plot_text(x = c("Hello", "world!"))
+#' plot_text(x = c("Hello world!", "How are you today?"))
+#' 
+#' # (B) User input:
+#' # plot_text()  # (enter in Console)
+#' 
+#' # (C) From file: 
 #' ## Create a temporary file "test.txt":
 #' # cat("Hello world!", "This is a test file.", 
 #' #     "Can you see this text?", 
@@ -1165,38 +1173,37 @@ plot_fn <- function(x = NA,
 #' #     file = "test.txt", sep = "\n")
 #' 
 #' ## (a) Plot text (from file): 
-#' # plot_text("test.txt")
+#' # plot_text(file = "test.txt")
 #' 
 #' ## Set colors, pal_extend, and case_sense:
 #' # cols <- c("steelblue", "skyblue", "lightgrey")
 #' # cols <- c("firebrick", "olivedrab", "steelblue", "orange", "gold")
-#' # plot_text("test.txt", pal = cols, pal_extend = TRUE)
-#' # plot_text("test.txt", pal = cols, pal_extend = FALSE)
-#' # plot_text("test.txt", pal = cols, pal_extend = FALSE, case_sense = TRUE)
+#' # plot_text(file = "test.txt", pal = cols, pal_extend = TRUE)
+#' # plot_text(file = "test.txt", pal = cols, pal_extend = FALSE)
+#' # plot_text(file = "test.txt", pal = cols, pal_extend = FALSE, case_sense = TRUE)
 #' 
 #' ## Customize text and grid options:
-#' # plot_text("test.txt", col_lbl = "darkblue", cex = 4, family = "sans", fontface = 3,
+#' # plot_text(file = "test.txt", col_lbl = "darkblue", cex = 4, family = "sans", fontface = 3,
 #' #           pal = "gold1", pal_extend = TRUE, border_col = NA)
-#' # plot_text("test.txt", family = "serif", cex = 6, lbl_rotate = TRUE,  
+#' # plot_text(file = "test.txt", family = "serif", cex = 6, lbl_rotate = TRUE,  
 #' #           pal = NA, borders = FALSE)
-#' # plot_text("test.txt", col_lbl = "white", pal = c("green3", "black"),
+#' # plot_text(file = "test.txt", col_lbl = "white", pal = c("green3", "black"),
 #' #           border_col = "black", border_size = .2)
 #' 
 #' ## Color ranges:
-#' # plot_text("test.txt", pal = c("red2", "orange", "gold"))
-#' # plot_text("test.txt", pal = c("olivedrab4", "gold"))
+#' # plot_text(file = "test.txt", pal = c("red2", "orange", "gold"))
+#' # plot_text(file = "test.txt", pal = c("olivedrab4", "gold"))
 #' 
-#' # unlink("test.txt")  # clean up (by deleting file).
+#' # unlink("test.txt")  # clean up.
 #'  
 #' \donttest{
-#' ## (b) Plot text (from file in subdir):
-#' # plot_text("data-raw/txt/hello.txt")  # requires txt file
+#' ## Plot text (from file in subdir):
+#' # plot_text(file = "data-raw/txt/hello.txt")  # requires txt file
 #' # plot_text(file = "data-raw/txt/ascii.txt", cex = 5, 
 #' #           col_bg = "grey", char_bg = "-")
 #'          
-#' ## (c) Plot text input (from console):
+#' ## Plot user input (from console):
 #' # plot_text()
-#'  
 #' }
 #'
 #' @family plot functions
@@ -1412,38 +1419,45 @@ plot_text <- function(x = NA,     # Text string(s) to plot
 } # plot_text(). 
 
 
-# ## Check:
+## Check:
+# # (A) Plot text:
+# plot_text(x = c("Hello", "world!"))
+# plot_text(x = c("Hello world!", "Howdy?"))
+# 
+# # (B) User input:
+# plot_text()
+# 
+# # (C) From file:
 # # Create a temporary file "test.txt":
 # cat("Hello world!", "This is a test file.",
 #     "Can you see this text?",
 #     "Good! Please carry on...",
 #     file = "test.txt", sep = "\n")
 # 
-# # (a) Plot text from file:
-# plot_text("test.txt")
+# plot_text(file = "test.txt")
 # 
 # # Set colors, pal_extend, and case_sense:
 # cols <- c("firebrick", "olivedrab", "steelblue", "orange", "gold")
-# plot_text("test.txt", pal = cols, pal_extend = TRUE)
-# plot_text("test.txt", pal = cols, pal_extend = FALSE)
-# plot_text("test.txt", pal = cols, pal_extend = FALSE, case_sense = TRUE)
+# plot_text(file = "test.txt", pal = cols, pal_extend = TRUE)
+# plot_text(file = "test.txt", pal = cols, pal_extend = FALSE)
+# plot_text(file = "test.txt", pal = cols, pal_extend = FALSE, case_sense = TRUE)
 # 
 # # Customize text and grid options:
-# plot_text("test.txt", col_lbl = "white", borders = FALSE)
-# plot_text("test.txt", col_lbl = "firebrick", cex = 4, fontface = 3,
+# plot_text(file = "test.txt", col_lbl = "white", borders = FALSE)
+# plot_text(file = "test.txt", col_lbl = "firebrick", cex = 4, fontface = 3,
 #           pal = "grey90", pal_extend = TRUE, border_col = NA)
-# plot_text("test.txt", col_lbl = "white", pal = c("green4", "black"),
+# plot_text(file = "test.txt", col_lbl = "white", pal = c("green4", "black"),
 #           border_col = "black", border_size = .2)
 # 
 # # Color ranges:
 # plot_text("test.txt", pal = c("red2", "orange", "gold"))
 # plot_text("test.txt", pal = c("olivedrab4", "gold"))
 # 
-# # Note: plot_text() invisibly returns a description of the plot (as df): 
-# tb <- plot_text("test.txt", lbl_rotate = TRUE)
+# # Note: plot_text() invisibly returns a description of the plot (as df):
+# tb <- plot_text(file = "test.txt", lbl_rotate = TRUE)
 # head(tb)
 # 
-# unlink("test.txt")  # clean up (by deleting file). 
+# unlink("test.txt")  # clean up (by deleting file).
 # 
 # \donttest{
 # # (b) Read text file (from subdir):
@@ -1455,9 +1469,6 @@ plot_text <- function(x = NA,     # Text string(s) to plot
 # plot_text()
 # 
 # }
-#
-# # Note: theme_empty() removed need for: #' @importFrom cowplot theme_nothing 
-
 
 
 ## plot_chars: Alternative to plot_text (with regex functionality): -------- 
@@ -1582,22 +1593,25 @@ plot_text <- function(x = NA,     # Text string(s) to plot
 #' Default: \code{border_size = 0.5}.
 #' 
 #' @examples 
+#' # (A) Using text string(s): 
 #' plot_chars(x = c("Hello world!", "Does this work?", 
-#'            "That's good.", "Please carry on..."))
-#'            
-#' ## Create a temporary file "test.txt":
+#'                  "That's good.", "Please carry on..."))
+#'
+#' # (B) Interactive user input:
+#' plot_chars()  # (enter text in Console)
+#' 
+#' # (C) Create and use a text file:
 #' # cat("Hello world!", "This is a test file.", 
 #' #     "Can you see this text?", 
 #' #     "Good! Please carry on...", 
 #' #     file = "test.txt", sep = "\n")
 #' 
-#' ## (a) Plot text from file:
 #' # plot_chars(file = "test.txt")  # default
 #' # plot_chars(file = "test.txt", lbl_hi = "[[:upper:]]", lbl_lo = "[[:punct:]]", 
-#' #             col_lbl_hi = "red", col_lbl_lo = "blue")
+#' #            col_lbl_hi = "red", col_lbl_lo = "blue")
 #'  
 #' # plot_chars(file = "test.txt", lbl_hi = "[aeiou]", col_lbl_hi = "red", 
-#' #             col_bg = "white", bg_hi = "see")  # mark vowels and "see" (in bg)
+#' #            col_bg = "white", bg_hi = "see")  # mark vowels and "see" (in bg)
 #' # plot_chars(file = "test.txt", bg_hi = "[aeiou]", col_bg_hi = "gold")  # mark (bg of) vowels
 #' 
 #' ## Label options:
@@ -1822,33 +1836,34 @@ plot_chars <- function(x = NA,     # Text string(s) to plot
 } # plot_chars(). 
 
 ## Check:
-# plot_chars()  # (A) Use interactive user input.
+# plot_chars("Hello world!")  # (A) Using x (text input)
+# plot_chars()                # (B) Use interactive user input.
 # 
-# # (B) Create a temporary file "test.txt":
+# # (C) Create and use a temporary file "test.txt":
 # cat("Hello world!", "This is a test file.",
 #     "Can you see this text?",
 #     "Good! Please carry on...",
 #     file = "test.txt", sep = "\n")
 # 
 # # (a) Plot & mark text from file:
-# plot_chars("test.txt")  # default
-# plot_chars("test.txt", lbl_hi = "[[:upper:]]", lbl_lo = "[[:punct:]]", col_lbl_hi = "red", col_lbl_lo = "cyan")
-# plot_chars("test.txt", lbl_hi = "\\b\\w{4}\\b", col_lbl_hi = "red", col_bg = "white", bg_hi = "see")  # mark fg of four-letter words
-# plot_chars("test.txt", lbl_hi = "[aeiou]", col_lbl_hi = "red", col_bg = "white", bg_hi = "test")  # mark vowels and "see"
-# plot_chars("test.txt", bg_hi = "\\b\\w{4}\\b", col_bg_hi = "gold")  # mark bg of 4-letter words
-# plot_chars("test.txt", bg_hi = "[aeiou]", col_bg_hi = "gold")  # mark vowels (in bg)
+# plot_chars(file = "test.txt")  # default
+# plot_chars(file = "test.txt", lbl_hi = "[[:upper:]]", lbl_lo = "[[:punct:]]", col_lbl_hi = "red", col_lbl_lo = "cyan")
+# plot_chars(file = "test.txt", lbl_hi = "\\b\\w{4}\\b", col_lbl_hi = "red", col_bg = "white", bg_hi = "see")  # mark fg of four-letter words
+# plot_chars(file = "test.txt", lbl_hi = "[aeiou]", col_lbl_hi = "red", col_bg = "white", bg_hi = "test")  # mark vowels and "see"
+# plot_chars(file = "test.txt", bg_hi = "\\b\\w{4}\\b", col_bg_hi = "gold")  # mark bg of 4-letter words
+# plot_chars(file = "test.txt", bg_hi = "[aeiou]", col_bg_hi = "gold")  # mark vowels (in bg)
 # 
 # # Case sensitivity:
-# plot_chars("test.txt", lbl_hi = "[tc]", bg_hi = "[gh]", case_sense = TRUE, cex = 5)
-# plot_chars("test.txt", lbl_hi = "[tc]", bg_hi = "[gh]", case_sense = FALSE, cex = 5)
+# plot_chars(file = "test.txt", lbl_hi = "[tc]", bg_hi = "[gh]", case_sense = TRUE, cex = 5)
+# plot_chars(file = "test.txt", lbl_hi = "[tc]", bg_hi = "[gh]", case_sense = FALSE, cex = 5)
 # 
 # # Label options:
-# plot_chars("test.txt", bg_hi = "see", lbl_tiles = FALSE, borders = TRUE)  # hide labels
-# plot_chars("test.txt", cex = 5, family = "mono", fontface = 2,
+# plot_chars(file = "test.txt", bg_hi = "see", lbl_tiles = FALSE, borders = TRUE)  # hide labels
+# plot_chars(file = "test.txt", cex = 5, family = "mono", fontface = 2,
 #            lbl_rotate = "[^[:space:]]", angle_fg = c(-45, 45))  # rotate labels
-# plot_chars("test.txt", cex = 5, family = "mono", fontface = 2,
+# plot_chars(file = "test.txt", cex = 5, family = "mono", fontface = 2,
 #            lbl_rotate = "test|text", angle_fg = c(0, 360))
-# plot_chars("test.txt", cex = 5, family = "mono", fontface = 2,
+# plot_chars(file = "test.txt", cex = 5, family = "mono", fontface = 2,
 #            lbl_rotate = "test|text", angle_fg = 0, angle_bg = "180")
 # 
 # # Multiple colors:
@@ -1871,14 +1886,14 @@ plot_chars <- function(x = NA,     # Text string(s) to plot
 #            col_bg = "white", col_bg_hi = "gold", col_lbl_hi = "red",
 #            borders = TRUE, border_col = "black")
 # 
-# plot_chars(file = "test.txt", 
-#            lbl_hi = "te.t", bg_hi = "te.t", lbl_rotate = ".his", 
+# plot_chars(file = "test.txt",
+#            lbl_hi = "te.t", bg_hi = "te.t", lbl_rotate = ".his",
 #            col_bg_hi = "gold", col_lbl_hi = "red3",
 #            cex = 6, family = "mono", fontface = 2,
 #            borders = TRUE, border_col = "black", border_size = .2)
 # 
 # # Note: plot_chars() invisibly returns a description of the plot (as df):
-# tb <- plot_chars("test.txt", lbl_hi = "[aeiou]", lbl_rotate = "[hlwypt?!]",
+# tb <- plot_chars(file = "test.txt", lbl_hi = "[aeiou]", lbl_rotate = "[hlwypt?!]",
 #                  case_sense = FALSE, angle_fg = 90, cex = 4)
 # head(tb)
 # 
