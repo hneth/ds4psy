@@ -1172,10 +1172,10 @@ map_text_coord <- function(x, flip_y = FALSE, sep = ""){
 # map_text_coord(txt, sep = " ", flip_y = TRUE)
 # 
 # # Note:
-# map_text_coord(NA)   # => NA
-# map_text_coord(c(NA, NA))  # => NA NA
-# map_text_coord("")   # => NA
-# map_text_coord(" ")  # yields primitive table
+# map_text_coord(NA)   # NA
+# map_text_coord(c(NA, NA))  # NA NA
+# map_text_coord("")   # NA
+# map_text_coord(" ")  # yields a primitive table
 # 
 # # Reading text from file (using read_ascii()):
 # # Create a temporary file "test.txt":
