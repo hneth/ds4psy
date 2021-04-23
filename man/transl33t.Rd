@@ -65,6 +65,7 @@ Other text objects and functions:
 \code{\link{map_text_coord}()},
 \code{\link{metachar}},
 \code{\link{read_ascii}()},
+\code{\link{text_to_chars}()},
 \code{\link{text_to_sentences}()},
 \code{\link{text_to_words}()}
 }

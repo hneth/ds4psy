@@ -2,7 +2,7 @@
 % Please edit documentation in R/text_fun.R
 \name{text_to_words}
 \alias{text_to_words}
-\title{Split strings text \code{x} into words.}
+\title{Split string(s) of text \code{x} into words.}
 \usage{
 text_to_words(x)
 }
@@ -36,6 +36,7 @@ text_to_words(x)
 }
 \seealso{
 \code{\link{text_to_sentences}} for splitting text into a vector of sentences;  
+\code{\link{text_to_chars}} for splitting text into a vector of characters;  
 \code{\link{count_words}} for counting the frequency of words; 
 \code{\link{strsplit}} for splitting strings.
 
@@ -52,6 +53,7 @@ Other text objects and functions:
 \code{\link{map_text_coord}()},
 \code{\link{metachar}},
 \code{\link{read_ascii}()},
+\code{\link{text_to_chars}()},
 \code{\link{text_to_sentences}()},
 \code{\link{transl33t}()}
 }
