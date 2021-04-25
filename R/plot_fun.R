@@ -1583,8 +1583,7 @@ plot_charmap <- function(x,  # what to plot (required)
 
 #' Plot text characters (from file or user input) and match patterns.
 #'
-#' \code{plot_chars} parses text 
-#' (from a file or user input) 
+#' \code{plot_chars} parses text (from a file or user input) 
 #' into a table and then plots its individual characters 
 #' as a tile plot (using \strong{ggplot2}).
 #' 
@@ -2076,7 +2075,17 @@ plot_chars <- function(x = NA,     # Text string(s) to plot
 # - revised plot_text() to invisibly return plot description (as df)
 # - added theme_empty() to remove need for: #' @importFrom cowplot theme_nothing 
 
+
 ## ToDo: ----------
+
+# - Split plot_chars() into 2 functions: 
+#   1. map_text_regex() maps text to x/y-coords with optional regex columns => df
+#   2. plot_charmap() reads/creates/uses a charmap (df) to plot it. 
+
+# - Visualize char or word frequency: 
+#   1. Use count_chars_words() to create color vectors (fg/bg) based on char_ or word_freq. 
+#   2. Use plot_charmap() to plot char or word frequency.
+
 
 # - Revise plot_text() to use count_chars_words() and 
 #   allow coloring by character or word frequency.
