@@ -1,5 +1,5 @@
 ## plot_fun.R | ds4psy
-## hn | uni.kn | 2021 04 23
+## hn | uni.kn | 2021 04 25
 ## ---------------------------
 
 ## Functions for plotting. 
@@ -1469,6 +1469,100 @@ plot_text <- function(x = NA,     # Text string(s) to plot
 # 
 # }
 
+## plot_charmap: Plot a table of characters with x- and y-coodinates: -------- 
+
+# Note: This was the ggplot2 part of plot_chars() (below).
+
+plot_charmap <- function(x){
+  
+  # (1) Inputs:
+  tb <- NA
+  
+  if (is.data.frame(x)){
+    
+    tb <- x 
+    
+  } else {
+    
+    message("ToDo: Call make_charmap(x)?")
+    
+    return(NA)
+    
+  }
+  
+  
+  # (2) Parameters (use defaults or from x):
+  
+  if (all(is.na(tb))){
+    
+    # Make tb: 
+    N <- 10
+    char <- sample(letters, size = N, replace = FALSE)
+    x <- sample(1:N, size = N, replace = FALSE)
+    y <- sample(1:N, size = N, replace = FALSE)
+    tb <- data.frame(char, x, y)
+    
+    # (a) Labels (fg):
+    label <- tb$char
+    color <- "black"  # label fg color
+    size  <- 1  # size of label: cex
+    angle <- 0  
+    fontface <- 1  # 1-4
+    family <- "mono"  # 1 of "sans" "serif" "mono"
+    
+    # (b) Tiles (bg):
+    tl_fill  <- "grey80"  # tile fill/bg color
+    tl_color <- "grey20"  # tile border color
+    tl_size  <- .5  # tile border size
+    tl_height <- 1
+    tl_width  <- 1
+    
+    # (c) Coordinates:
+    ratio <- 1/1   #  ratio of height/width (y/x). Default: ratio <- 1/1 
+    x_lim <- NULL  # range of x-coordinates. Default x_lim <- NULL
+    y_lim <- NULL  # range of y-coordinates. Default y_lim <- NULL
+    
+    
+  } else { # tb is defined: Use columns... 
+    
+    # (a) Labels (fg):
+    label <- tb$char
+    color <- tb$col_fg
+    size  <- 1 # cex
+    angle <- tb$angle 
+    fontface <- 1 # fontface 1-4
+    family <- "sans" # 1 of "sans" "serif" "mono"
+    
+    # (b) Tiles (bg):
+    tl_fill  <- tb$col_bg
+    tl_color <- tb$brd_col 
+    tl_size  <- tb$brd_size 
+    tl_height <- 1
+    tl_width  <- 1
+    
+    # (c) Coordinates:
+    ratio <- 1/1  #  ratio of height/width (y/x). Default: ratio <- 1/1 
+    x_lim <- c(0, max(tb$x) + 1)  # range of x-coordinates. Default x_lim <- NULL
+    y_lim <- c(0, max(tb$y) + 1)  # range of y-coordinates. Default y_lim <- NULL
+    
+  }
+  
+  # (3) Plot tb (using ggplot2):
+  
+  cur_plot <- ggplot2::ggplot(data = tb, aes(x = x, y = y)) +
+    ggplot2::geom_tile(aes(), fill = tl_fill, color = tl_color, size = tl_size,
+                       height = tl_height, width = tl_width) +  
+    ggplot2::geom_text(aes(label = label), color = color, size = size, angle = angle, 
+                       fontface = fontface, family = family) + 
+    ggplot2::coord_fixed(ratio = ratio, xlim = x_lim, ylim = y_lim, expand = TRUE, clip = "on") + 
+    # theme: 
+    theme_empty() # theme_gray() # theme_classic() # cowplot::theme_nothing()
+  
+  # plot plot: 
+  print(cur_plot) 
+  
+} # plot_charmap(). 
+
 
 ## plot_chars: Alternative to plot_text (with regex functionality): -------- 
 
@@ -1686,16 +1780,9 @@ plot_chars <- function(x = NA,     # Text string(s) to plot
   ## (-) Default file/path:
   # file <- "test.txt"  # 4debugging
   
-  ## (-) Parameters (currently fixed):
-  # (a) Text:
-  # fontface <- 1
-  # family <- "mono"  # 1 of "sans" "serif" "mono"
-  # angle <- 0
-  # (b) Tile:
-  height <- 1
-  width  <- 1
-  
   # (0) Interpret inputs: ------  
+  
+  # Labels: 
   if (!lbl_tiles) {col_lbl <- NA}
   
   # Font family:
@@ -1816,12 +1903,28 @@ plot_chars <- function(x = NA,     # Text string(s) to plot
   
   # (6) Plot tb_txt (using ggplot2): ------  
   
+  ## (-) Parameters (currently fixed):
+  
+  # (a) General:
+  ratio <- 1/1  #  ratio of height/width (y/x). Default: ratio <- 1/1 
+  x_lim <- c(0, max(tb_txt$x) + 1)  # range of x-coordinates. Default x_lim <- NULL
+  y_lim <- c(0, max(tb_txt$y) + 1)  # range of y-coordinates. Default y_lim <- NULL
+  
+  # (b) Tiles (bg):
+  height <- 1
+  width  <- 1
+  
+  # (c) Labels (fg):
+  # fontface <- 1
+  # family <- "mono"  # 1 of "sans" "serif" "mono"
+  # angle <- 0
+  
   cur_plot <- ggplot2::ggplot(data = tb_txt, aes(x = x, y = y)) +
-    ggplot2::geom_tile(aes(), fill = tb_txt$col_bg, color = brd_col, size = brd_size,  # tiles (with borders, opt.)
+    ggplot2::geom_tile(aes(), fill = tb_txt$col_bg, color = brd_col, size = brd_size,
                        height = height, width = width) +  
-    ggplot2::geom_text(aes(label = char), color = tb_txt$col_fg, size = cex, 
-                       fontface = fontface, family = family, angle = tb_txt$angle) + 
-    ggplot2::coord_equal() + 
+    ggplot2::geom_text(aes(label = char), color = tb_txt$col_fg, size = cex, angle = tb_txt$angle, 
+                       fontface = fontface, family = family) + 
+    ggplot2::coord_fixed(ratio = ratio, xlim = x_lim, ylim = y_lim, expand = TRUE, clip = "on") + 
     # theme: 
     theme_empty() # theme_gray() # theme_classic() # cowplot::theme_nothing()
   
@@ -1843,14 +1946,14 @@ plot_chars <- function(x = NA,     # Text string(s) to plot
 # plot_chars()  # # (enter text in Console)
 # 
 # # (C) From text file:
-# # Create a temporary file "test.txt":
-# cat("Hello world!", "This is a test file.",
-#     "Can you see this text?",
-#     "Good! Please carry on...",
-#     file = "test.txt", sep = "\n")
-# 
-# # (a) Plot & mark text from file:
-# plot_chars(file = "test.txt")  # default
+# Create a temporary file "test.txt":
+cat("Hello world!", "This is a test file.",
+    "Can you see this text?",
+    "Good! Please carry on...",
+    file = "test.txt", sep = "\n")
+
+# (a) Plot & mark text from file:
+plot_chars(file = "test.txt")  # default
 # plot_chars(file = "test.txt", lbl_hi = "[[:upper:]]", lbl_lo = "[[:punct:]]", col_lbl_hi = "red", col_lbl_lo = "cyan")
 # plot_chars(file = "test.txt", lbl_hi = "\\b\\w{4}\\b", col_lbl_hi = "red", col_bg = "white", bg_hi = "see")  # mark fg of four-letter words
 # plot_chars(file = "test.txt", lbl_hi = "[aeiou]", col_lbl_hi = "red", col_bg = "white", bg_hi = "test")  # mark vowels and "see"
