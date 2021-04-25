@@ -123,8 +123,7 @@ Default: \code{border_size = 0.5}.}
 An invisible data frame describing the plot.
 }
 \description{
-\code{plot_chars} parses text 
-(from a file or user input) 
+\code{plot_chars} parses text (from a file or user input) 
 into a table and then plots its individual characters 
 as a tile plot (using \strong{ggplot2}).
 }
