@@ -1473,9 +1473,24 @@ plot_text <- function(x = NA,     # Text string(s) to plot
 
 # Note: This was the ggplot2 part of plot_chars() (below).
 
-plot_charmap <- function(x){
+plot_charmap <- function(x,  # what to plot (required)
+                         
+                         # labels:
+                         lbl_tiles = TRUE,  # show labels (using col_lbl_? below)
+                         col_lbl = "black", 
+                         angle = 0, 
+                         cex = 3,           # character size
+                         fontface = 1,      # font face (1:4)
+                         family = "sans",   # font family: 1 of "sans" "serif" "mono"
+                         
+                         # tiles:
+                         col_bg = "grey80", 
+                         borders = FALSE,       # show tile borders?
+                         border_col = "white",  # color of tile border 
+                         border_size = 0.5      # width of tile border
+){
   
-  # (1) Inputs:
+  # (1) Inputs: ---- 
   tb <- NA
   
   if (is.data.frame(x)){
@@ -1484,77 +1499,60 @@ plot_charmap <- function(x){
     
   } else {
     
-    message("ToDo: Call make_charmap(x)?")
+    message("ToDo: Call make_charmap(x)...")
     
-    return(NA)
-    
-  }
-  
-  
-  # (2) Parameters (use defaults or from x):
-  
-  if (all(is.na(tb))){
-    
-    # Make tb: 
+    # Hack: Make some minimal tb: 
     N <- 10
     char <- sample(letters, size = N, replace = FALSE)
     x <- sample(1:N, size = N, replace = FALSE)
     y <- sample(1:N, size = N, replace = FALSE)
     tb <- data.frame(char, x, y)
     
-    # (a) Labels (fg):
-    label <- tb$char
-    color <- "black"  # label fg color
-    size  <- 1  # size of label: cex
-    angle <- 0  
-    fontface <- 1  # 1-4
-    family <- "mono"  # 1 of "sans" "serif" "mono"
-    
-    # (b) Tiles (bg):
-    tl_fill  <- "grey80"  # tile fill/bg color
-    tl_color <- "grey20"  # tile border color
-    tl_size  <- .5  # tile border size
-    tl_height <- 1
-    tl_width  <- 1
-    
-    # (c) Coordinates:
-    ratio <- 1/1   #  ratio of height/width (y/x). Default: ratio <- 1/1 
-    x_lim <- NULL  # range of x-coordinates. Default x_lim <- NULL
-    y_lim <- NULL  # range of y-coordinates. Default y_lim <- NULL
-    
-    
-  } else { # tb is defined: Use columns... 
-    
-    # (a) Labels (fg):
-    label <- tb$char
-    color <- tb$col_fg
-    size  <- 1 # cex
-    angle <- tb$angle 
-    fontface <- 1 # fontface 1-4
-    family <- "sans" # 1 of "sans" "serif" "mono"
-    
-    # (b) Tiles (bg):
-    tl_fill  <- tb$col_bg
-    tl_color <- tb$brd_col 
-    tl_size  <- tb$brd_size 
-    tl_height <- 1
-    tl_width  <- 1
-    
-    # (c) Coordinates:
-    ratio <- 1/1  #  ratio of height/width (y/x). Default: ratio <- 1/1 
-    x_lim <- c(0, max(tb$x) + 1)  # range of x-coordinates. Default x_lim <- NULL
-    y_lim <- c(0, max(tb$y) + 1)  # range of y-coordinates. Default y_lim <- NULL
-    
   }
   
-  # (3) Plot tb (using ggplot2):
+  
+  # (2) Parameters: ---- 
+  
+  # (a) minimal required inputs (from tb):
+  label <- tb$char
+  x <- tb$x
+  y <- tb$y
+  
+  tb_vars <- names(tb)  # names of tb columns
+  
+  # (b) Label aesthetics:
+  if ("col_fg" %in% tb_vars) { col_lbl <- tb$col_fg } 
+  
+  if (!lbl_tiles){ col_lbl <- NA }  # hide text labels
+  
+  if ("angle" %in% tb_vars) { angle <- tb$angle }
+  
+  # (c) Tile aesthetics:
+  if ("col_bg" %in% tb_vars) { col_bg <- tb$col_bg } 
+  
+  if (!borders){  # hide tile borders:
+    border_col  <- NA
+    border_size <- NA
+  }
+  
+  # (d) Constants: 
+  height <- 1
+  width  <- 1
+  
+  # (e) Coordinates:
+  ratio <- 1/1   #  ratio of height/width (y/x). Default: ratio <- 1/1 
+  xlim  <- NULL  # range of x-coordinates. Default x_lim <- NULL
+  ylim  <- NULL  # range of y-coordinates. Default y_lim <- NULL
+  
+  
+  # (3) Plot tb (using ggplot2): ---- 
   
   cur_plot <- ggplot2::ggplot(data = tb, aes(x = x, y = y)) +
-    ggplot2::geom_tile(aes(), fill = tl_fill, color = tl_color, size = tl_size,
-                       height = tl_height, width = tl_width) +  
-    ggplot2::geom_text(aes(label = label), color = color, size = size, angle = angle, 
+    ggplot2::geom_tile(aes(), fill = col_bg, color = border_col, size = border_size,
+                       height = height, width = width) +  
+    ggplot2::geom_text(aes(label = label), color = col_lbl, size = cex, angle = angle, 
                        fontface = fontface, family = family) + 
-    ggplot2::coord_fixed(ratio = ratio, xlim = x_lim, ylim = y_lim, expand = TRUE, clip = "on") + 
+    ggplot2::coord_fixed(ratio = ratio, xlim = xlim, ylim = ylim, expand = TRUE, clip = "on") + 
     # theme: 
     theme_empty() # theme_gray() # theme_classic() # cowplot::theme_nothing()
   
@@ -1562,6 +1560,23 @@ plot_charmap <- function(x){
   print(cur_plot) 
   
 } # plot_charmap(). 
+
+# Check:
+# plot_charmap("Test...")
+
+# # Plot existing charmap: 
+# s <- c("ene mene miste", "es rappelt", "in der kiste")
+# plot_chars(s) %>% plot_charmap()
+
+
+
+## ToDo: map_text: Map text to coordinates, plus regex magic for additional columns: -------- 
+
+# Goal: Use the non-visual/non-plotting related parts of plot_chars() to create a 
+#       map_text_regex() function that calls map_text_coord(), plus optional   
+#       regular expressions (regex) for creating additional custom columns (col_fg/col_bg/angle).
+
+# +++ here now +++ 
 
 
 ## plot_chars: Alternative to plot_text (with regex functionality): -------- 
@@ -1753,7 +1768,7 @@ plot_chars <- function(x = NA,     # Text string(s) to plot
                        lbl_rotate = NA,         # "[^[:space:]]",  # pattern for labels to rotate (as regex)
                        case_sense = TRUE,       # distinguish lower/uppercase (in pattern matching)?
                        
-                       # text format:
+                       # labels (text):
                        lbl_tiles = TRUE,  # show labels (using col_lbl_? below)
                        # lbl_angle = 0,   # angle of rotation (0 := no rotation) 
                        angle_fg = c(-90, 90),  # angle(s) of labels matching the lbl_rotate pattern
@@ -1762,16 +1777,16 @@ plot_chars <- function(x = NA,     # Text string(s) to plot
                        fontface = 1,      # font face (1:4)
                        family = "sans",   # font family: 1 of "sans" "serif" "mono"
                        
-                       # 6 colors: 
-                       col_lbl = "black",             # normal text label color
+                       # 6 colors (of labels and tiles): 
+                       col_lbl = "black",             # default text label color
                        col_lbl_hi = pal_ds4psy[[1]],  # highlighted labels (matching lbl_hi)
                        col_lbl_lo = pal_ds4psy[[9]],  # de-emphasized labels (matching lbl_lo)
-                       col_bg = pal_ds4psy[[7]],      # normal tile fill color
-                       col_bg_hi = pal_ds4psy[[4]],   # "gold", # highlighted tiles (matching bg_hi)
+                       col_bg = pal_ds4psy[[7]],      # default tile fill color
+                       col_bg_hi = pal_ds4psy[[4]],   # highlighted tiles (matching bg_hi)
                        col_bg_lo = "white",           # de-emphasized tiles (matching bg_lo)
                        col_sample = FALSE,            # sample from color vectors (within category)?
                        
-                       # tile borders: 
+                       # borders (of tiles): 
                        borders = FALSE,       # show tile borders?
                        border_col = "white",  # color of tile border 
                        border_size = 0.5      # width of tile border
@@ -1946,14 +1961,14 @@ plot_chars <- function(x = NA,     # Text string(s) to plot
 # plot_chars()  # # (enter text in Console)
 # 
 # # (C) From text file:
-# Create a temporary file "test.txt":
-cat("Hello world!", "This is a test file.",
-    "Can you see this text?",
-    "Good! Please carry on...",
-    file = "test.txt", sep = "\n")
-
-# (a) Plot & mark text from file:
-plot_chars(file = "test.txt")  # default
+# # Create a temporary file "test.txt":
+# cat("Hello world!", "This is a test file.",
+#     "Can you see this text?",
+#     "Good! Please carry on...",
+#     file = "test.txt", sep = "\n")
+# 
+# # (a) Plot & mark text from file:
+# plot_chars(file = "test.txt")  # default
 # plot_chars(file = "test.txt", lbl_hi = "[[:upper:]]", lbl_lo = "[[:punct:]]", col_lbl_hi = "red", col_lbl_lo = "cyan")
 # plot_chars(file = "test.txt", lbl_hi = "\\b\\w{4}\\b", col_lbl_hi = "red", col_bg = "white", bg_hi = "see")  # mark fg of four-letter words
 # plot_chars(file = "test.txt", lbl_hi = "[aeiou]", col_lbl_hi = "red", col_bg = "white", bg_hi = "test")  # mark vowels and "see"
