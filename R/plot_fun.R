@@ -1469,6 +1469,7 @@ plot_text <- function(x = NA,     # Text string(s) to plot
 # 
 # }
 
+
 ## plot_charmap: Plot a table of characters with x- and y-coodinates: -------- 
 
 # Note: This was the ggplot2 part of plot_chars() (below).
