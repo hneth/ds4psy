@@ -2473,7 +2473,7 @@ map_text_regex <- function(x = NA,     # Text string(s) to plot
   
   # (2) Get chars in tb_txt$char (as a single string): ------ 
   
-  char_s <- chars_to_text(x = tb_txt$char)
+  char_s <- chars_to_text(x = tb_txt$char)  # turns char vector into text string
   n_char <- nchar(char_s)
   
   
