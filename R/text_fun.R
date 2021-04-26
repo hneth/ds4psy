@@ -2283,8 +2283,6 @@ count_chars_words <- function(x, case_sense = TRUE, sep = " "){
 #       map_text_regex() function that calls map_text_coord(), plus optional   
 #       regular expressions (regex) for creating additional custom columns (col_fg/col_bg/angle).
 
-# +++ here now +++ 
-
 #' Map text to character table (allowing for matching patterns).
 #'
 #' \code{map_text_regex} parses text (from a file or user input) 
@@ -2305,14 +2303,12 @@ count_chars_words <- function(x, case_sense = TRUE, sep = " "){
 #' Individual characters are plotted at equidistant x-y-positions 
 #' and the aesthetic settings provided for text labels and tile fill colors.
 #' 
-#' \code{map_text_regex} returns a 
-#' description of a plot (as a data frame). 
-#' Using this output as input to 
-#' \code{\link{plot_charmap}} plots text in a character-based 
-#' fashion (ie.., individual characters are plotted at 
-#' equidistant x-y-positions). Together, both functions 
-#' replace the over-specialized \code{\link{plot_chars}} and 
-#' \code{\link{plot_text}} functions.
+#' \code{map_text_regex} returns a plot description (as a data frame). 
+#' Using this output as an input to \code{\link{plot_charmap}} plots 
+#' text in a character-based fashion (i.e., individual characters are 
+#' plotted at equidistant x-y-positions). 
+#' Together, both functions replace the over-specialized 
+#' \code{\link{plot_chars}} and \code{\link{plot_text}} functions.
 #' 
 #' @return A data frame describing a plot.
 #' 
@@ -2348,20 +2344,10 @@ count_chars_words <- function(x, case_sense = TRUE, sep = " "){
 #' lower- vs. uppercase characters in pattern matches? 
 #' Default: \code{case_sense = TRUE}. 
 #' 
-#' @param lbl_tiles Add character labels to tiles? 
+#' @param lbl_tiles Are character labels shown? 
+#' This enables pattern matching for (fg) color and 
+#' angle aesthetics. 
 #' Default: \code{lbl_tiles = TRUE} (i.e., show labels). 
-#' 
-#' @param angle_fg Angle(s) for rotating character labels 
-#' matching the pattern of the \code{lbl_rotate} expression. 
-#' Default: \code{angle_fg = c(-90, 90)}. 
-#' If \code{length(angle_fg) > 1}, a random value 
-#' in uniform \code{range(angle_fg)} is used for every character. 
-#' 
-#' @param angle_bg Angle(s) of rotating character labels 
-#' not matching the pattern of the \code{lbl_rotate} expression. 
-#' Default: \code{angle_bg = 0} (i.e., no rotation). 
-#' If \code{length(angle_bg) > 1}, a random value 
-#' in uniform \code{range(angle_bg)} is used for every character. 
 #' 
 #' @param col_lbl Default color of text labels.
 #' Default: \code{col_lbl = "black"}. 
@@ -2384,57 +2370,53 @@ count_chars_words <- function(x, case_sense = TRUE, sep = " "){
 #' @param col_sample Boolean: Sample color vectors (within category)?
 #' Default: \code{col_sample = FALSE}. 
 #' 
-#' @param borders Boolean: Add borders to tiles? 
-#' Default: \code{borders = FALSE} (i.e., no borders).
+#' @param angle_fg Angle(s) for rotating character labels 
+#' matching the pattern of the \code{lbl_rotate} expression. 
+#' Default: \code{angle_fg = c(-90, 90)}. 
+#' If \code{length(angle_fg) > 1}, a random value 
+#' in uniform \code{range(angle_fg)} is used for every character. 
 #' 
-#' @param border_col Color of tile borders. 
-#' Default: \code{border_col = "white"}.  
-#' 
-#' @param border_size Size of tile borders. 
-#' Default: \code{border_size = 0.5}.
+#' @param angle_bg Angle(s) of rotating character labels 
+#' not matching the pattern of the \code{lbl_rotate} expression. 
+#' Default: \code{angle_bg = 0} (i.e., no rotation). 
+#' If \code{length(angle_bg) > 1}, a random value 
+#' in uniform \code{range(angle_bg)} is used for every character. 
 #' 
 #' @examples 
-#' # (A) From text string(s):
-#' map_text_regex(x = c("Hello world!", "Does this work?", 
-#'                  "That's good.", "Please carry on..."))
-#'
-#' # (B) From user input:
+#' ## (1) From text string(s): 
+#' ts <- c("Hello world!", "This is a test to test this splendid function",
+#'         "Does this work?", "That's good.", "Please carry on.")
+#' sum(nchar(ts))
+#' 
+#' # (a) simple use:
+#' map_text_regex(ts) 
+#' 
+#' # (b) matching patterns (regex):
+#' map_text_regex(ts, lbl_hi = "\\b\\w{4}\\b", bg_hi = "[good|test]",
+#'                lbl_rotate = "[^aeiou]", angle_fg = c(-45, +45))
+#' 
+#' ## (2) From user input:
 #' # map_text_regex()  # (enter text in Console)
-#' 
-#' # (C) From text file:
-#' # Create and use a text file: 
-#' # cat("Hello world!", "This is a test file.", 
-#' #     "Can you see this text?", 
-#' #     "Good! Please carry on...", 
-#' #     file = "test.txt", sep = "\n")
-#' 
-#' # map_text_regex(file = "test.txt")  # default
-#' # map_text_regex(file = "test.txt", lbl_hi = "[[:upper:]]", lbl_lo = "[[:punct:]]", 
-#' #            col_lbl_hi = "red", col_lbl_lo = "blue")
 #'  
-#' # map_text_regex(file = "test.txt", lbl_hi = "[aeiou]", col_lbl_hi = "red", 
-#' #            col_bg = "white", bg_hi = "see")  # mark vowels and "see" (in bg)
+#' ## (3) From text file:
+#' # cat("Hello world!", "This is a test file.",
+#' #     "Can you see this text?",
+#' #     "Good! Please carry on...",
+#' #     file = "test.txt", sep = "\n")
+#' # 
+#' # map_text_regex(file = "test.txt")  # default
+#' # map_text_regex(file = "test.txt", lbl_hi = "[[:upper:]]", lbl_lo = "[[:punct:]]",
+#' #                col_lbl_hi = "red", col_lbl_lo = "blue")
+#' # 
+#' # map_text_regex(file = "test.txt", lbl_hi = "[aeiou]", col_lbl_hi = "red",
+#' #                col_bg = "white", bg_hi = "see")  # mark vowels and "see" (in bg)
 #' # map_text_regex(file = "test.txt", bg_hi = "[aeiou]", col_bg_hi = "gold")  # mark (bg of) vowels
-#' 
-#' ## Label options:
+#' # 
+#' # # Label options:
 #' # map_text_regex(file = "test.txt", bg_hi = "see", lbl_tiles = FALSE)
-#' # map_text_regex(file = "test.txt", cex = 5, family = "mono", fontface = 4, lbl_angle = c(-20, 20))
-#' 
-#' ## Note: map_text_regex() returns a description of the plot (as df):
-#' # tb <- map_text_regex(file = "test.txt", lbl_hi = "[aeiou]", lbl_rotate = TRUE)
-#' # head(tb)
-#' 
-#' # unlink("test.txt")  # clean up (by deleting file).
-#' 
-#' \donttest{
-#' ## (B) From text file (in subdir):
-#' # map_text_regex(file = "data-raw/txt/hello.txt")  # requires txt file
-#' # map_text_regex(file = "data-raw/txt/ascii.txt", lbl_hi = "[2468]", bg_lo = "[[:digit:]]", 
-#' #            col_lbl_hi = "red", cex = 10, fontface = 2)
-#'            
-#' ## (C) User input:
-#' # map_text_regex()  # (enter text in Console)
-#' }
+#' # map_text_regex(file = "test.txt", angle_bg = c(-20, 20))
+#' # 
+#' # unlink("test.txt")  # clean up (by deleting file). 
 #'
 #' @family text objects and functions
 #'
@@ -2463,12 +2445,6 @@ map_text_regex <- function(x = NA,     # Text string(s) to plot
                            
                            # labels (text):
                            lbl_tiles = TRUE,  # show labels (using col_lbl_? below)
-                           # lbl_angle = 0,   # angle of rotation (0 := no rotation) 
-                           angle_fg = c(-90, 90),  # angle(s) of labels matching the lbl_rotate pattern
-                           angle_bg = 0,           # default angle(s) & labels NOT matching the lbl_rotate pattern
-                           cex = 3,           # character size
-                           fontface = 1,      # font face (1:4)
-                           family = "sans",   # font family: 1 of "sans" "serif" "mono"
                            
                            # 6 colors (of labels and tiles): 
                            col_lbl = "black",             # default text label color
@@ -2479,10 +2455,9 @@ map_text_regex <- function(x = NA,     # Text string(s) to plot
                            col_bg_lo = "white",           # de-emphasized tiles (matching bg_lo)
                            col_sample = FALSE,            # sample from color vectors (within category)?
                            
-                           # borders (of tiles): 
-                           borders = FALSE,       # show tile borders?
-                           border_col = "white",  # color of tile border 
-                           border_size = 0.5      # width of tile border
+                           # 2 angles (of labels):
+                           angle_fg = c(-90, 90),  # angle(s) of labels matching the lbl_rotate pattern
+                           angle_bg = 0            # default angle(s) & labels NOT matching the lbl_rotate pattern 
 ){
   
   ## (-) Default file/path:
@@ -2493,21 +2468,21 @@ map_text_regex <- function(x = NA,     # Text string(s) to plot
   # Labels: 
   if (!lbl_tiles) {col_lbl <- NA}
   
-  # Font family:
-  family <- tolower(family)
-  if (!family %in% c("sans", "serif", "mono")){
-    message("plot_chars: Font family should be 'sans' (default), 'serif', or 'mono'.")
-    family <- "sans"
-  }
-  
-  # Tile borders:
-  if (borders){
-    brd_col   <- border_col
-    brd_size  <- border_size
-  } else {
-    brd_col  <- NA  # hide
-    brd_size <- NA  # hide
-  }
+  # # Font family:
+  # family <- tolower(family)
+  # if (!family %in% c("sans", "serif", "mono")){
+  #   message("plot_chars: Font family should be 'sans' (default), 'serif', or 'mono'.")
+  #   family <- "sans"
+  # }
+  # 
+  # # Tile borders:
+  # if (borders){
+  #   brd_col   <- border_col
+  #   brd_size  <- border_size
+  # } else {
+  #   brd_col  <- NA  # hide
+  #   brd_size <- NA  # hide
+  # }
   
   
   # (1) Read text input into a text string (txt_ui) and character table (tb_txt): ------ 
@@ -2636,17 +2611,24 @@ map_text_regex <- function(x = NA,     # Text string(s) to plot
 } # map_text_regex(). 
 
 ## Check:
-# ts <- c("Hello world!", "This is a test to test this splendid function", 
+# ts <- c("Hello world!", "This is a test to test this splendid function",
 #          "Does this work?", "That's good.", "Please carry on.")
-# sum(nchar(ts))       
-# map_text_regex(ts, lbl_hi = "\\b\\w{4}\\b", bg_hi = "[good|test]", 
-#                lbl_rotate = "[^aeiou]", angle_fg = c(-45, +45))
+# sum(nchar(ts))
+# cm <- map_text_regex(ts, lbl_hi = "\\b\\w{4}\\b", bg_hi = "[good|test]",
+#                      lbl_rotate = "[^aeiou]", angle_fg = c(-45, +45))
+# cm
+# 
+# plot_charmap(cm)  # intended use in pipe: map_text_regex(x) %>% plot_charmap()
+
 
 # +++ here now +++ 
 
 
 ## Done: ---------- 
 
+# - Added map_text_regex() that performs all non-plotting parts of plot_chars(). [2021-04-26]
+# - Added map_text_or_file() that combines read_ascii() with map_text_coord(). [2021-04-26]
+# 
 # - Split read_ascii() into 2 functions [2021-04-22]:
 #   A. new read_ascii(): Read a file into a string of text x.
 #   B. new map_text_chars() and simpler map_text_coord(): Turn a string of text x into a table (with x/y-coordinates). 
