@@ -1614,6 +1614,8 @@ plot_charmap <- function(x = NA,     # what to plot (required): charmap OR {text
   
   if (is.data.frame(x)){
     
+    # ToDo: Ensure that columns {char, x, y} are present.  
+    
     tb <- x 
     
   } else {
@@ -1670,8 +1672,9 @@ plot_charmap <- function(x = NA,     # what to plot (required): charmap OR {text
     # theme: 
     theme_empty() # theme_gray() # theme_classic() # cowplot::theme_nothing()
   
-  # plot plot: 
+  ## plot plot: 
   # print(cur_plot)
+  
   
   # (4) Return:
   return(cur_plot)
@@ -1707,7 +1710,6 @@ plot_charmap <- function(x = NA,     # what to plot (required): charmap OR {text
 #
 # # (c) From user input:
 # plot_charmap()
-# 
 
 # +++ here now +++ 
 
@@ -1951,26 +1953,13 @@ plot_chars <- function(x = NA,     # Text string(s) to plot
   
   # (1) Read text input into a text string (txt_ui) and character table (tb_txt): ------ 
   
-  ## OLDER: 
-  # if (all(is.na(x))){  # Case 1: Read text from file or user input (enter text in Console):
-  #   
-  #   txt_ui <- read_ascii(file = file, quiet = FALSE)     # 1. read user input (UI)
-  #   tb_txt <- map_text_coord(x = txt_ui, flip_y = TRUE)  # 2. map UI to x/y-table
-  #   
-  # } else {  # Case 2: Use the character vector provided as x:
-  #   
-  #   tb_txt <- map_text_coord(x = x, flip_y = TRUE)       # 3. map x to x/y-table
-  #   
-  # } # if (is,na(x)) end.
-  
-  # REPLACED by: 
   tb_txt <- map_text_or_file(x = x, file = file, flip_y = TRUE)  # use text helper function
-  nr_txt <- nrow(tb_txt)  # (elements/nrows of x/text)
+  # nr_txt <- nrow(tb_txt)  # (elements/nrows of x/text)
   
   
   # (2) Get chars in tb_txt$char (as a single string): ------ 
   
-  char_s <- chars_to_text(x = tb_txt$char)
+  char_s <- chars_to_text(x = tb_txt$char)  # turns char vector into text string
   n_char <- nchar(char_s)
   
   
@@ -2033,7 +2022,7 @@ plot_chars <- function(x = NA,     # Text string(s) to plot
       
       if (length(angle_bg) > 1){
         rangel <- range(angle_bg)
-        char_angles <- round(stats::runif(n = nr_txt, min = rangel[1], max = rangel[2]), 0)
+        char_angles <- round(stats::runif(n = n_char, min = rangel[1], max = rangel[2]), 0)
       } else {
         char_angles <- angle_bg
       }
@@ -2054,19 +2043,20 @@ plot_chars <- function(x = NA,     # Text string(s) to plot
   
   ## (-) Parameters (currently fixed):
   
-  # (a) General:
-  ratio <- 1/1  #  ratio of height/width (y/x). Default: ratio <- 1/1 
-  x_lim <- c(0, max(tb_txt$x) + 1)  # range of x-coordinates. Default x_lim <- NULL
-  y_lim <- c(0, max(tb_txt$y) + 1)  # range of y-coordinates. Default y_lim <- NULL
+  # (a) Labels (fg):
+  # fontface <- 1
+  # family <- "mono"  # 1 of "sans" "serif" "mono"
+  # angle <- 0
   
   # (b) Tiles (bg):
   height <- 1
   width  <- 1
   
-  # (c) Labels (fg):
-  # fontface <- 1
-  # family <- "mono"  # 1 of "sans" "serif" "mono"
-  # angle <- 0
+  # (c) Coordinates:
+  ratio <- 1/1  #  ratio of height/width (y/x). Default: ratio <- 1/1 
+  x_lim <- c(0, max(tb_txt$x) + 1)  # range of x-coordinates. Default x_lim <- NULL
+  y_lim <- c(0, max(tb_txt$y) + 1)  # range of y-coordinates. Default y_lim <- NULL
+  
   
   cur_plot <- ggplot2::ggplot(data = tb_txt, aes(x = x, y = y)) +
     ggplot2::geom_tile(aes(), fill = tb_txt$col_bg, color = brd_col, size = brd_size,
@@ -2081,9 +2071,9 @@ plot_chars <- function(x = NA,     # Text string(s) to plot
   print(cur_plot) 
   
   
-  # (6) Output: ------ 
+  # (7) Output: ------
+  
   return(invisible(tb_txt))
-  # return(char_s)  # 4debugging 
   
 } # plot_chars(). 
 
