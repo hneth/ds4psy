@@ -1255,29 +1255,28 @@ map_text_coord <- function(x, flip_y = FALSE, sep = ""){
 
 # Goal: Read text from string x or file into a text string (using read_ascii())
 #       Use map_text_coord() to create a character map (as df)
+# 
+# (Note: Currently not exported, but used.)
 
 map_text_or_file <- function(x = NA, file = "", flip_y = TRUE){
   
   # Initialize:
-  tb_txt <- NA
+  tbl <- NA
   
   # Main: 
   if (all(is.na(x))){  # Case 1: Read text from file or user input (enter text in Console):
     
-    txt_ui <- read_ascii(file = file, quiet = FALSE)       # 1. read user input (UI)
-    tb_txt <- map_text_coord(x = txt_ui, flip_y = flip_y)  # 2. map UI to x/y-table
+    txt <- read_ascii(file = file, quiet = FALSE)    # 1. read file/user input (UI)
+    tbl <- map_text_coord(x = txt, flip_y = flip_y)  # 2. map txt to x/y-table
     
-  } else {  # Case 2: Use the character vector provided as x:
+  } else {  # Case 2: Use the character vector x:
     
-    tb_txt <- map_text_coord(x = x, flip_y = flip_y)  # 3. map x to x/y-table
+    tbl <- map_text_coord(x = x, flip_y = flip_y)  # 3. map x to x/y-table
     
-  } # if (is,na(x0)) end.
-  
-  # tb_txt  # 4debugging
-  # nr_txt <- nrow(tb_txt)  # (elements/nrows of x/text)
+  } # if (is,na(x)) end.
   
   # Output:
-  return(tb_txt)
+  return(tbl)
   
 } # map_text_or_file(). 
 
@@ -2460,35 +2459,17 @@ map_text_regex <- function(x = NA,     # Text string(s) to plot
                            angle_bg = 0            # default angle(s) & labels NOT matching the lbl_rotate pattern 
 ){
   
-  ## (-) Default file/path:
-  # file <- "test.txt"  # 4debugging
-  
   # (0) Interpret inputs: ------  
   
   # Labels: 
   if (!lbl_tiles) {col_lbl <- NA}
   
-  # # Font family:
-  # family <- tolower(family)
-  # if (!family %in% c("sans", "serif", "mono")){
-  #   message("plot_chars: Font family should be 'sans' (default), 'serif', or 'mono'.")
-  #   family <- "sans"
-  # }
-  # 
-  # # Tile borders:
-  # if (borders){
-  #   brd_col   <- border_col
-  #   brd_size  <- border_size
-  # } else {
-  #   brd_col  <- NA  # hide
-  #   brd_size <- NA  # hide
-  # }
   
-  
-  # (1) Read text input into a text string (txt_ui) and character table (tb_txt): ------ 
+  # (1) Read text input into a text string (txt) and character table (tb_txt): ------ 
   
   tb_txt <- map_text_or_file(x = x, file = file, flip_y = TRUE)  # use text helper function
-  nr_txt <- nrow(tb_txt)  # (elements/nrows of x/text)
+  # nr_txt <- nrow(tb_txt)  # (elements/nrows of x/text)
+  
   
   # (2) Get chars in tb_txt$char (as a single string): ------ 
   
@@ -2555,7 +2536,7 @@ map_text_regex <- function(x = NA,     # Text string(s) to plot
       
       if (length(angle_bg) > 1){
         rangel <- range(angle_bg)
-        char_angles <- round(stats::runif(n = nr_txt, min = rangel[1], max = rangel[2]), 0)
+        char_angles <- round(stats::runif(n = n_char, min = rangel[1], max = rangel[2]), 0)
       } else {
         char_angles <- angle_bg
       }
@@ -2572,41 +2553,14 @@ map_text_regex <- function(x = NA,     # Text string(s) to plot
   tb_txt$angle  <- char_angles
   
   
-  # (6) Plot tb_txt (using ggplot2): ------  
+  # (-) Plot tb_txt (using ggplot2): ------  
   
-  # ## (-) Parameters (currently fixed):
-  # 
-  # # (a) General:
-  # ratio <- 1/1  #  ratio of height/width (y/x). Default: ratio <- 1/1 
-  # x_lim <- c(0, max(tb_txt$x) + 1)  # range of x-coordinates. Default x_lim <- NULL
-  # y_lim <- c(0, max(tb_txt$y) + 1)  # range of y-coordinates. Default y_lim <- NULL
-  # 
-  # # (b) Tiles (bg):
-  # height <- 1
-  # width  <- 1
-  # 
-  # # (c) Labels (fg):
-  # # fontface <- 1
-  # # family <- "mono"  # 1 of "sans" "serif" "mono"
-  # # angle <- 0
-  # 
-  # cur_plot <- ggplot2::ggplot(data = tb_txt, aes(x = x, y = y)) +
-  #   ggplot2::geom_tile(aes(), fill = tb_txt$col_bg, color = brd_col, size = brd_size,
-  #                      height = height, width = width) +  
-  #   ggplot2::geom_text(aes(label = char), color = tb_txt$col_fg, size = cex, angle = tb_txt$angle, 
-  #                      fontface = fontface, family = family) + 
-  #   ggplot2::coord_fixed(ratio = ratio, xlim = x_lim, ylim = y_lim, expand = TRUE, clip = "on") + 
-  #   # theme: 
-  #   theme_empty() # theme_gray() # theme_classic() # cowplot::theme_nothing()
-  # 
-  # # plot plot: 
-  # print(cur_plot) 
-  # 
+  # Note: Moved plotting functionality to a specialized plot_charmap() function! 
   
-  # (7) Output: ------ 
+  
+  # (6) Output: ------ 
+  
   return(tb_txt)
-  # return(invisible(tb_txt))
-  # return(char_s)  # 4debugging 
   
 } # map_text_regex(). 
 
@@ -2614,14 +2568,16 @@ map_text_regex <- function(x = NA,     # Text string(s) to plot
 # ts <- c("Hello world!", "This is a test to test this splendid function",
 #          "Does this work?", "That's good.", "Please carry on.")
 # sum(nchar(ts))
+# 
+# ## (a) basic use:
+# map_text_regex(ts)
+#
+# ## (b) with pattern matching:
 # cm <- map_text_regex(ts, lbl_hi = "\\b\\w{4}\\b", bg_hi = "[good|test]",
 #                      lbl_rotate = "[^aeiou]", angle_fg = c(-45, +45))
 # cm
 # 
 # plot_charmap(cm)  # intended use in pipe: map_text_regex(x) %>% plot_charmap()
-
-
-# +++ here now +++ 
 
 
 ## Done: ---------- 
