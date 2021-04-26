@@ -134,6 +134,7 @@ ggplot(datasets::iris) +
 \code{unikn::theme_unikn} inspired the current theme.
 
 Other plot functions: 
+\code{\link{plot_charmap}()},
 \code{\link{plot_chars}()},
 \code{\link{plot_fn}()},
 \code{\link{plot_fun}()},

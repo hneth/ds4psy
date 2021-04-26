@@ -54,6 +54,7 @@ ggplot(datasets::iris) +
 \code{cowplot::theme_nothing} is the inspiration and source of this theme.
 
 Other plot functions: 
+\code{\link{plot_charmap}()},
 \code{\link{plot_chars}()},
 \code{\link{plot_fn}()},
 \code{\link{plot_fun}()},

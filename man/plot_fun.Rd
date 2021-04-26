@@ -73,6 +73,7 @@ plot_fun(a = 4, f = TRUE, g = TRUE, c1 = c("steelblue", "white", "firebrick"))
 \code{\link{pal_ds4psy}} for color palette.
 
 Other plot functions: 
+\code{\link{plot_charmap}()},
 \code{\link{plot_chars}()},
 \code{\link{plot_fn}()},
 \code{\link{plot_n}()},

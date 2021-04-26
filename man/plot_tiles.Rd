@@ -102,6 +102,7 @@ plot_tiles(n = 4, sort = FALSE, borders = TRUE,
 \code{\link{pal_ds4psy}} for default color palette.
 
 Other plot functions: 
+\code{\link{plot_charmap}()},
 \code{\link{plot_chars}()},
 \code{\link{plot_fn}()},
 \code{\link{plot_fun}()},

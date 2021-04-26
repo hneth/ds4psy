@@ -85,6 +85,7 @@ ggplot(datasets::iris) +
 \code{\link{theme_ds4psy}} for default theme.
 
 Other plot functions: 
+\code{\link{plot_charmap}()},
 \code{\link{plot_chars}()},
 \code{\link{plot_fn}()},
 \code{\link{plot_fun}()},

@@ -166,12 +166,13 @@ plot_text(x = c("Hello world!", "How are you today?"))
 
 }
 \seealso{
-\code{\link{plot_chars}} for controlling (regex) matches and color options; 
+\code{\link{plot_chars}} for plotting characters and matching patterns; 
 \code{\link{read_ascii}} for reading text inputs into a character string; 
 \code{\link{map_text_coord}} for mapping text to a table of character coordinates; 
 \code{\link{pal_ds4psy}} for default color palette.
 
 Other plot functions: 
+\code{\link{plot_charmap}()},
 \code{\link{plot_chars}()},
 \code{\link{plot_fn}()},
 \code{\link{plot_fun}()},

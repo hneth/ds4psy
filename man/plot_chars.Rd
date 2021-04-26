@@ -202,6 +202,7 @@ plot_chars(x = c("Hello world!", "Does this work?",
 \code{\link{pal_ds4psy}} for default color palette.
 
 Other plot functions: 
+\code{\link{plot_charmap}()},
 \code{\link{plot_fn}()},
 \code{\link{plot_fun}()},
 \code{\link{plot_n}()},

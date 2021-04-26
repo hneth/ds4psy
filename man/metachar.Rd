@@ -42,6 +42,7 @@ Other text objects and functions:
 \code{\link{l33t_rul35}},
 \code{\link{map_text_chars}()},
 \code{\link{map_text_coord}()},
+\code{\link{map_text_regex}()},
 \code{\link{read_ascii}()},
 \code{\link{text_to_chars}()},
 \code{\link{text_to_sentences}()},
