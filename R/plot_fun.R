@@ -1546,20 +1546,23 @@ plot_text <- function(x = NA,     # Text string(s) to plot
 #' sum(nchar(ts))  
 #' 
 #' # (1) From character map:
+#' # (a) simple: 
 #' cm_1 <- map_text_coord(x = ts, flip_y = TRUE)
 #' plot_charmap(cm_1)
 #' 
+#' # (b) pattern matching (regex): 
 #' cm_2 <- map_text_regex(ts, lbl_hi = "\\b\\w{4}\\b", bg_hi = "[good|test]", 
 #'                        lbl_rotate = "[^aeiou]", angle_fg = c(-45, +45))
 #' plot_charmap(cm_2)                      
-#'                
-#' # (2) From text string(s):
+#' 
+#' # (2) Alternative inputs:     
+#' # (a) From text string(s):
 #' plot_charmap(ts)
 #'
-#' # (3) From user input:
+#' # (b) From user input:
 #' # plot_charmap()  # (enter text in Console)
 #'  
-#' # (4) From text file:
+#' # (c) From text file:
 #' # cat("Hello world!", "This is a test file.",
 #' #      "Can you see this text?",
 #' #      "Good! Please carry on...",
@@ -1667,28 +1670,43 @@ plot_charmap <- function(x = NA,     # what to plot (required): charmap OR {text
     theme_empty() # theme_gray() # theme_classic() # cowplot::theme_nothing()
   
   # plot plot: 
-  print(cur_plot)
+  # print(cur_plot)
   
   # (4) Return:
   return(cur_plot)
   
 } # plot_charmap(). 
 
-# Check:
-# (2) Plot text string/file/user input: 
-# plot_charmap("Test...")
-
+## Check:
 # # (1) Plot an existing charmap: 
+# # (a) simple:
 # s <- c("ene mene miste", "es rappelt", "in der kiste")
-# plot_chars(s) %>% plot_charmap()
-
-
-
-## ToDo: map_text: Map text to coordinates, plus regex magic for additional columns: -------- 
-
-# Goal: Use the non-visual/non-plotting related parts of plot_chars() to create a 
-#       map_text_regex() function that calls map_text_coord(), plus optional   
-#       regular expressions (regex) for creating additional custom columns (col_fg/col_bg/angle).
+# cm_1 <- map_text_coord(s)
+# plot_charmap(cm_1)
+# 
+# # (b) matching patterns (regex):
+# ts <- c("Hello world!", "This is a test to test this splendid function",
+#         "Does this work?", "That's good.", "Please carry on.")
+# sum(nchar(ts))
+# cm_2 <- map_text_regex(ts, lbl_hi = "\\b\\w{4}\\b", bg_hi = "[good|test]",
+#                        lbl_rotate = "[^aeiou]", angle_fg = c(-45, +45))
+# plot_charmap(cm_2)
+# 
+# # (2) Alternative inputs: 
+# # (a) From text string(s):
+# plot_charmap(ts)
+#
+# # (b) From file:
+# cat("Hello world!", "This is a test file.",
+#     "Can you see this text?",
+#     "Good! Please carry on...",
+#     file = "test.txt", sep = "\n")
+# plot_charmap(file = "test.txt")
+# unlink("test.txt")  # clean up (by deleting file).
+#
+# # (c) From user input:
+# plot_charmap()
+# 
 
 # +++ here now +++ 
 
