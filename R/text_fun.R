@@ -1,5 +1,5 @@
 ## text_fun.R | ds4psy
-## hn | uni.kn | 2021 04 26
+## hn | uni.kn | 2021 04 27
 ## ---------------------------
 
 ## Character objects and functions for string/text objects. 
@@ -1163,8 +1163,10 @@ map_text_chars <- function(x, flip_y = FALSE){
 #' @family text objects and functions
 #'
 #' @seealso
-#' \code{\link{read_ascii}} for parsing text from file or user input;  
-#' \code{\link{plot_chars}} for a character plotting function. 
+#' \code{\link{map_text_regex}} for mapping text to a character table and matching patterns; 
+#' \code{\link{plot_charmap}} for plotting character maps; 
+#' \code{\link{plot_chars}} for creating and plotting character maps; 
+#' \code{\link{read_ascii}} for parsing text from file or user input. 
 #' 
 #' @export
 
@@ -2420,9 +2422,10 @@ count_chars_words <- function(x, case_sense = TRUE, sep = " "){
 #' @family text objects and functions
 #'
 #' @seealso
-#' \code{\link{plot_charmap}} for plotting character maps; 
-#' \code{\link{plot_text}} for plotting characters and color tiles by frequency; 
 #' \code{\link{map_text_coord}} for mapping text to a table of character coordinates; 
+#' \code{\link{plot_charmap}} for plotting character maps; 
+#' \code{\link{plot_chars}} for creating and plotting character maps; 
+#' \code{\link{plot_text}} for plotting characters and color tiles by frequency; 
 #' \code{\link{read_ascii}} for reading text inputs into a character string. 
 #' 
 #' @import ggplot2
