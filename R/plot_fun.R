@@ -1,5 +1,5 @@
 ## plot_fun.R | ds4psy
-## hn | uni.kn | 2021 04 26
+## hn | uni.kn | 2021 04 27
 ## ---------------------------
 
 ## Functions for plotting. 
@@ -1891,7 +1891,7 @@ plot_charmap <- function(x = NA,     # what to plot (required): charmap OR {text
 #' 
 #' @export 
 
-plot_chars <- function(x = NA,     # Text string(s) to plot 
+plot_chars <- function(x = NA,     # Text string(s) to plot; iff is.na(x):  
                        file = "",  # "" reads user input from console; "test.txt" reads from file
                        
                        # 5 regex patterns (to emphasize and de-emphasize matching characters in text string): 
@@ -1924,6 +1924,191 @@ plot_chars <- function(x = NA,     # Text string(s) to plot
                        borders = FALSE,       # show tile borders?
                        border_col = "white",  # color of tile border 
                        border_size = 0.5      # width of tile border
+){
+  
+  # (1) Create character map (with regex): ------ 
+  
+  cmap <- map_text_regex(x = x, file = file,     # input x or file?
+                         lbl_hi = lbl_hi, lbl_lo = lbl_lo,  # regex stuff: 
+                         bg_hi = bg_hi, bg_lo = bg_lo, 
+                         lbl_rotate = lbl_rotate, case_sense = case_sense,
+                         lbl_tiles = lbl_tiles,  # labels 
+                         col_lbl = col_lbl,      # colors: 
+                         col_lbl_hi = col_lbl_hi, col_lbl_lo = col_lbl_lo,
+                         col_bg = col_bg, 
+                         col_bg_hi = col_bg_hi, col_bg_lo = col_bg_lo,
+                         col_sample = col_sample,
+                         angle_fg = angle_fg, angle_bg = angle_bg  # angles
+  )
+  
+  
+  # (2) Plot character map: ------  
+  
+  p <- plot_charmap(x = cmap, # input
+                    cex = cex, fontface = fontface, family = family,  # labels/fonts
+                    borders = borders, border_col = border_col, border_size = border_size  # borders
+  )
+  
+  print(p)  # plot plot
+  
+  
+  # (3) Output: ------
+  
+  return(invisible(cmap))
+  
+} # plot_chars().
+
+## Check:
+# # (A) From text string(s):
+# plot_chars("Hello world!")  # (A) Using x (text input)
+# 
+# # (B) From user input:
+# plot_chars()  # # (enter text in Console)
+# 
+# # (C) From text file:
+# # Create a temporary file "test.txt":
+# cat("Hello world!", "This is a test file.",
+#     "Can you see this text?",
+#     "Good! Please carry on...",
+#     file = "test.txt", sep = "\n")
+# 
+# # (a) Plot & mark text from file:
+# plot_chars(file = "test.txt")  # default
+# plot_chars(file = "test.txt", lbl_hi = "[[:upper:]]", lbl_lo = "[[:punct:]]", col_lbl_hi = "red", col_lbl_lo = "cyan")
+# plot_chars(file = "test.txt", lbl_hi = "\\b\\w{4}\\b", col_lbl_hi = "red", col_bg = "white", bg_hi = "see")  # mark fg of four-letter words
+# plot_chars(file = "test.txt", lbl_hi = "[aeiou]", col_lbl_hi = "red", col_bg = "white", bg_hi = "test")  # mark vowels and "see"
+# plot_chars(file = "test.txt", bg_hi = "\\b\\w{4}\\b", col_bg_hi = "gold")  # mark bg of 4-letter words
+# plot_chars(file = "test.txt", bg_hi = "[aeiou]", col_bg_hi = "gold")  # mark vowels (in bg)
+# 
+# # Case sensitivity:
+# plot_chars(file = "test.txt", lbl_hi = "[tc]", bg_hi = "[gh]", case_sense = TRUE, cex = 5)
+# plot_chars(file = "test.txt", lbl_hi = "[tc]", bg_hi = "[gh]", case_sense = FALSE, cex = 5)
+# 
+# # Label options:
+# plot_chars(file = "test.txt", bg_hi = "see", lbl_tiles = FALSE, borders = TRUE)  # hide labels
+# plot_chars(file = "test.txt", cex = 5, family = "mono", fontface = 2,
+#            lbl_rotate = "[^[:space:]]", angle_fg = c(-45, 45))  # rotate labels
+# plot_chars(file = "test.txt", cex = 5, family = "mono", fontface = 2,
+#            lbl_rotate = "test|text", angle_fg = c(0, 360))
+# plot_chars(file = "test.txt", cex = 5, family = "mono", fontface = 2,
+#            lbl_rotate = "test|text", angle_fg = 0, angle_bg = "180")
+# 
+# # Multiple colors:
+# plot_chars(file = "test.txt", lbl_hi = "[aeiou]", bg_hi = "te.t",
+#            col_lbl = c("grey99", "grey85"),
+#            col_bg = c("grey10", "grey15", "grey20"),
+#            col_bg_hi = pal_ds4psy[1:3], col_bg_lo = "grey80",
+#            col_lbl_hi = c("gold1", "gold2"),
+#            col_sample = FALSE, cex = 5, fontface = 2)
+# 
+# # Sampling colors (within each category only):
+# plot_chars(file = "test.txt", lbl_hi = "[aeiou]", bg_hi = "te.t",
+#            col_lbl = c("grey95", "grey85"), col_bg = c("grey1", "grey10", "grey20"),
+#            col_bg_hi = pal_ds4psy[1:3],  col_bg_lo = c("grey90", "grey80", "grey70"),
+#            col_lbl_hi = c("gold1", "gold3"),
+#            col_sample = TRUE, cex = 5, fontface = 2)
+# 
+# # Highlight labels and tiles of same matches:
+# plot_chars(file = "test.txt", lbl_hi = "te.t", bg_hi = "te.t",
+#            col_bg = "white", col_bg_hi = "gold", col_lbl_hi = "red",
+#            borders = TRUE, border_col = "black")
+# 
+# plot_chars(file = "test.txt",
+#            lbl_hi = "te.t", bg_hi = "te.t", lbl_rotate = ".his",
+#            col_bg_hi = "gold", col_lbl_hi = "red3",
+#            cex = 6, family = "mono", fontface = 2,
+#            borders = TRUE, border_col = "black", border_size = .2)
+# 
+# # Note: plot_chars() invisibly returns a description of the plot (as df):
+# tb <- plot_chars(file = "test.txt", lbl_hi = "[aeiou]", lbl_rotate = "[hlwypt?!]",
+#                  case_sense = FALSE, angle_fg = 90, cex = 4)
+# head(tb)
+# 
+# unlink("test.txt")  # clean up (by deleting file).
+
+## An artistic example:
+# # Source: H.C. Andersen: "Der Wassertropfen"
+# # See <https://www.projekt-gutenberg.org/andersen/reuscher/chap30.html>
+# txt <- c("Was hast du da fragte ein anderer",
+#          "alter Zauberer der keinen Namen",
+#          "hatte und das war ja gerade das",
+#          "feine an ihm",
+#          "Ja wenn du raten kannst was das",
+#          "ist sagte Kribbelkrabbel dann",
+#          "will ich es dir schenken aber",
+#          "es ist nicht leicht es ausfindig",
+#          "zu machen wenn man es nicht",
+#          "weisz",
+#          "der Zauberer der keinen Namen",
+#          "hatte blickte durch das Vergroe",
+#          "szerungsglas darunter sah es",
+#          "wirklich aus wie in einr gros",
+#          "szen Stadt in der alle Menschen",
+#          "ohne Kleider herumlaufen Es war",
+#          "schauderhaft aber erst recht",
+#          "schauerlich war es zu sehen wie",
+#          "der eine den anderen beiseite",
+#          "schob puffte und stiesz Wie sie",
+#          "hackten und schnappten zwick",
+#          "ten und zwackten wie sie einan",
+#          "der zerrten und zausten und bis")
+# 
+# txt <- toupper(txt)
+# cat(txt, file = "art.txt", sep = "\n")
+# 
+# # Plot (txt):
+# plot_chars(x = txt, col_bg = "white",
+#            lbl_rotate = "[[:alpha:]]", angle_fg = c(-180, +180),
+#            bg_hi = "Zauberer", lbl_hi = "Namen", case_sense = FALSE,
+#            cex = 7, borders = F, border_col = "grey80")
+# 
+# # Plot (from file):
+# plot_chars(file = "art.txt", col_bg = "white", col_bg_hi = pal_ds4psy[3:5],
+#            lbl_rotate = "[[:alpha:]]", angle_bg = c(-180, +180),
+#            bg_hi = "[fghjklpqrtvwxyz]", lbl_hi = "[aeiou]", case_sense = FALSE,
+#            cex = 7, borders = F, border_col = "grey80")
+# 
+# # Get char and word counts (as df):
+# head(count_chars_words(txt, case_sense = TRUE))
+# tail(count_chars_words(txt, case_sense = TRUE))
+# 
+# unlink("art.txt")  # clean up
+
+## OLDER version of plot_chars() function (prior to splitting into 2 specialized functions): ------ 
+
+plot_chars_v01 <- function(x = NA,     # Text string(s) to plot 
+                           file = "",  # "" reads user input from console; "test.txt" reads from file
+                           
+                           # 5 regex patterns (to emphasize and de-emphasize matching characters in text string): 
+                           lbl_hi = NA, # "asdf",   # [[:upper:]]",   # labels to highlight (as regex)
+                           lbl_lo = NA, # "qwer",   # [[:punct:]]",   # labels to de-emphasize (as regex)
+                           bg_hi  = NA, # "zxcv",   # background tiles to highlight (as regex)
+                           bg_lo  = "[[:space:]]",  # background tiles to de-emphasize (as regex)
+                           lbl_rotate = NA,         # "[^[:space:]]",  # pattern for labels to rotate (as regex)
+                           case_sense = TRUE,       # distinguish lower/uppercase (in pattern matching)?
+                           
+                           # labels (text):
+                           lbl_tiles = TRUE,  # show labels (using col_lbl_? below)
+                           # lbl_angle = 0,   # angle of rotation (0 := no rotation) 
+                           angle_fg = c(-90, 90),  # angle(s) of labels matching the lbl_rotate pattern
+                           angle_bg = 0,           # default angle(s) & labels NOT matching the lbl_rotate pattern
+                           cex = 3,           # character size
+                           fontface = 1,      # font face (1:4)
+                           family = "sans",   # font family: 1 of "sans" "serif" "mono"
+                           
+                           # 6 colors (of labels and tiles): 
+                           col_lbl = "black",             # default text label color
+                           col_lbl_hi = pal_ds4psy[[1]],  # highlighted labels (matching lbl_hi)
+                           col_lbl_lo = pal_ds4psy[[9]],  # de-emphasized labels (matching lbl_lo)
+                           col_bg = pal_ds4psy[[7]],      # default tile fill color
+                           col_bg_hi = pal_ds4psy[[4]],   # highlighted tiles (matching bg_hi)
+                           col_bg_lo = "white",           # de-emphasized tiles (matching bg_lo)
+                           col_sample = FALSE,            # sample from color vectors (within category)?
+                           
+                           # borders (of tiles): 
+                           borders = FALSE,       # show tile borders?
+                           border_col = "white",  # color of tile border 
+                           border_size = 0.5      # width of tile border
 ){
   
   ## (-) Default file/path:
@@ -2075,137 +2260,27 @@ plot_chars <- function(x = NA,     # Text string(s) to plot
   
   return(invisible(tb_txt))
   
-} # plot_chars(). 
-
-## Check:
-# # (A) From text string(s):
-# plot_chars("Hello world!")  # (A) Using x (text input)
-# 
-# # (B) From user input:
-# plot_chars()  # # (enter text in Console)
-# 
-# # (C) From text file:
-# # Create a temporary file "test.txt":
-# cat("Hello world!", "This is a test file.",
-#     "Can you see this text?",
-#     "Good! Please carry on...",
-#     file = "test.txt", sep = "\n")
-# 
-# # (a) Plot & mark text from file:
-# plot_chars(file = "test.txt")  # default
-# plot_chars(file = "test.txt", lbl_hi = "[[:upper:]]", lbl_lo = "[[:punct:]]", col_lbl_hi = "red", col_lbl_lo = "cyan")
-# plot_chars(file = "test.txt", lbl_hi = "\\b\\w{4}\\b", col_lbl_hi = "red", col_bg = "white", bg_hi = "see")  # mark fg of four-letter words
-# plot_chars(file = "test.txt", lbl_hi = "[aeiou]", col_lbl_hi = "red", col_bg = "white", bg_hi = "test")  # mark vowels and "see"
-# plot_chars(file = "test.txt", bg_hi = "\\b\\w{4}\\b", col_bg_hi = "gold")  # mark bg of 4-letter words
-# plot_chars(file = "test.txt", bg_hi = "[aeiou]", col_bg_hi = "gold")  # mark vowels (in bg)
-# 
-# # Case sensitivity:
-# plot_chars(file = "test.txt", lbl_hi = "[tc]", bg_hi = "[gh]", case_sense = TRUE, cex = 5)
-# plot_chars(file = "test.txt", lbl_hi = "[tc]", bg_hi = "[gh]", case_sense = FALSE, cex = 5)
-# 
-# # Label options:
-# plot_chars(file = "test.txt", bg_hi = "see", lbl_tiles = FALSE, borders = TRUE)  # hide labels
-# plot_chars(file = "test.txt", cex = 5, family = "mono", fontface = 2,
-#            lbl_rotate = "[^[:space:]]", angle_fg = c(-45, 45))  # rotate labels
-# plot_chars(file = "test.txt", cex = 5, family = "mono", fontface = 2,
-#            lbl_rotate = "test|text", angle_fg = c(0, 360))
-# plot_chars(file = "test.txt", cex = 5, family = "mono", fontface = 2,
-#            lbl_rotate = "test|text", angle_fg = 0, angle_bg = "180")
-# 
-# # Multiple colors:
-# plot_chars(file = "test.txt", lbl_hi = "[aeiou]", bg_hi = "te.t",
-#            col_lbl = c("grey99", "grey85"),
-#            col_bg = c("grey10", "grey15", "grey20"),
-#            col_bg_hi = pal_ds4psy[1:3], col_bg_lo = "grey80",
-#            col_lbl_hi = c("gold1", "gold2"),
-#            col_sample = FALSE, cex = 5, fontface = 2)
-# 
-# # Sampling colors (within each category only):
-# plot_chars(file = "test.txt", lbl_hi = "[aeiou]", bg_hi = "te.t",
-#            col_lbl = c("grey95", "grey85"), col_bg = c("grey1", "grey10", "grey20"),
-#            col_bg_hi = pal_ds4psy[1:3],  col_bg_lo = c("grey90", "grey80", "grey70"),
-#            col_lbl_hi = c("gold1", "gold3"),
-#            col_sample = TRUE, cex = 5, fontface = 2)
-# 
-# # Highlight labels and tiles of same matches:
-# plot_chars(file = "test.txt", lbl_hi = "te.t", bg_hi = "te.t",
-#            col_bg = "white", col_bg_hi = "gold", col_lbl_hi = "red",
-#            borders = TRUE, border_col = "black")
-# 
-# plot_chars(file = "test.txt",
-#            lbl_hi = "te.t", bg_hi = "te.t", lbl_rotate = ".his",
-#            col_bg_hi = "gold", col_lbl_hi = "red3",
-#            cex = 6, family = "mono", fontface = 2,
-#            borders = TRUE, border_col = "black", border_size = .2)
-# 
-# # Note: plot_chars() invisibly returns a description of the plot (as df):
-# tb <- plot_chars(file = "test.txt", lbl_hi = "[aeiou]", lbl_rotate = "[hlwypt?!]",
-#                  case_sense = FALSE, angle_fg = 90, cex = 4)
-# head(tb)
-# 
-# unlink("test.txt")  # clean up (by deleting file).
-
-# # An artistic example:
-# # Source: H.C. Andersen: "Der Wassertropfen"
-# # See <https://www.projekt-gutenberg.org/andersen/reuscher/chap30.html>
-# txt <- c("Was hast du da fragte ein anderer",
-#          "alter Zauberer der keinen Namen",
-#          "hatte und das war ja gerade das",
-#          "feine an ihm",
-#          "Ja wenn du raten kannst was das",
-#          "ist sagte Kribbelkrabbel dann",
-#          "will ich es dir schenken aber",
-#          "es ist nicht leicht es ausfindig",
-#          "zu machen wenn man es nicht",
-#          "weisz",
-#          "der Zauberer der keinen Namen",
-#          "hatte blickte durch das Vergroe",
-#          "szerungsglas darunter sah es",
-#          "wirklich aus wie in einr gros",
-#          "szen Stadt in der alle Menschen",
-#          "ohne Kleider herumlaufen Es war",
-#          "schauderhaft aber erst recht",
-#          "schauerlich war es zu sehen wie",
-#          "der eine den anderen beiseite",
-#          "schob puffte und stiesz Wie sie",
-#          "hackten und schnappten zwick",
-#          "ten und zwackten wie sie einan",
-#          "der zerrten und zausten und bis")
-# 
-# txt <- toupper(txt)
-# cat(txt, file = "art.txt", sep = "\n")
-# 
-# # Plot (txt):
-# plot_chars(x = txt, col_bg = "white",
-#            lbl_rotate = "[[:alpha:]]", angle_fg = c(-180, +180),
-#            bg_hi = "Zauberer", lbl_hi = "Namen", case_sense = FALSE,
-#            cex = 7, borders = F, border_col = "grey80")
-# 
-# # Plot (from file):
-# plot_chars(file = "art.txt", col_bg = "white", col_bg_hi = pal_ds4psy[3:5],
-#            lbl_rotate = "[[:alpha:]]", angle_bg = c(-180, +180),
-#            bg_hi = "[fghjklpqrtvwxyz]", lbl_hi = "[aeiou]", case_sense = FALSE,
-#            cex = 7, borders = F, border_col = "grey80")
-# 
-# # Get char and word counts (as df):
-# head(count_chars_words(txt, case_sense = TRUE))
-# tail(count_chars_words(txt, case_sense = TRUE))
-# 
-# unlink("art.txt")  # clean up
+} # plot_chars_v01(). 
 
 
 ## Done: ----------
 
-# - added plot_chars() for more control over regex matches and colors
-# - revised plot_text() to invisibly return plot description (as df)
-# - added theme_empty() to remove need for: #' @importFrom cowplot theme_nothing 
-
-
-## ToDo: ----------
+# - Replaced old plot_chars() by a function that only calls the 2 more specialized functions:
+#  1. map_text_regex()
+#  2. plot_charmap()
 
 # - Split plot_chars() into 2 functions: 
 #   1. map_text_regex() maps text to x/y-coords with optional regex columns => df
-#   2. plot_charmap() reads/creates/uses a charmap (df) to plot it. 
+#   2. plot_charmap() reads/creates/uses a charmap (df) to plot it.
+
+# - Added plot_chars() for more control over regex matches and colors
+
+# - Revised plot_text() to invisibly return plot description (as df)
+
+# - Added theme_empty() to remove need for: #' @importFrom cowplot theme_nothing 
+
+
+## ToDo: ----------
 
 # - Visualize char or word frequency: 
 #   1. Use count_chars_words() to create color vectors (fg/bg) based on char_ or word_freq. 
