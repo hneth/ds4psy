@@ -21,9 +21,9 @@ The book and course [Data Science for Psychologists](https://bookdown.org/hneth/
 
 -------- 
 
-# ds4psy 0.6.0.9014
+# ds4psy 0.6.0.9015
 
-Current development version of **ds4psy** (0.6.0.9001+) [on GitHub](https://github.com/hneth/ds4psy/). [2021-04-26] 
+Current development version of **ds4psy** (0.6.0.9001+) [on GitHub](https://github.com/hneth/ds4psy/). [2021-04-27] 
 
 <!-- Log of changes: --> 
 
@@ -33,17 +33,16 @@ Changes since last release:
 
 ## Major changes 
 
-- Breaking change: The function `read_ascii()` was split into 2 parts (to enable independent access to their functionality): 
+- Breaking change: The function `read_ascii()` was split into 2\ parts (to enable independent access to their functionality): 
 
     1. A new `read_ascii()` version reads text (from file or user input) into a character string;  
     2. A new `map_text_coord()` function converts a text string into a table of individual characters (with x/y-coordinates).  
 
 <!-- Add blank line. --> 
 
-- Added `plot_chars()` for plotting characters of text and visualizing pattern matches (specified as regular expressions) 
-by highlighting labels (color/angle) or background tiles (color). This implies 2 parts: 
+- Added `plot_chars()` for plotting characters of text and visualizing pattern matches (specified as regular expressions) by highlighting labels (color/angle) or background tiles (color). The function uses 2\ auxiliary functions: 
 
-    1. `map_text_regex()` adds pattern matching options (for label colors and angles) to `map_text_coord()`.  
+    1. `map_text_regex()` adds pattern matching options (for colors and angles) to `map_text_coord()`.  
     2. `plot_charmap()` plots character maps as text and tile plots (with aesthetics for labels and tiles).  
 
 <!-- Add blank line. --> 
@@ -320,6 +319,6 @@ The initial functionality is limited, as the package is designed to support the 
 
 ---------- 
 
-[File `NEWS.md` updated on 2021-04-26.]
+[File `NEWS.md` updated on 2021-04-27.]
 
 <!-- eof. -->
