@@ -164,9 +164,10 @@ map_text_regex(ts, lbl_hi = "\\\\b\\\\w{4}\\\\b", bg_hi = "[good|test]",
 
 }
 \seealso{
-\code{\link{plot_charmap}} for plotting character maps; 
-\code{\link{plot_text}} for plotting characters and color tiles by frequency; 
 \code{\link{map_text_coord}} for mapping text to a table of character coordinates; 
+\code{\link{plot_charmap}} for plotting character maps; 
+\code{\link{plot_chars}} for creating and plotting character maps; 
+\code{\link{plot_text}} for plotting characters and color tiles by frequency; 
 \code{\link{read_ascii}} for reading text inputs into a character string.
 
 Other text objects and functions: 

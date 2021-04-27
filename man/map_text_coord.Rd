@@ -60,8 +60,10 @@ map_text_coord(c("Hello", " ", "world!"))  # 3 lines of text
 
 }
 \seealso{
-\code{\link{read_ascii}} for parsing text from file or user input;  
-\code{\link{plot_chars}} for a character plotting function.
+\code{\link{map_text_regex}} for mapping text to a character table and matching patterns; 
+\code{\link{plot_charmap}} for plotting character maps; 
+\code{\link{plot_chars}} for creating and plotting character maps; 
+\code{\link{read_ascii}} for parsing text from file or user input.
 
 Other text objects and functions: 
 \code{\link{Umlaut}},

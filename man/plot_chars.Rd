@@ -138,6 +138,11 @@ but provides additional support for detecting and displaying characters
 (i.e., text labels, their orientation, and color options) 
 based on matching regular expression (regex). 
 
+Internally, \code{plot_chars} is a wrapper that calls 
+(1) \code{\link{map_text_regex}} for creating a character map 
+(allowing for matching patterns for some aesthetics) and 
+(2) \code{\link{plot_charmap}} for plotting this character map. 
+
 Five regular expressions and corresponding 
 color and angle arguments allow identifying, 
 marking (highlighting or de-emphasizing), and rotating 
@@ -196,9 +201,11 @@ plot_chars(x = c("Hello world!", "Does this work?",
 
 }
 \seealso{
+\code{\link{plot_charmap}} for plotting character maps; 
 \code{\link{plot_text}} for plotting characters and color tiles by frequency; 
-\code{\link{read_ascii}} for reading text inputs into a character string; 
 \code{\link{map_text_coord}} for mapping text to a table of character coordinates; 
+\code{\link{map_text_regex}} for mapping text to a character table and matching patterns; 
+\code{\link{read_ascii}} for reading text inputs into a character string; 
 \code{\link{pal_ds4psy}} for default color palette.
 
 Other plot functions: 

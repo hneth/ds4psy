@@ -122,11 +122,12 @@ plot_charmap(ts)
 
 }
 \seealso{
-\code{\link{plot_chars}} for plotting characters and matching patterns; 
+\code{\link{plot_chars}} for creating and plotting character maps; 
 \code{\link{plot_text}} for plotting characters and color tiles by frequency; 
 \code{\link{map_text_regex}} for mapping text to a character table and matching patterns; 
 \code{\link{map_text_coord}} for mapping text to a table of character coordinates; 
-\code{\link{read_ascii}} for reading text inputs into a character string.
+\code{\link{read_ascii}} for reading text inputs into a character string; 
+\code{\link{pal_ds4psy}} for default color palette.
 
 Other plot functions: 
 \code{\link{plot_chars}()},
