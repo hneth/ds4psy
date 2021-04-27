@@ -1208,9 +1208,11 @@ plot_fn <- function(x = NA,
 #' @family plot functions
 #'
 #' @seealso
-#' \code{\link{plot_chars}} for plotting characters and matching patterns; 
-#' \code{\link{read_ascii}} for reading text inputs into a character string; 
+#' \code{\link{plot_charmap}} for plotting character maps; 
+#' \code{\link{plot_chars}} for creating and plotting character maps; 
 #' \code{\link{map_text_coord}} for mapping text to a table of character coordinates; 
+#' \code{\link{map_text_regex}} for mapping text to a character table and matching patterns; 
+#' \code{\link{read_ascii}} for parsing text from file or user input; 
 #' \code{\link{pal_ds4psy}} for default color palette. 
 #' 
 #' @import ggplot2
@@ -1576,11 +1578,12 @@ plot_text <- function(x = NA,     # Text string(s) to plot
 #' @family plot functions
 #'
 #' @seealso
-#' \code{\link{plot_chars}} for plotting characters and matching patterns; 
+#' \code{\link{plot_chars}} for creating and plotting character maps; 
 #' \code{\link{plot_text}} for plotting characters and color tiles by frequency; 
 #' \code{\link{map_text_regex}} for mapping text to a character table and matching patterns; 
 #' \code{\link{map_text_coord}} for mapping text to a table of character coordinates; 
-#' \code{\link{read_ascii}} for reading text inputs into a character string. 
+#' \code{\link{read_ascii}} for reading text inputs into a character string; 
+#' \code{\link{pal_ds4psy}} for default color palette. 
 #' 
 #' @import ggplot2
 #' @importFrom grDevices colorRampPalette 
@@ -1711,6 +1714,7 @@ plot_charmap <- function(x = NA,     # what to plot (required): charmap OR {text
 # # (c) From user input:
 # plot_charmap()
 
+
 # +++ here now +++ 
 
 
@@ -1731,6 +1735,11 @@ plot_charmap <- function(x = NA,     # what to plot (required): charmap OR {text
 #' but provides additional support for detecting and displaying characters 
 #' (i.e., text labels, their orientation, and color options) 
 #' based on matching regular expression (regex). 
+#' 
+#' Internally, \code{plot_chars} is a wrapper that calls 
+#' (1) \code{\link{map_text_regex}} for creating a character map 
+#' (allowing for matching patterns for some aesthetics) and 
+#' (2) \code{\link{plot_charmap}} for plotting this character map. 
 #' 
 #' Five regular expressions and corresponding 
 #' color and angle arguments allow identifying, 
@@ -1880,9 +1889,11 @@ plot_charmap <- function(x = NA,     # what to plot (required): charmap OR {text
 #' @family plot functions
 #'
 #' @seealso
+#' \code{\link{plot_charmap}} for plotting character maps; 
 #' \code{\link{plot_text}} for plotting characters and color tiles by frequency; 
-#' \code{\link{read_ascii}} for reading text inputs into a character string; 
 #' \code{\link{map_text_coord}} for mapping text to a table of character coordinates; 
+#' \code{\link{map_text_regex}} for mapping text to a character table and matching patterns; 
+#' \code{\link{read_ascii}} for reading text inputs into a character string; 
 #' \code{\link{pal_ds4psy}} for default color palette. 
 #' 
 #' @import ggplot2
