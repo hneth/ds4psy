@@ -2120,18 +2120,18 @@ cur_word_rest <- function(x, i){
 
 char_word <- function(x, sep = " ", rm_r = TRUE){
   
+  # Initialize:
   no_word <- "[[:space:][:punct:]]"  # regex  
   line_break_signal <- "\r"  # carriage return (see ?"'" for character constants in R)
   
   # Inputs:
   x0 <- as.character(x)
   
-  if (length(x0) > 1){
+  if (length(x0) > 1){ #  multi-element strings as input:
     sep <- paste0(sep, line_break_signal) # signal line break
-    x0 <- collapse_chars(x0, sep = sep)   # collapse multi-element strings (ADDING sep between elements). 
+    x0 <- collapse_chars(x0, sep = sep)   # collapse (ADDING sep between elements). 
   }
   
-  # Initialize:
   len_x <- nchar(x0)
   
   
@@ -2217,7 +2217,7 @@ char_word <- function(x, sep = " ", rm_r = TRUE){
                    stringsAsFactors = FALSE)
   names(df) <- c("char", "word")
   
-  if (rm_r) { # Remove line breaks: 
+  if (rm_r) { # Remove rows with line_break_signal characters: 
     df <- df[df$char != line_break_signal, ]
   }
   
@@ -2267,9 +2267,16 @@ char_word <- function(x, sep = " ", rm_r = TRUE){
 #' @param case_sense Boolean: Distinguish lower- vs. uppercase characters? 
 #' Default: \code{case_sense = TRUE}. 
 #' 
-#' @param sep Character(s) to insert between elements/lines 
+#' @param sep Dummy character(s) to insert between elements/lines 
 #' when parsing a multi-element character vector \code{x} as input. 
-#' Default: \code{sep = " "} (i.e., insert 1 space between lines). 
+#' This character is inserted to mark word boundaries in multi-element 
+#' inputs \code{x} (without punctuation at the boundary).  
+#' It should NOT occur anywhere in \code{x}, 
+#' so that it can be removed again (by \code{rm_sep = TRUE}). 
+#' Default: \code{sep = "\\"} (i.e., insert two backslashes between lines). 
+#' 
+#' @param rm_sep Should \code{sep} be removed from output? 
+#' Default: \code{rm_sep = TRUE}.  
 #' 
 #' @return A data frame with 4 variables 
 #' (\code{char}, \code{char_freq}, \code{word}, \code{word_freq}). 
@@ -2293,12 +2300,27 @@ char_word <- function(x, sep = " ", rm_r = TRUE){
 #' 
 #' @export
 
-count_chars_words <- function(x, case_sense = TRUE, sep = " "){
+count_chars_words <- function(x, case_sense = TRUE, sep = "\\", rm_sep = TRUE){
+
+  # Initialize:
+  # no_word <- "[[:space:][:punct:]]"  # regex  
+  # line_break_signal <- "\r"  # carriage return (see ?"'" for character constants in R)
   
   # Inputs:
   x0 <- as.character(x)
   
-  x0 <- collapse_chars(x0, sep = sep)  # collapse multi-element strings (ADDING sep between elements). 
+  if (length(x0) > 1){ #  multi-element strings as input:
+    # sep <- paste0(sep, line_break_signal) # signal line break
+    
+    if (sep %in% text_to_chars(x, sep = "")){
+      # print(text_to_chars(x, sep = ""))  # 4debugging
+      message("count_chars_words: sep character should not occur in x!")
+    }
+    
+    x0 <- collapse_chars(x0, sep = sep)   # collapse (ADDING sep between elements). 
+  }
+
+  
   
   if (!case_sense) {
     x0 <- tolower(x0)  # work with lowercase x (everywhere)
@@ -2328,7 +2350,8 @@ count_chars_words <- function(x, case_sense = TRUE, sep = " "){
   
   
   # 3. Determine the containing word for each char in char_vc:
-  char_word_df <- char_word(x = x0)  # use helper function (on x0)!  
+  char_word_df <- char_word(x = x0, sep = sep, rm_r = FALSE)  # use helper function (on x0)!  
+  # char_word_df <- char_word(x = x, sep = sep)  # use helper function (on x, yields ERROR)!
   
   if (nrow(char_word_df) == nrow(mdf)){  # check for same nrow() in both df:
     
@@ -2362,23 +2385,42 @@ count_chars_words <- function(x, case_sense = TRUE, sep = " "){
   mdf <- mdf[, -which(names(mdf) == "ix")]  # remove "ix" column
   names(mdf) <- c("char", "char_freq", "word", "word_freq")  # set names
   
+  if (rm_sep) { # Remove sep char at line breaks:
+   mdf <- mdf[mdf$char != sep, ]
+   row.names(mdf) <- 1:nrow(mdf)
+  }
+  
   return(mdf)
   
 } # count_chars_words(). 
 
 ## Check:
-# count_chars_words("A test to TEST a fun.")
-# count_chars_words("A test to TEST a fun.", case_sense = FALSE)
-# # Multiple text strings:
-# ts <- c("Hello world", "This is a test to test this function",
-#         "Does this work?", "That's good", "Please carry on.")
-# count_chars_words(ts)
-# count_chars_words(ts, sep = "")  # ==> ERROR at line boundaries without delimiters!    +++ here now +++
+# s1 <- "A TEST to test a fn."
+# count_chars_words(s1)
+# count_chars_words(s1, sep = "asdf")  # no effect, as only 1 string in x.
+# count_chars_words(s1, case_sense = FALSE)  # counts change
+# 
+# # # Multiple text strings:
+# s2 <- c("Hello world", "This is a TEST to test this great function",
+#         "Does this work?", "That's very good", "Please carry on.")
+# sum(nchar(s2)) # 100 chars
+# length(s2)     # 4 line breaks!
+# count_chars_words(s2)  # seems to work, BUT note: 
+# count_chars_words(s2, sep = "")  # ==> ERROR at line boundaries without delimiters!    +++ here now +++
+# count_chars_words(s2, sep = "\\", rm_sep = TRUE)  # works, but requires a unique sep character!!!
+# count_chars_words(s2)  # works, but requires a unique sep character!!!
+# count_chars_words(s2, sep = "\\", rm_sep = FALSE)  # Shows & counts sep char (without removing it)
+# # Note warnings: 
+# count_chars_words(s2, sep = " ", rm_sep = FALSE)  # Adds space as sep char (without removing it)
+# count_chars_words(s2, sep = " ")  # Adds space as sep char (AND removes it -- and all other spaces)
+# # Note some remaining issues:
+# count_chars_words(s2, sep = "\n")  # fails to count words at line boundaries, unfortunately!
+# count_chars_words(s2, sep = "\n", rm_sep = FALSE) # fails to count words at line boundaries, unfortunately!
 # 
 # s3 <- c("A 1st sentence", "The 2nd sentence.",
 #         "A 3rd --- and THE  FINAL --- sentence.")
 # head(count_chars_words(s3))
-# head(count_chars_words(s3, case_sense = FALSE))  # Check counts for a/A, i/I, and t/T! 
+# head(count_chars_words(s3, case_sense = FALSE))  # Check counts for a/A, i/I, and t/T!
 # tail(count_chars_words(s3))
 # tail(count_chars_words(s3, case_sense = FALSE))
 
