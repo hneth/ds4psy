@@ -12,9 +12,9 @@ count_chars_words(x, case_sense = TRUE, sep = " ")
 \item{case_sense}{Boolean: Distinguish lower- vs. uppercase characters? 
 Default: \code{case_sense = TRUE}.}
 
-\item{sep}{Character to insert between the elements 
-of a multi-element character vector as input \code{x}? 
-Default: \code{sep = " "} (i.e., add 1 space).}
+\item{sep}{Character(s) to insert between elements/lines 
+when parsing a multi-element character vector \code{x} as input. 
+Default: \code{sep = " "} (i.e., insert 1 space between lines).}
 }
 \value{
 A data frame with 4 variables 
