@@ -3,8 +3,7 @@
 \docType{data}
 \name{metachar}
 \alias{metachar}
-\title{metachar provides R metacharacters 
-(as a character vector).}
+\title{metachar provides metacharacters (as a character vector).}
 \format{
 An object of class \code{character} of length 12.
 }
@@ -20,7 +19,8 @@ metachar
 meta-characters in regular expressions 
 (and provides corresponding exemplars). 
 
-See \code{?base::regex} for details.
+See \code{?base::regex} for details on regular expressions 
+and \code{?"'"} for a list of character constants/quotes in R.
 }
 \examples{
 metachar

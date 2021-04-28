@@ -4,7 +4,7 @@
 \alias{count_chars_words}
 \title{Count the frequency of characters and words in a string of text \code{x}.}
 \usage{
-count_chars_words(x, case_sense = TRUE, sep = " ")
+count_chars_words(x, case_sense = TRUE, sep = "|", rm_sep = TRUE)
 }
 \arguments{
 \item{x}{A string of text (required).}
@@ -12,9 +12,16 @@ count_chars_words(x, case_sense = TRUE, sep = " ")
 \item{case_sense}{Boolean: Distinguish lower- vs. uppercase characters? 
 Default: \code{case_sense = TRUE}.}
 
-\item{sep}{Character(s) to insert between elements/lines 
+\item{sep}{Dummy character(s) to insert between elements/lines 
 when parsing a multi-element character vector \code{x} as input. 
-Default: \code{sep = " "} (i.e., insert 1 space between lines).}
+This character is inserted to mark word boundaries in multi-element 
+inputs \code{x} (without punctuation at the boundary).  
+It should NOT occur anywhere in \code{x}, 
+so that it can be removed again (by \code{rm_sep = TRUE}). 
+Default: \code{sep = "|"} (i.e., insert a vertical bar between lines).}
+
+\item{rm_sep}{Should \code{sep} be removed from output? 
+Default: \code{rm_sep = TRUE}.}
 }
 \value{
 A data frame with 4 variables 

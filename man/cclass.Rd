@@ -3,8 +3,7 @@
 \docType{data}
 \name{cclass}
 \alias{cclass}
-\title{cclass provides character classes   
-(as a named vector).}
+\title{cclass provides character classes (as a named vector).}
 \format{
 An object of class \code{character} of length 6.
 }
@@ -19,7 +18,8 @@ cclass
 \code{cclass} allows illustrating matching 
 character classes via regular expressions. 
 
-See \code{?base::regex} for details.
+See \code{?base::regex} for details on regular expressions 
+and \code{?"'"} for a list of character constants/quotes in R.
 }
 \examples{
 cclass["hex"]  # select by name
