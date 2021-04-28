@@ -1,5 +1,5 @@
 ## plot_fun.R | ds4psy
-## hn | uni.kn | 2021 04 27
+## hn | uni.kn | 2021 04 28
 ## ---------------------------
 
 ## Functions for plotting. 
@@ -2037,7 +2037,7 @@ plot_chars <- function(x = NA,     # Text string(s) to plot; iff is.na(x):
 # 
 # unlink("test.txt")  # clean up (by deleting file).
 
-## An artistic example:
+# ## An artistic example:
 # # Source: H.C. Andersen: "Der Wassertropfen"
 # # See <https://www.projekt-gutenberg.org/andersen/reuscher/chap30.html>
 # txt <- c("Was hast du da fragte ein anderer",
@@ -2065,7 +2065,7 @@ plot_chars <- function(x = NA,     # Text string(s) to plot; iff is.na(x):
 #          "der zerrten und zausten und bis")
 # 
 # txt <- toupper(txt)
-# cat(txt, file = "art.txt", sep = "\n")
+# cat(txt, file = "fairy.txt", sep = "\n")
 # 
 # # Plot (txt):
 # plot_chars(x = txt, col_bg = "white",
@@ -2074,16 +2074,20 @@ plot_chars <- function(x = NA,     # Text string(s) to plot; iff is.na(x):
 #            cex = 7, borders = F, border_col = "grey80")
 # 
 # # Plot (from file):
-# plot_chars(file = "art.txt", col_bg = "white", col_bg_hi = pal_ds4psy[3:5],
+# plot_chars(file = "fairy.txt", col_bg = "white", col_bg_hi = pal_ds4psy[3:5],
 #            lbl_rotate = "[[:alpha:]]", angle_bg = c(-180, +180),
 #            bg_hi = "[fghjklpqrtvwxyz]", lbl_hi = "[aeiou]", case_sense = FALSE,
 #            cex = 7, borders = F, border_col = "grey80")
+# 
+# plot_chars(file = "data-raw/txt/bard.txt", 
+#            lbl_hi = "\\bi\\b|you|thee|thou", bg_hi = "may|summer", case_sense = FALSE,
+#            col_bg = "white", col_bg_hi = pal_ds4psy[4], cex = 4)
 # 
 # # Get char and word counts (as df):
 # head(count_chars_words(txt, case_sense = TRUE))
 # tail(count_chars_words(txt, case_sense = TRUE))
 # 
-# unlink("art.txt")  # clean up
+# unlink("fairy.txt")  # clean up
 
 ## OLDER version of plot_chars() function (prior to splitting into 2 specialized functions): ------ 
 
