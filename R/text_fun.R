@@ -2114,21 +2114,21 @@ cur_word_rest <- function(x, i){
 
 ## char_word: Get all characters and their corresponding words (of a text string x, as df): ------ 
 
-# Note: Different elements are interpreted as line breaks and 
-#       signalled by "\r" in the function, but removed at the end.
+# Note: A special character is interpreted as a line break (between elements of x) 
+#       and signaled by sep = "\n" in the function, but removed at the end.
 # (Note: Currently not exported, but used.)
 
-char_word <- function(x, sep = " ", rm_r = TRUE){
+char_word <- function(x, sep = "\n", rm_sep = TRUE){
   
   # Initialize:
   no_word <- "[[:space:][:punct:]]"  # regex  
-  line_break_signal <- "\r"  # carriage return (see ?"'" for character constants in R)
+  # line_break_signal <- sep # "\n"  # carriage return (see ?"'" for character constants in R)
   
   # Inputs:
   x0 <- as.character(x)
   
   if (length(x0) > 1){ #  multi-element strings as input:
-    sep <- paste0(sep, line_break_signal) # signal line break
+    # sep <- paste0(sep, line_break_signal) # signal line break
     x0 <- collapse_chars(x0, sep = sep)   # collapse (ADDING sep between elements). 
   }
   
@@ -2217,8 +2217,9 @@ char_word <- function(x, sep = " ", rm_r = TRUE){
                    stringsAsFactors = FALSE)
   names(df) <- c("char", "word")
   
-  if (rm_r) { # Remove rows with line_break_signal characters: 
-    df <- df[df$char != line_break_signal, ]
+  if (rm_sep) { # Remove any row with sep character: 
+    df <- df[df$char != sep, ]
+    row.names(df) <- 1:nrow(df)
   }
   
   return(df)
@@ -2227,18 +2228,26 @@ char_word <- function(x, sep = " ", rm_r = TRUE){
 
 ## Check:
 # char_word("Trivial case")
-# # Key cases: 
-# char_word(c("Does", "this", "work?"))
-# char_word(c("Does", "this", "work?"), sep = "")
-# char_word(c("Does", "this", "work?"), sep = "\r")                # Note: "\r" is removed by default
-# char_word(c("Does", "this", "work?"), sep = "\r", rm_r = FALSE)  # Note: Both "\r" are kept.
-# char_word(c("Does", "this", "work?"), sep = "", rm_r = FALSE)    # Note: Only 1 "\r" is kept.
+# # Key cases:
+# st <- c("Does", "this", "work   well?")
+# sum(nchar(st)) # 20 chars, 2 element breaks:
+# char_word(st)  # works!
+# # Note 2 problematic cases: 
+# char_word(st, sep = "")  # FAILS to distinguish words at element boundaries!
+# char_word(st, sep = " ", rm_sep = TRUE)  # works, but adds 2 spaces and remove ALL of them!
+# # Working variants:
+# char_word(st, sep = "\r")                  # adds and removes sep (by default)
+# char_word(st, sep = "\r", rm_sep = FALSE)  # adds and keeps sep
+# char_word(c("Does", "this", "work?"), sep = " ", rm_sep = TRUE)   # adds spaces and removes them
+# char_word(c("Does", "this", "work?"), sep = " ", rm_sep = FALSE)  # adds spaces, without removing them
+# # Single strings:
 # char_word("The ? test etc.")
 # char_word(" Hi! WOW?? Good!!!")
-# char_word(" Hi! WOW?? Good!!!", sep = "asdf")  # only 1 string (no sep)
+# char_word(" Hi! WOW?? Good!!!", sep = "asdf")  # no change, as only 1 string (no sep)
 # ## Note:
 # ms <- c("Nr. 1", "2nd etc.")
 # char_word(ms)  # Numbers viewed as (parts of) words
+# char_word(ms, sep = "|", rm_sep = FALSE)
 # char_word("")
 
 
@@ -2273,7 +2282,7 @@ char_word <- function(x, sep = " ", rm_r = TRUE){
 #' inputs \code{x} (without punctuation at the boundary).  
 #' It should NOT occur anywhere in \code{x}, 
 #' so that it can be removed again (by \code{rm_sep = TRUE}). 
-#' Default: \code{sep = "\\"} (i.e., insert two backslashes between lines). 
+#' Default: \code{sep = "|"} (i.e., insert a vertical bar between lines). 
 #' 
 #' @param rm_sep Should \code{sep} be removed from output? 
 #' Default: \code{rm_sep = TRUE}.  
@@ -2300,8 +2309,8 @@ char_word <- function(x, sep = " ", rm_r = TRUE){
 #' 
 #' @export
 
-count_chars_words <- function(x, case_sense = TRUE, sep = "\\", rm_sep = TRUE){
-
+count_chars_words <- function(x, case_sense = TRUE, sep = "|", rm_sep = TRUE){
+  
   # Initialize:
   # no_word <- "[[:space:][:punct:]]"  # regex  
   # line_break_signal <- "\r"  # carriage return (see ?"'" for character constants in R)
@@ -2319,7 +2328,7 @@ count_chars_words <- function(x, case_sense = TRUE, sep = "\\", rm_sep = TRUE){
     
     x0 <- collapse_chars(x0, sep = sep)   # collapse (ADDING sep between elements). 
   }
-
+  
   
   
   if (!case_sense) {
@@ -2350,7 +2359,7 @@ count_chars_words <- function(x, case_sense = TRUE, sep = "\\", rm_sep = TRUE){
   
   
   # 3. Determine the containing word for each char in char_vc:
-  char_word_df <- char_word(x = x0, sep = sep, rm_r = FALSE)  # use helper function (on x0)!  
+  char_word_df <- char_word(x = x0, sep = sep, rm_sep = FALSE)  # use helper function (on x0)!  
   # char_word_df <- char_word(x = x, sep = sep)  # use helper function (on x, yields ERROR)!
   
   if (nrow(char_word_df) == nrow(mdf)){  # check for same nrow() in both df:
@@ -2386,8 +2395,8 @@ count_chars_words <- function(x, case_sense = TRUE, sep = "\\", rm_sep = TRUE){
   names(mdf) <- c("char", "char_freq", "word", "word_freq")  # set names
   
   if (rm_sep) { # Remove sep char at line breaks:
-   mdf <- mdf[mdf$char != sep, ]
-   row.names(mdf) <- 1:nrow(mdf)
+    mdf <- mdf[mdf$char != sep, ]
+    row.names(mdf) <- 1:nrow(mdf)
   }
   
   return(mdf)
@@ -2400,19 +2409,20 @@ count_chars_words <- function(x, case_sense = TRUE, sep = "\\", rm_sep = TRUE){
 # count_chars_words(s1, sep = "asdf")  # no effect, as only 1 string in x.
 # count_chars_words(s1, case_sense = FALSE)  # counts change
 # 
-# # # Multiple text strings:
+# # Multiple text strings:
 # s2 <- c("Hello world", "This is a TEST to test this great function",
 #         "Does this work?", "That's very good", "Please carry on.")
-# sum(nchar(s2)) # 100 chars
-# length(s2)     # 4 line breaks!
-# count_chars_words(s2)  # seems to work, BUT note: 
+# sum(nchar(s2)) # 100 chars, 
+# length(s2)     #   5 elements => 4 line breaks!
+# count_chars_words(s2)  # seems to work, BUT note:
+# count_chars_words(s2, case_sense = FALSE)
 # count_chars_words(s2, sep = "")  # ==> ERROR at line boundaries without delimiters!    +++ here now +++
-# count_chars_words(s2, sep = "\\", rm_sep = TRUE)  # works, but requires a unique sep character!!!
+# count_chars_words(s2, sep = "|", rm_sep = TRUE)  # works, but requires a unique sep character!!!
 # count_chars_words(s2)  # works, but requires a unique sep character!!!
-# count_chars_words(s2, sep = "\\", rm_sep = FALSE)  # Shows & counts sep char (without removing it)
-# # Note warnings: 
-# count_chars_words(s2, sep = " ", rm_sep = FALSE)  # Adds space as sep char (without removing it)
-# count_chars_words(s2, sep = " ")  # Adds space as sep char (AND removes it -- and all other spaces)
+# count_chars_words(s2, sep = "|", rm_sep = FALSE)  # Shows & counts sep char (without removing it)
+# # Note warnings:
+# count_chars_words(s2, sep = " ", rm_sep = FALSE)  # Works, but adds space as sep char (without removing it)
+# count_chars_words(s2, sep = " ")  # Adds space as sep char (AND removes it -- with ALL other spaces)!
 # # Note some remaining issues:
 # count_chars_words(s2, sep = "\n")  # fails to count words at line boundaries, unfortunately!
 # count_chars_words(s2, sep = "\n", rm_sep = FALSE) # fails to count words at line boundaries, unfortunately!
@@ -2741,30 +2751,8 @@ map_text_regex <- function(x = NA,     # Text string(s) to plot
 
 map_text_freqs <- function(x = NA,     # Text string(s) to plot 
                            file = "",  # "" reads user input from console; "test.txt" reads from file
-                           
-                           # 5 regex patterns (to emphasize and de-emphasize matching characters in text string): 
-                           lbl_hi = NA, # "asdf",   # [[:upper:]]",   # labels to highlight (as regex)
-                           lbl_lo = NA, # "qwer",   # [[:punct:]]",   # labels to de-emphasize (as regex)
-                           bg_hi  = NA, # "zxcv",   # background tiles to highlight (as regex)
-                           bg_lo  = "[[:space:]]",  # background tiles to de-emphasize (as regex)
-                           lbl_rotate = NA,         # "[^[:space:]]",  # pattern for labels to rotate (as regex)
-                           case_sense = TRUE,       # distinguish lower/uppercase (in pattern matching)?
-                           
-                           # labels (text):
-                           lbl_tiles = FALSE,  # show labels (using col_lbl_? below)
-                           
-                           # 6 colors (of labels and tiles): 
-                           col_lbl = "black",             # default text label color
-                           col_lbl_hi = pal_ds4psy[[1]],  # highlighted labels (matching lbl_hi)
-                           col_lbl_lo = pal_ds4psy[[9]],  # de-emphasized labels (matching lbl_lo)
-                           col_bg = pal_ds4psy[[7]],      # default tile fill color
-                           col_bg_hi = pal_ds4psy[[4]],   # highlighted tiles (matching bg_hi)
-                           col_bg_lo = "white",           # de-emphasized tiles (matching bg_lo)
-                           col_sample = FALSE,            # sample from color vectors (within category)?
-                           
-                           # 2 angles (of labels):
-                           angle_fg = c(-90, 90),  # angle(s) of labels matching the lbl_rotate pattern
-                           angle_bg = 0            # default angle(s) & labels NOT matching the lbl_rotate pattern 
+                           case_sense = TRUE,  # distinguish lower/uppercase (in frequency counts)?
+                           sep = "|"   # line break, temporarily added and removed (must NOT be in x)
 ){
   
   # (0) Initialize: 
@@ -2774,12 +2762,8 @@ map_text_freqs <- function(x = NA,     # Text string(s) to plot
   
   # (1) Read text input into a single text string (txt) and character table (tb_txt): ------ 
   
-  txt <- read_text_or_file(x = x, file = file, collapse = FALSE, sep = " ")
+  txt <- read_text_or_file(x = x, file = file, collapse = FALSE, sep = sep)
   n_char <- sum(nchar(txt)) 
-  
-  # +++ here now +++   
-  # Problem: read_text_or_file() does not use sep when collapse = FALSE: 
-  #          Word counts are wrong when no sentence delimiter between multiple lines of text!
   
   
   # (2) Map text string input into a character table (tb_txt): ------ 
@@ -2803,14 +2787,11 @@ map_text_freqs <- function(x = NA,     # Text string(s) to plot
   # (3) Get frequency counts of characters and words: ------ 
   
   # tb_freq <- count_chars_words(x = char_s, case_sense = case_sense, sep = "")  # use char_s (with no extra spaces)!
-  tb_freq <- count_chars_words(x = txt, case_sense = case_sense, sep = "")  # use txt (with no extra spaces)!
+  tb_freq <- count_chars_words(x = txt, case_sense = case_sense, sep = sep, rm_sep = TRUE)  # use txt (with no extra spaces)!
   
   tb_freq$ix_2 <- 1:nrow(tb_freq)  # add ix_2 of row (to enable sorting by it later) 
   
   names(tb_freq) <- c("char_2", "char_freq", "word", "word_freq", "ix_2")
-  
-  # +++ here now ++++ 
-  # Problem: sep = "" fails to distinguish words at line boundaries! 
   
   
   # (4) Combine both tables: ------ 
@@ -2822,7 +2803,7 @@ map_text_freqs <- function(x = NA,     # Text string(s) to plot
   
   # Note that merge changes row order:
   mdf <- mdf[order(mdf$ix), ]  # restore original char order (ix)
-  
+  mdf <- mdf[, sort(names(mdf))]   
   
   # (5) Output: ------ 
   
@@ -2830,19 +2811,25 @@ map_text_freqs <- function(x = NA,     # Text string(s) to plot
   ix_c2 <- which("char_2" == names(mdf))
   out <- mdf[ , c(-ix_ix, -ix_c2)]
   
+  
   return(out)
   
 } # map_text_freqs(). 
 
-
 ## Check:
-# ts <- c("Hello world!", "This is a test to test this splendid function",
-#         "Does this work?", "That's good.", "Please carry on.")
+# ts <- c("Hello world! ", "This is a TEST to test this splendid function",
+#         "Does this work?", "That's good", "Please carry on.")
 # sum(nchar(ts))
 # 
-# ## (a) basic use:
+## (a) basic use:
 # map_text_freqs(x = ts)
 # map_text_freqs(x = ts, case_sense = FALSE)
+# 
+# ## Note: sep must not occur in x:
+# map_text_freqs(x = c("a", "b|", "c||"))  # problematic, as sep = "|" 
+# map_text_freqs(x = c("a", "b|", "c||", " d| "), sep = "*")  # problematic, as sep = "|" 
+# map_text_freqs(x = c("one|two", "one|four", " two "), sep = ":")
+
 
 
 ## Done: ---------- 
