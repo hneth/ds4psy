@@ -824,7 +824,7 @@ caseflip <- function(x){
 
 ## read_ascii: Parse text (from a file) into string(s) of text (txt). -------- 
 
-#' read_ascii parses text inputs into string(s) of text. 
+#' read_ascii parses text (from file or user input) into string(s) of text. 
 #'
 #' \code{read_ascii} parses text inputs 
 #' (from a file or from user input in the Console) 
@@ -886,7 +886,7 @@ caseflip <- function(x){
 
 read_ascii <- function(file = "", quiet = FALSE){ 
   
-  ## PART A: Read a file into text string txt: ------ 
+  ## Read a file/user input into text string(s) txt:
   
   # (0) Initialize:  
   txt <- NA 
@@ -898,7 +898,7 @@ read_ascii <- function(file = "", quiet = FALSE){
     # (a) File path: Remove leading "." and/or "/" characters:
     if (substr(file, 1, 1) == ".") {file <- substr(file, 2, nchar(file))}
     if (substr(file, 1, 1) == "/") {file <- substr(file, 2, nchar(file))}
-    # ToDo: Use regex to do this more efficiently!
+    # ToDo: Use regex to detect path-related patterns.
     
     ## (a) using the here package: 
     # cur_file <- here::here(file)  # absolute path to text file
@@ -911,17 +911,21 @@ read_ascii <- function(file = "", quiet = FALSE){
     
     cur_file <- ""  # use "" (to scan from Console)
     
-  }
+  } # if (file). 
   
-  # (2) Read txt: 
+  
+  # (2) Scan file or user input: 
+  
   # txt <- readLines(con = cur_file)                # (a) read from file
-  txt <- scan(file = cur_file, what = "character",  # (b) from file or user console
+  txt <- scan(file = cur_file, what = "character",  # (b) from file OR user console
               sep = "\n",     # i.e., keep " " as a space!     
               quiet = quiet   # provide user feedback? 
   )
   # writeLines(txt)  # 4debugging
   
-  if (!quiet){  # Provide user feedback:
+  # (3) User feedback: 
+  
+  if (!quiet){
     
     n_lines <- length(txt)
     n_chars <- sum(nchar(txt))
@@ -930,7 +934,7 @@ read_ascii <- function(file = "", quiet = FALSE){
     
   }
   
-  # (3) Return txt: 
+  # (4) Output: 
   return(txt)
   
 } # read_ascii(). 
@@ -961,42 +965,39 @@ read_ascii <- function(file = "", quiet = FALSE){
 ## read_text_or_file: Read text (from string, file, or user input) into a single character string --------
 
 # Goal: Read text from string x or file/user input into a single text string (of length 1). 
-# 
+#       A sep argument separates different elements/lines of text.
+
 # (Note: Currently not exported, but used.)
 
 read_text_or_file <- function(x = NA, file = "", sep = " "){
   
-  # Initialize:
+  # (0) Initialize: 
   txt <- NA
   
-  # Main: 
-  if (all(is.na(x))){  # Case 1: Read text from file or user input (enter text in Console):
+  # (1) If no x: 
+  if (all(is.na(x))){  # If NO x provided:
     
-    txt_s <- read_ascii(file = file, quiet = FALSE)      # 1. read file/user input (UI)
-    # tbl <- map_text_coord(x = txt, flip_y = flip_y)  # 1b. map txt to x/y-table
-    
-    txt <- collapse_chars(x = txt_s, sep = sep)  # 2. collapse multi-string inputs into 1 string
-    
-  } else {  # Case 2: Use the character vector x:
-    
-    txt <- collapse_chars(x = x, sep = sep)          # 2. collapse input string x
-    # tbl <- map_text_coord(x = x, flip_y = flip_y)  # 2b. map x to x/y-table
-    
+    x <- read_ascii(file = file, quiet = FALSE)  # Read text from file or user input (in Console)
+
   } # if (is.na(x)) end.
   
-  # Output:
+  # (2) Collapse the character vector x:
+  txt <- collapse_chars(x = x, sep = sep)
+
+  # (3) Output:
   return(txt)
   
 } # read_text_or_file(). 
 
 ## Check: 
-# read_text_or_file("No change here.")
+# read_text_or_file("No change here.")  # trivial case
 # # 3 alternative inputs:
 # # (1) From text string:
 # read_text_or_file(c("Line 1.", "2nd line."))
 # read_text_or_file(c("Line 1.", "2nd line."), sep = "\n")
+#
 # # (2) From user input (in Console):
-# read_text_or_file(x = NA)
+# # read_text_or_file(x = NA)
 # 
 # # (3) From text file "test.txt":
 # cat("Hello world!", "This is a test.",
@@ -1311,30 +1312,27 @@ map_text_coord <- function(x, flip_y = FALSE, sep = ""){
 # 
 # (Note: Currently not exported, but used.)
 
-map_text_or_file <- function(x = NA, file = "", flip_y = TRUE, sep = " "){
+map_text_or_file <- function(x = NA, file = "", flip_y = TRUE){
   
   # Initialize:
   tbl <- NA
   
   # Main: 
-  
-  ## OLDER: 
-  # if (all(is.na(x))){  # Case 1: Read text from file or user input (enter text in Console):
-  #   
-  #   txt <- read_ascii(file = file, quiet = FALSE)    # 1. read file/user input (UI)
-  #   tbl <- map_text_coord(x = txt, flip_y = flip_y)  # 2. map txt to x/y-table
-  #   
-  # } else {  # Case 2: Use the character vector x:
-  #   
-  #   tbl <- map_text_coord(x = x, flip_y = flip_y)  # 3. map x to x/y-table
-  #   
-  # } # if (is.na(x)) end.
+  if (all(is.na(x))){  # Case 1: Read text from file or user input (enter text in Console):
 
-  
-  # NEW and SIMPLER:
-  txt <- read_text_or_file(x = x, file = file, sep = sep)  # 1. read into 1 string of text
-  
-  tbl <- map_text_coord(x = txt, flip_y = flip_y)  # 2. map text string to character map
+    txt <- read_ascii(file = file, quiet = FALSE)    # 1. read file/user input (UI) into MULTI-LINE string(s) of text!
+    tbl <- map_text_coord(x = txt, flip_y = flip_y)  # 2. map txt to x/y-table (different elements to different y values)
+
+  } else {  # Case 2: Use the character vector x:
+
+    tbl <- map_text_coord(x = x, flip_y = flip_y)    # 3. map x to x/y-table
+
+  } # if (is.na(x)) end.
+
+  # ## SIMPLER (but WRONG!):
+  # txt <- read_text_or_file(x = x, file = file, sep = sep)  # 1. read into 1 string of text (NO MULTI-LINE strings!)
+  # 
+  # tbl <- map_text_coord(x = txt, flip_y = flip_y)  # 2. map text string to character map (ALL y-values identical!)
   
   # Output:
   return(tbl)
@@ -1342,13 +1340,15 @@ map_text_or_file <- function(x = NA, file = "", flip_y = TRUE, sep = " "){
 } # map_text_or_file(). 
 
 ## Check: 
-# map_text_or_file("test")
+# map_text_or_file("test.")  # trivial case
+# 
 # # 3 alternative inputs:
 # # (1) From text string(s):
 # map_text_or_file(c("Line 1?", "2nd line."))
-# map_text_or_file(c("Line 1?", "2nd line."), sep = "\n")  # inserts sep BETWEEN elements/lines.
+# 
 # # (2) From user input (in Console):
 # # map_text_or_file(x = NA)
+# 
 # # (3) From text file "test.txt":
 # cat("Hello world!", "This is a test.",
 #     "Can you see this text?", "Good! Please carry on...",
@@ -2680,25 +2680,34 @@ map_text_freqs <- function(x = NA,     # Text string(s) to plot
                            angle_bg = 0            # default angle(s) & labels NOT matching the lbl_rotate pattern 
 ){
   
-  # (0) Inputs: ------  
-  
-  # Labels: 
-  if (!lbl_tiles) {col_lbl <- NA}
-  
+  # (0) Initialize: 
+  txt <- NA
+  mdf <- NA
+  out <- NA
   
   # (1) Read text input into a single text string (txt) and character table (tb_txt): ------ 
   
-  txt <- read_text_or_file(x = x, file = file, sep = " ")
+  # txt <- read_text_or_file(x = x, file = file, sep = " ")
+  # n_char <- nchar(txt)
+
+  # +++ here now +++   
+  # Problem: read_text_or_file() does too much: 
+  #          Returns only 1 string, rather than multiple elements for multiple lines of text!
   
-  tb_txt <- map_text_or_file(x = x, file = file, flip_y = TRUE)  # use text helper function
+  
+  # (2) Map text string input into a character table (tb_txt): ------ 
+    
+  tb_txt <- map_text_or_file(x = x, file = NA, flip_y = TRUE)  # use text helper function
   nr_txt <- nrow(tb_txt)  # (elements/nrows of x/text)
+
+  tb_txt$ix <- 1:nr_txt  # add ix of row (to enable sorting by it later) 
   
   
-  # (2) Get chars in tb_txt$char (as a single string): ------ 
+  # (+) Get chars in tb_txt$char (as a single string): ------ 
   
   char_s <- chars_to_text(x = tb_txt$char)  # turns char vector into a text string (of length 1)
   n_char <- nchar(char_s)
-  
+
   if (nr_txt != n_char){  # Check: 
     message(paste0("map_text_freqs: nr_txt = ", nr_txt, " and n_char = ", n_char, " differ!"))
   }
@@ -2706,119 +2715,44 @@ map_text_freqs <- function(x = NA,     # Text string(s) to plot
   
   # (3) Get frequency counts of characters and words: ------ 
   
-  tb_freq <- count_chars_words(x = char_s, case_sense = case_sense, sep = "")  # use char_s (with no extra spaces)
-  names(tb_freq) <- c("char_1", "char_freq", "word", "word_freq")
+  tb_freq <- count_chars_words(x = char_s, case_sense = case_sense, sep = "")  # use char_s (with no extra spaces)!
   
+  tb_freq$ix_2 <- 1:nrow(tb_freq)  # add ix_2 of row (to enable sorting by it later) 
+  
+  names(tb_freq) <- c("char_2", "char_freq", "word", "word_freq", "ix_2")
+  
+  # +++ here now ++++ 
+  # Problem: sep = "" fails to distinguish words at line boundaries! 
   
   # (4) Combine both tables: ------ 
   
-  # +++ here now +++ 
-  
-  tb_txt$ix <- 1:nr_txt  # add ix of row (to enable sorting by it later)  
-  
   # NOTE that merge() has trouble merging characters with different ("t" vs. "T") cases!
   mdf <- merge(x = tb_txt, y = tb_freq, 
-               by.x = "char", by.y = "char_1", 
+               by.x = "ix", by.y = "ix_2", 
                all.x = TRUE, sort = FALSE, no.dups = FALSE)
   
   # Note that merge changes row order:
   mdf <- mdf[order(mdf$ix), ]  # restore original char order (ix)
   
+
+  # (5) Output: ------ 
   
-  # (+) Color maps (for fg/labels and bg/tiles, based on regex matches): ------  
+  ix_ix <- which("ix" == names(mdf))
+  ix_c2 <- which("char_2" == names(mdf))
+  out <- mdf[ , c(-ix_ix, -ix_c2)]
   
-  # Apply 2x2 regex patterns to color char_s (to highlight/de-emphasize both labels and tiles, i.e., fg and bg): 
-  # Meth: Use color_map_match() repeatedly to match a regex to a text string and return a vector of colors. 
-  # Goal: Create 2 color vectors (fg/bg, with 3 levels of color each). 
-  
-  # (a) Text labels (fg):
-  if (lbl_tiles) {
-    
-    # col_lbl <- rep(col_lbl, n_char)  # 0. initialize col_lbl (as a vector)
-    col_lbl <- recycle_vec(col_lbl, len = n_char)  # 0. initialize (to len of n_char)
-    
-    if (col_sample) { col_lbl <- sample(col_lbl) }
-    
-    if (!is.na(lbl_lo)){  # 1. add col_lbl_lo to matches of lbl_lo: 
-      col_lbl <- color_map_match(char_s, pattern = lbl_lo, case_sense = case_sense, 
-                                 col_fg = col_lbl_lo, col_bg = col_lbl, col_sample = col_sample) 
-    }
-    
-    if (!is.na(lbl_hi)){  # 2. add col_lbl_hi to matches of lbl_hi: 
-      col_lbl <- color_map_match(char_s, pattern = lbl_hi, case_sense = case_sense, 
-                                 col_fg = col_lbl_hi, col_bg = col_lbl, col_sample = col_sample) 
-    }
-    
-  } # if (lbl_tiles) end.
-  
-  # (b) Tile fill colors (bg):
-  
-  # col_bgv <- rep(col_bg, n_char)  # 0. initialize col_bgv (as a vector)
-  col_bgv <- recycle_vec(col_bg, len = n_char)  # 0. initialize (to len of n_char)
-  
-  if (col_sample) { col_bgv <- sample(col_bgv) }
-  
-  if (!is.na(bg_lo)){  # 1. add col_bg_lo to matches of bg_lo: 
-    col_bgv <- color_map_match(char_s, pattern = bg_lo, case_sense = case_sense, 
-                               col_fg = col_bg_lo, col_bg = col_bgv, col_sample = col_sample) 
-  }
-  
-  if (!is.na(bg_hi)){  # 2. add col_bg_hi to matches of bg_hi:
-    col_bgv <- color_map_match(char_s, pattern = bg_hi, case_sense = case_sense, 
-                               col_fg = col_bg_hi, col_bg = col_bgv, col_sample = col_sample)
-  }
-  
-  
-  # (4) Angle/rotation/orientation maps (for labels, based on regex matches): ------
-  
-  char_angles <- 0  # initialize
-  
-  if (lbl_tiles) {
-    
-    if (!is.na(lbl_rotate)){  # Apply angle_fg and angle_bg (based on pattern matching):
-      
-      char_angles <- angle_map_match(char_s, pattern = lbl_rotate, case_sense = case_sense, 
-                                     angle_fg = angle_fg, angle_bg = angle_bg)
-      
-    } else {  # Default: Apply the value(s) of angle_bg to ALL characters: 
-      
-      if (length(angle_bg) > 1){
-        rangel <- range(angle_bg)
-        char_angles <- round(stats::runif(n = n_char, min = rangel[1], max = rangel[2]), 0)
-      } else {
-        char_angles <- angle_bg
-      }
-      
-    }
-    
-  } # if (lbl_tiles) end.
-  
-  
-  # (5) Add aesthetic (color/angle) vectors to tb_txt: ------ 
-  
-  tb_txt$col_fg <- col_lbl
-  tb_txt$col_bg <- col_bgv
-  tb_txt$angle  <- char_angles
-  
-  
-  # (-) Plot tb_txt (using ggplot2): ------  
-  
-  # Moved plotting functionality to a specialized plot_charmap() function! 
-  
-  
-  # (6) Output: ------ 
-  
-  return(mdf)
+  return(out)
   
 } # map_text_freqs(). 
 
-## Check:
-ts <- c("Hello world!", "This is a test to test this splendid function",
-        "Does this work?", "That's good.", "Please carry on.")
-sum(nchar(ts))
 
-## (a) basic use:
-map_text_freqs(x = ts)
+## Check:
+# ts <- c("Hello world!", "This is a test to test this splendid function",
+#         "Does this work?", "That's good.", "Please carry on.")
+# sum(nchar(ts))
+# 
+# ## (a) basic use:
+# map_text_freqs(x = ts)
 
 
 
