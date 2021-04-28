@@ -1,5 +1,5 @@
 ## text_fun.R | ds4psy
-## hn | uni.kn | 2021 04 2
+## hn | uni.kn | 2021 04 28
 ## ---------------------------
 
 ## Character objects and functions for string/text objects. 
@@ -969,7 +969,7 @@ read_ascii <- function(file = "", quiet = FALSE){
 
 # (Note: Currently not exported, but used.)
 
-read_text_or_file <- function(x = NA, file = "", sep = " "){
+read_text_or_file <- function(x = NA, file = "", collapse = TRUE, sep = " "){
   
   # (0) Initialize: 
   txt <- NA
@@ -978,12 +978,21 @@ read_text_or_file <- function(x = NA, file = "", sep = " "){
   if (all(is.na(x))){  # If NO x provided:
     
     x <- read_ascii(file = file, quiet = FALSE)  # Read text from file or user input (in Console)
-
+    
   } # if (is.na(x)) end.
   
-  # (2) Collapse the character vector x:
-  txt <- collapse_chars(x = x, sep = sep)
-
+  
+  # (2) Should txt be 1 or multiple strings of text? 
+  if (collapse){
+    
+    txt <- collapse_chars(x = x, sep = sep)  # Collapse x into a single string (with sep)
+    
+  } else { # no collapse: 
+    
+    txt <- as.character(x)  # Convert any non-characters into character
+    
+  }
+  
   # (3) Output:
   return(txt)
   
@@ -991,12 +1000,19 @@ read_text_or_file <- function(x = NA, file = "", sep = " "){
 
 ## Check: 
 # read_text_or_file("No change here.")  # trivial case
-# # 3 alternative inputs:
-# # (1) From text string:
+# read_text_or_file(1:3)  # returned as character string of length 1
+# read_text_or_file(1:3, collapse = FALSE)  # returned as character string(s) of length 3
+# 
+# # # 3 alternative inputs:
+# # # (1) From text string:
 # read_text_or_file(c("Line 1.", "2nd line."))
+# read_text_or_file(c("Line 1.", "2nd line."), collapse = FALSE)
 # read_text_or_file(c("Line 1.", "2nd line."), sep = "\n")
-#
-# # (2) From user input (in Console):
+# 
+# read_text_or_file(c(123, 456), collapse = TRUE, sep = " vs. ")
+# read_text_or_file(c(123, 456), collapse = FALSE)
+# 
+# # # (2) From user input (in Console):
 # # read_text_or_file(x = NA)
 # 
 # # (3) From text file "test.txt":
@@ -1004,7 +1020,8 @@ read_text_or_file <- function(x = NA, file = "", sep = " "){
 #     "Can you see this text?", "Good! Please carry on...",
 #      file = "test.txt", sep = "\n")
 # 
-# read_text_or_file(file = "test.txt")
+# read_text_or_file(file = "test.txt")  # => 1 element/line string, unless:
+# read_text_or_file(file = "test.txt", collapse = FALSE)
 # 
 # unlink("test.txt")  # clean up (by deleting file).
 
@@ -1319,16 +1336,16 @@ map_text_or_file <- function(x = NA, file = "", flip_y = TRUE){
   
   # Main: 
   if (all(is.na(x))){  # Case 1: Read text from file or user input (enter text in Console):
-
+    
     txt <- read_ascii(file = file, quiet = FALSE)    # 1. read file/user input (UI) into MULTI-LINE string(s) of text!
     tbl <- map_text_coord(x = txt, flip_y = flip_y)  # 2. map txt to x/y-table (different elements to different y values)
-
+    
   } else {  # Case 2: Use the character vector x:
-
+    
     tbl <- map_text_coord(x = x, flip_y = flip_y)    # 3. map x to x/y-table
-
+    
   } # if (is.na(x)) end.
-
+  
   # ## SIMPLER (but WRONG!):
   # txt <- read_text_or_file(x = x, file = file, sep = sep)  # 1. read into 1 string of text (NO MULTI-LINE strings!)
   # 
@@ -2689,17 +2706,17 @@ map_text_freqs <- function(x = NA,     # Text string(s) to plot
   
   # txt <- read_text_or_file(x = x, file = file, sep = " ")
   # n_char <- nchar(txt)
-
+  
   # +++ here now +++   
   # Problem: read_text_or_file() does too much: 
   #          Returns only 1 string, rather than multiple elements for multiple lines of text!
   
   
   # (2) Map text string input into a character table (tb_txt): ------ 
-    
+  
   tb_txt <- map_text_or_file(x = x, file = NA, flip_y = TRUE)  # use text helper function
   nr_txt <- nrow(tb_txt)  # (elements/nrows of x/text)
-
+  
   tb_txt$ix <- 1:nr_txt  # add ix of row (to enable sorting by it later) 
   
   
@@ -2707,7 +2724,7 @@ map_text_freqs <- function(x = NA,     # Text string(s) to plot
   
   char_s <- chars_to_text(x = tb_txt$char)  # turns char vector into a text string (of length 1)
   n_char <- nchar(char_s)
-
+  
   if (nr_txt != n_char){  # Check: 
     message(paste0("map_text_freqs: nr_txt = ", nr_txt, " and n_char = ", n_char, " differ!"))
   }
@@ -2734,7 +2751,7 @@ map_text_freqs <- function(x = NA,     # Text string(s) to plot
   # Note that merge changes row order:
   mdf <- mdf[order(mdf$ix), ]  # restore original char order (ix)
   
-
+  
   # (5) Output: ------ 
   
   ix_ix <- which("ix" == names(mdf))
