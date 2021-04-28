@@ -100,8 +100,7 @@ mv[2] <- "\\"  # correction for \
 # nchar(paste0(mv, collapse = ""))  # 12
 
 
-#' metachar provides R metacharacters 
-#' (as a character vector). 
+#' metachar provides metacharacters (as a character vector). 
 #' 
 #' \code{metachar} provides the metacharacters of extended regular expressions 
 #' (as a character vector).
@@ -110,7 +109,8 @@ mv[2] <- "\\"  # correction for \
 #' meta-characters in regular expressions 
 #' (and provides corresponding exemplars). 
 #' 
-#' See \code{?base::regex} for details. 
+#' See \code{?base::regex} for details on regular expressions 
+#' and \code{?"'"} for a list of character constants/quotes in R.
 #' 
 #' @examples
 #' metachar
@@ -153,7 +153,7 @@ pun <- "!#$%&'()*+,-./:;<=>?@[\\]^_`{|}~"  # w/o space
 sp1 <- " "   # space
 sp2 <- "\t"  # tab
 sp3 <- "\n"  # new line
-sp4 <- "\r"  # return
+sp4 <- "\r"  # carriage return
 # spc <- paste(sp1, sp2, sp3, sp4, collapse = " ")  # with space
 spc <- paste(sp1, sp2, sp3, sp4, collapse = "")  # w/o space
 
@@ -172,9 +172,11 @@ names(ccv) <- c("ltr", "LTR", "dig", "hex", "pun", "spc")
 # stringr::str_view(ccv, "[:blank:]", match = TRUE)
 # stringr::str_view(ccv, "\t", match = TRUE)
 # grep("\r", ccv, value = TRUE)
+#
+## Note: See ?"'" for character constants in R.
 
-#' cclass provides character classes   
-#' (as a named vector).
+
+#' cclass provides character classes (as a named vector).
 #' 
 #' \code{cclass} provides different character classes  
 #' (as a named character vector).
@@ -182,7 +184,8 @@ names(ccv) <- c("ltr", "LTR", "dig", "hex", "pun", "spc")
 #' \code{cclass} allows illustrating matching 
 #' character classes via regular expressions. 
 #' 
-#' See \code{?base::regex} for details. 
+#' See \code{?base::regex} for details on regular expressions 
+#' and \code{?"'"} for a list of character constants/quotes in R. 
 #' 
 #' @examples
 #' cclass["hex"]  # select by name
@@ -251,7 +254,7 @@ collapse_chars <- function(x, sep = " "){
   # Main: 
   if (length(x0) > 1){  # A multi-element character vector:
     
-    # sep <- " " # Use "" OR " " OR "\n" "\r" "\t" # (see ?"'" for character constants)
+    # sep <- " " # Use "" OR " " OR "\n" "\r" "\t" # (see ?"'" for character constants in R)
     x1 <- paste(x0, collapse = sep)  # collapse multi-element strings (ADDING sep between elements). 
     
   } else {  # do nothing: 
@@ -2111,25 +2114,33 @@ cur_word_rest <- function(x, i){
 
 ## char_word: Get all characters and their corresponding words (of a text string x, as df): ------ 
 
+# Note: Different elements are interpreted as line breaks and 
+#       signalled by "\r" in the function, but removed at the end.
 # (Note: Currently not exported, but used.)
 
-char_word <- function(x, sep = " "){
+char_word <- function(x, sep = " ", rm_r = TRUE){
+  
+  no_word <- "[[:space:][:punct:]]"  # regex  
+  line_break_signal <- "\r"  # carriage return (see ?"'" for character constants in R)
   
   # Inputs:
   x0 <- as.character(x)
   
-  x0 <- collapse_chars(x0, sep = sep)  # collapse multi-element strings (ADDING sep between elements). 
+  if (length(x0) > 1){
+    sep <- paste0(sep, line_break_signal) # signal line break
+    x0 <- collapse_chars(x0, sep = sep)   # collapse multi-element strings (ADDING sep between elements). 
+  }
   
   # Initialize:
   len_x <- nchar(x0)
-  no_word <- "[[:space:][:punct:]]"  # regex
+  
   
   cur_char  <- rep("", len_x) 
   # first_char <- rep(NA, len_x)  # 4debugging 
   cur_word  <- rep("", len_x)
   
   
-  if (len_x == 0){
+  if (len_x == 0){ # trivial case: 
     
     df <- data.frame(cur_char,
                      # first_char, # 4debugging 
@@ -2166,7 +2177,7 @@ char_word <- function(x, sep = " "){
         # Is current char a new first char?
         if (grepl(no_word, x = cur_char[(i - 1)])){ # previous char was NOT a word:
           
-          if (grepl(no_word, x = cur_char[i])){ # Is cur char NOT a word?
+          if (grepl(no_word, x = cur_char[i])){ # If cur_char is NOT a word: 
             
             # first_char[i] <- FALSE
             cur_word[i]   <- ""  # no word
@@ -2197,26 +2208,38 @@ char_word <- function(x, sep = " "){
     } # (len_x > 2) end.
   } # (len_x > 0) end.  
   
-  # Output:
+  # Output: ---- 
+  
+  # Create df:
   df <- data.frame(cur_char,
                    # first_char, # 4debugging 
                    cur_word, 
                    stringsAsFactors = FALSE)
   names(df) <- c("char", "word")
   
+  if (rm_r) { # Remove line breaks: 
+    df <- df[df$char != line_break_signal, ]
+  }
+  
   return(df)
   
 } # char_word(). 
 
 ## Check:
+# char_word("Trivial case")
+# # Key cases: 
+# char_word(c("Does", "this", "work?"))
+# char_word(c("Does", "this", "work?"), sep = "")
+# char_word(c("Does", "this", "work?"), sep = "\r")                # Note: "\r" is removed by default
+# char_word(c("Does", "this", "work?"), sep = "\r", rm_r = FALSE)  # Note: Both "\r" are kept.
+# char_word(c("Does", "this", "work?"), sep = "", rm_r = FALSE)    # Note: Only 1 "\r" is kept.
 # char_word("The ? test etc.")
-# char_word("A")
-# char_word(" Hi! WOW?? good")
-# # Note:
+# char_word(" Hi! WOW?? Good!!!")
+# char_word(" Hi! WOW?? Good!!!", sep = "asdf")  # only 1 string (no sep)
+# ## Note:
 # ms <- c("Nr. 1", "2nd etc.")
-# char_word(ms)  # Numbers viewed as words
+# char_word(ms)  # Numbers viewed as (parts of) words
 # char_word("")
-
 
 
 ## count_chars_words: Count the frequency of chars and corresponding words in string(s) of text (by char): -------- 
@@ -2347,7 +2370,12 @@ count_chars_words <- function(x, case_sense = TRUE, sep = " "){
 # count_chars_words("A test to TEST a fun.")
 # count_chars_words("A test to TEST a fun.", case_sense = FALSE)
 # # Multiple text strings:
-# s3 <- c("A 1st sentence.", "The 2nd sentence.",
+# ts <- c("Hello world", "This is a test to test this function",
+#         "Does this work?", "That's good", "Please carry on.")
+# count_chars_words(ts)
+# count_chars_words(ts, sep = "")  # ==> ERROR at line boundaries without delimiters!    +++ here now +++
+# 
+# s3 <- c("A 1st sentence", "The 2nd sentence.",
 #         "A 3rd --- and THE  FINAL --- sentence.")
 # head(count_chars_words(s3))
 # head(count_chars_words(s3, case_sense = FALSE))  # Check counts for a/A, i/I, and t/T! 
