@@ -1,5 +1,5 @@
 ## text_fun.R | ds4psy
-## hn | uni.kn | 2021 04 27
+## hn | uni.kn | 2021 04 2
 ## ---------------------------
 
 ## Character objects and functions for string/text objects. 
@@ -958,6 +958,57 @@ read_ascii <- function(file = "", quiet = FALSE){
 # tail(t)
 
 
+## read_text_or_file: Read text (from string, file, or user input) into a single character string --------
+
+# Goal: Read text from string x or file/user input into a single text string (of length 1). 
+# 
+# (Note: Currently not exported, but used.)
+
+read_text_or_file <- function(x = NA, file = "", sep = " "){
+  
+  # Initialize:
+  txt <- NA
+  
+  # Main: 
+  if (all(is.na(x))){  # Case 1: Read text from file or user input (enter text in Console):
+    
+    txt_s <- read_ascii(file = file, quiet = FALSE)      # 1. read file/user input (UI)
+    # tbl <- map_text_coord(x = txt, flip_y = flip_y)  # 1b. map txt to x/y-table
+    
+    txt <- collapse_chars(x = txt_s, sep = sep)  # 2. collapse multi-string inputs into 1 string
+    
+  } else {  # Case 2: Use the character vector x:
+    
+    txt <- collapse_chars(x = x, sep = sep)          # 2. collapse input string x
+    # tbl <- map_text_coord(x = x, flip_y = flip_y)  # 2b. map x to x/y-table
+    
+  } # if (is.na(x)) end.
+  
+  # Output:
+  return(txt)
+  
+} # read_text_or_file(). 
+
+## Check: 
+# read_text_or_file("No change here.")
+# # 3 alternative inputs:
+# # (1) From text string:
+# read_text_or_file(c("Line 1.", "2nd line."))
+# read_text_or_file(c("Line 1.", "2nd line."), sep = "\n")
+# # (2) From user input (in Console):
+# read_text_or_file(x = NA)
+# 
+# # (3) From text file "test.txt":
+# cat("Hello world!", "This is a test.",
+#     "Can you see this text?", "Good! Please carry on...",
+#      file = "test.txt", sep = "\n")
+# 
+# read_text_or_file(file = "test.txt")
+# 
+# unlink("test.txt")  # clean up (by deleting file).
+
+
+
 ## map_text_chars: Map text (from a text string) to a table/df of characters (with x/y-coordinates) --------   
 
 # (Note: Replaced by map_text_coord() below.)
@@ -1275,7 +1326,7 @@ map_text_or_file <- function(x = NA, file = "", flip_y = TRUE){
     
     tbl <- map_text_coord(x = x, flip_y = flip_y)  # 3. map x to x/y-table
     
-  } # if (is,na(x)) end.
+  } # if (is.na(x)) end.
   
   # Output:
   return(tbl)
@@ -2167,9 +2218,9 @@ char_word <- function(x, sep = " "){
 #' @param case_sense Boolean: Distinguish lower- vs. uppercase characters? 
 #' Default: \code{case_sense = TRUE}. 
 #' 
-#' @param sep Character to insert between the elements 
-#' of a multi-element character vector as input \code{x}? 
-#' Default: \code{sep = " "} (i.e., add 1 space). 
+#' @param sep Character(s) to insert between elements/lines 
+#' when parsing a multi-element character vector \code{x} as input. 
+#' Default: \code{sep = " "} (i.e., insert 1 space between lines). 
 #' 
 #' @return A data frame with 4 variables 
 #' (\code{char}, \code{char_freq}, \code{word}, \code{word_freq}). 
@@ -2224,7 +2275,7 @@ count_chars_words <- function(x, case_sense = TRUE, sep = " "){
                all.x = TRUE, sort = FALSE, no.dups = FALSE)
   
   # Note that merge changes row order:
-  mdf <- mdf[order(mdf$ix), ]  # restore original char order (ix):
+  mdf <- mdf[order(mdf$ix), ]  # restore original char order (ix)
   
   
   # 3. Determine the containing word for each char in char_vc:
@@ -2278,7 +2329,7 @@ count_chars_words <- function(x, case_sense = TRUE, sep = " "){
 # tail(count_chars_words(s3, case_sense = FALSE))
 
 
-## map_text_regex: Map text to coordinates, plus regex magic for additional columns: -------- 
+## map_text_regex: Map text to coordinates, with regex magic for additional columns: -------- 
 
 # Goal: Use the non-visual/non-plotting related parts of plot_chars() to create a 
 #       map_text_regex() function that calls map_text_coord(), plus optional   
@@ -2462,7 +2513,7 @@ map_text_regex <- function(x = NA,     # Text string(s) to plot
                            angle_bg = 0            # default angle(s) & labels NOT matching the lbl_rotate pattern 
 ){
   
-  # (0) Interpret inputs: ------  
+  # (0) Inputs: ------  
   
   # Labels: 
   if (!lbl_tiles) {col_lbl <- NA}
@@ -2476,11 +2527,11 @@ map_text_regex <- function(x = NA,     # Text string(s) to plot
   
   # (2) Get chars in tb_txt$char (as a single string): ------ 
   
-  char_s <- chars_to_text(x = tb_txt$char)  # turns char vector into text string
+  char_s <- chars_to_text(x = tb_txt$char)  # turns char vector into a text string (of length 1) 
   n_char <- nchar(char_s)
   
   
-  # (3) Color maps (for labels/fg and tiles/bg, based on regex matches): ------  
+  # (3) Color maps (for fg/labels and bg/tiles, based on regex matches): ------  
   
   # Apply 2x2 regex patterns to color char_s (to highlight/de-emphasize both labels and tiles, i.e., fg and bg): 
   # Meth: Use color_map_match() repeatedly to match a regex to a text string and return a vector of colors. 
@@ -2558,7 +2609,7 @@ map_text_regex <- function(x = NA,     # Text string(s) to plot
   
   # (-) Plot tb_txt (using ggplot2): ------  
   
-  # Note: Moved plotting functionality to a specialized plot_charmap() function! 
+  # Moved plotting functionality to a specialized plot_charmap() function! 
   
   
   # (6) Output: ------ 
@@ -2581,6 +2632,183 @@ map_text_regex <- function(x = NA,     # Text string(s) to plot
 # cm
 # 
 # plot_charmap(cm)  # intended use in pipe: map_text_regex(x) %>% plot_charmap()
+
+
+## map_text_freqs: Map text to coordinates, with character and word frequency counts: -------- 
+
+# Goal: Combine functionalities of 
+# 1. map_text_or_file() 
+# 2. count_chars_words()
+# into a single character map (with 2 numeric columns for character and word frequency). 
+
+# +++ here now +++ 
+
+map_text_freqs <- function(x = NA,     # Text string(s) to plot 
+                           file = "",  # "" reads user input from console; "test.txt" reads from file
+                           
+                           # 5 regex patterns (to emphasize and de-emphasize matching characters in text string): 
+                           lbl_hi = NA, # "asdf",   # [[:upper:]]",   # labels to highlight (as regex)
+                           lbl_lo = NA, # "qwer",   # [[:punct:]]",   # labels to de-emphasize (as regex)
+                           bg_hi  = NA, # "zxcv",   # background tiles to highlight (as regex)
+                           bg_lo  = "[[:space:]]",  # background tiles to de-emphasize (as regex)
+                           lbl_rotate = NA,         # "[^[:space:]]",  # pattern for labels to rotate (as regex)
+                           case_sense = TRUE,       # distinguish lower/uppercase (in pattern matching)?
+                           
+                           # labels (text):
+                           lbl_tiles = FALSE,  # show labels (using col_lbl_? below)
+                           
+                           # 6 colors (of labels and tiles): 
+                           col_lbl = "black",             # default text label color
+                           col_lbl_hi = pal_ds4psy[[1]],  # highlighted labels (matching lbl_hi)
+                           col_lbl_lo = pal_ds4psy[[9]],  # de-emphasized labels (matching lbl_lo)
+                           col_bg = pal_ds4psy[[7]],      # default tile fill color
+                           col_bg_hi = pal_ds4psy[[4]],   # highlighted tiles (matching bg_hi)
+                           col_bg_lo = "white",           # de-emphasized tiles (matching bg_lo)
+                           col_sample = FALSE,            # sample from color vectors (within category)?
+                           
+                           # 2 angles (of labels):
+                           angle_fg = c(-90, 90),  # angle(s) of labels matching the lbl_rotate pattern
+                           angle_bg = 0            # default angle(s) & labels NOT matching the lbl_rotate pattern 
+){
+  
+  # (0) Inputs: ------  
+  
+  # Labels: 
+  if (!lbl_tiles) {col_lbl <- NA}
+  
+  
+  # (1) Read text input into a text string (txt) and character table (tb_txt): ------ 
+  
+  tb_txt <- map_text_or_file(x = x, file = file, flip_y = TRUE)  # use text helper function
+  nr_txt <- nrow(tb_txt)  # (elements/nrows of x/text)
+  
+  
+  # (2) Get chars in tb_txt$char (as a single string): ------ 
+  
+  char_s <- chars_to_text(x = tb_txt$char)  # turns char vector into a text string (of length 1)
+  n_char <- nchar(char_s)
+  
+  if (nr_txt != n_char){  # Check: 
+    message(paste0("map_text_freqs: nr_txt = ", nr_txt, " and n_char = ", n_char, " differ!"))
+  }
+  
+  
+  # (3) Get frequency counts of characters and words: ------ 
+  
+  tb_freq <- count_chars_words(x = char_s, case_sense = case_sense, sep = "")  # use char_s (with no extra spaces)
+  names(tb_freq) <- c("char_1", "char_freq", "word", "word_freq")
+  
+  
+  # (4) Combine both tables: ------ 
+  
+  # +++ here now +++ 
+  
+  tb_txt$ix <- 1:nr_txt  # add ix of row (to enable sorting by it later)  
+  
+  # NOTE that merge() has trouble merging characters with different ("t" vs. "T") cases!
+  mdf <- merge(x = tb_txt, y = tb_freq, 
+               by.x = "char", by.y = "char_1", 
+               all.x = TRUE, sort = FALSE, no.dups = FALSE)
+  
+  # Note that merge changes row order:
+  mdf <- mdf[order(mdf$ix), ]  # restore original char order (ix)
+  
+  
+  # (+) Color maps (for fg/labels and bg/tiles, based on regex matches): ------  
+  
+  # Apply 2x2 regex patterns to color char_s (to highlight/de-emphasize both labels and tiles, i.e., fg and bg): 
+  # Meth: Use color_map_match() repeatedly to match a regex to a text string and return a vector of colors. 
+  # Goal: Create 2 color vectors (fg/bg, with 3 levels of color each). 
+  
+  # (a) Text labels (fg):
+  if (lbl_tiles) {
+    
+    # col_lbl <- rep(col_lbl, n_char)  # 0. initialize col_lbl (as a vector)
+    col_lbl <- recycle_vec(col_lbl, len = n_char)  # 0. initialize (to len of n_char)
+    
+    if (col_sample) { col_lbl <- sample(col_lbl) }
+    
+    if (!is.na(lbl_lo)){  # 1. add col_lbl_lo to matches of lbl_lo: 
+      col_lbl <- color_map_match(char_s, pattern = lbl_lo, case_sense = case_sense, 
+                                 col_fg = col_lbl_lo, col_bg = col_lbl, col_sample = col_sample) 
+    }
+    
+    if (!is.na(lbl_hi)){  # 2. add col_lbl_hi to matches of lbl_hi: 
+      col_lbl <- color_map_match(char_s, pattern = lbl_hi, case_sense = case_sense, 
+                                 col_fg = col_lbl_hi, col_bg = col_lbl, col_sample = col_sample) 
+    }
+    
+  } # if (lbl_tiles) end.
+  
+  # (b) Tile fill colors (bg):
+  
+  # col_bgv <- rep(col_bg, n_char)  # 0. initialize col_bgv (as a vector)
+  col_bgv <- recycle_vec(col_bg, len = n_char)  # 0. initialize (to len of n_char)
+  
+  if (col_sample) { col_bgv <- sample(col_bgv) }
+  
+  if (!is.na(bg_lo)){  # 1. add col_bg_lo to matches of bg_lo: 
+    col_bgv <- color_map_match(char_s, pattern = bg_lo, case_sense = case_sense, 
+                               col_fg = col_bg_lo, col_bg = col_bgv, col_sample = col_sample) 
+  }
+  
+  if (!is.na(bg_hi)){  # 2. add col_bg_hi to matches of bg_hi:
+    col_bgv <- color_map_match(char_s, pattern = bg_hi, case_sense = case_sense, 
+                               col_fg = col_bg_hi, col_bg = col_bgv, col_sample = col_sample)
+  }
+  
+  
+  # (4) Angle/rotation/orientation maps (for labels, based on regex matches): ------
+  
+  char_angles <- 0  # initialize
+  
+  if (lbl_tiles) {
+    
+    if (!is.na(lbl_rotate)){  # Apply angle_fg and angle_bg (based on pattern matching):
+      
+      char_angles <- angle_map_match(char_s, pattern = lbl_rotate, case_sense = case_sense, 
+                                     angle_fg = angle_fg, angle_bg = angle_bg)
+      
+    } else {  # Default: Apply the value(s) of angle_bg to ALL characters: 
+      
+      if (length(angle_bg) > 1){
+        rangel <- range(angle_bg)
+        char_angles <- round(stats::runif(n = n_char, min = rangel[1], max = rangel[2]), 0)
+      } else {
+        char_angles <- angle_bg
+      }
+      
+    }
+    
+  } # if (lbl_tiles) end.
+  
+  
+  # (5) Add aesthetic (color/angle) vectors to tb_txt: ------ 
+  
+  tb_txt$col_fg <- col_lbl
+  tb_txt$col_bg <- col_bgv
+  tb_txt$angle  <- char_angles
+  
+  
+  # (-) Plot tb_txt (using ggplot2): ------  
+  
+  # Moved plotting functionality to a specialized plot_charmap() function! 
+  
+  
+  # (6) Output: ------ 
+  
+  return(mdf)
+  
+} # map_text_freqs(). 
+
+## Check:
+ts <- c("Hello world!", "This is a test to test this splendid function",
+        "Does this work?", "That's good.", "Please carry on.")
+sum(nchar(ts))
+
+## (a) basic use:
+map_text_freqs(x = ts)
+
 
 
 ## Done: ---------- 
