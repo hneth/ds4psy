@@ -1311,22 +1311,30 @@ map_text_coord <- function(x, flip_y = FALSE, sep = ""){
 # 
 # (Note: Currently not exported, but used.)
 
-map_text_or_file <- function(x = NA, file = "", flip_y = TRUE){
+map_text_or_file <- function(x = NA, file = "", flip_y = TRUE, sep = " "){
   
   # Initialize:
   tbl <- NA
   
   # Main: 
-  if (all(is.na(x))){  # Case 1: Read text from file or user input (enter text in Console):
-    
-    txt <- read_ascii(file = file, quiet = FALSE)    # 1. read file/user input (UI)
-    tbl <- map_text_coord(x = txt, flip_y = flip_y)  # 2. map txt to x/y-table
-    
-  } else {  # Case 2: Use the character vector x:
-    
-    tbl <- map_text_coord(x = x, flip_y = flip_y)  # 3. map x to x/y-table
-    
-  } # if (is.na(x)) end.
+  
+  ## OLDER: 
+  # if (all(is.na(x))){  # Case 1: Read text from file or user input (enter text in Console):
+  #   
+  #   txt <- read_ascii(file = file, quiet = FALSE)    # 1. read file/user input (UI)
+  #   tbl <- map_text_coord(x = txt, flip_y = flip_y)  # 2. map txt to x/y-table
+  #   
+  # } else {  # Case 2: Use the character vector x:
+  #   
+  #   tbl <- map_text_coord(x = x, flip_y = flip_y)  # 3. map x to x/y-table
+  #   
+  # } # if (is.na(x)) end.
+
+  
+  # NEW and SIMPLER:
+  txt <- read_text_or_file(x = x, file = file, sep = sep)  # 1. read into 1 string of text
+  
+  tbl <- map_text_coord(x = txt, flip_y = flip_y)  # 2. map text string to character map
   
   # Output:
   return(tbl)
@@ -1336,10 +1344,11 @@ map_text_or_file <- function(x = NA, file = "", flip_y = TRUE){
 ## Check: 
 # map_text_or_file("test")
 # # 3 alternative inputs:
-# # (1) From text string:
-# map_text_or_file(c("Line 1", "2nd line."))
+# # (1) From text string(s):
+# map_text_or_file(c("Line 1?", "2nd line."))
+# map_text_or_file(c("Line 1?", "2nd line."), sep = "\n")  # inserts sep BETWEEN elements/lines.
 # # (2) From user input (in Console):
-# map_text_or_file(x = NA)
+# # map_text_or_file(x = NA)
 # # (3) From text file "test.txt":
 # cat("Hello world!", "This is a test.",
 #     "Can you see this text?", "Good! Please carry on...",
@@ -2677,7 +2686,9 @@ map_text_freqs <- function(x = NA,     # Text string(s) to plot
   if (!lbl_tiles) {col_lbl <- NA}
   
   
-  # (1) Read text input into a text string (txt) and character table (tb_txt): ------ 
+  # (1) Read text input into a single text string (txt) and character table (tb_txt): ------ 
+  
+  txt <- read_text_or_file(x = x, file = file, sep = " ")
   
   tb_txt <- map_text_or_file(x = x, file = file, flip_y = TRUE)  # use text helper function
   nr_txt <- nrow(tb_txt)  # (elements/nrows of x/text)
