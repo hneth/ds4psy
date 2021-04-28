@@ -2704,26 +2704,26 @@ map_text_freqs <- function(x = NA,     # Text string(s) to plot
   
   # (1) Read text input into a single text string (txt) and character table (tb_txt): ------ 
   
-  # txt <- read_text_or_file(x = x, file = file, sep = " ")
-  # n_char <- nchar(txt)
+  txt <- read_text_or_file(x = x, file = file, collapse = FALSE, sep = " ")
+  n_char <- sum(nchar(txt)) 
   
   # +++ here now +++   
-  # Problem: read_text_or_file() does too much: 
-  #          Returns only 1 string, rather than multiple elements for multiple lines of text!
+  # Problem: read_text_or_file() does not use sep when collapse = FALSE: 
+  #          Word counts are wrong when no sentence delimiter between multiple lines of text!
   
   
   # (2) Map text string input into a character table (tb_txt): ------ 
   
-  tb_txt <- map_text_or_file(x = x, file = NA, flip_y = TRUE)  # use text helper function
+  tb_txt <- map_text_or_file(x = txt, file = NA, flip_y = TRUE)  # use text helper function
   nr_txt <- nrow(tb_txt)  # (elements/nrows of x/text)
   
   tb_txt$ix <- 1:nr_txt  # add ix of row (to enable sorting by it later) 
   
   
-  # (+) Get chars in tb_txt$char (as a single string): ------ 
+  ## (+) Get chars in tb_txt$char (as a single string): ------ 
   
-  char_s <- chars_to_text(x = tb_txt$char)  # turns char vector into a text string (of length 1)
-  n_char <- nchar(char_s)
+  # char_s <- chars_to_text(x = tb_txt$char)  # turns char vector into a text string (of length 1)
+  # n_char <- nchar(char_s)
   
   if (nr_txt != n_char){  # Check: 
     message(paste0("map_text_freqs: nr_txt = ", nr_txt, " and n_char = ", n_char, " differ!"))
@@ -2732,7 +2732,8 @@ map_text_freqs <- function(x = NA,     # Text string(s) to plot
   
   # (3) Get frequency counts of characters and words: ------ 
   
-  tb_freq <- count_chars_words(x = char_s, case_sense = case_sense, sep = "")  # use char_s (with no extra spaces)!
+  # tb_freq <- count_chars_words(x = char_s, case_sense = case_sense, sep = "")  # use char_s (with no extra spaces)!
+  tb_freq <- count_chars_words(x = txt, case_sense = case_sense, sep = "")  # use txt (with no extra spaces)!
   
   tb_freq$ix_2 <- 1:nrow(tb_freq)  # add ix_2 of row (to enable sorting by it later) 
   
@@ -2740,6 +2741,7 @@ map_text_freqs <- function(x = NA,     # Text string(s) to plot
   
   # +++ here now ++++ 
   # Problem: sep = "" fails to distinguish words at line boundaries! 
+  
   
   # (4) Combine both tables: ------ 
   
@@ -2770,7 +2772,7 @@ map_text_freqs <- function(x = NA,     # Text string(s) to plot
 # 
 # ## (a) basic use:
 # map_text_freqs(x = ts)
-
+# map_text_freqs(x = ts, case_sense = FALSE)
 
 
 ## Done: ---------- 
