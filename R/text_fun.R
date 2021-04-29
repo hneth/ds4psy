@@ -300,7 +300,7 @@ collapse_chars <- function(x, sep = " "){
 #'   \item If \code{force_delim = FALSE} (as per default), 
 #'   a standard sentence-splitting pattern is assumed: 
 #'   A sentence delimiter in \code{split_delim} must be followed by 
-#'   one or more spaces and a capital letter starting the next sentence. 
+#'   one or more blank spaces and a capital letter starting the next sentence. 
 #'   Sentence delimiters in \code{split_delim} are not removed 
 #'   from the output.
 #'   
@@ -332,7 +332,7 @@ collapse_chars <- function(x, sep = " "){
 #' @param force_delim Boolean: Enforce splitting at \code{split_delim}? 
 #' If \code{force_delim = FALSE} (as per default), 
 #' a standard sentence-splitting pattern is assumed: 
-#' \code{split_delim} is followed by one or more spaces and a capital letter. 
+#' \code{split_delim} is followed by one or more blank spaces and a capital letter. 
 #' If \code{force_delim = TRUE}, splits at \code{split_delim} are 
 #' enforced (without considering spacing or capitalization).
 #' 
@@ -468,12 +468,12 @@ text_to_sentences <- function(x,  # string(s) of text
 #' 
 #' Internally, \code{text_to_words} uses \code{\link{strsplit}} to 
 #' split strings at punctuation marks (\code{split = "[[:punct:]]"}) 
-#' and spaces (\code{split = "( ){1,}"}).
+#' and blank spaces (\code{split = "( ){1,}"}).
 #'
 #' @param x A string of text (required), 
 #' typically a character vector. 
 #' 
-#' @return A character vector. 
+#' @return A character vector (of words). 
 #'
 #' @examples
 #' # Default: 
