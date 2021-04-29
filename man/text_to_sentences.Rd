@@ -85,9 +85,10 @@ text_to_sentences("Buy apples, berries; and coconuts.",
                   
 text_to_sentences(c("123. 456? 789! 007 etc."), force_delim = TRUE)
 
-# Splitting multi-element strings (w/o punctuation):
-text_to_sentences(c("123", "456", "789"), sep = " ")  # Default: collapse strings with 1 added space, but: 
-text_to_sentences(c("123", "456", "789"), sep = ".", force_delim = TRUE)  # inserts sep and forces split.
+# Split multi-element strings (w/o punctuation):
+e3 <- c("12", "34", "56")
+text_to_sentences(e3, sep = " ")  # Default: Collapse strings adding 1 space, but: 
+text_to_sentences(e3, sep = ".", force_delim = TRUE)  # insert sep and force split.
 
 # Punctuation within sentences:
 text_to_sentences("Dr. who is left intact.")
