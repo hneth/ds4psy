@@ -242,7 +242,9 @@ cclass <- ccv
 
 ## collapse_chars: Turn a multi-element character string into a 1-element character string: ------ 
 
-# (Note: A utility function to ensure that multi-element text inputs are handled consistently.)
+# Goal A utility function to ensure that multi-element text inputs are handled consistently.
+# Note: sep is ONLY used when collapsing multi-element strings and inserted BETWEEN elements. 
+
 # (Note: Currently not exported, but used.)
 
 collapse_chars <- function(x, sep = " "){
@@ -252,12 +254,12 @@ collapse_chars <- function(x, sep = " "){
   x1 <- NA
   
   # Main: 
-  if (length(x0) > 1){  # A multi-element character vector:
+  if (length(x0) > 1){  # A multi-element character vector: Insert sep BETWEEN elements
     
     # sep <- " " # Use "" OR " " OR "\n" "\r" "\t" # (see ?"'" for character constants in R)
     x1 <- paste(x0, collapse = sep)  # collapse multi-element strings (ADDING sep between elements). 
     
-  } else {  # do nothing: 
+  } else {  # NO collapse and NO use of sep: 
     
     x1 <- x0  
     
@@ -296,9 +298,9 @@ collapse_chars <- function(x, sep = " "){
 #' \enumerate{
 #' 
 #'   \item If \code{force_delim = FALSE} (as per default), 
-#'   the function assumes a standard sentence-splitting pattern: 
+#'   a standard sentence-splitting pattern is assumed: 
 #'   A sentence delimiter in \code{split_delim} must be followed by 
-#'   a single space and a capital letter starting the next sentence. 
+#'   one or more spaces and a capital letter starting the next sentence. 
 #'   Sentence delimiters in \code{split_delim} are not removed 
 #'   from the output.
 #'   
@@ -312,25 +314,29 @@ collapse_chars <- function(x, sep = " "){
 #'   
 #'   }
 #' 
-#' Internally, \code{text_to_sentences} uses \code{\link{strsplit}} to 
-#' split strings.
+#' Internally, \code{text_to_sentences} first uses \code{\link{paste}} 
+#' to collapse strings (adding \code{sep} between elements) and then 
+#' \code{\link{strsplit}} to split strings at \code{split_delim}.
 #' 
 #' @param x A string of text (required), 
 #' typically a character vector. 
 #' 
+#' @param sep A character inserted as separator/delimiter 
+#' between elements when collapsing multi-element strings of \code{x}.  
+#' Default: \code{sep = " "} (i.e., insert 1 space between elements). 
+#' 
 #' @param split_delim Sentence delimiters (as regex) 
-#' used to split \code{x} into substrings. 
-#' By default, \code{split_delim = "\\.|\\?|!"}. 
+#' used to split the collapsed string of \code{x} into substrings. 
+#' Default: \code{split_delim = "\\.|\\?|!"} (rather than \code{"[[:punct:]]"}).  
 #' 
-#' @param force_delim Boolean: Enforce splitting at 
-#' \code{split_delim}? 
+#' @param force_delim Boolean: Enforce splitting at \code{split_delim}? 
 #' If \code{force_delim = FALSE} (as per default), 
-#' the function assumes a standard sentence-splitting pattern: 
-#' \code{split_delim} is followed by a single space and a capital letter. 
+#' a standard sentence-splitting pattern is assumed: 
+#' \code{split_delim} is followed by one or more spaces and a capital letter. 
 #' If \code{force_delim = TRUE}, splits at \code{split_delim} are 
-#' enforced (regardless of spacing or capitalization).
+#' enforced (without considering spacing or capitalization).
 #' 
-#' @return A character vector. 
+#' @return A character vector (of sentences). 
 #' 
 #' @examples
 #' x <- c("A first sentence. Exclamation sentence!", 
@@ -346,8 +352,14 @@ collapse_chars <- function(x, sep = " "){
 #'                   split_delim = ",|;|\\.", force_delim = TRUE)
 #'                   
 #' text_to_sentences(c("123. 456? 789! 007 etc."), force_delim = TRUE)
-#' text_to_sentences("Dr. Who is problematic.")
 #' 
+#' # Splitting multi-element strings (w/o punctuation):
+#' text_to_sentences(c("123", "456", "789"), sep = " ")  # Default: collapse strings with 1 added space, but: 
+#' text_to_sentences(c("123", "456", "789"), sep = ".", force_delim = TRUE)  # inserts sep and forces split.
+#' 
+#' # Punctuation within sentences:
+#' text_to_sentences("Dr. who is left intact.")
+#' text_to_sentences("Dr. Who is problematic.")
 #' 
 #' @family text objects and functions
 #'
@@ -360,7 +372,8 @@ collapse_chars <- function(x, sep = " "){
 #' @export
 
 text_to_sentences <- function(x,  # string(s) of text
-                              split_delim = "\\.|\\?|!",  # sentence delimiters (as regex). ToDo: Consider "[[:punct:]]".
+                              sep = " ",  # separator/delimiter inserted between multi-element strings of x 
+                              split_delim = "\\.|\\?|!",  # sentence delimiters used (as regex). ToDo: Consider "[[:punct:]]".
                               force_delim = FALSE         # force split at delimiters
 ){
   
@@ -375,39 +388,37 @@ text_to_sentences <- function(x,  # string(s) of text
   # 2. Main:
   
   # Paste all into one string:
-  x2 <- paste(x1, collapse = " ")
+  # WAS: x2 <- paste(x1, collapse = " ")
+  x2 <- collapse_chars(x = x1, sep = sep)
   
   # Split at SENTENCE punctuation provided by split_delim:
-  if (!force_delim){
+  if (!force_delim){ # more specific: 
     
-    # (1) Smart splitting: Expect well-formatted pattern: 
+    # (A) Smart splitting: Expect well-formatted pattern: 
     #     Sentence delimiter, single space, capital letter to start sentence: 
     
-    regex <- paste("(?<=(", split_delim, "))\\s(?=[A-Z])", sep = "") # require single space and capitalization
+    # regex_1sC <- paste("(?<=(", split_delim, "))\\s(?=[A-Z])", sep = "")   # require exactly 1 space and capitalization
+    regex_nsC <- paste("(?<=(", split_delim, "))\\s{1,}(?=[A-Z])", sep = "") # require 1 or more spaces and capitalization
     
-    x3 <- unlist(strsplit(x2, split = regex, perl = TRUE))
+    x3 <- unlist(strsplit(x2, split = regex_nsC, perl = TRUE))
     
-  } else {
+  } else { # more general: 
     
-    # (2) Force split at delimiter provided by split_delim 
+    # (B) Force split at delimiter provided by split_delim 
     #     (e.g., if multiple spaces, or no capitalization of first letter in sentence): 
     
-    # regex <- paste("(", split_delim, ")\\s(?=[A-Z])", sep = "")  # require single space and capitalization
-    regex <- split_delim  # force split at split_delim 
+    regex_fd <- split_delim  # force split at split_delim 
     
-    x3 <- unlist(strsplit(x2, split = regex, perl = TRUE))
+    x3 <- unlist(strsplit(x2, split = regex_fd, perl = TRUE))
     
   }
   
-  # Remove empty LEADING and TRAILING spaces:
-  x4 <- unlist(strsplit(x3, split = "^( ){1,}"))
+  # 3. Post-process split sentences:
+  x4 <- unlist(strsplit(x3, split = "^( ){1,}"))  # a. Remove LEADING spaces
+  x5 <- unlist(strsplit(x4, split = "$( ){1,}"))  # b. Remove TRAILING spaces
+  st <- x5[x5 != ""]   # c. Remove all instances of ""
   
-  x5 <- unlist(strsplit(x4, split = "$( ){1,}"))  
-  
-  # Remove all instances of "":
-  st <- x5[x5 != ""]
-  
-  # 3. Output: 
+  # 4. Output: 
   return(st)
   
 } # text_to_sentences(). 
@@ -418,15 +429,27 @@ text_to_sentences <- function(x,  # string(s) of text
 # text_to_sentences(x)
 # text_to_sentences(x, force_delim = TRUE)
 # 
+# # Number of spaces between sentences:
+# s1 <- c("One space! Between sentences.", "Split ok?")
+# text_to_sentences(s1)
+# s2 <- c("Two or more spaces!  Between sentences. ", " Split ok?")
+# text_to_sentences(s2)
 # 
 # # Changing split delimiters:
 # text_to_sentences(x, split_delim = "\\.")  # only split at "."
 # 
 # text_to_sentences("Buy apples, berries, and coconuts.")
-# text_to_sentences("Buy apples, berries; and coconuts.", 
+# text_to_sentences("Buy apples, berries; and coconuts.",
 #                   split_delim = ",|;|\\.", force_delim = TRUE)
 # 
 # text_to_sentences(c("123. 456? 789! 007 etc."), force_delim = TRUE)
+# 
+# # Splitting multi-element strings (w/o punctuation):
+# text_to_sentences(c("123", "456", "789"), sep = " ")  # Default: collapse strings with 1 added space, but:
+# text_to_sentences(c("123", "456", "789"), sep = ".", force_delim = TRUE)  # inserts sep and forces split.
+# 
+# # Punctuation within sentences:
+# text_to_sentences("Dr. who is left intact.")
 # text_to_sentences("Dr. Who is problematic.")
 
 
@@ -967,6 +990,8 @@ read_ascii <- function(file = "", quiet = FALSE){
 
 ## read_text_or_file: Read text (from string, file, or user input) into a single character string --------
 
+# Note: sep is ONLY used when collapsing multi-element strings and inserted BETWEEN elements. 
+
 # Goal: Read text from string x or file/user input into a single text string (of length 1). 
 #       A sep argument separates different elements/lines of text.
 
@@ -985,12 +1010,12 @@ read_text_or_file <- function(x = NA, file = "", collapse = TRUE, sep = " "){
   } # if (is.na(x)) end.
   
   
-  # (2) Should txt be 1 or multiple strings of text? 
+  # (2) Should txt be collapsed into 1 or left as multiple elements/strings of text? 
   if (collapse){
     
-    txt <- collapse_chars(x = x, sep = sep)  # Collapse x into a single string (with sep)
+    txt <- collapse_chars(x = x, sep = sep)  # Collapse x into a single string (using sep)
     
-  } else { # no collapse: 
+  } else { # NO collapse: NO use of sep: 
     
     txt <- as.character(x)  # Convert any non-characters into character
     
@@ -1012,8 +1037,9 @@ read_text_or_file <- function(x = NA, file = "", collapse = TRUE, sep = " "){
 # read_text_or_file(c("Line 1.", "2nd line."), collapse = FALSE)
 # read_text_or_file(c("Line 1.", "2nd line."), sep = "\n")
 # 
-# read_text_or_file(c(123, 456), collapse = TRUE, sep = " vs. ")
-# read_text_or_file(c(123, 456), collapse = FALSE)
+# # Note that sep is only used when collapsing multi-element strings: 
+read_text_or_file(c(123, 456), collapse = TRUE, sep = " vs. ")  # uses sep between collapsed strings of x
+read_text_or_file(c(123, 456), collapse = FALSE, sep = "asdf")  # does NOT use sep, as nothing collapsed
 # 
 # # # (2) From user input (in Console):
 # # read_text_or_file(x = NA)
@@ -2760,9 +2786,10 @@ map_text_freqs <- function(x = NA,     # Text string(s) to plot
   mdf <- NA
   out <- NA
   
-  # (1) Read text input into a single text string (txt) and character table (tb_txt): ------ 
+  # (1) Read text input into a single text string (txt) without collapsing multiple strings: ------ 
   
   txt <- read_text_or_file(x = x, file = file, collapse = FALSE, sep = sep)
+  # Note: NOT collapsing x does also not use sep here!
   n_char <- sum(nchar(txt)) 
   
   
