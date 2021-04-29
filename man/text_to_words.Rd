@@ -11,7 +11,7 @@ text_to_words(x)
 typically a character vector.}
 }
 \value{
-A character vector.
+A character vector (of words).
 }
 \description{
 \code{text_to_words} splits a string of text \code{x} 
@@ -26,7 +26,7 @@ before returning a vector of the remaining character symbols
 
 Internally, \code{text_to_words} uses \code{\link{strsplit}} to 
 split strings at punctuation marks (\code{split = "[[:punct:]]"}) 
-and spaces (\code{split = "( ){1,}"}).
+and blank spaces (\code{split = "( ){1,}"}).
 }
 \examples{
 # Default: 

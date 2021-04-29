@@ -4,26 +4,34 @@
 \alias{text_to_sentences}
 \title{Split strings of text \code{x} into sentences.}
 \usage{
-text_to_sentences(x, split_delim = "\\\\.|\\\\?|!", force_delim = FALSE)
+text_to_sentences(
+  x,
+  sep = " ",
+  split_delim = "\\\\.|\\\\?|!",
+  force_delim = FALSE
+)
 }
 \arguments{
 \item{x}{A string of text (required), 
 typically a character vector.}
 
-\item{split_delim}{Sentence delimiters (as regex) 
-used to split \code{x} into substrings. 
-By default, \code{split_delim = "\\.|\\?|!"}.}
+\item{sep}{A character inserted as separator/delimiter 
+between elements when collapsing multi-element strings of \code{x}.  
+Default: \code{sep = " "} (i.e., insert 1 space between elements).}
 
-\item{force_delim}{Boolean: Enforce splitting at 
-\code{split_delim}? 
+\item{split_delim}{Sentence delimiters (as regex) 
+used to split the collapsed string of \code{x} into substrings. 
+Default: \code{split_delim = "\\.|\\?|!"} (rather than \code{"[[:punct:]]"}).}
+
+\item{force_delim}{Boolean: Enforce splitting at \code{split_delim}? 
 If \code{force_delim = FALSE} (as per default), 
-the function assumes a standard sentence-splitting pattern: 
-\code{split_delim} is followed by a single space and a capital letter. 
+a standard sentence-splitting pattern is assumed: 
+\code{split_delim} is followed by one or more blank spaces and a capital letter. 
 If \code{force_delim = TRUE}, splits at \code{split_delim} are 
-enforced (regardless of spacing or capitalization).}
+enforced (without considering spacing or capitalization).}
 }
 \value{
-A character vector.
+A character vector (of sentences).
 }
 \description{
 \code{text_to_sentences} splits text \code{x} 
@@ -42,9 +50,9 @@ two splitting modes:
 \enumerate{
 
   \item If \code{force_delim = FALSE} (as per default), 
-  the function assumes a standard sentence-splitting pattern: 
+  a standard sentence-splitting pattern is assumed: 
   A sentence delimiter in \code{split_delim} must be followed by 
-  a single space and a capital letter starting the next sentence. 
+  one or more blank spaces and a capital letter starting the next sentence. 
   Sentence delimiters in \code{split_delim} are not removed 
   from the output.
   
@@ -58,8 +66,9 @@ two splitting modes:
   
   }
 
-Internally, \code{text_to_sentences} uses \code{\link{strsplit}} to 
-split strings.
+Internally, \code{text_to_sentences} first uses \code{\link{paste}} 
+to collapse strings (adding \code{sep} between elements) and then 
+\code{\link{strsplit}} to split strings at \code{split_delim}.
 }
 \examples{
 x <- c("A first sentence. Exclamation sentence!", 
@@ -75,8 +84,14 @@ text_to_sentences("Buy apples, berries; and coconuts.",
                   split_delim = ",|;|\\\\.", force_delim = TRUE)
                   
 text_to_sentences(c("123. 456? 789! 007 etc."), force_delim = TRUE)
-text_to_sentences("Dr. Who is problematic.")
 
+# Splitting multi-element strings (w/o punctuation):
+text_to_sentences(c("123", "456", "789"), sep = " ")  # Default: collapse strings with 1 added space, but: 
+text_to_sentences(c("123", "456", "789"), sep = ".", force_delim = TRUE)  # inserts sep and forces split.
+
+# Punctuation within sentences:
+text_to_sentences("Dr. who is left intact.")
+text_to_sentences("Dr. Who is problematic.")
 
 }
 \seealso{
