@@ -1,5 +1,5 @@
 ## plot_fun.R | ds4psy
-## hn | uni.kn | 2021 04 28
+## hn | uni.kn | 2021 05 05
 ## ---------------------------
 
 ## Functions for plotting. 
@@ -2089,6 +2089,43 @@ plot_chars <- function(x = NA,     # Text string(s) to plot; iff is.na(x):
 # 
 # unlink("fairy.txt")  # clean up
 
+# # Test some other text: 
+# abstract <- c("Cognition is both empowered and limited by representations.", 
+#               "The matrix lens model explicates tasks that are based on frequency counts, ", 
+#               "conditional probabilities, and binary contingencies in a general fashion.",  
+#               "Based on a structural analysis of such tasks, the model links ", 
+#               "several problems and semantic domains and provides a new perspective ",
+#               "on representational accounts of cognition that recognizes ", 
+#               "representational isomorphs as opportunities, rather than as problems. ", 
+#               "The shared structural construct of a 2×2 matrix supports a set of ", 
+#               "generic tasks and semantic mappings that provide a unifying framework ", 
+#               "for understanding problems and defining scientific measures.", 
+#               "Our model's key explanatory mechanism is the adoption of particular perspectives", 
+#               "on a 2×2 matrix that categorizes the frequency counts of cases by", 
+#               "some condition, treatment, risk, or outcome factor.", 
+#               "By the selective steps of filtering, framing, and focusing on specific aspects,", 
+#               "the measures used in various semantic domains negotiate distinct trade-offs", 
+#               "between abstraction and specialization.", 
+#               "As a consequence, the transparent communication of such measures must explicate", 
+#               "the perspectives encapsulated in their derivation.", 
+#               "To demonstrate the explanatory scope of our model, we use it to clarify", 
+#               "theoretical debates on biases and facilitation effects in Bayesian reasoning", 
+#               "and to integrate the scientific measures from various semantic domains", 
+#               "within a unifying framework. A better understanding of problem structures,", 
+#               "representational transparency, and the role of perspectives in the scientific process", 
+#               "yields both theoretical insights and practical applications.") 
+# 
+# f_map <- map_text_freqs(x = abstract, case_sense = FALSE)
+# # Inspect: 
+# f_map[1000:1050, ]
+# tail(f_map)
+# library(tidyverse)
+# as_tibble(f_map) %>% arrange(desc(char_freq))
+# as_tibble(f_map) %>% arrange(desc(word_freq))
+# # Plot: 
+# plot_charmap(x = abstract)
+
+
 ## OLDER version of plot_chars() function (prior to splitting into 2 specialized functions): ------ 
 
 plot_chars_v01 <- function(x = NA,     # Text string(s) to plot 
@@ -2298,9 +2335,9 @@ plot_chars_v01 <- function(x = NA,     # Text string(s) to plot
 ## ToDo: ----------
 
 # - Visualize char or word frequency: 
-#   1. Use count_chars_words() to create color vectors (fg/bg) based on char_ or word_freq. 
-#   2. Use plot_charmap() to plot char or word frequency.
-
+#   1. Use count_chars_words() to create color vectors (fg/bg) based on char_ or word_freq. [done]
+#   2. Map freq counts to color palette (using either interval scale with bins or ordinal scale with ranks)
+#   3. Use plot_charmap() or plot_text() to plot char or word frequency.
 
 # - Revise plot_text() to use count_chars_words() and 
 #   allow coloring by character or word frequency.
