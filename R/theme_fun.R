@@ -1,11 +1,10 @@
 ## theme_fun.R | ds4psy
-## hn | uni.kn | 2021 03 31
+## hn | uni.kn | 2021 05 07 
 ## ---------------------------
 
 ## Functions for ggplot2 themes. 
 
 ## Themes: ---------- 
-
 
 # theme_empty: An empty/blank ggplot2 theme ------ 
 
@@ -30,6 +29,9 @@
 #' @param rel_small Relative size of smaller text. 
 #' Default: \code{rel_small = 10/12}. 
 #' 
+#' @param plot_mar Plot margin sizes (on top, right, bottom, left). 
+#' Default: \code{plot_mar = c(0, 0, 0, 0)} (in cm).  
+#' 
 #' @return A \bold{ggplot2} theme. 
 #' 
 #' @examples
@@ -41,12 +43,12 @@
 #' library('ggplot2')  # theme_empty() requires ggplot2
 #'    
 #' ggplot(datasets::iris) +
-#'   geom_jitter(aes(x = Petal.Length, y = Petal.Width, color = Species), size = 4, alpha = 1/2) +
+#'   geom_point(aes(x = Petal.Length, y = Petal.Width, color = Species), size = 4, alpha = 1/2) +
 #'   scale_color_manual(values = c("firebrick3", "deepskyblue3", "olivedrab3")) +
 #'   labs(title = "NOT SHOWN: Title",
 #'        subtitle = "NOT SHOWN: Subtitle", 
 #'        caption = "NOT SHOWN: Data from datasets::iris") +
-#'   theme_empty()
+#'   theme_empty(plot_mar = c(1, 0, 0, 1))
 #' 
 #' }
 #'   
@@ -62,7 +64,8 @@
 
 theme_empty <- function(font_size = 12, 
                         font_family = "", 
-                        rel_small = 12/14
+                        rel_small = 12/14,
+                        plot_mar = c(0, 0, 0, 0)  # plot margin sizes (on top, right, bottom, left, in cm)  
 ){ # base on ggplot2::theme_void() in case the underlying ggplot2 code changes: 
   ggplot2::theme_void(base_size = font_size, base_family = font_family) %+replace%
     theme(#
@@ -147,7 +150,8 @@ theme_empty <- function(font_size = 12,
         hjust = 0, vjust = 0.7
       ),
       plot.tag.position = c(0, 1), 
-      plot.margin =        margin(0, 0, 0, 0),
+      # plot.margin =       margin(0, 0, 0, 0),
+      plot.margin = unit(plot_mar, "cm"),  # plot margins (top, right, bottom, left)  
       
       # note:   
       complete = TRUE
