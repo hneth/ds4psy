@@ -4,7 +4,12 @@
 \alias{theme_empty}
 \title{A basic and flexible plot theme (using ggplot2 and unikn).}
 \usage{
-theme_empty(font_size = 12, font_family = "", rel_small = 12/14)
+theme_empty(
+  font_size = 12,
+  font_family = "",
+  rel_small = 12/14,
+  plot_mar = c(0, 0, 0, 0)
+)
 }
 \arguments{
 \item{font_size}{Overall font size. 
@@ -15,6 +20,9 @@ Default: \code{font_family = ""}.}
 
 \item{rel_small}{Relative size of smaller text. 
 Default: \code{rel_small = 10/12}.}
+
+\item{plot_mar}{Plot margin sizes (on top, right, bottom, left). 
+Default: \code{plot_mar = c(0, 0, 0, 0)} (in cm).}
 }
 \value{
 A \bold{ggplot2} theme.
@@ -40,12 +48,12 @@ and uses
 library('ggplot2')  # theme_empty() requires ggplot2
    
 ggplot(datasets::iris) +
-  geom_jitter(aes(x = Petal.Length, y = Petal.Width, color = Species), size = 4, alpha = 1/2) +
+  geom_point(aes(x = Petal.Length, y = Petal.Width, color = Species), size = 4, alpha = 1/2) +
   scale_color_manual(values = c("firebrick3", "deepskyblue3", "olivedrab3")) +
   labs(title = "NOT SHOWN: Title",
        subtitle = "NOT SHOWN: Subtitle", 
        caption = "NOT SHOWN: Data from datasets::iris") +
-  theme_empty()
+  theme_empty(plot_mar = c(1, 0, 0, 1))
 
 }
   
