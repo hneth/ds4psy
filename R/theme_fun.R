@@ -1,5 +1,5 @@
 ## theme_fun.R | ds4psy
-## hn | uni.kn | 2021 05 07 
+## hn | uni.kn | 2021 05 09 
 ## ---------------------------
 
 ## Functions for ggplot2 themes. 
@@ -48,7 +48,7 @@
 #'   labs(title = "NOT SHOWN: Title",
 #'        subtitle = "NOT SHOWN: Subtitle", 
 #'        caption = "NOT SHOWN: Data from datasets::iris") +
-#'   theme_empty(plot_mar = c(1, 0, 0, 1))
+#'   theme_empty(plot_mar = c(1, 0, 1, 0))
 #' 
 #' }
 #'   
@@ -65,11 +65,11 @@
 theme_empty <- function(font_size = 12, 
                         font_family = "", 
                         rel_small = 12/14,
-                        plot_mar = c(0, 0, 0, 0)  # plot margin sizes (on top, right, bottom, left, in cm)  
+                        plot_mar = c(0, 0, 0, 0)  # plot margins (on top, right, bottom, left, in cm)  
 ){ # base on ggplot2::theme_void() in case the underlying ggplot2 code changes: 
   ggplot2::theme_void(base_size = font_size, base_family = font_family) %+replace%
     theme(#
-      # Elements in this block are not used directly, but inherited: 
+      # Elements in this block are not used directly, but inherited:
       line = element_blank(),
       rect = element_blank(),
       text = element_text(
@@ -103,7 +103,7 @@ theme_empty <- function(font_size = 12,
       legend.spacing.y =   NULL,
       legend.margin =      margin(0, 0, 0, 0),
       legend.key =         element_blank(),
-      legend.key.size =    unit(1.1*font_size, "pt"),
+      legend.key.size =    unit(1.1 * font_size, "pt"),
       legend.key.height =  NULL,
       legend.key.width =   NULL,
       legend.text =        element_text(size = rel(rel_small)),
@@ -127,7 +127,7 @@ theme_empty <- function(font_size = 12,
       panel.spacing =      unit(font_size / 2, "pt"),
       panel.spacing.x =    NULL,
       panel.spacing.y =    NULL,
-      panel.ontop    =     FALSE,
+      panel.ontop =        FALSE, 
       
       # strip: 
       strip.background =   element_blank(),
@@ -145,10 +145,8 @@ theme_empty <- function(font_size = 12,
       plot.title =         element_blank(),
       plot.subtitle =      element_blank(),
       plot.caption =       element_blank(),
-      plot.tag           = element_text(
-        face = "bold",
-        hjust = 0, vjust = 0.7
-      ),
+      plot.tag =           element_text(face = "bold", 
+                                        hjust = 0, vjust = 0.7),
       plot.tag.position = c(0, 1), 
       # plot.margin =       margin(0, 0, 0, 0),
       plot.margin = unit(plot_mar, "cm"),  # plot margins (top, right, bottom, left)  
@@ -156,7 +154,7 @@ theme_empty <- function(font_size = 12,
       # note:   
       complete = TRUE
     )
-}
+} # theme_empty(). 
 
 
 # theme_ds4psy: A clean and flexible ggplot2 theme ------ 
@@ -341,12 +339,12 @@ theme_ds4psy <- function(base_size = 11,
       # panel.background = ggplot2::element_blank(),  # no panel background 
       panel.background = ggplot2::element_rect(fill = col_panel, color = NA), # panel background 
       # background:  
-      plot.background = ggplot2::element_rect(fill = col_bgrnd, color = NA), # main background
+      plot.background = ggplot2::element_rect(fill = col_bgrnd, color = NA),  # main background
       
-      # note:   
+      # note:
       complete = TRUE)
   
-} # theme_ds4psy end. 
+} # theme_ds4psy(). 
 
 
 # theme_grau: Alternative theme for ggplot2 ------ 
@@ -488,9 +486,13 @@ theme_clean <- function(base_size = 11,
       # note: 
       complete = TRUE)
   
-} # theme_clean end. 
+} # theme_clean().  
 
 
 ## ToDo: ----------
+
+# - Create an artsy/minimalist theme (based on theme_bw), that allows 
+#   titles/caption/legend (like theme_bw), setting size of panel margins (like theme_empty), 
+#   but draws a small border around panel (unlike theme_empty). 
 
 ## eof. ----------------------
