@@ -30,7 +30,7 @@
 #' Default: \code{rel_small = 10/12}. 
 #' 
 #' @param plot_mar Plot margin sizes (on top, right, bottom, left). 
-#' Default: \code{plot_mar = c(0, 0, 0, 0)} (in cm).  
+#' Default: \code{plot_mar = c(0, 0, 0, 0)} (in lines).  
 #' 
 #' @return A \bold{ggplot2} theme. 
 #' 
@@ -48,7 +48,7 @@
 #'   labs(title = "NOT SHOWN: Title",
 #'        subtitle = "NOT SHOWN: Subtitle", 
 #'        caption = "NOT SHOWN: Data from datasets::iris") +
-#'   theme_empty(plot_mar = c(1, 0, 1, 0))
+#'   theme_empty(plot_mar = c(2, 0, 1, 0))  # margin lines (top, right, bot, left)
 #' 
 #' }
 #'   
@@ -65,7 +65,7 @@
 theme_empty <- function(font_size = 12, 
                         font_family = "", 
                         rel_small = 12/14,
-                        plot_mar = c(0, 0, 0, 0)  # plot margins (on top, right, bottom, left, in cm)  
+                        plot_mar = c(0, 0, 0, 0)  # plot margins (on top, right, bottom, left, in lines)  
 ){ # base on ggplot2::theme_void() in case the underlying ggplot2 code changes: 
   ggplot2::theme_void(base_size = font_size, base_family = font_family) %+replace%
     theme(#
@@ -149,7 +149,7 @@ theme_empty <- function(font_size = 12,
                                         hjust = 0, vjust = 0.7),
       plot.tag.position = c(0, 1), 
       # plot.margin =       margin(0, 0, 0, 0),
-      plot.margin = unit(plot_mar, "cm"),  # plot margins (top, right, bottom, left)  
+      plot.margin = unit(plot_mar, "lines"),  # plot margins (top, right, bottom, left)  
       
       # note:   
       complete = TRUE
@@ -491,8 +491,10 @@ theme_clean <- function(base_size = 11,
 
 ## ToDo: ----------
 
-# - Create an artsy/minimalist theme (based on theme_bw), that allows 
-#   titles/caption/legend (like theme_bw), setting size of panel margins (like theme_empty), 
-#   but draws a small border around panel (unlike theme_empty). 
+# - Create an artsy/minimalist theme (e.g., theme_expo/theme_gallery), 
+#   (based on mixing theme_bw/theme_minimal/theme_void), that 
+#   - allows titles/caption/legend (like theme_void), but moves subtitle to bottom left,  
+#   - setting the size of panel margins (like theme_empty), 
+#   - and drawing a small border around panel or plot (like theme_ds4psy, unlike theme_empty). 
 
 ## eof. ----------------------
