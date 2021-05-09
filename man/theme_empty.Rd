@@ -53,7 +53,7 @@ ggplot(datasets::iris) +
   labs(title = "NOT SHOWN: Title",
        subtitle = "NOT SHOWN: Subtitle", 
        caption = "NOT SHOWN: Data from datasets::iris") +
-  theme_empty(plot_mar = c(1, 0, 0, 1))
+  theme_empty(plot_mar = c(1, 0, 1, 0))
 
 }
   
