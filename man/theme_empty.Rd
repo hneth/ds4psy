@@ -22,7 +22,7 @@ Default: \code{font_family = ""}.}
 Default: \code{rel_small = 10/12}.}
 
 \item{plot_mar}{Plot margin sizes (on top, right, bottom, left). 
-Default: \code{plot_mar = c(0, 0, 0, 0)} (in cm).}
+Default: \code{plot_mar = c(0, 0, 0, 0)} (in lines).}
 }
 \value{
 A \bold{ggplot2} theme.
@@ -53,7 +53,7 @@ ggplot(datasets::iris) +
   labs(title = "NOT SHOWN: Title",
        subtitle = "NOT SHOWN: Subtitle", 
        caption = "NOT SHOWN: Data from datasets::iris") +
-  theme_empty(plot_mar = c(1, 0, 1, 0))
+  theme_empty(plot_mar = c(2, 0, 1, 0))  # margin lines (top, right, bot, left)
 
 }
   
