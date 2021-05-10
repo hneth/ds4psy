@@ -21,15 +21,16 @@ The book and course [Data Science for Psychologists](https://bookdown.org/hneth/
 
 -------- 
 
-# ds4psy 0.6.0.9017
+# ds4psy 0.6.0.9018
 
-Current development version of **ds4psy** (0.6.0.9001+) [on GitHub](https://github.com/hneth/ds4psy/). [2021-05-07] 
+Current development version of **ds4psy** (0.6.0.9001+) [on GitHub](https://github.com/hneth/ds4psy/). [2021-05-10] 
 
 <!-- Log of changes: --> 
 
 This version adds functionality, increases modularity, and fixes a bug in text data. 
 
 Changes since last release: 
+
 
 ## Major changes 
 
@@ -52,32 +53,23 @@ Changes since last release:
 
 ## Minor changes 
 
-
 - added `plot_mar` argument to `theme_empty()` 
 - added functionality to `plot_text()` (but see `plot_chars()`) 
 - added utility functions for locating, identifying, and assigning vectors (of color/angle maps) to text strings matching a pattern 
 - added `text_to_chars()` and related functions for converting character strings (e.g., text to characters, preserving spaces) 
 - added utility functions for counting the frequency of characters and words in text strings 
+- renamed `is_vector()` to `is_vect()` as `is_vector()` function is defined by the **purrr** package 
 
 
 ## Details 
 
+- signal deprecation status in `plot_text()`   
 - bug fix: removed marked UTF-8 strings from `Trumpisms` 
 
 
 ## ToDo  
 
 Changes to be implemented prior to next release: 
-
-- Split the mixed functionality of `plot_chars()` into 2 functions:  
-
-    1. `map_text_regex()` maps the individual characters of a text to `x` and `y` coordinates, 
-    allowing for optional regex patterns (color fg/bg, angle)  
-
-    2. `plot_charmap()` creates a plot from input df containing `char`, `x` and `y` 
-    (or creates it from text by `map_text_coord()`), 
-    allowing for optional columns (color fg/bg, angle).  
-
 
 - Split the mixed functionality of `plot_text()` into 2 functions:  
 
@@ -321,6 +313,6 @@ The initial functionality is limited, as the package is designed to support the 
 
 ---------- 
 
-[File `NEWS.md` updated on 2021-05-07.]
+[File `NEWS.md` updated on 2021-05-10.]
 
 <!-- eof. -->
