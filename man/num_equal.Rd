@@ -48,7 +48,7 @@ num_equal(.1, v)
 
 Other utility functions: 
 \code{\link{is_equal}()},
-\code{\link{is_vector}()},
+\code{\link{is_vect}()},
 \code{\link{is_wholenumber}()},
 \code{\link{num_as_char}()},
 \code{\link{num_as_ordinal}()}

@@ -50,7 +50,7 @@ num_as_ordinal(seq(1.99, 2.14, by = .01))
 
 Other utility functions: 
 \code{\link{is_equal}()},
-\code{\link{is_vector}()},
+\code{\link{is_vect}()},
 \code{\link{is_wholenumber}()},
 \code{\link{num_as_char}()},
 \code{\link{num_equal}()}

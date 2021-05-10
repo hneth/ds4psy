@@ -50,7 +50,7 @@ is_equal(c("A", "B", "C"), as.factor(c("A", "B", "C")))
 \code{near} function of the \strong{dplyr} package.
 
 Other utility functions: 
-\code{\link{is_vector}()},
+\code{\link{is_vect}()},
 \code{\link{is_wholenumber}()},
 \code{\link{num_as_char}()},
 \code{\link{num_as_ordinal}()},
