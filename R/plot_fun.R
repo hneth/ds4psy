@@ -1,5 +1,5 @@
 ## plot_fun.R | ds4psy
-## hn | uni.kn | 2021 05 05
+## hn | uni.kn | 2021 05 10
 ## ---------------------------
 
 ## Functions for plotting. 
@@ -1246,6 +1246,13 @@ plot_text <- function(x = NA,     # Text string(s) to plot
                       border_size = 0.5      # width of tile border
 ){
   
+  # (0) Deprecation notice: ----- 
+  
+  message("plot_text() will be replaced by plot_charmap().\nConsider using plot_charmap() instead...")
+  
+  # .Deprecated("plot_charmap")
+  
+  
   ## (-) Default file/path:
   # file <- "test.txt"  # 4debugging
   
@@ -1258,8 +1265,8 @@ plot_text <- function(x = NA,     # Text string(s) to plot
   height <- 1
   width  <- 1
   
-  
-  # (0) Interpret inputs: ------ 
+
+  # (1) Interpret inputs: ------ 
   
   if (!lbl_tiles) {col_lbl <- NA}
   
@@ -1280,7 +1287,7 @@ plot_text <- function(x = NA,     # Text string(s) to plot
   }
   
   
-  # (1) Read text input into a text string (txt_ui) and character table (tb_txt): ------ 
+  # (2) Read text input into a text string (txt_ui) and character table (tb_txt): ------ 
   
   if (all(is.na(x))){  # Case 1: Read text from file or user input (Console): 
     
@@ -1297,7 +1304,7 @@ plot_text <- function(x = NA,     # Text string(s) to plot
   nr_txt <- nrow(tb_txt)  # (elements/nrows of x/text)
   
   
-  # (2) Determine frequency of chars: ------ 
+  # (3) Determine frequency of chars: ------ 
   
   # (A+B) Pass case_sense to char_freq():
   char_freq <- count_chars(tb_txt$char, case_sense = case_sense, rm_specials = FALSE, sort_freq = TRUE)
@@ -1336,7 +1343,7 @@ plot_text <- function(x = NA,     # Text string(s) to plot
   # } 
   
   
-  # (3) Color palette and color map: ------ 
+  # (4) Color palette and color map: ------ 
   
   # (A) Define color palette: 
   if (pal_extend){
@@ -1383,7 +1390,7 @@ plot_text <- function(x = NA,     # Text string(s) to plot
   # col_map
   
   
-  # (4) Rotation/orientation: ------ 
+  # (5) Rotation/orientation: ------ 
   
   # lbl_rotate <- TRUE  # FALSE (default)
   if (lbl_rotate){
@@ -1392,7 +1399,7 @@ plot_text <- function(x = NA,     # Text string(s) to plot
     char_angles <- 0
   }
   
-  # (5) Plot (using ggplot2): ------  
+  # (6) Plot (using ggplot2): ------  
   
   cur_plot <- ggplot2::ggplot(data = tb_txt, aes(x = x, y = y)) +
     ggplot2::geom_tile(aes(), fill = col_map, color = brd_col, size = brd_size,  # tiles (with borders, opt.)
@@ -1407,7 +1414,7 @@ plot_text <- function(x = NA,     # Text string(s) to plot
   print(cur_plot)
   
   
-  # (6) Output: ------ 
+  # (7) Output: ------ 
   
   # A. Add vectors to tb_txt:
   tb_txt$col_fg <- col_lbl
@@ -1936,6 +1943,13 @@ plot_chars <- function(x = NA,     # Text string(s) to plot; iff is.na(x):
                        border_col = "white",  # color of tile border 
                        border_size = 0.5      # width of tile border
 ){
+  
+  # (0) Deprecation notice: ----- 
+  
+  message("plot_chars() merely combines map_text_regex() and plot_charmap().\nConsider using these functions instead...")
+  
+  # .Deprecated("plot_charmap")
+  
   
   # (1) Create character map (with regex): ------ 
   
