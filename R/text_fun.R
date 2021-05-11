@@ -1,5 +1,5 @@
 ## text_fun.R | ds4psy
-## hn | uni.kn | 2021 05 05
+## hn | uni.kn | 2021 05 10
 ## ---------------------------
 
 ## Character objects and functions for string/text objects. 
@@ -2864,14 +2864,11 @@ map_text_freqs <- function(x = NA,     # Text string(s) to plot
 
 # - Added map_text_regex() that performs all non-plotting parts of plot_chars(). [2021-04-26]
 # - Added map_text_or_file() that combines read_ascii() with map_text_coord(). [2021-04-26]
-# 
 # - Split read_ascii() into 2 functions [2021-04-22]:
 #   A. new read_ascii(): Read a file into a string of text x.
 #   B. new map_text_chars() and simpler map_text_coord(): Turn a string of text x into a table (with x/y-coordinates). 
 #   Reason: Enabled use of map_text_coord() separately (i.e., mapping strings of text)!
-# 
 # - Added more character/word/text combination/splitting functions.
-
 
 ## ToDo: ----------
 
