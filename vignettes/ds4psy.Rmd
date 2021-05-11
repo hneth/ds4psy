@@ -38,7 +38,7 @@ The **ds4psy** book and course provide an introduction to data science that is t
 This audience typically has some knowledge of statistics, but rarely an idea how data is prepared and shaped to allow for statistical testing. 
 By using various data types and working with many examples, we teach tools for transforming, summarizing, and visualizing data. By keeping our eyes open for the perils of misleading representations, the book fosters fundamental skills of data literacy and cultivates reproducible research practices that enable and precede any practical use of statistics. 
 
-The R package **ds4psy** primarily provides datasets, but also functions for data generation and manipulation (e.g., of text and time data) and graphics that are used in the book and its exercises. All functions included in **ds4psy** are designed to be explicit and instructive, rather than elegant or efficient. 
+The R package **ds4psy** primarily provides datasets, but also functions for data generation and manipulation (e.g., of text and time data) and graphics that are used in the book and its exercises. All functions included in **ds4psy** are designed to be explicit and instructive, rather than efficient or elegant. 
 
 
 ## Installation
