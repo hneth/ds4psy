@@ -13,21 +13,19 @@ The book and course [Data Science for Psychologists](https://bookdown.org/hneth/
 <!-- Links: --> 
 
 - The textbook **Data Science for Psychologists** is hosted at <https://bookdown.org/hneth/ds4psy/>. 
-- The most recent release of **ds4psy** (0.6.0) is available from CRAN: <https://CRAN.R-project.org/package=ds4psy>.
-- The current development version of **ds4psy** (0.6.0.9001+) is hosted at <https://github.com/hneth/ds4psy/>. 
+- The most recent release of **ds4psy** (0.7.0) is available from CRAN: <https://CRAN.R-project.org/package=ds4psy>.
+- The current development version of **ds4psy** (0.7.0.9001+) is hosted at <https://github.com/hneth/ds4psy/>. 
 
 
 <!-- Current version:  --> 
 
 -------- 
 
-# ds4psy 0.6.0.9018
-
-Current development version of **ds4psy** (0.6.0.9001+) [on GitHub](https://github.com/hneth/ds4psy/). [2021-05-10] 
+# ds4psy 0.7.0
 
 <!-- Log of changes: --> 
 
-This version adds functionality, increases modularity, and fixes a bug in text data. 
+This version adds functionality, increases modularity, and fixes a bug in text data. [2021-05-12] 
 
 Changes since last release: 
 
@@ -313,6 +311,6 @@ The initial functionality is limited, as the package is designed to support the 
 
 ---------- 
 
-[File `NEWS.md` updated on 2021-05-10.]
+[File `NEWS.md` updated on 2021-05-12.]
 
 <!-- eof. -->
