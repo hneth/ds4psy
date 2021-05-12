@@ -21,14 +21,58 @@ The book and course [Data Science for Psychologists](https://bookdown.org/hneth/
 
 -------- 
 
-# ds4psy 0.7.0
+# ds4psy 0.7.0.9001
+
+The current development version of **ds4psy** is hosted at <https://github.com/hneth/ds4psy/> 
+and adds functionality, increases modularity, and fixes some bugs. [2021-05-12] 
 
 <!-- Log of changes: --> 
 
-This version adds functionality, increases modularity, and fixes a bug in text data. [2021-05-12] 
-
 Changes since last release: 
 
+## Major changes 
+
+- none yet
+
+
+## Minor changes 
+
+- none yet
+
+
+## Details 
+
+- none yet
+
+
+## ToDo  
+
+Changes to be implemented prior to next release: 
+
+- Split the mixed functionality of `plot_text()` into 2 functions:  
+
+    1. Combine `count_chars_words()` with `map_text_coord()` or `map_text_regex()` 
+    to create a df with 2 color vectors (fg/bg) based on `char_freq` and/or `word_freq`  
+
+    2. `plot_charmap()` directly plots the resulting df.  
+
+
+<!-- Note:  --> 
+
+The current development version of **ds4psy** is hosted at <https://github.com/hneth/ds4psy/>. 
+
+<!-- Latest CRAN release:  --> 
+
+-------- 
+
+# ds4psy 0.7.0
+
+Release of **ds4psy** (0.7.0) [on CRAN](https://CRAN.R-project.org/package=ds4psy) 
+adds functionality, increases modularity, and fixes a bug in text data. [2021-05-12] 
+
+<!-- Log of changes: --> 
+
+Changes since last release: 
 
 ## Major changes 
 
