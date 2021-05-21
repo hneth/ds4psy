@@ -1,5 +1,5 @@
 ## time_fun.R | ds4psy
-## hn | uni.kn | 2021 04 14
+## hn | uni.kn | 2021 05 20
 ## ---------------------------
 
 ## Main functions for date and time objects. 
@@ -2847,7 +2847,6 @@ diff_times <- function(from_time, to_time = Sys.time(),
 # diff_times(t1, t2, unit = "days", as_character = TRUE)
 # lubridate::as.period(lubridate::interval(t1, t2), unit = "days")
 
-# +++ here now +++ 
 
 # # B. NOT resolved YET:
 # 
@@ -2865,9 +2864,7 @@ diff_times <- function(from_time, to_time = Sys.time(),
 # diff_times(t1, t2, unit = "years", as_character = TRUE)
 # lubridate::as.period(lubridate::interval(t1, t2), unit = "years")
 
-
 ## ToDo: 
-
 # - add n_decimals argument? (default of 0).
 
 
@@ -2883,6 +2880,15 @@ diff_times <- function(from_time, to_time = Sys.time(),
 
 
 ## ToDo: ----------
+
+# Add a zodiac() function (that works for vectors of dates):  
+#
+# Input: Dates or times (as vector)
+# Output: As factor (1-12) OR character OR Unicode/HTML symbols, 
+#         with labels in Latin/en/de
+# See: <https://en.wikipedia.org/wiki/Zodiac> for ranges. 
+#
+# Note: The DescTools package also contains a Zodiac() function. 
 
 # ad (1) and (2): 
 # - update cur_ and what_ functions to use new helpers
