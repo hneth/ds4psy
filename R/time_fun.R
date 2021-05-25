@@ -2881,11 +2881,79 @@ diff_times <- function(from_time, to_time = Sys.time(),
 
 ## ToDo: ----------
 
+zodiac <- function(date){
+    
+    # 0. Initialize: 
+    zod <- NA
+    
+    # 1. Handle inputs: ------  
+    
+    # (a) NA inputs: ----
+    
+    if (any(is.na(date))){
+      message('zodiac: "date" must not be NA.')    
+      return(NA)
+    }
+    
+    # (b) Turn non-Date inputs into "Date" objects: ---- 
+
+    if (!is_Date(date)){
+      # message('zodiac: Aiming to parse "date" as "Date".')
+      date <- date_from_noDate(date)
+    }
+  
+    # Determine month and days:
+    mm <- as.numeric(format(date, "%m"))
+    dd <- as.numeric(format(date, "%d"))
+
+    # Main: Determine zodiac
+    # +++ here now +++
+    
+    
+    # (+) Output: 
+    return(paste0(mm, "-", dd))
+    
+} # zodiac(). 
+
+## Check:
+# zodiac(Sys.Date())
+# dt <- sample_date(size = 5)
+# zodiac(dt)
+
+
 # Add a zodiac() function (that works for vectors of dates):  
 #
 # Input: Dates or times (as vector)
 # Output: As factor (1-12) OR character OR Unicode/HTML symbols, 
 #         with labels in Latin/en/de
+
+#  1. Mar 21-Apr 19:  U+2648 ♈ ARIES   HTML &#9800;)
+#  2. Apr 20-May 20:  U+2649 ♉ TAURUS  HTML &#9801;)
+#  3. May 21-June 20: U+264A ♊ GEMINI  HTML &#9802;)
+#  4. Jun 21-Jul 22:  U+264B ♋ CANCER  HTML &#9803;)
+#  5. U+264C ♌ LEO     HTML & &#9804;)
+#  6. U+264D ♍ VIRGO   HTML &#9805;)
+#  7. U+264E ♎ LIBRA   HTML &#9806;)
+#  8. U+264F ♏ SCORPIUS     HTML &#9807;)
+#  9. U+2650 ♐ SAGITTARIUS  HTML &#9808;)
+# 10. U+2651 ♑ CAPRICORN    HTML &#9809;)
+# 11. U+2652 ♒ AQUARIUS     HTML &#9810;)
+# 12. U+2653 ♓ PISCES       HTML &#9811;)
+
+## Dates: 
+# Aries:   March 21 – April 19
+# Taurus:  April 20 – May 20
+# Gemini:  May 21 – June 20
+# Cancer:  June 21 – July 22
+# Leo:     July 23 – August 22
+# Virgo:   August 23 – September 22
+# Libra:   September 23 – October 22
+# Scorpio:  October 23 – November 21
+# Sagittarius:  November 22 – December 21
+# Capricorn:  December 22 – January 19
+# Aquarius:  January 20 – February 18
+# Pisces:    February 19 – March 20
+
 # See: <https://en.wikipedia.org/wiki/Zodiac> for ranges. 
 #
 # Note: The DescTools package also contains a Zodiac() function. 
