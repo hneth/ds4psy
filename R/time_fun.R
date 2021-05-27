@@ -1,5 +1,5 @@
 ## time_fun.R | ds4psy
-## hn | uni.kn | 2021 05 20
+## hn | uni.kn | 2021 05 27
 ## ---------------------------
 
 ## Main functions for date and time objects. 
@@ -2902,24 +2902,74 @@ zodiac <- function(date){
       date <- date_from_noDate(date)
     }
   
-    # Determine month and days:
+    # 2. Determine month and days:
     mm <- as.numeric(format(date, "%m"))
     dd <- as.numeric(format(date, "%d"))
 
-    # Main: Determine zodiac
+    mm <- num_as_char(mm, n_pre_dec = 2, n_dec = 0)
+    dd <- num_as_char(dd, n_pre_dec = 2, n_dec = 0)
+    
+    mmdd <- as.numeric(paste0(mm, dd))  # as number (from 101 to 1231)
+
+    # 3. Main: Determine zodiac
     # +++ here now +++
+
+    # Define data breaks and labels: 
+    # Aries:   March 21 – April 19
+    # Taurus:  April 20 – May 20
+    # Gemini:  May 21 – June 20
+    # Cancer:  June 21 – July 22
+    # Leo:     July 23 – August 22
+    # Virgo:   August 23 – September 22
+    # Libra:   September 23 – October 22
+    # Scorpio:  October 23 – November 21
+    # Sagittarius:  November 22 – December 21
+    # Capricorn:  December 22 – January 19
+    # Aquarius:  January 20 – February 18
+    # Pisces:    February 19 – March 20
     
+    labels_en <- c("Aries", "Taurus", "Gemini", "Cancer", "Leo", "Virgo", 
+                   "Libra", "Scorpio", "Sagittarius", "Capricorn", "Aquarius", "Pisces")
+    labels_year <- labels_en[c(10:12, 1:10)]  # 13 labels (mapped to calendar year)
+    date_breaks <- c(0, 120, 219, 321, 420, 521, 621, 723, 823, 923, 1023, 1122, 1222, 1299)
     
-    # (+) Output: 
-    return(paste0(mm, "-", dd))
+    # 4. Apply cut: 
+    zod <- cut(x = mmdd, breaks = date_breaks, labels = labels_year, include.lowest = TRUE, right = FALSE)
+    
+    # Recode zod as factor with 12 levels (from Aries to Pisces, removing double "Capricorn" category)
+    # levels(zod) <- levels(zod) - 1
+    # levels(zod[levels(zod) == 0]) <- 12
+    # zod <- factor(zod, levels = 1:12, labels = labels_en)
+    # levels(zod) <- labels_en
+      
+    # 5. Output: 
+    # test <- paste0(mm, "-", dd, ": ", mmdd, " (", zod, ")")  # 4debugging 
+    
+    return(zod)
     
 } # zodiac(). 
 
 ## Check:
 # zodiac(Sys.Date())
-# dt <- sample_date(size = 5)
+# dt <- sample_date(size = 10)
 # zodiac(dt)
-
+# 
+# # Check borders:
+# dt_brd <- c("2000-03-20", "2000-03-21", 
+#          "2000-04-19", "2000-04-20",
+#          "2000-05-20", "2000-05-21",
+#          "2000-06-20", "2000-06-21",
+#          "2000-07-22", "2000-07-23",
+#          "2000-08-22", "2000-08-23",
+#          "2000-09-22", "2000-09-23",
+#          "2000-10-22", "2000-10-23",
+#          "2000-11-21", "2000-11-22", 
+#          "2000-12-21", "2000-12-22",
+#          "2000-01-19", "2000-01-20",
+#          "2000-02-18", "2000-02-19")
+# zodiac(dt_brd)
+# 
+# as.numeric(zodiac(dt_brd))
 
 # Add a zodiac() function (that works for vectors of dates):  
 #
