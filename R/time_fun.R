@@ -2868,7 +2868,6 @@ diff_times <- function(from_time, to_time = Sys.time(),
 # - add n_decimals argument? (default of 0).
 
 
-
 ## (5) Get zodiac name/symbol for given date(s): ------ 
 
 zodiac <- function(date, lang = "en"){
@@ -2904,15 +2903,15 @@ zodiac <- function(date, lang = "en"){
   # 3. Get zodiac sign/symbol for date: ----- 
   
   # Define date breaks and labels: 
-  # Aries:       Mar 21 – Apr 20:   Widder
-  # Taurus:      Apr 21 – May 20:   Stier
-  # Gemini:      May 21 – Jun 20:   Zwillinge 
-  # Cancer:      Jun 21 – Jul 22:   Krebs
-  # Leo:         Jul 23 – Aug 22:   Löwe
-  # Virgo:       Aug 23 – Sep 22:   Jungfrau
-  # Libra:       Sep 23 – Oct 22:   Waage
-  # Scorpio:     Oct 23 – Nov 22:   Skorpion
-  # Sagittarius: Nov 23 – Dec 21: Schütze 
+  # Aries:       Mar 21 – Apr 20: Widder
+  # Taurus:      Apr 21 – May 20: Stier
+  # Gemini:      May 21 – Jun 20: Zwillinge 
+  # Cancer:      Jun 21 – Jul 22: Krebs
+  # Leo:         Jul 23 – Aug 22: Loewe
+  # Virgo:       Aug 23 – Sep 22: Jungfrau
+  # Libra:       Sep 23 – Oct 22: Waage
+  # Scorpio:     Oct 23 – Nov 22: Skorpion
+  # Sagittarius: Nov 23 – Dec 21: Schuetze 
   # Capricorn:   Dec 22 – Jan 19: Steinbock
   # Aquarius:    Jan 20 – Feb 18: Wassermann 
   # Pisces:      Feb 19 – Mar 20: Fische
@@ -2920,15 +2919,15 @@ zodiac <- function(date, lang = "en"){
   labels_en <- c("Aries", "Taurus", "Gemini", "Cancer", "Leo", "Virgo", 
                  "Libra", "Scorpio", "Sagittarius", "Capricorn", "Aquarius", "Pisces")
   # German/de:
-  labels_de <- c("Widder", "Stier", "Zwillinge", "Krebs", "Löwe", "Jungfrau", 
-                 "Waage", "Skorpion", "Schütze", "Steinbock", "Wassermann", "Fische") 
+  labels_de <- c("Widder", "Stier", "Zwillinge", "Krebs", "L\u00F6we", "Jungfrau", 
+                 "Waage", "Skorpion", "Sch\u00FCtze", "Steinbock", "Wassermann", "Fische") 
   # Unicode: 
   labels_uc <- c("\u2648", "\u2649", "\u264A", "\u264B", "\u264C", "\u264D", "\u264E", "\u264F",
                  "\u2650", "\u2651", "\u2652", "\u2653")    
   
   year_cats <-  c(10:12, 1:10)  # sequence of zodiac sign categories in calendar year
   
-  lang <- substr(tolower(lang), 1, 2)
+  lang <- substr(tolower(lang), 1, 2)  # 4robustness 
   
   if (lang == "de"){ # Deutsch/German:
     labels_year <- labels_de[year_cats]  # 13 labels (lang == "de") 
@@ -2974,7 +2973,7 @@ zodiac <- function(date, lang = "en"){
 #             "2000-12-21", "2000-12-22")
 # zodiac(dt_brd)
 # levels(zodiac(dt_brd))
-#
+# 
 # # Alternative languages:
 # zodiac(dt_brd, lang = "de")
 # zodiac(dt_brd, lang = "unicode")
@@ -2999,20 +2998,7 @@ zodiac <- function(date, lang = "en"){
 # Output: As factor (levels 1-12) OR character OR Unicode/HTML symbols, 
 #         with labels in Latin/en/de
 # See: <https://en.wikipedia.org/wiki/Zodiac> and  
-# See: <https://de.wikipedia.org/wiki/Tierkreiszeichen> for ranges:
-# 
-#  1. Mar 21: U+2648 ♈ ARIES   HTML &#9800;)
-#  2. Apr 21: U+2649 ♉ TAURUS  HTML &#9801;)
-#  3. May 21: U+264A ♊ GEMINI  HTML &#9802;)
-#  4. Jun 21: U+264B ♋ CANCER  HTML &#9803;)
-#  5. Jul 23: U+264C ♌ LEO     HTML &#9804;)
-#  6. Aug 23: U+264D ♍ VIRGO   HTML &#9805;)
-#  7. Sep 23: U+264E ♎ LIBRA   HTML &#9806;)
-#  8. Oct 23: U+264F ♏ SCORPIUS     HTML &#9807;)
-#  9. Nov 23: U+2650 ♐ SAGITTARIUS  HTML &#9808;)
-# 10. Dec 22: U+2651 ♑ CAPRICORN    HTML &#9809;)
-# 11. Jan 20: U+2652 ♒ AQUARIUS     HTML &#9810;)
-# 12. Feb 19: U+2653 ♓ PISCES       HTML &#9811;)
+# See: <https://de.wikipedia.org/wiki/Tierkreiszeichen> for ranges and symbols. 
 # 
 # Note: The DescTools package also contains a Zodiac() function. 
 
