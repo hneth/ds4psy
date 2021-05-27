@@ -2881,131 +2881,124 @@ diff_times <- function(from_time, to_time = Sys.time(),
 
 ## ToDo: ----------
 
-zodiac <- function(date){
-    
-    # 0. Initialize: 
-    zod <- NA
-    
-    # 1. Handle inputs: ------  
-    
-    # (a) NA inputs: ----
-    
-    if (any(is.na(date))){
-      message('zodiac: "date" must not be NA.')    
-      return(NA)
-    }
-    
-    # (b) Turn non-Date inputs into "Date" objects: ---- 
-
-    if (!is_Date(date)){
-      # message('zodiac: Aiming to parse "date" as "Date".')
-      date <- date_from_noDate(date)
-    }
+zodiac <- function(date, lang = "en"){
   
-    # 2. Determine month and days:
-    mm <- as.numeric(format(date, "%m"))
-    dd <- as.numeric(format(date, "%d"))
-
-    mm <- num_as_char(mm, n_pre_dec = 2, n_dec = 0)
-    dd <- num_as_char(dd, n_pre_dec = 2, n_dec = 0)
-    
-    mmdd <- as.numeric(paste0(mm, dd))  # as number (from 101 to 1231)
-
-    # 3. Main: Determine zodiac
-    # +++ here now +++
-
-    # Define data breaks and labels: 
-    # Aries:   March 21 – April 19
-    # Taurus:  April 20 – May 20
-    # Gemini:  May 21 – June 20
-    # Cancer:  June 21 – July 22
-    # Leo:     July 23 – August 22
-    # Virgo:   August 23 – September 22
-    # Libra:   September 23 – October 22
-    # Scorpio:  October 23 – November 21
-    # Sagittarius:  November 22 – December 21
-    # Capricorn:  December 22 – January 19
-    # Aquarius:  January 20 – February 18
-    # Pisces:    February 19 – March 20
-    
-    labels_en <- c("Aries", "Taurus", "Gemini", "Cancer", "Leo", "Virgo", 
-                   "Libra", "Scorpio", "Sagittarius", "Capricorn", "Aquarius", "Pisces")
-    labels_year <- labels_en[c(10:12, 1:10)]  # 13 labels (mapped to calendar year)
-    date_breaks <- c(0, 120, 219, 321, 420, 521, 621, 723, 823, 923, 1023, 1122, 1222, 1299)
-    
-    # 4. Apply cut: 
-    zod <- cut(x = mmdd, breaks = date_breaks, labels = labels_year, include.lowest = TRUE, right = FALSE)
-    
-    # Recode zod as factor with 12 levels (from Aries to Pisces, removing double "Capricorn" category)
-    # levels(zod) <- levels(zod) - 1
-    # levels(zod[levels(zod) == 0]) <- 12
-    # zod <- factor(zod, levels = 1:12, labels = labels_en)
-    # levels(zod) <- labels_en
-      
-    # 5. Output: 
-    # test <- paste0(mm, "-", dd, ": ", mmdd, " (", zod, ")")  # 4debugging 
-    
-    return(zod)
-    
+  # 0. Initialize: 
+  zod <- NA
+  
+  # 1. Handle inputs: ------  
+  
+  # (a) NA inputs: ----
+  
+  if (any(is.na(date))){
+    message('zodiac: "date" must not be NA.')    
+    return(NA)
+  }
+  
+  # (b) Turn non-Date inputs into "Date" objects: ---- 
+  
+  if (!is_Date(date)){
+    # message('zodiac: Aiming to parse "date" as "Date".')
+    date <- date_from_noDate(date)
+  }
+  
+  # 2. Determine month and days:
+  mm <- as.numeric(format(date, "%m"))
+  dd <- as.numeric(format(date, "%d"))
+  
+  mm <- num_as_char(mm, n_pre_dec = 2, n_dec = 0)
+  dd <- num_as_char(dd, n_pre_dec = 2, n_dec = 0)
+  
+  mmdd <- as.numeric(paste0(mm, dd))  # as number (from 101 to 1231)
+  
+  # 3. Date for zodiac signs:
+  
+  # Define data breaks and labels: 
+  # Aries:     Mar 21 – Apr 20:   Widder
+  # Taurus:    Apr 21 – May 20:   Stier
+  # Gemini:    May 21 – Jun 20:   Zwillinge 
+  # Cancer:    Jun 21 – Jul 22:   Krebs
+  # Leo:       Jul 23 – Aug 22:   Löwe
+  # Virgo:     Aug 23 – Sep 22:   Jungfrau
+  # Libra:     Sep 23 – Oct 22:   Waage
+  # Scorpio:   Oct 23 – Nov 22:   Skorpion
+  # Sagittarius: Nov 23 – Dec 21: Schütze 
+  # Capricorn:   Dec 22 – Jan 19: Steinbock
+  # Aquarius:    Jan 20 – Feb 18: Wassermann 
+  # Pisces:      Feb 19 – Mar 20: Fische
+  
+  #  1. Mar 21: U+2648 ♈ ARIES   HTML &#9800;)
+  #  2. Apr 21: U+2649 ♉ TAURUS  HTML &#9801;)
+  #  3. May 21: U+264A ♊ GEMINI  HTML &#9802;)
+  #  4. Jun 21: U+264B ♋ CANCER  HTML &#9803;)
+  #  5. Jul 23: U+264C ♌ LEO     HTML &#9804;)
+  #  6. Aug 23: U+264D ♍ VIRGO   HTML &#9805;)
+  #  7. Sep 23: U+264E ♎ LIBRA   HTML &#9806;)
+  #  8. Oct 23: U+264F ♏ SCORPIUS     HTML &#9807;)
+  #  9. Nov 23: U+2650 ♐ SAGITTARIUS  HTML &#9808;)
+  # 10. Dec 22: U+2651 ♑ CAPRICORN    HTML &#9809;)
+  # 11. Jan 20: U+2652 ♒ AQUARIUS     HTML &#9810;)
+  # 12. Feb 19: U+2653 ♓ PISCES       HTML &#9811;)
+  
+  labels_en <- c("Aries", "Taurus", "Gemini", "Cancer", "Leo", "Virgo", 
+                 "Libra", "Scorpio", "Sagittarius", "Capricorn", "Aquarius", "Pisces")
+  labels_de <- c("Widder", "Stier", "Zwillinge", "Krebs", "Löwe", "Jungfrau", 
+                 "Waage", "Skorpion", "Schütze", "Steinbock", "Wassermann", "Fische") 
+  
+  year_cats <-  c(10:12, 1:10)  # sequence of zodiac sign categories in calendar year
+  
+  if (lang == "de"){
+    labels_year <- labels_de[year_cats]  # 13 labels (lang == "de") 
+  } else { # default: 
+    labels_year <- labels_en[year_cats]  # 13 labels (mapped to calendar year)
+  }
+  
+  # 4. Main: Determine zodiac by numeric date breaks mmdd: 
+  date_breaks <- c(-Inf, 0120, 0219, 0321, 0421, 0521, 0621, 0723, 
+                         0823, 0923, 1023, 1123, 1222, +Inf) 
+  zod <- cut(x = mmdd, breaks = date_breaks, labels = labels_year, 
+             include.lowest = TRUE, right = FALSE)
+  
+  # 5. Recode levels of zod as factor (from 1 = Aries to 12 = Pisces): 
+  zod_cats <- c(4:12, 1:3)    # re-order zodiac signs 
+  zod <- factor(zod, levels = levels(zod)[zod_cats])  # reorder factor levels
+  
+  # 6. Output: 
+  # zod <- paste0(mm, "-", dd, ": ", mmdd, " = ", zod, "")  # 4debugging 
+  return(zod)
+  
 } # zodiac(). 
 
 ## Check:
 # zodiac(Sys.Date())
-# dt <- sample_date(size = 10)
+# (dt <- sample_date(size = 10))
 # zodiac(dt)
 # 
-# # Check borders:
-# dt_brd <- c("2000-03-20", "2000-03-21", 
-#          "2000-04-19", "2000-04-20",
-#          "2000-05-20", "2000-05-21",
-#          "2000-06-20", "2000-06-21",
-#          "2000-07-22", "2000-07-23",
-#          "2000-08-22", "2000-08-23",
-#          "2000-09-22", "2000-09-23",
-#          "2000-10-22", "2000-10-23",
-#          "2000-11-21", "2000-11-22", 
-#          "2000-12-21", "2000-12-22",
-#          "2000-01-19", "2000-01-20",
-#          "2000-02-18", "2000-02-19")
+# # Verify date range borders:
+# dt_brd <- c("2000-01-19", "2000-01-20",
+#             "2000-02-18", "2000-02-19",
+#             "2000-03-20", "2000-03-21",
+#             "2000-04-20", "2000-04-21",
+#             "2000-05-20", "2000-05-21",
+#             "2000-06-20", "2000-06-21",
+#             "2000-07-22", "2000-07-23",
+#             "2000-08-22", "2000-08-23",
+#             "2000-09-22", "2000-09-23",
+#             "2000-10-22", "2000-10-23",
+#             "2000-11-22", "2000-11-23",
+#             "2000-12-21", "2000-12-22")
 # zodiac(dt_brd)
-# 
-# as.numeric(zodiac(dt_brd))
+# levels(zodiac(dt_brd))
+# zodiac(dt_brd, lang = "de")
 
 # Add a zodiac() function (that works for vectors of dates):  
 #
 # Input: Dates or times (as vector)
-# Output: As factor (1-12) OR character OR Unicode/HTML symbols, 
+# Output: As factor (levels 1-12) OR character OR Unicode/HTML symbols, 
 #         with labels in Latin/en/de
-
-#  1. Mar 21-Apr 19:  U+2648 ♈ ARIES   HTML &#9800;)
-#  2. Apr 20-May 20:  U+2649 ♉ TAURUS  HTML &#9801;)
-#  3. May 21-June 20: U+264A ♊ GEMINI  HTML &#9802;)
-#  4. Jun 21-Jul 22:  U+264B ♋ CANCER  HTML &#9803;)
-#  5. U+264C ♌ LEO     HTML & &#9804;)
-#  6. U+264D ♍ VIRGO   HTML &#9805;)
-#  7. U+264E ♎ LIBRA   HTML &#9806;)
-#  8. U+264F ♏ SCORPIUS     HTML &#9807;)
-#  9. U+2650 ♐ SAGITTARIUS  HTML &#9808;)
-# 10. U+2651 ♑ CAPRICORN    HTML &#9809;)
-# 11. U+2652 ♒ AQUARIUS     HTML &#9810;)
-# 12. U+2653 ♓ PISCES       HTML &#9811;)
-
-## Dates: 
-# Aries:   March 21 – April 19
-# Taurus:  April 20 – May 20
-# Gemini:  May 21 – June 20
-# Cancer:  June 21 – July 22
-# Leo:     July 23 – August 22
-# Virgo:   August 23 – September 22
-# Libra:   September 23 – October 22
-# Scorpio:  October 23 – November 21
-# Sagittarius:  November 22 – December 21
-# Capricorn:  December 22 – January 19
-# Aquarius:  January 20 – February 18
-# Pisces:    February 19 – March 20
-
-# See: <https://en.wikipedia.org/wiki/Zodiac> for ranges. 
-#
+# See: <https://en.wikipedia.org/wiki/Zodiac> and  
+# See: <https://de.wikipedia.org/wiki/Tierkreiszeichen> for ranges.
+# 
 # Note: The DescTools package also contains a Zodiac() function. 
 
 # ad (1) and (2): 
