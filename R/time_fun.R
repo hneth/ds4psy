@@ -2872,13 +2872,13 @@ diff_times <- function(from_time, to_time = Sys.time(),
 
 #' Get zodiac (corresponding to date x).  
 #'
-#' \code{zodiac} provides the tropical zodiac name or symbol 
+#' \code{zodiac} provides the tropical zodiac sign or symbol 
 #' for given date(s) \code{x}.
 #' 
 #' \code{zodiac} is flexible by providing different 
-#' output formats (in Latin/English, German, HTML, or Unicode, 
-#' see \code{out}) and allowing to re-define the calendar dates 
-#' on which a new zodiac is assigned (see \code{zodiac_swap_mmdd}).
+#' output formats (in Latin/English, German, or Unicode/HTML, 
+#' see \code{out}) and allowing to adjust the calendar dates 
+#' on which a new zodiac is assigned (via \code{zodiac_swap_mmdd}).
 #' 
 #' @param x Date (as a scalar or vector, required).    
 #' If \code{x} is not a date (of class "Date"), 
@@ -2889,11 +2889,11 @@ diff_times <- function(from_time, to_time = Sys.time(),
 #' English/Latin (\code{out = "en"}, by default),   
 #' German/Deutsch (\code{out = "de"}), 
 #' HTML (\code{out = "html"}), or  
-#' Unicode (\code{out = "uc"}) symbols. 
+#' Unicode (\code{out = "Unicode"}) symbols. 
 #' 
-#' @param zodiac_swap_mmdd Dates on which 
-#' zodiacs switch (in \code{mmdd} format, 
-#' ordered chronologically within calendar year). 
+#' @param zodiac_swap_mmdd Monthly dates on which 
+#' the 12 zodiac signs switch (in \code{mmdd} format, 
+#' ordered chronologically within a calendar year). 
 #' Default: \code{zodiac_swap_mmdd = c(0120, 0219, 0321, 0421, 0521, 0621, 
 #' 0723, 0823, 0923, 1023, 1123, 1222)}. 
 #' 
@@ -2920,14 +2920,13 @@ diff_times <- function(from_time, to_time = Sys.time(),
 #' 
 #' @source See 
 #' \url{https://en.wikipedia.org/wiki/Zodiac} or 
-#' \url{https://de.wikipedia.org/wiki/Tierkreiszeichen} for 
-#' alternative date ranges. 
+#' \url{https://de.wikipedia.org/wiki/Tierkreiszeichen} 
+#' for alternative date ranges. 
 #' 
 #' @family date and time functions
 #' 
 #' @seealso 
-#' \code{\link{change_time}} function which preserves time display but changes time; 
-#' \code{Sys.time()} function of \strong{base} R. 
+#' \code{Zodiac()} function of the \strong{DescTools} package. 
 #' 
 #' @export
 
@@ -2997,7 +2996,7 @@ zodiac <- function(x,
   labels_html <- c("&#9800;", "&#9801;", "&#9802;", "&#9803;", "&#9804;", "&#9805;", 
                    "&#9806;", "&#9807;", "&#9808;", "&#9809;", "&#9810;", "&#9811;")
   
-  year_cats <-  c(10:12, 1:10)  # sequence of zodiac sign categories (arranged into calendar year)
+  year_cats <-  c(10:12, 1:10)  # sequence of zodiac sign categories (arranged in calendar year)
   
   # Output formats: ---- 
   out <- substr(tolower(out), 1, 2)  # 4robustness 
