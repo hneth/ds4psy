@@ -1,5 +1,5 @@
 ## text_fun.R | ds4psy
-## hn | uni.kn | 2021 05 10
+## hn | uni.kn | 2021 05 28
 ## ---------------------------
 
 ## Character objects and functions for string/text objects. 
@@ -268,7 +268,7 @@ collapse_chars <- function(x, sep = " "){
   # Output: 
   return(x1)
   
-}
+} # collapse_chars(). 
 
 ## Check:
 # collapse_chars(c("Hello", "world", "!"))
