@@ -49,18 +49,20 @@ on which a new zodiac is assigned (see \code{zodiac_swap_mmdd}).
 }
 \examples{
 zodiac(Sys.Date())
+
+# Works with vectors:
 dt <- sample_date(size = 10)
 zodiac(dt)
-levels(zodiac(dt_brd))
+levels(zodiac(dt))
 
 # Alternative outputs:
-zodiac(dt, out = "de")
-zodiac(dt, out = "unicode")
-zodiac(dt, out = "HTML")
+zodiac(dt, out = "de")  # German/deutsch
+zodiac(dt, out = "Unicode")  # Unicode
+zodiac(dt, out = "HTML")     # HTML
 
 # Alternative date breaks:
-zodiac("2000-08-23")
-zodiac("2000-08-23",
+zodiac("2000-08-23")  # 0823 is "Virgo" by default
+zodiac("2000-08-23",  # change to 0824 (i.e., August 24): 
        zodiac_swap_mmdd = c(0120, 0219, 0321, 0421, 0521, 0621, 
                             0723, 0824, 0923, 1023, 1123, 1222))
 
