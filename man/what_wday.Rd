@@ -70,6 +70,7 @@ Other date and time functions:
 \code{\link{what_month}()},
 \code{\link{what_time}()},
 \code{\link{what_week}()},
-\code{\link{what_year}()}
+\code{\link{what_year}()},
+\code{\link{zodiac}()}
 }
 \concept{date and time functions}
