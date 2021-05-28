@@ -21,10 +21,10 @@ The book and course [Data Science for Psychologists](https://bookdown.org/hneth/
 
 -------- 
 
-# ds4psy 0.7.0.9001
+# ds4psy 0.7.0.9002
 
 The current development version of **ds4psy** is hosted at <https://github.com/hneth/ds4psy/> 
-and adds functionality, increases modularity, and fixes some bugs. [2021-05-12] 
+and adds functionality, increases modularity, and fixes some bugs. [2021-05-18] 
 
 <!-- Log of changes: --> 
 
@@ -32,7 +32,7 @@ Changes since last release:
 
 ## Major changes 
 
-- none yet
+- Added a flexible `zodiac()` function (with multiple outputs formats and options for redefining date boundaries). 
 
 
 ## Minor changes 
@@ -355,6 +355,6 @@ The initial functionality is limited, as the package is designed to support the 
 
 ---------- 
 
-[File `NEWS.md` updated on 2021-05-12.]
+[File `NEWS.md` updated on 2021-05-28.]
 
 <!-- eof. -->
