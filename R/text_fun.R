@@ -1,5 +1,5 @@
 ## text_fun.R | ds4psy
-## hn | uni.kn | 2021 05 28
+## hn | uni.kn | 2021 05 30
 ## ---------------------------
 
 ## Character objects and functions for string/text objects. 
@@ -783,6 +783,9 @@ capitalize <- function(x, # string of text to capitalize
   return(out)
   
 } # capitalize(). 
+
+## ToDo: Create a version that works for character vectors 
+##       (i.e., capitalizes each vector element).
 
 # ## Check:
 # x <- c("Hello world! This is a 1st TEST sentence. The end.")
@@ -2873,12 +2876,13 @@ map_text_freqs <- function(x = NA,     # Text string(s) to plot
 ## ToDo: ----------
 
 # Specific:
+# - Create a version of capitalize() that works for character vectors 
+#   (i.e., capitalizes each vector element).
 # - improve read_ascii() and map_text_chars() (with regex and more efficient text wrangling)
 # - Add an exception argument except to capitalize() function 
 #   (to exclude all words matching an exception argument).
 # 
 # General: Write functions to:
 # - mix alpha-numeric content (letters, words, numbers...) with noise (punctuation, space, random characters)
-
 
 ## eof. ----------------------
