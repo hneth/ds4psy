@@ -4,7 +4,7 @@
 \alias{capitalize}
 \title{Capitalize initial characters in strings of text \code{x}.}
 \usage{
-capitalize(x, n = 1, upper = TRUE, as_text = TRUE)
+capitalize(x, n = 1, upper = TRUE, as_text = FALSE)
 }
 \arguments{
 \item{x}{A string of text (required).}
@@ -15,32 +15,31 @@ Default: \code{n = 1}.}
 \item{upper}{Convert to uppercase?
 Default: \code{upper = TRUE}.}
 
-\item{as_text}{Return word vector as text 
+\item{as_text}{Treat and return \code{x} as a text 
 (i.e., one character string)? 
-Default: \code{as_text = TRUE}.}
+Default: \code{as_text = FALSE}.}
 }
 \value{
 A character vector.
 }
 \description{
 \code{capitalize} converts the case of 
-each word's \code{n} initial characters 
-(typically to \code{upper}) 
-in a string of text \code{x}.
+each element's (i.e., character string or word in text) 
+\code{n} initial characters to \code{upper} or lowercase.
+}
+\details{
+If \code{as_text = TRUE}, the input \code{x} is merged into 
+one string of text and the arguments are applied to each word.
 }
 \examples{
-x <- c("Hello world! This is a 1st TEST sentence. The end.")
+x <- c("Hello world!", "this is a TEST sentence.", "the end.")
 capitalize(x)
-capitalize(x, n = 3)
-capitalize(x, n = 2, upper = FALSE)
-capitalize(x, as_text = FALSE)
+capitalize(tolower(x))
 
-# Note: A vector of character strings returns the same results: 
-x <- c("Hello world!", "This is a 1st TEST sentence.", "The end.")
-capitalize(x)
-capitalize(x, n = 3)
-capitalize(x, n = 2, upper = FALSE)
-capitalize(x, as_text = FALSE)
+# Options: 
+capitalize(x, n = 3)                  # leaves strings intact
+capitalize(x, n = 3, as_text = TRUE)  # treats strings as text
+capitalize(x, n = 3, upper = FALSE)   # first n in lowercase
 
 }
 \seealso{
