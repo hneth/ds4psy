@@ -21,10 +21,10 @@ The book and course [Data Science for Psychologists](https://bookdown.org/hneth/
 
 -------- 
 
-# ds4psy 0.7.0.9002
+# ds4psy 0.7.0.9003
 
 The current development version of **ds4psy** is hosted at <https://github.com/hneth/ds4psy/> 
-and adds functionality, increases modularity, and fixes some bugs. [2021-05-18] 
+and adds functionality, increases modularity, and fixes some bugs. [2021-05-31] 
 
 <!-- Log of changes: --> 
 
@@ -37,7 +37,7 @@ Changes since last release:
 
 ## Minor changes 
 
-- none yet
+- Improved `capitalize()` to also work for character vectors (i.e., setting the case of each element to upper- or lowercase).
 
 
 ## Details 
@@ -355,6 +355,6 @@ The initial functionality is limited, as the package is designed to support the 
 
 ---------- 
 
-[File `NEWS.md` updated on 2021-05-28.]
+[File `NEWS.md` updated on 2021-05-31.]
 
 <!-- eof. -->
