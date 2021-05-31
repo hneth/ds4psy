@@ -484,6 +484,7 @@ text_to_sentences <- function(x,  # string(s) of text
 #' @family text objects and functions
 #'
 #' @seealso
+#' \code{\link{text_to_words}} for splitting a text into its words; 
 #' \code{\link{text_to_sentences}} for splitting text into a vector of sentences;  
 #' \code{\link{text_to_chars}} for splitting text into a vector of characters;  
 #' \code{\link{count_words}} for counting the frequency of words; 
@@ -634,10 +635,33 @@ text_to_chars <- function(x, rm_specials = FALSE, sep = ""){
 
 ## words_to_text: Turn a vector of words x into a (single) vector: ------ 
 
-# Inverse of text_to_words() above:
-# Currently only adds spaces between words 
-# (collapsing multiple strings into one).
-# (Note: Currently not exported, but used.)
+#' Paste or collapse words \code{x} into a text. 
+#' 
+#' \code{words_to_text} pastes or collapses 
+#' a character string \code{x} into a text. 
+#' 
+#' Internally, \code{words_to_text} only invokes the \strong{base} R function 
+#' \code{\link{paste}} with a \code{collapse} argument. 
+#' 
+#' @param x A string of text (required), 
+#' typically a character vector. 
+#' 
+#' @return A text (as a collapsed character vector). 
+#'
+#' @examples
+#' x <- c("Hello!", "This is a 1st sentence.", "This is the 2nd sentence.", "The end.")
+#' words_to_text(x)
+#' 
+#' @family text objects and functions
+#'
+#' @seealso
+#' \code{\link{text_to_words}} for splitting a text into its words; 
+#' \code{\link{text_to_sentences}} for splitting text into a vector of sentences;  
+#' \code{\link{text_to_chars}} for splitting text into a vector of characters;  
+#' \code{\link{count_words}} for counting the frequency of words; 
+#' \code{\link{strsplit}} for splitting strings. 
+#' 
+#' @export
 
 words_to_text <- function(x, collapse = " "){
   
