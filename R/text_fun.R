@@ -641,16 +641,20 @@ text_to_chars <- function(x, rm_specials = FALSE, sep = ""){
 #' a character string \code{x} into a text. 
 #' 
 #' Internally, \code{words_to_text} only invokes the \strong{base} R function 
-#' \code{\link{paste}} with a \code{collapse} argument. 
+#' \code{\link{paste}} with the \code{collapse} argument. 
 #' 
-#' @param x A string of text (required), 
-#' typically a character vector. 
+#' @param x A string of text (required), typically a character vector. 
+#' 
+#' @param collapse A character string to separate the elements of \code{x} 
+#' in the resulting text. 
+#' Default: \code{collapse = " "}. 
 #' 
 #' @return A text (as a collapsed character vector). 
 #'
 #' @examples
-#' x <- c("Hello!", "This is a 1st sentence.", "This is the 2nd sentence.", "The end.")
+#' x <- c("Hello world!", "A 1st sentence.", "A 2nd sentence.", "The end.")
 #' words_to_text(x)
+#' cat(words_to_text(x, collapse = "\n"))
 #' 
 #' @family text objects and functions
 #'
@@ -670,8 +674,9 @@ words_to_text <- function(x, collapse = " "){
 } # words_to_text(). 
 
 ## Check:
-# words_to_text(wv)
+# words_to_text(wv)  # (using wv from above)
 # words_to_text(c("This", "is only", "a test"))
+# cat(words_to_text(wv, collapse = "\n"))
 
 
 ## chars_to_text: Turn a character vector x into a (single) string of text: ------

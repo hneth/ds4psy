@@ -7,8 +7,11 @@
 words_to_text(x, collapse = " ")
 }
 \arguments{
-\item{x}{A string of text (required), 
-typically a character vector.}
+\item{x}{A string of text (required), typically a character vector.}
+
+\item{collapse}{A character string to separate the elements of \code{x} 
+in the resulting text. 
+Default: \code{collapse = " "}.}
 }
 \value{
 A text (as a collapsed character vector).
@@ -19,11 +22,12 @@ a character string \code{x} into a text.
 }
 \details{
 Internally, \code{words_to_text} only invokes the \strong{base} R function 
-\code{\link{paste}} with a \code{collapse} argument.
+\code{\link{paste}} with the \code{collapse} argument.
 }
 \examples{
-x <- c("Hello!", "This is a 1st sentence.", "This is the 2nd sentence.", "The end.")
+x <- c("Hello world!", "A 1st sentence.", "A 2nd sentence.", "The end.")
 words_to_text(x)
+cat(words_to_text(x, collapse = "\n"))
 
 }
 \seealso{
