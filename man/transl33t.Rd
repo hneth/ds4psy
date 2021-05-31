@@ -68,6 +68,7 @@ Other text objects and functions:
 \code{\link{read_ascii}()},
 \code{\link{text_to_chars}()},
 \code{\link{text_to_sentences}()},
-\code{\link{text_to_words}()}
+\code{\link{text_to_words}()},
+\code{\link{words_to_text}()}
 }
 \concept{text objects and functions}
