@@ -43,7 +43,8 @@ capitalize(x, n = 3, upper = FALSE)   # first n in lowercase
 
 }
 \seealso{
-\code{\link{caseflip}} for converting the case of all letters.
+\code{\link{caseflip}} for converting the case of all letters; 
+\code{\link{words_to_text}} and \code{\link{text_to_words}} for converting character vectors and texts.
 
 Other text objects and functions: 
 \code{\link{Umlaut}},
