@@ -1,5 +1,5 @@
 ## text_fun.R | ds4psy
-## hn | uni.kn | 2021 05 30
+## hn | uni.kn | 2021 05 31
 ## ---------------------------
 
 ## Character objects and functions for string/text objects. 
@@ -705,14 +705,17 @@ chars_to_text <- function(x){
 
 ## (2) Capitalization: ---------- 
 
+
 ## capitalize: the first n letters of words (w/o exception): -------- 
 
 #' Capitalize initial characters in strings of text \code{x}.  
 #' 
 #' \code{capitalize} converts the case of 
-#' each word's \code{n} initial characters 
-#' (typically to \code{upper}) 
-#' in a string of text \code{x}.
+#' each element's (i.e., character string or word in text) 
+#' \code{n} initial characters to \code{upper} or lowercase.
+#' 
+#' If \code{as_text = TRUE}, the input \code{x} is merged into 
+#' one string of text and the arguments are applied to each word.  
 #'
 #' @return A character vector. 
 #'
@@ -724,23 +727,19 @@ chars_to_text <- function(x){
 #' @param upper Convert to uppercase?
 #' Default: \code{upper = TRUE}. 
 #' 
-#' @param as_text Return word vector as text 
+#' @param as_text Treat and return \code{x} as a text 
 #' (i.e., one character string)? 
-#' Default: \code{as_text = TRUE}.
+#' Default: \code{as_text = FALSE}. 
 #' 
 #' @examples
-#' x <- c("Hello world! This is a 1st TEST sentence. The end.")
+#' x <- c("Hello world!", "this is a TEST sentence.", "the end.")
 #' capitalize(x)
-#' capitalize(x, n = 3)
-#' capitalize(x, n = 2, upper = FALSE)
-#' capitalize(x, as_text = FALSE)
+#' capitalize(tolower(x))
 #' 
-#' # Note: A vector of character strings returns the same results: 
-#' x <- c("Hello world!", "This is a 1st TEST sentence.", "The end.")
-#' capitalize(x)
-#' capitalize(x, n = 3)
-#' capitalize(x, n = 2, upper = FALSE)
-#' capitalize(x, as_text = FALSE)
+#' # Options: 
+#' capitalize(x, n = 3)                  # leaves strings intact
+#' capitalize(x, n = 3, as_text = TRUE)  # treats strings as text
+#' capitalize(x, n = 3, upper = FALSE)   # first n in lowercase
 #' 
 #' @family text objects and functions
 #'
@@ -749,20 +748,28 @@ chars_to_text <- function(x){
 #' 
 #' @export
 
-capitalize <- function(x, # string of text to capitalize
+capitalize <- function(x,      # character string or text
                        n = 1,  # number of initial letters to capitalize in each word
-                       upper = TRUE,   # convert to uppercase?
-                       as_text = TRUE  # return words as text (1 character string)? 
+                       upper = TRUE,    # convert to uppercase?
+                       as_text = FALSE  # treat and return x as a text (1 character string)? 
                        # except = c("a", "the", "is", "do", "does", "done", "did")
                        # rm_specials = TRUE
 ){
   
-  out <- NA  # initialize 
+  # 0. Initialize:  
+  out <- NA
   
-  # (1) Convert text x to vector of words:
-  words <- text_to_words(x)
+  # 1. Handle inputs:
+  x1 <- as.character(x)
   
-  # (2) Capitalize words:
+  # 2. Convert text x to vector of words:
+  if (as_text){
+    words <- text_to_words(x)
+  } else {
+    words <- x1
+  }
+  
+  # 3. Main: Capitalize words:
   first <- substr(words, 1, n)      # first character of each word 
   rest  <- substr(words, n + 1, nchar(words))  # rest of each word
   rest  <- substring(words, n + 1)  # rest of each word (with default end)
@@ -773,19 +780,17 @@ capitalize <- function(x, # string of text to capitalize
     Words <- paste0(tolower(first), rest) # lowercase first and paste with rest
   }
   
-  # (3) Convert vector of Words to text x:
+  # 4. Convert vector of Words to text x:
   if (as_text){
     out <- words_to_text(Words)
   } else {
     out <- Words
   }
   
+  # 5. Output: 
   return(out)
   
 } # capitalize(). 
-
-## ToDo: Create a version that works for character vectors 
-##       (i.e., capitalizes each vector element).
 
 # ## Check:
 # x <- c("Hello world! This is a 1st TEST sentence. The end.")
@@ -794,12 +799,13 @@ capitalize <- function(x, # string of text to capitalize
 # capitalize(x, n = 2, upper = FALSE)
 # capitalize(x, as_text = FALSE)
 # 
-# # Note: Vector of character strings is merged into one string:
+# # If as_text = TRUE, a character vector is merged into one string of text
+# # and arguments are applied to each word: 
 # x <- c("Hello world!", "This is a 1st TEST sentence.", "The end.")
-# capitalize(x)
-# capitalize(x, n = 3)
-# capitalize(x, n = 2, upper = FALSE)
-# capitalize(x, as_text = FALSE)
+# capitalize(x, n = 3, as_text = FALSE)  # default
+# capitalize(x, n = 3, as_text = TRUE)
+# capitalize(x, n = 3, as_text = TRUE, upper = FALSE)
+
 
 
 ## caseflip: Flip lower to upper case and vice versa: --------  
@@ -2865,6 +2871,9 @@ map_text_freqs <- function(x = NA,     # Text string(s) to plot
 
 ## Done: ---------- 
 
+# - Created a version of capitalize() that works for character vectors 
+#   (i.e., capitalizes each vector element).
+
 # - Added map_text_regex() that performs all non-plotting parts of plot_chars(). [2021-04-26]
 # - Added map_text_or_file() that combines read_ascii() with map_text_coord(). [2021-04-26]
 # - Split read_ascii() into 2 functions [2021-04-22]:
@@ -2876,8 +2885,6 @@ map_text_freqs <- function(x = NA,     # Text string(s) to plot
 ## ToDo: ----------
 
 # Specific:
-# - Create a version of capitalize() that works for character vectors 
-#   (i.e., capitalizes each vector element).
 # - improve read_ascii() and map_text_chars() (with regex and more efficient text wrangling)
 # - Add an exception argument except to capitalize() function 
 #   (to exclude all words matching an exception argument).
