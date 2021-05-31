@@ -744,7 +744,8 @@ chars_to_text <- function(x){
 #' @family text objects and functions
 #'
 #' @seealso
-#' \code{\link{caseflip}} for converting the case of all letters. 
+#' \code{\link{caseflip}} for converting the case of all letters; 
+#' \code{\link{words_to_text}} and \code{\link{text_to_words}} for converting character vectors and texts.  
 #' 
 #' @export
 
