@@ -32,8 +32,8 @@ Changes since last release:
 
 ## Major changes 
 
+- Added a `words_to_text()` function as the inverse of `text_to_words()`. 
 - Added a flexible `zodiac()` function (with multiple outputs formats and options for redefining date boundaries). 
-
 
 ## Minor changes 
 
