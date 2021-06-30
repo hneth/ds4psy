@@ -39,7 +39,8 @@ knitr::opts_chunk$set(
 Welcome to the R package **ds4psy** &mdash; a software companion to the book and course</br> 
 [Data Science for Psychologists](https://bookdown.org/hneth/ds4psy/). 
 
-This R package provides datasets and functions used in the [ds4psy book](https://bookdown.org/hneth/ds4psy/) and course. The book and course introduce the principles and methods of data science for students of psychology and other biological or social sciences. 
+This R package provides datasets and functions used in the [ds4psy book](https://bookdown.org/hneth/ds4psy/) and course. 
+The book and course introduce the principles and methods of data science for students of psychology and other biological or social sciences. 
 
 <!-- Description of ds4psy package:  -->
 
