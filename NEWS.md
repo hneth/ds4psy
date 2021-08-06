@@ -21,7 +21,7 @@ The book and course [Data Science for Psychologists](https://bookdown.org/hneth/
 
 -------- 
 
-# ds4psy 0.7.0.9004
+# ds4psy 0.7.0.9005
 
 The current development version of **ds4psy** is hosted at <https://github.com/hneth/ds4psy/> 
 and adds functionality, increases modularity, and fixes some bugs. [2021-06-30] 
@@ -30,14 +30,17 @@ and adds functionality, increases modularity, and fixes some bugs. [2021-06-30]
 
 Changes since last release: 
 
+
 ## Major changes 
 
-- Added a `words_to_text()` function as the inverse of `text_to_words()`. 
-- Added a `zodiac()` function (with multiple outputs formats and options for redefining date boundaries). 
+- added a `words_to_text()` function as the inverse of `text_to_words()`. 
+- added a `zodiac()` function (with multiple outputs formats and options for redefining date boundaries). 
+
 
 ## Minor changes 
 
-- Improved `capitalize()` to also work for character vectors (i.e., setting the case of each element to upper- or lowercase).
+- added `table9` as a variant of `tidyr::table2` as a 3-dimensional array (xtabs). 
+- improved `capitalize()` to also work for character vectors (i.e., setting the case of each element to upper- or lowercase). 
 
 
 ## Details 
@@ -355,6 +358,6 @@ The initial functionality is limited, as the package is designed to support the 
 
 ---------- 
 
-[File `NEWS.md` updated on 2021-06-30.]
+[File `NEWS.md` updated on 2021-08-06.]
 
 <!-- eof. -->
