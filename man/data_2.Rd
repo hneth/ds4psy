@@ -14,7 +14,7 @@ See FWF data at \url{http://rpository.com/ds4psy/data/data_2.dat}.
 data_2
 }
 \description{
-\code{data_2} is a fictitious dataset to practice data import 
+\code{data_2} is a fictitious dataset to practice importing data  
 (from a FWF file).
 }
 \seealso{
@@ -51,6 +51,7 @@ Other datasets:
 \code{\link{table6}},
 \code{\link{table7}},
 \code{\link{table8}},
+\code{\link{table9}},
 \code{\link{tb}}
 }
 \concept{datasets}

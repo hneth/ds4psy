@@ -14,7 +14,7 @@ See DELIMITED data at \url{http://rpository.com/ds4psy/data/data_1.dat}.
 data_1
 }
 \description{
-\code{data_1} is a fictitious dataset to practice data import 
+\code{data_1} is a fictitious dataset to practice importing data
 (from a DELIMITED file).
 }
 \seealso{
@@ -51,6 +51,7 @@ Other datasets:
 \code{\link{table6}},
 \code{\link{table7}},
 \code{\link{table8}},
+\code{\link{table9}},
 \code{\link{tb}}
 }
 \concept{datasets}

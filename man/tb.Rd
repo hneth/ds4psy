@@ -73,7 +73,8 @@ Other datasets:
 \code{\link{t_4}},
 \code{\link{table6}},
 \code{\link{table7}},
-\code{\link{table8}}
+\code{\link{table8}},
+\code{\link{table9}}
 }
 \concept{datasets}
 \keyword{datasets}

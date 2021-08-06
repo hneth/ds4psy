@@ -14,10 +14,10 @@ See CSV data at \url{http://rpository.com/ds4psy/data/table7.csv}.
 table7
 }
 \description{
-\code{table7} is a fictitious dataset to practice tidying data.
+\code{table7} is a fictitious dataset to practice reshaping and tidying data.
 }
 \details{
-This dataset is a variant of the \code{table1} to \code{table5} datasets 
+This dataset is a further variant of the \code{table1} to \code{table5} datasets 
 of the \bold{tidyr} package.
 }
 \seealso{
@@ -54,6 +54,7 @@ Other datasets:
 \code{\link{t_4}},
 \code{\link{table6}},
 \code{\link{table8}},
+\code{\link{table9}},
 \code{\link{tb}}
 }
 \concept{datasets}

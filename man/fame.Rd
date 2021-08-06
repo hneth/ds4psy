@@ -53,6 +53,7 @@ Other datasets:
 \code{\link{table6}},
 \code{\link{table7}},
 \code{\link{table8}},
+\code{\link{table9}},
 \code{\link{tb}}
 }
 \concept{datasets}
