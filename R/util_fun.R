@@ -1,5 +1,5 @@
 ## util_fun.R | ds4psy
-## hn | uni.kn | 2021 05 10
+## hn | uni.kn | 2021 09 10
 ## ---------------------------
 
 ## Utility functions. 
@@ -824,6 +824,31 @@ kill_all <- function(){
 ## Check: 
 # kill_all()
 
+
+
+## get_name: Get an object's name (e.g., inside a function): ------ 
+
+get_name <- function(x){
+  
+  nm <- NA
+  
+  nm <- deparse(substitute(x))
+  
+  return(nm)
+  
+} # get_name
+
+# # Check:
+# nv <- 1:10
+# av <- letters[1:10]
+# (ls <- list(e1 = nv, e2 = av))
+# (df <- data.frame(v1 = nv, v2 = av))
+# (fc <- factor(av))
+# 
+# get_name(nv) # vector
+# get_name(ls) # list
+# get_name(df) # data.frame
+# get_name(fc) # factor
 
 ## ToDo: ----------
 
