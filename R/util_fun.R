@@ -826,7 +826,7 @@ kill_all <- function(){
 
 
 
-## get_name: Get an object's name (e.g., inside a function): ------ 
+# get_name: Get an object's name (e.g., inside a function): ------ 
 
 get_name <- function(x){
   
