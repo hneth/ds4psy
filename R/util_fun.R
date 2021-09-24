@@ -1,5 +1,5 @@
 ## util_fun.R | ds4psy
-## hn | uni.kn | 2021 09 10
+## hn | uni.kn | 2021 09 24
 ## ---------------------------
 
 ## Utility functions. 
@@ -849,6 +849,7 @@ get_name <- function(x){
 # get_name(ls) # list
 # get_name(df) # data.frame
 # get_name(fc) # factor
+
 
 ## ToDo: ----------
 
