@@ -1693,7 +1693,7 @@ invert_rules <- function(x){
 # Encoding and decoding a message:
 # 
 # # Original message:
-# txt_0 <- "Hello world! How are you doing today? Is Sozialpsychologie fun?"
+# txt_0 <- "Hello world! How are you doing today?"
 # 
 # # Encoding: 
 # l33t_rul35  # rules used for encoding
