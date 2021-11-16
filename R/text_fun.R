@@ -1695,13 +1695,13 @@ invert_rules <- function(x){
 # # Original message:
 # txt_0 <- "Hello world! How are you doing today?"
 # 
-# # Encoding: 
+# # Encoding:
 # l33t_rul35  # rules used for encoding
-# (txt_1 <- transl33t(txt_0, rules = l33t_rul35))  
+# (txt_1 <- transl33t(txt_0, rules = l33t_rul35))
 # 
-# # Decoding: 
+# # Decoding:
 # invert_rules(l33t_rul35)  # inverse rules
-# (txt_2 <- transl33t(txt_1, rules = invert_rules(l33t_rul35)))  
+# (txt_2 <- transl33t(txt_1, rules = invert_rules(l33t_rul35)))
 
 
 
