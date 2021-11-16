@@ -1,5 +1,5 @@
 ## text_fun.R | ds4psy
-## hn | uni.kn | 2021 05 31
+## hn | uni.kn | 2021 11 16
 ## ---------------------------
 
 ## Character objects and functions for string/text objects. 
@@ -1549,7 +1549,8 @@ l33t_rul35 <- c(l33t_num, my_l33t)
 #' @family text objects and functions
 #'
 #' @seealso
-#' \code{\link{l33t_rul35}} for default rules used. 
+#' \code{\link{l33t_rul35}} for default rules used; 
+#' \code{\link{invert_rules}} for inverting rules. 
 #' 
 #' @export
 
@@ -1623,7 +1624,84 @@ transl33t <- function(txt, rules = l33t_rul35,
 #           transl33t(txt = c(letters)))
 
 
+## Encoding and decoding: ---- 
 
+## Invert rules: A function to invert encoding rules (for decoding encoded messages):
+
+# Assume that x is a named vector:
+# - use names as elements
+# - and elements as names
+
+#' invert_rules inverts a set of encoding rules. 
+#'
+#' \code{invert_rules} allows decoding messages that were 
+#' encoded by a set of rules \code{x}.
+#' 
+#' \code{x} is assumed to be a named vector. 
+#' 
+#' \code{invert_rules} replaces the elements of \code{x} 
+#' by the names of \code{x}, and vice versa.
+#' 
+#' A message is issued if the elements of \code{x} are repeated 
+#' (i.e., decoding is non-unique). 
+#' 
+#' @param x The rules used for encoding a message
+#' (as a named vector). 
+#' 
+#' @return A character vector. 
+#' 
+#' @examples
+#' invert_rules(l33t_rul35)  # Note repeated elements
+#' 
+#' Encoding and decoding a message:
+#' (txt_0 <- "Hello world! How are you doing today?")             # message
+#' (txt_1 <- transl33t(txt_0, rules = l33t_rul35))                # encoding 
+#' (txt_2 <- transl33t(txt_1, rules = invert_rules(l33t_rul35)))  # decoding
+#' 
+#' @family text objects and functions
+#'
+#' @seealso
+#' \code{\link{transl33t}} for encoding text (e.g., into leet slang);  
+#' \code{\link{l33t_rul35}} for default rules used. 
+#' 
+#' @export
+
+invert_rules <- function(x){
+  
+  if (!is_vect(x) | is.null(names(x))){
+    message("invert_rules: x must be a named vector.")
+    return(NA)
+  }
+  
+  out <- NA  # initialize
+  
+  out <- names(x)
+  names(out) <- x
+  
+  if (length(unique(names(out))) < length(out)){
+    message("invert_rules: Some names are repeated.")
+  }
+  
+  return(out)
+  
+} # invert_rules().
+
+## Check:
+# invert_rules(letters[1:3])  # x not a named vector
+# invert_rules(l33t_rul35)  # Note repeated elements
+
+# Encoding and decoding a message:
+# 
+# # Original message:
+# txt_0 <- "Hello world! How are you doing today? Is Sozialpsychologie fun?"
+# 
+# # Encoding: 
+# l33t_rul35  # rules used for encoding
+# (txt_1 <- transl33t(txt_0, rules = l33t_rul35))  
+# 
+# # Decoding: 
+# invert_rules(l33t_rul35)  # inverse rules
+# (txt_2 <- transl33t(txt_1, rules = invert_rules(l33t_rul35)))  
 
 
 
