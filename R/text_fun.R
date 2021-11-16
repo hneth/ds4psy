@@ -1653,7 +1653,7 @@ transl33t <- function(txt, rules = l33t_rul35,
 #' @examples
 #' invert_rules(l33t_rul35)  # Note repeated elements
 #' 
-#' Encoding and decoding a message:
+#' # Encoding and decoding a message:
 #' (txt_0 <- "Hello world! How are you doing today?")             # message
 #' (txt_1 <- transl33t(txt_0, rules = l33t_rul35))                # encoding 
 #' (txt_2 <- transl33t(txt_1, rules = invert_rules(l33t_rul35)))  # decoding
