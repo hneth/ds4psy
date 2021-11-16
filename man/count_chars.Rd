@@ -60,6 +60,7 @@ Other text objects and functions:
 \code{\link{cclass}},
 \code{\link{count_chars_words}()},
 \code{\link{count_words}()},
+\code{\link{invert_rules}()},
 \code{\link{l33t_rul35}},
 \code{\link{map_text_chars}()},
 \code{\link{map_text_coord}()},
