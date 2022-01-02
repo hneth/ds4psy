@@ -1,5 +1,5 @@
 ## util_fun.R | ds4psy
-## hn | uni.kn | 2021 09 24
+## hn | uni.kn | 2022 01 02
 ## ---------------------------
 
 ## Utility functions. 
@@ -94,7 +94,7 @@ align_vec <- function(v_mod, v_fix){
 # align_vec(NA, 1:4)
 
 
-# align_vec_pair: Recycle a pair of vector to the length of the longer one: ------ 
+# align_vec_pair: Recycle a pair of vectors to the length of the longer one: ------ 
 
 # Return the pair of both vectors (as a list). 
 
