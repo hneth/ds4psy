@@ -22,7 +22,7 @@ The book and course [Data Science for Psychologists](https://bookdown.org/hneth/
 
 -------- 
 
-# ds4psy 0.7.0.9007
+# ds4psy 0.7.0.9008
 
 The current development version of **ds4psy** is hosted at <https://github.com/hneth/ds4psy/> 
 and adds functionality, increases modularity, and fixes some bugs. [2021-06-30] 
@@ -100,18 +100,18 @@ Changes since last release:
 
 ## Minor changes 
 
-- added `plot_mar` argument to `theme_empty()` 
-- added functionality to `plot_text()` (but see `plot_chars()`) 
-- added utility functions for locating, identifying, and assigning vectors (of color/angle maps) to text strings matching a pattern 
-- added `text_to_chars()` and related functions for converting character strings (e.g., text to characters, preserving spaces) 
-- added utility functions for counting the frequency of characters and words in text strings 
-- renamed `is_vector()` to `is_vect()` as `is_vector()` function is defined by the **purrr** package 
+- add `plot_mar` argument to `theme_empty()` 
+- add functionality to `plot_text()` (but see `plot_chars()`) 
+- add utility functions for locating, identifying, and assigning vectors (of color/angle maps) to text strings matching a pattern 
+- add `text_to_chars()` and related functions for converting character strings (e.g., text to characters, preserving spaces) 
+- add utility functions for counting the frequency of characters and words in text strings 
+- rename `is_vector()` to `is_vect()` as an `is_vector()` function is defined by the **purrr** package 
 
 
 ## Details 
 
 - signal deprecation status in `plot_text()`   
-- bug fix: removed marked UTF-8 strings from `Trumpisms` 
+- bug fix: remove marked UTF-8 strings from `Trumpisms` 
 
 
 ## ToDo  
@@ -145,19 +145,19 @@ Changes since last release:
 
 ## Major changes 
 
-- added `is_vector()` to check for vectors (i.e., atomic vectors or lists)
-- added `get_set()` for motivating visualizations 
+- add `is_vector()` to check for vectors (i.e., atomic vectors or lists)
+- add `get_set()` for motivating visualizations 
 
 
 ## Minor changes 
 
-- updated data in `fame` and `Trumpisms` 
+- update data in `fame` and `Trumpisms` 
 
 
 ## Details 
 
-- removed import of **cowplot** by adding `theme_empty()` 
-- reduced reliance on **unikn** by replacing some colors with corresponding HEX codes 
+- remove import of **cowplot** by adding `theme_empty()` 
+- reduce reliance on **unikn** by replacing some colors with corresponding HEX codes 
 
 <!-- Previous release:  --> 
 
@@ -174,22 +174,22 @@ Changes since last release:
 
 - Additional functions for **dates** and **times**:
 
-    - added `diff_dates()` to compute temporal differences between dates (in human time units of years, months, and days) 
-    - added `diff_times()` to compute temporal differences between times (in human time units of years, ..., and seconds) 
-    - added `diff_tz()` to compute time difference based on time zone differences  
-    - added `days_in_month()` to obtain number of days in months for given dates (accounting for leap years)  
+    - add `diff_dates()` to compute temporal differences between dates (in human time units of years, months, and days) 
+    - add `diff_times()` to compute temporal differences between times (in human time units of years, ..., and seconds) 
+    - add `diff_tz()` to compute time difference based on time zone differences  
+    - add `days_in_month()` to obtain number of days in months for given dates (accounting for leap years)  
 
 <!-- Add blank line.  --> 
 
-- added `is_equal()` and `num_equal()` to check pairwise (near) equality of vectors  
-- added `theme_clean()` as an alternative to `theme_ds4psy()`  
+- add `is_equal()` and `num_equal()` to check pairwise (near) equality of vectors  
+- add `theme_clean()` as an alternative to `theme_ds4psy()`  
 
 ## Minor changes 
 
-- renamed `is.wholenumber()` to `is_wholenumber()`  
-- revised arguments of `sample_date()` and `sample_time()` to align with `sample()` 
-- revised `theme_ds4psy()` to provide control over colors of backgrounds, lines, and text elements 
-- updated `fame` data  
+- rename `is.wholenumber()` to `is_wholenumber()`  
+- revise arguments of `sample_date()` and `sample_time()` to align with `sample()` 
+- revise `theme_ds4psy()` to provide control over colors of backgrounds, lines, and text elements 
+- update `fame` data  
 
 <!-- Add blank line.  --> 
 
@@ -215,8 +215,8 @@ Changes since last release:
 - This version adds support for processing data with **dates** and **times**:   
 
     - simple date and time functions now include options for returning dates or times, rather than strings.
-    - added time zone support to various functions.
-    - added datasets with date and time variables. 
+    - add time zone support to various functions.
+    - add datasets with date and time variables. 
 
 <!-- Add blank line.  --> 
 
@@ -234,7 +234,7 @@ Changes since last release:
 
 - bug fix: Distinguish `is.wholenumber()` from `is.integer()`  
 - bug fix: Use `\u...` rather than `\U...` in `Umlaut` definitions  
-- bug fix: Removed non-ASCII characters from `fruits` and `flowery`  
+- bug fix: Remove non-ASCII characters from `fruits` and `flowery`  
 
 <!-- Previous release:  --> 
 
@@ -249,28 +249,28 @@ Changes since last release:
 
 ## Major changes 
 
-- added functions and datasets for string manipulation and text processing
+- add functions and datasets for string manipulation and text processing
 
 
 ## Minor changes 
 
-- added `text_to_sentences()` and `text_to_words()` functions for text processing   
-- added `count_words()` (in analogy to `count_chars()`) function for text processing  
-- added `cclass` (as a named character vector) for matching character classes in regular expressions  
-- added `metachar` (as a character vector) for matching meta-characters in regular expressions
-- added `Umlaut` (as a named character vector) for showing and selecting German Umlaut characters    
-- added datasets of `countries`, `fruits`, and `flowery` phrases (as character vectors)   
-- added datasets of `Bushisms` and `Trumpisms` (as character vectors)  
-- added `sample_char()` function
+- add `text_to_sentences()` and `text_to_words()` functions for text processing   
+- add `count_words()` (in analogy to `count_chars()`) function for text processing  
+- add `cclass` (as a named character vector) for matching character classes in regular expressions  
+- add `metachar` (as a character vector) for matching meta-characters in regular expressions
+- add `Umlaut` (as a named character vector) for showing and selecting German Umlaut characters    
+- add datasets of `countries`, `fruits`, and `flowery` phrases (as character vectors)   
+- add datasets of `Bushisms` and `Trumpisms` (as character vectors)  
+- add `sample_char()` function
 
 
 ## Details 
 
-- added Travis integration to `README.Rmd` 
-- renamed `count_char()` to `count_chars()` (to use plural form) 
-- renamed `sample_date()` and `sample_time()` (to use singular form)  
-- renamed family of `text functions` to `text objects and functions`  
-- renamed family of `random functions` to `sampling functions`  
+- add Travis integration to `README.Rmd` 
+- rename `count_char()` to `count_chars()` (to use plural form) 
+- rename `sample_date()` and `sample_time()` (to use singular form)  
+- rename family of `text functions` to `text objects and functions`  
+- rename family of `random functions` to `sampling functions`  
 
 <!-- Previous release:  --> 
 
@@ -285,22 +285,22 @@ Changes since last release:
 
 ## Major changes 
 
-- removed dependencies on the `here` and `tibble` packages 
-  (and removed these packages from declared Imports). 
+- remove dependencies on the `here` and `tibble` packages 
+  (and remove these packages from declared Imports). 
 
 ## Minor changes
 
-- added 4 messy table versions of ficticious experiment data (used in 
+- add 4 messy table versions of ficticious experiment data (used in 
 *Exercise 1* of *Chapter 7: Tidying data* _Four messes and one tidy table_) to the package: 
 `t_1`--`t_4`. 
 
 ## Details 
 
-- bug fix: Replaced `what_day` with a simpler version that omits `unit` and `as_integer` arguments 
+- bug fix: Replace `what_day` with a simpler version that omits `unit` and `as_integer` arguments 
 (to avoid WARN on CRAN for `r-devel-linux-x86_64-debian-clang`)
-- bug fix: Removed `.data$...` elements from `aes()` in `ggplot` calls 
-- bug fix: Added `utils::globalVariables(...)` to avoid Warning NOTE "Undefined global functions or variables"
-- bug fix: Removed packages not used in this version (i.e., `dplyr`, and `magrittr`) from declared Imports 
+- bug fix: Remove `.data$...` elements from `aes()` in `ggplot` calls 
+- bug fix: Add `utils::globalVariables(...)` to avoid Warning NOTE "Undefined global functions or variables"
+- bug fix: Remove packages not used in this version (i.e., `dplyr`, and `magrittr`) from declared Imports 
 
 
 <!-- Previous release:  --> 
@@ -317,26 +317,26 @@ Changes since last release:
 
 Changes involving new functionality include:
 
-- added random data generation functions (e.g., for `coin()` flips and `dice()` throws)
-- added `is.wholenumber()` to test for integer values (mentioned in R oddities)
-- added `plot_text()` plotting function  
-- added `read_ascii()` and `count_chars()` functions for text processing 
-- added `caseflip()` and `capitalize()` functions for text processing 
-- added random date and time generation functions (e.g., for `sample_date()` and `sample_time()`) 
-- added simple date and time functions (e.g., `cur_date()`, `cur_time()`, for Chapter 10: Time data) 
-- added `what_` functions for simple date and time queries (for Chapter 10: Time data) 
+- add random data generation functions (e.g., for `coin()` flips and `dice()` throws)
+- add `is.wholenumber()` to test for integer values (mentioned in R oddities)
+- add `plot_text()` plotting function  
+- add `read_ascii()` and `count_chars()` functions for text processing 
+- add `caseflip()` and `capitalize()` functions for text processing 
+- add random date and time generation functions (e.g., for `sample_date()` and `sample_time()`) 
+- add simple date and time functions (e.g., `cur_date()`, `cur_time()`, for Chapter\ 10: Time data) 
+- add `what_` functions for simple date and time queries (for Chapter\ 10: Time data) 
 
 ## Minor changes
 
-- added data generation function `make_grid()` for an exercise on _visual illusions_ (Exercise 6 of Chapter 2)  
-- added `fame` dataset to illustrate working with dates (Exercise 3 of Chapter 10) 
-- added utility functions `num_as_char()` and `num_as_ordinal()` (to be used in Chapter 11: Functions)  
+- add data generation function `make_grid()` for an exercise on _visual illusions_ (Exercise\ 6 of Chapter\ 2)  
+- add `fame` dataset to illustrate working with dates (Exercise\ 3 of Chapter\ 10) 
+- add utility functions `num_as_char()` and `num_as_ordinal()` (to be used in Chapter\ 11: Functions)  
 
 ## Details 
 
-- added documentations of datasets (in `data.R`)  
-- bug fix: Removed redundant code (from `plot_fun.R`)    
-- bug fix: Removed packages not used in this version (i.e., `readr`, `stringr`, `tidyr`, and `tidyverse`) from declared Imports
+- add documentations of datasets (in `data.R`)  
+- bug fix: Remove redundant code (from `plot_fun.R`)    
+- bug fix: Remove packages not used in this version (i.e., **readr**, **stringr**, **tidyr**, and **tidyverse**) from declared Imports
 
 
 <!-- Previous release:  --> 
@@ -349,17 +349,17 @@ Initial release of **ds4psy** (0.1.0) [on CRAN](https://CRAN.R-project.org/packa
 
 ## Contents 
 
-The initial functionality is limited, as the package is designed to support the [ds4psy book](https://bookdown.org/hneth/ds4psy/): 
+The initial functionality is limited, as the package is designed to support the emerging [ds4psy book](https://bookdown.org/hneth/ds4psy/): 
 
-- re-structured book code (from examples and exercises) as a package
-- provides all data sets currently used in the book (with documentation and references)
-- provides an initial color scheme and plotting theme
-- added plotting functions (e.g., of book graphics) for exploring functions 
+- re-structure book code (from examples and exercises) as a package
+- provide all data sets currently used in the book (with documentation and references)
+- provide an initial color scheme and plotting theme
+- add plotting functions (e.g., of book graphics) for function exploration purposes 
 
 <!-- Footer: --> 
 
 ---------- 
 
-[File `NEWS.md` updated on 2021-11-16.]
+[File `NEWS.md` updated on 2022-01-02.]
 
 <!-- eof. -->
