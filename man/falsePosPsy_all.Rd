@@ -16,7 +16,7 @@ A table with 78 cases (rows) and 19 variables (columns):
 False-positive psychology: Undisclosed flexibility in data collection and analysis 
 allows presenting anything as significant. 
 \emph{Psychological Science}, \emph{22}(11), 1359--1366. 
-doi: \doi{10.1177/0956797611417632}
+doi: \doi{10.1177/0956797611417632} 
 
 \item Simmons, J.P., Nelson, L.D., & Simonsohn, U. (2014). 
 Data from paper "False-Positive Psychology: 
