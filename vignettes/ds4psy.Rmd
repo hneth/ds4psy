@@ -78,28 +78,28 @@ This package and the corresponding book are still being developed and are update
 
 ## About
 
-If you find these materials useful, or want to adopt or alter them for your purposes, please [let me know](https://www.spds.uni-konstanz.de/hans-neth). 
+If you find these materials useful, or want to adopt or alter them for your purposes, please [let me know](https://www.spds.uni-konstanz.de/en/people). 
 
 
 ### Citation
 
 To cite **ds4psy** in derivations and publications, please use:
 
-- Neth, H. (2021). ds4psy: Data Science for Psychologists.  
+- Neth, H. (2022). ds4psy: Data Science for Psychologists.  
 Social Psychology and Decision Sciences, University of Konstanz, Germany.  
-Textbook and R package (version 0.7.0, May 12, 2021).  
+Textbook and R package (version 0.8.0, April 8, 2022).  
 Retrieved from <https://bookdown.org/hneth/ds4psy/>.
 
 A **BibTeX** entry for LaTeX users is: 
 
-```{r bitex-entry, eval = FALSE, highlight = FALSE}
+```{r bibtex-entry, eval = FALSE, highlight = FALSE}
 @Manual{ds4psy,
   title = {ds4psy: Data Science for Psychologists},
   author = {Hansjörg Neth},
-  year = {2021},
+  year = {2022},
   organization = {Social Psychology and Decision Sciences, University of Konstanz},
   address = {Konstanz, Germany},
-  note = {Textbook and R package (version 0.7.0, May 12, 2021)},
+  note = {Textbook and R package (version 0.8.0, April 8, 2022)},
   url = {https://bookdown.org/hneth/ds4psy/}
 }
 ```
