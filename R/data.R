@@ -1,5 +1,5 @@
 ## data.R | ds4psy
-## hn | uni.kn | 2021 08 06
+## hn | uni.kn | 2022 04 07
 ## Documentation of datasets included in /data. 
 
 
@@ -289,7 +289,7 @@
 #' False-positive psychology: Undisclosed flexibility in data collection and analysis 
 #' allows presenting anything as significant. 
 #' \emph{Psychological Science}, \emph{22}(11), 1359--1366. 
-#' doi: \doi{10.1177/0956797611417632}
+#' doi: \doi{10.1177/0956797611417632} 
 #' 
 #' \item Simmons, J.P., Nelson, L.D., & Simonsohn, U. (2014). 
 #' Data from paper "False-Positive Psychology: 
@@ -1064,7 +1064,7 @@
 #' @family datasets 
 #' 
 #' @source 
-#' Data originally based on \url{https://www.yourdictionary.com/slideshow/donald-trump-20-most-frequently-used-words.html} 
+#' Data originally based on a collection of \emph{Donald Trump's 20 most frequently used words} on \url{https://www.yourdictionary.com}  
 #' and expanded by interviews, public speeches, and Twitter tweets at \url{https://twitter.com/realDonaldTrump}. 
 
 "Trumpisms"
