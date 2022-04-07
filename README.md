@@ -250,7 +250,7 @@ Nr. | Topic       |
 
 If you find these materials useful, or want to adopt or alter them for
 your purposes, please [let me
-know](https://www.spds.uni-konstanz.de/hans-neth).
+know](https://www.spds.uni-konstanz.de/en/people).
 
 ### Citation
 
