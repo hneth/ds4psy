@@ -53,19 +53,18 @@ Changes since last release:
 
 ## Details 
 
-- none yet
+- fix minor bugs.  
 
 
-## ToDo  
+<!-- ## ToDo  --> 
 
-Changes to be implemented prior to the next release: 
+<!-- Changes to be implemented prior to the next release: --> 
+<!-- - Split the mixed functionality of `plot_text()` into 2 functions:  --> 
 
-- Split the mixed functionality of `plot_text()` into 2 functions:  
+<!-- 1. Combine `count_chars_words()` with `map_text_coord()` or `map_text_regex()` --> 
+<!-- to create a df with 2 color vectors (fg/bg) based on `char_freq` and/or `word_freq`  --> 
 
-    1. Combine `count_chars_words()` with `map_text_coord()` or `map_text_regex()` 
-    to create a df with 2 color vectors (fg/bg) based on `char_freq` and/or `word_freq`  
-
-    2. `plot_charmap()` directly plots the resulting df.  
+<!-- 2. `plot_charmap()` directly plots the resulting df.  --> 
 
 
 <!-- Note:  --> 
@@ -118,19 +117,6 @@ Changes since last release:
 
 - signal deprecation status in `plot_text()`   
 - bug fix: remove marked UTF-8 strings from `Trumpisms` 
-
-
-## ToDo  
-
-Changes to be implemented prior to next release: 
-
-- Split the mixed functionality of `plot_text()` into 2 functions:  
-
-    1. Combine `count_chars_words()` with `map_text_coord()` or `map_text_regex()` 
-    to create a df with 2 color vectors (fg/bg) based on `char_freq` and/or `word_freq`  
-
-    2. `plot_charmap()` directly plots the resulting df.  
-
 
 <!-- Note:  --> 
 
