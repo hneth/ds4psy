@@ -39,44 +39,46 @@ of psychology and other biological or social sciences.
 
 The current release of **ds4psy** is available from
 [CRAN](https://CRAN.R-project.org/) at
-<a href="https://CRAN.R-project.org/package=ds4psy" class="uri">https://CRAN.R-project.org/package=ds4psy</a>:
+<https://CRAN.R-project.org/package=ds4psy>:
 
-    install.packages('ds4psy')  # install ds4psy from CRAN client
-    library('ds4psy')           # load to use the package
+``` r
+install.packages('ds4psy')  # install ds4psy from CRAN client
+library('ds4psy')           # load to use the package
+```
 
 The current development version of **ds4psy** can be installed from its
 [GitHub](https://github.com) repository at
-<a href="https://github.com/hneth/ds4psy/" class="uri">https://github.com/hneth/ds4psy/</a>:
+<https://github.com/hneth/ds4psy/>:
 
-    # install.packages('devtools')  # (if not installed yet)
-    devtools::install_github('hneth/ds4psy')
-    library('ds4psy')  # load to use the package
+``` r
+# install.packages('devtools')  # (if not installed yet)
+devtools::install_github('hneth/ds4psy')
+library('ds4psy')  # load to use the package
+```
 
 The most recent version of the [ds4psy
 book](https://bookdown.org/hneth/ds4psy/) is available at
-<a href="https://bookdown.org/hneth/ds4psy/" class="uri">https://bookdown.org/hneth/ds4psy/</a>.
+<https://bookdown.org/hneth/ds4psy/>.
 
 ## Course Coordinates
 
 <!-- uni.kn logo, but link to SPDS: -->
 <!-- ![](./inst/images/uniKn_logo.png) -->
 
-<a href="https://www.spds.uni-konstanz.de/">
+<a href="https://www.spds.uni-konstanz.de">
 <img src = "./inst/images/uniKn_logo.png" alt = "spds.uni.kn" width = "300px" align = "right" style = "width: 300px; float: right; border:20;"/>
 </a>
 
 -   PSY-15150, at the [University of
-    Konstanz](https://www.uni-konstanz.de/) by [Hansjörg
-    Neth](https://neth.de/)
-    (<a href="mailto:h.neth@uni.kn" class="email">h.neth@uni.kn</a>,
-    [SPDS](https://www.spds.uni-konstanz.de/), office D507).  
+    Konstanz](https://www.uni-konstanz.de) by [Hansjörg
+    Neth](https://neth.de) (<h.neth@uni.kn>,
+    [SPDS](https://www.spds.uni-konstanz.de), office D507).  
 -   Summer 2022: Mondays, 13:30–15:00, D430.  
 -   The [ds4psy book](https://bookdown.org/hneth/ds4psy/) with examples
     and exercises is available at
-    <a href="https://bookdown.org/hneth/ds4psy/" class="uri">https://bookdown.org/hneth/ds4psy/</a>.  
+    <https://bookdown.org/hneth/ds4psy/>.  
 -   The R package [ds4psy](https://CRAN.R-project.org/package=ds4psy) is
-    available at
-    <a href="https://CRAN.R-project.org/package=ds4psy" class="uri">https://CRAN.R-project.org/package=ds4psy</a>.
+    available at <https://CRAN.R-project.org/package=ds4psy>.
 
 ## Description
 
@@ -137,18 +139,18 @@ This package and the corresponding book are still being developed and
 are updated as new materials become available.
 
 -   A current version of the book is available at
-    <a href="https://bookdown.org/hneth/ds4psy/" class="uri">https://bookdown.org/hneth/ds4psy/</a>.
+    <https://bookdown.org/hneth/ds4psy/>.
 
 -   There are 2 GitHub repositories to be distinguished:
 
     -   The repository for the [ds4psy
         book](https://bookdown.org/hneth/ds4psy/) is
-        <a href="https://github.com/hneth/ds4psy" class="uri">https://github.com/hneth/ds4psy</a>
-        (with an additional suffix `_book`).
+        <https://github.com/hneth/ds4psy> (with an additional suffix
+        `_book`).
 
     -   The repository for the [ds4psy
         package](https://CRAN.R-project.org/package=ds4psy) is
-        <a href="https://github.com/hneth/ds4psy" class="uri">https://github.com/hneth/ds4psy</a>.
+        <https://github.com/hneth/ds4psy>.
 
 <!-- - The current course syllabus and raw versions of all data files used in examples and exercises are available at <http://rpository.com/ds4psy/>. -->
 
@@ -159,7 +161,7 @@ are updated as new materials become available.
 -   A current version of [Data science for
     psychologists](https://bookdown.org/hneth/ds4psy/) is available
     online at  
-    <a href="https://bookdown.org/hneth/ds4psy/" class="uri">https://bookdown.org/hneth/ds4psy/</a>.
+    <https://bookdown.org/hneth/ds4psy/>.
 
 The book and course was originally based on the following textbook:
 
@@ -186,12 +188,14 @@ Please install the following open-source programs on your computer:
 
 <!-- Add blank line.  -->
 
-    # Tidyverse packages: 
-    install.packages('tidyverse')
+``` r
+# Tidyverse packages: 
+install.packages('tidyverse')
 
-    # Course packages: 
-    install.packages('ds4psy')  # datasets and functions
-    install.packages('unikn')   # color palettes and functions
+# Course packages: 
+install.packages('ds4psy')  # datasets and functions
+install.packages('unikn')   # color palettes and functions
+```
 
 ### Other resources
 
@@ -221,7 +225,7 @@ Nr. | Topic       |
     [books](https://www.r-project.org/doc/bib/R-books.html)
 
 -   See the books on R and data science available on
-    <a href="https://bookdown.org/" class="uri">https://bookdown.org/</a>.
+    <https://bookdown.org/>.
 
 <!-- - Zumel, N., & Mount, J. (2014). _Practical data science with R_. Greenwich, CT: Manning Publications. -->
 
@@ -234,12 +238,8 @@ Nr. | Topic       |
 
 -   [Tidyverse](https://www.tidyverse.org/) resources:
 
-    -   See
-        <a href="https://www.tidyverse.org/blog/" class="uri">https://www.tidyverse.org/blog/</a>
-        for current developments
-    -   See
-        <a href="https://www.tidyverse.org/learn/" class="uri">https://www.tidyverse.org/learn/</a>
-        for learning resources
+    -   See <https://www.tidyverse.org/blog/> for current developments
+    -   See <https://www.tidyverse.org/learn/> for learning resources
 
 <!-- Add blank line.  -->
 
@@ -266,25 +266,26 @@ To cite **ds4psy** in derivations and publications, please use:
     Social Psychology and Decision Sciences, University of Konstanz,
     Germany.  
     Textbook and R package (version 0.8.0, April 8, 2022).  
-    Retrieved from
-    <a href="https://bookdown.org/hneth/ds4psy/" class="uri">https://bookdown.org/hneth/ds4psy/</a>.
+    Retrieved from <https://bookdown.org/hneth/ds4psy/>.
 
 <!-- Add blank line.  -->
 
 A **BibTeX** entry for LaTeX users is:
 
-    @Manual{ds4psy,
-      title = {ds4psy: Data Science for Psychologists},
-      author = {Hansjörg Neth},
-      year = {2022},
-      organization = {Social Psychology and Decision Sciences, University of Konstanz},
-      address = {Konstanz, Germany},
-      note = {Textbook and R package (version 0.8.0, April 8, 2022)},
-      url = {https://bookdown.org/hneth/ds4psy/} 
-    }
+``` text
+@Manual{ds4psy,
+  title = {ds4psy: Data Science for Psychologists},
+  author = {Hansjörg Neth},
+  year = {2022},
+  organization = {Social Psychology and Decision Sciences, University of Konstanz},
+  address = {Konstanz, Germany},
+  note = {Textbook and R package (version 0.8.0, April 8, 2022)},
+  url = {https://bookdown.org/hneth/ds4psy/} 
+}
+```
 
 The URL of the **ds4psy** R package is
-<a href="https://CRAN.R-project.org/package=ds4psy" class="uri">https://CRAN.R-project.org/package=ds4psy</a>.
+<https://CRAN.R-project.org/package=ds4psy>.
 
 ### License
 
