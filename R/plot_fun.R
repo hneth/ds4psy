@@ -1,5 +1,5 @@
 ## plot_fun.R | ds4psy
-## hn | uni.kn | 2021 05 11
+## hn | uni.kn | 2022 04 07
 ## ---------------------------
 
 ## Functions for plotting. 
@@ -1479,7 +1479,7 @@ plot_text <- function(x = NA,     # Text string(s) to plot
 # }
 
 
-## plot_charmap: Plot a table of characters with x- and y-coodinates: -------- 
+## plot_charmap: Plot a table of characters (with x- and y-coodinates): -------- 
 
 # Note: This was the ggplot2 part of plot_chars() (below).
 
