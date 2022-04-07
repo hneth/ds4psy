@@ -44,7 +44,7 @@ The book and course introduce the principles and methods of data science for stu
 
 <!-- Description of ds4psy package:  -->
 
-<!-- All datasets and functions required for the examples and exercises of the book "Data Science for Psychologists" (by Hansjoerg Neth, Konstanz University, 2021), available at <https://bookdown.org/hneth/ds4psy/>. The book and course introduce principles and methods of data science to students of psychology and other biological or social sciences. The 'ds4psy' package primarily provides datasets, but also functions for data generation and manipulation (e.g., of text and time data) and graphics that are used in the book and its exercises. All functions included in 'ds4psy' are designed to be explicit and instructive, rather than efficient or elegant.  -->
+<!-- All datasets and functions required for the examples and exercises of the book "Data Science for Psychologists" (by Hansjoerg Neth, Konstanz University, 2022), available at <https://bookdown.org/hneth/ds4psy/>. The book and course introduce principles and methods of data science to students of psychology and other biological or social sciences. The 'ds4psy' package primarily provides datasets, but also functions for data generation and manipulation (e.g., of text and time data) and graphics that are used in the book and its exercises. All functions included in 'ds4psy' are designed to be explicit and instructive, rather than efficient or elegant.  -->
 
 
 ## Installation
@@ -76,7 +76,7 @@ The most recent version of the [ds4psy book](https://bookdown.org/hneth/ds4psy/)
 </a>
 
 * PSY-15150, at the [University of Konstanz](https://www.uni-konstanz.de/) by [Hansjörg Neth](https://neth.de/)  (<h.neth@uni.kn>, [SPDS](https://www.spds.uni-konstanz.de/), office D507).  
-* Summer\ 2021: Mondays, 15:15&ndash;16:45, online.   
+* Summer\ 2022: Mondays, 13:30&ndash;15:00, D430.   
 * The [ds4psy book](https://bookdown.org/hneth/ds4psy/) with examples and exercises is available at <https://bookdown.org/hneth/ds4psy/>.  
 * The R package [ds4psy](https://CRAN.R-project.org/package=ds4psy) is available at <https://CRAN.R-project.org/package=ds4psy>.  
 
@@ -214,9 +214,9 @@ If you find these materials useful, or want to adopt or alter them for your purp
 
 To cite **ds4psy** in derivations and publications, please use:  
 
-- Neth, H. (2021). ds4psy: Data Science for Psychologists.  
+- Neth, H. (2022). ds4psy: Data Science for Psychologists.  
 Social Psychology and Decision Sciences, University of Konstanz, Germany.  
-Textbook and R package (version 0.7.0, May 12, 2021).   
+Textbook and R package (version 0.8.0, April 8, 2022).   
 Retrieved from <https://bookdown.org/hneth/ds4psy/>. 
 
 <!-- Add blank line.  -->
@@ -227,10 +227,10 @@ A **BibTeX** entry for LaTeX users is:
 @Manual{ds4psy,
   title = {ds4psy: Data Science for Psychologists},
   author = {Hansjörg Neth},
-  year = {2021},
+  year = {2022},
   organization = {Social Psychology and Decision Sciences, University of Konstanz},
   address = {Konstanz, Germany},
-  note = {Textbook and R package (version 0.7.0, May 12, 2021)},
+  note = {Textbook and R package (version 0.8.0, April 8, 2022)},
   url = {https://bookdown.org/hneth/ds4psy/} 
 }
 ```
