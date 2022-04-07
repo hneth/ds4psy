@@ -29,7 +29,7 @@ The book and course [Data Science for Psychologists](https://bookdown.org/hneth/
 Release of **ds4psy** (0.8.0) [on CRAN](https://CRAN.R-project.org/package=ds4psy) 
 adds functionality, increases modularity, and fixes some bugs. [2022-04-08] 
 
-<!-- Develompment version: --> 
+<!-- Development version: --> 
 
 <!-- The current development version of **ds4psy** is hosted at <https://github.com/hneth/ds4psy/> --> 
 <!-- and adds functionality, increases modularity, and fixes some bugs. [2021-06-30] --> 
@@ -37,6 +37,7 @@ adds functionality, increases modularity, and fixes some bugs. [2022-04-08]
 <!-- Log of changes: --> 
 
 Changes since last release: 
+
 
 ## Major changes 
 
