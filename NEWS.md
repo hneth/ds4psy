@@ -48,7 +48,7 @@ Changes since last release:
 
 ## Details 
 
-- none yet   
+- fix minor bugs. 
 
 
 ## ToDo
