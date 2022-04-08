@@ -22,6 +22,54 @@ The book and course [Data Science for Psychologists](https://bookdown.org/hneth/
 
 -------- 
 
+# ds4psy 0.8.0.9001+
+
+<!-- Release version: --> 
+
+<!-- Release of **ds4psy** (0.8.0) [on CRAN](https://CRAN.R-project.org/package=ds4psy) --> 
+<!-- adds functionality, increases modularity, and fixes some bugs. [2022-04-08] --> 
+
+<!-- Development version: --> 
+
+The current development version of **ds4psy** is hosted at <https://github.com/hneth/ds4psy/> 
+and adds functionality and fixes some bugs. [2022-04-08]
+
+<!-- Log of changes: --> 
+
+Changes since last release: 
+
+## Major changes 
+
+- none yet  
+
+## Minor changes 
+
+- none yet  
+
+## Details 
+
+- none yet   
+
+
+## ToDo
+
+Changes to be implemented prior to the next release:
+
+- Split the mixed functionality of `plot_text()` into 2 functions:  
+
+    1. Combine `count_chars_words()` with `map_text_coord()` or `map_text_regex()` 
+    to create a df with 2 color vectors (fg/bg) based on `char_freq` and/or `word_freq`. 
+    
+    2. `plot_charmap()` directly plots the resulting df.
+
+<!-- Note:  --> 
+
+The current development version of **ds4psy** is hosted at <https://github.com/hneth/ds4psy/>. 
+
+<!-- Previous CRAN releases:  --> 
+
+-------- 
+
 # ds4psy 0.8.0
 
 <!-- Release version: --> 
@@ -29,15 +77,9 @@ The book and course [Data Science for Psychologists](https://bookdown.org/hneth/
 Release of **ds4psy** (0.8.0) [on CRAN](https://CRAN.R-project.org/package=ds4psy) 
 adds functionality, increases modularity, and fixes some bugs. [2022-04-08] 
 
-<!-- Development version: --> 
-
-<!-- The current development version of **ds4psy** is hosted at <https://github.com/hneth/ds4psy/> --> 
-<!-- and adds functionality, increases modularity, and fixes some bugs. [2021-06-30] --> 
-
 <!-- Log of changes: --> 
 
 Changes since last release: 
-
 
 ## Major changes 
 
@@ -55,22 +97,6 @@ Changes since last release:
 ## Details 
 
 - fix minor bugs.  
-
-
-<!-- ## ToDo  --> 
-
-<!-- Changes to be implemented prior to the next release: --> 
-<!-- - Split the mixed functionality of `plot_text()` into 2 functions:  --> 
-
-<!-- 1. Combine `count_chars_words()` with `map_text_coord()` or `map_text_regex()` --> 
-<!-- to create a df with 2 color vectors (fg/bg) based on `char_freq` and/or `word_freq`  --> 
-
-<!-- 2. `plot_charmap()` directly plots the resulting df.  --> 
-
-
-<!-- Note:  --> 
-
-The current development version of **ds4psy** is hosted at <https://github.com/hneth/ds4psy/>. 
 
 <!-- Previous CRAN releases:  --> 
 
