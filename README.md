@@ -71,7 +71,7 @@ book](https://bookdown.org/hneth/ds4psy/) is available at
 
 -   PSY-15150, at the [University of
     Konstanz](https://www.uni-konstanz.de) by [Hansjörg
-    Neth](https://neth.de) (<h.neth@uni.kn>,
+    Neth](https://www.spds.uni-konstanz.de/hans-neth) (<h.neth@uni.kn>,
     [SPDS](https://www.spds.uni-konstanz.de), office D507).  
 -   Summer 2022: Mondays, 13:30–15:00, D430.  
 -   The [ds4psy book](https://bookdown.org/hneth/ds4psy/) with examples
@@ -307,6 +307,6 @@ License</a>.
 
 <!-- Update: -->
 
-\[Updated 2022-04-07 by [hn](https://neth.de).\]
+\[Updated 2022-06-08 by [hn](https://neth.de).\]
 
 <!-- eof. -->
