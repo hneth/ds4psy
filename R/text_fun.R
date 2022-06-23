@@ -1,5 +1,5 @@
 ## text_fun.R | ds4psy
-## hn | uni.kn | 2022 03 21
+## hn | uni.kn | 2022 06 23
 ## ---------------------------
 
 ## Character objects and functions for string/text objects. 
@@ -245,7 +245,8 @@ cclass <- ccv
 # Goal A utility function to ensure that multi-element text inputs are handled consistently.
 # Note: sep is ONLY used when collapsing multi-element strings and inserted BETWEEN elements. 
 
-# (Note: Currently not exported, but used.)
+# (Note: Currently not exported, but used.)  
+# ToDo: Document and export (see vec2str() in i2ds).
 
 collapse_chars <- function(x, sep = " "){
   
@@ -276,7 +277,7 @@ collapse_chars <- function(x, sep = " "){
 # writeLines(collapse_chars(c("Hello", "world", "!"), sep = "\n"))
 # collapse_chars(NA)
 # collapse_chars("")
-# collapse_chars(1:3)
+# collapse_chars(1:3, sep = "")  # works for numeric vectors!
 
 
 ## text_to_sentences: Turn a text (consisting of one or more strings) into a vector of all its sentences: ------ 
@@ -685,7 +686,9 @@ words_to_text <- function(x, collapse = " "){
 # Assume that x consists of individual characters, but may contain spaces. 
 # Goal: Exactly preserve all characters (e.g., punctuation and spaces).
 # (Note: Simply using paste(x, collapse = "") would lose all spaces.) 
-# (Note: Currently not exported, but used.)
+
+# (Note: Currently not exported, but used.)  
+# ToDo: Document and export (see vec2str() in i2ds). 
 
 chars_to_text <- function(x){
   
@@ -2993,7 +2996,8 @@ map_text_freqs <- function(x = NA,     # Text string(s) to plot
 ## ToDo: ----------
 
 # Specific:
-# - improve read_ascii() and map_text_chars() (with regex and more efficient text wrangling)
+# - Document and export collapse_chars() AND chars_to_text() 
+# - Improve read_ascii() and map_text_chars() (with regex and more efficient text wrangling)
 # - Add an exception argument except to capitalize() function 
 #   (to exclude all words matching an exception argument).
 # 
