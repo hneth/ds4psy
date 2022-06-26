@@ -32,7 +32,7 @@ The book and course [Data Science for Psychologists](https://bookdown.org/hneth/
 <!-- Development version: --> 
 
 The current development version of **ds4psy** is hosted at <https://github.com/hneth/ds4psy/> 
-and adds functionality and fixes some bugs. [2022-04-08]
+and adds functionality and fixes some bugs. [2022-06-26]
 
 <!-- Log of changes: --> 
 
@@ -40,11 +40,11 @@ Changes since last release:
 
 ## Major changes 
 
-- none yet  
+- add `base2dec()` and `dec2base()` functions for converting numerals from/to non-decimal notations. 
 
 ## Minor changes 
 
-- none yet  
+- rearrange contents (by creating dedicated utility files).
 
 ## Details 
 
@@ -55,12 +55,17 @@ Changes since last release:
 
 Changes to be implemented prior to the next release:
 
+- Document and export `collapse_chars()` and `chars_to_text()` (with alias to `vec2str()`). 
+
+- Document and export `text_to_chars()` (with alias to `str2vec()`).
+
 - Split the mixed functionality of `plot_text()` into 2 functions:  
 
     1. Combine `count_chars_words()` with `map_text_coord()` or `map_text_regex()` 
     to create a df with 2 color vectors (fg/bg) based on `char_freq` and/or `word_freq`. 
     
     2. `plot_charmap()` directly plots the resulting df.
+
 
 <!-- Note:  --> 
 
@@ -379,6 +384,6 @@ The initial functionality is limited, as the package is designed to support the 
 
 ---------- 
 
-[File `NEWS.md` updated on 2022-04-08.]
+[File `NEWS.md` updated on 2022-06-26.]
 
 <!-- eof. -->
