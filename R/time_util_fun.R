@@ -2,9 +2,7 @@
 ## hn | uni.kn | 2022 06 26
 ## ---------------------------
 
-## Utility functions for date and time data and objects. 
-
-## (0) Time helper/utility functions: ----------
+## (0) Utility functions for date and time data and objects. ------ 
 
 
 ## (A) Class of date/time object: ------ 
