@@ -16,6 +16,7 @@ Suggests:
     rmarkdown,
     spelling
 Collate: 'util_fun.R'
+         'num_util_fun.R'
          'text_util_fun.R'
          'time_util_fun.R'
          'color_fun.R'
