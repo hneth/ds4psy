@@ -4,7 +4,7 @@
 
 ## (0) Utility functions for string manipulation and text/character objects. ------ 
 
-## (A) Define character vectors and strings of text: ---------- 
+## (A) Defining character vectors and strings of text: ---------- 
 
 # Umlaute / German umlauts: ------ 
 
@@ -232,6 +232,7 @@ cclass <- ccv
 #   12,  "Iteration",             8,  3)
 # 
 # # toc  # used in plot_tbar() and plot_tclock()
+
 
 
 
@@ -680,9 +681,9 @@ words_to_text <- function(x, collapse = " "){
 # cat(words_to_text(wv, collapse = "\n"))
 
 
-# chars_to_text: Turn a character vector x into a (single) string of text: ------
+# chars_to_text: Turn a character vector x into a (single) string of text (preserving punctuation and spaces): ------
 
-# Inverse of text_to_chars() above (and ): 
+# Inverse of text_to_chars() above:  
 # Assume that x consists of individual characters, but may contain spaces. 
 # Goal: Exactly preserve all characters (e.g., punctuation and spaces).
 # (Note: Simply using paste(x, collapse = "") would lose all spaces.) 
@@ -735,10 +736,11 @@ chars_to_text <- function(x){
 
 
 
+
 ## (C) Miscellaneous text/string utility functions: ------ 
 
 # Source: From string_fun.R  | i2ds  | 2022 06 26
-# Functions for manipulating/transforming character strings: ------ 
+# Redundant functions for manipulating/transforming character strings: ------ 
 
 # vec2str: Turn a vector of symbols into a character string: ------
 #          (See chars_to_text() and collapse_chars() above.)
