@@ -669,8 +669,8 @@ base2dec <- function(x, base = 2){
   # Prepare: Turn seq of characters into a numeric vector:
   if ((len_seq == 1) && (nchar(seq) > 1)) { # seq is a multi-digit string:
     
-    # Convert a string into a numeric vector (of 1-digit numeric elements):
-    vec <- str2vec(seq)
+    # Convert string seq into a numeric vector (of 1-digit numeric elements):
+    vec <- text_to_chars(seq)  # WAS: str2vec(seq)
     seq <- as.numeric(vec)
     
   } else { # convert character vector into numeric values:

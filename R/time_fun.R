@@ -1,8 +1,11 @@
 ## time_fun.R | ds4psy
-## hn | uni.kn | 2021 05 28
+## hn | uni.kn | 2022 06 26
 ## ---------------------------
 
 ## Main functions for date and time objects. 
+
+## (0) Note utility functions for date and time data objects in time_util_fun.R! ------ 
+
 
 ## (1) cur_ functions: ---------- 
 
@@ -211,6 +214,7 @@ cur_time <- function(seconds = FALSE, as_string = TRUE, sep = ":"){
 # cur_date_time: Combining cur_date and cur_time: ------ 
 
 # ToDo?  Or just call cur_date() AND cur_time()? 
+
 
 
 ## (2) what_ functions: ---------- 
@@ -1250,6 +1254,7 @@ what_year <- function(when = Sys.Date(), abbr = FALSE, as_integer = FALSE){
 # # Note: Errors
 # what_year("2020-01-01")
 # what_year(2020-01-01)
+
 
 
 
@@ -2868,6 +2873,7 @@ diff_times <- function(from_time, to_time = Sys.time(),
 # - add n_decimals argument? (default of 0).
 
 
+
 ## (5) Get zodiac name/symbol for given date(s): ------ 
 
 #' Get zodiac (corresponding to date x).  
@@ -3066,6 +3072,7 @@ zodiac <- function(x,
 # zodiac("2000-08-23", 
 #        zodiac_swap_mmdd = c(0120, 0219, 0321, 0421, 0521, 0621, 
 #                             0723, 0824, 0923, 1023, 1123, 1222))
+
 
 
 ## Done: ----------

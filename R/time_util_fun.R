@@ -1,8 +1,8 @@
 ## time_util_fun.R | ds4psy
-## hn | uni.kn | 2020 11 20
+## hn | uni.kn | 2022 06 26
 ## ---------------------------
 
-## Utility functions for date and time objects. 
+## Utility functions for date and time data and objects. 
 
 ## (0) Time helper/utility functions: ----------
 
@@ -81,6 +81,7 @@ is_date_time <- function(dt){
 # is_date_time(t)
 # is_date_time(as.POSIXlt(t))
 # is_date_time((t + 1) - t)
+
 
 
 ## (B) Parsing "Date" from non-dates: ------  
@@ -426,6 +427,7 @@ time_from_noPOSIXt <- function(x, tz = "", ...){
 # 
 # # with tz:
 # time_from_noPOSIXt(c("20-01-01 10:30:45", "20-06-30 22:30:50"), tz = "NZ")
+
 
 
 
@@ -1119,6 +1121,7 @@ dt_last_monthly_bd <- function(dob, to_date, ...){
 # t2 <- "2020-07-01 01:29:06"
 # dt_last_monthly_bd(t1, t2)  # now: "2020-06-30"
 # dt_last_monthly_bd(t1, t2, tz = "")  # now: "2020-06-30"
+
 
 
 ## Done: ----------
