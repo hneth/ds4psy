@@ -2,9 +2,7 @@
 ## hn | uni.kn | 2022 06 26
 ## ---------------------------
 
-## Utility functions for string manipulation and text/character objects. 
-
-
+## (0) Utility functions for string manipulation and text/character objects. ------ 
 
 ## (A) Define character vectors and strings of text: ---------- 
 
@@ -246,7 +244,7 @@ cclass <- ccv
 # Note: sep is ONLY used when collapsing multi-element strings and inserted BETWEEN elements. 
 
 # (Note: Currently not exported, but used.)  
-# ToDo: Document and export (see vec2str() in i2ds).
+# ToDo: Document and export.
 
 collapse_chars <- function(x, sep = " "){
   
@@ -690,7 +688,7 @@ words_to_text <- function(x, collapse = " "){
 # (Note: Simply using paste(x, collapse = "") would lose all spaces.) 
 
 # (Note: Currently not exported, but used.)  
-# ToDo: Document and export (see vec2str() in i2ds). 
+# ToDo: Document and export (add alias to vec2str()). 
 
 chars_to_text <- function(x){
   
@@ -734,8 +732,6 @@ chars_to_text <- function(x){
 # # Note: 
 # chars_to_text("Hi there!")
 # chars_to_text(1:3)
-
-
 
 
 
