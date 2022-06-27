@@ -469,7 +469,7 @@ dec2base_base2dec_sim <- function(n_sim = 100,
   
 } # dec2base_base2dec_sim(). 
 
-## Check:
+## Check: Run simulation... 
 # dec2base_base2dec_sim()  # defaults
 # df <- dec2base_base2dec_sim(100, min_val = 100, max_val = 999, min_base = 2, max_base = 4)
 # df
