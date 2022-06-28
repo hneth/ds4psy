@@ -1,5 +1,5 @@
 ## text_fun.R | ds4psy
-## hn | uni.kn | 2022 06 26
+## hn | uni.kn | 2022 06 28
 ## ---------------------------
 
 ## Functions for text strings and character objects. 
@@ -2256,9 +2256,6 @@ map_text_freqs <- function(x = NA,     # Text string(s) to plot
 # map_text_freqs(x = c("one|two", "one|four", " two "), sep = ":")
 
 
-
-
-
 ## Done: ---------- 
 
 # - Created a version of capitalize() that works for character vectors 
@@ -2272,12 +2269,12 @@ map_text_freqs <- function(x = NA,     # Text string(s) to plot
 #   Reason: Enabled use of map_text_coord() separately (i.e., mapping strings of text)!
 # - Added more character/word/text combination/splitting functions.
 
+
 ## ToDo: ----------
 
 # Specific:
-# - Document and export collapse_chars() AND chars_to_text() 
 # - Improve read_ascii() and map_text_chars() (with regex and more efficient text wrangling)
-# - Add an exception argument except to capitalize() function 
+# - Add an exception argument 'except' to capitalize() function 
 #   (to exclude all words matching an exception argument).
 # 
 # General: Write functions to:
