@@ -18,11 +18,12 @@ An integer number (in decimal notation).
 }
 \description{
 \code{base2dec} converts a sequence of numeric symbols (digits) 
-from some base notation to decimal (i.e., base or radix 10) notation.
+from some base notation into decimal (i.e., base or radix 10) notation.
 }
 \details{
-Individual digits (e.g., 0-9) must exist in the specified base 
-(i.e., every digit value must be lower than the base or radix value).
+Individual digits (e.g., from "0" to "9", "A" to "F") must exist in the 
+specified base (i.e., every digit value must be lower than the base or radix value). 
+See \code{\link{base_digits}} for the sequence of default digits. 
 
 \code{base2dec} is the complement of \code{\link{dec2base}}.
 }

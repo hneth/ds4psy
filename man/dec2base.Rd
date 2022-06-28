@@ -8,7 +8,7 @@ dec2base(x, base = 2, as_char = TRUE)
 }
 \arguments{
 \item{x}{A (required) integer in decimal (base 10) notation 
-or corresponding string of digits (i.e., 0-9).}
+or corresponding string of digits (i.e., digits 0-9).}
 
 \item{base}{The base or radix of the digits in the output. 
 Default: \code{base = 2} (binary).}
@@ -23,9 +23,11 @@ A string of digits (in base notation).
 \description{
 \code{dec2base} converts an integer from decimal 
 (i.e., base or radix 10) notation 
-into a sequence of numeric symbols (digits) of some other base.
+into a sequence of numeric symbols (digits) in some other base.
 }
 \details{
+See \code{\link{base_digits}} for the sequence of default digits. 
+
 To prevent erroneous interpretations of numeric outputs, 
 \code{dec2base} returns a sequence of digits (as a character string).
 When using \code{as_char = FALSE}, its output string is 

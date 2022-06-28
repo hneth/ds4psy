@@ -11,12 +11,13 @@ An object of class \code{character} of length 16.
 base_digits
 }
 \description{
-\code{base_digits} provides numeral symbol for common bases 
-as a named character vector.
+\code{base_digits} provides numeral symbols for common bases 
+(as a named character vector).
 }
 \details{
-Note that the elements are character symbols ("0"-"9", "A"-"F"), 
-whereas the names coincide to numeric values (from 0 to 15).
+Note that the elements are character symbols 
+(i.e., numeral digits "0"-"9", "A"-"F"), 
+whereas their names coincide to numeric values (from 0 to 15).
 }
 \examples{
 base_digits
