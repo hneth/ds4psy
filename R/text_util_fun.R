@@ -760,7 +760,7 @@ words_to_text <- function(x, collapse = " "){
 #' chars_to_text(c("Hi there!", "How are you today?"))
 #' chars_to_text(1:3)
 #'  
-#' @alias vec2str 
+#' @aliases vec2str 
 #' 
 #' @family text objects and functions
 #'
