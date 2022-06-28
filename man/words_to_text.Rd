@@ -18,16 +18,18 @@ A text (as a collapsed character vector).
 }
 \description{
 \code{words_to_text} pastes or collapses 
-a character string \code{x} into a text.
+a character string \code{x} into a single text string.
 }
 \details{
-Internally, \code{words_to_text} only invokes the \strong{base} R function 
-\code{\link{paste}} with the \code{collapse} argument.
+\code{words_to_text} is essentially identical to 
+\code{\link{collapse_chars}}. 
+Internally, both functions are wrappers around  
+\code{\link{paste}} with a \code{collapse} argument.
 }
 \examples{
-x <- c("Hello world!", "A 1st sentence.", "A 2nd sentence.", "The end.")
-words_to_text(x)
-cat(words_to_text(x, collapse = "\n"))
+s <- c("Hello world!", "A 1st sentence.", "A 2nd sentence.", "The end.")
+words_to_text(s)
+cat(words_to_text(s, collapse = "\n"))
 
 }
 \seealso{
@@ -35,6 +37,7 @@ cat(words_to_text(x, collapse = "\n"))
 \code{\link{text_to_sentences}} for splitting text into a vector of sentences;  
 \code{\link{text_to_chars}} for splitting text into a vector of characters;  
 \code{\link{count_words}} for counting the frequency of words; 
+\code{\link{collapse_chars}} for collapsing character vectors; 
 \code{\link{strsplit}} for splitting strings.
 
 Other text objects and functions: 
