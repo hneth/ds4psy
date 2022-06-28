@@ -1,5 +1,5 @@
 ## num_fun.R | ds4psy
-## hn | uni.kn | 2022 06 28
+## hn | uni.kn | 2022 06 29
 ## ---------------------------
 
 ## Main functions for manipulating/transforming numbers or numeric symbols/digits: ------ 
@@ -18,16 +18,20 @@ names(base_digit_vec) <- 0:(length(base_digit_vec) - 1)
 
 #' Base digits (as named vector) 
 #' 
-#' \code{base_digits} provides numeral symbols for common bases 
-#' (as a named character vector).
+#' \code{base_digits} provides numeral symbols (digits) 
+#' for common bases (as a named character vector).
 #' 
 #' Note that the elements are character symbols 
 #' (i.e., numeral digits "0"-"9", "A"-"F"), 
 #' whereas their names coincide to numeric values (from 0 to 15). 
 #' 
+#' The maximum base value in conversions by 
+#' \code{\link{base2dec}} or \code{\link{dec2base}} 
+#' is \code{length(base_digits)}. 
+#' 
 #' @examples 
 #' base_digits
-#' length(base_digits)  # 16, but zero-indexed names
+#' length(base_digits)  # 16 (maximum base value)
 #' base_digits[10]      # 10. element ("9" with name "9") 
 #' base_digits["10"]    # named element "10" ("A" with name "10")
 #' base_digits[["10"]]  # element named "10" ("A")
@@ -37,7 +41,8 @@ names(base_digit_vec) <- 0:(length(base_digit_vec) - 1)
 #' 
 #' @seealso
 #' \code{\link{base2dec}} converts numerals in some base into decimal numbers; 
-#' \code{\link{dec2base}} converts decimal numbers into numerals in another base.  
+#' \code{\link{dec2base}} converts decimal numbers into numerals in another base; 
+#' \code{\link{as.roman}} converts integers into Roman numerals. 
 #' 
 #' @export 
 
@@ -122,13 +127,14 @@ base2dec <- function(x, base = 2){
   
   # Initialize: 
   out_val <- 0  # output value (in decimal notation) 
-  len_seq <- length(seq)  
+  len_seq <- length(seq)
+  max_base <- length(base_digits)  # maximum base value 
   
   # Catch special cases:
   if (any(is.na(seq)) | is.na(base)) { return(NA) }
   if ((len_seq == 1) && (seq == "0")){ return(0)  }  
-  if ((base < 2) | (base > 16) | (base %% 1 != 0)) { 
-    message("base2dec: base must be an integer in 2:16.")
+  if ((base < 2) | (base > max_base) | (base %% 1 != 0)) { 
+    message(paste0("base2dec: base must be an integer in 2:", max_base, ".")) 
     return(NA)
   }
   
@@ -274,23 +280,30 @@ base2dec_v <- Vectorize(base2dec)
 #' @examples 
 #' # (a) single numeric input:
 #' dec2base(3)  # base = 2
-#' dec2base(4)
-#' dec2base(8)
 #' 
+#' dec2base(8, base = 2)
 #' dec2base(8, base = 3)
 #' dec2base(8, base = 7)
 #' 
-#' dec2base(100, base = 2)
 #' dec2base(100, base = 5)
 #' dec2base(100, base = 10)
+#' dec2base(100, base = 15)
+#' 
+#' dec2base(14, base = 14)
+#' dec2base(15, base = 15)
+#' dec2base(16, base = 16)
+#' 
+#' dec2base(15, base = 16)
+#' dec2base(31, base = 16)
+#' dec2base(47, base = 16)
 #' 
 #' # (b) single string input:
 #' dec2base("7", base = 2)
 #' dec2base("8", base = 3)
 #' 
 #' # Note: 
-#' base2dec(dec2base(012340, base = 5), base = 5)
-#' dec2base(base2dec(043210, base = 5), base = 5)
+#' base2dec(dec2base(012340, base =  5), base =  5)
+#' dec2base(base2dec(043210, base = 11), base = 11)
 #' 
 #' @family numeric functions 
 #' @family utility functions 
@@ -350,11 +363,12 @@ dec2base <- function(x, base = 2, as_char = TRUE){
   } else {
     
     # Process inputs: 
-    val_left  <- as.numeric(x)  # numeric value left (in decimal notation) 
-    base <- as.numeric(base)
+    val_left <- as.numeric(x)  # numeric value left (in decimal notation) 
+    base     <- as.numeric(base)
+    max_base <- length(base_digits)  # maximum base value 
     
-    if ((base < 2) | (base > 16) | (base %% 1 != 0)) { 
-      message("dec2base: base must be an integer in 2:16.")
+    if ((base < 2) | (base > max_base) | (base %% 1 != 0)) { 
+      message(paste0("dec2base: base must be an integer in 2:", max_base, ".")) 
       return(NA)
     }
     
@@ -415,7 +429,7 @@ dec2base <- function(x, base = 2, as_char = TRUE){
   
 } # dec2base(). 
 
-# ## Check:
+## Check:
 # dec2base(0)
 # dec2base(1)
 # dec2base(2)
@@ -425,14 +439,15 @@ dec2base <- function(x, base = 2, as_char = TRUE){
 # dec2base(8, base = 7)
 # dec2base(8, base = 10)
 # 
-# dec2base(14, base = 15)
+# dec2base(14, base = 14)
 # dec2base(15, base = 15)
-# dec2base(16, base = 15)
+# dec2base(16, base = 16)
 # 
+# dec2base(15, base = 16)
 # dec2base(31, base = 16)
-# dec2base(32, base = 16)
+# dec2base(47, base = 16)
 # 
-# base2dec(2222, base = 3)
+# base2dec(111, base = 3)
 # 
 # # Note:
 # base2dec(dec2base(012340, base = 5), base = 5)
