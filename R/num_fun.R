@@ -10,11 +10,10 @@
 
 ## (0) Note utility functions for numbers and numeric symbols/digits in num_util_fun.R! ------
 
-
-# base_digits: Define as global constant ------ 
-
 base_digit_vec        <- c(0:9, LETTERS[1:6])
 names(base_digit_vec) <- 0:(length(base_digit_vec) - 1)
+
+# base_digits: Define base digit sequence (as global constant) ------ 
 
 #' Base digits (as named vector) 
 #' 
@@ -510,7 +509,7 @@ dec2base_r <- function(x, base = 2){
 
 dec2base_base2dec_sim <- function(n_sim = 100, 
                                   min_val = 0, max_val = 999999,
-                                  min_base = 2, max_base = 10){
+                                  min_base = 2, max_base = 16){
   
   # Use inputs as parameters: 
   n_sim <- n_sim
@@ -551,17 +550,19 @@ dec2base_base2dec_sim <- function(n_sim = 100,
   
 } # dec2base_base2dec_sim(). 
 
-## Check: Run simulation... 
+## Check: Run simulations... 
 # dec2base_base2dec_sim()  # defaults
-# df <- dec2base_base2dec_sim(100, min_val = 100, max_val = 999, min_base = 2, max_base = 4)
+# 
+# df <- dec2base_base2dec_sim(20, min_val = 0, max_val = 999, min_base = 2, max_base = 16)
 # df
 
 
+## Done: ----------
 
+# - Create vectorized versions of base2dec() and dec2base().
 
 ## ToDo: ------
 
 # - Create recursive versions of base2dec() and dec2base().
-# - Create vectorized versions of base2dec() and dec2base().
 
 ## eof. ----------

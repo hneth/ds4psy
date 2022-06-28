@@ -588,6 +588,10 @@ num_as_ordinal <- function(x, sep = ""){
 # num_as_ordinal(seq(1.99, 2.15, by = .01))
 
 
+## Done: ----------
+
+# - etc.
+
 ## ToDo: ------
 
 # - etc.
