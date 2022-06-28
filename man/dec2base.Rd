@@ -59,11 +59,12 @@ dec2base(base2dec(043210, base = 5), base = 5)
 
 }
 \seealso{
-\code{\link{base2dec}} converts numbers from some base into decimal numbers;  
+\code{\link{base2dec}} converts numerals in some base into decimal numbers; 
 \code{\link{as.roman}} converts integers into Roman numerals.
 
 Other numeric functions: 
 \code{\link{base2dec}()},
+\code{\link{base_digits}},
 \code{\link{is_equal}()},
 \code{\link{is_wholenumber}()},
 \code{\link{num_as_char}()},
@@ -72,6 +73,7 @@ Other numeric functions:
 
 Other utility functions: 
 \code{\link{base2dec}()},
+\code{\link{base_digits}},
 \code{\link{is_equal}()},
 \code{\link{is_vect}()},
 \code{\link{is_wholenumber}()},

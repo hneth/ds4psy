@@ -65,6 +65,7 @@ is_vect(df)  # is TRUE
 
 Other utility functions: 
 \code{\link{base2dec}()},
+\code{\link{base_digits}},
 \code{\link{dec2base}()},
 \code{\link{is_equal}()},
 \code{\link{is_wholenumber}()},

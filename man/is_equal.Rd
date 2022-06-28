@@ -51,6 +51,7 @@ is_equal(c("A", "B", "C"), as.factor(c("A", "B", "C")))
 
 Other numeric functions: 
 \code{\link{base2dec}()},
+\code{\link{base_digits}},
 \code{\link{dec2base}()},
 \code{\link{is_wholenumber}()},
 \code{\link{num_as_char}()},
@@ -59,6 +60,7 @@ Other numeric functions:
 
 Other utility functions: 
 \code{\link{base2dec}()},
+\code{\link{base_digits}},
 \code{\link{dec2base}()},
 \code{\link{is_vect}()},
 \code{\link{is_wholenumber}()},

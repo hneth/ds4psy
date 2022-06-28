@@ -86,6 +86,7 @@ num_as_char(5, sym = "99")
 \seealso{
 Other numeric functions: 
 \code{\link{base2dec}()},
+\code{\link{base_digits}},
 \code{\link{dec2base}()},
 \code{\link{is_equal}()},
 \code{\link{is_wholenumber}()},
@@ -94,6 +95,7 @@ Other numeric functions:
 
 Other utility functions: 
 \code{\link{base2dec}()},
+\code{\link{base_digits}},
 \code{\link{dec2base}()},
 \code{\link{is_equal}()},
 \code{\link{is_vect}()},

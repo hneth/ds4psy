@@ -50,6 +50,7 @@ num_as_ordinal(seq(1.99, 2.14, by = .01))
 
 Other numeric functions: 
 \code{\link{base2dec}()},
+\code{\link{base_digits}},
 \code{\link{dec2base}()},
 \code{\link{is_equal}()},
 \code{\link{is_wholenumber}()},
@@ -58,6 +59,7 @@ Other numeric functions:
 
 Other utility functions: 
 \code{\link{base2dec}()},
+\code{\link{base_digits}},
 \code{\link{dec2base}()},
 \code{\link{is_equal}()},
 \code{\link{is_vect}()},

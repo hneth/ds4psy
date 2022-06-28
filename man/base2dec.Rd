@@ -35,7 +35,7 @@ base2dec("1010")
 base2dec("11", base = 3)
 base2dec("11", base = 5)
 base2dec("11", base = 10)
- 
+
 # (b) numeric vectors as inputs:
 base2dec(c(0, 1, 0))
 base2dec(c(0, 1, 0), base = 3)
@@ -59,10 +59,11 @@ dec2base(base2dec(043210, base = 5), base = 5)
 
 }
 \seealso{
-\code{\link{dec2base}} converts decimal numbers into another base;  
+\code{\link{dec2base}} converts decimal numbers into numerals in another base;  
 \code{\link{as.roman}} converts integers into Roman numerals.
 
 Other numeric functions: 
+\code{\link{base_digits}},
 \code{\link{dec2base}()},
 \code{\link{is_equal}()},
 \code{\link{is_wholenumber}()},
@@ -71,6 +72,7 @@ Other numeric functions:
 \code{\link{num_equal}()}
 
 Other utility functions: 
+\code{\link{base_digits}},
 \code{\link{dec2base}()},
 \code{\link{is_equal}()},
 \code{\link{is_vect}()},
