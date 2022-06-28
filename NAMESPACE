@@ -2,6 +2,7 @@
 
 export(Umlaut)
 export(base2dec)
+export(base_digits)
 export(capitalize)
 export(caseflip)
 export(cclass)
