@@ -30,6 +30,8 @@ If \code{rm_specials = TRUE},
 most special (or non-word) characters are 
 removed. (Note that this currently works 
 without using regular expressions.)
+
+\code{text_to_chars} is an inverse function of \code{\link{chars_to_text}}.
 }
 \examples{
 s3 <- c("A 1st sentence.", "The 2nd sentence.",
@@ -40,6 +42,7 @@ text_to_chars(s3, rm_specials = TRUE)
 
 }
 \seealso{
+\code{\link{chars_to_text}} for combining character vectors into text; 
 \code{\link{text_to_sentences}} for splitting text into a vector of sentences; 
 \code{\link{text_to_words}} for splitting text into a vector of words; 
 \code{\link{count_chars}} for counting the frequency of characters; 
@@ -51,6 +54,8 @@ Other text objects and functions:
 \code{\link{capitalize}()},
 \code{\link{caseflip}()},
 \code{\link{cclass}},
+\code{\link{chars_to_text}()},
+\code{\link{collapse_chars}()},
 \code{\link{count_chars_words}()},
 \code{\link{count_chars}()},
 \code{\link{count_words}()},

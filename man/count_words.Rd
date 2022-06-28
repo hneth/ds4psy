@@ -51,6 +51,8 @@ Other text objects and functions:
 \code{\link{capitalize}()},
 \code{\link{caseflip}()},
 \code{\link{cclass}},
+\code{\link{chars_to_text}()},
+\code{\link{collapse_chars}()},
 \code{\link{count_chars_words}()},
 \code{\link{count_chars}()},
 \code{\link{invert_rules}()},
