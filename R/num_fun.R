@@ -88,6 +88,10 @@ base_digits <- base_digit_vec
 #' base2dec("11", base = 5)
 #' base2dec("11", base = 10)
 #'
+#' base2dec("11", base = 12)
+#' base2dec("11", base = 14)
+#' base2dec("11", base = 16)
+#' 
 #' # (b) numeric vectors as inputs:
 #' base2dec(c(0, 1, 0))
 #' base2dec(c(0, 1, 0), base = 3)
@@ -106,8 +110,8 @@ base_digits <- base_digit_vec
 #' base2dec(c(3, 3), base = 3)  # Note message!
 #' 
 #' # Note: 
-#' base2dec(dec2base(012340, base = 5), base = 5)
-#' dec2base(base2dec(043210, base = 5), base = 5)
+#' base2dec(dec2base(012340, base =  9), base =  9)
+#' dec2base(base2dec(043210, base = 11), base = 11)
 #' 
 #' @family numeric functions 
 #' @family utility functions 
@@ -147,21 +151,23 @@ base2dec <- function(x, base = 2){
   
   # print(seq)  # 4debugging
   
-  # Ensure that seq only contains integers <= base:
-  # 
+  # Ensure that seq only contains digits from permissible base_digits:
+  cur_base_digits    <- base_digits[1:base]
+  seq_in_base_digits <- seq %in% cur_base_digits  # check (logical vector)
+  
+  if (!all(seq_in_base_digits)){
+    
+    seq_not_in_base_digits <- paste(seq[!seq_in_base_digits], collapse = " ")
+    message(paste0("base2dec: digit(s) ", seq_not_in_base_digits, 
+                   " undefined in base_digits for base = ", base, "!")) 
+    
+  }
   # +++ here now +++ 
-  # 
-  # # Convert character vector into vector of numeric values:
-  # seq_val <- as.numeric(seq)
-  # 
-  # if (any(seq_val >= base)){
-  #  message("base2dec: All digits in x must be < base!")
-  # }
   
   # Main:
-  rev_seq <- rev(seq)
+  rev_seq <- rev(seq)  # move from rightmost to leftmost digit
   
-  for (i in 1:len_seq){ # loop to compute polynomial: 
+  for (i in 1:len_seq){ # loop to expand polynomial: 
     
     cur_digit <- rev_seq[i]
     # print(paste0("cur_digit = ", cur_digit))  # 4debugging
@@ -221,8 +227,6 @@ base2dec <- function(x, base = 2){
 # base2dec(0)
 # base2dec(NA)
 # base2dec(c(1, NA, 3))
-
-
 
 
 # base2dec_v: A vectorized version of base2dec(): -----
