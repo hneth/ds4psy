@@ -5,10 +5,14 @@
 \alias{vec2str}
 \title{Combine character inputs \code{x} into a single string of text.}
 \usage{
-chars_to_text(x)
+chars_to_text(x, sep = "")
 }
 \arguments{
 \item{x}{A vector (required), typically a character vector.}
+
+\item{sep}{Character to insert between the elements 
+of a multi-element character vector as input \code{x}? 
+Default: \code{sep = ""} (i.e., add nothing).}
 }
 \value{
 A character vector (of length 1).
@@ -22,8 +26,7 @@ while preserving punctuation and spaces.
 \code{chars_to_text} is an inverse function of \code{\link{text_to_chars}}. 
 
 Note that using \code{paste(x, collapse = "")} would remove spaces. 
-See \code{\link{collapse_chars}} for a simpler alternative with 
-a \code{sep} argument.
+See \code{\link{collapse_chars}} for a simpler alternative.
 }
 \examples{
 # (a) One string (with spaces and punctuation):
@@ -36,13 +39,13 @@ t1 == t2
 s <- c("Hi", " ", "", "there!", " ", "", "Does  THIS  work?")
 chars_to_text(s)
 
-# Note: Not inserting spaces between elements:
-chars_to_text(c("Hi there!", "How are you today?"))
-chars_to_text(1:3)
+# Note: Using sep argument: 
+chars_to_text(c("Hi there!", "How are you today?"), sep = "  ")
+chars_to_text(1:3, sep = " | ")
  
 }
 \seealso{
-\code{\link{collapse_chars}} for collapsing character vectors with \code{sep}; 
+\code{\link{collapse_chars}} for collapsing character vectors; 
 \code{\link{text_to_chars}} for splitting text into a vector of characters; 
 \code{\link{text_to_words}} for splitting text into a vector of words; 
 \code{\link{strsplit}} for splitting strings.

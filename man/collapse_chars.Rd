@@ -22,7 +22,7 @@ into a single string of text (i.e., a character object of length 1),
 separating its elements by \code{sep}.
 }
 \details{
-As \code{collapse_chars} is mostly a wrapper around 
+As \code{collapse_chars} is a wrapper around 
 \code{paste(x, collapse = sep)}. 
 It preserves spaces within the elements of \code{x}. 
 
