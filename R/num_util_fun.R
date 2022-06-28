@@ -1,5 +1,5 @@
 ## num_util_fun.R | ds4psy
-## hn | uni.kn | 2022 06 26
+## hn | uni.kn | 2022 06 28
 ## ---------------------------
 
 ## (0) Utility functions for manipulating/transforming numbers or numeric symbols/digits: ------ 
@@ -586,8 +586,6 @@ num_as_ordinal <- function(x, sep = ""){
 # num_as_ordinal(Sys.time())
 # num_as_ordinal(seq(0, 2.5, by = .1))
 # num_as_ordinal(seq(1.99, 2.15, by = .01))
-
-
 
 
 ## ToDo: ------
