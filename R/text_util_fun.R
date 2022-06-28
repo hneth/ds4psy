@@ -1,5 +1,5 @@
 ## text_util_fun.R | ds4psy
-## hn | uni.kn | 2022 06 26
+## hn | uni.kn | 2022 06 28
 ## ---------------------------
 
 ## (0) Utility functions for string manipulation and text/character objects. ------ 
@@ -244,8 +244,44 @@ cclass <- ccv
 # Goal: A utility function to ensure that multi-element text inputs are handled consistently.
 # Note: sep is ONLY used when collapsing multi-element strings and inserted BETWEEN elements. 
 
-# (Note: Currently not exported, but used.)  
-# ToDo: Document and export.
+#' Collapse character inputs \code{x} into a single string. 
+#' 
+#' \code{collapse_chars} converts multi-element character inputs \code{x} 
+#' into a single string of text (i.e., a character object of length 1), 
+#' separating its elements by \code{sep}. 
+#' 
+#' As \code{collapse_chars} is mostly a wrapper around 
+#' \code{paste(x, collapse = sep)}. 
+#' It preserves spaces within the elements of \code{x}. 
+#' 
+#' The separator \code{sep} is only used when collapsing multi-element vectors 
+#' and inserted between elements.
+#' 
+#' See \code{\link{chars_to_text}} for combining character vectors into text. 
+#' 
+#' @param x A vector (required), typically a character vector. 
+#' 
+#' @param sep A character inserted as separator/delimiter 
+#' between elements when collapsing multi-element strings of \code{x}.  
+#' Default: \code{sep = " "} (i.e., insert 1 space between elements). 
+#' 
+#' @return A character vector (of length 1). 
+#' 
+#' @examples
+#' collapse_chars(c("Hello", "world", "!"))
+#' collapse_chars(c("_", " _ ", "  _  "), sep = "|")  # preserves spaces
+#' writeLines(collapse_chars(c("Hello", "world", "!"), sep = "\n"))
+#' collapse_chars(1:3, sep = "")
+#' 
+#' @family text objects and functions
+#'
+#' @seealso
+#' \code{\link{chars_to_text}} for combining character vectors into text; 
+#' \code{\link{text_to_chars}} for splitting text into a vector of characters; 
+#' \code{\link{text_to_words}} for splitting text into a vector of words; 
+#' \code{\link{strsplit}} for splitting strings. 
+#' 
+#' @export
 
 collapse_chars <- function(x, sep = " "){
   
@@ -272,11 +308,13 @@ collapse_chars <- function(x, sep = " "){
 
 ## Check:
 # collapse_chars(c("Hello", "world", "!"))
-# collapse_chars(c(".", " . ", "  .  "), sep = "|")
-# writeLines(collapse_chars(c("Hello", "world", "!"), sep = "\n"))
+# collapse_chars(c("_", " _ ", "  _  "), sep = "|")  # preserves spaces
+# writeLines(collapse_chars(c("Hello", "world", "!"), sep = "\n"))  # new line sep
+# collapse_chars(1:3, sep = "")  # works for numeric vectors!
+# # Special cases:
 # collapse_chars(NA)
 # collapse_chars("")
-# collapse_chars(1:3, sep = "")  # works for numeric vectors!
+
 
 
 # text_to_sentences: Turn a text (consisting of one or more strings) into a vector of all its sentences: ------ 
@@ -545,6 +583,8 @@ text_to_words_regex <- function(x){
 #' removed. (Note that this currently works 
 #' without using regular expressions.)
 #' 
+#' \code{text_to_chars} is an inverse function of \code{\link{chars_to_text}}. 
+#' 
 #' @param x A string of text (required).
 #' 
 #' @param rm_specials Boolean: Remove special characters? 
@@ -568,6 +608,7 @@ text_to_words_regex <- function(x){
 #' @aliases str2vec
 #'
 #' @seealso
+#' \code{\link{chars_to_text}} for combining character vectors into text; 
 #' \code{\link{text_to_sentences}} for splitting text into a vector of sentences; 
 #' \code{\link{text_to_words}} for splitting text into a vector of words; 
 #' \code{\link{count_chars}} for counting the frequency of characters; 
@@ -688,20 +729,61 @@ words_to_text <- function(x, collapse = " "){
 # Goal: Exactly preserve all characters (e.g., punctuation and spaces).
 # (Note: Simply using paste(x, collapse = "") would lose all spaces.) 
 
-# (Note: Currently not exported, but used.)  
-# ToDo: Document and export (add alias to vec2str()). 
+#' Combine character inputs \code{x} into a single string of text. 
+#' 
+#' \code{chars_to_text} combines multi-element character inputs \code{x} 
+#' into a single string of text (i.e., a character object of length 1), 
+#' while preserving punctuation and spaces. 
+#' 
+#' \code{chars_to_text} is an inverse function of \code{\link{text_to_chars}}. 
+#' 
+#' Note that using \code{paste(x, collapse = "")} would remove spaces. 
+#' See \code{\link{collapse_chars}} for a simpler alternative with 
+#' a \code{sep} argument. 
+#' 
+#' @param x A vector (required), typically a character vector. 
+#' 
+#' @return A character vector (of length 1). 
+#' 
+#' @examples
+#' # (a) One string (with spaces and punctuation):
+#' t1 <- "Hello world! This is _A   TEST_. Does this work?"
+#' (cv <- unlist(strsplit(t1, split = "")))
+#' (t2 <- chars_to_text(cv))
+#' t1 == t2
+#' 
+#' # (b) Multiple strings (nchar from 0 to >1):
+#' s <- c("Hi", " ", "", "there!", " ", "", "Does  THIS  work?")
+#' chars_to_text(s)
+#' 
+#' # Note: Not inserting spaces between elements:
+#' chars_to_text(c("Hi there!", "How are you today?"))
+#' chars_to_text(1:3)
+#'  
+#' @alias vec2str 
+#' 
+#' @family text objects and functions
+#'
+#' @seealso
+#' \code{\link{collapse_chars}} for collapsing character vectors with \code{sep}; 
+#' \code{\link{text_to_chars}} for splitting text into a vector of characters; 
+#' \code{\link{text_to_words}} for splitting text into a vector of words; 
+#' \code{\link{strsplit}} for splitting strings. 
+#' 
+#' @export
 
 chars_to_text <- function(x){
   
   # Initialize:
+  x0 <- as.character(x)
   char_t <- NA
   
-  # Ensure that x consists only of individual characters:
-  if (any(nchar(x) > 1)){
-    one_cv <- paste(x, collapse = "")  # paste all into a single char vector
+  # Ensure that x0 consists only of individual characters:
+  if (any(nchar(x0) > 1)){
+    one_cv <- paste(x0, collapse = "")  # paste/collapse all into a single char vector
     char_v <- unlist(strsplit(one_cv, split = ""))  # split into a vector of individual characters
   } else {
-    char_v <- x  # use vector of single characters
+    char_v <- x0  # use vector of single characters
   }
   # print(char_v)  # 4debugging
   
@@ -724,17 +806,19 @@ chars_to_text <- function(x){
 } # chars_to_text().
 
 ## Check:
-# t <- "Hello world! This is _A   TEST_. Does this work?"
-# (cv <- unlist(strsplit(t, split = "")))
-# chars_to_text(cv)
-# # Use with longer input strings (nchar > 1):
-# s <- c("Abc", "   ", "Xyz.")
+# # (a) One string (with spaces and punctuation):
+# t1 <- "Hello world! This is _A   TEST_. Does this work?"
+# (cv <- unlist(strsplit(t1, split = "")))
+# (t2 <- chars_to_text(cv))
+# t1 == t2
+# 
+# # (b) Multiple strings (nchar from 0 to >1):
+# s <- c("Hi", " ", "", "there!", " ", "", "Does  THIS  work?")
 # chars_to_text(s)
-# # Note: 
-# chars_to_text("Hi there!")
+# 
+# # Note: Not inserting spaces between elements:
+# chars_to_text(c("Hi there!", "How are you today?"))
 # chars_to_text(1:3)
-
-
 
 
 ## (C) Miscellaneous text/string utility functions: ------ 
@@ -743,35 +827,36 @@ chars_to_text <- function(x){
 # Redundant functions for manipulating/transforming character strings: ------ 
 
 # vec2str: Turn a vector of symbols into a character string: ------
-#          (See chars_to_text() and collapse_chars() above.)
+#          (Redundant to chars_to_text() and collapse_chars() above.)
 
-vec2str <- function(v) {
-  
-  paste(v, collapse = "")
-  
-  # Note: Simply using paste(v, collapse = "") loses all spaces.
-  # Better: chars_to_text() preserves spaces (see above). 
-  
-} # vec2str(). 
+# vec2str <- function(v) {
+#   
+#   paste(v, collapse = "")
+#   
+#   # Note: Simply using paste(v, collapse = "") loses all spaces.
+#   # Better: chars_to_text() preserves spaces (see above). 
+#   
+# } # vec2str(). 
 
 
 # str2vec: Turn a character string into a vector (of 1-symbol character elements): ------ 
-#          (See text_to_chars() above.)
+#          (Redundant to text_to_chars() above.)
 
-str2vec <- function(s){
-  
-  unlist(strsplit(s, split = ""))  # assumes ONLY 1-symbol elements/digits
-  
-} # str2vec(). 
-
-
+# str2vec <- function(s){
+#   
+#   unlist(strsplit(s, split = ""))  # assumes ONLY 1-symbol elements/digits
+#   
+# } # str2vec(). 
 
 
+## Done: ----------
+
+# - Document and export collapse_chars() AND chars_to_text().  
+# - Replace vec2str() and str2vec() by superior functions in text_fun.R 
 
 
 ## ToDo: ----------
 
-# - Replace vec2str() and str2vec() by superior functions in text_fun.R 
 # - etc.
 
 ## eof. ----------------------
