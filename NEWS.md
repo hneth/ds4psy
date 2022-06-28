@@ -40,11 +40,13 @@ Changes since last release:
 
 ## Major changes 
 
+- add `chars_to_text()` and `text_to_chars()` functions for converting character vectors into text, and back. 
 - add `base2dec()` and `dec2base()` functions for converting numerals from/to non-decimal notations. 
 
 ## Minor changes 
 
-- rearrange contents (by creating dedicated utility files).
+- add `collapse_chars()` as a wrapper around `paste()` with a `collapse` argument. 
+- rearrange contents (by creating dedicated utility files). 
 
 ## Details 
 
@@ -54,10 +56,6 @@ Changes since last release:
 ## ToDo
 
 Changes to be implemented prior to the next release:
-
-- Document and export `collapse_chars()` and `chars_to_text()` (with alias to `vec2str()`). 
-
-- Document and export `text_to_chars()` (with alias to `str2vec()`).
 
 - Split the mixed functionality of `plot_text()` into 2 functions:  
 
@@ -384,6 +382,6 @@ The initial functionality is limited, as the package is designed to support the 
 
 ---------- 
 
-[File `NEWS.md` updated on 2022-06-26.]
+[File `NEWS.md` updated on 2022-06-28.]
 
 <!-- eof. -->
