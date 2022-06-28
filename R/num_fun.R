@@ -18,11 +18,12 @@ names(base_digit_vec) <- 0:(length(base_digit_vec) - 1)
 
 #' Base digits (as named vector) 
 #' 
-#' \code{base_digits} provides numeral symbol for common bases 
-#' as a named character vector.
+#' \code{base_digits} provides numeral symbols for common bases 
+#' (as a named character vector).
 #' 
-#' Note that the elements are character symbols ("0"-"9", "A"-"F"), 
-#' whereas the names coincide to numeric values (from 0 to 15). 
+#' Note that the elements are character symbols 
+#' (i.e., numeral digits "0"-"9", "A"-"F"), 
+#' whereas their names coincide to numeric values (from 0 to 15). 
 #' 
 #' @examples 
 #' base_digits
@@ -57,10 +58,11 @@ base_digits <- base_digit_vec
 #' Convert a string of numeric digits from some base into decimal notation. 
 #' 
 #' \code{base2dec} converts a sequence of numeric symbols (digits) 
-#' from some base notation to decimal (i.e., base or radix 10) notation. 
+#' from some base notation into decimal (i.e., base or radix 10) notation. 
 #' 
-#' Individual digits (e.g., 0-9) must exist in the specified base 
-#' (i.e., every digit value must be lower than the base or radix value).
+#' Individual digits (e.g., from "0" to "9", "A" to "F") must exist in the 
+#' specified base (i.e., every digit value must be lower than the base or radix value). 
+#' See \code{\link{base_digits}} for the sequence of default digits. 
 #' 
 #' \code{base2dec} is the complement of \code{\link{dec2base}}. 
 #' 
@@ -243,7 +245,9 @@ base2dec_v <- Vectorize(base2dec)
 #' 
 #' \code{dec2base} converts an integer from decimal 
 #' (i.e., base or radix 10) notation 
-#' into a sequence of numeric symbols (digits) of some other base. 
+#' into a sequence of numeric symbols (digits) in some other base. 
+#' 
+#' See \code{\link{base_digits}} for the sequence of default digits. 
 #' 
 #' To prevent erroneous interpretations of numeric outputs, 
 #' \code{dec2base} returns a sequence of digits (as a character string).
@@ -258,7 +262,7 @@ base2dec_v <- Vectorize(base2dec)
 #' @return A string of digits (in base notation).
 #' 
 #' @param x A (required) integer in decimal (base 10) notation 
-#' or corresponding string of digits (i.e., 0-9).
+#' or corresponding string of digits (i.e., digits 0-9).
 #' 
 #' @param base The base or radix of the digits in the output. 
 #' Default: \code{base = 2} (binary).
