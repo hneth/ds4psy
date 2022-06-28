@@ -1,5 +1,5 @@
 ## num_fun.R | ds4psy
-## hn | uni.kn | 2022 06 26
+## hn | uni.kn | 2022 06 28
 ## ---------------------------
 
 ## Main functions for manipulating/transforming numbers or numeric symbols/digits: ------ 
@@ -11,9 +11,46 @@
 ## (0) Note utility functions for numbers and numeric symbols/digits in num_util_fun.R! ------
 
 
+# base_digits: Define as global constant ------ 
+
+base_digit_vec        <- c(0:9, LETTERS[1:6])
+names(base_digit_vec) <- 0:(length(base_digit_vec) - 1)
+
+#' Base digits (as named vector) 
+#' 
+#' \code{base_digits} provides numeral symbol for common bases 
+#' as a named character vector.
+#' 
+#' Note that the elements are character symbols ("0"-"9", "A"-"F"), 
+#' whereas the names coincide to numeric values (from 0 to 15). 
+#' 
+#' @examples 
+#' base_digits
+#' length(base_digits)  # 16, but zero-indexed names
+#' base_digits[10]      # 10. element ("9" with name "9") 
+#' base_digits["10"]    # named element "10" ("A" with name "10")
+#' base_digits[["10"]]  # element named "10" ("A")
+#' 
+#' @family numeric functions 
+#' @family utility functions 
+#' 
+#' @seealso
+#' \code{\link{base2dec}} converts numerals in some base into decimal numbers; 
+#' \code{\link{dec2base}} converts decimal numbers into numerals in another base.  
+#' 
+#' @export 
+
+base_digits <- base_digit_vec
+
+## Check:
+# base_digits
+# length(base_digits)  # 16, but zero-indexed names
+# base_digits[10]      # 10. element ("9" with name "9")
+# base_digits["10"]    # named element "10" ("A" with name "10")
+# base_digits[["10"]]  # element named "10" ("A")
+
 
 ## (1) Converting numerals from decimal notation to other base/radix values: ------ 
-
 
 # base2dec: Convert a base N numeric string into a decimal number: ------ 
 
@@ -44,7 +81,7 @@
 #' base2dec("11", base = 3)
 #' base2dec("11", base = 5)
 #' base2dec("11", base = 10)
-#'  
+#'
 #' # (b) numeric vectors as inputs:
 #' base2dec(c(0, 1, 0))
 #' base2dec(c(0, 1, 0), base = 3)
@@ -70,7 +107,7 @@
 #' @family utility functions 
 #' 
 #' @seealso
-#' \code{\link{dec2base}} converts decimal numbers into another base;  
+#' \code{\link{dec2base}} converts decimal numbers into numerals in another base;  
 #' \code{\link{as.roman}} converts integers into Roman numerals. 
 #' 
 #' @export 
@@ -78,7 +115,7 @@
 base2dec <- function(x, base = 2){
   
   # Process inputs:
-  seq  <- as.character(x)
+  seq  <- as.character(x)  # seq is of type character (numerals, not values)!
   base <- as.numeric(base)
   
   # Initialize: 
@@ -88,41 +125,46 @@ base2dec <- function(x, base = 2){
   # Catch special cases:
   if (any(is.na(seq)) | is.na(base)) { return(NA) }
   if ((len_seq == 1) && (seq == "0")){ return(0)  }  
-  if ((base < 2) | (base > 10) | (base %% 1 != 0)) { 
-    message("base2dec: base must be an integer in 2:10.")
+  if ((base < 2) | (base > 16) | (base %% 1 != 0)) { 
+    message("base2dec: base must be an integer in 2:16.")
     return(NA)
   }
   
-  # Prepare: Turn seq of characters into a numeric vector:
+  # Prepare: Convert a string seq into a character vector (of individual digits):
   if ((len_seq == 1) && (nchar(seq) > 1)) { # seq is a multi-digit string:
     
-    # Convert string seq into a numeric vector (of 1-digit numeric elements):
-    vec <- text_to_chars(seq)  # WAS: str2vec(seq)
-    seq <- as.numeric(vec)
-    
-  } else { # convert character vector into numeric values:
-    
-    seq <- as.numeric(seq)
+    seq <- text_to_chars(seq)  # WAS: str2vec(seq)
+    len_seq <- length(seq)  # redo
     
   } # if.
   
   # print(seq)  # 4debugging
-  len_seq <- length(seq)  # redo
   
   # Ensure that seq only contains integers <= base:
-  if (any(seq >= base)){
-    message("base2dec: All digits in x must be < base!")
-  }
+  # 
+  # +++ here now +++ 
+  # 
+  # # Convert character vector into vector of numeric values:
+  # seq_val <- as.numeric(seq)
+  # 
+  # if (any(seq_val >= base)){
+  #  message("base2dec: All digits in x must be < base!")
+  # }
   
   # Main:
   rev_seq <- rev(seq)
   
   for (i in 1:len_seq){ # loop to compute polynomial: 
     
-    cur_i  <- rev_seq[i]
-    # print(paste0("cur_i = ", cur_i))  # 4debugging
+    cur_digit <- rev_seq[i]
+    # print(paste0("cur_digit = ", cur_digit))  # 4debugging
     
-    out_val <- out_val + (cur_i * base^(i - 1))
+    # Translate cur_digit into cur_val (using base_digits): 
+    ix_digit <- which(base_digits == cur_digit)
+    cur_val  <- as.numeric(names(base_digits)[ix_digit])
+    
+    # Update out_val: 
+    out_val <- out_val + (cur_val * base^(i - 1))
     
   } # for.
   
@@ -143,6 +185,18 @@ base2dec <- function(x, base = 2){
 # base2dec("11", base = 5)
 # base2dec("11", base = 10)
 # 
+# base2dec("A", base = 11)
+# base2dec("10", base = 11)
+# base2dec("11", base = 11)
+# 
+# base2dec("A0", base = 11)
+# base2dec("A9", base = 11)
+# base2dec("AA", base = 11)
+# 
+# base2dec("B",  base = 12)
+# base2dec("10", base = 12)
+# base2dec("11", base = 12)
+
 # # (b) numeric vectors as inputs:
 # base2dec(c(0, 1, 0, 1))
 # base2dec(c(0, 1, 0, 1), base = 3)
@@ -155,11 +209,13 @@ base2dec <- function(x, base = 2){
 # base2dec(c(1, 1), base = 10)
 # base2dec(c(1, 1), base = 3)
 # base2dec(c(2, 3), base = 3)  # Note message.
-# 
+#
 # # Special cases:
 # base2dec(0)
 # base2dec(NA)
 # base2dec(c(1, NA, 3))
+
+
 
 
 # base2dec_v: A vectorized version of base2dec(): -----
@@ -236,7 +292,7 @@ base2dec_v <- Vectorize(base2dec)
 #' @family utility functions 
 #' 
 #' @seealso
-#' \code{\link{base2dec}} converts numbers from some base into decimal numbers;  
+#' \code{\link{base2dec}} converts numerals in some base into decimal numbers; 
 #' \code{\link{as.roman}} converts integers into Roman numerals. 
 #' 
 #' @export 
@@ -293,8 +349,8 @@ dec2base <- function(x, base = 2, as_char = TRUE){
     val_left  <- as.numeric(x)  # numeric value left (in decimal notation) 
     base <- as.numeric(base)
     
-    if ((base < 2) | (base > 10) | (base %% 1 != 0)) { 
-      message("dec2base: base must be an integer in 2:10.")
+    if ((base < 2) | (base > 16) | (base %% 1 != 0)) { 
+      message("dec2base: base must be an integer in 2:16.")
       return(NA)
     }
     
@@ -309,37 +365,38 @@ dec2base <- function(x, base = 2, as_char = TRUE){
       
       # print(paste0("position = ", position, ": val_left = ", val_left))  # 4debugging
       
-      next_units <- val_left %/% base^(position + 1)  # dividor on NEXT position (higher order)
+      next_units <- val_left %/% base^(position + 1)  # divisor on NEXT position (higher order)
       # print(paste0("- next_units = ", next_units))  # 4debugging
       
       next_rem <- val_left %%  base^(position + 1)  # remainder on NEXT position (higher order)
-      # print(paste0("- next_rem = ", next_rem))  # 4debugging
+      # print(paste0("- next_rem = ", next_rem))    # 4debugging
       
       if (next_rem > 0){  
         
         cur_left <- val_left - (next_units * base^(position + 1))
         
-        cur_div <- cur_left %/% base^(position)  # current dividor
-        # print(paste0("- cur_div = ", cur_div))  # 4debugging
+        cur_val <- cur_left %/% base^(position)   # current divisor
+        # print(paste0("- cur_val = ", cur_val))  # 4debugging
         
         # cur_rem <- val_left %%  base^(position)  # current remainder
-        # print(paste0("- cur_rem = ", cur_rem))  # 4debugging    
-        
-        cur_digit <- cur_div
+        # print(paste0("- cur_rem = ", cur_rem))   # 4debugging    
         
       } else { 
         
-        cur_digit <- 0
+        cur_val   <- 0
         
       }
       
+      # Translate cur_val into cur_digit (using base_digits): 
+      # cur_digit <- cur_val                   # (a) base <= 10
+      cur_digit <- base_digits[[cur_val + 1]]  # (b) base <= 16
       # print(paste0("- cur_digit = ", cur_digit))  # 4debugging    
       
       # collect outputs:     
       out <- paste0(cur_digit, out)
       
       # update val_left and position counter:
-      val_left <- val_left - (cur_digit * base^(position))
+      val_left <- val_left - (cur_val * base^(position))
       position <- position + 1 
       
     } # while. 
@@ -363,6 +420,14 @@ dec2base <- function(x, base = 2, as_char = TRUE){
 # dec2base(8, base = 3)
 # dec2base(8, base = 7)
 # dec2base(8, base = 10)
+# 
+# dec2base(14, base = 15)
+# dec2base(15, base = 15)
+# dec2base(16, base = 15)
+# 
+# dec2base(31, base = 16)
+# dec2base(32, base = 16)
+# 
 # base2dec(2222, base = 3)
 # 
 # # Note:
@@ -411,8 +476,6 @@ dec2base_r <- function(x, base = 2){
     digit_cur <- n %% base
     exp <- exp + 1
     n_left <- n - (digit_cur * base^exp)
-    
-    # +++ here now +++ 
     
     paste0(dec2base_r(n_left, base), digit_cur)  # recursion
     
