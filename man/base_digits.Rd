@@ -11,17 +11,21 @@ An object of class \code{character} of length 16.
 base_digits
 }
 \description{
-\code{base_digits} provides numeral symbols for common bases 
-(as a named character vector).
+\code{base_digits} provides numeral symbols (digits) 
+for common bases (as a named character vector).
 }
 \details{
 Note that the elements are character symbols 
 (i.e., numeral digits "0"-"9", "A"-"F"), 
-whereas their names coincide to numeric values (from 0 to 15).
+whereas their names coincide to numeric values (from 0 to 15). 
+
+The maximum base value in conversions by 
+\code{\link{base2dec}} or \code{\link{dec2base}} 
+is \code{length(base_digits)}.
 }
 \examples{
 base_digits
-length(base_digits)  # 16, but zero-indexed names
+length(base_digits)  # 16 (maximum base value)
 base_digits[10]      # 10. element ("9" with name "9") 
 base_digits["10"]    # named element "10" ("A" with name "10")
 base_digits[["10"]]  # element named "10" ("A")
@@ -29,7 +33,8 @@ base_digits[["10"]]  # element named "10" ("A")
 }
 \seealso{
 \code{\link{base2dec}} converts numerals in some base into decimal numbers; 
-\code{\link{dec2base}} converts decimal numbers into numerals in another base.
+\code{\link{dec2base}} converts decimal numbers into numerals in another base; 
+\code{\link{as.roman}} converts integers into Roman numerals.
 
 Other numeric functions: 
 \code{\link{base2dec}()},

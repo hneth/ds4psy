@@ -41,23 +41,30 @@ and scientific notation.
 \examples{
 # (a) single numeric input:
 dec2base(3)  # base = 2
-dec2base(4)
-dec2base(8)
 
+dec2base(8, base = 2)
 dec2base(8, base = 3)
 dec2base(8, base = 7)
 
-dec2base(100, base = 2)
 dec2base(100, base = 5)
 dec2base(100, base = 10)
+dec2base(100, base = 15)
+
+dec2base(14, base = 14)
+dec2base(15, base = 15)
+dec2base(16, base = 16)
+
+dec2base(15, base = 16)
+dec2base(31, base = 16)
+dec2base(47, base = 16)
 
 # (b) single string input:
 dec2base("7", base = 2)
 dec2base("8", base = 3)
 
 # Note: 
-base2dec(dec2base(012340, base = 5), base = 5)
-dec2base(base2dec(043210, base = 5), base = 5)
+base2dec(dec2base(012340, base =  5), base =  5)
+dec2base(base2dec(043210, base = 11), base = 11)
 
 }
 \seealso{
