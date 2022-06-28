@@ -250,7 +250,7 @@ cclass <- ccv
 #' into a single string of text (i.e., a character object of length 1), 
 #' separating its elements by \code{sep}. 
 #' 
-#' As \code{collapse_chars} is mostly a wrapper around 
+#' As \code{collapse_chars} is a wrapper around 
 #' \code{paste(x, collapse = sep)}. 
 #' It preserves spaces within the elements of \code{x}. 
 #' 
@@ -725,7 +725,7 @@ words_to_text <- function(x, collapse = " "){
 # chars_to_text: Turn a character vector x into a (single) string of text (preserving punctuation and spaces): ------
 
 # Inverse of text_to_chars() above:  
-# Assume that x consists of individual characters, but may contain spaces. 
+# ASSUME that x consists of individual characters, but may contain spaces. 
 # Goal: Exactly preserve all characters (e.g., punctuation and spaces).
 # (Note: Simply using paste(x, collapse = "") would lose all spaces.) 
 
@@ -738,11 +738,14 @@ words_to_text <- function(x, collapse = " "){
 #' \code{chars_to_text} is an inverse function of \code{\link{text_to_chars}}. 
 #' 
 #' Note that using \code{paste(x, collapse = "")} would remove spaces. 
-#' See \code{\link{collapse_chars}} for a simpler alternative with 
-#' a \code{sep} argument. 
+#' See \code{\link{collapse_chars}} for a simpler alternative. 
 #' 
 #' @param x A vector (required), typically a character vector. 
-#' 
+#'
+#' @param sep Character to insert between the elements 
+#' of a multi-element character vector as input \code{x}? 
+#' Default: \code{sep = ""} (i.e., add nothing). 
+#'   
 #' @return A character vector (of length 1). 
 #' 
 #' @examples
@@ -756,23 +759,23 @@ words_to_text <- function(x, collapse = " "){
 #' s <- c("Hi", " ", "", "there!", " ", "", "Does  THIS  work?")
 #' chars_to_text(s)
 #' 
-#' # Note: Not inserting spaces between elements:
-#' chars_to_text(c("Hi there!", "How are you today?"))
-#' chars_to_text(1:3)
+#' # Note: Using sep argument: 
+#' chars_to_text(c("Hi there!", "How are you today?"), sep = "  ")
+#' chars_to_text(1:3, sep = " | ")
 #'  
 #' @aliases vec2str 
 #' 
 #' @family text objects and functions
 #'
 #' @seealso
-#' \code{\link{collapse_chars}} for collapsing character vectors with \code{sep}; 
+#' \code{\link{collapse_chars}} for collapsing character vectors; 
 #' \code{\link{text_to_chars}} for splitting text into a vector of characters; 
 #' \code{\link{text_to_words}} for splitting text into a vector of words; 
 #' \code{\link{strsplit}} for splitting strings. 
 #' 
 #' @export
 
-chars_to_text <- function(x){
+chars_to_text <- function(x, sep = ""){
   
   # Initialize:
   x0 <- as.character(x)
@@ -780,10 +783,23 @@ chars_to_text <- function(x){
   
   # Ensure that x0 consists only of individual characters:
   if (any(nchar(x0) > 1)){
-    one_cv <- paste(x0, collapse = "")  # paste/collapse all into a single char vector
+    
+    # # (a) Without a sep argument:
+    # one_cv <- paste(x0, collapse = "")  # paste/collapse all into a single char vector
+    
+    # (b) With a sep argument (as in collapse_chars() above):
+    one_cv <- paste(x0, collapse = sep)
+    
     char_v <- unlist(strsplit(one_cv, split = ""))  # split into a vector of individual characters
+    
   } else {
-    char_v <- x0  # use vector of single characters
+    
+    # # (a) Without a sep argument:
+    # char_v <- x0  # use vector of single characters
+    
+    # (b) With a sep argument (as in collapse_chars() above):
+    char_v <- paste(x0, collapse = sep)
+    
   }
   # print(char_v)  # 4debugging
   
@@ -793,13 +809,13 @@ chars_to_text <- function(x){
   char_s_hlp <- paste(char_v_hlp, collapse = "")  # char string helper (with spaces as my_space)
   char_t <- gsub(pattern = my_space, replacement = " ", x = char_s_hlp)  # char string (with original spaces)
   
-  # Check: Does nchar(char_s) equal length(char_v)? 
-  n_char_v <- length(char_v)
-  n_char_t <- nchar(char_t)
-  if (n_char_t != n_char_v){
-    message(paste0("chars_to_text: nchar(char_t) = ", n_char_t, 
-                   " differs from length(char_v) = ", n_char_v, "."))
-  }
+  # # Check: Does nchar(char_s) equal length(char_v)? 
+  # n_char_v <- length(char_v)
+  # n_char_t <- nchar(char_t)
+  # if (n_char_t != n_char_v){
+  #   message(paste0("chars_to_text: nchar(char_t) = ", n_char_t, 
+  #                  " differs from length(char_v) = ", n_char_v, "."))
+  # }
   
   return(char_t)
   
@@ -813,12 +829,21 @@ chars_to_text <- function(x){
 # t1 == t2
 # 
 # # (b) Multiple strings (nchar from 0 to >1):
-# s <- c("Hi", " ", "", "there!", " ", "", "Does  THIS  work?")
+# s <- c("", "Hi", " ", "there!", " ", "Does  THIS  work?", "")
 # chars_to_text(s)
 # 
-# # Note: Not inserting spaces between elements:
-# chars_to_text(c("Hi there!", "How are you today?"))
-# chars_to_text(1:3)
+# # Using sep argument: 
+# chars_to_text(c("Hi there!", "How are you today?"), sep = " ")
+# chars_to_text(1:3, sep = " | ")
+
+
+# Verify that chars_to_text() and text_to_chars() complement each other: ------ 
+
+# s_1 <- c("This is some text.", " ", "Note that 2 sentences can occur in the same character object. As is the case here!")
+# t_1 <- chars_to_text(s_1)
+# (crs <- text_to_chars(t_1))  # individual characters (including spaces)
+# t_2 <- chars_to_text(crs)
+# all.equal(t_1, t_2)
 
 
 ## (C) Miscellaneous text/string utility functions: ------ 
