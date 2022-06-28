@@ -310,7 +310,9 @@ collapse_chars <- function(x, sep = " "){
 # collapse_chars(c("Hello", "world", "!"))
 # collapse_chars(c("_", " _ ", "  _  "), sep = "|")  # preserves spaces
 # writeLines(collapse_chars(c("Hello", "world", "!"), sep = "\n"))  # new line sep
-# collapse_chars(1:3, sep = "")  # works for numeric vectors!
+# collapse_chars(1:3, sep = " ")  # works for numeric vectors!
+# collapse_chars("Hello there")
+# collapse_chars(123)
 # # Special cases:
 # collapse_chars(NA)
 # collapse_chars("")
@@ -664,7 +666,7 @@ text_to_chars <- function(x, rm_specials = FALSE, sep = ""){
 
 ## Check:
 # s3 <- c("A first sentence.", "The second sentence.",
-#        "A third --- and also THE   FINAL --- sentence.")
+#       "A third --- and also THE   FINAL --- sentence.")
 # (wv <- text_to_chars(s3))
 # (wv_2 <- text_to_chars(s3, sep = "\n"))
 # (wv_3 <- text_to_chars(s3, rm_specials = TRUE))
@@ -681,10 +683,12 @@ text_to_chars <- function(x, rm_specials = FALSE, sep = ""){
 #' Paste or collapse words \code{x} into a text. 
 #' 
 #' \code{words_to_text} pastes or collapses 
-#' a character string \code{x} into a text. 
+#' a character string \code{x} into a single text string. 
 #' 
-#' Internally, \code{words_to_text} only invokes the \strong{base} R function 
-#' \code{\link{paste}} with the \code{collapse} argument. 
+#' \code{words_to_text} is essentially identical to 
+#' \code{\link{collapse_chars}}. 
+#' Internally, both functions are wrappers around  
+#' \code{\link{paste}} with a \code{collapse} argument. 
 #' 
 #' @param x A string of text (required), typically a character vector. 
 #' 
@@ -695,9 +699,9 @@ text_to_chars <- function(x, rm_specials = FALSE, sep = ""){
 #' @return A text (as a collapsed character vector). 
 #'
 #' @examples
-#' x <- c("Hello world!", "A 1st sentence.", "A 2nd sentence.", "The end.")
-#' words_to_text(x)
-#' cat(words_to_text(x, collapse = "\n"))
+#' s <- c("Hello world!", "A 1st sentence.", "A 2nd sentence.", "The end.")
+#' words_to_text(s)
+#' cat(words_to_text(s, collapse = "\n"))
 #' 
 #' @family text objects and functions
 #'
@@ -706,6 +710,7 @@ text_to_chars <- function(x, rm_specials = FALSE, sep = ""){
 #' \code{\link{text_to_sentences}} for splitting text into a vector of sentences;  
 #' \code{\link{text_to_chars}} for splitting text into a vector of characters;  
 #' \code{\link{count_words}} for counting the frequency of words; 
+#' \code{\link{collapse_chars}} for collapsing character vectors; 
 #' \code{\link{strsplit}} for splitting strings. 
 #' 
 #' @export
@@ -717,7 +722,6 @@ words_to_text <- function(x, collapse = " "){
 } # words_to_text(). 
 
 ## Check:
-# words_to_text(wv)  # (using wv from above)
 # words_to_text(c("This", "is only", "a test"))
 # cat(words_to_text(wv, collapse = "\n"))
 
@@ -837,6 +841,7 @@ chars_to_text <- function(x, sep = ""){
 # chars_to_text(1:3, sep = " | ")
 
 
+
 # Verify that chars_to_text() and text_to_chars() complement each other: ------ 
 
 # s_1 <- c("This is some text.", " ", "Note that 2 sentences can occur in the same character object. As is the case here!")
@@ -844,6 +849,19 @@ chars_to_text <- function(x, sep = ""){
 # (crs <- text_to_chars(t_1))  # individual characters (including spaces)
 # t_2 <- chars_to_text(crs)
 # all.equal(t_1, t_2)
+
+
+# Verify that sentences can be recreated (after splitting into chars and combine words to text): ------ 
+
+# s_3 <- c("A first sentence.", "The second sentence.",
+#          "A third --- and also THE   FINAL --- sentence.")
+# (crs <- text_to_chars(s_3, sep = " "))
+# (txt <- words_to_text(crs, collapse = ""))
+# # OR: 
+# # (txt <- chars_to_text(crs, sep = ""))
+# (snt <- text_to_sentences(txt))
+# all.equal(snt, s_3)
+
 
 
 ## (C) Miscellaneous text/string utility functions: ------ 
