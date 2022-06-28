@@ -37,6 +37,10 @@ base2dec("11", base = 3)
 base2dec("11", base = 5)
 base2dec("11", base = 10)
 
+base2dec("11", base = 12)
+base2dec("11", base = 14)
+base2dec("11", base = 16)
+
 # (b) numeric vectors as inputs:
 base2dec(c(0, 1, 0))
 base2dec(c(0, 1, 0), base = 3)
@@ -55,8 +59,8 @@ base2dec(0)
 base2dec(c(3, 3), base = 3)  # Note message!
 
 # Note: 
-base2dec(dec2base(012340, base = 5), base = 5)
-dec2base(base2dec(043210, base = 5), base = 5)
+base2dec(dec2base(012340, base =  9), base =  9)
+dec2base(base2dec(043210, base = 11), base = 11)
 
 }
 \seealso{
