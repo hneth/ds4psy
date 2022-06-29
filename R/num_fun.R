@@ -33,8 +33,8 @@ names(base_digit_vec) <- 0:(length(base_digit_vec) - 1)  # zero-indexed names
 #' is \code{length(base_digits)}. 
 #' 
 #' @examples 
-#' base_digits          # named character vector
-#' length(base_digits)  # 16 (maximum base value)
+#' base_digits          # named character vector, zero-indexed names
+#' length(base_digits)  # 62 (maximum base value)
 #' base_digits[10]      # 10. element ("9" with name "9") 
 #' base_digits["10"]    # named element "10" ("A" with name "10")
 #' base_digits[["10"]]  # element named "10" ("A")
@@ -53,7 +53,7 @@ base_digits <- base_digit_vec
 
 ## Check:
 # base_digits
-# length(base_digits)  # 16, but zero-indexed names
+# length(base_digits)  # 62, but zero-indexed names
 # base_digits[10]      # 10. element ("9" with name "9")
 # base_digits["10"]    # named element "10" ("A" with name "10")
 # base_digits[["10"]]  # element named "10" ("A")
