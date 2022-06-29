@@ -61,15 +61,17 @@ base_digits <- base_digit_vec
 
 ## (1) Converting numerals from decimal notation to other base/radix values: ------ 
 
-# base2dec: Convert a base N numeric string into a decimal number: ------ 
+# base2dec: Convert a base N numeral string (of digits) into a decimal number: ------ 
 
-#' Convert a string of numeric digits from some base into decimal notation. 
+#' Convert a string of numeral digits from some base into decimal notation. 
 #' 
-#' \code{base2dec} converts a sequence of numeric symbols (digits) 
-#' from some base notation into decimal (i.e., base or radix 10) notation. 
+#' \code{base2dec} converts a sequence of numeral symbols (digits) 
+#' from its notation as positional numerals (with some base or radix)
+#' into standard decimal notation (using the base or radix of 10). 
 #' 
-#' Individual digits (e.g., from "0" to "9", "A" to "F") must exist in the 
-#' specified base (i.e., every digit value must be lower than the base or radix value). 
+#' The individual digits provided in \code{x} (e.g., from "0" to "9", "A" to "F") 
+#' must be defined in the specified base (i.e., every digit value must be lower 
+#' than the base or radix value). 
 #' See \code{\link{base_digits}} for the sequence of default digits. 
 #' 
 #' \code{base2dec} is the complement of \code{\link{dec2base}}. 
@@ -77,7 +79,7 @@ base_digits <- base_digit_vec
 #' @return An integer number (in decimal notation). 
 #' 
 #' @param x A (required) sequence of numeric symbols 
-#' (as a sequence or vector of digits). 
+#' (as a character sequence or vector of digits). 
 #' 
 #' @param base The base or radix of the symbols in \code{seq}. 
 #' Default: \code{base = 2} (binary).   
@@ -256,9 +258,9 @@ base2dec_v <- Vectorize(base2dec)
 
 # dec2base: Conversion function from decimal to base notation (as a complement to base2dec): ------
 
-#' Convert an integer in decimal notation into a string of numeric digits in some base. 
+#' Convert an integer from decimal notation into a string of numeric digits in some base. 
 #' 
-#' \code{dec2base} converts an integer from decimal notation 
+#' \code{dec2base} converts an integer from its standard decimal notation 
 #' (i.e., using positional numerals with a base or radix of 10) 
 #' into a sequence of numeric symbols (digits) in some other base. 
 #' 
@@ -269,7 +271,7 @@ base2dec_v <- Vectorize(base2dec)
 #' 
 #' \code{dec2base} is the complement of \code{\link{base2dec}}. 
 #' 
-#' @return A string of digits (in base notation).
+#' @return A character string of digits (in base notation).
 #' 
 #' @param x A (required) integer in decimal (base 10) notation 
 #' or corresponding string of digits (i.e., digits 0-9).
