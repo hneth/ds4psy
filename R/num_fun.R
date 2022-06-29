@@ -10,26 +10,30 @@
 
 ## (0) Note utility functions for numbers and numeric symbols/digits in num_util_fun.R! ------
 
-base_digit_vec        <- c(0:9, LETTERS[1:6])
-names(base_digit_vec) <- 0:(length(base_digit_vec) - 1)
-
 # base_digits: Define base digit sequence (as global constant) ------ 
+
+base_digit_vec        <- c(0:9, LETTERS[1:6])      # max_base value = 16
+base_digit_vec        <- c(0:9, LETTERS, letters)  # max_base value = 62
+names(base_digit_vec) <- 0:(length(base_digit_vec) - 1)  # zero-indexed names
 
 #' Base digits (as named vector) 
 #' 
 #' \code{base_digits} provides numeral symbols (digits) 
-#' for common bases (as a named character vector).
+#' for bases of notational place-value systems 
+#' (as a named character vector).
 #' 
-#' Note that the elements are character symbols 
-#' (i.e., numeral digits "0"-"9", "A"-"F"), 
-#' whereas their names coincide to numeric values (from 0 to 15). 
+#' Note that the elements (digits) are character symbols 
+#' (i.e., numeral digits "0"-"9", "A"-"F", etc.), 
+#' whereas their names correspond to their 
+#' numeric values (from 0 to 
+#' \code{length(base_digits) - 1}). 
 #' 
-#' The maximum base value in conversions by 
+#' Thus, the maximum base value in conversions by 
 #' \code{\link{base2dec}} or \code{\link{dec2base}} 
 #' is \code{length(base_digits)}. 
 #' 
 #' @examples 
-#' base_digits
+#' base_digits          # named character vector
 #' length(base_digits)  # 16 (maximum base value)
 #' base_digits[10]      # 10. element ("9" with name "9") 
 #' base_digits["10"]    # named element "10" ("A" with name "10")
@@ -151,8 +155,8 @@ base2dec <- function(x, base = 2){
   
   # print(seq)  # 4debugging
   
-  # Ensure that seq only contains digits from permissible base_digits:
-  cur_base_digits    <- base_digits[1:base]
+  # Ensure that seq only contains permissible base_digits:
+  cur_base_digits    <- base_digits[1:base]  # base_digits in current base range
   seq_in_base_digits <- seq %in% cur_base_digits  # check (logical vector)
   
   if (!all(seq_in_base_digits)){
@@ -160,15 +164,15 @@ base2dec <- function(x, base = 2){
     seq_not_in_base_digits <- paste(seq[!seq_in_base_digits], collapse = " ")
     message(paste0("base2dec: digit(s) ", seq_not_in_base_digits, 
                    " undefined in base_digits for base = ", base, "!")) 
-    
-  }
-  # +++ here now +++ 
+  
+  } # if. 
   
   # Main:
   rev_seq <- rev(seq)  # move from rightmost to leftmost digit
   
-  for (i in 1:len_seq){ # loop to expand polynomial: 
+  for (i in 1:len_seq){ # loop to expand polynomial of digits: 
     
+    # Current digit (as character): 
     cur_digit <- rev_seq[i]
     # print(paste0("cur_digit = ", cur_digit))  # 4debugging
     
@@ -176,7 +180,7 @@ base2dec <- function(x, base = 2){
     ix_digit <- which(base_digits == cur_digit)
     cur_val  <- as.numeric(names(base_digits)[ix_digit])
     
-    # Update out_val: 
+    # Update out_val:
     out_val <- out_val + (cur_val * base^(i - 1))
     
   } # for.
@@ -246,25 +250,27 @@ base2dec_v <- Vectorize(base2dec)
 # base2dec_v(c(1, 10, 100, 1000), base = 2)
 # base2dec_v(11, base = 2:5)
 # base2dec_v(c(1, 10, 100, 1000), base = 7:10)  # Note: Warning when x and base are not of the same length!
+# base2dec_v(c(10, 100, 1000), base = c(20, 30, 40))
 
 
 # dec2base: Conversion function from decimal to base notation (as a complement to base2dec): ------
 
 #' Convert an integer in decimal notation into a string of numeric digits in some base. 
 #' 
-#' \code{dec2base} converts an integer from decimal 
-#' (i.e., base or radix 10) notation 
+#' \code{dec2base} converts an integer from decimal notation 
+#' (i.e., using positional numerals with a base or radix of 10) 
 #' into a sequence of numeric symbols (digits) in some other base. 
 #' 
 #' See \code{\link{base_digits}} for the sequence of default digits. 
 #' 
 #' To prevent erroneous interpretations of numeric outputs, 
 #' \code{dec2base} returns a sequence of digits (as a character string).
-#' When using \code{as_char = FALSE}, its output string is 
-#' processed by \code{as.integer}, but this may cause 
-#' problems with the interpretation of the numeric value 
-#' (as outputs for a base/radix other than 10 do NOT denote decimal numbers) 
-#' and scientific notation. 
+#' 
+#' % When using \code{as_char = FALSE}, its output string is 
+#' % processed by \code{as.integer}, but this may cause 
+#' % problems with the interpretation of the numeric value 
+#' % (as outputs for a base/radix other than 10 do NOT denote decimal numbers) 
+#' % and scientific notation. 
 #' 
 #' \code{dec2base} is the complement of \code{\link{base2dec}}. 
 #' 
@@ -276,9 +282,9 @@ base2dec_v <- Vectorize(base2dec)
 #' @param base The base or radix of the digits in the output. 
 #' Default: \code{base = 2} (binary).
 #' 
-#' @param as_char Return the output as a character string? 
-#' Default: \code{as_char = TRUE} (as symbol sequence is NOT a 
-#' decimal number unless \code{base = 10}). 
+#' % as_char Return the output as a character string? 
+#' % Default: \code{as_char = TRUE} (as symbol sequence is NOT a 
+#' % decimal number unless \code{base = 10}). 
 #' 
 #' @examples 
 #' # (a) single numeric input:
@@ -317,12 +323,13 @@ base2dec_v <- Vectorize(base2dec)
 #' 
 #' @export 
 
-dec2base <- function(x, base = 2, as_char = TRUE){
+dec2base <- function(x, base = 2  
+                     # as_char = TRUE  # removed, as it would only re-compute input.
+                     ){
   
   # Version 1: ----
   # - calculate n_digits 
   # - use for loop
-  # 
   # 
   # # Process inputs: 
   # dec  <- as.numeric(x)     # numeric value (in decimal notation) 
@@ -359,9 +366,9 @@ dec2base <- function(x, base = 2, as_char = TRUE){
   # - without computing n_digits
   # - while loop
   
-  if (is.na(x)) { 
+  if ( is.na(x) | is.na(base) ) { 
     
-    out <- NA 
+    out <- NA
     
   } else {
     
@@ -408,25 +415,28 @@ dec2base <- function(x, base = 2, as_char = TRUE){
         
       }
       
+      # print(paste0("- cur_val = ", cur_val))  # 4debugging
+      
       # Translate cur_val into cur_digit (using base_digits): 
-      # cur_digit <- cur_val                   # (a) base <= 10
-      cur_digit <- base_digits[[cur_val + 1]]  # (b) base <= 16
+      # cur_digit <- as.character(cur_val)     # (a) base <= 10
+      cur_digit <- base_digits[[cur_val + 1]]  # (b) base <= max_base 
       # print(paste0("- cur_digit = ", cur_digit))  # 4debugging    
       
-      # collect outputs:     
-      out <- paste0(cur_digit, out)
+      # Collect outputs:
+      out <- paste0(cur_digit, out)  # as characters
       
-      # update val_left and position counter:
+      # Update val_left and position counter:
       val_left <- val_left - (cur_val * base^(position))
       position <- position + 1 
       
     } # while. 
   } # else.
   
-  # Process output:
-  if (!as_char){
-    out <- as.integer(out)  # Note: May cause problems with scientific notation!
-  }
+  # # Process output:
+  # if (!as_char){
+  #   # out <- as.integer(out)  # Note: May cause problems with scientific notation!
+  #   out <- base2dec(out, base = base)  # Re-converts out digits into integer in decimal notation.
+  # }
   
   return(out)
   
@@ -460,6 +470,10 @@ dec2base <- function(x, base = 2, as_char = TRUE){
 # dec2base(0)
 # dec2base(NA)
 
+# # With as_char argument: 
+# dec2base(1000, 50, as_char = TRUE)
+# dec2base(1000, 50, as_char = FALSE)  # re-converts into base digits
+
 
 # dec2base_v: Vectorized version of dec2base(): -----
 
@@ -478,7 +492,7 @@ dec2base_v <- Vectorize(dec2base)
 # dec2base_v(9:11, base = 2)
 # dec2base_v(10,   base = 2:5)
 # dec2base_v(9:11, base = 5:10)  # Note: Warning when x and base are not of the same length!
-
+dec2base_v(100, base = c(10, 20, NA, 30, 40, 50))
 
 # dec2base_r: Recursive version of dec2base(): -----
 
@@ -557,7 +571,8 @@ dec2base_base2dec_sim <- function(n_sim = 100,
 ## Check: Run simulations... 
 # dec2base_base2dec_sim()  # defaults
 # 
-# df <- dec2base_base2dec_sim(20, min_val = 0, max_val = 999, min_base = 2, max_base = 16)
+# length(base_digits)  # maximum base value
+# df <- dec2base_base2dec_sim(20, min_val = 0, max_val = 9999, min_base = 2, max_base = 62)
 # df
 
 
