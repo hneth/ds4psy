@@ -164,7 +164,7 @@ base2dec <- function(x, base = 2){
     seq_not_in_base_digits <- paste(seq[!seq_in_base_digits], collapse = " ")
     message(paste0("base2dec: digit(s) ", seq_not_in_base_digits, 
                    " undefined in base_digits for base = ", base, "!")) 
-  
+    
   } # if. 
   
   # Main:
@@ -230,6 +230,7 @@ base2dec <- function(x, base = 2){
 # # Special cases:
 # base2dec(0)
 # base2dec(NA)
+# base2dec(1, NA)
 # base2dec(c(1, NA, 3))
 
 
@@ -266,12 +267,6 @@ base2dec_v <- Vectorize(base2dec)
 #' To prevent erroneous interpretations of numeric outputs, 
 #' \code{dec2base} returns a sequence of digits (as a character string).
 #' 
-#' % When using \code{as_char = FALSE}, its output string is 
-#' % processed by \code{as.integer}, but this may cause 
-#' % problems with the interpretation of the numeric value 
-#' % (as outputs for a base/radix other than 10 do NOT denote decimal numbers) 
-#' % and scientific notation. 
-#' 
 #' \code{dec2base} is the complement of \code{\link{base2dec}}. 
 #' 
 #' @return A string of digits (in base notation).
@@ -281,10 +276,6 @@ base2dec_v <- Vectorize(base2dec)
 #' 
 #' @param base The base or radix of the digits in the output. 
 #' Default: \code{base = 2} (binary).
-#' 
-#' % as_char Return the output as a character string? 
-#' % Default: \code{as_char = TRUE} (as symbol sequence is NOT a 
-#' % decimal number unless \code{base = 10}). 
 #' 
 #' @examples 
 #' # (a) single numeric input:
@@ -311,7 +302,7 @@ base2dec_v <- Vectorize(base2dec)
 #' dec2base("8", base = 3)
 #' 
 #' # Note: 
-#' base2dec(dec2base(012340, base =  5), base =  5)
+#' base2dec(dec2base(012340, base =  9), base =  9)
 #' dec2base(base2dec(043210, base = 11), base = 11)
 #' 
 #' @family numeric functions 
@@ -323,9 +314,7 @@ base2dec_v <- Vectorize(base2dec)
 #' 
 #' @export 
 
-dec2base <- function(x, base = 2  
-                     # as_char = TRUE  # removed, as it would only re-compute input.
-                     ){
+dec2base <- function(x, base = 2){ # as_char = TRUE  # removed, as it would only re-compute input.
   
   # Version 1: ----
   # - calculate n_digits 
@@ -469,10 +458,22 @@ dec2base <- function(x, base = 2
 # # Special cases:
 # dec2base(0)
 # dec2base(NA)
+# dec2base(1, NA)
 
-# # With as_char argument: 
+# # With an as_char argument (removed): 
 # dec2base(1000, 50, as_char = TRUE)
 # dec2base(1000, 50, as_char = FALSE)  # re-converts into base digits
+#
+# # Documentation (removed):
+# @param as_char Return the output as a character string?
+# Default: \code{as_char = TRUE} (as symbol sequence is NOT a
+# decimal number unless \code{base = 10}).
+# 
+# When using \code{as_char = FALSE}, its output string \code{out}
+# is processed by \code{base2dec(out, base = base)},
+# but this would only re-compute the input values.
+# (Note that simply using \code{as.integer(out)} would fail,
+# as outputs for any base/radix other than 10 do NOT denote decimal numbers.)
 
 
 # dec2base_v: Vectorized version of dec2base(): -----
