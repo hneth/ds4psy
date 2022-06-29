@@ -4,7 +4,7 @@
 \alias{dec2base}
 \title{Convert an integer in decimal notation into a string of numeric digits in some base.}
 \usage{
-dec2base(x, base = 2, as_char = TRUE)
+dec2base(x, base = 2)
 }
 \arguments{
 \item{x}{A (required) integer in decimal (base 10) notation 
@@ -12,17 +12,13 @@ or corresponding string of digits (i.e., digits 0-9).}
 
 \item{base}{The base or radix of the digits in the output. 
 Default: \code{base = 2} (binary).}
-
-\item{as_char}{Return the output as a character string? 
-Default: \code{as_char = TRUE} (as symbol sequence is NOT a 
-decimal number unless \code{base = 10}).}
 }
 \value{
 A string of digits (in base notation).
 }
 \description{
-\code{dec2base} converts an integer from decimal 
-(i.e., base or radix 10) notation 
+\code{dec2base} converts an integer from decimal notation 
+(i.e., using positional numerals with a base or radix of 10) 
 into a sequence of numeric symbols (digits) in some other base.
 }
 \details{
@@ -30,11 +26,6 @@ See \code{\link{base_digits}} for the sequence of default digits.
 
 To prevent erroneous interpretations of numeric outputs, 
 \code{dec2base} returns a sequence of digits (as a character string).
-When using \code{as_char = FALSE}, its output string is 
-processed by \code{as.integer}, but this may cause 
-problems with the interpretation of the numeric value 
-(as outputs for a base/radix other than 10 do NOT denote decimal numbers) 
-and scientific notation. 
 
 \code{dec2base} is the complement of \code{\link{base2dec}}.
 }
@@ -63,7 +54,7 @@ dec2base("7", base = 2)
 dec2base("8", base = 3)
 
 # Note: 
-base2dec(dec2base(012340, base =  5), base =  5)
+base2dec(dec2base(012340, base =  9), base =  9)
 dec2base(base2dec(043210, base = 11), base = 11)
 
 }

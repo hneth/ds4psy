@@ -5,26 +5,29 @@
 \alias{base_digits}
 \title{Base digits (as named vector)}
 \format{
-An object of class \code{character} of length 16.
+An object of class \code{character} of length 62.
 }
 \usage{
 base_digits
 }
 \description{
 \code{base_digits} provides numeral symbols (digits) 
-for common bases (as a named character vector).
+for bases of notational place-value systems 
+(as a named character vector).
 }
 \details{
-Note that the elements are character symbols 
-(i.e., numeral digits "0"-"9", "A"-"F"), 
-whereas their names coincide to numeric values (from 0 to 15). 
+Note that the elements (digits) are character symbols 
+(i.e., numeral digits "0"-"9", "A"-"F", etc.), 
+whereas their names correspond to their 
+numeric values (from 0 to 
+\code{length(base_digits) - 1}). 
 
-The maximum base value in conversions by 
+Thus, the maximum base value in conversions by 
 \code{\link{base2dec}} or \code{\link{dec2base}} 
 is \code{length(base_digits)}.
 }
 \examples{
-base_digits
+base_digits          # named character vector
 length(base_digits)  # 16 (maximum base value)
 base_digits[10]      # 10. element ("9" with name "9") 
 base_digits["10"]    # named element "10" ("A" with name "10")
