@@ -56,11 +56,13 @@ base2dec(c(1, 1))
 base2dec(c(1, 1), base = 3)
 
 # Non-standard inputs:
-base2dec("  100  ", 2)  # remove leading and trailing spaces
-base2dec("-100", 2)     # handle negative inputs (value < 0)
-base2dec("- -100", 2)   # handle double negations
-base2dec("---100", 2)   # handle multiple negations
- 
+base2dec("  ", 2)      # no non-spaces: NA
+base2dec(" ?! ", 2)    # no base digits: NA
+base2dec(" 100  ", 2)  # remove leading and trailing spaces
+base2dec("-  100", 2)  # handle negative inputs (value < 0)
+base2dec("- -100", 2)  # handle double negations
+base2dec("---100", 2)  # handle multiple negations
+  
 # Special cases:
 base2dec(NA)
 base2dec(0)
