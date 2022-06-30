@@ -1,5 +1,5 @@
 ## num_util_fun.R | ds4psy
-## hn | uni.kn | 2022 06 28
+## hn | uni.kn | 2022 06 30
 ## ---------------------------
 
 ## (0) Utility functions for manipulating/transforming numbers or numeric symbols/digits: ------ 
@@ -246,7 +246,7 @@ is_equal <- function(x, y, ...){
 
 
 
-## (B) Formatting numbers (e.g., as character objects or words): ------ 
+## (B) Formatting number strings/numerals (e.g., as character objects or words): ------ 
 
 
 
@@ -587,6 +587,55 @@ num_as_ordinal <- function(x, sep = ""){
 # num_as_ordinal(seq(0, 2.5, by = .1))
 # num_as_ordinal(seq(1.99, 2.15, by = .01))
 
+
+
+
+# base_digits: Define the sequence of base digits/numeric symbols (as a global constant) ------ 
+
+base_digit_vec        <- c(0:9, LETTERS[1:6])      # max_base value: 16
+base_digit_vec        <- c(0:9, LETTERS, letters)  # max_base value: 62
+names(base_digit_vec) <- 0:(length(base_digit_vec) - 1)  # zero-indexed names
+
+#' Base digits: Sequence of numeric symbols (as named vector)
+#' 
+#' \code{base_digits} provides numeral symbols (digits) 
+#' for notational place-value systems with arbitrary bases 
+#' (as a named character vector).
+#' 
+#' Note that the elements (digits) are character symbols 
+#' (i.e., numeral digits "0"-"9", "A"-"F", etc.), 
+#' whereas their names correspond to their 
+#' numeric values (from 0 to \code{length(base_digits) - 1}). 
+#' 
+#' Thus, the maximum base value in conversions by 
+#' \code{\link{base2dec}} or \code{\link{dec2base}} 
+#' is \code{length(base_digits)}. 
+#' 
+#' @examples 
+#' base_digits          # named character vector, zero-indexed names
+#' length(base_digits)  # 62 (maximum base value)
+#' base_digits[10]      # 10. element ("9" with name "9") 
+#' base_digits["10"]    # named element "10" ("A" with name "10")
+#' base_digits[["10"]]  # element named "10" ("A")
+#' 
+#' @family numeric functions 
+#' @family utility functions 
+#' 
+#' @seealso
+#' \code{\link{base2dec}} converts numerals in some base into decimal numbers; 
+#' \code{\link{dec2base}} converts decimal numbers into numerals in another base; 
+#' \code{\link{as.roman}} converts integers into Roman numerals. 
+#' 
+#' @export 
+
+base_digits <- base_digit_vec
+
+## Check:
+# base_digits
+# length(base_digits)  # 62, but zero-indexed names
+# base_digits[10]      # 10. element ("9" with name "9")
+# base_digits["10"]    # named element "10" ("A" with name "10")
+# base_digits[["10"]]  # element named "10" ("A")
 
 ## Done: ----------
 
