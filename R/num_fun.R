@@ -93,12 +93,8 @@ base2dec <- function(x, base = 2){
   # Process inputs: ---- 
   base <- as.numeric(base)
   
-  x0  <- as.character(x)  # seq is of type character (numerals, not values)!
-  x1  <- trimws(x0, which = "both", whitespace = "[ \t\r\n]")  # remove leading and trailing spaces
-  if (all(x1 == "")) { message("dec2base: No non-space input!"); return(NA) }
-  
   # Initialize: ---- 
-  seq <- x1 
+  seq <- as.character(x)  # seq is of type character (numerals, not values)!
   len_seq <- length(seq)
   
   neg_pfx <- "-"    # negation prefix/symbol   
@@ -106,9 +102,10 @@ base2dec <- function(x, base = 2){
   
   # Catch special cases: ---- 
   if (any(is.na(seq)) | is.na(base)) { return(NA) }
-  if ((len_seq == 1) && (seq == "0")){ return(0)  }  
+  if ((len_seq == 1) && (seq == "0")){ return(0)  } 
   
-  max_base <- length(base_digits)  # maximum base value 
+  # Check base digits: ---- 
+  max_base <- length(base_digits) # maximum base value 
   
   if ((base < 2) | (base > max_base) | (base %% 1 != 0)) { 
     message(paste0("base2dec: base must be an integer in 2:", max_base, ".")) 
@@ -116,6 +113,10 @@ base2dec <- function(x, base = 2){
   } else { # determine range of permissible digits:
     cur_base_digits <- base_digits[1:base]  # base_digits in current base range
   }
+  
+  # Pre-process character inputs: 
+  seq <- trimws(seq, which = "both", whitespace = "[ \t\r\n]")  # remove leading and trailing spaces
+  if (all(seq == "")) { message("dec2base: No non-space input!"); return(NA) }
   
   # Prepare: Convert a string seq into a character vector (of individual digits): ---- 
   if ((len_seq == 1) && (nchar(seq) > 1)) { # seq is a multi-digit string:
@@ -380,7 +381,7 @@ dec2base <- function(x, base = 2){ # as_char = TRUE  # removed, as it would only
     
   } else {
     
-    # Process inputs: ---- 
+    # Process inputs: Check base digits: ---- 
     base     <- as.numeric(base)
     max_base <- length(base_digits)  # maximum base value 
     
@@ -393,7 +394,7 @@ dec2base <- function(x, base = 2){ # as_char = TRUE  # removed, as it would only
       
       decimal_digits <- base_digits[1:10]  # permissible base_digits in decimal range (base = 10)
       
-    } # if base. 
+    } # if base.
     
     
     if (is.character(x)){ # Pre-process string inputs (spaces, prefixes, negations): ---- 
