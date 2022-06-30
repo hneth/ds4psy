@@ -747,7 +747,7 @@ encrypt_arithm_expr <- function(x, y, op = "+", base = 10, dig_sym = NULL){
 
 # # Check: 
 # 
-# # Create problems: 
+# # Create problems:
 # # set.seed(2468)
 # n <- sample(1:999, 2, replace = TRUE)
 # 
@@ -772,8 +772,8 @@ encrypt_arithm_expr <- function(x, y, op = "+", base = 10, dig_sym = NULL){
 
 ## Done: ----------
 
-# - Remove leading and trailing spaces in ~  
-# - Identify prefixes and negations in ~
+# - base2dec() and dec2base(): Remove leading and trailing spaces.  
+# - base2dec() and dec2base(): Identify prefixes and negations.
 
 ## ToDo: ------
 
