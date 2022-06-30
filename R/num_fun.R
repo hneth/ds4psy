@@ -682,13 +682,14 @@ names(rdigit) <- digits  # (names encode position values)
 encrypt_arithm_expr <- function(x, y, op = "+", base = 10, dig_sym = NULL){
   
   # 1. Compute result r: 
-  switch(op, 
-         "+" = r <- x + y,
-         "-" = r <- x - y, 
-         "*" = r <- x * y,
-         "/" = r <- x / y)
-  # ToDo 1: Use function to evaluate arbitrary expressions (see Matloff).
+  # switch(op, 
+  #        "+" = r <- x + y,
+  #        "-" = r <- x - y, 
+  #        "*" = r <- x * y,
+  #        "/" = r <- x / y)
   
+  # Use do.call() to evaluate arbitrary expressions: 
+  r <- do.call(op, list(x, y))
   
   # 2. Translate numerals into a different base (if specified): ---- 
   if (base != 10){
@@ -748,11 +749,11 @@ encrypt_arithm_expr <- function(x, y, op = "+", base = 10, dig_sym = NULL){
 # # Check: 
 # 
 # # Create problems:
-# # set.seed(2468)
+# set.seed(2468)
 # n <- sample(1:999, 2, replace = TRUE)
 # 
 # # (a) without translating base or symbols (dig_sym):
-# p_1a <- encrypt_arithm_expr(n[1], n[2], "+")
+# p_1a <- encrypt_arithm_expr(n[1], n[2], "%/%")
 # p_2a <- encrypt_arithm_expr(n[1], n[2], "-")
 # p_3a <- encrypt_arithm_expr(n[1], n[2], "*")
 # p_4a <- encrypt_arithm_expr(n[1], n[2], "/")
