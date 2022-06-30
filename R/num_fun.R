@@ -83,8 +83,10 @@
 base2dec <- function(x, base = 2){
   
   # Process inputs:
-  seq  <- as.character(x)  # seq is of type character (numerals, not values)!
   base <- as.numeric(base)
+  seq  <- as.character(x)  # seq is of type character (numerals, not values)!
+  seq  <- trimws(seq, which = "both", whitespace = "[ \t\r\n]")  # remove leading and trailing spaces!
+  # ToDo: Identify and process prefix (e.g., number of negations)
   
   # Initialize: 
   out_val <- 0  # output value (in decimal notation) 
@@ -188,9 +190,10 @@ base2dec <- function(x, base = 2){
 # base2dec(c(1, NA, 3))
 # 
 # # ToDo: Non-natural/non-standard inputs:
-# base2dec("-10", 2)     # negative inputs
-# base2dec(" 100", 2)    # ToDo: remove leading and trailing spaces?
-# base2dec(" - 100", 2)  # ToDo: isolate non-digit prefix => find 1st digit and process prefix (as odd/even nr. of negations)
+# base2dec(" 100 ", 2)   # removing leading and trailing spaces
+# +++ here now +++ 
+# base2dec("-10", 2)     # ToDo: handle negative inputs
+# base2dec(" - 100", 2)  # ToDo: isolate non-digit prefix => match 1st digit and process prefix (as odd/even nr. of negations)
 # base2dec("10.10", 2)   # ToDo: handle non-integer inputs (using some decimal delimitor)
 
 
@@ -341,7 +344,7 @@ dec2base <- function(x, base = 2){ # as_char = TRUE  # removed, as it would only
     if (val_left < 0){ 
       neg_num <- TRUE  # flag input as negative number
       val_left <- abs(val_left)
-      }  
+    }  
     
     # Main: 
     # while (val_left > 0){
