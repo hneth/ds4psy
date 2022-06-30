@@ -1,5 +1,5 @@
 ## num_fun.R | ds4psy
-## hn | uni.kn | 2022 06 29
+## hn | uni.kn | 2022 06 30
 ## ---------------------------
 
 ## Main functions for manipulating/transforming numbers or numeric symbols/digits: ------ 
@@ -8,7 +8,7 @@
 #       family of "numeric" AND "utility" functions. 
 
 
-## (0) Note utility functions for numbers and numeric symbols/digits in num_util_fun.R! ------
+## (0) Note utility functions for numbers and numeric symbols/digits in num_util_fun.R! --------
 
 # base_digits: Define base digit sequence (as global constant) ------ 
 
@@ -59,7 +59,7 @@ base_digits <- base_digit_vec
 # base_digits[["10"]]  # element named "10" ("A")
 
 
-## (1) Converting numerals from decimal notation to other base/radix values: ------ 
+## (1) Converting numerals from decimal notation to other base/radix values: -------- 
 
 # base2dec: Convert a base N numeral string (of digits) into a decimal number: ------ 
 
@@ -462,6 +462,10 @@ dec2base <- function(x, base = 2){ # as_char = TRUE  # removed, as it would only
 # dec2base(NA)
 # dec2base(1, NA)
 
+# # ToDo: Non-natural inputs:
+# dec2base(-10, 2)  # negative inputs
+# dec2base(1.5, 2)  # non-integer inputs
+
 # # With an as_char argument (removed): 
 # dec2base(1000, 50, as_char = TRUE)
 # dec2base(1000, 50, as_char = FALSE)  # re-converts into base digits
@@ -577,6 +581,110 @@ dec2base_base2dec_sim <- function(n_sim = 100,
 # length(base_digits)  # maximum base value
 # df <- dec2base_base2dec_sim(20, min_val = 0, max_val = 9999, min_base = 2, max_base = 62)
 # df
+
+
+## (3) Letter arithmetic: -------- 
+
+# Goal: Display arithmetic expressions (in any base, with options for replacing digits): 
+
+# Replacement digits (named vector, as in l33t_rul35): ------  
+digits <- 0:9
+# Replacement rules: Replace each digit by a random symbol (as named vector): 
+rdigit <- sample(LETTERS[1:length(digits)], size = length(digits), replace = FALSE)
+names(rdigit) <- digits  # (names encode position values)
+# rdigit  # is lookup table 
+
+# encrypt_arithm_expr: Compute, translate, and print an arithmetic expression: ------ 
+
+encrypt_arithm_expr <- function(x, y, op = "+", base = 10, dig_sym = NULL){
+  
+  # 1. Compute result r: 
+  switch(op, 
+         "+" = r <- x + y,
+         "-" = r <- x - y, 
+         "*" = r <- x * y,
+         "/" = r <- x / y)
+  # ToDo 1: Use function to evaluate arbitrary expressions (see Matloff).
+  
+  
+  # 2. Translate numerals into a different base (if specified): ---- 
+  if (base != 10){
+    x <- dec2base(x, base = base)
+    y <- dec2base(y, base = base)
+    r <- dec2base(r, base = base)
+  }
+  
+  
+  # 3. Get output numerals (as character strings): ---- 
+  if (!is.null(dig_sym)){
+    
+    # Translate numerals (using rules specified in dig_sym): 
+    x_2 <- transl33t(as.character(x), rules = dig_sym)
+    y_2 <- transl33t(as.character(y), rules = dig_sym) 
+    r_2 <- transl33t(as.character(r), rules = dig_sym)
+    
+  } else { # no translation of digit symbols: 
+    
+    x_2 <- as.character(x)
+    y_2 <- as.character(y)
+    r_2 <- as.character(r)
+    
+  }
+  
+  # 4. Process and print output: ---- 
+  eq <- c(x_2, op, y_2, "=", r_2)
+  names(eq) <- c(x, op, y, "=", r)
+  
+  eq_1 <- paste(eq, collapse = " ")  # collapse to string
+  # print(eq_1)
+  
+  # As multi-line (cat):
+  max_nchar <- max(nchar(c(x_2, y_2, r_2)))
+  cat_width <- max_nchar + 2
+  
+  if (nchar(y_2) == max_nchar){ # y_2 is longest numeral: 
+    op_sep <- " "
+  } else { # y_2 is not longest numeral:
+    sp_sep <- rep(" ", (max_nchar - nchar(y_2) + 1))
+    op_sep <- paste(sp_sep, collapse = "")
+  }
+  
+  dashes <- paste(rep("-", cat_width - 2), collapse = "")
+  
+  # eq_2 <- paste(c(x_2, paste(op, y_2, sep = op_sep), paste("=", r_2, sep = " ")), sep = "\n")  # with "="
+  eq_2 <- paste(c(x_2, paste(op, y_2, sep = op_sep), dashes, r_2), sep = "\n")  # without "="
+  
+  # Show formatted eq_2 (on screen):  
+  cat(format(eq_2, width = cat_width, justify = "right"), sep = "\n")
+  
+  # 5. Return: ---- 
+  return(invisible(eq))
+  
+} # encrypt_arithm_expr(). 
+
+# # Check: 
+# 
+# # Create problems: 
+# # set.seed(2468)
+# n <- sample(1:999, 2, replace = TRUE)
+# 
+# # (a) without translating base or symbols (dig_sym):
+# p_1a <- encrypt_arithm_expr(n[1], n[2], "+")
+# p_2a <- encrypt_arithm_expr(n[1], n[2], "-")
+# p_3a <- encrypt_arithm_expr(n[1], n[2], "*")
+# p_4a <- encrypt_arithm_expr(n[1], n[2], "/")
+# 
+# # (b) with translating base:
+# p_1b <- encrypt_arithm_expr(n[1], n[2], "+", base = 2)
+# p_2b <- encrypt_arithm_expr(n[1], n[2], "-", base = 2)
+# p_3b <- encrypt_arithm_expr(n[1], n[2], "*", base = 2)
+# p_4b <- encrypt_arithm_expr(n[1], n[2], "/", base = 2)
+# 
+# # (c) with translating symbols (dig_sym):
+# p_1c <- encrypt_arithm_expr(n[1], n[2], "+", dig_sym = rdigit)
+# p_2c <- encrypt_arithm_expr(n[1], n[2], "-", dig_sym = rdigit)
+# p_3c <- encrypt_arithm_expr(n[1], n[2], "*", dig_sym = rdigit)
+# p_4c <- encrypt_arithm_expr(n[1], n[2], "/", dig_sym = rdigit)
 
 
 ## Done: ----------
