@@ -103,7 +103,7 @@ base2dec <- function(x, base = 2){
   if ((len_seq == 1) && (nchar(seq) > 1)) { # seq is a multi-digit string:
     
     seq <- text_to_chars(seq)  # WAS: str2vec(seq)
-    len_seq <- length(seq)  # redo
+    len_seq <- length(seq)     # redo (for vector)
     
   } # if.
   
@@ -186,6 +186,12 @@ base2dec <- function(x, base = 2){
 # base2dec(NA)
 # base2dec(1, NA)
 # base2dec(c(1, NA, 3))
+# 
+# # ToDo: Non-natural/non-standard inputs:
+# base2dec("-10", 2)     # negative inputs
+# base2dec(" 100", 2)    # ToDo: remove leading and trailing spaces?
+# base2dec(" - 100", 2)  # ToDo: isolate non-digit prefix => find 1st digit and process prefix (as odd/even nr. of negations)
+# base2dec("10.10", 2)   # ToDo: handle non-integer inputs (using some decimal delimitor)
 
 
 # base2dec_v: A vectorized version of base2dec(): -----
@@ -309,6 +315,8 @@ dec2base <- function(x, base = 2){ # as_char = TRUE  # removed, as it would only
   # - without computing n_digits
   # - while loop
   
+  neg_num <- FALSE
+  
   if ( is.na(x) | is.na(base) ) { 
     
     out <- NA
@@ -329,6 +337,11 @@ dec2base <- function(x, base = 2){ # as_char = TRUE  # removed, as it would only
     position <- 0     # position/order (0 is rightmost/unit/base^0)
     next_units <- 88  # number of units in next higher order
     out <- NULL       # initialize output
+    
+    if (val_left < 0){ 
+      neg_num <- TRUE  # flag input as negative number
+      val_left <- abs(val_left)
+      }  
     
     # Main: 
     # while (val_left > 0){
@@ -381,6 +394,11 @@ dec2base <- function(x, base = 2){ # as_char = TRUE  # removed, as it would only
   #   out <- base2dec(out, base = base)  # Re-converts out digits into integer in decimal notation.
   # }
   
+  if (neg_num) { # input was negative number:
+    neg_pfx <- "-"  # neg_num prefix
+    out <- paste0(neg_pfx, out)  
+  }
+  
   return(out)
   
 } # dec2base(). 
@@ -413,11 +431,13 @@ dec2base <- function(x, base = 2){ # as_char = TRUE  # removed, as it would only
 # dec2base(0)
 # dec2base(NA)
 # dec2base(1, NA)
-
-# # ToDo: Non-natural inputs:
-# dec2base(-10, 2)  # negative inputs
-# dec2base(1.5, 2)  # non-integer inputs
-
+#
+# # ToDo: Handle non-natural/non-standard inputs:
+# dec2base("-10", 2)     # negative inputs
+# dec2base(" 100", 2)    # ToDo: remove leading and trailing spaces?
+# dec2base(" - 100", 2)  # ToDo: isolate non-digit prefix => find 1st digit and process prefix (as odd/even nr. of negations)
+# dec2base("10.10", 2)   # ToDo: handle non-integer inputs (using some decimal delimitor)
+#
 # # With an as_char argument (removed): 
 # dec2base(1000, 50, as_char = TRUE)
 # dec2base(1000, 50, as_char = FALSE)  # re-converts into base digits
@@ -448,10 +468,11 @@ dec2base <- function(x, base = 2){ # as_char = TRUE  # removed, as it would only
 dec2base_v <- Vectorize(dec2base)
 
 ## Check: 
-# dec2base_v(9:11, base = 2)
+# dec2base_v(-10:10, base = 2)
 # dec2base_v(10,   base = 2:5)
 # dec2base_v(9:11, base = 5:10)  # Note: Warning when x and base are not of the same length!
-dec2base_v(100, base = c(10, 20, NA, 30, 40, 50))
+# dec2base_v(100, base = c(10, 20, NA, 30, 40, 50))
+
 
 # dec2base_r: Recursive version of dec2base(): -----
 
@@ -539,12 +560,14 @@ dec2base_base2dec_sim <- function(n_sim = 100,
 
 # Goal: Display arithmetic expressions (in any base, with options for replacing digits): 
 
+
 # Replacement digits (named vector, as in l33t_rul35): ------  
 digits <- 0:9
 # Replacement rules: Replace each digit by a random symbol (as named vector): 
 rdigit <- sample(LETTERS[1:length(digits)], size = length(digits), replace = FALSE)
 names(rdigit) <- digits  # (names encode position values)
 # rdigit  # is lookup table 
+
 
 # encrypt_arithm_expr: Compute, translate, and print an arithmetic expression: ------ 
 
@@ -641,10 +664,16 @@ encrypt_arithm_expr <- function(x, y, op = "+", base = 10, dig_sym = NULL){
 
 ## Done: ----------
 
-# - Create vectorized versions of base2dec() and dec2base().
+# - Handle negative inputs in dec2base().
+
 
 ## ToDo: ------
 
-# - Create recursive versions of base2dec() and dec2base().
+# - Treat spaces as zeros in base2dec 
+# - Handle negative inputs (and space prefixes) in base2dec().
+# - Handle non-integer/decimal inputs in base2dec() and dec2base()?
+# - Create vectorized versions of base2dec() and dec2base() as defaults.
+# - Create recursive versions of base2dec() and dec2base()? 
+
 
 ## eof. ----------
