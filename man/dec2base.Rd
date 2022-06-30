@@ -52,6 +52,13 @@ dec2base(47, base = 16)
 # (b) single string input:
 dec2base("7", base = 2)
 dec2base("8", base = 3)
+ 
+# Non-standard inputs:
+dec2base("  ")          # treat spaces as NA
+dec2base(" 10 ", 2)     # remove leading and trailing spaces
+dec2base("-10", 2)      # handle negative inputs (in character strings)
+dec2base(" -- 10", 2)   # handle multiple negations
+dec2base("abc 10 ", 2)  # ignore non-decimal digit prefixes
 
 # Note: 
 base2dec(dec2base(012340, base =  9), base =  9)
