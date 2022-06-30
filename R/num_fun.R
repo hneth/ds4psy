@@ -63,11 +63,13 @@
 #' base2dec(c(1, 1), base = 3)
 #' 
 #' # Non-standard inputs:
-#' base2dec("  100  ", 2)  # remove leading and trailing spaces
-#' base2dec("-100", 2)     # handle negative inputs (value < 0)
-#' base2dec("- -100", 2)   # handle double negations
-#' base2dec("---100", 2)   # handle multiple negations
-#'  
+#' base2dec("  ", 2)      # no non-spaces: NA
+#' base2dec(" ?! ", 2)    # no base digits: NA
+#' base2dec(" 100  ", 2)  # remove leading and trailing spaces
+#' base2dec("-  100", 2)  # handle negative inputs (value < 0)
+#' base2dec("- -100", 2)  # handle double negations
+#' base2dec("---100", 2)  # handle multiple negations
+#'   
 #' # Special cases:
 #' base2dec(NA)
 #' base2dec(0)
@@ -88,22 +90,25 @@
 
 base2dec <- function(x, base = 2){
   
-  # Process inputs:
+  # Process inputs: ---- 
   base <- as.numeric(base)
-  seq  <- as.character(x)  # seq is of type character (numerals, not values)!
-  seq  <- trimws(seq, which = "both", whitespace = "[ \t\r\n]")  # remove leading and trailing spaces 
   
-  # Initialize: 
-  out_val <- 0  # output value (in decimal notation) 
+  x0  <- as.character(x)  # seq is of type character (numerals, not values)!
+  x1  <- trimws(x0, which = "both", whitespace = "[ \t\r\n]")  # remove leading and trailing spaces
+  if (all(x1 == "")) { message("dec2base: No non-space input!"); return(NA) }
+  
+  # Initialize: ---- 
+  seq <- x1 
   len_seq <- length(seq)
-  max_base <- length(base_digits)  # maximum base value 
   
   neg_pfx <- "-"    # negation prefix/symbol   
   neg_num <- FALSE  # initialize default
   
-  # Catch special cases:
+  # Catch special cases: ---- 
   if (any(is.na(seq)) | is.na(base)) { return(NA) }
   if ((len_seq == 1) && (seq == "0")){ return(0)  }  
+  
+  max_base <- length(base_digits)  # maximum base value 
   
   if ((base < 2) | (base > max_base) | (base %% 1 != 0)) { 
     message(paste0("base2dec: base must be an integer in 2:", max_base, ".")) 
@@ -112,7 +117,7 @@ base2dec <- function(x, base = 2){
     cur_base_digits <- base_digits[1:base]  # base_digits in current base range
   }
   
-  # Prepare: Convert a string seq into a character vector (of individual digits):
+  # Prepare: Convert a string seq into a character vector (of individual digits): ---- 
   if ((len_seq == 1) && (nchar(seq) > 1)) { # seq is a multi-digit string:
     
     seq <- text_to_chars(seq)  # update seq
@@ -122,11 +127,16 @@ base2dec <- function(x, base = 2){
   
   # print(seq)  # 4debugging
   
+  # Identify and remove prefix characters (if present) and flag an odd number of negations: ---- 
+  first_matches <- match(x = cur_base_digits, table = seq)  # first matches of permissible digit in seq
   
-  # Identify and remove prefix characters (if present) and flag an odd number of negations:
-  ix_digit_1 <- min(match(x = cur_base_digits, table = seq), na.rm = TRUE)  # position of 1st permissible digit in seq 
+  if (!all(is.na(first_matches))){
+    ix_digit_1 <- min(first_matches, na.rm = TRUE)  # position of 1st of cur_base_digits in seq 
+  } else { # no digit matches in seq: 
+    message(paste0("base2dec: No base ", base, " digits in input!")); return(NA)
+  }
   
-  if (ix_digit_1 > 1){  # a prefix exists:
+  if (ix_digit_1 > 1){ # a prefix exists:
     
     prefix <- seq[1:(ix_digit_1 - 1)]  # isolate prefix (as vector)
     # print(paste0("prefix = ", prefix))  # 4debugging
@@ -138,11 +148,11 @@ base2dec <- function(x, base = 2){
     sum_neg <- sum(prefix == neg_pfx)  # sum of negation prefixes/symbols
     if (sum_neg %% 2 == 1){ neg_num  <- TRUE }  # flag negation
     
-  } # if.
+  } # if (ix_digit_1).
   
   # print(seq)  # 4debugging
   
-  # Ensure that seq only contains permissible base_digits:
+  # Ensure that seq only contains permissible base_digits: ---- 
   seq_in_base_digits <- seq %in% cur_base_digits  # check (logical vector)
   
   if (!all(seq_in_base_digits)){
@@ -153,7 +163,8 @@ base2dec <- function(x, base = 2){
     
   } # if. 
   
-  # Main:
+  # Main: ---- 
+  out_val <- 0  # output value (in decimal notation) 
   rev_seq <- rev(seq)  # move from rightmost to leftmost digit
   
   for (i in 1:len_seq){ # loop to expand polynomial of digits: 
@@ -171,7 +182,7 @@ base2dec <- function(x, base = 2){
     
   } # for.
   
-  # Process output:
+  # Process output: ---- 
   out_val <- as.integer(out_val)  # integer value (in decimal notation)
   
   if (neg_num) { out_val <- -1L * out_val }  # negate out_val 
@@ -299,11 +310,12 @@ base2dec_v <- Vectorize(base2dec)
 #' dec2base("8", base = 3)
 #'  
 #' # Non-standard inputs:
-#' dec2base("  ")          # treat spaces as NA
+#' dec2base("  ")          # only spaces: NA
+#' dec2base("?")           # no decimal digits: NA
 #' dec2base(" 10 ", 2)     # remove leading and trailing spaces
 #' dec2base("-10", 2)      # handle negative inputs (in character strings)
 #' dec2base(" -- 10", 2)   # handle multiple negations
-#' dec2base("abc 10 ", 2)  # ignore non-decimal digit prefixes
+#' dec2base("xy -10 ", 2)  # ignore non-decimal digit prefixes
 #' 
 #' # Note: 
 #' base2dec(dec2base(012340, base =  9), base =  9)
@@ -368,50 +380,66 @@ dec2base <- function(x, base = 2){ # as_char = TRUE  # removed, as it would only
     
   } else {
     
-    # Process inputs: 
+    # Process inputs: ---- 
     base     <- as.numeric(base)
     max_base <- length(base_digits)  # maximum base value 
     
     if ((base < 2) | (base > max_base) | (base %% 1 != 0)) { 
+      
       message(paste0("dec2base: base must be an integer in 2:", max_base, ".")) 
       return(NA)
-    } else { # determine range of permissible input digits/decimal digits: 
-      decimal_digits <- base_digits[1:10]  # permissible base_digits in decimal range (base = 10)
-    }
-    
-    if (is.character(x)){ # process string inputs (spaces, prefixes, negations): 
       
-      x <- trimws(x, which = "both", whitespace = "[ \t\r\n]")  # remove leading and trailing spaces
-      if (x == "") { return(NA) }
+    } else { # determine range of permissible input digits/decimal digits: 
+      
+      decimal_digits <- base_digits[1:10]  # permissible base_digits in decimal range (base = 10)
+      
+    } # if base. 
+    
+    
+    if (is.character(x)){ # Pre-process string inputs (spaces, prefixes, negations): ---- 
+      
+      x1 <- trimws(x, which = "both", whitespace = "[ \t\r\n]")  # remove leading and trailing spaces
+      if (x1 == "") { message("dec2base: No non-space input!"); return(NA) }
       
       # Analyze seq (as vector) and flag an odd number of negations:
-      seq <- text_to_chars(x)       # as vector
+      seq <- text_to_chars(x1)        # as vector
       # print(paste0("seq = ", seq))  # 4debugging
       
       # Identify and remove prefix characters (if present) and flag an odd number of negations:
-      ix_decimal_1 <- min(match(x = decimal_digits, table = seq), na.rm = TRUE)  # position of 1st decimal digit in seq 
+      first_matches <- match(x = decimal_digits, table = seq)  # all positions of 1st matches
+      
+      if (!all(is.na(first_matches))){
+        ix_decimal_1 <- min(first_matches, na.rm = TRUE)  # position of 1st decimal digit in seq 
+      } else { # no digit matches in seq: 
+        message("dec2base: No decimal digits in input!"); return(NA)
+      }
       # print(paste0("ix_decimal_1 = ", ix_decimal_1))  # 4debugging
       
-      if (ix_decimal_1 > 1){  # a prefix exists:
+      if (ix_decimal_1 > 1){ # a prefix exists:
         
         prefix <- seq[1:(ix_decimal_1 - 1)]  # isolate prefix (as vector)
         # print(paste0("prefix = ", prefix))  # 4debugging
         
         seq <- seq[ix_decimal_1:length(seq)]  # update seq
-        x   <- chars_to_text(seq)  # update x (as 1 string)
+        x1   <- chars_to_text(seq)  # update x (as 1 string)
         
         # Flag odd number of negations:
         sum_neg <- sum(prefix == neg_pfx)  # sum of negation prefixes/symbols
         if (sum_neg %% 2 == 1){ neg_num  <- TRUE }  # flag negation
         
-      } # if.
+      } # if (ix_decimal_1).
       
-    } # if (is.character(x)).
+      val_left <- as.numeric(x1)  # read x1 as the numeric value left (in decimal notation)
+      
+    } else { # x is no string:
+      
+      val_left <- as.numeric(x)
+      
+    }  # if (is.character(x)).
     
-    val_left <- as.numeric(x)  # Re-interpret x as numeric value left (in decimal notation)
     
-    # Prepare: 
-    position <- 0     # position/order (0 is rightmost/unit/base^0)
+    # Prepare: ---- 
+    position   <- 0   # position/order (0 is rightmost/unit/base^0)
     next_units <- 88  # number of units in next higher order
     out <- NULL       # initialize output
     
@@ -420,7 +448,7 @@ dec2base <- function(x, base = 2){ # as_char = TRUE  # removed, as it would only
       val_left <- abs(val_left)
     }  
     
-    # Main: 
+    # Main: ---- 
     # while (val_left > 0){
     while (next_units > 0){
       
@@ -465,7 +493,7 @@ dec2base <- function(x, base = 2){ # as_char = TRUE  # removed, as it would only
     } # while. 
   } # else.
   
-  # # Process output:
+  # # Process output: ---- 
   # if (!as_char){
   #   # out <- as.integer(out)  # Note: May cause problems with scientific notation!
   #   out <- base2dec(out, base = base)  # Re-converts out digits into integer in decimal notation.
@@ -507,11 +535,12 @@ dec2base <- function(x, base = 2){ # as_char = TRUE  # removed, as it would only
 # dec2base(1, NA)
 #
 # # Handle non-natural/non-standard inputs:
-# dec2base("  ")          # treat spaces as NA
+# dec2base("  ")          # no non-spaces: NA
+# dec2base("?")           # no decimal digits: NA
 # dec2base(" 10 ", 2)     # remove leading and trailing spaces
 # dec2base("-10", 2)      # handle negative inputs (in character strings)
 # dec2base("- - 10", 2)   # handle multiple negations
-# dec2base("abc 10 ", 2)  # ignore non-decimal prefixes
+# dec2base("xy -10 ", 2)  # ignore non-decimal prefixes
 #
 # +++ here now +++: 
 # dec2base("10.10", 2)    # ToDo: handle non-integer inputs (using some decimal delimiter)
