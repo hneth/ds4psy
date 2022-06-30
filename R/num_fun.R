@@ -196,7 +196,7 @@ base2dec <- function(x, base = 2){
 
 # base2dec_v: A vectorized version of base2dec(): -----
 
-# Note a problem with
+# Note the limitation of 
 # base2dec(c(1, 2, 3), base = 10)
 # => Vector for x is collapsed into sequence: Only 1 result returned.
 
@@ -433,10 +433,11 @@ dec2base <- function(x, base = 2){ # as_char = TRUE  # removed, as it would only
 # dec2base(1, NA)
 #
 # # ToDo: Handle non-natural/non-standard inputs:
-# dec2base("-10", 2)     # negative inputs
-# dec2base(" 100", 2)    # ToDo: remove leading and trailing spaces?
-# dec2base(" - 100", 2)  # ToDo: isolate non-digit prefix => find 1st digit and process prefix (as odd/even nr. of negations)
-# dec2base("10.10", 2)   # ToDo: handle non-integer inputs (using some decimal delimitor)
+# dec2base("-10", 2)      # negative inputs
+# dec2base("  ")          # ToDo: treat spaces as zero?
+# dec2base(" 100 ", 2)    # ToDo: remove leading and trailing spaces?
+# dec2base(" - 100 ", 2)  # ToDo: isolate non-digit prefix => find 1st digit and process prefix (as odd/even nr. of negations)
+# dec2base("10.10", 2)    # ToDo: handle non-integer inputs (using some decimal delimitor)
 #
 # # With an as_char argument (removed): 
 # dec2base(1000, 50, as_char = TRUE)
@@ -454,9 +455,9 @@ dec2base <- function(x, base = 2){ # as_char = TRUE  # removed, as it would only
 # as outputs for any base/radix other than 10 do NOT denote decimal numbers.)
 
 
-# dec2base_v: Vectorized version of dec2base(): -----
+# dec2base_v: Vectorized version of dec2base(): ------ 
 
-# Note a problem with
+# Note the limitation of 
 # dec2base(c(9, 10, 11), base = 2)
 # => Result is ok, but messages due to tests on atomic vectors.
 
