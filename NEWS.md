@@ -32,7 +32,7 @@ The book and course [Data Science for Psychologists](https://bookdown.org/hneth/
 <!-- Development version: --> 
 
 The current development version of **ds4psy** is hosted at <https://github.com/hneth/ds4psy/> 
-and adds functionality and fixes some bugs. [2022-06-26]
+and adds functionality and fixes some bugs. [2022-07-01]
 
 <!-- Log of changes: --> 
 
@@ -40,9 +40,9 @@ Changes since last release:
 
 ## Major changes 
 
+- add `base2dec()` and `dec2base()` functions for converting numerals into non-decimal notations, and back. 
 - add `chars_to_text()` and `text_to_chars()` functions for converting character vectors into text, and back. 
-- add `base2dec()` and `dec2base()` functions for converting numerals from/to non-decimal notations. 
-
+ 
 ## Minor changes 
 
 - add `collapse_chars()` as a wrapper around `paste()` with a `collapse` argument. 
@@ -382,6 +382,6 @@ The initial functionality is limited, as the package is designed to support the 
 
 ---------- 
 
-[File `NEWS.md` updated on 2022-06-28.]
+[File `NEWS.md` updated on 2022-07-01.]
 
 <!-- eof. -->
