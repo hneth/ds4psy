@@ -1,5 +1,5 @@
 ## num_fun.R | ds4psy
-## hn | uni.kn | 2022 06 30
+## hn | uni.kn | 2022 07 07
 ## ---------------------------
 
 ## Main functions for manipulating/transforming numbers or numeric symbols/digits: ------ 
