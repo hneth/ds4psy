@@ -1,5 +1,5 @@
 ## num_fun.R | ds4psy
-## hn | uni.kn | 2022 07 07
+## hn | uni.kn | 2022 07 12
 ## ---------------------------
 
 ## Main functions for manipulating/transforming numbers or numeric symbols/digits: ------ 
@@ -62,6 +62,12 @@
 #' base2dec(c(1, 1))
 #' base2dec(c(1, 1), base = 3)
 #' 
+#' # Extreme values:
+#' base2dec(rep("1", 32))          # 32 x "1"
+#' base2dec(c("1", rep("0", 32)))  # 2^32
+#' base2dec(rep("1", 33))          # 33 x "1"
+#' base2dec(c("1", rep("0", 33)))  # 2^33
+#'  
 #' # Non-standard inputs:
 #' base2dec("  ", 2)      # no non-spaces: NA
 #' base2dec(" ?! ", 2)    # no base digits: NA
@@ -69,7 +75,7 @@
 #' base2dec("-  100", 2)  # handle negative inputs (value < 0)
 #' base2dec("- -100", 2)  # handle double negations
 #' base2dec("---100", 2)  # handle multiple negations
-#'   
+#'
 #' # Special cases:
 #' base2dec(NA)
 #' base2dec(0)
@@ -94,8 +100,10 @@ base2dec <- function(x, base = 2){
   base <- as.numeric(base)
   
   # Initialize: ---- 
-  seq <- as.character(x)  # seq is of type character (numerals, not values)!
+  seq <- as.character(x)  # seq should be of type character (numerals, not values)!
   len_seq <- length(seq)
+  
+  # print(seq)
   
   neg_pfx <- "-"    # negation prefix/symbol   
   neg_num <- FALSE  # initialize default
@@ -183,8 +191,11 @@ base2dec <- function(x, base = 2){
     
   } # for.
   
-  # Process output: ---- 
-  out_val <- as.integer(out_val)  # integer value (in decimal notation)
+  # Process output: ----
+  
+  if (out_val < (2^32 - 1)){ # R uses 32-bit integers:
+    out_val <- as.integer(out_val)  # integer value (in decimal notation)
+  }
   
   if (neg_num) { out_val <- -1L * out_val }  # negate out_val 
   
@@ -309,7 +320,13 @@ base2dec_v <- Vectorize(base2dec)
 #' # (b) single string input:
 #' dec2base("7", base = 2)
 #' dec2base("8", base = 3)
-#'  
+#'
+#' # Extreme values:
+#' dec2base(base2dec(rep("1", 32)))          # 32 x "1"
+#' dec2base(base2dec(c("1", rep("0", 32))))  # 2^32
+#' dec2base(base2dec(rep("1", 33)))          # 33 x "1"
+#' dec2base(base2dec(c("1", rep("0", 33))))  # 2^33
+#' 
 #' # Non-standard inputs:
 #' dec2base("  ")          # only spaces: NA
 #' dec2base("?")           # no decimal digits: NA
