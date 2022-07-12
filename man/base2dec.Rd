@@ -55,6 +55,12 @@ base2dec(c("0", "1", "0"), base = 3)
 base2dec(c(1, 1))
 base2dec(c(1, 1), base = 3)
 
+# Extreme values:
+base2dec(rep("1", 32))          # 32 x "1"
+base2dec(c("1", rep("0", 32)))  # 2^32
+base2dec(rep("1", 33))          # 33 x "1"
+base2dec(c("1", rep("0", 33)))  # 2^33
+ 
 # Non-standard inputs:
 base2dec("  ", 2)      # no non-spaces: NA
 base2dec(" ?! ", 2)    # no base digits: NA
@@ -62,7 +68,7 @@ base2dec(" 100  ", 2)  # remove leading and trailing spaces
 base2dec("-  100", 2)  # handle negative inputs (value < 0)
 base2dec("- -100", 2)  # handle double negations
 base2dec("---100", 2)  # handle multiple negations
-  
+
 # Special cases:
 base2dec(NA)
 base2dec(0)

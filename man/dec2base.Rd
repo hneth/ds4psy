@@ -52,7 +52,13 @@ dec2base(47, base = 16)
 # (b) single string input:
 dec2base("7", base = 2)
 dec2base("8", base = 3)
- 
+
+# Extreme values:
+dec2base(base2dec(rep("1", 32)))          # 32 x "1"
+dec2base(base2dec(c("1", rep("0", 32))))  # 2^32
+dec2base(base2dec(rep("1", 33)))          # 33 x "1"
+dec2base(base2dec(c("1", rep("0", 33))))  # 2^33
+
 # Non-standard inputs:
 dec2base("  ")          # only spaces: NA
 dec2base("?")           # no decimal digits: NA
