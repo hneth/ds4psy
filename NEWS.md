@@ -3,8 +3,10 @@
 
 <!-- Description: --> 
 
-All datasets and functions required for the examples and exercises of the book "Data Science for Psychologists" (by Hansjoerg Neth, Konstanz University, 2022), available at <https://bookdown.org/hneth/ds4psy/>. The book and course introduce principles and methods of data science to students of psychology and other biological or social sciences. 
-The 'ds4psy' package primarily provides datasets, but also functions for data generation and manipulation (e.g., of text and time data) and graphics that are used in the book and its exercises. All functions included in 'ds4psy' are designed to be explicit and instructive, rather than efficient or elegant. 
+All datasets and functions required for the examples and exercises of the book [Data Science for Psychologists](https://bookdown.org/hneth/ds4psy/) (by Hansjoerg Neth, Konstanz University, 2022), available at <https://bookdown.org/hneth/ds4psy/>. 
+The book and course introduce principles and methods of data science to students of psychology and other biological or social sciences. 
+The R package **ds4psy** primarily provides datasets, but also functions for data generation and manipulation (e.g., of text and time data) and graphics that are used in the book and its exercises. 
+All functions included in **ds4psy** are designed to be explicit and instructive, rather than efficient or elegant. 
 
 
 ### Overview {-}
@@ -16,7 +18,6 @@ The book and course [Data Science for Psychologists](https://bookdown.org/hneth/
 - The textbook **Data Science for Psychologists** is hosted at <https://bookdown.org/hneth/ds4psy/>. 
 - The most recent release of **ds4psy** (0.8.0) is available on CRAN: <https://CRAN.R-project.org/package=ds4psy>.
 - The current development version of **ds4psy** (0.8.0.9001+) is hosted at <https://github.com/hneth/ds4psy/>. 
-
 
 <!-- Current version:  --> 
 
@@ -32,11 +33,11 @@ The book and course [Data Science for Psychologists](https://bookdown.org/hneth/
 <!-- Development version: --> 
 
 The current development version of **ds4psy** is hosted at <https://github.com/hneth/ds4psy/> 
-and adds functionality and fixes some bugs. [2022-07-31]
+and adds functionality and fixes some bugs. 
 
 <!-- Log of changes: --> 
 
-Changes since last release: 
+**Changes** since last release: 
 
 ## Major changes 
 
@@ -52,12 +53,13 @@ Changes since last release:
 
 - fix minor bugs. 
 
+<!-- Blank line. --> 
 
 ## ToDo
 
 Changes to be implemented prior to the next release:
 
-- Split the mixed functionality of `plot_text()` into 2 functions:  
+- split the mixed functionality of `plot_text()` into 2 functions:  
 
     1. Combine `count_chars_words()` with `map_text_coord()` or `map_text_regex()` 
     to create a df with 2 color vectors (fg/bg) based on `char_freq` and/or `word_freq`. 
@@ -68,6 +70,7 @@ Changes to be implemented prior to the next release:
 <!-- Note:  --> 
 
 The current development version of **ds4psy** is hosted at <https://github.com/hneth/ds4psy/>. 
+
 
 <!-- Previous CRAN releases:  --> 
 
@@ -82,7 +85,7 @@ adds functionality, increases modularity, and fixes some bugs. [2022-04-08]
 
 <!-- Log of changes: --> 
 
-Changes since last release: 
+**Changes** since last release: 
 
 ## Major changes 
 
@@ -90,12 +93,14 @@ Changes since last release:
 - add a `words_to_text()` function as the inverse of `text_to_words()`. 
 - add a `zodiac()` function (with multiple outputs formats and options for redefining date boundaries). 
 
+<!-- Blank line. --> 
 
 ## Minor changes 
 
 - add `table9` as a variant of `tidyr::table2` as a 3-dimensional array (xtabs). 
 - improved `capitalize()` to also work for character vectors (i.e., setting the case of each element to upper- or lowercase). 
 
+<!-- Blank line. --> 
 
 ## Details 
 
@@ -112,7 +117,7 @@ adds functionality, increases modularity, and fixes a bug in text data. [2021-05
 
 <!-- Log of changes: --> 
 
-Changes since last release: 
+**Changes** since last release: 
 
 ## Major changes 
 
@@ -121,14 +126,14 @@ Changes since last release:
     1. A new `read_ascii()` version reads text (from file or user input) into a character string;  
     2. A new `map_text_coord()` function converts a text string into a table of individual characters (with x/y-coordinates).  
 
-<!-- Add blank line. --> 
+<!-- Blank line. --> 
 
 - Added `plot_chars()` for plotting characters of text and visualizing pattern matches (specified as regular expressions) by highlighting labels (color/angle) or background tiles (color). The function uses 2\ auxiliary functions: 
 
     1. `map_text_regex()` adds pattern matching options (for colors and angles) to `map_text_coord()`.  
     2. `plot_charmap()` plots character maps as text and tile plots (with aesthetics for labels and tiles).  
 
-<!-- Add blank line. --> 
+<!-- Blank line. --> 
 
 - Added `count_chars_words()` for counting the frequency of both characters and words in text strings.  
 
@@ -163,18 +168,20 @@ adds functionality, updates data, and reduces dependencies. [2021-04-08]
 
 <!-- Log of changes: --> 
 
-Changes since last release: 
+**Changes** since last release: 
 
 ## Major changes 
 
 - add `is_vector()` to check for vectors (i.e., atomic vectors or lists)
 - add `get_set()` for motivating visualizations 
 
+<!-- Blank line. --> 
 
 ## Minor changes 
 
 - update data in `fame` and `Trumpisms` 
 
+<!-- Blank line. --> 
 
 ## Details 
 
@@ -190,7 +197,7 @@ Changes since last release:
 Release of **ds4psy** (0.5.0) [on CRAN](https://CRAN.R-project.org/package=ds4psy) 
 adds and revises functionality, updates data, and fixes bugs. [2020-09-01] 
 
-Changes since last release:
+**Changes** since last release:
 
 ## Major changes 
 
@@ -200,11 +207,13 @@ Changes since last release:
     - add `diff_times()` to compute temporal differences between times (in human time units of years, ..., and seconds) 
     - add `diff_tz()` to compute time difference based on time zone differences  
     - add `days_in_month()` to obtain number of days in months for given dates (accounting for leap years)  
-
-<!-- Add blank line.  --> 
+    
+<!-- Blank line. --> 
 
 - add `is_equal()` and `num_equal()` to check pairwise (near) equality of vectors  
 - add `theme_clean()` as an alternative to `theme_ds4psy()`  
+
+<!-- Blank line. --> 
 
 ## Minor changes 
 
@@ -213,7 +222,8 @@ Changes since last release:
 - revise `theme_ds4psy()` to provide control over colors of backgrounds, lines, and text elements 
 - update `fame` data  
 
-<!-- Add blank line.  --> 
+<!-- Blank line. --> 
+
 
 ## Details 
 
@@ -230,7 +240,7 @@ Changes since last release:
 Release of **ds4psy** (0.4.0) [on CRAN](https://CRAN.R-project.org/package=ds4psy) 
 adds new functionality and fixes minor bugs. [2020-07-06] 
 
-Changes since last release:
+**Changes** since last release:
 
 ## Major changes 
 
@@ -240,7 +250,7 @@ Changes since last release:
     - add time zone support to various functions.
     - add datasets with date and time variables. 
 
-<!-- Add blank line.  --> 
+<!-- Blank line. --> 
 
 ## Minor changes 
 
@@ -251,6 +261,8 @@ Changes since last release:
 - `what_date()` and `what_time()` gain support for adding time zones `tz` (but no active conversion).  
 - `sample_time()`: Switch default to sampling "POSIXct" objects (making "POSIXlt" optional) and allow specifying time zones `tz`.   
 - All date and time functions based primarily on dates (`cur_date()`, `what_date()`, etc.) now use `Sys.Date()` (i.e., an object of class "Date") rather than `Sys.time()` (i.e., a "POSIXct" calendar time) as default.  
+
+<!-- Blank line. --> 
 
 ## Details 
 
@@ -267,12 +279,13 @@ Changes since last release:
 Release of **ds4psy** (0.3.0) [on CRAN](https://CRAN.R-project.org/package=ds4psy) 
 adds new functionality (e.g., support for processing text data, new datasets, and functions). [2020-06-15] 
 
-Changes since last release:
+**Changes** since last release:
 
 ## Major changes 
 
 - add functions and datasets for string manipulation and text processing
 
+<!-- Blank line. --> 
 
 ## Minor changes 
 
@@ -285,6 +298,7 @@ Changes since last release:
 - add datasets of `Bushisms` and `Trumpisms` (as character vectors)  
 - add `sample_char()` function
 
+<!-- Blank line. --> 
 
 ## Details 
 
@@ -303,12 +317,11 @@ Changes since last release:
 Release of **ds4psy** (0.2.1) [on CRAN](https://CRAN.R-project.org/package=ds4psy) 
 is a **maintenance release** (to remove some dependencies, fix bugs on CRAN platforms, and add some datasets). [2020-05-06] 
 
-Changes since last release:
+**Changes** since last release:
 
 ## Major changes 
 
-- remove dependencies on the `here` and `tibble` packages 
-  (and remove these packages from declared Imports). 
+- remove dependencies on the **here** and **tibble** packages (and remove these packages from declared Imports). 
 
 ## Minor changes
 
@@ -333,7 +346,7 @@ Changes since last release:
 
 Release of **ds4psy** (0.2.0) [on CRAN](https://CRAN.R-project.org/package=ds4psy) adds functionality and fixes some bugs. [2020-04-20] 
 
-Changes since last release:
+**Changes** since last release:
 
 ## Major changes 
 
@@ -369,19 +382,20 @@ Changes involving new functionality include:
 
 Initial release of **ds4psy** (0.1.0) [on CRAN](https://CRAN.R-project.org/package=ds4psy). [2019-08-10] 
 
-## Contents 
+**Contents** in this release: 
 
 The initial functionality is limited, as the package is designed to support the emerging [ds4psy book](https://bookdown.org/hneth/ds4psy/): 
 
-- re-structure book code (from examples and exercises) as a package
+- provide book code (from examples and exercises) as a package
 - provide all data sets currently used in the book (with documentation and references)
 - provide an initial color scheme and plotting theme
 - add plotting functions (e.g., of book graphics) for function exploration purposes 
+
 
 <!-- Footer: --> 
 
 ---------- 
 
-[File `NEWS.md` updated on 2022-07-31.]
+[File `NEWS.md` updated on 2022-08-17.]
 
 <!-- eof. -->
