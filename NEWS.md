@@ -321,7 +321,7 @@ is a **maintenance release** (to remove some dependencies, fix bugs on CRAN plat
 
 ## Major changes 
 
-- remove dependencies on the **here** and **tibble** packages (and remove these packages from declared Imports). 
+- remove dependencies on the **here** and **tibble** packages (and remove from declared Imports). 
 
 ## Minor changes
 
