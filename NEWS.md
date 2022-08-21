@@ -23,7 +23,7 @@ The book and course [Data Science for Psychologists](https://bookdown.org/hneth/
 
 -------- 
 
-# ds4psy 0.8.0.9001+
+# ds4psy 0.8.0.9013
 
 <!-- Release version: --> 
 
@@ -396,6 +396,6 @@ The initial functionality is limited, as the package is designed to support the 
 
 ---------- 
 
-[File `NEWS.md` updated on 2022-08-17.]
+[File `NEWS.md` updated on 2022-08-21.]
 
 <!-- eof. -->
