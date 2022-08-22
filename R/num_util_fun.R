@@ -1,5 +1,5 @@
 ## num_util_fun.R | ds4psy
-## hn | uni.kn | 2022 06 30
+## hn | uni.kn | 2022 08 22
 ## ---------------------------
 
 ## (0) Utility functions for manipulating/transforming numbers or numeric symbols/digits: ------ 
@@ -594,7 +594,7 @@ num_as_ordinal <- function(x, sep = ""){
 
 base_digit_vec        <- c(0:9, LETTERS[1:6])      # max_base value: 16
 base_digit_vec        <- c(0:9, LETTERS, letters)  # max_base value: 62
-names(base_digit_vec) <- 0:(length(base_digit_vec) - 1)  # zero-indexed names
+names(base_digit_vec) <- 0:(length(base_digit_vec) - 1)  # zero-indexed numeric names
 
 #' Base digits: Sequence of numeric symbols (as named vector)
 #' 
