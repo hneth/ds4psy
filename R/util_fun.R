@@ -111,7 +111,7 @@ is_vect <- function(x) {
 
 # vrep: A vectorized version of rep(): ------
 
-vrep <- Vectorize(rep.int, "times")
+vrep <- Vectorize(rep.int, "times") # vrep().
 
 ## Check:
 # vrep(x = 1,   times = 1:3)
@@ -187,7 +187,7 @@ align_vec <- function(v_mod, v_fix){
   
   return(v_out)
   
-} # align_vec() end.
+} # align_vec().
 
 # ## Check:
 # align_vec(LETTERS[1:4], 1:4)  # same length
@@ -233,7 +233,7 @@ align_vec_pair <- function(v1, v2){
   
   return(lo)
   
-} # align_vec_pair() end. 
+} # align_vec_pair(). 
 
 # ## Check:
 # align_vec_pair(1:5, LETTERS[1:5])  # same length
@@ -258,7 +258,7 @@ get_name <- function(x){
   
   return(nm)
   
-} # get_name
+} # get_name().
 
 # # Check:
 # nv <- 1:10
