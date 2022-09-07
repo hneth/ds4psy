@@ -3,6 +3,7 @@
 ^\.Rproj\.user$
 ^index\.html$
 ^index\.Rmd$
+^NEWS\.html$
 ^README\.Rmd$
 ^_art$
 ^_essentials$
