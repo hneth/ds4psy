@@ -16,9 +16,6 @@ plot_chars(
   lbl_tiles = TRUE,
   angle_fg = c(-90, 90),
   angle_bg = 0,
-  cex = 3,
-  fontface = 1,
-  family = "sans",
   col_lbl = "black",
   col_lbl_hi = pal_ds4psy[[1]],
   col_lbl_lo = pal_ds4psy[[9]],
@@ -26,6 +23,10 @@ plot_chars(
   col_bg_hi = pal_ds4psy[[4]],
   col_bg_lo = "white",
   col_sample = FALSE,
+  rseed = NA,
+  cex = 3,
+  fontface = 1,
+  family = "sans",
   borders = FALSE,
   border_col = "white",
   border_size = 0.5
@@ -79,16 +80,6 @@ Default: \code{angle_bg = 0} (i.e., no rotation).
 If \code{length(angle_bg) > 1}, a random value 
 in uniform \code{range(angle_bg)} is used for every character.}
 
-\item{cex}{Character size (numeric). 
-Default: \code{cex = 3}.}
-
-\item{fontface}{Font face of text labels (numeric). 
-Default: \code{fontface = 1}, (from 1 to 4).}
-
-\item{family}{Font family of text labels (name).
-Default: \code{family = "sans"}. 
-Alternative options: "sans", "serif", or "mono".}
-
 \item{col_lbl}{Default color of text labels.
 Default: \code{col_lbl = "black"}.}
 
@@ -109,6 +100,19 @@ Default: \code{col_bg_lo = "white"}.}
 
 \item{col_sample}{Boolean: Sample color vectors (within category)?
 Default: \code{col_sample = FALSE}.}
+
+\item{rseed}{Random seed (number).
+Default: \code{rseed = NA} (using random seed).}
+
+\item{cex}{Character size (numeric). 
+Default: \code{cex = 3}.}
+
+\item{fontface}{Font face of text labels (numeric). 
+Default: \code{fontface = 1}, (from 1 to 4).}
+
+\item{family}{Font family of text labels (name).
+Default: \code{family = "sans"}. 
+Alternative options: "sans", "serif", or "mono".}
 
 \item{borders}{Boolean: Add borders to tiles? 
 Default: \code{borders = FALSE} (i.e., no borders).}

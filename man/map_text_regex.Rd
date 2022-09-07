@@ -21,6 +21,7 @@ map_text_regex(
   col_bg_hi = pal_ds4psy[[4]],
   col_bg_lo = "white",
   col_sample = FALSE,
+  rseed = NA,
   angle_fg = c(-90, 90),
   angle_bg = 0
 )
@@ -83,6 +84,9 @@ Default: \code{col_bg_lo = "white"}.}
 
 \item{col_sample}{Boolean: Sample color vectors (within category)?
 Default: \code{col_sample = FALSE}.}
+
+\item{rseed}{Random seed (number).
+Default: \code{rseed = NA} (using random seed).}
 
 \item{angle_fg}{Angle(s) for rotating character labels 
 matching the pattern of the \code{lbl_rotate} expression. 
