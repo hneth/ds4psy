@@ -46,6 +46,7 @@ and adds functionality and fixes some bugs.
  
 ## Minor changes 
 
+- add `rseed` argument to `map_text_regex()` and `plot_chars()` for reproducible results. 
 - add `collapse_chars()` as a wrapper around `paste()` with a `collapse` argument. 
 - rearrange contents (by creating dedicated utility files). 
 
@@ -396,6 +397,6 @@ The initial functionality is limited, as the package is designed to support the 
 
 ---------- 
 
-[File `NEWS.md` updated on 2022-08-21.]
+[File `NEWS.md` updated on 2022-08-07.]
 
 <!-- eof. -->
