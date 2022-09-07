@@ -2182,7 +2182,7 @@ map_text_regex <- function(x = NA,     # Text string(s) to plot
 # 2. count_chars_words()
 # into a single character map (with 2 numeric columns for character and word frequency). 
 
-# +++ here now +++ 
+# ToDo: +++ here now +++ 
 
 map_text_freqs <- function(x = NA,     # Text string(s) to plot 
                            file = "",  # "" reads user input from console; "test.txt" reads from file
