@@ -1,5 +1,5 @@
 ## plot_fun.R | ds4psy
-## hn | uni.kn | 2022 04 07
+## hn | uni.kn | 2022 09 07
 ## ---------------------------
 
 ## Functions for plotting. 
@@ -1265,7 +1265,7 @@ plot_text <- function(x = NA,     # Text string(s) to plot
   height <- 1
   width  <- 1
   
-
+  
   # (1) Interpret inputs: ------ 
   
   if (!lbl_tiles) {col_lbl <- NA}
@@ -1793,6 +1793,7 @@ plot_charmap <- function(x = NA,     # what to plot (required): charmap OR {text
 #' lower- vs. uppercase characters in pattern matches? 
 #' Default: \code{case_sense = TRUE}. 
 #' 
+#' 
 #' @param lbl_tiles Add character labels to tiles? 
 #' Default: \code{lbl_tiles = TRUE} (i.e., show labels). 
 #' 
@@ -1808,15 +1809,6 @@ plot_charmap <- function(x = NA,     # what to plot (required): charmap OR {text
 #' If \code{length(angle_bg) > 1}, a random value 
 #' in uniform \code{range(angle_bg)} is used for every character. 
 #' 
-#' @param cex Character size (numeric). 
-#' Default: \code{cex = 3}. 
-#' 
-#' @param family Font family of text labels (name).
-#' Default: \code{family = "sans"}. 
-#' Alternative options: "sans", "serif", or "mono".
-#' 
-#' @param fontface Font face of text labels (numeric). 
-#' Default: \code{fontface = 1}, (from 1 to 4).
 #' 
 #' @param col_lbl Default color of text labels.
 #' Default: \code{col_lbl = "black"}. 
@@ -1836,8 +1828,24 @@ plot_charmap <- function(x = NA,     # what to plot (required): charmap OR {text
 #' @param col_bg_lo De-emphasizing color to fill background tiles.
 #' Default: \code{col_bg_lo = "white"}.
 #' 
+#' 
 #' @param col_sample Boolean: Sample color vectors (within category)?
-#' Default: \code{col_sample = FALSE}. 
+#' Default: \code{col_sample = FALSE}.
+#' 
+#' @param rseed Random seed (number).  
+#' Default: \code{rseed = NA} (using random seed).
+#' 
+#' 
+#' @param cex Character size (numeric). 
+#' Default: \code{cex = 3}. 
+#' 
+#' @param fontface Font face of text labels (numeric). 
+#' Default: \code{fontface = 1}, (from 1 to 4).
+#' 
+#' @param family Font family of text labels (name).
+#' Default: \code{family = "sans"}. 
+#' Alternative options: "sans", "serif", or "mono".
+#' 
 #' 
 #' @param borders Boolean: Add borders to tiles? 
 #' Default: \code{borders = FALSE} (i.e., no borders).
@@ -1923,9 +1931,6 @@ plot_chars <- function(x = NA,     # Text string(s) to plot; iff is.na(x):
                        # lbl_angle = 0,   # angle of rotation (0 := no rotation) 
                        angle_fg = c(-90, 90),  # angle(s) of labels matching the lbl_rotate pattern
                        angle_bg = 0,           # default angle(s) & labels NOT matching the lbl_rotate pattern
-                       cex = 3,           # character size
-                       fontface = 1,      # font face (1:4)
-                       family = "sans",   # font family: 1 of "sans" "serif" "mono"
                        
                        # 6 colors (of labels and tiles): 
                        col_lbl = "black",             # default text label color
@@ -1935,6 +1940,14 @@ plot_chars <- function(x = NA,     # Text string(s) to plot; iff is.na(x):
                        col_bg_hi = pal_ds4psy[[4]],   # highlighted tiles (matching bg_hi)
                        col_bg_lo = "white",           # de-emphasized tiles (matching bg_lo)
                        col_sample = FALSE,            # sample from color vectors (within category)?
+                       rseed = NA,                    # reproducible randomness for sample()
+                       
+                       # Args only relevant for plot_charmap():  
+                       
+                       # fonts:
+                       cex = 3,           # character size
+                       fontface = 1,      # font face (1:4)
+                       family = "sans",   # font family: 1 of "sans" "serif" "mono"
                        
                        # borders (of tiles): 
                        borders = FALSE,       # show tile borders?
@@ -1945,25 +1958,26 @@ plot_chars <- function(x = NA,     # Text string(s) to plot; iff is.na(x):
   # (0) Deprecation notice: ----- 
   
   # Note jnd: plot_chars() invisibly returns cmap, whereas plot_charmap() returns a plot!
-  # +++ here now +++ 
   
-  # message("plot_chars() merely combines map_text_regex() and plot_charmap().\nConsider using these functions instead...")
+  message("plot_chars() merely combines map_text_regex() and plot_charmap().\nFor more control, consider using these functions instead...")
   # .Deprecated(new = "plot_charmap")
-  
   
   # (1) Create character map (with regex): ------ 
   
   cmap <- map_text_regex(x = x, file = file,     # input x or file?
                          lbl_hi = lbl_hi, lbl_lo = lbl_lo,  # regex stuff: 
                          bg_hi = bg_hi, bg_lo = bg_lo, 
-                         lbl_rotate = lbl_rotate, case_sense = case_sense,
+                         lbl_rotate = lbl_rotate, 
+                         case_sense = case_sense,
+                         
                          lbl_tiles = lbl_tiles,  # labels 
+                         angle_fg = angle_fg, angle_bg = angle_bg,  # angles
+                         
                          col_lbl = col_lbl,      # colors: 
                          col_lbl_hi = col_lbl_hi, col_lbl_lo = col_lbl_lo,
                          col_bg = col_bg, 
                          col_bg_hi = col_bg_hi, col_bg_lo = col_bg_lo,
-                         col_sample = col_sample,
-                         angle_fg = angle_fg, angle_bg = angle_bg  # angles
+                         col_sample = col_sample, rseed = rseed
   )
   
   
@@ -1990,12 +2004,12 @@ plot_chars <- function(x = NA,     # Text string(s) to plot; iff is.na(x):
 # # (B) From user input:
 # plot_chars()  # # (enter text in Console)
 # 
-# # (C) From text file:
-# # Create a temporary file "test.txt":
+# (C) From text file:
+# Create a temporary file "test.txt":
 # cat("Hello world!", "This is a test file.",
 #     "Can you see this text?",
 #     "Good! Please carry on...",
-#     file = "test.txt", sep = "\n")
+#      file = "test.txt", sep = "\n")
 # 
 # # (a) Plot & mark text from file:
 # plot_chars(file = "test.txt")  # default
@@ -2027,11 +2041,13 @@ plot_chars <- function(x = NA,     # Text string(s) to plot; iff is.na(x):
 #            col_sample = FALSE, cex = 5, fontface = 2)
 # 
 # # Sampling colors (within each category only):
-# plot_chars(file = "test.txt", lbl_hi = "[aeiou]", bg_hi = "te.t",
-#            col_lbl = c("grey95", "grey85"), col_bg = c("grey1", "grey10", "grey20"),
-#            col_bg_hi = pal_ds4psy[1:3],  col_bg_lo = c("grey90", "grey80", "grey70"),
-#            col_lbl_hi = c("gold1", "gold3"),
-#            col_sample = TRUE, cex = 5, fontface = 2)
+# plot_chars(file = "test.txt", 
+#            lbl_hi = "\\.", bg_hi = "\\.",
+#            col_lbl = c("white"), col_bg = usecol(c("black", pal_grau[[5]]), n = 5),
+#            col_bg_hi = c(Pinky),  col_bg_lo = usecol(c("white", pal_grau[[4]]), n = 10),
+#            col_lbl_hi = c(Pinky),
+#            col_sample = TRUE, cex = 4, fontface = 2, 
+#            borders = TRUE, border_size = 1/3)
 # 
 # # Highlight labels and tiles of same matches:
 # plot_chars(file = "test.txt", lbl_hi = "te.t", bg_hi = "te.t",
@@ -2051,7 +2067,9 @@ plot_chars <- function(x = NA,     # Text string(s) to plot; iff is.na(x):
 # 
 # unlink("test.txt")  # clean up (by deleting file).
 
-## Note: External file "check_plot_fun.Rmd" contains more checks. 
+## Note: External file "_gitless/check_plot_fun.Rmd" contains more checks and examples. 
+
+
 
 
 ## Done: ----------
