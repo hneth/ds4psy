@@ -1952,6 +1952,9 @@ count_chars_words <- function(x, case_sense = TRUE, sep = "|", rm_sep = TRUE){
 #' @param col_sample Boolean: Sample color vectors (within category)?
 #' Default: \code{col_sample = FALSE}. 
 #' 
+#' @param rseed Random seed (number).  
+#' Default: \code{rseed = NA} (using random seed). 
+#' 
 #' @param angle_fg Angle(s) for rotating character labels 
 #' matching the pattern of the \code{lbl_rotate} expression. 
 #' Default: \code{angle_fg = c(-90, 90)}. 
@@ -2037,16 +2040,24 @@ map_text_regex <- function(x = NA,     # Text string(s) to plot
                            col_bg_hi = pal_ds4psy[[4]],   # highlighted tiles (matching bg_hi)
                            col_bg_lo = "white",           # de-emphasized tiles (matching bg_lo)
                            col_sample = FALSE,            # sample from color vectors (within category)?
+                           rseed = NA,                    # reproducible randomness for sample()
                            
                            # 2 angles (of labels):
                            angle_fg = c(-90, 90),  # angle(s) of labels matching the lbl_rotate pattern
                            angle_bg = 0            # default angle(s) & labels NOT matching the lbl_rotate pattern 
+                           
 ){
   
   # (0) Inputs: ------  
   
   # Labels: 
   if (!lbl_tiles) {col_lbl <- NA}
+  
+  # Reproducible randomness:
+  if (is.na(rseed)) {
+    rseed <- sample(1:999, size = 1, replace = TRUE)  # random rseed
+  }
+  set.seed(seed = rseed)
   
   
   # (1) Read text input into a text string (txt) and character table (tb_txt): ------ 
@@ -2273,8 +2284,9 @@ map_text_freqs <- function(x = NA,     # Text string(s) to plot
 ## ToDo: ----------
 
 # Specific:
-# - Improve read_ascii() and map_text_chars() (with regex and more efficient text wrangling)
-# - Add an exception argument 'except' to capitalize() function 
+# - Add rseed argument to map_text_regex() to enable reproducible randomness for sample() elements. 
+# - Improve read_ascii() and map_text_chars() (with regex and more efficient text wrangling).
+# - Add an exception argument 'except' to the capitalize() function 
 #   (to exclude all words matching an exception argument).
 # 
 # General: Write functions to:
