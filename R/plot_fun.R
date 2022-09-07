@@ -1959,7 +1959,7 @@ plot_chars <- function(x = NA,     # Text string(s) to plot; iff is.na(x):
   
   # Note jnd: plot_chars() invisibly returns cmap, whereas plot_charmap() returns a plot!
   
-  message("plot_chars() merely combines map_text_regex() and plot_charmap().\nFor more control, consider using these functions instead...")
+  # message("plot_chars() only combines map_text_regex() and plot_charmap().\nFor more control, consider using these functions instead...")
   # .Deprecated(new = "plot_charmap")
   
   # (1) Create character map (with regex): ------ 
