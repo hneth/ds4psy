@@ -100,6 +100,7 @@ base2dec <- function(x, base = 2){
   base <- as.numeric(base)
   
   # Initialize: ---- 
+  
   seq <- as.character(x)  # seq should be of type character (numerals, not values)!
   len_seq <- length(seq)
   
@@ -109,10 +110,12 @@ base2dec <- function(x, base = 2){
   neg_num <- FALSE  # initialize default
   
   # Catch special cases: ---- 
+  
   if (any(is.na(seq)) | is.na(base)) { return(NA) }
   if ((len_seq == 1) && (seq == "0")){ return(0)  } 
   
   # Check base digits: ---- 
+  
   max_base <- length(base_digits) # maximum base value 
   
   if ((base < 2) | (base > max_base) | (base %% 1 != 0)) { 
@@ -126,7 +129,9 @@ base2dec <- function(x, base = 2){
   seq <- trimws(seq, which = "both", whitespace = "[ \t\r\n]")  # remove leading and trailing spaces
   if (all(seq == "")) { message("dec2base: No non-space input!"); return(NA) }
   
+  
   # Prepare: Convert a string seq into a character vector (of individual digits): ---- 
+  
   if ((len_seq == 1) && (nchar(seq) > 1)) { # seq is a multi-digit string:
     
     seq <- text_to_chars(seq)  # update seq
@@ -172,7 +177,9 @@ base2dec <- function(x, base = 2){
     
   } # if. 
   
+  
   # Main: ---- 
+  
   out_val <- 0  # output value (in decimal notation) 
   rev_seq <- rev(seq)  # move from rightmost to leftmost digit
   
@@ -191,7 +198,8 @@ base2dec <- function(x, base = 2){
     
   } # for.
   
-  # Process output: ----
+  
+  # Output: ----
   
   if (out_val < (2^32 - 1)){ # R uses 32-bit integers:
     out_val <- as.integer(out_val)  # integer value (in decimal notation)
@@ -399,6 +407,7 @@ dec2base <- function(x, base = 2){ # as_char = TRUE  # removed, as it would only
   } else {
     
     # Process inputs: Check base digits: ---- 
+    
     base     <- as.numeric(base)
     max_base <- length(base_digits)  # maximum base value 
     
@@ -457,6 +466,7 @@ dec2base <- function(x, base = 2){ # as_char = TRUE  # removed, as it would only
     
     
     # Prepare: ---- 
+    
     position   <- 0   # position/order (0 is rightmost/unit/base^0)
     next_units <- 88  # number of units in next higher order
     out <- NULL       # initialize output
@@ -466,7 +476,9 @@ dec2base <- function(x, base = 2){ # as_char = TRUE  # removed, as it would only
       val_left <- abs(val_left)
     }  
     
+    
     # Main: ---- 
+    
     # while (val_left > 0){
     while (next_units > 0){
       
@@ -511,7 +523,9 @@ dec2base <- function(x, base = 2){ # as_char = TRUE  # removed, as it would only
     } # while. 
   } # else.
   
-  # # Process output: ---- 
+  
+  # Output: ---- 
+  
   # if (!as_char){
   #   # out <- as.integer(out)  # Note: May cause problems with scientific notation!
   #   out <- base2dec(out, base = base)  # Re-converts out digits into integer in decimal notation.
