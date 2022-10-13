@@ -66,15 +66,15 @@ book](https://bookdown.org/hneth/ds4psy/) is available at
 </a>
 
 -   PSY-15150, at the [University of
-    Konstanz](https://www.uni-konstanz.de) by [Hansjörg
-    Neth](https://www.spds.uni-konstanz.de/hans-neth)
-    (<a href="mailto:h.neth@uni.kn" class="email">h.neth@uni.kn</a>,
-    [SPDS](https://www.spds.uni-konstanz.de), office D507).  
--   Summer 2022: Mondays, 13:30–15:00, D430.  
+    Konstanz](https://www.uni-konstanz.de) is taught by [Hansjörg
+    Neth](https://www.spds.uni-konstanz.de/hans-neth), [Social
+    Psychology and Decision Sciences](https://www.spds.uni-konstanz.de),
+    office D507).  
+    <!-- * Summer\ 2022: Mondays, 13:30&ndash;15:00, D430. -->
 -   The [ds4psy book](https://bookdown.org/hneth/ds4psy/) with examples
     and exercises is available at
     <a href="https://bookdown.org/hneth/ds4psy/" class="uri">https://bookdown.org/hneth/ds4psy/</a>.  
--   The R package [ds4psy](https://CRAN.R-project.org/package=ds4psy) is
+-   The [ds4psy](https://CRAN.R-project.org/package=ds4psy) R package is
     available at
     <a href="https://CRAN.R-project.org/package=ds4psy" class="uri">https://CRAN.R-project.org/package=ds4psy</a>.
 
@@ -308,6 +308,6 @@ License</a>.
 
 <!-- Footer: -->
 
-\[File `README.md` updated on 2022-08-17.\]
+\[File `README.md` updated on 2022-10-13.\]
 
 <!-- eof. -->
