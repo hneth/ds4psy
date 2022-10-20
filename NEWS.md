@@ -23,17 +23,12 @@ The book and course [Data Science for Psychologists](https://bookdown.org/hneth/
 
 -------- 
 
-# ds4psy 0.8.0.9014
+# ds4psy 0.8.5
 
 <!-- Release version: --> 
 
-<!-- Release of **ds4psy** (0.8.0) [on CRAN](https://CRAN.R-project.org/package=ds4psy) --> 
-<!-- adds functionality, increases modularity, and fixes some bugs. [2022-04-08] --> 
-
-<!-- Development version: --> 
-
-The current development version of **ds4psy** is hosted at <https://github.com/hneth/ds4psy/> 
-and adds functionality and fixes some bugs. 
+Release of **ds4psy** (0.8.5) [on GitHub](https://github.com/hneth/ds4psy/) 
+adds functionality, implements minor changes, and fixes some bugs. [2022-10-20]
 
 <!-- Log of changes: --> 
 
@@ -54,24 +49,24 @@ and adds functionality and fixes some bugs.
 
 - fix minor bugs. 
 
-<!-- Blank line. --> 
 
 
-## ToDo
 
-Changes to be implemented prior to the next release:
+<!-- ToDo -->
 
-- split the mixed functionality of `plot_text()` into 2 functions:  
+<!-- Changes to be implemented prior to the next release: -->
 
-    1. Combine `count_chars_words()` with `map_text_coord()` or `map_text_regex()` 
-    to create a df with 2 color vectors (fg/bg) based on `char_freq` and/or `word_freq`. 
+<!-- - split the mixed functionality of `plot_text()` into 2 functions:  --> 
+
+<!--     1. Combine `count_chars_words()` with `map_text_coord()` or `map_text_regex()`  --> 
+<!--     to create a df with 2 color vectors (fg/bg) based on `char_freq` and/or `word_freq`.  --> 
     
-    2. `plot_charmap()` directly plots the resulting df.
+<!--     2. `plot_charmap()` directly plots the resulting df.  --> 
 
 
-<!-- Note:  --> 
+<!-- Development version: --> 
 
-The current development version of **ds4psy** is hosted at <https://github.com/hneth/ds4psy/>. 
+The current development version of **ds4psy** is hosted at <https://github.com/hneth/ds4psy/>.
 
 
 <!-- Previous CRAN releases:  --> 
