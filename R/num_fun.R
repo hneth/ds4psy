@@ -1,6 +1,6 @@
 ## num_fun.R | ds4psy
-## hn | uni.kn | 2022 07 12
-## ---------------------------
+## hn | uni.kn | 2022 10 20
+## ------------------------
 
 ## Main functions for manipulating/transforming numbers or numeric symbols/digits: ------ 
 
@@ -683,6 +683,7 @@ dec2base_base2dec_sim <- function(n_sim = 100,
   message(paste0("Same result in all ", n_sim, " simulations? ", 
                  (sum_same == n_sim)))  # All n_sim = same?
   
+  # Output: 
   return(invisible(df))
   
 } # dec2base_base2dec_sim(). 
@@ -723,6 +724,7 @@ encrypt_arithm_expr <- function(x, y, op = "+", base = 10, dig_sym = NULL){
   r <- do.call(op, list(x, y))
   
   # 2. Translate numerals into a different base (if specified): ---- 
+  
   if (base != 10){
     x <- dec2base(x, base = base)
     y <- dec2base(y, base = base)
@@ -731,6 +733,7 @@ encrypt_arithm_expr <- function(x, y, op = "+", base = 10, dig_sym = NULL){
   
   
   # 3. Get output numerals (as character strings): ---- 
+  
   if (!is.null(dig_sym)){
     
     # Translate numerals (using rules specified in dig_sym): 
@@ -747,6 +750,7 @@ encrypt_arithm_expr <- function(x, y, op = "+", base = 10, dig_sym = NULL){
   }
   
   # 4. Process and print output: ---- 
+  
   eq <- c(x_2, op, y_2, "=", r_2)
   names(eq) <- c(x, op, y, "=", r)
   
@@ -772,7 +776,9 @@ encrypt_arithm_expr <- function(x, y, op = "+", base = 10, dig_sym = NULL){
   # Show formatted eq_2 (on screen):  
   cat(format(eq_2, width = cat_width, justify = "right"), sep = "\n")
   
+  
   # 5. Return: ---- 
+  
   return(invisible(eq))
   
 } # encrypt_arithm_expr(). 
