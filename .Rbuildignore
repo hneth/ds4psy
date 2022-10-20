@@ -21,3 +21,4 @@
 ^CRAN-RELEASE$
 ^revdep$
 ^\.travis\.yml$
+^CRAN-SUBMISSION$
