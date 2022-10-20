@@ -47,8 +47,7 @@ Release of **ds4psy** (0.9.0) [on CRAN](https://CRAN.R-project.org/package=ds4ps
 ## Details 
 
 - fix minor bugs. 
-- Add Zenodo doi [10.5281/zenodo.7229812](https://doi.org/10.5281/zenodo.7229812) for citations. 
-
+- add Zenodo doi [10.5281/zenodo.7229812](https://doi.org/10.5281/zenodo.7229812) for citations. 
 
 
 
