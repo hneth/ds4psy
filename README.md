@@ -271,7 +271,7 @@ To cite **ds4psy** in derivations and publications, please use:
     Retrieved from <https://bookdown.org/hneth/ds4psy/>.  
     <https://doi.org/10.5281/zenodo.7229812>
 
-<!-- Add blank line.  -->
+<!-- BibTeX reference: -->
 
 A **BibTeX** entry for LaTeX users is:
 
