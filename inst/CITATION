@@ -8,7 +8,7 @@ citEntry(entry = "Manual",
          address      = "Konstanz, Germany",
          note         = "R package (version 0.9.0, October 20, 2022); Textbook at <https://bookdown.org/hneth/ds4psy/>.",
          url          = "https://CRAN.R-project.org/package=ds4psy",
-         doi          = "https://doi.org/10.5281/zenodo.7229812", 
+         doi          = "10.5281/zenodo.7229812", 
 
          textVersion  =
            paste("Neth, H. (2022).",
@@ -16,6 +16,6 @@ citEntry(entry = "Manual",
                  "Social Psychology and Decision Sciences, University of Konstanz, Germany.",
                  "R package (version 0.9.0, October 20, 2022); Textbook at <https://bookdown.org/hneth/ds4psy/>.",
                  "Retrieved from <https://CRAN.R-project.org/package=ds4psy>.",
-                 "doi:<https://doi.org/10.5281/zenodo.7229812>")
+                 "doi <https://doi.org/10.5281/zenodo.7229812>")
          )
          
