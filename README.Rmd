@@ -217,7 +217,7 @@ To cite **ds4psy** in derivations and publications, please use:
 
 - Neth, H. (2022). ds4psy: Data Science for Psychologists.  
 Social Psychology and Decision Sciences, University of Konstanz, Germany.  
-Textbook and R package (version 0.8.0, April 8, 2022).   
+Textbook and R package (version 0.8.0, April 8, 2022).  
 Retrieved from <https://bookdown.org/hneth/ds4psy/>. 
 
 <!-- Add blank line.  -->
