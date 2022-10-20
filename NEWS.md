@@ -16,19 +16,18 @@ The book and course [Data Science for Psychologists](https://bookdown.org/hneth/
 <!-- Links: --> 
 
 - The textbook **Data Science for Psychologists** is hosted at <https://bookdown.org/hneth/ds4psy/>. 
-- The most recent release of **ds4psy** (0.8.0) is available on CRAN: <https://CRAN.R-project.org/package=ds4psy>.
-- The current development version of **ds4psy** (0.8.0.9001+) is hosted at <https://github.com/hneth/ds4psy/>. 
+- The most recent release of **ds4psy** (0.9.0) is available on CRAN: <https://CRAN.R-project.org/package=ds4psy>.
+- The current development version of **ds4psy** (0.9.0.9001+) is hosted at <https://github.com/hneth/ds4psy/>. 
 
 <!-- Current version:  --> 
 
 -------- 
 
-# ds4psy 0.8.5
+# ds4psy 0.9.0
 
 <!-- Release version: --> 
 
-Release of **ds4psy** (0.8.5) [on GitHub](https://github.com/hneth/ds4psy/) 
-adds functionality, implements minor changes, and fixes some bugs. [2022-10-20]
+Release of **ds4psy** (0.9.0) [on CRAN](https://CRAN.R-project.org/package=ds4psy) adds functionality, implements minor changes, and fixes some bugs. [2022-10-20]
 
 <!-- Log of changes: --> 
 
@@ -48,6 +47,7 @@ adds functionality, implements minor changes, and fixes some bugs. [2022-10-20]
 ## Details 
 
 - fix minor bugs. 
+- Add Zenodo doi [10.5281/zenodo.7229812](https://doi.org/10.5281/zenodo.7229812) for citations. 
 
 
 
