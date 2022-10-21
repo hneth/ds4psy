@@ -23,6 +23,45 @@ The book and course [Data Science for Psychologists](https://bookdown.org/hneth/
 
 -------- 
 
+# ds4psy 0.9.0.9001
+
+<!-- Development version: --> 
+
+This is the current development version of **ds4psy** hosted at <https://github.com/hneth/ds4psy/>.
+
+<!-- Log of changes: --> 
+
+**Changes** since last release: 
+
+## Major changes 
+
+- none yet.
+
+## Minor changes 
+
+- none yet.
+
+## Details 
+
+- none yet.
+
+
+## ToDo
+
+Changes to be implemented prior to the next release:
+
+- improve `base2dec()` and `dec2base()` functions (e.g., with vectorized and recursive versions).
+
+- split the mixed functionality of `plot_text()` into 2 functions:
+
+    1. Combine `count_chars_words()` with `map_text_coord()` or `map_text_regex()` 
+    to create a df with two color vectors (fg/bg) based on `char_freq` and/or `word_freq`.
+    
+    2. `plot_charmap()` directly plots the resulting df.
+
+
+-------- 
+
 # ds4psy 0.9.0
 
 <!-- Release version: --> 
@@ -61,11 +100,6 @@ Release of **ds4psy** (0.9.0) [on CRAN](https://CRAN.R-project.org/package=ds4ps
 <!--     to create a df with 2 color vectors (fg/bg) based on `char_freq` and/or `word_freq`.  --> 
     
 <!--     2. `plot_charmap()` directly plots the resulting df.  --> 
-
-
-<!-- Development version: --> 
-
-The current development version of **ds4psy** is hosted at <https://github.com/hneth/ds4psy/>.
 
 
 <!-- Previous CRAN releases:  --> 
@@ -392,6 +426,6 @@ The initial functionality is limited, as the package is designed to support the 
 
 ---------- 
 
-[File `NEWS.md` updated on 2022-10-20.]
+[File `NEWS.md` updated on 2022-10-21.]
 
 <!-- eof. -->
