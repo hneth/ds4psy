@@ -269,7 +269,7 @@ To cite **ds4psy** in derivations and publications, please use:
     Germany.  
     Textbook and R package (version 0.9.0, October 20, 2022).  
     Retrieved from <https://bookdown.org/hneth/ds4psy/>.  
-    <https://doi.org/10.5281/zenodo.7229812>
+    doi [10.5281/zenodo.7229812](https://doi.org/10.5281/zenodo.7229812)
 
 <!-- BibTeX reference: -->
 
@@ -313,6 +313,6 @@ License</a>.
 
 <!-- Footer: -->
 
-\[File `README.md` updated on 2022-10-20.\]
+\[File `README.md` updated on 2022-10-21.\]
 
 <!-- eof. -->
