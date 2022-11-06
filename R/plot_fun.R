@@ -1,6 +1,6 @@
 ## plot_fun.R | ds4psy
-## hn | uni.kn | 2022 09 07
-## ---------------------------
+## hn | uni.kn | 2022 11 06
+## ------------------------
 
 ## Functions for plotting. 
 
@@ -381,7 +381,7 @@ plot_tiles <- function(n = NA,
 #' \code{plot_fun} currently requires \code{pal_seeblau}, \code{pal_grau}, and 
 #' \code{Bordeaux} (from the \strong{unikn} package) for its default colors.
 #' 
-#' @param a A (natural) number. 
+#' @param a Numeric (integer > 0). 
 #' Default: \code{a = NA}. 
 #' 
 #' @param b Boolean. 
@@ -390,7 +390,7 @@ plot_tiles <- function(n = NA,
 #' @param c Boolean. 
 #' Default: \code{c = TRUE}. 
 #' 
-#' @param d A (decimal) number. 
+#' @param d Numberic (double). 
 #' Default: \code{d = 1.0}. 
 #' 
 #' @param e Boolean. 
@@ -402,13 +402,12 @@ plot_tiles <- function(n = NA,
 #' @param g Boolean. 
 #' Default: \code{g = FALSE}. 
 #'
-#' @param c1 A color palette (e.g., as a vector). 
-#' Default: \code{c1 = c(rev(pal_seeblau), "white", pal_grau, "black", Bordeaux)}. 
-#' Note: Using colors of the \code{unikn} package by default. 
+#' @param c1 A color palette (as a vector). 
+#' Default: \code{c1 = c(rev(pal_seeblau), "white", pal_grau, "black", Bordeaux)} 
+#' (i.e., using colors of the \strong{unikn} package by default). 
 #'
-#' @param c2 A color (e.g., as a character). 
+#' @param c2 A color (e.g., color name, as character). 
 #' Default: \code{c2 = "black"}. 
-#'
 #'
 #' @examples
 #' # Basics: 
@@ -978,10 +977,10 @@ plot_n <- function(n = NA,
 #' \code{plot_fn} currently requires \code{pal_seeblau} and 
 #' \code{pal_pinky} (from the \strong{unikn} package) for its default colors.
 #' 
-#' @param x A (natural) number. 
+#' @param x Numeric (integer > 0). 
 #' Default: \code{x = NA}. 
 #' 
-#' @param y A (decimal) number. 
+#' @param y Numeric (double).  
 #' Default: \code{y = 1}. 
 #' 
 #' @param A Boolean. 
@@ -1002,11 +1001,11 @@ plot_n <- function(n = NA,
 #' @param F Boolean. 
 #' Default: \code{F = FALSE}.
 #'
-#' @param f A color palette (e.g., as a vector). 
+#' @param f A color palette (as a vector). 
 #' Default: \code{f = c(rev(pal_seeblau), "white", pal_pinky)}. 
 #' Note: Using colors of the \code{unikn} package by default. 
 #'
-#' @param g A color (e.g., as a character). 
+#' @param g A color (e.g., a color name, as a character). 
 #' Default: \code{g = "white"}. 
 #'
 #' @examples
@@ -1024,7 +1023,7 @@ plot_n <- function(n = NA,
 #'
 #' @seealso
 #' \code{\link{plot_fun}} for a related function; 
-#' \code{\link{pal_ds4psy}} for color palette. 
+#' \code{\link{pal_ds4psy}} for a color palette. 
 #' 
 #' @import unikn
 #' 
