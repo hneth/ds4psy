@@ -1,4 +1,4 @@
-citHeader("To cite ds4psy in derivations and publications use:")
+citHeader("To cite 'ds4psy' in derivations and publications, please use:")
 
 citEntry(entry = "Manual",
          title        = "ds4psy: Data Science for Psychologists",
