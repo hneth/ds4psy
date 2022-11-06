@@ -17,7 +17,7 @@ plot_fun(
 )
 }
 \arguments{
-\item{a}{A (natural) number. 
+\item{a}{Numeric (integer > 0). 
 Default: \code{a = NA}.}
 
 \item{b}{Boolean. 
@@ -26,7 +26,7 @@ Default: \code{b = TRUE}.}
 \item{c}{Boolean. 
 Default: \code{c = TRUE}.}
 
-\item{d}{A (decimal) number. 
+\item{d}{Numberic (double). 
 Default: \code{d = 1.0}.}
 
 \item{e}{Boolean. 
@@ -38,11 +38,11 @@ Default: \code{f = FALSE}.}
 \item{g}{Boolean. 
 Default: \code{g = FALSE}.}
 
-\item{c1}{A color palette (e.g., as a vector). 
-Default: \code{c1 = c(rev(pal_seeblau), "white", pal_grau, "black", Bordeaux)}. 
-Note: Using colors of the \code{unikn} package by default.}
+\item{c1}{A color palette (as a vector). 
+Default: \code{c1 = c(rev(pal_seeblau), "white", pal_grau, "black", Bordeaux)} 
+(i.e., using colors of the \strong{unikn} package by default).}
 
-\item{c2}{A color (e.g., as a character). 
+\item{c2}{A color (e.g., color name, as character). 
 Default: \code{c2 = "black"}.}
 }
 \description{

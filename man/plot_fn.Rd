@@ -18,10 +18,10 @@ plot_fn(
 )
 }
 \arguments{
-\item{x}{A (natural) number. 
+\item{x}{Numeric (integer > 0). 
 Default: \code{x = NA}.}
 
-\item{y}{A (decimal) number. 
+\item{y}{Numeric (double).
 Default: \code{y = 1}.}
 
 \item{A}{Boolean. 
@@ -42,11 +42,11 @@ Default: \code{E = FALSE}.}
 \item{F}{Boolean. 
 Default: \code{F = FALSE}.}
 
-\item{f}{A color palette (e.g., as a vector). 
+\item{f}{A color palette (as a vector). 
 Default: \code{f = c(rev(pal_seeblau), "white", pal_pinky)}. 
 Note: Using colors of the \code{unikn} package by default.}
 
-\item{g}{A color (e.g., as a character). 
+\item{g}{A color (e.g., a color name, as a character). 
 Default: \code{g = "white"}.}
 }
 \description{
@@ -77,7 +77,7 @@ plot_fn(x = 7, A = TRUE,  B = TRUE, F = TRUE, f = c("steelblue", "white", "fores
 }
 \seealso{
 \code{\link{plot_fun}} for a related function; 
-\code{\link{pal_ds4psy}} for color palette.
+\code{\link{pal_ds4psy}} for a color palette.
 
 Other plot functions: 
 \code{\link{plot_charmap}()},
