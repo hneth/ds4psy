@@ -1,5 +1,5 @@
 ## data_fun.R | ds4psy
-## hn | uni.kn | 2021 04 14
+## hn | uni.kn | 2023 01 24
 ## ---------------------------
 
 ## Functions for creating and manipulating data. 
@@ -7,12 +7,12 @@
 
 ## (1) Generate random datasets: ---------- 
 
-# Random binary values: Flip a 0/1 coin n times:  ------ 
+# Random binary values: Flip a 2-element-set/coin n times:  ------ 
 
 random_bin_value <- function(x = c(0, 1), n = 1, replace = TRUE) {
   
   if (length(x) != 2) {
-    message("random_bin_value: x should be binary.")
+    stop("random_bin_value: x must be binary.")
   }
   
   sample(x = x, size = n, replace = replace)  
@@ -21,6 +21,7 @@ random_bin_value <- function(x = c(0, 1), n = 1, replace = TRUE) {
 
 ## Check: 
 # random_bin_value(n = 10)
+# random_bin_value(c(TRUE, FALSE), 5)
 # random_bin_value(x = c("m", "f"), n = 100)
 
 
@@ -914,7 +915,7 @@ add_NAs <- function(v, amount){
 
 # add_whats: Adding some element(s) what to a vector v of data: ----- 
 
-## Generalization of add_NAs: 
+## A generalization of add_NAs(): 
 ## Replace a random amount of vector v elements by what: 
 
 add_whats <- function(v, amount, what = NA){
