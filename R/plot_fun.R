@@ -390,7 +390,7 @@ plot_tiles <- function(n = NA,
 #' @param c Boolean. 
 #' Default: \code{c = TRUE}. 
 #' 
-#' @param d Numberic (double). 
+#' @param d Numeric (double). 
 #' Default: \code{d = 1.0}. 
 #' 
 #' @param e Boolean. 

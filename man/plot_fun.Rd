@@ -26,7 +26,7 @@ Default: \code{b = TRUE}.}
 \item{c}{Boolean. 
 Default: \code{c = TRUE}.}
 
-\item{d}{Numberic (double). 
+\item{d}{Numeric (double). 
 Default: \code{d = 1.0}.}
 
 \item{e}{Boolean. 
