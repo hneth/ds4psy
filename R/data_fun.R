@@ -760,8 +760,9 @@ dice_2 <- function(n = 1, sides = 6){
 
 all_permutations <- function(x) {
   
-  out <- NA  # initialize ----
-  n <- length(x)
+  # initialize: ----
+  out <- NA  
+    n <- length(x)
   
   if (n == 1) { # basic case: ----  
     
@@ -782,10 +783,11 @@ all_permutations <- function(x) {
   
 } # all_permutations(). 
 
-## Check:
+# # Check:
 # all_permutations(246)
 # all_permutations(1:3)
 # all_permutations(c("A", "B", "b", "a"))
+
 
 
 # Combinations: List ALL combinations of length n of a set x: ------ 
@@ -803,7 +805,7 @@ all_combinations <- function(x, length){
   out <- NA  # initialize
   
   # Verify inputs: 
-  if (is.na(x) || is.na(length)){
+  if (all(is.na(x)) || is.na(length)){
     return(NA)
   }
   
@@ -830,7 +832,7 @@ all_combinations <- function(x, length){
   
 } # all_combinations(). 
 
-## Check:
+# # Check:
 # all_combinations(x = c("a", "b", "c"), 2)
 # all_combinations(x = 1:5, length = 2)
 # all_combinations(x = 1:25, 2)  # Note: 25 * 24 / 2 = 300 combinations.
@@ -838,6 +840,8 @@ all_combinations <- function(x, length){
 # all_combinations(x = 1:3, length = 88)
 # all_combinations(x = 1:3, length = NA)
 # all_combinations(x = NA, length = 1)
+
+
 
 # random_symbols: Get n vectors of random symbols (of length len) from some set x: ----- 
 
