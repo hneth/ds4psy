@@ -1,5 +1,5 @@
 ## data_fun.R | ds4psy
-## hn | uni.kn | 2023 01 24
+## hn | uni.kn | 2023 06 09
 ## ---------------------------
 
 ## Functions for creating and manipulating data. 
@@ -919,28 +919,42 @@ add_NAs <- function(v, amount){
 
 # add_whats: Adding some element(s) what to a vector v of data: ----- 
 
-## A generalization of add_NAs(): 
-## Replace a random amount of vector v elements by what: 
+# Goal: Replace a random amount of vector v elements by what. 
+#       [A generalization of add_NAs().]
+
 
 add_whats <- function(v, amount, what = NA){
   
+  # Prepare: ----
+  
+  # Verify inputs: 
   stopifnot((is.vector(v)) & (amount >= 0) & (amount <= length(v)))
   
+  # Key parameters:
   out <- v
   n <- length(v)
   
   amount_2 <- ifelse(amount < 1, round(n * amount, 0), amount) # turn amount prop into n
   
-  out[sample(x = 1:n, size = amount_2, replace = FALSE)] <- what
+  
+  # Main: ----
+  
+  # Replace random sample of elements by what:
+  ix_replace <- sample(x = 1:n, size = amount_2, replace = FALSE) 
+  out[ix_replace] <- what
+  
+  
+  # Output: ----
   
   return(out)
   
 } # add_whats(). 
 
-## Check:
-# add_whats(1:10,  5)  # default: what = NA
+# # Check:
+# add_whats(1:10,  5)                # default: what = NA
 # add_whats(1:10,  5, what = 99)
-# add_whats(1:10, .5, what = "ABC")
+# add_whats(1:10, .5, what = TRUE)   # Note: interpreted numerically!
+# add_whats(1:10, .5, what = "ABC")  # Note: v coerced into character!
 
 
 
