@@ -23,7 +23,7 @@ The book and course [Data Science for Psychologists](https://bookdown.org/hneth/
 
 -------- 
 
-# ds4psy 0.9.0.9004
+# ds4psy 0.9.0.9005
 
 <!-- Development version: --> 
 
@@ -54,7 +54,7 @@ This is the current development version of **ds4psy** hosted at <https://github.
 
 Changes to be implemented prior to the next release:
 
-- improve `base2dec()` and `dec2base()` functions (e.g., with vectorized and recursive versions).
+- improve `base2dec()` and `dec2base()` functions (e.g., with recursive and vectorized versions).
 
 - split the mixed functionality of `plot_text()` into 2 functions:
 
@@ -430,6 +430,6 @@ The initial functionality is limited, as the package is designed to support the 
 
 ---------- 
 
-[File `NEWS.md` updated on 2023-08-10.]
+[File `NEWS.md` updated on 2023-08-15.]
 
 <!-- eof. -->
