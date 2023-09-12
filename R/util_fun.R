@@ -1,6 +1,6 @@
 ## util_fun.R | ds4psy
-## hn | uni.kn | 2022 06 28
-## ---------------------------
+## hn | uni.kn | 2023 09 12
+## ------------------------
 
 ## Utility functions. 
 
@@ -271,6 +271,26 @@ get_name <- function(x){
 # get_name(ls) # list
 # get_name(df) # data.frame
 # get_name(fc) # factor
+
+
+# get_list_names: Get names of list objects: ------ 
+
+get_list_names <- function(l){
+  
+  sapply(l, FUN = get_name)
+  
+} # get_list_names().
+
+# # Check:
+# l1 <- list("A", 1, TRUE)
+# l2 <- list(FALSE, 1:3)
+# l3 <- list(l1, l2)
+# 
+# get_name(l1)
+# get_name(l3)
+# l3
+# get_list_names(l3)  # ERROR +++ here now +++ 
+
 
 
 # kill_all: Kill all objects in current environment (without warning): ------
