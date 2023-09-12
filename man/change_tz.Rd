@@ -32,7 +32,7 @@ and returns the same time(s) as local time(s)
 (of the "POSIXlt" class).
 }
 \examples{
-change_tz(Sys.time(), tz = "NZ")
+change_tz(Sys.time(), tz = "Pacific/Auckland")
 change_tz(Sys.time(), tz = "US/Hawaii")
 
 # from "POSIXct" time:
@@ -49,7 +49,7 @@ change_tz(tl, "US/Pacific")
 
 # from "Date":
 dt <- as.Date("2020-12-31")
-change_tz(dt, "NZ")
+change_tz(dt, "Pacific/Auckland")
 change_tz(dt, "US/Hawaii")  # Note different date!
 
 # with a vector of "POSIXct" times:

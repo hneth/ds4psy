@@ -36,16 +36,16 @@ change_time(as.POSIXlt(Sys.time()), tz = "UTC")
 
 # from "POSIXlt" time:
 t1 <- as.POSIXlt("2020-01-01 10:20:30", tz = "Europe/Berlin")
-change_time(t1, "NZ")
+change_time(t1, "Pacific/Auckland")
 change_time(t1, "US/Pacific")
 
 # from "POSIXct" time:
 tc <- as.POSIXct("2020-07-01 12:00:00", tz = "UTC")
-change_time(tc, "NZ")
+change_time(tc, "Pacific/Auckland")
 
 # from "Date":
 dt <- as.Date("2020-12-31", tz = "US/Hawaii")
-change_time(dt, tz = "NZ")
+change_time(dt, tz = "Pacific/Auckland")
 
 # from time "string":
 ts <- "2020-12-31 20:30:45"
@@ -59,7 +59,7 @@ change_time(ty, tz = "Europe/London")
 
 # convert into local times:
 (l1 <- as.POSIXlt("2020-06-01 10:11:12"))
-change_tz(change_time(l1, "NZ"), tz = "UTC")
+change_tz(change_time(l1, "Pacific/Auckland"), tz = "UTC")
 change_tz(change_time(l1, "Europe/Berlin"), tz = "UTC")
 change_tz(change_time(l1, "US/Eastern"), tz = "UTC")
 
