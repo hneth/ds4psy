@@ -1,11 +1,11 @@
 ## data_fun.R | ds4psy
-## hn | uni.kn | 2023 06 09
-## ---------------------------
+## hn | uni.kn | 2023 09 12
+## ------------------------
 
 ## Functions for creating and manipulating data. 
 
 
-## (1) Generate random datasets: ---------- 
+## (1) Generate random data: ---------- 
 
 # Random binary values: Flip a 2-element-set/coin n times:  ------ 
 
