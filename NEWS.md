@@ -23,7 +23,7 @@ The book and course [Data Science for Psychologists](https://bookdown.org/hneth/
 
 -------- 
 
-# ds4psy 0.9.0.9005
+# ds4psy 0.9.0.9006
 
 <!-- Development version: --> 
 
@@ -41,7 +41,7 @@ This is the current development version of **ds4psy** hosted at <https://github.
 
 ## Minor changes 
 
-- none yet.
+- bug fix: Changed time zones in `time_fun.R` (e.g., from "NZ" to "Pacific/Auckland")
 
 
 ## Details 
@@ -430,6 +430,6 @@ The initial functionality is limited, as the package is designed to support the 
 
 ---------- 
 
-[File `NEWS.md` updated on 2023-08-15.]
+[File `NEWS.md` updated on 2023-09-12.]
 
 <!-- eof. -->
