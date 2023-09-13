@@ -1,5 +1,5 @@
 ## util_fun.R | ds4psy
-## hn | uni.kn | 2023 09 12
+## hn | uni.kn | 2023 09 13
 ## ------------------------
 
 ## Utility functions. 
@@ -277,7 +277,13 @@ get_name <- function(x){
 
 get_list_names <- function(l){
   
-  sapply(l, FUN = get_name)
+  # sapply(l, FUN = get_name)
+  
+  # names(l) # extracts names of named list elements
+  
+  enquote(l)
+  
+  # deparse1(l)
   
 } # get_list_names().
 
@@ -288,8 +294,11 @@ get_list_names <- function(l){
 # 
 # get_name(l1)
 # get_name(l3)
-# l3
-# get_list_names(l3)  # ERROR +++ here now +++ 
+# get_list_names(l3) 
+# 
+# library(unicol)
+# my_pals <- list(uni_freiburg_1, uni_goettingen_1, mpg, uni_konstanz_1)
+# get_list_names(my_pals)  # ERROR +++ here now +++
 
 
 
