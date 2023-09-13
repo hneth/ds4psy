@@ -43,7 +43,7 @@ the shorter vector is recycled to the length of the longer one.
 \examples{
 # Time zones differences:
 tm <- "2020-01-01 01:00:00"  # nominal time
-t1 <- as.POSIXct(tm, tz = "NZ")
+t1 <- as.POSIXct(tm, tz = "Pacific/Auckland")
 t2 <- as.POSIXct(tm, tz = "Europe/Berlin")
 t3 <- as.POSIXct(tm, tz = "US/Hawaii")
 
@@ -56,7 +56,7 @@ diff_tz(t1, t3)
 diff_tz(t1, t3, in_min = TRUE)
 
 # Compare local times (POSIXlt): 
-t4 <- as.POSIXlt(Sys.time(), tz = "NZ")
+t4 <- as.POSIXlt(Sys.time(), tz = "Pacific/Auckland")
 t5 <- as.POSIXlt(Sys.time(), tz = "Europe/Berlin")
 diff_tz(t4, t5)
 diff_tz(t4, t5, in_min = TRUE)
@@ -67,7 +67,7 @@ s7 <- "2020-03-29 03:00:00 CEST"  # after DSL switch
 t6 <- as.POSIXct(s6, tz = "Europe/Berlin")  # CET
 t7 <- as.POSIXct(s7, tz = "Europe/Berlin")  # CEST
 
-diff_tz(t6, t7)  # 1 hour forwards
+diff_tz(t6, t7)  # 1 hour forward
 diff_tz(t6, t7, in_min = TRUE)
 
 }
