@@ -1,6 +1,6 @@
 ## time_util_fun.R | ds4psy
-## hn | uni.kn | 2022 06 26
-## ---------------------------
+## hn | uni.kn | 2023 09 13
+## ------------------------
 
 ## (0) Utility functions for date and time data and objects. ------ 
 
@@ -246,11 +246,11 @@ date_from_noDate <- function(x, tz = "", ...){
 # 
 # # Note effect of time zones:
 # # (a) calendar times (POSIXct):
-# date_from_noDate(as.POSIXct("2020-01-01 08:00:00", tz = "NZ"))             # is interpreted as
-# date_from_noDate(as.POSIXct("2020-01-01 08:00:00", tz = "NZ"), tz = "")    # NZ time in current time zone!
-# date_from_noDate(as.POSIXct("2020-01-01 08:00:00", tz = "NZ"), tz = "NZ")  # NZ time in NZ time zone.
+# date_from_noDate(as.POSIXct("2020-01-01 08:00:00", tz = "Pacific/Auckland"))             # is interpreted as
+# date_from_noDate(as.POSIXct("2020-01-01 08:00:00", tz = "Pacific/Auckland"), tz = "")    # NZ time in current time zone!
+# date_from_noDate(as.POSIXct("2020-01-01 08:00:00", tz = "Pacific/Auckland"), tz = "Pacific/Auckland")  # NZ time in NZ time zone.
 # # (b) local times (POSIXlt): 
-# date_from_noDate(as.POSIXlt("2020-01-01 08:00:00", tz = "NZ"))
+# date_from_noDate(as.POSIXlt("2020-01-01 08:00:00", tz = "Pacific/Auckland"))
 # 
 # # Former problem/error now resolved:
 # date_from_noDate(as.POSIXct("2020-07-01 01:29:06"))          # was "2020-06-30" - WHY???
@@ -346,7 +346,7 @@ time_from_string <- function(x, tz = "", ...){
 # time_from_string(c("June 8, 2010, 10-30"), format = "%B %d, %Y, %H-%M")
 # 
 # # with tz: 
-# time_from_string(c("20-01-01 10:30:45", "20-06-30 22:30:50"), tz = "NZ")
+# time_from_string(c("20-01-01 10:30:45", "20-06-30 22:30:50"), tz = "Pacific/Auckland")
 
 
 # time_from_noPOSIXt: Parse non-time into "POSIXt" (typically POSIXct) object(s): ------ 
@@ -424,7 +424,7 @@ time_from_noPOSIXt <- function(x, tz = "", ...){
 # time_from_noPOSIXt(c("June 8, 2010, 10-30"), format = "%B %d, %Y, %H-%M")
 # 
 # # with tz:
-# time_from_noPOSIXt(c("20-01-01 10:30:45", "20-06-30 22:30:50"), tz = "NZ")
+# time_from_noPOSIXt(c("20-01-01 10:30:45", "20-06-30 22:30:50"), tz = "Pacific/Auckland")
 
 
 
@@ -468,7 +468,7 @@ time_from_noPOSIXt <- function(x, tz = "", ...){
 #' @examples 
 #' # Time zones differences:
 #' tm <- "2020-01-01 01:00:00"  # nominal time
-#' t1 <- as.POSIXct(tm, tz = "NZ")
+#' t1 <- as.POSIXct(tm, tz = "Pacific/Auckland")
 #' t2 <- as.POSIXct(tm, tz = "Europe/Berlin")
 #' t3 <- as.POSIXct(tm, tz = "US/Hawaii")
 #' 
@@ -481,7 +481,7 @@ time_from_noPOSIXt <- function(x, tz = "", ...){
 #' diff_tz(t1, t3, in_min = TRUE)
 #' 
 #' # Compare local times (POSIXlt): 
-#' t4 <- as.POSIXlt(Sys.time(), tz = "NZ")
+#' t4 <- as.POSIXlt(Sys.time(), tz = "Pacific/Auckland")
 #' t5 <- as.POSIXlt(Sys.time(), tz = "Europe/Berlin")
 #' diff_tz(t4, t5)
 #' diff_tz(t4, t5, in_min = TRUE)
@@ -492,7 +492,7 @@ time_from_noPOSIXt <- function(x, tz = "", ...){
 #' t6 <- as.POSIXct(s6, tz = "Europe/Berlin")  # CET
 #' t7 <- as.POSIXct(s7, tz = "Europe/Berlin")  # CEST
 #' 
-#' diff_tz(t6, t7)  # 1 hour forwards
+#' diff_tz(t6, t7)  # 1 hour forward
 #' diff_tz(t6, t7, in_min = TRUE)
 #' 
 #' @family date and time functions
@@ -587,7 +587,7 @@ diff_tz <- function(t1, t2, in_min = FALSE){
 #  
 ## 1. Time zones differences:
 # tm <- "2020-01-01 01:00:00"  # nominal time
-# t1 <- as.POSIXct(tm, tz = "NZ")
+# t1 <- as.POSIXct(tm, tz = "Pacific/Auckland")
 # t2 <- as.POSIXct(tm, tz = "Europe/Berlin")
 # t3 <- as.POSIXct(tm, tz = "US/Hawaii")
 # 
@@ -602,7 +602,7 @@ diff_tz <- function(t1, t2, in_min = FALSE){
 # diff_tz(t1, t3, in_min = TRUE)
 # 
 # ## 2. Compare local times (POSIXlt):
-# t4 <- as.POSIXlt(Sys.time(), tz = "NZ")
+# t4 <- as.POSIXlt(Sys.time(), tz = "Pacific/Auckland")
 # t5 <- as.POSIXlt(Sys.time(), tz = "Europe/Berlin")
 # diff_tz(t4, t5)
 # 
@@ -636,7 +636,7 @@ diff_tz <- function(t1, t2, in_min = FALSE){
 # 
 # # 4. With vectors:
 # ta <- as.POSIXct("2020-01-01 01:00:00", tz = "Europe/Berlin")
-# tb <- as.POSIXct("2020-06-01 02:22:22", tz = "NZ")
+# tb <- as.POSIXct("2020-06-01 02:22:22", tz = "Pacific/Auckland")
 # tc <- as.POSIXct("2020-01-01 05:55:55", tz = "")
 # 
 # c(ta, tb, tc)  # Note: CET vs. CEST, NZ is dropped!
