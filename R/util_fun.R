@@ -252,11 +252,7 @@ align_vec_pair <- function(v1, v2){
 
 get_name <- function(x){
   
-  nm <- NA
-  
-  nm <- deparse(substitute(x))
-  
-  return(nm)
+  deparse(substitute(expr = x))
   
 } # get_name().
 
@@ -273,17 +269,29 @@ get_name <- function(x){
 # get_name(fc) # factor
 
 
+# get_name_in_parenv: Get an object's name in parent environment: ------ 
+
+get_name_in_parenv <- function(x){
+  
+  deparse(substitute(expr = x, env = parent.frame()))
+  
+} # get_name_in_parenv(). 
+
+
+
 # get_list_names: Get names of list objects: ------ 
 
 get_list_names <- function(l){
   
   # sapply(l, FUN = get_name)
   
+  # sapply(l, FUN = get_name_in_parenv)
+  
   # names(l) # extracts names of named list elements
   
-  enquote(l)
+  # enquote(l)
   
-  # deparse1(l)
+  deparse1(l)
   
 } # get_list_names().
 
@@ -291,10 +299,10 @@ get_list_names <- function(l){
 # l1 <- list("A", 1, TRUE)
 # l2 <- list(FALSE, 1:3)
 # l3 <- list(l1, l2)
-# 
+#  
 # get_name(l1)
 # get_name(l3)
-# get_list_names(l3) 
+# get_list_names(l3)
 # 
 # library(unicol)
 # my_pals <- list(uni_freiburg_1, uni_goettingen_1, mpg, uni_konstanz_1)
