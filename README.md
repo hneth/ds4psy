@@ -184,8 +184,8 @@ Please install the following open-source programs on your computer:
 
 - [The R Project for Statistical Computing](https://www.R-project.org/)
 
-- [R Studio](https://www.rstudio.com/) is an integrated development
-  environment (IDE) for R.
+- [R Studio](https://posit.co/products/open-source/rstudio/) is an
+  integrated development environment (IDE) for R.
 
 - R packages of the [tidyverse](https://www.tidyverse.org/),
   [ds4psy](https://CRAN.R-project.org/package=ds4psy), and
@@ -210,7 +210,7 @@ install.packages('unikn')   # color palettes and functions
   [books](https://www.r-project.org/doc/bib/R-books.html)
 
 - See the books on R and data science available on
-  <https://bookdown.org/>.
+  <https://bookdown.org>.
 
 <!-- - Zumel, N., & Mount, J. (2014). _Practical data science with R_. Greenwich, CT: Manning Publications. -->
 
@@ -222,9 +222,8 @@ install.packages('unikn')   # color palettes and functions
   sheets](https://posit.co/resources/cheatsheets/)
 
 - [Tidyverse](https://www.tidyverse.org/) resources:
-
-  - See <https://www.tidyverse.org/blog/> for current developments
-  - See <https://www.tidyverse.org/learn/> for learning resources
+  [blog](https://www.tidyverse.org/blog/) and
+  [learn](https://www.tidyverse.org/learn/)
 
 <!-- Add blank line.  -->
 
