@@ -11,7 +11,7 @@ with \code{length(Trumpisms) = 168}
 }
 \source{
 Data originally based on a collection of \emph{Donald Trump's 20 most frequently used words} on \url{https://www.yourdictionary.com}  
-and expanded by interviews, public speeches, and Twitter tweets at \url{https://twitter.com/realDonaldTrump}.
+and expanded by interviews, public speeches, and Twitter tweets from \code{https://twitter.com/realDonaldTrump}.
 }
 \usage{
 Trumpisms
