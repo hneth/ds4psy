@@ -25,7 +25,7 @@ The book and course [Data Science for Psychologists](https://bookdown.org/hneth/
 
 # ds4psy 1.0.0
 
-Release of **ds4psy** (1.0.0) [on CRAN](https://CRAN.R-project.org/package=ds4psy) acknowledges the package's stable state, but also implements minor changes and fixes some bugs. [2023-09-15]
+Release of **ds4psy** (1.0.0) [on CRAN](https://CRAN.R-project.org/package=ds4psy) acknowledges the package's stable state, but also fixes some bugs. [2023-09-15]
 
 <!-- Log of changes: --> 
 
@@ -34,8 +34,8 @@ Release of **ds4psy** (1.0.0) [on CRAN](https://CRAN.R-project.org/package=ds4ps
 
 ## Minor changes 
 
-- bug fix: Changed time zones in `time_fun.R` (e.g., from "NZ" to "Pacific/Auckland")
-
+- bug fix: Update time zones in `time_fun.R`
+- bug fix: Update URLs
 
 ## Details 
 
