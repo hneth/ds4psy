@@ -1,18 +1,19 @@
 
 <!-- README.md is generated from README.Rmd. Please edit THIS (Rmd) file. -->
 <!-- Devel badges start: -->
+<!-- [![CRAN status](https://www.r-pkg.org/badges/version/ds4psy)](https://CRAN.R-project.org/package=ds4psy) -->
+<!-- [![Downloads/month](https://cranlogs.r-pkg.org/badges/ds4psy?color='00a9e0')](https://www.r-pkg.org/pkg/ds4psy) -->
+<!-- [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.7229812.svg)](https://doi.org/10.5281/zenodo.7229812) -->
+<!-- Devel badges end. -->
+<!-- Release badges start: -->
 
 [![CRAN
 status](https://www.r-pkg.org/badges/version/ds4psy)](https://CRAN.R-project.org/package=ds4psy)
-[![Downloads/month](https://cranlogs.r-pkg.org/badges/ds4psy?color='00a9e0')](https://www.r-pkg.org/pkg/ds4psy)
+[![Total
+downloads](https://cranlogs.r-pkg.org/badges/grand-total/ds4psy?color='00a9e0')](https://www.r-pkg.org/pkg/ds4psy)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.7229812.svg)](https://doi.org/10.5281/zenodo.7229812)
-<!-- Devel badges end. -->
-
-<!-- Release badges start: -->
-<!-- [![CRAN status](https://www.r-pkg.org/badges/version/ds4psy)](https://CRAN.R-project.org/package=ds4psy) -->
-<!-- [![Total downloads](https://cranlogs.r-pkg.org/badges/grand-total/ds4psy?color='00a9e0')](https://www.r-pkg.org/pkg/ds4psy) -->
-<!-- [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.7229812.svg)](https://doi.org/10.5281/zenodo.7229812)  -->
 <!-- Release badges end. -->
+
 <!-- ALL status badges: 
 [![CRAN status](https://www.r-pkg.org/badges/version/ds4psy)](https://CRAN.R-project.org/package=ds4psy)
 [![Build status](https://travis-ci.org/hneth/ds4psy.svg?branch=master)](https://travis-ci.org/hneth/ds4psy)
@@ -266,10 +267,10 @@ know](https://www.spds.uni-konstanz.de/en/people).
 
 To cite **ds4psy** in derivations and publications, please use:
 
-- Neth, H. (2022). ds4psy: Data Science for Psychologists.  
+- Neth, H. (2023). ds4psy: Data Science for Psychologists.  
   Social Psychology and Decision Sciences, University of Konstanz,
   Germany.  
-  Textbook and R package (version 0.9.0, October 20, 2022).  
+  Textbook and R package (version 1.0.0, September 15, 2023).  
   Retrieved from <https://bookdown.org/hneth/ds4psy/>.  
   doi [10.5281/zenodo.7229812](https://doi.org/10.5281/zenodo.7229812)
 
@@ -281,10 +282,10 @@ A **BibTeX** entry for LaTeX users is:
 @Manual{ds4psy,
   title = {ds4psy: Data Science for Psychologists},
   author = {Hansjörg Neth},
-  year = {2022},
+  year = {2023},
   organization = {Social Psychology and Decision Sciences, University of Konstanz},
   address = {Konstanz, Germany},
-  note = {Textbook and R package (version 0.9.0, October 20, 2022)},
+  note = {Textbook and R package (version 1.0.0, September 15, 2023)},
   url = {https://bookdown.org/hneth/ds4psy/},
   doi = {10.5281/zenodo.7229812}
 }
@@ -315,6 +316,6 @@ License</a>.
 
 <!-- Footer: -->
 
-\[File `README.md` updated on 2023-09-12.\]
+\[File `README.md` updated on 2023-09-14.\]
 
 <!-- eof. -->

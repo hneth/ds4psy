@@ -16,27 +16,20 @@ The book and course [Data Science for Psychologists](https://bookdown.org/hneth/
 <!-- Links: --> 
 
 - The textbook **Data Science for Psychologists** is hosted at <https://bookdown.org/hneth/ds4psy/>. 
-- The most recent release of **ds4psy** (0.9.0) is available on CRAN: <https://CRAN.R-project.org/package=ds4psy>.
-- The current development version of **ds4psy** (0.9.0.9001+) is hosted at <https://github.com/hneth/ds4psy/>. 
+- The most recent release of **ds4psy** (1.0.0) is available on CRAN: <https://CRAN.R-project.org/package=ds4psy>.
+- The current development version of **ds4psy** (1.0.0.9001+) is hosted at <https://github.com/hneth/ds4psy/>. 
 
 <!-- Current version:  --> 
 
 -------- 
 
-# ds4psy 0.9.0.9006
+# ds4psy 1.0.0
 
-<!-- Development version: --> 
-
-This is the current development version of **ds4psy** hosted at <https://github.com/hneth/ds4psy/>.
+Release of **ds4psy** (1.0.0) [on CRAN](https://CRAN.R-project.org/package=ds4psy) acknowledges the package's stable state, but also implements minor changes and fixes some bugs. [2023-09-15]
 
 <!-- Log of changes: --> 
 
 **Changes** since last release: 
-
-
-## Major changes 
-
-- none yet.
 
 
 ## Minor changes 
@@ -49,19 +42,22 @@ This is the current development version of **ds4psy** hosted at <https://github.
 - revise status badges on `README`.
 
 
+<!-- Development version: -->
 
-## ToDo
+The current development version of **ds4psy** is hosted at <https://github.com/hneth/ds4psy/>.
 
-Changes to be implemented prior to the next release:
+<!-- ## ToDo --> 
 
-- improve `base2dec()` and `dec2base()` functions (e.g., with recursive and vectorized versions).
+<!-- Changes to be implemented prior to the next release: --> 
 
-- split the mixed functionality of `plot_text()` into 2 functions:
+<!-- - improve `base2dec()` and `dec2base()` functions (e.g., with recursive and vectorized versions). --> 
 
-    1. Combine `count_chars_words()` with `map_text_coord()` or `map_text_regex()` 
-    to create a df with two color vectors (fg/bg) based on `char_freq` and/or `word_freq`.
+<!-- - split the mixed functionality of `plot_text()` into 2 functions: --> 
+
+<!-- 1. Combine `count_chars_words()` with `map_text_coord()` or `map_text_regex()` 
+    to create a df with two color vectors (fg/bg) based on `char_freq` and/or `word_freq`. --> 
     
-    2. `plot_charmap()` directly plots the resulting df.
+<!-- 2. `plot_charmap()` directly plots the resulting df. --> 
 
 
 -------- 
@@ -430,6 +426,6 @@ The initial functionality is limited, as the package is designed to support the 
 
 ---------- 
 
-[File `NEWS.md` updated on 2023-09-12.]
+[File `NEWS.md` updated on 2023-09-15.]
 
 <!-- eof. -->
