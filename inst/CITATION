@@ -1,8 +1,8 @@
 citHeader("To cite 'ds4psy' in derivations and publications, please use:")
 
-citEntry(entry = "Manual",
+bibentry(bibtype = "Manual",
          title        = "ds4psy: Data Science for Psychologists",
-         author       = personList(as.person("Hansjörg Neth")),
+         author       = c(person("Hansjörg", "Neth", role = c("aut", "cre"), email = "h.neth@uni.kn")),
          year         = "2023",
          organization = "Social Psychology and Decision Sciences, University of Konstanz",
          address      = "Konstanz, Germany",
