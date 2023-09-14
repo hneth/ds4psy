@@ -157,31 +157,8 @@ install.packages('ds4psy')  # datasets and functions
 install.packages('unikn')   # color palettes and functions
 ```
 
+
 ### Other resources
-
-<!-- #### Course essentials and exercises (WPAs) --> 
-
-<!-- Table with links: -->
-
-<!-- All [ds4psy](http://rpository.com/ds4psy/) essentials (from) previous courses):  -->
-
-<!--
-Nr. | Topic       |
----:|:------------| 
-0.  | [Syllabus](http://rpository.com/ds4psy/) | 
-1.  | [Basic R concepts and commands](http://rpository.com/ds4psy/essentials/basics.html) | 
-2.  | [Visualizing data](http://rpository.com/ds4psy/essentials/visualize.html) | 
-3.  | [Transforming data](http://rpository.com/ds4psy/essentials/transform.html) |
-4.  | [Exploring data (EDA)](http://rpository.com/ds4psy/essentials/explore.html) | 
-5.  | [Tibbles](http://rpository.com/ds4psy/essentials/tibbles.html) |
-6.  | [Importing data](http://rpository.com/ds4psy/essentials/import.html) |
-7.  | [Tidying data](http://rpository.com/ds4psy/essentials/tidy.html) |
-8.  | [Joining data](http://rpository.com/ds4psy/essentials/join.html) |
-9.  | [Functions](http://rpository.com/ds4psy/essentials/function.html) |
-10. | [Iteration](http://rpository.com/ds4psy/essentials/iteration.html) |
-+.  | [Datasets](http://rpository.com/ds4psy/essentials/datasets.html) | 
--->
-
 
 #### R manuals and books
 
@@ -192,9 +169,9 @@ Nr. | Topic       |
 <!-- - Zumel, N., & Mount, J. (2014). _Practical data science with R_. Greenwich, CT: Manning Publications. -->
 
 
-#### RStudio resources  
+#### Software tools 
 
-- [RStudio](https://www.rstudio.com/) [IDE](https://www.rstudio.com/products/rstudio/), [R\ Markdown](https://rmarkdown.rstudio.com/), and various [cheat sheets](https://www.rstudio.com/resources/cheatsheets/) 
+- [Posit.co](https://posit.co/) resources: [RStudio IDE](https://posit.co/products/open-source/rstudio/), [R\ Markdown](https://rmarkdown.rstudio.com/), and various [cheat sheets](https://posit.co/resources/cheatsheets/) 
 
 - [Tidyverse](https://www.tidyverse.org/) resources:  
     - See <https://www.tidyverse.org/blog/> for current developments
