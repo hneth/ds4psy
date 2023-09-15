@@ -38,7 +38,7 @@ course introduce the principles and methods of data science for students
 of psychology and other biological or social sciences.
 
 <!-- Description of ds4psy package:  -->
-<!-- All datasets and functions required for the examples and exercises of the book "Data Science for Psychologists" (by Hansjoerg Neth, Konstanz University, 2022), available at <https://bookdown.org/hneth/ds4psy/>. The book and course introduce principles and methods of data science to students of psychology and other biological or social sciences. The 'ds4psy' package primarily provides datasets, but also functions for data generation and manipulation (e.g., of text and time data) and graphics that are used in the book and its exercises. All functions included in 'ds4psy' are designed to be explicit and instructive, rather than efficient or elegant.  -->
+<!-- All datasets and functions required for the examples and exercises of the book "Data Science for Psychologists" (by Hansjoerg Neth, Konstanz University, 2023), freely available at <https://bookdown.org/hneth/ds4psy/>. The book and course introduce principles and methods of data science to students of psychology and other biological or social sciences. The 'ds4psy' package primarily provides datasets, but also functions for data generation and manipulation (e.g., of text and time data) and graphics that are used in the book and its exercises. All functions included in 'ds4psy' are designed to be explicit and instructive, rather than efficient or elegant.  -->
 
 ## Installation
 
@@ -62,7 +62,7 @@ library('ds4psy')  # load to use the package
 ```
 
 The most recent version of the [ds4psy
-book](https://bookdown.org/hneth/ds4psy/) is available at
+book](https://bookdown.org/hneth/ds4psy/) is freely available at
 <https://bookdown.org/hneth/ds4psy/>.
 
 ## Course Coordinates
