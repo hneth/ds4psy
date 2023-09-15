@@ -45,7 +45,7 @@ the shorter vector is recycled to the length of the longer one.
 tm <- "2020-01-01 01:00:00"  # nominal time
 t1 <- as.POSIXct(tm, tz = "Pacific/Auckland")
 t2 <- as.POSIXct(tm, tz = "Europe/Berlin")
-t3 <- as.POSIXct(tm, tz = "US/Hawaii")
+t3 <- as.POSIXct(tm, tz = "Pacific/Honolulu")
 
 # as character (in "HH:MM"):
 diff_tz(t1, t2)

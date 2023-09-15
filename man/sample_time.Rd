@@ -80,7 +80,7 @@ unlist(lt_sample)
 
 # Time zones:
 sample_time(size = 3, tz = "UTC")
-sample_time(size = 3, tz = "US/Pacific")
+sample_time(size = 3, tz = "America/Los_Angeles")
  
 # Note: Oddity with sample(): 
 sort(sample_time(from = "2020-12-31 00:00:00 CET", to = "2020-12-31 00:00:00 CET",

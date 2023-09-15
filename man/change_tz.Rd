@@ -33,30 +33,30 @@ and returns the same time(s) as local time(s)
 }
 \examples{
 change_tz(Sys.time(), tz = "Pacific/Auckland")
-change_tz(Sys.time(), tz = "US/Hawaii")
+change_tz(Sys.time(), tz = "Pacific/Honolulu")
 
 # from "POSIXct" time:
 tc <- as.POSIXct("2020-07-01 12:00:00", tz = "UTC")
 change_tz(tc, "Australia/Melbourne")
 change_tz(tc, "Europe/Berlin")
-change_tz(tc, "US/Pacific")
+change_tz(tc, "America/Los_Angeles")
 
 # from "POSIXlt" time:
 tl <- as.POSIXlt("2020-07-01 12:00:00", tz = "UTC")
 change_tz(tl, "Australia/Melbourne")
 change_tz(tl, "Europe/Berlin")
-change_tz(tl, "US/Pacific")
+change_tz(tl, "America/Los_Angeles")
 
 # from "Date":
 dt <- as.Date("2020-12-31")
 change_tz(dt, "Pacific/Auckland")
-change_tz(dt, "US/Hawaii")  # Note different date!
+change_tz(dt, "Pacific/Honolulu")  # Note different date!
 
 # with a vector of "POSIXct" times:
-t2 <- as.POSIXct("2020-12-31 23:59:55", tz = "US/Pacific")
+t2 <- as.POSIXct("2020-12-31 23:59:55", tz = "America/Los_Angeles")
 tv <- c(tc, t2)
 tv  # Note: Both times in tz of tc
-change_tz(tv, "US/Pacific")
+change_tz(tv, "America/Los_Angeles")
 
 }
 \seealso{

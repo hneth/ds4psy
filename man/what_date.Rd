@@ -85,7 +85,7 @@ class(dt)
 
 # with time zone: 
 ts <- ISOdate(2020, 12, 24, c(0, 12))  # midnight and midday UTC
-what_date(when = ts, tz = "US/Hawaii", as_string = FALSE)
+what_date(when = ts, tz = "Pacific/Honolulu", as_string = FALSE)
 
 }
 \seealso{

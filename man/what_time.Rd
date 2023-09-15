@@ -60,15 +60,15 @@ what_time(tm)
 
 # with time zone: 
 ts <- ISOdate(2020, 12, 24, c(0, 12))  # midnight and midday UTC
-t1 <- what_time(when = ts, tz = "US/Hawaii")
+t1 <- what_time(when = ts, tz = "Pacific/Honolulu")
 t1  # time display changed, due to tz
 
 # return "POSIXct" object(s):
 # Same time in differen tz:
-t2 <- what_time(as.POSIXct("2020-02-29 10:00:00"), as_string = FALSE, tz = "US/Hawaii")
+t2 <- what_time(as.POSIXct("2020-02-29 10:00:00"), as_string = FALSE, tz = "Pacific/Honolulu")
 format(t2, "\%F \%T \%Z (UTF \%z)")
 # from string:
-t3 <- what_time("2020-02-29 10:00:00", as_string = FALSE, tz = "US/Hawaii")
+t3 <- what_time("2020-02-29 10:00:00", as_string = FALSE, tz = "Pacific/Honolulu")
 format(t3, "\%F \%T \%Z (UTF \%z)")
 
 }
