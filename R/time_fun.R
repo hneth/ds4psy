@@ -1,5 +1,5 @@
 ## time_fun.R | ds4psy
-## hn | uni.kn | 2023 09 12
+## hn | uni.kn | 2023 09 15
 ## ------------------------
 
 ## Main functions for date and time objects. 
@@ -296,15 +296,15 @@ cur_time <- function(seconds = FALSE, as_string = TRUE, sep = ":"){
 #' 
 #' # with time zone: 
 #' ts <- ISOdate(2020, 12, 24, c(0, 12))  # midnight and midday UTC
-#' t1 <- what_time(when = ts, tz = "US/Hawaii")
+#' t1 <- what_time(when = ts, tz = "Pacific/Honolulu")
 #' t1  # time display changed, due to tz
 #' 
 #' # return "POSIXct" object(s):
 #' # Same time in differen tz:
-#' t2 <- what_time(as.POSIXct("2020-02-29 10:00:00"), as_string = FALSE, tz = "US/Hawaii")
+#' t2 <- what_time(as.POSIXct("2020-02-29 10:00:00"), as_string = FALSE, tz = "Pacific/Honolulu")
 #' format(t2, "%F %T %Z (UTF %z)")
 #' # from string:
-#' t3 <- what_time("2020-02-29 10:00:00", as_string = FALSE, tz = "US/Hawaii")
+#' t3 <- what_time("2020-02-29 10:00:00", as_string = FALSE, tz = "Pacific/Honolulu")
 #' format(t3, "%F %T %Z (UTF %z)")
 #' 
 #' @family date and time functions
@@ -403,7 +403,7 @@ what_time <- function(when = NA, seconds = FALSE, as_string = TRUE, sep = ":", t
 # t1
 # 
 # # returns POSIXct objects:
-# t2 <- what_time("2020-02-29 12:30:45", tz = "US/Pacific")
+# t2 <- what_time("2020-02-29 12:30:45", tz = "America/Los_Angeles")
 # format(t2, "%T %Z")
 
 
@@ -479,7 +479,7 @@ what_time <- function(when = NA, seconds = FALSE, as_string = TRUE, sep = ":", t
 #' 
 #' # with time zone: 
 #' ts <- ISOdate(2020, 12, 24, c(0, 12))  # midnight and midday UTC
-#' what_date(when = ts, tz = "US/Hawaii", as_string = FALSE)
+#' what_date(when = ts, tz = "Pacific/Honolulu", as_string = FALSE)
 #' 
 #' @family date and time functions
 #' 
@@ -1294,19 +1294,19 @@ what_year <- function(when = Sys.Date(), abbr = FALSE, as_integer = FALSE){
 #' # from "POSIXlt" time:
 #' t1 <- as.POSIXlt("2020-01-01 10:20:30", tz = "Europe/Berlin")
 #' change_time(t1, "Pacific/Auckland")
-#' change_time(t1, "US/Pacific")
+#' change_time(t1, "America/Los_Angeles")
 #' 
 #' # from "POSIXct" time:
 #' tc <- as.POSIXct("2020-07-01 12:00:00", tz = "UTC")
 #' change_time(tc, "Pacific/Auckland")
 #' 
 #' # from "Date":
-#' dt <- as.Date("2020-12-31", tz = "US/Hawaii")
+#' dt <- as.Date("2020-12-31", tz = "Pacific/Honolulu")
 #' change_time(dt, tz = "Pacific/Auckland")
 #' 
 #' # from time "string":
 #' ts <- "2020-12-31 20:30:45"
-#' change_time(ts, tz = "US/Pacific")
+#' change_time(ts, tz = "America/Los_Angeles")
 #' 
 #' # from other "string" times:
 #' tx <- "7:30:45"
@@ -1318,12 +1318,12 @@ what_year <- function(when = Sys.Date(), abbr = FALSE, as_integer = FALSE){
 #' (l1 <- as.POSIXlt("2020-06-01 10:11:12"))
 #' change_tz(change_time(l1, "Pacific/Auckland"), tz = "UTC")
 #' change_tz(change_time(l1, "Europe/Berlin"), tz = "UTC")
-#' change_tz(change_time(l1, "US/Eastern"), tz = "UTC")
+#' change_tz(change_time(l1, "America/New_York"), tz = "UTC")
 #' 
 #' # with vector of "POSIXlt" times:
-#' (l2 <- as.POSIXlt("2020-12-31 23:59:55", tz = "US/Pacific"))
+#' (l2 <- as.POSIXlt("2020-12-31 23:59:55", tz = "America/Los_Angeles"))
 #' (tv <- c(l1, l2))              # uses tz of l1
-#' change_time(tv, "US/Pacific")  # change time and tz
+#' change_time(tv, "America/Los_Angeles")  # change time and tz
 #'  
 #' @family date and time functions
 #' 
@@ -1415,16 +1415,16 @@ change_time <- function(time, tz = ""){
 # (t1 <- as.POSIXlt("2020-01-10 10:20:30", tz = "Europe/Berlin"))
 # change_time(t1, "Pacific/Auckland")
 # change_time(t1, "Europe/Berlin")
-# change_time(t1, "US/Eastern")
+# change_time(t1, "America/New_York")
 # 
 # from "Date":
-# dt <- as.Date("2020-12-31", tz = "US/Hawaii")
+# dt <- as.Date("2020-12-31", tz = "Pacific/Honolulu")
 # format(dt, "%F %T %Z")  # Note: tz ignored.
 # change_time(dt, tz = "Pacific/Auckland")
 # 
 # # from time "string":
 # ts <- "2020-12-31 20:30:45"
-# change_time(ts, tz = "US/Pacific")
+# change_time(ts, tz = "America/Los_Angeles")
 # 
 # # from other "string" times:
 # tx <- "7:30:45"
@@ -1435,17 +1435,17 @@ change_time <- function(time, tz = ""){
 # # convert into local times:
 # change_tz(change_time(t1, "Pacific/Auckland"), tz = "UTC")
 # change_tz(change_time(t1, "Europe/Berlin"), tz = "UTC")
-# change_tz(change_time(t1, "US/Eastern"), tz = "UTC")
+# change_tz(change_time(t1, "America/New_York"), tz = "UTC")
 # 
 # # from "POSIXct" time:
 # (tc <- as.POSIXct("2020-07-01 12:00:00", tz = "UTC"))
 # change_time(tc, "Pacific/Auckland")
 # 
 # # with vector of "POSIXlt" times:
-# t2 <- as.POSIXlt("2020-12-31 23:59:55", tz = "US/Pacific")
+# t2 <- as.POSIXlt("2020-12-31 23:59:55", tz = "America/Los_Angeles")
 # tv <- c(t1, t2)
 # tv # uses tz of t1
-# change_time(tv, "US/Pacific")
+# change_time(tv, "America/Los_Angeles")
 
 
 # change_tz: ------ 
@@ -1477,30 +1477,30 @@ change_time <- function(time, tz = ""){
 #' 
 #' @examples
 #' change_tz(Sys.time(), tz = "Pacific/Auckland")
-#' change_tz(Sys.time(), tz = "US/Hawaii")
+#' change_tz(Sys.time(), tz = "Pacific/Honolulu")
 #' 
 #' # from "POSIXct" time:
 #' tc <- as.POSIXct("2020-07-01 12:00:00", tz = "UTC")
 #' change_tz(tc, "Australia/Melbourne")
 #' change_tz(tc, "Europe/Berlin")
-#' change_tz(tc, "US/Pacific")
+#' change_tz(tc, "America/Los_Angeles")
 #' 
 #' # from "POSIXlt" time:
 #' tl <- as.POSIXlt("2020-07-01 12:00:00", tz = "UTC")
 #' change_tz(tl, "Australia/Melbourne")
 #' change_tz(tl, "Europe/Berlin")
-#' change_tz(tl, "US/Pacific")
+#' change_tz(tl, "America/Los_Angeles")
 #' 
 #' # from "Date":
 #' dt <- as.Date("2020-12-31")
 #' change_tz(dt, "Pacific/Auckland")
-#' change_tz(dt, "US/Hawaii")  # Note different date!
+#' change_tz(dt, "Pacific/Honolulu")  # Note different date!
 #' 
 #' # with a vector of "POSIXct" times:
-#' t2 <- as.POSIXct("2020-12-31 23:59:55", tz = "US/Pacific")
+#' t2 <- as.POSIXct("2020-12-31 23:59:55", tz = "America/Los_Angeles")
 #' tv <- c(tc, t2)
 #' tv  # Note: Both times in tz of tc
-#' change_tz(tv, "US/Pacific")
+#' change_tz(tv, "America/Los_Angeles")
 #' 
 #' @family date and time functions
 #' 
@@ -1536,36 +1536,36 @@ change_tz <- function(time, tz = ""){
 
 # # Check:
 # change_tz(Sys.time(), tz = "Pacific/Auckland")
-# change_tz(Sys.time(), tz = "US/Hawaii")
+# change_tz(Sys.time(), tz = "Pacific/Honolulu")
 # 
 # # from "POSIXct" time:
 # tc <- as.POSIXct("2020-07-01 12:30:00", tz = "UTC")
 # change_tz(tc, "Pacific/Auckland")  # Note: Date effect!
 # change_tz(tc, "Australia/Melbourne")
 # change_tz(tc, "Europe/Berlin")
-# change_tz(tc, "US/Pacific")
+# change_tz(tc, "America/Los_Angeles")
 # 
 # # from "POSIXlt" time:
 # tl <- as.POSIXlt("2020-07-01 12:30:00", tz = "UTC")
 # change_tz(tl, "Pacific/Auckland")  # Note: Date effect!
 # change_tz(tl, "Australia/Melbourne")
 # change_tz(tl, "Europe/Berlin")
-# change_tz(tl, "US/Pacific")
+# change_tz(tl, "America/Los_Angeles")
 # 
 # # from "Date":
 # dt <- as.Date("2020-12-31")
 # change_tz(dt, "Pacific/Auckland")
-# change_tz(dt, "US/Hawaii")  # Note different date!
+# change_tz(dt, "Pacific/Honolulu")  # Note different date!
 # # Compare:
 # lubridate::with_tz(dt, tzone = "Pacific/Auckland")  # same result
-# lubridate::with_tz(dt, tzone = "US/Hawaii")  # same result
+# lubridate::with_tz(dt, tzone = "Pacific/Honolulu")  # same result
 # 
 # # with a vector of "POSIXct" times:
-# (t2 <- as.POSIXct("2020-12-31 23:59:55", tz = "US/Pacific"))
+# (t2 <- as.POSIXct("2020-12-31 23:59:55", tz = "America/Los_Angeles"))
 # (tv <- c(tc, t2))  # Note: Both times in tz of tc
-# change_tz(tv, "US/Pacific")
+# change_tz(tv, "America/Los_Angeles")
 # # Compare:
-# lubridate::with_tz(tv, tzone = "US/Pacific")  # same results
+# lubridate::with_tz(tv, tzone = "America/Los_Angeles")  # same results
 
 
 
