@@ -3,7 +3,7 @@
 
 <!-- Description: --> 
 
-All datasets and functions required for the examples and exercises of the book [Data Science for Psychologists](https://bookdown.org/hneth/ds4psy/) (by Hansjoerg Neth, Konstanz University, 2022), available at <https://bookdown.org/hneth/ds4psy/>. 
+All datasets and functions required for the examples and exercises of the book [Data Science for Psychologists](https://bookdown.org/hneth/ds4psy/) (by Hansjoerg Neth, Konstanz University, 2023), freely available at <https://bookdown.org/hneth/ds4psy/>. 
 The book and course introduce principles and methods of data science to students of psychology and other biological or social sciences. 
 The R package **ds4psy** primarily provides datasets, but also functions for data generation and manipulation (e.g., of text and time data) and graphics that are used in the book and its exercises. 
 All functions included in **ds4psy** are designed to be explicit and instructive, rather than efficient or elegant. 
@@ -25,7 +25,7 @@ The book and course [Data Science for Psychologists](https://bookdown.org/hneth/
 
 # ds4psy 1.0.0
 
-Release of **ds4psy** (1.0.0) [on CRAN](https://CRAN.R-project.org/package=ds4psy) acknowledges the package's stable state, but also fixes some bugs. [2023-09-15]
+Release of **ds4psy** (1.0.0) [on CRAN](https://CRAN.R-project.org/package=ds4psy) fixes some bugs, but mostly acknowledges the package's stable state. [2023-09-15]
 
 <!-- Log of changes: --> 
 
@@ -34,12 +34,12 @@ Release of **ds4psy** (1.0.0) [on CRAN](https://CRAN.R-project.org/package=ds4ps
 
 ## Minor changes 
 
-- bug fix: Update time zones in `time_fun.R`
-- bug fix: Update URLs
+- bug fix: Update time zones
 
 ## Details 
 
-- revise status badges on `README`.
+- update status badges
+- update URLs
 
 
 <!-- Development version: -->
