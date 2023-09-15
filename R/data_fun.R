@@ -411,7 +411,7 @@ sample_date <- function(from = "1970-01-01", to = Sys.Date(), size = 1, ...){
 #' 
 #' # Time zones:
 #' sample_time(size = 3, tz = "UTC")
-#' sample_time(size = 3, tz = "US/Pacific")
+#' sample_time(size = 3, tz = "America/Los_Angeles")
 #'  
 #' # Note: Oddity with sample(): 
 #' sort(sample_time(from = "2020-12-31 00:00:00 CET", to = "2020-12-31 00:00:00 CET",
@@ -484,7 +484,7 @@ sample_time <- function(from = "1970-01-01 00:00:00",
 # 
 # # Time zones:
 # sample_time(size = 3, tz = "UTC")
-# sample_time(size = 3, tz = "US/Pacific")
+# sample_time(size = 3, tz = "America/Los_Angeles")
 # 
 # # Note: Oddity with sample():
 # sort(sample_time(from = "2020-01-01 00:00:00 CET", to = "2020-01-01 00:00:00 CET", 

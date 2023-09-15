@@ -470,7 +470,7 @@ time_from_noPOSIXt <- function(x, tz = "", ...){
 #' tm <- "2020-01-01 01:00:00"  # nominal time
 #' t1 <- as.POSIXct(tm, tz = "Pacific/Auckland")
 #' t2 <- as.POSIXct(tm, tz = "Europe/Berlin")
-#' t3 <- as.POSIXct(tm, tz = "US/Hawaii")
+#' t3 <- as.POSIXct(tm, tz = "Pacific/Honolulu")
 #' 
 #' # as character (in "HH:MM"):
 #' diff_tz(t1, t2)
@@ -589,7 +589,7 @@ diff_tz <- function(t1, t2, in_min = FALSE){
 # tm <- "2020-01-01 01:00:00"  # nominal time
 # t1 <- as.POSIXct(tm, tz = "Pacific/Auckland")
 # t2 <- as.POSIXct(tm, tz = "Europe/Berlin")
-# t3 <- as.POSIXct(tm, tz = "US/Hawaii")
+# t3 <- as.POSIXct(tm, tz = "Pacific/Honolulu")
 # 
 # # as character (in "HH:MM"):
 # diff_tz(t1, t2)
