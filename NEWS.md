@@ -21,6 +21,34 @@ The book and course [Data Science for Psychologists](https://bookdown.org/hneth/
 
 <!-- Current version:  --> 
 
+
+-------- 
+
+# ds4psy 1.0.0.9001
+
+This is the development version of **ds4psy**, hosted at <https://github.com/hneth/ds4psy/>.
+
+<!-- Log of changes: --> 
+
+**Changes** since last release: 
+
+- none yet
+
+
+<!-- ## ToDo --> 
+
+<!-- Changes to be implemented prior to the next release: --> 
+
+<!-- - improve `base2dec()` and `dec2base()` functions (e.g., with recursive and vectorized versions). --> 
+
+<!-- - split the mixed functionality of `plot_text()` into 2 functions: --> 
+
+<!-- 1. Combine `count_chars_words()` with `map_text_coord()` or `map_text_regex()` 
+    to create a df with two color vectors (fg/bg) based on `char_freq` and/or `word_freq`. --> 
+    
+<!-- 2. `plot_charmap()` directly plots the resulting df. --> 
+
+
 -------- 
 
 # ds4psy 1.0.0
@@ -45,19 +73,6 @@ Release of **ds4psy** (1.0.0) [on CRAN](https://CRAN.R-project.org/package=ds4ps
 <!-- Development version: -->
 
 The current development version of **ds4psy** is hosted at <https://github.com/hneth/ds4psy/>.
-
-<!-- ## ToDo --> 
-
-<!-- Changes to be implemented prior to the next release: --> 
-
-<!-- - improve `base2dec()` and `dec2base()` functions (e.g., with recursive and vectorized versions). --> 
-
-<!-- - split the mixed functionality of `plot_text()` into 2 functions: --> 
-
-<!-- 1. Combine `count_chars_words()` with `map_text_coord()` or `map_text_regex()` 
-    to create a df with two color vectors (fg/bg) based on `char_freq` and/or `word_freq`. --> 
-    
-<!-- 2. `plot_charmap()` directly plots the resulting df. --> 
 
 
 -------- 
