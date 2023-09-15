@@ -203,7 +203,7 @@ doi\ [10.5281/zenodo.7229812](https://doi.org/10.5281/zenodo.7229812)
 
 A **BibTeX** entry for LaTeX users is: 
 
-```{r bitex-entry, echo = TRUE, eval = FALSE, highlight = FALSE}
+```{r bitex-entry, echo = FALSE, eval = FALSE, highlight = FALSE}
 @Manual{ds4psy,
   title = {ds4psy: Data Science for Psychologists},
   author = {Hansjörg Neth},
@@ -216,7 +216,17 @@ A **BibTeX** entry for LaTeX users is:
 }
 ```
 
-The URL of the **ds4psy** R package is <https://CRAN.R-project.org/package=ds4psy>.
+<!-- BibTeX entry of current version:  -->
+
+```{r pkg-unicol-citation, echo = FALSE, eval = TRUE, comment = "", highlight = FALSE}
+# From package citation:
+x <- citation(package = 'ds4psy')
+# print(x, prefix = "")
+utils::toBibtex(x)
+```
+
+
+The stable URL of the **ds4psy** R package is <https://CRAN.R-project.org/package=ds4psy>.
 
 
 ### License

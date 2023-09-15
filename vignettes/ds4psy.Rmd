@@ -96,11 +96,17 @@ Retrieved from <https://bookdown.org/hneth/ds4psy/>.
 
 A **BibTeX** entry for LaTeX users is: 
 
-```{r pkg-citation, echo = FALSE, eval = TRUE, comment = "", highlight = FALSE}
-# From package citation:
-x <- citation(package = 'ds4psy')
-# print(x, prefix = "")
-utils::toBibtex(x)
+```{r pkg-citation, echo = TRUE, eval = FALSE, comment = "", highlight = FALSE}
+@Manual{ds4psy,
+  title = {ds4psy: Data Science for Psychologists},
+  author = {Hansjörg Neth},
+  year = {2023},
+  organization = {Social Psychology and Decision Sciences, University of Konstanz},
+  address = {Konstanz, Germany},
+  note = {R package (version 1.0.0, September 15, 2023); Textbook at <https://bookdown.org/hneth/ds4psy/>.},
+  url = {https://CRAN.R-project.org/package=ds4psy},
+  doi = {10.5281/zenodo.7229812}
+}
 ```
 
 

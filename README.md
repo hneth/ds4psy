@@ -256,20 +256,20 @@ To cite **ds4psy** in derivations and publications, please use:
 
 A **BibTeX** entry for LaTeX users is:
 
-``` text
-@Manual{ds4psy,
-  title = {ds4psy: Data Science for Psychologists},
-  author = {Hansjörg Neth},
-  year = {2023},
-  organization = {Social Psychology and Decision Sciences, University of Konstanz},
-  address = {Konstanz, Germany},
-  note = {Textbook and R package (version 1.0.0, September 15, 2023)},
-  url = {https://bookdown.org/hneth/ds4psy/},
-  doi = {10.5281/zenodo.7229812}
-}
-```
+<!-- BibTeX entry of current version:  -->
 
-The URL of the **ds4psy** R package is
+    @Manual{,
+      title = {ds4psy: Data Science for Psychologists},
+      author = {Hansjörg Neth},
+      year = {2023},
+      organization = {Social Psychology and Decision Sciences, University of Konstanz},
+      address = {Konstanz, Germany},
+      note = {R package (version 1.0.0, September 15, 2023); Textbook at <https://bookdown.org/hneth/ds4psy/>.},
+      url = {https://CRAN.R-project.org/package=ds4psy},
+      doi = {10.5281/zenodo.7229812},
+    }
+
+The stable URL of the **ds4psy** R package is
 <https://CRAN.R-project.org/package=ds4psy>.
 
 ### License
