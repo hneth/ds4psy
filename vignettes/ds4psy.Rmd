@@ -1,5 +1,5 @@
 ---
-title: "ds4psy"
+title: "Data Science for Psychologists (ds4psy)"
 output: rmarkdown::html_vignette
 pdf_document:
          latex_engine: xelatex
@@ -32,7 +32,7 @@ The book and course introduce the principles and methods of data science for stu
 The book is available at <https://bookdown.org/hneth/ds4psy/>. 
 
 
-## Description
+## The ds4psy book, course, and R package 
 
 The **ds4psy** book and course provide an introduction to data science that is tailored to the needs of psychologists, but is also suitable for students of the humanities and other biological or social sciences. 
 This audience typically has some knowledge of statistics, but rarely an idea how data is prepared and shaped to allow for statistical testing. 
@@ -85,9 +85,9 @@ If you find these materials useful, or want to adopt or alter them for your purp
 
 To cite **ds4psy** in derivations and publications, please use:
 
-- Neth, H. (2022). ds4psy: Data Science for Psychologists.  
+- Neth, H. (2023). ds4psy: Data Science for Psychologists.  
 Social Psychology and Decision Sciences, University of Konstanz, Germany.  
-Textbook and R package (version 0.9.0, October 20, 2022).  
+Textbook and R package (version 1.0.0, September 15, 2023).  
 Retrieved from <https://bookdown.org/hneth/ds4psy/>.  
 [https://doi.org/10.5281/zenodo.7229812](https://doi.org/10.5281/zenodo.7229812)  
 
@@ -100,10 +100,10 @@ A **BibTeX** entry for LaTeX users is:
 @Manual{ds4psy,
   title = {ds4psy: Data Science for Psychologists},
   author = {Hansjörg Neth},
-  year = {2022},
+  year = {2023},
   organization = {Social Psychology and Decision Sciences, University of Konstanz},
   address = {Konstanz, Germany},
-  note = {Textbook and R package (version 0.9.0, October 20, 2022)},
+  note = {Textbook and R package (version 1.0.0, September 15, 2023)},
   url = {https://bookdown.org/hneth/ds4psy/},
   doi = {10.5281/zenodo.7229812}
 }
