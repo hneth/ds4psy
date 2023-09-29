@@ -2,7 +2,7 @@
 % Please edit documentation in R/data_fun.R
 \name{get_set}
 \alias{get_set}
-\title{Get a set of x-y coordinates.}
+\title{Get a set of x-y coordinates (from Anscombe's Quartet)}
 \source{
 See \code{?datasets:anscombe} for details and references.
 }

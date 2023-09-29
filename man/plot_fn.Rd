@@ -2,7 +2,7 @@
 % Please edit documentation in R/plot_fun.R
 \name{plot_fn}
 \alias{plot_fn}
-\title{A function to plot a plot.}
+\title{A function to plot a plot}
 \usage{
 plot_fn(
   x = NA,

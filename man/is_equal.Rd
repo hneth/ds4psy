@@ -2,7 +2,7 @@
 % Please edit documentation in R/num_util_fun.R
 \name{is_equal}
 \alias{is_equal}
-\title{Test two vectors for pairwise (near) equality.}
+\title{Test two vectors for pairwise (near) equality}
 \usage{
 is_equal(x, y, ...)
 }

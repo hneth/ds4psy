@@ -3,7 +3,7 @@
 \docType{data}
 \name{fruits}
 \alias{fruits}
-\title{Data: Names of fruits.}
+\title{Data: Names of fruits}
 \format{
 A vector of type \code{character}  
 with \code{length(fruits) = 122}.

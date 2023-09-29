@@ -2,7 +2,7 @@
 % Please edit documentation in R/plot_fun.R
 \name{plot_chars}
 \alias{plot_chars}
-\title{Plot text characters (from file or user input) and match patterns.}
+\title{Plot text characters (from file or user input) and match patterns}
 \usage{
 plot_chars(
   x = NA,
@@ -135,7 +135,8 @@ as a tile plot (using \strong{ggplot2}).
 \code{plot_chars} blurs the boundary between a text 
 and its graphical representation by combining options 
 for matching patterns of text with visual features 
-for displaying characters (e.g., their color or orientation). 
+for displaying characters (e.g., their color or orientation).
+
 
 \code{plot_chars} is based on \code{\link{plot_text}}, 
 but provides additional support for detecting and displaying characters 

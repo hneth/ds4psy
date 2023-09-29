@@ -3,7 +3,7 @@
 \docType{data}
 \name{falsePosPsy_all}
 \alias{falsePosPsy_all}
-\title{False Positive Psychology data.}
+\title{Data: False Positive Psychology}
 \format{
 A table with 78 cases (rows) and 19 variables (columns):
 }

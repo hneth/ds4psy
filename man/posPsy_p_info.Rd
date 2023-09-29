@@ -3,7 +3,7 @@
 \docType{data}
 \name{posPsy_p_info}
 \alias{posPsy_p_info}
-\title{Positive Psychology: Participant data.}
+\title{Positive Psychology: Participant data}
 \format{
 A table with 295 cases (rows) and 6 variables (columns).
 }

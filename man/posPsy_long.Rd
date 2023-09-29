@@ -3,7 +3,7 @@
 \docType{data}
 \name{posPsy_long}
 \alias{posPsy_long}
-\title{Positive Psychology: AHI CESD corrected data (in long format).}
+\title{Positive Psychology: AHI CESD corrected data (in long format)}
 \format{
 A table with 990 cases (rows) and 50 variables (columns).
 }

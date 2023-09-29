@@ -2,7 +2,7 @@
 % Please edit documentation in R/num_fun.R
 \name{base2dec}
 \alias{base2dec}
-\title{Convert a string of numeral digits from some base into decimal notation.}
+\title{Convert a string of numeral digits from some base into decimal notation}
 \usage{
 base2dec(x, base = 2)
 }
@@ -25,7 +25,8 @@ into standard decimal notation (using the base or radix of 10).
 The individual digits provided in \code{x} (e.g., from "0" to "9", "A" to "F") 
 must be defined in the specified base (i.e., every digit value must be lower 
 than the base or radix value). 
-See \code{\link{base_digits}} for the sequence of default digits. 
+See \code{\link{base_digits}} for the sequence of default digits.
+
 
 \code{base2dec} is the complement of \code{\link{dec2base}}.
 }

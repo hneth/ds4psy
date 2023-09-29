@@ -2,7 +2,7 @@
 % Please edit documentation in R/num_fun.R
 \name{dec2base}
 \alias{dec2base}
-\title{Convert an integer from decimal notation into a string of numeric digits in some base.}
+\title{Convert an integer from decimal notation into a string of numeric digits in some base}
 \usage{
 dec2base(x, base = 2)
 }
@@ -19,13 +19,13 @@ A character string of digits (in base notation).
 \description{
 \code{dec2base} converts an integer from its standard decimal notation 
 (i.e., using positional numerals with a base or radix of 10) 
-into a sequence of numeric symbols (digits) in some other base.
+into a sequence of numeric symbols (digits) in some other base. 
+See \code{\link{base_digits}} for the sequence of default digits.
 }
 \details{
-See \code{\link{base_digits}} for the sequence of default digits. 
-
 To prevent erroneous interpretations of numeric outputs, 
 \code{dec2base} returns a sequence of digits (as a character string).
+
 
 \code{dec2base} is the complement of \code{\link{base2dec}}.
 }

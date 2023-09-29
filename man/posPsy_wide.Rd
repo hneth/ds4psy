@@ -3,7 +3,7 @@
 \docType{data}
 \name{posPsy_wide}
 \alias{posPsy_wide}
-\title{Positive Psychology: All corrected data (in wide format).}
+\title{Positive Psychology: All corrected data (in wide format)}
 \format{
 An object of class \code{spec_tbl_df} (inherits from \code{tbl_df}, \code{tbl}, \code{data.frame}) with 295 rows and 294 columns.
 }

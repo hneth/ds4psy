@@ -2,7 +2,7 @@
 % Please edit documentation in R/data_fun.R
 \name{dice_2}
 \alias{dice_2}
-\title{Throw a questionable dice (with a given number of sides) n times.}
+\title{Throw a questionable dice (with a given number of sides) n times}
 \usage{
 dice_2(n = 1, sides = 6)
 }

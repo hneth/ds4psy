@@ -2,7 +2,7 @@
 % Please edit documentation in R/data_fun.R
 \name{coin}
 \alias{coin}
-\title{Flip a fair coin (with 2 sides "H" and "T") n times.}
+\title{Flip a fair coin (with 2 sides "H" and "T") n times}
 \usage{
 coin(n = 1, events = c("H", "T"))
 }

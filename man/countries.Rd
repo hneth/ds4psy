@@ -3,7 +3,7 @@
 \docType{data}
 \name{countries}
 \alias{countries}
-\title{Data: Names of countries.}
+\title{Data: Names of countries}
 \format{
 A vector of type \code{character}  
 with \code{length(countries) = 197}.

@@ -3,7 +3,7 @@
 \docType{data}
 \name{t_2}
 \alias{t_2}
-\title{Data t_2.}
+\title{Data: t_2}
 \format{
 A table with 8 cases (rows) and 5 variables (columns).
 }

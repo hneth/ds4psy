@@ -3,7 +3,7 @@
 \docType{data}
 \name{posPsy_AHI_CESD}
 \alias{posPsy_AHI_CESD}
-\title{Positive Psychology: AHI CESD data.}
+\title{Positive Psychology: AHI CESD data}
 \format{
 A table with 992 cases (rows) and 50 variables (columns).
 }

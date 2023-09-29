@@ -2,7 +2,7 @@
 % Please edit documentation in R/num_util_fun.R
 \name{num_as_char}
 \alias{num_as_char}
-\title{Convert a number into a character sequence.}
+\title{Convert a number into a character sequence}
 \usage{
 num_as_char(x, n_pre_dec = 2, n_dec = 2, sym = "0", sep = ".")
 }

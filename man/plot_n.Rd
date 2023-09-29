@@ -2,7 +2,7 @@
 % Please edit documentation in R/plot_fun.R
 \name{plot_n}
 \alias{plot_n}
-\title{Plot n tiles.}
+\title{Plot n tiles}
 \usage{
 plot_n(
   n = NA,

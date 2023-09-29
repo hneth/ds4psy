@@ -3,7 +3,7 @@
 \docType{data}
 \name{flowery}
 \alias{flowery}
-\title{Data: Flowery phrases.}
+\title{Data: Flowery phrases}
 \format{
 A vector of type \code{character}  
 with \code{length(flowery) = 60}.

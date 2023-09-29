@@ -2,7 +2,7 @@
 % Please edit documentation in R/num_util_fun.R
 \name{num_as_ordinal}
 \alias{num_as_ordinal}
-\title{Convert a number into an ordinal character sequence.}
+\title{Convert a number into an ordinal character sequence}
 \usage{
 num_as_ordinal(x, sep = "")
 }

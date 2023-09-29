@@ -3,7 +3,7 @@
 \docType{data}
 \name{fame}
 \alias{fame}
-\title{Data table fame.}
+\title{Data: fame}
 \format{
 A table with 67 cases (rows) and 4 variables (columns).
 }

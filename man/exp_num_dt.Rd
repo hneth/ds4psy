@@ -3,7 +3,7 @@
 \docType{data}
 \name{exp_num_dt}
 \alias{exp_num_dt}
-\title{Data from an experiment with numeracy and date-time variables.}
+\title{Data from an experiment with numeracy and date-time variables}
 \format{
 A table with 1000 cases (rows) and 15 variables (columns).
 }

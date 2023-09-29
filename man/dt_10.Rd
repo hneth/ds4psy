@@ -3,7 +3,7 @@
 \docType{data}
 \name{dt_10}
 \alias{dt_10}
-\title{Data from 10 Danish people.}
+\title{Data from 10 Danish people}
 \format{
 A table with 10 cases (rows) and 7 variables (columns).
 }

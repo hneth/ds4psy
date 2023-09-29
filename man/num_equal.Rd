@@ -2,7 +2,7 @@
 % Please edit documentation in R/num_util_fun.R
 \name{num_equal}
 \alias{num_equal}
-\title{Test two numeric vectors for pairwise (near) equality.}
+\title{Test two numeric vectors for pairwise (near) equality}
 \usage{
 num_equal(x, y, tol = .Machine$double.eps^0.5)
 }

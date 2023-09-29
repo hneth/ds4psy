@@ -2,7 +2,7 @@
 % Please edit documentation in R/num_util_fun.R
 \name{is_wholenumber}
 \alias{is_wholenumber}
-\title{Test for whole numbers (i.e., integers).}
+\title{Test for whole numbers (i.e., integers)}
 \usage{
 is_wholenumber(x, tol = .Machine$double.eps^0.5)
 }

@@ -3,7 +3,7 @@
 \docType{data}
 \name{Trumpisms}
 \alias{Trumpisms}
-\title{Data: Trumpisms.}
+\title{Data: Trumpisms}
 \format{
 A vector of type \code{character}  
 with \code{length(Trumpisms) = 168} 

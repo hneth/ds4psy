@@ -2,7 +2,7 @@
 % Please edit documentation in R/plot_fun.R
 \name{plot_charmap}
 \alias{plot_charmap}
-\title{Plot a character map as a tile plot with text labels.}
+\title{Plot a character map as a tile plot with text labels}
 \usage{
 plot_charmap(
   x = NA,

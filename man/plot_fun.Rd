@@ -2,7 +2,7 @@
 % Please edit documentation in R/plot_fun.R
 \name{plot_fun}
 \alias{plot_fun}
-\title{Another function to plot some plot.}
+\title{An example function to plot some plot}
 \usage{
 plot_fun(
   a = NA,
@@ -46,7 +46,7 @@ Default: \code{c1 = c(rev(pal_seeblau), "white", pal_grau, "black", Bordeaux)}
 Default: \code{c2 = "black"}.}
 }
 \description{
-\code{plot_fun} is a function that provides options for plotting a plot.
+\code{plot_fun} provides options for plotting a plot.
 }
 \details{
 \code{plot_fun} is deliberately kept cryptic and obscure to illustrate 

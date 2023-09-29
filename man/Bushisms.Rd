@@ -3,7 +3,7 @@
 \docType{data}
 \name{Bushisms}
 \alias{Bushisms}
-\title{Data: Bushisms.}
+\title{Data: Bushisms}
 \format{
 A vector of type \code{character}  
 with \code{length(Bushisms) = 22}.
