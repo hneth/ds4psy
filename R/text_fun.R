@@ -1,6 +1,6 @@
 ## text_fun.R | ds4psy
 ## hn | uni.kn | 2022 06 30
-## ---------------------------
+## ------------------------
 
 ## Functions for text strings and character objects. 
 
@@ -11,11 +11,12 @@
 
 # capitalize: the first n letters of words (w/o exception): -------- 
 
-#' Capitalize initial characters in strings of text \code{x}.  
+#' Capitalize initial characters in a string of text 
 #' 
-#' \code{capitalize} converts the case of 
-#' each element's (i.e., character string or word in text) 
-#' \code{n} initial characters to \code{upper} or lowercase.
+#' \code{capitalize} converts 
+#' the first \code{n} initial characters of 
+#' each element of a text string \code{x} (i.e., characters or words) 
+#' to upper- or lowercase.
 #' 
 #' If \code{as_text = TRUE}, the input \code{x} is merged into 
 #' one string of text and the arguments are applied to each word.  
@@ -114,7 +115,7 @@ capitalize <- function(x,      # character string or text
 
 # caseflip: Flip lower to upper case and vice versa: --------  
 
-#' Flip the case of characters in a string of text \code{x}.
+#' Flip the case of characters in a string of text 
 #' 
 #' \code{caseflip} flips the case of all characters 
 #' in a string of text \code{x}.
@@ -166,7 +167,7 @@ caseflip <- function(x){
 
 # read_ascii: Parse text (from a file) into string(s) of text (txt). -------- 
 
-#' read_ascii parses text (from file or user input) into string(s) of text. 
+#' Parse text (from file or user input) into string(s) of text 
 #'
 #' \code{read_ascii} parses text inputs 
 #' (from a file or from user input in the Console) 
@@ -749,8 +750,7 @@ my_l33t <- c("t" = "+",
              "r" = "R"
 ) 
 
-#' l33t_rul35 provides rules for translating text 
-#' into leet/l33t slang. 
+#' Rules for translating text into leet/l33t slang
 #' 
 #' \code{l33t_rul35} specifies rules for translating characters 
 #' into other characters (typically symbols) to mimic 
@@ -784,7 +784,7 @@ l33t_rul35 <- c(l33t_num, my_l33t)
 
 ## (b) as function: 
 
-#' transl33t translates text into leet slang.
+#' Translate text into leet slang
 #'
 #' \code{transl33t} translates text into leet (or l33t) slang 
 #' given a set of rules.
@@ -1218,7 +1218,7 @@ angle_map_match <- function(text, pattern = "[^[:space:]]", case_sense = TRUE,
 
 # count_chars: Count the frequency of characters (in a text string x, as vector): -------- 
 
-#' Count the frequency of characters in a string of text \code{x}.
+#' Count the frequency of characters in a string of text
 #' 
 #' \code{count_chars} provides frequency counts of the 
 #' characters in a string of text \code{x} 
@@ -1338,7 +1338,7 @@ count_chars <- function(x, # string of text to count
 
 # count_words: Count the frequency of words (in a text string x, as vector): -------- 
 
-#' Count the frequency of words in a string of text \code{x}.
+#' Count the frequency of words in a string of text
 #' 
 #' \code{count_words} provides frequency counts of the 
 #' words in a string of text \code{x} 
@@ -1677,7 +1677,7 @@ char_word <- function(x, sep = "\n", rm_sep = TRUE){
 
 # count_chars_words: Count the frequency of chars and corresponding words in string(s) of text (by char): -------- 
 
-#' Count the frequency of characters and words in a string of text \code{x}.
+#' Count the frequency of characters and words in a string of text
 #'
 #' \code{count_chars_words} provides frequency counts of the 
 #' characters and words of a string of text \code{x} 
@@ -1865,7 +1865,7 @@ count_chars_words <- function(x, case_sense = TRUE, sep = "|", rm_sep = TRUE){
 #       map_text_regex() function that calls map_text_coord(), plus optional   
 #       regular expressions (regex) for creating additional custom columns (col_fg/col_bg/angle).
 
-#' Map text to character table (allowing for matching patterns).
+#' Map text to character table (allowing for matching patterns)
 #'
 #' \code{map_text_regex} parses text (from a file or user input) 
 #' into a data frame that contains a row for each 

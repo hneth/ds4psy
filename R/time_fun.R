@@ -15,7 +15,7 @@
 
 # cur_date: A relaxed version of Sys.time() ------ 
 
-#' Current date (in yyyy-mm-dd or dd-mm-yyyy format). 
+#' Get current date (in yyyy-mm-dd or dd-mm-yyyy format) 
 #'
 #' \code{cur_date} provides a relaxed version of 
 #' \code{Sys.time()} that is sufficient for most purposes. 
@@ -116,7 +116,7 @@ cur_date <- function(rev = FALSE, as_string = TRUE, sep = "-"){
 
 # cur_time: A satisficing version of Sys.time() ------
 
-#' Current time (in hh:mm or hh:mm:ss format).  
+#' Get current time (in hh:mm or hh:mm:ss format) 
 #'
 #' \code{cur_time} provides a satisficing version of 
 #' \code{Sys.time()} that is sufficient for most purposes. 
@@ -1265,7 +1265,7 @@ what_year <- function(when = Sys.Date(), abbr = FALSE, as_integer = FALSE){
 
 # Task 2: Change time zone AND actual time, without changing represented time (i.e., time display): 
 
-#' Change time and time zone (without changing time display).  
+#' Change time and time zone (without changing time display) 
 #'
 #' \code{change_time} changes the time and time zone  
 #' without changing the time display.
@@ -2876,7 +2876,7 @@ diff_times <- function(from_time, to_time = Sys.time(),
 
 ## (5) Get zodiac name/symbol for given date(s): ------ 
 
-#' Get zodiac (corresponding to date x).  
+#' Get zodiac corresponding to date(s)
 #'
 #' \code{zodiac} provides the tropical zodiac sign or symbol 
 #' for given date(s) \code{x}.

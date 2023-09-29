@@ -1,6 +1,6 @@
 ## theme_fun.R | ds4psy
 ## hn | uni.kn | 2021 05 09 
-## ---------------------------
+## ------------------------
 
 ## Functions for ggplot2 themes. 
 
@@ -8,17 +8,17 @@
 
 # theme_empty: An empty/blank ggplot2 theme ------ 
 
-#' A basic and flexible plot theme (using ggplot2 and unikn).
+#' A basic and flexible plot theme (using \strong{ggplot2})
 #'
 #' \code{theme_empty} provides an empty (blank) theme 
-#' to use in \bold{ggplot2} commands. 
+#' to use in \strong{ggplot2} commands. 
 #' 
 #' \code{theme_empty} shows nothing but the plot panel.
 #' 
 #' \code{theme_empty} is based on 
-#' \code{theme_nothing} of the \bold{cowplot} package 
+#' \code{theme_nothing} of the \strong{cowplot} package 
 #' and uses  
-#' \code{theme_void} of the \bold{ggplot2} package.  
+#' \code{theme_void} of the \strong{ggplot2} package.  
 #' 
 #' @param font_size Overall font size. 
 #' Default: \code{font_size = 12}.
@@ -32,7 +32,7 @@
 #' @param plot_mar Plot margin sizes (on top, right, bottom, left). 
 #' Default: \code{plot_mar = c(0, 0, 0, 0)} (in lines).  
 #' 
-#' @return A \bold{ggplot2} theme. 
+#' @return A \strong{ggplot2} theme. 
 #' 
 #' @examples
 #' 
@@ -159,10 +159,10 @@ theme_empty <- function(font_size = 12,
 
 # theme_ds4psy: A clean and flexible ggplot2 theme ------ 
 
-#' A basic and flexible plot theme (using ggplot2 and unikn).
+#' A basic and flexible plot theme 
 #'
-#' \code{theme_ds4psy} provides a generic \bold{ds4psy} theme 
-#' to use in \bold{ggplot2} commands. 
+#' \code{theme_ds4psy} provides a generic \strong{ds4psy} theme 
+#' to use in \strong{ggplot2} commands. 
 #' 
 #' The theme is lightweight and no-nonsense, but somewhat 
 #' opinionated (e.g., in using transparency and grid lines, 
@@ -219,7 +219,7 @@ theme_empty <- function(font_size = 12,
 #' @param col_brdrs Color of (panel and strip) borders. 
 #' Default: \code{col_brdrs = "transparent"}. 
 #' 
-#' @return A \bold{ggplot2} theme.
+#' @return A \strong{ggplot2} theme.
 #' 
 #' @examples
 #' 
@@ -349,10 +349,10 @@ theme_ds4psy <- function(base_size = 11,
 
 # theme_grau: Alternative theme for ggplot2 ------ 
 
-#' A clean alternative theme for ggplot2.  
+#' A clean alternative theme for \strong{ggplot2} 
 #' 
-#' \code{theme_clean} provides an alternative \bold{ds4psy} theme 
-#' to use in \bold{ggplot2} commands. 
+#' \code{theme_clean} provides an alternative \strong{ds4psy} theme 
+#' to use in \strong{ggplot2} commands. 
 #' 
 #' \code{theme_clean} is more minimal than \code{\link{theme_ds4psy}} 
 #' and fills panel backgrounds with a color \code{col_panel}. 
@@ -389,7 +389,7 @@ theme_ds4psy <- function(base_size = 11,
 #' @param col_ticks Color of axes text and ticks. 
 #' Default: \code{col_ticks = grey(.10, 1)} (i.e., near "black").
 #'  
-#' @return A \bold{ggplot2} theme.
+#' @return A \strong{ggplot2} theme.
 #' 
 #' @examples
 #' 
