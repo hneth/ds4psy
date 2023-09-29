@@ -15,7 +15,7 @@
 
 # base2dec: Convert a base N numeral string (of digits) into a decimal number: ------ 
 
-#' Convert a string of numeral digits from some base into decimal notation. 
+#' Convert a string of numeral digits from some base into decimal notation 
 #' 
 #' \code{base2dec} converts a sequence of numeral symbols (digits) 
 #' from its notation as positional numerals (with some base or radix)
@@ -26,6 +26,7 @@
 #' than the base or radix value). 
 #' See \code{\link{base_digits}} for the sequence of default digits. 
 #' 
+#' @details 
 #' \code{base2dec} is the complement of \code{\link{dec2base}}. 
 #' 
 #' @return An integer number (in decimal notation). 
@@ -284,17 +285,17 @@ base2dec_v <- Vectorize(base2dec)
 
 # dec2base: Conversion function from decimal to base notation (as a complement to base2dec): ------
 
-#' Convert an integer from decimal notation into a string of numeric digits in some base. 
+#' Convert an integer from decimal notation into a string of numeric digits in some base 
 #' 
 #' \code{dec2base} converts an integer from its standard decimal notation 
 #' (i.e., using positional numerals with a base or radix of 10) 
 #' into a sequence of numeric symbols (digits) in some other base. 
-#' 
 #' See \code{\link{base_digits}} for the sequence of default digits. 
 #' 
 #' To prevent erroneous interpretations of numeric outputs, 
 #' \code{dec2base} returns a sequence of digits (as a character string).
 #' 
+#' @details 
 #' \code{dec2base} is the complement of \code{\link{base2dec}}. 
 #' 
 #' @return A character string of digits (in base notation).

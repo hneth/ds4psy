@@ -15,7 +15,7 @@
 # Note that is.integer() tests for objects of TYPE "integer", not integer values. 
 # See help on is.integer(). 
 
-#' Test for whole numbers (i.e., integers). 
+#' Test for whole numbers (i.e., integers) 
 #'
 #' \code{is_wholenumber} tests if \code{x} contains only integer numbers.
 #' 
@@ -76,7 +76,7 @@ is_wholenumber <- function(x, tol = .Machine$double.eps^0.5) {
 # base::all.equal() and 
 # dplyr::near for similar functions.
 
-#' Test two numeric vectors for pairwise (near) equality. 
+#' Test two numeric vectors for pairwise (near) equality 
 #'
 #' \code{num_equal} tests if two numeric vectors \code{x} and \code{y} are pairwise equal 
 #' (within some tolerance value `tol`). 
@@ -167,7 +167,7 @@ num_equal <- function(x, y, tol = .Machine$double.eps^0.5){
 
 # is_equal: A wrapper around "==" and num_equal() ------ 
 
-#' Test two vectors for pairwise (near) equality. 
+#' Test two vectors for pairwise (near) equality 
 #'
 #' \code{is_equal} tests if two vectors \code{x} and \code{y} are pairwise equal. 
 #' 
@@ -252,7 +252,7 @@ is_equal <- function(x, y, ...){
 
 # num_as_char: Print a number (as character), with n_pre_dec digits prior to decimal sep, and rounded to n_dec digits: ------
 
-#' Convert a number into a character sequence. 
+#' Convert a number into a character sequence 
 #'
 #' \code{num_as_char} converts a number into a character sequence 
 #' (of a specific length). 
@@ -471,7 +471,7 @@ num_as_char <- function(x, n_pre_dec = 2, n_dec = 2, sym = "0", sep = "."){
 
 # num_as_ordinal: Convert a (cardinal) number into an ordinal string: ------
 
-#' Convert a number into an ordinal character sequence. 
+#' Convert a number into an ordinal character sequence 
 #'
 #' \code{num_as_ordinal} converts a given (cardinal) number 
 #' into an ordinal character sequence. 
@@ -596,7 +596,8 @@ base_digit_vec        <- c(0:9, LETTERS[1:6])      # max_base value: 16
 base_digit_vec        <- c(0:9, LETTERS, letters)  # max_base value: 62
 names(base_digit_vec) <- 0:(length(base_digit_vec) - 1)  # zero-indexed numeric names
 
-#' Base digits: Sequence of numeric symbols (as named vector)
+
+#' Base digits: Sequence of numeric symbols (as named vector) 
 #' 
 #' \code{base_digits} provides numeral symbols (digits) 
 #' for notational place-value systems with arbitrary bases 

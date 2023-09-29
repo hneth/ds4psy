@@ -1,6 +1,6 @@
 ## color_fun.R | ds4psy
 ## hn | uni.kn | 2021 04 14
-## ---------------------------
+## ------------------------
 
 ## Functions for plotting. 
 
@@ -30,7 +30,7 @@ pal_ds4psy <- unikn::pal_unikn
 
 # pal_n_sq: Get (n x n) specific colors of a palette [pal]: ------ 
 
-#' Get n-by-n dedicated colors of a color palette.
+#' Get n-by-n dedicated colors of a color palette 
 #'
 #' \code{pal_n_sq} returns \code{n^2} dedicated colors of a color palette \code{pal} 
 #' (up to a maximum of \code{n = "all"} colors). 

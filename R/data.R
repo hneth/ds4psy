@@ -7,7 +7,7 @@
 
 # (01a) posPsy_p_info: ------ 
 
-#' Positive Psychology: Participant data.
+#' Positive Psychology: Participant data 
 #'
 #' \code{posPsy_p_info} is a dataset containing details of 295 participants. 
 #' 
@@ -64,7 +64,7 @@
 
 # (01b) posPsy_AHI_CESD: ------ 
 
-#' Positive Psychology: AHI CESD data.
+#' Positive Psychology: AHI CESD data 
 #'
 #' \code{posPsy_AHI_CESD} is a dataset containing answers to the 24 items of the 
 #' Authentic Happiness Inventory (AHI) and answers to the 
@@ -139,7 +139,7 @@
 
 # (01c) posPsy_long: ------ 
 
-#' Positive Psychology: AHI CESD corrected data (in long format). 
+#' Positive Psychology: AHI CESD corrected data (in long format) 
 #'
 #' \code{posPsy_long} is a dataset containing answers to the 24 items of the 
 #' Authentic Happiness Inventory (AHI) and answers to the 
@@ -183,7 +183,7 @@
 
 # (01d) posPsy_wide: ------ 
 
-#' Positive Psychology: All corrected data (in wide format). 
+#' Positive Psychology: All corrected data (in wide format) 
 #' 
 #' \code{posPsy_wide} is a dataset containing answers to the 24 items of the 
 #' Authentic Happiness Inventory (AHI) and answers to the 
@@ -229,7 +229,7 @@
 
 # https://bookdown.org/hneth/ds4psy/B-2-datasets-false.html
 
-#' False Positive Psychology data.
+#' Data: False Positive Psychology
 #'
 #' \code{falsePosPsy_all} is a dataset containing the data from 2 studies designed to 
 #' highlight problematic research practices within psychology. 
@@ -554,7 +554,7 @@
 # usethis::use_data(table6, overwrite = TRUE)
 
 
-#' Data table6.
+#' Data: table6
 #'
 #' \code{table6} is a fictitious dataset to practice reshaping and tidying data.
 #' 
@@ -586,7 +586,7 @@
 # usethis::use_data(table7, overwrite = TRUE)
 
 
-#' Data table7.
+#' Data: table7
 #'
 #' \code{table7} is a fictitious dataset to practice reshaping and tidying data.
 #' 
@@ -618,7 +618,7 @@
 # usethis::use_data(table8, overwrite = TRUE)
 
 
-#' Data table8.
+#' Data: table8 
 #'
 #' \code{table9} is a fictitious dataset to practice reshaping and tidying data.
 #' 
@@ -702,7 +702,7 @@
 
 # (07e1): t_1.csv: ----- 
 
-#' Data t_1.
+#' Data: t_1
 #'
 #' \code{t_1} is a fictitious dataset to practice tidying data.
 #' 
@@ -718,7 +718,7 @@
 
 # (07e2): t_2.csv: ----- 
 
-#' Data t_2.
+#' Data: t_2
 #'
 #' \code{t_2} is a fictitious dataset to practice tidying data.
 #' 
@@ -734,7 +734,7 @@
 
 # (07e3): t_3.csv: ----- 
 
-#' Data t_3.
+#' Data: t_3
 #'
 #' \code{t_3} is a fictitious dataset to practice tidying data.
 #' 
@@ -750,7 +750,7 @@
 
 # (07e4): t_4.csv: ----- 
 
-#' Data t_4.
+#' Data: t_4
 #'
 #' \code{t_4} is a fictitious dataset to practice tidying data.
 #' 
@@ -832,7 +832,7 @@
 # usethis::use_data(t3, overwrite = TRUE)
 
 
-#' Data table t3.
+#' Data: t3
 #'
 #' \code{t3} is a fictitious dataset to practice importing and joining data 
 #' (from a CSV file).  
@@ -861,7 +861,7 @@
 # usethis::use_data(t4, overwrite = TRUE)
 
 
-#' Data table t4.
+#' Data: t4
 #'
 #' \code{t4} is a fictitious dataset to practice importing and joining data 
 #' (from a CSV file).  
@@ -954,7 +954,7 @@
 # countries <- GM_life_expectancy$country
 # countries
 
-#' Data: Names of countries.
+#' Data: Names of countries 
 #'
 #' \code{countries} is a dataset containing the names of 
 #' 197 countries (as a vector of text strings). 
@@ -977,7 +977,7 @@
 # fruits
 # length(fruits)  # 122
 
-#' Data: Names of fruits. 
+#' Data: Names of fruits 
 #'
 #' \code{fruits} is a dataset containing the names of 
 #' 122 fruits (as a vector of text strings). 
@@ -1004,7 +1004,7 @@
 
 # (09c) flowery phrases: ---- 
 
-#' Data: Flowery phrases. 
+#' Data: Flowery phrases 
 #'
 #' \code{flowery} contains versions and variations 
 #' of Gertrude Stein's popular phrase 
@@ -1031,7 +1031,7 @@
 
 # (09e) Bushisms: ---- 
 
-#' Data: Bushisms.  
+#' Data: Bushisms 
 #'
 #' \code{Bushisms} contains phrases spoken by 
 #' or attributed to U.S. president George W. Bush 
@@ -1051,7 +1051,7 @@
 
 # (09e) Trumpisms: ---- 
 
-#' Data: Trumpisms.
+#' Data: Trumpisms 
 #'
 #' \code{Trumpisms} contains frequent words and characteristic phrases 
 #' by U.S. president Donald J. Trump (the 45th president of the United States, 
@@ -1073,14 +1073,14 @@
 
 # (10) Time data (Chapter 10): --------
 
-# (10a) fame data: ---- 
+# (10a) fame: ---- 
 
 # Fame data (DOB and DOD of famous people):
 # Chapter 10 (Time data), Exercise 3
 # See Exercise 3 at https://bookdown.org/hneth/ds4psy/10-4-time-ex.html#time:ex03 
 # See file all_DATASETs.R for raw data (as tables).
 
-#' Data table fame.
+#' Data: fame 
 #'
 #' \code{fame} is a dataset to practice working with dates.
 #'  
@@ -1119,7 +1119,7 @@
 # sum(is.na(exp_num_dt))  # 130 missing values
 # usethis::use_data(exp_num_dt, overwrite = TRUE)
 
-#' Data from an experiment with numeracy and date-time variables. 
+#' Data from an experiment with numeracy and date-time variables 
 #'
 #' \code{exp_num_dt} is a fictitious dataset describing 
 #' 1000 non-existing, but surprisingly friendly people. 
@@ -1178,7 +1178,7 @@
 ## Check: 
 # dim(dt_10)  # 10 x 7
 
-#' Data from 10 Danish people. 
+#' Data from 10 Danish people 
 #'
 #' \code{dt_10} contains precise DOB information of 
 #' 10 non-existent, but definitely Danish people. 

@@ -1,5 +1,5 @@
 ## plot_fun.R | ds4psy
-## hn | uni.kn | 2022 11 06
+## hn | uni.kn | 2023 09 29
 ## ------------------------
 
 ## Functions for plotting. 
@@ -367,9 +367,9 @@ plot_tiles <- function(n = NA,
 
 ## plot_fun: Wrapper around plot_tiles (with fewer and cryptic options): -------- 
 
-#' Another function to plot some plot.
+#' An example function to plot some plot
 #'
-#' \code{plot_fun} is a function that provides options for plotting a plot. 
+#' \code{plot_fun} provides options for plotting a plot. 
 #' 
 #' \code{plot_fun} is deliberately kept cryptic and obscure to illustrate 
 #' how function parameters can be explored. 
@@ -476,7 +476,7 @@ plot_fun <- function(a = NA,
 
 ## plot_n: Simpler row or column plots (of n tiles): -------- 
 
-#' Plot n tiles. 
+#' Plot n tiles 
 #'
 #' \code{plot_n} plots a row or column of \code{n} tiles 
 #' on fixed or polar coordinates. 
@@ -963,7 +963,7 @@ plot_n <- function(n = NA,
 
 ## plot_fn: Wrapper around plot_n (with fewer and cryptic options): -------- 
 
-#' A function to plot a plot.
+#' A function to plot a plot
 #'
 #' \code{plot_fn} is a function that uses parameters for plotting a plot. 
 #' 
@@ -1065,7 +1065,7 @@ plot_fn <- function(x = NA,
 
 ## plot_text: Plot text characters as a tile plot: -------- 
 
-#' Plot text characters (from file or user input).
+#' Plot text characters (from file or user input) 
 #'
 #' \code{plot_text} parses text 
 #' (from a file or from user input) 
@@ -1078,6 +1078,8 @@ plot_fn <- function(x = NA,
 #' (Note that \code{\link{plot_chars}} provides additional 
 #' support for matching regular expressions.) 
 #' 
+#' 
+#' @details 
 #' \code{plot_text} is character-based: 
 #' Individual characters are plotted at equidistant x-y-positions 
 #' with color settings for text labels and tile fill colors.
@@ -1482,7 +1484,7 @@ plot_text <- function(x = NA,     # Text string(s) to plot
 
 # Note: This was the ggplot2 part of plot_chars() (below).
 
-#' Plot a character map as a tile plot with text labels. 
+#' Plot a character map as a tile plot with text labels 
 #'
 #' \code{plot_charmap} plots a character map and some aesthetics 
 #' as a tile plot with text labels (using \strong{ggplot2}).
@@ -1723,7 +1725,7 @@ plot_charmap <- function(x = NA,     # what to plot (required): charmap OR {text
 
 ## plot_chars: Alternative to plot_text (with regex functionality): -------- 
 
-#' Plot text characters (from file or user input) and match patterns.
+#' Plot text characters (from file or user input) and match patterns 
 #'
 #' \code{plot_chars} parses text (from a file or user input) 
 #' into a table and then plots its individual characters 
@@ -1734,6 +1736,7 @@ plot_charmap <- function(x = NA,     # what to plot (required): charmap OR {text
 #' for matching patterns of text with visual features 
 #' for displaying characters (e.g., their color or orientation). 
 #' 
+#' @details 
 #' \code{plot_chars} is based on \code{\link{plot_text}}, 
 #' but provides additional support for detecting and displaying characters 
 #' (i.e., text labels, their orientation, and color options) 
