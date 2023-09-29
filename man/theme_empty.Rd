@@ -2,7 +2,7 @@
 % Please edit documentation in R/theme_fun.R
 \name{theme_empty}
 \alias{theme_empty}
-\title{A basic and flexible plot theme (using ggplot2 and unikn).}
+\title{A basic and flexible plot theme (using \strong{ggplot2})}
 \usage{
 theme_empty(
   font_size = 12,
@@ -25,19 +25,19 @@ Default: \code{rel_small = 10/12}.}
 Default: \code{plot_mar = c(0, 0, 0, 0)} (in lines).}
 }
 \value{
-A \bold{ggplot2} theme.
+A \strong{ggplot2} theme.
 }
 \description{
 \code{theme_empty} provides an empty (blank) theme 
-to use in \bold{ggplot2} commands.
+to use in \strong{ggplot2} commands.
 }
 \details{
 \code{theme_empty} shows nothing but the plot panel.
 
 \code{theme_empty} is based on 
-\code{theme_nothing} of the \bold{cowplot} package 
+\code{theme_nothing} of the \strong{cowplot} package 
 and uses  
-\code{theme_void} of the \bold{ggplot2} package.
+\code{theme_void} of the \strong{ggplot2} package.
 }
 \examples{
 

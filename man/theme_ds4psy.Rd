@@ -2,7 +2,7 @@
 % Please edit documentation in R/theme_fun.R
 \name{theme_ds4psy}
 \alias{theme_ds4psy}
-\title{A basic and flexible plot theme (using ggplot2 and unikn).}
+\title{A basic and flexible plot theme}
 \usage{
 theme_ds4psy(
   base_size = 11,
@@ -70,11 +70,11 @@ Default: \code{col_gridy = grey(.75, 1)} (i.e., light "grey").}
 Default: \code{col_brdrs = "transparent"}.}
 }
 \value{
-A \bold{ggplot2} theme.
+A \strong{ggplot2} theme.
 }
 \description{
-\code{theme_ds4psy} provides a generic \bold{ds4psy} theme 
-to use in \bold{ggplot2} commands.
+\code{theme_ds4psy} provides a generic \strong{ds4psy} theme 
+to use in \strong{ggplot2} commands.
 }
 \details{
 The theme is lightweight and no-nonsense, but somewhat 

@@ -2,7 +2,7 @@
 % Please edit documentation in R/time_fun.R
 \name{cur_date}
 \alias{cur_date}
-\title{Current date (in yyyy-mm-dd or dd-mm-yyyy format).}
+\title{Get current date (in yyyy-mm-dd or dd-mm-yyyy format)}
 \usage{
 cur_date(rev = FALSE, as_string = TRUE, sep = "-")
 }

@@ -2,7 +2,7 @@
 % Please edit documentation in R/theme_fun.R
 \name{theme_clean}
 \alias{theme_clean}
-\title{A clean alternative theme for ggplot2.}
+\title{A clean alternative theme for \strong{ggplot2}}
 \usage{
 theme_clean(
   base_size = 11,
@@ -46,11 +46,11 @@ Default: \code{col_gridy = grey(1.0, 1)} (i.e., "white").}
 Default: \code{col_ticks = grey(.10, 1)} (i.e., near "black").}
 }
 \value{
-A \bold{ggplot2} theme.
+A \strong{ggplot2} theme.
 }
 \description{
-\code{theme_clean} provides an alternative \bold{ds4psy} theme 
-to use in \bold{ggplot2} commands.
+\code{theme_clean} provides an alternative \strong{ds4psy} theme 
+to use in \strong{ggplot2} commands.
 }
 \details{
 \code{theme_clean} is more minimal than \code{\link{theme_ds4psy}} 

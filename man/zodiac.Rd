@@ -2,7 +2,7 @@
 % Please edit documentation in R/time_fun.R
 \name{zodiac}
 \alias{zodiac}
-\title{Get zodiac (corresponding to date x).}
+\title{Get zodiac corresponding to date(s)}
 \source{
 See 
 \url{https://en.wikipedia.org/wiki/Zodiac} or 

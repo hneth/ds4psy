@@ -2,7 +2,7 @@
 % Please edit documentation in R/time_fun.R
 \name{change_time}
 \alias{change_time}
-\title{Change time and time zone (without changing time display).}
+\title{Change time and time zone (without changing time display)}
 \usage{
 change_time(time, tz = "")
 }

@@ -2,7 +2,7 @@
 % Please edit documentation in R/time_fun.R
 \name{cur_time}
 \alias{cur_time}
-\title{Current time (in hh:mm or hh:mm:ss format).}
+\title{Get current time (in hh:mm or hh:mm:ss format)}
 \usage{
 cur_time(seconds = FALSE, as_string = TRUE, sep = ":")
 }

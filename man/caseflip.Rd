@@ -2,7 +2,7 @@
 % Please edit documentation in R/text_fun.R
 \name{caseflip}
 \alias{caseflip}
-\title{Flip the case of characters in a string of text \code{x}.}
+\title{Flip the case of characters in a string of text}
 \usage{
 caseflip(x)
 }

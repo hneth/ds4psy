@@ -3,8 +3,7 @@
 \docType{data}
 \name{l33t_rul35}
 \alias{l33t_rul35}
-\title{l33t_rul35 provides rules for translating text 
-into leet/l33t slang.}
+\title{Rules for translating text into leet/l33t slang}
 \format{
 An object of class \code{character} of length 13.
 }
