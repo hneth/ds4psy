@@ -10,11 +10,13 @@ output: github_document
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.7229812.svg)](https://doi.org/10.5281/zenodo.7229812)
 <!-- Devel badges end. -->
 
+
 <!-- Release badges start: -->
 <!-- [![CRAN status](https://www.r-pkg.org/badges/version/ds4psy)](https://CRAN.R-project.org/package=ds4psy) -->
 <!-- [![Total downloads](https://cranlogs.r-pkg.org/badges/grand-total/ds4psy?color='00a9e0')](https://www.r-pkg.org/pkg/ds4psy) -->
 <!-- [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.7229812.svg)](https://doi.org/10.5281/zenodo.7229812) -->
 <!-- Release badges end. -->
+
 
 <!-- ALL status badges: 
 [![CRAN status](https://www.r-pkg.org/badges/version/ds4psy)](https://CRAN.R-project.org/package=ds4psy)
@@ -39,7 +41,7 @@ knitr::opts_chunk$set(
 
 # Data Science for Psychologists (ds4psy)
 
-Welcome to the R package **ds4psy** &mdash; a software companion to the book and course</br> 
+Welcome to the R package **ds4psy** &mdash; a software companion to the book and course 
 [Data Science for Psychologists](https://bookdown.org/hneth/ds4psy/). 
 
 This R package provides datasets and functions used in the [ds4psy book](https://bookdown.org/hneth/ds4psy/) and course. 

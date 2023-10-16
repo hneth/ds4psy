@@ -29,7 +29,7 @@ status](https://www.r-pkg.org/badges/version/ds4psy)](https://CRAN.R-project.org
 # Data Science for Psychologists (ds4psy)
 
 Welcome to the R package **ds4psy** — a software companion to the book
-and course</br> [Data Science for
+and course [Data Science for
 Psychologists](https://bookdown.org/hneth/ds4psy/).
 
 This R package provides datasets and functions used in the [ds4psy
@@ -294,6 +294,6 @@ License</a>.
 
 <!-- Footer: -->
 
-\[File `README.md` updated on 2023-09-15.\]
+\[File `README.md` updated on 2023-10-16.\]
 
 <!-- eof. -->
