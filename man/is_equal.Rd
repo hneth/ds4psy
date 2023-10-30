@@ -19,15 +19,13 @@ is_equal(x, y, ...)
 \details{
 If both \code{x} and \code{y} are numeric, 
 \code{is_equal} calls \code{num_equal(x, y, ...)} 
-(allowing for some tolerance threshold \code{tol}).  
-
+(allowing for a tolerance threshold \code{tol}). 
 Otherwise, \code{x} and \code{y} are compared by \code{x == y}. 
 
-\code{is_equal} is a safer way to verify the (near) equality of numeric vectors than \code{==},  
-as numbers may exhibit floating point effects.
+\code{is_equal} provides a wrapper around \code{\link{num_equal}} 
+(for numeric objects \code{x} and \code{y}) and \code{==} (otherwise).
 }
 \examples{
-
 # numeric data: 
 is_equal(2, sqrt(2)^2)
 is_equal(2, sqrt(2)^2, tol = 0)
@@ -36,9 +34,9 @@ is_equal(c(2, 3), c(sqrt(2)^2, sqrt(3)^2, 4/2, 9/3))
 # other data types:
 is_equal((1:3 > 1), (1:3 > 2))                         # logical
 is_equal(c("A", "B", "c"), toupper(c("a", "b", "c")))  # character
-is_equal(as.Date("2020-08-16"), Sys.Date())            # dates
+is_equal(as.Date("2023-10-30"), Sys.Date())            # dates
 
-# as factors:
+# factors:
 is_equal((1:3 > 1), as.factor((1:3 > 2)))  
 is_equal(c(1, 2, 3), as.factor(c(1, 2, 3)))
 is_equal(c("A", "B", "C"), as.factor(c("A", "B", "C"))) 
@@ -47,7 +45,7 @@ is_equal(c("A", "B", "C"), as.factor(c("A", "B", "C")))
 \seealso{
 \code{\link{num_equal}} function for comparing numeric vectors;
 \code{\link{all.equal}} function of the R \strong{base} package;
-\code{near} function of the \strong{dplyr} package.
+\code{near} of the \strong{dplyr} package.
 
 Other numeric functions: 
 \code{\link{base2dec}()},
