@@ -1,5 +1,5 @@
 ## data_fun.R | ds4psy
-## hn | uni.kn | 2023 09 12
+## hn | uni.kn | 2023 12 23
 ## ------------------------
 
 ## Functions for creating and manipulating data. 
@@ -1255,6 +1255,30 @@ get_set <- function(n = 1){
 # plot(get_set(2), col = "red")
 # 
 # # Note: @importFrom datasets anscombe is not needed.
+
+
+
+# sort_in_order: Sort a vector x into the order given by the elements of order: ------ 
+
+sort_in_order <- function(x, order){
+  
+  if (! all(x %in% order)){
+    
+    message("Some elements of x are not in order.")
+    
+  }
+  
+  x[order(match(x, order))]
+  
+} # sort_in_order().
+
+# # Check:
+# sort_in_order(c(2, 1, 4, 3, 4, 3, 2, 1), order = c(1, 2, 3, 4))
+# sort_in_order(c(2, 1, 4, 3, 4, 3, 2, 1), order = c(4, 3))
+# sort_in_order(c(2, 1, 4, 3, 4, 3, 2, 1), order = c(3, 5, 8))
+# sort_in_order(c("C", "A", "X", "B", "Y", "A", "Z"), order = LETTERS)
+# sort_in_order(c("C", "A", "X", "B", "Y", "A", "Z"), order = rev(LETTERS))
+
 
 
 ## ToDo: ----------
