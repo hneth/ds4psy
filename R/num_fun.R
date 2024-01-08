@@ -1,5 +1,5 @@
 ## num_fun.R | ds4psy
-## hn | uni.kn | 2022 10 20
+## hn | uni.kn | 2024 01 08
 ## ------------------------
 
 ## Main functions for manipulating/transforming numbers or numeric symbols/digits: ------ 
@@ -637,7 +637,7 @@ dec2base_r <- function(x, base = 2){
     
   }
   
-}
+} # dec2base_r().
 
 ## Check:
 # dec2base_r(11)
@@ -688,6 +688,7 @@ dec2base_base2dec_sim <- function(n_sim = 100,
   return(invisible(df))
   
 } # dec2base_base2dec_sim(). 
+
 
 ## Check: Run simulations... 
 # dec2base_base2dec_sim()  # defaults
@@ -814,10 +815,12 @@ encrypt_arithm_expr <- function(x, y, op = "+", base = 10, dig_sym = NULL){
 # - base2dec() and dec2base(): Remove leading and trailing spaces.  
 # - base2dec() and dec2base(): Identify prefixes and negations.
 
+
 ## ToDo: ------
 
 # - Handle non-integer/decimal inputs in base2dec() and dec2base()?
 # - Create vectorized versions of base2dec() and dec2base() as defaults.
 # - Create recursive versions of base2dec() and dec2base()? 
+
 
 ## eof. ----------
