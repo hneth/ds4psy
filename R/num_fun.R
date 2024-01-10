@@ -618,29 +618,41 @@ dec2base_v <- Vectorize(dec2base)
 
 dec2base_r <- function(x, base = 2){
   
-  n <- as.numeric(x)
-  exp <- NA
+  # Prepare: 
+  n <- as.numeric(x)  # ensure numeric type 
+  # exp <- 0  # initialize
   
   if (n < base) { # stopping condition: 
     
-    exp <- 0 
-    out <- as.character(n) 
+    # n denotes the final digit:
+    exp <- 0  # initialize
     
-  } else { 
+    # User feedback:
+    message(paste0("Stop: n = ", n, " exp = ", exp)) 
     
-    # Simplification step:
-    digit_cur <- n %% base
-    exp <- exp + 1
-    n_left <- n - (digit_cur * base^exp)
+  } else { # Simplification:
     
-    paste0(dec2base_r(n_left, base), digit_cur)  # recursion
+    # Change values upon entering: 
+    exp       <- exp + 1
+    digit_cur <- n %% base  # current digit (in base)
+    n_left    <- n - (digit_cur * base^exp)  # numeric value remaining
+    
+    # User feedback: 
+    message(paste0("Recurse: digit_cur = ", digit_cur, ", n_left = ", n_left, "; exp = ", exp))
+    
+    # Recursion: 
+    paste0(dec2base_r(n_left, base), digit_cur)  # is being returned (as character)
     
   }
   
 } # dec2base_r().
 
 ## Check:
-# dec2base_r(11)
+# dec2base_r(10, base = 2)
+
+
+# See Nina's i2ds-2 project "nonDecAr_NinaEhmann.Rmd" and ".html" 
+
 
 
 # Simulation: Verify that dec2base() and base2dec() complement each other: -----
@@ -696,6 +708,7 @@ dec2base_base2dec_sim <- function(n_sim = 100,
 # length(base_digits)  # maximum base value
 # df <- dec2base_base2dec_sim(20, min_val = 0, max_val = 9999, min_base = 2, max_base = 62)
 # df
+
 
 
 ## (3) Letter arithmetic: -------- 
