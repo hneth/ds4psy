@@ -473,8 +473,8 @@ dec2base <- function(x, base = 2){ # as_char = TRUE  # removed, as it would only
     out <- NULL       # initialize output
     
     if (val_left < 0){ 
-      neg_num <- TRUE  # flag input as negative number
-      val_left <- abs(val_left)
+      neg_num  <- TRUE  # flag input as negative number
+      val_left <- abs(val_left)  # use absolute value
     }  
     
     
@@ -650,10 +650,10 @@ dec2base_r <- function(x, base = 2, exp = 1){
 # # Check:
 # dec2base_r(10, base = 3)
 
-# +++ here now +++ 
-
-# dec2base(10, base = 2) # 1010
-# dec2base(10, base = 3) # 101
+# ToDo: +++ here now +++ 
+# Compare: 
+# dec2base(10, base = 2)  # 1010
+# dec2base(10, base = 3)  # 101
 
 
 
