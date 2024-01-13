@@ -1,5 +1,5 @@
 ## num_fun.R | ds4psy
-## hn | uni.kn | 2024 01 08
+## hn | uni.kn | 2024 01 13
 ## ------------------------
 
 ## Main functions for manipulating/transforming numbers or numeric symbols/digits: ------ 
@@ -616,39 +616,45 @@ dec2base_v <- Vectorize(dec2base)
 
 # dec2base_r: Recursive version of dec2base(): -----
 
-dec2base_r <- function(x, base = 2){
+dec2base_r <- function(x, base = 2, exp = 1){
   
   # Prepare: 
-  n <- as.numeric(x)  # ensure numeric type 
-  # exp <- 0  # initialize
+  n <- as.numeric(x)  # value (as numeric)
   
-  if (n < base) { # stopping condition: 
+  if (n < base) { # stop: 
     
     # n denotes the final digit:
-    exp <- 0  # initialize
     
     # User feedback:
-    message(paste0("Stop: n = ", n, " exp = ", exp)) 
+    message(paste0("Stop: n = ", n, "; exp = ", exp)) 
     
-  } else { # Simplification:
+    return(n)
+    
+  } else { # simplify:
     
     # Change values upon entering: 
-    exp       <- exp + 1
-    digit_cur <- n %% base  # current digit (in base)
-    n_left    <- n - (digit_cur * base^exp)  # numeric value remaining
+    digit_cur <- n %/% base^(exp + 0)  # current digit
+    
+    n_left    <- n - (digit_cur * base^(exp - 1))  # numeric value remaining
     
     # User feedback: 
     message(paste0("Recurse: digit_cur = ", digit_cur, ", n_left = ", n_left, "; exp = ", exp))
     
     # Recursion: 
-    paste0(dec2base_r(n_left, base), digit_cur)  # is being returned (as character)
+    return(paste0(dec2base_r(x = n_left, base = base, exp = (exp + 1)), digit_cur))
     
   }
   
 } # dec2base_r().
 
-## Check:
-# dec2base_r(10, base = 2)
+# # Check:
+# dec2base_r(10, base = 3)
+
+# +++ here now +++ 
+
+# dec2base(10, base = 2) # 1010
+# dec2base(10, base = 3) # 101
+
 
 
 # See Nina's i2ds-2 project "nonDecAr_NinaEhmann.Rmd" and ".html" 
