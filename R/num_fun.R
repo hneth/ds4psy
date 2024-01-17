@@ -1,5 +1,5 @@
 ## num_fun.R | ds4psy
-## hn | uni.kn | 2024 01 15
+## hn | uni.kn | 2024 01 17
 ## ------------------------
 
 ## Main functions for manipulating/transforming numbers or numeric symbols/digits: ------ 
@@ -287,7 +287,15 @@ base2dec_v <- Vectorize(base2dec)
 
 base2dec_r <- function(x, base = 2, exp = 0){
   
+  # Prepare:
   x <- as.numeric(x)  # x denotes value (in decimal notation)
+  
+  # Warn of inaccuracies when more than 16 digits:
+  fb <- TRUE  # flag: user feedback?
+  
+  if (fb && (exp > 16)){
+    warning(paste0("Beware of rounding inaccuracies for exp = ", exp))
+  }
   
   if (x == 0) { # stop:
     
@@ -310,6 +318,7 @@ base2dec_r <- function(x, base = 2, exp = 0){
 # base2dec_r(x = 11, base = 2)
 # base2dec_r(x = 11, base = 7)
 # base2dec_r(x = 1010, base = 2)
+# base2dec_r(x = 10101010101010101, base = 2)  # Warn against rounding inaccuracies (for x > 2^16)
 # base2dec_r(x = 222, base = 1)  # Note: Non-sensical inputs.
 
 
@@ -690,7 +699,11 @@ dec2base_v <- Vectorize(dec2base)
 
 dec2base_r <- function(x, base, exp = 0) {
   
-  fb <- FALSE  # flag: user feedback?
+  # Prepare:
+  x <- as.numeric(x)  # x denotes value (in decimal notation)
+  
+  # Warn of inaccuracies when more than 16 digits:
+  fb <- TRUE  # flag: user feedback?
   
   if (fb && (exp > 16)){
     warning(paste0("Beware of rounding inaccuracies for exp = ", exp))
@@ -714,13 +727,14 @@ dec2base_r <- function(x, base, exp = 0) {
   
 } # dec2base_r(). 
 
-
 # # Check:
 # dec2base_r(10, base = 2)
 # 
 # # NOTE accuracy boundary / limit case:
-# as.character(dec2base_r(x = 65535, base = 2))  # = "1111111111111111" (16x "1")
-# Larger values x > 65535 would require more than 16 digits, which can yield rounding effects. 
+# as.character(dec2base_r(x = 65535, base = 2))  # 2^16 = "1111111111111111" (16x "1")
+# Larger values x > 65535 would require more than 16 digits, which can yield rounding effects: 
+# dec2base_r(x = 65535, base = 2)  # limit case
+# dec2base_r(x = 65536, base = 2)  # Warn against rounding inaccuracies (for x > 2^16)
 #
 # See re-analysis of Nina's i2ds-2 project "nonDecAr_NinaEhmann_hn.Rmd" and ".html" 
 
