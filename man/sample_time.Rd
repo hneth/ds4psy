@@ -91,8 +91,8 @@ sort(sample_time(from = "2020-12-31 00:00:00 CET", to = "2020-12-31 00:00:00 CET
 \seealso{
 Other sampling functions: 
 \code{\link{coin}()},
-\code{\link{dice_2}()},
 \code{\link{dice}()},
+\code{\link{dice_2}()},
 \code{\link{sample_char}()},
 \code{\link{sample_date}()}
 }

@@ -51,8 +51,8 @@ sort(sample_date(from = "2020-01-01", to = "2020-01-01", size = 10, replace = TR
 \seealso{
 Other sampling functions: 
 \code{\link{coin}()},
-\code{\link{dice_2}()},
 \code{\link{dice}()},
+\code{\link{dice_2}()},
 \code{\link{sample_char}()},
 \code{\link{sample_time}()}
 }

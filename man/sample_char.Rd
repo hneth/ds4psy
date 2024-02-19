@@ -55,8 +55,8 @@ sample_char(n = 53, replace = TRUE)     # works again.
 \seealso{
 Other sampling functions: 
 \code{\link{coin}()},
-\code{\link{dice_2}()},
 \code{\link{dice}()},
+\code{\link{dice_2}()},
 \code{\link{sample_date}()},
 \code{\link{sample_time}()}
 }
