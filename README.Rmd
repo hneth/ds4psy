@@ -35,13 +35,13 @@ knitr::opts_chunk$set(
 
 <!-- ds4psy logo 1: -->
 <a href="https://bookdown.org/hneth/ds4psy/">
-<img src = "./inst/images/ds4psy.png" alt = "ds4psy" width = "150px" align = "right" style = "width: 150px; float: right; border:11;"/>
+<img src = "./inst/images/logo.png" alt = "ds4psy" width = "160px" align = "right" style = "width: 160px; float: right; border:11;"/>
 </a>
 
 
 # Data Science for Psychologists (ds4psy)
 
-Welcome to the R package **ds4psy** &mdash; a software companion to the book and course 
+Welcome to the R package **ds4psy** &mdash; a software companion to the book and course  
 [Data Science for Psychologists](https://bookdown.org/hneth/ds4psy/). 
 
 This R package provides datasets and functions used in the [ds4psy book](https://bookdown.org/hneth/ds4psy/) and course. 
@@ -189,7 +189,7 @@ If you find these materials useful, or want to adopt or alter them for your purp
 
 <!-- ds4psy logo: -->
 <a href="https://bookdown.org/hneth/ds4psy/">
-<img src = "./inst/images/ds4psy.png" alt = "ds4psy" width = "150px" align = "right" style = "width: 150px; float: right; border:11;"/> 
+<img src = "./inst/images/logo.png" alt = "ds4psy" width = "160px" align = "right" style = "width: 160px; float: right; border:11;"/> 
 </a>
 
 To cite **ds4psy** in derivations and publications, please use:  

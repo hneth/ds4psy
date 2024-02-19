@@ -16,13 +16,13 @@ knitr::opts_chunk$set(
 )
 ```
 
-<!-- ds4psy logo 1: -->
+<!-- ds4psy logo (on right): -->
 <a href="https://bookdown.org/hneth/ds4psy/">
-<img src = "./../inst/images/ds4psy.png" alt = "ds4psy" width = "150px" align = "right" style = "width: 150px; float: right; border:11;"/>
+<img src = "./../inst/images/logo.png" alt = "ds4psy" width = "160px" align = "right" style = "width: 160px; float: right; border:11;"/>
 </a>
 
 
-**Welcome** to the R package **ds4psy** &mdash; a software companion to the book and course<br/>
+**Welcome** to the R package **ds4psy** &mdash; a software companion to the book and course 
 [Data Science for Psychologists](https://bookdown.org/hneth/ds4psy/).   
 
 This R package provides datasets and functions used in the book and course. 
