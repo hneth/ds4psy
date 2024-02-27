@@ -21,21 +21,21 @@ status](https://www.r-pkg.org/badges/version/ds4psy)](https://CRAN.R-project.org
 [![Rdoc](https://www.rdocumentation.org/badges/version/ds4psy)](https://www.rdocumentation.org/packages/ds4psy)
 -->
 <!-- ds4psy logo 1: -->
+<!-- <a href="https://bookdown.org/hneth/ds4psy/"> -->
+<!-- <img src = "./inst/images/logo.png" alt = "ds4psy" width = "160px" align = "right" style = "width: 160px; float: right; border:11;"/> -->
+<!-- </a> -->
 
-<a href="https://bookdown.org/hneth/ds4psy/">
-<img src = "./inst/images/logo.png" alt = "ds4psy" width = "160px" align = "right" style = "width: 160px; float: right; border:11;"/>
-</a>
-
-# Data Science for Psychologists (ds4psy)
+# Data Science for Psychologists (ds4psy) <img src = "./inst/images/logo.png" align = "right" alt = "ds4psy" width = "160" />
 
 Welcome to the R package **ds4psy** — a software companion to the book
 and course  
 [Data Science for Psychologists](https://bookdown.org/hneth/ds4psy/).
 
 This R package provides datasets and functions used in the [ds4psy
-book](https://bookdown.org/hneth/ds4psy/) and course. The book and
-course introduce the principles and methods of data science for students
-of psychology and other biological or social sciences.
+book](https://bookdown.org/hneth/ds4psy/) and corresponding course
+curricula. The book and course introduce the principles and methods of
+data science for students of psychology and other biological or social
+sciences.
 
 <!-- Description of ds4psy package:  -->
 <!-- All datasets and functions required for the examples and exercises of the book "Data Science for Psychologists" (by Hansjoerg Neth, Konstanz University, 2023), freely available at <https://bookdown.org/hneth/ds4psy/>. The book and course introduce principles and methods of data science to students of psychology and other biological or social sciences. The 'ds4psy' package primarily provides datasets, but also functions for data generation and manipulation (e.g., of text and time data) and graphics that are used in the book and its exercises. All functions included in 'ds4psy' are designed to be explicit and instructive, rather than efficient or elegant.  -->
@@ -294,6 +294,6 @@ License</a>.
 
 <!-- Footer: -->
 
-\[File `README.md` updated on 2024-02-19.\]
+\[File `README.md` updated on 2024-02-27.\]
 
 <!-- eof. -->
