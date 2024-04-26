@@ -1,5 +1,5 @@
 ## plot_fun.R | ds4psy
-## hn | uni.kn | 2023 09 29
+## hn | uni.kn | 2024 04 26
 ## ------------------------
 
 ## Functions for plotting. 
@@ -2072,6 +2072,44 @@ plot_chars <- function(x = NA,     # Text string(s) to plot; iff is.na(x):
 ## Note: External file "_gitless/check_plot_fun.Rmd" contains more checks and examples. 
 
 
+
+
+
+## plot_circ: Plot objects arranged on a circle: -------- 
+
+# Task: Arrange objects (of various shape) on a circle.
+
+plot_circ <- function(n){
+  
+  # Circle parameters:
+  c <- c(.50, .50)  # center
+  r <- .40          # radius
+  
+  # Colors:
+  col_fill <- colorRampPalette(c("steelblue4", "gold"))(n)  # gradient of n colors
+  
+  # Compute coordinates: 
+  angle <- 360/n * 0:(n-1)
+  # print(angle)
+  
+  x <- c[1] + (r * cos(angle)) 
+  y <- c[2] + (r * sin(angle))
+  
+  
+  # Plot: ---- 
+  
+  plot(c[1], c[2], pch = 3,
+       xlim = c(0, 1), ylim = c(0, 1))
+  
+  points(x, y, pch = 21, 
+         cex = 3, bg = col_fill)
+  
+}
+
+# +++ here now +++ 
+
+# # Check:
+# plot_circ(4)
 
 
 ## Done: ----------
