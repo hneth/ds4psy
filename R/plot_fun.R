@@ -2082,24 +2082,32 @@ plot_chars <- function(x = NA,     # Text string(s) to plot; iff is.na(x):
 plot_circ <- function(n){
   
   # Circle parameters:
-  c <- c(.50, .50)  # center
-  r <- .40          # radius
+  c <- c(0, 0)  # center
+  r <- 1        # radius
   
   # Colors:
-  col_fill <- colorRampPalette(c("steelblue4", "gold"))(n)  # gradient of n colors
+  col_fill <- colorRampPalette(c("steelblue4", "gold"))(n)  # a gradient of n colors
   
   # Compute coordinates: 
-  angle <- 360/n * 0:(n-1)
-  # print(angle)
+  angle <- 360/n * 0:n
+  print(angle)
   
-  x <- c[1] + (r * cos(angle)) 
-  y <- c[2] + (r * sin(angle))
+  x <- r * cos(angle)
+  print(x)
+  
+  y <- r * sin(angle) 
+  print(y)
   
   
   # Plot: ---- 
   
   plot(c[1], c[2], pch = 3,
-       xlim = c(0, 1), ylim = c(0, 1))
+       xlim = c(-1, 1), ylim = c(-1, 1))
+  
+  grid()
+  
+  points(c[1], c[2], cex = 30, pch = 21, col = "red")  # a big point around center
+  
   
   points(x, y, pch = 21, 
          cex = 3, bg = col_fill)
@@ -2110,6 +2118,50 @@ plot_circ <- function(n){
 
 # # Check:
 # plot_circ(4)
+
+
+## Arrange points within a circle (using sunflower arrangement):
+
+# # From 
+# # [Stackoverflow: Uniformly distribute x points inside a circle](https://stackoverflow.com/questions/28567166/uniformly-distribute-x-points-inside-a-circle)
+# # Answer by user [alex_jwb90](https://stackoverflow.com/users/1335174/alex-jwb90)
+# 
+# library(tibble)
+# library(dplyr)
+# library(ggplot2)
+# library(unikn)
+# 
+# radius <- function(k, n, b) {
+#   
+#   ifelse(k > n - b, 1, sqrt(k - 1/2)/sqrt(n - (b + 1)/2))
+#   
+# }
+# 
+# plot_sunflower <- function(n, alpha = 2, geometry = c("planar", "geodesic")) {
+#   
+#   b <- round(alpha*sqrt(n))  # number of boundary points
+#   phi <- (sqrt(5) + 1)/2     # golden ratio
+#   
+#   r <- radius(1:n, n, b)
+#   
+#   theta <- 1:n * ifelse(geometry[1] == "geodesic", 360 * phi, 2 * pi/phi^2)
+#   
+#   tibble(x = r * cos(theta),
+#          y = r * sin(theta))
+#   
+# }
+# 
+# # example:
+# n_points <- 750
+# 
+# plot_sunflower(n_points, 2, "planar") %>%
+#   ggplot(aes(x, y)) +
+#   geom_point(col = usecol(c(Pinky, pal_seeblau, "gold"), n = n_points, alpha = 2/3), size = 5) + 
+#   coord_equal() + 
+#   theme_void()
+# 
+# # Color:
+# # seecol(pal_karpfenblau)
 
 
 ## Done: ----------
