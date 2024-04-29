@@ -24,7 +24,7 @@ The book and course [Data Science for Psychologists](https://bookdown.org/hneth/
 
 -------- 
 
-# ds4psy 1.0.0.9001
+# ds4psy 1.0.0.9008
 
 This is the development version of **ds4psy**, hosted at <https://github.com/hneth/ds4psy/>.
 
@@ -32,7 +32,20 @@ This is the development version of **ds4psy**, hosted at <https://github.com/hne
 
 **Changes** since last release: 
 
-- none yet
+
+## Major changes
+
+- add `plot_circ_points()` function 
+
+
+## Minor changes
+
+- add `deg2rad()` and `rad2deg()` conversion functions 
+
+
+## Details
+
+- update logo
 
 
 <!-- ## ToDo --> 
@@ -441,6 +454,6 @@ The initial functionality is limited, as the package is designed to support the 
 
 ---------- 
 
-[File `NEWS.md` updated on 2023-09-15.]
+[File `NEWS.md` updated on 2024-04-29.]
 
 <!-- eof. -->
