@@ -2076,11 +2076,39 @@ plot_chars <- function(x = NA,     # Text string(s) to plot; iff is.na(x):
 
 ## plot_circ_points: Plot objects arranged on a circle: -------- 
 
-# Task: Arrange objects (of various shape) on a circle.
+# Task: Arrange objects (shaped as pch of points) on a circle.
 
-plot_circ_points <- function(n_points = 12, 
+
+#' Plot objects (as points) arranged on a circle 
+#' 
+#' \code{plot_circ_points} arranges a number of \code{n} 
+#' on a circle (defined by its origin coordinates and radius).
+#' 
+#' The \code{...} is passed to \code{\link{points}} of 
+#' the \strong{graphics} package. 
+#' 
+#' @param n The number of points (or shapes defined by \code{pch}) to plot
+#' @param x_org The x-value of circle origin
+#' @param y_org The y-value of circle origin
+#' @param radius The circle radius
+#' @param show_label Show a point label? Default: \code{show_label = FALSE}. 
+#' @param ... Additional aesthetics (passed to \code{\link{points}} of \strong{graphics}).
+#' 
+#' @examples 
+#' plot_circ_points()  # default
+#' plot_circ_points(n = 12, show_label = TRUE,
+#'                  cex = 5, pch = 21, col = "blue", bg = "gold")
+#' 
+#' @family plot functions 
+#' 
+#' @importFrom graphics points text
+#' 
+#' @export
+
+
+plot_circ_points <- function(n = 4, 
                              x_org = 0, y_org = 0, radius = 1, 
-                             show_label = TRUE, 
+                             show_label = FALSE, 
                              ...  # additional aesthetics (passed to points())
 ){
   
@@ -2088,21 +2116,19 @@ plot_circ_points <- function(n_points = 12,
   c <- c(x_org, y_org)  # coordindats of center/origin
   r <- radius           # radius of circle
   
-  n <- n_points
-  
   # Colors:
   # col_fill <- colorRampPalette(c("deepskyblue", "gold"))(n)  # a gradient of n colors
   
   # Compute coordinates: 
   
-  # angle (in degrees):
-  angle <- 360/n * 0:(n - 1)  # n points (starting at 0)
-  angle <- 360/n * 0:n        # n + 1 points  
+  # Compute angle (in degrees):
+  # angle <- 360/n * 0:(n - 1)  # n points (starting at 0)
+  # angle <- 360/n * 0:n        # n + 1 points  
   angle <- 360/n * 1:n        # n points (starting at 1)
   # print(angle)  # 4debugging 
   
   # Convert angle from degrees to radians:
-  theta <- deg2rad(angle)  
+  theta <- deg2rad(angle)
   
   x <- c[1] + r * sin(theta)
   # print(x)  # 4debugging 
@@ -2115,6 +2141,7 @@ plot_circ_points <- function(n_points = 12,
   
   # Prepare canvass: 
   plot(x = c[1], type = "n", 
+       axes = FALSE, xlab = NA, ylab = NA, 
        xlim = c[1] + c(-r, r), ylim = c[2] + c(-r, r))
   
   # Add help lines:
@@ -2127,30 +2154,34 @@ plot_circ_points <- function(n_points = 12,
   # grid::grid.circle(c[1], c[2], r)
   
   # Draw points: 
-  points(x, y, ...)
+  graphics::points(x, y, ...)
   # pch = 21, cex = 4, bg = col_fill)
   
-  if (show_label){ # Add text labels:
+  if (show_label){ # add text labels:
     
-    p_lbl <- as.character(round(angle, 1))  # angle (in degrees)
+    # p_lbl <- as.character(round(angle, 1))  # angle (in degrees)
     p_lbl <- as.character(1:length(angle))  # nr
     
-    text(x, y, label = p_lbl, cex = .85)
+    graphics::text(x, y, label = p_lbl, cex = .85)
+    
   }
   
 } # plot_circ_points(). 
 
 # # Check:
 # plot_circ_points()
-# plot_circ_points(36, show_label = FALSE)
-
+# plot_circ_points(n = 36, show_label = TRUE)
+# plot_circ_points(n = 12, cex = 5, pch = 21, col = "grey", bg = "gold")
+#
 # # Add aesthetics:
 # plot_circ_points(n = 6, pch = 15, cex = 5, col = "gold")
-
+# 
 # col_fill <- colorRampPalette(c("deepskyblue", "gold"))(12)  # a gradient of n colors
 # plot_circ_points(n = 12, pch = 21, cex = 5, col = NA, bg = col_fill)
 
+
 # +++ here now +++ :
+
 
 # ToDo: Convert into an exercise:
 # - Omit the conversion from degrees to radians:   
