@@ -2087,20 +2087,22 @@ plot_chars <- function(x = NA,     # Text string(s) to plot; iff is.na(x):
 #' The \code{...} is passed to \code{\link{points}} of 
 #' the \strong{graphics} package. 
 #' 
-#' @param n The number of points (or shapes defined by \code{pch}) to plot
-#' @param x_org The x-value of circle origin
-#' @param y_org The y-value of circle origin
-#' @param radius The circle radius
-#' @param show_label Show a point label? Default: \code{show_label = FALSE}. 
+#' @param n The number of points (or shapes defined by \code{pch}) to plot.
+#' @param x_org The x-value of circle origin.
+#' @param y_org The y-value of circle origin.
+#' @param radius The circle radius.
+#' @param show_axes Show axes? Default: \code{show_axes = FALSE}. 
+#' @param show_label Show a point label? Default: \code{show_label = FALSE}.
+#'  
 #' @param ... Additional aesthetics (passed to \code{\link{points}} of \strong{graphics}).
 #' 
 #' @examples 
 #' plot_circ_points(8)  # default
 #' 
 #' # with aesthetics of points():
-#' plot_circ_points(n =  8, cex = 8, pch = sample(21:25, size = 8, replace = TRUE), bg = "deeppink")
-#' plot_circ_points(n = 12, show_label = TRUE,
-#'                  cex = 5, pch = 21, lwd = 5, col = "deepskyblue", bg = "gold")
+#' plot_circ_points(n =  8, r = 10, cex = 8, pch = sample(21:25, size = 8, replace = TRUE), bg = "deeppink")
+#' plot_circ_points(n = 12, r = 8, show_axes = TRUE, show_label = TRUE,
+#'                  cex = 6, pch = 21, lwd = 5, col = "deepskyblue", bg = "gold")
 #' 
 #' @family plot functions 
 #' 
@@ -2110,7 +2112,7 @@ plot_chars <- function(x = NA,     # Text string(s) to plot; iff is.na(x):
 
 plot_circ_points <- function(n = 4, 
                              x_org = 0, y_org = 0, radius = 1, 
-                             show_label = FALSE, 
+                             show_axes = FALSE, show_label = FALSE, 
                              ...  # additional aesthetics (passed to points())
 ){
   
@@ -2142,12 +2144,33 @@ plot_circ_points <- function(n = 4,
   # Plot: ---- 
   
   # Prepare canvass:
-  x_size <- 1.25 * r
-  y_size <- 1.25 * r   
   
-  plot(x = c[1], type = "n", 
-       axes = FALSE, xlab = NA, ylab = NA, 
-       xlim = c[1] + c(-x_size, +x_size), ylim = c[2] + c(-y_size, +y_size))
+  # Plot settings:
+  opar <- par(no.readonly = TRUE)  # all par settings that can be changed.
+  on.exit(par(opar))  # par(opar)  # restore original settings
+  
+  par(mar = c(2, 2, 2, 2) + 0.1)  # margins; default: par("mar") = 5.1 4.1 4.1 2.1.
+  par(oma = c(0, 0, 0, 0) + 0.1)  # outer margins; default: par("oma") = 0 0 0 0.
+  
+  x_size <- 1.2 * r
+  y_size <- 1.2 * r   
+  
+  
+  # Draw main points: 
+  if (show_axes){
+    
+    plot(x = c[1], type = "n", 
+         axes = TRUE, xlab = NA, ylab = NA, 
+         xlim = c[1] + c(-x_size, +x_size), ylim = c[2] + c(-y_size, +y_size))
+    
+  } else { # no axes:
+    
+    plot(x = c[1], type = "n", 
+         axes = FALSE, xlab = NA, ylab = NA, 
+         xlim = c[1] + c(-x_size, +x_size), ylim = c[2] + c(-y_size, +y_size))
+    
+  }
+  
   
   # Add help lines:
   # grid()
@@ -2171,6 +2194,12 @@ plot_circ_points <- function(n = 4,
     graphics::text(x, y, label = p_lbl, cex = .85)
     
   }
+  
+  # Return anything?
+  
+  # on.exit(par(opar))  # par(opar)  # restore original settings
+  invisible() # restores par(opar)
+  
   
 } # plot_circ_points(). 
 
