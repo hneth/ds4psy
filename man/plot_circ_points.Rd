@@ -9,18 +9,21 @@ plot_circ_points(
   x_org = 0,
   y_org = 0,
   radius = 1,
+  show_axes = FALSE,
   show_label = FALSE,
   ...
 )
 }
 \arguments{
-\item{n}{The number of points (or shapes defined by \code{pch}) to plot}
+\item{n}{The number of points (or shapes defined by \code{pch}) to plot.}
 
-\item{x_org}{The x-value of circle origin}
+\item{x_org}{The x-value of circle origin.}
 
-\item{y_org}{The y-value of circle origin}
+\item{y_org}{The y-value of circle origin.}
 
-\item{radius}{The circle radius}
+\item{radius}{The circle radius.}
+
+\item{show_axes}{Show axes? Default: \code{show_axes = FALSE}.}
 
 \item{show_label}{Show a point label? Default: \code{show_label = FALSE}.}
 
@@ -38,9 +41,9 @@ the \strong{graphics} package.
 plot_circ_points(8)  # default
 
 # with aesthetics of points():
-plot_circ_points(n =  8, cex = 8, pch = sample(21:25, size = 8, replace = TRUE), bg = "deeppink")
-plot_circ_points(n = 12, show_label = TRUE,
-                 cex = 5, pch = 21, lwd = 5, col = "deepskyblue", bg = "gold")
+plot_circ_points(n =  8, r = 10, cex = 8, pch = sample(21:25, size = 8, replace = TRUE), bg = "deeppink")
+plot_circ_points(n = 12, r = 8, show_axes = TRUE, show_label = TRUE,
+                 cex = 6, pch = 21, lwd = 5, col = "deepskyblue", bg = "gold")
 
 }
 \seealso{
