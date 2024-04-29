@@ -35,9 +35,12 @@ The \code{...} is passed to \code{\link{points}} of
 the \strong{graphics} package.
 }
 \examples{
-plot_circ_points()  # default
+plot_circ_points(8)  # default
+
+# with aesthetics of points():
+plot_circ_points(n =  8, cex = 8, pch = sample(21:25, size = 8, replace = TRUE), bg = "deeppink")
 plot_circ_points(n = 12, show_label = TRUE,
-                 cex = 5, pch = 21, col = "blue", bg = "gold")
+                 cex = 5, pch = 21, lwd = 5, col = "deepskyblue", bg = "gold")
 
 }
 \seealso{
