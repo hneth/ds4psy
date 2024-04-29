@@ -2086,32 +2086,40 @@ plot_circ <- function(n){
   r <- 1        # radius
   
   # Colors:
-  col_fill <- colorRampPalette(c("steelblue4", "gold"))(n)  # a gradient of n colors
+  col_fill <- colorRampPalette(c("steelblue", "gold"))(n)  # a gradient of n colors
   
   # Compute coordinates: 
-  angle <- 360/n * 0:n
+  angle <- 360/n * 0:(n-1)  # n points
+  angle <- 360/n * 0:n      # n + 1 points  
   print(angle)
   
-  x <- r * cos(angle)
+  x <- c[1] + r * sin(angle)
   print(x)
   
-  y <- r * sin(angle) 
+  y <- c[2] + r * cos(angle) 
   print(y)
   
   
   # Plot: ---- 
   
+  # Prepare canvass and mark center:
   plot(c[1], c[2], pch = 3,
        xlim = c(-1, 1), ylim = c(-1, 1))
   
   grid()
   
-  points(c[1], c[2], cex = 30, pch = 21, col = "red")  # a big point around center
+  # Mark a circle around center (as a big point):
+  points(c[1], c[2], cex = 30, pch = 21, lwd = 1, col = "firebrick")
+
+  # grid::grid.circle(c[1], c[2], r)
   
-  
+  # Draw points: 
   points(x, y, pch = 21, 
          cex = 3, bg = col_fill)
-  
+
+  # Add text labels:
+  text(x, y, label = as.character(angle))  
+    
 }
 
 # +++ here now +++ 
