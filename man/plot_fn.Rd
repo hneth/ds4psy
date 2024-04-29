@@ -82,6 +82,7 @@ plot_fn(x = 7, A = TRUE,  B = TRUE, F = TRUE, f = c("steelblue", "white", "fores
 Other plot functions: 
 \code{\link{plot_charmap}()},
 \code{\link{plot_chars}()},
+\code{\link{plot_circ_points}()},
 \code{\link{plot_fun}()},
 \code{\link{plot_n}()},
 \code{\link{plot_text}()},

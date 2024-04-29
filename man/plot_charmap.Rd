@@ -131,6 +131,7 @@ plot_charmap(ts)
 
 Other plot functions: 
 \code{\link{plot_chars}()},
+\code{\link{plot_circ_points}()},
 \code{\link{plot_fn}()},
 \code{\link{plot_fun}()},
 \code{\link{plot_n}()},

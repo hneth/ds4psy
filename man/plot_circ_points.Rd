@@ -5,7 +5,7 @@
 \title{Plot objects (as points) arranged on a circle}
 \usage{
 plot_circ_points(
-  n_points = 4,
+  n = 4,
   x_org = 0,
   y_org = 0,
   radius = 1,
@@ -14,7 +14,7 @@ plot_circ_points(
 )
 }
 \arguments{
-\item{n_points}{The number of points to plot}
+\item{n}{The number of points (or shapes defined by \code{pch}) to plot}
 
 \item{x_org}{The x-value of circle origin}
 
@@ -27,7 +27,7 @@ plot_circ_points(
 \item{...}{Additional aesthetics (passed to \code{\link{points}} of \strong{graphics}).}
 }
 \description{
-\code{plot_circ_points} arranges a number of \code{n_points} 
+\code{plot_circ_points} arranges a number of \code{n} 
 on a circle (defined by its origin coordinates and radius).
 }
 \details{
@@ -36,6 +36,21 @@ the \strong{graphics} package.
 }
 \examples{
 plot_circ_points()  # default
-plot_circ_points(12, show_label = TRUE, cex = 5, pch = 21, col = "grey", bg = "gold")
- 
+plot_circ_points(n = 12, show_label = TRUE,
+                 cex = 5, pch = 21, col = "blue", bg = "gold")
+
 }
+\seealso{
+Other plot functions: 
+\code{\link{plot_charmap}()},
+\code{\link{plot_chars}()},
+\code{\link{plot_fn}()},
+\code{\link{plot_fun}()},
+\code{\link{plot_n}()},
+\code{\link{plot_text}()},
+\code{\link{plot_tiles}()},
+\code{\link{theme_clean}()},
+\code{\link{theme_ds4psy}()},
+\code{\link{theme_empty}()}
+}
+\concept{plot functions}

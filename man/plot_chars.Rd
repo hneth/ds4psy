@@ -216,6 +216,7 @@ plot_chars(x = c("Hello world!", "Does this work?",
 
 Other plot functions: 
 \code{\link{plot_charmap}()},
+\code{\link{plot_circ_points}()},
 \code{\link{plot_fn}()},
 \code{\link{plot_fun}()},
 \code{\link{plot_n}()},
