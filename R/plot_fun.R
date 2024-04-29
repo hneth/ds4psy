@@ -2095,16 +2095,18 @@ plot_chars <- function(x = NA,     # Text string(s) to plot; iff is.na(x):
 #' @param ... Additional aesthetics (passed to \code{\link{points}} of \strong{graphics}).
 #' 
 #' @examples 
-#' plot_circ_points()  # default
+#' plot_circ_points(8)  # default
+#' 
+#' # with aesthetics of points():
+#' plot_circ_points(n =  8, cex = 8, pch = sample(21:25, size = 8, replace = TRUE), bg = "deeppink")
 #' plot_circ_points(n = 12, show_label = TRUE,
-#'                  cex = 5, pch = 21, col = "blue", bg = "gold")
+#'                  cex = 5, pch = 21, lwd = 5, col = "deepskyblue", bg = "gold")
 #' 
 #' @family plot functions 
 #' 
 #' @importFrom graphics points text
 #' 
 #' @export
-
 
 plot_circ_points <- function(n = 4, 
                              x_org = 0, y_org = 0, radius = 1, 
@@ -2139,10 +2141,13 @@ plot_circ_points <- function(n = 4,
   
   # Plot: ---- 
   
-  # Prepare canvass: 
+  # Prepare canvass:
+  x_size <- 1.25 * r
+  y_size <- 1.25 * r   
+  
   plot(x = c[1], type = "n", 
        axes = FALSE, xlab = NA, ylab = NA, 
-       xlim = c[1] + c(-r, r), ylim = c[2] + c(-r, r))
+       xlim = c[1] + c(-x_size, +x_size), ylim = c[2] + c(-y_size, +y_size))
   
   # Add help lines:
   # grid()
@@ -2154,6 +2159,7 @@ plot_circ_points <- function(n = 4,
   # grid::grid.circle(c[1], c[2], r)
   
   # Draw points: 
+  
   graphics::points(x, y, ...)
   # pch = 21, cex = 4, bg = col_fill)
   
