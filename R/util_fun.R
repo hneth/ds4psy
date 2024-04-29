@@ -1,5 +1,5 @@
 ## util_fun.R | ds4psy
-## hn | uni.kn | 2023 09 13
+## hn | uni.kn | 2024 04 29
 ## ------------------------
 
 ## Utility functions. 
@@ -308,6 +308,19 @@ get_list_names <- function(l){
 # my_pals <- list(uni_freiburg_1, uni_goettingen_1, mpg, uni_konstanz_1)
 # get_list_names(my_pals)  # ERROR +++ here now +++
 
+
+
+
+
+# deg2rad & rad2deg: Convert angles from degrees to radians (and vice versa): ------ 
+
+deg2rad <- function(deg) {
+  (deg * pi) / 180
+}
+
+rad2deg <- function(rad) {
+  (rad * 180) / pi
+}
 
 
 # kill_all: Kill all objects in current environment (without warning): ------
