@@ -2100,7 +2100,8 @@ plot_chars <- function(x = NA,     # Text string(s) to plot; iff is.na(x):
 #' plot_circ_points(8)  # default
 #' 
 #' # with aesthetics of points():
-#' plot_circ_points(n =  8, r = 10, cex = 8, pch = sample(21:25, size = 8, replace = TRUE), bg = "deeppink")
+#' plot_circ_points(n =  8, r = 10, cex = 8, 
+#'                  pch = sample(21:25, size = 8, replace = TRUE), bg = "deeppink")
 #' plot_circ_points(n = 12, r = 8, show_axes = TRUE, show_label = TRUE,
 #'                  cex = 6, pch = 21, lwd = 5, col = "deepskyblue", bg = "gold")
 #' 
