@@ -2141,6 +2141,13 @@ plot_circ_points <- function(n = 4,
   y <- c[2] + r * cos(theta) 
   # print(y)  # 4debugging 
   
+  # As df:
+  df <- data.frame(# ix = 1:n,  # point index/row number
+                   angle = angle,
+                   theta = theta, 
+                   x = x, 
+                   y = y)
+  # Note: Circle center c and radius r not saved in df. 
   
   # Plot: ---- 
   
@@ -2157,7 +2164,7 @@ plot_circ_points <- function(n = 4,
   y_size <- 1.2 * r   
   
   
-  # Draw main points: 
+  # Draw canvass:
   if (show_axes){
     
     plot(x = c[1], type = "n", 
@@ -2183,24 +2190,22 @@ plot_circ_points <- function(n = 4,
   # grid::grid.circle(c[1], c[2], r)
   
   # Draw points: 
-  
-  graphics::points(x, y, ...)
+  graphics::points(df$x, df$y, ...)
   # pch = 21, cex = 4, bg = col_fill)
   
   if (show_label){ # add text labels:
     
-    # p_lbl <- as.character(round(angle, 1))  # angle (in degrees)
-    p_lbl <- as.character(1:length(angle))  # nr
+    # p_lbl <- as.character(round(df$angle, 1))  # angle (in degrees)
+    p_lbl <- as.character(1:length(df$angle))    # nr
     
-    graphics::text(x, y, label = p_lbl, cex = .85)
+    graphics::text(df$x, df$y, label = p_lbl, cex = .85)
     
   }
   
-  # Return anything?
+  # Return df (invisibly):
   
   # on.exit(par(opar))  # par(opar)  # restore original settings
-  invisible() # restores par(opar)
-  
+  invisible(df) # restores par(opar)
   
 } # plot_circ_points(). 
 
@@ -2213,7 +2218,11 @@ plot_circ_points <- function(n = 4,
 # plot_circ_points(n = 6, pch = 15, cex = 5, col = "gold")
 # 
 # col_fill <- colorRampPalette(c("deepskyblue", "gold"))(12)  # a gradient of n colors
-# plot_circ_points(n = 12, pch = 21, cex = 5, col = NA, bg = col_fill)
+# df <- plot_circ_points(n = 12, pch = 21, cex = 5, col = NA, bg = col_fill)
+# 
+# # Color ring:
+# col_fill <- unikn::usecol(c("gold", "deepskyblue", "deeppink", "gold"), n = 500, alpha = .33)  # a gradient of n colors
+# df <- plot_circ_points(n = 500, pch = 21, cex = 5, col = NA, bg = col_fill, show_axes = FALSE)
 
 
 # +++ here now +++ :
