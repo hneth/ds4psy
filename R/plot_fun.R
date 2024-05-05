@@ -1,5 +1,5 @@
 ## plot_fun.R | ds4psy
-## hn | uni.kn | 2024 05 03
+## hn | uni.kn | 2024 05 05
 ## ------------------------
 
 ## Functions for plotting. 
@@ -2143,10 +2143,10 @@ plot_circ_points <- function(n = 4,
   
   # As df:
   df <- data.frame(# ix = 1:n,  # point index/row number
-                   angle = angle,
-                   theta = theta, 
-                   x = x, 
-                   y = y)
+    angle = angle,
+    theta = theta, 
+    x = x, 
+    y = y)
   # Note: Circle center c and radius r not saved in df. 
   
   # Plot: ---- 
@@ -2211,12 +2211,11 @@ plot_circ_points <- function(n = 4,
 
 # # Check:
 # plot_circ_points()
-# plot_circ_points(n = 36, show_label = TRUE)
-# plot_circ_points(n = 12, cex = 5, pch = 21, col = "grey", bg = "gold")
+# plot_circ_points(1, pch = 16, show_axes = TRUE)
+# plot_circ_points(n = 36, pch = 22, cex = 3, show_label = TRUE)
+# plot_circ_points(n = 12, pch = 21, cex = 4, lwd = 2, col = "blue", bg = "gold")
 #
-# # Add aesthetics:
-# plot_circ_points(n = 6, pch = 15, cex = 5, col = "gold")
-# 
+# # Add aesthetics (color gradients):
 # col_fill <- colorRampPalette(c("deepskyblue", "gold"))(12)  # a gradient of n colors
 # df <- plot_circ_points(n = 12, pch = 21, cex = 5, col = NA, bg = col_fill)
 # 
