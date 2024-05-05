@@ -2107,7 +2107,7 @@ plot_chars <- function(x = NA,     # Text string(s) to plot; iff is.na(x):
 #' 
 #' @family plot functions 
 #' 
-#' @importFrom graphics points text
+#' @importFrom graphics par points text 
 #' 
 #' @export
 
