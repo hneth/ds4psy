@@ -22,10 +22,10 @@ status](https://www.r-pkg.org/badges/version/ds4psy)](https://CRAN.R-project.org
 -->
 <!-- ds4psy logo 1: -->
 <!-- <a href="https://bookdown.org/hneth/ds4psy/"> -->
-<!-- <img src = "./inst/images/logo.png" alt = "ds4psy" width = "160px" align = "right" style = "width: 160px; float: right; border:11;"/> -->
+<!-- <img src = "./inst/images/logo.png" alt = "ds4psy" width = "150px" align = "right" style = "width: 150px; float: right; border:11;"/> -->
 <!-- </a> -->
 
-# Data Science for Psychologists (ds4psy) <img src = "./inst/images/logo.png" align = "right" alt = "ds4psy" width = "160" />
+# Data Science for Psychologists (ds4psy) <img src = "./inst/images/logo.png" align = "right" alt = "ds4psy" width = "150px" />
 
 Welcome to the R package **ds4psy** — a software companion to the book
 and course  
@@ -240,7 +240,7 @@ know](https://www.spds.uni-konstanz.de/en/people).
 <!-- ds4psy logo: -->
 
 <a href="https://bookdown.org/hneth/ds4psy/">
-<img src = "./inst/images/logo.png" alt = "ds4psy" width = "160px" align = "right" style = "width: 160px; float: right; border:11;"/>
+<img src = "./inst/images/logo.png" alt = "ds4psy" width = "150px" align = "right" style = "width: 150px; float: right; border:11;"/>
 </a>
 
 To cite **ds4psy** in derivations and publications, please use:
@@ -294,6 +294,6 @@ License</a>.
 
 <!-- Footer: -->
 
-\[File `README.md` updated on 2024-02-27.\]
+\[File `README.md` updated on 2024-05-05.\]
 
 <!-- eof. -->

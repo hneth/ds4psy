@@ -10,13 +10,11 @@ output: github_document
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.7229812.svg)](https://doi.org/10.5281/zenodo.7229812)
 <!-- Devel badges end. -->
 
-
 <!-- Release badges start: -->
 <!-- [![CRAN status](https://www.r-pkg.org/badges/version/ds4psy)](https://CRAN.R-project.org/package=ds4psy) -->
 <!-- [![Total downloads](https://cranlogs.r-pkg.org/badges/grand-total/ds4psy?color='00a9e0')](https://www.r-pkg.org/pkg/ds4psy) -->
 <!-- [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.7229812.svg)](https://doi.org/10.5281/zenodo.7229812) -->
 <!-- Release badges end. -->
-
 
 <!-- ALL status badges: 
 [![CRAN status](https://www.r-pkg.org/badges/version/ds4psy)](https://CRAN.R-project.org/package=ds4psy)
@@ -35,11 +33,12 @@ knitr::opts_chunk$set(
 
 <!-- ds4psy logo 1: -->
 <!-- <a href="https://bookdown.org/hneth/ds4psy/"> -->
-<!-- <img src = "./inst/images/logo.png" alt = "ds4psy" width = "160px" align = "right" style = "width: 160px; float: right; border:11;"/> -->
+<!-- <img src = "./inst/images/logo.png" alt = "ds4psy" width = "150px" align = "right" style = "width: 150px; float: right; border:11;"/> -->
 <!-- </a> -->
 
 
-# Data Science for Psychologists (ds4psy) <img src = "./inst/images/logo.png" align = "right" alt = "ds4psy" width = "160" />
+# Data Science for Psychologists (ds4psy) <img src = "./inst/images/logo.png" align = "right" alt = "ds4psy" width = "150px" />
+
 
 Welcome to the R package **ds4psy** &mdash; a software companion to the book and course  
 [Data Science for Psychologists](https://bookdown.org/hneth/ds4psy/). 
@@ -189,7 +188,7 @@ If you find these materials useful, or want to adopt or alter them for your purp
 
 <!-- ds4psy logo: -->
 <a href="https://bookdown.org/hneth/ds4psy/">
-<img src = "./inst/images/logo.png" alt = "ds4psy" width = "160px" align = "right" style = "width: 160px; float: right; border:11;"/> 
+<img src = "./inst/images/logo.png" alt = "ds4psy" width = "150px" align = "right" style = "width: 150px; float: right; border:11;"/> 
 </a>
 
 To cite **ds4psy** in derivations and publications, please use:  
