@@ -12,9 +12,10 @@ Imports:
     ggplot2,
     unikn
 Suggests:
-    knitr, 
+    knitr,
     rmarkdown,
-    spelling
+    spelling,
+    testthat (>= 3.0.0)
 Collate: 'util_fun.R'
          'num_util_fun.R'
          'text_util_fun.R'
