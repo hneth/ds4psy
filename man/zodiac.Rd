@@ -39,7 +39,7 @@ Zodiac label or symbol (as a factor).
 }
 \description{
 \code{zodiac} provides the tropical zodiac sign or symbol 
-for given date(s) \code{x}.
+(aka. astrological sign) for given date(s) \code{x}.
 }
 \details{
 \code{zodiac} is flexible by providing different 
