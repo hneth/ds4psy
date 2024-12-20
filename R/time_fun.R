@@ -2879,7 +2879,7 @@ diff_times <- function(from_time, to_time = Sys.time(),
 #' Get zodiac corresponding to date(s)
 #'
 #' \code{zodiac} provides the tropical zodiac sign or symbol 
-#' for given date(s) \code{x}.
+#' (aka. astrological sign) for given date(s) \code{x}.
 #' 
 #' \code{zodiac} is flexible by providing different 
 #' output formats (in Latin/English, German, or Unicode/HTML, 
