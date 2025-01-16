@@ -1,5 +1,5 @@
 ## text_fun.R | ds4psy
-## hn | uni.kn | 2022 06 30
+## hn | uni.kn | 2025 01 16
 ## ------------------------
 
 ## Functions for text strings and character objects. 
@@ -836,8 +836,8 @@ transl33t <- function(txt, rules = l33t_rul35,
                       in_case = "no", out_case = "no") {
   
   # robustness: 
-  in_case  <- tolower(substr(in_case,  1 , 2))  # 1st 2 letters of in_case
-  out_case <- tolower(substr(out_case, 1 , 2))  # 1st 2 letters of out_case  
+  in_case  <- tolower(substr(in_case,  1, 2))  # 1st 2 letters of in_case
+  out_case <- tolower(substr(out_case, 1, 2))  # 1st 2 letters of out_case  
   
   # handle in_case: 
   if (in_case == "lo") {
@@ -846,9 +846,9 @@ transl33t <- function(txt, rules = l33t_rul35,
     txt <- toupper(txt)
   }
   
-  # transl33t based on rules:   
+  # transl33t/replace characters based on rules:   
   
-  ## (a) using stringr pkg: 
+  ## (a) using stringr pkg:
   # out <- stringr::str_replace_all(txt, rules)
   ## If used, ADD:  
   ## @importFrom stringr str_replace_all
@@ -857,7 +857,7 @@ transl33t <- function(txt, rules = l33t_rul35,
   # (b) only base R commands:
   old_chars <- paste(names(rules), collapse = "")
   new_chars <- paste(rules, collapse = "")
-  out <- chartr(old_chars, new_chars, x = txt)
+  out <- chartr(old = old_chars, new = new_chars, x = txt)
   
   # handle out_case: 
   if (out_case == "lo") {
@@ -875,9 +875,9 @@ transl33t <- function(txt, rules = l33t_rul35,
 # txt2 <- "Data science is both a craft and an art. This course introduces fundamental data types,
 #          basic concepts and commands of the R programming language, and explores key packages of the so-called tidyverse.
 #          Regular exercises will help you to make your first steps from R novice to user."
-
+# 
 # transl33t(txt1)  # default rules
-# transl33t(txt1, rules = c("a" = "4"))  # manual rules
+# transl33t(txt1, rules = c("s" = "5", "i" = 1))  # manual rules
 # 
 # # multiple strings:
 # transl33t(txt = c(letters, LETTERS))
@@ -2177,12 +2177,11 @@ map_text_regex <- function(x = NA,     # Text string(s) to plot
 
 # map_text_freqs: Map text to coordinates, with character and word frequency counts: -------- 
 
-# Goal: Combine functionalities of 
+# ToDo/Goal: Combine functionality of 
 # 1. map_text_or_file() 
 # 2. count_chars_words()
 # into a single character map (with 2 numeric columns for character and word frequency). 
 
-# ToDo: +++ here now +++ 
 
 map_text_freqs <- function(x = NA,     # Text string(s) to plot 
                            file = "",  # "" reads user input from console; "test.txt" reads from file
