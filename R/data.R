@@ -1,6 +1,6 @@
 ## data.R | ds4psy
-## hn | uni.kn | 2022 04 07
-## Documentation of datasets included in /data. 
+## hn | uni.kn | 2025 01 18
+## Documentation of data sets included in /data. 
 
 
 # (01) Positive Psychology data: ---------- 
@@ -1103,13 +1103,13 @@
 
 # File is a combination from 2 sources:
 # A. numeracy data:
-# See generating code chunk "data-create-numeracy-data" in book file "55_datasets.Rmd".
+# See generating code chunk "data-create-numeracy-data" in ds4psy_book file "55_datasets.Rmd".
 # numeracy <- readr::read_csv("../ds4psy/data-raw/numeracy.csv")  # local csv file
 # numeracy <- readr::read_csv("http://rpository.com/ds4psy/data/numeracy.csv")  # online
 # numeracy  # 1000 x 12
 
 # B. dt data: 
-# See generating code chunk "data-create-time-bday-data" in book file "55_datasets.Rmd".
+# See generating code chunk "data-create-time-bday-data" in ds4psy_book file "55_datasets.Rmd".
 # dt <- readr::read_csv("../ds4psy/data-raw/dt.csv")  # from local file 
 # dt <- readr::read_csv("http://rpository.com/ds4psy/data/dt.csv")  # online file
 # dt  # 1000 x 9
@@ -1121,12 +1121,11 @@
 
 #' Data from an experiment with numeracy and date-time variables 
 #'
-#' \code{exp_num_dt} is a fictitious dataset describing 
+#' \code{exp_num_dt} is a fictitious set of data describing 
 #' 1000 non-existing, but surprisingly friendly people. 
 #' 
 #' \strong{Codebook} 
-#' 
-#' The table contains 15 columns/variables:
+#' The data characterize 1000 individuals (rows) in 15 variables (columns):
 #' 
 #' \itemize{
 #' 
@@ -1144,17 +1143,23 @@
 #' 
 #' \item 7. \strong{blood_type}: Blood type. 
 #'  
-#' \item 8. \strong{bnt_1} to 11. \strong{bnt_4}: Correct response to BNT question? (1: correct, 0: incorrect).
+#' \item 8. \strong{bnt_1} to 11. \strong{bnt_4}: 
+#' Correct response to corresponding BNT question? 
+#' (1: correct, 0: incorrect).
 #' 
-#' \item 12. \strong{g_iq} and 13. \strong{s_iq}: Scores from two IQ tests (general vs. social).
+#' \item 12. \strong{g_iq} and 13. \strong{s_iq}: 
+#' Scores from two IQ tests (general vs. social).
 #' 
-#' \item 14. \strong{t_1} and 15. \strong{t_2}: Start and end time. 
+#' \item 14. \strong{t_1} and 15. \strong{t_2}: 
+#' Study start and end time.
 #' 
 #' } 
 #' 
-#' \code{exp_num_dt} was generated for analyzing test scores (e.g., IQ, numeracy), 
-#' for converting data from wide into long format, 
-#' and for dealing with date- and time-related variables. 
+#' \code{exp_num_dt} was generated for practice purposes. 
+#' It allows 
+#' (1) converting data tables from wider into longer format, 
+#' (2) dealing with date- and time-related variables, and 
+#' (3) computing, analyzing, and visualizing test scores (e.g., numeracy, IQ). 
 #' 
 #' @format A table with 1000 cases (rows) and 15 variables (columns). 
 #' 
@@ -1171,7 +1176,7 @@
 # (10c) dt_10 data: 10 Danish bdays ---- 
 
 ## Sources:
-# dt_10 <- readr::read_csv("./data-raw/dt_10.csv") # local file
+# dt_10   <- readr::read_csv("./data-raw/dt_10.csv") # local file
 # dt_10_o <- readr::read_csv("http://rpository.com/ds4psy/data/dt_10.csv")  # online
 # all.equal(dt_10, dt_10_o)
 
