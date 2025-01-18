@@ -1,5 +1,5 @@
 ## data_fun.R | ds4psy
-## hn | uni.kn | 2024 12 20
+## hn | uni.kn | 2025 01 18
 ## ------------------------
 
 ## Functions for creating and manipulating data. 
@@ -131,7 +131,7 @@ coin <- function(n = 1, events = c("H", "T")){
 # hist(r_s, right = FALSE)
 
 
-# Sample random characters (from given characters): ------ 
+# sample_char: Sample random characters (from given characters): ------ 
 
 
 #' Draw a sample of n random characters (from given characters)
@@ -254,7 +254,7 @@ sample_char <- function(x_char = c(letters, LETTERS), n = 1, replace = FALSE, ..
 # sample_char(x_char = c(mcv, nmv), n = 50, replace = TRUE)   # repeated items
 
 
-# Sample random dates (from a given range): ------
+# sample_date: Sample random dates (from a given range): ------
 
 #' Draw a sample of n random dates (from a given range). 
 #'
@@ -344,7 +344,7 @@ sample_date <- function(from = "1970-01-01", to = Sys.Date(), size = 1, ...){
 # # see sample(9:9, size = 10, replace = TRUE)
 
 
-# Sample random times (from a given range): ------
+# sample_time: Sample random times (from a given range): ------
 
 #' Draw a sample of n random times (from a given range). 
 #'
