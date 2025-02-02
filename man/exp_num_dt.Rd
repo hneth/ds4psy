@@ -27,7 +27,7 @@ The data characterize 1000 individuals (rows) in 15 variables (columns):
 
 \item 1. \strong{name}: Participant initials.
 
-\item 2. \strong{gender}: Self-identified gender. 
+\item 2. \strong{gender}: Self-identified gender (as a binary variable).
 
 \item 3. \strong{bday}: Day (within month) of DOB.
 
@@ -55,7 +55,10 @@ Study start and end time.
 It allows 
 (1) converting data tables from wider into longer format, 
 (2) dealing with date- and time-related variables, and 
-(3) computing, analyzing, and visualizing test scores (e.g., numeracy, IQ).
+(3) computing, analyzing, and visualizing test scores (e.g., numeracy, IQ). 
+
+The \code{gender} variable was converted into a binary variable 
+(i.e., using 2 categories "female" and "not female").
 }
 \seealso{
 Other datasets: 

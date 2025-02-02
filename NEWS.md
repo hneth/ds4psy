@@ -24,7 +24,7 @@ The book and course [Data Science for Psychologists](https://bookdown.org/hneth/
 
 -------- 
 
-# ds4psy 1.0.0.9012
+# ds4psy 1.0.0.9013
 
 This is the development version of **ds4psy**, hosted at <https://github.com/hneth/ds4psy/>.
 
@@ -40,6 +40,7 @@ This is the development version of **ds4psy**, hosted at <https://github.com/hne
 
 ## Minor changes
 
+- change `gender` in  `exp_num_dt` into a binary variable (with values "female" vs. "not female")
 - add `deg2rad()` and `rad2deg()` conversion functions 
 
 
@@ -454,6 +455,6 @@ The initial functionality is limited, as the package is designed to support the 
 
 ---------- 
 
-[File `NEWS.md` updated on 2024-11-22.]
+[File `NEWS.md` updated on 2025-02-02.]
 
 <!-- eof. -->
