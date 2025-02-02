@@ -1117,6 +1117,13 @@
 ## Check: 
 # dim(exp_num_dt)  # 1000 observations (rows) x 15 variables (columns)
 # sum(is.na(exp_num_dt))  # 130 missing values
+#
+## 250202: Recode the gender variable into true binary variable:
+# table(exp_num_dt$gender)
+# exp_num_dt$gender[exp_num_dt$gender == "male"] <- "not female"
+# table(exp_num_dt$gender)
+#
+## Store data:
 # usethis::use_data(exp_num_dt, overwrite = TRUE)
 
 #' Data from an experiment with numeracy and date-time variables 
@@ -1131,7 +1138,7 @@
 #' 
 #' \item 1. \strong{name}: Participant initials.
 #' 
-#' \item 2. \strong{gender}: Self-identified gender. 
+#' \item 2. \strong{gender}: Self-identified gender (as a binary variable).
 #' 
 #' \item 3. \strong{bday}: Day (within month) of DOB.
 #' 
@@ -1160,6 +1167,9 @@
 #' (1) converting data tables from wider into longer format, 
 #' (2) dealing with date- and time-related variables, and 
 #' (3) computing, analyzing, and visualizing test scores (e.g., numeracy, IQ). 
+#' 
+#' The \code{gender} variable was converted into a binary variable 
+#' (i.e., using 2 categories "female" and "not female"). 
 #' 
 #' @format A table with 1000 cases (rows) and 15 variables (columns). 
 #' 
