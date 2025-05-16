@@ -5,7 +5,6 @@ Bushisms
 CES
 CESD
 Codebook
-DOI
 Daryll
 De
 DescTools
@@ -51,6 +50,7 @@ cesdTotal
 codebook
 coord
 cowplot
+crs
 dddd
 de
 df
@@ -83,7 +83,7 @@ purrr
 quantifications
 radix
 readr
-rul
+rv
 satisficing
 shoesize
 ss
