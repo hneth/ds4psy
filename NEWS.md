@@ -24,7 +24,7 @@ The book and course [Data Science for Psychologists](https://bookdown.org/hneth/
 
 -------- 
 
-# ds4psy 1.0.0.9013
+# ds4psy 1.0.0.9014
 
 This is the development version of **ds4psy**, hosted at <https://github.com/hneth/ds4psy/>.
 
@@ -35,6 +35,7 @@ This is the development version of **ds4psy**, hosted at <https://github.com/hne
 
 ## Major changes
 
+- add `i2ds_survey` data (33 participants, 112 variables)
 - add `plot_circ_points()` function 
 
 
@@ -455,6 +456,6 @@ The initial functionality is limited, as the package is designed to support the 
 
 ---------- 
 
-[File `NEWS.md` updated on 2025-02-02.]
+[File `NEWS.md` updated on 2025-05-16.]
 
 <!-- eof. -->
