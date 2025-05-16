@@ -47,6 +47,7 @@ Other datasets:
 \code{\link{falsePosPsy_all}},
 \code{\link{fame}},
 \code{\link{flowery}},
+\code{\link{i2ds_survey}},
 \code{\link{outliers}},
 \code{\link{pi_100k}},
 \code{\link{posPsy_AHI_CESD}},

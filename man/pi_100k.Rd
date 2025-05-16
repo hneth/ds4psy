@@ -38,6 +38,7 @@ Other datasets:
 \code{\link{fame}},
 \code{\link{flowery}},
 \code{\link{fruits}},
+\code{\link{i2ds_survey}},
 \code{\link{outliers}},
 \code{\link{posPsy_AHI_CESD}},
 \code{\link{posPsy_long}},

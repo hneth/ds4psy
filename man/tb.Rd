@@ -14,7 +14,7 @@ See CSV data file at \url{http://rpository.com/ds4psy/data/tb.csv}.
 tb
 }
 \description{
-\code{tb} is a fictitious dataset describing 
+\code{tb} is a fictitious set of data describing 
 100 non-existing, but otherwise ordinary people.
 }
 \details{
@@ -59,6 +59,7 @@ Other datasets:
 \code{\link{fame}},
 \code{\link{flowery}},
 \code{\link{fruits}},
+\code{\link{i2ds_survey}},
 \code{\link{outliers}},
 \code{\link{pi_100k}},
 \code{\link{posPsy_AHI_CESD}},
