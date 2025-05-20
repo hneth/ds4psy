@@ -41,6 +41,22 @@ Codes for variable name prefixes:
 \item \strong{crs}: course-related variable
 }
 
+The variables are as follows:
+
+\itemize{
+
+\item 1. \code{rv_anchor_high_low} A random variable that indicates whether a person is to keep a relatively large or small number in memory (i.e., 242 or 42, respectively). 
+
+\item 2. \code{rv_scale_randomization}
+
+\item 3. 
+
+\item etc.
+
+
+}
+
+
 \code{tb} was originally created to practice loops and iterations 
 (as a CSV file).
 }
