@@ -1303,7 +1303,7 @@
 
 # Data from i2ds online survey
 # URL: https://ww3.unipark.de/uc/i2ds_survey/ 
-# 2025-05-16
+# 2025-06-04
 
 
 #' i2ds online survey data.
@@ -1323,29 +1323,30 @@
 #' 
 #' \itemize{
 #' 
-#' \item \strong{rv}: random variable
+#' \item \strong{rv}: A random variable
 #' 
-#' \item \strong{c(#)}: choice variable (with # alternatives)
+#' \item \strong{c(#)}: A choice variable (with # alternatives)
 #' 
-#' \item \strong{t}: text variable (with any input)
+#' \item \strong{t}: A text variable (with any input)
 #' 
-#' \item \strong{tn}: text variable (with numeric input)
+#' \item \strong{tn}: A text variable (with numeric input)
 #' 
-#' \item \strong{crs}: course-related variable
+#' \item \strong{crs}: A course-related variable
 #' }
 #' 
 #' The variables are as follows:
 #' 
 #' \itemize{
 #' 
-#' \item 1. \code{rv_anchor_high_low} A random variable that indicates whether a person is to keep a relatively large or small number in memory (i.e., 242 or 42, respectively). 
+#' \item 1. \code{rv_anchor_high_low} A randomized (character) variable that indicates whether a person is to keep a relatively large or small number in memory (i.e., assignment to either 242 or 42, respectively). 
 #' 
-#' \item 2. \code{rv_scale_randomization}
+#' \item 2. \code{rv_scale_randomization} A randomized (character) variable that indicates whether a person was asked to rate XXX on a 4-point or 5-point Likert scale.
 #' 
-#' \item 3. 
+#' \item 3. \code{rv_barnum_pos_neg} A randomized (character variable) that indicates 
 #' 
 #' \item etc.
 #' 
+#' \item etc.
 #' 
 #' }
 #' 
