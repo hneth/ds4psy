@@ -1312,9 +1312,12 @@
 #' \code{i2ds_survey} contains pre-processed data 
 #' from the i2ds online survey.
 #' 
-#' On 2025-06-01, this data table contains 33 participants (rows) and 112 variables (columns).
+#' @format 
+#' On 2025-06-01, this data contains 33 participants (rows) and 112 variables (columns).
 #' 
-#' @details
+#' @details 
+#' 
+#' \strong{Prefix codes}
 #' 
 #' The codes for the variable name prefixes are as follows:
 #' 
@@ -1334,7 +1337,8 @@
 #' Depending on the item set, the resulting score was normalized (i.e., divided by 4 or 5), and stored as a new variable.
 #' }
 #' 
-#' \strong{Variables}
+#' 
+#' \strong{List of variables}
 #' 
 #' The variable names and their contents are as follows:
 #' 
@@ -1575,8 +1579,6 @@
 #' 
 #' \strong{Missing values} in the dataset are represented as \code{NA} values. 
 #' These indicate that a participant did not provide a response or that the question was not applicable. 
-#' 
-#' @format A table with 33 participants (rows) and 112 variables (columns). 
 #' 
 #' @family datasets
 #' 

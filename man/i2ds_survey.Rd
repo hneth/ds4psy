@@ -5,7 +5,7 @@
 \alias{i2ds_survey}
 \title{Data from the i2ds online survey}
 \format{
-A table with 33 participants (rows) and 112 variables (columns).
+On 2025-06-01, this data contains 33 participants (rows) and 112 variables (columns).
 }
 \source{
 See online survey at \url{https://ww3.unipark.de/uc/i2ds_survey/}.
@@ -18,9 +18,7 @@ i2ds_survey
 from the i2ds online survey.
 }
 \details{
-On 2025-06-01, this data table contains 33 participants (rows) and 112 variables (columns).
-
-
+\strong{Prefix codes}
 
 The codes for the variable name prefixes are as follows:
 
@@ -40,7 +38,8 @@ The codes for the variable name prefixes are as follows:
 Depending on the item set, the resulting score was normalized (i.e., divided by 4 or 5), and stored as a new variable.
 }
 
-\strong{Variables}
+
+\strong{List of variables}
 
 The variable names and their contents are as follows:
 
