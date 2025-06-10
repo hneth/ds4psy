@@ -1307,21 +1307,16 @@
 
 
 
-#' i2ds online survey data.
+#' Data from the i2ds online survey 
 #'
 #' \code{i2ds_survey} contains pre-processed data 
 #' from the i2ds online survey.
 #' 
 #' On 2025-06-01, this data table contains 33 participants (rows) and 112 variables (columns).
 #' 
-#' \strong{Missing values} in the dataset are represented as \code{NA} values. 
-#' These indicate that a participant did not provide a response or that the question was not applicable.
+#' @details
 #' 
-#' See the codebook and print version for additional coding details.
-#' 
-#' \strong{Overview} 
-#' 
-#' Codes for variable name prefixes:
+#' The codes for the variable name prefixes are as follows:
 #' 
 #' \itemize{
 #' 
@@ -1339,7 +1334,9 @@
 #' Depending on the item set, the resulting score was normalized (i.e., divided by 4 or 5), and stored as a new variable.
 #' }
 #' 
-#' The variables are as follows:
+#' \strong{Variables}
+#' 
+#' The variable names and their contents are as follows:
 #' 
 #' \itemize{
 #' 
@@ -1573,6 +1570,11 @@
 #' \item 112. \code{t_feedback} A character variable containing general feedback provided by the participant regarding the study or course. This is an open-ended item for final impressions or suggestions.
 #' 
 #' }
+#' 
+#' See the codebook and print version for additional coding details.
+#' 
+#' \strong{Missing values} in the dataset are represented as \code{NA} values. 
+#' These indicate that a participant did not provide a response or that the question was not applicable. 
 #' 
 #' @format A table with 33 participants (rows) and 112 variables (columns). 
 #' 

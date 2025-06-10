@@ -3,7 +3,7 @@
 \docType{data}
 \name{i2ds_survey}
 \alias{i2ds_survey}
-\title{i2ds online survey data.}
+\title{Data from the i2ds online survey}
 \format{
 A table with 33 participants (rows) and 112 variables (columns).
 }
@@ -20,14 +20,9 @@ from the i2ds online survey.
 \details{
 On 2025-06-01, this data table contains 33 participants (rows) and 112 variables (columns).
 
-\strong{Missing values} in the dataset are represented as \code{NA} values. 
-These indicate that a participant did not provide a response or that the question was not applicable.
 
-See the codebook and print version for additional coding details.
 
-\strong{Overview} 
-
-Codes for variable name prefixes:
+The codes for the variable name prefixes are as follows:
 
 \itemize{
 
@@ -45,7 +40,9 @@ Codes for variable name prefixes:
 Depending on the item set, the resulting score was normalized (i.e., divided by 4 or 5), and stored as a new variable.
 }
 
-The variables are as follows:
+\strong{Variables}
+
+The variable names and their contents are as follows:
 
 \itemize{
 
@@ -279,6 +276,11 @@ This variable is used to assess susceptibility to the so-called Barnum effect (i
 \item 112. \code{t_feedback} A character variable containing general feedback provided by the participant regarding the study or course. This is an open-ended item for final impressions or suggestions.
 
 }
+
+See the codebook and print version for additional coding details.
+
+\strong{Missing values} in the dataset are represented as \code{NA} values. 
+These indicate that a participant did not provide a response or that the question was not applicable.
 }
 \seealso{
 Other datasets: 
