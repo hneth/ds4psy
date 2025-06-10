@@ -1,5 +1,5 @@
 ## data.R | ds4psy
-## hn | uni.kn | 2025 06 04
+## hn | uni.kn | 2025 06 10
 ## Documentation of data sets included in /data. 
 
 
@@ -1303,7 +1303,8 @@
 
 # Data from i2ds online survey
 # URL: https://ww3.unipark.de/uc/i2ds_survey/ 
-# 2025-06-04
+# 2025-06-10
+
 
 
 #' i2ds online survey data.
@@ -1311,13 +1312,14 @@
 #' \code{i2ds_survey} contains pre-processed data 
 #' from the i2ds online survey.
 #' 
-#' On 2025-05-15, this data contained 33 participants.
+#' On 2025-06-01, this data table contains 33 participants (rows) and 112 variables (columns).
 #' 
-#' See codebook and print version for questions and coding details.
+#' \strong{Missing values} in the dataset are represented as \code{NA} values. 
+#' These indicate that a participant did not provide a response or that the question was not applicable.
+#' 
+#' See the codebook and print version for additional coding details.
 #' 
 #' \strong{Overview} 
-#' 
-#' The table contains 33 participants (rows) and 112 variables (columns).
 #' 
 #' Codes for variable name prefixes:
 #' 
@@ -1332,27 +1334,241 @@
 #' \item \strong{tn}: A text variable (with numeric input)
 #' 
 #' \item \strong{crs}: A course-related variable
+#' 
+#' \item \strong{combined}: The prefix "combined" refers to composite variables created by averaging either 4 or 5 individual Likert-scale items.
+#' Depending on the item set, the resulting score was normalized (i.e., divided by 4 or 5), and stored as a new variable.
 #' }
 #' 
 #' The variables are as follows:
 #' 
 #' \itemize{
 #' 
-#' \item 1. \code{rv_anchor_high_low} A randomized (character) variable that indicates whether a person is to keep a relatively large or small number in memory (i.e., assignment to either 242 or 42, respectively). 
+#' \item 1. \code{rv_anchor_high_low} A randomized (character) variable that indicates whether a person is to keep a relatively large or small number in memory (i.e., assignment to either 242 or 42, respectively). This manipulation is used to examine anchoring effects on later responses.
 #' 
-#' \item 2. \code{rv_scale_randomization} A randomized (character) variable that indicates whether a person was asked to rate XXX on a 4-point or 5-point Likert scale.
+#' \item 2. \code{rv_scale_randomization} A randomized (character) variable that indicates whether a person was asked to rate XXX on a 4-point or 5-point Likert scale. The variable controls for the influence of scale granularity on ratings
 #' 
-#' \item 3. \code{rv_barnum_pos_neg} A randomized (character variable) that indicates 
+#' \item 3. \code{rv_barnum_pos_neg} A randomized (character) variable that indicates whether the participant is to receiv a positive or negative Barnum statement ("positive" vs. "negative"). This is used to measure sensitivity to vague or generic personality feedback.
 #' 
-#' \item etc.
+#' \item 4. \code{rv_sc_false_dicho_3}   A randomized (character) variable indicating which version of the scale is to be shown: a dichotomous comparison between admiration vs. respect, fear vs. love, admiration vs. love and fear, or a single undivided scale (values: "admir_resp"  "fear_love", "admir_love" fear_resp", "single_scale"). Used to examine how scale format affects evaluative judgments.
 #' 
-#' \item etc.
+#' \item 5. \code{rv_wait_time} A randomized (character) variable that indicates whether the participant waited 10 seconds ("short") or 30 seconds ("long") before continuing. This manipulation aims to examine whether a longer waiting period increases the perceived credibility or value of a following personality feedback, in line with mechanisms underlying the Barnum effect.
+#' 
+#' \item 6. \code{rv_political_orientation} A randomized (character) variable indicating the order in which the two political orientation scales ("left–right" and "liberal–conservative") were presented. Possible values include "left_right, lib_cons", "left_cons, lib_right", etc. This variable is used to control for potential order effects in political self-placement tasks.
+#' 
+#' \item 7. \code{rv_thinkingstyle} A randomized (character) variable that indicates the order in which pairs of thinking styles are to be presented ("deliberative vs. intuitive"; "reflective vs. spontaneous";" deliberative vs. spontaneous";"reflective vs. Intuitive"). The order is counterbalanced to reduce presentation bias in self-assessment tasks.
+#' 
+#' \item 8. \code{c2_informed_consent}  A logical variable indicating whether the participant gave informed consent before proceeding with the study (TRUE = consent given, FALSE = not given). This variable ensures ethical compliance.
+#' 
+#' \item 9. \code{c2_img_sel_1}  A numeric (double) variable that represents the participant's selection between two images in choice Set 1 (1 = left image, 2 = right image). The variable captures image preferences in a binary format.
+#' 
+#' \item 10. \code{c2_img_sel_2}  A numeric (double) variable that represents the participant's selection between two images in choice Set 2 (1 = left image, 2 = right image).
+#' 
+#' \item 11. \code{c2_img_sel_3} A numeric (double) variable that represents the participant's selection between two images in choice Set 3 (1 = left image, 2 = right image).
+#' 
+#' \item 12. \code{c2_img_sel_4} A numeric (double) variable that represents the participant's selection between two images in choice Set 4 (1 = left image, 2 = right image).
+#' 
+#' \item 13. \code{c7_eating_habits} A categorical (character) variable that indicates which dietary lifestyle the participant follows (1 = "vegetarian"; 2 = "omnivore"; 3 = "vegan"; 4 = "pescetarian"; 5 = "flexitarian"; 6 = "carnivore"; 7 = "other"). 
+#' 
+#' \item 14. \code{t_eating_habits_other} A character variable intended to capture free-text input for other dietary descriptions; usually NA unless "other" was selected. May appear as logical if no responses were entered.
+#' 
+#' \item 15. \code{c7_apple} A numeric (double) variable indicating how much the participant likes apples on a 1-7 scale (1 = low preference 7 = high preference).
+#' 
+#' \item 16. \code{c7_cherry} A numeric (double) variable indicating how much the participant likes cherries on a 1-7 scale (1 = low preference 7 = high preference).
+#' 
+#' \item 17. \code{c7_broccoli} A numeric (double) variable indicating how much the participant likes broccoli on a 1-7 scale (1 = low preference 7 = high preference).
+#' 
+#' \item 18. \code{c7_asparagus} A numeric (double) variable indicating how much the participant likes asparagus on a 1-7 scale (1 = low preference 7 = high preference).
+#' 
+#' \item 19. \code{c7_spinach} A numeric (double) variable indicating how much the participant likes spinach on a 1-7 scale (1 = low preference 7 = high preference).
+#'
+#' \item 20. \code{c7_mud} A numeric (double) variable indicating how much the participant likes mud on a 1-7 scale (1 = low preference 7 = high preference). 
+#'
+#' \item 21. \code{c7_banana} A numeric (double) variable indicating how much the participant likes bananas on a 1-7 scale (1 = low preference 7 = high preference).
+#'
+#' Note: Variables c7_apple to c7_banana were derived from a sorting task in which participants ordered food items by preference. Each item was subsequently coded as a numeric value between 1 and 7.
+#'
+#' \item 22. \code{c2_decsleep_instant}  A categorical (character) variable indicating whether the participant prefers to sleep before making important decisions ("sleep") or to make them instantly ("instant"). 
+#'
+#' \item 23. \code{c2_shopperson_online} A categorical (character) variable indicating whether the participant prefers shopping in person ("person") or online ("online").
+#' 
+#' \item 24. \code{c2_town_city} A categorical (character) variable indicating whether the participant prefers living in a town ("town") or in a city ("city"). 
+#' 
+#' \item 25. \code{c2_club_house} A categorical (character) variable indicating whether the participant prefers to party in a club ("club") or to attend an house party ("house").
+#' 
+#' \item 26. \code{c2_hotel_camping}  A categorical (character) variable capturing preference for staying in a hotel ("hotel") versus going camping ("camping"). 
+#' 
+#' \item 27. \code{c2_photo_being} A categorical (character) variable indicating whether the participant prefers photographing ("photo") or being in a moment ("being"). 
+#' 
+#' \item 28. \code{c2_spring_fall} A categorical (character) variable indicating whether the participant prefers the spring season ("spring") or the fall/autumn season ("fall").
+#' 
+#' \item 29. \code{c2_beach_mount} A categorical (character) variable reflecting whether the participant prefers the beach ("beach") or the mountains ("mount"). 
+#' 
+#' \item 30. \code{c2_cats_dogs} A categorical (character) variable indicating preference for cats ("cats") versus dogs ("dogs").
+#' 
+#' \item 31. \code{c2_indiv_team} A categorical (character) variable indicating whether the participant prefers to do individuall ("indiv") or teamsports ("team").
+#' 
+#' \item 32. \code{c2_movies_books} A categorical (character) variable indicating preference for movies ("movies") or books ("books").
+#' 
+#' \item 33. \code{c2_board_video} A categorical (character) variable indicating whether the participant prefers board games ("board") or video games ("video").
+#' 
+#' \item 34. \code{c2_ios_android}  A categorical (character) variable indicating whether the participant prefers iOS ("ios") or Android ("android") as a mobile operating system.
+#' 
+#' \item 35. \code{c2_text_voice} A categorical (character) variable indicating whether the participant prefers texting ("text") or sending voice messages ("voice").
+#' 
+#' \item 36. \code{c2_cook_bake}  A categorical (character) variable indicating whether the participant prefers cooking ("cook") or baking ("bake").
+#' 
+#' \item 37. \code{c2_pinapple_no} A categorical (character) variable that records whether the participant likes pineapple on pizza ("yes") or not ("no").
+#' 
+#' \item 38. \code{c2_ketchup_mayo}A categorical (character) variable indicating whether the participant prefers ketchup ("ketchup") or mayonnaise ("mayo").
+#'
+#' \item 39. \code{c2_coffee_tea}  A categorical (character) variable indicating whether the participant prefers coffee ("coffee") or tea ("tea").
+#'
+#' \item 40. \code{c2_math_lang} A categorical (character) variable indicating whether the participant prefers mathematics ("math") or language-related subjects ("lang"). 
+#'
+#' \item 41. \code{c2_odd_even} A categorical (character) variable indicating whether the participant prefers odd numbers ("odd") or even numbers ("even"). 
+#'
+#' \item 42. \code{c3_diff_bin} A categorical (character) variable indicating how difficult it was for the participant to make their previous preference decisions (item 22 - 41) . Response options include "yes", "a little", and "no". This item captures perceived decisional difficulty and may serve as an indicator of response certainty or task engagement.
+#' 
+#' \item 43. \code{politics_left}  A numeric (double) variable representing the participant’s self-placement on a left–right political spectrum. Values range from 1 ("left") to 6 ("right").
+#' 
+#' \item 44. \code{politics_liberal}  A numeric (double) variable representing self-placement on a liberal to conservative scale, from 1 (liberal) to 6 (conservative). 
+#' 
+#' \item 45. \code{tn_estimate_sun}  A numeric (double) variable capturing the participant’s estimate of how many times larger the sun’s diameter is compared to that of the earth. This item serves as a manipulation check for the anchoring effect, based on previously presented numeric anchors (e.g., 42 or 242). 
+#' 
+#' \item 46. \code{t_att_check_1}  A character variable containing the participant’s open-text response to an attention check prompt (“Please type: I read the instructions”). Used to detect inattentive or automated responses.
+#' 
+#' \item 47. \code{c2_fly_invisible} A categorical (character) variable indicating whether the participant would prefer the superpower of flying ("fly") or becoming invisible ("invisible"). 
+#' 
+#' \item 48. \code{t_fly_invisible_explain}  A character variable where participants explain their choice between flying and invisibility. This allows for qualitative analysis of motivational reasoning.
+#' 
+#' \item 49. \code{combined_c_ser_hum_self} A numeric (double) variable reflecting the participant’s self-assessment on a "serious vs. humorous" scale. The score is based on a 4-point or 5-point Likert scale, depending on random assignment. This variable is used to test how scale format (presence vs. absence of a middle option) influences self-ratings.
+#' 
+#' \item 50. \code{combined_c_ser_hum_others} A combined numeric (double) variable   reflecting how humorous or serious participants believe others perceive them. This score is derived from either a 4-point or 5-point scale and is used to examine the effect of scale design on perceived external ratings. 
+#'
+#' \item 51. \code{c4_chronotype}  A categorical (character) variable indicating whether the participant identifies as a morning person ("morning"), evening person ("evening") mid-day person ("mid-day") or a never person ("never"). 
+#' 
+#' \item 52. \code{tn_sleep} A numeric (double) variable indicating the typical number of hours the participant typically sleeps per night. 
+#' 
+#' \item 53. \code{tn_bedtime} A character variable representing the participant’s usual bedtime, entered in 24-hour format (e.g., "22:30", "00:00"). 
+#' 
+#' \item 54. \code{tn_anchor_recall_1} A numeric (double) variable recording the number (either 42 or 242) that participants were previously asked to memorize and later recall. It is used to test memory for the anchor manipulation.
+#' 
+#' \item 55. \code{combined_admired} A combined numeric (double) variable reflecting how much the participant wants to be admired by others. Rated on a 1–6 Likert scale (1 = not at all, 6 = very much).
+#' 
+#' \item 56. \code{combined_feared} A combined numeric (double) variable reflecting how much the participant wants to be feared by others. Rated on a 1–6 Likert scale (1 = not at all, 6 = very much).
+#' 
+#' \item 57. \code{combined_loved} A combined numeric (double) variable reflecting how much the participant wants to be loved by others. Rated on a 1–6 Likert scale (1 = not at all, 6 = very much).
+#'
+#' \item 58. \code{combined_respected}  A combined numeric (double) variable reflecting how much the participant wants to be respected by others. Rated on a 1–6 Likert scale (1 = not at all, 6 = very much).
+#'
+#' \item 59. \code{c7_pess_opti} A numeric (double) variable capturing the participant’s self-rated tendency toward pessimism versus optimism, on a 7-point scale (1 = very pessimistic, 7 = very optimistic). 
+#'
+#' \item 60. \code{c7_story_list} A numeric (double)  variable indicating how much the participant enjoys listening to or reading stories, rated from 1 (not at all) to 7 (very much). 
+#'
+#' \item 61. \code{c7_stab_adv} A numeric (double) variable indicating the participant’s self-assessed position on a stability versus adventurousness spectrum, typically from 1 (very stable) to 7 (very adventurous). This measures personality traits related to risk-taking.
+#' 
+#' \item 62. \code{think_reflect} A numeric (double) variable representing the participant’s placement on a bipolar scale from "reflective" (1) to either "spontaneous" or " intuitive" (6). The specific version of the scale was randomly assigned. 
+#' 
+#' \item 63. \code{think_delib} A numeric (double) variable representing the participant’s placement on a bipolar scale from "deliberative" (1) to either "intuitive" or " spontaneous" (6). The specific version of the scale was randomly assigned. 
+#' 
+#' \item 64. \code{c4_intro_extrovert} A categorical (character) variable indicating the participant's self-rated social orientation: "introverted", "extroverted", or mixed forms such as "extro-intro" or "intro-extro". 
+#' 
+#' \item 65. \code{tn_favorit_number} A numeric (double) variable capturing the participant’s favorite number, freely entered. 
+#' 
+#' \item 66. \code{c3_cutlery} A categorical (character) variable indicating which piece of cutlery the participant most identifies with. Possible values include "knife", "fork", and "spoon". 
+#' 
+#' \item 67. \code{c3_rock_paper_scissors} A categorical (character) variable capturing the participant's selection in a rock–paper–scissors scenario: "rock", "paper", or "scissors".
+#' 
+#' \item 68. \code{c5_att_check_2}  A numeric (double) variable used as an attention check. Participants were asked to select the number that most resembles the shape of a circle. The correct response is "0", which corresponds to scale point 5. Responses deviating from this may indicate inattentiveness.
+#' 
+#' \item 69. \code{c6_barnum_accuracy} A numeric (double) variable indicating how accurately the participant rated a generic personality description (i.e., a Barnum statement), on a scale from 1 (poor) to 6 (perfect). This variable is used to assess susceptibility to the Barnum effect — the tendency to perceive vague and general statements as highly accurate.#'
+#' \item 70. \code{t_anchor_recall_2} A numeric (double) variable recording whether the participant correctly remembered a previously presented number (either 42 or 242). It assesses memory and anchoring manipulation success.
+#'
+#' \item 71. \code{c4_gender} A categorical (character) variable indicating the participant’s gender identity, with possible values including "female", "male", "non-binary" or "do not wish to respond". This variable is used for demographic analysis.
+#'
+#' \item 72. \code{tn_day} A numeric (double)variable indicating the day of birth provided by the participant (1–31). Used for demographic purposes and potential exploratory analyses. 
+#'
+#' \item 73. \code{tn_month} A numeric (double) variable indicating the participant’s birth month (1–12). This also supports demographic profiling. 
+#' 
+#' \item 74. \code{tn_year} A numeric (double) variable indicating the year of birth (e.g., 2001, 2003). This is used to calculate age and analyze age-related trends. 
+#' 
+#' \item 75. \code{t_height} A character variable where participants entered their height, using various formats (e.g., "180", "180 cm", "1,80m"). This variable may require preprocessing for analysis.
+#' 
+#' \item 76. \code{c9_occupation} A categorical (character) variable indicating the participant’s current occupational status (e.g., "student", "employed", "other"). This is used for demographic segmentation. 
+#' 
+#' \item 77. \code{t_occupation_other} A logical variable for free-text input if the participant selected "other" for occupation. This captures detailed occupational descriptions not covered by predefined options.
+#' 
+#' \item 78. \code{c7_education} A categorical (character) variable indicating the participant’s highest completed education level (e.g., "highschool", "bachelor", "master"). Used for education-related subgroup analysis.
+#' 
+#' \item 79. \code{t_education_other} A logical variable where participants could enter their education level in free text if "other" was selected. Enables open-format responses for less common education paths.
+#' 
+#' \item 80. \code{c3_current_degree} A categorical (character) variable indicating the type of academic degree the participant is currently pursuing (e.g, "bachelor", "master"). This provides educational context for other academic measures.
+#' 
+#' \item 81. \code{tn_semester} A numeric (double) variable indicating the current semester of study reported by the participant (e.g., 1, 6, 10). This variable helps contextualize course experience and academic progress.
+#'
+#' \item 82. \code{c14_studyfield} A categorical (character) variable indicating the participant’s field of study (e.g., "psychology", "data science"). This is used to examine field-specific attitudes and skills.
+#'
+#' \item 83. \code{t_studyfield_other} A character variable capturing free-text responses if the participant selected "other" as their study field. This allows classification of less common disciplines. 
+#'
+#' \item 84. \code{crs_i2ds_1}  A logical variable indicating whether the participant is currently enrolled in the course "Introduction to Data Science 1" (TRUE = enrolled). 
+#'
+#' \item 85. \code{crs_i2ds_2} A logical variable indicating whether the participant is enrolled in the course "Introduction to Data Science 2" (TRUE = enrolled). 
+#' 
+#' \item 86. \code{crs_ds4psy} A logical variable indicating whether the participant is enrolled in the course "Data Science for Psychology" (TRUE = enrolled).
+#' 
+#' \item 87. \code{crs_diff_kn} A logical variable indicating whether the participant is enrolled in a different course at the University of Konstanz (TRUE = yes). 
+#' 
+#' \item 88. \code{crs_diff_else} A logical variable indicating whether the participant is enrolled in a different course outside the University of Konstanz (TRUE = yes). Helps distinguish external learners.
+#' 
+#' \item 89. \code{crs_self_study} A logical variable indicating whether the participant is engaging with course materials without formal enrollment (TRUE = yes). Reflects informal learning engagement.
+#' 
+#' \item 90. \code{crs_only_study} A logical variable indicating whether the participant is taking the survey only, without engaging with course materials (TRUE = yes). Identifies non-learning participants.
+#'
+#' \item 91. \code{t_crs_other} A character variable capturing free-text input describing any other course the participant is taking. 
+#' 
+#' \item 92. \code{v_crs_other_dept} A character variable indicating the department of the other course(s) mentioned in \code{t_crs_other}. It helps group participants by academic discipline.
+#' 
+#' \item 93. \code{c5_pref_stats} A numeric (double) variable indicating the participant’s  interest in preparing data for statistical analysis, rated on a scale from 1 (no interest) to 5 (absolutely essential).
+#'
+#' \item 94. \code{c5_pref_visualize} A numeric (double) variable indicating the participants interest in data visualization in R, rated on a scale from 1 (no interest) to 5 (absolutely essential).
+#'
+#' \item 95. \code{c5_pref_sims} A numeric (double) variable indicating the participant’s interest in using R for simulations and modeling, rated on a scale from 1 (no interest) to 5 (absolutely essential).
+#'
+#' \item 96. \code{c5_pref_shiny} A numeric (double) variable capturing how essential the participant considers learning to build interactive web applications using R Shiny. Responses range from 1 (no interest) to 5 (absolutely essential).
+#'
+#' \item 97. \code{c5_pref_scrape} A numeric (double) variable capturing how essential the participant considers learning web scraping with R. Responses range from 1 (no interest) to 5 (absolutely essential).
+#' 
+#' \item 98. \code{c5_pref_arts} A numeric (double) variable capturing how essential the participant considers exploring artistic or creative aspects of data science (e.g., generative art in R). Responses range from 1 (no interest) to 5 (absolutely essential).
+#' 
+#' \item 99. \code{t_crs_expect_i2ds_1} A character variable containing free-text input describing the participant’s expectations and hopes for the course "Introduction to Data Science 1". 
+#'
+#' \item 100. \code{t_crs_worry_i2ds_1} A character variable capturing free-text responses regarding worries and reservations related to "Introduction to Data Science 1". 
+#' 
+#' \item 101. \code{t_crs_expect_i2ds_2} A character variable containing free-text input describing the participant’s expectations and hopes for the course "Introduction to Data Science 2". 
+#' 
+#' \item 102. \code{t_crs_worry_i2ds_2} A character variable capturing free-text input about worries and reservations concerns related to "Introduction to Data Science 2". 
+#' 
+#' \item 103. \code{t_crs_expect_ds4psy} A logical variable containing free-text input describing the participant’s expectations and hopes for the course "Data Science for Psychology". 
+#' 
+#' \item 104. \code{t_crs_worry_ds4psy} A logical variable capturing worries and reservations regarding "Data Science for Psychology", written in free text. 
+#' 
+#' \item 105. \code{c6_exp_math} A numeric (double) variable indicating the participant’s self-rated prior experience with mathematics, on a scale from 1 (no experience) to 6 (extremely experienced). 
+#' 
+#' \item 106. \code{c6_exp_statistics} A numeric (double) variable measuring the participant’s self-assessed experience with statistics, ranging from 1 (no experience) to 6 (extremely experienced). 
+#' 
+#' \item 107. \code{c6_exp_program} A numeric (double) variable indicating the participant’s experience with programming (any programming language), rated on a 1–6 scale (1 = no experience, 6 = extremely expercienced).
+#' 
+#' \item 108. \code{c6_exp_r}  A numeric (double) variable indicating the participant’s experience with R programming, from 1 (no experience) to 6 (extremely experienced). 
+#' 
+#' \item 109. \code{c6_exp_datavisual} A numeric (double) variable capturing the participant’s prior experience with data visualization, on a scale from 1 (no experience) to 6 (extremely experienced). 
+#' 
+#' \item 110. \code{c2_use_data_2} A logical variable indicating whether the participant agrees to allow their data to be used for secondary analyses (TRUE = consent given). This governs data reusability in research.
+#' 
+#' \item 111. \code{t_pid} A character variable optionally capturing a participant ID, pseudonym, or other identifying entry. This field ís used for the participants to be able to recognize their data later in the course.
+#' 
+#' \item 112. \code{t_feedback} A character variable containing general feedback provided by the participant regarding the study or course. This is an open-ended item for final impressions or suggestions.
 #' 
 #' }
-#' 
-#' 
-#' \code{tb} was originally created to practice loops and iterations 
-#' (as a CSV file).
 #' 
 #' @format A table with 33 participants (rows) and 112 variables (columns). 
 #' 
@@ -1360,6 +1576,8 @@
 #' 
 #' @source 
 #' See online survey at \url{https://ww3.unipark.de/uc/i2ds_survey/}. 
+
+
 
 
 "i2ds_survey"
