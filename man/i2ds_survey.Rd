@@ -91,9 +91,10 @@ The variables are as follows:
 
 \item 21. \code{c7_banana} A numeric (double) variable indicating how much the participant likes bananas on a 1-7 scale (1 = low preference 7 = high preference).
 
-Note: Variables c7_apple to c7_banana were derived from a sorting task in which participants ordered food items by preference. Each item was subsequently coded as a numeric value between 1 and 7.
+\strong{Note}: Variables \code{c7_apple} to \code{c7_banana} were derived from a sorting task in which participants ordered food items by preference. 
+Each item was subsequently coded as a numeric value between 1 and 7.
 
-\item 22. \code{c2_decsleep_instant}  A categorical (character) variable indicating whether the participant prefers to sleep before making important decisions ("sleep") or to make them instantly ("instant"). 
+\item 22. \code{c2_decsleep_instant} A categorical (character) variable indicating whether the participant prefers to sleep before making important decisions ("sleep") or to make them instantly ("instant"). 
 
 \item 23. \code{c2_shopperson_online} A categorical (character) variable indicating whether the participant prefers shopping in person ("person") or online ("online").
 
@@ -101,7 +102,7 @@ Note: Variables c7_apple to c7_banana were derived from a sorting task in which 
 
 \item 25. \code{c2_club_house} A categorical (character) variable indicating whether the participant prefers to party in a club ("club") or to attend an house party ("house").
 
-\item 26. \code{c2_hotel_camping}  A categorical (character) variable capturing preference for staying in a hotel ("hotel") versus going camping ("camping"). 
+\item 26. \code{c2_hotel_camping} A categorical (character) variable capturing preference for staying in a hotel ("hotel") versus going camping ("camping"). 
 
 \item 27. \code{c2_photo_being} A categorical (character) variable indicating whether the participant prefers photographing ("photo") or being in a moment ("being"). 
 
@@ -111,23 +112,23 @@ Note: Variables c7_apple to c7_banana were derived from a sorting task in which 
 
 \item 30. \code{c2_cats_dogs} A categorical (character) variable indicating preference for cats ("cats") versus dogs ("dogs").
 
-\item 31. \code{c2_indiv_team} A categorical (character) variable indicating whether the participant prefers to do individuall ("indiv") or teamsports ("team").
+\item 31. \code{c2_indiv_team} A categorical (character) variable indicating whether the participant prefers individual ("indiv") or team sports ("team").
 
 \item 32. \code{c2_movies_books} A categorical (character) variable indicating preference for movies ("movies") or books ("books").
 
 \item 33. \code{c2_board_video} A categorical (character) variable indicating whether the participant prefers board games ("board") or video games ("video").
 
-\item 34. \code{c2_ios_android}  A categorical (character) variable indicating whether the participant prefers iOS ("ios") or Android ("android") as a mobile operating system.
+\item 34. \code{c2_ios_android} A categorical (character) variable indicating whether the participant prefers iOS ("ios") or Android ("android") as a mobile operating system.
 
 \item 35. \code{c2_text_voice} A categorical (character) variable indicating whether the participant prefers texting ("text") or sending voice messages ("voice").
 
-\item 36. \code{c2_cook_bake}  A categorical (character) variable indicating whether the participant prefers cooking ("cook") or baking ("bake").
+\item 36. \code{c2_cook_bake} A categorical (character) variable indicating whether the participant prefers cooking ("cook") or baking ("bake").
 
 \item 37. \code{c2_pinapple_no} A categorical (character) variable that records whether the participant likes pineapple on pizza ("yes") or not ("no").
 
-\item 38. \code{c2_ketchup_mayo}A categorical (character) variable indicating whether the participant prefers ketchup ("ketchup") or mayonnaise ("mayo").
+\item 38. \code{c2_ketchup_mayo} A categorical (character) variable indicating whether the participant prefers ketchup ("ketchup") or mayonnaise ("mayo").
 
-\item 39. \code{c2_coffee_tea}  A categorical (character) variable indicating whether the participant prefers coffee ("coffee") or tea ("tea").
+\item 39. \code{c2_coffee_tea} A categorical (character) variable indicating whether the participant prefers coffee ("coffee") or tea ("tea").
 
 \item 40. \code{c2_math_lang} A categorical (character) variable indicating whether the participant prefers mathematics ("math") or language-related subjects ("lang"). 
 
@@ -185,9 +186,12 @@ Note: Variables c7_apple to c7_banana were derived from a sorting task in which 
 
 \item 67. \code{c3_rock_paper_scissors} A categorical (character) variable capturing the participant's selection in a rock–paper–scissors scenario: "rock", "paper", or "scissors".
 
-\item 68. \code{c5_att_check_2}  A numeric (double) variable used as an attention check. Participants were asked to select the number that most resembles the shape of a circle. The correct response is "0", which corresponds to scale point 5. Responses deviating from this may indicate inattentiveness.
+\item 68. \code{c5_att_check_2} A numeric (double) variable used as an attention check. Participants were asked to select the number that most resembles the shape of a circle. The correct response is "0", which corresponds to scale point 5. Responses deviating from this may indicate inattentiveness.
 
-\item 69. \code{c6_barnum_accuracy} A numeric (double) variable indicating how accurately the participant rated a generic personality description (i.e., a Barnum statement), on a scale from 1 (poor) to 6 (perfect). This variable is used to assess susceptibility to the Barnum effect — the tendency to perceive vague and general statements as highly accurate.#'
+\item 69. \code{c6_barnum_accuracy} A numeric (double) variable indicating how accurately the participant rated a generic personality description (i.e., a Barnum statement), 
+on a scale from 1 (poor) to 6 (perfect). 
+This variable is used to assess susceptibility to the so-called Barnum effect (i.e., the tendency to perceive vague and general statements as highly accurate). 
+
 \item 70. \code{t_anchor_recall_2} A numeric (double) variable recording whether the participant correctly remembered a previously presented number (either 42 or 242). It assesses memory and anchoring manipulation success.
 
 \item 71. \code{c4_gender} A categorical (character) variable indicating the participant’s gender identity, with possible values including "female", "male", "non-binary" or "do not wish to respond". This variable is used for demographic analysis.
@@ -204,7 +208,7 @@ Note: Variables c7_apple to c7_banana were derived from a sorting task in which 
 
 \item 77. \code{t_occupation_other} A logical variable for free-text input if the participant selected "other" for occupation. This captures detailed occupational descriptions not covered by predefined options.
 
-\item 78. \code{c7_education} A categorical (character) variable indicating the participant’s highest completed education level (e.g., "highschool", "bachelor", "master"). Used for education-related subgroup analysis.
+\item 78. \code{c7_education} A categorical (character) variable indicating the participant’s highest completed education level (e.g., "high school", "bachelor", "master"). Used for education-related subgroup analysis.
 
 \item 79. \code{t_education_other} A logical variable where participants could enter their education level in free text if "other" was selected. Enables open-format responses for less common education paths.
 
@@ -216,7 +220,7 @@ Note: Variables c7_apple to c7_banana were derived from a sorting task in which 
 
 \item 83. \code{t_studyfield_other} A character variable capturing free-text responses if the participant selected "other" as their study field. This allows classification of less common disciplines. 
 
-\item 84. \code{crs_i2ds_1}  A logical variable indicating whether the participant is currently enrolled in the course "Introduction to Data Science 1" (TRUE = enrolled). 
+\item 84. \code{crs_i2ds_1} A logical variable indicating whether the participant is currently enrolled in the course "Introduction to Data Science 1" (TRUE = enrolled). 
 
 \item 85. \code{crs_i2ds_2} A logical variable indicating whether the participant is enrolled in the course "Introduction to Data Science 2" (TRUE = enrolled). 
 
@@ -264,7 +268,7 @@ Note: Variables c7_apple to c7_banana were derived from a sorting task in which 
 
 \item 107. \code{c6_exp_program} A numeric (double) variable indicating the participant’s experience with programming (any programming language), rated on a 1–6 scale (1 = no experience, 6 = extremely expercienced).
 
-\item 108. \code{c6_exp_r}  A numeric (double) variable indicating the participant’s experience with R programming, from 1 (no experience) to 6 (extremely experienced). 
+\item 108. \code{c6_exp_r} A numeric (double) variable indicating the participant’s experience with R programming, from 1 (no experience) to 6 (extremely experienced). 
 
 \item 109. \code{c6_exp_datavisual} A numeric (double) variable capturing the participant’s prior experience with data visualization, on a scale from 1 (no experience) to 6 (extremely experienced). 
 
