@@ -30,7 +30,7 @@ The table contains 5 columns/variables:
 
 \item 3. \strong{height}: Height (in cm).
 
-\item 4. \strong{shoesize}: Shoesize (EU standard).
+\item 4. \strong{shoesize}: Shoe size (EU standard).
 
 \item 5. \strong{IQ}: IQ score (according Raven's Regressive Tables).
 
