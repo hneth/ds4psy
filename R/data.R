@@ -1588,23 +1588,27 @@
 #' 
 #' \item 104. \code{t_crs_worry_ds4psy} A logical variable capturing worries and reservations regarding "Data Science for Psychology", written in free text. 
 #' 
-#' \item 105. \code{c6_exp_math} A numeric (double) variable indicating the participant’s self-rated prior experience with mathematics, on a scale from 1 (no experience) to 6 (extremely experienced). 
+#' \item 105. \code{c6_exp_math} A numeric (double) variable indicating the participant’s self-assessed experience with mathematics, rated on a scale from 1 (no experience) to 6 (extremely experienced). 
 #' 
-#' \item 106. \code{c6_exp_statistics} A numeric (double) variable measuring the participant’s self-assessed experience with statistics, ranging from 1 (no experience) to 6 (extremely experienced). 
+#' \item 106. \code{c6_exp_statistics} A numeric (double) variable measuring the participant’s self-assessed experience with statistics, rated on a scale from 1 (no experience) to 6 (extremely experienced). 
 #' 
-#' \item 107. \code{c6_exp_program} A numeric (double) variable indicating the participant’s experience with programming (any programming language), rated on a 1–6 scale (1 = no experience, 6 = extremely expercienced).
+#' \item 107. \code{c6_exp_program} A numeric (double) variable indicating the participant’s experience with programming (any programming language), rated on a scale from 1 (no experience) to 6 (extremely experienced).
 #' 
-#' \item 108. \code{c6_exp_r} A numeric (double) variable indicating the participant’s experience with R programming, from 1 (no experience) to 6 (extremely experienced). 
+#' \item 108. \code{c6_exp_r} A numeric (double) variable indicating the participant’s experience with R programming, rated on a scale from 1 (no experience) to 6 (extremely experienced). 
 #' 
-#' \item 109. \code{c6_exp_datavisual} A numeric (double) variable capturing the participant’s prior experience with data visualization, on a scale from 1 (no experience) to 6 (extremely experienced). 
-#' 
-#' \item 110. \code{c2_use_data_2} A logical variable indicating whether the participant agrees to allow their data to be used for secondary analyses (TRUE = consent given). This governs data reusability in research.
+#' \item 109. \code{c6_exp_datavisual} A numeric (double) variable capturing the participant’s prior experience with data visualization, rated on a scale from 1 (no experience) to 6 (extremely experienced). 
 #' 
 #' 
-#' \item 111. \code{t_pid} A character variable optionally capturing a participant ID, pseudonym, or other identifying entry. This field ís used for the participants to be able to recognize their data later in the course.
+#' \item 110. \code{c2_use_data_2} A logical variable indicating whether the participant still agrees to allow their data to be shared after having finished the survey (\code{TRUE} = consent given). 
+#' This variable is a pre-requisite for data re-usability in research.
 #' 
 #' 
-#' \item 112. \code{t_feedback} A character variable containing general feedback provided by the participant regarding the study or course. This is an open-ended item for final impressions or suggestions.
+#' \item 111. \code{t_pid} An optional character variable capturing a participant ID, pseudonym, or other identifying entry. 
+#' This variable allows participants to recognize their own data without disclosing their identity.
+#' 
+#' 
+#' \item 112. \code{t_feedback} An optional character variable containing general feedback provided by the participant regarding the survey or course. 
+#' This is an open-ended text field for final impressions or suggestions.
 #' 
 #' }
 #' 
