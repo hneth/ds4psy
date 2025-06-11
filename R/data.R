@@ -1058,9 +1058,9 @@
 
 #' Data: Bushisms 
 #'
-#' \code{Bushisms} contains phrases spoken by 
+#' \code{Bushisms} contains some phrases uttered by 
 #' or attributed to U.S. president George W. Bush 
-#' (the 43rd president of the United States, 
+#' (the 43rd president of the United States of America, 
 #' in office from January 2001 to January 2009).
 #' 
 #' @format A vector of type \code{character}  
@@ -1078,9 +1078,12 @@
 
 #' Data: Trumpisms 
 #'
-#' \code{Trumpisms} contains frequent words and characteristic phrases 
-#' by U.S. president Donald J. Trump (the 45th president of the United States, 
-#' in office from January 20, 2017, to January 20, 2021). 
+#' \code{Trumpisms} contains characteristic words and phrases used 
+#' by U.S. president Donald J. Trump (the 45th and 47th president of the United States of America)  
+#' during his first presidency (ranging from January 20, 2017, to January 20, 2021). 
+#' 
+#' See \url{https://en.wikiquote.org/wiki/Donald_Trump} for a more recent collection of 
+#' attributed and disputed quotes.
 #' 
 #' @format A vector of type \code{character}  
 #' with \code{length(Trumpisms) = 168} 

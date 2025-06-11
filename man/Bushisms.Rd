@@ -15,9 +15,9 @@ Data based on \url{https://en.wikipedia.org/wiki/Bushism}.
 Bushisms
 }
 \description{
-\code{Bushisms} contains phrases spoken by 
+\code{Bushisms} contains some phrases uttered by 
 or attributed to U.S. president George W. Bush 
-(the 43rd president of the United States, 
+(the 43rd president of the United States of America, 
 in office from January 2001 to January 2009).
 }
 \seealso{
