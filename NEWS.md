@@ -24,7 +24,7 @@ The book and course [Data Science for Psychologists](https://bookdown.org/hneth/
 
 -------- 
 
-# ds4psy 1.0.0.9014
+# ds4psy 1.0.0.9018
 
 This is the development version of **ds4psy**, hosted at <https://github.com/hneth/ds4psy/>.
 
@@ -47,7 +47,7 @@ This is the development version of **ds4psy**, hosted at <https://github.com/hne
 
 ## Details
 
-- update logo
+- new logo
 
 
 <!-- ## ToDo --> 
@@ -456,6 +456,6 @@ The initial functionality is limited, as the package is designed to support the 
 
 ---------- 
 
-[File `NEWS.md` updated on 2025-05-16.]
+[File `NEWS.md` updated on 2025-06-24.]
 
 <!-- eof. -->
