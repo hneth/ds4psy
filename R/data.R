@@ -1315,7 +1315,7 @@
 #' from the i2ds online survey.
 #' 
 #' @format 
-#' On 2025-08-14, this data contains 35 participants (rows) and 112 variables (columns).
+#' On 2025-09-11, this data contains 36 participants (rows) and 112 variables (columns).
 #' 
 #' @details 
 #' 
@@ -1343,13 +1343,14 @@
 #' 
 #' \strong{List of variables}
 #' 
-#' After pre-processing the raw data, the variable names and their contents are as follows:
+#' After pre-processing the raw data, the variable names and their contents in the \code{i2ds_survey} tibble are as follows:
 #' 
 #' \itemize{
 #' 
 #' \item 1. \code{rv_anchor_high_low} A randomized (character) variable that indicates whether a person is to keep a relatively large or small number in memory (i.e., assignment to either \code{242} or \code{42}, respectively). This manipulation is used to examine anchoring effects on later responses.
 #' 
-#' \item 2. \code{rv_scale_randomization} A randomized (character) variable that indicates whether a person was asked to rate XXX on a 4-point or 5-point Likert scale. The variable controls for the influence of scale granularity on ratings
+#' \item 2. \code{rv_scale_randomization} A randomized (character) variable that indicates whether a person was asked to rate their personality (from "serious" to "humorous") on a 4-point or on a 5-point Likert scale. 
+#' The variable controls for the influence of scale granularity on ratings. 
 #' 
 #' \item 3. \code{rv_barnum_pos_neg} A randomized (character) variable that indicates whether the participant is to receive a positive or negative Barnum statement ("positive" vs. "negative"). This is used to measure sensitivity to vague or generic personality feedback.
 #' 
@@ -1362,8 +1363,9 @@
 #' \item 7. \code{rv_thinkingstyle} A randomized (character) variable that indicates the order in which pairs of thinking styles are to be presented ("deliberative vs. intuitive"; "reflective vs. spontaneous";" deliberative vs. spontaneous";"reflective vs. Intuitive"). The order is counterbalanced to reduce presentation bias in self-assessment tasks.
 #' 
 #' 
-#' \item 8. \code{c2_informed_consent}  A logical variable indicating whether the participant provided informed consent before starting the study 
-#' (\code{TRUE} = consent provided, \code{FALSE} = no consent provided). This variable is a pre-requisite for ethical compliance.
+#' \item 8. \code{c2_informed_consent} A logical variable indicating whether the participant provided informed consent before starting the study 
+#' (\code{TRUE} = consent provided, \code{FALSE} = no consent provided). 
+#' This variable is a pre-requisite for ethical compliance (i.e., should be \code{TRUE} for all participants).
 #' 
 #' 
 #' \item 9. \code{c2_img_sel_1} A numeric (double) variable that represents the participant's preferred choice between 2 images in choice Set 1. 
@@ -1397,8 +1399,8 @@
 #' 
 #' \item 13. \code{c7_eating_habits} A categorical (character) variable that indicates which dietary lifestyle the participant follows (1 = "vegetarian"; 2 = "omnivore"; 3 = "vegan"; 4 = "pescetarian"; 5 = "flexitarian"; 6 = "carnivore"; 7 = "other"). 
 #' 
-#' \item 14. \code{t_eating_habits_other} A character variable intended to capture free-text input for other dietary descriptions; usually NA unless "other" was selected. May appear as logical if no responses were entered.
-#' 
+#' \item 14. \code{t_eating_habits_other} A character variable intended to capture free-text input for other dietary descriptions; usually NA unless "other" was selected. 
+#' May appear as logical if no responses were entered.
 #' 
 #' \item 15. \code{c7_apple} A numeric (double) variable indicating how much the participant likes apples on a 1-7 scale (1 = low preference 7 = high preference).
 #' 
@@ -1415,7 +1417,7 @@
 #' \item 21. \code{c7_banana} A numeric (double) variable indicating how much the participant likes bananas on a 1-7 scale (1 = low preference 7 = high preference).
 #'
 #' \strong{Note}: Variables \code{c7_apple} to \code{c7_banana} were derived from a sorting/ranking task in which participants sorted/ranked food items by preference. 
-#' Each item was subsequently coded as a numeric value between 1 and 7.
+#' Each item was subsequently coded as a numeric value between \code{1} and \code{7}.
 #'
 #'
 #' \item 22. \code{c2_decsleep_instant} A categorical (character) variable indicating whether the participant prefers to sleep before making important decisions ("sleep") or to make them instantly ("instant"). 
@@ -1526,7 +1528,7 @@
 #' 
 #' 
 #' \item 69. \code{c6_barnum_accuracy} A numeric (double) variable indicating how accurately the participant rated a generic personality description (i.e., a Barnum statement), 
-#' on a scale from 1 (poor) to 6 (perfect). 
+#' on a scale from \code{1} (poor) to \code{6} (perfect). 
 #' This variable is used to assess susceptibility to the so-called Barnum effect (i.e., the tendency to perceive vague and general statements as highly accurate). 
 #' 
 #' 
@@ -1535,11 +1537,13 @@
 #'
 #' \item 71. \code{c4_gender} A categorical (character) variable indicating the participant’s gender identity, with possible values including "female", "male", "non-binary" or "do not wish to respond". This variable is used for demographic analysis.
 #'
-#' \item 72. \code{tn_day} A numeric (double)variable indicating the day of birth provided by the participant (1–31). Used for demographic purposes and potential exploratory analyses. 
 #'
-#' \item 73. \code{tn_month} A numeric (double) variable indicating the participant’s birth month (1–12). This also supports demographic profiling. 
+#' \item 72. \code{tn_day} A numeric (double)variable indicating the day of birth provided by the participant (\code{1–31}). Used for demographic purposes and potential exploratory analyses. 
+#'
+#' \item 73. \code{tn_month} A numeric (double) variable indicating the participant’s birth month (\code{1–12}). This also supports demographic profiling. 
 #' 
-#' \item 74. \code{tn_year} A numeric (double) variable indicating the year of birth (e.g., 2001, 2003). This is used to calculate age and analyze age-related trends. 
+#' \item 74. \code{tn_year} A numeric (double) variable indicating the year of birth (e.g., \code{1999, 2000, 2001}, etc.). 
+#' Variables 72. to 74. can be used to calculate age and analyze age-related trends. 
 #' 
 #' 
 #' \item 75. \code{t_height} A character variable where participants entered their height, using various formats (e.g., "180", "180 cm", "1,80m"). This variable may require preprocessing for analysis.
@@ -1578,20 +1582,27 @@
 #'
 #' \item 91. \code{t_crs_other} A character variable capturing free-text input describing any other course the participant is taking. 
 #' 
-#' \item 92. \code{v_crs_other_dept} A character variable indicating the department of the other course(s) mentioned in \code{t_crs_other}. It helps group participants by academic discipline.
+#' \item 92. \code{v_crs_other_dept} A character variable indicating the department of the other course(s) mentioned in \code{t_crs_other}. 
+#' This may facilitate grouping participants by academic discipline.
 #' 
 #' 
-#' \item 93. \code{c5_pref_stats} A numeric (double) variable indicating the participant’s  interest in preparing data for statistical analysis, rated on a scale from 1 (no interest) to 5 (absolutely essential).
+#' \item 93. \code{c5_pref_stats} A numeric (double) variable indicating the participant’s  interest in preparing data for statistical analysis, 
+#' rated on a scale from \code{1} (no interest) to \code{5} (absolutely essential).
 #'
-#' \item 94. \code{c5_pref_visualize} A numeric (double) variable indicating the participants interest in data visualization in R, rated on a scale from 1 (no interest) to 5 (absolutely essential).
+#' \item 94. \code{c5_pref_visualize} A numeric (double) variable indicating the participants interest in data visualization in R, 
+#' rated on a scale from \code{1} (no interest) to \code{5} (absolutely essential).
 #'
-#' \item 95. \code{c5_pref_sims} A numeric (double) variable indicating the participant’s interest in using R for simulations and modeling, rated on a scale from 1 (no interest) to 5 (absolutely essential).
+#' \item 95. \code{c5_pref_sims} A numeric (double) variable indicating the participant’s interest in using R for simulations and modeling, 
+#' rated on a scale from \code{1} (no interest) to \code{5} (absolutely essential).
 #'
-#' \item 96. \code{c5_pref_shiny} A numeric (double) variable capturing how essential the participant considers learning to build interactive web applications using R Shiny. Responses range from 1 (no interest) to 5 (absolutely essential).
+#' \item 96. \code{c5_pref_shiny} A numeric (double) variable capturing how essential the participant considers learning to build interactive web applications using R Shiny. 
+#' Responses range from \code{1} (no interest) to \code{5} (absolutely essential).
 #'
-#' \item 97. \code{c5_pref_scrape} A numeric (double) variable capturing how essential the participant considers learning web scraping with R. Responses range from 1 (no interest) to 5 (absolutely essential).
+#' \item 97. \code{c5_pref_scrape} A numeric (double) variable capturing how essential the participant considers learning web scraping with R. 
+#' Responses range from \code{1} (no interest) to \code{5} (absolutely essential).
 #' 
-#' \item 98. \code{c5_pref_arts} A numeric (double) variable capturing how essential the participant considers exploring artistic or creative aspects of data science (e.g., generative art in R). Responses range from 1 (no interest) to 5 (absolutely essential).
+#' \item 98. \code{c5_pref_arts} A numeric (double) variable capturing how essential the participant considers exploring artistic or creative aspects of data science (e.g., generative art in R). 
+#' Responses range from \code{1} (no interest) to \code{5} (absolutely essential).
 #' 
 #' 
 #' \item 99. \code{t_crs_expect_i2ds_1} A character variable containing free-text input describing the participant’s expectations and hopes for the course "Introduction to Data Science 1". 
@@ -1606,19 +1617,25 @@
 #' 
 #' \item 104. \code{t_crs_worry_ds4psy} A logical variable capturing worries and reservations regarding "Data Science for Psychology", written in free text. 
 #' 
-#' \item 105. \code{c6_exp_math} A numeric (double) variable indicating the participant’s self-assessed experience with mathematics, rated on a scale from 1 (no experience) to 6 (extremely experienced). 
+#' \item 105. \code{c6_exp_math} A numeric (double) variable indicating the participant’s self-assessed experience with mathematics, 
+#' rated on a scale from \code{1} (no experience) to \code{6} (extremely experienced). 
 #' 
-#' \item 106. \code{c6_exp_statistics} A numeric (double) variable measuring the participant’s self-assessed experience with statistics, rated on a scale from 1 (no experience) to 6 (extremely experienced). 
+#' \item 106. \code{c6_exp_statistics} A numeric (double) variable measuring the participant’s self-assessed experience with statistics, 
+#' rated on a scale from \code{1} (no experience) to \code{6} (extremely experienced). 
 #' 
-#' \item 107. \code{c6_exp_program} A numeric (double) variable indicating the participant’s experience with programming (any programming language), rated on a scale from 1 (no experience) to 6 (extremely experienced).
+#' \item 107. \code{c6_exp_program} A numeric (double) variable indicating the participant’s experience with programming (any programming language), 
+#' rated on a scale from \code{1} (no experience) to \code{6} (extremely experienced).
 #' 
-#' \item 108. \code{c6_exp_r} A numeric (double) variable indicating the participant’s experience with R programming, rated on a scale from 1 (no experience) to 6 (extremely experienced). 
+#' \item 108. \code{c6_exp_r} A numeric (double) variable indicating the participant’s experience with R programming, 
+#' rated on a scale from \code{1} (no experience) to \code{6} (extremely experienced).
 #' 
-#' \item 109. \code{c6_exp_datavisual} A numeric (double) variable capturing the participant’s prior experience with data visualization, rated on a scale from 1 (no experience) to 6 (extremely experienced). 
+#' \item 109. \code{c6_exp_datavisual} A numeric (double) variable capturing the participant’s prior experience with data visualization, 
+#' rated on a scale from \code{1} (no experience) to \code{6} (extremely experienced).
 #' 
 #' 
-#' \item 110. \code{c2_use_data_2} A logical variable indicating whether the participant still agrees to allow their data to be shared after having finished the survey (\code{TRUE} = consent given). 
-#' This variable is a pre-requisite for data re-usability in research.
+#' \item 110. \code{c2_use_data_2} A logical variable indicating whether the participant still agrees to allow their data to be shared after having finished the survey 
+#' (\code{TRUE} = consent provided, \code{FALSE} = no consent provided). 
+#' This variable is a pre-requisite for data re-usability in research (and should be \code{TRUE} for all cases included here). 
 #' 
 #' 
 #' \item 111. \code{t_pid} An optional character variable capturing a participant ID, pseudonym, or other identifying entry. 
@@ -1626,11 +1643,11 @@
 #' 
 #' 
 #' \item 112. \code{t_feedback} An optional character variable containing general feedback provided by the participant regarding the survey or course. 
-#' This is an open-ended text field for final impressions or suggestions.
+#' This is an open-ended text field for final comments, impressions, or suggestions.
 #' 
 #' }
 #' 
-#' See the codebook and print version for additional coding details.
+#' See the \strong{codebook} and \strong{print version} for additional coding details.
 #' 
 #' \strong{Missing values} in the dataset are represented as \code{NA} values. 
 #' These indicate that a participant did not provide a response or that the question was not applicable. 
