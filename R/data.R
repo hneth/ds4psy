@@ -1,5 +1,5 @@
 ## data.R | ds4psy
-## hn | uni.kn | 2025 08 14
+## hn | uni.kn | 2025 09 11
 ## Documentation of data sets included in /data. 
 
 
@@ -1306,8 +1306,7 @@
 
 # Data from i2ds online survey
 # URL: https://ww3.unipark.de/uc/i2ds_survey/ 
-# 2025-08-14
-
+# 2025-09-11
 
 
 #' Data from the i2ds online survey 
@@ -1348,13 +1347,13 @@
 #' 
 #' \itemize{
 #' 
-#' \item 1. \code{rv_anchor_high_low} A randomized (character) variable that indicates whether a person is to keep a relatively large or small number in memory (i.e., assignment to either 242 or 42, respectively). This manipulation is used to examine anchoring effects on later responses.
+#' \item 1. \code{rv_anchor_high_low} A randomized (character) variable that indicates whether a person is to keep a relatively large or small number in memory (i.e., assignment to either \code{242} or \code{42}, respectively). This manipulation is used to examine anchoring effects on later responses.
 #' 
 #' \item 2. \code{rv_scale_randomization} A randomized (character) variable that indicates whether a person was asked to rate XXX on a 4-point or 5-point Likert scale. The variable controls for the influence of scale granularity on ratings
 #' 
-#' \item 3. \code{rv_barnum_pos_neg} A randomized (character) variable that indicates whether the participant is to receiv a positive or negative Barnum statement ("positive" vs. "negative"). This is used to measure sensitivity to vague or generic personality feedback.
+#' \item 3. \code{rv_barnum_pos_neg} A randomized (character) variable that indicates whether the participant is to receive a positive or negative Barnum statement ("positive" vs. "negative"). This is used to measure sensitivity to vague or generic personality feedback.
 #' 
-#' \item 4. \code{rv_sc_false_dicho_3}   A randomized (character) variable indicating which version of the scale is to be shown: a dichotomous comparison between admiration vs. respect, fear vs. love, admiration vs. love and fear, or a single undivided scale (values: "admir_resp"  "fear_love", "admir_love" fear_resp", "single_scale"). Used to examine how scale format affects evaluative judgments.
+#' \item 4. \code{rv_sc_false_dicho_3} A randomized (character) variable indicating which version of the scale is to be shown: a dichotomous comparison between admiration vs. respect, fear vs. love, admiration vs. love and fear, or a single undivided scale (values: "admir_resp"  "fear_love", "admir_love" fear_resp", "single_scale"). Used to examine how scale format affects evaluative judgments.
 #' 
 #' \item 5. \code{rv_wait_time} A randomized (character) variable that indicates whether the participant waited 10 seconds ("short") or 30 seconds ("long") before continuing. This manipulation aims to examine whether a longer waiting period increases the perceived credibility or value of a following personality feedback, in line with mechanisms underlying the Barnum effect.
 #' 
@@ -1367,14 +1366,33 @@
 #' (\code{TRUE} = consent provided, \code{FALSE} = no consent provided). This variable is a pre-requisite for ethical compliance.
 #' 
 #' 
-#' \item 9. \code{c2_img_sel_1}  A numeric (double) variable that represents the participant's selection between two images in choice Set 1 (1 = left image, 2 = right image). 
-#' The variable captures image preferences in a binary format.
+#' \item 9. \code{c2_img_sel_1} A numeric (double) variable that represents the participant's preferred choice between 2 images in choice Set 1. 
+#' The binary variable indicates the participant's image preference: 
+#' \itemize{
+#' \item \code{1} corresponds to the \emph{cubist} painting \emph{Les Baigneurs (the bathers), Roger de La Fresnaye, 1912} 
+#' \item \code{2} corresponds to the \emph{expressionist} painting \emph{Badende Mädchen (bathing girls), August Macke, 1913}
+#' }
 #' 
-#' \item 10. \code{c2_img_sel_2}  A numeric (double) variable that represents the participant's selection between two images in choice Set 2 (1 = left image, 2 = right image).
+#' \item 10. \code{c2_img_sel_2} A numeric (double) variable that represents the participant's preferred choice between 2 images in choice Set 2. 
+#' The binary variable indicates the participant's image preference: 
+#' \itemize{
+#' \item \code{1} corresponds to the \emph{cubist} painting \emph{Le Gouter (the taster, aka. tea time), Jean Metzinger, 1911} 
+#' \item \code{2} corresponds to the \emph{expressionist} painting \emph{La petite Jeanne, Amedeo Modigliani, 1909}
+#' }
 #' 
-#' \item 11. \code{c2_img_sel_3} A numeric (double) variable that represents the participant's selection between two images in choice Set 3 (1 = left image, 2 = right image).
+#' \item 11. A numeric (double) variable that represents the participant's preferred choice between 2 images in choice Set 3. 
+#' The binary variable indicates the participant's image preference: 
+#' \itemize{
+#' \item \code{1} corresponds to the \emph{cubist} painting \emph{Edtaonisl Ecclesiastic (the 1st word being an acronym made by alternating the French words for 'star' and 'dance'), Francis Picabia, 1913} 
+#' \item \code{2} corresponds to the \emph{impressionist} painting \emph{Femme avec parasol dans un jardin (woman with parasol in a garden, Pierre-Auguste Renoir, 1875}
+#' }
 #' 
-#' \item 12. \code{c2_img_sel_4} A numeric (double) variable that represents the participant's selection between two images in choice Set 4 (1 = left image, 2 = right image).
+#' \item 12. A numeric (double) variable that represents the participant's preferred choice between 2 images in choice Set 4. 
+#' The binary variable indicates the participant's image preference: 
+#' \itemize{
+#' \item \code{1} corresponds to the \emph{expressionist} painting \emph{Solitude, Alexej von Jawlensky, 1912} 
+#' \item \code{2} corresponds to the \emph{impressionist} painting \emph{Pont dans le Jardin de Monet (bridge in Monet’s garden), Claude Monet, 1895–96}
+#' }
 #' 
 #' 
 #' \item 13. \code{c7_eating_habits} A categorical (character) variable that indicates which dietary lifestyle the participant follows (1 = "vegetarian"; 2 = "omnivore"; 3 = "vegan"; 4 = "pescetarian"; 5 = "flexitarian"; 6 = "carnivore"; 7 = "other"). 
