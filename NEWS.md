@@ -35,7 +35,7 @@ This is the development version of **ds4psy**, hosted at <https://github.com/hne
 
 ## Major changes
 
-- add `i2ds_survey` data (35 participants, 112 variables)
+- add `i2ds_survey` data (36 participants/rows, 112 variables)
 - add `plot_circ_points()` function 
 
 
@@ -456,6 +456,6 @@ The initial functionality is limited, as the package is designed to support the 
 
 ---------- 
 
-[File `NEWS.md` updated on 2025-08-26.]
+[File `NEWS.md` updated on 2025-09-11.]
 
 <!-- eof. -->
