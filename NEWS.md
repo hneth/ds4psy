@@ -3,30 +3,37 @@
 
 <!-- Description: --> 
 
-All datasets and functions required for the examples and exercises of the book [Data Science for Psychologists](https://bookdown.org/hneth/ds4psy/) (by Hansjoerg Neth, Konstanz University, 2023), freely available at <https://bookdown.org/hneth/ds4psy/>. 
-The book and course introduce principles and methods of data science to students of psychology and other biological or social sciences. 
+All datasets and functions required for the examples and exercises of the books 
+[Data Science for Psychologists](https://bookdown.org/hneth/ds4psy/) and 
+[Introduction to Data Science](https://bookdown.org/hneth/i2ds/) 
+(by Hansjoerg Neth, Konstanz University, 2025), 
+freely available at <https://bookdown.org/hneth/ds4psy/> and <https://bookdown.org/hneth/i2ds/>. 
+
+These books and corresponding courses introduce principles and methods of data science to students of psychology and other biological or social sciences. 
 The R package **ds4psy** primarily provides datasets, but also functions for data generation and manipulation (e.g., of text and time data) and graphics that are used in the book and its exercises. 
 All functions included in **ds4psy** are designed to be explicit and instructive, rather than efficient or elegant. 
 
 
 ### Overview {-}
 
-The book and course [Data Science for Psychologists](https://bookdown.org/hneth/ds4psy/) includes the following resources:
+The books and courses [Data Science for Psychologists](https://bookdown.org/hneth/ds4psy/) include the following resources:
 
 <!-- Links: --> 
 
 - The textbook **Data Science for Psychologists** is hosted at <https://bookdown.org/hneth/ds4psy/>. 
-- The most recent release of **ds4psy** (1.0.0) is available on CRAN: <https://CRAN.R-project.org/package=ds4psy>.
-- The current development version of **ds4psy** (1.0.0.9001+) is hosted at <https://github.com/hneth/ds4psy/>. 
+- The textbook **Introduction to Data Science** is hosted at <https://bookdown.org/hneth/i2ds/>. 
+- The most recent release of **ds4psy** (1.1.0) is available on CRAN: <https://CRAN.R-project.org/package=ds4psy>.
+- The current development version of **ds4psy** (1.1.0.9001+) is hosted at <https://github.com/hneth/ds4psy/>. 
 
 <!-- Current version:  --> 
 
 
 -------- 
 
-# ds4psy 1.0.0.9020
+# ds4psy 1.1.0
 
-This is the development version of **ds4psy**, hosted at <https://github.com/hneth/ds4psy/>.
+Release of **ds4psy** (1.1.0) [on CRAN](https://CRAN.R-project.org/package=ds4psy) 
+adds functionality, provides new data, and fixes some bugs. [2025-09-12]
 
 <!-- Log of changes: --> 
 
@@ -64,11 +71,17 @@ This is the development version of **ds4psy**, hosted at <https://github.com/hne
 <!-- 2. `plot_charmap()` directly plots the resulting df. --> 
 
 
+<!-- Development version: --> 
+
+The current development version of **ds4psy** is hosted at <https://github.com/hneth/ds4psy/>.
+
+
 -------- 
 
 # ds4psy 1.0.0
 
-Release of **ds4psy** (1.0.0) [on CRAN](https://CRAN.R-project.org/package=ds4psy) fixes some bugs, but mostly acknowledges the package's stable state. [2023-09-15]
+Release of **ds4psy** (1.0.0) [on CRAN](https://CRAN.R-project.org/package=ds4psy) fixes some bugs, 
+but mostly acknowledges the package's stable state. [2023-09-15]
 
 <!-- Log of changes: --> 
 
@@ -456,6 +469,6 @@ The initial functionality is limited, as the package is designed to support the 
 
 ---------- 
 
-[File `NEWS.md` updated on 2025-09-11.]
+[File `NEWS.md` updated on 2025-09-12.]
 
 <!-- eof. -->
