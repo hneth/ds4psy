@@ -27,7 +27,9 @@ The books and courses [Data Science for Psychologists](https://bookdown.org/hnet
 
 <!-- Current version:  --> 
 
+
 -------- 
+
 
 # ds4psy 1.1.0.9001
 
