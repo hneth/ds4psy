@@ -16,7 +16,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-<!-- ds4psy logo (on right): -->
+<!-- ds4psy book link and logo (on right): -->
 <a href="https://bookdown.org/hneth/ds4psy/">
 <img src = "./../inst/images/logo.png" alt = "ds4psy" width = "160px" align = "right" style = "width: 160px; float: right; border:11;"/>
 </a>
@@ -63,6 +63,11 @@ library('ds4psy')  # load to use the package
 
 ## Resources
 
+<!-- i2ds book link and logo (on right): -->
+<a href="https://bookdown.org/hneth/i2ds/">
+<img src = "./../inst/images/i2ds_logo_1.png" alt = "i2ds" width = "160px" align = "right" style = "width: 160px; float: right; border:11;"/>
+</a>
+
 This package and the corresponding books and courses are still being developed and are updated as new materials become available.  
 
 <!-- Current links: -->
@@ -71,7 +76,7 @@ This package and the corresponding books and courses are still being developed a
 
 - A version of [Data science for psychologists](https://bookdown.org/hneth/ds4psy/) is available online at <https://bookdown.org/hneth/ds4psy/>.   
 
-- The current R package is available at <https://CRAN.R-project.org/package=ds4psy>.  
+- The current R package **ds4psy** is available at <https://CRAN.R-project.org/package=ds4psy>.  
 
 
 <!-- Background / origin: -->

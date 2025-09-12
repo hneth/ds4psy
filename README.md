@@ -157,24 +157,36 @@ but enthusiastic programming novices are welcome.
 
 ## Resources
 
+<!-- i2ds book link and logo (on right): -->
+
+<a href="https://bookdown.org/hneth/i2ds/">
+<img src = "./inst/images/i2ds_logo_1.png" alt = "i2ds" width = "160px" align = "right" style = "width: 160px; float: right; border:11;"/>
+</a>
+
 This package and the corresponding books are still being developed and
 are updated as new materials become available.
 
-- A current version of both books are available at
-  <https://bookdown.org/hneth/ds4psy/> and
+- The current version of the book **[Introduction to Data
+  Science](https://bookdown.org/hneth/i2ds/)** is available at
   <https://bookdown.org/hneth/i2ds/>.
 
-- For **ds4psy** sources, there are 2 GitHub repositories to be
-  distinguished:
+- The most recent version of the book **[Data Science for
+  Psychologists](https://bookdown.org/hneth/ds4psy/)** is available at
+  <https://bookdown.org/hneth/ds4psy/>.
 
-  - The repository for the [ds4psy
-    book](https://bookdown.org/hneth/ds4psy/) is
-    <https://github.com/hneth/ds4psy> (with an additional suffix
-    `_book`).
+- The current R package **ds4psy** is available at
+  <https://CRAN.R-project.org/package=ds4psy>.
+
+- For **ds4psy** sources, there are 2 GitHub repositories to be
+  distinguished:
 
   - The repository for the [ds4psy
     package](https://CRAN.R-project.org/package=ds4psy) is
     <https://github.com/hneth/ds4psy>.
+  - The repository for the [ds4psy
+    book](https://bookdown.org/hneth/ds4psy/) is
+    <https://github.com/hneth/ds4psy> (with an additional suffix
+    `_book`).
 
 <!-- - The current course syllabus and raw versions of all data files used in examples and exercises are available at <http://rpository.com/ds4psy/>. -->
 
@@ -182,13 +194,13 @@ are updated as new materials become available.
 
 ### Course materials
 
-- The current version of [Introduction to Data
-  Science](https://bookdown.org/hneth/i2ds/) is available online at
+- The current textbook **[Introduction to Data
+  Science](https://bookdown.org/hneth/i2ds/)** is online at
   <https://bookdown.org/hneth/i2ds/>.
 
-- A version of [Data science for
-  psychologists](https://bookdown.org/hneth/ds4psy/) is available online
-  at <https://bookdown.org/hneth/ds4psy/>.
+- The most recent version of **[Data science for
+  psychologists](https://bookdown.org/hneth/ds4psy/)** is online at
+  <https://bookdown.org/hneth/ds4psy/>.
 
 <!-- Background / origin: -->
 
