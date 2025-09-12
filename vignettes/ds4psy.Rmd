@@ -22,20 +22,22 @@ knitr::opts_chunk$set(
 </a>
 
 
-**Welcome** to the R package **ds4psy** &mdash; a software companion to the book and course 
-[Data Science for Psychologists](https://bookdown.org/hneth/ds4psy/).   
+**Welcome** to the R package **ds4psy** &mdash; a software companion to the books and courses 
+[Data Science for Psychologists](https://bookdown.org/hneth/ds4psy/) and 
+[Introduction to Data Science](https://bookdown.org/hneth/i2ds/). 
 
 This R package provides datasets and functions used in the book and course. 
 Its source code is hosted at <https://github.com/hneth/ds4psy>. 
 
-The book and course introduce the principles and methods of data science for students of psychology and other biological or social sciences. 
-The book is available at <https://bookdown.org/hneth/ds4psy/>. 
+These books and courses introduce the principles and methods of data science for students of psychology and other biological or social sciences. 
+The books are available at <https://bookdown.org/hneth/ds4psy/> and <https://bookdown.org/hneth/i2ds/>. 
 
 
-## The ds4psy book, course, and R package 
+## The ds4psy and i2ds books, courses, and R package 
 
-The **ds4psy** book and course provide an introduction to data science that is tailored to the needs of psychologists, but is also suitable for students of the humanities and other biological or social sciences. 
-This audience typically has some knowledge of statistics, but rarely an idea how data is prepared and shaped to allow for statistical testing. 
+The **ds4psy** book and course provide an introduction to data science that is tailored to the needs of psychologists, but is also suitable for students of the humanities and other biological or social sciences. The **i2ds** book and corresponding courses provide similar contents in a more extensive and updated form. 
+
+The **audience** of these materials typically has some knowledge of statistics, but rarely an idea how data is prepared and shaped to allow for statistical testing. 
 By using various data types and working with many examples, we teach tools for transforming, summarizing, and visualizing data. By keeping our eyes open for the perils of misleading representations, the book fosters fundamental skills of data literacy and cultivates reproducible research practices that enable and precede any practical use of statistics. 
 
 The R package **ds4psy** primarily provides datasets, but also functions for data generation and manipulation (e.g., of text and time data) and graphics that are used in the book and its exercises. All functions included in **ds4psy** are designed to be explicit and instructive, rather than efficient or elegant. 
@@ -61,13 +63,31 @@ library('ds4psy')  # load to use the package
 
 ## Resources
 
-This package and the corresponding book are still being developed and are updated as new materials become available.  
+This package and the corresponding books and courses are still being developed and are updated as new materials become available.  
 
-- A current version of the book is available at <https://bookdown.org/hneth/ds4psy/>.  
+<!-- Current links: -->
+
+- The current version of [Introduction to Data Science](https://bookdown.org/hneth/i2ds/) is available online at <https://bookdown.org/hneth/i2ds/>.
+
+- A version of [Data science for psychologists](https://bookdown.org/hneth/ds4psy/) is available online at <https://bookdown.org/hneth/ds4psy/>.   
 
 - The current R package is available at <https://CRAN.R-project.org/package=ds4psy>.  
 
-- For source versions, there are two GitHub repositories to be distinguished:  
+
+<!-- Background / origin: -->
+
+These books and courses were originally based on the classic textbook:  
+
+- Wickham, H., & Grolemund, G. (2017). 
+_R for data science: Import, tidy, transform, visualize, and model data._ 
+Sebastopol, Canada: O'Reilly Media, Inc. (available online at <https://r4ds.had.co.nz/>)  
+
+<!-- Our focus: base R before tidyverse -->
+
+but provide more **base** R and less **tidyverse** content.
+
+
+- For **ds4psy** sources, there are two GitHub repositories to be distinguished:  
 
     - The repository for the [ds4psy book](https://bookdown.org/hneth/ds4psy/) is <https://github.com/hneth/ds4psy> (with an additional suffix `_book`). 
 
@@ -85,9 +105,9 @@ If you find these materials useful, or want to adopt or alter them for your purp
 
 To cite **ds4psy** in derivations and publications, please use:
 
-- Neth, H. (2023). ds4psy: Data Science for Psychologists.  
+- Neth, H. (2025). ds4psy: Data Science for Psychologists.  
 Social Psychology and Decision Sciences, University of Konstanz, Germany.  
-Textbook and R package (version 1.0.0, September 15, 2023).  
+Textbook and R package (version 1.1.0, September 12, 2025).  
 Retrieved from <https://bookdown.org/hneth/ds4psy/>.  
 [https://doi.org/10.5281/zenodo.7229812](https://doi.org/10.5281/zenodo.7229812)  
 
@@ -100,10 +120,10 @@ A **BibTeX** entry for LaTeX users is:
 @Manual{ds4psy,
   title = {ds4psy: Data Science for Psychologists},
   author = {Hansjörg Neth},
-  year = {2023},
+  year = {2025},
   organization = {Social Psychology and Decision Sciences, University of Konstanz},
   address = {Konstanz, Germany},
-  note = {R package (version 1.0.0, September 15, 2023); Textbook at <https://bookdown.org/hneth/ds4psy/>.},
+  note = {R package (version 1.1.0, September 12, 2025); Textbook at <https://bookdown.org/hneth/ds4psy/>.},
   url = {https://CRAN.R-project.org/package=ds4psy},
   doi = {10.5281/zenodo.7229812}
 }
