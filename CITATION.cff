@@ -1,0 +1,9 @@
+cff-version: 1.1.0
+message: "If you use this software, please cite it as below."
+authors:
+- family-names: Neth
+  given-names: Hansjörg
+orcid: https://orcid.org/0000-0001-5427-3141
+title:hneth/ds4psy: ds4psy 1.1.0
+version: v1.1.0
+date-released: 2025-09-12
