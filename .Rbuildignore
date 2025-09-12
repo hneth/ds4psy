@@ -1,5 +1,6 @@
 ^.*\.Rproj$
 ^.gitignore$
+^.github$
 ^\.Rproj\.user$
 ^index\.html$
 ^index\.Rmd$
