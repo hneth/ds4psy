@@ -27,13 +27,65 @@ The books and courses [Data Science for Psychologists](https://bookdown.org/hnet
 
 <!-- Current version:  --> 
 
+-------- 
+
+# ds4psy 1.1.0.9001
+
+This is the current development version of **ds4psy** hosted at <https://github.com/hneth/ds4psy/>. 
+[2025-09-12]
+
+<!-- Log of changes: --> 
+
+
+**Changes** since last release: 
+
+
+## Major changes
+
+- none yet
+
+
+## Minor changes
+
+- none yet
+
+
+## Details
+
+- none yet
+
+
+<!-- ## ToDo --> 
+
+<!-- Changes to be implemented prior to the next release: --> 
+
+<!-- - improve `base2dec()` and `dec2base()` functions (e.g., with recursive and vectorized versions). --> 
+
+<!-- - split the mixed functionality of `plot_text()` into 2 functions: --> 
+
+<!-- 1. Combine `count_chars_words()` with `map_text_coord()` or `map_text_regex()` 
+    to create a df with two color vectors (fg/bg) based on `char_freq` and/or `word_freq`. --> 
+    
+<!-- 2. `plot_charmap()` directly plots the resulting df. --> 
+
+
+<!-- Development version: --> 
+
+<!-- The current development version of **ds4psy** is hosted at <https://github.com/hneth/ds4psy/>. --> 
+
+
+
+<!-- Published versions: --> 
+
+Versions of **ds4psy** published on [on CRAN](https://CRAN.R-project.org/package=ds4psy): 
+
 
 -------- 
 
 # ds4psy 1.1.0
 
 Release of **ds4psy** (1.1.0) [on CRAN](https://CRAN.R-project.org/package=ds4psy) 
-adds functionality, provides new data, and fixes some bugs. [2025-09-12]
+adds functionality, provides new data, and fixes some bugs. [2025-09-13]
 
 <!-- Log of changes: --> 
 
@@ -55,25 +107,6 @@ adds functionality, provides new data, and fixes some bugs. [2025-09-12]
 ## Details
 
 - new logo
-
-
-<!-- ## ToDo --> 
-
-<!-- Changes to be implemented prior to the next release: --> 
-
-<!-- - improve `base2dec()` and `dec2base()` functions (e.g., with recursive and vectorized versions). --> 
-
-<!-- - split the mixed functionality of `plot_text()` into 2 functions: --> 
-
-<!-- 1. Combine `count_chars_words()` with `map_text_coord()` or `map_text_regex()` 
-    to create a df with two color vectors (fg/bg) based on `char_freq` and/or `word_freq`. --> 
-    
-<!-- 2. `plot_charmap()` directly plots the resulting df. --> 
-
-
-<!-- Development version: --> 
-
-The current development version of **ds4psy** is hosted at <https://github.com/hneth/ds4psy/>.
 
 
 -------- 
