@@ -5,15 +5,15 @@ output: github_document
 <!-- README.md is generated from README.Rmd. Please edit THIS (Rmd) file. -->
 
 <!-- Devel badges start: -->
-[![CRAN status](https://www.r-pkg.org/badges/version/ds4psy)](https://CRAN.R-project.org/package=ds4psy)
-[![Downloads/month](https://cranlogs.r-pkg.org/badges/ds4psy?color='00a9e0')](https://www.r-pkg.org/pkg/ds4psy)
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.7229812.svg)](https://doi.org/10.5281/zenodo.7229812)
+<!-- [![CRAN status](https://www.r-pkg.org/badges/version/ds4psy)](https://CRAN.R-project.org/package=ds4psy) -->
+<!-- [![Downloads/month](https://cranlogs.r-pkg.org/badges/ds4psy?color="00a9e0")](https://www.r-pkg.org/pkg/ds4psy) -->
+<!-- [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.7229812.svg)](https://doi.org/10.5281/zenodo.7229812) -->
 <!-- Devel badges end. -->
 
 <!-- Release badges start: -->
-<!-- [![CRAN status](https://www.r-pkg.org/badges/version/ds4psy)](https://CRAN.R-project.org/package=ds4psy) -->
-<!-- [![Total downloads](https://cranlogs.r-pkg.org/badges/grand-total/ds4psy?color='00a9e0')](https://www.r-pkg.org/pkg/ds4psy) -->
-<!-- [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.7229812.svg)](https://doi.org/10.5281/zenodo.7229812) -->
+[![CRAN status](https://www.r-pkg.org/badges/version/ds4psy)](https://CRAN.R-project.org/package=ds4psy)
+[![Total downloads](https://cranlogs.r-pkg.org/badges/grand-total/ds4psy?color="00a9e0")](https://www.r-pkg.org/pkg/ds4psy)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.7229812.svg)](https://doi.org/10.5281/zenodo.7229812) 
 <!-- Release badges end. -->
 
 <!-- ALL status badges: 
@@ -78,10 +78,11 @@ The most recent version of the [ds4psy book](https://bookdown.org/hneth/ds4psy/)
 <img src = "./inst/images/uniKn_logo.png" alt = "spds.uni.kn" width = "300px" align = "right" style = "width: 300px; float: right; border:20;"/>
 </a>
 
-* PSY-15150, at the [University of Konstanz](https://www.uni-konstanz.de) is taught by [Hansjörg Neth](https://www.spds.uni-konstanz.de/hans-neth), [Social Psychology and Decision Sciences](https://www.spds.uni-konstanz.de), office\ D507   
-<!-- * Summer\ 2022: Mondays, 13:30&ndash;15:00, D430. -->
+* PSY-16620, at the [University of Konstanz](https://www.uni-konstanz.de) is taught by [Hansjörg Neth](https://www.spds.uni-konstanz.de/hans-neth), [Social Psychology and Decision Sciences](https://www.spds.uni-konstanz.de), office\ D507   
+<!-- * Fall\ 2025: Mondays, 13:30&ndash;15:00, D522. -->
 * The [ds4psy book](https://bookdown.org/hneth/ds4psy/) with examples and exercises is available at <https://bookdown.org/hneth/ds4psy/>   
 * The [ds4psy](https://CRAN.R-project.org/package=ds4psy) R package is available at <https://CRAN.R-project.org/package=ds4psy>   
+
 
 ## Description
 
@@ -90,15 +91,18 @@ This audience typically has some knowledge of statistics, but rarely an idea how
 By using various data types and working with many examples, we teach tools for transforming, summarizing, and visualizing data. 
 By keeping our eyes open for the perils of misleading representations, the book fosters fundamental skills of data literacy and cultivates reproducible research practices that enable and precede any practical use of statistics. 
 
+
 ### Audience 
 
 Students of psychology and other social sciences are trained to analyze data. But the data they learn to work with (e.g., in courses on statistics and empirical research methods) is typically provided to them and structured in a (rectangular or "tidy") format that presupposes many steps of data processing regarding the aggregation and spatial layout of variables.  When beginning to collect their own data, students inevitably struggle with these pre-processing steps which &mdash; even for experienced data scientists &mdash; tend to require more time and effort than choosing and conducting statistical tests. 
 
 This course develops the foundations of data analysis that allow students to collect data from real-world sources and transform and shape such data to answer scientific and practical questions. Although there are many good introductions to data science (e.g., [Grolemund & Wickham, 2017](https://r4ds.had.co.nz/)) they typically do not take into account the special needs &mdash; and often anxieties and reservations &mdash; of psychology students. As social scientists are not computer scientists, we introduce new concepts and commands without assuming a mathematical or computational background. Adopting a task-oriented perspective, we begin with a specific problem and then solve it with some combination of data collection, manipulation, and visualization. 
 
+
 ### Goals
 
 Our main goal is to develop a set of useful skills in analyzing real-world data and conducting reproducible research. Upon completing this course, you will be able to use R to read, transform, analyze, and visualize data of various types. Many interactive exercises allow students to continuously check their understanding, practice their skills, and monitor their progress.
+
 
 ### Requirements
 
@@ -120,6 +124,7 @@ This package and the corresponding book are still being developed and are update
 <!-- - The current course syllabus and raw versions of all data files used in examples and exercises are available at <http://rpository.com/ds4psy/>. --> 
 
 
+
 ## References
 
 ### Course materials
@@ -133,6 +138,7 @@ The book and course was originally based on the following textbook:
 Sebastopol, Canada: O'Reilly Media, Inc.  [Available online at [https://r4ds.had.co.nz](https://r4ds.had.co.nz/).]
 
 <!-- Add blank line.  -->
+
 
 ### Software 
 
@@ -178,6 +184,7 @@ install.packages('unikn')   # color palettes and functions
 - See also the link collections at the end of each chapter of the [ds4psy book](https://bookdown.org/hneth/ds4psy/). 
 
 
+
 ## About
 
 If you find these materials useful, or want to adopt or alter them for your purposes, please [let me know](https://www.spds.uni-konstanz.de/en/people). 
@@ -192,9 +199,9 @@ If you find these materials useful, or want to adopt or alter them for your purp
 
 To cite **ds4psy** in derivations and publications, please use:  
 
-- Neth, H. (2023). ds4psy: Data Science for Psychologists.  
+- Neth, H. (2025). ds4psy: Data Science for Psychologists.  
 Social Psychology and Decision Sciences, University of Konstanz, Germany.  
-Textbook and R package (version 1.0.0, September 15, 2023).  
+Textbook and R package (version 1.1.0, September 12, 2025).  
 Retrieved from <https://bookdown.org/hneth/ds4psy/>.  
 doi\ [10.5281/zenodo.7229812](https://doi.org/10.5281/zenodo.7229812)  
 
@@ -207,10 +214,10 @@ A **BibTeX** entry for LaTeX users is:
 @Manual{ds4psy,
   title = {ds4psy: Data Science for Psychologists},
   author = {Hansjörg Neth},
-  year = {2023},
+  year = {2025},
   organization = {Social Psychology and Decision Sciences, University of Konstanz},
   address = {Konstanz, Germany},
-  note = {Textbook and R package (version 1.0.0, September 15, 2023)},
+  note = {Textbook and R package (version 1.1.0, September 12, 2025)},
   url = {https://bookdown.org/hneth/ds4psy/},
   doi = {10.5281/zenodo.7229812}
 }
