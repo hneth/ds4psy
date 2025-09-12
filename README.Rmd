@@ -89,7 +89,7 @@ The most recent version of the [ds4psy book](https://bookdown.org/hneth/ds4psy/)
 
 ## Description
 
-This package and the corresponding books and courses provide an introduction to data science that is tailored to the needs of students in psychology, but is also suitable for students of the humanities and other biological or social sciences. 
+This R package and the corresponding books and courses provide an introduction to data science that is tailored to the needs of students in psychology, but is also suitable for students of the humanities and other biological or social sciences. 
 This audience typically has some knowledge of statistics, but rarely an idea how data is prepared and shaped to allow for statistical testing. 
 By using various data types and working with many examples, we teach tools for transforming, summarizing, and visualizing data. 
 By keeping our eyes open for the perils of misleading representations, the book fosters fundamental skills of data literacy and cultivates reproducible research practices that enable and precede any practical use of statistics. 

@@ -102,7 +102,7 @@ book](https://bookdown.org/hneth/ds4psy/) is freely available at
 
 ## Description
 
-This package and the corresponding books and courses provide an
+This R package and the corresponding books and courses provide an
 introduction to data science that is tailored to the needs of students
 in psychology, but is also suitable for students of the humanities and
 other biological or social sciences. This audience typically has some
