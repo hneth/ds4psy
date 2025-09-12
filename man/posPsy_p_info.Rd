@@ -26,7 +26,7 @@ doi: \code{10.5334/jopd.35}
 See \url{https://openpsychologydata.metajnl.com/articles/10.5334/jopd.35/} for details 
 and \doi{10.6084/m9.figshare.1577563.v1} for original dataset. 
 
-Additional references at \url{https://bookdown.org/hneth/ds4psy/B-1-datasets-pos.html}.
+Additional references at \url{https://bookdown.org/hneth/ds4psy/B.1-datasets-pos.html}.
 }
 \usage{
 posPsy_p_info
@@ -56,7 +56,7 @@ posPsy_p_info
   
 }
 
-See codebook and references at \url{https://bookdown.org/hneth/ds4psy/B-1-datasets-pos.html}.
+See codebook and references at \url{https://bookdown.org/hneth/ds4psy/B.1-datasets-pos.html}.
 }
 \seealso{
 Other datasets: 

@@ -85,20 +85,22 @@ book](https://bookdown.org/hneth/ds4psy/) is freely available at
 
 <!-- ![](./inst/images/uniKn_logo.png) -->
 
-<a href="https://www.spds.uni-konstanz.de">
+<a href="https://spds.uni-konstanz.de/">
 <img src = "./inst/images/uniKn_logo.png" alt = "spds.uni.kn" width = "300px" align = "right" style = "width: 300px; float: right; border:20;"/>
 </a>
 
 - PSY-16620, at the [University of
   Konstanz](https://www.uni-konstanz.de) is taught by [Hansjörg
-  Neth](https://www.spds.uni-konstanz.de/hans-neth), [Social Psychology
-  and Decision Sciences](https://www.spds.uni-konstanz.de),
-  office D507  
+  Neth](https://spds.uni-konstanz.de//hans-neth), [Social Psychology and
+  Decision Sciences](https://spds.uni-konstanz.de/), office D507  
   <!-- * Fall\ 2025: Mondays, 13:30&ndash;15:00, D522. -->
+- The [ds4psy](https://CRAN.R-project.org/package=ds4psy) R package is
+  available at <https://CRAN.R-project.org/package=ds4psy>  
 - The [ds4psy book](https://bookdown.org/hneth/ds4psy/) with examples
   and exercises is available at <https://bookdown.org/hneth/ds4psy/>  
-- The [ds4psy](https://CRAN.R-project.org/package=ds4psy) R package is
-  available at <https://CRAN.R-project.org/package=ds4psy>
+- The [i2ds book](https://bookdown.org/hneth/i2ds/) with more extensive
+  materials and exercises is available at
+  <https://bookdown.org/hneth/i2ds/>
 
 ## Description
 
@@ -198,7 +200,7 @@ These books and courses were originally based on the classic textbook:
 
 <!-- Our focus: base R before tidyverse -->
 
-but provide more **base** R and less **tidyverse** content.
+but provide more **base** R and less **tidyverse** content.
 
 <!-- Add blank line.  -->
 
@@ -211,7 +213,7 @@ Please install the following open-source programs on your computer:
 - [R Studio](https://posit.co/products/open-source/rstudio/) is an
   integrated development environment (IDE) for R.
 
-- R packages of the [tidyverse](https://www.tidyverse.org/),
+- R packages of the [tidyverse](https://www.tidyverse.org/),
   [ds4psy](https://CRAN.R-project.org/package=ds4psy), and
   [unikn](https://CRAN.R-project.org/package=unikn):
 
@@ -258,7 +260,7 @@ install.packages('unikn')   # color palettes and functions
 
 If you find these materials useful, or want to adopt or alter them for
 your purposes, please [let me
-know](https://www.spds.uni-konstanz.de/en/people).
+know](https://spds.uni-konstanz.de//hans-neth).
 
 ### Citation
 

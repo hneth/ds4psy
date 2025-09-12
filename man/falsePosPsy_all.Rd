@@ -76,7 +76,7 @@ dramatically increases the rate of false-positive findings.
   Scale from 1: dislike extremely, to 9: like extremely.}
   }
 
-See \url{https://bookdown.org/hneth/ds4psy/B-2-datasets-false.html} for codebook and more information.
+See \url{https://bookdown.org/hneth/ds4psy/B.2-datasets-false.html} for codebook and more information.
 }
 \seealso{
 Other datasets: 

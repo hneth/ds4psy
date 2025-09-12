@@ -32,7 +32,7 @@
 #'   
 #' }
 #' 
-#' See codebook and references at \url{https://bookdown.org/hneth/ds4psy/B-1-datasets-pos.html}.
+#' See codebook and references at \url{https://bookdown.org/hneth/ds4psy/B.1-datasets-pos.html}.
 #'
 #' @format A table with 295 cases (rows) and 6 variables (columns).
 #' 
@@ -57,7 +57,7 @@
 #' See \url{https://openpsychologydata.metajnl.com/articles/10.5334/jopd.35/} for details 
 #' and \doi{10.6084/m9.figshare.1577563.v1} for original dataset. 
 #' 
-#' Additional references at \url{https://bookdown.org/hneth/ds4psy/B-1-datasets-pos.html}. 
+#' Additional references at \url{https://bookdown.org/hneth/ds4psy/B.1-datasets-pos.html}. 
 
 "posPsy_p_info"
 
@@ -105,7 +105,7 @@
 #' 
 #' }
 #' 
-#' See codebook and references at \url{https://bookdown.org/hneth/ds4psy/B-1-datasets-pos.html}.
+#' See codebook and references at \url{https://bookdown.org/hneth/ds4psy/B.1-datasets-pos.html}.
 #' 
 #' @format A table with 992 cases (rows) and 50 variables (columns).
 #'  
@@ -133,7 +133,7 @@
 #' See \url{https://openpsychologydata.metajnl.com/articles/10.5334/jopd.35/} for details 
 #' and \doi{10.6084/m9.figshare.1577563.v1} for original dataset. 
 #' 
-#' Additional references at \url{https://bookdown.org/hneth/ds4psy/B-1-datasets-pos.html}. 
+#' Additional references at \url{https://bookdown.org/hneth/ds4psy/B.1-datasets-pos.html}. 
 
 "posPsy_AHI_CESD"
 
@@ -178,7 +178,7 @@
 #' See \url{https://openpsychologydata.metajnl.com/articles/10.5334/jopd.35/} for details 
 #' and \doi{10.6084/m9.figshare.1577563.v1} for original dataset. 
 #' 
-#' Additional references at \url{https://bookdown.org/hneth/ds4psy/B-1-datasets-pos.html}. 
+#' Additional references at \url{https://bookdown.org/hneth/ds4psy/B.1-datasets-pos.html}. 
 
 "posPsy_long"
 
@@ -221,7 +221,7 @@
 #' See \url{https://openpsychologydata.metajnl.com/articles/10.5334/jopd.35/} for details 
 #' and \doi{10.6084/m9.figshare.1577563.v1} for original dataset. 
 #' 
-#' Additional references at \url{https://bookdown.org/hneth/ds4psy/B-1-datasets-pos.html}. 
+#' Additional references at \url{https://bookdown.org/hneth/ds4psy/B.1-datasets-pos.html}. 
 
 "posPsy_wide"
 
@@ -230,7 +230,7 @@
 
 # (02) False Positive Psychology data: ---------- 
 
-# https://bookdown.org/hneth/ds4psy/B-2-datasets-false.html
+# https://bookdown.org/hneth/ds4psy/B.2-datasets-false.html
 
 #' Data: False Positive Psychology
 #'
@@ -276,7 +276,7 @@
 #'   Scale from 1: dislike extremely, to 9: like extremely.}
 #'   }
 #' 
-#' See \url{https://bookdown.org/hneth/ds4psy/B-2-datasets-false.html} for codebook and more information. 
+#' See \url{https://bookdown.org/hneth/ds4psy/B.2-datasets-false.html} for codebook and more information. 
 #'
 #'
 #' @format A table with 78 cases (rows) and 19 variables (columns):
