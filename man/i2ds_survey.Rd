@@ -102,29 +102,30 @@ The binary variable indicates the participant's image preference:
 \item 14. \code{t_eating_habits_other} A character variable intended to capture free-text input for other dietary descriptions; 
 usually \code{NA} unless "other" was selected. May appear as logical if no responses were entered.
 
+
 \item 15. \code{c7_apple} A numeric (double) variable indicating how much a participant likes apples 
-on a \code{1-7} scale (\code{1} = low preference, \code{7} = high preference).
+on a \code{1-7} ranking scale (\code{1} = highest preference, \code{7} = lowest preference, \code{0} if not ranked).
 
 \item 16. \code{c7_cherry} A numeric (double) variable indicating how much a participant likes cherries 
-on a \code{1-7} scale (\code{1} = low preference, \code{7} = high preference).
+on a \code{1-7} ranking scale (\code{1} = highest preference, \code{7} = lowest preference, \code{0} if not ranked).
 
 \item 17. \code{c7_broccoli} A numeric (double) variable indicating how much a participant likes broccoli 
-on a \code{1-7} scale (\code{1} = low preference, \code{7} = high preference).
+on a \code{1-7} ranking scale (\code{1} = highest preference, \code{7} = lowest preference, \code{0} if not ranked).
 
 \item 18. \code{c7_asparagus} A numeric (double) variable indicating how much a participant likes asparagus 
-on a \code{1-7} scale (\code{1} = low preference, \code{7} = high preference).
+on a \code{1-7} ranking scale (\code{1} = highest preference, \code{7} = lowest preference, \code{0} if not ranked).
 
 \item 19. \code{c7_spinach} A numeric (double) variable indicating how much a participant likes spinach 
-on a \code{1-7} scale (\code{1} = low preference, \code{7} = high preference).
+on a \code{1-7} ranking scale (\code{1} = highest preference, \code{7} = lowest preference, \code{0} if not ranked). 
 
 \item 20. \code{c7_mud} A numeric (double) variable indicating how much a participant likes mud 
-on a \code{1-7} scale (\code{1} = low preference, \code{7} = high preference).
+on a \code{1-7} ranking scale (\code{1} = highest preference, \code{7} = lowest preference, \code{0} if not ranked).
 
 \item 21. \code{c7_banana} A numeric (double) variable indicating how much a participant likes bananas 
-on a \code{1-7} scale (\code{1} = low preference, \code{7} = high preference).
+on a \code{1-7} ranking scale (\code{1} = highest preference, \code{7} = lowest preference, \code{0} if not ranked). 
 
 \strong{Note}: Variables \code{c7_apple} to \code{c7_banana} were derived from a sorting/ranking task in which each participant sorted/ranked food items by preference. 
-Each item was subsequently coded as a numeric value between \code{1} and \code{7}.
+Each item was subsequently coded as a numeric value between \code{1} and \code{7} (\code{0} if not ranked).
 
 
 \item 22. \code{c2_decsleep_instant} A categorical (character) variable indicating whether a participant prefers to sleep 
