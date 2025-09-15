@@ -13,8 +13,13 @@ These books and corresponding courses introduce principles and methods of data s
 The R package **ds4psy** primarily provides datasets, but also functions for data generation and manipulation (e.g., of text and time data) and graphics that are used in the book and its exercises. 
 All functions included in **ds4psy** are designed to be explicit and instructive, rather than efficient or elegant. 
 
+<!-- ds4psy logo 1: -->
+<a href="https://bookdown.org/hneth/ds4psy/">
+<img src = "./inst/images/logo.png" alt = "ds4psy" width = "150px" align = "right" style = "width: 150px; float: right; border:11;"/>
+</a>
 
-### Overview {-}
+
+## Overview {-}
 
 The books and courses [Data Science for Psychologists](https://bookdown.org/hneth/ds4psy/) include the following resources:
 
@@ -34,7 +39,7 @@ The books and courses [Data Science for Psychologists](https://bookdown.org/hnet
 # ds4psy 1.1.0.9001
 
 This is the current development version of **ds4psy** hosted at <https://github.com/hneth/ds4psy/>. 
-[2025-09-13]
+[2025-09-15]
 
 <!-- Log of changes: --> 
 
@@ -49,12 +54,13 @@ This is the current development version of **ds4psy** hosted at <https://github.
 
 ## Minor changes
 
-- none yet
+- Fix bugs in documentation of `i2ds_survey`:
+    - Reverse scale in ranking of food items (e.g., apple, ..., mud)
 
 
 ## Details
 
-- none yet
+- Update online documentation
 
 
 <!-- ## ToDo --> 
@@ -79,7 +85,7 @@ This is the current development version of **ds4psy** hosted at <https://github.
 
 <!-- Published versions: --> 
 
-Versions of **ds4psy** published on [on CRAN](https://CRAN.R-project.org/package=ds4psy): 
+<!-- Versions of **ds4psy** published on [on CRAN](https://CRAN.R-project.org/package=ds4psy): --> 
 
 
 -------- 
@@ -504,6 +510,6 @@ The initial functionality is limited, as the package is designed to support the 
 
 ---------- 
 
-[File `NEWS.md` updated on 2025-09-13.]
+[File `NEWS.md` updated on 2025-09-15.]
 
 <!-- eof. -->
