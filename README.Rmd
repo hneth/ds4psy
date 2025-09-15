@@ -5,15 +5,16 @@ output: github_document
 <!-- README.md is generated from README.Rmd. Please edit THIS (Rmd) file. -->
 
 <!-- Devel badges start: -->
-<!-- [![CRAN status](https://www.r-pkg.org/badges/version/ds4psy)](https://CRAN.R-project.org/package=ds4psy) -->
-<!-- [![Downloads/month](https://cranlogs.r-pkg.org/badges/ds4psy?color="00a9e0")](https://www.r-pkg.org/pkg/ds4psy) -->
-<!-- [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.7229812.svg)](https://doi.org/10.5281/zenodo.7229812) -->
+[![CRAN status](https://www.r-pkg.org/badges/version/ds4psy)](https://CRAN.R-project.org/package=ds4psy)
+[![Downloads/month](https://cranlogs.r-pkg.org/badges/ds4psy?color="00a9e0")](https://www.r-pkg.org/pkg/ds4psy)
+[![Total downloads](https://cranlogs.r-pkg.org/badges/grand-total/ds4psy?color=blue)](https://www.r-pkg.org/pkg/ds4psy)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.7229812.svg)](https://doi.org/10.5281/zenodo.7229812)
 <!-- Devel badges end. -->
 
-<!-- Release badges start: -->
-[![CRAN status](https://www.r-pkg.org/badges/version/ds4psy)](https://CRAN.R-project.org/package=ds4psy)
-[![Total downloads](https://cranlogs.r-pkg.org/badges/grand-total/ds4psy?color="00a9e0")](https://www.r-pkg.org/pkg/ds4psy)
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.7229812.svg)](https://doi.org/10.5281/zenodo.7229812) 
+<!-- <!-- Release badges start: -->
+<!-- [![CRAN status](https://www.r-pkg.org/badges/version/ds4psy)](https://CRAN.R-project.org/package=ds4psy) -->
+<!-- [![Total downloads](https://cranlogs.r-pkg.org/badges/grand-total/ds4psy?color="00a9e0")](https://www.r-pkg.org/pkg/ds4psy) -->
+<!-- [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.7229812.svg)](https://doi.org/10.5281/zenodo.7229812) -->
 <!-- Release badges end. -->
 
 <!-- ALL status badges: 
@@ -119,6 +120,7 @@ The courses using this package assume some basic familiarity with statistics and
 <a href="https://bookdown.org/hneth/i2ds/">
 <img src = "./inst/images/i2ds_logo_1.png" alt = "i2ds" width = "160px" align = "right" style = "width: 160px; float: right; border:11;"/>
 </a>
+
 
 This package and the corresponding books are still being developed and are updated as new materials become available.  
   
