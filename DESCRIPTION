@@ -31,7 +31,8 @@ Collate: 'util_fun.R'
          'start.R'
 Encoding: UTF-8
 LazyData: true
-License: CC BY-SA 4.0 
+License: CC BY-SA 4.0
+DOI: 10.5281/zenodo.7229812
 URL: https://bookdown.org/hneth/ds4psy/, https://github.com/hneth/ds4psy/
 BugReports: https://github.com/hneth/ds4psy/issues
 VignetteBuilder: knitr
