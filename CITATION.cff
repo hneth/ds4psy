@@ -7,5 +7,5 @@ authors:
 title: "ds4psy: Data science for psychologists"
 version: 1.1.0
 doi: "10.5281/zenodo.7229812"
-date-released: 2025-09-02
+date-released: 2025-09-12
 url: "https://CRAN.R-project.org/package=ds4psy"
