@@ -40,22 +40,24 @@ downloads](https://cranlogs.r-pkg.org/badges/grand-total/ds4psy?color=blue)](htt
 # Data Science for Psychologists (ds4psy) <img src = "./inst/images/logo.png" align = "right" alt = "ds4psy" width = "150px" />
 
 Welcome to the R package **ds4psy** — a software companion to the books
-and courses [Data Science for
-Psychologists](https://bookdown.org/hneth/ds4psy/) and [Introduction to
-Data Science](https://bookdown.org/hneth/i2ds/).
+and courses **[Data Science for
+Psychologists](https://bookdown.org/hneth/ds4psy/)** and **[Introduction
+to Data Science](https://bookdown.org/hneth/i2ds/)**.
 
-This R package provides datasets and functions used in the
+This **R package** provides datasets and functions used in the
 [ds4psy](https://bookdown.org/hneth/ds4psy/) and
-[i2ds](https://bookdown.org/hneth/i2ds/) books and corresponding course
-curricula. These books and courses introduce the principles and methods
-of data science for students of psychology and other biological or
-social sciences.
+[i2ds](https://bookdown.org/hneth/i2ds/) textbooks and corresponding
+course curricula. These books and courses introduce the principles and
+methods of data science for students of psychology and other biological
+or social sciences.
 
 <!-- Description of ds4psy package:  -->
 
-<!-- All datasets and functions required for the examples and exercises of the book "Data Science for Psychologists" (by Hansjoerg Neth, Konstanz University, 2023), freely available at <https://bookdown.org/hneth/ds4psy/>. The book and course introduce principles and methods of data science to students of psychology and other biological or social sciences. The 'ds4psy' package primarily provides datasets, but also functions for data generation and manipulation (e.g., of text and time data) and graphics that are used in the book and its exercises. All functions included in 'ds4psy' are designed to be explicit and instructive, rather than efficient or elegant.  -->
+<!-- All datasets and functions required for the examples and exercises of the book "Data Science for Psychologists" (by Hansjoerg Neth, Konstanz University, 2025), freely available at <https://bookdown.org/hneth/ds4psy/>. The book and course introduce principles and methods of data science to students of psychology and other biological or social sciences. The 'ds4psy' package primarily provides datasets, but also functions for data generation and manipulation (e.g., of text and time data) and graphics that are used in the book and its exercises. All functions included in 'ds4psy' are designed to be explicit and instructive, rather than efficient or elegant.  -->
 
 ## Installation
+
+<!-- R package ds4psy at CRAN: -->
 
 The current release of **ds4psy** is available from
 [CRAN](https://CRAN.R-project.org/) at
@@ -65,6 +67,8 @@ The current release of **ds4psy** is available from
 install.packages('ds4psy')  # install ds4psy from CRAN client
 library('ds4psy')           # load to use the package
 ```
+
+<!-- Development version: -->
 
 The current development version of **ds4psy** (v1.1.0.9001) can be
 installed from its [GitHub](https://github.com) repository at
@@ -76,9 +80,13 @@ devtools::install_github('hneth/ds4psy')
 library('ds4psy')  # load to use the package
 ```
 
-The most recent version of the **[ds4psy
-book](https://bookdown.org/hneth/ds4psy/)** is freely available at
-<https://bookdown.org/hneth/ds4psy/>.
+<!-- Textbooks at bookdown: -->
+
+The most recent versions of the
+**[ds4psy](https://bookdown.org/hneth/ds4psy/)** and
+**[i2ds](https://bookdown.org/hneth/i2ds)** books are freely available
+at <https://bookdown.org/hneth/ds4psy/> and
+<https://bookdown.org/hneth/i2ds>, respectively.
 
 ## Course Coordinates
 
@@ -103,7 +111,7 @@ book](https://bookdown.org/hneth/ds4psy/)** is freely available at
   materials and exercises is available at
   <https://bookdown.org/hneth/i2ds/>
 
-## Description
+## Overview
 
 This R package and the corresponding books and courses provide an
 introduction to data science that is tailored to the needs of students
@@ -117,7 +125,7 @@ perils of misleading representations, the book fosters fundamental
 skills of data literacy and cultivates reproducible research practices
 that enable and precede any practical use of statistics.
 
-### Audience
+### Audiences
 
 Students of psychology and other social sciences are trained to analyze
 data. But the data they learn to work with (e.g., in courses on
