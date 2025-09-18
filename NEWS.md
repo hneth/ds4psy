@@ -55,6 +55,7 @@ This is the current development version of **ds4psy** hosted at <https://github.
 ## Minor changes
 
 - Fix bugs in documentation of `i2ds_survey`:
+    - Add variable names to art preference tasks 
     - Reverse scale in ranking of food items (e.g., apple, ..., mud)
 
 
@@ -510,6 +511,6 @@ The initial functionality is limited, as the package is designed to support the 
 
 ---------- 
 
-[File `NEWS.md` updated on 2025-09-15.]
+[File `NEWS.md` updated on 2025-09-18.]
 
 <!-- eof. -->

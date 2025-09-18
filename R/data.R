@@ -1,5 +1,5 @@
 ## data.R | ds4psy
-## hn | uni.kn | 2025 09 15
+## hn | uni.kn | 2025 09 18
 ## Documentation of data sets included in /data. 
 
 
@@ -1382,14 +1382,14 @@
 #' \item \code{2} corresponds to the \emph{expressionist} painting \emph{La petite Jeanne, Amedeo Modigliani, 1909}
 #' }
 #' 
-#' \item 11. A numeric (double) variable that represents the participant's preferred choice between 2 images in choice Set 3. 
+#' \item 11. \code{c2_img_sel_3} A numeric (double) variable that represents the participant's preferred choice between 2 images in choice Set 3. 
 #' The binary variable indicates the participant's image preference: 
 #' \itemize{
 #' \item \code{1} corresponds to the \emph{cubist} painting \emph{Edtaonisl Ecclesiastic (the 1st word being an acronym made by alternating the French words for 'star' and 'dance'), Francis Picabia, 1913} 
 #' \item \code{2} corresponds to the \emph{impressionist} painting \emph{Femme avec parasol dans un jardin (woman with parasol in a garden), Pierre-Auguste Renoir, 1875}
 #' }
 #' 
-#' \item 12. A numeric (double) variable that represents the participant's preferred choice between 2 images in choice Set 4. 
+#' \item 12. \code{c2_img_sel_4} A numeric (double) variable that represents the participant's preferred choice between 2 images in choice Set 4. 
 #' The binary variable indicates the participant's image preference: 
 #' \itemize{
 #' \item \code{1} corresponds to the \emph{expressionist} painting \emph{Solitude, Alexej von Jawlensky, 1912} 
