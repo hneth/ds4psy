@@ -1,4 +1,4 @@
-## .gitignore | ds4psy | 2020 10 05
+## .gitignore | ds4psy | 2025 09 23
 
 ## 1. generic stuff: -----
 
@@ -58,6 +58,7 @@ vignettes/*.pdf
 
 # pkgdown site:
 docs/
+^logo.png$
 
 # CRAN: 
 cran-comments.md 
