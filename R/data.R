@@ -1424,7 +1424,7 @@
 #' \item \code{rv_thinkingstyle} A randomized (character) variable that indicates the order in which pairs of thinking styles are to be presented ("deliberative vs. intuitive"; "reflective vs. spontaneous";" deliberative vs. spontaneous";"reflective vs. Intuitive"). The order is counterbalanced to reduce presentation bias in self-assessment tasks.
 #' 
 #' 
-#' Art-preference tasks: 
+#' Binary art preference choices: 
 #' 
 #' \item \code{c2_img_sel_1} A numeric (double) variable that represents the participant's preferred choice between 2 images in choice Set 1. 
 #' The binary variable indicates the participant's image preference: 
