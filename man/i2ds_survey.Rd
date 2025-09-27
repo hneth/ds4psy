@@ -42,9 +42,70 @@ Depending on the item set, the resulting score was normalized (i.e., divided by 
 
 \strong{List of variables}
 
-After pre-processing the raw data, the variable names and their contents in the \code{i2ds_survey} tibble are as follows:
+After pre-processing the raw data and re-arranging its variables (columns), 
+the variable names and their contents in the \code{i2ds_survey} tibble are as follows:
 
 \enumerate{
+
+Key person-related variables: 
+
+\item \code{c4_gender} A categorical (character) variable indicating the participant’s gender identity, 
+with possible values including "female", "male", "non-binary" or "do not wish to respond". 
+This variable is used for demographic analysis.
+
+\item \code{tn_year} A numeric (double) variable indicating the year of birth (e.g., \code{1999, 2000, 2001}, etc.). 
+
+\item \code{tn_month} A numeric (double) variable indicating the participant’s birth month (\code{1–12}). 
+This variable also supports demographic profiling. 
+
+\item \code{tn_day} A numeric (double) variable indicating the day of birth provided by the participant (\code{1–31}). 
+Used for demographic purposes and potential exploratory analyses. 
+DOB-related variables can be used to calculate age and analyze age-related trends. 
+
+\item \code{t_height} A character variable indicating a participant's self-described height, using various formats and units 
+(e.g., "1.80", "180 cm", "1,80m", or "5'11"). This variable requires pre-processing for analysis.
+
+\item \code{t_pid} An optional character variable capturing a participant ID, pseudonym, or other identifying entry. 
+This variable allows participants to recognize their own data without disclosing their identity.
+
+
+Two variables indicating informed consent and willingness to share data: 
+
+\item \code{c2_informed_consent} A logical variable indicating whether the participant provided informed consent before starting the study 
+(\code{TRUE} = consent provided, \code{FALSE} = no consent provided). 
+This variable is a pre-requisite for ethical compliance (i.e., should be \code{TRUE} for all participants).
+
+\item \code{c2_use_data_2} A logical variable indicating whether a participant still agrees to allow their data to be shared after having finished the survey 
+(\code{TRUE} = consent provided, \code{FALSE} = no consent provided). 
+This variable is a pre-requisite for data re-usability in research (and should be \code{TRUE} for all cases included here). 
+
+
+Some variables indicating course membership:
+
+\item \code{crs_i2ds_1} A logical variable indicating whether a participant is currently enrolled in the course \emph{Introduction to Data Science 1: Basics} (i2ds 1: \code{TRUE} = enrolled). 
+
+\item \code{crs_i2ds_2} A logical variable indicating whether a participant is enrolled in the course \emph{Introduction to Data Science 2: Applications} (i2ds 2: \code{TRUE} = enrolled). 
+
+\item \code{crs_ds4psy} A logical variable indicating whether a participant is enrolled in the course \emph{Data Science for Psychology} (ds4psy: \code{TRUE} = enrolled).
+
+\item \code{crs_diff_kn} A logical variable indicating whether a participant is enrolled in a different course at the \emph{University of Konstanz} (\code{TRUE} = yes). 
+
+\item \code{crs_diff_else} A logical variable indicating whether a participant is enrolled in a course \emph{not} at the \emph{University of Konstanz} (\code{TRUE} = yes). 
+This variable helps identifying external learners.
+
+\item \code{crs_self_study} A logical variable indicating whether a participant is engaging with course materials without formal enrollment (\code{TRUE} = yes). 
+This variable reflects informal learning engagement.
+
+\item \code{crs_only_study} A logical variable indicating whether a participant is taking the survey only, without engaging with course materials (\code{TRUE} = yes). 
+This variable identifies participants not studying R or data science.
+
+\item \code{t_crs_other} A character variable capturing free-text input describing any other course a participant is taking. 
+
+\item \code{v_crs_other_dept} A character variable indicating the department of the other course(s) mentioned in \code{t_crs_other}. 
+This variable may facilitate grouping participants by academic discipline. 
+
+
+Variables indicating (randomized) survey conditions:
 
 \item \code{rv_anchor_high_low} A randomized (character) variable that indicates whether a person is to keep a relatively large or small number in memory (i.e., assignment to either \code{242} or \code{42}, respectively). This manipulation is used to examine anchoring effects on later responses.
 
@@ -62,10 +123,7 @@ The variable controls for the influence of scale granularity on ratings.
 \item \code{rv_thinkingstyle} A randomized (character) variable that indicates the order in which pairs of thinking styles are to be presented ("deliberative vs. intuitive"; "reflective vs. spontaneous";" deliberative vs. spontaneous";"reflective vs. Intuitive"). The order is counterbalanced to reduce presentation bias in self-assessment tasks.
 
 
-\item \code{c2_informed_consent} A logical variable indicating whether the participant provided informed consent before starting the study 
-(\code{TRUE} = consent provided, \code{FALSE} = no consent provided). 
-This variable is a pre-requisite for ethical compliance (i.e., should be \code{TRUE} for all participants).
-
+Art-preference tasks: 
 
 \item \code{c2_img_sel_1} A numeric (double) variable that represents the participant's preferred choice between 2 images in choice Set 1. 
 The binary variable indicates the participant's image preference: 
@@ -95,6 +153,8 @@ The binary variable indicates the participant's image preference:
 \item \code{2} corresponds to the \emph{impressionist} painting \emph{Pont dans le Jardin de Monet (bridge in Monet’s garden), by Claude Monet, 1895–96}
 }
 
+
+Variables describing habits and preferences:
 
 \item \code{c7_eating_habits} A categorical (character) variable that indicates which dietary lifestyle an individual assigns to itself
 (\code{1} = "vegetarian"; \code{2} = "omnivore"; \code{3} = "vegan"; \code{4} = "pescetarian"; \code{5} = "flexitarian"; \code{6} = "carnivore"; \code{7} = "other"). 
@@ -127,6 +187,8 @@ on a \code{1-7} ranking scale (\code{1} = highest preference, \code{7} = lowest 
 \strong{Note}: Variables \code{c7_apple} to \code{c7_banana} were derived from a sorting/ranking task in which each participant sorted/ranked food items by preference. 
 Each item was subsequently coded as a numeric value between \code{1} and \code{7} (\code{0} if not ranked).
 
+
+Responses to binary choice items: 
 
 \item \code{c2_decsleep_instant} A categorical (character) variable indicating whether a participant prefers to sleep 
 before making important decisions ("sleep") or to make them instantly ("instant"). 
@@ -175,11 +237,15 @@ Response options include "yes", "a little", and "no".
 This item captures perceived decisional difficulty and may serve as an indicator of response certainty, thinking style, or task engagement.
 
 
+Variables on political opinions: 
+
 \item \code{politics_left} A numeric (double) variable representing the participant’s self-placement on a left–right political spectrum. 
 Values range from \code{1} (left) to \code{6} (right).
 
 \item \code{politics_liberal} A numeric (double) variable representing self-placement on a liberal to conservative scale, ranging from \code{1} (liberal) to \code{6} (conservative). 
 
+
+Miscellaneous estimates, choices, opinions, and preferences:
 
 \item \code{tn_estimate_sun} A numeric (double) variable capturing the participant’s estimate of how many times larger the sun’s diameter is compared to that of the earth. 
 This item serves as a manipulation check for the anchoring effect, based on previously presented numeric anchors (e.g., \code{42} or \code{242}). 
@@ -273,23 +339,7 @@ This variable is used to assess susceptibility to the so-called \emph{Barnum eff
 This assesses memory and anchoring manipulation success (for a 2nd time).
 
 
-\item \code{c4_gender} A categorical (character) variable indicating the participant’s gender identity, 
-with possible values including "female", "male", "non-binary" or "do not wish to respond". This variable is used for demographic analysis.
-
-
-\item \code{tn_day} A numeric (double)variable indicating the day of birth provided by the participant (\code{1–31}). 
-Used for demographic purposes and potential exploratory analyses. 
-
-\item \code{tn_month} A numeric (double) variable indicating the participant’s birth month (\code{1–12}). 
-This variable also supports demographic profiling. 
-
-\item \code{tn_year} A numeric (double) variable indicating the year of birth (e.g., \code{1999, 2000, 2001}, etc.). 
-Variables 72. to 74. can be used to calculate age and analyze age-related trends. 
-
-
-\item \code{t_height} A character variable indicating a participant's self-described height, using various formats and units 
-(e.g., "1.80", "180 cm", "1,80m", or "5'11"). This variable requires pre-processing for analysis.
-
+Other person-related variables:
 
 \item \code{c9_occupation} A categorical (character) variable indicating a participant’s current occupational status 
 (e.g., "student", "employed", "other"). This variable may be used for demographic segmentation. 
@@ -316,28 +366,7 @@ This variable is used to examine field-specific attitudes and skills.
 This variable allows classification of less common disciplines. 
 
 
-\item \code{crs_i2ds_1} A logical variable indicating whether a participant is currently enrolled in the course \emph{Introduction to Data Science 1: Basics} (i2ds 1: \code{TRUE} = enrolled). 
-
-\item \code{crs_i2ds_2} A logical variable indicating whether a participant is enrolled in the course \emph{Introduction to Data Science 2: Applications} (i2ds 2: \code{TRUE} = enrolled). 
-
-\item \code{crs_ds4psy} A logical variable indicating whether a participant is enrolled in the course \emph{Data Science for Psychology} (ds4psy: \code{TRUE} = enrolled).
-
-\item \code{crs_diff_kn} A logical variable indicating whether a participant is enrolled in a different course at the \emph{University of Konstanz} (\code{TRUE} = yes). 
-
-\item \code{crs_diff_else} A logical variable indicating whether a participant is enrolled in a course \emph{not} at the \emph{University of Konstanz} (\code{TRUE} = yes). 
-This variable helps identifying external learners.
-
-\item \code{crs_self_study} A logical variable indicating whether a participant is engaging with course materials without formal enrollment (\code{TRUE} = yes). 
-This variable reflects informal learning engagement.
-
-\item \code{crs_only_study} A logical variable indicating whether a participant is taking the survey only, without engaging with course materials (\code{TRUE} = yes). 
-This variable identifies non-learning participants.
-
-\item \code{t_crs_other} A character variable capturing free-text input describing any other course a participant is taking. 
-
-\item \code{v_crs_other_dept} A character variable indicating the department of the other course(s) mentioned in \code{t_crs_other}. 
-This variable may facilitate grouping participants by academic discipline.
-
+Preferences for course contents: 
 
 \item \code{c5_pref_stats} A numeric (double) variable indicating a participant’s interest in preparing data for statistical analysis, 
 rated on a scale from \code{1} (no interest) to \code{5} (absolutely essential).
@@ -358,6 +387,8 @@ Responses range from \code{1} (no interest) to \code{5} (absolutely essential).
 Responses range from \code{1} (no interest) to \code{5} (absolutely essential).
 
 
+Course-related expectations and worries: 
+
 \item \code{t_crs_expect_i2ds_1} A character variable containing free-text input describing a participant’s expectations and hopes for the course \emph{Introduction to Data Science 1: Basics} (i2ds 1). 
 
 \item \code{t_crs_worry_i2ds_1} A character variable capturing free-text responses describing a participant’s worries and reservations related to the course \emph{Introduction to Data Science 1: Basics} (i2ds 1). 
@@ -370,6 +401,8 @@ Responses range from \code{1} (no interest) to \code{5} (absolutely essential).
 
 \item \code{t_crs_worry_ds4psy} A logical variable describing a participant’s worries and reservations regarding the course \emph{Data Science for Psychology} (ds4psy), in free text format. 
 
+
+Prior experience: 
 
 \item \code{c6_exp_math} A numeric (double) variable indicating a participant’s self-assessed experience with mathematics, 
 rated on a scale from \code{1} (no experience) to \code{6} (extremely experienced). 
@@ -387,14 +420,7 @@ rated on a scale from \code{1} (no experience) to \code{6} (extremely experience
 rated on a scale from \code{1} (no experience) to \code{6} (extremely experienced).
 
 
-\item \code{c2_use_data_2} A logical variable indicating whether a participant still agrees to allow their data to be shared after having finished the survey 
-(\code{TRUE} = consent provided, \code{FALSE} = no consent provided). 
-This variable is a pre-requisite for data re-usability in research (and should be \code{TRUE} for all cases included here). 
-
-
-\item \code{t_pid} An optional character variable capturing a participant ID, pseudonym, or other identifying entry. 
-This variable allows participants to recognize their own data without disclosing their identity.
-
+Survey feedback:
 
 \item \code{t_feedback} An optional character variable containing general feedback provided by the participant regarding the survey or course. 
 This is an open-ended text field for final comments, impressions, or suggestions.
