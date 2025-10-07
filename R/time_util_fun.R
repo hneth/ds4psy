@@ -202,6 +202,7 @@ date_from_string <- function(x, tz = "", ...){
 date_from_noDate <- function(x, tz = "", ...){
   
   # 0. Initialize: 
+  
   dt <- NA
   
   # 1. Prepare: ---- 
@@ -209,26 +210,32 @@ date_from_noDate <- function(x, tz = "", ...){
   if (is_Date(x)){ return(x) }  # fast exit
   
   # Coerce numeric x that are NOT date-time objects into character strings:
+  
   if (!is_date_time(x) & is.numeric(x)){
     # message('date_from_noDate: Coercing x from "number" into "character".')    
     x <- as.character(x)
   }
   
+  
   # 2. Main: Coerce non-Date objects into "Date" objects: ---- 
   
   # A. Aim to coerce character string inputs x into "Date": 
+  
   if (is.character(x)){
     # message('date_from_noDate: Aiming to parse x from "character" as "Date".')
     dt <- date_from_string(x, tz = tz, ...)
   }
   
   # B. Coerce "POSIXt" inputs into "Date":
+  
   if (is_POSIXt(x)){
     # message('date_from_noDate: Coercing x from "POSIXt" into "Date".')
     dt <- as.Date(x, tz = tz, ...) 
   }
   
+  
   # 3. Verify "Date": ---- 
+  
   if (!is_Date(dt)){
     
     message('date_from_noDate: Failed to parse x as "Date".')
@@ -236,9 +243,11 @@ date_from_noDate <- function(x, tz = "", ...){
   }
   
   # 4. Output: 
+  
   return(dt)
   
 } # date_from_noDate end. 
+
 
 # ## Check:
 # date_from_noDate(20100612)    # number
@@ -263,6 +272,7 @@ date_from_noDate <- function(x, tz = "", ...){
 # # Note errors for:
 # date_from_noDate(123)
 # date_from_noDate("ABC")
+
 
 
 # time_from_string: Parse a string into "POSIXt" (without tz): ------

@@ -2958,10 +2958,14 @@ zodiac <- function(x,
   # (b) Turn non-Date inputs into "Date" objects: ---- 
   
   if (!is_Date(x)){
+    
     # message('zodiac: Aiming to parse "x" as "Date".')
     date <- date_from_noDate(x)
+    
   } else {
+    
     date <- x
+    
   }
   
   # 2. Determine month and days:
