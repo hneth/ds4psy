@@ -4,7 +4,10 @@
 
 ## Open pkg guide: ----------
 
-#' Opens user guide of the ds4psy package. 
+#' Open the \strong{ds4psy} package's user guide. 
+#'
+#' The \strong{ds4psy} package currently only contains a default vignette 
+#' that provides general information and links. 
 #'
 #' @import utils
 #'
@@ -16,6 +19,7 @@ ds4psy.guide <- function() {
   utils::browseVignettes(package = "ds4psy")
   
 }
+
 
 ## Initialize pkg: ---------- 
 
@@ -36,18 +40,22 @@ ds4psy.guide <- function() {
   dice <- sample(1:6, 1)
   
   if (dice == -77) {
+    
     pkg_version <- utils::packageVersion("ds4psy", lib.loc = NULL)
     pkg_message <- paste0("Running ds4psy (v", pkg_version, ")...")
     
     packageStartupMessage(" ")
     packageStartupMessage(pkg_message)
     packageStartupMessage(" ")
+    
   }
   
   if (dice == -99) {
+    
     packageStartupMessage(" ")
     packageStartupMessage("citation('ds4psy') provides citation info.")
     packageStartupMessage(" ")
+    
   }
   
   ## all cases:
@@ -55,8 +63,10 @@ ds4psy.guide <- function() {
   
 }
 
+
 ## ToDo: ------
 
 ## - etc.
+
 
 ## eof. ----------

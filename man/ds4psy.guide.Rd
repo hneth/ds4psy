@@ -2,10 +2,11 @@
 % Please edit documentation in R/start.R
 \name{ds4psy.guide}
 \alias{ds4psy.guide}
-\title{Opens user guide of the ds4psy package.}
+\title{Open the \strong{ds4psy} package's user guide.}
 \usage{
 ds4psy.guide()
 }
 \description{
-Opens user guide of the ds4psy package.
+The \strong{ds4psy} package currently only contains a default vignette 
+that provides general information and links.
 }
