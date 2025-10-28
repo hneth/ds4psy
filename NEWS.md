@@ -39,7 +39,7 @@ The books and courses [Data Science for Psychologists](https://bookdown.org/hnet
 # ds4psy 1.1.0.9006
 
 This is the current development version of **ds4psy** hosted at <https://github.com/hneth/ds4psy/>. 
-[2025-10-27]
+[2025-10-28]
 
 <!-- Log of changes: --> 
 
@@ -51,7 +51,7 @@ This is the current development version of **ds4psy** hosted at <https://github.
 
 ## Major changes
 
-- Include new participants in `i2ds_survey` data ($N=55$) 
+- Include new `i2ds_survey` data ($N=55$ participants, $116$ variables) 
 
 
 <!-- minor: --> 
@@ -59,8 +59,9 @@ This is the current development version of **ds4psy** hosted at <https://github.
 ## Minor changes
 
 - Fix bugs in `i2ds_survey` data:
-    - Add variable names to art preference tasks 
+    - Add variable names to art preference tasks
     - Reverse scale in ranking of food items (e.g., apple, ..., mud)
+    - Add some session information (referrer, date, duration)
 
 
 <!-- details: --> 
@@ -519,6 +520,6 @@ The initial functionality is limited, as the package is designed to support the 
 
 ---------- 
 
-[File `NEWS.md` updated on 2025-10-27.]
+[File `NEWS.md` updated on 2025-10-28.]
 
 <!-- eof. -->
