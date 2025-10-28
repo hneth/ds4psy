@@ -5,7 +5,7 @@
 \alias{i2ds_survey}
 \title{Data from the i2ds online survey}
 \format{
-On 2025-10-28, this data contains 55 participants (rows) and 115 variables (columns).
+On 2025-10-28, this data contains 55 participants (rows) and 116 variables (columns).
 }
 \source{
 See online survey at \url{https://ww3.unipark.de/uc/i2ds_survey/}.
@@ -414,9 +414,11 @@ This is an open-ended text field for final comments, impressions, or suggestions
 
 
 \item Session info:  
-\code{referer} URL of referring page 
+\code{referer} URL of referring page. 
 
 \item \code{datetime} Date and time of initial survey access.
+
+\item \code{duration} Session duration (in seconds). 
 
 \item \code{date_of_last_access} Date and time of final survey access.
 
