@@ -1306,7 +1306,7 @@
 
 # Data from i2ds online survey
 # URL: https://ww3.unipark.de/uc/i2ds_survey/ 
-# 2025-10-28
+# 2025-11-02
 
 
 #' Data from the i2ds online survey 
@@ -1315,7 +1315,7 @@
 #' from the i2ds online survey.
 #' 
 #' @format 
-#' On 2025-10-28, this data contains 55 participants (rows) and 116 variables (columns).
+#' On 2025-11-02, this data contains 60 participants (rows) and 116 variables (columns).
 #' 
 #' @details 
 #' 
