@@ -36,10 +36,10 @@ The books and courses [Data Science for Psychologists](https://bookdown.org/hnet
 -------- 
 
 
-# ds4psy 1.1.0.9006
+# ds4psy 1.1.0.9008
 
 This is the current development version of **ds4psy** hosted at <https://github.com/hneth/ds4psy/>. 
-[2025-10-28]
+[2025-11-02]
 
 <!-- Log of changes: --> 
 
@@ -51,7 +51,7 @@ This is the current development version of **ds4psy** hosted at <https://github.
 
 ## Major changes
 
-- Include new `i2ds_survey` data ($N=55$ participants, $116$ variables) 
+- Include new `i2ds_survey` data ($N=60$ participants, $116$ variables) 
 
 
 <!-- minor: --> 
@@ -520,6 +520,6 @@ The initial functionality is limited, as the package is designed to support the 
 
 ---------- 
 
-[File `NEWS.md` updated on 2025-10-28.]
+[File `NEWS.md` updated on 2025-11-02.]
 
 <!-- eof. -->
