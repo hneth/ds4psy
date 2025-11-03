@@ -27,8 +27,8 @@ The books and courses [Data Science for Psychologists](https://bookdown.org/hnet
 
 - The textbook **Data Science for Psychologists** is hosted at <https://bookdown.org/hneth/ds4psy/>. 
 - The textbook **Introduction to Data Science** is hosted at <https://bookdown.org/hneth/i2ds/>. 
-- The most recent release of **ds4psy** (1.1.0) is available on CRAN: <https://CRAN.R-project.org/package=ds4psy>.
-- The current development version of **ds4psy** (1.1.0.9001+) is hosted at <https://github.com/hneth/ds4psy/>. 
+- The most recent release of **ds4psy** (1.2.0) is available on CRAN: <https://CRAN.R-project.org/package=ds4psy>.
+- The current development version of **ds4psy** (1.2.0.9001+) is hosted at <https://github.com/hneth/ds4psy/>. 
 
 <!-- Current version:  --> 
 
@@ -36,10 +36,12 @@ The books and courses [Data Science for Psychologists](https://bookdown.org/hnet
 -------- 
 
 
-# ds4psy 1.1.0.9008
+# ds4psy 1.2.0
 
-This is the current development version of **ds4psy** hosted at <https://github.com/hneth/ds4psy/>. 
-[2025-11-02]
+Release of **ds4psy** (1.2.0) [on CRAN](https://CRAN.R-project.org/package=ds4psy) 
+adds new data and fixes some bugs. [2025-11-04]
+
+<!-- This is the current development version of **ds4psy** hosted at <https://github.com/hneth/ds4psy/>. [2025-11-04] --> 
 
 <!-- Log of changes: --> 
 
@@ -51,7 +53,7 @@ This is the current development version of **ds4psy** hosted at <https://github.
 
 ## Major changes
 
-- Include new `i2ds_survey` data ($N=60$ participants, $116$ variables) 
+- Add new `i2ds_survey` data ($N=60$ participants, $116$ variables) 
 
 
 <!-- minor: --> 
@@ -89,7 +91,7 @@ This is the current development version of **ds4psy** hosted at <https://github.
 
 <!-- Development version: --> 
 
-<!-- The current development version of **ds4psy** is hosted at <https://github.com/hneth/ds4psy/>. --> 
+The current development version of **ds4psy** is available at <https://github.com/hneth/ds4psy/>. 
 
 
 
@@ -520,6 +522,6 @@ The initial functionality is limited, as the package is designed to support the 
 
 ---------- 
 
-[File `NEWS.md` updated on 2025-11-02.]
+[File `NEWS.md` updated on 2025-11-04.]
 
 <!-- eof. -->
