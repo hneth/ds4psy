@@ -235,7 +235,7 @@ Please install the following open-source programs on your computer:
 - [R Studio](https://posit.co/products/open-source/rstudio/) is an
   integrated development environment (IDE) for R.
 
-- R packages of the [tidyverse](https://www.tidyverse.org/),
+- R packages of the [tidyverse](https://tidyverse.org/),
   [ds4psy](https://CRAN.R-project.org/package=ds4psy), and
   [unikn](https://CRAN.R-project.org/package=unikn):
 
@@ -269,9 +269,9 @@ install.packages('unikn')   # color palettes and functions
   [R Markdown](https://rmarkdown.rstudio.com/), and various [cheat
   sheets](https://posit.co/resources/cheatsheets/)
 
-- [Tidyverse](https://www.tidyverse.org/) resources:
-  [blog](https://www.tidyverse.org/blog/) and
-  [learn](https://www.tidyverse.org/learn/)
+- [Tidyverse](https://tidyverse.org/) resources:
+  [blog](https://tidyverse.org/blog/) and
+  [learn](https://tidyverse.org/learn/)
 
 <!-- Add blank line.  -->
 

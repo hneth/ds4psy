@@ -11,13 +11,11 @@ output: github_document
 <!-- [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.7229812.svg)](https://doi.org/10.5281/zenodo.7229812) -->
 <!-- Devel badges end. -->
 
-
 <!-- <!-- Release badges start: -->
 [![CRAN status](https://www.r-pkg.org/badges/version/ds4psy)](https://CRAN.R-project.org/package=ds4psy)
 [![Total downloads](https://cranlogs.r-pkg.org/badges/grand-total/ds4psy?color="00a9e0")](https://www.r-pkg.org/pkg/ds4psy)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.7229812.svg)](https://doi.org/10.5281/zenodo.7229812)
 <!-- Release badges end. -->
-
 
 <!-- ALL status badges: 
 [![CRAN status](https://www.r-pkg.org/badges/version/ds4psy)](https://CRAN.R-project.org/package=ds4psy)
@@ -180,7 +178,7 @@ Please install the following open-source programs on your computer:
 
 - [R Studio](https://posit.co/products/open-source/rstudio/) is an integrated development environment (IDE) for R.
 
-- R\ packages of the [tidyverse](https://www.tidyverse.org/), [ds4psy](https://CRAN.R-project.org/package=ds4psy), and [unikn](https://CRAN.R-project.org/package=unikn): 
+- R\ packages of the [tidyverse](https://tidyverse.org/), [ds4psy](https://CRAN.R-project.org/package=ds4psy), and [unikn](https://CRAN.R-project.org/package=unikn): 
 
 <!-- Add blank line.  -->
 
@@ -209,7 +207,7 @@ install.packages('unikn')   # color palettes and functions
 
 - [Posit.co](https://posit.co/) resources: [RStudio IDE](https://posit.co/products/open-source/rstudio/), [R\ Markdown](https://rmarkdown.rstudio.com/), and various [cheat sheets](https://posit.co/resources/cheatsheets/) 
 
-- [Tidyverse](https://www.tidyverse.org/) resources: [blog](https://www.tidyverse.org/blog/) and [learn](https://www.tidyverse.org/learn/) 
+- [Tidyverse](https://tidyverse.org/) resources: [blog](https://tidyverse.org/blog/) and [learn](https://tidyverse.org/learn/) 
 
 <!-- Add blank line.  -->
 
