@@ -1,5 +1,5 @@
 ## theme_fun.R | ds4psy
-## hn | uni.kn | 2021 05 09 
+## hn | uni.kn | 2025 11 03 
 ## ------------------------
 
 ## Functions for ggplot2 themes. 
@@ -305,10 +305,10 @@ theme_ds4psy <- function(base_size = 11,
       plot.caption  = ggplot2::element_text(color = col_txt_2, face = "plain", size = ggplot2::rel(.80), hjust = 1), 
       
       # axes:
-      axis.line =  ggplot2::element_line(color = col_axes, size = ggplot2::rel(1.1)), 
+      axis.line =  ggplot2::element_line(color = col_axes, linewidth = ggplot2::rel(1.1)), 
       axis.title = ggplot2::element_text(color = col_txt_1), 
       axis.text =  ggplot2::element_text(color = col_txt_2, size = ggplot2::rel(.90)), 
-      axis.ticks = ggplot2::element_line(color = col_txt_2, size = ggplot2::rel(.80)), 
+      axis.ticks = ggplot2::element_line(color = col_txt_2, linewidth = ggplot2::rel(.80)), 
       
       # legend: 
       legend.title = ggplot2::element_text(color = col_txt_1), 
@@ -318,23 +318,23 @@ theme_ds4psy <- function(base_size = 11,
       
       # strip: 
       # strip.background = ggplot2::element_blank(), 
-      strip.background = ggplot2::element_rect(fill = col_strip, color = col_brdrs, size = ggplot2::rel(1.0)), 
+      strip.background = ggplot2::element_rect(fill = col_strip, color = col_brdrs, linewidth = ggplot2::rel(1.0)), 
       strip.text = ggplot2::element_text(color = col_txt_3, size = ggplot2::rel(1.0), 
                                          margin = ggplot2::margin(t = 4, r = 4, b = 4, l = 4, unit = "pt")), 
       # panel: 
       # panel.border = ggplot2::element_blank(), 
       panel.border = ggplot2::element_rect(fill = "transparent", color = col_brdrs, linetype = "solid", 
-                                           size = ggplot2::rel(1.0)),
+                                           linewidth = ggplot2::rel(1.0)),
       # grid lines: 
       # panel.grid = ggplot2::element_blank(), 
       #
-      # panel.grid.major = ggplot2::element_line(color = col_grids, linetype = "solid", size = ggplot2::rel(.40)), 
-      panel.grid.major.x = ggplot2::element_line(color = col_gridx, linetype = "solid", size = ggplot2::rel(.40)), 
-      panel.grid.major.y = ggplot2::element_line(color = col_gridy, linetype = "solid", size = ggplot2::rel(.40)), 
+      # panel.grid.major = ggplot2::element_line(color = col_grids, linetype = "solid", linewidth = ggplot2::rel(.40)), 
+      panel.grid.major.x = ggplot2::element_line(color = col_gridx, linetype = "solid", linewidth = ggplot2::rel(.40)), 
+      panel.grid.major.y = ggplot2::element_line(color = col_gridy, linetype = "solid", linewidth = ggplot2::rel(.40)), 
       #
-      # panel.grid.minor = ggplot2::element_line(color = col_grids, linetype = "solid", size = ggplot2::rel(.40)), # "dotted"/"solid"
-      panel.grid.minor.x = ggplot2::element_line(color = col_gridx, linetype = "solid", size = ggplot2::rel(.40)), # "dotted"/"solid"      
-      panel.grid.minor.y = ggplot2::element_line(color = col_gridy, linetype = "solid", size = ggplot2::rel(.40)), # "dotted"/"solid"
+      # panel.grid.minor = ggplot2::element_line(color = col_grids, linetype = "solid", linewidth = ggplot2::rel(.40)), # "dotted"/"solid"
+      panel.grid.minor.x = ggplot2::element_line(color = col_gridx, linetype = "solid", linewidth = ggplot2::rel(.40)), # "dotted"/"solid"      
+      panel.grid.minor.y = ggplot2::element_line(color = col_gridy, linetype = "solid", linewidth = ggplot2::rel(.40)), # "dotted"/"solid"
       #
       # panel.background = ggplot2::element_blank(),  # no panel background 
       panel.background = ggplot2::element_rect(fill = col_panel, color = NA), # panel background 
@@ -447,7 +447,7 @@ theme_clean <- function(base_size = 11,
       
       # axis:
       axis.line =  ggplot2::element_blank(), 
-      # axis.line =  ggplot2::element_line(color = "black", size = ggplot2::rel(1)), 
+      # axis.line =  ggplot2::element_line(color = "black", linewidth = ggplot2::rel(1)), 
       # axis.ticks = ggplot2::element_line(color = "black"), 
       axis.ticks = ggplot2::element_line(color = col_ticks), 
       axis.title = ggplot2::element_text(color = grey(.20, 1)), 
@@ -461,25 +461,25 @@ theme_clean <- function(base_size = 11,
       
       # strip: 
       # strip.background = ggplot2::element_blank(),
-      # strip.background = ggplot2::element_rect(fill = pal_seeblau[[1]], color = pal_seeblau[[5]], size = ggplot2::rel(5/3)), 
-      # strip.background = ggplot2::element_rect(fill = grey(.90, 1), color = grey(.90, 1), size = ggplot2::rel(6/3)), 
-      strip.background = ggplot2::element_rect(fill = "transparent", color = NA, size = ggplot2::rel(1.0)),  # transparent strip 
+      # strip.background = ggplot2::element_rect(fill = pal_seeblau[[1]], color = pal_seeblau[[5]], linewidth = ggplot2::rel(5/3)), 
+      # strip.background = ggplot2::element_rect(fill = grey(.90, 1), color = grey(.90, 1), linewidth = ggplot2::rel(6/3)), 
+      strip.background = ggplot2::element_rect(fill = "transparent", color = NA, linewidth = ggplot2::rel(1.0)),  # transparent strip 
       strip.text = ggplot2::element_text(color = grey(0, 1), size = ggplot2::rel(.95), 
                                          margin = ggplot2::margin(t = 4, r = 4, b = 4, l = 4, unit = "pt")), 
       # panel border: 
       panel.border = ggplot2::element_blank(), 
-      # panel.border = ggplot2::element_rect(fill = "transparent", color = grey(.10, 1), linetype = "solid", size = ggplot2::rel(2/3)), 
+      # panel.border = ggplot2::element_rect(fill = "transparent", color = grey(.10, 1), linetype = "solid", linewidth = ggplot2::rel(2/3)), 
       # panel background: 
       # panel.background = ggplot2::element_blank(), 
       panel.background = ggplot2::element_rect(fill = col_panel, color = col_panel), # panel background
       
       # grid lines:
       # panel.grid = ggplot2::element_blank(), 
-      # panel.grid.major = ggplot2::element_line(color = col_grids, linetype = "solid", size = ggplot2::rel(.90)), # major grid lines
-      panel.grid.major.x = ggplot2::element_line(color = col_gridx, linetype = "solid", size = ggplot2::rel(.90)), # major grid through x
-      panel.grid.major.y = ggplot2::element_line(color = col_gridy, linetype = "solid", size = ggplot2::rel(.90)), # major grid through y
+      # panel.grid.major = ggplot2::element_line(color = col_grids, linetype = "solid", linewidth = ggplot2::rel(.90)), # major grid lines
+      panel.grid.major.x = ggplot2::element_line(color = col_gridx, linetype = "solid", linewidth = ggplot2::rel(.90)), # major grid through x
+      panel.grid.major.y = ggplot2::element_line(color = col_gridy, linetype = "solid", linewidth = ggplot2::rel(.90)), # major grid through y
       panel.grid.minor = ggplot2::element_blank(), # no minor grid lines 
-      # panel.grid.minor = ggplot2::element_line(color = grey(.95, 1), linetype = "solid", size = ggplot2::rel(2/3)), 
+      # panel.grid.minor = ggplot2::element_line(color = grey(.95, 1), linetype = "solid", linewidth = ggplot2::rel(2/3)), 
       
       # background:  
       plot.background = ggplot2::element_rect(fill = "transparent", color = NA), 
