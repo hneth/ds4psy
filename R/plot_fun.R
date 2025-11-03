@@ -1675,7 +1675,7 @@ plot_charmap <- function(x = NA,     # what to plot (required): charmap OR {text
   # (3) Plot tb (using ggplot2): ---- 
   
   cur_plot <- ggplot2::ggplot(data = tb, aes(x = x, y = y)) +
-    ggplot2::geom_tile(aes(), fill = col_bg, color = border_col, size = border_size,
+    ggplot2::geom_tile(aes(), fill = col_bg, color = border_col, linewidth = border_size,
                        height = height, width = width) +  
     ggplot2::geom_text(aes(label = label), color = col_lbl, size = cex, angle = angle, 
                        fontface = fontface, family = family) + 
