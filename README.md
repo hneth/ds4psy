@@ -3,22 +3,23 @@
 
 <!-- Devel badges start: -->
 
-[![CRAN
-status](https://www.r-pkg.org/badges/version/ds4psy)](https://CRAN.R-project.org/package=ds4psy)
-[![Downloads/month](https://cranlogs.r-pkg.org/badges/ds4psy?color=%2200a9e0%22)](https://www.r-pkg.org/pkg/ds4psy)
-[![Total
-downloads](https://cranlogs.r-pkg.org/badges/grand-total/ds4psy?color=blue)](https://www.r-pkg.org/pkg/ds4psy)
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.7229812.svg)](https://doi.org/10.5281/zenodo.7229812)
+<!-- [![CRAN status](https://www.r-pkg.org/badges/version/ds4psy)](https://CRAN.R-project.org/package=ds4psy) -->
+
+<!-- [![Downloads/month](https://cranlogs.r-pkg.org/badges/ds4psy?color="00a9e0")](https://www.r-pkg.org/pkg/ds4psy) -->
+
+<!-- [![Total downloads](https://cranlogs.r-pkg.org/badges/grand-total/ds4psy?color=blue)](https://www.r-pkg.org/pkg/ds4psy) -->
+
+<!-- [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.7229812.svg)](https://doi.org/10.5281/zenodo.7229812) -->
+
 <!-- Devel badges end. -->
 
 <!-- <!-- Release badges start: -->
 
-<!-- [![CRAN status](https://www.r-pkg.org/badges/version/ds4psy)](https://CRAN.R-project.org/package=ds4psy) -->
-
-<!-- [![Total downloads](https://cranlogs.r-pkg.org/badges/grand-total/ds4psy?color="00a9e0")](https://www.r-pkg.org/pkg/ds4psy) -->
-
-<!-- [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.7229812.svg)](https://doi.org/10.5281/zenodo.7229812) -->
-
+[![CRAN
+status](https://www.r-pkg.org/badges/version/ds4psy)](https://CRAN.R-project.org/package=ds4psy)
+[![Total
+downloads](https://cranlogs.r-pkg.org/badges/grand-total/ds4psy?color=%2200a9e0%22)](https://www.r-pkg.org/pkg/ds4psy)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.7229812.svg)](https://doi.org/10.5281/zenodo.7229812)
 <!-- Release badges end. -->
 
 <!-- ALL status badges: 
