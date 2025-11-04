@@ -1,5 +1,5 @@
 ## plot_fun.R | ds4psy
-## hn | uni.kn | 2024 05 05
+## hn | uni.kn | 2025 11 04
 ## ------------------------
 
 ## Functions for plotting. 
@@ -233,7 +233,7 @@ plot_tiles <- function(n = NA,
   
   # create a n x n SQUARE of tiles:
   cur_plot <- ggplot2::ggplot(data = cur_tb) + 
-    ggplot2::geom_tile(aes(x = x, y = y,  fill = !!sym(var_tile)), color = brd_col, size = brd_size) +  # tiles (with borders, opt.)
+    ggplot2::geom_tile(aes(x = x, y = y,  fill = !!sym(var_tile)), color = brd_col, linewidth = brd_size) +  # tiles (with borders, opt.)
     ggplot2::geom_text(aes(x = x, y = y, label = !!sym(var_tile)), color = lbl_col, size = lbl_size) +  # labels (opt.) 
     ## Label (on top left): 
     ggplot2::annotate("text", x = x_lbl, y = y_lbl, label = cur_lbl, col = top_col, 
@@ -1403,7 +1403,7 @@ plot_text <- function(x = NA,     # Text string(s) to plot
   # (6) Plot (using ggplot2): ------  
   
   cur_plot <- ggplot2::ggplot(data = tb_txt, aes(x = x, y = y)) +
-    ggplot2::geom_tile(aes(), fill = col_map, color = brd_col, size = brd_size,  # tiles (with borders, opt.)
+    ggplot2::geom_tile(aes(), fill = col_map, color = brd_col, linewidth = brd_size,  # tiles (with borders, opt.)
                        height = height, width = width) +  
     ggplot2::geom_text(aes(label = char), color = col_lbl, size = cex, 
                        fontface = fontface, family = family, angle = char_angles) + 
