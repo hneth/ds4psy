@@ -345,6 +345,6 @@ License</a>.
 
 <!-- Footer: -->
 
-\[File `README.md` updated on 2025-11-03.\]
+\[File `README.md` updated on 2025-11-04.\]
 
 <!-- eof. -->

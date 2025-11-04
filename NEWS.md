@@ -70,6 +70,8 @@ adds new data and fixes some bugs. [2025-11-04]
 
 ## Details
 
+- Bug fix: replace `size` by `linewidth` arguments in **ggplot2** functions
+
 - Improve documentation:
   - Enumerate and re-arrange variables in `i2ds_survey` data 
   - Update online documentation
@@ -276,7 +278,7 @@ adds functionality, increases modularity, and fixes a bug in text data. [2021-05
 
 ## Details 
 
-- signal deprecation status in `plot_text()`   
+- signal deprecation status in `plot_text()`  
 - bug fix: remove marked UTF-8 strings from `Trumpisms` 
 
 <!-- Note:  --> 
@@ -508,7 +510,7 @@ Changes involving new functionality include:
 
 Initial release of **ds4psy** (0.1.0) [on CRAN](https://CRAN.R-project.org/package=ds4psy). [2019-08-10] 
 
-**Contents** in this release: 
+<!-- **Contents** in this release: --> 
 
 The initial functionality is limited, as the package is designed to support the emerging [ds4psy book](https://bookdown.org/hneth/ds4psy/): 
 
