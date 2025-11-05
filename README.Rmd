@@ -54,7 +54,6 @@ These books and courses introduce the principles and methods of data science for
 
 <!-- All datasets and functions required for the examples and exercises of the book "Data Science for Psychologists" (by Hansjoerg Neth, Konstanz University, 2025), freely available at <https://bookdown.org/hneth/ds4psy/>. The book and course introduce principles and methods of data science to students of psychology and other biological or social sciences. The 'ds4psy' package primarily provides datasets, but also functions for data generation and manipulation (e.g., of text and time data) and graphics that are used in the book and its exercises. All functions included in 'ds4psy' are designed to be explicit and instructive, rather than efficient or elegant.  -->
 
-
 ## Installation
 
 <!-- R package ds4psy at CRAN: -->
@@ -236,7 +235,7 @@ To cite **ds4psy** in derivations and publications, please use:
 
 - Neth, H. (2025). ds4psy: Data Science for Psychologists.  
 Social Psychology and Decision Sciences, University of Konstanz, Germany.  
-Textbook and R package (version 1.2.0, November 4, 2025).  
+Textbook and R package (version 1.2.0, November 5, 2025).  
 Retrieved from <https://bookdown.org/hneth/ds4psy/>.  
 doi [10.5281/zenodo.7229812](https://doi.org/10.5281/zenodo.7229812)  
 
@@ -252,7 +251,7 @@ A **BibTeX** entry for LaTeX users is:
   year = {2025},
   organization = {Social Psychology and Decision Sciences, University of Konstanz},
   address = {Konstanz, Germany},
-  note = {Textbook and R package (version 1.2.0, November 4, 2025)},
+  note = {Textbook and R package (version 1.2.0, November 5, 2025)},
   url = {https://bookdown.org/hneth/ds4psy/},
   doi = {10.5281/zenodo.7229812}
 }
