@@ -5,17 +5,17 @@ output: github_document
 <!-- README.md is generated from README.Rmd. Please edit THIS (Rmd) file. -->
 
 <!-- Devel badges start: -->
-<!-- [![CRAN status](https://www.r-pkg.org/badges/version/ds4psy)](https://CRAN.R-project.org/package=ds4psy) -->
-<!-- [![Downloads/month](https://cranlogs.r-pkg.org/badges/ds4psy?color="00a9e0")](https://www.r-pkg.org/pkg/ds4psy) -->
-<!-- [![Total downloads](https://cranlogs.r-pkg.org/badges/grand-total/ds4psy?color=blue)](https://www.r-pkg.org/pkg/ds4psy) -->
-<!-- [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.7229812.svg)](https://doi.org/10.5281/zenodo.7229812) -->
+[![CRAN status](https://www.r-pkg.org/badges/version/ds4psy)](https://CRAN.R-project.org/package=ds4psy)
+[![Downloads/month](https://cranlogs.r-pkg.org/badges/ds4psy?color="00a9e0")](https://www.r-pkg.org/pkg/ds4psy)
+[![Total downloads](https://cranlogs.r-pkg.org/badges/grand-total/ds4psy?color=blue)](https://www.r-pkg.org/pkg/ds4psy)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.7229812.svg)](https://doi.org/10.5281/zenodo.7229812)
 <!-- Devel badges end. -->
 
 
 <!-- <!-- Release badges start: -->
-[![CRAN status](https://www.r-pkg.org/badges/version/ds4psy)](https://CRAN.R-project.org/package=ds4psy)
-[![Total downloads](https://cranlogs.r-pkg.org/badges/grand-total/ds4psy?color="00a9e0")](https://www.r-pkg.org/pkg/ds4psy)
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.7229812.svg)](https://doi.org/10.5281/zenodo.7229812)
+<!-- [![CRAN status](https://www.r-pkg.org/badges/version/ds4psy)](https://CRAN.R-project.org/package=ds4psy) -->
+<!-- [![Total downloads](https://cranlogs.r-pkg.org/badges/grand-total/ds4psy?color="00a9e0")](https://www.r-pkg.org/pkg/ds4psy) -->
+<!-- [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.7229812.svg)](https://doi.org/10.5281/zenodo.7229812) -->
 <!-- Release badges end. -->
 
 
@@ -89,7 +89,7 @@ The most recent versions of the **[ds4psy](https://bookdown.org/hneth/ds4psy/)**
 </a>
 
 * PSY-16620, at the [University of Konstanz](https://www.uni-konstanz.de) is taught by [Hansjörg Neth](https://spds.uni-konstanz.de//hans-neth), [Social Psychology and Decision Sciences](https://spds.uni-konstanz.de/), office\ D507   
-<!-- * Fall\ 2025: Mondays, 13:30&ndash;15:00, D522. -->
+<!-- * Fall/Winter\ 2025/2026: Mondays, 13:30&ndash;15:00, D522. -->
 * The [ds4psy](https://CRAN.R-project.org/package=ds4psy) R package is available at <https://CRAN.R-project.org/package=ds4psy>  
 * The [ds4psy book](https://bookdown.org/hneth/ds4psy/) with examples and exercises is available at <https://bookdown.org/hneth/ds4psy/>   
 * The [i2ds book](https://bookdown.org/hneth/i2ds/) with more extensive materials and exercises is available at <https://bookdown.org/hneth/i2ds/>   

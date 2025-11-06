@@ -1,18 +1,24 @@
 
 <!-- README.md is generated from README.Rmd. Please edit THIS (Rmd) file. -->
+
 <!-- Devel badges start: -->
-<!-- [![CRAN status](https://www.r-pkg.org/badges/version/ds4psy)](https://CRAN.R-project.org/package=ds4psy) -->
-<!-- [![Downloads/month](https://cranlogs.r-pkg.org/badges/ds4psy?color="00a9e0")](https://www.r-pkg.org/pkg/ds4psy) -->
-<!-- [![Total downloads](https://cranlogs.r-pkg.org/badges/grand-total/ds4psy?color=blue)](https://www.r-pkg.org/pkg/ds4psy) -->
-<!-- [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.7229812.svg)](https://doi.org/10.5281/zenodo.7229812) -->
-<!-- Devel badges end. -->
-<!-- <!-- Release badges start: -->
 
 [![CRAN
 status](https://www.r-pkg.org/badges/version/ds4psy)](https://CRAN.R-project.org/package=ds4psy)
+[![Downloads/month](https://cranlogs.r-pkg.org/badges/ds4psy?color=%2200a9e0%22)](https://www.r-pkg.org/pkg/ds4psy)
 [![Total
-downloads](https://cranlogs.r-pkg.org/badges/grand-total/ds4psy?color=%2200a9e0%22)](https://www.r-pkg.org/pkg/ds4psy)
+downloads](https://cranlogs.r-pkg.org/badges/grand-total/ds4psy?color=blue)](https://www.r-pkg.org/pkg/ds4psy)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.7229812.svg)](https://doi.org/10.5281/zenodo.7229812)
+<!-- Devel badges end. -->
+
+<!-- <!-- Release badges start: -->
+
+<!-- [![CRAN status](https://www.r-pkg.org/badges/version/ds4psy)](https://CRAN.R-project.org/package=ds4psy) -->
+
+<!-- [![Total downloads](https://cranlogs.r-pkg.org/badges/grand-total/ds4psy?color="00a9e0")](https://www.r-pkg.org/pkg/ds4psy) -->
+
+<!-- [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.7229812.svg)](https://doi.org/10.5281/zenodo.7229812) -->
+
 <!-- Release badges end. -->
 
 <!-- ALL status badges: 
@@ -22,9 +28,13 @@ downloads](https://cranlogs.r-pkg.org/badges/grand-total/ds4psy?color=%2200a9e0%
 [![Total downloads](https://cranlogs.r-pkg.org/badges/grand-total/ds4psy?color=brightgreen)](https://www.r-pkg.org/pkg/ds4psy)
 [![Rdoc](https://www.rdocumentation.org/badges/version/ds4psy)](https://www.rdocumentation.org/packages/ds4psy)
 -->
+
 <!-- ds4psy logo 1: -->
+
 <!-- <a href="https://bookdown.org/hneth/ds4psy/"> -->
+
 <!-- <img src = "./inst/images/logo.png" alt = "ds4psy" width = "150px" align = "right" style = "width: 150px; float: right; border:11;"/> -->
+
 <!-- </a> -->
 
 # Data Science for Psychologists (ds4psy) <img src = "./inst/images/logo.png" align = "right" alt = "ds4psy" width = "150px" />
@@ -42,6 +52,7 @@ methods of data science for students of psychology and other biological
 or social sciences.
 
 <!-- Description of ds4psy package:  -->
+
 <!-- All datasets and functions required for the examples and exercises of the book "Data Science for Psychologists" (by Hansjoerg Neth, Konstanz University, 2025), freely available at <https://bookdown.org/hneth/ds4psy/>. The book and course introduce principles and methods of data science to students of psychology and other biological or social sciences. The 'ds4psy' package primarily provides datasets, but also functions for data generation and manipulation (e.g., of text and time data) and graphics that are used in the book and its exercises. All functions included in 'ds4psy' are designed to be explicit and instructive, rather than efficient or elegant.  -->
 
 ## Installation
@@ -59,7 +70,7 @@ library('ds4psy')           # load to use the package
 
 <!-- Development version: -->
 
-The current development version of **ds4psy** (v1.1.0.9004) can be
+The current development version of **ds4psy** (v1.2.0.9001) can be
 installed from its [GitHub](https://github.com) repository at
 <https://github.com/hneth/ds4psy/>:
 
@@ -80,6 +91,7 @@ at <https://bookdown.org/hneth/ds4psy/> and
 ## Course Coordinates
 
 <!-- uni.kn logo, but link to SPDS: -->
+
 <!-- ![](./inst/images/uniKn_logo.png) -->
 
 <a href="https://spds.uni-konstanz.de/">
@@ -90,7 +102,7 @@ at <https://bookdown.org/hneth/ds4psy/> and
   Konstanz](https://www.uni-konstanz.de) is taught by [Hansjörg
   Neth](https://spds.uni-konstanz.de//hans-neth), [Social Psychology and
   Decision Sciences](https://spds.uni-konstanz.de/), office D507  
-  <!-- * Fall\ 2025: Mondays, 13:30&ndash;15:00, D522. -->
+  <!-- * Fall/Winter\ 2025/2026: Mondays, 13:30&ndash;15:00, D522. -->
 - The [ds4psy](https://CRAN.R-project.org/package=ds4psy) R package is
   available at <https://CRAN.R-project.org/package=ds4psy>  
 - The [ds4psy book](https://bookdown.org/hneth/ds4psy/) with examples
@@ -300,7 +312,7 @@ A **BibTeX** entry for LaTeX users is:
       year = {2025},
       organization = {Social Psychology and Decision Sciences, University of Konstanz},
       address = {Konstanz, Germany},
-      note = {R package (version 1.1.0, September 12, 2025); Textbook at <https://bookdown.org/hneth/ds4psy/>.},
+      note = {R package (version 1.2.0, November 5, 2025); Textbook at <https://bookdown.org/hneth/ds4psy/>.},
       url = {https://CRAN.R-project.org/package=ds4psy},
       doi = {10.5281/zenodo.7229812},
     }
@@ -315,7 +327,9 @@ The stable URL of the **ds4psy** R package is
 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" /></a>
 
 <!-- (b) Use local image: -->
+
 <!-- <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src = "./images/CC_BY_NC_SA.png" /></a> -->
+
 <!-- License text:  -->
 
 <span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">**Data
@@ -330,6 +344,6 @@ License</a>.
 
 <!-- Footer: -->
 
-\[File `README.md` updated on 2025-11-05.\]
+\[File `README.md` updated on 2025-11-06.\]
 
 <!-- eof. -->
