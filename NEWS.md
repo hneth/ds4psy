@@ -40,7 +40,7 @@ The books and courses [Data Science for Psychologists](https://bookdown.org/hnet
 <!-- Release of **ds4psy** (1.x.0) [on CRAN](https://CRAN.R-project.org/package=ds4psy) 
 adds new data and fixes some bugs. [2025-yy-zz] --> 
 
-This is the current development version of **ds4psy** hosted at <https://github.com/hneth/ds4psy/>. [2025-11-06] 
+This is the current development version of **ds4psy** hosted at <https://github.com/hneth/ds4psy/>. [2025-11-13] 
 
 <!-- Log of changes: --> 
 
@@ -563,6 +563,6 @@ The initial functionality is limited, as the package is designed to support the 
 
 ---------- 
 
-[File `NEWS.md` updated on 2025-11-06.]
+[File `NEWS.md` updated on 2025-11-13.]
 
 <!-- eof. -->
