@@ -1,6 +1,5 @@
 
 <!-- README.md is generated from README.Rmd. Please edit THIS (Rmd) file. -->
-
 <!-- Devel badges start: -->
 
 [![CRAN
@@ -12,15 +11,10 @@ downloads](https://cranlogs.r-pkg.org/badges/grand-total/ds4psy?color=blue)](htt
 <!-- Devel badges end. -->
 
 <!-- <!-- Release badges start: -->
-
 <!-- [![CRAN status](https://www.r-pkg.org/badges/version/ds4psy)](https://CRAN.R-project.org/package=ds4psy) -->
-
 <!-- [![Total downloads](https://cranlogs.r-pkg.org/badges/grand-total/ds4psy?color="00a9e0")](https://www.r-pkg.org/pkg/ds4psy) -->
-
 <!-- [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.7229812.svg)](https://doi.org/10.5281/zenodo.7229812) -->
-
 <!-- Release badges end. -->
-
 <!-- ALL status badges: 
 [![CRAN status](https://www.r-pkg.org/badges/version/ds4psy)](https://CRAN.R-project.org/package=ds4psy)
 [![Build status](https://travis-ci.org/hneth/ds4psy.svg?branch=master)](https://travis-ci.org/hneth/ds4psy)
@@ -28,13 +22,9 @@ downloads](https://cranlogs.r-pkg.org/badges/grand-total/ds4psy?color=blue)](htt
 [![Total downloads](https://cranlogs.r-pkg.org/badges/grand-total/ds4psy?color=brightgreen)](https://www.r-pkg.org/pkg/ds4psy)
 [![Rdoc](https://www.rdocumentation.org/badges/version/ds4psy)](https://www.rdocumentation.org/packages/ds4psy)
 -->
-
 <!-- ds4psy logo 1: -->
-
 <!-- <a href="https://bookdown.org/hneth/ds4psy/"> -->
-
 <!-- <img src = "./inst/images/logo.png" alt = "ds4psy" width = "150px" align = "right" style = "width: 150px; float: right; border:11;"/> -->
-
 <!-- </a> -->
 
 # Data Science for Psychologists (ds4psy) <img src = "./inst/images/logo.png" align = "right" alt = "ds4psy" width = "150px" />
@@ -52,7 +42,6 @@ methods of data science for students of psychology and other biological
 or social sciences.
 
 <!-- Description of ds4psy package:  -->
-
 <!-- All datasets and functions required for the examples and exercises of the book "Data Science for Psychologists" (by Hansjoerg Neth, Konstanz University, 2025), freely available at <https://bookdown.org/hneth/ds4psy/>. The book and course introduce principles and methods of data science to students of psychology and other biological or social sciences. The 'ds4psy' package primarily provides datasets, but also functions for data generation and manipulation (e.g., of text and time data) and graphics that are used in the book and its exercises. All functions included in 'ds4psy' are designed to be explicit and instructive, rather than efficient or elegant.  -->
 
 ## Installation
@@ -91,7 +80,6 @@ at <https://bookdown.org/hneth/ds4psy/> and
 ## Course Coordinates
 
 <!-- uni.kn logo, but link to SPDS: -->
-
 <!-- ![](./inst/images/uniKn_logo.png) -->
 
 <a href="https://spds.uni-konstanz.de/">
@@ -327,9 +315,7 @@ The stable URL of the **ds4psy** R package is
 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" /></a>
 
 <!-- (b) Use local image: -->
-
 <!-- <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src = "./images/CC_BY_NC_SA.png" /></a> -->
-
 <!-- License text:  -->
 
 <span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">**Data
@@ -344,6 +330,6 @@ License</a>.
 
 <!-- Footer: -->
 
-\[File `README.md` updated on 2025-11-06.\]
+\[File `README.md` updated on 2026-01-06.\]
 
 <!-- eof. -->
