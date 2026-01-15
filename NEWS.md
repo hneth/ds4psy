@@ -35,12 +35,12 @@ The books and courses [Data Science for Psychologists](https://bookdown.org/hnet
 -------- 
 
 
-# ds4psy 1.2.0.9001
+# ds4psy 1.2.0.9002
 
 <!-- Release of **ds4psy** (1.x.0) [on CRAN](https://CRAN.R-project.org/package=ds4psy) 
 adds new data and fixes some bugs. [2025-yy-zz] --> 
 
-This is the current development version of **ds4psy** hosted at <https://github.com/hneth/ds4psy/>. [2026-01-06] 
+This is the current development version of **ds4psy** hosted at <https://github.com/hneth/ds4psy/>. [2026-01-15] 
 
 <!-- Log of changes: --> 
 
@@ -59,14 +59,20 @@ This is the current development version of **ds4psy** hosted at <https://github.
 
 ## Minor changes
 
-- none yet
+- Change in hosting service of corresponding textbooks (from <https://bookdown.org> to <https://connect.posit.cloud/hneth/>):
+
+    - Textbooks were originally hosted at <https://bookdown.org> (up to 2026-01-15). 
+    Static versions are still available at <https://bookdown.org/hneth/ds4psy/> and <https://bookdown.org/hneth/i2ds/>, but these are no longer updated.
+    - Future versions are hosted at <https://connect.posit.cloud/hneth/>. Visit 
+    <https://hneth-ds4psy.share.connect.posit.cloud/> and 
+    <https://hneth-i2ds.share.connect.posit.cloud/> for the most recent versions.
 
 
 <!-- details: --> 
 
 ## Details
 
-- none yet
+- Updated URLs (in description, citation, and README) to reflect change in book hosting service  
 
 
 <!-- ## ToDo --> 
@@ -563,6 +569,6 @@ The initial functionality is limited, as the package is designed to support the 
 
 ---------- 
 
-[File `NEWS.md` updated on 2026-01-06.]
+[File `NEWS.md` updated on 2026-01-15.]
 
 <!-- eof. -->
