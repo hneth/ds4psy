@@ -1,5 +1,6 @@
 
 <!-- README.md is generated from README.Rmd. Please edit THIS (Rmd) file. -->
+
 <!-- Devel badges start: -->
 
 [![CRAN
@@ -11,10 +12,15 @@ downloads](https://cranlogs.r-pkg.org/badges/grand-total/ds4psy?color=blue)](htt
 <!-- Devel badges end. -->
 
 <!-- <!-- Release badges start: -->
+
 <!-- [![CRAN status](https://www.r-pkg.org/badges/version/ds4psy)](https://CRAN.R-project.org/package=ds4psy) -->
+
 <!-- [![Total downloads](https://cranlogs.r-pkg.org/badges/grand-total/ds4psy?color="00a9e0")](https://www.r-pkg.org/pkg/ds4psy) -->
+
 <!-- [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.7229812.svg)](https://doi.org/10.5281/zenodo.7229812) -->
+
 <!-- Release badges end. -->
+
 <!-- ALL status badges: 
 [![CRAN status](https://www.r-pkg.org/badges/version/ds4psy)](https://CRAN.R-project.org/package=ds4psy)
 [![Build status](https://travis-ci.org/hneth/ds4psy.svg?branch=master)](https://travis-ci.org/hneth/ds4psy)
@@ -22,27 +28,33 @@ downloads](https://cranlogs.r-pkg.org/badges/grand-total/ds4psy?color=blue)](htt
 [![Total downloads](https://cranlogs.r-pkg.org/badges/grand-total/ds4psy?color=brightgreen)](https://www.r-pkg.org/pkg/ds4psy)
 [![Rdoc](https://www.rdocumentation.org/badges/version/ds4psy)](https://www.rdocumentation.org/packages/ds4psy)
 -->
+
 <!-- ds4psy logo 1: -->
-<!-- <a href="https://bookdown.org/hneth/ds4psy/"> -->
+
+<!-- <a href="https://hneth-ds4psy.share.connect.posit.cloud/"> -->
+
 <!-- <img src = "./inst/images/logo.png" alt = "ds4psy" width = "150px" align = "right" style = "width: 150px; float: right; border:11;"/> -->
+
 <!-- </a> -->
 
 # Data Science for Psychologists (ds4psy) <img src = "./inst/images/logo.png" align = "right" alt = "ds4psy" width = "150px" />
 
 Welcome to the R package **ds4psy** — a software companion to the books
 and courses **[Data Science for
-Psychologists](https://bookdown.org/hneth/ds4psy/)** and **[Introduction
-to Data Science](https://bookdown.org/hneth/i2ds/)**.
+Psychologists](https://hneth-ds4psy.share.connect.posit.cloud/)** and
+**[Introduction to Data
+Science](https://hneth-i2ds.share.connect.posit.cloud/)**.
 
 This **R package** provides datasets and functions used in the
-[ds4psy](https://bookdown.org/hneth/ds4psy/) and
-[i2ds](https://bookdown.org/hneth/i2ds/) textbooks and corresponding
-course curricula. These books and courses introduce the principles and
-methods of data science for students of psychology and other biological
-or social sciences.
+[ds4psy](https://hneth-ds4psy.share.connect.posit.cloud/) and
+[i2ds](https://hneth-i2ds.share.connect.posit.cloud/) textbooks and
+corresponding course curricula. These books and courses introduce the
+principles and methods of data science for students of psychology and
+other biological or social sciences.
 
 <!-- Description of ds4psy package:  -->
-<!-- All datasets and functions required for the examples and exercises of the book "Data Science for Psychologists" (by Hansjoerg Neth, Konstanz University, 2025), freely available at <https://bookdown.org/hneth/ds4psy/>. The book and course introduce principles and methods of data science to students of psychology and other biological or social sciences. The 'ds4psy' package primarily provides datasets, but also functions for data generation and manipulation (e.g., of text and time data) and graphics that are used in the book and its exercises. All functions included in 'ds4psy' are designed to be explicit and instructive, rather than efficient or elegant.  -->
+
+<!-- All datasets and functions required for the examples and exercises of the book "Data Science for Psychologists" (by Hansjoerg Neth, Konstanz University, 2025), freely available at <https://hneth-ds4psy.share.connect.posit.cloud/>. The book and course introduce principles and methods of data science to students of psychology and other biological or social sciences. The 'ds4psy' package primarily provides datasets, but also functions for data generation and manipulation (e.g., of text and time data) and graphics that are used in the book and its exercises. All functions included in 'ds4psy' are designed to be explicit and instructive, rather than efficient or elegant.  -->
 
 ## Installation
 
@@ -69,17 +81,37 @@ devtools::install_github('hneth/ds4psy')
 library('ds4psy')  # load to use the package
 ```
 
-<!-- Textbooks at bookdown: -->
+<!-- Corresponding textbooks: ds4psy vs. i2ds -->
 
-The most recent versions of the
-**[ds4psy](https://bookdown.org/hneth/ds4psy/)** and
-**[i2ds](https://bookdown.org/hneth/i2ds)** books are freely available
-at <https://bookdown.org/hneth/ds4psy/> and
-<https://bookdown.org/hneth/i2ds>, respectively.
+### Textbooks
+
+The R package **[ds4psy](https://CRAN.R-project.org/package=ds4psy)** is
+used by 2 textbooks that are freely available online. Current versions
+of the **[ds4psy
+book](https://hneth-ds4psy.share.connect.posit.cloud/)** and **[i2ds
+book](https://hneth-i2ds.share.connect.posit.cloud/)** are available at
+<https://hneth-ds4psy.share.connect.posit.cloud/> and
+<https://hneth-i2ds.share.connect.posit.cloud/>, respectively.
+
+<!-- Textbooks at bookdown vs. the Posit Connect cloud: -->
+
+### Change of hosting service and URLs
+
+Both textbooks were originally hosted at <https://bookdown.org> (up to
+2026-01-15). Static versions are still available at
+<https://bookdown.org/hneth/ds4psy/> and
+<https://bookdown.org/hneth/i2ds/>, respectively, but these are no
+longer updated.
+
+Future versions will be hosted at <https://connect.posit.cloud/hneth/>.
+Hence, visit <https://hneth-ds4psy.share.connect.posit.cloud/> and
+<https://hneth-i2ds.share.connect.posit.cloud/> for the most recent
+versions.
 
 ## Course Coordinates
 
 <!-- uni.kn logo, but link to SPDS: -->
+
 <!-- ![](./inst/images/uniKn_logo.png) -->
 
 <a href="https://spds.uni-konstanz.de/">
@@ -93,11 +125,12 @@ at <https://bookdown.org/hneth/ds4psy/> and
   <!-- * Fall/Winter\ 2025/2026: Mondays, 13:30&ndash;15:00, D522. -->
 - The [ds4psy](https://CRAN.R-project.org/package=ds4psy) R package is
   available at <https://CRAN.R-project.org/package=ds4psy>  
-- The [ds4psy book](https://bookdown.org/hneth/ds4psy/) with examples
-  and exercises is available at <https://bookdown.org/hneth/ds4psy/>  
-- The [i2ds book](https://bookdown.org/hneth/i2ds/) with more extensive
-  materials and exercises is available at
-  <https://bookdown.org/hneth/i2ds/>
+- The [ds4psy book](https://hneth-ds4psy.share.connect.posit.cloud/)
+  with examples and exercises is available at
+  <https://hneth-ds4psy.share.connect.posit.cloud/>  
+- The [i2ds book](https://hneth-i2ds.share.connect.posit.cloud/) with
+  more extensive materials and exercises is available at
+  <https://hneth-i2ds.share.connect.posit.cloud/>
 
 ## Overview
 
@@ -156,7 +189,7 @@ but enthusiastic programming novices are welcome.
 
 <!-- i2ds book link and logo (on right): -->
 
-<a href="https://bookdown.org/hneth/i2ds/">
+<a href="https://hneth-i2ds.share.connect.posit.cloud/">
 <img src = "./inst/images/i2ds_logo_1.png" alt = "i2ds" width = "160px" align = "right" style = "width: 160px; float: right; border:11;"/>
 </a>
 
@@ -164,12 +197,12 @@ This package and the corresponding books are still being developed and
 are updated as new materials become available.
 
 - The current version of the book **[Introduction to Data
-  Science](https://bookdown.org/hneth/i2ds/)** is available at
-  <https://bookdown.org/hneth/i2ds/>.
+  Science](https://hneth-i2ds.share.connect.posit.cloud/)** is available
+  at <https://hneth-i2ds.share.connect.posit.cloud/>.
 
 - The most recent version of the book **[Data Science for
-  Psychologists](https://bookdown.org/hneth/ds4psy/)** is available at
-  <https://bookdown.org/hneth/ds4psy/>.
+  Psychologists](https://hneth-ds4psy.share.connect.posit.cloud/)** is
+  available at <https://hneth-ds4psy.share.connect.posit.cloud/>.
 
 - The current R package **ds4psy** is available at
   <https://CRAN.R-project.org/package=ds4psy>.
@@ -181,7 +214,7 @@ are updated as new materials become available.
     package](https://CRAN.R-project.org/package=ds4psy) is
     <https://github.com/hneth/ds4psy>.
   - The repository for the [ds4psy
-    book](https://bookdown.org/hneth/ds4psy/) is
+    book](https://hneth-ds4psy.share.connect.posit.cloud/) is
     <https://github.com/hneth/ds4psy> (with an additional suffix
     `_book`).
 
@@ -192,12 +225,12 @@ are updated as new materials become available.
 ### Course materials
 
 - The current textbook **[Introduction to Data
-  Science](https://bookdown.org/hneth/i2ds/)** is online at
-  <https://bookdown.org/hneth/i2ds/>.
+  Science](https://hneth-i2ds.share.connect.posit.cloud/)** is online at
+  <https://hneth-i2ds.share.connect.posit.cloud/>.
 
 - The most recent version of **[Data science for
-  psychologists](https://bookdown.org/hneth/ds4psy/)** is online at
-  <https://bookdown.org/hneth/ds4psy/>.
+  psychologists](https://hneth-ds4psy.share.connect.posit.cloud/)** is
+  online at <https://hneth-ds4psy.share.connect.posit.cloud/>.
 
 <!-- Background / origin: -->
 
@@ -263,7 +296,7 @@ install.packages('unikn')   # color palettes and functions
 <!-- Add blank line.  -->
 
 - See also the link collections at the end of each chapter of the
-  [ds4psy book](https://bookdown.org/hneth/ds4psy/).
+  [ds4psy book](https://hneth-ds4psy.share.connect.posit.cloud/).
 
 ## About
 
@@ -275,7 +308,7 @@ know](https://spds.uni-konstanz.de//hans-neth).
 
 <!-- ds4psy logo: -->
 
-<a href="https://bookdown.org/hneth/ds4psy/">
+<a href="https://hneth-ds4psy.share.connect.posit.cloud/">
 <img src = "./inst/images/logo.png" alt = "ds4psy" width = "150px" align = "right" style = "width: 150px; float: right; border:11;"/>
 </a>
 
@@ -285,7 +318,7 @@ To cite **ds4psy** in derivations and publications, please use:
   Social Psychology and Decision Sciences, University of Konstanz,
   Germany.  
   Textbook and R package (version 1.2.0, November 5, 2025).  
-  Retrieved from <https://bookdown.org/hneth/ds4psy/>.  
+  Retrieved from <https://hneth-ds4psy.share.connect.posit.cloud/>.  
   doi [10.5281/zenodo.7229812](https://doi.org/10.5281/zenodo.7229812)
 
 <!-- BibTeX reference: -->
@@ -315,7 +348,9 @@ The stable URL of the **ds4psy** R package is
 <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" /></a>
 
 <!-- (b) Use local image: -->
+
 <!-- <a rel="license" href="https://creativecommons.org/licenses/by-nc-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src = "./images/CC_BY_NC_SA.png" /></a> -->
+
 <!-- License text:  -->
 
 <span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">**Data
@@ -330,6 +365,6 @@ License</a>.
 
 <!-- Footer: -->
 
-\[File `README.md` updated on 2026-01-13.\]
+\[File `README.md` updated on 2026-01-15.\]
 
 <!-- eof. -->
