@@ -71,7 +71,7 @@ library('ds4psy')           # load to use the package
 
 <!-- Development version: -->
 
-The current development version of **ds4psy** (v1.2.0.9001) can be
+The current development version of **ds4psy** (v1.2.0.9002) can be
 installed from its [GitHub](https://github.com) repository at
 <https://github.com/hneth/ds4psy/>:
 
@@ -314,10 +314,10 @@ know](https://spds.uni-konstanz.de//hans-neth).
 
 To cite **ds4psy** in derivations and publications, please use:
 
-- Neth, H. (2025). ds4psy: Data Science for Psychologists.  
+- Neth, H. (2026). ds4psy: Data Science for Psychologists.  
   Social Psychology and Decision Sciences, University of Konstanz,
   Germany.  
-  Textbook and R package (version 1.2.0, November 5, 2025).  
+  Textbook and R package (version 1.2.0.9002, January 15, 2026).  
   Retrieved from <https://hneth-ds4psy.share.connect.posit.cloud/>.  
   doi [10.5281/zenodo.7229812](https://doi.org/10.5281/zenodo.7229812)
 
@@ -330,10 +330,10 @@ A **BibTeX** entry for LaTeX users is:
     @Manual{,
       title = {ds4psy: Data Science for Psychologists},
       author = {Hansjörg Neth},
-      year = {2025},
+      year = {2026},
       organization = {Social Psychology and Decision Sciences, University of Konstanz},
       address = {Konstanz, Germany},
-      note = {R package (version 1.2.0, November 5, 2025); Textbook at <https://bookdown.org/hneth/ds4psy/>.},
+      note = {R package (version 1.2.0.9002, January 15, 2026); Textbook at <https://hneth-ds4psy.share.connect.posit.cloud/>.},
       url = {https://CRAN.R-project.org/package=ds4psy},
       doi = {10.5281/zenodo.7229812},
     }
@@ -365,6 +365,6 @@ License</a>.
 
 <!-- Footer: -->
 
-\[File `README.md` updated on 2026-01-15.\]
+\[File `README.md` updated on 2026-01-16.\]
 
 <!-- eof. -->
