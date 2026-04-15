@@ -4,29 +4,29 @@
 <!-- Description: --> 
 
 All datasets and functions required for the examples and exercises of the books 
-[Data Science for Psychologists](https://bookdown.org/hneth/ds4psy/) and 
-[Introduction to Data Science](https://bookdown.org/hneth/i2ds/) 
+[Data Science for Psychologists](https://hneth-ds4psy.share.connect.posit.cloud/) and 
+[Introduction to Data Science](https://hneth-i2ds.share.connect.posit.cloud/) 
 (by Hansjoerg Neth, Konstanz University, 2025), 
-freely available at <https://bookdown.org/hneth/ds4psy/> and <https://bookdown.org/hneth/i2ds/>. 
+freely available at <https://hneth-ds4psy.share.connect.posit.cloud/> and <https://hneth-i2ds.share.connect.posit.cloud/>. 
 
 These books and corresponding courses introduce principles and methods of data science to students of psychology and other biological or social sciences. 
 The R package **ds4psy** primarily provides datasets, but also functions for data generation and manipulation (e.g., of text and time data) and graphics that are used in the book and its exercises. 
 All functions included in **ds4psy** are designed to be explicit and instructive, rather than efficient or elegant. 
 
 <!-- ds4psy logo 1: -->
-<a href="https://bookdown.org/hneth/ds4psy/">
+<a href="https://hneth-ds4psy.share.connect.posit.cloud/">
 <img src = "./inst/images/logo.png" alt = "ds4psy" width = "150px" align = "right" style = "width: 150px; float: right; border:11;"/>
 </a>
 
 
 ## Overview {-}
 
-The books and courses [Data Science for Psychologists](https://bookdown.org/hneth/ds4psy/) include the following resources:
+The books and courses [Data Science for Psychologists](https://hneth-ds4psy.share.connect.posit.cloud/) include the following resources:
 
 <!-- Links: --> 
 
-- The textbook **Data Science for Psychologists** is hosted at <https://bookdown.org/hneth/ds4psy/>. 
-- The textbook **Introduction to Data Science** is hosted at <https://bookdown.org/hneth/i2ds/>. 
+- The textbook **Data Science for Psychologists** is hosted at <https://hneth-ds4psy.share.connect.posit.cloud/>. 
+- The textbook **Introduction to Data Science** is hosted at <https://hneth-i2ds.share.connect.posit.cloud/>. 
 - The most recent release of **ds4psy** (1.2.0) is available on CRAN: <https://CRAN.R-project.org/package=ds4psy>.
 - The current development version of **ds4psy** (1.2.0.9001+) is hosted at <https://github.com/hneth/ds4psy/>. 
 
@@ -35,12 +35,12 @@ The books and courses [Data Science for Psychologists](https://bookdown.org/hnet
 -------- 
 
 
-# ds4psy 1.2.0.9002
+# ds4psy 1.2.0.9003
 
 <!-- Release of **ds4psy** (1.x.0) [on CRAN](https://CRAN.R-project.org/package=ds4psy) 
 adds new data and fixes some bugs. [2025-yy-zz] --> 
 
-This is the current development version of **ds4psy** hosted at <https://github.com/hneth/ds4psy/>. [2026-01-31] 
+This is the current development version of **ds4psy** hosted at <https://github.com/hneth/ds4psy/>. [2026-04-15] 
 
 <!-- Log of changes: --> 
 
@@ -52,7 +52,7 @@ This is the current development version of **ds4psy** hosted at <https://github.
 
 ## Major changes
 
-- none yet 
+- Add new `i2ds_survey` data ($N=95$ participants, $119$ variables) 
 
 
 <!-- minor: --> 
@@ -557,7 +557,7 @@ Initial release of **ds4psy** (0.1.0) [on CRAN](https://CRAN.R-project.org/packa
 
 <!-- **Contents** in this release: --> 
 
-The initial functionality is limited, as the package is designed to support the emerging [ds4psy book](https://bookdown.org/hneth/ds4psy/): 
+The initial functionality is limited, as the package is designed to support the [ds4psy book](https://bookdown.org/hneth/ds4psy/): 
 
 - provide book code (from examples and exercises) as a package
 - provide all data sets currently used in the book (with documentation and references)
@@ -569,6 +569,6 @@ The initial functionality is limited, as the package is designed to support the 
 
 ---------- 
 
-[File `NEWS.md` updated on 2026-01-31.]
+[File `NEWS.md` updated on 2026-04-15.]
 
 <!-- eof. -->
