@@ -86,6 +86,9 @@ This variable is a pre-requisite for data re-usability in research (and should b
 
 \item \code{crs_ds4psy} A logical variable indicating whether a participant is enrolled in the course \emph{Data Science for Psychology} (ds4psy: \code{TRUE} = enrolled).
 
+\item \code{crs_viz} A logical variable indicating whether a participant is enrolled in the course \emph{Data visualization for psychology research} (vis4psy: \code{TRUE} = enrolled).
+
+
 \item \code{crs_diff_kn} A logical variable indicating whether a participant is enrolled in a different course at the \emph{University of Konstanz} (\code{TRUE} = yes). 
 
 \item \code{crs_diff_else} A logical variable indicating whether a participant is enrolled in a course \emph{not} at the \emph{University of Konstanz} (\code{TRUE} = yes). 
@@ -390,6 +393,9 @@ Responses range from \code{1} (no interest) to \code{5} (absolutely essential).
 
 \item \code{t_crs_worry_ds4psy} A logical variable describing a participant’s worries and reservations regarding the course \emph{Data Science for Psychology} (ds4psy), in free text format. 
 
+\item \code{t_crs_expect_viz} A logical variable containing free-text input describing a participant’s expectations and hopes for the course \emph{Data visualization for psychology research} (vis4psy). 
+
+\item \code{t_crs_worry_viz} A logical variable describing a participant’s worries and reservations regarding the course \emph{Data visualization for psychology research} (vis4psy), in free text format.
 
 \item Variables on prior experience:   
 \code{c6_exp_math} A numeric (double) variable indicating a participant’s self-assessed experience with mathematics, 
