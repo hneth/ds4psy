@@ -1,5 +1,5 @@
 ## data.R | ds4psy
-## hn | uni.kn | 2025 09 24
+## hn | uni.kn | 2026 04 17
 ## Documentation of data sets included in /data. 
 
 
@@ -1306,7 +1306,7 @@
 
 # Data from i2ds online survey
 # URL: https://ww3.unipark.de/uc/i2ds_survey/ 
-# 2026-04-15
+# 2026-04-17
 
 
 #' Data from the i2ds online survey 
@@ -1315,7 +1315,7 @@
 #' from the i2ds online survey.
 #' 
 #' @format 
-#' On 2026-04-15, this data contains 95 participants (rows) and 119 variables (columns).
+#' On 2026-04-17, this data contains 98 participants (rows) and 119 variables (columns).
 #' 
 #' @details 
 #' 
