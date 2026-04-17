@@ -11,11 +11,13 @@ output: github_document
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.7229812.svg)](https://doi.org/10.5281/zenodo.7229812)
 <!-- Devel badges end. -->
 
+
 <!-- <!-- Release badges start: -->
 <!-- [![CRAN status](https://www.r-pkg.org/badges/version/ds4psy)](https://CRAN.R-project.org/package=ds4psy) -->
 <!-- [![Total downloads](https://cranlogs.r-pkg.org/badges/grand-total/ds4psy?color="00a9e0")](https://www.r-pkg.org/pkg/ds4psy) -->
 <!-- [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.7229812.svg)](https://doi.org/10.5281/zenodo.7229812) -->
 <!-- Release badges end. -->
+
 
 <!-- ALL status badges: 
 [![CRAN status](https://www.r-pkg.org/badges/version/ds4psy)](https://CRAN.R-project.org/package=ds4psy)
@@ -265,9 +267,9 @@ If you find these materials useful, or want to adopt or alter them for your purp
 
 To cite **ds4psy** in derivations and publications, please use:  
 
-- Neth, H. (2026). ds4psy: Data Science for Psychologists.  
+- Neth, H. (2025). ds4psy: Data Science for Psychologists.  
 Social Psychology and Decision Sciences, University of Konstanz, Germany.  
-Textbook and R package (version 1.2.0.9002, January 15, 2026).  
+Textbook and R package (version 1.2.0, Nov. 5, 2025).  
 Retrieved from <`r url_ds4psy_book`>.  
 doi [10.5281/zenodo.7229812](https://doi.org/10.5281/zenodo.7229812)  
 
@@ -280,10 +282,10 @@ A **BibTeX** entry for LaTeX users is:
 @Manual{ds4psy,
   title = {ds4psy: Data Science for Psychologists},
   author = {Hansjörg Neth},
-  year = {2026},
+  year = {2025},
   organization = {Social Psychology and Decision Sciences, University of Konstanz},
   address = {Konstanz, Germany},
-  note = {Textbook and R package (version 1.2.0.9002, January 15, 2026)},
+  note = {Textbook and R package (version 1.2.0, Nov. 5, 2025)},
   url = {`r url_ds4psy_book`},
   doi = {10.5281/zenodo.7229812}
 }
