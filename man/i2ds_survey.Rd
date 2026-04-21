@@ -5,7 +5,7 @@
 \alias{i2ds_survey}
 \title{Data from the i2ds online survey}
 \format{
-On 2026-04-17, this data contains 98 participants (rows) and 119 variables (columns).
+On 2026-04-21, this data contains 101 participants (rows) and 119 variables (columns).
 }
 \source{
 See online survey at \url{https://ww3.unipark.de/uc/i2ds_survey/}.
