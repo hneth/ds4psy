@@ -3,22 +3,23 @@
 
 <!-- Devel badges start: -->
 
-[![CRAN
-status](https://www.r-pkg.org/badges/version/ds4psy)](https://CRAN.R-project.org/package=ds4psy)
-[![Downloads/month](https://cranlogs.r-pkg.org/badges/ds4psy?color=%2200a9e0%22)](https://www.r-pkg.org/pkg/ds4psy)
-[![Total
-downloads](https://cranlogs.r-pkg.org/badges/grand-total/ds4psy?color=blue)](https://www.r-pkg.org/pkg/ds4psy)
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.7229812.svg)](https://doi.org/10.5281/zenodo.7229812)
+<!-- [![CRAN status](https://www.r-pkg.org/badges/version/ds4psy)](https://CRAN.R-project.org/package=ds4psy) -->
+
+<!-- [![Downloads/month](https://cranlogs.r-pkg.org/badges/ds4psy?color="00a9e0")](https://www.r-pkg.org/pkg/ds4psy) -->
+
+<!-- [![Total downloads](https://cranlogs.r-pkg.org/badges/grand-total/ds4psy?color=blue)](https://www.r-pkg.org/pkg/ds4psy) -->
+
+<!-- [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.7229812.svg)](https://doi.org/10.5281/zenodo.7229812) -->
+
 <!-- Devel badges end. -->
 
 <!-- <!-- Release badges start: -->
 
-<!-- [![CRAN status](https://www.r-pkg.org/badges/version/ds4psy)](https://CRAN.R-project.org/package=ds4psy) -->
-
-<!-- [![Total downloads](https://cranlogs.r-pkg.org/badges/grand-total/ds4psy?color="00a9e0")](https://www.r-pkg.org/pkg/ds4psy) -->
-
-<!-- [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.7229812.svg)](https://doi.org/10.5281/zenodo.7229812) -->
-
+[![CRAN
+status](https://www.r-pkg.org/badges/version/ds4psy)](https://CRAN.R-project.org/package=ds4psy)
+[![Total
+downloads](https://cranlogs.r-pkg.org/badges/grand-total/ds4psy?color=%2200a9e0%22)](https://www.r-pkg.org/pkg/ds4psy)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.7229812.svg)](https://doi.org/10.5281/zenodo.7229812)
 <!-- Release badges end. -->
 
 <!-- ALL status badges: 
@@ -314,10 +315,10 @@ know](https://spds.uni-konstanz.de//hans-neth).
 
 To cite **ds4psy** in derivations and publications, please use:
 
-- Neth, H. (2025). ds4psy: Data Science for Psychologists.  
+- Neth, H. (2026). ds4psy: Data Science for Psychologists.  
   Social Psychology and Decision Sciences, University of Konstanz,
   Germany.  
-  Textbook and R package (version 1.2.0, Nov. 5, 2025).  
+  Textbook and R package (version 1.3.0, April 22, 2026).  
   Retrieved from <https://hneth-ds4psy.share.connect.posit.cloud/>.  
   doi [10.5281/zenodo.7229812](https://doi.org/10.5281/zenodo.7229812)
 
@@ -365,6 +366,6 @@ License</a>.
 
 <!-- Footer: -->
 
-\[File `README.md` updated on 2026-04-17.\]
+\[File `README.md` updated on 2026-04-21.\]
 
 <!-- eof. -->

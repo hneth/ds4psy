@@ -27,20 +27,20 @@ The books and courses [Data Science for Psychologists](https://hneth-ds4psy.shar
 
 - The textbook **Data Science for Psychologists** is hosted at <https://hneth-ds4psy.share.connect.posit.cloud/>. 
 - The textbook **Introduction to Data Science** is hosted at <https://hneth-i2ds.share.connect.posit.cloud/>. 
-- The most recent release of **ds4psy** (1.2.0) is available on CRAN: <https://CRAN.R-project.org/package=ds4psy>.
-- The current development version of **ds4psy** (1.2.0.9001+) is hosted at <https://github.com/hneth/ds4psy/>. 
+- The most recent release of **ds4psy** (1.3.0) is available on CRAN: <https://CRAN.R-project.org/package=ds4psy>.
+- The current development version of **ds4psy** (1.3.0.9001+) is hosted at <https://github.com/hneth/ds4psy/>. 
 
 <!-- Current version:  --> 
+
+<!-- This is the current development version of **ds4psy** hosted at <https://github.com/hneth/ds4psy/>. [2026-04-22] -->
 
 -------- 
 
 
-# ds4psy 1.2.0.9004
+# ds4psy 1.3.0
 
-<!-- Release of **ds4psy** (1.x.0) [on CRAN](https://CRAN.R-project.org/package=ds4psy) 
-adds new data and fixes some bugs. [2025-yy-zz] --> 
-
-This is the current development version of **ds4psy** hosted at <https://github.com/hneth/ds4psy/>. [2026-04-17] 
+Release of **ds4psy** (1.3.0) [on CRAN](https://CRAN.R-project.org/package=ds4psy) 
+adds new data and updates links to online resources. [2026-04-22]  
 
 <!-- Log of changes: --> 
 
@@ -569,6 +569,6 @@ The initial functionality is limited, as the package is designed to support the 
 
 ---------- 
 
-[File `NEWS.md` updated on 2026-04-17.]
+[File `NEWS.md` updated on 2026-04-22.]
 
 <!-- eof. -->
