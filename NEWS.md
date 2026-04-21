@@ -52,7 +52,7 @@ adds new data and updates links to online resources. [2026-04-22]
 
 ## Major changes
 
-- Add new `i2ds_survey` data ($N=98$ participants, $119$ variables) 
+- Add new `i2ds_survey` data ($N=101$ participants, $119$ variables) 
 
 
 <!-- minor: --> 
