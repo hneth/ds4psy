@@ -72,8 +72,8 @@ library('ds4psy')           # load to use the package
 
 <!-- Development version: -->
 
-The current development version of **ds4psy** (v1.2.0.9004) can be
-installed from its [GitHub](https://github.com) repository at
+The current development version of **ds4psy** (v1.3.0) can be installed
+from its [GitHub](https://github.com) repository at
 <https://github.com/hneth/ds4psy/>:
 
 ``` r
@@ -253,7 +253,7 @@ Please install the following open-source programs on your computer:
 
 - [The R Project for Statistical Computing](https://www.R-project.org/)
 
-- [R Studio](https://posit.co/products/open-source/rstudio/) is an
+- [R Studio](https://posit.co/products/open-source/rstudio) is an
   integrated development environment (IDE) for R.
 
 - R packages of the [tidyverse](https://tidyverse.org/),
@@ -286,9 +286,9 @@ install.packages('unikn')   # color palettes and functions
 #### Software tools
 
 - [Posit.co](https://posit.co/) resources: [RStudio
-  IDE](https://posit.co/products/open-source/rstudio/),
+  IDE](https://posit.co/products/open-source/rstudio),
   [R Markdown](https://rmarkdown.rstudio.com/), and various [cheat
-  sheets](https://posit.co/resources/cheatsheets/)
+  sheets](https://opensource.posit.co/resources/cheatsheets/)
 
 - [Tidyverse](https://tidyverse.org/) resources:
   [blog](https://tidyverse.org/blog/) and
@@ -331,10 +331,10 @@ A **BibTeX** entry for LaTeX users is:
     @Manual{,
       title = {ds4psy: Data Science for Psychologists},
       author = {Hansjörg Neth},
-      year = {2025},
+      year = {2026},
       organization = {Social Psychology and Decision Sciences, University of Konstanz},
       address = {Konstanz, Germany},
-      note = {R package (version 1.2.0, Nov. 5, 2025); Textbook at <https://hneth-ds4psy.share.connect.posit.cloud/>.},
+      note = {R package (version 1.3.0, April 22, 2026); Textbook at <https://hneth-ds4psy.share.connect.posit.cloud/>.},
       url = {https://CRAN.R-project.org/package=ds4psy},
       doi = {10.5281/zenodo.7229812},
     }
