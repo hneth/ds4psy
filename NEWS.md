@@ -30,52 +30,44 @@ The books and courses [Data Science for Psychologists](https://hneth-ds4psy.shar
 - The most recent release of **ds4psy** (1.3.0) is available on CRAN: <https://CRAN.R-project.org/package=ds4psy>.
 - The current development version of **ds4psy** (1.3.0.9001+) is hosted at <https://github.com/hneth/ds4psy/>. 
 
-<!-- Current version:  --> 
-
-<!-- This is the current development version of **ds4psy** hosted at <https://github.com/hneth/ds4psy/>. [2026-04-22] -->
 
 -------- 
 
+<!-- Current version:  --> 
 
-# ds4psy 1.3.0
+# ds4psy 1.3.0.9001
 
-Release of **ds4psy** (1.3.0) [on CRAN](https://CRAN.R-project.org/package=ds4psy) 
-adds new data and updates links to online resources. [2026-04-22]  
+This is the current development version of the R package **ds4psy** 
+available at <https://github.com/hneth/ds4psy/>. [2026-04-22] 
 
-<!-- Log of changes: --> 
+<!-- Release note:  --> 
+
+<!-- Release of **ds4psy** (1.x.0) [on CRAN](https://CRAN.R-project.org/package=ds4psy) 
+adds new data and updates links to online resources. [2026-mm-dd]   --> 
+
 
 
 **Changes** since last release: 
 
 
-<!-- major: --> 
-
 ## Major changes
 
-- Add new `i2ds_survey` data ($N=101$ participants, $119$ variables) 
+- none yet
 
 
-<!-- minor: --> 
 
 ## Minor changes
 
-- Change in hosting service of corresponding textbooks (from <https://bookdown.org> to <https://connect.posit.cloud/hneth/>):
-
-    - Textbooks were originally hosted at <https://bookdown.org> (up to 2026-01-15). 
-    Static versions are still available at <https://bookdown.org/hneth/ds4psy/> and <https://bookdown.org/hneth/i2ds/>, but these are no longer updated.
-    - Future versions are hosted at <https://connect.posit.cloud/hneth/>. Visit 
-    <https://hneth-ds4psy.share.connect.posit.cloud/> and 
-    <https://hneth-i2ds.share.connect.posit.cloud/> for the most recent versions.
+- none yet
 
 
-<!-- details: --> 
 
 ## Details
 
-- Updated URLs (in description, citation, and README) to reflect change in book hosting service  
+- none yet
 
 
-<!-- ## ToDo --> 
+<!-- ## ToDo: --> 
 
 <!-- Changes to be implemented prior to the next release: --> 
 
@@ -91,13 +83,54 @@ adds new data and updates links to online resources. [2026-04-22]
 
 <!-- Development version: --> 
 
-The current development version of **ds4psy** is available at <https://github.com/hneth/ds4psy/>. 
+<!-- The current development version of **ds4psy** is available at <https://github.com/hneth/ds4psy/>.  --> 
 
 
 
 <!-- Published versions: --> 
 
 Versions of **ds4psy** published on [on CRAN](https://CRAN.R-project.org/package=ds4psy):
+
+
+
+-------- 
+
+
+# ds4psy 1.3.0
+
+Release of **ds4psy** (1.3.0) [on CRAN](https://CRAN.R-project.org/package=ds4psy) 
+adds new data and updates links to online resources. [2026-04-22]  
+
+
+
+**Changes** since last release: 
+
+
+
+## Major changes
+
+- Add new `i2ds_survey` data ($N=101$ participants, $119$ variables) 
+
+
+ 
+
+## Minor changes
+
+- Change in hosting service of corresponding textbooks (from <https://bookdown.org> to <https://connect.posit.cloud/hneth/>):
+
+    - Textbooks were originally hosted at <https://bookdown.org> (up to 2026-01-15). 
+    Static versions are still available at <https://bookdown.org/hneth/ds4psy/> and <https://bookdown.org/hneth/i2ds/>, but these are no longer updated.
+    - Future versions are hosted at <https://connect.posit.cloud/hneth/>. Visit 
+    <https://hneth-ds4psy.share.connect.posit.cloud/> and 
+    <https://hneth-i2ds.share.connect.posit.cloud/> for the most recent versions.
+
+
+
+
+## Details
+
+- Updated URLs (in description, citation, and README) to reflect change in book hosting service  
+
 
 
 -------- 
@@ -108,7 +141,6 @@ Versions of **ds4psy** published on [on CRAN](https://CRAN.R-project.org/package
 Release of **ds4psy** (1.2.0) [on CRAN](https://CRAN.R-project.org/package=ds4psy) 
 adds new data and fixes some bugs. [2025-11-05]
 
-<!-- This is the current development version of **ds4psy** hosted at <https://github.com/hneth/ds4psy/>. [2025-11-04] --> 
 
 <!-- Log of changes: --> 
 
@@ -116,14 +148,14 @@ adds new data and fixes some bugs. [2025-11-05]
 **Changes** since last release: 
 
 
-<!-- major: --> 
+
 
 ## Major changes
 
 - Add new `i2ds_survey` data ($N=60$ participants, $116$ variables) 
 
 
-<!-- minor: --> 
+
 
 ## Minor changes
 
@@ -133,7 +165,7 @@ adds new data and fixes some bugs. [2025-11-05]
     - Add some session information (referrer, date, duration)
 
 
-<!-- details: --> 
+
 
 ## Details
 
@@ -144,7 +176,7 @@ adds new data and fixes some bugs. [2025-11-05]
   - Update online documentation
 
 
-<!-- next: --> 
+
 
 -------- 
 
@@ -153,7 +185,7 @@ adds new data and fixes some bugs. [2025-11-05]
 Release of **ds4psy** (1.1.0) [on CRAN](https://CRAN.R-project.org/package=ds4psy) 
 adds functionality, provides new data, and fixes some bugs. [2025-09-13]
 
-<!-- Log of changes: --> 
+
 
 **Changes** since last release: 
 
@@ -174,7 +206,7 @@ adds functionality, provides new data, and fixes some bugs. [2025-09-13]
 
 - new logo
 
-<!-- next: --> 
+
 
 -------- 
 
@@ -183,7 +215,7 @@ adds functionality, provides new data, and fixes some bugs. [2025-09-13]
 Release of **ds4psy** (1.0.0) [on CRAN](https://CRAN.R-project.org/package=ds4psy) fixes some bugs, 
 but mostly acknowledges the package's stable state. [2023-09-15]
 
-<!-- Log of changes: --> 
+
 
 **Changes** since last release: 
 
@@ -198,7 +230,6 @@ but mostly acknowledges the package's stable state. [2023-09-15]
 - update URLs
 
 
-<!-- Development version: -->
 
 The current development version of **ds4psy** is hosted at <https://github.com/hneth/ds4psy/>.
 
@@ -207,11 +238,11 @@ The current development version of **ds4psy** is hosted at <https://github.com/h
 
 # ds4psy 0.9.0
 
-<!-- Release version: --> 
+
 
 Release of **ds4psy** (0.9.0) [on CRAN](https://CRAN.R-project.org/package=ds4psy) adds functionality, implements minor changes, and fixes some bugs. [2022-10-20]
 
-<!-- Log of changes: --> 
+
 
 **Changes** since last release: 
 
@@ -233,30 +264,16 @@ Release of **ds4psy** (0.9.0) [on CRAN](https://CRAN.R-project.org/package=ds4ps
 
 
 
-<!-- ToDo -->
-
-<!-- Changes to be implemented prior to the next release: -->
-
-<!-- - split the mixed functionality of `plot_text()` into 2 functions:  --> 
-
-<!--     1. Combine `count_chars_words()` with `map_text_coord()` or `map_text_regex()`  --> 
-<!--     to create a df with 2 color vectors (fg/bg) based on `char_freq` and/or `word_freq`.  --> 
-    
-<!--     2. `plot_charmap()` directly plots the resulting df.  --> 
-
-
-<!-- Previous CRAN releases:  --> 
-
 -------- 
 
 # ds4psy 0.8.0
 
-<!-- Release version: --> 
+
 
 Release of **ds4psy** (0.8.0) [on CRAN](https://CRAN.R-project.org/package=ds4psy) 
 adds functionality, increases modularity, and fixes some bugs. [2022-04-08] 
 
-<!-- Log of changes: --> 
+
 
 **Changes** since last release: 
 
@@ -266,14 +283,14 @@ adds functionality, increases modularity, and fixes some bugs. [2022-04-08]
 - add a `words_to_text()` function as the inverse of `text_to_words()`. 
 - add a `zodiac()` function (with multiple outputs formats and options for redefining date boundaries). 
 
-<!-- Blank line. --> 
+ 
 
 ## Minor changes 
 
 - add `table9` as a variant of `tidyr::table2` as a 3-dimensional array (xtabs). 
 - improved `capitalize()` to also work for character vectors (i.e., setting the case of each element to upper- or lowercase). 
 
-<!-- Blank line. --> 
+ 
 
 ## Details 
 
@@ -299,14 +316,14 @@ adds functionality, increases modularity, and fixes a bug in text data. [2021-05
     1. A new `read_ascii()` version reads text (from file or user input) into a character string;  
     2. A new `map_text_coord()` function converts a text string into a table of individual characters (with x/y-coordinates).  
 
-<!-- Blank line. --> 
+ 
 
 - Added `plot_chars()` for plotting characters of text and visualizing pattern matches (specified as regular expressions) by highlighting labels (color/angle) or background tiles (color). The function uses 2\ auxiliary functions: 
 
     1. `map_text_regex()` adds pattern matching options (for colors and angles) to `map_text_coord()`.  
     2. `plot_charmap()` plots character maps as text and tile plots (with aesthetics for labels and tiles).  
 
-<!-- Blank line. --> 
+ 
 
 - Added `count_chars_words()` for counting the frequency of both characters and words in text strings.  
 
@@ -348,20 +365,20 @@ adds functionality, updates data, and reduces dependencies. [2021-04-08]
 - add `is_vector()` to check for vectors (i.e., atomic vectors or lists)
 - add `get_set()` for motivating visualizations 
 
-<!-- Blank line. --> 
+ 
 
 ## Minor changes 
 
 - update data in `fame` and `Trumpisms` 
 
-<!-- Blank line. --> 
+ 
 
 ## Details 
 
 - remove import of **cowplot** by adding `theme_empty()` 
 - reduce reliance on **unikn** by replacing some colors with corresponding HEX codes 
 
-<!-- Previous release:  --> 
+ 
 
 -------- 
 
@@ -381,12 +398,12 @@ adds and revises functionality, updates data, and fixes bugs. [2020-09-01]
     - add `diff_tz()` to compute time difference based on time zone differences  
     - add `days_in_month()` to obtain number of days in months for given dates (accounting for leap years)  
     
-<!-- Blank line. --> 
+ 
 
 - add `is_equal()` and `num_equal()` to check pairwise (near) equality of vectors  
 - add `theme_clean()` as an alternative to `theme_ds4psy()`  
 
-<!-- Blank line. --> 
+ 
 
 ## Minor changes 
 
@@ -395,7 +412,7 @@ adds and revises functionality, updates data, and fixes bugs. [2020-09-01]
 - revise `theme_ds4psy()` to provide control over colors of backgrounds, lines, and text elements 
 - update `fame` data  
 
-<!-- Blank line. --> 
+ 
 
 
 ## Details 
@@ -404,7 +421,7 @@ adds and revises functionality, updates data, and fixes bugs. [2020-09-01]
 - bug fix: Remove alternative solution in `is_leap_year()` (which yielded `FALSE` for `NA` inputs).  
 - bug fix: Replace `\u2212` (minus sign) by `-` (dash) in `exp_num_dt$blood_type` to prevent **Note** on "marked UTF-8 strings".  
 
-<!-- Previous release:  --> 
+ 
 
 -------- 
 
@@ -423,7 +440,7 @@ adds new functionality and fixes minor bugs. [2020-07-06]
     - add time zone support to various functions.
     - add datasets with date and time variables. 
 
-<!-- Blank line. --> 
+ 
 
 ## Minor changes 
 
@@ -435,7 +452,7 @@ adds new functionality and fixes minor bugs. [2020-07-06]
 - `sample_time()`: Switch default to sampling "POSIXct" objects (making "POSIXlt" optional) and allow specifying time zones `tz`.   
 - All date and time functions based primarily on dates (`cur_date()`, `what_date()`, etc.) now use `Sys.Date()` (i.e., an object of class "Date") rather than `Sys.time()` (i.e., a "POSIXct" calendar time) as default.  
 
-<!-- Blank line. --> 
+ 
 
 ## Details 
 
@@ -443,7 +460,7 @@ adds new functionality and fixes minor bugs. [2020-07-06]
 - bug fix: Use `\u...` rather than `\U...` in `Umlaut` definitions  
 - bug fix: Remove non-ASCII characters from `fruits` and `flowery`  
 
-<!-- Previous release:  --> 
+ 
 
 -------- 
 
@@ -458,7 +475,7 @@ adds new functionality (e.g., support for processing text data, new datasets, an
 
 - add functions and datasets for string manipulation and text processing
 
-<!-- Blank line. --> 
+ 
 
 ## Minor changes 
 
@@ -471,7 +488,7 @@ adds new functionality (e.g., support for processing text data, new datasets, an
 - add datasets of `Bushisms` and `Trumpisms` (as character vectors)  
 - add `sample_char()` function
 
-<!-- Blank line. --> 
+ 
 
 ## Details 
 
@@ -481,7 +498,7 @@ adds new functionality (e.g., support for processing text data, new datasets, an
 - rename family of `text functions` to `text objects and functions`  
 - rename family of `random functions` to `sampling functions`  
 
-<!-- Previous release:  --> 
+ 
 
 -------- 
 
@@ -511,7 +528,7 @@ is a **maintenance release** (to remove some dependencies, fix bugs on CRAN plat
 - bug fix: Remove packages not used in this version (i.e., `dplyr`, and `magrittr`) from declared Imports 
 
 
-<!-- Previous release:  --> 
+ 
 
 -------- 
 
@@ -547,7 +564,7 @@ Changes involving new functionality include:
 - bug fix: Remove packages not used in this version (i.e., **readr**, **stringr**, **tidyr**, and **tidyverse**) from declared Imports
 
 
-<!-- Previous release:  --> 
+ 
 
 -------- 
 
@@ -555,7 +572,7 @@ Changes involving new functionality include:
 
 Initial release of **ds4psy** (0.1.0) [on CRAN](https://CRAN.R-project.org/package=ds4psy). [2019-08-10] 
 
-<!-- **Contents** in this release: --> 
+
 
 The initial functionality is limited, as the package is designed to support the [ds4psy book](https://bookdown.org/hneth/ds4psy/): 
 
