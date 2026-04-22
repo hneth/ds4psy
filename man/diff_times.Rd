@@ -2,7 +2,7 @@
 % Please edit documentation in R/time_fun.R
 \name{diff_times}
 \alias{diff_times}
-\title{Get the difference between two times (in human units).}
+\title{Get the difference between two times (in human units)}
 \usage{
 diff_times(from_time, to_time = Sys.time(), unit = "days", as_character = TRUE)
 }

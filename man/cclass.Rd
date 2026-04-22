@@ -3,7 +3,7 @@
 \docType{data}
 \name{cclass}
 \alias{cclass}
-\title{cclass provides character classes (as a named vector).}
+\title{cclass provides character classes (as a named vector)}
 \format{
 An object of class \code{character} of length 6.
 }

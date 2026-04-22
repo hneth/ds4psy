@@ -2,7 +2,7 @@
 % Please edit documentation in R/time_fun.R
 \name{diff_dates}
 \alias{diff_dates}
-\title{Get the difference between two dates (in human units).}
+\title{Get the difference between two dates (in human units)}
 \usage{
 diff_dates(
   from_date,

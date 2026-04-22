@@ -2,7 +2,7 @@
 % Please edit documentation in R/text_fun.R
 \name{invert_rules}
 \alias{invert_rules}
-\title{invert_rules inverts a set of encoding rules.}
+\title{invert_rules() inverts a set of encoding rules}
 \usage{
 invert_rules(x)
 }

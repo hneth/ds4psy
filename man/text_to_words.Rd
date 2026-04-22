@@ -2,7 +2,7 @@
 % Please edit documentation in R/text_util_fun.R
 \name{text_to_words}
 \alias{text_to_words}
-\title{Split string(s) of text \code{x} into words.}
+\title{Split string(s) of text \code{x} into words}
 \usage{
 text_to_words(x)
 }

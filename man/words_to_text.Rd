@@ -2,7 +2,7 @@
 % Please edit documentation in R/text_util_fun.R
 \name{words_to_text}
 \alias{words_to_text}
-\title{Paste or collapse words \code{x} into a text.}
+\title{Paste or collapse words \code{x} into a text}
 \usage{
 words_to_text(x, collapse = " ")
 }

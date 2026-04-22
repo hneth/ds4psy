@@ -3,7 +3,7 @@
 \name{text_to_chars}
 \alias{text_to_chars}
 \alias{str2vec}
-\title{Split string(s) of text \code{x} into its characters.}
+\title{Split string(s) of text \code{x} into its characters}
 \usage{
 text_to_chars(x, rm_specials = FALSE, sep = "")
 }

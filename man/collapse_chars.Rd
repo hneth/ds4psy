@@ -2,7 +2,7 @@
 % Please edit documentation in R/text_util_fun.R
 \name{collapse_chars}
 \alias{collapse_chars}
-\title{Collapse character inputs \code{x} into a single string.}
+\title{Collapse character inputs \code{x} into a single character string}
 \usage{
 collapse_chars(x, sep = " ")
 }

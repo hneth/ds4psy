@@ -3,7 +3,7 @@
 \name{chars_to_text}
 \alias{chars_to_text}
 \alias{vec2str}
-\title{Combine character inputs \code{x} into a single string of text.}
+\title{Combine character inputs \code{x} into a single string of text}
 \usage{
 chars_to_text(x, sep = "")
 }

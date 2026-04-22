@@ -2,7 +2,7 @@
 % Please edit documentation in R/text_util_fun.R
 \name{text_to_sentences}
 \alias{text_to_sentences}
-\title{Split strings of text \code{x} into sentences.}
+\title{Split strings of text \code{x} into sentences}
 \usage{
 text_to_sentences(
   x,

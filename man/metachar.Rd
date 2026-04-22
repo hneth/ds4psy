@@ -3,7 +3,7 @@
 \docType{data}
 \name{metachar}
 \alias{metachar}
-\title{metachar provides metacharacters (as a character vector).}
+\title{metachar provides metacharacters (as a character vector)}
 \format{
 An object of class \code{character} of length 12.
 }

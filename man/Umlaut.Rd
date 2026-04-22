@@ -3,7 +3,7 @@
 \docType{data}
 \name{Umlaut}
 \alias{Umlaut}
-\title{Umlaut provides German Umlaut letters (as Unicode characters).}
+\title{Umlaut provides German Umlaut letters (as Unicode characters)}
 \format{
 An object of class \code{character} of length 7.
 }
