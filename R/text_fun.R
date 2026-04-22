@@ -910,7 +910,7 @@ transl33t <- function(txt, rules = l33t_rul35,
 # - use names as elements
 # - and elements as names
 
-#' invert_rules inverts a set of encoding rules. 
+#' invert_rules() inverts a set of encoding rules 
 #'
 #' \code{invert_rules} allows decoding messages that were 
 #' encoded by a set of rules \code{x}.
@@ -1218,7 +1218,7 @@ angle_map_match <- function(text, pattern = "[^[:space:]]", case_sense = TRUE,
 
 # count_chars: Count the frequency of characters (in a text string x, as vector): -------- 
 
-#' Count the frequency of characters in a string of text
+#' Count the frequency of characters in a character string/text   
 #' 
 #' \code{count_chars} provides frequency counts of the 
 #' characters in a string of text \code{x} 
@@ -1338,7 +1338,7 @@ count_chars <- function(x, # string of text to count
 
 # count_words: Count the frequency of words (in a text string x, as vector): -------- 
 
-#' Count the frequency of words in a string of text
+#' Count the frequency of words in a character string/text
 #' 
 #' \code{count_words} provides frequency counts of the 
 #' words in a string of text \code{x} 
@@ -1677,7 +1677,7 @@ char_word <- function(x, sep = "\n", rm_sep = TRUE){
 
 # count_chars_words: Count the frequency of chars and corresponding words in string(s) of text (by char): -------- 
 
-#' Count the frequency of characters and words in a string of text
+#' Count the frequency of characters and words in a character string/text
 #'
 #' \code{count_chars_words} provides frequency counts of the 
 #' characters and words of a string of text \code{x} 
