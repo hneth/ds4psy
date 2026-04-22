@@ -64,7 +64,7 @@ adds new data and updates links to online resources. [2026-mm-dd]   -->
 
 ## Details
 
-- none yet
+- update documentation 
 
 
 <!-- ## ToDo: --> 
