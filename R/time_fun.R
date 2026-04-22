@@ -1,5 +1,5 @@
 ## time_fun.R | ds4psy
-## hn | uni.kn | 2023 09 15
+## hn | uni.kn | 2026 04 22
 ## ------------------------
 
 ## Main functions for date and time objects. 
@@ -1452,7 +1452,7 @@ change_time <- function(time, tz = ""){
 
 # Task 1: Change nominal time to time zone, without changing actual time.
 
-#' Change time zone (without changing represented time).  
+#' Change time zone (without changing the represented time)   
 #'
 #' \code{change_tz} changes the nominal time zone (i.e., the time display) 
 #' without changing the actual time.
@@ -1636,7 +1636,7 @@ diff_days <- function(from_date, to_date = Sys.Date(), units = "days", as_Date =
 
 # diff_dates: Compute date difference (i.e., age) in human units: ------
 
-#' Get the difference between two dates (in human units).  
+#' Get the difference between two dates (in human units)    
 #'
 #' \code{diff_dates} computes the difference between two dates 
 #' (i.e., from some \code{from_date} to some \code{to_date}) 
@@ -2208,7 +2208,7 @@ diff_dates <- function(from_date, to_date = Sys.Date(),
 
 # diff_times: Compute time difference (i.e., age) in human units: ------
 
-#' Get the difference between two times (in human units).  
+#' Get the difference between two times (in human units)    
 #'
 #' \code{diff_times} computes the difference between two times 
 #' (i.e., from some \code{from_time} to some \code{to_time}) 

@@ -1,5 +1,5 @@
 ## text_util_fun.R | ds4psy
-## hn | uni.kn | 2022 06 28
+## hn | uni.kn | 2026 04 22
 ## ---------------------------
 
 ## (0) Utility functions for string manipulation and text/character objects. ------ 
@@ -39,7 +39,7 @@ names(umlaut) <- c("a", "o", "u",
 # paste0("Hansj", umlaut["o"], "rg i", umlaut["s"], "t gern s", umlaut["u"], "sse ", umlaut["A"], "pfel.")
 
 
-#' Umlaut provides German Umlaut letters (as Unicode characters). 
+#' Umlaut provides German Umlaut letters (as Unicode characters)  
 #' 
 #' \code{Umlaut} provides the German Umlaut letters (aka. diaeresis/diacritic) 
 #' as a named character vector. 
@@ -98,7 +98,7 @@ mv[2] <- "\\"  # correction for \
 # nchar(paste0(mv, collapse = ""))  # 12
 
 
-#' metachar provides metacharacters (as a character vector). 
+#' metachar provides metacharacters (as a character vector) 
 #' 
 #' \code{metachar} provides the metacharacters of extended regular expressions 
 #' (as a character vector).
@@ -173,7 +173,7 @@ names(ccv) <- c("ltr", "LTR", "dig", "hex", "pun", "spc")
 ## Note: See ?"'" for character constants in R.
 
 
-#' cclass provides character classes (as a named vector).
+#' cclass provides character classes (as a named vector) 
 #' 
 #' \code{cclass} provides different character classes  
 #' (as a named character vector).
@@ -244,7 +244,7 @@ cclass <- ccv
 # Goal: A utility function to ensure that multi-element text inputs are handled consistently.
 # Note: sep is ONLY used when collapsing multi-element strings and inserted BETWEEN elements. 
 
-#' Collapse character inputs \code{x} into a single string. 
+#' Collapse character inputs \code{x} into a single character string 
 #' 
 #' \code{collapse_chars} converts multi-element character inputs \code{x} 
 #' into a single string of text (i.e., a character object of length 1), 
@@ -321,7 +321,7 @@ collapse_chars <- function(x, sep = " "){
 
 # text_to_sentences: Turn a text (consisting of one or more strings) into a vector of all its sentences: ------ 
 
-#' Split strings of text \code{x} into sentences. 
+#' Split strings of text \code{x} into sentences 
 #' 
 #' \code{text_to_sentences} splits text \code{x} 
 #' (consisting of one or more character strings) 
@@ -496,7 +496,7 @@ text_to_sentences <- function(x,  # string(s) of text
 
 # text_to_words: Turn a text (consisting of one or more strings) into a vector of its words: ------ 
 
-#' Split string(s) of text \code{x} into words. 
+#' Split string(s) of text \code{x} into words  
 #' 
 #' \code{text_to_words} splits a string of text \code{x} 
 #' (consisting of one or more character strings) 
@@ -574,7 +574,7 @@ text_to_words_regex <- function(x){
 
 # text_to_chars: Turn a text (consisting of one or more strings) into a vector of its characters: ------ 
 
-#' Split string(s) of text \code{x} into its characters. 
+#' Split string(s) of text \code{x} into its characters 
 #' 
 #' \code{text_to_chars} splits a string of text \code{x} 
 #' (consisting of one or more character strings) 
@@ -680,7 +680,7 @@ text_to_chars <- function(x, rm_specials = FALSE, sep = ""){
 
 # words_to_text: Turn a vector of words x into a (single) vector: ------ 
 
-#' Paste or collapse words \code{x} into a text. 
+#' Paste or collapse words \code{x} into a text 
 #' 
 #' \code{words_to_text} pastes or collapses 
 #' a character string \code{x} into a single text string. 
@@ -733,7 +733,7 @@ words_to_text <- function(x, collapse = " "){
 # Goal: Exactly preserve all characters (e.g., punctuation and spaces).
 # (Note: Simply using paste(x, collapse = "") would lose all spaces.) 
 
-#' Combine character inputs \code{x} into a single string of text. 
+#' Combine character inputs \code{x} into a single string of text 
 #' 
 #' \code{chars_to_text} combines multi-element character inputs \code{x} 
 #' into a single string of text (i.e., a character object of length 1), 
