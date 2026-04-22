@@ -339,6 +339,8 @@ A **BibTeX** entry for LaTeX users is:
       doi = {10.5281/zenodo.7229812},
     }
 
+<!-- Note URL of pkg: -->
+
 The stable URL of the **ds4psy** R package is
 <https://CRAN.R-project.org/package=ds4psy>.
 
@@ -366,6 +368,6 @@ License</a>.
 
 <!-- Footer: -->
 
-\[File `README.md` updated on 2026-04-21.\]
+\[File `README.md` updated on 2026-04-22.\]
 
 <!-- eof. -->

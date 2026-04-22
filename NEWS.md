@@ -6,7 +6,7 @@
 All datasets and functions required for the examples and exercises of the books 
 [Data Science for Psychologists](https://hneth-ds4psy.share.connect.posit.cloud/) and 
 [Introduction to Data Science](https://hneth-i2ds.share.connect.posit.cloud/) 
-(by Hansjoerg Neth, Konstanz University, 2025), 
+(by Hansjoerg Neth, Konstanz University, 2026), 
 freely available at <https://hneth-ds4psy.share.connect.posit.cloud/> and <https://hneth-i2ds.share.connect.posit.cloud/>. 
 
 These books and corresponding courses introduce principles and methods of data science to students of psychology and other biological or social sciences. 

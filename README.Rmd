@@ -94,6 +94,7 @@ library('ds4psy')  # load to use the package
 
 <!-- Corresponding textbooks: ds4psy vs. i2ds -->
 
+
 ### Textbooks {-}
 
 The R package **[ds4psy](`r url_ds4psy_cran`)** is used by 2 textbooks that are freely available online. 
@@ -298,6 +299,7 @@ x <- citation(package = 'ds4psy')
 utils::toBibtex(x)
 ```
 
+<!-- Note URL of pkg: -->
 
 The stable URL of the **ds4psy** R package is <https://CRAN.R-project.org/package=ds4psy>.
 
