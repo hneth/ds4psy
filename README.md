@@ -71,7 +71,7 @@ library('ds4psy')           # load to use the package
 
 <!-- Development version: -->
 
-The current development version of **ds4psy** (v1.3.0.9001) can be
+The current development version of **ds4psy** (v1.3.0.9002) can be
 installed from its [GitHub](https://github.com) repository at
 <https://github.com/hneth/ds4psy/>:
 
@@ -367,6 +367,6 @@ License</a>.
 
 <!-- Footer: -->
 
-\[File `README.md` updated on 2026-04-22.\]
+\[File `README.md` updated on 2026-05-04.\]
 
 <!-- eof. -->
