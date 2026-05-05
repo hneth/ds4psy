@@ -38,7 +38,7 @@ The books and courses [Data Science for Psychologists](https://hneth-ds4psy.shar
 # ds4psy 1.3.0.9002
 
 This is the current development version of the R package **ds4psy** 
-available at <https://github.com/hneth/ds4psy/>. [2026-05-04] 
+available at <https://github.com/hneth/ds4psy/>. [2026-05-05] 
 
 <!-- Release note:  --> 
 
@@ -586,6 +586,6 @@ The initial functionality is limited, as the package is designed to support the 
 
 ---------- 
 
-[File `NEWS.md` updated on 2026-05-04.]
+[File `NEWS.md` updated on 2026-05-05.]
 
 <!-- eof. -->

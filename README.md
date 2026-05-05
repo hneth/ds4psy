@@ -367,6 +367,6 @@ License</a>.
 
 <!-- Footer: -->
 
-\[File `README.md` updated on 2026-05-04.\]
+\[File `README.md` updated on 2026-05-05.\]
 
 <!-- eof. -->
