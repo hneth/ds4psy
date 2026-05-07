@@ -2,12 +2,12 @@
 % Please edit documentation in R/time_fun.R
 \name{zodiac}
 \alias{zodiac}
-\title{Get zodiac corresponding to date(s)}
+\title{Get the astrological sign / zodiac symbol for date(s)}
 \source{
 See 
 \url{https://en.wikipedia.org/wiki/Zodiac} or 
 \url{https://de.wikipedia.org/wiki/Tierkreiszeichen} 
-for alternative date ranges.
+for labels, dates, and alternative date ranges.
 }
 \usage{
 zodiac(
@@ -31,8 +31,17 @@ Unicode (\code{out = "Unicode"}) symbols.}
 \item{zodiac_swap_mmdd}{Monthly dates on which 
 the 12 zodiac signs switch (in \code{mmdd} format, 
 ordered chronologically within a calendar year). 
-Default: \code{zodiac_swap_mmdd = c(0120, 0219, 0321, 0421, 0521, 0621, 
-0723, 0823, 0923, 1023, 1123, 1222)}.}
+
+Default start dates are set to 
+\code{zodiac_swap_mmdd = c(0120, 0219, 0321, 0421, 0521, 0621, 0723, 0823, 0923, 1023, 1123, 1222)}  
+for Zodiac sign 
+\code{c("Aries", "Taurus", "Gemini", "Cancer", "Leo", "Virgo", "Libra", "Scorpio", "Sagittarius", "Capricorn", "Aquarius", "Pisces"}, 
+respectively. 
+
+Alternative start dates for Zodiac signs in some sources include 
+\code{0420} for Taurus, 
+\code{0824} for Leo, 
+\code{1122} for Sagittarius (in \code{mmdd} format).}
 }
 \value{
 Zodiac label or symbol (as a factor).
@@ -53,10 +62,12 @@ zodiac(Sys.Date())
 # Works with vectors:
 dt <- sample_date(size = 10)
 zodiac(dt)
+
+# Factor levels:
 levels(zodiac(dt))
 
 # Alternative outputs:
-zodiac(dt, out = "de")  # German/deutsch
+zodiac(dt, out = "de")       # German/deutsch
 zodiac(dt, out = "Unicode")  # Unicode
 zodiac(dt, out = "HTML")     # HTML
 
@@ -65,6 +76,7 @@ zodiac("2000-08-23")  # 0823 is "Virgo" by default
 zodiac("2000-08-23",  # change to 0824 (i.e., August 24): 
        zodiac_swap_mmdd = c(0120, 0219, 0321, 0421, 0521, 0621, 
                             0723, 0824, 0923, 1023, 1123, 1222))
+
 
 }
 \seealso{
