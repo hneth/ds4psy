@@ -2876,7 +2876,7 @@ diff_times <- function(from_time, to_time = Sys.time(),
 
 ## (5) Get zodiac name/symbol for given date(s): ------ 
 
-#' Get zodiac corresponding to date(s)
+#' Get the astrological sign / zodiac symbol for date(s)
 #'
 #' \code{zodiac} provides the tropical zodiac sign or symbol 
 #' (aka. astrological sign) for given date(s) \code{x}.
@@ -2900,8 +2900,17 @@ diff_times <- function(from_time, to_time = Sys.time(),
 #' @param zodiac_swap_mmdd Monthly dates on which 
 #' the 12 zodiac signs switch (in \code{mmdd} format, 
 #' ordered chronologically within a calendar year). 
-#' Default: \code{zodiac_swap_mmdd = c(0120, 0219, 0321, 0421, 0521, 0621, 
-#' 0723, 0823, 0923, 1023, 1123, 1222)}. 
+#' 
+#' Default start dates are set to 
+#' \code{zodiac_swap_mmdd = c(0120, 0219, 0321, 0421, 0521, 0621, 0723, 0823, 0923, 1023, 1123, 1222)}  
+#' for Zodiac sign 
+#' \code{c("Aries", "Taurus", "Gemini", "Cancer", "Leo", "Virgo", "Libra", "Scorpio", "Sagittarius", "Capricorn", "Aquarius", "Pisces"}, 
+#' respectively. 
+#' 
+#' Alternative start dates for Zodiac signs in some sources include 
+#' \code{0420} for Taurus, 
+#' \code{0824} for Leo, 
+#' \code{1122} for Sagittarius (in \code{mmdd} format). 
 #' 
 #' @return Zodiac label or symbol (as a factor). 
 #' 
@@ -2911,10 +2920,12 @@ diff_times <- function(from_time, to_time = Sys.time(),
 #' # Works with vectors:
 #' dt <- sample_date(size = 10)
 #' zodiac(dt)
+#' 
+#' # Factor levels:
 #' levels(zodiac(dt))
 #' 
 #' # Alternative outputs:
-#' zodiac(dt, out = "de")  # German/deutsch
+#' zodiac(dt, out = "de")       # German/deutsch
 #' zodiac(dt, out = "Unicode")  # Unicode
 #' zodiac(dt, out = "HTML")     # HTML
 #' 
@@ -2924,10 +2935,11 @@ diff_times <- function(from_time, to_time = Sys.time(),
 #'        zodiac_swap_mmdd = c(0120, 0219, 0321, 0421, 0521, 0621, 
 #'                             0723, 0824, 0923, 1023, 1123, 1222))
 #' 
+#' 
 #' @source See 
 #' \url{https://en.wikipedia.org/wiki/Zodiac} or 
 #' \url{https://de.wikipedia.org/wiki/Tierkreiszeichen} 
-#' for alternative date ranges. 
+#' for labels, dates, and alternative date ranges. 
 #' 
 #' @family date and time functions
 #' 
@@ -2979,16 +2991,16 @@ zodiac <- function(x,
   
   # 3. Get zodiac sign/symbol for date: ----- 
   
-  # Data: Date breaks and labels: 
+  # Data: Date breaks and labels:             Alternative start dates:
   # Aries:       Mar 21 – Apr 20:  Widder
-  # Taurus:      Apr 21 – May 20:  Stier
+  # Taurus:      Apr 21 – May 20:  Stier      (Apr 20)
   # Gemini:      May 21 – Jun 20:  Zwillinge 
   # Cancer:      Jun 21 – Jul 22:  Krebs
   # Leo:         Jul 23 – Aug 22:  Loewe
-  # Virgo:       Aug 23 – Sep 22:  Jungfrau
+  # Virgo:       Aug 23 – Sep 22:  Jungfrau   (Aug 24)
   # Libra:       Sep 23 – Oct 22:  Waage
   # Scorpio:     Oct 23 – Nov 22:  Skorpion
-  # Sagittarius: Nov 23 – Dec 21:  Schuetze 
+  # Sagittarius: Nov 23 – Dec 21:  Schuetze   (Nov 22)
   # Capricorn:   Dec 22 – Jan 19:  Steinbock
   # Aquarius:    Jan 20 – Feb 18:  Wassermann 
   # Pisces:      Feb 19 – Mar 20:  Fische
