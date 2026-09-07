@@ -9,8 +9,13 @@ Description: All datasets and functions required for the examples and exercises 
 Depends:
     R (>= 3.5.0)
 Imports:
+    datasets,
     ggplot2,
-    unikn
+    grDevices,
+    graphics,
+    stats,
+    unikn,
+    utils
 Suggests:
     knitr,
     rmarkdown,
