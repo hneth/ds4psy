@@ -76,7 +76,7 @@ See codebook and references at \url{https://bookdown.org/hneth/ds4psy/B.1-datase
 \seealso{
 \code{\link{posPsy_long}} for a corrected version of this file (in long format).
 
-Other datasets: 
+Other datasets:
 \code{\link{Bushisms}},
 \code{\link{Trumpisms}},
 \code{\link{countries}},

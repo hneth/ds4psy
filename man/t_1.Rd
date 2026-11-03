@@ -17,7 +17,7 @@ t_1
 \code{t_1} is a fictitious dataset to practice tidying data.
 }
 \seealso{
-Other datasets: 
+Other datasets:
 \code{\link{Bushisms}},
 \code{\link{Trumpisms}},
 \code{\link{countries}},

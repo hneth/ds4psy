@@ -79,16 +79,16 @@ plot_fn(x = 7, A = TRUE,  B = TRUE, F = TRUE, f = c("steelblue", "white", "fores
 \code{\link{plot_fun}} for a related function; 
 \code{\link{pal_ds4psy}} for a color palette.
 
-Other plot functions: 
-\code{\link{plot_charmap}()},
-\code{\link{plot_chars}()},
-\code{\link{plot_circ_points}()},
-\code{\link{plot_fun}()},
-\code{\link{plot_n}()},
-\code{\link{plot_text}()},
-\code{\link{plot_tiles}()},
-\code{\link{theme_clean}()},
-\code{\link{theme_ds4psy}()},
-\code{\link{theme_empty}()}
+Other plot functions:
+\code{\link[=plot_charmap]{plot_charmap()}},
+\code{\link[=plot_chars]{plot_chars()}},
+\code{\link[=plot_circ_points]{plot_circ_points()}},
+\code{\link[=plot_fun]{plot_fun()}},
+\code{\link[=plot_n]{plot_n()}},
+\code{\link[=plot_text]{plot_text()}},
+\code{\link[=plot_tiles]{plot_tiles()}},
+\code{\link[=theme_clean]{theme_clean()}},
+\code{\link[=theme_ds4psy]{theme_ds4psy()}},
+\code{\link[=theme_empty]{theme_empty()}}
 }
 \concept{plot functions}

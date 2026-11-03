@@ -20,7 +20,7 @@ fame
 --- if applicable --- the dates of death (DOD) of famous people.
 }
 \seealso{
-Other datasets: 
+Other datasets:
 \code{\link{Bushisms}},
 \code{\link{Trumpisms}},
 \code{\link{countries}},

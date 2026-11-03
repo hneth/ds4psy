@@ -48,24 +48,24 @@ num_equal(.1, v)
 \code{\link{all.equal}} function of the R \strong{base} package;
 \code{near} function of the \strong{dplyr} package.
 
-Other numeric functions: 
-\code{\link{base2dec}()},
+Other numeric functions:
+\code{\link[=base2dec]{base2dec()}},
 \code{\link{base_digits}},
-\code{\link{dec2base}()},
-\code{\link{is_equal}()},
-\code{\link{is_wholenumber}()},
-\code{\link{num_as_char}()},
-\code{\link{num_as_ordinal}()}
+\code{\link[=dec2base]{dec2base()}},
+\code{\link[=is_equal]{is_equal()}},
+\code{\link[=is_wholenumber]{is_wholenumber()}},
+\code{\link[=num_as_char]{num_as_char()}},
+\code{\link[=num_as_ordinal]{num_as_ordinal()}}
 
-Other utility functions: 
-\code{\link{base2dec}()},
+Other utility functions:
+\code{\link[=base2dec]{base2dec()}},
 \code{\link{base_digits}},
-\code{\link{dec2base}()},
-\code{\link{is_equal}()},
-\code{\link{is_vect}()},
-\code{\link{is_wholenumber}()},
-\code{\link{num_as_char}()},
-\code{\link{num_as_ordinal}()}
+\code{\link[=dec2base]{dec2base()}},
+\code{\link[=is_equal]{is_equal()}},
+\code{\link[=is_vect]{is_vect()}},
+\code{\link[=is_wholenumber]{is_wholenumber()}},
+\code{\link[=num_as_char]{num_as_char()}},
+\code{\link[=num_as_ordinal]{num_as_ordinal()}}
 }
 \concept{numeric functions}
 \concept{utility functions}

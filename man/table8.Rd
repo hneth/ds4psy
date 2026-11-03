@@ -21,7 +21,7 @@ This dataset is a further variant of the \code{table1} to \code{table5} datasets
 of the \bold{tidyr} package.
 }
 \seealso{
-Other datasets: 
+Other datasets:
 \code{\link{Bushisms}},
 \code{\link{Trumpisms}},
 \code{\link{countries}},

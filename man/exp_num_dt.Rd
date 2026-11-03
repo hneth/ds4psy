@@ -61,7 +61,7 @@ The \code{gender} variable was converted into a binary variable
 (i.e., using 2 categories "female" and "not female").
 }
 \seealso{
-Other datasets: 
+Other datasets:
 \code{\link{Bushisms}},
 \code{\link{Trumpisms}},
 \code{\link{countries}},

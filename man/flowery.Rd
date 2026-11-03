@@ -29,7 +29,7 @@ See \url{https://en.wikipedia.org/wiki/Rose_is_a_rose_is_a_rose_is_a_rose}
 for additional variations and sources.
 }
 \seealso{
-Other datasets: 
+Other datasets:
 \code{\link{Bushisms}},
 \code{\link{Trumpisms}},
 \code{\link{countries}},

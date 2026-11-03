@@ -18,7 +18,7 @@ data_t1_tab
 (from a TAB file).
 }
 \seealso{
-Other datasets: 
+Other datasets:
 \code{\link{Bushisms}},
 \code{\link{Trumpisms}},
 \code{\link{countries}},

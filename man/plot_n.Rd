@@ -114,16 +114,16 @@ plot_n(n = 5, polar = TRUE, row = FALSE, lbl_title = TRUE)  # TARGET with title 
 \seealso{
 \code{\link{pal_ds4psy}} for default color palette.
 
-Other plot functions: 
-\code{\link{plot_charmap}()},
-\code{\link{plot_chars}()},
-\code{\link{plot_circ_points}()},
-\code{\link{plot_fn}()},
-\code{\link{plot_fun}()},
-\code{\link{plot_text}()},
-\code{\link{plot_tiles}()},
-\code{\link{theme_clean}()},
-\code{\link{theme_ds4psy}()},
-\code{\link{theme_empty}()}
+Other plot functions:
+\code{\link[=plot_charmap]{plot_charmap()}},
+\code{\link[=plot_chars]{plot_chars()}},
+\code{\link[=plot_circ_points]{plot_circ_points()}},
+\code{\link[=plot_fn]{plot_fn()}},
+\code{\link[=plot_fun]{plot_fun()}},
+\code{\link[=plot_text]{plot_text()}},
+\code{\link[=plot_tiles]{plot_tiles()}},
+\code{\link[=theme_clean]{theme_clean()}},
+\code{\link[=theme_ds4psy]{theme_ds4psy()}},
+\code{\link[=theme_empty]{theme_empty()}}
 }
 \concept{plot functions}

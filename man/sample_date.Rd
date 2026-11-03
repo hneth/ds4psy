@@ -49,11 +49,11 @@ sort(sample_date(from = "2020-01-01", to = "2020-01-01", size = 10, replace = TR
 
 }
 \seealso{
-Other sampling functions: 
-\code{\link{coin}()},
-\code{\link{dice}()},
-\code{\link{dice_2}()},
-\code{\link{sample_char}()},
-\code{\link{sample_time}()}
+Other sampling functions:
+\code{\link[=coin]{coin()}},
+\code{\link[=dice]{dice()}},
+\code{\link[=dice_2]{dice_2()}},
+\code{\link[=sample_char]{sample_char()}},
+\code{\link[=sample_time]{sample_time()}}
 }
 \concept{sampling functions}

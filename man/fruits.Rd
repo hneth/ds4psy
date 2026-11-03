@@ -29,7 +29,7 @@ that taste sweet or sour,
 and are edible in their raw state.
 }
 \seealso{
-Other datasets: 
+Other datasets:
 \code{\link{Bushisms}},
 \code{\link{Trumpisms}},
 \code{\link{countries}},

@@ -59,7 +59,7 @@ posPsy_p_info
 See codebook and references at \url{https://bookdown.org/hneth/ds4psy/B.1-datasets-pos.html}.
 }
 \seealso{
-Other datasets: 
+Other datasets:
 \code{\link{Bushisms}},
 \code{\link{Trumpisms}},
 \code{\link{countries}},

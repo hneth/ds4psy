@@ -79,7 +79,7 @@ dramatically increases the rate of false-positive findings.
 See \url{https://bookdown.org/hneth/ds4psy/B.2-datasets-false.html} for codebook and more information.
 }
 \seealso{
-Other datasets: 
+Other datasets:
 \code{\link{Bushisms}},
 \code{\link{Trumpisms}},
 \code{\link{countries}},

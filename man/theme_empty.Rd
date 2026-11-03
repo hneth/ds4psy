@@ -61,16 +61,16 @@ ggplot(datasets::iris) +
 \seealso{
 \code{cowplot::theme_nothing} is the inspiration and source of this theme.
 
-Other plot functions: 
-\code{\link{plot_charmap}()},
-\code{\link{plot_chars}()},
-\code{\link{plot_circ_points}()},
-\code{\link{plot_fn}()},
-\code{\link{plot_fun}()},
-\code{\link{plot_n}()},
-\code{\link{plot_text}()},
-\code{\link{plot_tiles}()},
-\code{\link{theme_clean}()},
-\code{\link{theme_ds4psy}()}
+Other plot functions:
+\code{\link[=plot_charmap]{plot_charmap()}},
+\code{\link[=plot_chars]{plot_chars()}},
+\code{\link[=plot_circ_points]{plot_circ_points()}},
+\code{\link[=plot_fn]{plot_fn()}},
+\code{\link[=plot_fun]{plot_fun()}},
+\code{\link[=plot_n]{plot_n()}},
+\code{\link[=plot_text]{plot_text()}},
+\code{\link[=plot_tiles]{plot_tiles()}},
+\code{\link[=theme_clean]{theme_clean()}},
+\code{\link[=theme_ds4psy]{theme_ds4psy()}}
 }
 \concept{plot functions}

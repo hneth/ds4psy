@@ -45,7 +45,7 @@ This dataset is based on \code{\link{posPsy_AHI_CESD}} and
 \code{\link{posPsy_AHI_CESD}} for the source of this file, 
 \code{\link{posPsy_long}} for a version of this file (in long format).
 
-Other datasets: 
+Other datasets:
 \code{\link{Bushisms}},
 \code{\link{Trumpisms}},
 \code{\link{countries}},

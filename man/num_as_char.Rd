@@ -84,24 +84,24 @@ num_as_char(5, sym = "99")
 
 }
 \seealso{
-Other numeric functions: 
-\code{\link{base2dec}()},
+Other numeric functions:
+\code{\link[=base2dec]{base2dec()}},
 \code{\link{base_digits}},
-\code{\link{dec2base}()},
-\code{\link{is_equal}()},
-\code{\link{is_wholenumber}()},
-\code{\link{num_as_ordinal}()},
-\code{\link{num_equal}()}
+\code{\link[=dec2base]{dec2base()}},
+\code{\link[=is_equal]{is_equal()}},
+\code{\link[=is_wholenumber]{is_wholenumber()}},
+\code{\link[=num_as_ordinal]{num_as_ordinal()}},
+\code{\link[=num_equal]{num_equal()}}
 
-Other utility functions: 
-\code{\link{base2dec}()},
+Other utility functions:
+\code{\link[=base2dec]{base2dec()}},
 \code{\link{base_digits}},
-\code{\link{dec2base}()},
-\code{\link{is_equal}()},
-\code{\link{is_vect}()},
-\code{\link{is_wholenumber}()},
-\code{\link{num_as_ordinal}()},
-\code{\link{num_equal}()}
+\code{\link[=dec2base]{dec2base()}},
+\code{\link[=is_equal]{is_equal()}},
+\code{\link[=is_vect]{is_vect()}},
+\code{\link[=is_wholenumber]{is_wholenumber()}},
+\code{\link[=num_as_ordinal]{num_as_ordinal()}},
+\code{\link[=num_equal]{num_equal()}}
 }
 \concept{numeric functions}
 \concept{utility functions}

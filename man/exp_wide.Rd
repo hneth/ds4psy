@@ -18,7 +18,7 @@ exp_wide
 (here: converting from wide to long format).
 }
 \seealso{
-Other datasets: 
+Other datasets:
 \code{\link{Bushisms}},
 \code{\link{Trumpisms}},
 \code{\link{countries}},

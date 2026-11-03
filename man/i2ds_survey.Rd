@@ -436,7 +436,7 @@ See the \strong{codebook} and \strong{print version} for additional coding detai
 These can be due to a participant not providing a response to an item or to an item not being applicable to this participant.
 }
 \seealso{
-Other datasets: 
+Other datasets:
 \code{\link{Bushisms}},
 \code{\link{Trumpisms}},
 \code{\link{countries}},

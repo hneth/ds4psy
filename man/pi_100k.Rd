@@ -19,7 +19,7 @@ pi_100k
 \code{pi_100k} is a dataset containing the first 100k digits of pi.
 }
 \seealso{
-Other datasets: 
+Other datasets:
 \code{\link{Bushisms}},
 \code{\link{Trumpisms}},
 \code{\link{countries}},

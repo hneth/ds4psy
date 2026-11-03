@@ -54,21 +54,21 @@ class(from)
 \code{date()} and \code{today()} functions of the \strong{lubridate} package; 
 \code{date()}, \code{Sys.Date()}, and \code{Sys.time()} functions of \strong{base} R.
 
-Other date and time functions: 
-\code{\link{change_time}()},
-\code{\link{change_tz}()},
-\code{\link{cur_time}()},
-\code{\link{days_in_month}()},
-\code{\link{diff_dates}()},
-\code{\link{diff_times}()},
-\code{\link{diff_tz}()},
-\code{\link{is_leap_year}()},
-\code{\link{what_date}()},
-\code{\link{what_month}()},
-\code{\link{what_time}()},
-\code{\link{what_wday}()},
-\code{\link{what_week}()},
-\code{\link{what_year}()},
-\code{\link{zodiac}()}
+Other date and time functions:
+\code{\link[=change_time]{change_time()}},
+\code{\link[=change_tz]{change_tz()}},
+\code{\link[=cur_time]{cur_time()}},
+\code{\link[=days_in_month]{days_in_month()}},
+\code{\link[=diff_dates]{diff_dates()}},
+\code{\link[=diff_times]{diff_times()}},
+\code{\link[=diff_tz]{diff_tz()}},
+\code{\link[=is_leap_year]{is_leap_year()}},
+\code{\link[=what_date]{what_date()}},
+\code{\link[=what_month]{what_month()}},
+\code{\link[=what_time]{what_time()}},
+\code{\link[=what_wday]{what_wday()}},
+\code{\link[=what_week]{what_week()}},
+\code{\link[=what_year]{what_year()}},
+\code{\link[=zodiac]{zodiac()}}
 }
 \concept{date and time functions}

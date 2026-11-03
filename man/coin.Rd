@@ -42,11 +42,11 @@ coin(NULL, NULL)
 
 }
 \seealso{
-Other sampling functions: 
-\code{\link{dice}()},
-\code{\link{dice_2}()},
-\code{\link{sample_char}()},
-\code{\link{sample_date}()},
-\code{\link{sample_time}()}
+Other sampling functions:
+\code{\link[=dice]{dice()}},
+\code{\link[=dice_2]{dice_2()}},
+\code{\link[=sample_char]{sample_char()}},
+\code{\link[=sample_date]{sample_date()}},
+\code{\link[=sample_time]{sample_time()}}
 }
 \concept{sampling functions}

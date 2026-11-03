@@ -21,7 +21,7 @@ or attributed to U.S. president George W. Bush
 in office from January 2001 to January 2009).
 }
 \seealso{
-Other datasets: 
+Other datasets:
 \code{\link{Trumpisms}},
 \code{\link{countries}},
 \code{\link{data_1}},

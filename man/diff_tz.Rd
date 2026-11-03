@@ -75,21 +75,21 @@ diff_tz(t6, t7, in_min = TRUE)
 \code{\link{days_in_month}} for the number of days in given months; 
 \code{\link{is_leap_year}} to check for leap years.
 
-Other date and time functions: 
-\code{\link{change_time}()},
-\code{\link{change_tz}()},
-\code{\link{cur_date}()},
-\code{\link{cur_time}()},
-\code{\link{days_in_month}()},
-\code{\link{diff_dates}()},
-\code{\link{diff_times}()},
-\code{\link{is_leap_year}()},
-\code{\link{what_date}()},
-\code{\link{what_month}()},
-\code{\link{what_time}()},
-\code{\link{what_wday}()},
-\code{\link{what_week}()},
-\code{\link{what_year}()},
-\code{\link{zodiac}()}
+Other date and time functions:
+\code{\link[=change_time]{change_time()}},
+\code{\link[=change_tz]{change_tz()}},
+\code{\link[=cur_date]{cur_date()}},
+\code{\link[=cur_time]{cur_time()}},
+\code{\link[=days_in_month]{days_in_month()}},
+\code{\link[=diff_dates]{diff_dates()}},
+\code{\link[=diff_times]{diff_times()}},
+\code{\link[=is_leap_year]{is_leap_year()}},
+\code{\link[=what_date]{what_date()}},
+\code{\link[=what_month]{what_month()}},
+\code{\link[=what_time]{what_time()}},
+\code{\link[=what_wday]{what_wday()}},
+\code{\link[=what_week]{what_week()}},
+\code{\link[=what_year]{what_year()}},
+\code{\link[=zodiac]{zodiac()}}
 }
 \concept{date and time functions}

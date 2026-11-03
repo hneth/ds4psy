@@ -20,7 +20,7 @@ countries
 197 countries (as a vector of text strings).
 }
 \seealso{
-Other datasets: 
+Other datasets:
 \code{\link{Bushisms}},
 \code{\link{Trumpisms}},
 \code{\link{data_1}},

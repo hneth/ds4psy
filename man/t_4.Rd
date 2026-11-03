@@ -17,7 +17,7 @@ t_4
 \code{t_4} is a fictitious dataset to practice tidying data.
 }
 \seealso{
-Other datasets: 
+Other datasets:
 \code{\link{Bushisms}},
 \code{\link{Trumpisms}},
 \code{\link{countries}},

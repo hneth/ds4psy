@@ -27,7 +27,7 @@ of 1000 non-existing, but otherwise normal people.
 }
 }
 \seealso{
-Other datasets: 
+Other datasets:
 \code{\link{Bushisms}},
 \code{\link{Trumpisms}},
 \code{\link{countries}},

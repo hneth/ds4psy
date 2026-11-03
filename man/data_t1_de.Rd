@@ -18,7 +18,7 @@ data_t1_de
 (from a CSV file, de/European style).
 }
 \seealso{
-Other datasets: 
+Other datasets:
 \code{\link{Bushisms}},
 \code{\link{Trumpisms}},
 \code{\link{countries}},

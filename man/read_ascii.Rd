@@ -65,26 +65,26 @@ enable independent access to separate functionalities.
 \code{\link{map_text_coord}} for mapping text to a table of character coordinates;  
 \code{\link{plot_chars}} for a character plotting function.
 
-Other text objects and functions: 
+Other text objects and functions:
 \code{\link{Umlaut}},
-\code{\link{capitalize}()},
-\code{\link{caseflip}()},
+\code{\link[=capitalize]{capitalize()}},
+\code{\link[=caseflip]{caseflip()}},
 \code{\link{cclass}},
-\code{\link{chars_to_text}()},
-\code{\link{collapse_chars}()},
-\code{\link{count_chars}()},
-\code{\link{count_chars_words}()},
-\code{\link{count_words}()},
-\code{\link{invert_rules}()},
+\code{\link[=chars_to_text]{chars_to_text()}},
+\code{\link[=collapse_chars]{collapse_chars()}},
+\code{\link[=count_chars]{count_chars()}},
+\code{\link[=count_chars_words]{count_chars_words()}},
+\code{\link[=count_words]{count_words()}},
+\code{\link[=invert_rules]{invert_rules()}},
 \code{\link{l33t_rul35}},
-\code{\link{map_text_chars}()},
-\code{\link{map_text_coord}()},
-\code{\link{map_text_regex}()},
+\code{\link[=map_text_chars]{map_text_chars()}},
+\code{\link[=map_text_coord]{map_text_coord()}},
+\code{\link[=map_text_regex]{map_text_regex()}},
 \code{\link{metachar}},
-\code{\link{text_to_chars}()},
-\code{\link{text_to_sentences}()},
-\code{\link{text_to_words}()},
-\code{\link{transl33t}()},
-\code{\link{words_to_text}()}
+\code{\link[=text_to_chars]{text_to_chars()}},
+\code{\link[=text_to_sentences]{text_to_sentences()}},
+\code{\link[=text_to_words]{text_to_words()}},
+\code{\link[=transl33t]{transl33t()}},
+\code{\link[=words_to_text]{words_to_text()}}
 }
 \concept{text objects and functions}

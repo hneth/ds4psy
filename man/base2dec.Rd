@@ -84,24 +84,24 @@ dec2base(base2dec(043210, base = 11), base = 11)
 \code{\link{dec2base}} converts decimal numbers into numerals in another base;  
 \code{\link{as.roman}} converts integers into Roman numerals.
 
-Other numeric functions: 
+Other numeric functions:
 \code{\link{base_digits}},
-\code{\link{dec2base}()},
-\code{\link{is_equal}()},
-\code{\link{is_wholenumber}()},
-\code{\link{num_as_char}()},
-\code{\link{num_as_ordinal}()},
-\code{\link{num_equal}()}
+\code{\link[=dec2base]{dec2base()}},
+\code{\link[=is_equal]{is_equal()}},
+\code{\link[=is_wholenumber]{is_wholenumber()}},
+\code{\link[=num_as_char]{num_as_char()}},
+\code{\link[=num_as_ordinal]{num_as_ordinal()}},
+\code{\link[=num_equal]{num_equal()}}
 
-Other utility functions: 
+Other utility functions:
 \code{\link{base_digits}},
-\code{\link{dec2base}()},
-\code{\link{is_equal}()},
-\code{\link{is_vect}()},
-\code{\link{is_wholenumber}()},
-\code{\link{num_as_char}()},
-\code{\link{num_as_ordinal}()},
-\code{\link{num_equal}()}
+\code{\link[=dec2base]{dec2base()}},
+\code{\link[=is_equal]{is_equal()}},
+\code{\link[=is_vect]{is_vect()}},
+\code{\link[=is_wholenumber]{is_wholenumber()}},
+\code{\link[=num_as_char]{num_as_char()}},
+\code{\link[=num_as_ordinal]{num_as_ordinal()}},
+\code{\link[=num_equal]{num_equal()}}
 }
 \concept{numeric functions}
 \concept{utility functions}

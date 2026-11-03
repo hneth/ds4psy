@@ -29,7 +29,7 @@ plot(get_set(2), col = "red")
 
 }
 \seealso{
-Other data functions: 
-\code{\link{make_grid}()}
+Other data functions:
+\code{\link[=make_grid]{make_grid()}}
 }
 \concept{data functions}

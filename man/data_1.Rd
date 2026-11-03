@@ -18,7 +18,7 @@ data_1
 (from a DELIMITED file).
 }
 \seealso{
-Other datasets: 
+Other datasets:
 \code{\link{Bushisms}},
 \code{\link{Trumpisms}},
 \code{\link{countries}},

@@ -45,7 +45,7 @@ and in long-format.
 \code{\link{posPsy_AHI_CESD}} for source of this file and codebook information;  
 \code{\link{posPsy_wide}} for a version of this file (in wide format).
 
-Other datasets: 
+Other datasets:
 \code{\link{Bushisms}},
 \code{\link{Trumpisms}},
 \code{\link{countries}},

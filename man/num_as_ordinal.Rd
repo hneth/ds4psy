@@ -48,24 +48,24 @@ num_as_ordinal(seq(1.99, 2.14, by = .01))
 \seealso{
 \code{toOrdinal()} function of the \strong{toOrdinal} package.
 
-Other numeric functions: 
-\code{\link{base2dec}()},
+Other numeric functions:
+\code{\link[=base2dec]{base2dec()}},
 \code{\link{base_digits}},
-\code{\link{dec2base}()},
-\code{\link{is_equal}()},
-\code{\link{is_wholenumber}()},
-\code{\link{num_as_char}()},
-\code{\link{num_equal}()}
+\code{\link[=dec2base]{dec2base()}},
+\code{\link[=is_equal]{is_equal()}},
+\code{\link[=is_wholenumber]{is_wholenumber()}},
+\code{\link[=num_as_char]{num_as_char()}},
+\code{\link[=num_equal]{num_equal()}}
 
-Other utility functions: 
-\code{\link{base2dec}()},
+Other utility functions:
+\code{\link[=base2dec]{base2dec()}},
 \code{\link{base_digits}},
-\code{\link{dec2base}()},
-\code{\link{is_equal}()},
-\code{\link{is_vect}()},
-\code{\link{is_wholenumber}()},
-\code{\link{num_as_char}()},
-\code{\link{num_equal}()}
+\code{\link[=dec2base]{dec2base()}},
+\code{\link[=is_equal]{is_equal()}},
+\code{\link[=is_vect]{is_vect()}},
+\code{\link[=is_wholenumber]{is_wholenumber()}},
+\code{\link[=num_as_char]{num_as_char()}},
+\code{\link[=num_equal]{num_equal()}}
 }
 \concept{numeric functions}
 \concept{utility functions}

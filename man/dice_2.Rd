@@ -43,11 +43,11 @@ dice_2(n = 10, sides = 9:9)  # odd: see sample() for an explanation.
 
 }
 \seealso{
-Other sampling functions: 
-\code{\link{coin}()},
-\code{\link{dice}()},
-\code{\link{sample_char}()},
-\code{\link{sample_date}()},
-\code{\link{sample_time}()}
+Other sampling functions:
+\code{\link[=coin]{coin()}},
+\code{\link[=dice]{dice()}},
+\code{\link[=sample_char]{sample_char()}},
+\code{\link[=sample_date]{sample_date()}},
+\code{\link[=sample_time]{sample_time()}}
 }
 \concept{sampling functions}

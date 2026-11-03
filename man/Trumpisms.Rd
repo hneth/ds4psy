@@ -26,7 +26,7 @@ See \url{https://en.wikiquote.org/wiki/Donald_Trump} for a more recent collectio
 attributed and disputed quotes.
 }
 \seealso{
-Other datasets: 
+Other datasets:
 \code{\link{Bushisms}},
 \code{\link{countries}},
 \code{\link{data_1}},

@@ -41,24 +41,24 @@ is_wholenumber(1+2)
 \seealso{
 \code{\link{is.integer}} function of the R \strong{base} package.
 
-Other numeric functions: 
-\code{\link{base2dec}()},
+Other numeric functions:
+\code{\link[=base2dec]{base2dec()}},
 \code{\link{base_digits}},
-\code{\link{dec2base}()},
-\code{\link{is_equal}()},
-\code{\link{num_as_char}()},
-\code{\link{num_as_ordinal}()},
-\code{\link{num_equal}()}
+\code{\link[=dec2base]{dec2base()}},
+\code{\link[=is_equal]{is_equal()}},
+\code{\link[=num_as_char]{num_as_char()}},
+\code{\link[=num_as_ordinal]{num_as_ordinal()}},
+\code{\link[=num_equal]{num_equal()}}
 
-Other utility functions: 
-\code{\link{base2dec}()},
+Other utility functions:
+\code{\link[=base2dec]{base2dec()}},
 \code{\link{base_digits}},
-\code{\link{dec2base}()},
-\code{\link{is_equal}()},
-\code{\link{is_vect}()},
-\code{\link{num_as_char}()},
-\code{\link{num_as_ordinal}()},
-\code{\link{num_equal}()}
+\code{\link[=dec2base]{dec2base()}},
+\code{\link[=is_equal]{is_equal()}},
+\code{\link[=is_vect]{is_vect()}},
+\code{\link[=num_as_char]{num_as_char()}},
+\code{\link[=num_as_ordinal]{num_as_ordinal()}},
+\code{\link[=num_equal]{num_equal()}}
 }
 \concept{numeric functions}
 \concept{utility functions}
