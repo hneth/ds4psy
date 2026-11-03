@@ -332,7 +332,7 @@
 #' @family datasets
 #' 
 #' @source 
-#' See CSV data at \url{http://rpository.com/ds4psy/data/out.csv}. 
+#' See CSV data at \url{https://rpository.com/ds4psy/data/out.csv}. 
 
 "outliers"
 
@@ -345,7 +345,7 @@
 # Orig. data source <http://www.geom.uiuc.edu/~huberty/math5337/groupe/digits.html>
 
 # # pi_all <- readLines("./data/pi_100k.txt")                # from local data file
-# pi_data <- "http://rpository.com/ds4psy/data/pi_100k.txt"  # URL of online data file
+# pi_data <- "https://rpository.com/ds4psy/data/pi_100k.txt"  # URL of online data file
 # pi_100k <- readLines(pi_data)                              # read from online source
 # 
 # # Check:
@@ -368,7 +368,7 @@
 #' @family datasets 
 #' 
 #' @source 
-#' See TXT data at \url{http://rpository.com/ds4psy/data/pi_100k.txt}. 
+#' See TXT data at \url{https://rpository.com/ds4psy/data/pi_100k.txt}. 
 #' 
 #' Original data at \url{http://www.geom.uiuc.edu/~huberty/math5337/groupe/digits.html}. 
 
@@ -383,7 +383,7 @@
 # (06a) data_t1.csv: ---- 
 # Note: Same as (6a) below. 
 
-# data_t1 <- readr::read_csv("http://rpository.com/ds4psy/data/data_t1.csv")
+# data_t1 <- readr::read_csv("https://rpository.com/ds4psy/data/data_t1.csv")
 # 
 # # Check: 
 # dim(data_t1)  #  20 observations (rows) x 4 variables (columns)
@@ -406,7 +406,7 @@
 #' @family datasets
 #' 
 #' @source 
-#' See CSV data at \url{http://rpository.com/ds4psy/data/data_t1.csv}. 
+#' See CSV data at \url{https://rpository.com/ds4psy/data/data_t1.csv}. 
 
 "data_t1"
 
@@ -414,7 +414,7 @@
 
 # (06b) data_t1_de.csv: ---- 
 
-# data_t1_de <- readr::read_csv2("http://rpository.com/ds4psy/data/data_t1_de.csv")
+# data_t1_de <- readr::read_csv2("https://rpository.com/ds4psy/data/data_t1_de.csv")
 # 
 # # Check: 
 # dim(data_t1_de)  #  20 observations (rows) x 4 variables (columns)
@@ -436,7 +436,7 @@
 #' @family datasets
 #' 
 #' @source 
-#' See CSV data at \url{http://rpository.com/ds4psy/data/data_t1_de.csv}. 
+#' See CSV data at \url{https://rpository.com/ds4psy/data/data_t1_de.csv}. 
 
 "data_t1_de"
 
@@ -444,7 +444,7 @@
 
 # (06c) data_t1_tab.csv: ---- 
 
-# data_t1_tab <- read_tsv("http://rpository.com/ds4psy/data/data_t1_tab.csv")
+# data_t1_tab <- read_tsv("https://rpository.com/ds4psy/data/data_t1_tab.csv")
 # 
 # # Check: 
 # dim(data_t1_tab)  #  20 observations (rows) x 4 variables (columns)
@@ -466,7 +466,7 @@
 #' @family datasets
 #' 
 #' @source 
-#' See TAB-delimited data at \url{http://rpository.com/ds4psy/data/data_t1_tab.csv}. 
+#' See TAB-delimited data at \url{https://rpository.com/ds4psy/data/data_t1_tab.csv}. 
 
 "data_t1_tab"
 
@@ -474,7 +474,7 @@
 
 # (06d) data_1.dat: ---- 
 
-# my_file <- "http://rpository.com/ds4psy/data/data_1.dat"
+# my_file <- "https://rpository.com/ds4psy/data/data_1.dat"
 # 
 # data_1 <- readr::read_delim(my_file, delim = ".", 
 #                             col_names = c("initials", "age", "tel", "pwd"), 
@@ -501,14 +501,14 @@
 #' @family datasets
 #' 
 #' @source 
-#' See DELIMITED data at \url{http://rpository.com/ds4psy/data/data_1.dat}. 
+#' See DELIMITED data at \url{https://rpository.com/ds4psy/data/data_1.dat}. 
 
 "data_1"
 
 
 # (06e) data_2.dat: ---- 
 
-# my_file_path <- "http://rpository.com/ds4psy/data/data_2.dat"  # from online source
+# my_file_path <- "https://rpository.com/ds4psy/data/data_2.dat"  # from online source
 # 
 # # read_fwf: 
 # data_2 <- readr::read_fwf(my_file_path, 
@@ -538,7 +538,7 @@
 #' @family datasets
 #' 
 #' @source 
-#' See FWF data at \url{http://rpository.com/ds4psy/data/data_2.dat}. 
+#' See FWF data at \url{https://rpository.com/ds4psy/data/data_2.dat}. 
 
 "data_2"
 
@@ -552,7 +552,7 @@
 # (07a) table6.csv: ------ 
 
 # ## Load data (as comma-separated file): 
-# table6 <- readr::read_csv("http://rpository.com/ds4psy/data/table6.csv")  # from online source
+# table6 <- readr::read_csv("https://rpository.com/ds4psy/data/table6.csv")  # from online source
 # 
 # # Check: 
 # dim(table6)  #  6 observations (rows) x 2 variables (columns)
@@ -576,7 +576,7 @@
 #' @family datasets
 #' 
 #' @source 
-#' See CSV data at \url{http://rpository.com/ds4psy/data/table6.csv}. 
+#' See CSV data at \url{https://rpository.com/ds4psy/data/table6.csv}. 
 
 "table6"
 
@@ -585,7 +585,7 @@
 # (07b) table7.csv: ------ 
 
 # # Load data (as comma-separated file): 
-# table7 <- readr::read_csv("http://rpository.com/ds4psy/data/table7.csv")  # from online source
+# table7 <- readr::read_csv("https://rpository.com/ds4psy/data/table7.csv")  # from online source
 # 
 # # Check: 
 # dim(table7)  #  6 observations (rows) x 1 (horrendous) variable (column)
@@ -609,7 +609,7 @@
 #' @family datasets
 #' 
 #' @source 
-#' See CSV data at \url{http://rpository.com/ds4psy/data/table7.csv}. 
+#' See CSV data at \url{https://rpository.com/ds4psy/data/table7.csv}. 
 
 "table7"
 
@@ -618,7 +618,7 @@
 # (07c) table8.csv: ------ 
 
 # # Load data (as comma-separated file): 
-# table8 <- readr::read_csv("http://rpository.com/ds4psy/data/table8.csv")  # from online source
+# table8 <- readr::read_csv("https://rpository.com/ds4psy/data/table8.csv")  # from online source
 # 
 # # Check: 
 # dim(table8)  #  3 observations (rows) x 5 variables (columns)
@@ -642,7 +642,7 @@
 #' @family datasets
 #' 
 #' @source 
-#' See CSV data at \url{http://rpository.com/ds4psy/data/table8.csv}. 
+#' See CSV data at \url{https://rpository.com/ds4psy/data/table8.csv}. 
 
 "table8"
 
@@ -682,7 +682,7 @@
 
 # https://bookdown.org/hneth/ds4psy/7-5-tidy-ex.html
 
-# exp_wide <- readr::read_csv("http://rpository.com/ds4psy/data/exp_wide.csv")  # from online source 
+# exp_wide <- readr::read_csv("https://rpository.com/ds4psy/data/exp_wide.csv")  # from online source 
 # 
 # # Check: 
 # dim(exp_wide)  #  10 observations (rows) x 7 variables (columns)
@@ -704,7 +704,7 @@
 #' @family datasets
 #' 
 #' @source 
-#' See CSV data at \url{http://rpository.com/ds4psy/data/exp_wide.csv}. 
+#' See CSV data at \url{https://rpository.com/ds4psy/data/exp_wide.csv}. 
 
 "exp_wide"
 
@@ -726,7 +726,7 @@
 #' @family datasets
 #' 
 #' @source 
-#' See CSV data at \url{http://rpository.com/ds4psy/data/t_1.csv}. 
+#' See CSV data at \url{https://rpository.com/ds4psy/data/t_1.csv}. 
 
 "t_1"
 
@@ -743,7 +743,7 @@
 #' @family datasets
 #' 
 #' @source 
-#' See CSV data at \url{http://rpository.com/ds4psy/data/t_2.csv}. 
+#' See CSV data at \url{https://rpository.com/ds4psy/data/t_2.csv}. 
 
 "t_2"
 
@@ -760,7 +760,7 @@
 #' @family datasets
 #' 
 #' @source 
-#' See CSV data at \url{http://rpository.com/ds4psy/data/t_3.csv}. 
+#' See CSV data at \url{https://rpository.com/ds4psy/data/t_3.csv}. 
 
 "t_3"
 
@@ -777,7 +777,7 @@
 #' @family datasets
 #' 
 #' @source 
-#' See CSV data at \url{http://rpository.com/ds4psy/data/t_4.csv}. 
+#' See CSV data at \url{https://rpository.com/ds4psy/data/t_4.csv}. 
 
 "t_4"
 
@@ -790,7 +790,7 @@
 # (08a) data_t1.csv: ---- 
 # Note: Same as (4a) above. 
 
-# data_t1 <- readr::read_csv("http://rpository.com/ds4psy/data/data_t1.csv")
+# data_t1 <- readr::read_csv("https://rpository.com/ds4psy/data/data_t1.csv")
 # 
 # # Check: 
 # dim(data_t1)  #  20 observations (rows) x 4 variables (columns)
@@ -806,7 +806,7 @@
 
 # (08b) data_t2.csv: ---- 
 
-# data_t2 <- readr::read_csv(file = "http://rpository.com/ds4psy/data/data_t2.csv")
+# data_t2 <- readr::read_csv(file = "https://rpository.com/ds4psy/data/data_t2.csv")
 # 
 # # Check: 
 # dim(data_t2)  #  20 observations (rows) x 4 variables (columns)
@@ -829,7 +829,7 @@
 #' @family datasets
 #' 
 #' @source 
-#' See CSV data at \url{http://rpository.com/ds4psy/data/data_t2.csv}. 
+#' See CSV data at \url{https://rpository.com/ds4psy/data/data_t2.csv}. 
 
 "data_t2"
 
@@ -839,7 +839,7 @@
 
 # (08c) t3.csv: ---- 
 
-# t3 <- readr::read_csv(file = "http://rpository.com/ds4psy/data/t3.csv")
+# t3 <- readr::read_csv(file = "https://rpository.com/ds4psy/data/t3.csv")
 # 
 # # Check: 
 # dim(t3)  #  10 observations (rows) x 4 variables (columns)
@@ -861,7 +861,7 @@
 #' @family datasets
 #' 
 #' @source 
-#' See CSV data at \url{http://rpository.com/ds4psy/data/t3.csv}. 
+#' See CSV data at \url{https://rpository.com/ds4psy/data/t3.csv}. 
 
 "t3"
 
@@ -869,7 +869,7 @@
 
 # (08d) t4.csv: ---- 
 
-# t4 <- readr::read_csv(file = "http://rpository.com/ds4psy/data/t4.csv")
+# t4 <- readr::read_csv(file = "https://rpository.com/ds4psy/data/t4.csv")
 # 
 # # Check: 
 # dim(t4)  #  10 observations (rows) x 4 variables (columns)
@@ -891,7 +891,7 @@
 #' @family datasets
 #' 
 #' @source 
-#' See CSV data at \url{http://rpository.com/ds4psy/data/t4.csv}. 
+#' See CSV data at \url{https://rpository.com/ds4psy/data/t4.csv}. 
 
 "t4"
 
@@ -900,7 +900,7 @@
 
 # (08e) data_t3.csv: ---- 
 
-# data_t3 <- readr::read_csv(file = "http://rpository.com/ds4psy/data/data_t3.csv")
+# data_t3 <- readr::read_csv(file = "https://rpository.com/ds4psy/data/data_t3.csv")
 # 
 # # Check: 
 # dim(data_t3)  #  20 observations (rows) x 4 variables (columns)
@@ -923,7 +923,7 @@
 #' @family datasets
 #' 
 #' @source 
-#' See CSV data at \url{http://rpository.com/ds4psy/data/data_t3.csv}. 
+#' See CSV data at \url{https://rpository.com/ds4psy/data/data_t3.csv}. 
 
 "data_t3"
 
@@ -931,7 +931,7 @@
 
 # (08f) data_t4.csv: ---- 
 
-# data_t4 <- readr::read_csv(file = "http://rpository.com/ds4psy/data/data_t4.csv")
+# data_t4 <- readr::read_csv(file = "https://rpository.com/ds4psy/data/data_t4.csv")
 # 
 # # Check: 
 # dim(data_t4)  #  20 observations (rows) x 4 variables (columns)
@@ -953,7 +953,7 @@
 #' @family datasets
 #' 
 #' @source 
-#' See CSV data at \url{http://rpository.com/ds4psy/data/data_t4.csv}. 
+#' See CSV data at \url{https://rpository.com/ds4psy/data/data_t4.csv}. 
 
 "data_t4"
 
@@ -1134,13 +1134,13 @@
 # A. numeracy data:
 # See generating code chunk "data-create-numeracy-data" in ds4psy_book file "55_datasets.Rmd".
 # numeracy <- readr::read_csv("../ds4psy/data-raw/numeracy.csv")  # local csv file
-# numeracy <- readr::read_csv("http://rpository.com/ds4psy/data/numeracy.csv")  # online
+# numeracy <- readr::read_csv("https://rpository.com/ds4psy/data/numeracy.csv")  # online
 # numeracy  # 1000 x 12
 
 # B. dt data: 
 # See generating code chunk "data-create-time-bday-data" in ds4psy_book file "55_datasets.Rmd".
 # dt <- readr::read_csv("../ds4psy/data-raw/dt.csv")  # from local file 
-# dt <- readr::read_csv("http://rpository.com/ds4psy/data/dt.csv")  # online file
+# dt <- readr::read_csv("https://rpository.com/ds4psy/data/dt.csv")  # online file
 # dt  # 1000 x 9
 
 ## Check: 
@@ -1206,8 +1206,8 @@
 #' 
 #' @source 
 #' See CSV data files at 
-#' \url{http://rpository.com/ds4psy/data/numeracy.csv} and 
-#' \url{http://rpository.com/ds4psy/data/dt.csv}. 
+#' \url{https://rpository.com/ds4psy/data/numeracy.csv} and 
+#' \url{https://rpository.com/ds4psy/data/dt.csv}. 
 
 "exp_num_dt"
 
@@ -1217,7 +1217,7 @@
 
 ## Sources:
 # dt_10   <- readr::read_csv("./data-raw/dt_10.csv") # local file
-# dt_10_o <- readr::read_csv("http://rpository.com/ds4psy/data/dt_10.csv")  # online
+# dt_10_o <- readr::read_csv("https://rpository.com/ds4psy/data/dt_10.csv")  # online
 # all.equal(dt_10, dt_10_o)
 
 ## Check: 
@@ -1234,7 +1234,7 @@
 #' 
 #' @source 
 #' See CSV data file at 
-#' \url{http://rpository.com/ds4psy/data/dt_10.csv}. 
+#' \url{https://rpository.com/ds4psy/data/dt_10.csv}. 
 
 "dt_10"
 
@@ -1253,7 +1253,7 @@
 
 # (12a) tb data: ------ 
 
-# tb <- readr::read_csv2("http://rpository.com/ds4psy/data/tb.csv") 
+# tb <- readr::read_csv2("https://rpository.com/ds4psy/data/tb.csv") 
 # 
 # # Check:
 # dim(tb)  #  100 cases x 5 variables
@@ -1296,7 +1296,7 @@
 #' @family datasets
 #' 
 #' @source 
-#' See CSV data file at \url{http://rpository.com/ds4psy/data/tb.csv}. 
+#' See CSV data file at \url{https://rpository.com/ds4psy/data/tb.csv}. 
 
 "tb"
 

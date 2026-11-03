@@ -8,7 +8,7 @@
 A table with 100 cases (rows) and 4 variables (columns).
 }
 \source{
-See DELIMITED data at \url{http://rpository.com/ds4psy/data/data_1.dat}.
+See DELIMITED data at \url{https://rpository.com/ds4psy/data/data_1.dat}.
 }
 \usage{
 data_1

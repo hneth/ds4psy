@@ -9,7 +9,7 @@ A table with 10 cases (rows) and 7 variables (columns).
 }
 \source{
 See CSV data file at 
-\url{http://rpository.com/ds4psy/data/dt_10.csv}.
+\url{https://rpository.com/ds4psy/data/dt_10.csv}.
 }
 \usage{
 dt_10

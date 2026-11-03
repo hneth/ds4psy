@@ -8,7 +8,7 @@
 A table with 20 cases (rows) and 4 variables (columns).
 }
 \source{
-See TAB-delimited data at \url{http://rpository.com/ds4psy/data/data_t1_tab.csv}.
+See TAB-delimited data at \url{https://rpository.com/ds4psy/data/data_t1_tab.csv}.
 }
 \usage{
 data_t1_tab

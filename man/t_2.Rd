@@ -8,7 +8,7 @@
 A table with 8 cases (rows) and 5 variables (columns).
 }
 \source{
-See CSV data at \url{http://rpository.com/ds4psy/data/t_2.csv}.
+See CSV data at \url{https://rpository.com/ds4psy/data/t_2.csv}.
 }
 \usage{
 t_2

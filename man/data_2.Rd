@@ -8,7 +8,7 @@
 A table with 100 cases (rows) and 4 variables (columns).
 }
 \source{
-See FWF data at \url{http://rpository.com/ds4psy/data/data_2.dat}.
+See FWF data at \url{https://rpository.com/ds4psy/data/data_2.dat}.
 }
 \usage{
 data_2

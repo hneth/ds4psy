@@ -218,7 +218,7 @@ are updated as new materials become available.
     <https://github.com/hneth/ds4psy> (with an additional suffix
     `_book`).
 
-<!-- - The current course syllabus and raw versions of all data files used in examples and exercises are available at <http://rpository.com/ds4psy/>. -->
+<!-- - The current course syllabus and raw versions of all data files used in examples and exercises are available at <https://rpository.com/ds4psy/>. -->
 
 ## References
 

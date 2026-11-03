@@ -8,7 +8,7 @@
 A table with 6 cases (rows) and 1 (horrendous) variable (column).
 }
 \source{
-See CSV data at \url{http://rpository.com/ds4psy/data/table7.csv}.
+See CSV data at \url{https://rpository.com/ds4psy/data/table7.csv}.
 }
 \usage{
 table7

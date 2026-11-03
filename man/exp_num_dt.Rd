@@ -9,8 +9,8 @@ A table with 1000 cases (rows) and 15 variables (columns).
 }
 \source{
 See CSV data files at 
-\url{http://rpository.com/ds4psy/data/numeracy.csv} and 
-\url{http://rpository.com/ds4psy/data/dt.csv}.
+\url{https://rpository.com/ds4psy/data/numeracy.csv} and 
+\url{https://rpository.com/ds4psy/data/dt.csv}.
 }
 \usage{
 exp_num_dt

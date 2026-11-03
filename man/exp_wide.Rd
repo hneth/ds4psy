@@ -8,7 +8,7 @@
 A table with 10 cases (rows) and 7 variables (columns).
 }
 \source{
-See CSV data at \url{http://rpository.com/ds4psy/data/exp_wide.csv}.
+See CSV data at \url{https://rpository.com/ds4psy/data/exp_wide.csv}.
 }
 \usage{
 exp_wide

@@ -8,7 +8,7 @@
 A character of \code{nchar(pi_100k) = 100001}.
 }
 \source{
-See TXT data at \url{http://rpository.com/ds4psy/data/pi_100k.txt}. 
+See TXT data at \url{https://rpository.com/ds4psy/data/pi_100k.txt}. 
 
 Original data at \url{http://www.geom.uiuc.edu/~huberty/math5337/groupe/digits.html}.
 }

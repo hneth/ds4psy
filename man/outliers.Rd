@@ -8,7 +8,7 @@
 A table with 100 cases (rows) and 3 variables (columns).
 }
 \source{
-See CSV data at \url{http://rpository.com/ds4psy/data/out.csv}.
+See CSV data at \url{https://rpository.com/ds4psy/data/out.csv}.
 }
 \usage{
 outliers
