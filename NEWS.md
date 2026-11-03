@@ -27,23 +27,25 @@ The books and courses [Data Science for Psychologists](https://hneth-ds4psy.shar
 
 - The textbook **Data Science for Psychologists** is hosted at <https://hneth-ds4psy.share.connect.posit.cloud/>. 
 - The textbook **Introduction to Data Science** is hosted at <https://hneth-i2ds.share.connect.posit.cloud/>. 
-- The most recent release of **ds4psy** (1.3.0) is available on CRAN: <https://CRAN.R-project.org/package=ds4psy>.
-- The current development version of **ds4psy** (1.3.0.9001+) is hosted at <https://github.com/hneth/ds4psy/>. 
+- The most recent release of **ds4psy** (1.4.0) is available on CRAN: <https://CRAN.R-project.org/package=ds4psy>.
+- The current development version of **ds4psy** (1.4.0.9001+) is hosted at <https://github.com/hneth/ds4psy/>. 
 
 
 -------- 
 
 <!-- Current version:  --> 
 
-# ds4psy 1.3.0.9005
 
-This is the current development version of the R package **ds4psy** 
-available at <https://github.com/hneth/ds4psy/>. [2026-11-03] 
+
+# ds4psy 1.4.0
+
+<!-- This is the current development version of the R package **ds4psy** --> 
+<!-- available at <https://github.com/hneth/ds4psy/>. [2026-11-04] -->
 
 <!-- Release note:  --> 
 
-<!-- Release of **ds4psy** (1.x.0) [on CRAN](https://CRAN.R-project.org/package=ds4psy) 
-adds new data and updates links to online resources. [2026-mm-dd]   --> 
+Release of **ds4psy** (1.4.0) [on CRAN](https://CRAN.R-project.org/package=ds4psy) 
+adds new data and fixes minor bugs. [2026-11-04]
 
 
 
@@ -53,10 +55,6 @@ adds new data and updates links to online resources. [2026-mm-dd]   -->
 ## Major changes
 
 - Add new `i2ds_survey` data ($N=125$ participants, $119$ variables) 
-
-## Minor changes
-
-- none yet
 
 ## Details
 
@@ -81,13 +79,13 @@ adds new data and updates links to online resources. [2026-mm-dd]   -->
 
 <!-- Development version: --> 
 
-<!-- The current development version of **ds4psy** is available at <https://github.com/hneth/ds4psy/>.  --> 
+The current development version of **ds4psy** is available at <https://github.com/hneth/ds4psy/>.
 
 
 
 <!-- Published versions: --> 
 
-Versions of **ds4psy** published on [on CRAN](https://CRAN.R-project.org/package=ds4psy):
+<!-- Versions of **ds4psy** published on [on CRAN](https://CRAN.R-project.org/package=ds4psy): --> 
 
 
 
@@ -584,6 +582,6 @@ The initial functionality is limited, as the package is designed to support the 
 
 ---------- 
 
-[File `NEWS.md` updated on 2026-11-03.]
+[File `NEWS.md` updated on 2026-11-04.]
 
 <!-- eof. -->
