@@ -35,7 +35,7 @@ The books and courses [Data Science for Psychologists](https://hneth-ds4psy.shar
 
 <!-- Current version:  --> 
 
-# ds4psy 1.3.0.9004
+# ds4psy 1.3.0.9005
 
 This is the current development version of the R package **ds4psy** 
 available at <https://github.com/hneth/ds4psy/>. [2026-11-03] 
@@ -54,15 +54,15 @@ adds new data and updates links to online resources. [2026-mm-dd]   -->
 
 - Add new `i2ds_survey` data ($N=125$ participants, $119$ variables) 
 
-
 ## Minor changes
 
 - none yet
 
-
 ## Details
 
+- fix minor bugs
 - update documentation 
+
 
 
 <!-- ## ToDo: --> 

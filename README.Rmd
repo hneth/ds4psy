@@ -115,6 +115,7 @@ Current versions of the **[ds4psy book](`r url_ds4psy_book`)** and **[i2ds book]
 
 <!-- Textbooks at bookdown vs. the Posit Connect cloud: -->
 
+
 ### Change of hosting service and URLs {-}
 
 Both textbooks were originally hosted at <https://bookdown.org> (up to 2026-01-15). 
