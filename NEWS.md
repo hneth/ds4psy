@@ -36,10 +36,71 @@ The books and courses [Data Science for Psychologists](https://hneth-ds4psy.shar
 <!-- Current version:  --> 
 
 
+# ds4psy 1.4.0.9001
+
+This is the current development version of the R package **ds4psy** 
+available at <https://github.com/hneth/ds4psy/>. [2026-11-04]
+
+<!-- Release note:  --> 
+
+<!-- Release of **ds4psy** (1.4.0) [on CRAN](https://CRAN.R-project.org/package=ds4psy) 
+adds new data and fixes minor bugs. [2026-11-04] --> 
+
+
+**Changes** since last release: 
+
+
+## Major changes
+
+- none yet
+
+
+## Minor changes
+
+- none yet
+
+
+## Details
+
+- update after CRAN release of v1.4.0 [2026-11-04]
+
+
+<!-- ## ToDo: --> 
+
+<!-- Changes to be implemented prior to the next release: --> 
+
+<!-- - improve `base2dec()` and `dec2base()` functions (e.g., with recursive and vectorized versions). --> 
+
+<!-- - split the mixed functionality of `plot_text()` into 2 functions: --> 
+
+<!-- 1. Combine `count_chars_words()` with `map_text_coord()` or `map_text_regex()` 
+    to create a df with two color vectors (fg/bg) based on `char_freq` and/or `word_freq`. --> 
+    
+<!-- 2. `plot_charmap()` directly plots the resulting df. --> 
+
+
+<!-- Development version: --> 
+
+<!-- The current development version of **ds4psy** is available at <https://github.com/hneth/ds4psy/>. --> 
+
+
+<!-- Published versions: --> 
+
+Versions of **ds4psy** published on [on CRAN](https://CRAN.R-project.org/package=ds4psy): 
+
+-------- 
+
 # ds4psy 1.4.0
+
+<!-- This is the current development version of the R package **ds4psy** --> 
+<!-- available at <https://github.com/hneth/ds4psy/>. [2026-11-04] -->
+
+<!-- Release note:  --> 
 
 Release of **ds4psy** (1.4.0) [on CRAN](https://CRAN.R-project.org/package=ds4psy) 
 adds new data and fixes minor bugs. [2026-11-04]
+
+
 
 **Changes** since last release: 
 
@@ -54,12 +115,6 @@ adds new data and fixes minor bugs. [2026-11-04]
 - update documentation 
 
 
-<!-- Development version: --> 
-
-The current development version of **ds4psy** is available at <https://github.com/hneth/ds4psy/>.
-
-
-<!-- Published versions: --> 
 
 -------- 
 
