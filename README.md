@@ -3,22 +3,23 @@
 
 <!-- Devel badges start: -->
 
-[![CRAN
-status](https://www.r-pkg.org/badges/version/ds4psy)](https://CRAN.R-project.org/package=ds4psy)
-[![Downloads/month](https://cranlogs.r-pkg.org/badges/ds4psy?color=%2200a9e0%22)](https://www.r-pkg.org/pkg/ds4psy)
-[![Total
-downloads](https://cranlogs.r-pkg.org/badges/grand-total/ds4psy?color=blue)](https://www.r-pkg.org/pkg/ds4psy)
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.7229812.svg)](https://doi.org/10.5281/zenodo.7229812)
+<!-- [![CRAN status](https://www.r-pkg.org/badges/version/ds4psy)](https://CRAN.R-project.org/package=ds4psy) -->
+
+<!-- [![Downloads/month](https://cranlogs.r-pkg.org/badges/ds4psy?color="00a9e0")](https://www.r-pkg.org/pkg/ds4psy) -->
+
+<!-- [![Total downloads](https://cranlogs.r-pkg.org/badges/grand-total/ds4psy?color=blue)](https://www.r-pkg.org/pkg/ds4psy) -->
+
+<!-- [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.7229812.svg)](https://doi.org/10.5281/zenodo.7229812) -->
+
 <!-- Devel badges end. -->
 
 <!-- <!-- Release badges start: -->
 
-<!-- [![CRAN status](https://www.r-pkg.org/badges/version/ds4psy)](https://CRAN.R-project.org/package=ds4psy) -->
-
-<!-- [![Total downloads](https://cranlogs.r-pkg.org/badges/grand-total/ds4psy?color="00a9e0")](https://www.r-pkg.org/pkg/ds4psy) -->
-
-<!-- [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.7229812.svg)](https://doi.org/10.5281/zenodo.7229812) -->
-
+[![CRAN
+status](https://www.r-pkg.org/badges/version/ds4psy)](https://CRAN.R-project.org/package=ds4psy)
+[![Total
+downloads](https://cranlogs.r-pkg.org/badges/grand-total/ds4psy?color=%2200a9e0%22)](https://www.r-pkg.org/pkg/ds4psy)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.7229812.svg)](https://doi.org/10.5281/zenodo.7229812)
 <!-- Release badges end. -->
 
 <!-- ALL status badges: 
@@ -86,7 +87,7 @@ library('ds4psy')  # load to use the package
 ### Textbooks
 
 The R package **[ds4psy](https://CRAN.R-project.org/package=ds4psy)** is
-used by 2 textbooks that are freely available online. Current versions
+used by two textbooks that are freely available online. Current versions
 of the **[ds4psy
 book](https://hneth-ds4psy.share.connect.posit.cloud/)** and **[i2ds
 book](https://hneth-i2ds.share.connect.posit.cloud/)** are available at
@@ -367,6 +368,6 @@ License</a>.
 
 <!-- Footer: -->
 
-\[File `README.md` updated on 2026-11-03.\]
+\[File `README.md` updated on 2026-11-04.\]
 
 <!-- eof. -->
