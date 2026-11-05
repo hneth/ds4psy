@@ -52,12 +52,12 @@ adds new data and fixes minor bugs. [2026-11-04] -->
 
 ## Major changes
 
-- none yet
+- add `assign_group()` function (to use in class)
 
 
 ## Minor changes
 
-- add `assign_group()` function (to use in class)
+- none yet
 
 
 ## Details

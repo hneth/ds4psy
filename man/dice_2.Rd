@@ -44,6 +44,7 @@ dice_2(n = 10, sides = 9:9)  # odd: see sample() for an explanation.
 }
 \seealso{
 Other sampling functions:
+\code{\link[=assign_group]{assign_group()}},
 \code{\link[=coin]{coin()}},
 \code{\link[=dice]{dice()}},
 \code{\link[=sample_char]{sample_char()}},

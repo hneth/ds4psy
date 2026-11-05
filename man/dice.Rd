@@ -56,6 +56,7 @@ dice(NULL, NULL)
 }
 \seealso{
 Other sampling functions:
+\code{\link[=assign_group]{assign_group()}},
 \code{\link[=coin]{coin()}},
 \code{\link[=dice_2]{dice_2()}},
 \code{\link[=sample_char]{sample_char()}},

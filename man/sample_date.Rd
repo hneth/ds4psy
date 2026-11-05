@@ -50,6 +50,7 @@ sort(sample_date(from = "2020-01-01", to = "2020-01-01", size = 10, replace = TR
 }
 \seealso{
 Other sampling functions:
+\code{\link[=assign_group]{assign_group()}},
 \code{\link[=coin]{coin()}},
 \code{\link[=dice]{dice()}},
 \code{\link[=dice_2]{dice_2()}},

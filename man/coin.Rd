@@ -43,6 +43,7 @@ coin(NULL, NULL)
 }
 \seealso{
 Other sampling functions:
+\code{\link[=assign_group]{assign_group()}},
 \code{\link[=dice]{dice()}},
 \code{\link[=dice_2]{dice_2()}},
 \code{\link[=sample_char]{sample_char()}},

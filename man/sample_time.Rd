@@ -90,6 +90,7 @@ sort(sample_time(from = "2020-12-31 00:00:00 CET", to = "2020-12-31 00:00:00 CET
 }
 \seealso{
 Other sampling functions:
+\code{\link[=assign_group]{assign_group()}},
 \code{\link[=coin]{coin()}},
 \code{\link[=dice]{dice()}},
 \code{\link[=dice_2]{dice_2()}},
