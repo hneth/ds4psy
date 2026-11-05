@@ -1,5 +1,5 @@
 ## util_fun.R | ds4psy
-## hn | uni.kn | 2024 04 29
+## hn | uni.kn | 2026 11 05
 ## ------------------------
 
 ## Utility functions. 
@@ -246,6 +246,52 @@ align_vec_pair <- function(v1, v2){
 
 
 ## (+) Miscellaneous utility functions: ------ 
+
+
+# assign_group: Assign x individuals (identified by name vector) to n groups: ------ 
+
+assign_group <- function(x, n = 2, seed = NA, ...){
+  
+  # ToDo: 
+  # Verify that x is a vector and n is an integer > 0.
+  
+  # Lengths: 
+  n_x <- length(x)
+  n_g <- 1:n 
+  
+  # ToDo: Ensure that n_x >= n_g. 
+  #       If not, set n_g <- n_x and show a corresponding message 
+  #               (not needed for balanced sampling, see B below).
+  
+  if (!is.na(seed)){
+    set.seed(seed)
+  }
+  
+  
+  # Main: 
+  # A: Random sample (with replacement):
+  # group <- sample(x = n_g, size = n_x, replace = TRUE, ...)
+  # ToDo: Ensure that all group values are present. While not, loop to sample again.
+  
+  # B: Balanced sample (permuted):  
+  group <- recycle_vec(v = n_g, len = n_x)  # balanced sample
+  group <- sample(group)  # random permutation
+  
+  # Data:
+  df <- data.frame(name = x, group = factor(group), stringsAsFactors = FALSE)
+  df <- df[order(group), ]
+
+  # Output:
+  return(df)
+  
+} # assign_group().
+
+# Check:
+# name <- c("Alma", "Bea", "Cedric", "Dan", "Eva", "Xi", "Yo", "Za")
+# assign_group(name)
+# assign_group(name, n = 4, seed = 123)
+# assign_group(name, n = 8)
+# assign_group(name, n = 100)
 
 
 # get_name: Get an object's name (e.g., inside a function): ------ 
