@@ -54,6 +54,7 @@ sample_char(n = 53, replace = TRUE)     # works again.
 }
 \seealso{
 Other sampling functions:
+\code{\link[=assign_group]{assign_group()}},
 \code{\link[=coin]{coin()}},
 \code{\link[=dice]{dice()}},
 \code{\link[=dice_2]{dice_2()}},
